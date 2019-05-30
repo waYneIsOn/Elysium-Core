@@ -14,7 +14,14 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandBehaviour.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CommandType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConnectionState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DataRowVersion.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DBNull.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsolationLevel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ParameterDirection.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DBNull.cpp" />

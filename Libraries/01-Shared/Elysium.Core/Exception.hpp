@@ -14,7 +14,9 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
+#ifndef _HAS_EXCEPTIONS
 #include <exception>
+#endif
 
 #pragma warning(disable : 4275)
 
@@ -22,9 +24,6 @@ namespace Elysium
 {
 	namespace Core
 	{
-		/// <summary>
-		/// 
-		/// </summary>
 		class EXPORT Exception : public std::exception
 		{
 		public:

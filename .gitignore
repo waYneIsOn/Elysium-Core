@@ -21,3 +21,7 @@
 /Libraries/02-Windows/Elysium.Core.Net/Debug
 /Libraries/02-Windows/Elysium.Core.Net/Debugbin
 /Libraries/02-Windows/Elysium.Core.Net/Releasebin
+
+/UnitTests/02-Windows/UnitTests.Core/Debug
+/UnitTests/02-Windows/UnitTests.Core/Debugbin
+/UnitTests/02-Windows/UnitTests.Core/Releasebin

@@ -15,15 +15,44 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DatePart.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeOffset.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Export.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
   </ItemGroup>
 </Project>

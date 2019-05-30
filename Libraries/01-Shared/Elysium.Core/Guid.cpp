@@ -68,7 +68,7 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 	return Guid(Data);
 }
 
-const byte * Elysium::Core::Guid::ToByteArray() const
+const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 {
 	return &_Data[0];
 }

@@ -20,10 +20,56 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Export.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
+      <Filter>Collections\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core\Calendar.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core\CultureInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DatePart.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTime.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeOffset.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp">
+      <Filter>Globalization</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp">
+      <Filter>Globalization</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
   </ItemGroup>
 </Project>

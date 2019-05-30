@@ -14,9 +14,6 @@ namespace Elysium
 {
 	namespace Core
 	{
-		/// <summary>
-		/// 
-		/// </summary>
 		enum class DateTimeKind : long
 		{
 			// ...
