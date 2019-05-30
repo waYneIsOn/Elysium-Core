@@ -25,3 +25,15 @@
 /UnitTests/02-Windows/UnitTests.Core/Debug
 /UnitTests/02-Windows/UnitTests.Core/Debugbin
 /UnitTests/02-Windows/UnitTests.Core/Releasebin
+
+/UnitTests/02-Windows/UnitTests.Core.Data/Debug
+/UnitTests/02-Windows/UnitTests.Core.Data/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.Data/Releasebin
+
+/UnitTests/02-Windows/UnitTests.Core.Math/Debug
+/UnitTests/02-Windows/UnitTests.Core.Math/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.Math/Releasebin
+
+/UnitTests/02-Windows/UnitTests.Core.Net/Debug
+/UnitTests/02-Windows/UnitTests.Core.Net/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.Net/Releasebin

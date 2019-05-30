@@ -1,0 +1,37 @@
+/*===========================================================================
+
+Copyright (C) 2017 waYne (CAM)
+
+===========================================================================
+*/
+#pragma once
+
+#ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
+#define ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
+
+#ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
+#include "ExternalException.hpp"
+#endif
+
+namespace Elysium
+{
+	namespace Core
+	{
+		namespace Runtime
+		{
+			namespace InteropServices
+			{
+				/// The exception that is thrown when an unrecognized HRESULT is returned from a COM method call.
+				class EXPORT COMException : public ExternalException
+				{
+				public:
+					COMException();
+					COMException(const char* Message);
+					COMException(const char* Message, const int ErrorCode);
+					~COMException();
+				};
+			}
+		}
+	}
+}
+#endif

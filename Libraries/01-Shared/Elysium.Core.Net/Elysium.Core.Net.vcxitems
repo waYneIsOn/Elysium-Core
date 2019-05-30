@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -12,5 +12,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProtocolType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketError.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)EndPoint.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp" />
   </ItemGroup>
 </Project>

@@ -5,4 +5,38 @@
       <UniqueIdentifier>{a4ca8986-88e1-4128-adb0-ca5037aeee05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EndPoint.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp">
+      <Filter>Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp">
+      <Filter>Sockets</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProtocolType.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketError.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\Socket.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\SocketException.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

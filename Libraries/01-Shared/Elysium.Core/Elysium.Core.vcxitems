@@ -17,6 +17,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DatePart.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTime.hpp" />
@@ -26,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Export.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
@@ -47,12 +49,14 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />

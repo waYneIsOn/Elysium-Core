@@ -77,6 +77,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.AdoClient
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTestExtensions", "UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems", "{275D07C1-A1BF-46DB-9B7F-3C135AA74EE3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Net", "UnitTests\02-Windows\UnitTests.Core.Net\UnitTests.Core.Net.vcxproj", "{7D30FE61-9249-4556-B392-29563D82E150}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Data", "UnitTests\02-Windows\UnitTests.Core.Data\UnitTests.Core.Data.vcxproj", "{93501E30-8BF5-4CB7-8C13-DE2001425BF5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Math", "UnitTests\02-Windows\UnitTests.Core.Math\UnitTests.Core.Math.vcxproj", "{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
@@ -89,10 +95,13 @@ Global
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems*{6a52f036-6569-4db6-bad5-d50ff58f39ee}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{7d30fe61-9249-4556-b392-29563d82e150}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{8bbdea16-0960-479d-941d-fe662e7740e8}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{93501e30-8bf5-4cb7-8c13-de2001425bf5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems*{adb5d221-a0f1-4eee-9101-8988fdf910b8}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{be1492a2-fd64-4dda-8ffd-7433f3d78eb6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1232826-d63b-4395-b204-f43d442c207e}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{d72c0184-b715-4762-9004-ace86b3e15fb}*SharedItemsImports = 4
@@ -156,6 +165,30 @@ Global
 		{35E6A008-A909-453D-90F4-8EBE79BB86CE}.Release|x64.Build.0 = Release|x64
 		{35E6A008-A909-453D-90F4-8EBE79BB86CE}.Release|x86.ActiveCfg = Release|Win32
 		{35E6A008-A909-453D-90F4-8EBE79BB86CE}.Release|x86.Build.0 = Release|Win32
+		{7D30FE61-9249-4556-B392-29563D82E150}.Debug|x64.ActiveCfg = Debug|x64
+		{7D30FE61-9249-4556-B392-29563D82E150}.Debug|x64.Build.0 = Debug|x64
+		{7D30FE61-9249-4556-B392-29563D82E150}.Debug|x86.ActiveCfg = Debug|Win32
+		{7D30FE61-9249-4556-B392-29563D82E150}.Debug|x86.Build.0 = Debug|Win32
+		{7D30FE61-9249-4556-B392-29563D82E150}.Release|x64.ActiveCfg = Release|x64
+		{7D30FE61-9249-4556-B392-29563D82E150}.Release|x64.Build.0 = Release|x64
+		{7D30FE61-9249-4556-B392-29563D82E150}.Release|x86.ActiveCfg = Release|Win32
+		{7D30FE61-9249-4556-B392-29563D82E150}.Release|x86.Build.0 = Release|Win32
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Debug|x64.ActiveCfg = Debug|x64
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Debug|x64.Build.0 = Debug|x64
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Debug|x86.ActiveCfg = Debug|Win32
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Debug|x86.Build.0 = Debug|Win32
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Release|x64.ActiveCfg = Release|x64
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Release|x64.Build.0 = Release|x64
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Release|x86.ActiveCfg = Release|Win32
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5}.Release|x86.Build.0 = Release|Win32
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Debug|x64.ActiveCfg = Debug|x64
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Debug|x64.Build.0 = Debug|x64
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Debug|x86.ActiveCfg = Debug|Win32
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Debug|x86.Build.0 = Debug|Win32
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Release|x64.ActiveCfg = Release|x64
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Release|x64.Build.0 = Release|x64
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Release|x86.ActiveCfg = Release|Win32
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -194,6 +227,9 @@ Global
 		{35E6A008-A909-453D-90F4-8EBE79BB86CE} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{6A52F036-6569-4DB6-BAD5-D50FF58F39EE} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{275D07C1-A1BF-46DB-9B7F-3C135AA74EE3} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{7D30FE61-9249-4556-B392-29563D82E150} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
+		{93501E30-8BF5-4CB7-8C13-DE2001425BF5} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
+		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

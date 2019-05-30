@@ -14,9 +14,9 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
-#ifndef _HAS_EXCEPTIONS
+//#ifndef _HAS_EXCEPTIONS
 #include <exception>
-#endif
+//#endif
 
 #pragma warning(disable : 4275)
 
