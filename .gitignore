@@ -1,26 +1,23 @@
-﻿################################################################################
-# Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
-################################################################################
+﻿/bin
 
-/.vs/Elysium Core - vs2017/v15
-/bin/Debug/x64
+/.vs
+
 /Libraries/02-Windows/Elysium.Core/Debug
-/Libraries/02-Windows/Elysium.Core/Debugbin/x64
-/Libraries/02-Windows/Elysium.Core.Data/Debugbin/x64
-/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin/x64
-/Libraries/02-Windows/Elysium.Core.Net/Debug
-/Libraries/02-Windows/Elysium.Core.Net/Debugbin/x64
-/bin
-/Libraries/02-Windows/Elysium.Core/Debugbin/Win32
+/Libraries/02-Windows/Elysium.Core/Debugbin
 /Libraries/02-Windows/Elysium.Core/Releasebin
-/Libraries/02-Windows/Elysium.Core.Math/Debugbin/x64
-/Libraries/02-Windows/Elysium.Core.Data/Debugbin/Win32
-/Libraries/02-Windows/Elysium.Core.Math/Debugbin/Win32
+
+/Libraries/02-Windows/Elysium.Core.Data/Debug
+/Libraries/02-Windows/Elysium.Core.Data/Debugbin
 /Libraries/02-Windows/Elysium.Core.Data/Releasebin
-/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin/Win32
-/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin/Win32
-/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin/x64
+
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debug
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin
+
+/Libraries/02-Windows/Elysium.Core.Math/Debug
+/Libraries/02-Windows/Elysium.Core.Math/Debugbin
 /Libraries/02-Windows/Elysium.Core.Math/Releasebin
-/Libraries/02-Windows/Elysium.Core.Net/Debugbin/Win32
-/Libraries/02-Windows/Elysium.Core.Net/Releasebin/Win32
-/Libraries/02-Windows/Elysium.Core.Net/Releasebin/x64
+
+/Libraries/02-Windows/Elysium.Core.Net/Debug
+/Libraries/02-Windows/Elysium.Core.Net/Debugbin
+/Libraries/02-Windows/Elysium.Core.Net/Releasebin
