@@ -12,7 +12,7 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestCoreNet
+namespace UnitTestsCoreNet
 {
 	TEST_CLASS(UnitTestSocket)
 	{

@@ -15,6 +15,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp">
       <Filter>Sockets</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp">
+      <Filter>Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TcpClient.cpp">
+      <Filter>Sockets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
@@ -36,6 +42,12 @@
       <Filter>Sockets</Filter>
     </ClInclude>
     <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\SocketException.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\NetworkStream.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\TcpClient.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
   </ItemGroup>

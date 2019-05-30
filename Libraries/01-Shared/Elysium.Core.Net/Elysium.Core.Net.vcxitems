@@ -17,18 +17,22 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProtocolType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketError.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TcpClient.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)EndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TcpClient.cpp" />
   </ItemGroup>
 </Project>
