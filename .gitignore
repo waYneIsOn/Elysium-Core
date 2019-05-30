@@ -16,3 +16,11 @@
 /Libraries/02-Windows/Elysium.Core.Math/Debugbin/x64
 /Libraries/02-Windows/Elysium.Core.Data/Debugbin/Win32
 /Libraries/02-Windows/Elysium.Core.Math/Debugbin/Win32
+/Libraries/02-Windows/Elysium.Core.Data/Releasebin
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin/Win32
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin/Win32
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin/x64
+/Libraries/02-Windows/Elysium.Core.Math/Releasebin
+/Libraries/02-Windows/Elysium.Core.Net/Debugbin/Win32
+/Libraries/02-Windows/Elysium.Core.Net/Releasebin/Win32
+/Libraries/02-Windows/Elysium.Core.Net/Releasebin/x64
