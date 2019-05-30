@@ -1,0 +1,16 @@
+﻿################################################################################
+# Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
+################################################################################
+
+/.vs/Elysium Core - vs2017/v15
+/bin/Debug/x64
+/Libraries/02-Windows/Elysium.Core/Debug
+/Libraries/02-Windows/Elysium.Core/Debugbin/x64
+/Libraries/02-Windows/Elysium.Core.Data/Debugbin/x64
+/Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin/x64
+/Libraries/02-Windows/Elysium.Core.Net/Debug
+/Libraries/02-Windows/Elysium.Core.Net/Debugbin/x64
+/bin
+/Libraries/02-Windows/Elysium.Core/Debugbin/Win32
+/Libraries/02-Windows/Elysium.Core/Releasebin
+/Libraries/02-Windows/Elysium.Core.Math/Debugbin/x64

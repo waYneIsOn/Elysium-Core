@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{ff6b7d0c-4c97-415a-b5b6-d0c21e6b50cf}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Export.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
+  </ItemGroup>
+</Project>

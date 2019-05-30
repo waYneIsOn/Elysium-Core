@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{2814adba-fd8f-451c-a12c-1a6883b5742b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Globalization">
+      <UniqueIdentifier>{23c826fa-de84-4c8e-8b91-dc02b3c18f21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collections\Generic">
+      <UniqueIdentifier>{2d41a0b3-0588-4f9f-9278-be2049f8ef5f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
+  </ItemGroup>
+</Project>
