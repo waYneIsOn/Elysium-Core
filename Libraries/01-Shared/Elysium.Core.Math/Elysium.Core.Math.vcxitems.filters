@@ -7,8 +7,74 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)MathHelper.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionDouble.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionSingle.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Double.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Single.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Single.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Double.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Single.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Double.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Matrix3x3Template.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Matrix4x4Template.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionTemplate.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Template.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Template.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Template.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\QuaternionDouble.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionSingle.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\Vector2Double.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\Vector2Single.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\Vector3Single.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\Vector3Double.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\Vector4Single.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Math\Vector4Double.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

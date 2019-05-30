@@ -169,7 +169,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="unittest1.cpp" />
+    <ClCompile Include="Vector2SingleTests.cpp" />
+    <ClCompile Include="Vector3SingleTests.cpp" />
+    <ClCompile Include="Vector4SingleTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Math\Elysium.Core.Math.vcxproj">

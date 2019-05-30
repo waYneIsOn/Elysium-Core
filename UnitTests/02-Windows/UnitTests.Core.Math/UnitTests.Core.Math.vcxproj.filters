@@ -15,7 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="unittest1.cpp">
+    <ClCompile Include="Vector2SingleTests.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3SingleTests.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector4SingleTests.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
