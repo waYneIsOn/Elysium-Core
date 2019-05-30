@@ -37,3 +37,7 @@
 /UnitTests/02-Windows/UnitTests.Core.Net/Debug
 /UnitTests/02-Windows/UnitTests.Core.Net/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Net/Releasebin
+
+/Libraries/02-Windows/Elysium.Core.ServiceProcess/Debug
+/Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
+/Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin
