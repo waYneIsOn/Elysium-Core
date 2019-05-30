@@ -177,6 +177,7 @@
     <ClCompile Include="MemoryStreamTest.cpp" />
     <ClCompile Include="ThreadTest.cpp" />
     <ClCompile Include="TimeSpanTest.cpp" />
+    <ClCompile Include="UriTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">

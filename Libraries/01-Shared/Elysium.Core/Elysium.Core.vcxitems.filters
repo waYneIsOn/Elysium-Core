@@ -50,6 +50,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -71,5 +77,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UriParserTable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
   </ItemGroup>
 </Project>

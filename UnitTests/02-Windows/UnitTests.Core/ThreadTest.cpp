@@ -21,7 +21,11 @@ namespace UnitTestsCore
 	TEST_CLASS(Core_Threading_Thread)
 	{
 	public:
-		TEST_METHOD(Constructors)
+		TEST_METHOD(ThreadStart)
+		{
+
+		}
+		TEST_METHOD(ParameterizedThreadStart)
 		{
 
 		}
