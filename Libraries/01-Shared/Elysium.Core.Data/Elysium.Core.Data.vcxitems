@@ -22,6 +22,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DbType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsolationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ParameterDirection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Test.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DBNull.cpp" />
