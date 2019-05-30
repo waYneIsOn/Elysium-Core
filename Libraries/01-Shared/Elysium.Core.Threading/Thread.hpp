@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
+#include "../Elysium.Core/CultureInfo.hpp"
+#endif
+
 #ifndef _THREAD_
 #include <thread>
 #endif
@@ -39,6 +43,7 @@ namespace Elysium
 				~Thread();
 
 				// properties - getter
+				void GetCurrentCulture(CultureInfo* Value) const;
 				void GetThreadId(unsigned int* Value) const;
 
 				static void GetCurrentThreadId(unsigned int* Value);
@@ -54,6 +59,8 @@ namespace Elysium
 			private:
 				void(*_ThreadStart)();
 				std::thread _NativeThread;
+
+				CultureInfo _CurrentCulture;
 			};
 		}
 	}

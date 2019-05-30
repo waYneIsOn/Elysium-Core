@@ -21,6 +21,7 @@ namespace Elysium
 		class EXPORT CultureInfo
 		{
 		public:
+			CultureInfo();
 			CultureInfo(int Culture);
 			~CultureInfo();
 

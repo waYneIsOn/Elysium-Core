@@ -13,6 +13,10 @@ Elysium::Core::Threading::Thread::~Thread()
 	_NativeThread.detach();
 }
 
+void Elysium::Core::Threading::Thread::GetCurrentCulture(CultureInfo * Value) const
+{
+	*Value = _CurrentCulture;
+}
 void Elysium::Core::Threading::Thread::GetThreadId(unsigned int * Value) const
 {
 	std::thread::id NativeId = _NativeThread.get_id();
