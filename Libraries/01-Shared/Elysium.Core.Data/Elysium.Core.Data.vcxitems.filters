@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{28ee041e-35d8-4015-9b5f-f8600510adef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OleDb">
+      <UniqueIdentifier>{e720ee13-100a-4527-9689-c87d9fd8a061}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DBNull.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DBNull.hpp" />
+  </ItemGroup>
+</Project>
