@@ -18,13 +18,33 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CommandType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConnectionState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DataRowVersion.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbCommand.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbDataReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DBNull.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameterCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbTransaction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DbType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IDataParameter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IDataParameterCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IDataReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IDbCommand.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IDbConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IDbTransaction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsolationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ParameterDirection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Test.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbCommand.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbConnection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbDataReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DBNull.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbParameter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbParameterCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbTransaction.cpp" />
   </ItemGroup>
 </Project>
