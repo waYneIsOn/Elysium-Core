@@ -58,12 +58,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core\ExternalException.hpp">
-      <Filter>Runtime\InteropServices</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core\COMException.hpp">
-      <Filter>Runtime\InteropServices</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

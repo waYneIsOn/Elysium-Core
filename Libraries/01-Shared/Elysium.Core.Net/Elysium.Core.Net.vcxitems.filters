@@ -38,17 +38,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\Socket.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\SocketException.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\NetworkStream.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Net\TcpClient.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TcpClient.hpp" />
   </ItemGroup>
 </Project>
