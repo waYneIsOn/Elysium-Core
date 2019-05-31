@@ -38,9 +38,9 @@ Elysium::Core::Decimal::~Decimal()
 
 const __int64* Elysium::Core::Decimal::GetHighPart() const
 {
-	return (__int64*)&_Data[0];
+	return (__int64*)&_Data[8];
 }
 const __int64 * Elysium::Core::Decimal::GetLowPart() const
 {
-	return (__int64*)&_Data[8];
+	return (__int64*)&_Data[0];
 }
