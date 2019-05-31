@@ -38,9 +38,17 @@ Elysium::Core::Decimal::~Decimal()
 
 const __int64* Elysium::Core::Decimal::GetHighPart() const
 {
+#ifdef BIGENDIAN
 	return (__int64*)&_Data[8];
+#else
+	return (__int64*)&_Data[0];
+#endif
 }
 const __int64 * Elysium::Core::Decimal::GetLowPart() const
 {
+#ifdef BIGENDIAN
 	return (__int64*)&_Data[0];
+#else
+	return (__int64*)&_Data[8];
+#endif
 }
