@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
@@ -12,5 +12,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Links.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeCommand.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeDataReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeDbType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeError.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeErrorCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeParameter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeParameterCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeSequentialStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeTransaction.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeCommand.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeConnection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeDataReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeError.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeErrorCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeParameter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeParameterCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeSequentialStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeTransaction.cpp" />
   </ItemGroup>
 </Project>

@@ -66,7 +66,7 @@ namespace Elysium
 					virtual void SetValue(const DateTime* Value) override;
 					virtual void SetValue(const DateTimeOffset* Value) override;
 					virtual void SetValue(const TimeSpan* Value) override;
-					virtual void SetValue(const Elysium::Core::Decimal* Value) override;
+					virtual void SetValue(const Decimal* Value) override;
 					virtual void SetValue(const double Value) override;
 					virtual void SetValue(const float Value) override;
 					virtual void SetValue(const Guid* Value) override;

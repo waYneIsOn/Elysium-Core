@@ -1,0 +1,68 @@
+/*
+===========================================================================
+
+Copyright (C) 2017 waYne (CAM)
+
+===========================================================================
+*/
+#pragma once
+
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVECONNECTION
+#define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVECONNECTION
+
+#ifndef ELYSIUM_CORE_DATA_COMMON_DBCONNECTION
+#include "../Elysium.Core.Data/DbConnection.hpp"
+#endif
+
+#ifndef __sqlncli_h__
+#define _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_
+#define _SQLNCLI_OLEDB_
+#include "C:/Program Files (x86)/Microsoft SQL Server/110/SDK/Include/sqlncli.h"
+#endif
+
+namespace Elysium
+{
+	namespace Core
+	{
+		namespace Data
+		{
+			namespace SqlNativeClient
+			{
+				namespace OleDb
+				{
+					class SqlNativeTransaction;
+					class SqlNativeCommand;
+
+					class EXPORT SqlNativeConnection final : public Common::DbConnection
+					{
+						friend class SqlNativeTransaction;
+						friend class SqlNativeCommand;
+					public:
+						SqlNativeConnection();
+						~SqlNativeConnection();
+
+						virtual const std::wstring& GetConnectionString() const override;
+						virtual const int& GetConnectionTimeout() const override;
+						virtual const std::wstring& GetDatabase() const override;
+						virtual const ConnectionState& GetState() const override;
+
+						virtual void SetConnectionString(std::wstring ConnectionString) override;
+
+						virtual void Open() override;
+						virtual std::unique_ptr<IDbTransaction> BeginTransaction() override;
+						virtual std::unique_ptr<IDbTransaction> BeginTransaction(IsolationLevel IsolationLevel) override;
+						virtual std::unique_ptr<IDbCommand> CreateCommand() override;
+						virtual void ChangeDatabase(std::wstring DatabaseName) override;
+						virtual void Close() override;
+					private:
+						IDBInitialize* _NativeDataSource;
+						IDBCreateSession* _NativeSession;
+
+						SqlNativeTransaction* _ActiveTransaction = nullptr;
+					};
+				}
+			}
+		}
+	}
+}
+#endif

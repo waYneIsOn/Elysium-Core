@@ -98,7 +98,7 @@ namespace Elysium
 				virtual void SetValue(const DateTime* Value) = 0;
 				virtual void SetValue(const DateTimeOffset* Value) = 0;
 				virtual void SetValue(const TimeSpan* Value) = 0;
-				virtual void SetValue(const Elysium::Core::Decimal* Value) = 0;
+				virtual void SetValue(const Decimal* Value) = 0;
 				virtual void SetValue(const double Value) = 0;
 				virtual void SetValue(const float Value) = 0;
 				virtual void SetValue(const Guid* Value) = 0;

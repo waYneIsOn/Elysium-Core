@@ -137,7 +137,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const TimeSpan * Value)
 	memcpy(&_Data[0], Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::Decimal * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Decimal * Value)
 {
 	size_t Size = sizeof(Elysium::Core::Decimal);
 	_DbType = DbType::Decimal;

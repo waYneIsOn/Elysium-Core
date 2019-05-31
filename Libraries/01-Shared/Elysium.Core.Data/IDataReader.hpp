@@ -67,7 +67,7 @@ namespace Elysium
 				virtual __int64 GetChars(unsigned int Index, size_t FieldOffset, char* Value, size_t BufferOffset, size_t Length) = 0;
 				virtual void GetDateTime(uint32_t Index, DateTime* Value) = 0;
 				virtual void GetDateTimeOffset(uint32_t Index, DateTimeOffset* Value) = 0;	// ToDo: think about whether we actually want that method for every reader (some dmbs do not support this type)
-				virtual void GetDecimal(uint32_t Index, Elysium::Core::Decimal* Value) = 0;
+				virtual void GetDecimal(uint32_t Index, Decimal* Value) = 0;
 				virtual void GetDouble(uint32_t Index, double* Value) = 0;
 				virtual void GetFloat(uint32_t Index, float* Value) = 0;
 				virtual void GetGuid(uint32_t Index, Guid* Value) = 0;
@@ -81,7 +81,7 @@ namespace Elysium
 
 				virtual void GetDataTypeName(uint32_t Index, std::wstring* Value) = 0;
 				virtual void GetName(uint32_t Index, std::wstring* Value) = 0;
-				virtual void GetOrdinal(wchar_t* Name, unsigned long* Value) = 0;
+				virtual void GetOrdinal(wchar_t* Name, unsigned __int64* Value) = 0;
 
 				virtual bool IsDBNull(uint32_t Index) = 0;
 			};

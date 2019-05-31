@@ -44,32 +44,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Test.hpp">
       <Filter>OleDb</Filter>
     </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbException.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbParameterCollection.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IDataParameter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDataParameterCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDataReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDbCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDbConnection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDbTransaction.hpp" />
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbParameter.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbTransaction.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbConnection.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbCommand.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Data\DbDataReader.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbCommand.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbDataReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameterCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbTransaction.hpp" />
   </ItemGroup>
 </Project>
