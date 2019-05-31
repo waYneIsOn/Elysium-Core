@@ -98,7 +98,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		// initialize the properties and populate their values
 		const ULONG ConnectionPropertiesCount = 1;
 		DBPROP ConnectionProperties[ConnectionPropertiesCount];
-		VariantInit(&ConnectionProperties[1].vValue);
+		VariantInit(&ConnectionProperties[0].vValue);
 		ConnectionProperties[0].dwPropertyID = DBPROP_INIT_PROVIDERSTRING;
 		ConnectionProperties[0].vValue.vt = VT_BSTR;
 		ConnectionProperties[0].vValue.bstrVal = SysAllocString(_ConnectionString.c_str());
@@ -220,7 +220,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	// initialize the properties and populate their values
 	const ULONG ConnectionPropertiesCount = 1;
 	DBPROP ConnectionProperties[ConnectionPropertiesCount];
-	VariantInit(&ConnectionProperties[1].vValue);
+	VariantInit(&ConnectionProperties[0].vValue);
 	ConnectionProperties[0].dwPropertyID = DBPROP_CURRENTCATALOG;
 	ConnectionProperties[0].vValue.vt = VT_BSTR;
 	ConnectionProperties[0].vValue.bstrVal = SysAllocString(DatabaseName.c_str());
