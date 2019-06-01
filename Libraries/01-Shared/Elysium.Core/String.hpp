@@ -31,6 +31,8 @@ namespace Elysium
 		class EXPORT String : public Elysium::Core::Collections::IEnumerable<ElysiumChar>
 		{
 		public:
+			String();
+			String(size_t Length);
 			String(const ElysiumChar* Value);
 			String(const ElysiumChar* Value, size_t Length);
 			String(const String& Value);
@@ -38,15 +40,20 @@ namespace Elysium
 
 			// properties - getter
 			const size_t GetLength() const;
+			const ElysiumChar* GetCharArray() const;
 
 			// operators
 			virtual ElysiumChar& operator[](size_t Index) const;
 
+			// ...
 			static bool IsNullOrEmtpy(const String& Value);
 
-			const ElysiumChar* ToCharArray() const;
+			// methods
+			void Substring(size_t StartIndex, String* Result) const;
+			void Substring(size_t StartIndex, size_t Length, String* Result) const;
+			//void ToLower(String* Result);
+			//void ToUpper(String* Result);
 		private:
-			String(size_t Length);
 
 			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;

@@ -167,7 +167,7 @@ TEST_METHOD(CRUDWithoutParameters)
 	}
 	catch (Exception& ex)
 	{
-		Logger::WriteMessage(ex.GetExceptionMessage().ToCharArray());
+		Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 		Assert::Fail();
 	}
 }
@@ -569,7 +569,7 @@ TEST_METHOD(CRUDWithUnnamedParameters)
 	}
 	catch (Exception& ex)
 	{
-		Logger::WriteMessage(ex.GetExceptionMessage().ToCharArray());
+		Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 		Assert::Fail();
 	}
 }
@@ -959,7 +959,7 @@ private:
 	}
 	static void LogSqlNativeException(SqlNativeException& ex)
 	{
-		Logger::WriteMessage(ex.GetExceptionMessage().ToCharArray());
+		Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 		Logger::WriteMessage(std::to_string(ex.GetErrorCode()).c_str());
 		for (unsigned int i = 0; i < ex.GetErrors().GetCount(); i++)
 		{

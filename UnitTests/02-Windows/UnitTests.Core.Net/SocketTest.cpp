@@ -35,8 +35,8 @@ namespace UnitTestsCoreNet
 				Logger::WriteMessage("connected");
 
 				// set both timeouts (we don't want to wait forever!!!!)
-				ClientSocket.SetReceiveTimeout(20);
-				ClientSocket.SetSendTimeout(20);
+				ClientSocket.SetReceiveTimeout(200);
+				ClientSocket.SetSendTimeout(200);
 
 				// send some data to the host
 				byte Data[] = "GET /Hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)\r\nHost: www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";

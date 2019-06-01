@@ -72,6 +72,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -104,5 +105,6 @@
       <Filter>Runtime\InteropServices</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
   </ItemGroup>
 </Project>
