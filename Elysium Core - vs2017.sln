@@ -87,6 +87,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.ServiceProcess
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.ServiceProcess", "Libraries\02-Windows\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxproj", "{10F92D9C-832E-4DDD-B353-F3D89548CCE6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Text", "Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems", "{4557BF60-87A8-49D3-8ABC-8642129F5A91}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{10f92d9c-832e-4ddd-b353-f3d89548cce6}*SharedItemsImports = 4
@@ -97,8 +99,10 @@ Global
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4557bf60-87a8-49d3-8abc-8642129f5a91}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems*{6a52f036-6569-4db6-bad5-d50ff58f39ee}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{7d30fe61-9249-4556-b392-29563d82e150}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{8bbdea16-0960-479d-941d-fe662e7740e8}*SharedItemsImports = 9
@@ -246,6 +250,7 @@ Global
 		{BE1492A2-FD64-4DDA-8FFD-7433F3D78EB6} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{B29C5CF1-D637-47AA-AAE6-CBB9028BA3D3} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{10F92D9C-832E-4DDD-B353-F3D89548CCE6} = {1030673B-B627-44FE-A2AE-327B6146535E}
+		{4557BF60-87A8-49D3-8ABC-8642129F5A91} = {8C483853-54B5-40FB-B14B-28383747B06B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

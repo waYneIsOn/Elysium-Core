@@ -27,7 +27,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef __midl
-#include <vcruntime_string.h>
+#include <vcruntime_string.h>	// memcpy
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION

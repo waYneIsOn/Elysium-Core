@@ -60,6 +60,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
+      <Filter>Collections\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -91,5 +95,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
   </ItemGroup>
 </Project>
