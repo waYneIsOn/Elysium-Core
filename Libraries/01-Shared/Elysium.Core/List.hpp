@@ -121,7 +121,8 @@ namespace Elysium
 				template<class T>
 				inline List<T>::~List()
 				{
-					free(_Data);
+					//free(_Data);
+					delete[] _Data;
 				}
 
 				template<class T>

@@ -175,6 +175,7 @@
     <ClCompile Include="FileStreamTest.cpp" />
     <ClCompile Include="ListTest.cpp" />
     <ClCompile Include="MemoryStreamTest.cpp" />
+    <ClCompile Include="StringTest.cpp" />
     <ClCompile Include="ThreadTest.cpp" />
     <ClCompile Include="TimeSpanTest.cpp" />
     <ClCompile Include="UriTest.cpp" />

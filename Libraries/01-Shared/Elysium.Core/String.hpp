@@ -16,8 +16,10 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifdef UNICODE
 #define ElysiumChar wchar_t
+#define ElysiumCharSize sizeof(wchar_t)
 #else
 #define ElysiumChar char
+#define ElysiumCharSize sizeof(char)
 #endif 
 
 namespace Elysium
@@ -28,9 +30,21 @@ namespace Elysium
 		{
 		public:
 			String(const ElysiumChar* Value);
+			String(const ElysiumChar* Value, size_t Length);
+			String(const String& Value);
 			~String();
+
+			// properties - getter
+			const size_t GetLength() const;
+
+			// operators
+			virtual ElysiumChar& operator[](size_t Index) const;
+
+			static bool IsNullOrEmtpy(const String& Value);
 		private:
-			size_t _Length;
+			String(size_t Length);
+
+			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;
 		};
 	}
