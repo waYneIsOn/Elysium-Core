@@ -17,17 +17,17 @@
 Elysium::Core::String::String(const ElysiumChar* Value)
 	: Elysium::Core::String(Value == nullptr ? 0 : ElysiumStringLength(Value))
 {
-	memcpy(_Data, Value, _Length * ElysiumCharSize);
+	memcpy(_Data, Value, _Length * sizeof(ElysiumChar));
 }
 Elysium::Core::String::String(const ElysiumChar * Value, size_t Length)
 	: Elysium::Core::String(Value == nullptr ? 0 : Length)
 {
-	memcpy(_Data, Value, _Length * ElysiumCharSize);
+	memcpy(_Data, Value, _Length * sizeof(ElysiumChar));
 }
 Elysium::Core::String::String(const String & Value)
 	: Elysium::Core::String(Value._Length)
 {
-	memcpy(_Data, Value._Data, _Length * ElysiumCharSize);
+	memcpy(_Data, Value._Data, _Length * sizeof(ElysiumChar));
 }
 Elysium::Core::String::~String()
 {
@@ -52,6 +52,11 @@ ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
 {
 	return Value._Length == 0;
+}
+
+const ElysiumChar * Elysium::Core::String::ToCharArray() const
+{
+	return _Data;
 }
 
 Elysium::Core::String::String(size_t Length)

@@ -22,7 +22,7 @@ namespace Elysium
 		{
 		public:
 			InvalidOperationException();
-			InvalidOperationException(const char* Message);
+			InvalidOperationException(const String& Message);
 			~InvalidOperationException();
 		};
 	}

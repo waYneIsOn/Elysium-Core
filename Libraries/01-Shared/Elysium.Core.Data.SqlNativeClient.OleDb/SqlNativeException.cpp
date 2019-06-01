@@ -1,6 +1,6 @@
 #include "SqlNativeException.hpp"
 
-Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeException::SqlNativeException(const char * Message, const int ErrorCode, IUnknown* ErrorObject)
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeException::SqlNativeException(const String & Message, const int ErrorCode, IUnknown* ErrorObject)
 	: Elysium::Core::Data::Common::DbException(Message, ErrorCode),
 	_Errors(SqlNativeErrorCollection(ErrorObject))
 {

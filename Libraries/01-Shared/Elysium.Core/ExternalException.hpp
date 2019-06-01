@@ -35,15 +35,14 @@ namespace Elysium
 				class EXPORT ExternalException : public Exception
 				{
 				public:
+
 					ExternalException();
-					ExternalException(const char* Message);
-					ExternalException(const char* Message, const int ErrorCode);
+					ExternalException(const String& Message);
+					ExternalException(const String& Message, const int ErrorCode);
 					~ExternalException();
 
 					int GetErrorCode();
 					HRESULT GetHResult();
-
-					virtual const char* what() const throw();
 				protected:
 					void SetHResult(HRESULT ErrorCode);
 				private:

@@ -34,8 +34,8 @@ namespace Elysium
 				public:
 					// constructors & destructor
 					SocketException();
-					SocketException(char* const Message);
-					SocketException(const char* Message, const int ErrorCode);
+					SocketException(const String& Message);
+					SocketException(const String& Message, const int ErrorCode);
 					~SocketException();
 				};
 			}

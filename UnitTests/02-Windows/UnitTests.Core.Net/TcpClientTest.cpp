@@ -55,7 +55,7 @@ namespace UnitTestsCoreNet
 			}
 			catch (Exception& ex)
 			{
-				Logger::WriteMessage(ex.what());
+				Logger::WriteMessage(ex.GetExceptionMessage().ToCharArray());
 				Assert::Fail();
 			}
 		}

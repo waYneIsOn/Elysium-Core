@@ -32,7 +32,7 @@ void DatabaseTestBase::PerformTransactionCreationTests(IDbConnection* Connection
 	catch (InvalidOperationException& ex)
 	{
 		Connection->Close();
-		Logger::WriteMessage(ex.what());
+		Logger::WriteMessage(ex.GetExceptionMessage().ToCharArray());
 		Assert::Fail();
 	}
 

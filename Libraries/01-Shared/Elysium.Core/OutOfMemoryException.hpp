@@ -22,7 +22,7 @@ namespace Elysium
 		{
 		public:
 			OutOfMemoryException();
-			OutOfMemoryException(const char* Message);
+			OutOfMemoryException(const String& Message);
 			~OutOfMemoryException();
 		};
 	}

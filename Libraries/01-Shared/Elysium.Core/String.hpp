@@ -14,19 +14,21 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
+#include "IEnumerable.hpp"
+#endif
+
 #ifdef UNICODE
 #define ElysiumChar wchar_t
-#define ElysiumCharSize sizeof(wchar_t)
 #else
 #define ElysiumChar char
-#define ElysiumCharSize sizeof(char)
 #endif 
 
 namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT String
+		class EXPORT String : public Elysium::Core::Collections::IEnumerable<ElysiumChar>
 		{
 		public:
 			String(const ElysiumChar* Value);
@@ -41,6 +43,8 @@ namespace Elysium
 			virtual ElysiumChar& operator[](size_t Index) const;
 
 			static bool IsNullOrEmtpy(const String& Value);
+
+			const ElysiumChar* ToCharArray() const;
 		private:
 			String(size_t Length);
 

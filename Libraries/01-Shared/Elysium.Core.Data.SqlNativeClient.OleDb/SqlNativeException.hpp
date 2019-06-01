@@ -31,7 +31,7 @@ namespace Elysium
 					class EXPORT SqlNativeException final : public Elysium::Core::Data::Common::DbException
 					{
 					public:
-						SqlNativeException(const char* Message, const int ErrorCode, IUnknown* ErrorObject);
+						SqlNativeException(const String& Message, const int ErrorCode, IUnknown* ErrorObject);
 						~SqlNativeException();
 
 						const SqlNativeErrorCollection& GetErrors() const;

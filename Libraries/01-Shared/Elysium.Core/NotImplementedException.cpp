@@ -4,7 +4,7 @@ Elysium::Core::NotImplementedException::NotImplementedException()
 	: Elysium::Core::Exception()
 {
 }
-Elysium::Core::NotImplementedException::NotImplementedException(const char * Message)
+Elysium::Core::NotImplementedException::NotImplementedException(const String & Message)
 	: Elysium::Core::Exception(Message)
 {
 }

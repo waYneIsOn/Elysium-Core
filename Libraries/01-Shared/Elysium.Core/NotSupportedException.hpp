@@ -22,7 +22,7 @@ namespace Elysium
 		{
 		public:
 			NotSupportedException();
-			NotSupportedException(const char* Message);
+			NotSupportedException(const String& Message);
 			~NotSupportedException();
 		};
 	}

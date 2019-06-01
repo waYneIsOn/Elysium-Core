@@ -22,7 +22,7 @@ namespace Elysium
 		{
 		public:
 			NotImplementedException();
-			NotImplementedException(const char* Message);
+			NotImplementedException(const String& Message);
 			~NotImplementedException();
 		};
 	}

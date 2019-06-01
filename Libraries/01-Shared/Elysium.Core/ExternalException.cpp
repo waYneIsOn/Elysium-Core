@@ -9,12 +9,12 @@ Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 {
 	SetHResult(E_FAIL);
 }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const char * Message)
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const const String & Message)
 	: Elysium::Core::Exception(Message)
 {
 	SetHResult(E_FAIL);
 }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const char * Message, const int ErrorCode)
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const const String & Message, const int ErrorCode)
 	: Elysium::Core::Exception(Message)
 {
 	SetHResult(ErrorCode);
@@ -37,7 +37,7 @@ HRESULT Elysium::Core::Runtime::InteropServices::ExternalException::GetHResult()
 {
 	return _ErrorCode;
 }
-
+/*
 const char * Elysium::Core::Runtime::InteropServices::ExternalException::what() const throw()
 {
 	/*
@@ -59,13 +59,13 @@ const char * Elysium::Core::Runtime::InteropServices::ExternalException::what() 
 	const wchar_t* Source = _COMError.ErrorMessage();
 	IErrorInfo* ErrorInfo = _COMError.ErrorInfo();
 	HRESULT HResult = _COMError.Error();
-	*/
+	*-/
 	// ToDo: this will only return the first char and therefore won't display the whole message
 	//return (char*)_COMError.ErrorMessage();
 
 	return "Elysium::Core::Runtime::InteropServices::ExternalException::what() isn't implemented yet";
 }
-
+*/
 void Elysium::Core::Runtime::InteropServices::ExternalException::SetHResult(HRESULT ErrorCode)
 {
 	_ErrorCode = ErrorCode;

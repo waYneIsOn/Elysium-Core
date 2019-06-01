@@ -72,7 +72,7 @@ int Elysium::Core::Net::Sockets::Socket::GetAvailable()
 	int BytesAvailable = recv(_WinSocketHandle, &Buffer, 1, MSG_PEEK);
 	if (BytesAvailable == SOCKET_ERROR)
 	{
-		throw SocketException("no bytes available.\r\n", WSAGetLastError());
+		throw SocketException(L"no bytes available.\r\n", WSAGetLastError());
 	}
 
 	return BytesAvailable;
@@ -87,7 +87,7 @@ int Elysium::Core::Net::Sockets::Socket::GetReceiveTimeout()
 	int ResultLength = sizeof(int);
 	if (getsockopt(_WinSocketHandle, SOL_SOCKET, SO_RCVTIMEO, (char*)&Result, &ResultLength) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't get receive timeout.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't get receive timeout.\r\n", WSAGetLastError());
 	}
 	return Result;
 }
@@ -97,7 +97,7 @@ int Elysium::Core::Net::Sockets::Socket::GetSendTimeout()
 	int ResultLength = sizeof(int);
 	if (getsockopt(_WinSocketHandle, SOL_SOCKET, SO_SNDTIMEO, (char*)&Result, &ResultLength) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't get receive timeout.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't get receive timeout.\r\n", WSAGetLastError());
 	}
 	return Result;
 }
@@ -107,7 +107,7 @@ int Elysium::Core::Net::Sockets::Socket::GetReceiveBufferSize()
 	int ResultLength = sizeof(int);
 	if (getsockopt(_WinSocketHandle, SOL_SOCKET, SO_RCVBUF, (char*)&Result, &ResultLength) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't get receive timeout.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't get receive timeout.\r\n", WSAGetLastError());
 	}
 	return Result;
 }
@@ -117,7 +117,7 @@ int Elysium::Core::Net::Sockets::Socket::GetSendBufferSize()
 	int ResultLength = sizeof(int);
 	if (getsockopt(_WinSocketHandle, SOL_SOCKET, SO_SNDBUF, (char*)&Result, &ResultLength) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't get receive timeout.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't get receive timeout.\r\n", WSAGetLastError());
 	}
 	return Result;
 }
@@ -126,28 +126,28 @@ void Elysium::Core::Net::Sockets::Socket::SetReceiveTimeout(int Timeout)
 {
 	if (setsockopt(_WinSocketHandle, SOL_SOCKET, SO_RCVTIMEO, (char*)&Timeout, sizeof(int)) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't set receive timeout.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't set receive timeout.\r\n", WSAGetLastError());
 	}
 }
 void Elysium::Core::Net::Sockets::Socket::SetSendTimeout(int Timeout)
 {
 	if (setsockopt(_WinSocketHandle, SOL_SOCKET, SO_SNDTIMEO, (char*)&Timeout, sizeof(int)) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't set send timeout.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't set send timeout.\r\n", WSAGetLastError());
 	}
 }
 void Elysium::Core::Net::Sockets::Socket::SetReceiveBufferSize(int BufferSize)
 {
 	if (setsockopt(_WinSocketHandle, SOL_SOCKET, SO_RCVBUF, (char*)&BufferSize, sizeof(int)) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't set receive buffer size.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't set receive buffer size.\r\n", WSAGetLastError());
 	}
 }
 void Elysium::Core::Net::Sockets::Socket::SetSendBufferSize(int BufferSize)
 {
 	if (setsockopt(_WinSocketHandle, SOL_SOCKET, SO_SNDBUF, (char*)&BufferSize, sizeof(int)) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't set send buffer size.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't set send buffer size.\r\n", WSAGetLastError());
 	}
 }
 
@@ -197,7 +197,7 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const string& Host, int Port)
 	if (connect(_WinSocketHandle, (SOCKADDR*)&ConnectionInfo, sizeof(ConnectionInfo)) == SOCKET_ERROR)
 	{
 		closesocket(_WinSocketHandle);
-		throw SocketException("connection not possible.\r\n", WSAGetLastError());
+		throw SocketException(L"connection not possible.\r\n", WSAGetLastError());
 	}
 
 	// set the corresponding flag
@@ -217,7 +217,7 @@ void Elysium::Core::Net::Sockets::Socket::Disconnect(bool ReuseSocket)
 	// define whether we want to reuse the socket or not
 	if (setsockopt(_WinSocketHandle, SOL_SOCKET, SO_REUSEADDR, (char*)&ReuseSocket, sizeof(int)) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't set socket reuse.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't set socket reuse.\r\n", WSAGetLastError());
 	}
 
 	// close the socket
@@ -227,31 +227,42 @@ void Elysium::Core::Net::Sockets::Socket::Disconnect(bool ReuseSocket)
 	_IsConnected = false;
 }
 
-void Elysium::Core::Net::Sockets::Socket::Bind(const EndPoint * LocalEndPoint)
-{	// ToDo: use values from LocalEndPoint
+void Elysium::Core::Net::Sockets::Socket::Bind(const EndPoint & LocalEndPoint)
+{
+	/*
+	SocketAddress Address;
+	LocalEndPoint.Serialize(&Address);
+	
 	sockaddr_in ConnectionInfo;
-	//ConnectionInfo.sin_family = FormatConverter::Convert(LocalEndPoint->GetAddressFamily());
+	ConnectionInfo.sin_family = FormatConverter::Convert(Address.GetFamily());
+	ConnectionInfo.sin_port = htons(Address.GetPort());	// ToDo: is it really necessary to call htons?
+	*/
+	
+	
+	// ToDo: use values from LocalEndPoint
+	sockaddr_in ConnectionInfo;
 	ConnectionInfo.sin_family = AF_INET;
 	ConnectionInfo.sin_port = htons(27015);
-	InetPtonA(AF_INET, "127.0.0.1", &ConnectionInfo.sin_addr.s_addr);
+	//InetPtonA(AF_INET, "127.0.0.1", &ConnectionInfo.sin_addr.s_addr);
+	InetPtonA(AF_INET, "0.0.0.0", &ConnectionInfo.sin_addr.s_addr);
 
 	if (int Result = bind(_WinSocketHandle, (SOCKADDR*)&ConnectionInfo, sizeof(ConnectionInfo)) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't bind socket.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't bind socket.\r\n", WSAGetLastError());
 	}
 }
 void Elysium::Core::Net::Sockets::Socket::Listen(const int Backlog)
 {
 	if (int Result = listen(_WinSocketHandle, Backlog) == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't listen.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't listen.\r\n", WSAGetLastError());
 	}
 }
 void Elysium::Core::Net::Sockets::Socket::Accept(Socket * ConnectedClient)
 {
 	if (ConnectedClient == nullptr)
 	{	// ToDo: throw a specific exception
-		throw Exception("ArgumentNullException: ConnectedClient");
+		throw Exception(L"ArgumentNullException: ConnectedClient");
 	}
 
 	// wait for a client to connect
@@ -260,7 +271,7 @@ void Elysium::Core::Net::Sockets::Socket::Accept(Socket * ConnectedClient)
 	int AddressLength = sizeof(ConnectionInfo);
 	if ((ClientWinSocketHandle = accept(_WinSocketHandle, (sockaddr*)&ConnectionInfo, &AddressLength)) == INVALID_SOCKET)
 	{
-		throw SocketException("couldn't accept connection.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't accept connection.\r\n", WSAGetLastError());
 	}
 
 	// populate ConnectedClient (don't instantiate!!!!)
@@ -275,7 +286,7 @@ int Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const int Offs
 	int BytesSent = send(_WinSocketHandle, (const char*)&Buffer[Offset], Count, 0);
 	if (BytesSent == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't send bytes.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't send bytes.\r\n", WSAGetLastError());
 	}
 
 	return BytesSent;
@@ -285,7 +296,7 @@ int Elysium::Core::Net::Sockets::Socket::Receive(byte* Buffer, const int Offset,
 	int BytesReceived = recv(_WinSocketHandle, (char*)&Buffer[Offset], Count, 0);
 	if (BytesReceived == SOCKET_ERROR)
 	{
-		throw SocketException("couldn't received bytes.\r\n", WSAGetLastError());
+		throw SocketException(L"couldn't received bytes.\r\n", WSAGetLastError());
 	}
 
 	return BytesReceived;

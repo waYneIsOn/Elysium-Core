@@ -1,13 +1,11 @@
 #include "Exception.hpp"
 
 Elysium::Core::Exception::Exception()
-	: std::exception(),
-	_InnerException(nullptr)
+	: _Message(L"Exception"), _InnerException(nullptr)
 {
 }
-Elysium::Core::Exception::Exception(const char* Message)
-	: std::exception(Message),
-	_InnerException(nullptr)
+Elysium::Core::Exception::Exception(const String & Message)
+	: _Message(Message), _InnerException(nullptr)
 {
 }
 Elysium::Core::Exception::~Exception()
@@ -19,7 +17,12 @@ Elysium::Core::Exception::~Exception()
 	}
 }
 
-Elysium::Core::Exception * Elysium::Core::Exception::GetInnerException()
+const Elysium::Core::Exception * Elysium::Core::Exception::GetInnerException() const
 {
 	return _InnerException;
+}
+
+const Elysium::Core::String & Elysium::Core::Exception::GetExceptionMessage() const
+{
+	return _Message;
 }

@@ -4,11 +4,16 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/Socket.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_IPENDPOINT
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
+#endif
+
 #ifndef _XSTRING_
 #include <string>
 #endif
 
 using namespace Elysium::Core;
+using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -4,7 +4,7 @@ Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException()
 	: Elysium::Core::Exception()
 {
 }
-Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException(const char * Message)
+Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException(const String & Message)
 	: Elysium::Core::Exception(Message)
 {
 }

@@ -4,11 +4,11 @@ Elysium::Core::Runtime::InteropServices::COMException::COMException()
 	: ExternalException()
 {
 }
-Elysium::Core::Runtime::InteropServices::COMException::COMException(const char * Message)
+Elysium::Core::Runtime::InteropServices::COMException::COMException(const String & Message)
 	: ExternalException(Message)
 {
 }
-Elysium::Core::Runtime::InteropServices::COMException::COMException(const char * Message, const int ErrorCode)
+Elysium::Core::Runtime::InteropServices::COMException::COMException(const String & Message, const int ErrorCode)
 	: ExternalException(Message, ErrorCode)
 {
 }

@@ -26,8 +26,8 @@ namespace Elysium
 				{
 				public:
 					DbException();
-					DbException(const char* Message);
-					DbException(const char* Message, const int ErrorCode);
+					DbException(const String& Message);
+					DbException(const String& Message, const int ErrorCode);
 					~DbException();
 				};
 			}

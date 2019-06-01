@@ -22,7 +22,7 @@ namespace Elysium
 		{
 		public:
 			InvalidCastException();
-			InvalidCastException(const char* Message);
+			InvalidCastException(const String& Message);
 			~InvalidCastException();
 		};
 	}

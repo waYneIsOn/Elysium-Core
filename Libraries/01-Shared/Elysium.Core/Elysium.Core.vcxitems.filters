@@ -56,14 +56,22 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
       <Filter>Collections\Generic</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp">
+      <Filter>Runtime\InteropServices</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp">
+      <Filter>Runtime\InteropServices</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

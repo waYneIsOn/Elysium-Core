@@ -47,16 +47,16 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
 	// UtcNow.ToLocalTime()
-	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Now");
+	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Now");
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 {
-	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Today");
+	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Today");
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow()
 {
 	//return DateTime(std::chrono::utc_clock::now().time_since_epoch().count(), DateTimeKind::Utc);
-	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
+	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
 }
 
 Elysium::Core::DateTimeKind const Elysium::Core::DateTime::GetKind() const
@@ -149,7 +149,7 @@ bool Elysium::Core::DateTime::IsLeapYear(int Year)
 	}
 	else
 	{	// ToDo: ArgumentOutOfRangeException
-		throw new Exception("argument out of range");
+		throw new Exception(L"argument out of range");
 	}
 }
 
@@ -166,7 +166,7 @@ __int64 Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
 		}
 	}
 	// ToDo: ArgumentOutOfRangeException
-	throw new Exception("argument out of range");
+	throw new Exception(L"argument out of range");
 }
 __int64 Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
 {
@@ -176,12 +176,12 @@ __int64 Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
 		if (TotalSeconds > DateTimeUtility::MaxSeconds || TotalSeconds < DateTimeUtility::MinSeconds)
 		{
 			// ToDo: ArgumentOutOfRangeException
-			throw Exception("argument out of range");
+			throw Exception(L"argument out of range");
 		}
 		return TotalSeconds * DateTimeUtility::TicksPerSecond;
 	}
 	// ToDo: ArgumentOutOfRangeException
-	throw new Exception("argument out of range");
+	throw new Exception(L"argument out of range");
 }
 
 int Elysium::Core::DateTime::GetDatePart(DatePart Part) const

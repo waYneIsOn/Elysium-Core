@@ -6,19 +6,19 @@
 
 Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::EndPoint::GetAddressFamily() const
 {
-	return _AddressFamily;
+	return _Address.GetAddressFamily();
 }
 
 void Elysium::Core::Net::EndPoint::Create(Elysium::Core::Net::SocketAddress * Address, Elysium::Core::Net::EndPoint * EndPoint)
 {
-	throw NotImplementedException("void Elysium::Core::Net::EndPoint::Create");
+	throw NotImplementedException(L"void Elysium::Core::Net::EndPoint::Create");
 }
 Elysium::Core::Net::EndPoint * Elysium::Core::Net::EndPoint::Create(Elysium::Core::Net::SocketAddress * Address)
 {
-	throw NotImplementedException("Elysium::Core::Net::EndPoint * Elysium::Core::Net::EndPoint::Create");
+	throw NotImplementedException(L"Elysium::Core::Net::EndPoint * Elysium::Core::Net::EndPoint::Create");
 }
 
-Elysium::Core::Net::EndPoint::EndPoint()
-	: _AddressFamily(Elysium::Core::Net::Sockets::AddressFamily::Unspecified)
+Elysium::Core::Net::EndPoint::EndPoint(const IPAddress& Address)
+	: _Address(Address)
 {
 }

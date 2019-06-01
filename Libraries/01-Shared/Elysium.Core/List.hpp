@@ -34,6 +34,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "NotImplementedException.hpp"
 #endif
 
+#ifndef _INC_LIMITS
+#include <limits>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -228,7 +232,7 @@ namespace Elysium
 						}
 					}
 					// ToDo: throw ArgumentOutOfRangeException
-					throw Exception("ArgumentOutOfRangeException");
+					throw Exception(L"ArgumentOutOfRangeException");
 				}
 				template<class T>
 				inline void List<T>::Insert(size_t Index, const T & Item)
@@ -283,7 +287,7 @@ namespace Elysium
 				{
 					if (DesiredMinimumSize < _NumberOfElements)
 					{	// ToDo: throw a specific ArgumentOutOfRangeException
-						throw Exception("ArgumentOutOfRangeException");
+						throw Exception(L"ArgumentOutOfRangeException");
 					}
 					if (DesiredMinimumSize > INT_MAX)
 					{
@@ -323,7 +327,7 @@ namespace Elysium
 				{
 					if (DesiredMinimumSize < _NumberOfElements)
 					{	// ToDo: throw a specific ArgumentOutOfRangeException
-						throw Exception("ArgumentOutOfRangeException");
+						throw Exception(L"ArgumentOutOfRangeException");
 					}
 					if (DesiredMinimumSize > INT_MAX)
 					{

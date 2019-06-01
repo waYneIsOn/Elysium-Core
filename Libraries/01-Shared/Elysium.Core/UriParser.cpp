@@ -164,6 +164,6 @@ std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Componen
 	}
 	*/
 	default:
-		throw NotImplementedException(("unknown component " + std::to_string((int)Component)).c_str());
+		throw NotImplementedException((L"unknown component " + std::to_wstring((int)Component)).c_str());
 	}
 }

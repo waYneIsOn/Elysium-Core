@@ -4,11 +4,11 @@ Elysium::Core::Net::Sockets::SocketException::SocketException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException()
 {
 }
-Elysium::Core::Net::Sockets::SocketException::SocketException(char* const Message)
+Elysium::Core::Net::Sockets::SocketException::SocketException(const String & Message)
 	: Elysium::Core::Runtime::InteropServices::ExternalException(Message)
 {
 }
-Elysium::Core::Net::Sockets::SocketException::SocketException(const char * Message, const int ErrorCode)
+Elysium::Core::Net::Sockets::SocketException::SocketException(const String & Message, const int ErrorCode)
 	: Elysium::Core::Runtime::InteropServices::ExternalException(Message, ErrorCode)
 {
 }

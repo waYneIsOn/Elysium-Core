@@ -56,11 +56,11 @@ void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t Buffer
 {
 	if (Destination == nullptr)
 	{	// ToDo: throw specific ArgumentNullException
-		throw Exception("ArgumentNullException");
+		throw Exception(L"ArgumentNullException");
 	}
 	if (BufferSize > INT_MAX)
 	{	// ToDo: throw specific ArgumentOutOfRangeException
-		throw Exception("ArgumentOutOfRangeException");
+		throw Exception(L"ArgumentOutOfRangeException");
 	}
 
 	int BytesRead = 0;

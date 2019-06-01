@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "AddressFamily.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_IPADDRESS
+#include "IPAddress.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_SOCKETADDRESS
 #include "SocketAddress.hpp"
 #endif
@@ -37,10 +41,12 @@ namespace Elysium
 
 				void Create(Elysium::Core::Net::SocketAddress* Address, Elysium::Core::Net::EndPoint* EndPoint);
 				Elysium::Core::Net::EndPoint* Create(Elysium::Core::Net::SocketAddress* Address);
+
+				virtual void Serialize(SocketAddress* Address) const = 0;
 			protected:
-				EndPoint();
-			private:
-				Elysium::Core::Net::Sockets::AddressFamily _AddressFamily;
+				EndPoint(const IPAddress& Address);
+
+				IPAddress _Address;
 			};
 		}
 	}

@@ -14,9 +14,9 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
-//#ifndef _HAS_EXCEPTIONS
-#include <exception>
-//#endif
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
 
 #pragma warning(disable : 4275)
 
@@ -24,20 +24,21 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT Exception : public std::exception
+		class EXPORT Exception
 		{
 		public:
 			// constructors & destructor
 			Exception();
-			Exception(const char* Message);
+			Exception(const String& Message);
 			~Exception();
 
 			// properties - getter
-			Exception* GetInnerException();
+			const Exception* GetInnerException() const;
 
 			// methods
+			const String& GetExceptionMessage() const;
 		private:
-			// fields
+			String _Message;
 			Exception* _InnerException;
 		};
 	}

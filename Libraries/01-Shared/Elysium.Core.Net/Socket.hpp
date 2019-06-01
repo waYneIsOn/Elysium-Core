@@ -91,7 +91,7 @@ namespace Elysium
 					void Connect(const EndPoint& RemoteEndPoint);
 					void Disconnect(bool ReuseSocket);
 
-					void Bind(const EndPoint* LocalEndPoint);
+					void Bind(const EndPoint& LocalEndPoint);
 					void Listen(const int Backlog);
 					void Accept(Socket* ConnectedClient);
 

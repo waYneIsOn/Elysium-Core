@@ -22,7 +22,7 @@ namespace Elysium
 		{
 		public:
 			IndexOutOfRangeException();
-			IndexOutOfRangeException(const char* Message);
+			IndexOutOfRangeException(const String& Message);
 			~IndexOutOfRangeException();
 		};
 	}

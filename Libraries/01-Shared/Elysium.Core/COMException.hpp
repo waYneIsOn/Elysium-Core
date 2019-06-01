@@ -26,8 +26,8 @@ namespace Elysium
 				{
 				public:
 					COMException();
-					COMException(const char* Message);
-					COMException(const char* Message, const int ErrorCode);
+					COMException(const String& Message);
+					COMException(const String& Message, const int ErrorCode);
 					~COMException();
 				};
 			}
