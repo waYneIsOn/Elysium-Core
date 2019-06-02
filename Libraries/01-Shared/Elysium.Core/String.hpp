@@ -43,6 +43,7 @@ namespace Elysium
 			const ElysiumChar* GetCharArray() const;
 
 			// operators
+			virtual String& operator=(const ElysiumChar* Value);
 			virtual ElysiumChar& operator[](size_t Index) const;
 
 			// ...
@@ -54,7 +55,6 @@ namespace Elysium
 			//void ToLower(String* Result);
 			//void ToUpper(String* Result);
 		private:
-
 			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;
 		};

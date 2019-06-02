@@ -15,8 +15,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UTF8Encoding.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Encoding.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UTF8Encoding.cpp" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,14 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_UTF8ENCODING
+#include "../../../Libraries/01-Shared/Elysium.Core.Text/UTF8Encoding.hpp"
+#endif
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestsCore
@@ -16,7 +24,7 @@ namespace UnitTestsCore
 	{
 	public:
 		TEST_METHOD(Constructors)
-		{
+		{			
 			Elysium::Core::String String1 = Elysium::Core::String(L"text");
 			Assert::AreEqual(L"text", String1.GetCharArray());
 			Assert::AreEqual((size_t)4, String1.GetLength());
@@ -79,6 +87,31 @@ namespace UnitTestsCore
 			Source.Substring(8, 19, &Substring2);
 			Assert::AreEqual((size_t)19, Substring2.GetLength());
 			Assert::AreEqual(L"a string containing", Substring2.GetCharArray());
+		}
+		TEST_METHOD(Encoding)
+		{
+			const Elysium::Core::Text::Encoding* DefaultEncoding = Elysium::Core::Text::Encoding::Default();
+			const Elysium::Core::Text::Encoding* UTF8Encoding = Elysium::Core::Text::Encoding::UTF8();
+			const Elysium::Core::Text::UTF8Encoding* CastUTF8Encoding = static_cast<const Elysium::Core::Text::UTF8Encoding*>(UTF8Encoding);
+
+			Assert::AreEqual(1252, DefaultEncoding->GetCodePage());
+			Assert::AreEqual(65001, UTF8Encoding->GetCodePage());
+			Assert::AreEqual(65001, CastUTF8Encoding->GetCodePage());
+
+			Assert::AreEqual(true, DefaultEncoding->GetIsSingleByte());
+			Assert::AreEqual(false, UTF8Encoding->GetIsSingleByte());
+			Assert::AreEqual(false, CastUTF8Encoding->GetIsSingleByte());
+
+			Elysium::Core::String OriginalString = L"äöüß";
+			Elysium::Core::Collections::Generic::List<Elysium::Core::byte> OutputBytes;
+			DefaultEncoding->GetBytes(&OriginalString, (size_t)0, (size_t)OriginalString.GetLength(), &OutputBytes);
+
+			Elysium::Core::String OutputString;
+			DefaultEncoding->GetString(&OutputBytes[0], 3, &OutputString);
+
+			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
+
+			int x = 345;
 		}
 	private:
 		void InputString(const Elysium::Core::String& Value)

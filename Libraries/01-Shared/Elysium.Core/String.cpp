@@ -73,6 +73,25 @@ const ElysiumChar * Elysium::Core::String::GetCharArray() const
 	return _Data;
 }
 
+Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Value)
+{
+	//if (this != &Value)
+	//{ }
+	if (_Data != nullptr)
+	{
+		delete[] _Data;
+	}
+	_Length = ElysiumStringLength(Value);
+	_Data = new ElysiumChar[_Length + sizeof(ElysiumChar)];
+	memcpy(_Data, Value, _Length * sizeof(ElysiumChar));
+#ifdef UNICODE
+	_Data[_Length] = L'\0';
+#else
+	_Data[_Length] = '\0';
+#endif 
+	
+	return *this;
+}
 ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 {
 	if (Index >= _Length)
