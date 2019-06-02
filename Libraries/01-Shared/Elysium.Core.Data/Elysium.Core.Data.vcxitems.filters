@@ -50,12 +50,26 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IDbCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDbConnection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IDbTransaction.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbCommand.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbConnection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbDataReader.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameter.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameterCollection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DbTransaction.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbException.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbCommand.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbConnection.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbDataReader.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameter.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbParameterCollection.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbTransaction.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

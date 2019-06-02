@@ -1,7 +1,7 @@
 #include "OutOfMemoryException.hpp"
 
 Elysium::Core::OutOfMemoryException::OutOfMemoryException()
-	: Elysium::Core::Exception()
+	: Elysium::Core::Exception(L"OutOfMemoryException")
 {
 }
 Elysium::Core::OutOfMemoryException::OutOfMemoryException(const String & Message)

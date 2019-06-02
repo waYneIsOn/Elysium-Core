@@ -1,7 +1,7 @@
 #include "ArgumentNullException.hpp"
 
 Elysium::Core::ArgumentNullException::ArgumentNullException()
-	: Elysium::Core::Exception()
+	: Elysium::Core::Exception(L"ArgumentNullException")
 {
 }
 Elysium::Core::ArgumentNullException::ArgumentNullException(const String & Message)

@@ -1,7 +1,7 @@
 #include "COMException.hpp"
 
 Elysium::Core::Runtime::InteropServices::COMException::COMException()
-	: ExternalException()
+	: ExternalException(L"COMException")
 {
 }
 Elysium::Core::Runtime::InteropServices::COMException::COMException(const String & Message)

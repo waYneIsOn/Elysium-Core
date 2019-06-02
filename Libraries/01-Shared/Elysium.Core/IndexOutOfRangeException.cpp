@@ -1,7 +1,7 @@
 #include "IndexOutOfRangeException.hpp"
 
 Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException()
-	: Elysium::Core::Exception()
+	: Elysium::Core::Exception(L"IndexOutOfRangeException")
 {
 }
 Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException(const String & Message)

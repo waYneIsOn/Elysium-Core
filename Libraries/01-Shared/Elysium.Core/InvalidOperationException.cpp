@@ -1,7 +1,7 @@
 #include "InvalidOperationException.hpp"
 
 Elysium::Core::InvalidOperationException::InvalidOperationException()
-	: Elysium::Core::Exception()
+	: Elysium::Core::Exception(L"InvalidOperationException")
 {
 }
 Elysium::Core::InvalidOperationException::InvalidOperationException(const String & Message)

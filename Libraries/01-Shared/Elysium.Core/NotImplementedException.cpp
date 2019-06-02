@@ -1,7 +1,7 @@
 #include "NotImplementedException.hpp"
 
 Elysium::Core::NotImplementedException::NotImplementedException()
-	: Elysium::Core::Exception()
+	: Elysium::Core::Exception(L"NotImplementedException")
 {
 }
 Elysium::Core::NotImplementedException::NotImplementedException(const String & Message)

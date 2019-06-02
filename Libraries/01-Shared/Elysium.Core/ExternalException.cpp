@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
-	: Elysium::Core::Exception()
+	: Elysium::Core::Exception(L"ExternalException")
 {
 	SetHResult(E_FAIL);
 }
