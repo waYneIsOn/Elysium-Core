@@ -47,7 +47,9 @@
 /Libraries/04-Android/Elysium.Core/Releasebin
 
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM/Debug
+/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM64/Debug
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/Debugbin
 
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/ARM/Debug
+/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/ARM64/Debug
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/Debugbin

@@ -8,11 +8,11 @@
 #include "DateTimeUtility.hpp"
 #endif
 
-Elysium::Core::DateTime::DateTime(__int64 Ticks)
+Elysium::Core::DateTime::DateTime(int64_t Ticks)
 	: Elysium::Core::DateTime::DateTime(Ticks, DateTimeKind::Unspecified)
 {
 }
-Elysium::Core::DateTime::DateTime(__int64 Ticks, DateTimeKind Kind)
+Elysium::Core::DateTime::DateTime(int64_t Ticks, DateTimeKind Kind)
 	: _Ticks(Ticks), _Kind(Kind)
 {
 }
@@ -47,23 +47,44 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
 	// UtcNow.ToLocalTime()
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Now");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Now");
+#else
+#error "undefined os"
+#endif
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 {
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Today");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Today");
+#else
+#error "undefined os"
+#endif
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow()
 {
 	//return DateTime(std::chrono::utc_clock::now().time_since_epoch().count(), DateTimeKind::Utc);
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
+#else
+#error "undefined os"
+#endif
 }
 
 Elysium::Core::DateTimeKind const Elysium::Core::DateTime::GetKind() const
 {
 	return _Kind;
 }
-__int64 const Elysium::Core::DateTime::GetTicks() const
+int64_t const Elysium::Core::DateTime::GetTicks() const
 {
 	return _Ticks;
 }
@@ -149,11 +170,18 @@ bool Elysium::Core::DateTime::IsLeapYear(int Year)
 	}
 	else
 	{	// ToDo: ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw new Exception(L"argument out of range");
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw new Exception("argument out of range");
+#else
+#error "undefined os"
+#endif
 	}
 }
 
-__int64 Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
+int64_t Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
 {
 	if (Year >= 1 && Year <= 9999 && Month >= 1 && Month <= 12)
 	{
@@ -166,22 +194,43 @@ __int64 Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
 		}
 	}
 	// ToDo: ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw new Exception(L"argument out of range");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw new Exception("argument out of range");
+#else
+#error "undefined os"
+#endif
 }
-__int64 Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
+int64_t Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
 {
 	if (Hour >= 0 && Hour <= 24 && Minute >= 0 && Minute < 60 && Second >= 0 && Second < 60)
 	{
-		__int64 TotalSeconds = (__int64)Hour * 3600 + (__int64)Minute * 60 + (__int64)Second;
+		int64_t TotalSeconds = (int64_t)Hour * 3600 + (int64_t)Minute * 60 + (int64_t)Second;
 		if (TotalSeconds > DateTimeUtility::MaxSeconds || TotalSeconds < DateTimeUtility::MinSeconds)
 		{
 			// ToDo: ArgumentOutOfRangeException
-			throw Exception(L"argument out of range");
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+			throw new Exception(L"argument out of range");
+#elif defined(__ANDROID__)
+			// ToDo: cannot use 'throw' with exceptions disabled
+			//throw new Exception("argument out of range");
+#else
+#error "undefined os"
+#endif
 		}
 		return TotalSeconds * DateTimeUtility::TicksPerSecond;
 	}
 	// ToDo: ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw new Exception(L"argument out of range");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw new Exception("argument out of range");
+#else
+#error "undefined os"
+#endif
 }
 
 int Elysium::Core::DateTime::GetDatePart(DatePart Part) const

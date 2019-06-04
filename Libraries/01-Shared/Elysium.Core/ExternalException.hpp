@@ -9,6 +9,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
 #define ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
 
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "Exception.hpp"
 #endif
@@ -18,7 +20,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef _XSTRING_
-#include <xstring>
+//#include <xstring>
 #endif
 
 #pragma warning(disable : 4251)	// disable warning about str::string
@@ -47,7 +49,6 @@ namespace Elysium
 					void SetHResult(HRESULT ErrorCode);
 				private:
 					HRESULT _ErrorCode;
-					std::string _ErrorMessage;
 
 					//_com_error _COMError;
 					//char* _ErrorMessage = nullptr;
@@ -57,4 +58,5 @@ namespace Elysium
 		}
 	}
 }
+#endif
 #endif

@@ -9,7 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_URIPARSERTABLE
 #define ELYSIUM_CORE_URIPARSERTABLE
-
+/*
 #ifndef _MAP_
 #include <map>
 #endif
@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URISYNTAXFLAGS
 #include "UriSyntaxFlags.hpp"
 #endif
-/*
+
 using std::map;
 using std::string;
 

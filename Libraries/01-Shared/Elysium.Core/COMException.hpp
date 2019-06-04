@@ -9,6 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
 #define ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
 
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
 #include "ExternalException.hpp"
 #endif
@@ -34,4 +35,5 @@ namespace Elysium
 		}
 	}
 }
+#endif
 #endif

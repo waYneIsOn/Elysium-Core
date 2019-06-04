@@ -14,7 +14,13 @@ namespace Elysium
 {
 	namespace Core
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		enum class DatePart : long
+#elif defined(__ANDROID__)
+		enum class DatePart
+#else
+#error "undefined os"
+#endif
 		{
 			Year = 0,
 			DayOfYear = 1,

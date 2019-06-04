@@ -18,8 +18,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "Byte.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
+#ifndef _STDINT_H
+#include <cstdint>
 #endif
 
 namespace Elysium
@@ -30,7 +30,7 @@ namespace Elysium
 		{
 		public:
 			Guid(const byte B[16]);
-			Guid(const unsigned __int32 A, const unsigned __int16 B, const unsigned __int16 C, const byte* D[8]);
+			Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
 			~Guid();
 
 			static const Guid& Empty();
@@ -38,7 +38,7 @@ namespace Elysium
 			static Guid Parse(const char* Input);
 
 			const byte* ToByteArray() const;
-			std::string ToString() const;
+			//std::string ToString() const;
 		private:
 			byte _Data[16];
 

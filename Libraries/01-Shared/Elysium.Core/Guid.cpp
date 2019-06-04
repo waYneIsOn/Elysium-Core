@@ -1,20 +1,24 @@
 #include "Guid.hpp"
 
+#ifndef __midl
+#include <cstring>
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid::Guid();
+Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid();
 
 Elysium::Core::Guid::Guid(const byte B[16])
 {
 	memcpy(&_Data[0], &B[0], sizeof(byte) * 16);
 }
-Elysium::Core::Guid::Guid(const unsigned __int32 A, const unsigned __int16 B, const unsigned __int16 C, const byte* D[8])
+Elysium::Core::Guid::Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8])
 {
-	memcpy(&_Data[0], &A, sizeof(unsigned __int32));
-	memcpy(&_Data[4], &B, sizeof(unsigned __int16));
-	memcpy(&_Data[6], &C, sizeof(unsigned __int16));
+	memcpy(&_Data[0], &A, sizeof(uint32_t));
+	memcpy(&_Data[4], &B, sizeof(uint16_t));
+	memcpy(&_Data[6], &C, sizeof(uint16_t));
 	memcpy(&_Data[8], D[0], sizeof(byte) * 8);
 }
 Elysium::Core::Guid::~Guid()
@@ -27,13 +31,28 @@ const Elysium::Core::Guid & Elysium::Core::Guid::Empty()
 }
 Elysium::Core::Guid Elysium::Core::Guid::NewGuid()
 {
+	// ToDo:
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException();
+#else
+#error "undefined os"
+#endif
 }
 Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 {
 	if (Input == nullptr)
 	{	// ToDo: throw specific exception
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw Exception(L"ArgumentNullException: Input");
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw Exception("ArgumentNullException: Input");
+#else
+#error "undefined os"
+#endif
 	}
 
 	byte Data[16];
@@ -62,7 +81,15 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 		break;
 	default:
 		// ToDo: throw specific exception
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw Exception(L"FormatException: Input");
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw Exception("FormatException: Input");
+		break;
+#else
+#error "undefined os"
+#endif
 	}
 
 	return Guid(Data);
@@ -72,6 +99,7 @@ const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 {
 	return &_Data[0];
 }
+/*
 std::string Elysium::Core::Guid::ToString() const
 {
 	char Data[38] = "00000000-0000-0000-0000-000000000000";
@@ -95,6 +123,7 @@ std::string Elysium::Core::Guid::ToString() const
 	return std::string(&Data[0]);
 }
 
+*/
 Elysium::Core::Guid::Guid()
 {
 	memset(&_Data[0], 0x00, sizeof(byte) * 16);
@@ -102,7 +131,14 @@ Elysium::Core::Guid::Guid()
 
 void Elysium::Core::Guid::ParseN(const char * Input, byte * Data)
 {	// 00000000000000000000000000000000
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"ParseN");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("ParseN");
+#else
+#error "undefined os"
+#endif
 }
 void Elysium::Core::Guid::ParseD(const char * Input, byte * Data)
 {	// 00000000-0000-0000-0000-000000000000
@@ -125,15 +161,36 @@ void Elysium::Core::Guid::ParseD(const char * Input, byte * Data)
 }
 void Elysium::Core::Guid::ParseB(const char * Input, byte * Data)
 {	// {00000000-0000-0000-0000-000000000000}
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"ParseB");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("ParseB");
+#else
+#error "undefined os"
+#endif
 }
 void Elysium::Core::Guid::ParseP(const char * Input, byte * Data)
 {	// (00000000-0000-0000-0000-000000000000)
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"ParseP");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("ParseP");
+#else
+#error "undefined os"
+#endif
 }
 void Elysium::Core::Guid::ParseX(const char * Input, byte * Data)
 {	// {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException(L"ParseX");
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException("ParseX");
+#else
+#error "undefined os"
+#endif
 }
 
 char Elysium::Core::Guid::HexDigitToChar(char Input)
@@ -155,9 +212,9 @@ char Elysium::Core::Guid::HexDigitToChar(char Input)
 
 void Elysium::Core::Guid::ByteToHexDigit(byte Input, char* Chars)
 {
-	__int16 Result = Input;
-	__int16 Remainder;
-	__int16 Quotient;
+	int16_t Result = Input;
+	int16_t Remainder;
+	int16_t Quotient;
 
 	int i = 0;
 	do

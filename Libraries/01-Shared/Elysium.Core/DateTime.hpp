@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
+#ifndef _STDINT_H
+#include <cstdint>
+#endif
+
 #ifndef ELYSIUM_CORE_DATETIMEKIND
 #include "DateTimeKind.hpp"
 #endif
@@ -29,8 +33,8 @@ namespace Elysium
 		class EXPORT DateTime
 		{
 		public:
-			DateTime(__int64 Ticks);
-			DateTime(__int64 Ticks, DateTimeKind Kind);
+			DateTime(int64_t Ticks);
+			DateTime(int64_t Ticks, DateTimeKind Kind);
 			DateTime(int Year, int Month, int Day);
 			DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second);
 			DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second, int Millisecond);
@@ -44,7 +48,7 @@ namespace Elysium
 			static DateTime UtcNow();
 
 			DateTimeKind const GetKind() const;
-			__int64 const GetTicks() const;
+			int64_t const GetTicks() const;
 
 			//void GetDate(DateTime* Value) const;
 			void GetDay(int* Value) const;
@@ -68,12 +72,12 @@ namespace Elysium
 
 			static bool IsLeapYear(int Year);
 		private:
-			__int64 _Ticks;
+			int64_t _Ticks;
 			DateTimeKind _Kind;
 
 			// ...
-			static __int64 DateToTicks(int Year, int Month, int Day);
-			static __int64 TimeToTicks(int Hour, int Minute, int Second);
+			static int64_t DateToTicks(int Year, int Month, int Day);
+			static int64_t TimeToTicks(int Hour, int Minute, int Second);
 
 			// ...
 			int GetDatePart(DatePart Part) const;

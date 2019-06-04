@@ -94,7 +94,14 @@ ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 {
 	if (Index >= _Length)
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw IndexOutOfRangeException();
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw IndexOutOfRangeException();
+#else
+#error "undefined os"
+#endif
 	}
 
 	return _Data[Index];
@@ -113,7 +120,14 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 {
 	if (Result == nullptr)
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw ArgumentNullException(L"Result");
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw ArgumentNullException("Result");
+#else
+#error "undefined os"
+#endif
 	}
 
 	if (Result->_Data != nullptr)

@@ -10,11 +10,12 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_EXPORT
 #define ELYSIUM_CORE_EXPORT
 
-#if defined(__ANDROID__)
-#define EXPORT
-#elif defined(_WIN32)
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #define EXPORT __declspec(dllexport)
+#elif defined(__ANDROID__)
+#define EXPORT
 #else
 #error "undefined os"
 #endif
+
 #endif

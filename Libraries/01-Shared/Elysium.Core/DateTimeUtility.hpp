@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATETIMEUTILITY
 #define ELYSIUM_CORE_DATETIMEUTILITY
 
+#ifndef _STDINT_H
+#include <cstdint>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -18,11 +22,11 @@ namespace Elysium
 		{
 		public:
 			// number of 100 nanosecond ticks per time unit 
-			static const __int64 TicksPerMillisecond = 10000;
-			static const __int64 TicksPerSecond = 10000000;		// TicksPerMillisecond * 1000;
-			static const __int64 TicksPerMinute = 600000000;	// TicksPerSecond * 60;
-			static const __int64 TicksPerHour = 36000000000;	// TicksPerMinute * 60;
-			static const __int64 TicksPerDay = 864000000000;	// TicksPerHour * 24;
+			static const int64_t TicksPerMillisecond = 10000;
+			static const int64_t TicksPerSecond = 10000000;		// TicksPerMillisecond * 1000;
+			static const int64_t TicksPerMinute = 600000000;	// TicksPerSecond * 60;
+			static const int64_t TicksPerHour = 36000000000;	// TicksPerMinute * 60;
+			static const int64_t TicksPerDay = 864000000000;	// TicksPerHour * 24;
 
 			// number of milliseconds per time unit 
 			static const int MillisecondsPerSecond = 1000;
@@ -43,17 +47,17 @@ namespace Elysium
 			static const int DaysTo10000 = 3652059;	// DaysPer400Years * 25 - 366;
 
 			// ...
-			static const __int64 MinTicks = 0;
-			static const __int64 MaxTicks = 3155378975999999999;	// DaysTo10000 * TicksPerDay - 1;
-			static const __int64 MinMilliseconds = -922337203685477; // 9223372036854775808 / TicksPerMillisecond * -1;
-			static const __int64 MaxMilliseconds = 922337203685477; // 9223372036854775807 / TicksPerMillisecond;
+			static const int64_t MinTicks = 0;
+			static const int64_t MaxTicks = 3155378975999999999;	// DaysTo10000 * TicksPerDay - 1;
+			static const int64_t MinMilliseconds = -922337203685477; // 9223372036854775808 / TicksPerMillisecond * -1;
+			static const int64_t MaxMilliseconds = 922337203685477; // 9223372036854775807 / TicksPerMillisecond;
 
 			static const int DaysToMonth365[13];
 			static const int DaysToMonth366[13];
 
 			// ...
-			static const __int64 MinSeconds = -922337203685; // 9223372036854775808 / TicksPerSecond * -1;
-			static const __int64 MaxSeconds = 922337203685; // 9223372036854775807 / TicksPerSecond;
+			static const int64_t MinSeconds = -922337203685; // 9223372036854775808 / TicksPerSecond * -1;
+			static const int64_t MaxSeconds = 922337203685; // 9223372036854775807 / TicksPerSecond;
 
 			// ...
 			static const double DaysPerTick;

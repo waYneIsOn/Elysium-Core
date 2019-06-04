@@ -8,15 +8,15 @@
 #include "DateTimeUtility.hpp"
 #endif
 
-Elysium::Core::TimeSpan::TimeSpan(__int64 Ticks)
+Elysium::Core::TimeSpan::TimeSpan(int64_t Ticks)
 	: _Ticks(Ticks)
 {
 }
-Elysium::Core::TimeSpan::TimeSpan(__int32 Hours, __int32 Minutes, __int32 Seconds)
+Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds)
 	: Elysium::Core::TimeSpan::TimeSpan(TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds))
 {
 }
-Elysium::Core::TimeSpan::TimeSpan(__int32 Hours, __int32 Minutes, __int32 Seconds, __int32 Milliseconds)
+Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds)
 	: Elysium::Core::TimeSpan::TimeSpan(TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds) + TimeSpan::FromTicks(Milliseconds))
 {
 }
@@ -49,12 +49,12 @@ Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromSeconds(double Value)
 {
 	return Interval(Value, DateTimeUtility::MillisecondsPerSecond);
 }
-Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromTicks(__int64 Value)
+Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromTicks(int64_t Value)
 {
 	return TimeSpan(Value);
 }
 
-__int64 Elysium::Core::TimeSpan::GetTicks() const
+int64_t Elysium::Core::TimeSpan::GetTicks() const
 {
 	return _Ticks;
 }
@@ -187,5 +187,5 @@ Elysium::Core::TimeSpan Elysium::Core::TimeSpan::Interval(double Value, int Scal
 	double IntermediateValue = Value * Scale;
 	double Milliseconds = IntermediateValue + (Value >= 0 ? 0.5 : -0.5);
 
-	return TimeSpan((__int64)Milliseconds * DateTimeUtility::TicksPerMillisecond);
+	return TimeSpan((int64_t)Milliseconds * DateTimeUtility::TicksPerMillisecond);
 }

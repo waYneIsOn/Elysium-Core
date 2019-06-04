@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
+#ifndef _STDINT_H
+#include <cstdint>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -21,9 +25,9 @@ namespace Elysium
 		class EXPORT TimeSpan
 		{
 		public:
-			TimeSpan(__int64 Ticks);
-			TimeSpan(__int32 Hours, __int32 Minutes, __int32 Seconds);
-			TimeSpan(__int32 Hours, __int32 Minutes, __int32 Seconds, __int32 Milliseconds);
+			TimeSpan(int64_t Ticks);
+			TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds);
+			TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds);
 			TimeSpan(const TimeSpan& Source);
 			~TimeSpan();
 
@@ -33,9 +37,9 @@ namespace Elysium
 			static TimeSpan FromHours(double Value);
 			static TimeSpan FromMinutes(double Value);
 			static TimeSpan FromSeconds(double Value);
-			static TimeSpan FromTicks(__int64 Value);
+			static TimeSpan FromTicks(int64_t Value);
 
-			__int64 GetTicks() const;
+			int64_t GetTicks() const;
 
 			void GetDays(int* Value) const;
 			void GetHours(int* Value) const;
@@ -66,7 +70,7 @@ namespace Elysium
 
 			TimeSpan& operator+=(const TimeSpan& Other);
 		private:
-			__int64 _Ticks;
+			int64_t _Ticks;
 
 			static TimeSpan Interval(double Value, int Scale);
 		};

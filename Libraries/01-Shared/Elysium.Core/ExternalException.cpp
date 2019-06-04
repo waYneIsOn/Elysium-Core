@@ -1,5 +1,6 @@
 #include "ExternalException.hpp"
 
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _INC_STDLIB
 #include <stdlib.h>
 #endif
@@ -74,7 +75,7 @@ void Elysium::Core::Runtime::InteropServices::ExternalException::SetHResult(HRES
 	_com_error COMError = ErrorCode;
 	//IErrorInfo* ErrorInfo = COMError.ErrorInfo();
 
-	std::wstring SourceMessage = COMError.ErrorMessage();
+	//std::wstring SourceMessage = COMError.ErrorMessage();
 	//SourceMessage.to
 
 	/*
@@ -86,3 +87,4 @@ void Elysium::Core::Runtime::InteropServices::ExternalException::SetHResult(HRES
 	wcstombs_s(&ConvertedChars, Target, TargetSize, Source, SourceSize);
 	*/
 }
+#endif
