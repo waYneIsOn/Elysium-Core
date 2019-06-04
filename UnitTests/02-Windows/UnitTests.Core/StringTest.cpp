@@ -108,10 +108,7 @@ namespace UnitTestsCore
 
 			Elysium::Core::String OutputString;
 			DefaultEncoding->GetString(&OutputBytes[0], 3, &OutputString);
-
 			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
-
-			int x = 345;
 		}
 	private:
 		void InputString(const Elysium::Core::String& Value)

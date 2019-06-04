@@ -14,14 +14,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "IList.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-#include "IndexOutOfRangeException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_OUTOFMEMORYEXCEPTION
-#include "OutOfMemoryException.hpp"
-#endif
-
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif
@@ -30,12 +22,20 @@ Copyright (C) 2017 waYne (CAM)
 #include <vcruntime_string.h>	// memcpy
 #endif
 
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
-#endif
-
 #ifndef _INC_LIMITS
 #include <limits>
+#endif
+
+#ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
+#include "IndexOutOfRangeException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_OUTOFMEMORYEXCEPTION
+#include "OutOfMemoryException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "NotImplementedException.hpp"
 #endif
 
 namespace Elysium
@@ -52,7 +52,7 @@ namespace Elysium
 				public:
 					List();
 					List(size_t Capacity);
-					//List(std::initializer_list<T> InitializerList);
+					List(std::initializer_list<T> InitializerList);
 					List(const List<T>& Source);
 					~List();
 
@@ -65,6 +65,7 @@ namespace Elysium
 					void SetCapacity(size_t Value);
 
 					// operators
+					virtual List<T>& operator=(const List<T>& Value);
 					virtual T& operator[](size_t Index) const override;
 
 					// methods
@@ -97,7 +98,6 @@ namespace Elysium
 					_Data((T*)malloc(sizeof(T) * _Capacity)),
 					_NumberOfElements(_Capacity)
 				{ }
-				/*
 				template<class T>
 				inline List<T>::List(std::initializer_list<T> InitializerList)
 					: _Capacity(InitializerList.size()),
@@ -105,12 +105,12 @@ namespace Elysium
 					_NumberOfElements(_Capacity)
 				{
 					size_t i = 0;
-					for (std::initializer_list<T>::iterator Iterator = InitializerList.begin(); Iterator != InitializerList.end(); ++Iterator)
+					typename std::initializer_list<T>::iterator Iterator;
+					for (Iterator = InitializerList.begin(); Iterator < InitializerList.end(); ++Iterator)
 					{
 						_Data[i++] = T(*Iterator);
 					}
 				}
-				*/
 				template<class T>
 				inline List<T>::List(const List<T>& Source)
 					: _Capacity(Source._Capacity),
@@ -125,7 +125,6 @@ namespace Elysium
 				template<class T>
 				inline List<T>::~List()
 				{
-					//free(_Data);
 					delete[] _Data;
 				}
 
@@ -151,6 +150,18 @@ namespace Elysium
 					Resize(Value);
 				}
 
+				template<class T>
+				inline List<T>& List<T>::operator=(const List<T>& Value)
+				{
+					if (this != &Value)
+					{	
+						SetCapacity(Value._Capacity);
+						_NumberOfElements = Value._NumberOfElements;
+						memcpy(&_Data[0], &Value._Data[0], sizeof(T) * (_NumberOfElements));	// ToDo: I think, in this case we can actually use memcpy. if this turns out to be wrong, iterate and use the copy constructor!
+					}
+
+					return *this;
+				}
 				template<class T>
 				inline T & List<T>::operator[](size_t Index) const
 				{

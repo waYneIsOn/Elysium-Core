@@ -70,11 +70,9 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 	return (const String&)_EncodingName;
 }
 
-#include <xstring>
 size_t Elysium::Core::Text::Encoding::GetBytes(const String * Input, const size_t CharIndex, const size_t CharCount, Elysium::Core::Collections::Generic::List<byte>* Output) const
 {
 #ifdef UNICODE
-	// ToDo: use _CodePage instead of CP_UTF8?
 	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0);
 	char* ConvertedBytes = new char[Length];
 	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
@@ -98,12 +96,14 @@ size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t
 	}
 
 	// ToDo: this only works if the last byte is 0x00 ie. \0 atm
-	// ToDo: use _CodePage instead of CP_UTF8?
 	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, -1, 0, 0);
-	ElysiumChar* ConvertedString = new ElysiumChar[Length];
-	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, -1, &ConvertedString[0], Length);
-	*Output = ConvertedString;
-	delete[] ConvertedString;
+	Output->_Length = (size_t)Length;
+	if (Output->_Data != nullptr)
+	{
+		delete[] Output->_Data;
+	}
+	Output->_Data = new wchar_t[Length];
+	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, -1, Output->_Data, Length);
 
 	return Length;
 #else

@@ -28,8 +28,14 @@ namespace Elysium
 {
 	namespace Core
 	{
+		namespace Text
+		{
+			class Encoding;
+		}
+
 		class EXPORT String : public Elysium::Core::Collections::IEnumerable<ElysiumChar>
 		{
+			friend class Text::Encoding;
 		public:
 			String();
 			String(size_t Length);

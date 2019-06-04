@@ -41,3 +41,13 @@
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debug
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin
+
+/Libraries/04-Android/Elysium.Core/Debugbin
+/Libraries/04-Android/Elysium.Core/Debugbin
+/Libraries/04-Android/Elysium.Core/Releasebin
+
+/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM/Debug
+/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/Debugbin
+
+/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/ARM/Debug
+/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/Debugbin

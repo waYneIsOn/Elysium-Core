@@ -75,8 +75,6 @@ const ElysiumChar * Elysium::Core::String::GetCharArray() const
 
 Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Value)
 {
-	//if (this != &Value)
-	//{ }
 	if (_Data != nullptr)
 	{
 		delete[] _Data;
