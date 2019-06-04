@@ -37,7 +37,7 @@ size_t Elysium::Core::IO::MemoryStream::GetLength() const
 {
 	return _Buffer.GetCount();
 }
-__int64 Elysium::Core::IO::MemoryStream::GetPosition() const
+int64_t Elysium::Core::IO::MemoryStream::GetPosition() const
 {
 	return Elysium::Core::IO::Stream::GetPosition();
 }
@@ -64,11 +64,18 @@ void Elysium::Core::IO::MemoryStream::SetLength(size_t Value)
 	}
 	*/
 }
-void Elysium::Core::IO::MemoryStream::SetPosition(__int64 Position)
+void Elysium::Core::IO::MemoryStream::SetPosition(int64_t Position)
 {
 	if (!GetCanSeek())
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw NotSupportedException();
+#else
+#error "undefined os"
+#endif
 	}
 
 	_CurrentPosition = (size_t)Position;
@@ -78,7 +85,14 @@ void Elysium::Core::IO::MemoryStream::SetCapacity(size_t Capacity)
 {
 	if (Capacity > UINT_MAX)
 	{	// ToDo: throw a specific ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw Exception(L"ArgumentOutOfRangeException");
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw Exception("ArgumentOutOfRangeException");
+#else
+#error "undefined os"
+#endif
 	}
 
 	_Buffer.SetCapacity(Capacity);
@@ -90,18 +104,32 @@ void Elysium::Core::IO::MemoryStream::Close()
 void Elysium::Core::IO::MemoryStream::Flush()
 {
 }
-void Elysium::Core::IO::MemoryStream::Seek(const __int64 Offset, const SeekOrigin Origin)
+void Elysium::Core::IO::MemoryStream::Seek(const int64_t Offset, const SeekOrigin Origin)
 {
 	if (!GetCanSeek())
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw NotSupportedException();
+#else
+#error "undefined os"
+#endif
 	}
 }
 int Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const int Offset, const int Count)
 {
 	if (!GetCanRead())
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw NotSupportedException();
+#else
+#error "undefined os"
+#endif
 	}
 
 	int BytesToRead = _Buffer.GetCount() - _CurrentPosition;
@@ -134,7 +162,14 @@ void Elysium::Core::IO::MemoryStream::Write(const BYTE * Buffer, const int Offse
 {
 	if (!GetCanWrite())
 	{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
+#elif defined(__ANDROID__)
+		// ToDo: cannot use 'throw' with exceptions disabled
+		//throw NotSupportedException();
+#else
+#error "undefined os"
+#endif
 	}
 
 	_Buffer.AddRange(Buffer, Offset, Count);

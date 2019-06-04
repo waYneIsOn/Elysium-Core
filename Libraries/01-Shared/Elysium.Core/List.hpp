@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef __midl
-#include <vcruntime_string.h>	// memcpy
+#include <cstring>
 #endif
 
 #ifndef _INC_LIMITS
@@ -167,7 +167,14 @@ namespace Elysium
 				{
 					if (Index >= _NumberOfElements)
 					{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw IndexOutOfRangeException();
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw IndexOutOfRangeException();
+#else
+#error "undefined os"
+#endif
 					}
 
 					return _Data[Index];
@@ -243,14 +250,28 @@ namespace Elysium
 						}
 					}
 					// ToDo: throw ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 					throw Exception(L"ArgumentOutOfRangeException");
+#elif defined(__ANDROID__)
+					// ToDo: cannot use 'throw' with exceptions disabled
+					//throw Exception(L"ArgumentOutOfRangeException");
+#else
+#error "undefined os"
+#endif
 				}
 				template<class T>
 				inline void List<T>::Insert(size_t Index, const T & Item)
 				{
 					if (Index > _NumberOfElements)
 					{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw IndexOutOfRangeException();
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw IndexOutOfRangeException();
+#else
+#error "undefined os"
+#endif
 					}
 
 					// resize if required
@@ -278,7 +299,14 @@ namespace Elysium
 				{
 					if (Index >= _NumberOfElements)
 					{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw IndexOutOfRangeException();
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw IndexOutOfRangeException();
+#else
+#error "undefined os"
+#endif
 					}
 
 					// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
@@ -298,11 +326,25 @@ namespace Elysium
 				{
 					if (DesiredMinimumSize < _NumberOfElements)
 					{	// ToDo: throw a specific ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw Exception(L"ArgumentOutOfRangeException");
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw Exception("ArgumentOutOfRangeException");
+#else
+#error "undefined os"
+#endif
 					}
 					if (DesiredMinimumSize > INT_MAX)
 					{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw OutOfMemoryException();
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw OutOfMemoryException();
+#else
+#error "undefined os"
+#endif
 					}
 
 					if (DesiredMinimumSize > _Capacity)
@@ -338,11 +380,25 @@ namespace Elysium
 				{
 					if (DesiredMinimumSize < _NumberOfElements)
 					{	// ToDo: throw a specific ArgumentOutOfRangeException
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw Exception(L"ArgumentOutOfRangeException");
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw Exception("ArgumentOutOfRangeException");
+#else
+#error "undefined os"
+#endif
 					}
 					if (DesiredMinimumSize > INT_MAX)
 					{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 						throw OutOfMemoryException();
+#elif defined(__ANDROID__)
+						// ToDo: cannot use 'throw' with exceptions disabled
+						//throw OutOfMemoryException();
+#else
+#error "undefined os"
+#endif
 					}
 
 					if (DesiredMinimumSize > _Capacity)

@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "SeekOrigin.hpp"
 #endif
 
+#ifndef _STDINT_H
+#include <cstdint>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -44,13 +48,13 @@ namespace Elysium
 				virtual bool GetCanWrite() const = 0;
 
 				virtual size_t GetLength() const = 0;
-				virtual __int64 GetPosition() const;
+				virtual int64_t GetPosition() const;
 				virtual int GetReadTimeout() const;
 				virtual int GetWriteTimeout() const;
 
 				// properties - setter
 				virtual void SetLength(size_t Value) = 0;
-				virtual void SetPosition(__int64 Position) = 0;
+				virtual void SetPosition(int64_t Position) = 0;
 				virtual void SetReadTimeout(int Value);
 				virtual void SetWriteTimeout(int Value);
 
@@ -59,7 +63,7 @@ namespace Elysium
 				virtual void CopyTo(Stream* Destination, const size_t BufferSize);
 				virtual void Close() = 0;
 				virtual void Flush() = 0;
-				virtual void Seek(const __int64 Offset, const SeekOrigin Origin) = 0;
+				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) = 0;
 				virtual int Read(byte* Buffer, const int Offset, const int Count) = 0;
 				virtual void Write(const byte* Buffer, const int Offset, const int Count) = 0;
 			protected:

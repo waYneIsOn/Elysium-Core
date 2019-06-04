@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/List.hpp"
 #endif
 
+#ifndef _STDINT_H
+#include <cstdint>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -37,7 +41,7 @@ namespace Elysium
 				virtual bool GetCanWrite() const override;
 
 				virtual size_t GetLength() const override;
-				virtual __int64 GetPosition() const override;
+				virtual int64_t GetPosition() const override;
 				virtual int GetReadTimeout() const override;
 				virtual int GetWriteTimeout() const override;
 
@@ -45,14 +49,14 @@ namespace Elysium
 
 				// properties - setter
 				virtual void SetLength(size_t Value) override;
-				virtual void SetPosition(__int64 Position) override;
+				virtual void SetPosition(int64_t Position) override;
 
 				virtual void SetCapacity(size_t Capacity);
 
 				// methods
 				virtual void Close() override;
 				virtual void Flush() override;
-				virtual void Seek(const __int64 Offset, const SeekOrigin Origin) override;
+				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
 				virtual int Read(BYTE* Buffer, const int Offset, const int Count) override;
 				virtual void Write(const BYTE* Buffer, const int Offset, const int Count) override;
 			private:

@@ -20,13 +20,27 @@ void Elysium::Core::Threading::Thread::GetCurrentCulture(CultureInfo * Value) co
 void Elysium::Core::Threading::Thread::GetThreadId(unsigned int * Value) const
 {
 	std::thread::id NativeId = _NativeThread.get_id();
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException();
+#else
+#error "undefined os"
+#endif
 }
 
 void Elysium::Core::Threading::Thread::GetCurrentThreadId(unsigned int * Value)
 {
 	std::thread::id NativeId = std::this_thread::get_id();
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
+#elif defined(__ANDROID__)
+	// ToDo: cannot use 'throw' with exceptions disabled
+	//throw NotImplementedException();
+#else
+#error "undefined os"
+#endif
 }
 
 void Elysium::Core::Threading::Thread::Join()
