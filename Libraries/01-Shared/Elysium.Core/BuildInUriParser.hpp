@@ -9,7 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_BUILDINURIPARSER
 #define ELYSIUM_CORE_BUILDINURIPARSER
-
+/*
 #ifndef ELYSIUM_CORE_URIPARSER
 #include "UriParser.hpp"
 #endif
@@ -25,4 +25,5 @@ namespace Elysium
 		};
 	}
 }
+*/
 #endif

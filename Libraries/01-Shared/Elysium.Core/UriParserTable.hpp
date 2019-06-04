@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URISYNTAXFLAGS
 #include "UriSyntaxFlags.hpp"
 #endif
-
+/*
 using std::map;
 using std::string;
 
@@ -41,5 +41,5 @@ namespace Elysium
 			map<string, UriParser*> Map;
 		};
 	}
-}
+}*/
 #endif

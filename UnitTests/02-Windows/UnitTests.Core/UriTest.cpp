@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-
+/*
 #ifndef ELYSIUM_CORE_URI
 #include "../../../Libraries/01-Shared/Elysium.Core/Uri.hpp"
 #endif
@@ -99,7 +99,7 @@ namespace UnitTestsCore
 			Uri _TestUriTel = Uri("tel:+1-816-555-1212");
 			Uri _TestUriTelNet = Uri("telnet://192.0.2.16:80/");
 			Uri _TestUriUrn = Uri("urn:oasis:names:specification:docbook:dtd:xml:4.1.2");
-			*/
+			*-/
 			Assert::AreEqual("www.google.com", ((string)_TestUriHttps.GetHost()).c_str());
 			Assert::AreEqual("www.google.com", ((string)_TestUriFtp.GetHost()).c_str());
 			Assert::AreEqual("mail.com", ((string)_TestUriMailTo.GetHost()).c_str());
@@ -188,3 +188,4 @@ namespace UnitTestsCore
 		Uri _TestUriUrn = Uri("urn:oasis:names:specification:docbook:dtd:xml:4.1.2");
 	};
 }
+*/

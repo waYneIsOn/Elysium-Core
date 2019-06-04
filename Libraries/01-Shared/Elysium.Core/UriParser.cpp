@@ -1,5 +1,5 @@
 #include "UriParser.hpp"
-
+/*
 #ifndef ELYSIUM_CORE_URIPARSERTABLE
 #include "UriParserTable.hpp"
 #endif
@@ -105,7 +105,7 @@ std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Componen
 	{
 
 	}
-	*/
+	*-/
 	case Elysium::Core::UriComponents::AbsoluteUri:
 	{
 		size_t OriginalUriLength = Source->length();
@@ -116,7 +116,7 @@ std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Componen
 	{
 
 	}
-	*/
+	*-/
 	case Elysium::Core::UriComponents::StrongAuthority:
 	{
 		size_t OriginalUriLength = Source->length();
@@ -162,8 +162,9 @@ std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Componen
 	{
 
 	}
-	*/
+	*-/
 	default:
 		throw NotImplementedException((L"unknown component " + std::to_wstring((int)Component)).c_str());
 	}
 }
+*/

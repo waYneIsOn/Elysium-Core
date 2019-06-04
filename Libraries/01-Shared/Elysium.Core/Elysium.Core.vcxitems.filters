@@ -73,6 +73,7 @@
       <Filter>Globalization</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -106,5 +107,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
   </ItemGroup>
 </Project>

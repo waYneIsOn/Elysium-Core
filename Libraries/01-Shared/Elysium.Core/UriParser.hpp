@@ -9,7 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_URIPARSER
 #define ELYSIUM_CORE_URIPARSER
-
+/*
 #ifndef _XSTRING_
 #include <string>
 #include <string_view>
@@ -61,4 +61,5 @@ namespace Elysium
 		};
 	}
 }
+*/
 #endif

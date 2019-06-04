@@ -1,5 +1,5 @@
 #include "Uri.hpp"
-
+/*
 #ifndef ELYSIUM_CORE_URIPARSER
 #include "UriParser.hpp"
 #endif
@@ -87,7 +87,7 @@ void Elysium::Core::Uri::Parse()
 		_PathView = AccordingUriParser->ParseComponent(UriComponents::Path, &_OriginalString);
 		_QueryView = AccordingUriParser->ParseComponent(UriComponents::Query, &_OriginalString);
 		_FragmentView = AccordingUriParser->ParseComponent(UriComponents::Fragment, &_OriginalString);
-		*/
+		*-/
 	}
 
 
@@ -224,5 +224,6 @@ void Elysium::Core::Uri::Parse()
 	{
 		_FragmentView = string_view(&(_OriginalString.c_str()[RelativeIndexOfFragmentStart + 1]));
 	}
-	*/
+	*-/
 }
+*/
