@@ -24,62 +24,27 @@ int64_t Elysium::Core::IO::Stream::GetPosition() const
 {
 	if (!GetCanSeek())
 	{
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw NotSupportedException();
-#else
-#error "undefined os"
-#endif
 	}
 
 	return 0;
 }
 int Elysium::Core::IO::Stream::GetReadTimeout() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw InvalidOperationException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw InvalidOperationException();
-#else
-#error "undefined os"
-#endif
 }
 int Elysium::Core::IO::Stream::GetWriteTimeout() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw InvalidOperationException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw InvalidOperationException();
-#else
-#error "undefined os"
-#endif
 }
 
 void Elysium::Core::IO::Stream::SetReadTimeout(int Value)
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw InvalidOperationException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw InvalidOperationException();
-#else
-#error "undefined os"
-#endif
 }
 void Elysium::Core::IO::Stream::SetWriteTimeout(int Value)
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw InvalidOperationException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw InvalidOperationException();
-#else
-#error "undefined os"
-#endif
 }
 
 void Elysium::Core::IO::Stream::CopyTo(Stream * Destination)
@@ -91,24 +56,18 @@ void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t Buffer
 {
 	if (Destination == nullptr)
 	{	// ToDo: throw specific ArgumentNullException
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 		throw Exception(L"ArgumentNullException");
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw Exception("ArgumentNullException");
 #else
-#error "undefined os"
+		throw Exception("ArgumentNullException");
 #endif
 	}
 	if (BufferSize > INT_MAX)
 	{	// ToDo: throw specific ArgumentOutOfRangeException
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 		throw Exception(L"ArgumentOutOfRangeException");
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw Exception("ArgumentOutOfRangeException");
 #else
-#error "undefined os"
+		throw Exception("ArgumentOutOfRangeException");
 #endif
 	}
 

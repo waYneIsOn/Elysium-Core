@@ -19,10 +19,6 @@ Copyright (C) 2017 waYne (CAM)
 #include <comdef.h>
 #endif
 
-#ifndef _XSTRING_
-//#include <xstring>
-#endif
-
 #pragma warning(disable : 4251)	// disable warning about str::string
 
 namespace Elysium

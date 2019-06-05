@@ -25,6 +25,7 @@ Elysium::Core::String::String()
 Elysium::Core::String::String(size_t Length)
 	: _Length(Length), _Data(new ElysiumChar[_Length + sizeof(ElysiumChar)])
 {
+
 }
 Elysium::Core::String::String(const ElysiumChar* Value)
 	: Elysium::Core::String(Value == nullptr ? 0 : ElysiumStringLength(Value))
@@ -90,18 +91,31 @@ Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Val
 	
 	return *this;
 }
+Elysium::Core::String & Elysium::Core::String::operator=(const String & Value)
+{
+	if (&Value != this)
+	{
+		if (_Data != nullptr)
+		{
+			delete[] _Data;
+		}
+		_Length = Value._Length;
+		_Data = new ElysiumChar[_Length + sizeof(ElysiumChar)];
+		memcpy(_Data, Value._Data, _Length * sizeof(ElysiumChar));
+#ifdef UNICODE
+		_Data[_Length] = L'\0';
+#else
+		_Data[_Length] = '\0';
+#endif 
+	}
+
+	return *this;
+}
 ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 {
 	if (Index >= _Length)
 	{
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw IndexOutOfRangeException();
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw IndexOutOfRangeException();
-#else
-#error "undefined os"
-#endif
 	}
 
 	return _Data[Index];
@@ -120,13 +134,10 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 {
 	if (Result == nullptr)
 	{
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 		throw ArgumentNullException(L"Result");
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw ArgumentNullException("Result");
 #else
-#error "undefined os"
+		throw ArgumentNullException("Result");
 #endif
 	}
 

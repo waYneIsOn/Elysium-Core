@@ -32,26 +32,16 @@ const Elysium::Core::Guid & Elysium::Core::Guid::Empty()
 Elysium::Core::Guid Elysium::Core::Guid::NewGuid()
 {
 	// ToDo:
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 {
 	if (Input == nullptr)
 	{	// ToDo: throw specific exception
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 		throw Exception(L"ArgumentNullException: Input");
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw Exception("ArgumentNullException: Input");
 #else
-#error "undefined os"
+		throw Exception("ArgumentNullException: Input");
 #endif
 	}
 
@@ -81,14 +71,10 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 		break;
 	default:
 		// ToDo: throw specific exception
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 		throw Exception(L"FormatException: Input");
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw Exception("FormatException: Input");
-		break;
 #else
-#error "undefined os"
+		throw Exception("FormatException: Input");
 #endif
 	}
 
@@ -99,9 +85,14 @@ const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 {
 	return &_Data[0];
 }
-/*
-std::string Elysium::Core::Guid::ToString() const
+void Elysium::Core::Guid::ToString(String * Output) const
 {
+#ifdef UNICODE
+	throw NotImplementedException(L"void Elysium::Core::Guid::ToString(String * Output) const");
+#else
+	throw NotImplementedException("void Elysium::Core::Guid::ToString(String * Output) const");
+#endif
+	/*
 	char Data[38] = "00000000-0000-0000-0000-000000000000";
 	ByteToHexDigit(_Data[3], &Data[0]);
 	ByteToHexDigit(_Data[2], &Data[2]);
@@ -119,11 +110,9 @@ std::string Elysium::Core::Guid::ToString() const
 	ByteToHexDigit(_Data[13], &Data[30]);
 	ByteToHexDigit(_Data[14], &Data[32]);
 	ByteToHexDigit(_Data[15], &Data[34]);
-
-	return std::string(&Data[0]);
+	*/
 }
 
-*/
 Elysium::Core::Guid::Guid()
 {
 	memset(&_Data[0], 0x00, sizeof(byte) * 16);
@@ -131,13 +120,10 @@ Elysium::Core::Guid::Guid()
 
 void Elysium::Core::Guid::ParseN(const char * Input, byte * Data)
 {	// 00000000000000000000000000000000
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"ParseN");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("ParseN");
 #else
-#error "undefined os"
+	throw NotImplementedException("ParseN");
 #endif
 }
 void Elysium::Core::Guid::ParseD(const char * Input, byte * Data)
@@ -161,35 +147,26 @@ void Elysium::Core::Guid::ParseD(const char * Input, byte * Data)
 }
 void Elysium::Core::Guid::ParseB(const char * Input, byte * Data)
 {	// {00000000-0000-0000-0000-000000000000}
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"ParseB");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("ParseB");
 #else
-#error "undefined os"
+	throw NotImplementedException("ParseB");
 #endif
 }
 void Elysium::Core::Guid::ParseP(const char * Input, byte * Data)
 {	// (00000000-0000-0000-0000-000000000000)
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"ParseP");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("ParseP");
 #else
-#error "undefined os"
+	throw NotImplementedException("ParseP");
 #endif
 }
 void Elysium::Core::Guid::ParseX(const char * Input, byte * Data)
 {	// {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"ParseX");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("ParseX");
 #else
-#error "undefined os"
+	throw NotImplementedException("ParseX");
 #endif
 }
 

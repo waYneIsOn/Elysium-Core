@@ -35,93 +35,37 @@ Elysium::Core::IO::FileStream::~FileStream()
 
 bool Elysium::Core::IO::FileStream::GetCanRead() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 	//return _Access | FileAccess::Read || _Access | FileAccess::ReadWrite;
 }
 bool Elysium::Core::IO::FileStream::GetCanSeek() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 bool Elysium::Core::IO::FileStream::GetCanTimeout() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 bool Elysium::Core::IO::FileStream::GetCanWrite() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 
 size_t Elysium::Core::IO::FileStream::GetLength() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 int64_t Elysium::Core::IO::FileStream::GetPosition() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 int Elysium::Core::IO::FileStream::GetReadTimeout() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 int Elysium::Core::IO::FileStream::GetWriteTimeout() const
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 
 void Elysium::Core::IO::FileStream::SetLength(size_t Value)
@@ -134,25 +78,11 @@ void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
 }
 void Elysium::Core::IO::FileStream::SetReadTimeout(int Value)
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 void Elysium::Core::IO::FileStream::SetWriteTimeout(int Value)
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	throw NotImplementedException();
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException();
-#else
-#error "undefined os"
-#endif
 }
 
 void Elysium::Core::IO::FileStream::Close()
@@ -170,14 +100,7 @@ int Elysium::Core::IO::FileStream::Read(byte * Buffer, int Offset, int Count)
 {
 	if (!_NativeStream.is_open())
 	{
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw NotSupportedException();
-#else
-#error "undefined os"
-#endif
 	}
 
 	// ToDo: this simple cast doesn't seem right!
@@ -191,14 +114,7 @@ void Elysium::Core::IO::FileStream::Write(const byte * Buffer, int Offset, int C
 {
 	if (!_NativeStream.is_open())
 	{
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		throw NotSupportedException();
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw NotSupportedException();
-#else
-#error "undefined os"
-#endif
 	}
 
 	// ToDo: this simple cast doesn't seem right!

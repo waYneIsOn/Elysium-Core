@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Export.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -25,9 +29,10 @@ namespace Elysium
 			CultureInfo(int Culture);
 			~CultureInfo();
 
-			int GetLCID();
+			void GetName(String* Output) const;
+			int GetLCID() const;
 		private:
-			int _Culture;
+			int _Culture;	// locale id (LCID)
 		};
 	}
 }

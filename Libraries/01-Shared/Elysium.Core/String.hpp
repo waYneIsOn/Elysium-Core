@@ -50,6 +50,7 @@ namespace Elysium
 
 			// operators
 			virtual String& operator=(const ElysiumChar* Value);
+			virtual String& operator=(const String& Value);
 			virtual ElysiumChar& operator[](size_t Index) const;
 
 			// ...

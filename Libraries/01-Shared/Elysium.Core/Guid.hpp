@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <cstdint>
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -38,6 +42,7 @@ namespace Elysium
 			static Guid Parse(const char* Input);
 
 			const byte* ToByteArray() const;
+			void ToString(String* Output) const;
 			//std::string ToString() const;
 		private:
 			byte _Data[16];

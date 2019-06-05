@@ -47,36 +47,27 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
 	// UtcNow.ToLocalTime()
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Now");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Now");
 #else
-#error "undefined os"
+	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Now");
 #endif
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Today");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Today");
 #else
-#error "undefined os"
+	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Today");
 #endif
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow()
 {
 	//return DateTime(std::chrono::utc_clock::now().time_since_epoch().count(), DateTimeKind::Utc);
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
 #else
-#error "undefined os"
+	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
 #endif
 }
 
@@ -170,13 +161,10 @@ bool Elysium::Core::DateTime::IsLeapYear(int Year)
 	}
 	else
 	{	// ToDo: ArgumentOutOfRangeException
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 		throw new Exception(L"argument out of range");
-#elif defined(__ANDROID__)
-		// ToDo: cannot use 'throw' with exceptions disabled
-		//throw new Exception("argument out of range");
 #else
-#error "undefined os"
+		throw new Exception("argument out of range");
 #endif
 	}
 }
@@ -194,13 +182,10 @@ int64_t Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
 		}
 	}
 	// ToDo: ArgumentOutOfRangeException
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw new Exception(L"argument out of range");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw new Exception("argument out of range");
 #else
-#error "undefined os"
+	throw new Exception("argument out of range");
 #endif
 }
 int64_t Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
@@ -211,25 +196,19 @@ int64_t Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
 		if (TotalSeconds > DateTimeUtility::MaxSeconds || TotalSeconds < DateTimeUtility::MinSeconds)
 		{
 			// ToDo: ArgumentOutOfRangeException
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 			throw new Exception(L"argument out of range");
-#elif defined(__ANDROID__)
-			// ToDo: cannot use 'throw' with exceptions disabled
-			//throw new Exception("argument out of range");
 #else
-#error "undefined os"
+			throw new Exception("argument out of range");
 #endif
 		}
 		return TotalSeconds * DateTimeUtility::TicksPerSecond;
 	}
 	// ToDo: ArgumentOutOfRangeException
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifdef UNICODE
 	throw new Exception(L"argument out of range");
-#elif defined(__ANDROID__)
-	// ToDo: cannot use 'throw' with exceptions disabled
-	//throw new Exception("argument out of range");
 #else
-#error "undefined os"
+	throw new Exception("argument out of range");
 #endif
 }
 
