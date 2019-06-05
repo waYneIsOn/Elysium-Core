@@ -8,25 +8,19 @@
 #include "NotImplementedException.hpp"
 #endif
 
-Elysium::Core::IO::FileStream::FileStream(std::wstring Path, FileMode Mode, FileAccess Access, FileShare Share)
+Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share)
 	: Elysium::Core::IO::Stream(),
 	_Path(Path), _Mode(Mode), _Access(Access), _Share(Share)
 {
 	// ToDo: this is just for testing!!!
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	if (Mode == FileMode::Create)
 	{
-		_NativeStream.open(_Path, std::fstream::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		_NativeStream.open(_Path.GetCharArray(), std::fstream::binary | std::ios::out | std::ios::in | std::ios::trunc);
 	}
 	else
 	{
-		_NativeStream.open(_Path, std::fstream::binary | std::ios::out | std::ios::in);
+		_NativeStream.open(_Path.GetCharArray(), std::fstream::binary | std::ios::out | std::ios::in);
 	}
-#elif defined(__ANDROID__)
-	// ToDo:
-#else
-#error "undefined os"
-#endif
 }
 Elysium::Core::IO::FileStream::~FileStream()
 {

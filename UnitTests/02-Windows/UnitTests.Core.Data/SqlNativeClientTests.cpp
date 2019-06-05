@@ -314,7 +314,7 @@ TEST_METHOD(CRUDWithUnnamedParameters)
 		// hierarchyid - ToDo: mssql specific type
 
 		// image
-		Elysium::Core::IO::FileStream ImageStream(ProjectPath + L"\\TestImage.png", Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
+		Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + L"\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
 		std::unique_ptr<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 		ImageParameter->SetValue(&ImageStream);
 		InsertCommand->GetParameters()->Add(ImageParameter.get());

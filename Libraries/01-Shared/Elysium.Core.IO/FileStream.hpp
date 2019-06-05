@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_FILEACCESS
 #include "FileAccess.hpp"
 #endif
@@ -45,7 +49,7 @@ namespace Elysium
 			class EXPORT FileStream : public Stream
 			{
 			public:
-				FileStream(std::wstring Path, FileMode Mode, FileAccess Access, FileShare Share);
+				FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share);
 				~FileStream();
 
 				// properties - getter
@@ -72,7 +76,7 @@ namespace Elysium
 				virtual int Read(byte* Buffer, const int Offset, const int Count) override;
 				virtual void Write(const byte* Buffer, const int Offset, const int Count) override;
 			private:
-				std::wstring _Path;
+				String _Path;
 				FileMode _Mode;
 				FileAccess _Access;
 				FileShare _Share;
