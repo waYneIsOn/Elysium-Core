@@ -42,7 +42,7 @@ Elysium::Core::UriParserTable::UriParserTable()
 }
 Elysium::Core::UriParserTable::~UriParserTable()
 {
-	map<string, UriParser*>::iterator Iterator = Map.begin();
+	std::map<String, UriParser*>::iterator Iterator = Map.begin();
 	while (Iterator != Map.end())
 	{
 		delete Iterator->second;

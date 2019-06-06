@@ -14,17 +14,13 @@ Copyright (C) 2017 waYne (CAM)
 #include <map>
 #endif
 
-#ifndef _XSTRING_
-#include <string>
-#include <string_view>
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_URISYNTAXFLAGS
 #include "UriSyntaxFlags.hpp"
 #endif
-
-using std::map;
-using std::string;
 
 namespace Elysium
 {
@@ -38,8 +34,9 @@ namespace Elysium
 			UriParserTable();
 			~UriParserTable();
 
-			map<string, UriParser*> Map;
+			std::map<String, UriParser*> Map;
 		};
 	}
-}*/
+}
+*/
 #endif

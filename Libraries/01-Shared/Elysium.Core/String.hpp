@@ -51,7 +51,10 @@ namespace Elysium
 			// operators
 			virtual String& operator=(const ElysiumChar* Value);
 			virtual String& operator=(const String& Value);
+
 			virtual ElysiumChar& operator[](size_t Index) const;
+
+			virtual bool operator<(const String& Other);
 
 			// ...
 			static bool IsNullOrEmtpy(const String& Value);

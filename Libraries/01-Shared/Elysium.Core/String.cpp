@@ -18,6 +18,10 @@
 #include "ArgumentNullException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "NotImplementedException.hpp"
+#endif
+
 Elysium::Core::String::String()
 	: _Length((size_t)0), _Data(nullptr)
 {
@@ -111,6 +115,7 @@ Elysium::Core::String & Elysium::Core::String::operator=(const String & Value)
 
 	return *this;
 }
+
 ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 {
 	if (Index >= _Length)
@@ -119,6 +124,11 @@ ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 	}
 
 	return _Data[Index];
+}
+
+bool Elysium::Core::String::operator<(const String & Other)
+{
+	throw NotImplementedException();
 }
 
 bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)

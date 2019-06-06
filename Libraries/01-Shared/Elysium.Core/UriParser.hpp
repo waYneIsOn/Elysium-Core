@@ -10,9 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URIPARSER
 #define ELYSIUM_CORE_URIPARSER
 /*
-#ifndef _XSTRING_
-#include <string>
-#include <string_view>
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_EXPORT
@@ -41,11 +40,11 @@ namespace Elysium
 		public:
 			virtual ~UriParser() = 0;
 
-			static void Register(UriParser* UriParser, std::string SchemeName, int DefaultPort);
+			static void Register(UriParser* UriParser, const String& SchemeName, int DefaultPort);
 
-			virtual std::string_view ParseComponent(UriComponents Component, std::string* const Source);
+			//virtual std::string_view ParseComponent(UriComponents Component, std::string* const Source);
 		protected:
-			UriParser(std::string Scheme, int Port, UriSyntaxFlags RequiredComponents);
+			UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents);
 		private:
 			friend class Uri;
 			friend class UriParserTable;
@@ -55,7 +54,7 @@ namespace Elysium
 
 			static UriParserTable _ParserTable;
 
-			std::string _Scheme;
+			String _Scheme;
 			int _Port;
 			UriSyntaxFlags _RequiredComponents;
 		};

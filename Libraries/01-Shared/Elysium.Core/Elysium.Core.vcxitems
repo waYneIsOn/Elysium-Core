@@ -49,6 +49,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
@@ -75,5 +76,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParserTable.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
   </ItemGroup>
 </Project>

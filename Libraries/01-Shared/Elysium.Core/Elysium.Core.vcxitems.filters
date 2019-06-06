@@ -74,6 +74,7 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -108,5 +109,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
   </ItemGroup>
 </Project>

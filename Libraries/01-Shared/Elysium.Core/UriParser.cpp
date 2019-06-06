@@ -9,7 +9,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "../Elysium.Core/NotImplementedException.hpp"
+#include "NotImplementedException.hpp"
 #endif
 
 Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::DummySyntaxFlags =
@@ -42,13 +42,15 @@ Elysium::Core::UriParser::~UriParser()
 {
 }
 
-Elysium::Core::UriParser::UriParser(std::string Scheme, int Port, UriSyntaxFlags RequiredComponents)
+Elysium::Core::UriParser::UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents)
 	: _Scheme(Scheme), _Port(Port), _RequiredComponents(RequiredComponents)
 {
 }
 
-void Elysium::Core::UriParser::Register(UriParser * UriParser, std::string SchemeName, int DefaultPort)
+void Elysium::Core::UriParser::Register(UriParser * UriParser, const String& SchemeName, int DefaultPort)
 {
+	throw NotImplementedException();
+	/*
 	if (UriParser == nullptr)
 	{
 		//throw ArgumentNullException("UriParser");
@@ -57,6 +59,7 @@ void Elysium::Core::UriParser::Register(UriParser * UriParser, std::string Schem
 	// ToDo: use copy constructor to guarantee we have a new instanceof an UriParser?
 	std::transform(SchemeName.begin(), SchemeName.end(), SchemeName.begin(), ::tolower);
 	Elysium::Core::UriParser::_ParserTable.Map[SchemeName] = UriParser;
+	*-/
 }
 
 std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Component, std::string * const Source)

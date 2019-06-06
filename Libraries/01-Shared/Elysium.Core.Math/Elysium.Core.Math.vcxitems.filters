@@ -4,6 +4,9 @@
     <Filter Include="Numerics">
       <UniqueIdentifier>{fd4fe95f-3528-42e7-bb92-01d97cf82b52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Geometry">
+      <UniqueIdentifier>{d0500179-1e62-4311-9203-4e8e2bfc7a9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)MathHelper.cpp" />
@@ -31,6 +34,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Double.cpp">
       <Filter>Numerics</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleSingle.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleDouble.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.hpp" />
@@ -55,12 +62,29 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionSingle.hpp">
       <Filter>Numerics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionDouble.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Double.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Single.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Double.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Single.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Double.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Single.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionDouble.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Double.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Single.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Double.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Single.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Double.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Single.hpp">
+      <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleDouble.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleSingle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleTemplate.hpp" />
   </ItemGroup>
 </Project>
