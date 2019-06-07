@@ -12,10 +12,6 @@
 #include "../Elysium.Core/NotSupportedException.hpp"
 #endif
 
-Elysium::Core::IO::Stream::Stream()
-{
-}
-
 bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
@@ -77,4 +73,27 @@ void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t Buffer
 	{
 		Destination->Write(&Buffer[0], 0, BytesRead);
 	}
+}
+
+Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const byte & Value)
+{
+	Write(&Value, 0, sizeof(Value));
+	return (*this);
+}
+Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const unsigned int & Value)
+{
+	byte* Bytes = (byte*)&Value;
+	Write(Bytes, 0, sizeof(unsigned int));
+	return (*this);
+}
+
+Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator>>(const unsigned int Value)
+{
+	throw NotImplementedException();
+
+	return (*this);
+}
+
+Elysium::Core::IO::Stream::Stream()
+{
 }

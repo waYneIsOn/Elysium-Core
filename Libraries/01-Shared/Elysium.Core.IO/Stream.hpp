@@ -26,6 +26,8 @@ Copyright (C) 2017 waYne (CAM)
 #include <cstdint>
 #endif
 
+#include <ostream>
+
 namespace Elysium
 {
 	namespace Core
@@ -66,6 +68,12 @@ namespace Elysium
 				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) = 0;
 				virtual int Read(byte* Buffer, const int Offset, const int Count) = 0;
 				virtual void Write(const byte* Buffer, const int Offset, const int Count) = 0;
+
+				// stream extraction and insertion
+				Elysium::Core::IO::Stream& operator<<(const byte& Value);
+				Elysium::Core::IO::Stream& operator<<(const unsigned int& Value);
+
+				Elysium::Core::IO::Stream& operator>>(const unsigned int Value);
 			protected:
 				// constructors
 				Stream();

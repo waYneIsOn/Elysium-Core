@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_STREAM
+#include "../Elysium.Core.IO/Stream.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -39,12 +43,27 @@ namespace Elysium
 			static void Parse(const String& Input, Version* Result);
 			static Version Parse(const String& Input);
 
-			virtual Version& operator=(const Version& Value);
+			// assignment operator
+			virtual Version& operator=(const Version& Other);
+
+			// relational operators
+			bool operator==(const Version& Other);
+			bool operator!=(const Version& Other);
+			bool operator<(const Version& Other);
+			bool operator>(const Version& Other);
+			bool operator<=(const Version& Other);
+			bool operator>=(const Version& Other);
+
+			// stream extraction and insertion
+			friend Elysium::Core::IO::Stream& operator<<(Elysium::Core::IO::Stream& Target, const Version& Version);
+			friend Elysium::Core::IO::Stream& operator>>(Elysium::Core::IO::Stream& Source, const Version& Version);
 		private:
 			unsigned int _Major;
 			unsigned int _Minor;
 			unsigned int _Build;
 			unsigned int _Revision;
+
+			int Compare(const Version& Other);
 		};
 	}
 }
