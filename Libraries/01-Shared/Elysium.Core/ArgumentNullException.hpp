@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT ArgumentNullException : public Exception
+		class ELYSIUM_CORE_API ArgumentNullException : public Exception
 		{
 		public:
 			ArgumentNullException();

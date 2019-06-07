@@ -28,7 +28,7 @@ namespace Elysium
 		{
 			namespace Common
 			{
-				class EXPORT DbCommand : public IDbCommand
+				class ELYSIUM_CORE_DATA_API DbCommand : public IDbCommand
 				{
 				public:
 					/// <summary>

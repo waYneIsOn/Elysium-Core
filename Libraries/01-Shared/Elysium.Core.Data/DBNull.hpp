@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_DBNULL
 #define ELYSIUM_CORE_DATA_DBNULL
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
 #endif
 
 namespace Elysium
@@ -20,7 +20,7 @@ namespace Elysium
 	{
 		namespace Data
 		{
-			class EXPORT DBNull final
+			class ELYSIUM_CORE_DATA_API DBNull final
 			{
 			public:
 				static const DBNull* Value();

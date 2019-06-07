@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Net
 		{
-			class EXPORT DnsEndPoint final : public EndPoint
+			class ELYSIUM_CORE_NET_API DnsEndPoint final : public EndPoint
 			{
 			public:
 				DnsEndPoint(const std::string& Host, const int Port);

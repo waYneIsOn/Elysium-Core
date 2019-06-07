@@ -30,7 +30,7 @@ namespace Elysium
 			namespace InteropServices
 			{
 				/// The base exception type for all COM interop exceptions and structured exception handling (SEH) exceptions.
-				class EXPORT ExternalException : public Exception
+				class ELYSIUM_CORE_API ExternalException : public Exception
 				{
 				public:
 

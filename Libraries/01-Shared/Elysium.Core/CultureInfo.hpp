@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
 #define ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -22,7 +22,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT CultureInfo
+		class ELYSIUM_CORE_API CultureInfo
 		{
 		public:
 			CultureInfo();

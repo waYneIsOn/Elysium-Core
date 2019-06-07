@@ -54,5 +54,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IPEndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DnsEndPoint.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
   </ItemGroup>
 </Project>

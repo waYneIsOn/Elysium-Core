@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_IDBTRANSACTION
 #define ELYSIUM_CORE_DATA_IDBTRANSACTION
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_ISOLATIONLEVEL
@@ -31,7 +31,7 @@ namespace Elysium
 			class IDbConnection;
 			class IDbCommand;
 
-			class EXPORT IDbTransaction
+			class ELYSIUM_CORE_DATA_API IDbTransaction
 			{
 			public:
 				/// <summary>

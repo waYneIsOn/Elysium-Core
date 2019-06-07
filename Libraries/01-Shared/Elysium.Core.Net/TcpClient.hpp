@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETS_TCPCLIENT
 #define ELYSIUM_CORE_NET_SOCKETS_TCPCLIENT
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKET
@@ -35,7 +35,7 @@ namespace Elysium
 				/// <summary>
 				/// 
 				/// </summary>
-				class EXPORT TcpClient
+				class ELYSIUM_CORE_NET_API TcpClient
 				{
 				public:
 					// constructors & destructor

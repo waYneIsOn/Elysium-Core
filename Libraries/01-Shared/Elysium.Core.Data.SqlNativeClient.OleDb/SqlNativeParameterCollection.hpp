@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEPARAMETERCOLLECTION
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEPARAMETERCOLLECTION
 
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBPARAMETERCOLLECTION
 #include "../Elysium.Core.Data/DbParameterCollection.hpp"
 #endif
@@ -26,7 +30,7 @@ namespace Elysium
 				{
 					class SqlNativeCommand;
 
-					class EXPORT SqlNativeParameterCollection final : public Common::DbParameterCollection
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeParameterCollection final : public Common::DbParameterCollection
 					{
 						friend class SqlNativeCommand;
 					public:

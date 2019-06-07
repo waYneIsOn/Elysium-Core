@@ -47,7 +47,7 @@ namespace Elysium
 			namespace Generic
 			{
 				template <class T>
-				class EXPORT List : public IList<T>
+				class List : public IList<T>
 				{
 				public:
 					List();

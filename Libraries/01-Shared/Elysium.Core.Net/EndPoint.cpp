@@ -4,6 +4,10 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+Elysium::Core::Net::EndPoint::~EndPoint()
+{
+}
+
 Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::EndPoint::GetAddressFamily() const
 {
 	return _Address.GetAddressFamily();

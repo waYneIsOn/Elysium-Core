@@ -28,7 +28,7 @@ namespace Elysium
 			{
 				namespace OleDb
 				{
-					class EXPORT SqlNativeException final : public Elysium::Core::Data::Common::DbException
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeException final : public Elysium::Core::Data::Common::DbException
 					{
 					public:
 						SqlNativeException(const String& Message, const int ErrorCode, IUnknown* ErrorObject);

@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKET
 #define ELYSIUM_CORE_NET_SOCKETS_SOCKET
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BYTE
@@ -61,7 +61,7 @@ namespace Elysium
 			{
 				// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-server-code
 				// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-client-code
-				class EXPORT Socket
+				class ELYSIUM_CORE_NET_API Socket
 				{
 				public:
 					// constructors & destructor

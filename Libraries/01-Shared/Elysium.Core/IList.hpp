@@ -14,10 +14,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "ICollection.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
-#endif
-
 namespace Elysium
 {
 	namespace Core
@@ -26,7 +22,7 @@ namespace Elysium
 		{
 			/// Represents a non-generic collection of objects that can be individually accessed by index.
 			template <class T>
-			class EXPORT IList : public ICollection<T>
+			class IList : public ICollection<T>
 			{
 			public:
 				/// <summary>

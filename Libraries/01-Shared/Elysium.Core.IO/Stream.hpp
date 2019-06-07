@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_IO_STREAM
 #define ELYSIUM_CORE_IO_STREAM
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "../Elysium.Core/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BYTE
@@ -37,7 +37,7 @@ namespace Elysium
 			/// <summary>
 			/// 
 			/// </summary>
-			class EXPORT Stream
+			class ELYSIUM_CORE_API Stream
 			{
 			public:
 				// destructor

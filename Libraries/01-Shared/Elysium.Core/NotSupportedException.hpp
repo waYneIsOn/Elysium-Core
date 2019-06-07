@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT NotSupportedException : public Exception
+		class ELYSIUM_CORE_API NotSupportedException : public Exception
 		{
 		public:
 			NotSupportedException();

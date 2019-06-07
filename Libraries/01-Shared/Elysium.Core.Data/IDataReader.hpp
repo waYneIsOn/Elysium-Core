@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_IDATAREADER
 #define ELYSIUM_CORE_DATA_IDATAREADER
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
 #endif
 
 #ifndef _STRING_
@@ -44,7 +44,7 @@ namespace Elysium
 	{
 		namespace Data
 		{
-			class EXPORT IDataReader
+			class ELYSIUM_CORE_DATA_API IDataReader
 			{
 			public:
 				/// <summary>

@@ -26,7 +26,7 @@ namespace Elysium
 		{
 			namespace Common
 			{
-				class EXPORT DbDataReader : public IDataReader
+				class ELYSIUM_CORE_DATA_API DbDataReader : public IDataReader
 				{
 				public:
 					/// <summary>

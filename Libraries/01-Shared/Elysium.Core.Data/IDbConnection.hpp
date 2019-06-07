@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_IDBCONNECTION
 #define ELYSIUM_CORE_DATA_IDBCONNECTION
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_CONNECTIONSTATE
@@ -40,7 +40,7 @@ namespace Elysium
 	{
 		namespace Data
 		{
-			class EXPORT IDbConnection
+			class ELYSIUM_CORE_DATA_API IDbConnection
 			{
 			public:
 				/// <summary>

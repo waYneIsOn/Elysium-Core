@@ -20,7 +20,7 @@ namespace Elysium
 	{
 		namespace Text
 		{
-			class EXPORT UTF8Encoding : public Encoding
+			class ELYSIUM_CORE_API UTF8Encoding : public Encoding
 			{
 			public:
 				UTF8Encoding();

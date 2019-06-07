@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBEXCEPTION
 #define ELYSIUM_CORE_DATA_COMMON_DBEXCEPTION
 
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
 #include "../Elysium.Core/ExternalException.hpp"
 #endif
@@ -22,7 +26,7 @@ namespace Elysium
 		{
 			namespace Common
 			{
-				class EXPORT DbException : public Elysium::Core::Runtime::InteropServices::ExternalException
+				class ELYSIUM_CORE_DATA_API DbException : public Elysium::Core::Runtime::InteropServices::ExternalException
 				{
 				public:
 					DbException();

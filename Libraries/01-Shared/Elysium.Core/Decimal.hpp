@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DECIMAL
 #define ELYSIUM_CORE_DECIMAL
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef _STDINT_H
@@ -26,7 +26,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT Decimal final
+		class ELYSIUM_CORE_API Decimal final
 		{
 		public:
 			Decimal();

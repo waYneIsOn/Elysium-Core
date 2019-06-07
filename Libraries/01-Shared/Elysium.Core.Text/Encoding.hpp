@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #define ELYSIUM_CORE_TEXT_ENCODING
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "../Elysium.Core/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -38,7 +38,7 @@ namespace Elysium
 			class UTF7Encoding;
 			class UTF8Encoding;
 
-			class EXPORT Encoding
+			class ELYSIUM_CORE_API Encoding
 			{
 			public:
 				~Encoding();

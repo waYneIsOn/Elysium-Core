@@ -30,7 +30,7 @@ namespace Elysium
 		{
 			namespace Common
 			{
-				class EXPORT DbTransaction : public IDbTransaction
+				class ELYSIUM_CORE_DATA_API DbTransaction : public IDbTransaction
 				{
 				public:
 					/// <summary>

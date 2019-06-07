@@ -37,7 +37,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RectangleSingle.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleDouble.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleDouble.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.hpp" />
@@ -83,8 +85,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Single.hpp">
       <Filter>Numerics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleDouble.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleSingle.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleTemplate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleDouble.hpp">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleSingle.hpp">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleTemplate.hpp">
+      <Filter>Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -28,7 +28,7 @@ namespace Elysium
 	{
 		namespace IO
 		{
-			class EXPORT MemoryStream : public Stream
+			class ELYSIUM_CORE_API MemoryStream : public Stream
 			{
 			public:
 				MemoryStream();

@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_SERVICEPROCESS_SERVICEBASE
 #define ELYSIUM_CORE_SERVICEPROCESS_SERVICEBASE
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_SERVICEPROCESS_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SERVICEPROCESS_POWERBROADCASTSTATUS
@@ -28,7 +28,7 @@ namespace Elysium
 	{
 		namespace ServiceProcess
 		{
-			class EXPORT ServiceBase
+			class ELYSIUM_CORE_SERVICEPROCESS_SERVICEBASE ServiceBase
 			{
 			public:
 				ServiceBase();

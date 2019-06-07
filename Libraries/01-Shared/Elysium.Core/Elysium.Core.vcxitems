@@ -28,7 +28,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Export.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />

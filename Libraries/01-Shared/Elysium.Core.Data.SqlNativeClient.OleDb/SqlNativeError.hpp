@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEERROR
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEERROR
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
+#include "API.hpp"
 #endif
 
 #ifndef _XSTRING_
@@ -38,7 +38,7 @@ namespace Elysium
 			{
 				namespace OleDb
 				{
-					class EXPORT SqlNativeError final
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeError final
 					{
 					public:
 						SqlNativeError(long ErrorSpecificErrorCode, unsigned long ProviderSpecificErrorCode, GUID ClassId, GUID InterfaceId, long DisplayId,

@@ -11,8 +11,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONDOUBLE
 #define ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONDOUBLE
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../../../Libraries/01-Shared/Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_MATH_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONTEMPLATE
@@ -27,7 +27,7 @@ namespace Elysium
 		{
 			namespace Numerics
 			{
-				class EXPORT QuaternionDouble : public QuaternionTemplate<double>
+				class ELYSIUM_CORE_MATH_API QuaternionDouble : public QuaternionTemplate<double>
 				{
 				public:
 					// constructors & destructor

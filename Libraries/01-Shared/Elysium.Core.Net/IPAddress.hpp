@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_IPADDRESS
 #define ELYSIUM_CORE_NET_IPADDRESS
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
@@ -32,7 +32,7 @@ namespace Elysium
 	{
 		namespace Net
 		{
-			class EXPORT IPAddress final
+			class ELYSIUM_CORE_NET_API IPAddress final
 			{
 			public:
 				IPAddress(const byte* Address, size_t AddressSize);
@@ -55,8 +55,6 @@ namespace Elysium
 				// byte 0-1: AddressFamily
 				// byte rest: ip address
 				byte _Data[30];
-
-				static IPAddress _Any;
 			};
 		}
 	}

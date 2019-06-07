@@ -23,7 +23,7 @@ namespace Elysium
 			namespace InteropServices
 			{
 				/// The exception that is thrown when an unrecognized HRESULT is returned from a COM method call.
-				class EXPORT COMException : public ExternalException
+				class ELYSIUM_CORE_API COMException : public ExternalException
 				{
 				public:
 					COMException();

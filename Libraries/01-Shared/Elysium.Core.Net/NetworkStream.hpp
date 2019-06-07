@@ -29,7 +29,7 @@ namespace Elysium
 				/// <summary>
 				/// 
 				/// </summary>
-				class EXPORT NetworkStream : public Elysium::Core::IO::Stream
+				class ELYSIUM_CORE_NET_API NetworkStream : public Elysium::Core::IO::Stream
 				{
 				public:
 					// constructors & destructor

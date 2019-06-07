@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URI
 #define ELYSIUM_CORE_URI
 /*
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef _XSTRING_
@@ -40,7 +40,7 @@ namespace Elysium
 		https://tools.ietf.org/html/rfc3986
 		scheme ":" "hierarchical part" [ "?" query ] [ "#" fragment ]
 		*-/
-		class EXPORT Uri final
+		class ELYSIUM_CORE_API Uri final
 		{
 		public:
 			// constructors & destructors

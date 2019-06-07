@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_STRING
 #define ELYSIUM_CORE_STRING
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
@@ -33,7 +33,7 @@ namespace Elysium
 			class Encoding;
 		}
 
-		class EXPORT String : public Elysium::Core::Collections::IEnumerable<ElysiumChar>
+		class ELYSIUM_CORE_API String : public Elysium::Core::Collections::IEnumerable<ElysiumChar>
 		{
 			friend class Text::Encoding;
 		public:

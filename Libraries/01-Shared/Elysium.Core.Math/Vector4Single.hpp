@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR4SINGLE
 #define ELYSIUM_CORE_MATH_NUMERICS_VECTOR4SINGLE
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../../../Libraries/01-Shared/Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_MATH_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR4TEMPLATE
@@ -26,7 +26,7 @@ namespace Elysium
 		{
 			namespace Numerics
 			{
-				class EXPORT Vector4Single : public Vector4Template<float>
+				class ELYSIUM_CORE_MATH_API Vector4Single : public Vector4Template<float>
 				{
 				public:
 					// constructors & destructor

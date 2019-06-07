@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URISYNTAXFLAGS
 #define ELYSIUM_CORE_URISYNTAXFLAGS
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -26,7 +26,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT Version final
+		class ELYSIUM_CORE_API Version final
 		{
 		public:
 			Version();

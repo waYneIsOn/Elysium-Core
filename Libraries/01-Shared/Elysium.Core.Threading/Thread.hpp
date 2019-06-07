@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_THREADING_THREAD
 #define ELYSIUM_CORE_THREADING_THREAD
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "../Elysium.Core/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TIMESPAN
@@ -34,7 +34,7 @@ namespace Elysium
 	{
 		namespace Threading
 		{
-			class EXPORT Thread
+			class ELYSIUM_CORE_API Thread
 			{
 			public:
 				// constructors & destructor

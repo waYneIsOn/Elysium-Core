@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVECONNECTION
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVECONNECTION
 
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBCONNECTION
 #include "../Elysium.Core.Data/DbConnection.hpp"
 #endif
@@ -33,7 +37,7 @@ namespace Elysium
 					class SqlNativeTransaction;
 					class SqlNativeCommand;
 
-					class EXPORT SqlNativeConnection final : public Common::DbConnection
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeConnection final : public Common::DbConnection
 					{
 						friend class SqlNativeTransaction;
 						friend class SqlNativeCommand;

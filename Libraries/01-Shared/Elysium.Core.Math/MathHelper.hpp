@@ -11,8 +11,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_MATH_MATHHELPER
 #define ELYSIUM_CORE_MATH_MATHHELPER
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_MATH_API
+#include "API.hpp"
 #endif
 
 namespace Elysium
@@ -21,7 +21,7 @@ namespace Elysium
 	{
 		namespace Math
 		{
-			class EXPORT MathHelper
+			class ELYSIUM_CORE_MATH_API MathHelper
 			{
 			public:
 				// constants

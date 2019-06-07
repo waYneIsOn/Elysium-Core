@@ -32,7 +32,7 @@ namespace Elysium
 		{
 			namespace Common
 			{
-				class EXPORT DbParameter : public IDataParameter
+				class ELYSIUM_CORE_DATA_API DbParameter : public IDataParameter
 				{
 				public:
 					/// <summary>

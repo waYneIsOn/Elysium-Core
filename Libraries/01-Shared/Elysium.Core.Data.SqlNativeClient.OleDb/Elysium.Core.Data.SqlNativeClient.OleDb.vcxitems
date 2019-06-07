@@ -17,6 +17,7 @@
     <Text Include="$(MSBuildThisFileDirectory)01 - Links.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeConnection.hpp" />

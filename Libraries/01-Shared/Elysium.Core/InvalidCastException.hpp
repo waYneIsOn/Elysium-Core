@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT InvalidCastException : public Exception
+		class ELYSIUM_CORE_API InvalidCastException : public Exception
 		{
 		public:
 			InvalidCastException();

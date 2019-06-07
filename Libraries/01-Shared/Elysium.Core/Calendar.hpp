@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_GLOBALIZATION_CALENDAR
 #define ELYSIUM_CORE_GLOBALIZATION_CALENDAR
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 namespace Elysium
@@ -19,7 +19,7 @@ namespace Elysium
 	namespace Core
 	{
 		/*
-		class EXPORT Calendar
+		class ELYSIUM_CORE_API Calendar
 		{
 		public:
 			Calendar() {};

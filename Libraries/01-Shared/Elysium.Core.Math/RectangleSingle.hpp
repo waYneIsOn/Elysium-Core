@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_MATH_GEOMETRY_RECTANGLESINGLE
 #define ELYSIUM_CORE_MATH_GEOMETRY_RECTANGLESINGLE
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../../../Libraries/01-Shared/Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_MATH_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_MATH_GEOMETRY_RECTANGLETEMPLATE
@@ -26,7 +26,7 @@ namespace Elysium
 		{
 			namespace Geometry
 			{
-				class EXPORT RectangleSingle : public RectangleTemplate<float>
+				class ELYSIUM_CORE_MATH_API RectangleSingle : public RectangleTemplate<float>
 				{
 				public:
 					RectangleSingle();

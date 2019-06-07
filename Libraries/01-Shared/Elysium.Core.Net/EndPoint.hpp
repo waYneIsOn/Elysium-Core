@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_ENDPOINT
 #define ELYSIUM_CORE_NET_ENDPOINT
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
@@ -32,10 +32,10 @@ namespace Elysium
 	{
 		namespace Net
 		{
-			class EXPORT EndPoint
+			class ELYSIUM_CORE_NET_API EndPoint
 			{
 			public:
-				virtual ~EndPoint() {};
+				virtual ~EndPoint();
 
 				Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const;
 

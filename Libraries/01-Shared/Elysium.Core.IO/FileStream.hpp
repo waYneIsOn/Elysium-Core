@@ -46,7 +46,7 @@ namespace Elysium
 	{
 		namespace IO
 		{
-			class EXPORT FileStream : public Stream
+			class ELYSIUM_CORE_API FileStream : public Stream
 			{
 			public:
 				FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share);

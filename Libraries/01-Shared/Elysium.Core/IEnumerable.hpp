@@ -10,10 +10,6 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
 #define ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
-#endif
-
 namespace Elysium
 {
 	namespace Core
@@ -22,7 +18,7 @@ namespace Elysium
 		{
 			/// Exposes an enumerator, which supports a simple iteration over a non-generic collection.
 			template <class T>
-			class EXPORT IEnumerable
+			class IEnumerable
 			{
 			public:
 				/// <summary>

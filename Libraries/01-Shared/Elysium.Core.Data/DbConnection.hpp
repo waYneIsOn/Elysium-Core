@@ -32,7 +32,7 @@ namespace Elysium
 		{
 			namespace Common
 			{
-				class EXPORT DbConnection : public IDbConnection
+				class ELYSIUM_CORE_DATA_API DbConnection : public IDbConnection
 				{
 				public:
 					/// <summary>

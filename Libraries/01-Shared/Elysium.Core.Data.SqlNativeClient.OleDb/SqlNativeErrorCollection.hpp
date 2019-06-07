@@ -40,7 +40,7 @@ namespace Elysium
 			{
 				namespace OleDb
 				{
-					class EXPORT SqlNativeErrorCollection final : public Elysium::Core::Collections::ICollection<SqlNativeError>
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeErrorCollection final : public Elysium::Core::Collections::ICollection<SqlNativeError>
 					{
 					public:
 						SqlNativeErrorCollection(IUnknown* ErrorObject);

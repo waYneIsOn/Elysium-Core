@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Data
 		{
-			class EXPORT IDataParameterCollection : public Collections::IList<IDataParameter>
+			class ELYSIUM_CORE_DATA_API IDataParameterCollection : public Collections::IList<IDataParameter>
 			{
 			public:
 				/// <summary>

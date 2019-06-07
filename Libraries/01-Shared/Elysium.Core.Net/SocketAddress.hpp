@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETADDRESS
 #define ELYSIUM_CORE_NET_SOCKETADDRESS
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
@@ -39,7 +39,7 @@ namespace Elysium
 				class Socket;
 			}
 			
-			class EXPORT SocketAddress
+			class ELYSIUM_CORE_NET_API SocketAddress
 			{
 				friend class Sockets::Socket;
 			public:

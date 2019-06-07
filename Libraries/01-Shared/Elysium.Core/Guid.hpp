@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_GUID
 #define ELYSIUM_CORE_GUID
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BYTE
@@ -30,7 +30,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT Guid final
+		class ELYSIUM_CORE_API Guid final
 		{
 		public:
 			Guid(const byte B[16]);

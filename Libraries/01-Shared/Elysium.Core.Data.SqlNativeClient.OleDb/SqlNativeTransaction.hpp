@@ -30,7 +30,7 @@ namespace Elysium
 				{
 					class SqlNativeCommand;
 
-					class EXPORT SqlNativeTransaction final : public Common::DbTransaction
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeTransaction final : public Common::DbTransaction
 					{
 						friend class SqlNativeConnection;
 						friend class SqlNativeCommand;

@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
 #define ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
 
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
 #include "../Elysium.Core/ExternalException.hpp"
 #endif
@@ -29,7 +33,7 @@ namespace Elysium
 				/// <summary>
 				/// 
 				/// </summary>
-				class EXPORT SocketException : public Elysium::Core::Runtime::InteropServices::ExternalException
+				class ELYSIUM_CORE_NET_API SocketException : public Elysium::Core::Runtime::InteropServices::ExternalException
 				{
 				public:
 					// constructors & destructor

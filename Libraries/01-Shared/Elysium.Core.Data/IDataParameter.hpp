@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_IDATAPARAMETER
 #define ELYSIUM_CORE_DATA_IDATAPARAMETER
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_DBTYPE
@@ -64,7 +64,7 @@ namespace Elysium
 	{
 		namespace Data
 		{
-			class EXPORT IDataParameter
+			class ELYSIUM_CORE_DATA_API IDataParameter
 			{
 			public:
 				/// <summary>

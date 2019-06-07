@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVESEQUENTIALSTREAM
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVESEQUENTIALSTREAM
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
+#include "API.hpp"
 #endif
 
 #ifndef __sqlncli_h__
@@ -36,7 +36,7 @@ namespace Elysium
 			{
 				namespace OleDb
 				{
-					class EXPORT SqlNativeSequentialStream : public ISequentialStream
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeSequentialStream : public ISequentialStream
 					{
 					public:
 						SqlNativeSequentialStream();

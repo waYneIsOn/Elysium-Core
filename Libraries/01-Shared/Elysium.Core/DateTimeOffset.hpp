@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATETIMEOFFSET
 #define ELYSIUM_CORE_DATETIMEOFFSET
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATETIME
@@ -26,7 +26,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT DateTimeOffset final
+		class ELYSIUM_CORE_API DateTimeOffset final
 		{
 		public:
 			DateTimeOffset(const DateTime DateTime);

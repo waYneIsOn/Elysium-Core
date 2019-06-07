@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT IndexOutOfRangeException : public Exception
+		class ELYSIUM_CORE_API IndexOutOfRangeException : public Exception
 		{
 		public:
 			IndexOutOfRangeException();

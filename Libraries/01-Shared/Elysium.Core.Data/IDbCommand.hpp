@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_IDBCOMMAND
 #define ELYSIUM_CORE_DATA_IDBCOMMAND
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_DATA_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_ISOLATIONLEVEL
@@ -52,7 +52,7 @@ namespace Elysium
 	{
 		namespace Data
 		{
-			class EXPORT IDbCommand
+			class ELYSIUM_CORE_DATA_API IDbCommand
 			{
 			public:
 				/// <summary>

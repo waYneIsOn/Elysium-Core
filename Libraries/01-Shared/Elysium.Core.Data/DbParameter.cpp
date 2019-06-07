@@ -68,6 +68,7 @@ void Elysium::Core::Data::Common::DbParameter::SetSourceVersion(DataRowVersion V
 void Elysium::Core::Data::Common::DbParameter::SetValue(const DBNull * Value)
 {
 	_DBNullPointer = Value;
+	_DbType = DbType::Boolean;
 }
 void Elysium::Core::Data::Common::DbParameter::SetValue(const bool Value)
 {

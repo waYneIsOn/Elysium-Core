@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT InvalidOperationException : public Exception
+		class ELYSIUM_CORE_API InvalidOperationException : public Exception
 		{
 		public:
 			InvalidOperationException();

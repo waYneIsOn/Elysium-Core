@@ -28,7 +28,7 @@ namespace Elysium
 			{
 				/*
 				template <class T>
-				class EXPORT Array : public IList<T>
+				class ELYSIUM_CORE_API Array : public IList<T>
 				{
 				public:
 					Array(size_t Length);

@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT OutOfMemoryException : public Exception
+		class ELYSIUM_CORE_API OutOfMemoryException : public Exception
 		{
 		public:
 			OutOfMemoryException();

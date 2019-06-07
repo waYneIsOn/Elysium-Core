@@ -4,8 +4,6 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::_Any = Elysium::Core::Net::IPAddress::IPAddress(0);
-
 Elysium::Core::Net::IPAddress::IPAddress(const byte * Address, size_t AddressSize)
 {
 
@@ -23,6 +21,7 @@ Elysium::Core::Net::IPAddress::~IPAddress()
 
 const Elysium::Core::Net::IPAddress & Elysium::Core::Net::IPAddress::Any()
 {
+	static const Elysium::Core::Net::IPAddress _Any = Elysium::Core::Net::IPAddress::IPAddress(0);
 	return _Any;
 }
 

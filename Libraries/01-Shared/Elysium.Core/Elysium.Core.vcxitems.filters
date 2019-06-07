@@ -26,7 +26,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Export.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp">
       <Filter>Collections</Filter>
     </ClInclude>
@@ -75,6 +74,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

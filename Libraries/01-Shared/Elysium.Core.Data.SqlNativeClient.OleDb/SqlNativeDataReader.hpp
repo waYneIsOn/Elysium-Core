@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEDATAREADER
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEDATAREADER
 
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBDATAREADER
 #include "../Elysium.Core.Data/DbDataReader.hpp"
 #endif
@@ -40,7 +44,7 @@ namespace Elysium
 			{
 				namespace OleDb
 				{
-					class EXPORT SqlNativeDataReader final : public Common::DbDataReader
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeDataReader final : public Common::DbDataReader
 					{
 						friend class SqlNativeCommand;
 					public:

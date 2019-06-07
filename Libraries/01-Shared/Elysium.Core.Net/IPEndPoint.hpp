@@ -20,7 +20,7 @@ namespace Elysium
 	{
 		namespace Net
 		{
-			class EXPORT IPEndPoint final : public EndPoint
+			class ELYSIUM_CORE_NET_API IPEndPoint final : public EndPoint
 			{
 			public:
 				IPEndPoint(const IPAddress& Address, const int Port);

@@ -14,10 +14,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "IEnumerable.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
-#endif
-
 namespace Elysium
 {
 	namespace Core
@@ -26,7 +22,7 @@ namespace Elysium
 		{
 			/// Defines size, enumerators, and synchronization methods for all nongeneric collections.
 			template <class T>
-			class EXPORT ICollection : public IEnumerable<T>
+			class ICollection : public IEnumerable<T>
 			{
 			public:
 				/// <summary>

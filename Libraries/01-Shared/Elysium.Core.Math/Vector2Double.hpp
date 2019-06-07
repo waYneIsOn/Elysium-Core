@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR2DOUBLE
 #define ELYSIUM_CORE_MATH_NUMERICS_VECTOR2DOUBLE
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "../../../Libraries/01-Shared/Elysium.Core/Export.hpp"
+#ifndef ELYSIUM_CORE_MATH_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR2TEMPLATE
@@ -30,7 +30,7 @@ namespace Elysium
 		{
 			namespace Numerics
 			{
-				class EXPORT Vector2Double : public Vector2Template<double>
+				class ELYSIUM_CORE_MATH_API Vector2Double : public Vector2Template<double>
 				{
 				public:
 					// constructors & destructor

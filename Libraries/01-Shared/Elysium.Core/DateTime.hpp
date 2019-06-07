@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATETIME
 #define ELYSIUM_CORE_DATETIME
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef _STDINT_H
@@ -30,7 +30,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT DateTime
+		class ELYSIUM_CORE_API DateTime
 		{
 		public:
 			DateTime(int64_t Ticks);

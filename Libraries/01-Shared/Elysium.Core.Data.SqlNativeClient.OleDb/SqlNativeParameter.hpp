@@ -29,7 +29,7 @@ namespace Elysium
 			{
 				namespace OleDb
 				{
-					class EXPORT SqlNativeParameter final : public Common::DbParameter
+					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeParameter final : public Common::DbParameter
 					{
 						friend class SqlNativeCommand;
 					public:

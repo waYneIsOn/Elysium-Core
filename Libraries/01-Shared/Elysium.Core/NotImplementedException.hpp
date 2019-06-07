@@ -18,7 +18,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT NotImplementedException : public Exception
+		class ELYSIUM_CORE_API NotImplementedException : public Exception
 		{
 		public:
 			NotImplementedException();

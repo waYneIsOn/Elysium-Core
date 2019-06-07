@@ -7,11 +7,14 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_EXPORT
-#define ELYSIUM_CORE_EXPORT
+#ifndef ELYSIUM_CORE_SERVICEPROCESS_API
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-#define EXPORT __declspec(dllexport)
+#ifdef ELYSIUMCORESERVICEPROCESS_EXPORTS
+#define ELYSIUM_CORE_SERVICEPROCESS_API __declspec(dllexport)
+#else
+#define ELYSIUM_CORE_SERVICEPROCESS_API __declspec(dllimport)
+#endif
 #elif defined(__ANDROID__)
 #define EXPORT
 #else

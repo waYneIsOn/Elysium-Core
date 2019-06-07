@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_TIMESPAN
 #define ELYSIUM_CORE_TIMESPAN
 
-#ifndef ELYSIUM_CORE_EXPORT
-#include "Export.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
 #ifndef _STDINT_H
@@ -22,7 +22,7 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class EXPORT TimeSpan
+		class ELYSIUM_CORE_API TimeSpan
 		{
 		public:
 			TimeSpan(int64_t Ticks);

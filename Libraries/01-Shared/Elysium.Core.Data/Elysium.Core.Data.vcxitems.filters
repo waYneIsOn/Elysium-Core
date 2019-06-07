@@ -71,5 +71,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DbTransaction.hpp">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
   </ItemGroup>
 </Project>
