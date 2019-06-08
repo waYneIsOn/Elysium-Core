@@ -151,7 +151,7 @@ void Elysium::Core::Net::Sockets::Socket::SetSendBufferSize(int BufferSize)
 	}
 }
 
-void Elysium::Core::Net::Sockets::Socket::Connect(const string& Host, int Port)
+void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, int Port)
 {
 	// prepare the socket address info
 	sockaddr_in ConnectionInfo;
@@ -161,7 +161,11 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const string& Host, int Port)
 	// convert and add the hostname
 	// ToDo: find a better method! this one doesn't seem to work correctly (or maybe there's something wrong with some DNS-functionality)
 	// for instance http://www.tutorialspoint.com" doesn't get "converted" to "93.184.220.42"
-	InetPtonA(ConnectionInfo.sin_family, Host.c_str(), &ConnectionInfo.sin_addr.s_addr);
+#ifdef UNICODE
+	InetPtonW(ConnectionInfo.sin_family, Host.GetCharArray(), &ConnectionInfo.sin_addr.s_addr);
+#else
+	InetPtonA(ConnectionInfo.sin_family, Host.GetCharArray(), &ConnectionInfo.sin_addr.s_addr);
+#endif
 	/*
 	addrinfo Hints;
 	Hints.ai_family = AF_UNSPEC; // AF_INET6 to force version

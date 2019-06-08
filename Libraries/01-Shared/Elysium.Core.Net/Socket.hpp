@@ -30,8 +30,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "ProtocolType.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <string>
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_ENDPOINT
@@ -87,7 +87,7 @@ namespace Elysium
 					void SetSendBufferSize(int BufferSize);
 
 					// methods
-					void Connect(const string& Host, int Port);
+					void Connect(const String& Host, int Port);
 					void Connect(const EndPoint& RemoteEndPoint);
 					void Disconnect(bool ReuseSocket);
 
@@ -103,16 +103,14 @@ namespace Elysium
 					SocketType _SocketType;
 					ProtocolType _ProtocolType;
 
-#if defined(__ANDROID__)
-					// ToDo ...
-#elif defined(_WIN32)
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 					Socket(SOCKET WinSocketHandle, AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
-
 					SOCKET _WinSocketHandle;
-#else
-#error "undefined os"
-#endif
+#elif defined(__ANDROID__)
 
+#else
+
+#endif
 					bool _IsConnected = false;
 				};
 			}

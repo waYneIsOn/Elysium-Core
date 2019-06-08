@@ -170,7 +170,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="SocketTest.cpp" />
-    <ClCompile Include="TcpClientTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Net\Elysium.Core.Net.vcxproj">

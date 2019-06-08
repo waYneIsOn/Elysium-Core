@@ -18,9 +18,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp">
       <Filter>Sockets</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TcpClient.cpp">
-      <Filter>Sockets</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)IPEndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IPAddress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DnsEndPoint.cpp" />
@@ -41,19 +38,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TcpClient.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IPEndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DnsEndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

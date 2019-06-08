@@ -119,7 +119,7 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 size_t Elysium::Core::Text::Encoding::GetBytes(const String * Input, const size_t CharIndex, const size_t CharCount, Elysium::Core::Collections::Generic::List<byte>* Output) const
 {
 #ifdef UNICODE
-	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0) - 1; // -1 to remove \0
+	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0);
 	char* ConvertedBytes = new char[Length];
 	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
 	for (int i = 0; i < Length; i++)
@@ -150,6 +150,7 @@ size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t
 	}
 	Output->_Data = new wchar_t[Length];
 	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, -1, Output->_Data, Length);
+	//Output->_Data[Length] = L'\0';
 
 	return Length;
 #else
