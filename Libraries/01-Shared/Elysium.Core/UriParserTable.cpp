@@ -1,5 +1,5 @@
 #include "UriParserTable.hpp"
-/*
+
 #ifndef ELYSIUM_CORE_URICOMPONENTS
 #include "UriComponents.hpp"
 #endif
@@ -18,25 +18,27 @@ using Elysium::Core::UriSyntaxFlags;
 Elysium::Core::UriParserTable::UriParserTable()
 	: Map(
 		{
-			{ "dummy", new BuildInUriParser("dummy", -1, UriParser::DummySyntaxFlags) },
+			/*
+			{ L"dummy", new BuildInUriParser(L"dummy", -1, UriParser::DummySyntaxFlags) },
 
-			{ "file", new BuildInUriParser("file", -1, UriParser::HttpSyntaxFlags) },
-			{ "ftp", new BuildInUriParser("ftp", 21, UriParser::HttpSyntaxFlags) },
-			{ "gopher", new BuildInUriParser("gopher", 70, UriParser::HttpSyntaxFlags) },
-			{ "http", new BuildInUriParser("http", 80, UriParser::HttpSyntaxFlags) },
-			{ "https", new BuildInUriParser("https", 443, UriParser::HttpSyntaxFlags) },
-			{ "irc", new BuildInUriParser("irc", 6667, UriParser::HttpSyntaxFlags) },
-			{ "ldap", new BuildInUriParser("ldap", 389, UriParser::HttpSyntaxFlags) },
-			{ "mailto", new BuildInUriParser("mailto", 25, UriParser::HttpSyntaxFlags) },
-			{ "net.pipe", new BuildInUriParser("net.pipe", -1, UriParser::HttpSyntaxFlags) },
-			{ "net.tcp", new BuildInUriParser("net.tcp", 808, UriParser::HttpSyntaxFlags) },
-			{ "news", new BuildInUriParser("news", -1, UriParser::HttpSyntaxFlags) },
-			{ "nntp", new BuildInUriParser("nntp", 119, UriParser::HttpSyntaxFlags) },
-			{ "wss", new BuildInUriParser("wss", 443, UriParser::HttpSyntaxFlags) },
-			{ "tel", new BuildInUriParser("tel", 992, UriParser::HttpSyntaxFlags) },
-			{ "telnet", new BuildInUriParser("telnet", 992, UriParser::HttpSyntaxFlags) },
-			{ "urn", new BuildInUriParser("urn", 23, UriParser::HttpSyntaxFlags) },
-			{ "ws", new BuildInUriParser("ws", 80, UriParser::HttpSyntaxFlags) },
+			{ L"file", new BuildInUriParser(L"file", -1, UriParser::HttpSyntaxFlags) },
+			{ L"ftp", new BuildInUriParser(L"ftp", 21, UriParser::HttpSyntaxFlags) },
+			{ L"gopher", new BuildInUriParser(L"gopher", 70, UriParser::HttpSyntaxFlags) },
+			{ L"http", new BuildInUriParser(L"http", 80, UriParser::HttpSyntaxFlags) },
+			{ L"https", new BuildInUriParser(L"https", 443, UriParser::HttpSyntaxFlags) },
+			{ L"irc", new BuildInUriParser(L"irc", 6667, UriParser::HttpSyntaxFlags) },
+			{ L"ldap", new BuildInUriParser(L"ldap", 389, UriParser::HttpSyntaxFlags) },
+			{ L"mailto", new BuildInUriParser(L"mailto", 25, UriParser::HttpSyntaxFlags) },
+			{ L"net.pipe", new BuildInUriParser(L"net.pipe", -1, UriParser::HttpSyntaxFlags) },
+			{ L"net.tcp", new BuildInUriParser(L"net.tcp", 808, UriParser::HttpSyntaxFlags) },
+			{ L"news", new BuildInUriParser(L"news", -1, UriParser::HttpSyntaxFlags) },
+			{ L"nntp", new BuildInUriParser(L"nntp", 119, UriParser::HttpSyntaxFlags) },
+			{ L"wss", new BuildInUriParser(L"wss", 443, UriParser::HttpSyntaxFlags) },
+			{ L"tel", new BuildInUriParser(L"tel", 992, UriParser::HttpSyntaxFlags) },
+			{ L"telnet", new BuildInUriParser(L"telnet", 992, UriParser::HttpSyntaxFlags) },
+			{ L"urn", new BuildInUriParser(L"urn", 23, UriParser::HttpSyntaxFlags) },
+			{ L"ws", new BuildInUriParser(L"ws", 80, UriParser::HttpSyntaxFlags) },
+			*/
 		})
 {
 }
@@ -50,4 +52,3 @@ Elysium::Core::UriParserTable::~UriParserTable()
 	}
 	Map.clear();
 }
-*/

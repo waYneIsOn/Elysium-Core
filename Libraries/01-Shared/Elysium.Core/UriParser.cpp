@@ -1,5 +1,5 @@
 #include "UriParser.hpp"
-/*
+
 #ifndef ELYSIUM_CORE_URIPARSERTABLE
 #include "UriParserTable.hpp"
 #endif
@@ -59,17 +59,19 @@ void Elysium::Core::UriParser::Register(UriParser * UriParser, const String& Sch
 	// ToDo: use copy constructor to guarantee we have a new instanceof an UriParser?
 	std::transform(SchemeName.begin(), SchemeName.end(), SchemeName.begin(), ::tolower);
 	Elysium::Core::UriParser::_ParserTable.Map[SchemeName] = UriParser;
-	*-/
+	*/
 }
 
-std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Component, std::string * const Source)
+Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(UriComponents Component, String * const Source)
 {
+	throw NotImplementedException();
+	/*
 	switch (Component)
 	{
 	case Elysium::Core::UriComponents::Scheme:
 	{
 		size_t IndexOfSchemeDelimiterStart = Source->find(":");
-		return std::string_view(&(Source->c_str()[0]), IndexOfSchemeDelimiterStart);
+		return StringView(&(Source->c_str()[0]), IndexOfSchemeDelimiterStart);
 	}
 	/*
 	case Elysium::Core::UriComponents::UserInfo:
@@ -169,5 +171,5 @@ std::string_view Elysium::Core::UriParser::ParseComponent(UriComponents Componen
 	default:
 		throw NotImplementedException((L"unknown component " + std::to_wstring((int)Component)).c_str());
 	}
+	*/
 }
-*/

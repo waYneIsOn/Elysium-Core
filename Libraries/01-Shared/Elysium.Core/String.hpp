@@ -54,7 +54,12 @@ namespace Elysium
 
 			virtual ElysiumChar& operator[](size_t Index) const;
 
-			virtual bool operator<(const String& Other);
+			bool operator==(const String& Other);
+			bool operator!=(const String& Other);
+			bool operator<(const String& Other);
+			bool operator>(const String& Other);
+			bool operator<=(const String& Other);
+			bool operator>=(const String& Other);
 
 			// ...
 			static bool IsNullOrEmtpy(const String& Value);
@@ -67,7 +72,16 @@ namespace Elysium
 		private:
 			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;
+
+			bool Equals(const String& Other);
 		};
+
+		bool operator==(const String& Left, const String& Right);
+		bool operator!=(const String& Left, const String& Right);
+		bool operator<(const String& Left, const String& Right);
+		bool operator>(const String& Left, const String& Right);
+		bool operator<=(const String& Left, const String& Right);
+		bool operator>=(const String& Left, const String& Right);
 	}
 }
 #endif

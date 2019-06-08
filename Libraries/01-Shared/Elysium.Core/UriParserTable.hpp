@@ -9,7 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_URIPARSERTABLE
 #define ELYSIUM_CORE_URIPARSERTABLE
-/*
+
 #ifndef _MAP_
 #include <map>
 #endif
@@ -38,5 +38,4 @@ namespace Elysium
 		};
 	}
 }
-*/
 #endif

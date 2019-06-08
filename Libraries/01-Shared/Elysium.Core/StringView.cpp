@@ -4,6 +4,10 @@ Elysium::Core::StringView::StringView()
 	: _Data(), _Length(0)
 {
 }
+Elysium::Core::StringView::StringView(const String & Input)
+	: _Data(Input.GetCharArray()), _Length(Input.GetLength())
+{
+}
 Elysium::Core::StringView::StringView(const String & Input, size_t Length)
 	: _Data(Input.GetCharArray()), _Length(Length)
 {

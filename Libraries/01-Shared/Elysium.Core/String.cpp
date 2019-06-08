@@ -126,9 +126,57 @@ ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 	return _Data[Index];
 }
 
+bool Elysium::Core::String::operator==(const String & Other)
+{
+	if (*this == Other)
+	{
+		return true;
+	}
+	if (_Length != Other._Length)
+	{
+		return false;
+	}
+
+	return Equals(Other);
+}
+bool Elysium::Core::String::operator!=(const String & Other)
+{
+	if (*this == Other)
+	{
+		return false;
+	}
+	if (_Length == Other._Length)
+	{
+		return false;
+	}
+
+	return !Equals(Other);
+}
 bool Elysium::Core::String::operator<(const String & Other)
 {
-	throw NotImplementedException();
+	if (*this == Other)
+	{
+		return false;
+	}
+
+	return false;
+}
+bool Elysium::Core::String::operator>(const String & Other)
+{
+	if (*this == Other)
+	{
+		return false;
+	}
+
+	return false;
+}
+bool Elysium::Core::String::operator<=(const String & Other)
+{
+	return false;
+}
+bool Elysium::Core::String::operator>=(const String & Other)
+{
+	return false;
 }
 
 bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
@@ -163,4 +211,34 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 #else
 	Result->_Data[Result->_Length] = '\0';
 #endif 
+}
+
+bool Elysium::Core::String::Equals(const String & Other)
+{
+	return false;
+}
+
+bool Elysium::Core::operator==(const String & Left, const String & Right)
+{
+	return Left == Right;
+}
+bool Elysium::Core::operator!=(const String & Left, const String & Right)
+{
+	return Left != Right;
+}
+bool Elysium::Core::operator<(const String & Left, const String & Right)
+{
+	return Left < Right;
+}
+bool Elysium::Core::operator>(const String & Left, const String & Right)
+{
+	return Left > Right;
+}
+bool Elysium::Core::operator<=(const String & Left, const String & Right)
+{
+	return Left <= Right;
+}
+bool Elysium::Core::operator>=(const String & Left, const String & Right)
+{
+	return Left >= Right;
 }

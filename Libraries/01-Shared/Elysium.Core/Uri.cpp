@@ -1,5 +1,5 @@
 #include "Uri.hpp"
-/*
+
 #ifndef ELYSIUM_CORE_URIPARSER
 #include "UriParser.hpp"
 #endif
@@ -12,8 +12,8 @@
 #include <algorithm>
 #endif
 
-Elysium::Core::Uri::Uri(const string& UriString)
-	: _OriginalString(string(UriString.c_str())), _AbsoluteUri(_OriginalString)
+Elysium::Core::Uri::Uri(const String& UriString)
+	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString)
 {
 	Parse();
 }
@@ -21,23 +21,23 @@ Elysium::Core::Uri::~Uri()
 {
 }
 
-const string_view & Elysium::Core::Uri::GetAbsoluteUri() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetAbsoluteUri() const
 {
 	return _AbsoluteUri;
 }
-const string_view & Elysium::Core::Uri::GetSchema() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetSchema() const
 {
 	return _SchemeView;
 }
-const string_view & Elysium::Core::Uri::GetAuthority() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetAuthority() const
 {
 	return _AuthorityView;
 }
-const string_view & Elysium::Core::Uri::GetUserInfo() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetUserInfo() const
 {
 	return _UserInfoView;
 }
-const string_view & Elysium::Core::Uri::GetHost() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetHost() const
 {
 	return _HostView;
 }
@@ -45,25 +45,26 @@ const int & Elysium::Core::Uri::GetPort() const
 {
 	return _Port;
 }
-const string_view & Elysium::Core::Uri::GetPathAndQuery() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetPathAndQuery() const
 {
 	return _PathAndQueryView;
 }
-const string_view & Elysium::Core::Uri::GetPath() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetPath() const
 {
 	return _PathView;
 }
-const string_view & Elysium::Core::Uri::GetQuery() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetQuery() const
 {
 	return _QueryView;
 }
-const string_view & Elysium::Core::Uri::GetFragment() const
+const Elysium::Core::StringView & Elysium::Core::Uri::GetFragment() const
 {
 	return _FragmentView;
 }
 
 void Elysium::Core::Uri::Parse()
 {
+	/*
 	// grab the dummy parser to parse the scheme
 	UriParser* AccordingUriParser = Elysium::Core::UriParser::_ParserTable.Map["dummy"];
 	_SchemeView = AccordingUriParser->ParseComponent(UriComponents::Scheme, &_OriginalString);
@@ -224,6 +225,5 @@ void Elysium::Core::Uri::Parse()
 	{
 		_FragmentView = string_view(&(_OriginalString.c_str()[RelativeIndexOfFragmentStart + 1]));
 	}
-	*-/
+	*/
 }
-*/

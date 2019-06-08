@@ -9,13 +9,13 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_URIPARSER
 #define ELYSIUM_CORE_URIPARSER
-/*
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
-#endif
 
 #ifndef ELYSIUM_CORE_API
 #include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_URICOMPONENTS
@@ -26,7 +26,9 @@ Copyright (C) 2017 waYne (CAM)
 #include "UriSyntaxFlags.hpp"
 #endif
 
-#pragma warning(disable : 4251)
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "StringView.hpp"
+#endif
 
 namespace Elysium
 {
@@ -42,7 +44,7 @@ namespace Elysium
 
 			static void Register(UriParser* UriParser, const String& SchemeName, int DefaultPort);
 
-			//virtual std::string_view ParseComponent(UriComponents Component, std::string* const Source);
+			virtual StringView ParseComponent(UriComponents Component, String* const Source);
 		protected:
 			UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents);
 		private:
@@ -60,5 +62,4 @@ namespace Elysium
 		};
 	}
 }
-*/
 #endif

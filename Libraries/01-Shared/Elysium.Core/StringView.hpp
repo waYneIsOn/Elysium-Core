@@ -26,6 +26,7 @@ namespace Elysium
 		{
 		public:
 			StringView();
+			StringView(const String& Input);
 			StringView(const String& Input, size_t Length);
 			~StringView();
 
