@@ -12,6 +12,26 @@
 #include <algorithm>
 #endif
 
+const Elysium::Core::String Elysium::Core::Uri::SchemeDelimiter(L"://");
+
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeFile(L"file");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeFtp(L"ftp");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeGopher(L"gopher");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttp(L"http");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttps(L"https");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeIrc(L"irc");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeLdap(L"ldap");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeMailto(L"mailto");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetPipe(L"net.pipe");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetTcp(L"net.tcp");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNews(L"news");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNntp(L"nntp");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeSecureWebSocket(L"wss");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeTel(L"tel");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeTelNet(L"telnet");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(L"urn");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(L"ws");
+
 Elysium::Core::Uri::Uri(const String& UriString)
 	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString)
 {

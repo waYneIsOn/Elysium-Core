@@ -72,8 +72,6 @@ namespace Elysium
 		private:
 			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;
-
-			bool Equals(const String& Other);
 		};
 
 		bool operator==(const String& Left, const String& Right);

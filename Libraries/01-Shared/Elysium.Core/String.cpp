@@ -137,7 +137,8 @@ bool Elysium::Core::String::operator==(const String & Other)
 		return false;
 	}
 
-	return Equals(Other);
+	// ToDo
+	return false;
 }
 bool Elysium::Core::String::operator!=(const String & Other)
 {
@@ -150,7 +151,8 @@ bool Elysium::Core::String::operator!=(const String & Other)
 		return false;
 	}
 
-	return !Equals(Other);
+	// ToDo
+	return true;
 }
 bool Elysium::Core::String::operator<(const String & Other)
 {
@@ -159,7 +161,8 @@ bool Elysium::Core::String::operator<(const String & Other)
 		return false;
 	}
 
-	return false;
+	// ToDo
+	return true;
 }
 bool Elysium::Core::String::operator>(const String & Other)
 {
@@ -168,14 +171,17 @@ bool Elysium::Core::String::operator>(const String & Other)
 		return false;
 	}
 
+	// ToDo
 	return false;
 }
 bool Elysium::Core::String::operator<=(const String & Other)
 {
+	// ToDo
 	return false;
 }
 bool Elysium::Core::String::operator>=(const String & Other)
 {
+	// ToDo
 	return false;
 }
 
@@ -213,32 +219,33 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 #endif 
 }
 
-bool Elysium::Core::String::Equals(const String & Other)
-{
-	return false;
-}
-
 bool Elysium::Core::operator==(const String & Left, const String & Right)
 {
+	// ToDo
 	return Left == Right;
 }
 bool Elysium::Core::operator!=(const String & Left, const String & Right)
 {
+	// ToDo
 	return Left != Right;
 }
 bool Elysium::Core::operator<(const String & Left, const String & Right)
 {
+	// ToDo
 	return Left < Right;
 }
 bool Elysium::Core::operator>(const String & Left, const String & Right)
 {
+	// ToDo
 	return Left > Right;
 }
 bool Elysium::Core::operator<=(const String & Left, const String & Right)
 {
+	// ToDo
 	return Left <= Right;
 }
 bool Elysium::Core::operator>=(const String & Left, const String & Right)
 {
+	// ToDo
 	return Left >= Right;
 }

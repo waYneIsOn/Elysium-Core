@@ -95,27 +95,6 @@ namespace Elysium
 			StringView _QueryView;
 			StringView _FragmentView;
 		};
-
-		// define static Uri fields
-		const String Elysium::Core::Uri::SchemeDelimiter(L"://");
-
-		const String Elysium::Core::Uri::UriSchemeFile(L"file");
-		const String Elysium::Core::Uri::UriSchemeFtp(L"ftp");
-		const String Elysium::Core::Uri::UriSchemeGopher(L"gopher");
-		const String Elysium::Core::Uri::UriSchemeHttp(L"http");
-		const String Elysium::Core::Uri::UriSchemeHttps(L"https");
-		const String Elysium::Core::Uri::UriSchemeIrc(L"irc");
-		const String Elysium::Core::Uri::UriSchemeLdap(L"ldap");
-		const String Elysium::Core::Uri::UriSchemeMailto(L"mailto");
-		const String Elysium::Core::Uri::UriSchemeNetPipe(L"net.pipe");
-		const String Elysium::Core::Uri::UriSchemeNetTcp(L"net.tcp");
-		const String Elysium::Core::Uri::UriSchemeNews(L"news");
-		const String Elysium::Core::Uri::UriSchemeNntp(L"nntp");
-		const String Elysium::Core::Uri::UriSchemeSecureWebSocket(L"wss");
-		const String Elysium::Core::Uri::UriSchemeTel(L"tel");
-		const String Elysium::Core::Uri::UriSchemeTelNet(L"telnet");
-		const String Elysium::Core::Uri::UriSchemeUrn(L"urn");
-		const String Elysium::Core::Uri::UriSchemeWebSocket(L"ws");
 	}
 }
 #endif
