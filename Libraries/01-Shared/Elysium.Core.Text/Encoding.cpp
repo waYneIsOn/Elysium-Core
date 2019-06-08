@@ -35,6 +35,10 @@ const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::ASCIIEncoding::_AS
 #else
 #endif
 
+Elysium::Core::Text::Encoding::Encoding(const Encoding & Encoding)
+	: _CodePage(Encoding._CodePage)
+{
+}
 Elysium::Core::Text::Encoding::~Encoding()
 {
 }

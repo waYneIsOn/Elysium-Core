@@ -41,6 +41,7 @@ namespace Elysium
 			class ELYSIUM_CORE_API Encoding
 			{
 			public:
+				Encoding(const Encoding& Encoding);
 				virtual ~Encoding();
 
 				static void GetEncoding(int CodePage, Encoding* Output);
