@@ -38,6 +38,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "EndPoint.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETSHUTDOWN
+#include "SocketShutdown.hpp"
+#endif
+
 #ifndef _WINSOCK2API_
 #if defined(__ANDROID__)
 // ToDo ...
@@ -89,6 +93,7 @@ namespace Elysium
 					// methods
 					void Connect(const String& Host, int Port);
 					void Connect(const EndPoint& RemoteEndPoint);
+					void Shutdown(SocketShutdown Value);
 					void Disconnect(bool ReuseSocket);
 
 					void Bind(const EndPoint& LocalEndPoint);

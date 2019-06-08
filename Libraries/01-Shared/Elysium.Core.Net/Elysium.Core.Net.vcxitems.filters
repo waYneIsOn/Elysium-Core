@@ -51,5 +51,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

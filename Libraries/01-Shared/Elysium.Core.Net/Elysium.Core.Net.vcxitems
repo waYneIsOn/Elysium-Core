@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketError.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -211,6 +211,10 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoin
 {
 	throw NotImplementedException();
 }
+void Elysium::Core::Net::Sockets::Socket::Shutdown(SocketShutdown Value)
+{
+	shutdown(_WinSocketHandle, (int)Value);
+}
 void Elysium::Core::Net::Sockets::Socket::Disconnect(bool ReuseSocket)
 {
 	if (!_IsConnected)
