@@ -1,0 +1,2 @@
+Code Pages
+https://docs.microsoft.com/en-us/windows/desktop/intl/code-page-identifiers

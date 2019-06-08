@@ -14,11 +14,16 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ASCIIEncoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UTF8Encoding.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ASCIIEncoding.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Encoding.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UTF8Encoding.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)01 - Info.txt" />
   </ItemGroup>
 </Project>

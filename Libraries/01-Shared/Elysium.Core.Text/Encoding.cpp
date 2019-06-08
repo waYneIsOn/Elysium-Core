@@ -8,6 +8,10 @@
 #include "UTF8Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ASCIIENCODING
+#include "ASCIIEncoding.hpp"
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINDOWS_
 #include <Windows.h>
@@ -25,6 +29,7 @@
 const Elysium::Core::Text::Encoding Elysium::Core::Text::Encoding::_Default = Encoding();
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 const Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::UTF8Encoding::_UTF8 = UTF8Encoding();
+const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::ASCIIEncoding::_ASCII = ASCIIEncoding();
 #elif defined(__ANDROID__)
 // ToDo: E0298
 #else
@@ -46,7 +51,7 @@ void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::ASCII()
 {
 #ifdef UNICODE
-	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()");
+	return &_ASCII;
 #else
 	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()");
 #endif
@@ -114,7 +119,7 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 size_t Elysium::Core::Text::Encoding::GetBytes(const String * Input, const size_t CharIndex, const size_t CharCount, Elysium::Core::Collections::Generic::List<byte>* Output) const
 {
 #ifdef UNICODE
-	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0);
+	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0) - 1; // -1 to remove \0
 	char* ConvertedBytes = new char[Length];
 	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
 	for (int i = 0; i < Length; i++)
