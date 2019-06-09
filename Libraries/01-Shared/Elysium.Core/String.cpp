@@ -97,7 +97,7 @@ Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Val
 }
 Elysium::Core::String & Elysium::Core::String::operator=(const String & Value)
 {
-	if (*this != Value)
+	if (this != &Value)
 	{
 		if (_Data != nullptr)
 		{
@@ -209,11 +209,6 @@ bool Elysium::Core::String::operator>=(const String & Other)
 #endif 
 }
 
-bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
-{
-	return Value._Length == 0;
-}
-
 void Elysium::Core::String::Substring(size_t StartIndex, String * Result) const
 {
 	Elysium::Core::String::Substring(StartIndex, _Length - StartIndex, Result);
@@ -241,6 +236,11 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 #else
 	Result->_Data[Result->_Length] = '\0';
 #endif 
+}
+
+bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
+{
+	return Value._Length == 0;
 }
 
 bool Elysium::Core::operator==(const String & Left, const String & Right)

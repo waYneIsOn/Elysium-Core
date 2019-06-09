@@ -63,25 +63,26 @@ namespace Elysium
 			bool operator<=(const String& Other);
 			bool operator>=(const String& Other);
 
-			// ...
-			static bool IsNullOrEmtpy(const String& Value);
-
 			// methods
 			void Substring(size_t StartIndex, String* Result) const;
 			void Substring(size_t StartIndex, size_t Length, String* Result) const;
 			//void ToLower(String* Result);
 			//void ToUpper(String* Result);
+
+			// ...
+			static bool IsNullOrEmtpy(const String& Value);
+			//static void Concat(const unsigned int ArgumentCount, const String* Arguments[], String* Output);
 		private:
 			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;
 		};
 
-		bool operator==(const String& Left, const String& Right);
-		bool operator!=(const String& Left, const String& Right);
-		bool operator<(const String& Left, const String& Right);
-		bool operator>(const String& Left, const String& Right);
-		bool operator<=(const String& Left, const String& Right);
-		bool operator>=(const String& Left, const String& Right);
+		ELYSIUM_CORE_API bool operator==(const String& Left, const String& Right);
+		ELYSIUM_CORE_API bool operator!=(const String& Left, const String& Right);
+		ELYSIUM_CORE_API bool operator<(const String& Left, const String& Right);
+		ELYSIUM_CORE_API bool operator>(const String& Left, const String& Right);
+		ELYSIUM_CORE_API bool operator<=(const String& Left, const String& Right);
+		ELYSIUM_CORE_API bool operator>=(const String& Left, const String& Right);
 	}
 }
 #endif
