@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-/*
+
 #ifndef ELYSIUM_CORE_URI
 #include "../../../Libraries/01-Shared/Elysium.Core/Uri.hpp"
 #endif
@@ -14,77 +14,77 @@ namespace UnitTestsCore
 	public:
 		TEST_METHOD(StaticFields)
 		{
-			Assert::AreEqual("://", Uri::SchemeDelimiter.c_str());
+			Assert::AreEqual(L"://", Uri::SchemeDelimiter.GetCharArray());
 
-			Assert::AreEqual("file", Uri::UriSchemeFile.c_str());
-			Assert::AreEqual("ftp", Uri::UriSchemeFtp.c_str());
-			Assert::AreEqual("gopher", Uri::UriSchemeGopher.c_str());
-			Assert::AreEqual("http", Uri::UriSchemeHttp.c_str());
-			Assert::AreEqual("https", Uri::UriSchemeHttps.c_str());
-			Assert::AreEqual("irc", Uri::UriSchemeIrc.c_str());
-			Assert::AreEqual("ldap", Uri::UriSchemeLdap.c_str());
-			Assert::AreEqual("mailto", Uri::UriSchemeMailto.c_str());
-			Assert::AreEqual("net.pipe", Uri::UriSchemeNetPipe.c_str());
-			Assert::AreEqual("net.tcp", Uri::UriSchemeNetTcp.c_str());
-			Assert::AreEqual("news", Uri::UriSchemeNews.c_str());
-			Assert::AreEqual("nntp", Uri::UriSchemeNntp.c_str());
-			Assert::AreEqual("wss", Uri::UriSchemeSecureWebSocket.c_str());
-			Assert::AreEqual("tel", Uri::UriSchemeTel.c_str());
-			Assert::AreEqual("telnet", Uri::UriSchemeTelNet.c_str());
-			Assert::AreEqual("urn", Uri::UriSchemeUrn.c_str());
-			Assert::AreEqual("ws", Uri::UriSchemeWebSocket.c_str());
+			Assert::AreEqual(L"file", Uri::UriSchemeFile.GetCharArray());
+			Assert::AreEqual(L"ftp", Uri::UriSchemeFtp.GetCharArray());
+			Assert::AreEqual(L"gopher", Uri::UriSchemeGopher.GetCharArray());
+			Assert::AreEqual(L"http", Uri::UriSchemeHttp.GetCharArray());
+			Assert::AreEqual(L"https", Uri::UriSchemeHttps.GetCharArray());
+			Assert::AreEqual(L"irc", Uri::UriSchemeIrc.GetCharArray());
+			Assert::AreEqual(L"ldap", Uri::UriSchemeLdap.GetCharArray());
+			Assert::AreEqual(L"mailto", Uri::UriSchemeMailto.GetCharArray());
+			Assert::AreEqual(L"net.pipe", Uri::UriSchemeNetPipe.GetCharArray());
+			Assert::AreEqual(L"net.tcp", Uri::UriSchemeNetTcp.GetCharArray());
+			Assert::AreEqual(L"news", Uri::UriSchemeNews.GetCharArray());
+			Assert::AreEqual(L"nntp", Uri::UriSchemeNntp.GetCharArray());
+			Assert::AreEqual(L"wss", Uri::UriSchemeSecureWebSocket.GetCharArray());
+			Assert::AreEqual(L"tel", Uri::UriSchemeTel.GetCharArray());
+			Assert::AreEqual(L"telnet", Uri::UriSchemeTelNet.GetCharArray());
+			Assert::AreEqual(L"urn", Uri::UriSchemeUrn.GetCharArray());
+			Assert::AreEqual(L"ws", Uri::UriSchemeWebSocket.GetCharArray());
 		}
 
 		TEST_METHOD(GetAbsoluteUri)
 		{
-			Assert::AreEqual("https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff", ((string)_TestUriHttps.GetAbsoluteUri()).c_str());
-			Assert::AreEqual("ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#", ((string)_TestUriFtp.GetAbsoluteUri()).c_str());
-			Assert::AreEqual("mailto:some@mail.com", ((string)_TestUriMailTo.GetAbsoluteUri()).c_str());
+			Assert::AreEqual(L"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff", ((String)_TestUriHttps.GetAbsoluteUri()).GetCharArray());
+			Assert::AreEqual(L"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#", ((String)_TestUriFtp.GetAbsoluteUri()).GetCharArray());
+			Assert::AreEqual(L"mailto:some@mail.com", ((String)_TestUriMailTo.GetAbsoluteUri()).GetCharArray());
 
-			Assert::AreEqual("news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo", ((string)_TestUriNews.GetAbsoluteUri()).c_str());
-			Assert::AreEqual("ldap://[2001:db8::7]/c=GB?objectClass?onex", ((string)_TestUriLdap.GetAbsoluteUri()).c_str());
-			Assert::AreEqual("tel:+1-816-555-1212", ((string)_TestUriTel.GetAbsoluteUri()).c_str());
-			Assert::AreEqual("telnet://192.0.2.16:80/some/path?query=something", ((string)_TestUriTelNet.GetAbsoluteUri()).c_str());
-			Assert::AreEqual("urn:oasis:names:specification:docbook:dtd:xml:4.1.2", ((string)_TestUriUrn.GetAbsoluteUri()).c_str());
+			Assert::AreEqual(L"news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo", ((String)_TestUriNews.GetAbsoluteUri()).GetCharArray());
+			Assert::AreEqual(L"ldap://[2001:db8::7]/c=GB?objectClass?onex", ((String)_TestUriLdap.GetAbsoluteUri()).GetCharArray());
+			Assert::AreEqual(L"tel:+1-816-555-1212", ((String)_TestUriTel.GetAbsoluteUri()).GetCharArray());
+			Assert::AreEqual(L"telnet://192.0.2.16:80/some/path?query=something", ((String)_TestUriTelNet.GetAbsoluteUri()).GetCharArray());
+			Assert::AreEqual(L"urn:oasis:names:specification:docbook:dtd:xml:4.1.2", ((String)_TestUriUrn.GetAbsoluteUri()).GetCharArray());
 		}
 
 		TEST_METHOD(GetSchema)
 		{
-			Assert::AreEqual("https", ((string)_TestUriHttps.GetSchema()).c_str());
-			Assert::AreEqual("ftp", ((string)_TestUriFtp.GetSchema()).c_str());
-			Assert::AreEqual("mailto", ((string)_TestUriMailTo.GetSchema()).c_str());
+			Assert::AreEqual(L"https", ((String)_TestUriHttps.GetSchema()).GetCharArray());
+			Assert::AreEqual(L"ftp", ((String)_TestUriFtp.GetSchema()).GetCharArray());
+			Assert::AreEqual(L"mailto", ((String)_TestUriMailTo.GetSchema()).GetCharArray());
 
-			Assert::AreEqual("news", ((string)_TestUriNews.GetSchema()).c_str());
-			Assert::AreEqual("ldap", ((string)_TestUriLdap.GetSchema()).c_str());
-			Assert::AreEqual("tel", ((string)_TestUriTel.GetSchema()).c_str());
-			Assert::AreEqual("telnet", ((string)_TestUriTelNet.GetSchema()).c_str());
-			Assert::AreEqual("urn", ((string)_TestUriUrn.GetSchema()).c_str());
+			Assert::AreEqual(L"news", ((String)_TestUriNews.GetSchema()).GetCharArray());
+			Assert::AreEqual(L"ldap", ((String)_TestUriLdap.GetSchema()).GetCharArray());
+			Assert::AreEqual(L"tel", ((String)_TestUriTel.GetSchema()).GetCharArray());
+			Assert::AreEqual(L"telnet", ((String)_TestUriTelNet.GetSchema()).GetCharArray());
+			Assert::AreEqual(L"urn", ((String)_TestUriUrn.GetSchema()).GetCharArray());
 		}
 
 		TEST_METHOD(GetAuthorities)
 		{
-			Assert::AreEqual("www.google.com:447", ((string)_TestUriHttps.GetAuthority()).c_str());
-			Assert::AreEqual("username:password@www.google.com", ((string)_TestUriFtp.GetAuthority()).c_str());
-			Assert::AreEqual("some@mail.com", ((string)_TestUriMailTo.GetAuthority()).c_str());
+			Assert::AreEqual(L"www.google.com:447", ((String)_TestUriHttps.GetAuthority()).GetCharArray());
+			Assert::AreEqual(L"username:password@www.google.com", ((String)_TestUriFtp.GetAuthority()).GetCharArray());
+			Assert::AreEqual(L"some@mail.com", ((String)_TestUriMailTo.GetAuthority()).GetCharArray());
 
-			Assert::AreEqual("comp.infosystems.www.servers.unix", ((string)_TestUriNews.GetAuthority()).c_str());
-			Assert::AreEqual("[2001:db8::7]", ((string)_TestUriLdap.GetAuthority()).c_str());
-			Assert::AreEqual("+1-816-555-1212", ((string)_TestUriTel.GetAuthority()).c_str());
-			Assert::AreEqual("192.0.2.16:80", ((string)_TestUriTelNet.GetAuthority()).c_str());
-			Assert::AreEqual("oasis:names:specification:docbook:dtd:xml:4.1.2", ((string)_TestUriUrn.GetAuthority()).c_str());
+			Assert::AreEqual(L"comp.infosystems.www.servers.unix", ((String)_TestUriNews.GetAuthority()).GetCharArray());
+			Assert::AreEqual(L"[2001:db8::7]", ((String)_TestUriLdap.GetAuthority()).GetCharArray());
+			Assert::AreEqual(L"+1-816-555-1212", ((String)_TestUriTel.GetAuthority()).GetCharArray());
+			Assert::AreEqual(L"192.0.2.16:80", ((String)_TestUriTelNet.GetAuthority()).GetCharArray());
+			Assert::AreEqual(L"oasis:names:specification:docbook:dtd:xml:4.1.2", ((String)_TestUriUrn.GetAuthority()).GetCharArray());
 		}
 
 		TEST_METHOD(GetUserInfo)
 		{
-			Assert::AreEqual("", ((string)_TestUriHttps.GetUserInfo()).c_str());
-			Assert::AreEqual("username:password", ((string)_TestUriFtp.GetUserInfo()).c_str());
-			Assert::AreEqual("some", ((string)_TestUriMailTo.GetUserInfo()).c_str());
+			Assert::AreEqual(L"", ((String)_TestUriHttps.GetUserInfo()).GetCharArray());
+			Assert::AreEqual(L"username:password", ((String)_TestUriFtp.GetUserInfo()).GetCharArray());
+			Assert::AreEqual(L"some", ((String)_TestUriMailTo.GetUserInfo()).GetCharArray());
 
-			Assert::AreEqual("", ((string)_TestUriNews.GetUserInfo()).c_str());
-			Assert::AreEqual("", ((string)_TestUriLdap.GetUserInfo()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTel.GetUserInfo()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTelNet.GetUserInfo()).c_str());
-			Assert::AreEqual("", ((string)_TestUriUrn.GetUserInfo()).c_str());
+			Assert::AreEqual(L"", ((String)_TestUriNews.GetUserInfo()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriLdap.GetUserInfo()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTel.GetUserInfo()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTelNet.GetUserInfo()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriUrn.GetUserInfo()).GetCharArray());
 		}
 
 		TEST_METHOD(GetHost)
@@ -99,16 +99,16 @@ namespace UnitTestsCore
 			Uri _TestUriTel = Uri("tel:+1-816-555-1212");
 			Uri _TestUriTelNet = Uri("telnet://192.0.2.16:80/");
 			Uri _TestUriUrn = Uri("urn:oasis:names:specification:docbook:dtd:xml:4.1.2");
-			*-/
-			Assert::AreEqual("www.google.com", ((string)_TestUriHttps.GetHost()).c_str());
-			Assert::AreEqual("www.google.com", ((string)_TestUriFtp.GetHost()).c_str());
-			Assert::AreEqual("mail.com", ((string)_TestUriMailTo.GetHost()).c_str());
+			*/
+			Assert::AreEqual(L"www.google.com", ((String)_TestUriHttps.GetHost()).GetCharArray());
+			Assert::AreEqual(L"www.google.com", ((String)_TestUriFtp.GetHost()).GetCharArray());
+			Assert::AreEqual(L"mail.com", ((String)_TestUriMailTo.GetHost()).GetCharArray());
 
-			Assert::AreEqual("comp.infosystems.www.servers.unix", ((string)_TestUriNews.GetHost()).c_str());
-			Assert::AreEqual("[2001:db8::7]", ((string)_TestUriLdap.GetHost()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTel.GetHost()).c_str());
-			Assert::AreEqual("192.0.2.16:80", ((string)_TestUriTelNet.GetHost()).c_str());
-			Assert::AreEqual("", ((string)_TestUriUrn.GetHost()).c_str());
+			Assert::AreEqual(L"comp.infosystems.www.servers.unix", ((String)_TestUriNews.GetHost()).GetCharArray());
+			Assert::AreEqual(L"[2001:db8::7]", ((String)_TestUriLdap.GetHost()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTel.GetHost()).GetCharArray());
+			Assert::AreEqual(L"192.0.2.16:80", ((String)_TestUriTelNet.GetHost()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriUrn.GetHost()).GetCharArray());
 		}
 
 		TEST_METHOD(GetPort)
@@ -126,66 +126,65 @@ namespace UnitTestsCore
 
 		TEST_METHOD(GetPathAndQuery)
 		{
-			Assert::AreEqual("someFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((string)_TestUriHttps.GetPathAndQuery()).c_str());
-			Assert::AreEqual("xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((string)_TestUriFtp.GetPathAndQuery()).c_str());
-			Assert::AreEqual("", ((string)_TestUriMailTo.GetPathAndQuery()).c_str());
+			Assert::AreEqual(L"someFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((String)_TestUriHttps.GetPathAndQuery()).GetCharArray());
+			Assert::AreEqual(L"xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((String)_TestUriFtp.GetPathAndQuery()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriMailTo.GetPathAndQuery()).GetCharArray());
 
-			Assert::AreEqual("some/random/path", ((string)_TestUriNews.GetPathAndQuery()).c_str());
-			Assert::AreEqual("c=GB?objectClass?onex", ((string)_TestUriLdap.GetPathAndQuery()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTel.GetPathAndQuery()).c_str());
-			Assert::AreEqual("some/path?query=something", ((string)_TestUriTelNet.GetPathAndQuery()).c_str());
-			Assert::AreEqual("", ((string)_TestUriUrn.GetPathAndQuery()).c_str());
+			Assert::AreEqual(L"some/random/path", ((String)_TestUriNews.GetPathAndQuery()).GetCharArray());
+			Assert::AreEqual(L"c=GB?objectClass?onex", ((String)_TestUriLdap.GetPathAndQuery()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTel.GetPathAndQuery()).GetCharArray());
+			Assert::AreEqual(L"some/path?query=something", ((String)_TestUriTelNet.GetPathAndQuery()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriUrn.GetPathAndQuery()).GetCharArray());
 		}
 
 		TEST_METHOD(GetPath)
 		{
-			Assert::AreEqual("someFold/subfol/bla", ((string)_TestUriHttps.GetPath()).c_str());
-			Assert::AreEqual("xomeFold/subfol/bla", ((string)_TestUriFtp.GetPath()).c_str());
-			Assert::AreEqual("", ((string)_TestUriMailTo.GetPath()).c_str());
+			Assert::AreEqual(L"someFold/subfol/bla", ((String)_TestUriHttps.GetPath()).GetCharArray());
+			Assert::AreEqual(L"xomeFold/subfol/bla", ((String)_TestUriFtp.GetPath()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriMailTo.GetPath()).GetCharArray());
 
-			Assert::AreEqual("some/random/path", ((string)_TestUriNews.GetPath()).c_str());
-			Assert::AreEqual("c=GB", ((string)_TestUriLdap.GetPath()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTel.GetPath()).c_str());
-			Assert::AreEqual("some/path", ((string)_TestUriTelNet.GetPath()).c_str());
-			Assert::AreEqual("", ((string)_TestUriUrn.GetPath()).c_str());
+			Assert::AreEqual(L"some/random/path", ((String)_TestUriNews.GetPath()).GetCharArray());
+			Assert::AreEqual(L"c=GB", ((String)_TestUriLdap.GetPath()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTel.GetPath()).GetCharArray());
+			Assert::AreEqual(L"some/path", ((String)_TestUriTelNet.GetPath()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriUrn.GetPath()).GetCharArray());
 		}
 
 		TEST_METHOD(GetQuery)
 		{
-			Assert::AreEqual("xyz=123&jkhsdf=8ndsf", ((string)_TestUriHttps.GetQuery()).c_str());
-			Assert::AreEqual("xyz=123&jkhsdf=8ndsf", ((string)_TestUriFtp.GetQuery()).c_str());
-			Assert::AreEqual("", ((string)_TestUriMailTo.GetQuery()).c_str());
+			Assert::AreEqual(L"xyz=123&jkhsdf=8ndsf", ((String)_TestUriHttps.GetQuery()).GetCharArray());
+			Assert::AreEqual(L"xyz=123&jkhsdf=8ndsf", ((String)_TestUriFtp.GetQuery()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriMailTo.GetQuery()).GetCharArray());
 
-			Assert::AreEqual("", ((string)_TestUriNews.GetQuery()).c_str());
-			Assert::AreEqual("objectClass?onex", ((string)_TestUriLdap.GetQuery()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTel.GetQuery()).c_str());
-			Assert::AreEqual("query=something", ((string)_TestUriTelNet.GetQuery()).c_str());
-			Assert::AreEqual("", ((string)_TestUriUrn.GetQuery()).c_str());
+			Assert::AreEqual(L"", ((String)_TestUriNews.GetQuery()).GetCharArray());
+			Assert::AreEqual(L"objectClass?onex", ((String)_TestUriLdap.GetQuery()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTel.GetQuery()).GetCharArray());
+			Assert::AreEqual(L"query=something", ((String)_TestUriTelNet.GetQuery()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriUrn.GetQuery()).GetCharArray());
 		}
 
 		TEST_METHOD(GetFragment)
 		{
-			Assert::AreEqual("fragmentstuff", ((string)_TestUriHttps.GetFragment()).c_str());
-			Assert::AreEqual("", ((string)_TestUriFtp.GetFragment()).c_str());
-			Assert::AreEqual("", ((string)_TestUriMailTo.GetFragment()).c_str());
+			Assert::AreEqual(L"fragmentstuff", ((String)_TestUriHttps.GetFragment()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriFtp.GetFragment()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriMailTo.GetFragment()).GetCharArray());
 
-			Assert::AreEqual("fragmentyoyo", ((string)_TestUriNews.GetFragment()).c_str());
-			Assert::AreEqual("", ((string)_TestUriLdap.GetFragment()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTel.GetFragment()).c_str());
-			Assert::AreEqual("", ((string)_TestUriTelNet.GetFragment()).c_str());
-			Assert::AreEqual("", ((string)_TestUriUrn.GetFragment()).c_str());
+			Assert::AreEqual(L"fragmentyoyo", ((String)_TestUriNews.GetFragment()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriLdap.GetFragment()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTel.GetFragment()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriTelNet.GetFragment()).GetCharArray());
+			Assert::AreEqual(L"", ((String)_TestUriUrn.GetFragment()).GetCharArray());
 		}
 	private:
 		// fields
-		Uri _TestUriHttps = Uri("https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff");
-		Uri _TestUriFtp = Uri("ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#");
-		Uri _TestUriMailTo = Uri("mailto:some@mail.com");
+		Uri _TestUriHttps = Uri(L"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff");
+		Uri _TestUriFtp = Uri(L"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#");
+		Uri _TestUriMailTo = Uri(L"mailto:some@mail.com");
 
-		Uri _TestUriNews = Uri("news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo");
-		Uri _TestUriLdap = Uri("ldap://[2001:db8::7]/c=GB?objectClass?onex");
-		Uri _TestUriTel = Uri("tel:+1-816-555-1212");
-		Uri _TestUriTelNet = Uri("telnet://192.0.2.16:80/some/path?query=something");
-		Uri _TestUriUrn = Uri("urn:oasis:names:specification:docbook:dtd:xml:4.1.2");
+		Uri _TestUriNews = Uri(L"news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo");
+		Uri _TestUriLdap = Uri(L"ldap://[2001:db8::7]/c=GB?objectClass?onex");
+		Uri _TestUriTel = Uri(L"tel:+1-816-555-1212");
+		Uri _TestUriTelNet = Uri(L"telnet://192.0.2.16:80/some/path?query=something");
+		Uri _TestUriUrn = Uri(L"urn:oasis:names:specification:docbook:dtd:xml:4.1.2");
 	};
 }
-*/
