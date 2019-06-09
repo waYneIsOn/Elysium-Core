@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URIPARSERTABLE
 #define ELYSIUM_CORE_URIPARSERTABLE
 
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
 #ifndef _MAP_
 #include <map>
 #endif
@@ -28,7 +32,7 @@ namespace Elysium
 	{
 		class UriParser;
 
-		class UriParserTable final
+		class ELYSIUM_CORE_API UriParserTable final
 		{
 		public:
 			UriParserTable();

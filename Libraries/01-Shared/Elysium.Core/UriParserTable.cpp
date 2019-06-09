@@ -18,9 +18,8 @@ using Elysium::Core::UriSyntaxFlags;
 Elysium::Core::UriParserTable::UriParserTable()
 	: Map(
 		{
-			/*
 			{ L"dummy", new BuildInUriParser(L"dummy", -1, UriParser::DummySyntaxFlags) },
-
+			
 			{ L"file", new BuildInUriParser(L"file", -1, UriParser::HttpSyntaxFlags) },
 			{ L"ftp", new BuildInUriParser(L"ftp", 21, UriParser::HttpSyntaxFlags) },
 			{ L"gopher", new BuildInUriParser(L"gopher", 70, UriParser::HttpSyntaxFlags) },
@@ -38,7 +37,7 @@ Elysium::Core::UriParserTable::UriParserTable()
 			{ L"telnet", new BuildInUriParser(L"telnet", 992, UriParser::HttpSyntaxFlags) },
 			{ L"urn", new BuildInUriParser(L"urn", 23, UriParser::HttpSyntaxFlags) },
 			{ L"ws", new BuildInUriParser(L"ws", 80, UriParser::HttpSyntaxFlags) },
-			*/
+			
 		})
 {
 }

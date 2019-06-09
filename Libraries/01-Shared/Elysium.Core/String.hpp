@@ -48,12 +48,14 @@ namespace Elysium
 			const size_t GetLength() const;
 			const ElysiumChar* GetCharArray() const;
 
-			// operators
+			// assignment operators
 			virtual String& operator=(const ElysiumChar* Value);
 			virtual String& operator=(const String& Value);
 
+			// index operator
 			virtual ElysiumChar& operator[](size_t Index) const;
 
+			// relational operators
 			bool operator==(const String& Other);
 			bool operator!=(const String& Other);
 			bool operator<(const String& Other);

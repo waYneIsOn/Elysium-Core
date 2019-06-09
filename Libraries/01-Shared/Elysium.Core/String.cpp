@@ -97,7 +97,7 @@ Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Val
 }
 Elysium::Core::String & Elysium::Core::String::operator=(const String & Value)
 {
-	if (&Value != this)
+	if (*this != Value)
 	{
 		if (_Data != nullptr)
 		{
@@ -128,7 +128,7 @@ ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 
 bool Elysium::Core::String::operator==(const String & Other)
 {
-	if (*this == Other)
+	if (this == &Other)
 	{
 		return true;
 	}
@@ -137,52 +137,76 @@ bool Elysium::Core::String::operator==(const String & Other)
 		return false;
 	}
 
-	// ToDo
-	return false;
+#ifdef UNICODE
+	return wcscmp(_Data, Other._Data) == 0;
+#else
+	return strcmp(_Data, Other._Data) == 0;
+#endif 
 }
 bool Elysium::Core::String::operator!=(const String & Other)
 {
-	if (*this == Other)
-	{
-		return false;
-	}
-	if (_Length == Other._Length)
+	if (this == &Other)
 	{
 		return false;
 	}
 
-	// ToDo
-	return true;
+#ifdef UNICODE
+	return wcscmp(_Data, Other._Data) != 0;
+#else
+	return strcmp(_Data, Other._Data) != 0;
+#endif 
 }
 bool Elysium::Core::String::operator<(const String & Other)
 {
-	if (*this == Other)
+	if (this == &Other)
 	{
 		return false;
 	}
 
-	// ToDo
-	return true;
+#ifdef UNICODE
+	return wcscmp(_Data, Other._Data) < 0;
+#else
+	return strcmp(_Data, Other._Data) < 0;
+#endif 
 }
 bool Elysium::Core::String::operator>(const String & Other)
 {
-	if (*this == Other)
+	if (this == &Other)
 	{
 		return false;
 	}
 
-	// ToDo
-	return false;
+#ifdef UNICODE
+	return wcscmp(_Data, Other._Data) > 0;
+#else
+	return strcmp(_Data, Other._Data) > 0;
+#endif 
 }
 bool Elysium::Core::String::operator<=(const String & Other)
 {
-	// ToDo
-	return false;
+	if (this == &Other)
+	{
+		return true;
+	}
+
+#ifdef UNICODE
+	return wcscmp(_Data, Other._Data) <= 0;
+#else
+	return strcmp(_Data, Other._Data) <= 0;
+#endif 
 }
 bool Elysium::Core::String::operator>=(const String & Other)
 {
-	// ToDo
-	return false;
+	if (this == &Other)
+	{
+		return true;
+	}
+
+#ifdef UNICODE
+	return wcscmp(_Data, Other._Data) >= 0;
+#else
+	return strcmp(_Data, Other._Data) >= 0;
+#endif 
 }
 
 bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
@@ -221,31 +245,83 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 
 bool Elysium::Core::operator==(const String & Left, const String & Right)
 {
-	// ToDo
-	return Left == Right;
+	if (&Left == &Right)
+	{
+		return true;
+	}
+	if (Left.GetLength() == Right.GetLength())
+	{
+		return false;
+	}
+
+#ifdef UNICODE
+	return wcscmp(&Left[0], &Right[0]) != 0;
+#else
+	return strcmp(&Left[0], &Right[0]) != 0;
+#endif 
 }
 bool Elysium::Core::operator!=(const String & Left, const String & Right)
 {
-	// ToDo
-	return Left != Right;
+	if (&Left == &Right)
+	{
+		return false;
+	}
+
+#ifdef UNICODE
+	return wcscmp(&Left[0], &Right[0]) != 0;
+#else
+	return strcmp(&Left[0], &Right[0]) != 0;
+#endif 
 }
 bool Elysium::Core::operator<(const String & Left, const String & Right)
 {
-	// ToDo
-	return Left < Right;
+	if (&Left == &Right)
+	{
+		return false;
+	}
+
+#ifdef UNICODE
+	return wcscmp(&Left[0], &Right[0]) < 0;
+#else
+	return strcmp(&Left[0], &Right[0]) < 0;
+#endif 
 }
 bool Elysium::Core::operator>(const String & Left, const String & Right)
 {
-	// ToDo
-	return Left > Right;
+	if (&Left == &Right)
+	{
+		return false;
+	}
+
+#ifdef UNICODE
+	return wcscmp(&Left[0], &Right[0]) > 0;
+#else
+	return strcmp(&Left[0], &Right[0]) > 0;
+#endif 
 }
 bool Elysium::Core::operator<=(const String & Left, const String & Right)
 {
-	// ToDo
-	return Left <= Right;
+	if (&Left == &Right)
+	{
+		return true;
+	}
+
+#ifdef UNICODE
+	return wcscmp(&Left[0], &Right[0]) <= 0;
+#else
+	return strcmp(&Left[0], &Right[0]) <= 0;
+#endif 
 }
 bool Elysium::Core::operator>=(const String & Left, const String & Right)
 {
-	// ToDo
-	return Left >= Right;
+	if (&Left == &Right)
+	{
+		return true;
+	}
+
+#ifdef UNICODE
+	return wcscmp(&Left[0], &Right[0]) >= 0;
+#else
+	return strcmp(&Left[0], &Right[0]) >= 0;
+#endif 
 }

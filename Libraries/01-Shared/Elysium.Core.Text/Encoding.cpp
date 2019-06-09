@@ -124,6 +124,10 @@ size_t Elysium::Core::Text::Encoding::GetBytes(const String * Input, const size_
 {
 #ifdef UNICODE
 	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0);
+	/*
+	Output->SetCapacity(Length);
+	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, (char*)&Output[0], Length, 0, 0);
+	*/
 	char* ConvertedBytes = new char[Length];
 	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
 	for (int i = 0; i < Length; i++)

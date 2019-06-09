@@ -7,8 +7,8 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_URISYNTAXFLAGS
-#define ELYSIUM_CORE_URISYNTAXFLAGS
+#ifndef ELYSIUM_CORE_VERSION
+#define ELYSIUM_CORE_VERSION
 
 #ifndef ELYSIUM_CORE_API
 #include "API.hpp"
