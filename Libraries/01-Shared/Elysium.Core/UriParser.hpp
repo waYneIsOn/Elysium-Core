@@ -34,8 +34,8 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class Uri;
-		class UriParserTable;
+		class ELYSIUM_CORE_API Uri;
+		//class ELYSIUM_CORE_API UriParserTable;
 
 		class ELYSIUM_CORE_API UriParser
 		{
@@ -54,7 +54,7 @@ namespace Elysium
 			static UriSyntaxFlags DummySyntaxFlags;
 			static UriSyntaxFlags HttpSyntaxFlags;
 
-			static UriParserTable _ParserTable;
+			//static UriParserTable _ParserTable;
 
 			String _Scheme;
 			int _Port;

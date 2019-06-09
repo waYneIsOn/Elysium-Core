@@ -77,7 +77,7 @@ namespace Elysium
 
 				//virtual void Cancel() = 0;
 				virtual std::unique_ptr<IDataParameter> CreateParameter() = 0;
-				virtual int ExecuteNonQuery() = 0;
+				virtual size_t ExecuteNonQuery() = 0;
 				virtual std::unique_ptr<IDataReader> ExecuteReader() = 0;
 				//virtual IDataReader ExecuteReader(CommandBehaviour Behaviour) = 0;
 				//virtual object ExecuteScalar() = 0;

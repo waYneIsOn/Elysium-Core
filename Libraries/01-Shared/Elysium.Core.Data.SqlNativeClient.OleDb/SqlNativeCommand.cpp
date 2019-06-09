@@ -49,7 +49,7 @@ std::unique_ptr<Elysium::Core::Data::IDataParameter> Elysium::Core::Data::SqlNat
 {
 	return std::unique_ptr<IDataParameter>(new SqlNativeParameter(this));
 }
-int Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNonQuery()
+size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNonQuery()
 {
 	HRESULT HResult;
 
@@ -240,7 +240,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 	if (ParameterCount > 0)
 	{
 		// get the number of blob-fields
-		unsigned long NumberOfBlobFields = 0;
+		size_t NumberOfBlobFields = 0;
 		for (unsigned long i = 0; i < ParameterCount; i++)
 		{
 			if (_Parameters[i].GetDbType() == DbType::Binary)
@@ -248,7 +248,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 				NumberOfBlobFields++;
 			}
 		}
-		unsigned long NumberOfNonBlobFields = ParameterCount - NumberOfBlobFields;
+		size_t NumberOfNonBlobFields = ParameterCount - NumberOfBlobFields;
 
 		// resize the stream-collection accordingly
 		Streams->resize(NumberOfBlobFields);
@@ -354,12 +354,12 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 						CurrentStream->AddRef();	// very important or the object will be deleted too early
 						Streams->at(StreamCounter) = CurrentStream;
 
-						unsigned long BytesRead = 0;
+						size_t BytesRead = 0;
 						byte Buffer[4096];
 						SourceStream->SetPosition(0);
 						while ((BytesRead = SourceStream->Read(&Buffer[0], 0, 4096)) > 0)
 						{
-							if (FAILED(HResult = CurrentStream->Write(&Buffer[0], BytesRead, nullptr)))
+							if (FAILED(HResult = CurrentStream->Write(&Buffer[0], (unsigned long)BytesRead, nullptr)))
 							{
 								SqlNativeException Exception = SqlNativeException(L"Failed to obtain IAccessor interface.\r\n", HResult, CurrentStream);
 								NativeCommandWithParameters->Release();

@@ -78,14 +78,14 @@ namespace Elysium
 
 						virtual bool IsDBNull(uint32_t Index) override;
 					private:
-						SqlNativeDataReader(IRowset* NativeRowset, long RowsAffected, unsigned long FieldCount, DBCOLUMNINFO* ColumnInfo, wchar_t* ColumnNames);
+						SqlNativeDataReader(IRowset* NativeRowset, size_t RowsAffected, size_t FieldCount, DBCOLUMNINFO* ColumnInfo, wchar_t* ColumnNames);
 
 						IRowset* _NativeRowset;
 						DBCOLUMNINFO* _ColumnInfo = nullptr;
 						wchar_t* _ColumnNames = nullptr;
 
-						unsigned long _NumberOfNonBlobFields;
-						unsigned long _NumberOfBuffers;
+						size_t _NumberOfNonBlobFields;
+						size_t _NumberOfBuffers;
 						std::vector<std::vector<DBBINDING>> _NativeDatabaseBindings;
 						std::vector<std::vector<DBBINDSTATUS>> _NativeDatabaseBindStatus;
 						std::map<int, DBBINDING*> _IndexBindingMap;

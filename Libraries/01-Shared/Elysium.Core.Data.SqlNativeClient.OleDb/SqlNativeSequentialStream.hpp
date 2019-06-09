@@ -45,7 +45,7 @@ namespace Elysium
 						virtual int Seek(unsigned long Position);
 						virtual int Clear();
 						virtual int CompareData(void* Buffer);
-						virtual unsigned long Length();
+						virtual size_t Length();
 
 						virtual operator void* const();
 

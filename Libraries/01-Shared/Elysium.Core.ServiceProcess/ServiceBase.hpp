@@ -37,7 +37,7 @@ namespace Elysium
 				const int MaxNameLength = 80;
 
 				static void Run(const ServiceBase* Service);
-				static void Run(int ServiceCount, const ServiceBase* Services[]);
+				static void Run(size_t ServiceCount, const ServiceBase* Services[]);
 				static void Stop();
 
 				bool GetAutoLog() const;

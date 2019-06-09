@@ -10,12 +10,12 @@ Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 {
 	SetHResult(E_FAIL);
 }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const const String & Message)
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const String & Message)
 	: Elysium::Core::Exception(Message)
 {
 	SetHResult(E_FAIL);
 }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const const String & Message, const int ErrorCode)
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const String & Message, const int ErrorCode)
 	: Elysium::Core::Exception(Message)
 {
 	SetHResult(ErrorCode);

@@ -799,14 +799,14 @@ bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::IsDBNull(
 	return (DBSTATUSENUM)((BYTE*)_RowDataBuffer)[_IndexBindingMap[Index]->obStatus] == DBSTATUS_S_ISNULL;
 }
 
-Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataReader(IRowset* NativeRowset, long RowsAffected, unsigned long FieldCount, DBCOLUMNINFO* ColumnInfo, wchar_t* ColumnNames)
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataReader(IRowset* NativeRowset, size_t RowsAffected, size_t FieldCount, DBCOLUMNINFO* ColumnInfo, wchar_t* ColumnNames)
 	: Elysium::Core::Data::Common::DbDataReader(0, FieldCount, RowsAffected),
 	_NativeRowset(NativeRowset), _ColumnInfo(ColumnInfo), _ColumnNames(ColumnNames)
 {
 	HRESULT HResult;
 
 	// get the number of blob-fields
-	unsigned long NumberOfBlobFields = 0;
+	size_t NumberOfBlobFields = 0;
 	for (unsigned long i = 0; i < _FieldCount; i++)
 	{
 		if (_ColumnInfo[i].ulColumnSize > MSSQL_BLOB_SIZE || _ColumnInfo[i].wType == DBTYPE_IUNKNOWN)

@@ -1,5 +1,5 @@
 #include "UriParserTable.hpp"
-
+/*
 #ifndef ELYSIUM_CORE_URICOMPONENTS
 #include "UriComponents.hpp"
 #endif
@@ -51,3 +51,4 @@ Elysium::Core::UriParserTable::~UriParserTable()
 	}
 	Map.clear();
 }
+*/

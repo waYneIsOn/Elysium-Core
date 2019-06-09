@@ -19,7 +19,7 @@ Elysium::Core::ServiceProcess::ServiceBase::~ServiceBase()
 {
 }
 
-unsigned long _ServiceCount;
+size_t _ServiceCount;
 std::vector<Elysium::Core::ServiceProcess::ServiceBase*> _Services;
 
 void Elysium::Core::ServiceProcess::ServiceBase::Run(const ServiceBase * Service)
@@ -29,19 +29,19 @@ void Elysium::Core::ServiceProcess::ServiceBase::Run(const ServiceBase * Service
 
 	Run(1, Services);
 }
-void Elysium::Core::ServiceProcess::ServiceBase::Run(int ServiceCount, const ServiceBase * Services[])
+void Elysium::Core::ServiceProcess::ServiceBase::Run(size_t ServiceCount, const ServiceBase * Services[])
 {
 	// ...
 	_ServiceCount = ServiceCount;
 	_Services = std::vector<ServiceBase*>(ServiceCount);
-	for (unsigned long i = 0; i < ServiceCount; i++)
+	for (size_t i = 0; i < ServiceCount; i++)
 	{
 		_Services[i] = (ServiceBase*)Services[i];
 	}
 
 	// prepare all required service table entries
 	std::vector<SERVICE_TABLE_ENTRY> ServiceTable(ServiceCount);
-	for (unsigned long i = 0; i < ServiceCount; i++)
+	for (size_t i = 0; i < ServiceCount; i++)
 	{
 		ServiceTable[i].lpServiceName = (wchar_t*)Services[i]->GetServiceName();
 		ServiceTable[i].lpServiceProc = (LPSERVICE_MAIN_FUNCTION)MainCallback;

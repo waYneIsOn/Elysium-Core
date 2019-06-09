@@ -32,11 +32,11 @@ namespace Elysium
 	{
 		namespace Text
 		{
-			class ASCIIEncoding;
-			class UnicodeEncoding;
-			class UTF32Encoding;
-			class UTF7Encoding;
-			class UTF8Encoding;
+			class ELYSIUM_CORE_API ASCIIEncoding;
+			class ELYSIUM_CORE_API UnicodeEncoding;
+			class ELYSIUM_CORE_API UTF32Encoding;
+			class ELYSIUM_CORE_API UTF7Encoding;
+			class ELYSIUM_CORE_API UTF8Encoding;
 
 			class ELYSIUM_CORE_API Encoding
 			{

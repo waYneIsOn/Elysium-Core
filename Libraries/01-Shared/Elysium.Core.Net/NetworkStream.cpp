@@ -86,11 +86,11 @@ void Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, cons
 {
 	throw NotImplementedException();
 }
-int Elysium::Core::Net::Sockets::NetworkStream::Read(byte * Buffer, const int Offset, const int Count)
+size_t Elysium::Core::Net::Sockets::NetworkStream::Read(byte * Buffer, const size_t Offset, const size_t Count)
 {
 	return _Socket->Receive(&Buffer[0], Offset, Count);
 }
-void Elysium::Core::Net::Sockets::NetworkStream::Write(const byte * Buffer, const int Offset, const int Count)
+void Elysium::Core::Net::Sockets::NetworkStream::Write(const byte * Buffer, const size_t Offset, const size_t Count)
 {
-	int BytesSent = _Socket->Send(&Buffer[0], Offset, Count);
+	size_t BytesSent = _Socket->Send(&Buffer[0], Offset, Count);
 }

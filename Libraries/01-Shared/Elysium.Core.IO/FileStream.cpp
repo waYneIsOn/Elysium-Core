@@ -90,7 +90,7 @@ void Elysium::Core::IO::FileStream::Flush()
 void Elysium::Core::IO::FileStream::Seek(const int64_t Offset, const SeekOrigin Origin)
 {
 }
-int Elysium::Core::IO::FileStream::Read(byte * Buffer, int Offset, int Count)
+size_t Elysium::Core::IO::FileStream::Read(byte * Buffer, const size_t Offset, const size_t Count)
 {
 	if (!_NativeStream.is_open())
 	{
@@ -102,9 +102,9 @@ int Elysium::Core::IO::FileStream::Read(byte * Buffer, int Offset, int Count)
 	_NativeStream.read(CastBuffer, (std::streamsize)Count);
 	std::streamsize BytesReceived = _NativeStream.gcount();
 
-	return (int)BytesReceived;
+	return (size_t)BytesReceived;
 }
-void Elysium::Core::IO::FileStream::Write(const byte * Buffer, int Offset, int Count)
+void Elysium::Core::IO::FileStream::Write(const byte * Buffer, const size_t Offset, const size_t Count)
 {
 	if (!_NativeStream.is_open())
 	{

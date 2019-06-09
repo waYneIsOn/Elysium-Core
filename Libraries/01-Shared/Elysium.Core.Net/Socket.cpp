@@ -289,25 +289,25 @@ void Elysium::Core::Net::Sockets::Socket::Accept(Socket * ConnectedClient)
 	ConnectedClient->_ProtocolType = _ProtocolType;
 }
 
-int Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const int Offset, const int Count)
+size_t Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const size_t Offset, const size_t Count)
 {
-	int BytesSent = send(_WinSocketHandle, (const char*)&Buffer[Offset], Count, 0);
+	int BytesSent = send(_WinSocketHandle, (const char*)&Buffer[Offset], (int)Count, 0);
 	if (BytesSent == SOCKET_ERROR)
 	{
 		throw SocketException(L"couldn't send bytes.\r\n", WSAGetLastError());
 	}
 
-	return BytesSent;
+	return (size_t)BytesSent;
 }
-int Elysium::Core::Net::Sockets::Socket::Receive(byte* Buffer, const int Offset, const int Count)
+size_t Elysium::Core::Net::Sockets::Socket::Receive(byte* Buffer, const size_t Offset, const size_t Count)
 {
-	int BytesReceived = recv(_WinSocketHandle, (char*)&Buffer[Offset], Count, 0);
+	int BytesReceived = recv(_WinSocketHandle, (char*)&Buffer[Offset], (int)Count, 0);
 	if (BytesReceived == SOCKET_ERROR)
 	{
 		throw SocketException(L"couldn't received bytes.\r\n", WSAGetLastError());
 	}
 
-	return BytesReceived;
+	return (size_t)BytesReceived;
 }
 
 Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle, AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)

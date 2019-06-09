@@ -34,17 +34,17 @@ namespace Elysium
 					/// </summary>
 					virtual ~DbDataReader() {}
 
-					virtual unsigned long GetDepth() const override;
-					virtual unsigned long GetFieldCount() const override;
+					virtual size_t GetDepth() const override;
+					virtual size_t GetFieldCount() const override;
 
-					virtual long GetRecordsAffected() const override;
+					virtual size_t GetRecordsAffected() const override;
 				protected:
-					DbDataReader(unsigned long NumberOfRows, unsigned long FieldCount, long RecordsAffected);
+					DbDataReader(size_t NumberOfRows, size_t FieldCount, size_t RecordsAffected);
 					DbDataReader();
 
-					unsigned long _NumberOfRows;
-					unsigned long _FieldCount;
-					long _RecordsAffected;
+					size_t _NumberOfRows;
+					size_t _FieldCount;
+					size_t _RecordsAffected;
 				};
 			}
 		}

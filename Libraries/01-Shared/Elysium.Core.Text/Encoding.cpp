@@ -28,8 +28,8 @@
 
 const Elysium::Core::Text::Encoding Elysium::Core::Text::Encoding::_Default = Encoding();
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-const Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::UTF8Encoding::_UTF8 = UTF8Encoding();
-const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::ASCIIEncoding::_ASCII = ASCIIEncoding();
+const Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::Encoding::_UTF8 = UTF8Encoding();
+const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::Encoding::_ASCII = ASCIIEncoding();
 #elif defined(__ANDROID__)
 // ToDo: E0298
 #else

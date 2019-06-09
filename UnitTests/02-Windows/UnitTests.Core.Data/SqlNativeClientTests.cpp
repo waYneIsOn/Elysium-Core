@@ -47,7 +47,7 @@ namespace SqlNativeClient
 				{
 					std::unique_ptr<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
 					DropDatabaseCommand->SetCommandText(L"DROP DATABASE IF EXISTS Test");
-					int Result = DropDatabaseCommand->ExecuteNonQuery();
+					size_t Result = DropDatabaseCommand->ExecuteNonQuery();
 				}
 				catch (SqlNativeException&)
 				{
@@ -57,7 +57,7 @@ namespace SqlNativeClient
 				// create test database
 				std::unique_ptr<IDbCommand> CreateDatabaseCommand = Connection.CreateCommand();
 				CreateDatabaseCommand->SetCommandText(L"If(db_id(N'Test') IS NULL) CREATE DATABASE Test ON (NAME = Test_dat, FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.MSSQLSERVER\\MSSQL\\DATA\\Test.mdf', SIZE = 10, MAXSIZE = 500, FILEGROWTH = 5) LOG ON (NAME = Test_log, FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.MSSQLSERVER\\MSSQL\\DATA\\Test.ldf', SIZE = 5MB, MAXSIZE = 250MB, FILEGROWTH = 5MB)");
-				int Result = CreateDatabaseCommand->ExecuteNonQuery();
+				size_t Result = CreateDatabaseCommand->ExecuteNonQuery();
 
 				// create the test table that we will be using
 				std::unique_ptr<IDbCommand> CreateTableCommand = Connection.CreateCommand();
@@ -84,7 +84,7 @@ namespace SqlNativeClient
 				// delete test database
 				std::unique_ptr<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
 				DropDatabaseCommand->SetCommandText(L"DROP DATABASE IF EXISTS Test");
-				int Result = DropDatabaseCommand->ExecuteNonQuery();
+				size_t Result = DropDatabaseCommand->ExecuteNonQuery();
 
 				Connection.Close();
 			}
@@ -314,7 +314,7 @@ _Connection.Close();
 				// hierarchyid - ToDo: mssql specific type
 
 				// image
-				Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + L"\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
+				Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + L"\\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
 				std::unique_ptr<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 				ImageParameter->SetValue(&ImageStream);
 				InsertCommand->GetParameters()->Add(ImageParameter.get());

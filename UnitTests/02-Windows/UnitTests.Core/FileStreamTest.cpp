@@ -35,21 +35,21 @@ namespace UnitTestsCore
 			// use the same stream to read from the file (in a single command)
 			InputOutputStream.SetPosition(0);
 			BYTE DataToRead[9];
-			int BytesRead = InputOutputStream.Read(&DataToRead[0], 0, 9);
-			Assert::AreEqual(9, BytesRead);
+			size_t BytesRead = InputOutputStream.Read(&DataToRead[0], 0, 9);
+			Assert::AreEqual((size_t)9, BytesRead);
 			InputOutputStream.Close();
 
 			// check the written data by using another stream (reading multiple times)
 			memset(&DataToRead[0], 0x00, 9);
 			FileStream OutputStream = FileStream(L"FS1.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
 			BytesRead = OutputStream.Read(&DataToRead[0], 0, 4);
-			Assert::AreEqual(4, BytesRead);
+			Assert::AreEqual((size_t)4, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[0], 4, 4);
-			Assert::AreEqual(4, BytesRead);
+			Assert::AreEqual((size_t)4, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[0], 8, 1);
-			Assert::AreEqual(1, BytesRead);
+			Assert::AreEqual((size_t)1, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[0], 10, 20);
-			Assert::AreEqual(0, BytesRead);
+			Assert::AreEqual((size_t)0, BytesRead);
 			Assert::AreEqual((BYTE)'s', DataToRead[0]);
 			Assert::AreEqual((BYTE)'o', DataToRead[1]);
 			Assert::AreEqual((BYTE)'m', DataToRead[2]);
@@ -70,7 +70,7 @@ namespace UnitTestsCore
 			memset(&DataToRead[0], 0x00, 9);
 			DestinationStream.SetPosition(0);
 			BytesRead = DestinationStream.Read(&DataToRead[0], 0, 9);
-			Assert::AreEqual(9, BytesRead);
+			Assert::AreEqual((size_t)9, BytesRead);
 			Assert::AreEqual((BYTE)'s', DataToRead[0]);
 			Assert::AreEqual((BYTE)'o', DataToRead[1]);
 			Assert::AreEqual((BYTE)'m', DataToRead[2]);

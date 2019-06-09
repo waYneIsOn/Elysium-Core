@@ -67,7 +67,7 @@ void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t Buffer
 #endif
 	}
 
-	int BytesRead = 0;
+	size_t BytesRead = 0;
 	Elysium::Core::Collections::Generic::List<Byte> Buffer = Elysium::Core::Collections::Generic::List<Byte>(BufferSize);
 	while ((BytesRead = Read(&Buffer[0], 0, BufferSize)) > 0)
 	{

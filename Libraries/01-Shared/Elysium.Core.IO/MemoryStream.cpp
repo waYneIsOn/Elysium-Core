@@ -102,14 +102,14 @@ void Elysium::Core::IO::MemoryStream::Seek(const int64_t Offset, const SeekOrigi
 		throw NotSupportedException();
 	}
 }
-int Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const int Offset, const int Count)
+size_t Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const size_t Offset, const size_t Count)
 {
 	if (!GetCanRead())
 	{
 		throw NotSupportedException();
 	}
 
-	int BytesToRead = _Buffer.GetCount() - _CurrentPosition;
+	size_t BytesToRead = _Buffer.GetCount() - _CurrentPosition;
 	if (BytesToRead > Count)
 	{
 		BytesToRead = Count;
@@ -118,10 +118,10 @@ int Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const int Offset, const
 	{
 		return 0;
 	}
-
+	/*
 	if (BytesToRead <= 8)
-	{	// ToDo: is this actually faster with up to eight bytes?
-		int ByteCount = BytesToRead;
+	{	// ToDo: is this actually faster with up to eight bytes? also this code obviously will need to be refactored because of ByteCount being size_t
+		size_t ByteCount = BytesToRead;
 		while (--ByteCount >= 0)
 		{
 			Buffer[Offset + ByteCount] = _Buffer[_CurrentPosition + ByteCount];
@@ -131,11 +131,13 @@ int Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const int Offset, const
 	{
 		memcpy(&Buffer[0], &_Buffer[Offset + _CurrentPosition], BytesToRead);
 	}
+	*/
+	memcpy(&Buffer[0], &_Buffer[Offset + _CurrentPosition], BytesToRead);
 	_CurrentPosition += BytesToRead;
 
 	return BytesToRead;
 }
-void Elysium::Core::IO::MemoryStream::Write(const BYTE * Buffer, const int Offset, const int Count)
+void Elysium::Core::IO::MemoryStream::Write(const BYTE * Buffer, const size_t Offset, const size_t Count)
 {
 	if (!GetCanWrite())
 	{

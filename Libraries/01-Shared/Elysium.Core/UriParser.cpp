@@ -36,7 +36,7 @@ UriSyntaxFlags::None |
 UriSyntaxFlags::AllowIdn |
 UriSyntaxFlags::AllowIriParsing;
 
-Elysium::Core::UriParserTable Elysium::Core::UriParser::_ParserTable = Elysium::Core::UriParserTable();
+//Elysium::Core::UriParserTable Elysium::Core::UriParser::_ParserTable = Elysium::Core::UriParserTable();
 
 Elysium::Core::UriParser::~UriParser()
 {

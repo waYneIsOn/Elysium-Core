@@ -52,10 +52,10 @@ namespace Elysium
 				/// </summary>
 				virtual ~IDataReader() {}
 
-				virtual unsigned long GetDepth() const = 0;
-				virtual unsigned long GetFieldCount() const = 0;
+				virtual size_t GetDepth() const = 0;
+				virtual size_t GetFieldCount() const = 0;
 
-				virtual long GetRecordsAffected() const = 0;
+				virtual size_t GetRecordsAffected() const = 0;
 
 				virtual bool Read() = 0;
 				virtual void Close() = 0;

@@ -33,7 +33,6 @@ namespace Elysium
 				class ELYSIUM_CORE_API ExternalException : public Exception
 				{
 				public:
-
 					ExternalException();
 					ExternalException(const String& Message);
 					ExternalException(const String& Message, const int ErrorCode);

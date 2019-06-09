@@ -4,6 +4,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/Socket.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/SocketException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_IPENDPOINT
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
 #endif
@@ -34,15 +38,15 @@ namespace UnitTestsCoreNet
 				ClientSocket.Connect(_Host, _Port);
 				Logger::WriteMessage("connected");
 
-				// set both timeouts (we don't want to wait forever!!!!)
+				// set both timeouts
 				ClientSocket.SetReceiveTimeout(200);
 				ClientSocket.SetSendTimeout(200);
 
 				// send some data to the host
 				byte Data[] = "GET /Hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)\r\nHost: www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";
-				int DataLength = strlen((char*)Data);
+				size_t DataLength = strlen((char*)Data);
 
-				int BytesSent = ClientSocket.Send(Data, 0, DataLength);
+				size_t BytesSent = ClientSocket.Send(Data, 0, DataLength);
 				Logger::WriteMessage("bytes sent:");
 				Logger::WriteMessage((char*)Data);
 
@@ -52,12 +56,26 @@ namespace UnitTestsCoreNet
 
 				// received some data from the host
 				byte ReceivedData[1024];
-				int BytesReceived = -1;
+				size_t BytesReceived = 0;
 				do
 				{
-					BytesReceived = ClientSocket.Receive(ReceivedData, 0, 1024);
-					//Logger::WriteMessage("bytes received:");
-					//Logger::WriteMessage(std::to_string(BytesReceived).c_str());
+					try
+					{
+						BytesReceived = ClientSocket.Receive(ReceivedData, 0, 1024);
+						//Logger::WriteMessage("bytes received:");
+						//Logger::WriteMessage(std::to_string(BytesReceived).c_str());
+					}
+					catch (SocketException& ex)
+					{
+						if (ex.GetErrorCode() == 10060)
+						{	// timeout is ok for the test
+							break;
+						}
+						else
+						{	// any other error isn't
+							throw;
+						}
+					}
 
 					if (BytesReceived > 0)
 					{
@@ -67,7 +85,7 @@ namespace UnitTestsCoreNet
 						Logger::WriteMessage("bytes received:");
 						Logger::WriteMessage(test.c_str());
 					}
-				} while (BytesReceived < 0);
+				} while (BytesReceived != 0);
 
 				// disconnect from the host
 				ClientSocket.Disconnect(_ReuseSocket);

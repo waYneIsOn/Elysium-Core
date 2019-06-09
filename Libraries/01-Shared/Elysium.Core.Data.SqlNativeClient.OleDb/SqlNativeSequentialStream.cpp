@@ -25,7 +25,7 @@ int Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeSequentialStream::Comp
 {
 	return memcmp(Buffer, &_Buffer[0], _Buffer.size()) == 0;
 }
-unsigned long Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeSequentialStream::Length()
+size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeSequentialStream::Length()
 {
 	return _Buffer.size();
 }
@@ -82,20 +82,20 @@ STDMETHODIMP_(HRESULT __stdcall) Elysium::Core::Data::SqlNativeClient::OleDb::Sq
 		return S_OK;
 	}
 
-	unsigned long AvailableBytes = _Buffer.size() - _CurrentPosition;
+	size_t AvailableBytes = _Buffer.size() - _CurrentPosition;
 	if (AvailableBytes == 0)
 	{
 		return S_FALSE;
 	}
 
-	unsigned long BytesToRead = Count > AvailableBytes ? AvailableBytes : Count;
+	size_t BytesToRead = Count > AvailableBytes ? AvailableBytes : Count;
 	//memcpy_s(Buffer, sizeof(Buffer), (void*)((BYTE*)&_Buffer[0] + _CurrentPosition), BytesToRead);
 	memcpy(Buffer, &_Buffer[_CurrentPosition], Count);
 	_CurrentPosition += BytesToRead;
 
 	if (BytesRead)
 	{
-		*BytesRead = BytesToRead;
+		*BytesRead = (unsigned long)BytesToRead;
 	}
 
 	if (Count != BytesToRead)

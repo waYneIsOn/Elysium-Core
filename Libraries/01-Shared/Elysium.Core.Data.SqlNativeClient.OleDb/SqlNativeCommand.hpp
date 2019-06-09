@@ -60,7 +60,7 @@ namespace Elysium
 						virtual SqlNativeParameterCollection* GetParameters() const override;
 
 						virtual std::unique_ptr<IDataParameter> CreateParameter() override;
-						virtual int ExecuteNonQuery() override;
+						virtual size_t ExecuteNonQuery() override;
 						virtual std::unique_ptr<IDataReader> ExecuteReader() override;
 						virtual void Prepare() override;
 					private:

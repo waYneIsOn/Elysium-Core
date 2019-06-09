@@ -30,7 +30,13 @@ namespace Elysium
 {
 	namespace Core
 	{
-		class UriParser;
+		/*
+		class ELYSIUM_CORE_API UriParser;
+
+		// make sure the following classes get exported (warning C4251)
+		template class ELYSIUM_CORE_API std::map<String, UriParser*>;
+		//template struct ELYSIUM_CORE_API std::pair<String, UriParser*>;
+		//template class ELYSIUM_CORE_API std::allocator<std::pair<String, UriParser*>>;
 
 		class ELYSIUM_CORE_API UriParserTable final
 		{
@@ -40,6 +46,7 @@ namespace Elysium
 
 			std::map<String, UriParser*> Map;
 		};
+		*/
 	}
 }
 #endif
