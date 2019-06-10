@@ -99,7 +99,11 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 		if (IndexOfAuthorityDelimiterStart != std::wstring::npos)
 		{
 			IndexOfHostStart = IndexOfAuthorityDelimiterStart + 2;
-			IndexOfPathDelimiterStart = Source->IndexOf(L'/', IndexOfAuthorityDelimiterStart + 2) + IndexOfAuthorityDelimiterStart + 2;
+			IndexOfPathDelimiterStart = Source->IndexOf(L'/', IndexOfAuthorityDelimiterStart + 3);
+			if (IndexOfPathDelimiterStart != std::wstring::npos)
+			{
+				IndexOfPathDelimiterStart += IndexOfAuthorityDelimiterStart + 3;
+			}
 		}
 
 		size_t IndexOfHostDelimiterStart = Source->IndexOf(L'@');
@@ -115,22 +119,13 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 			IndexOfHostEnd = OriginalUriLength;
 		}
 
-		
 		size_t IndexOfPortDelimiter = Source->IndexOf(L':', IndexOfHostStart + 1);
 		if (IndexOfPortDelimiter != std::wstring::npos)
 		{
 			IndexOfHostEnd = IndexOfPortDelimiter + IndexOfHostStart + 1;
 		}
 		
-
-
-
 		*Output = StringView(Source, IndexOfHostStart, IndexOfHostEnd - IndexOfHostStart);
-
-		String Bla = *Output;
-
-
-
 		break;
 	}
 	/*
@@ -226,7 +221,15 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 		size_t IndexOfPathDelimiterStart = Source->IndexOf(L'/');
 		if (IndexOfAuthorityDelimiterStart != std::wstring::npos)
 		{
-			IndexOfPathDelimiterStart = Source->IndexOf(L'/', IndexOfAuthorityDelimiterStart + 2) + IndexOfAuthorityDelimiterStart + 2;
+			IndexOfPathDelimiterStart = Source->IndexOf(L'/', IndexOfAuthorityDelimiterStart + 3);
+			if (IndexOfPathDelimiterStart == std::wstring::npos)
+			{	// Uri doesn't contain a path
+				break;
+			}
+			else
+			{
+				IndexOfPathDelimiterStart += +IndexOfAuthorityDelimiterStart + 3;
+			}
 		}
 
 		if (IndexOfPathDelimiterStart == std::wstring::npos)

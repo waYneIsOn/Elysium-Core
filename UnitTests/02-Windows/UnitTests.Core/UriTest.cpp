@@ -89,6 +89,7 @@ namespace UnitTestsCore
 
 		TEST_METHOD(GetHost)
 		{
+			Assert::AreEqual(L"www.google.com", ((String)_TestUriHttp.GetHost()).GetCharArray());
 			Assert::AreEqual(L"www.google.com", ((String)_TestUriHttps.GetHost()).GetCharArray());
 			Assert::AreEqual(L"www.google.com", ((String)_TestUriFtp.GetHost()).GetCharArray());
 			Assert::AreEqual(L"mail.com", ((String)_TestUriMailTo.GetHost()).GetCharArray());
@@ -118,6 +119,7 @@ namespace UnitTestsCore
 
 		TEST_METHOD(GetPathAndQuery)
 		{
+			Assert::AreEqual(L"", ((String)_TestUriHttp.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"someFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((String)_TestUriHttps.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((String)_TestUriFtp.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"", ((String)_TestUriMailTo.GetPathAndQuery()).GetCharArray());
@@ -169,9 +171,11 @@ namespace UnitTestsCore
 		}
 	private:
 		// fields
+		Uri _TestUriMailTo = Uri(L"mailto:some@mail.com");
+
+		Uri _TestUriHttp = Uri(L"http://www.google.com");
 		Uri _TestUriHttps = Uri(L"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff");
 		Uri _TestUriFtp = Uri(L"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#");
-		Uri _TestUriMailTo = Uri(L"mailto:some@mail.com");
 
 		Uri _TestUriNews = Uri(L"news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo");
 		Uri _TestUriLdap = Uri(L"ldap://[2001:db8::7]/c=GB?objectClass?onex");
