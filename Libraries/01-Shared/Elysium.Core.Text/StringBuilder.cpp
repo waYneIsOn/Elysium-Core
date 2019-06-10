@@ -1,11 +1,11 @@
 #include "StringBuilder.hpp"
 
-#ifndef __midl
-#include <cstring>
+#ifndef _INC_STRING
+#include <string>
 #endif
 
-#ifndef _INC_LIMITS
-#include <limits>
+#ifndef __midl
+#include <cstring>
 #endif
 
 #ifndef ELYSIUM_CORE_EXCEPTION
@@ -58,7 +58,7 @@ void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Va
 	size_t ValueLength = Value.GetLength();
 	Resize(_Length + ValueLength);
 
-	// copy data and set _NumberOfElements accordingly
+	// copy data and set _Length accordingly
 	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);
 	_Length += ValueLength;
 }
@@ -72,14 +72,103 @@ void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar * Value)
 #endif 
 	Resize(_Length + ValueLength);
 
-	// copy data and set _NumberOfElements accordingly
+	// copy data and set _Length accordingly
 	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);
 	_Length += ValueLength;
+}
+void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar * Value, const size_t Length)
+{
+	// resize if required
+	Resize(_Length + Length);
+
+	// copy data and set _Length accordingly
+	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * Length);
+	_Length += Length;
+}
+void Elysium::Core::Text::StringBuilder::Clear()
+{
+	_Length = 0;
+}
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar Value) const
+{
+#ifdef UNICODE
+	size_t Index = wcscspn(_Data, &Value);
+#else
+	size_t Index = strcspn(_Data, &Value);
+#endif
+
+	if (Index >= _Length)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar Value, const size_t StartIndex) const
+{
+#ifdef UNICODE
+	size_t Index = wcscspn(&_Data[StartIndex], &Value);
+#else
+	size_t Index = strcspn(&_Data[StartIndex], &Value);
+#endif
+
+	if (Index >= _Length - StartIndex)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar * Value) const
+{
+#ifdef UNICODE
+	ElysiumChar* Result = wcswcs(_Data, Value);
+#else
+	ElysiumChar* Result = strstr(_Data, Value);
+#endif
+	if (Result == nullptr)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return ElysiumStringLength(_Data) - ElysiumStringLength(Result);
+	}
+}
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
+{
+#ifdef UNICODE
+	ElysiumChar* Result = wcswcs(&_Data[StartIndex], Value);
+#else
+	ElysiumChar* Result = strstr(&_Data[StartIndex], Value);
+#endif
+	if (Result == nullptr)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
+	}
+}
+void Elysium::Core::Text::StringBuilder::Remove(const size_t StartIndex, const size_t Length)
+{
+	// copy data and set _Length accordingly
+	memcpy(&_Data[StartIndex], &_Data[Length], sizeof(ElysiumChar) * Length);
+	_Length -= Length;
 }
 
 void Elysium::Core::Text::StringBuilder::ToString(Elysium::Core::String * Output)
 {
 	*Output = String(_Data, _Length);
+}
+void Elysium::Core::Text::StringBuilder::ToString(Elysium::Core::String * Output, const size_t Length)
+{
+	*Output = String(_Data, Length);
 }
 
 void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)

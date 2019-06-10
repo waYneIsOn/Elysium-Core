@@ -20,8 +20,10 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifdef UNICODE
 #define ElysiumChar wchar_t
+#define ElysiumStringLength wcslen
 #else
 #define ElysiumChar char
+#define ElysiumStringLength strlen
 #endif 
 
 namespace Elysium

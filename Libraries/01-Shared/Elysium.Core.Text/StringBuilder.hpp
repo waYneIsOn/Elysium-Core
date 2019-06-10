@@ -39,8 +39,16 @@ namespace Elysium
 
 				void Append(const Elysium::Core::String& Value);
 				void Append(const ElysiumChar* Value);
+				void Append(const ElysiumChar* Value, const size_t Length);
+				void Clear();
+				size_t IndexOf(const ElysiumChar Value) const;
+				size_t IndexOf(const ElysiumChar Value, const size_t StartIndex) const;
+				size_t IndexOf(const ElysiumChar* Value) const;
+				size_t IndexOf(const ElysiumChar* Value, const size_t StartIndex) const;
+				void Remove(const size_t StartIndex, const size_t Length);
 
 				void ToString(Elysium::Core::String* Output);
+				void ToString(Elysium::Core::String* Output, const size_t Length);
 			private:
 				size_t _Capacity;
 				ElysiumChar* _Data;

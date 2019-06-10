@@ -4,12 +4,6 @@
 #include <string>
 #endif
 
-#ifdef UNICODE
-#define ElysiumStringLength wcslen
-#else
-#define ElysiumStringLength strlen
-#endif 
-
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
@@ -122,45 +116,25 @@ size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value) const
 	{
 		return std::wstring::npos;
 	}
-#ifdef UNICODE
-	size_t Index = wcscspn(_Data, Value);
-#else
-	size_t Index = strcspn(_Data, Value);
-#endif
-
-	if (Index >= _Length)
-	{
-		return std::wstring::npos;
-	}
 	else
 	{
-		return Index;
+		return ElysiumStringLength(_Data) - ElysiumStringLength(Result);
 	}
 }
 size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
 {
 #ifdef UNICODE
-	ElysiumChar* Result = wcswcs(_Data, Value);
+	ElysiumChar* Result = wcswcs(&_Data[StartIndex], Value);
 #else
-	ElysiumChar* Result = strstr(_Data, Value);
+	ElysiumChar* Result = strstr(&_Data[StartIndex], Value);
 #endif
 	if (Result == nullptr)
-	{
-		return std::wstring::npos;
-}
-#ifdef UNICODE
-	size_t Index = wcscspn(_Data, Value);
-#else
-	size_t Index = strcspn(_Data, Value);
-#endif
-
-	if (Index >= _Length - StartIndex)
 	{
 		return std::wstring::npos;
 	}
 	else
 	{
-		return Index;
+		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
 	}
 }
 
