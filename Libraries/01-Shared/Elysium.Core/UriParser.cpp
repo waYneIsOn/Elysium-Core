@@ -81,10 +81,59 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	{
 
 	}
+	*/
 	case Elysium::Core::UriComponents::Host:
 	{
+		// URI = scheme:[//authority]path[?query][#fragment]
+		// authority = [userinfo@]host[:port]
+		// scheme : //
+		// userinfo @ host : port
 
+		// calculate the start index
+		size_t OriginalUriLength = Source->GetLength();
+		size_t IndexOfSchemeDelimiterEnd = Source->IndexOf(L':');
+		size_t IndexOfHostStart = IndexOfSchemeDelimiterEnd + 1;
+
+		size_t IndexOfAuthorityDelimiterStart = Source->IndexOf(L"//");
+		size_t IndexOfPathDelimiterStart = Source->IndexOf(L'/');
+		if (IndexOfAuthorityDelimiterStart != std::wstring::npos)
+		{
+			IndexOfHostStart = IndexOfAuthorityDelimiterStart + 2;
+			IndexOfPathDelimiterStart = Source->IndexOf(L'/', IndexOfAuthorityDelimiterStart + 2) + IndexOfAuthorityDelimiterStart + 2;
+		}
+
+		size_t IndexOfHostDelimiterStart = Source->IndexOf(L'@');
+		if (IndexOfHostDelimiterStart != std::wstring::npos)
+		{
+			IndexOfHostStart = IndexOfHostDelimiterStart + 1;
+		}
+
+		// calculate the end index
+		size_t IndexOfHostEnd = IndexOfPathDelimiterStart;
+		if (IndexOfPathDelimiterStart == std::wstring::npos)
+		{
+			IndexOfHostEnd = OriginalUriLength;
+		}
+
+		
+		size_t IndexOfPortDelimiter = Source->IndexOf(L':', IndexOfHostStart + 1);
+		if (IndexOfPortDelimiter != std::wstring::npos)
+		{
+			IndexOfHostEnd = IndexOfPortDelimiter + IndexOfHostStart + 1;
+		}
+		
+
+
+
+		*Output = StringView(Source, IndexOfHostStart, IndexOfHostEnd - IndexOfHostStart);
+
+		String Bla = *Output;
+
+
+
+		break;
 	}
+	/*
 	case Elysium::Core::UriComponents::Port:
 	{
 
@@ -173,7 +222,6 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	*/
 	case Elysium::Core::UriComponents::PathAndQuery:
 	{
-		size_t IndexOfSchemeDelimiterEnd = Source->IndexOf(L':');
 		size_t IndexOfAuthorityDelimiterStart = Source->IndexOf(L"//");
 		size_t IndexOfPathDelimiterStart = Source->IndexOf(L'/');
 		if (IndexOfAuthorityDelimiterStart != std::wstring::npos)
@@ -183,7 +231,6 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 
 		if (IndexOfPathDelimiterStart == std::wstring::npos)
 		{	// Uri doesn't contain a path
-			*Output = StringView(Source, 0);
 			break;
 		}
 

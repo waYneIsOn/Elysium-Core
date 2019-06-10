@@ -102,7 +102,7 @@ size_t Elysium::Core::String::IndexOf(const ElysiumChar Value, const size_t Star
 	size_t Index = strcspn(&_Data[StartIndex], &Value);
 #endif
 
-	if (Index >= _Length)
+	if (Index >= _Length - StartIndex)
 	{
 		return std::wstring::npos;
 	}
@@ -154,7 +154,7 @@ size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t St
 	size_t Index = strcspn(_Data, Value);
 #endif
 
-	if (Index >= _Length)
+	if (Index >= _Length - StartIndex)
 	{
 		return std::wstring::npos;
 	}
@@ -238,7 +238,7 @@ Elysium::Core::String & Elysium::Core::String::operator=(const String & Value)
 
 ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 {
-	if (Index >= _Length)
+	if (Index > _Length)	// not >= because or \0
 	{
 		throw IndexOutOfRangeException();
 	}

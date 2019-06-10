@@ -92,6 +92,7 @@ void Elysium::Core::Uri::Parse()
 	// for now just use the BuildInUriParser
 	BuildInUriParser Parser = BuildInUriParser(L"dummy", -1, UriParser::DummySyntaxFlags);
 	Parser.ParseComponent(UriComponents::Scheme, &_OriginalString, &_SchemeView);
+	Parser.ParseComponent(UriComponents::Host, &_OriginalString, &_HostView);
 	Parser.ParseComponent(UriComponents::PathAndQuery, &_OriginalString, &_PathAndQueryView);
 
 	/*
