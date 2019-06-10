@@ -171,11 +171,10 @@ namespace UnitTestsCore
 		}
 	private:
 		// fields
-		Uri _TestUriMailTo = Uri(L"mailto:some@mail.com");
-
 		Uri _TestUriHttp = Uri(L"http://www.google.com");
 		Uri _TestUriHttps = Uri(L"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff");
 		Uri _TestUriFtp = Uri(L"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#");
+		Uri _TestUriMailTo = Uri(L"mailto:some@mail.com");
 
 		Uri _TestUriNews = Uri(L"news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo");
 		Uri _TestUriLdap = Uri(L"ldap://[2001:db8::7]/c=GB?objectClass?onex");
