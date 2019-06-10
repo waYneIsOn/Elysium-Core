@@ -41,6 +41,11 @@ Elysium::Core::Uri::Uri(const String& UriString)
 {
 	Parse();
 }
+Elysium::Core::Uri::Uri(const Uri & Value)
+	: _OriginalString(String(Value._OriginalString)), _AbsoluteUri(&_OriginalString)
+{
+	Parse();
+}
 Elysium::Core::Uri::~Uri()
 {
 }

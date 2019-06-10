@@ -43,6 +43,7 @@ namespace Elysium
 		public:
 			// constructors & destructors
 			Uri(const String& UriString);
+			Uri(const Uri& Value);
 			~Uri();
 
 			// fields
