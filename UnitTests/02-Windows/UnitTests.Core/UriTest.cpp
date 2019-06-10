@@ -129,7 +129,7 @@ namespace UnitTestsCore
 			Assert::AreEqual(L"someFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((String)_TestUriHttps.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf", ((String)_TestUriFtp.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"", ((String)_TestUriMailTo.GetPathAndQuery()).GetCharArray());
-
+			
 			Assert::AreEqual(L"some/random/path", ((String)_TestUriNews.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"c=GB?objectClass?onex", ((String)_TestUriLdap.GetPathAndQuery()).GetCharArray());
 			Assert::AreEqual(L"", ((String)_TestUriTel.GetPathAndQuery()).GetCharArray());

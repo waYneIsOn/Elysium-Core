@@ -8,6 +8,10 @@
 #include <algorithm>
 #endif
 
+#ifndef _STRING_
+#include <string>
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "NotImplementedException.hpp"
 #endif
@@ -62,16 +66,15 @@ void Elysium::Core::UriParser::Register(UriParser * UriParser, const String& Sch
 	*/
 }
 
-Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(UriComponents Component, String * const Source)
+void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const String * Source, StringView * Output)
 {
-	throw NotImplementedException();
-	/*
 	switch (Component)
 	{
 	case Elysium::Core::UriComponents::Scheme:
 	{
-		size_t IndexOfSchemeDelimiterStart = Source->find(":");
-		return StringView(&(Source->c_str()[0]), IndexOfSchemeDelimiterStart);
+		size_t IndexOfSchemeDelimiterEnd = Source->IndexOf(L':');
+		*Output = StringView(Source, IndexOfSchemeDelimiterEnd);
+		break;
 	}
 	/*
 	case Elysium::Core::UriComponents::UserInfo:
@@ -110,50 +113,54 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(UriComponents
 	{
 
 	}
-	*-/
+	*/
 	case Elysium::Core::UriComponents::AbsoluteUri:
 	{
-		size_t OriginalUriLength = Source->length();
-		return std::string_view(&(Source->c_str()[0]), OriginalUriLength);
+		*Output = StringView(Source);
+		break;
 	}
 	/*
 	case Elysium::Core::UriComponents::HostAndPort:
 	{
 
 	}
-	*-/
+	*/
+	/*
 	case Elysium::Core::UriComponents::StrongAuthority:
 	{
-		size_t OriginalUriLength = Source->length();
+		size_t OriginalUriLength = Source->GetLength();
 
 		// get the first "://" to determine where the scheme ends
-		size_t IndexOfSchemeDelimiterStart = Source->find("://");
+		size_t IndexOfSchemeDelimiterStart = Source->IndexOf(L"://");
 		size_t SchemeDelimiterLength = 3;
 
 		// if we don't have the scheme delimiter start, just look up ":" as the scheme delimiter
-		if (IndexOfSchemeDelimiterStart == string::npos)
+		if (IndexOfSchemeDelimiterStart == std::string::npos)
 		{
-			IndexOfSchemeDelimiterStart = Source->find(":");
+			IndexOfSchemeDelimiterStart = Source->IndexOf(L':');
 			SchemeDelimiterLength = 1;
 		}
 		const size_t IndexOfSchemeDelimiterEnd = IndexOfSchemeDelimiterStart + SchemeDelimiterLength;
 
-		size_t RelativeIndexOfAuthorityDelimiterStart = Source->find("/", IndexOfSchemeDelimiterEnd);
+		size_t RelativeIndexOfAuthorityDelimiterStart = Source->IndexOf(L'/', IndexOfSchemeDelimiterEnd);
 		size_t RelativeIndexOfAuthorityDelimiterEnd = RelativeIndexOfAuthorityDelimiterStart + 1;
-		if (RelativeIndexOfAuthorityDelimiterStart == string::npos)
+		if (RelativeIndexOfAuthorityDelimiterStart == std::string::npos)
 		{
 			RelativeIndexOfAuthorityDelimiterEnd = OriginalUriLength - IndexOfSchemeDelimiterEnd;
 		}
 
-		if (RelativeIndexOfAuthorityDelimiterStart != string::npos)
+		if (RelativeIndexOfAuthorityDelimiterStart != std::string::npos)
 		{
-			return std::string_view(&(Source->c_str()[IndexOfSchemeDelimiterEnd]), RelativeIndexOfAuthorityDelimiterEnd - IndexOfSchemeDelimiterEnd - 1);
+			*Output = StringView(&Source->operator[](IndexOfSchemeDelimiterEnd), RelativeIndexOfAuthorityDelimiterEnd - IndexOfSchemeDelimiterEnd - 1);
+			break;
 		}
 		else if (OriginalUriLength > IndexOfSchemeDelimiterEnd)
 		{	// no slash the the end of the string so grab everything after the scheme delimiter
-			return std::string_view(&(Source->c_str()[IndexOfSchemeDelimiterEnd]), OriginalUriLength - IndexOfSchemeDelimiterEnd);
+			*Output = StringView(&Source->operator[](IndexOfSchemeDelimiterEnd), OriginalUriLength - IndexOfSchemeDelimiterEnd);
+			break;
 		}
 	}
+	*/
 	/*
 	case Elysium::Core::UriComponents::SchemeAndServer:
 	{
@@ -163,13 +170,36 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(UriComponents
 	{
 
 	}
+	*/
 	case Elysium::Core::UriComponents::PathAndQuery:
 	{
+		size_t IndexOfSchemeDelimiterEnd = Source->IndexOf(L':');
+		size_t IndexOfAuthorityDelimiterStart = Source->IndexOf(L"//");
+		size_t IndexOfPathDelimiterStart = Source->IndexOf(L'/');
+		if (IndexOfAuthorityDelimiterStart != std::wstring::npos)
+		{
+			IndexOfPathDelimiterStart = Source->IndexOf(L'/', IndexOfAuthorityDelimiterStart + 2) + IndexOfAuthorityDelimiterStart + 2;
+		}
 
+		if (IndexOfPathDelimiterStart == std::wstring::npos)
+		{	// Uri doesn't contain a path
+			*Output = StringView(Source, 0);
+			break;
+		}
+
+		size_t IndexOfFragmentDelimiterStart = Source->IndexOf(L'#');
+		if (IndexOfFragmentDelimiterStart == std::wstring::npos)
+		{
+			size_t OriginalUriLength = Source->GetLength();
+			*Output = StringView(Source, IndexOfPathDelimiterStart + 1, OriginalUriLength - IndexOfPathDelimiterStart - 1);
+		}
+		else
+		{
+			*Output = StringView(Source, IndexOfPathDelimiterStart + 1, IndexOfFragmentDelimiterStart - IndexOfPathDelimiterStart - 1);
+		}
+		break;
 	}
-	*-/
 	default:
 		throw NotImplementedException((L"unknown component " + std::to_wstring((int)Component)).c_str());
 	}
-	*/
 }

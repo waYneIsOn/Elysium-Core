@@ -12,6 +12,10 @@
 #include <algorithm>
 #endif
 
+#ifndef ELYSIUM_CORE_BUILDINURIPARSER
+#include "BuildInUriParser.hpp"
+#endif
+
 const Elysium::Core::String Elysium::Core::Uri::SchemeDelimiter(L"://");
 
 const Elysium::Core::String Elysium::Core::Uri::UriSchemeFile(L"file");
@@ -33,7 +37,7 @@ const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(L"urn");
 const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(L"ws");
 
 Elysium::Core::Uri::Uri(const String& UriString)
-	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString)
+	: _OriginalString(String(UriString)), _AbsoluteUri(&_OriginalString)
 {
 	Parse();
 }
@@ -84,6 +88,12 @@ const Elysium::Core::StringView & Elysium::Core::Uri::GetFragment() const
 
 void Elysium::Core::Uri::Parse()
 {
+	// ToDo: implement this correctly using a std::map where the according parsers are stored
+	// for now just use the BuildInUriParser
+	BuildInUriParser Parser = BuildInUriParser(L"dummy", -1, UriParser::DummySyntaxFlags);
+	Parser.ParseComponent(UriComponents::Scheme, &_OriginalString, &_SchemeView);
+	Parser.ParseComponent(UriComponents::PathAndQuery, &_OriginalString, &_PathAndQueryView);
+
 	/*
 	// grab the dummy parser to parse the scheme
 	UriParser* AccordingUriParser = Elysium::Core::UriParser::_ParserTable.Map["dummy"];

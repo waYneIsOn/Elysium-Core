@@ -73,6 +73,19 @@ namespace UnitTestsCore
 
 			InputString(L"test");
 		}
+		TEST_METHOD(IndexOf)
+		{
+			Elysium::Core::String SomeString = L"different";
+			Assert::AreEqual((size_t)0, SomeString.IndexOf(L'd'));
+			Assert::AreEqual((size_t)1, SomeString.IndexOf(L'i'));
+			Assert::AreEqual((size_t)2, SomeString.IndexOf(L'f'));
+			Assert::AreEqual((size_t)8, SomeString.IndexOf(L't'));
+
+			Assert::AreEqual((size_t)0, SomeString.IndexOf(L'f', 3));
+			Assert::AreEqual((size_t)1, SomeString.IndexOf(L'e', 5));
+
+			Assert::AreEqual((size_t)2, SomeString.IndexOf(L"fe"));
+		}
 		TEST_METHOD(Substring)
 		{
 			Elysium::Core::String Source = Elysium::Core::String(L"this is a string containing some text");
@@ -88,6 +101,7 @@ namespace UnitTestsCore
 			Assert::AreEqual((size_t)19, Substring2.GetLength());
 			Assert::AreEqual(L"a string containing", Substring2.GetCharArray());
 		}
+
 		TEST_METHOD(Encoding)
 		{
 			const Elysium::Core::Text::Encoding* DefaultEncoding = Elysium::Core::Text::Encoding::Default();

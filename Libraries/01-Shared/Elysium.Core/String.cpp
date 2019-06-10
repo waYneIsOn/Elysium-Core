@@ -29,7 +29,6 @@ Elysium::Core::String::String()
 Elysium::Core::String::String(size_t Length)
 	: _Length(Length), _Data(new ElysiumChar[_Length + sizeof(ElysiumChar)])
 {
-
 }
 Elysium::Core::String::String(const ElysiumChar* Value)
 	: Elysium::Core::String(Value == nullptr ? 0 : ElysiumStringLength(Value))
@@ -76,6 +75,127 @@ const size_t Elysium::Core::String::GetLength() const
 const ElysiumChar * Elysium::Core::String::GetCharArray() const
 {
 	return _Data;
+}
+
+size_t Elysium::Core::String::IndexOf(const ElysiumChar Value) const
+{
+#ifdef UNICODE
+	size_t Index = wcscspn(_Data, &Value);
+#else
+	size_t Index = strcspn(_Data, &Value);
+#endif
+
+	if (Index >= _Length)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::String::IndexOf(const ElysiumChar Value, const size_t StartIndex) const
+{
+#ifdef UNICODE
+	size_t Index = wcscspn(&_Data[StartIndex], &Value);
+#else
+	size_t Index = strcspn(&_Data[StartIndex], &Value);
+#endif
+
+	if (Index >= _Length)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value) const
+{
+#ifdef UNICODE
+	ElysiumChar* Result = wcswcs(_Data, Value);
+#else
+	ElysiumChar* Result = strstr(_Data, Value);
+#endif
+	if (Result == nullptr)
+	{
+		return std::wstring::npos;
+	}
+#ifdef UNICODE
+	size_t Index = wcscspn(_Data, Value);
+#else
+	size_t Index = strcspn(_Data, Value);
+#endif
+
+	if (Index >= _Length)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
+{
+#ifdef UNICODE
+	ElysiumChar* Result = wcswcs(_Data, Value);
+#else
+	ElysiumChar* Result = strstr(_Data, Value);
+#endif
+	if (Result == nullptr)
+	{
+		return std::wstring::npos;
+}
+#ifdef UNICODE
+	size_t Index = wcscspn(_Data, Value);
+#else
+	size_t Index = strcspn(_Data, Value);
+#endif
+
+	if (Index >= _Length)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+
+void Elysium::Core::String::Substring(size_t StartIndex, String * Result) const
+{
+	Elysium::Core::String::Substring(StartIndex, _Length - StartIndex, Result);
+}
+void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String * Result) const
+{
+	if (Result == nullptr)
+	{
+#ifdef UNICODE
+		throw ArgumentNullException(L"Result");
+#else
+		throw ArgumentNullException("Result");
+#endif
+	}
+
+	if (Result->_Data != nullptr)
+	{
+		delete[] Result->_Data;
+	}
+	Result->_Length = Length;
+	Result->_Data = new ElysiumChar[Result->_Length * sizeof(ElysiumChar)];
+	memcpy(Result->_Data, &_Data[StartIndex], Length * sizeof(ElysiumChar));
+#ifdef UNICODE
+	Result->_Data[Result->_Length] = L'\0';
+#else
+	Result->_Data[Result->_Length] = '\0';
+#endif 
+}
+
+bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
+{
+	return Value._Length == 0;
 }
 
 Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Value)
@@ -207,40 +327,6 @@ bool Elysium::Core::String::operator>=(const String & Other)
 #else
 	return strcmp(_Data, Other._Data) >= 0;
 #endif 
-}
-
-void Elysium::Core::String::Substring(size_t StartIndex, String * Result) const
-{
-	Elysium::Core::String::Substring(StartIndex, _Length - StartIndex, Result);
-}
-void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String * Result) const
-{
-	if (Result == nullptr)
-	{
-#ifdef UNICODE
-		throw ArgumentNullException(L"Result");
-#else
-		throw ArgumentNullException("Result");
-#endif
-	}
-
-	if (Result->_Data != nullptr)
-	{
-		delete[] Result->_Data;
-	}
-	Result->_Length = Length;
-	Result->_Data = new ElysiumChar[Result->_Length * sizeof(ElysiumChar)];
-	memcpy(Result->_Data, &_Data[StartIndex], Length * sizeof(ElysiumChar));
-#ifdef UNICODE
-	Result->_Data[Result->_Length] = L'\0';
-#else
-	Result->_Data[Result->_Length] = '\0';
-#endif 
-}
-
-bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
-{
-	return Value._Length == 0;
 }
 
 bool Elysium::Core::operator==(const String & Left, const String & Right)

@@ -35,7 +35,6 @@ namespace Elysium
 	namespace Core
 	{
 		class ELYSIUM_CORE_API Uri;
-		//class ELYSIUM_CORE_API UriParserTable;
 
 		class ELYSIUM_CORE_API UriParser
 		{
@@ -44,7 +43,7 @@ namespace Elysium
 
 			static void Register(UriParser* UriParser, const String& SchemeName, int DefaultPort);
 
-			virtual StringView ParseComponent(UriComponents Component, String* const Source);
+			void ParseComponent(UriComponents Component, const String* Source, StringView* Output);
 		protected:
 			UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents);
 		private:
@@ -53,8 +52,6 @@ namespace Elysium
 
 			static UriSyntaxFlags DummySyntaxFlags;
 			static UriSyntaxFlags HttpSyntaxFlags;
-
-			//static UriParserTable _ParserTable;
 
 			String _Scheme;
 			int _Port;

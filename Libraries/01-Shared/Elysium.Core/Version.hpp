@@ -54,7 +54,7 @@ namespace Elysium
 			bool operator<=(const Version& Other);
 			bool operator>=(const Version& Other);
 
-			// stream extraction and insertion
+			// extraction and insertion operators
 			friend Elysium::Core::IO::Stream& operator<<(Elysium::Core::IO::Stream& Target, const Version& Version);
 			friend Elysium::Core::IO::Stream& operator>>(Elysium::Core::IO::Stream& Source, const Version& Version);
 		private:

@@ -77,7 +77,6 @@ namespace Elysium
 			const StringView& GetPath() const;
 			const StringView& GetQuery() const;
 			const StringView& GetFragment() const;
-
 		protected:
 			void Parse();
 		private:

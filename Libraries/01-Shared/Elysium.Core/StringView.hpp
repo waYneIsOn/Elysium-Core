@@ -26,19 +26,20 @@ namespace Elysium
 		{
 		public:
 			StringView();
-			StringView(const Elysium::Core::String& Input);
-			StringView(const Elysium::Core::String& Input, size_t Length);
+			StringView(const Elysium::Core::String* Input);
+			StringView(const Elysium::Core::String* Input, size_t Length);
+			StringView(const Elysium::Core::String* Input, size_t Offset, size_t Length);
+			StringView(const StringView& Value);
 			~StringView();
 
-			// properties - getter
-			const ElysiumChar* GetData() const;
-			const size_t GetLength() const;
+			// assignment operators
+			virtual StringView& operator=(const StringView& Value);
 
 			// cast operators
 			operator Elysium::Core::String() const;
 		private:
-			const ElysiumChar* _Data;
-			const size_t _Length;
+			ElysiumChar* _Data;
+			size_t _Length;
 		};
 	}
 }

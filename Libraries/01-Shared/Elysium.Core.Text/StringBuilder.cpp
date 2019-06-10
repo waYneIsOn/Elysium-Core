@@ -58,7 +58,19 @@ void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Va
 	size_t ValueLength = Value.GetLength();
 	Resize(_Length + ValueLength);
 
-	size_t Test = sizeof(ElysiumChar);
+	// copy data and set _NumberOfElements accordingly
+	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);
+	_Length += ValueLength;
+}
+void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar * Value)
+{
+	// resize if required
+#ifdef UNICODE
+	size_t ValueLength = wcslen(Value);
+#else
+	size_t ValueLength = strlen(Value);
+#endif 
+	Resize(_Length + ValueLength);
 
 	// copy data and set _NumberOfElements accordingly
 	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);

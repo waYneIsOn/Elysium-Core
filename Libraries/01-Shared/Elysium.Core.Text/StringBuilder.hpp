@@ -38,6 +38,7 @@ namespace Elysium
 				void SetLength(const size_t Value);
 
 				void Append(const Elysium::Core::String& Value);
+				void Append(const ElysiumChar* Value);
 
 				void ToString(Elysium::Core::String* Output);
 			private:
