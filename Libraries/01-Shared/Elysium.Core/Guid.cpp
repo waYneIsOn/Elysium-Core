@@ -113,6 +113,31 @@ void Elysium::Core::Guid::ToString(String * Output) const
 	*/
 }
 
+bool Elysium::Core::Guid::operator==(const Guid & Other)
+{
+	return _Data == Other._Data;
+}
+bool Elysium::Core::Guid::operator!=(const Guid & Other)
+{
+	return _Data != Other._Data;
+}
+bool Elysium::Core::Guid::operator<(const Guid & Other)
+{
+	return _Data < Other._Data;
+}
+bool Elysium::Core::Guid::operator>(const Guid & Other)
+{
+	return _Data > Other._Data;
+}
+bool Elysium::Core::Guid::operator<=(const Guid & Other)
+{
+	return _Data <= Other._Data;
+}
+bool Elysium::Core::Guid::operator>=(const Guid & Other)
+{
+	return _Data >= Other._Data;
+}
+
 Elysium::Core::Guid::Guid()
 {
 	memset(&_Data[0], 0x00, sizeof(byte) * 16);

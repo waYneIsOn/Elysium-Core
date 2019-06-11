@@ -21,7 +21,7 @@ namespace Elysium
 		namespace Collections
 		{
 			/// Represents a non-generic collection of objects that can be individually accessed by index.
-			template <class T>
+			template <typename T>
 			class IList : public ICollection<T>
 			{
 			public:

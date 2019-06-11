@@ -46,7 +46,7 @@ namespace Elysium
 		{
 			namespace Generic
 			{
-				template <class T>
+				template <typename T>
 				class List : public IList<T>
 				{
 				public:
@@ -90,42 +90,48 @@ namespace Elysium
 
 				template<class T>
 				inline List<T>::List()
-					: List(0)
+					: _Capacity(0),
+					_Data(nullptr),
+					_NumberOfElements(0)
 				{ }
 				template<class T>
 				inline List<T>::List(size_t Capacity)
 					: _Capacity(Capacity <= INT_MAX ? Capacity : INT_MAX),
-					_Data((T*)malloc(sizeof(T) * _Capacity)),
+					_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
 					_NumberOfElements(_Capacity)
 				{ }
 				template<class T>
 				inline List<T>::List(std::initializer_list<T> InitializerList)
 					: _Capacity(InitializerList.size()),
-					_Data((T*)malloc(sizeof(T) * _Capacity)),
+					_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
 					_NumberOfElements(_Capacity)
 				{
 					size_t i = 0;
 					typename std::initializer_list<T>::iterator Iterator;
 					for (Iterator = InitializerList.begin(); Iterator < InitializerList.end(); ++Iterator)
 					{
-						_Data[i++] = T(*Iterator);
+						_Data[(i++) * sizeof(T)] = T(*Iterator);
 					}
 				}
 				template<class T>
 				inline List<T>::List(const List<T>& Source)
 					: _Capacity(Source._Capacity),
-					_Data((T*)malloc(sizeof(T) * _Capacity)),
+					_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
 					_NumberOfElements(_Capacity)
 				{
 					for (size_t i = 0; i < _Capacity; i++)
 					{
-						_Data[i] = T(Source._Data[i]);
+						_Data[i * sizeof(T)] = T(Source._Data[i]);
 					}
 				}
 				template<class T>
 				inline List<T>::~List()
 				{
-					delete[] _Data;
+					if (_Data != nullptr)
+					{
+						delete[] _Data;
+						_Data = nullptr;
+					}
 				}
 
 				template<class T>
@@ -157,7 +163,7 @@ namespace Elysium
 					{	
 						SetCapacity(Value._Capacity);
 						_NumberOfElements = Value._NumberOfElements;
-						memcpy(&_Data[0], &Value._Data[0], sizeof(T) * (_NumberOfElements));	// ToDo: I think, in this case we can actually use memcpy. if this turns out to be wrong, iterate and use the copy constructor!
+						memcpy(&_Data[0], &Value._Data[0], sizeof(T) * _NumberOfElements);	// ToDo: I think, in this case we can actually use memcpy. if this turns out to be wrong, iterate and use the copy constructor!
 					}
 
 					return *this;
@@ -170,7 +176,7 @@ namespace Elysium
 						throw IndexOutOfRangeException();
 					}
 
-					return _Data[Index];
+					return _Data[Index * sizeof(T)];
 				}
 
 				template<class T>
@@ -185,7 +191,7 @@ namespace Elysium
 					Resize(_NumberOfElements + 1);
 
 					// use the copy constructor to clone the element and increment the internal element counter
-					_Data[_NumberOfElements] = T(*Item);
+					_Data[_NumberOfElements * sizeof(T)] = T(*Item);
 					_NumberOfElements++;
 				}
 				template<class T>
@@ -198,7 +204,7 @@ namespace Elysium
 					// use the copy constructor to clone all elements and increment the internal element counter
 					for (size_t i = 0; i < CollectionCount; i++)
 					{
-						_Data[_NumberOfElements] = T(Collection->operator[](i));
+						_Data[_NumberOfElements * sizeof(T)] = T(Collection->operator[](i));
 						_NumberOfElements++;
 					}
 				}
@@ -211,7 +217,7 @@ namespace Elysium
 					// use the copy constructor to clone all elements and increment the internal element counter
 					for (size_t i = 0; i < Count; i++)
 					{
-						_Data[_NumberOfElements] = T(Collection[Offset + i]);
+						_Data[_NumberOfElements * sizeof(T)] = T(Collection[Offset + i]);
 						_NumberOfElements++;
 					}
 				}
@@ -225,7 +231,7 @@ namespace Elysium
 				{
 					for (size_t i = 0; i < _NumberOfElements; i++)
 					{
-						if (_Data[i] == Item)
+						if (_Data[i * sizeof(T)] == Item)
 						{
 							return true;
 						}
@@ -237,7 +243,7 @@ namespace Elysium
 				{
 					for (size_t i = 0; i < _NumberOfElements; i++)
 					{
-						if (_Data[i] == Item)
+						if (_Data[i * sizeof(T)] == Item)
 						{
 							return i;
 						}
@@ -261,7 +267,7 @@ namespace Elysium
 					Resize(_NumberOfElements + 1, Index);
 
 					// use the copy constructor to clone the element and increment the internal element counter
-					_Data[Index] = T(Item);
+					_Data[Index * sizeof(T)] = T(Item);
 					_NumberOfElements++;
 				}
 				template<class T>
@@ -269,7 +275,7 @@ namespace Elysium
 				{
 					for (size_t i = 0; i < _NumberOfElements; i++)
 					{
-						if (_Data[i] == Item)
+						if (_Data[i * sizeof(T)] == Item)
 						{
 							RemoveAt(i);
 							return true;
@@ -286,12 +292,12 @@ namespace Elysium
 					}
 
 					// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-					memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_NumberOfElements - Index));
+					memcpy(&_Data[Index * sizeof(T)], &_Data[(Index + 1) * sizeof(T)], sizeof(T) * (_NumberOfElements - Index));
 					/*
 					// copy all old elements right of InsertionIndex to _Data using the copy constructor
 					for (size_t i = Index; i < _NumberOfElements; i++)
 					{
-						_Data[i] = T(_Data[i + 1]);
+						_Data[i * sizeof(T)] = T(_Data[(i + 1) * sizeof(T)]);
 					}
 					*/
 					_NumberOfElements--;
@@ -328,7 +334,7 @@ namespace Elysium
 
 						// store a pointer to old data before allocating new data
 						T* OldData = _Data;
-						_Data = (T*)malloc(sizeof(T) * ActualCapacity);
+						_Data = new T[ActualCapacity];
 						_Capacity = ActualCapacity;
 
 						// copy all old elements to _Data using the copy constructor
@@ -372,19 +378,19 @@ namespace Elysium
 
 						// store a pointer to old data before allocating new data
 						T* OldData = _Data;
-						_Data = (T*)malloc(sizeof(T) * ActualCapacity);
+						_Data = new T[ActualCapacity];
 						_Capacity = ActualCapacity;
 
 						// copy all old elements left of InsertionIndex to _Data using the copy constructor
 						for (size_t i = 0; i < InsertionIndex; i++)
 						{
-							_Data[i] = T(OldData[i]);
+							_Data[i * sizeof(T)] = T(OldData[i * sizeof(T)]);
 						}
 
 						// copy all old elements right of InsertionIndex to _Data using the copy constructor
 						for (size_t i = _NumberOfElements - 1; i >= InsertionIndex; i--)
 						{
-							_Data[i + 1] = T(OldData[i]);
+							_Data[(i + 1) * sizeof(T)] = T(OldData[i * sizeof(T)]);
 						}
 
 						// delete old data
@@ -393,7 +399,7 @@ namespace Elysium
 					else
 					{
 						// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-						memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_NumberOfElements - InsertionIndex));
+						memcpy(&_Data[(InsertionIndex + 1) * sizeof(T)], &_Data[InsertionIndex * sizeof(T)], sizeof(T) * (_NumberOfElements - InsertionIndex));
 						/*
 						// copy all old elements right of InsertionIndex to _Data using the copy constructor
 						for (size_t i = _NumberOfElements - 1; i >= InsertionIndex; i--)

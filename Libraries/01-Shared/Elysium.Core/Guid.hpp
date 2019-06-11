@@ -26,12 +26,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#include "List.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
 	{
 		class ELYSIUM_CORE_API Guid final
 		{
+			friend class Collections::Generic::List<Guid>;
 		public:
 			Guid(const byte B[16]);
 			Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
@@ -44,6 +49,14 @@ namespace Elysium
 			const byte* ToByteArray() const;
 			void ToString(String* Output) const;
 			//std::string ToString() const;
+
+			// relational operators
+			bool operator==(const Guid& Other);
+			bool operator!=(const Guid& Other);
+			bool operator<(const Guid& Other);
+			bool operator>(const Guid& Other);
+			bool operator<=(const Guid& Other);
+			bool operator>=(const Guid& Other);
 		private:
 			byte _Data[16];
 

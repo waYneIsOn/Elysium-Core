@@ -21,7 +21,7 @@ namespace Elysium
 		namespace Collections
 		{
 			/// Defines size, enumerators, and synchronization methods for all nongeneric collections.
-			template <class T>
+			template <typename T>
 			class ICollection : public IEnumerable<T>
 			{
 			public:

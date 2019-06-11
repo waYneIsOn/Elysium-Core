@@ -17,7 +17,7 @@ namespace Elysium
 		namespace Collections
 		{
 			/// Exposes an enumerator, which supports a simple iteration over a non-generic collection.
-			template <class T>
+			template <typename T>
 			class IEnumerable
 			{
 			public:
