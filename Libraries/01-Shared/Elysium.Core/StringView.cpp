@@ -112,21 +112,20 @@ size_t Elysium::Core::StringView::IndexOf(const ElysiumChar * Value, const size_
 }
 void Elysium::Core::StringView::Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView> * Views) const
 {
-	size_t DelimiterLength = sizeof(ElysiumChar);
 	size_t StartIndex = 0;
-	size_t Index = 0;
+	size_t Length = 0;
 
 	do
 	{
 #ifdef UNICODE
-		Index = wcscspn(&_Data[StartIndex], &Delimiter);
+		Length = wcscspn(&_Data[StartIndex], &Delimiter);
 #else
-		Index = strcspn(&_Data[StartIndex], &Delimiter);
+		Length = strcspn(&_Data[StartIndex], &Delimiter);
 #endif
 
-		Views->Add(StringView(&_Data[StartIndex], Index));
-		StartIndex = Index + DelimiterLength;
-	} while (Index < _Length);
+		Views->Add(StringView(&_Data[StartIndex], Length));
+		StartIndex = Length + 1;
+	} while (Length < _Length);
 }
 void Elysium::Core::StringView::Split(const ElysiumChar* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const
 {

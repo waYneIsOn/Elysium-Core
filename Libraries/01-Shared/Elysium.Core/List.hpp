@@ -117,7 +117,7 @@ namespace Elysium
 				inline List<T>::List(const List<T>& Source)
 					: _Capacity(Source._Capacity),
 					_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
-					_NumberOfElements(_Capacity)
+					_NumberOfElements(Source._NumberOfElements)
 				{
 					for (size_t i = 0; i < _Capacity; i++)
 					{
@@ -160,10 +160,14 @@ namespace Elysium
 				inline List<T>& List<T>::operator=(const List<T>& Value)
 				{
 					if (this != &Value)
-					{	
+					{
 						SetCapacity(Value._Capacity);
 						_NumberOfElements = Value._NumberOfElements;
-						memcpy(&_Data[0], &Value._Data[0], sizeof(T) * _NumberOfElements);	// ToDo: I think, in this case we can actually use memcpy. if this turns out to be wrong, iterate and use the copy constructor!
+						for (size_t i = 0; i < _NumberOfElements; i++)
+						{
+							_Data[i] = T(Value._Data[i]);
+							i++;
+						}
 					}
 
 					return *this;

@@ -315,6 +315,7 @@ bool Elysium::Core::operator==(const String & Left, const String & Right)
 	}
 
 #ifdef UNICODE
+	// ToDo: use lstrcmpW instead?
 	return wcscmp(&Left[0], &Right[0]) != 0;
 #else
 	return strcmp(&Left[0], &Right[0]) != 0;
