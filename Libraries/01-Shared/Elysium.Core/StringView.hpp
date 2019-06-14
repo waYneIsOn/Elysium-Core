@@ -38,11 +38,18 @@ namespace Elysium
 			StringView(const StringView& Value);
 			~StringView();
 
-			void Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views);
-			void Split(const ElysiumChar* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views);
+			size_t IndexOf(const ElysiumChar Value) const;
+			size_t IndexOf(const ElysiumChar Value, const size_t StartIndex) const;
+			size_t IndexOf(const ElysiumChar* Value) const;
+			size_t IndexOf(const ElysiumChar* Value, const size_t StartIndex) const;
+			void Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
+			void Split(const ElysiumChar* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
 
 			// assignment operators
 			StringView& operator=(const StringView& Value);
+
+			// index operator
+			virtual ElysiumChar& operator[](size_t Index) const;
 
 			// cast operators
 			operator Elysium::Core::String() const;

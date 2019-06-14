@@ -14,8 +14,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "StringView.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM
@@ -40,8 +40,8 @@ namespace Elysium
 			const unsigned int GetBuild() const;
 			const unsigned int GetRevision() const;
 
-			static void Parse(const String& Input, Version* Result);
-			static Version Parse(const String& Input);
+			static void Parse(const StringView* Input, Version* Result);
+			static Version Parse(const StringView* Input);
 
 			// assignment operator
 			virtual Version& operator=(const Version& Other);

@@ -1,8 +1,18 @@
 #include "Version.hpp"
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#include "List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
+#include "ArgumentNullException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "NotImplementedException.hpp"
 #endif
+
+using namespace Elysium::Core::Collections::Generic;
 
 Elysium::Core::Version::Version()
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
@@ -41,14 +51,39 @@ const unsigned int Elysium::Core::Version::GetRevision() const
 	return _Revision;
 }
 
-void Elysium::Core::Version::Parse(const String & Input, Version * Result)
+void Elysium::Core::Version::Parse(const StringView * Input, Version * Result)
 {
-	//Input.Split('.'); // multiple StringViews would be a lot more efficient!!
-	throw NotImplementedException();
+	if (Result == nullptr)
+	{
+		throw ArgumentNullException(L"Result");
+	}
+
+	List<StringView> Numbers;
+	Input->Split(L'.', &Numbers);
+
+	const size_t NumberCount = Numbers.GetCount();
+	if (NumberCount >= 1)
+	{
+		Result->_Major = wcstoul(&Numbers[0][0], nullptr, 10);
+	}
+	if (NumberCount >= 2)
+	{
+		Result->_Minor = wcstoul(&Numbers[1][0], nullptr, 10);
+	}
+	if (NumberCount >= 3)
+	{
+		Result->_Minor = wcstoul(&Numbers[2][0], nullptr, 10);
+	}
+	if (NumberCount >= 4)
+	{
+		Result->_Minor = wcstoul(&Numbers[3][0], nullptr, 10);
+	}
 }
-Elysium::Core::Version Elysium::Core::Version::Parse(const String & Input)
+Elysium::Core::Version Elysium::Core::Version::Parse(const StringView * Input)
 {
-	throw NotImplementedException();
+	Version ParsedVersion;
+	Parse(Input, &ParsedVersion);
+	return ParsedVersion;
 }
 
 Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
