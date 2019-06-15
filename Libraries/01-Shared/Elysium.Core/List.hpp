@@ -74,11 +74,15 @@ namespace Elysium
 					virtual void AddRange(const IList<T>* Collection);
 					virtual void AddRange(const T* Collection, size_t Offset, size_t Count);
 					virtual void Clear() override;
-					virtual bool Contains(const T& Item) override;
+					virtual bool Contains(const T& Item) const override;
 					virtual const size_t IndexOf(const T& Item) const override;
+					virtual const size_t IndexOf(const T& Item, size_t Index) const;
 					virtual void Insert(size_t Index, const T& Item) override;
+					virtual const size_t LastIndexOf(const T& Item) const;
+					virtual const size_t LastIndexOf(const T& Item, size_t Index) const;
 					virtual bool Remove(const T& Item) override;
 					virtual void RemoveAt(size_t Index) override;
+					virtual void RemoveRange(size_t Index, size_t Count);
 				private:
 					size_t _Capacity;
 					T* _Data;
@@ -231,7 +235,7 @@ namespace Elysium
 					_NumberOfElements = 0;
 				}
 				template<class T>
-				inline bool List<T>::Contains(const T & Item)
+				inline bool List<T>::Contains(const T & Item) const
 				{
 					for (size_t i = 0; i < _NumberOfElements; i++)
 					{
@@ -252,12 +256,19 @@ namespace Elysium
 							return i;
 						}
 					}
-					// ToDo: throw ArgumentOutOfRangeException
-#ifdef UNICODE
-					throw Exception(L"ArgumentOutOfRangeException");
-#else
-					throw Exception("ArgumentOutOfRangeException");
-#endif
+					return -1;
+				}
+				template<typename T>
+				inline const size_t List<T>::IndexOf(const T & Item, size_t Index) const
+				{
+					for (size_t i = Index; i < _NumberOfElements; i++)
+					{
+						if (_Data[i] == Item)
+						{
+							return i;
+						}
+					}
+					return -1;
 				}
 				template<class T>
 				inline void List<T>::Insert(size_t Index, const T & Item)
@@ -273,6 +284,30 @@ namespace Elysium
 					// use the copy constructor to clone the element and increment the internal element counter
 					_Data[Index] = T(Item);
 					_NumberOfElements++;
+				}
+				template<typename T>
+				inline const size_t List<T>::LastIndexOf(const T & Item) const
+				{
+					for (size_t i = _NumberOfElements; i > 0; i--)
+					{
+						if (_Data[i - 1] == Item)
+						{
+							return i;
+						}
+					}
+					return -1;
+				}
+				template<typename T>
+				inline const size_t List<T>::LastIndexOf(const T & Item, size_t Index) const
+				{
+					for (size_t i = _NumberOfElements; i > Index; i--)
+					{
+						if (_Data[i - 1] == Item)
+						{
+							return i;
+						}
+					}
+					return -1;
 				}
 				template<class T>
 				inline bool List<T>::Remove(const T & Item)
@@ -305,6 +340,18 @@ namespace Elysium
 					}
 					*/
 					_NumberOfElements--;
+				}
+				template<typename T>
+				inline void List<T>::RemoveRange(size_t Index, size_t Count)
+				{
+					if (Index >= _NumberOfElements || Index + Count >= _NumberOfElements)
+					{
+						throw IndexOutOfRangeException();
+					}
+
+					// ToDo: I think, in this case we can actually use memcpy
+					memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_NumberOfElements - Index));
+					_NumberOfElements -= Count;
 				}
 
 				template<class T>

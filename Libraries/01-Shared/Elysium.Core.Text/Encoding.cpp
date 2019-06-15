@@ -149,17 +149,26 @@ size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t
 		throw ArgumentNullException(L"Output");
 	}
 
-	// ToDo: this only works if the last byte is 0x00 ie. \0 atm
-	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, -1, 0, 0);
+	// determine the length of the string
+	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, ByteCount, nullptr, 0);
+
+	// prepare the string
 	Output->_Length = (size_t)Length;
 	if (Output->_Data != nullptr)
 	{
 		delete[] Output->_Data;
 	}
 	Output->_Data = new wchar_t[Length];
-	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, -1, Output->_Data, Length);
-	//Output->_Data[Length] = L'\0';
 
+	// now actually convert the bytes to string
+	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, ByteCount, Output->_Data, Length);
+	/*
+	// null terminate the string, if necessary - ToDo: this causes a heap corruption when Output gets deleted!
+	if (ByteCount != -1)
+	{
+		Output->_Data[Length] = L'\0';
+	}
+	*/
 	return Length;
 #else
 	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount, String * Output) const");

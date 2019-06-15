@@ -36,7 +36,7 @@ namespace Elysium
 				virtual void Add(const T& Item) = 0;
 				virtual void Add(const T* Item) = 0;
 				virtual void Clear() = 0;
-				virtual bool Contains(const T& Item) = 0;
+				virtual bool Contains(const T& Item) const = 0;
 				virtual bool Remove(const T& Item) = 0;
 			};
 		}

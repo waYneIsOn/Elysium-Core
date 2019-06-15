@@ -21,7 +21,7 @@ void Elysium::Core::Data::Common::DbParameterCollection::Clear()
 {
 	_InternalVector.clear();
 }
-bool Elysium::Core::Data::Common::DbParameterCollection::Contains(const IDataParameter & Item)
+bool Elysium::Core::Data::Common::DbParameterCollection::Contains(const IDataParameter & Item) const
 {
 	return false;
 }

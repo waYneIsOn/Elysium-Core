@@ -175,7 +175,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Clea
 {
 	throw NotImplementedException();
 }
-bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Contains(const SqlNativeError & Item)
+bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Contains(const SqlNativeError & Item) const
 {
 	throw NotImplementedException();
 }
