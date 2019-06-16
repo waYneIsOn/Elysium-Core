@@ -154,21 +154,25 @@ size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t
 
 	// prepare the string
 	Output->_Length = (size_t)Length;
+	if (ByteCount != -1)
+	{
+		Output->_Length++;
+	}
 	if (Output->_Data != nullptr)
 	{
 		delete[] Output->_Data;
 	}
-	Output->_Data = new wchar_t[Length];
+	Output->_Data = new wchar_t[Output->_Length];
 
 	// now actually convert the bytes to string
 	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, ByteCount, Output->_Data, Length);
-	/*
-	// null terminate the string, if necessary - ToDo: this causes a heap corruption when Output gets deleted!
+	
+	// null terminate the string, if necessary
 	if (ByteCount != -1)
 	{
 		Output->_Data[Length] = L'\0';
 	}
-	*/
+	
 	return Length;
 #else
 	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount, String * Output) const");

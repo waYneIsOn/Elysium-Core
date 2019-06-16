@@ -60,8 +60,8 @@ namespace Elysium
 				virtual void Close() override;
 				virtual void Flush() override;
 				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
-				virtual size_t Read(BYTE* Buffer, const size_t Offset, const size_t Count) override;
-				virtual void Write(const BYTE* Buffer, const size_t Offset, const size_t Count) override;
+				virtual size_t Read(BYTE* Buffer, const size_t Count) override;
+				virtual void Write(const BYTE* Buffer, const size_t Count) override;
 			private:
 				Elysium::Core::Collections::Generic::List<BYTE> _Buffer;
 				size_t _CurrentPosition = 0;

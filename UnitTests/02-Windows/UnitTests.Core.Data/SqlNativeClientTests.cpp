@@ -235,7 +235,7 @@ _Connection.Close();
 				*/
 				// char (option 3)
 				Elysium::Core::IO::MemoryStream StringStream;
-				StringStream.Write((const BYTE*)"a - mssql won't trim automatically so set the length correctly!!!!", 0, 1);
+				StringStream.Write((const BYTE*)"a - mssql won't trim automatically so set the length correctly!!!!", 1);
 				StringStream.SetPosition(0);
 
 				std::unique_ptr<IDataParameter> StreamedStringParameter = InsertCommand->CreateParameter();
@@ -363,7 +363,7 @@ _Connection.Close();
 				*/
 				// nchar (option 3)
 				Elysium::Core::IO::MemoryStream WStringStream;
-				WStringStream.Write((const BYTE*)L"n - mssql won't trim automatically so set the length correctly!!!!", 0, 2);
+				WStringStream.Write((const BYTE*)L"n - mssql won't trim automatically so set the length correctly!!!!", 2);
 				WStringStream.SetPosition(0);
 
 				std::unique_ptr<IDataParameter> StreamedWStringParameter = InsertCommand->CreateParameter();
@@ -396,7 +396,7 @@ _Connection.Close();
 				*/
 				// ntext (option 3)
 				Elysium::Core::IO::MemoryStream WTextStringStream;
-				WTextStringStream.Write((const BYTE*)L"t - mssql won't trim automatically so set the length correctly!!!!", 0, 2);
+				WTextStringStream.Write((const BYTE*)L"t - mssql won't trim automatically so set the length correctly!!!!", 2);
 				WTextStringStream.SetPosition(0);
 
 				std::unique_ptr<IDataParameter> StreamedWTextStringParameter = InsertCommand->CreateParameter();
@@ -481,7 +481,7 @@ _Connection.Close();
 				*/
 				// ntext (option 3)
 				Elysium::Core::IO::MemoryStream TextStringStream;
-				TextStringStream.Write((const BYTE*)L"s - mssql won't trim automatically so set the length correctly!!!!", 0, 2);
+				TextStringStream.Write((const BYTE*)L"s - mssql won't trim automatically so set the length correctly!!!!", 2);
 				TextStringStream.SetPosition(0);
 
 				std::unique_ptr<IDataParameter> StreamedTextStringParameter = InsertCommand->CreateParameter();

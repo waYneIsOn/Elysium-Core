@@ -69,21 +69,21 @@ void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t Buffer
 
 	size_t BytesRead = 0;
 	Elysium::Core::Collections::Generic::List<Byte> Buffer = Elysium::Core::Collections::Generic::List<Byte>(BufferSize);
-	while ((BytesRead = Read(&Buffer[0], 0, BufferSize)) > 0)
+	while ((BytesRead = Read(&Buffer[0], BufferSize)) > 0)
 	{
-		Destination->Write(&Buffer[0], 0, BytesRead);
+		Destination->Write(&Buffer[0], BytesRead);
 	}
 }
 
 Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const byte & Value)
 {
-	Write(&Value, 0, sizeof(Value));
+	Write(&Value, sizeof(Value));
 	return (*this);
 }
 Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const unsigned int & Value)
 {
 	byte* Bytes = (byte*)&Value;
-	Write(Bytes, 0, sizeof(unsigned int));
+	Write(Bytes, sizeof(unsigned int));
 	return (*this);
 }
 

@@ -121,7 +121,10 @@ namespace UnitTestsCore
 			DefaultEncoding->GetBytes(&OriginalString, (size_t)0, (size_t)OriginalString.GetLength(), &OutputBytes);
 
 			Elysium::Core::String OutputString;
-			DefaultEncoding->GetString(&OutputBytes[0], 3, &OutputString);
+			DefaultEncoding->GetString(&OutputBytes[0], 4, &OutputString);
+			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
+
+			DefaultEncoding->GetString(&OutputBytes[0], -1, &OutputString);
 			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
 		}
 	private:

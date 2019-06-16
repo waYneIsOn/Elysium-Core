@@ -357,7 +357,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 						size_t BytesRead = 0;
 						byte Buffer[4096];
 						SourceStream->SetPosition(0);
-						while ((BytesRead = SourceStream->Read(&Buffer[0], 0, 4096)) > 0)
+						while ((BytesRead = SourceStream->Read(&Buffer[0], 4096)) > 0)
 						{
 							if (FAILED(HResult = CurrentStream->Write(&Buffer[0], (unsigned long)BytesRead, nullptr)))
 							{

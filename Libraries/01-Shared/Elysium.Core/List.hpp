@@ -72,7 +72,7 @@ namespace Elysium
 					virtual void Add(const T& Item) override;
 					virtual void Add(const T* Item) override;
 					virtual void AddRange(const IList<T>* Collection);
-					virtual void AddRange(const T* Collection, size_t Offset, size_t Count);
+					virtual void AddRange(const T* Collection, size_t Count);
 					virtual void Clear() override;
 					virtual bool Contains(const T& Item) const override;
 					virtual const size_t IndexOf(const T& Item) const override;
@@ -217,7 +217,7 @@ namespace Elysium
 					}
 				}
 				template<class T>
-				inline void List<T>::AddRange(const T * Collection, size_t Offset, size_t Count)
+				inline void List<T>::AddRange(const T * Collection, size_t Count)
 				{
 					// resize if required
 					Resize(_NumberOfElements + Count);
@@ -225,7 +225,7 @@ namespace Elysium
 					// use the copy constructor to clone all elements and increment the internal element counter
 					for (size_t i = 0; i < Count; i++)
 					{
-						_Data[_NumberOfElements] = T(Collection[Offset + i]);
+						_Data[_NumberOfElements] = T(Collection[i]);
 						_NumberOfElements++;
 					}
 				}

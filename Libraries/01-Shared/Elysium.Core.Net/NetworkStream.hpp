@@ -58,8 +58,8 @@ namespace Elysium
 					virtual void Close() override;
 					virtual void Flush() override;
 					virtual void Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin) override;
-					virtual size_t Read(byte* Buffer, const size_t Offset, const size_t Count) override;
-					virtual void Write(const byte* Buffer, const size_t Offset, const size_t Count) override;
+					virtual size_t Read(byte* Buffer, const size_t Count) override;
+					virtual void Write(const byte* Buffer, const size_t Count) override;
 				private:
 					// fields
 					Socket* _Socket;

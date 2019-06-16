@@ -46,7 +46,7 @@ namespace UnitTestsCoreNet
 				byte Data[] = "GET /Hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)\r\nHost: www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";
 				size_t DataLength = strlen((char*)Data);
 
-				size_t BytesSent = ClientSocket.Send(Data, 0, DataLength);
+				size_t BytesSent = ClientSocket.Send(Data, DataLength);
 				Logger::WriteMessage("bytes sent:");
 				Logger::WriteMessage((char*)Data);
 
@@ -61,7 +61,7 @@ namespace UnitTestsCoreNet
 				{
 					try
 					{
-						BytesReceived = ClientSocket.Receive(ReceivedData, 0, 1024);
+						BytesReceived = ClientSocket.Receive(ReceivedData, 1024);
 						//Logger::WriteMessage("bytes received:");
 						//Logger::WriteMessage(std::to_string(BytesReceived).c_str());
 					}

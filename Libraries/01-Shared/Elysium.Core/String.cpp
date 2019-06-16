@@ -138,6 +138,20 @@ size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t St
 	}
 }
 
+bool Elysium::Core::String::StartsWith(const ElysiumChar * Value) const
+{
+	size_t ValueLength = ElysiumStringLength(Value);
+	for (size_t i = 0; i < ValueLength; i++)
+	{
+		if (_Data[i] != Value[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void Elysium::Core::String::Substring(size_t StartIndex, String * Result) const
 {
 	Elysium::Core::String::Substring(StartIndex, _Length - StartIndex, Result);
