@@ -123,7 +123,7 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 size_t Elysium::Core::Text::Encoding::GetBytes(const String * Input, const size_t CharIndex, const size_t CharCount, Elysium::Core::Collections::Generic::List<byte>* Output) const
 {
 #ifdef UNICODE
-	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, 0, 0, 0, 0);
+	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], (int)CharCount, 0, 0, 0, 0);
 	/*
 	Output->SetCapacity(Length);
 	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, (char*)&Output[0], Length, 0, 0);
@@ -150,7 +150,7 @@ size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t
 	}
 
 	// determine the length of the string
-	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, ByteCount, nullptr, 0);
+	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, nullptr, 0);
 
 	// prepare the string
 	Output->_Length = (size_t)Length;
@@ -165,7 +165,7 @@ size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t
 	Output->_Data = new wchar_t[Output->_Length];
 
 	// now actually convert the bytes to string
-	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, ByteCount, Output->_Data, Length);
+	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, Output->_Data, Length);
 	
 	// null terminate the string, if necessary
 	if (ByteCount != -1)
