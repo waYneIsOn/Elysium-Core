@@ -344,7 +344,7 @@ namespace Elysium
 				template<typename T>
 				inline void List<T>::RemoveRange(size_t Index, size_t Count)
 				{
-					if (Index >= _NumberOfElements || Index + Count >= _NumberOfElements)
+					if (_NumberOfElements < Index|| Index + Count >= _NumberOfElements)
 					{
 						throw IndexOutOfRangeException();
 					}

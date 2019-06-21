@@ -53,8 +53,6 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 #endif
 
-using std::string;
-
 namespace Elysium
 {
 	namespace Core

@@ -18,15 +18,13 @@ Copyright (C) 2017 waYne (CAM)
 #include "AddressFamily.hpp"
 #endif
 
-#ifndef _VECTOR_
-#include <vector>
+#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#include "../Elysium.Core/List.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BYTE
 #include "../Elysium.Core/Byte.hpp"
 #endif
-
-#pragma warning(disable : 4251)
 
 namespace Elysium
 {
@@ -38,7 +36,12 @@ namespace Elysium
 			{
 				class Socket;
 			}
-			
+
+			// make sure the following classes get exported (warning C4251)
+			// ToDo: can't do this here because we also need to do it in MemoryStream which means we export twice
+			// will have to think about how to do it correctly
+			//template class ELYSIUM_CORE_API Elysium::Core::Collections::Generic::List<BYTE>;
+
 			class ELYSIUM_CORE_NET_API SocketAddress
 			{
 				friend class Sockets::Socket;
@@ -60,7 +63,7 @@ namespace Elysium
 				const int MaxSize = 32;
 
 				unsigned int _Size;
-				std::vector<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
+				Elysium::Core::Collections::Generic::List<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
 			};
 		}
 	}

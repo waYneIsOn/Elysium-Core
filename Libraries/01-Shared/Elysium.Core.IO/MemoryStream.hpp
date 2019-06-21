@@ -28,9 +28,6 @@ namespace Elysium
 	{
 		namespace IO
 		{
-			// make sure the following classes get exported (warning C4251)
-			template class ELYSIUM_CORE_API Elysium::Core::Collections::Generic::List<BYTE>;
-
 			class ELYSIUM_CORE_API MemoryStream : public Stream
 			{
 			public:
@@ -60,10 +57,10 @@ namespace Elysium
 				virtual void Close() override;
 				virtual void Flush() override;
 				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
-				virtual size_t Read(BYTE* Buffer, const size_t Count) override;
-				virtual void Write(const BYTE* Buffer, const size_t Count) override;
+				virtual size_t Read(byte* Buffer, const size_t Count) override;
+				virtual void Write(const byte* Buffer, const size_t Count) override;
 			private:
-				Elysium::Core::Collections::Generic::List<BYTE> _Buffer;
+				Elysium::Core::Collections::Generic::List<byte> _Buffer;
 				size_t _CurrentPosition = 0;
 			};
 		}

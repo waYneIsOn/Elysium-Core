@@ -1,7 +1,7 @@
 #include "SocketAddress.hpp"
 
 Elysium::Core::Net::SocketAddress::SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily, int Size)
-	: _Size(Size <= INT_MAX ? Size : INT_MAX), _Data(std::vector<byte>(_Size))
+	: _Size(Size <= INT_MAX ? Size : INT_MAX), _Data(Elysium::Core::Collections::Generic::List<byte>(_Size))
 {
 #ifdef BIGENDIAN
 	_Data[0] = (byte)((int)AddressFamily >> 8);

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp">
+      <Filter>Compression</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp">
+      <Filter>Compression</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CompressionLevel.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CompressionMode.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Compression">
+      <UniqueIdentifier>{3342b24d-9396-4c56-9e51-4dfdb08ce685}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -102,7 +102,7 @@ void Elysium::Core::IO::MemoryStream::Seek(const int64_t Offset, const SeekOrigi
 		throw NotSupportedException();
 	}
 }
-size_t Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const size_t Count)
+size_t Elysium::Core::IO::MemoryStream::Read(byte * Buffer, const size_t Count)
 {
 	if (!GetCanRead())
 	{
@@ -137,7 +137,7 @@ size_t Elysium::Core::IO::MemoryStream::Read(BYTE * Buffer, const size_t Count)
 
 	return BytesToRead;
 }
-void Elysium::Core::IO::MemoryStream::Write(const BYTE * Buffer, const size_t Count)
+void Elysium::Core::IO::MemoryStream::Write(const byte * Buffer, const size_t Count)
 {
 	if (!GetCanWrite())
 	{

@@ -4,6 +4,9 @@
     <Filter Include="Sockets">
       <UniqueIdentifier>{a4ca8986-88e1-4128-adb0-ca5037aeee05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Security">
+      <UniqueIdentifier>{3f89c7c0-7606-4be4-9504-3f6d2b5f30e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
@@ -21,6 +24,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)IPEndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IPAddress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DnsEndPoint.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SslStream.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
@@ -54,5 +63,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationLevel.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EncryptionPolicy.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProtectionLevel.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SslPolicyErrors.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SslStream.hpp" />
   </ItemGroup>
 </Project>
