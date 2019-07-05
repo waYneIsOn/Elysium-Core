@@ -16,7 +16,7 @@ bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
 }
-int64_t Elysium::Core::IO::Stream::GetPosition() const
+int64_t Elysium::Core::IO::Stream::GetPosition()
 {
 	if (!GetCanSeek())
 	{
@@ -43,21 +43,22 @@ void Elysium::Core::IO::Stream::SetWriteTimeout(int Value)
 	throw InvalidOperationException();
 }
 
-void Elysium::Core::IO::Stream::CopyTo(Stream * Destination)
+void Elysium::Core::IO::Stream::CopyTo(Stream & Destination)
 {
 	const size_t BufferSize = 4096;
 	CopyTo(Destination, BufferSize);
 }
-void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t BufferSize)
+void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t BufferSize)
 {
-	if (Destination == nullptr)
-	{	// ToDo: throw specific ArgumentNullException
+	if (&Destination == this)
+	{
 #ifdef UNICODE
-		throw Exception(L"ArgumentNullException");
+		throw InvalidOperationException(L"cannot copy from a stream to the same one");
 #else
-		throw Exception("ArgumentNullException");
+		throw InvalidOperationException("cannot copy from a stream to the same one");
 #endif
 	}
+
 	if (BufferSize > INT_MAX)
 	{	// ToDo: throw specific ArgumentOutOfRangeException
 #ifdef UNICODE
@@ -71,7 +72,7 @@ void Elysium::Core::IO::Stream::CopyTo(Stream * Destination, const size_t Buffer
 	Elysium::Core::Collections::Generic::List<Byte> Buffer = Elysium::Core::Collections::Generic::List<Byte>(BufferSize);
 	while ((BytesRead = Read(&Buffer[0], BufferSize)) > 0)
 	{
-		Destination->Write(&Buffer[0], BytesRead);
+		Destination.Write(&Buffer[0], BytesRead);
 	}
 }
 

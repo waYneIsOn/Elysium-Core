@@ -42,6 +42,10 @@ float Elysium::Core::Math::MathHelper::Min(float Value1, float Value2)
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
+size_t Elysium::Core::Math::MathHelper::Min(size_t Value1, size_t Value2)
+{
+	return (Value1 < Value2) ? Value1 : Value2;
+}
 
 double Elysium::Core::Math::MathHelper::Barycentric(double Value1, double Value2, double Value3, double Amount1, double Amount2)
 {

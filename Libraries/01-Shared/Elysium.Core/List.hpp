@@ -26,6 +26,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <limits>
 #endif
 
+#ifndef _XUTILITY_
+#include <xutility>
+#endif
+
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
@@ -71,18 +75,19 @@ namespace Elysium
 					// methods
 					virtual void Add(const T& Item) override;
 					virtual void Add(const T* Item) override;
-					virtual void AddRange(const IList<T>* Collection);
-					virtual void AddRange(const T* Collection, size_t Count);
+					void AddRange(const IList<T>* Collection);
+					void AddRange(const T* Collection, size_t Count);
 					virtual void Clear() override;
 					virtual bool Contains(const T& Item) const override;
 					virtual const size_t IndexOf(const T& Item) const override;
-					virtual const size_t IndexOf(const T& Item, size_t Index) const;
+					const size_t IndexOf(const T& Item, size_t Index) const;
 					virtual void Insert(size_t Index, const T& Item) override;
-					virtual const size_t LastIndexOf(const T& Item) const;
-					virtual const size_t LastIndexOf(const T& Item, size_t Index) const;
-					virtual bool Remove(const T& Item) override;
-					virtual void RemoveAt(size_t Index) override;
-					virtual void RemoveRange(size_t Index, size_t Count);
+					const size_t LastIndexOf(const T& Item) const;
+					const size_t LastIndexOf(const T& Item, size_t Index) const;
+					bool Remove(const T& Item) override;
+					void RemoveAt(size_t Index) override;
+					void RemoveRange(size_t Index, size_t Count);
+					void Reverse();
 				private:
 					size_t _Capacity;
 					T* _Data;
@@ -344,7 +349,7 @@ namespace Elysium
 				template<typename T>
 				inline void List<T>::RemoveRange(size_t Index, size_t Count)
 				{
-					if (_NumberOfElements < Index|| Index + Count >= _NumberOfElements)
+					if (_NumberOfElements < Index || Index + Count > _NumberOfElements)
 					{
 						throw IndexOutOfRangeException();
 					}
@@ -352,6 +357,11 @@ namespace Elysium
 					// ToDo: I think, in this case we can actually use memcpy
 					memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_NumberOfElements - Index));
 					_NumberOfElements -= Count;
+				}
+				template<typename T>
+				inline void List<T>::Reverse()
+				{
+					std::reverse(&_Data[0], &_Data[_NumberOfElements]);
 				}
 
 				template<class T>

@@ -43,8 +43,8 @@ namespace Elysium
 					virtual bool GetCanTimeout() const override;
 					virtual bool GetCanWrite() const override;
 
-					virtual size_t GetLength() const override;
-					virtual __int64 GetPosition() const override;
+					virtual size_t GetLength() override;
+					virtual __int64 GetPosition() override;
 					virtual int GetReadTimeout() const override;
 					virtual int GetWriteTimeout() const override;
 

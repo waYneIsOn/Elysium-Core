@@ -63,7 +63,7 @@ namespace UnitTestsCore
 			// copy from the previously used file stream to a memory stream
 			OutputStream.SetPosition(0);
 			MemoryStream DestinationStream = MemoryStream();
-			OutputStream.CopyTo(&DestinationStream);
+			OutputStream.CopyTo(DestinationStream);
 			Assert::AreEqual((size_t)9, DestinationStream.GetLength());
 
 			// read from memory stream to make sure all bytes were written correctly

@@ -173,6 +173,7 @@
   <ItemGroup>
     <ClCompile Include="DateTimeTest.cpp" />
     <ClCompile Include="Decimal.cpp" />
+    <ClCompile Include="GZipStreamTest.cpp" />
     <ClCompile Include="FileStreamTest.cpp" />
     <ClCompile Include="ListTest.cpp" />
     <ClCompile Include="MemoryStreamTest.cpp" />
@@ -182,6 +183,9 @@
     <ClCompile Include="UriTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Math\Elysium.Core.Math.vcxproj">
+      <Project>{adb5d221-a0f1-4eee-9101-8988fdf910b8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">
       <Project>{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}</Project>
     </ProjectReference>

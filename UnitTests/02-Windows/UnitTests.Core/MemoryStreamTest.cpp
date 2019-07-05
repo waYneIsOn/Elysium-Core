@@ -45,7 +45,7 @@ namespace UnitTestsCore
 			// copy from the previously used memory stream to another
 			SourceStream.SetPosition(0);
 			MemoryStream DestinationStream = MemoryStream();
-			SourceStream.CopyTo(&DestinationStream);
+			SourceStream.CopyTo(DestinationStream);
 			Assert::AreEqual((size_t)7, DestinationStream.GetLength());
 			/*
 			Assert::AreEqual((BYTE)'o', DataToRead[0]);

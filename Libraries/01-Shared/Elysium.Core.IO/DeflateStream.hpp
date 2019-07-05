@@ -33,8 +33,10 @@ namespace Elysium
 				class ELYSIUM_CORE_API DeflateStream : public Stream
 				{
 				public:
-					DeflateStream(const Stream& BaseStream, CompressionLevel CompressionLevel);
-					DeflateStream(const Stream& BaseStream, CompressionMode CompressionMode);
+					DeflateStream(Stream& BaseStream, CompressionMode CompressionMode);
+					DeflateStream(Stream& BaseStream, CompressionMode CompressionMode, bool LeaveOpen);
+					DeflateStream(Stream& BaseStream, CompressionLevel CompressionLevel);
+					DeflateStream(Stream& BaseStream, CompressionLevel CompressionLevel, bool LeaveOpen);
 					~DeflateStream();
 
 					// properties - getter
@@ -45,8 +47,8 @@ namespace Elysium
 					virtual bool GetCanTimeout() const override;
 					virtual bool GetCanWrite() const override;
 
-					virtual size_t GetLength() const override;
-					virtual int64_t GetPosition() const override;
+					virtual size_t GetLength() override;
+					virtual int64_t GetPosition() override;
 					virtual int GetReadTimeout() const override;
 					virtual int GetWriteTimeout() const override;
 
@@ -61,9 +63,13 @@ namespace Elysium
 					virtual size_t Read(byte* Buffer, const size_t Count) override;
 					virtual void Write(const byte* Buffer, const size_t Count) override;
 				private:
-					const Stream& _BaseStream;
-					CompressionLevel _CompressionLevel;
+					Stream& _BaseStream;
 					CompressionMode _CompressionMode;
+					CompressionLevel _CompressionLevel;
+					bool _LeaveOpen;
+
+					const static size_t _BufferSize = 8192;
+					byte _Buffer[8192];
 				};
 			}
 		}

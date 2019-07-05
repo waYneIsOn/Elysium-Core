@@ -22,6 +22,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
@@ -30,6 +32,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
   </ItemGroup>

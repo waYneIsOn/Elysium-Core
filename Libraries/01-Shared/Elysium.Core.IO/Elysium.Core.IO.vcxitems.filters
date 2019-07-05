@@ -10,6 +10,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp">
       <Filter>Compression</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp">
+      <Filter>Compression\Huffman</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp">
+      <Filter>Compression\Huffman</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -31,10 +37,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp">
       <Filter>Compression</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp">
+      <Filter>Compression\Huffman</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp">
+      <Filter>Compression\Huffman</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">
       <UniqueIdentifier>{3342b24d-9396-4c56-9e51-4dfdb08ce685}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Compression\Huffman">
+      <UniqueIdentifier>{b8973e55-f35e-4d47-94b7-242f5d27e6dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

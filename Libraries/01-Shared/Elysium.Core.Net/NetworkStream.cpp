@@ -40,11 +40,11 @@ bool Elysium::Core::Net::Sockets::NetworkStream::GetCanWrite() const
 	throw NotImplementedException();
 }
 
-size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength() const
+size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength()
 {
 	throw NotImplementedException();
 }
-__int64 Elysium::Core::Net::Sockets::NetworkStream::GetPosition() const
+__int64 Elysium::Core::Net::Sockets::NetworkStream::GetPosition()
 {
 	throw NotImplementedException();
 }

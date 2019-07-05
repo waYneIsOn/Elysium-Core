@@ -49,6 +49,8 @@ namespace Elysium
 			class ELYSIUM_CORE_API FileStream : public Stream
 			{
 			public:
+				FileStream(const String& Path, FileMode Mode);
+				FileStream(const String& Path, FileMode Mode, FileAccess Access);
 				FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share);
 				~FileStream();
 
@@ -58,8 +60,8 @@ namespace Elysium
 				virtual bool GetCanTimeout() const override;
 				virtual bool GetCanWrite() const override;
 
-				virtual size_t GetLength() const override;
-				virtual int64_t GetPosition() const override;
+				virtual size_t GetLength() override;
+				virtual int64_t GetPosition() override;
 				virtual int GetReadTimeout() const override;
 				virtual int GetWriteTimeout() const override;
 

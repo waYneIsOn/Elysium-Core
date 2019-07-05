@@ -8,6 +8,34 @@
 #include "NotImplementedException.hpp"
 #endif
 
+Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode)
+	: Elysium::Core::IO::Stream(),
+	_Path(Path), _Mode(Mode), _Access(FileAccess::ReadWrite), _Share(FileShare::None)
+{
+	// ToDo: this is just for testing!!!
+	if (Mode == FileMode::Create)
+	{
+		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+	}
+	else
+	{
+		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::in);
+	}
+}
+Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, FileAccess Access)
+	: Elysium::Core::IO::Stream(),
+	_Path(Path), _Mode(Mode), _Access(Access), _Share(FileShare::None)
+{
+	// ToDo: this is just for testing!!!
+	if (Mode == FileMode::Create)
+	{
+		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+	}
+	else
+	{
+		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::in);
+	}
+}
 Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share)
 	: Elysium::Core::IO::Stream(),
 	_Path(Path), _Mode(Mode), _Access(Access), _Share(Share)
@@ -15,11 +43,11 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, Fil
 	// ToDo: this is just for testing!!!
 	if (Mode == FileMode::Create)
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::fstream::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
 	}
 	else
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::fstream::binary | std::ios::out | std::ios::in);
+		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::in);
 	}
 }
 Elysium::Core::IO::FileStream::~FileStream()
@@ -45,13 +73,18 @@ bool Elysium::Core::IO::FileStream::GetCanWrite() const
 	throw NotImplementedException();
 }
 
-size_t Elysium::Core::IO::FileStream::GetLength() const
-{
-	throw NotImplementedException();
+size_t Elysium::Core::IO::FileStream::GetLength()
+{	// ToDo: if the stream position is of the end of the file, this doesn't work!!
+	size_t OriginalPosition = _NativeStream.tellg();
+	_NativeStream.seekg(0, std::ios::end);
+	size_t FileLength = _NativeStream.tellg();
+	_NativeStream.seekg(OriginalPosition, std::ios::beg);
+
+	return FileLength;
 }
-int64_t Elysium::Core::IO::FileStream::GetPosition() const
+int64_t Elysium::Core::IO::FileStream::GetPosition()
 {
-	throw NotImplementedException();
+	return _NativeStream.tellg();
 }
 int Elysium::Core::IO::FileStream::GetReadTimeout() const
 {
@@ -64,9 +97,16 @@ int Elysium::Core::IO::FileStream::GetWriteTimeout() const
 
 void Elysium::Core::IO::FileStream::SetLength(size_t Value)
 {
+	throw NotImplementedException();
 }
 void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
 {
+	size_t x = GetLength();
+	if (Position >= GetLength())
+	{	// ToDo: throw specific exception
+		throw Exception(L"Position >= FileSize");
+	}
+
 	_NativeStream.clear();	// required call (resets internal error state flags)
 	_NativeStream.seekg((std::streampos)Position, std::ios::beg);
 }
@@ -97,7 +137,6 @@ size_t Elysium::Core::IO::FileStream::Read(byte * Buffer, const size_t Count)
 		throw NotSupportedException();
 	}
 
-	// ToDo: this simple cast doesn't seem right!
 	char* CastBuffer = (char*)&Buffer[0];
 	_NativeStream.read(CastBuffer, (std::streamsize)Count);
 	std::streamsize BytesReceived = _NativeStream.gcount();

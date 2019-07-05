@@ -49,8 +49,8 @@ namespace Elysium
 				virtual bool GetCanTimeout() const;
 				virtual bool GetCanWrite() const = 0;
 
-				virtual size_t GetLength() const = 0;
-				virtual int64_t GetPosition() const;
+				virtual size_t GetLength() = 0;
+				virtual int64_t GetPosition();
 				virtual int GetReadTimeout() const;
 				virtual int GetWriteTimeout() const;
 
@@ -61,8 +61,8 @@ namespace Elysium
 				virtual void SetWriteTimeout(int Value);
 
 				// methods
-				virtual void CopyTo(Stream* Destination);
-				virtual void CopyTo(Stream* Destination, const size_t BufferSize);
+				virtual void CopyTo(Stream& Destination);
+				virtual void CopyTo(Stream& Destination, const size_t BufferSize);
 				virtual void Close() = 0;
 				virtual void Flush() = 0;
 				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) = 0;

@@ -33,11 +33,11 @@ bool Elysium::Core::IO::MemoryStream::GetCanWrite() const
 	return true;
 }
 
-size_t Elysium::Core::IO::MemoryStream::GetLength() const
+size_t Elysium::Core::IO::MemoryStream::GetLength()
 {
 	return _Buffer.GetCount();
 }
-int64_t Elysium::Core::IO::MemoryStream::GetPosition() const
+int64_t Elysium::Core::IO::MemoryStream::GetPosition()
 {
 	return Elysium::Core::IO::Stream::GetPosition();
 }

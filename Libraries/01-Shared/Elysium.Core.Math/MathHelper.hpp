@@ -49,6 +49,7 @@ namespace Elysium
 
 				static double Min(double Value1, double Value2);
 				static float Min(float Value1, float Value2);
+				static size_t Min(size_t Value1, size_t Value2);
 
 				// static methods (algorithms)
 				static double Barycentric(double Value1, double Value2, double Value3, double Amount1, double Amount2);
