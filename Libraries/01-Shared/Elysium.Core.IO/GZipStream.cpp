@@ -15,25 +15,25 @@
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionMode CompressionMode)
 	: Elysium::Core::IO::Stream(),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false),
-	_DeflateStream(*this, CompressionMode)
+	_DeflateStream(_BaseStream, CompressionMode)
 {
 }
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionMode CompressionMode, bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen),
-	_DeflateStream(*this, CompressionMode, LeaveOpen)
+	_DeflateStream(_BaseStream, CompressionMode, LeaveOpen)
 {
 }
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false),
-	_DeflateStream(*this, CompressionLevel)
+	_DeflateStream(_BaseStream, CompressionLevel)
 {
 }
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionLevel CompressionLevel, bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen),
-	_DeflateStream(*this, CompressionLevel, LeaveOpen)
+	_DeflateStream(_BaseStream, CompressionLevel, LeaveOpen)
 {
 }
 Elysium::Core::IO::Compression::GZipStream::~GZipStream()
@@ -179,11 +179,7 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 			memcpy(&XLEN, &_Buffer[2], sizeof(int16_t));
 
 			// subfield data
-			BytesRead = _BaseStream.Read(_Buffer, XLEN);
-			if (BytesRead != XLEN)
-			{	// ToDo: throw a specific exception
-				throw Exception(L"BaseStream does not contain gzip-compressed data");
-			}
+			// ToDo: read and process the subfield data (do-while until XLEN has been reached)
 
 			_HeaderSize += 4 + XLEN;
 		}
