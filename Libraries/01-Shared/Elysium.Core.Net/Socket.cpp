@@ -16,6 +16,8 @@
 #include <Tchar.h>	// _T macro
 #endif
 
+#include <string>
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
@@ -153,52 +155,23 @@ void Elysium::Core::Net::Sockets::Socket::SetSendBufferSize(int BufferSize)
 
 void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, int Port)
 {
-	// prepare the socket address info
-	sockaddr_in ConnectionInfo;
-	ConnectionInfo.sin_family = FormatConverter::Convert(_AddressFamily);
-	ConnectionInfo.sin_port = htons(Port);
-
-	// convert and add the hostname
-	// ToDo: find a better method! this one doesn't seem to work correctly (or maybe there's something wrong with some DNS-functionality)
-	// for instance http://www.tutorialspoint.com" doesn't get "converted" to "93.184.220.42"
+	// convert Host to ip-address
 #ifdef UNICODE
-	InetPtonW(ConnectionInfo.sin_family, Host.GetCharArray(), &ConnectionInfo.sin_addr.s_addr);
+	struct addrinfoW Hints = {}, *Address;
+	if (GetAddrInfoW(Host.GetCharArray(), std::to_wstring(Port).c_str(), &Hints, &Address) != 0)
+	{	// ToDo: throw a specific exception
+		throw Exception(L"couldn't get ip from host.\r\n");
+	}
 #else
-	InetPtonA(ConnectionInfo.sin_family, Host.GetCharArray(), &ConnectionInfo.sin_addr.s_addr);
+	struct addrinfo Hints = {}, *Address;
+	if (GetAddrInfo(Host.GetCharArray(), std::to_string(Port).c_str(), &Hints, &Address) != 0)
+	{	// ToDo: throw a specific exception
+		throw Exception(L"couldn't get ip from host.\r\n");
+	}
 #endif
-	/*
-	addrinfo Hints;
-	Hints.ai_family = AF_UNSPEC; // AF_INET6 to force version
-	Hints.ai_socktype = SOCK_STREAM;
 
-	int Status;
-	addrinfo* Results;
-	if ((Status = getaddrinfo(Host->c_str(), NULL, &Hints, &Results)) != 0)
-	{
-		//throw Exception(gai_strerror(Status));
-	}
-
-	addrinfo* Item;
-	for (Item = Results; Item != nullptr; Item = Item->ai_next)
-	{
-		if (Item->ai_family == AF_INET)
-		{	// IPv4
-			sockaddr_in* ipv4 = (sockaddr_in*)Item->ai_addr;
-			ConnectionInfo.sin_addr = ipv4->sin_addr;
-		}
-		else
-		{	// IPv6
-			/*
-			sockaddr_in6* ipv6 = (sockaddr_in6*)Item->ai_addr;
-			ConnectionInfo.sin_addr = ipv6->sin6_addr;
-			*-/
-			throw Exception("not implemented");
-		}
-	}
-	freeaddrinfo(Results);
-	*/
 	// try to connect to the server
-	if (connect(_WinSocketHandle, (SOCKADDR*)&ConnectionInfo, sizeof(ConnectionInfo)) == SOCKET_ERROR)
+	if (connect(_WinSocketHandle, Address[0].ai_addr, Address[0].ai_addrlen) == SOCKET_ERROR)
 	{
 		closesocket(_WinSocketHandle);
 		throw SocketException(L"connection not possible.\r\n", WSAGetLastError());
