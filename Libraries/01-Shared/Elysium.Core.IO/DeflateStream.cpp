@@ -1,11 +1,17 @@
 #include "DeflateStream.hpp"
 
+#include <ostream>
+
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotSupportedException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/InvalidOperationException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
+#include "InvalidDataException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
@@ -101,12 +107,61 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 		throw InvalidOperationException();
 	}
 
+	size_t Index = 0;
+
 	size_t BytesRead;
+	bool IsLastBlock;	// BFINAL
+	bool EncodingMethod1;	// BTYPE part 1
+	bool EncodingMethod2;	// BTYPE part 2
+
+
+	BytesRead = _BaseStream.Read(&_Buffer[Index], _BufferSize);
+
 	do
 	{
-		BytesRead = _BaseStream.Read(&_Buffer[0], _BufferSize);
-		break;
-	} while (true);
+		IsLastBlock = _Buffer[Index] & (1 << 0);
+		EncodingMethod1 = _Buffer[Index] & (1 << 1);
+		EncodingMethod2 = _Buffer[Index] & (1 << 2);
+
+		if (!EncodingMethod1 && !EncodingMethod2)
+		{	// 00 - uncompressed block
+			Index += 1;
+			int16_t BlockLength;
+			memcpy(&BlockLength, &_Buffer[Index], sizeof(int16_t));
+
+			Index += 2;
+			int16_t BlockLengthComplement;
+			memcpy(&BlockLengthComplement, &_Buffer[Index], sizeof(int16_t));
+			Index += 2;
+
+			// make sure BlockLength equals the complement on BlockLengthComplement
+			if (BlockLength != ~BlockLengthComplement)
+			{
+				throw InvalidDataException(L"LEN doesn't match complement of NLEN");
+			}
+
+			if (BlockLength > 0)
+			{	// ToDo: copy the block
+				Index += BlockLength;
+				throw NotImplementedException();
+			}
+		}
+		else if (!EncodingMethod1 && EncodingMethod2)
+		{	// 01 - statically compressed block
+			int32_t Symbol;
+
+
+			int x = 34;
+		}
+		else if (EncodingMethod1 && !EncodingMethod2)
+		{	// 10 - dynamically compressed block
+			int x = 34;
+		}
+		else
+		{	// 11
+			throw InvalidOperationException(L"EncodingMethod 11 is reserved and musn't be used");
+		}
+	} while (!IsLastBlock);
 
 	return -1;
 
@@ -114,8 +169,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 	do
 		read block header from input stream.
 		if stored with no compression
-			skip any remaining bits in current partially
-				processed byte
+			skip any remaining bits in current partially processed byte
 			read LEN and NLEN (see next section)
 			copy LEN bytes of data to output
 		otherwise

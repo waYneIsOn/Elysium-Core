@@ -10,10 +10,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp">
       <Filter>Compression</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp">
-      <Filter>Compression\Huffman</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp">
       <Filter>Compression\Huffman</Filter>
     </ClCompile>
   </ItemGroup>
@@ -40,9 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp">
       <Filter>Compression\Huffman</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp">
-      <Filter>Compression\Huffman</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

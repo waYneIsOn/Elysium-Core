@@ -26,8 +26,6 @@ Copyright (C) 2017 waYne (CAM)
 #include <cstdint>
 #endif
 
-#include <ostream>
-
 namespace Elysium
 {
 	namespace Core

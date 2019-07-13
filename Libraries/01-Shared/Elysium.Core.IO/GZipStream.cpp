@@ -1,11 +1,17 @@
 #include "GZipStream.hpp"
 
+#include <ostream>
+
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotSupportedException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/InvalidOperationException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
+#include "InvalidDataException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
@@ -101,8 +107,8 @@ void Elysium::Core::IO::Compression::GZipStream::Seek(const int64_t Offset, cons
 size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const size_t Count)
 {
 	if (_CompressionMode != CompressionMode::Decompress)
-	{	// ToDo: message
-		throw InvalidOperationException();
+	{
+		throw InvalidOperationException(L"Compression mode is not set to decompress");
 	}
 
 	// read header and footer if it hasn't been done so far
@@ -114,14 +120,14 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 		// make sure, we're actually working with gzip-compressed data (check of ID1 and ID2)
 		BytesRead = _BaseStream.Read(_Buffer, 10);
 		if (BytesRead != 10 || _Buffer[0] != 0x1F || _Buffer[1] != 0x8B)
-		{	// ToDo: throw a specific exception
-			throw Exception(L"BaseStream does not contain gzip-compressed data");
+		{
+			throw InvalidDataException(L"BaseStream does not contain gzip-compressed data");
 		}
 
 		// check CM (compression method)
 		if (_Buffer[2] != 0x08)
 		{
-			throw InvalidOperationException(L"This implementation only supports DEFLATE compressed data");
+			throw InvalidDataException(L"This implementation only supports DEFLATE compressed data");
 		}
 
 		// FLG (file flags)
@@ -161,13 +167,12 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 		byte OS = _Buffer[9];
 
 		// check FLGs 3rd bit to see whether the header has an optional part
-		// ToDo: check whether "FLG & (1 << (3 - 1))" is actually correct
-		if(FLG & (1 << (3 - 1)))
+		if(FLG & (1 << 2))
 		{
 			BytesRead = _BaseStream.Read(_Buffer, 4);
 			if (BytesRead != 4)
-			{	// ToDo: throw a specific exception
-				throw Exception(L"BaseStream does not contain gzip-compressed data");
+			{
+				throw InvalidDataException(L"BaseStream does not contain gzip-compressed data");
 			}
 
 			// SI1 and SI2
@@ -189,15 +194,15 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 		_BaseStream.SetPosition(_BaseStream.GetLength() - 8);
 		BytesRead = _BaseStream.Read(&_Buffer[11], 8);
 		if (BytesRead != 8)
-		{	// ToDo: throw a specific exception
-			throw Exception(L"BaseStream does not contain gzip-compressed data");
+		{
+			throw InvalidDataException(L"BaseStream does not contain gzip-compressed data");
 		}
 
 		// cyclic redundancy check
 		// ToDo: perform a check -> https://tools.ietf.org/html/rfc1952#section-8
 		memcpy(&_CRC32, &_Buffer[11], sizeof(int32_t));
 
-		// input size
+		// (original, uncompressed) input size
 		memcpy(&_UncompressedSize, &_Buffer[15], sizeof(int32_t));
 
 		_HasReadHeaderAndFooter = true;
