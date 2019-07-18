@@ -4,15 +4,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp">
-      <Filter>Compression</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp">
       <Filter>Compression</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp">
       <Filter>Compression\Huffman</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp">
+      <Filter>Compression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -32,20 +32,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp">
       <Filter>Compression</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp">
-      <Filter>Compression</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp">
       <Filter>Compression\Huffman</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">
       <UniqueIdentifier>{3342b24d-9396-4c56-9e51-4dfdb08ce685}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Compression\Deflate">
+      <UniqueIdentifier>{ef2be31e-2d8c-48b7-845d-962ef25a8edc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Compression\Huffman">
-      <UniqueIdentifier>{b8973e55-f35e-4d47-94b7-242f5d27e6dc}</UniqueIdentifier>
+      <UniqueIdentifier>{cdaf52eb-528c-4aa5-a2a6-dbc625d271a4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

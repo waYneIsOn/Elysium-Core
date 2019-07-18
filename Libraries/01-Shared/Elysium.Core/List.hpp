@@ -58,6 +58,7 @@ namespace Elysium
 					List(size_t Capacity);
 					List(std::initializer_list<T> InitializerList);
 					List(const List<T>& Source);
+					List(List<T>&& Right);
 					~List();
 
 					// properties - getter
@@ -69,6 +70,7 @@ namespace Elysium
 					void SetCapacity(size_t Value);
 
 					// operators
+					List<T>& operator=(List<T>&& Right);
 					virtual List<T>& operator=(const List<T>& Value);
 					virtual T& operator[](size_t Index) const override;
 
@@ -133,6 +135,12 @@ namespace Elysium
 						_Data[i] = T(Source._Data[i]);
 					}
 				}
+				template<typename T>
+				inline List<T>::List(List<T>&& Right)
+					: _Capacity(0), _Data(nullptr), _NumberOfElements(0)
+				{
+					*this = std::move(Right);
+				}
 				template<class T>
 				inline List<T>::~List()
 				{
@@ -165,6 +173,30 @@ namespace Elysium
 					Resize(Value);
 				}
 
+				template<typename T>
+				inline List<T>& List<T>::operator=(List<T>&& Right)
+				{
+					if (this != &Right)
+					{
+						// release currently held objects
+						if (_Data != nullptr)
+						{
+							delete _Data;
+						}
+
+						// grab Right's objects
+						_Data = Right._Data;
+						_Capacity = Right._Capacity;
+						_NumberOfElements = Right._NumberOfElements;
+
+						// release Right's objects
+						Right._Data = nullptr;
+						Right._NumberOfElements = 0;
+						Right._Capacity = 0;
+					}
+
+					return *this;
+				}
 				template<class T>
 				inline List<T>& List<T>::operator=(const List<T>& Value)
 				{

@@ -120,63 +120,59 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 	return (const String&)_EncodingName;
 }
 
-size_t Elysium::Core::Text::Encoding::GetBytes(const String * Input, const size_t CharIndex, const size_t CharCount, Elysium::Core::Collections::Generic::List<byte>* Output) const
+Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::GetBytes(const String & Input, const size_t CharIndex, const size_t CharCount) const
 {
+	Elysium::Core::Collections::Generic::List<byte> Result;
+
 #ifdef UNICODE
-	int Length = WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], (int)CharCount, 0, 0, 0, 0);
-	/*
-	Output->SetCapacity(Length);
-	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, (char*)&Output[0], Length, 0, 0);
-	*/
+	int Length = WideCharToMultiByte(_CodePage, 0, &Input.GetCharArray()[0], (int)CharCount, 0, 0, 0, 0);
+
 	char* ConvertedBytes = new char[Length];
-	WideCharToMultiByte(_CodePage, 0, &Input->GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
+	WideCharToMultiByte(_CodePage, 0, &Input.GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
 	for (int i = 0; i < Length; i++)
 	{
-		Output->Add((byte(ConvertedBytes[i])));
+		Result.Add((byte(ConvertedBytes[i])));
 	}
 	delete[] ConvertedBytes;
-
-	return Length;
 #else
-	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetBytes(...)");
+	throw NotImplementedException("Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::GetBytes(...)");
 #endif 
-}
-size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount, String * Output) const
-{
-#ifdef UNICODE
-	if (Output == nullptr)
-	{
-		throw ArgumentNullException(L"Output");
-	}
 
+	return Result;
+}
+Elysium::Core::String Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount) const
+{
+	String Result;
+
+#ifdef UNICODE
 	// determine the length of the string
 	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, nullptr, 0);
 
 	// prepare the string
-	Output->_Length = (size_t)Length;
+	Result._Length = (size_t)Length;
 	if (ByteCount != -1)
 	{
-		Output->_Length++;
+		Result._Length++;
 	}
-	if (Output->_Data != nullptr)
+	if (Result._Data != nullptr)
 	{
-		delete[] Output->_Data;
+		delete[] Result._Data;
 	}
-	Output->_Data = new wchar_t[Output->_Length];
+	Result._Data = new wchar_t[Result._Length];
 
 	// now actually convert the bytes to string
-	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, Output->_Data, Length);
-	
+	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, Result._Data, Length);
+
 	// null terminate the string, if necessary
 	if (ByteCount != -1)
 	{
-		Output->_Data[Length] = L'\0';
+		Result._Data[Length] = L'\0';
 	}
-	
-	return Length;
 #else
-	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount, String * Output) const");
+	throw NotImplementedException("String Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount, String * Output) const");
 #endif
+
+	return Result;
 }
 
 Elysium::Core::Text::Encoding::Encoding()

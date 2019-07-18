@@ -60,8 +60,8 @@ namespace Elysium
 				virtual const String& GetEncodingName() const;
 
 				// methods
-				virtual size_t GetBytes(const String* Input, const size_t CharIndex, const size_t CharCount, Elysium::Core::Collections::Generic::List<byte>* Output) const;
-				virtual size_t GetString(const byte* Bytes, const size_t ByteCount, String* Output) const;
+				virtual Elysium::Core::Collections::Generic::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const;
+				virtual String GetString(const byte* Bytes, const size_t ByteCount) const;
 			protected:
 				Encoding();
 				Encoding(int CodePage);

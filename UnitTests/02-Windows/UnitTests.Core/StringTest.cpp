@@ -71,7 +71,13 @@ namespace UnitTestsCore
 			Assert::AreEqual(L'x', CopiedString[2]);
 			Assert::AreEqual(L't', CopiedString[3]);
 
-			InputString(L"test");
+			Elysium::Core::String MovedString = std::move(String1);
+			Assert::AreEqual(L"text", MovedString.GetCharArray());
+			Assert::AreEqual((size_t)4, MovedString.GetLength());
+			Assert::AreEqual(L't', MovedString[0]);
+			Assert::AreEqual(L'e', MovedString[1]);
+			Assert::AreEqual(L'x', MovedString[2]);
+			Assert::AreEqual(L't', MovedString[3]);
 		}
 		TEST_METHOD(IndexOf)
 		{
@@ -117,24 +123,13 @@ namespace UnitTestsCore
 			Assert::AreEqual(false, CastUTF8Encoding->GetIsSingleByte());
 
 			Elysium::Core::String OriginalString = L"дцья";
-			Elysium::Core::Collections::Generic::List<Elysium::Core::byte> OutputBytes;
-			DefaultEncoding->GetBytes(&OriginalString, (size_t)0, (size_t)OriginalString.GetLength(), &OutputBytes);
-
-			Elysium::Core::String OutputString;
-			DefaultEncoding->GetString(&OutputBytes[0], 4, &OutputString);
+			Elysium::Core::Collections::Generic::List<Elysium::Core::byte> OutputBytes = DefaultEncoding->GetBytes(OriginalString, (size_t)0, (size_t)OriginalString.GetLength());
+			
+			Elysium::Core::String OutputString = DefaultEncoding->GetString(&OutputBytes[0], 4);
 			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
-
-			DefaultEncoding->GetString(&OutputBytes[0], -1, &OutputString);
+			
+			OutputString = DefaultEncoding->GetString(&OutputBytes[0], -1);
 			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
-		}
-	private:
-		void InputString(const Elysium::Core::String& Value)
-		{
-			Assert::AreEqual((size_t)4, Value.GetLength());
-			Assert::AreEqual(L't', Value[0]);
-			Assert::AreEqual(L'e', Value[1]);
-			Assert::AreEqual(L's', Value[2]);
-			Assert::AreEqual(L't', Value[3]);
 		}
 	};
 }

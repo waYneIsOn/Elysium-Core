@@ -26,8 +26,8 @@ namespace UnitTestsCore
 
 			FileStream FS = FileStream(L"test.lz77", FileMode::Open, FileAccess::Read, FileShare::None);
 			GZipStream DecompressionStream = GZipStream(FS, CompressionMode::Decompress);
-			BytesRead = DecompressionStream.Read(&Buffer[0], BufferSize);
-
+			//BytesRead = DecompressionStream.Read(&Buffer[0], BufferSize);
+			Assert::Fail();
 
 			/*
 			for (size_t i = 0; i < TotalBuffer.GetCount(); i++)
