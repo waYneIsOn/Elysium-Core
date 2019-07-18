@@ -44,6 +44,7 @@ namespace Elysium
 			String(const ElysiumChar* Value);
 			String(const ElysiumChar* Value, size_t Length);
 			String(const String& Value);
+			String(String&& Right);
 			~String();
 
 			// properties - getter
@@ -64,6 +65,9 @@ namespace Elysium
 			// ...
 			static bool IsNullOrEmtpy(const String& Value);
 			//static void Concat(const unsigned int ArgumentCount, const String* Arguments[], String* Output);
+
+			// move assignment operator
+			String& operator=(String&& Right);
 
 			// assignment operators
 			virtual String& operator=(const ElysiumChar* Value);

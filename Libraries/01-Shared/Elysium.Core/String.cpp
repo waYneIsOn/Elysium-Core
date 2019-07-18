@@ -54,6 +54,11 @@ Elysium::Core::String::String(const String & Value)
 	_Data[_Length] = '\0';
 #endif 
 }
+Elysium::Core::String::String(String && Right)
+	: _Length((size_t)0), _Data(nullptr)
+{	// call move assignment operator to eliminate redundant code
+	*this = std::move(Right);
+}
 Elysium::Core::String::~String()
 {
 	if (_Data != nullptr)
@@ -184,6 +189,28 @@ void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String *
 bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
 {
 	return Value._Length == 0;
+}
+
+Elysium::Core::String & Elysium::Core::String::operator=(String && Right)
+{
+	if (this != &Right)
+	{
+		// release currently held objects
+		if (_Data != nullptr)
+		{
+			delete _Data;
+		}
+
+		// grab Right's objects
+		_Data = Right._Data;
+		_Length = Right._Length;
+
+		// release Right's objects
+		Right._Data = nullptr;
+		Right._Length = 0;
+	}
+
+	return *this;
 }
 
 Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Value)
