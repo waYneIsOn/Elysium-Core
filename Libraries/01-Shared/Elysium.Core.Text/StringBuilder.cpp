@@ -162,13 +162,13 @@ void Elysium::Core::Text::StringBuilder::Remove(const size_t StartIndex, const s
 	_Length -= Length;
 }
 
-void Elysium::Core::Text::StringBuilder::ToString(Elysium::Core::String * Output)
+Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString()
 {
-	*Output = String(_Data, _Length);
+	return String(_Data, _Length);
 }
-void Elysium::Core::Text::StringBuilder::ToString(Elysium::Core::String * Output, const size_t Length)
+Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString(const size_t Length)
 {
-	*Output = String(_Data, Length);
+	return String(_Data, Length);
 }
 
 void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)

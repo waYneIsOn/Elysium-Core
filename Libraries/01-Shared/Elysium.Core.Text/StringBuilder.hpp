@@ -47,8 +47,8 @@ namespace Elysium
 				size_t IndexOf(const ElysiumChar* Value, const size_t StartIndex) const;
 				void Remove(const size_t StartIndex, const size_t Length);
 
-				void ToString(Elysium::Core::String* Output);
-				void ToString(Elysium::Core::String* Output, const size_t Length);
+				Elysium::Core::String ToString();
+				Elysium::Core::String ToString(const size_t Length);
 			private:
 				size_t _Capacity;
 				ElysiumChar* _Data;
