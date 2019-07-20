@@ -18,35 +18,106 @@ Elysium::Core::Version::Version()
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
 {
 }
-Elysium::Core::Version::Version(const unsigned int & Major, const unsigned int & Minor)
+Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor)
 	: _Major(Major), _Minor(Minor), _Build(0), _Revision(0)
 {
 }
-Elysium::Core::Version::Version(const unsigned int & Major, const unsigned int & Minor, const unsigned int & Build)
+Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor, const uint32_t & Build)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(0)
 {
 }
-Elysium::Core::Version::Version(const unsigned int & Major, const unsigned int & Minor, const unsigned int & Build, const unsigned int & Revision)
+Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor, const uint32_t & Build, const uint32_t & Revision)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Revision)
 {
+}
+Elysium::Core::Version::Version(const Version & Source)
+	: _Major(Source._Major), _Minor(Source._Minor), _Build(Source._Build), _Revision(Source._Revision)
+{
+}
+Elysium::Core::Version::Version(Version && Right)
+	: _Major(0), _Minor(0), _Build(0), _Revision(0)
+{
+	*this = std::move(Right);
 }
 Elysium::Core::Version::~Version()
 {
 }
 
-const unsigned int Elysium::Core::Version::GetMajor() const
+Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
+{
+	if (this != &Other)
+	{
+		_Major = Other._Major;
+		_Minor = Other._Minor;
+		_Build = Other._Build;
+		_Revision = Other._Revision;
+	}
+	return *this;
+}
+Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right)
+{
+	if (this != &Right)
+	{
+		_Major = std::move(Right._Major);
+		_Minor = std::move(Right._Minor);
+		_Build = std::move(Right._Build);
+		_Revision = std::move(Right._Revision);
+	}
+	return *this;
+}
+
+bool Elysium::Core::Version::operator==(const Version & Other)
+{
+	return Compare(Other) == 0;
+}
+bool Elysium::Core::Version::operator!=(const Version & Other)
+{
+	return Compare(Other) != 0;
+}
+bool Elysium::Core::Version::operator<(const Version & Other)
+{
+	return Compare(Other) < 0;
+}
+bool Elysium::Core::Version::operator>(const Version & Other)
+{
+	return Compare(Other) > 0;
+}
+bool Elysium::Core::Version::operator<=(const Version & Other)
+{
+	return Compare(Other) <= 0;
+}
+bool Elysium::Core::Version::operator>=(const Version & Other)
+{
+	return Compare(Other) >= 0;
+}
+
+Elysium::Core::IO::Stream & Elysium::Core::operator<<(Elysium::Core::IO::Stream & Target, const Version & Version)
+{
+	Target << Version._Major << Version._Minor << Version._Build << Version._Revision;
+	return Target;
+}
+Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream & Source, const Version & Version)
+{
+	Source >> Version._Major;
+	Source >> Version._Minor;
+	Source >> Version._Build;
+	Source >> Version._Revision;
+	return Source;
+}
+
+const uint32_t Elysium::Core::Version::GetMajor() const
 {
 	return _Major;
 }
-const unsigned int Elysium::Core::Version::GetMinor() const
+const uint32_t Elysium::Core::Version::GetMinor() const
 {
 	return _Minor;
 }
-const unsigned int Elysium::Core::Version::GetBuild() const
+const uint32_t Elysium::Core::Version::GetBuild() const
 {
 	return _Build;
 }
-const unsigned int Elysium::Core::Version::GetRevision() const
+const uint32_t Elysium::Core::Version::GetRevision() const
 {
 	return _Revision;
 }
@@ -86,45 +157,7 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const StringView * Input)
 	return ParsedVersion;
 }
 
-Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
-{
-	if (this != &Other)
-	{
-		_Major = Other._Major;
-		_Minor = Other._Minor;
-		_Build = Other._Build;
-		_Revision = Other._Revision;
-	}
-
-	return *this;
-}
-
-bool Elysium::Core::Version::operator==(const Version & Other)
-{
-	return Compare(Other) == 0;
-}
-bool Elysium::Core::Version::operator!=(const Version & Other)
-{
-	return Compare(Other) != 0;
-}
-bool Elysium::Core::Version::operator<(const Version & Other)
-{
-	return Compare(Other) < 0;
-}
-bool Elysium::Core::Version::operator>(const Version & Other)
-{
-	return Compare(Other) > 0;
-}
-bool Elysium::Core::Version::operator<=(const Version & Other)
-{
-	return Compare(Other) <= 0;
-}
-bool Elysium::Core::Version::operator>=(const Version & Other)
-{
-	return Compare(Other) >= 0;
-}
-
-int Elysium::Core::Version::Compare(const Version & Other)
+uint32_t Elysium::Core::Version::Compare(const Version & Other)
 {
 	if (this != &Other)
 	{
@@ -180,18 +213,4 @@ int Elysium::Core::Version::Compare(const Version & Other)
 	}
 
 	return 0;
-}
-
-Elysium::Core::IO::Stream & Elysium::Core::operator<<(Elysium::Core::IO::Stream & Target, const Version & Version)
-{
-	Target << Version._Major << Version._Minor << Version._Build << Version._Revision;
-	return Target;
-}
-Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream & Source, const Version & Version)
-{
-	Source >> Version._Major;
-	Source >> Version._Minor;
-	Source >> Version._Build;
-	Source >> Version._Revision;
-	return Source;
 }

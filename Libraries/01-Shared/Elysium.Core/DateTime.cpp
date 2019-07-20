@@ -8,6 +8,10 @@
 #include "DateTimeUtility.hpp"
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::DateTime::DateTime(int64_t Ticks)
 	: Elysium::Core::DateTime::DateTime(Ticks, DateTimeKind::Unspecified)
 {
@@ -32,8 +36,34 @@ Elysium::Core::DateTime::DateTime(const DateTime & Source)
 	: _Ticks(Source._Ticks), _Kind(Source._Kind)
 {
 }
+Elysium::Core::DateTime::DateTime(DateTime && Right)
+{
+	*this = std::move(Right);
+}
 Elysium::Core::DateTime::~DateTime()
 {
+}
+
+Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(const DateTime & Source)
+{
+	if (this != &Source)
+	{
+		_Ticks = int64_t(Source._Ticks);
+		_Kind = DateTimeKind(Source._Kind);
+	}
+	return *this;
+}
+Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right)
+{
+	if (this != &Right)
+	{
+		_Ticks = std::move(Right._Ticks);
+		_Kind = std::move(Right._Kind);
+
+		Right._Ticks = 0;
+		Right._Kind = DateTimeKind::Unspecified;
+	}
+	return *this;
 }
 
 Elysium::Core::DateTime Elysium::Core::DateTime::MaxValue()

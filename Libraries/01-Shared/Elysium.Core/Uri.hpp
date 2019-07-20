@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "StringView.hpp"
 #endif
 
+#ifndef _STDINT_H
+#include <cstdint>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -43,8 +47,12 @@ namespace Elysium
 		public:
 			// constructors & destructors
 			Uri(const String& UriString);
-			Uri(const Uri& Value);
+			Uri(const Uri& Source);
+			Uri(Uri&& Right);
 			~Uri();
+
+			Uri& operator=(const Uri& Source);
+			Uri& operator=(Uri&& Right);
 
 			// fields
 			static const String SchemeDelimiter;
@@ -73,7 +81,7 @@ namespace Elysium
 			const StringView& GetAuthority() const;
 			const StringView& GetUserInfo() const;
 			const StringView& GetHost() const;
-			const int& GetPort() const;
+			const int32_t& GetPort() const;
 			const StringView& GetPathAndQuery() const;
 			const StringView& GetPath() const;
 			const StringView& GetQuery() const;
@@ -89,7 +97,7 @@ namespace Elysium
 			StringView _AuthorityView;
 			StringView _UserInfoView;
 			StringView _HostView;
-			int _Port = -1;
+			int32_t _Port = -1;
 			StringView _PathAndQueryView;
 			StringView _PathView;
 			StringView _QueryView;

@@ -8,6 +8,10 @@
 #include "DateTimeUtility.hpp"
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::TimeSpan::TimeSpan(int64_t Ticks)
 	: _Ticks(Ticks)
 {
@@ -24,8 +28,45 @@ Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 	: _Ticks(Source._Ticks)
 {
 }
+Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right)
+	: _Ticks(0)
+{
+	*this = std::move(Right);
+}
 Elysium::Core::TimeSpan::~TimeSpan()
 {
+}
+
+Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(const TimeSpan & Source)
+{
+	if (this != &Source)
+	{
+		_Ticks = int64_t(Source._Ticks);
+	}
+	return *this;
+}
+Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right)
+{
+	if (this != &Right)
+	{
+		_Ticks = std::move(Right._Ticks);
+	}
+	return *this;
+}
+
+Elysium::Core::TimeSpan Elysium::Core::TimeSpan::operator+(const TimeSpan & Other)
+{
+	return TimeSpan(_Ticks + Other._Ticks);
+}
+Elysium::Core::TimeSpan Elysium::Core::TimeSpan::operator-(const TimeSpan & Other)
+{
+	return TimeSpan(_Ticks - Other._Ticks);
+}
+
+Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator+=(const TimeSpan & Other)
+{
+	_Ticks += Other._Ticks;
+	return *this;
 }
 
 Elysium::Core::TimeSpan Elysium::Core::TimeSpan::Zero()
@@ -165,21 +206,6 @@ double Elysium::Core::TimeSpan::GetTotalMilliseconds() const
 	{
 		return IntermediateValue;
 	}
-}
-
-Elysium::Core::TimeSpan Elysium::Core::TimeSpan::operator+(const TimeSpan & Other)
-{
-	return TimeSpan(_Ticks + Other._Ticks);
-}
-Elysium::Core::TimeSpan Elysium::Core::TimeSpan::operator-(const TimeSpan & Other)
-{
-	return TimeSpan(_Ticks - Other._Ticks);
-}
-
-Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator+=(const TimeSpan & Other)
-{
-	_Ticks += Other._Ticks;
-	return *this;
 }
 
 Elysium::Core::TimeSpan Elysium::Core::TimeSpan::Interval(double Value, int Scale)

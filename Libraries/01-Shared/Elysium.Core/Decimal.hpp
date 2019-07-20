@@ -33,8 +33,12 @@ namespace Elysium
 			Decimal(const float& Value);
 			Decimal(const double& Value);
 			Decimal(const int64_t& HighPart, const int64_t& LowPart);
-			Decimal(const Decimal& Value);
+			Decimal(const Decimal& Source);
+			Decimal(Decimal&& Right);
 			~Decimal();
+
+			Decimal& operator=(const Decimal& Source);
+			Decimal& operator=(Decimal&& Right);
 
 			const int64_t* GetHighPart() const;
 			const int64_t* GetLowPart() const;

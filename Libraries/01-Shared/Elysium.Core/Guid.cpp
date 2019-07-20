@@ -21,8 +21,61 @@ Elysium::Core::Guid::Guid(const uint32_t A, const uint16_t B, const uint16_t C, 
 	memcpy(&_Data[6], &C, sizeof(uint16_t));
 	memcpy(&_Data[8], D[0], sizeof(byte) * 8);
 }
+Elysium::Core::Guid::Guid(const Guid & Source)
+{
+	memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
+}
+Elysium::Core::Guid::Guid(Guid && Right)
+{
+	*this = std::move(Right);
+}
 Elysium::Core::Guid::~Guid()
 {
+}
+
+Elysium::Core::Guid & Elysium::Core::Guid::operator=(const Guid & Source)
+{
+	if (this != &Source)
+	{
+		memcpy(_Data, Source._Data, sizeof(byte) * 16);
+	}
+
+	return *this;
+}
+Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right)
+{
+	if (this != &Right)
+	{
+		memmove(_Data, Right._Data, sizeof(byte) * 16);
+		memset(Right._Data, 0, sizeof(byte) * 16);
+	}
+
+	return *this;
+}
+
+bool Elysium::Core::Guid::operator==(const Guid & Other)
+{
+	return _Data == Other._Data;
+}
+bool Elysium::Core::Guid::operator!=(const Guid & Other)
+{
+	return _Data != Other._Data;
+}
+bool Elysium::Core::Guid::operator<(const Guid & Other)
+{
+	return _Data < Other._Data;
+}
+bool Elysium::Core::Guid::operator>(const Guid & Other)
+{
+	return _Data > Other._Data;
+}
+bool Elysium::Core::Guid::operator<=(const Guid & Other)
+{
+	return _Data <= Other._Data;
+}
+bool Elysium::Core::Guid::operator>=(const Guid & Other)
+{
+	return _Data >= Other._Data;
 }
 
 const Elysium::Core::Guid & Elysium::Core::Guid::Empty()
@@ -85,7 +138,7 @@ const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 {
 	return &_Data[0];
 }
-void Elysium::Core::Guid::ToString(String * Output) const
+Elysium::Core::String Elysium::Core::Guid::ToString() const
 {
 #ifdef UNICODE
 	throw NotImplementedException(L"void Elysium::Core::Guid::ToString(String * Output) const");
@@ -111,31 +164,6 @@ void Elysium::Core::Guid::ToString(String * Output) const
 	ByteToHexDigit(_Data[14], &Data[32]);
 	ByteToHexDigit(_Data[15], &Data[34]);
 	*/
-}
-
-bool Elysium::Core::Guid::operator==(const Guid & Other)
-{
-	return _Data == Other._Data;
-}
-bool Elysium::Core::Guid::operator!=(const Guid & Other)
-{
-	return _Data != Other._Data;
-}
-bool Elysium::Core::Guid::operator<(const Guid & Other)
-{
-	return _Data < Other._Data;
-}
-bool Elysium::Core::Guid::operator>(const Guid & Other)
-{
-	return _Data > Other._Data;
-}
-bool Elysium::Core::Guid::operator<=(const Guid & Other)
-{
-	return _Data <= Other._Data;
-}
-bool Elysium::Core::Guid::operator>=(const Guid & Other)
-{
-	return _Data >= Other._Data;
 }
 
 Elysium::Core::Guid::Guid()

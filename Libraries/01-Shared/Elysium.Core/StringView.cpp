@@ -24,24 +24,50 @@ Elysium::Core::StringView::StringView(ElysiumChar * Input, size_t Length)
 	: _Data(&Input[0]), _Length(Length)
 {
 }
-Elysium::Core::StringView::StringView(const Elysium::Core::String * Input)
-	: _Data(&Input->operator[](0)), _Length(Input->GetLength())
+Elysium::Core::StringView::StringView(const Elysium::Core::String & Input)
+	: _Data(&Input[0]), _Length(Input.GetLength())
 {
 }
-Elysium::Core::StringView::StringView(const Elysium::Core::String * Input, size_t Length)
-	: _Data(&Input->operator[](0)), _Length(Length)
+Elysium::Core::StringView::StringView(const Elysium::Core::String & Input, size_t Length)
+	: _Data(&Input[0]), _Length(Length)
 {
 }
-Elysium::Core::StringView::StringView(const Elysium::Core::String * Input, size_t Offset, size_t Length)
-	: _Data(&Input->operator[](Offset)), _Length(Length)
+Elysium::Core::StringView::StringView(const Elysium::Core::String & Input, size_t Offset, size_t Length)
+	: _Data(&Input[Offset]), _Length(Length)
 {
 }
-Elysium::Core::StringView::StringView(const StringView & Value)
-	: _Data(Value._Data), _Length(Value._Length)
+Elysium::Core::StringView::StringView(const StringView & Source)
+	: _Data(Source._Data), _Length(Source._Length)
 {
+}
+Elysium::Core::StringView::StringView(StringView && Right)
+{
+	*this = std::move(Right);
 }
 Elysium::Core::StringView::~StringView()
 {
+}
+
+Elysium::Core::StringView & Elysium::Core::StringView::operator=(const StringView & Value)
+{
+	_Length = Value._Length;
+	_Data = Value._Data;
+	return *this;
+}
+Elysium::Core::StringView & Elysium::Core::StringView::operator=(StringView && Right)
+{
+	if (this != &Right)
+	{
+		// grab Right's objects
+		_Data = Right._Data;
+		_Length = Right._Length;
+
+		// release Right's objects
+		Right._Data = nullptr;
+		Right._Length = 0;
+	}
+
+	return *this;
 }
 
 size_t Elysium::Core::StringView::IndexOf(const ElysiumChar Value) const
@@ -154,13 +180,6 @@ void Elysium::Core::StringView::Split(const ElysiumChar* Delimiter, Elysium::Cor
 		Views->Add(StringView(&_Data[StartIndex], Length));
 		StartIndex += Length + DelimiterLength;
 	} while (Result != nullptr);
-}
-
-Elysium::Core::StringView & Elysium::Core::StringView::operator=(const StringView & Value)
-{
-	_Length = Value._Length;
-	_Data = Value._Data;
-	return *this;
 }
 
 ElysiumChar & Elysium::Core::StringView::operator[](size_t Index) const

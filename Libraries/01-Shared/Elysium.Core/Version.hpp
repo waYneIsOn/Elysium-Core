@@ -30,23 +30,16 @@ namespace Elysium
 		{
 		public:
 			Version();
-			Version(const unsigned int& Major, const unsigned int& Minor);
-			Version(const unsigned int& Major, const unsigned int& Minor, const unsigned int& Build);
-			Version(const unsigned int& Major, const unsigned int& Minor, const unsigned int& Build, const unsigned int& Revision);
+			Version(const uint32_t& Major, const uint32_t& Minor);
+			Version(const uint32_t& Major, const uint32_t& Minor, const uint32_t& Build);
+			Version(const uint32_t& Major, const uint32_t& Minor, const uint32_t& Build, const uint32_t& Revision);
+			Version(const Version& Source);
+			Version(Version&& Right);
 			~Version();
 
-			const unsigned int GetMajor() const;
-			const unsigned int GetMinor() const;
-			const unsigned int GetBuild() const;
-			const unsigned int GetRevision() const;
+			Version& operator=(const Version& Other);
+			Version& operator=(Version&& Right);
 
-			static void Parse(const StringView* Input, Version* Result);
-			static Version Parse(const StringView* Input);
-
-			// assignment operator
-			virtual Version& operator=(const Version& Other);
-
-			// relational operators
 			bool operator==(const Version& Other);
 			bool operator!=(const Version& Other);
 			bool operator<(const Version& Other);
@@ -54,16 +47,23 @@ namespace Elysium
 			bool operator<=(const Version& Other);
 			bool operator>=(const Version& Other);
 
-			// extraction and insertion operators
 			friend Elysium::Core::IO::Stream& operator<<(Elysium::Core::IO::Stream& Target, const Version& Version);
 			friend Elysium::Core::IO::Stream& operator>>(Elysium::Core::IO::Stream& Source, const Version& Version);
-		private:
-			unsigned int _Major;
-			unsigned int _Minor;
-			unsigned int _Build;
-			unsigned int _Revision;
 
-			int Compare(const Version& Other);
+			const uint32_t GetMajor() const;
+			const uint32_t GetMinor() const;
+			const uint32_t GetBuild() const;
+			const uint32_t GetRevision() const;
+
+			static void Parse(const StringView* Input, Version* Result);
+			static Version Parse(const StringView* Input);
+		private:
+			uint32_t _Major;
+			uint32_t _Minor;
+			uint32_t _Build;
+			uint32_t _Revision;
+
+			uint32_t Compare(const Version& Other);
 		};
 	}
 }

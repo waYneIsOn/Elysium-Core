@@ -4,6 +4,10 @@
 #include <cstring>
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Decimal::Decimal()
 {
 }
@@ -28,12 +32,34 @@ Elysium::Core::Decimal::Decimal(const int64_t & HighPart, const int64_t & LowPar
 	memcpy(&_Data[0], &HighPart, sizeof(int64_t));
 	memcpy(&_Data[8], &LowPart, sizeof(int64_t));
 }
-Elysium::Core::Decimal::Decimal(const Decimal & Value)
+Elysium::Core::Decimal::Decimal(const Decimal & Source)
 {
-	memcpy(&_Data[0], &Value, sizeof(Decimal));
+	memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
+}
+Elysium::Core::Decimal::Decimal(Decimal && Right)
+{
+	*this = std::move(Right);
 }
 Elysium::Core::Decimal::~Decimal()
 {
+}
+
+Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(const Decimal & Source)
+{
+	if (this != &Source)
+	{
+		memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
+	}
+	return *this;
+}
+Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right)
+{
+	if (this != &Right)
+	{
+		memmove(_Data, Right._Data, sizeof(byte) * 16);
+		memset(Right._Data, 0, sizeof(byte) * 16);
+}
+	return *this;
 }
 
 const int64_t* Elysium::Core::Decimal::GetHighPart() const

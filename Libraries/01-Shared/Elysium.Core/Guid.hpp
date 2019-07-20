@@ -40,23 +40,26 @@ namespace Elysium
 		public:
 			Guid(const byte B[16]);
 			Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
+			Guid(const Guid& Source);
+			Guid(Guid&& Right);
 			~Guid();
 
-			static const Guid& Empty();
-			static Guid NewGuid();
-			static Guid Parse(const char* Input);
+			Guid& operator=(const Guid& Source);
+			Guid& operator=(Guid&& Right);
 
-			const byte* ToByteArray() const;
-			void ToString(String* Output) const;
-			//std::string ToString() const;
-
-			// relational operators
 			bool operator==(const Guid& Other);
 			bool operator!=(const Guid& Other);
 			bool operator<(const Guid& Other);
 			bool operator>(const Guid& Other);
 			bool operator<=(const Guid& Other);
 			bool operator>=(const Guid& Other);
+
+			static const Guid& Empty();
+			static Guid NewGuid();
+			static Guid Parse(const char* Input);
+
+			const byte* ToByteArray() const;
+			String ToString() const;
 		private:
 			byte _Data[16];
 

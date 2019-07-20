@@ -43,9 +43,23 @@ namespace Elysium
 			String(size_t Length);
 			String(const ElysiumChar* Value);
 			String(const ElysiumChar* Value, size_t Length);
-			String(const String& Value);
+			String(const String& Source);
 			String(String&& Right);
 			~String();
+
+			virtual String& operator=(const String& Source);
+			String& operator=(String&& Right);
+
+			virtual String& operator=(const ElysiumChar* Value);
+
+			virtual ElysiumChar& operator[](size_t Index) const;
+
+			bool operator==(const String& Other);
+			bool operator!=(const String& Other);
+			bool operator<(const String& Other);
+			bool operator>(const String& Other);
+			bool operator<=(const String& Other);
+			bool operator>=(const String& Other);
 
 			// properties - getter
 			const size_t GetLength() const;
@@ -65,24 +79,6 @@ namespace Elysium
 			// ...
 			static bool IsNullOrEmtpy(const String& Value);
 			//static void Concat(const unsigned int ArgumentCount, const String* Arguments[], String* Output);
-
-			// move assignment operator
-			String& operator=(String&& Right);
-
-			// assignment operators
-			virtual String& operator=(const ElysiumChar* Value);
-			virtual String& operator=(const String& Value);
-
-			// index operator
-			virtual ElysiumChar& operator[](size_t Index) const;
-
-			// relational operators
-			bool operator==(const String& Other);
-			bool operator!=(const String& Other);
-			bool operator<(const String& Other);
-			bool operator>(const String& Other);
-			bool operator<=(const String& Other);
-			bool operator>=(const String& Other);
 		private:
 			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
 			ElysiumChar* _Data;

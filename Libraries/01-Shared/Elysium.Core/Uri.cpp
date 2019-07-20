@@ -37,17 +37,59 @@ const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(L"urn");
 const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(L"ws");
 
 Elysium::Core::Uri::Uri(const String& UriString)
-	: _OriginalString(String(UriString)), _AbsoluteUri(&_OriginalString)
+	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString), _Port(-1)
 {
 	Parse();
 }
-Elysium::Core::Uri::Uri(const Uri & Value)
-	: _OriginalString(String(Value._OriginalString)), _AbsoluteUri(&_OriginalString)
+Elysium::Core::Uri::Uri(const Uri & Source)
+	: _OriginalString(String(Source._OriginalString)), _AbsoluteUri(_OriginalString), _Port(Source._Port)
 {
 	Parse();
+}
+Elysium::Core::Uri::Uri(Uri && Right)
+	: _Port(-1)
+{
+	*this = std::move(Right);
 }
 Elysium::Core::Uri::~Uri()
 {
+}
+
+Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
+{
+	if (this != &Source)
+	{
+		_OriginalString = String(Source._OriginalString);
+		_AbsoluteUri = StringView(Source._AbsoluteUri);
+		_SchemeView = StringView(Source._SchemeView);
+		_AuthorityView = StringView(Source._AuthorityView);
+		_UserInfoView = StringView(Source._UserInfoView);
+		_HostView = StringView(Source._HostView);
+		_Port = int32_t(Source._Port);
+		_PathAndQueryView = StringView(Source._PathAndQueryView);
+		_PathView = StringView(Source._PathView);
+		_QueryView = StringView(Source._QueryView);
+		_FragmentView = StringView(Source._FragmentView);
+	}
+	return *this;
+}
+Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right)
+{
+	if (this != &Right)
+	{
+		_OriginalString = std::move(Right._OriginalString);
+		_AbsoluteUri = std::move(Right._AbsoluteUri);
+		_SchemeView = std::move(Right._SchemeView);
+		_AuthorityView = std::move(Right._AuthorityView);
+		_UserInfoView = std::move(Right._UserInfoView);
+		_HostView = std::move(Right._HostView);
+		_Port = Right._Port;
+		_PathAndQueryView = std::move(Right._PathAndQueryView);
+		_PathView = std::move(Right._PathView);
+		_QueryView = std::move(Right._QueryView);
+		_FragmentView = std::move(Right._FragmentView);
+	}
+	return *this;
 }
 
 const Elysium::Core::StringView & Elysium::Core::Uri::GetAbsoluteUri() const
@@ -70,7 +112,7 @@ const Elysium::Core::StringView & Elysium::Core::Uri::GetHost() const
 {
 	return _HostView;
 }
-const int & Elysium::Core::Uri::GetPort() const
+const int32_t & Elysium::Core::Uri::GetPort() const
 {
 	return _Port;
 }

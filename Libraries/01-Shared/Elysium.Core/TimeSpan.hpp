@@ -29,7 +29,16 @@ namespace Elysium
 			TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds);
 			TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds);
 			TimeSpan(const TimeSpan& Source);
+			TimeSpan(TimeSpan&& Right);
 			~TimeSpan();
+
+			TimeSpan& operator=(const TimeSpan& Source);
+			TimeSpan& operator=(TimeSpan&& Right);
+
+			TimeSpan operator+(const TimeSpan& Other);
+			TimeSpan operator-(const TimeSpan& Other);
+
+			TimeSpan& operator+=(const TimeSpan& Other);
 
 			static TimeSpan Zero();
 
@@ -64,11 +73,6 @@ namespace Elysium
 			double GetTotalMinutes() const;
 			double GetTotalSeconds() const;
 			double GetTotalMilliseconds() const;
-
-			TimeSpan operator+(const TimeSpan& Other);
-			TimeSpan operator-(const TimeSpan& Other);
-
-			TimeSpan& operator+=(const TimeSpan& Other);
 		private:
 			int64_t _Ticks;
 

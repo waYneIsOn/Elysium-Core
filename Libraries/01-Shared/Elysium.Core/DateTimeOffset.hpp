@@ -31,7 +31,12 @@ namespace Elysium
 		public:
 			DateTimeOffset(const DateTime DateTime);
 			DateTimeOffset(const DateTime DateTime, const TimeSpan Offset);
+			DateTimeOffset(const DateTimeOffset& Source);
+			DateTimeOffset(DateTimeOffset&& Right);
 			~DateTimeOffset();
+
+			DateTimeOffset& operator=(const DateTimeOffset& Source);
+			DateTimeOffset& operator=(DateTimeOffset&& Right);
 
 			DateTime& GetDateTime() const;
 			TimeSpan& GetOffset() const;

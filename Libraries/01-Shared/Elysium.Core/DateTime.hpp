@@ -39,7 +39,11 @@ namespace Elysium
 			DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second);
 			DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second, int Millisecond);
 			DateTime(const DateTime& Source);
+			DateTime(DateTime&& Right);
 			~DateTime();
+
+			DateTime& operator=(const DateTime& Source);
+			DateTime& operator=(DateTime&& Right);
 
 			static DateTime MaxValue();
 			static DateTime MinValue();

@@ -44,10 +44,10 @@ Elysium::Core::String::String(const ElysiumChar * Value, size_t Length)
 	_Data[_Length] = '\0';
 #endif 
 }
-Elysium::Core::String::String(const String & Value)
-	: Elysium::Core::String(Value._Length)
+Elysium::Core::String::String(const String & Source)
+	: Elysium::Core::String(Source._Length)
 {
-	memcpy(_Data, Value._Data, _Length * sizeof(ElysiumChar));
+	memcpy(_Data, Source._Data, _Length * sizeof(ElysiumChar));
 #ifdef UNICODE
 	_Data[_Length] = L'\0';
 #else
@@ -56,7 +56,7 @@ Elysium::Core::String::String(const String & Value)
 }
 Elysium::Core::String::String(String && Right)
 	: _Length((size_t)0), _Data(nullptr)
-{	// call move assignment operator to eliminate redundant code
+{
 	*this = std::move(Right);
 }
 Elysium::Core::String::~String()
@@ -67,130 +67,25 @@ Elysium::Core::String::~String()
 	}
 }
 
-const size_t Elysium::Core::String::GetLength() const
+Elysium::Core::String & Elysium::Core::String::operator=(const String & Source)
 {
-	return _Length;
-}
-const ElysiumChar * Elysium::Core::String::GetCharArray() const
-{
-	return _Data;
-}
-
-size_t Elysium::Core::String::IndexOf(const ElysiumChar Value) const
-{
-#ifdef UNICODE
-	size_t Index = wcscspn(_Data, &Value);
-#else
-	size_t Index = strcspn(_Data, &Value);
-#endif
-
-	if (Index >= _Length)
+	if (this != &Source)
 	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return Index;
-	}
-}
-size_t Elysium::Core::String::IndexOf(const ElysiumChar Value, const size_t StartIndex) const
-{
-#ifdef UNICODE
-	size_t Index = wcscspn(&_Data[StartIndex], &Value);
-#else
-	size_t Index = strcspn(&_Data[StartIndex], &Value);
-#endif
-
-	if (Index >= _Length - StartIndex)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return Index;
-	}
-}
-size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value) const
-{
-#ifdef UNICODE
-	ElysiumChar* Result = wcswcs(_Data, Value);
-#else
-	ElysiumChar* Result = strstr(_Data, Value);
-#endif
-	if (Result == nullptr)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return ElysiumStringLength(_Data) - ElysiumStringLength(Result);
-	}
-}
-size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
-{
-#ifdef UNICODE
-	ElysiumChar* Result = wcswcs(&_Data[StartIndex], Value);
-#else
-	ElysiumChar* Result = strstr(&_Data[StartIndex], Value);
-#endif
-	if (Result == nullptr)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
-	}
-}
-
-bool Elysium::Core::String::StartsWith(const ElysiumChar * Value) const
-{
-	size_t ValueLength = ElysiumStringLength(Value);
-	for (size_t i = 0; i < ValueLength; i++)
-	{
-		if (_Data[i] != Value[i])
+		if (_Data != nullptr)
 		{
-			return false;
+			delete[] _Data;
 		}
-	}
-
-	return true;
-}
-
-void Elysium::Core::String::Substring(size_t StartIndex, String * Result) const
-{
-	Elysium::Core::String::Substring(StartIndex, _Length - StartIndex, Result);
-}
-void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String * Result) const
-{
-	if (Result == nullptr)
-	{
+		_Length = Source._Length;
+		_Data = new ElysiumChar[_Length + sizeof(ElysiumChar)];
+		memcpy(_Data, Source._Data, _Length * sizeof(ElysiumChar));
 #ifdef UNICODE
-		throw ArgumentNullException(L"Result");
+		_Data[_Length] = L'\0';
 #else
-		throw ArgumentNullException("Result");
-#endif
-	}
-
-	if (Result->_Data != nullptr)
-	{
-		delete[] Result->_Data;
-	}
-	Result->_Length = Length;
-	Result->_Data = new ElysiumChar[Result->_Length * sizeof(ElysiumChar)];
-	memcpy(Result->_Data, &_Data[StartIndex], Length * sizeof(ElysiumChar));
-#ifdef UNICODE
-	Result->_Data[Result->_Length] = L'\0';
-#else
-	Result->_Data[Result->_Length] = '\0';
+		_Data[_Length] = '\0';
 #endif 
+	}
+	return *this;
 }
-
-bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
-{
-	return Value._Length == 0;
-}
-
 Elysium::Core::String & Elysium::Core::String::operator=(String && Right)
 {
 	if (this != &Right)
@@ -209,7 +104,6 @@ Elysium::Core::String & Elysium::Core::String::operator=(String && Right)
 		Right._Data = nullptr;
 		Right._Length = 0;
 	}
-
 	return *this;
 }
 
@@ -227,26 +121,6 @@ Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Val
 #else
 	_Data[_Length] = '\0';
 #endif 
-	
-	return *this;
-}
-Elysium::Core::String & Elysium::Core::String::operator=(const String & Value)
-{
-	if (this != &Value)
-	{
-		if (_Data != nullptr)
-		{
-			delete[] _Data;
-		}
-		_Length = Value._Length;
-		_Data = new ElysiumChar[_Length + sizeof(ElysiumChar)];
-		memcpy(_Data, Value._Data, _Length * sizeof(ElysiumChar));
-#ifdef UNICODE
-		_Data[_Length] = L'\0';
-#else
-		_Data[_Length] = '\0';
-#endif 
-	}
 
 	return *this;
 }
@@ -426,4 +300,129 @@ bool Elysium::Core::operator>=(const String & Left, const String & Right)
 #else
 	return strcmp(&Left[0], &Right[0]) >= 0;
 #endif 
+}
+
+
+const size_t Elysium::Core::String::GetLength() const
+{
+	return _Length;
+}
+const ElysiumChar * Elysium::Core::String::GetCharArray() const
+{
+	return _Data;
+}
+
+size_t Elysium::Core::String::IndexOf(const ElysiumChar Value) const
+{
+#ifdef UNICODE
+	size_t Index = wcscspn(_Data, &Value);
+#else
+	size_t Index = strcspn(_Data, &Value);
+#endif
+
+	if (Index >= _Length)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::String::IndexOf(const ElysiumChar Value, const size_t StartIndex) const
+{
+#ifdef UNICODE
+	size_t Index = wcscspn(&_Data[StartIndex], &Value);
+#else
+	size_t Index = strcspn(&_Data[StartIndex], &Value);
+#endif
+
+	if (Index >= _Length - StartIndex)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return Index;
+	}
+}
+size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value) const
+{
+#ifdef UNICODE
+	ElysiumChar* Result = wcswcs(_Data, Value);
+#else
+	ElysiumChar* Result = strstr(_Data, Value);
+#endif
+	if (Result == nullptr)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return ElysiumStringLength(_Data) - ElysiumStringLength(Result);
+	}
+}
+size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
+{
+#ifdef UNICODE
+	ElysiumChar* Result = wcswcs(&_Data[StartIndex], Value);
+#else
+	ElysiumChar* Result = strstr(&_Data[StartIndex], Value);
+#endif
+	if (Result == nullptr)
+	{
+		return std::wstring::npos;
+	}
+	else
+	{
+		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
+	}
+}
+
+bool Elysium::Core::String::StartsWith(const ElysiumChar * Value) const
+{
+	size_t ValueLength = ElysiumStringLength(Value);
+	for (size_t i = 0; i < ValueLength; i++)
+	{
+		if (_Data[i] != Value[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void Elysium::Core::String::Substring(size_t StartIndex, String * Result) const
+{
+	Elysium::Core::String::Substring(StartIndex, _Length - StartIndex, Result);
+}
+void Elysium::Core::String::Substring(size_t StartIndex, size_t Length, String * Result) const
+{
+	if (Result == nullptr)
+	{
+#ifdef UNICODE
+		throw ArgumentNullException(L"Result");
+#else
+		throw ArgumentNullException("Result");
+#endif
+	}
+
+	if (Result->_Data != nullptr)
+	{
+		delete[] Result->_Data;
+	}
+	Result->_Length = Length;
+	Result->_Data = new ElysiumChar[Result->_Length * sizeof(ElysiumChar)];
+	memcpy(Result->_Data, &_Data[StartIndex], Length * sizeof(ElysiumChar));
+#ifdef UNICODE
+	Result->_Data[Result->_Length] = L'\0';
+#else
+	Result->_Data[Result->_Length] = '\0';
+#endif 
+}
+
+bool Elysium::Core::String::IsNullOrEmtpy(const String & Value)
+{
+	return Value._Length == 0;
 }
