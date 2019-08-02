@@ -8,6 +8,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CHARENUMERATOR
+#include "../../../Libraries/01-Shared/Elysium.Core/CharEnumerator.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -78,6 +82,23 @@ namespace UnitTestsCore
 			Assert::AreEqual(L'e', MovedString[1]);
 			Assert::AreEqual(L'x', MovedString[2]);
 			Assert::AreEqual(L't', MovedString[3]);
+		}
+		TEST_METHOD(GetEnumerator)
+		{
+			Elysium::Core::String String1 = Elysium::Core::String(L"text");
+			/*
+			Elysium::Core::CharEnumerator Enumerator = String1.GetEnumerator();
+
+			int Count = 0;
+			while (Enumerator.MoveNext())
+			{
+				Count++;
+			}
+
+			int x = 324;
+
+			Assert::AreEqual(4, Count);
+			*/
 		}
 		TEST_METHOD(IndexOf)
 		{

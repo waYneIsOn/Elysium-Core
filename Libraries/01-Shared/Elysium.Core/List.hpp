@@ -54,6 +54,18 @@ namespace Elysium
 				class List : public IList<T>
 				{
 				public:
+					class Enumerator final : public Elysium::Core::Collections::Generic::IEnumerator<T>
+					{
+					public:
+						Enumerator(const List<T>* IEnumerable);
+						~Enumerator();
+
+						virtual bool MoveNext() override;
+					private:
+						const List<T>* _IEnumerable;
+						size_t _Index;
+					};
+
 					List();
 					List(size_t Capacity);
 					List(std::initializer_list<T> InitializerList);
@@ -75,6 +87,7 @@ namespace Elysium
 					virtual T& operator[](size_t Index) const override;
 
 					// methods
+					//virtual Elysium::Core::Collections::Generic::IEnumerator<T> GetEnumerator() override;
 					virtual void Add(const T& Item) override;
 					virtual void Add(const T* Item) override;
 					void AddRange(const IList<T>* Collection);
@@ -99,6 +112,22 @@ namespace Elysium
 					void Resize(size_t DesiredMinimumSize, size_t InsertionIndex);
 				};
 
+				template<typename T>
+				inline List<T>::Enumerator::Enumerator(const List<T> * IEnumerable)
+					: _IEnumerable(IEnumerable), _Index(0)
+				{
+				}
+				template<typename T>
+				inline List<T>::Enumerator::~Enumerator()
+				{
+				}
+				
+				template<typename T>
+				inline bool List<T>::Enumerator::MoveNext()
+				{
+					return _Index++ < _IEnumerable->GetCount();
+				}
+				
 				template<class T>
 				inline List<T>::List()
 					: _Capacity(0),
@@ -223,7 +252,13 @@ namespace Elysium
 
 					return _Data[Index];
 				}
-
+				/*
+				template<typename T>
+				inline Elysium::Core::Collections::Generic::IEnumerator<T> List<T>::GetEnumerator()
+				{
+					return Elysium::Core::Collections::Generic::List<T>::Enumerator(this);
+				}
+				*/
 				template<class T>
 				inline void List<T>::Add(const T & Item)
 				{

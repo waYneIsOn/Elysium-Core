@@ -1,7 +1,7 @@
 #include "String.hpp"
 
-#ifndef _INC_STRING
-#include <string>
+#ifndef _XSTRING_
+#include <xstring>
 #endif
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
@@ -10,10 +10,6 @@
 
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
 #include "ArgumentNullException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
 #endif
 
 Elysium::Core::String::String()

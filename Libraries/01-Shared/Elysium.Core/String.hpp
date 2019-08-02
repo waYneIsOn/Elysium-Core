@@ -24,7 +24,7 @@ Copyright (C) 2017 waYne (CAM)
 #else
 #define ElysiumChar char
 #define ElysiumStringLength strlen
-#endif 
+#endif
 
 namespace Elysium
 {
@@ -47,12 +47,12 @@ namespace Elysium
 			String(String&& Right);
 			~String();
 
-			virtual String& operator=(const String& Source);
+			String& operator=(const String& Source);
 			String& operator=(String&& Right);
 
-			virtual String& operator=(const ElysiumChar* Value);
+			String& operator=(const ElysiumChar* Value);
 
-			virtual ElysiumChar& operator[](size_t Index) const;
+			ElysiumChar& operator[](size_t Index) const;
 
 			bool operator==(const String& Other);
 			bool operator!=(const String& Other);

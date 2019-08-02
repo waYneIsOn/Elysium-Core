@@ -76,6 +76,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CharEnumerator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerator.hpp">
+      <Filter>Collections\Generic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -112,5 +116,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CharEnumerator.cpp" />
   </ItemGroup>
 </Project>

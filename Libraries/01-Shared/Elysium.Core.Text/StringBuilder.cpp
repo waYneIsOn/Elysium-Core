@@ -1,7 +1,7 @@
 #include "StringBuilder.hpp"
 
-#ifndef _INC_STRING
-#include <string>
+#ifndef _XSTRING_
+#include <xstring>
 #endif
 
 #ifndef __midl
