@@ -14,6 +14,10 @@
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.Linq/Debug
+/Libraries/02-Windows/Elysium.Core.Linq/Debugbin
+/Libraries/02-Windows/Elysium.Core.Linq/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.Math/Debug
 /Libraries/02-Windows/Elysium.Core.Math/Debugbin
 /Libraries/02-Windows/Elysium.Core.Math/Releasebin
@@ -29,6 +33,10 @@
 /UnitTests/02-Windows/UnitTests.Core.Data/Debug
 /UnitTests/02-Windows/UnitTests.Core.Data/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Data/Releasebin
+
+/UnitTests/02-Windows/UnitTests.Core.Linq/Debug
+/UnitTests/02-Windows/UnitTests.Core.Linq/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.Linq/Releasebin
 
 /UnitTests/02-Windows/UnitTests.Core.Math/Debug
 /UnitTests/02-Windows/UnitTests.Core.Math/Debugbin

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{5a9d7191-9b6a-4c60-bdd1-8791ee028e0d}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstructorInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FieldInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemberInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MethodBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MethodInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ConstructorInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FieldInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MemberInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MethodBase.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MethodInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Type.cpp" />
+  </ItemGroup>
+</Project>
