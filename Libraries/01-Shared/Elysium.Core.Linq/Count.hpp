@@ -7,8 +7,8 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_LINQ_ANY
-#define ELYSIUM_CORE_LINQ_ANY
+#ifndef ELYSIUM_CORE_LINQ_COUNT
+#define ELYSIUM_CORE_LINQ_COUNT
 
 namespace Elysium
 {
@@ -16,16 +16,17 @@ namespace Elysium
 	{
 		namespace Linq
 		{
-			struct AnyContainer
+			struct CountContainer
 			{
 				template<class ContainerType>
-				bool operator()(ContainerType && Container)
+				size_t operator()(ContainerType && Container)
 				{
+					size_t Count = 0;
 					for (auto Element : Container)
 					{
-						return true;
+						Count++;
 					}
-					return false;
+					return Count;
 				}
 			};
 		}
