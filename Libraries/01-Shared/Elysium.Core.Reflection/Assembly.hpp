@@ -7,11 +7,15 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_REFLECTION_FIELDINFO
-#define ELYSIUM_CORE_REFLECTION_FIELDINFO
+#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
+#define ELYSIUM_CORE_REFLECTION_ASSEMBLY
 
-#ifndef ELYSIUM_CORE_REFLECTION_MEMBERINFO
-#include "MemberInfo.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "../Elysium.Core/API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
 
 namespace Elysium
@@ -20,12 +24,12 @@ namespace Elysium
 	{
 		namespace Reflection
 		{
-			class ELYSIUM_CORE_API FieldInfo : public MemberInfo
+			class ELYSIUM_CORE_API Assembly
 			{
 			public:
-				~FieldInfo();
+				~Assembly();
 			protected:
-				FieldInfo();
+				Assembly();
 			};
 		}
 	}

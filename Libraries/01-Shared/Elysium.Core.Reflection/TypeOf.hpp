@@ -7,12 +7,8 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_REFLECTION_FIELDINFO
-#define ELYSIUM_CORE_REFLECTION_FIELDINFO
-
-#ifndef ELYSIUM_CORE_REFLECTION_MEMBERINFO
-#include "MemberInfo.hpp"
-#endif
+#ifndef ELYSIUM_CORE_REFLECTION_TYPEOF
+#define ELYSIUM_CORE_REFLECTION_TYPEOF
 
 namespace Elysium
 {
@@ -20,13 +16,7 @@ namespace Elysium
 	{
 		namespace Reflection
 		{
-			class ELYSIUM_CORE_API FieldInfo : public MemberInfo
-			{
-			public:
-				~FieldInfo();
-			protected:
-				FieldInfo();
-			};
+//#define typeof(x) // System.Type Bla = typeof(int); gets a "class" as input, should return Type
 		}
 	}
 }

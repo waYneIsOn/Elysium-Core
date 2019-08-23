@@ -14,14 +14,17 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Assembly.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstructorInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemberInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MethodBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MethodInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeOf.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Assembly.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ConstructorInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FieldInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemberInfo.cpp" />
