@@ -26,6 +26,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Count.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_LINQ_WHERE
+#include "Where.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -70,6 +74,7 @@ namespace Elysium
 			Extension<AnyContainer> Any = {};
 			Extension<ContainsContainer> Contains = {};
 			Extension<CountContainer> Count = {};
+			Extension<WhereContainer> Where = {};
 		}
 	}
 }

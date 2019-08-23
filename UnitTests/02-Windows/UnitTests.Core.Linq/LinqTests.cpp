@@ -58,5 +58,13 @@ namespace UnitTestsCoreLinq
 			std::vector<int> EmptyVector = std::vector<int>();
 			Assert::AreEqual((size_t)0, EmptyVector >> Count());
 		}
+
+		TEST_METHOD(Core_Linq_Where)
+		{
+			std::vector<int> PopulatedVector = { 1, 2, 3 };
+			Assert::AreEqual((size_t)2, PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count());
+
+			int x = 345;
+		}
 	};
 }

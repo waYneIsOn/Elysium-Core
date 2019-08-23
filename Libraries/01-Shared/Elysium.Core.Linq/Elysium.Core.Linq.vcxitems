@@ -19,5 +19,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Count.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Extension.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SingleParameterExtension.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Where.hpp" />
   </ItemGroup>
 </Project>
