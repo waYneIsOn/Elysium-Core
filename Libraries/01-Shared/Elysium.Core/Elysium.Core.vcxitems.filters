@@ -76,10 +76,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CharEnumerator.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerator.hpp">
-      <Filter>Collections\Generic</Filter>
-    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -116,6 +115,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CharEnumerator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
   </ItemGroup>
 </Project>

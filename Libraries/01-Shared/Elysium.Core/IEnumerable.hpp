@@ -10,10 +10,6 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
 #define ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_IENUMERATOR
-#include "IEnumerator.hpp"
-#endif
-
 namespace Elysium
 {
 	namespace Core
@@ -29,6 +25,8 @@ namespace Elysium
 				/// Destroy the object using the virtual destructor
 				/// </summary>
 				virtual ~IEnumerable() {}
+
+				//virtual Generic::Enumerator<T> GetEnumerator() = 0;
 
 				//virtual Generic::IEnumerator<T> GetEnumerator() = 0;
 				//virtual const IEnumerator<T> GetEnumerator() = 0;

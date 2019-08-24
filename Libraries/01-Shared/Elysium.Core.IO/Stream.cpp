@@ -12,6 +12,10 @@
 #include "../Elysium.Core/NotSupportedException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
 bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
