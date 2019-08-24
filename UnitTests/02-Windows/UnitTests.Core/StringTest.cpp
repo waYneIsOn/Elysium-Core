@@ -8,10 +8,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CHARENUMERATOR
-#include "../../../Libraries/01-Shared/Elysium.Core/CharEnumerator.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
 #endif
