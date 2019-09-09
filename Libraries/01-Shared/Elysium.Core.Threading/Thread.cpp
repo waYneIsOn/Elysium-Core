@@ -10,7 +10,11 @@ Elysium::Core::Threading::Thread::Thread(void(*Start)())
 }
 Elysium::Core::Threading::Thread::~Thread()
 {
-	_NativeThread.detach();
+	if (_NativeThread.joinable())
+	{
+		// ToDo: request the thread to stop somehow
+		_NativeThread.join();
+	}
 }
 
 void Elysium::Core::Threading::Thread::GetCurrentCulture(CultureInfo * Value) const

@@ -39,8 +39,11 @@ namespace Elysium
 			public:
 				// constructors & destructor
 				Thread(void(*Start)());
+				Thread(const Thread& Source) = delete;
 				//Thread(void(*Start)(void*));
 				~Thread();
+
+				Thread& operator=(const Thread&) = delete;
 
 				// properties - getter
 				void GetCurrentCulture(CultureInfo* Value) const;
