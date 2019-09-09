@@ -12,6 +12,10 @@
 #include <type_traits>
 #endif
 
+#ifndef _CHRONO_
+#include <chrono>
+#endif
+
 Elysium::Core::DateTime::DateTime(int64_t Ticks)
 	: Elysium::Core::DateTime::DateTime(Ticks, DateTimeKind::Unspecified)
 {
@@ -76,12 +80,8 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
-	// UtcNow.ToLocalTime()
-#ifdef UNICODE
-	throw NotImplementedException(L"Elysium::Core::DateTime Elysium::Core::DateTime::Now");
-#else
-	throw NotImplementedException("Elysium::Core::DateTime Elysium::Core::DateTime::Now");
-#endif
+	// ToDo: UtcNow.ToLocalTime()
+	return DateTime(std::chrono::high_resolution_clock::now().time_since_epoch().count(), DateTimeKind::Local);
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 {
