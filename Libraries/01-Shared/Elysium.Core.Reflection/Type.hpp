@@ -14,6 +14,9 @@ Copyright (C) 2017 waYne (CAM)
 #include "MemberInfo.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
+#include "Assembly.hpp"
+#endif
 
 // https://github.com/rttrorg/rttr/blob/c6782594802074bf7f5ca89e7e17ab5b5340c1da/src/rttr/detail/registration/registration_impl.h
 // https://github.com/rttrorg/rttr/blob/master/src/examples/json_serialization/main.cpp
@@ -53,21 +56,20 @@ namespace Elysium
 			class ELYSIUM_CORE_API Type : public MemberInfo
 			{
 			public:
-				~Type();
+				virtual ~Type();
 
 				bool GetIsArray();
 				bool GetIsEnum();
 				bool GetIsClass();
 
-				String GetNamespace();
+				const StringView& GetFullName() const;
+				//const StringView& GetNamespace() const;
 			protected:
 				Type();
-			private:
+				
 				bool _IsArray;
 				bool _IsEnum;
 				bool _IsClass;
-
-				String _Namespace;
 			};
 		}
 	}

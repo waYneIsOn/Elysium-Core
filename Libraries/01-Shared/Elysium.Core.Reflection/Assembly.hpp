@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
+#include "AssemblyName.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -27,9 +31,24 @@ namespace Elysium
 			class ELYSIUM_CORE_API Assembly
 			{
 			public:
-				~Assembly();
+				Assembly(const Assembly& Source);
+				Assembly(Assembly&& Right);
+				virtual ~Assembly();
+
+				Assembly& operator=(const Assembly& Source);
+				Assembly& operator=(Assembly&& Right);
+				
+				static Assembly GetEntryAssembly();
+				//static Assembly GetExecutingAssembly();
+
+				//const AssemblyName& FullName() const;
 			protected:
 				Assembly();
+
+				//static std::map<x, y> _RegisteredAssemblies;
+			private:
+				const AssemblyName _AssemblyName;
+				const String _Location;
 			};
 		}
 	}

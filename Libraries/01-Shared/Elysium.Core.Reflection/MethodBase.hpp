@@ -23,7 +23,7 @@ namespace Elysium
 			class ELYSIUM_CORE_API MethodBase : public MemberInfo
 			{
 			public:
-				~MethodBase();
+				virtual ~MethodBase();
 			protected:
 				MethodBase();
 			};

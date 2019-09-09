@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -27,13 +31,12 @@ namespace Elysium
 			class ELYSIUM_CORE_API MemberInfo
 			{
 			public:
-				~MemberInfo();
+				virtual ~MemberInfo();
 
-				String GetName();
+				const StringView GetName() const;
 			protected:
-				MemberInfo();
-			private:
-				void* _Pointer;
+				MemberInfo(); 
+
 				String _Name;
 			};
 		}

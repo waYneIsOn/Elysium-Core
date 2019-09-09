@@ -1,5 +1,9 @@
 #include "Type.hpp"
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
 Elysium::Core::Reflection::Type::~Type()
 {
 }
@@ -17,9 +21,9 @@ bool Elysium::Core::Reflection::Type::GetIsClass()
 	return _IsClass;
 }
 
-Elysium::Core::String Elysium::Core::Reflection::Type::GetNamespace()
+const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const
 {
-	return _Namespace;
+	throw NotImplementedException(L"const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const");
 }
 
 Elysium::Core::Reflection::Type::Type()

@@ -23,9 +23,11 @@ namespace Elysium
 			class ELYSIUM_CORE_API FieldInfo : public MemberInfo
 			{
 			public:
-				~FieldInfo();
+				virtual ~FieldInfo();
 			protected:
 				FieldInfo();
+
+				void* _Address;
 			};
 		}
 	}

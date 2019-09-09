@@ -23,7 +23,7 @@ namespace Elysium
 			class ELYSIUM_CORE_API ConstructorInfo : public MethodBase
 			{
 			public:
-				~ConstructorInfo();
+				virtual ~ConstructorInfo();
 			protected:
 				ConstructorInfo();
 			};

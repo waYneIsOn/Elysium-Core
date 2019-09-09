@@ -4,9 +4,9 @@ Elysium::Core::Reflection::MemberInfo::~MemberInfo()
 {
 }
 
-Elysium::Core::String Elysium::Core::Reflection::MemberInfo::GetName()
+const Elysium::Core::StringView Elysium::Core::Reflection::MemberInfo::GetName() const
 {
-	return _Name;
+	return StringView(_Name);
 }
 
 Elysium::Core::Reflection::MemberInfo::MemberInfo()
