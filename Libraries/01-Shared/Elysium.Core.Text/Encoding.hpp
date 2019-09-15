@@ -46,13 +46,13 @@ namespace Elysium
 
 				static void GetEncoding(int CodePage, Encoding* Output);
 
-				static const Encoding* ASCII();
-				static const Encoding* BigEndianUnicode();	// UTF-16 big-endian
-				static const Encoding* Default();
-				static const Encoding* Unicode();	// UTF-16 little-endian
-				static const Encoding* UTF32();
-				static const Encoding* UTF7();
-				static const Encoding* UTF8();
+				static const Encoding& ASCII();
+				static const Encoding& BigEndianUnicode();	// UTF-16 big-endian
+				static const Encoding& Default();
+				static const Encoding& Unicode();	// UTF-16 little-endian
+				static const Encoding& UTF32();
+				static const Encoding& UTF7();
+				static const Encoding& UTF8();
 				
 				// properties - getter
 				virtual bool GetIsSingleByte() const;

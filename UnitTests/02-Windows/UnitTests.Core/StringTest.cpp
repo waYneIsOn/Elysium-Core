@@ -127,25 +127,25 @@ namespace UnitTestsCore
 
 		TEST_METHOD(Encoding)
 		{
-			const Elysium::Core::Text::Encoding* DefaultEncoding = Elysium::Core::Text::Encoding::Default();
-			const Elysium::Core::Text::Encoding* UTF8Encoding = Elysium::Core::Text::Encoding::UTF8();
-			const Elysium::Core::Text::UTF8Encoding* CastUTF8Encoding = static_cast<const Elysium::Core::Text::UTF8Encoding*>(UTF8Encoding);
+			const Elysium::Core::Text::Encoding& DefaultEncoding = Elysium::Core::Text::Encoding::Default();
+			const Elysium::Core::Text::Encoding& UTF8Encoding = Elysium::Core::Text::Encoding::UTF8();
+			const Elysium::Core::Text::UTF8Encoding& CastUTF8Encoding = static_cast<const Elysium::Core::Text::UTF8Encoding&>(UTF8Encoding);
 
-			Assert::AreEqual(1252, DefaultEncoding->GetCodePage());
-			Assert::AreEqual(65001, UTF8Encoding->GetCodePage());
-			Assert::AreEqual(65001, CastUTF8Encoding->GetCodePage());
+			Assert::AreEqual(1252, DefaultEncoding.GetCodePage());
+			Assert::AreEqual(65001, UTF8Encoding.GetCodePage());
+			Assert::AreEqual(65001, CastUTF8Encoding.GetCodePage());
 
-			Assert::AreEqual(true, DefaultEncoding->GetIsSingleByte());
-			Assert::AreEqual(false, UTF8Encoding->GetIsSingleByte());
-			Assert::AreEqual(false, CastUTF8Encoding->GetIsSingleByte());
+			Assert::AreEqual(true, DefaultEncoding.GetIsSingleByte());
+			Assert::AreEqual(false, UTF8Encoding.GetIsSingleByte());
+			Assert::AreEqual(false, CastUTF8Encoding.GetIsSingleByte());
 
 			Elysium::Core::String OriginalString = L"äöüß";
-			Elysium::Core::Collections::Generic::List<Elysium::Core::byte> OutputBytes = DefaultEncoding->GetBytes(OriginalString, (size_t)0, (size_t)OriginalString.GetLength());
+			Elysium::Core::Collections::Generic::List<Elysium::Core::byte> OutputBytes = DefaultEncoding.GetBytes(OriginalString, (size_t)0, (size_t)OriginalString.GetLength());
 			
-			Elysium::Core::String OutputString = DefaultEncoding->GetString(&OutputBytes[0], 4);
+			Elysium::Core::String OutputString = DefaultEncoding.GetString(&OutputBytes[0], 4);
 			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
 			
-			OutputString = DefaultEncoding->GetString(&OutputBytes[0], -1);
+			OutputString = DefaultEncoding.GetString(&OutputBytes[0], -1);
 			Assert::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
 		}
 	};

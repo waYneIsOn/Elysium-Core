@@ -52,15 +52,15 @@ void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 #endif
 }
 
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::ASCII()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()
 {
 #ifdef UNICODE
-	return &_ASCII;
+	return _ASCII;
 #else
 	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()");
 #endif
 }
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::BigEndianUnicode()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()
 {
 #ifdef UNICODE
 	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()");
@@ -68,11 +68,11 @@ const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::BigEndianUn
 	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()");
 #endif
 }
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::Default()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Default()
 {
-	return &_Default;
+	return _Default;
 }
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::Unicode()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()
 {
 #ifdef UNICODE
 	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()");
@@ -80,7 +80,7 @@ const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::Unicode()
 	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()");
 #endif
 }
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::UTF32()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()
 {
 #ifdef UNICODE
 	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()");
@@ -88,7 +88,7 @@ const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::UTF32()
 	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()");
 #endif
 }
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::UTF7()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()
 {
 #ifdef UNICODE
 	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()");
@@ -96,10 +96,10 @@ const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::UTF7()
 	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()");
 #endif
 }
-const Elysium::Core::Text::Encoding * Elysium::Core::Text::Encoding::UTF8()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF8()
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	return &_UTF8;
+	return _UTF8;
 #elif defined(__ANDROID__)
 	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetBytes(String & Input, size_t CharIndex, size_t CharCount, byte * Output)");
 #else
