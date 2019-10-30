@@ -79,6 +79,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

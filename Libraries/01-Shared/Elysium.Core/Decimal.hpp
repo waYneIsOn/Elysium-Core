@@ -34,11 +34,11 @@ namespace Elysium
 			Decimal(const double& Value);
 			Decimal(const int64_t& HighPart, const int64_t& LowPart);
 			Decimal(const Decimal& Source);
-			Decimal(Decimal&& Right);
+			Decimal(Decimal&& Right) noexcept;
 			~Decimal();
 
 			Decimal& operator=(const Decimal& Source);
-			Decimal& operator=(Decimal&& Right);
+			Decimal& operator=(Decimal&& Right) noexcept;
 
 			const int64_t* GetHighPart() const;
 			const int64_t* GetLowPart() const;

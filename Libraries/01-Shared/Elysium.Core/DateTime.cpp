@@ -40,7 +40,7 @@ Elysium::Core::DateTime::DateTime(const DateTime & Source)
 	: _Ticks(Source._Ticks), _Kind(Source._Kind)
 {
 }
-Elysium::Core::DateTime::DateTime(DateTime && Right)
+Elysium::Core::DateTime::DateTime(DateTime && Right) noexcept
 {
 	*this = std::move(Right);
 }
@@ -57,7 +57,7 @@ Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(const DateTime & So
 	}
 	return *this;
 }
-Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right)
+Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right) noexcept
 {
 	if (this != &Right)
 	{

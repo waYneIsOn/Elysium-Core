@@ -28,7 +28,7 @@ Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 	: _Ticks(Source._Ticks)
 {
 }
-Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right)
+Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right) noexcept
 	: _Ticks(0)
 {
 	*this = std::move(Right);
@@ -45,7 +45,7 @@ Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(const TimeSpan & So
 	}
 	return *this;
 }
-Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right)
+Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right) noexcept
 {
 	if (this != &Right)
 	{

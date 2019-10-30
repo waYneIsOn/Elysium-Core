@@ -50,7 +50,7 @@ Elysium::Core::String::String(const String & Source)
 	_Data[_Length] = '\0';
 #endif 
 }
-Elysium::Core::String::String(String && Right)
+Elysium::Core::String::String(String && Right) noexcept
 	: _Length((size_t)0), _Data(nullptr)
 {
 	*this = std::move(Right);
@@ -82,7 +82,7 @@ Elysium::Core::String & Elysium::Core::String::operator=(const String & Source)
 	}
 	return *this;
 }
-Elysium::Core::String & Elysium::Core::String::operator=(String && Right)
+Elysium::Core::String & Elysium::Core::String::operator=(String && Right) noexcept
 {
 	if (this != &Right)
 	{
@@ -131,7 +131,7 @@ ElysiumChar & Elysium::Core::String::operator[](size_t Index) const
 	return _Data[Index];
 }
 
-bool Elysium::Core::String::operator==(const String & Other)
+bool Elysium::Core::String::operator==(const String & Other) const
 {
 	if (this == &Other)
 	{
@@ -148,7 +148,7 @@ bool Elysium::Core::String::operator==(const String & Other)
 	return strcmp(_Data, Other._Data) == 0;
 #endif 
 }
-bool Elysium::Core::String::operator!=(const String & Other)
+bool Elysium::Core::String::operator!=(const String & Other) const
 {
 	if (this == &Other)
 	{
@@ -161,7 +161,7 @@ bool Elysium::Core::String::operator!=(const String & Other)
 	return strcmp(_Data, Other._Data) != 0;
 #endif 
 }
-bool Elysium::Core::String::operator<(const String & Other)
+bool Elysium::Core::String::operator<(const String & Other) const
 {
 	if (this == &Other)
 	{
@@ -174,7 +174,7 @@ bool Elysium::Core::String::operator<(const String & Other)
 	return strcmp(_Data, Other._Data) < 0;
 #endif 
 }
-bool Elysium::Core::String::operator>(const String & Other)
+bool Elysium::Core::String::operator>(const String & Other) const
 {
 	if (this == &Other)
 	{
@@ -187,7 +187,7 @@ bool Elysium::Core::String::operator>(const String & Other)
 	return strcmp(_Data, Other._Data) > 0;
 #endif 
 }
-bool Elysium::Core::String::operator<=(const String & Other)
+bool Elysium::Core::String::operator<=(const String & Other) const
 {
 	if (this == &Other)
 	{
@@ -200,7 +200,7 @@ bool Elysium::Core::String::operator<=(const String & Other)
 	return strcmp(_Data, Other._Data) <= 0;
 #endif 
 }
-bool Elysium::Core::String::operator>=(const String & Other)
+bool Elysium::Core::String::operator>=(const String & Other) const
 {
 	if (this == &Other)
 	{
@@ -213,91 +213,6 @@ bool Elysium::Core::String::operator>=(const String & Other)
 	return strcmp(_Data, Other._Data) >= 0;
 #endif 
 }
-
-bool Elysium::Core::operator==(const String & Left, const String & Right)
-{
-	if (&Left == &Right)
-	{
-		return true;
-	}
-	if (Left.GetLength() == Right.GetLength())
-	{
-		return false;
-	}
-
-#ifdef UNICODE
-	// ToDo: use lstrcmpW instead?
-	return wcscmp(&Left[0], &Right[0]) != 0;
-#else
-	return strcmp(&Left[0], &Right[0]) != 0;
-#endif 
-}
-bool Elysium::Core::operator!=(const String & Left, const String & Right)
-{
-	if (&Left == &Right)
-	{
-		return false;
-	}
-
-#ifdef UNICODE
-	return wcscmp(&Left[0], &Right[0]) != 0;
-#else
-	return strcmp(&Left[0], &Right[0]) != 0;
-#endif 
-}
-bool Elysium::Core::operator<(const String & Left, const String & Right)
-{
-	if (&Left == &Right)
-	{
-		return false;
-	}
-
-#ifdef UNICODE
-	return wcscmp(&Left[0], &Right[0]) < 0;
-#else
-	return strcmp(&Left[0], &Right[0]) < 0;
-#endif 
-}
-bool Elysium::Core::operator>(const String & Left, const String & Right)
-{
-	if (&Left == &Right)
-	{
-		return false;
-	}
-
-#ifdef UNICODE
-	return wcscmp(&Left[0], &Right[0]) > 0;
-#else
-	return strcmp(&Left[0], &Right[0]) > 0;
-#endif 
-}
-bool Elysium::Core::operator<=(const String & Left, const String & Right)
-{
-	if (&Left == &Right)
-	{
-		return true;
-	}
-
-#ifdef UNICODE
-	return wcscmp(&Left[0], &Right[0]) <= 0;
-#else
-	return strcmp(&Left[0], &Right[0]) <= 0;
-#endif 
-}
-bool Elysium::Core::operator>=(const String & Left, const String & Right)
-{
-	if (&Left == &Right)
-	{
-		return true;
-	}
-
-#ifdef UNICODE
-	return wcscmp(&Left[0], &Right[0]) >= 0;
-#else
-	return strcmp(&Left[0], &Right[0]) >= 0;
-#endif 
-}
-
 
 const size_t Elysium::Core::String::GetLength() const
 {

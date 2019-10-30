@@ -16,6 +16,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />

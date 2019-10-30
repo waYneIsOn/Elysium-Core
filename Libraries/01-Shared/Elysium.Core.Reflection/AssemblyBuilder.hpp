@@ -14,12 +14,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "Assembly.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_EMIT_TYPEBUILDER
-#include "TypeBuilder.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_REFLECTION_TYPEATTRIBUTES
-#include "TypeAttributes.hpp"
+#ifndef ELYSIUM_CORE_REFLECTION_EMIT_MODULEBUILDER
+#include "ModuleBuilder.hpp"
 #endif
 
 namespace Elysium
@@ -34,22 +30,11 @@ namespace Elysium
 				{
 				public:
 					AssemblyBuilder();
-					~AssemblyBuilder();
+					virtual ~AssemblyBuilder();
 
-					template<class T>
-					TypeBuilder DefineType(const String& Name, const TypeAttributes& Attributes);
+					ModuleBuilder DefineDynamicModule(const String& Name);
+					ModuleBuilder DefineDynamicModule(const String& Name, const String& FileName, bool EmitSymbolInfo);
 				};
-
-				template<class T>
-				inline TypeBuilder AssemblyBuilder::DefineType(const String & Name, const TypeAttributes & Attributes)
-				{
-					TypeBuilder DefinedType = TypeBuilder();
-					DefinedType._Assembly = this;
-					DefinedType._Name = Name;
-					DefinedType._HashCode = typeid(T).hash_code();
-
-					return DefinedType;
-				}
 			}
 		}
 	}

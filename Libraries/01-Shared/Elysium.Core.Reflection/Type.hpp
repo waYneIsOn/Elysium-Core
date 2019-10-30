@@ -8,7 +8,7 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 
 #ifndef ELYSIUM_CORE_REFLECTION_TYPE
-#define ELYSIUM_CORE_REFLECCTION_TYPE
+#define ELYSIUM_CORE_REFLECTION_TYPE
 
 #ifndef ELYSIUM_CORE_REFLECTION_MEMBERINFO
 #include "MemberInfo.hpp"
@@ -18,35 +18,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "Assembly.hpp"
 #endif
 
-// https://github.com/rttrorg/rttr/blob/c6782594802074bf7f5ca89e7e17ab5b5340c1da/src/rttr/detail/registration/registration_impl.h
-// https://github.com/rttrorg/rttr/blob/master/src/examples/json_serialization/main.cpp
-#define TEST_REGISTRATION	\
-static void Bla();			\
-namespace					\
-{							\
-	struct xyz				\
-	{						\
-		xyz()				\
-		{					\
-			Bla();			\
-		}					\
-	};						\
-}							\
-static void Bla()			
-
-TEST_REGISTRATION
-{
-	/*
-	rttr::registration::class_<shape>("shape")
-		.property("visible", &shape::get_visible, &shape::set_visible)
-		.property("color", &shape::color_)
-		.property("name", &shape::name)
-		.property("position", &shape::position)
-		.property("dictionary", &shape::dictionary)
-	;
-	*/
-}
-
 namespace Elysium
 {
 	namespace Core
@@ -55,21 +26,33 @@ namespace Elysium
 		{
 			class ELYSIUM_CORE_API Type : public MemberInfo
 			{
+				//friend class Elysium::Core::Collections::Generic::List<Type>;
 			public:
 				virtual ~Type();
 
-				bool GetIsArray();
-				bool GetIsEnum();
-				bool GetIsClass();
+				const bool GetIsArray() const;
+				const bool GetIsEnum() const;
+				const bool GetIsClass() const;
 
 				const StringView& GetFullName() const;
 				//const StringView& GetNamespace() const;
+
+				bool operator==(const Type& Other) const;
+				bool operator!=(const Type& Other) const;
+				bool operator<(const Type& Other) const;
+				bool operator>(const Type& Other) const;
+				bool operator<=(const Type& Other) const;
+				bool operator>=(const Type& Other) const;
 			protected:
 				Type();
-				
+
+				size_t _HashCode;
 				bool _IsArray;
 				bool _IsEnum;
 				bool _IsClass;
+
+				//std::map<const size_t, const Elysium::Core::Reflection::Type _TypeHashTypeMap;
+				//std::map<const size_t, const Elysium::Core::Reflection::Assembly&> _TypeHashAssemblyMap;
 			};
 		}
 	}

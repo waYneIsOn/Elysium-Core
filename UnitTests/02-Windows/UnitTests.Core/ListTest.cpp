@@ -22,7 +22,7 @@ namespace UnitTestsCore
 		TEST_METHOD(Constructor_Guid)
 		{
 			List<Guid> TestList1;
-			List<Guid> TestList2(10);	// heap corruption???
+			List<Guid> TestList2(10);
 		}
 	};
 }

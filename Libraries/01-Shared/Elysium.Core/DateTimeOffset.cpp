@@ -16,7 +16,7 @@ Elysium::Core::DateTimeOffset::DateTimeOffset(const DateTimeOffset & Source)
 	: _DateTime(DateTime(Source._DateTime)), _Offset(TimeSpan(Source._Offset))
 {
 }
-Elysium::Core::DateTimeOffset::DateTimeOffset(DateTimeOffset && Right)
+Elysium::Core::DateTimeOffset::DateTimeOffset(DateTimeOffset && Right) noexcept
 	: _DateTime(0), _Offset(0)
 {
 	*this = std::move(Right);
@@ -34,7 +34,7 @@ Elysium::Core::DateTimeOffset & Elysium::Core::DateTimeOffset::operator=(const D
 	}
 	return *this;
 }
-Elysium::Core::DateTimeOffset & Elysium::Core::DateTimeOffset::operator=(DateTimeOffset && Right)
+Elysium::Core::DateTimeOffset & Elysium::Core::DateTimeOffset::operator=(DateTimeOffset && Right) noexcept
 {
 	if (this != &Right)
 	{

@@ -52,7 +52,6 @@ namespace Elysium
 						virtual const bool GetIsReadOnly() const override;
 
 						virtual void Add(const SqlNativeError& Item) override;
-						virtual void Add(const SqlNativeError* Item) override;
 						virtual void Clear() override;
 						virtual bool Contains(const SqlNativeError& Item) const override;
 						virtual bool Remove(const SqlNativeError& Item) override;

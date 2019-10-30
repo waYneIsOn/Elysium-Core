@@ -34,7 +34,7 @@ Elysium::Core::Version::Version(const Version & Source)
 	: _Major(Source._Major), _Minor(Source._Minor), _Build(Source._Build), _Revision(Source._Revision)
 {
 }
-Elysium::Core::Version::Version(Version && Right)
+Elysium::Core::Version::Version(Version && Right) noexcept
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
 {
 	*this = std::move(Right);
@@ -54,7 +54,7 @@ Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other
 	}
 	return *this;
 }
-Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right)
+Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noexcept
 {
 	if (this != &Right)
 	{
@@ -66,27 +66,27 @@ Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right)
 	return *this;
 }
 
-bool Elysium::Core::Version::operator==(const Version & Other)
+bool Elysium::Core::Version::operator==(const Version & Other) const
 {
 	return Compare(Other) == 0;
 }
-bool Elysium::Core::Version::operator!=(const Version & Other)
+bool Elysium::Core::Version::operator!=(const Version & Other) const
 {
 	return Compare(Other) != 0;
 }
-bool Elysium::Core::Version::operator<(const Version & Other)
+bool Elysium::Core::Version::operator<(const Version & Other) const
 {
 	return Compare(Other) < 0;
 }
-bool Elysium::Core::Version::operator>(const Version & Other)
+bool Elysium::Core::Version::operator>(const Version & Other) const
 {
 	return Compare(Other) > 0;
 }
-bool Elysium::Core::Version::operator<=(const Version & Other)
+bool Elysium::Core::Version::operator<=(const Version & Other) const
 {
 	return Compare(Other) <= 0;
 }
-bool Elysium::Core::Version::operator>=(const Version & Other)
+bool Elysium::Core::Version::operator>=(const Version & Other) const
 {
 	return Compare(Other) >= 0;
 }
@@ -157,7 +157,7 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const StringView * Input)
 	return ParsedVersion;
 }
 
-uint32_t Elysium::Core::Version::Compare(const Version & Other)
+uint32_t Elysium::Core::Version::Compare(const Version & Other) const
 {
 	if (this != &Other)
 	{

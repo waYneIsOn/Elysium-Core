@@ -8,12 +8,14 @@
 #include <windows.h>
 #endif
 
+//Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly> Elysium::Core::Reflection::Assembly::_RegisteredAssemblies = Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly>();
+
 Elysium::Core::Reflection::Assembly::Assembly(const Assembly & Source)
-	: _AssemblyName(AssemblyName(Source._AssemblyName)), _Location(String(Source._Location))
+	: _AssemblyName(AssemblyName(Source._AssemblyName))
 {
 }
-Elysium::Core::Reflection::Assembly::Assembly(Assembly && Right)
-	: _AssemblyName(Right._AssemblyName), _Location(Right._Location)
+Elysium::Core::Reflection::Assembly::Assembly(Assembly && Right) noexcept
+	: _AssemblyName(Right._AssemblyName)
 {
 	*this = std::move(Right);
 }
@@ -25,22 +27,51 @@ Elysium::Core::Reflection::Assembly & Elysium::Core::Reflection::Assembly::opera
 {
 	if (this != &Source)
 	{
+		_AssemblyName = AssemblyName(Source._AssemblyName);
 	}
 	return *this;
 }
-Elysium::Core::Reflection::Assembly & Elysium::Core::Reflection::Assembly::operator=(Assembly && Right)
+Elysium::Core::Reflection::Assembly & Elysium::Core::Reflection::Assembly::operator=(Assembly && Right) noexcept
 {
 	if (this != &Right)
 	{
+		_AssemblyName = std::move(Right._AssemblyName);
 	}
 	return *this;
 }
 
-Elysium::Core::Reflection::Assembly Elysium::Core::Reflection::Assembly::GetEntryAssembly()
+bool Elysium::Core::Reflection::Assembly::operator==(const Assembly & Other) const
+{
+	return _AssemblyName == Other._AssemblyName;
+}
+bool Elysium::Core::Reflection::Assembly::operator!=(const Assembly & Other) const
+{
+	return _AssemblyName != Other._AssemblyName;
+}
+bool Elysium::Core::Reflection::Assembly::operator<(const Assembly & Other) const
+{
+	return _AssemblyName < Other._AssemblyName;
+}
+bool Elysium::Core::Reflection::Assembly::operator>(const Assembly & Other) const
+{
+	return _AssemblyName > Other._AssemblyName;
+}
+bool Elysium::Core::Reflection::Assembly::operator<=(const Assembly & Other) const
+{
+	return _AssemblyName <= Other._AssemblyName;
+}
+bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly & Other) const
+{
+	return _AssemblyName >= Other._AssemblyName;
+}
+
+Elysium::Core::Reflection::Assembly & Elysium::Core::Reflection::Assembly::GetEntryAssembly()
 {
 	TCHAR Location[MAX_PATH + 1];
 	GetModuleFileName(nullptr, Location, MAX_PATH);
-	return Assembly();
+
+	Assembly Bla = Assembly();
+	return Bla;
 }
 
 Elysium::Core::Reflection::Assembly::Assembly()

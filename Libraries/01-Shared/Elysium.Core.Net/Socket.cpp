@@ -55,20 +55,20 @@ Elysium::Core::Net::Sockets::Socket::~Socket()
 	WSACleanup();
 }
 
-Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::Sockets::Socket::GetAddressFamily()
+Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::Sockets::Socket::GetAddressFamily() const
 {
 	return _AddressFamily;
 }
-Elysium::Core::Net::Sockets::SocketType Elysium::Core::Net::Sockets::Socket::GetSocketType()
+Elysium::Core::Net::Sockets::SocketType Elysium::Core::Net::Sockets::Socket::GetSocketType() const
 {
 	return _SocketType;
 }
-Elysium::Core::Net::Sockets::ProtocolType Elysium::Core::Net::Sockets::Socket::GetProtocolType()
+Elysium::Core::Net::Sockets::ProtocolType Elysium::Core::Net::Sockets::Socket::GetProtocolType() const
 {
 	return _ProtocolType;
 }
 
-int Elysium::Core::Net::Sockets::Socket::GetAvailable()
+int Elysium::Core::Net::Sockets::Socket::GetAvailable() const
 {
 	char Buffer;
 	int BytesAvailable = recv(_WinSocketHandle, &Buffer, 1, MSG_PEEK);
@@ -79,11 +79,23 @@ int Elysium::Core::Net::Sockets::Socket::GetAvailable()
 
 	return BytesAvailable;
 }
-bool Elysium::Core::Net::Sockets::Socket::GetIsConnected()
+bool Elysium::Core::Net::Sockets::Socket::GetBlocking() const
+{	// ToDo: ioctlsocket seems to only be used for setting values?
+	unsigned long Bla;
+	if (ioctlsocket(_WinSocketHandle, FIONBIO, &Bla) == SOCKET_ERROR)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+bool Elysium::Core::Net::Sockets::Socket::GetIsConnected() const
 {
 	return _IsConnected;
 }
-int Elysium::Core::Net::Sockets::Socket::GetReceiveTimeout()
+int Elysium::Core::Net::Sockets::Socket::GetReceiveTimeout() const
 {
 	int Result;
 	int ResultLength = sizeof(int);
@@ -93,7 +105,7 @@ int Elysium::Core::Net::Sockets::Socket::GetReceiveTimeout()
 	}
 	return Result;
 }
-int Elysium::Core::Net::Sockets::Socket::GetSendTimeout()
+int Elysium::Core::Net::Sockets::Socket::GetSendTimeout() const
 {
 	int Result;
 	int ResultLength = sizeof(int);
@@ -103,7 +115,7 @@ int Elysium::Core::Net::Sockets::Socket::GetSendTimeout()
 	}
 	return Result;
 }
-int Elysium::Core::Net::Sockets::Socket::GetReceiveBufferSize()
+int Elysium::Core::Net::Sockets::Socket::GetReceiveBufferSize() const
 {
 	int Result;
 	int ResultLength = sizeof(int);
@@ -113,7 +125,7 @@ int Elysium::Core::Net::Sockets::Socket::GetReceiveBufferSize()
 	}
 	return Result;
 }
-int Elysium::Core::Net::Sockets::Socket::GetSendBufferSize()
+int Elysium::Core::Net::Sockets::Socket::GetSendBufferSize() const
 {
 	int Result;
 	int ResultLength = sizeof(int);

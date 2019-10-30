@@ -40,7 +40,6 @@ namespace Elysium
 					virtual const bool GetIsReadOnly()const  override;
 
 					virtual void Add(const IDataParameter& Item) override;
-					virtual void Add(const IDataParameter* Item) override;
 					virtual void Clear() override;
 					virtual bool Contains(const IDataParameter& Item) const override;
 					virtual const size_t IndexOf(const IDataParameter& Item) const override;

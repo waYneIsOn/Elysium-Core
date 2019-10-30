@@ -31,7 +31,9 @@ namespace Elysium
 		public:
 			~Environment();
 
+			static bool Is64BitProcess();
 			static String MachineName();
+			static String NewLine();
 			static OperatingSystem OSVersion();
 			static int ProcessorCount();
 			static String UserName();

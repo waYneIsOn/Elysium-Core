@@ -32,9 +32,9 @@ namespace Elysium
 			{
 				class ELYSIUM_CORE_API TypeBuilder final : public Type
 				{
-					friend class AssemblyBuilder;
+					friend class ModuleBuilder;
 				public:
-					~TypeBuilder();
+					virtual ~TypeBuilder();
 
 					template<class T>
 					FieldBuilder DefineField(const String& FieldName, const Type& Type, const FieldAttributes& Attributes);
@@ -42,7 +42,6 @@ namespace Elysium
 					TypeBuilder();
 
 					Assembly* _Assembly;
-					size_t _HashCode;
 				};
 
 				template<class T>

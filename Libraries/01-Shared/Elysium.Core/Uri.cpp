@@ -46,7 +46,7 @@ Elysium::Core::Uri::Uri(const Uri & Source)
 {
 	Parse();
 }
-Elysium::Core::Uri::Uri(Uri && Right)
+Elysium::Core::Uri::Uri(Uri && Right) noexcept
 	: _Port(-1)
 {
 	*this = std::move(Right);
@@ -73,7 +73,7 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
 	}
 	return *this;
 }
-Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right)
+Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right) noexcept
 {
 	if (this != &Right)
 	{

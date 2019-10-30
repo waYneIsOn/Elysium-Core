@@ -18,6 +18,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FieldBuilder.cpp">
       <Filter>Emit</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Module.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ModuleBuilder.cpp">
+      <Filter>Emit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Assembly.hpp" />
@@ -28,7 +32,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MethodBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MethodInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TypeOf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeAttributes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldAttributes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeBuilder.hpp">
@@ -38,6 +41,12 @@
       <Filter>Emit</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AssemblyBuilder.hpp">
+      <Filter>Emit</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Macros.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessorArchitecture.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ModuleBuilder.hpp">
       <Filter>Emit</Filter>
     </ClInclude>
   </ItemGroup>

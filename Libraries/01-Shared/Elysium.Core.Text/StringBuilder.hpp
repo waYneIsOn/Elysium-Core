@@ -29,7 +29,7 @@ namespace Elysium
 			public:
 				StringBuilder();
 				StringBuilder(const size_t Capacity);
-				StringBuilder(const StringBuilder& Value);
+				StringBuilder(const StringBuilder& Source);
 				~StringBuilder();
 
 				const size_t GetCapacity() const;

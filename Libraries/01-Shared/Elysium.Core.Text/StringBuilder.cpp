@@ -26,12 +26,12 @@ Elysium::Core::Text::StringBuilder::StringBuilder(const size_t Capacity)
 	_Length(0)
 {
 }
-Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Value)
-	: _Capacity(Value._Capacity),
+Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Source)
+	: _Capacity(Source._Capacity),
 	_Data((ElysiumChar*)malloc(sizeof(ElysiumChar) * _Capacity)),
-	_Length(Value._Length)
+	_Length(Source._Length)
 {
-	memcpy(_Data, Value._Data, sizeof(ElysiumChar) * _Capacity);
+	memcpy(_Data, Source._Data, sizeof(ElysiumChar) * _Capacity);
 }
 Elysium::Core::Text::StringBuilder::~StringBuilder()
 {

@@ -36,11 +36,18 @@ namespace Elysium
 			StringView(const Elysium::Core::String& Input, size_t Length);
 			StringView(const Elysium::Core::String& Input, size_t Offset, size_t Length);
 			StringView(const StringView& Source);
-			StringView(StringView&& Right);
+			StringView(StringView&& Right) noexcept;
 			~StringView();
 
 			StringView& operator=(const StringView& Source);
-			StringView& operator=(StringView&& Right);
+			StringView& operator=(StringView&& Right) noexcept;
+
+			bool operator==(const StringView& Other) const;
+			bool operator!=(const StringView& Other) const;
+			bool operator<(const StringView& Other) const;
+			bool operator>(const StringView& Other) const;
+			bool operator<=(const StringView& Other) const;
+			bool operator>=(const StringView& Other) const;
 
 			size_t IndexOf(const ElysiumChar Value) const;
 			size_t IndexOf(const ElysiumChar Value, const size_t StartIndex) const;

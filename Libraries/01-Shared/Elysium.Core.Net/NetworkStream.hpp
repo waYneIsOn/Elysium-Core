@@ -33,8 +33,8 @@ namespace Elysium
 				{
 				public:
 					// constructors & destructor
-					NetworkStream(Socket* Socket);
-					NetworkStream(Socket* Socket, bool OwnsSocket);
+					NetworkStream(Socket& Socket);
+					NetworkStream(Socket& Socket, bool OwnsSocket);
 					~NetworkStream();
 
 					// properties - getter
@@ -62,7 +62,7 @@ namespace Elysium
 					virtual void Write(const byte* Buffer, const size_t Count) override;
 				private:
 					// fields
-					Socket* _Socket;
+					Socket& _Socket;
 					bool _OwnsSocket;
 				};
 			}

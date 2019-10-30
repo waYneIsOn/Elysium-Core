@@ -40,7 +40,7 @@ Elysium::Core::StringView::StringView(const StringView & Source)
 	: _Data(Source._Data), _Length(Source._Length)
 {
 }
-Elysium::Core::StringView::StringView(StringView && Right)
+Elysium::Core::StringView::StringView(StringView && Right) noexcept
 {
 	*this = std::move(Right);
 }
@@ -54,7 +54,7 @@ Elysium::Core::StringView & Elysium::Core::StringView::operator=(const StringVie
 	_Data = Value._Data;
 	return *this;
 }
-Elysium::Core::StringView & Elysium::Core::StringView::operator=(StringView && Right)
+Elysium::Core::StringView & Elysium::Core::StringView::operator=(StringView && Right) noexcept
 {
 	if (this != &Right)
 	{
@@ -68,6 +68,51 @@ Elysium::Core::StringView & Elysium::Core::StringView::operator=(StringView && R
 	}
 
 	return *this;
+}
+
+bool Elysium::Core::StringView::operator==(const StringView & Other) const
+{
+	if (this == &Other)
+	{
+		return true;
+	}
+
+	return _Data == Other._Data && _Length == Other._Length;
+}
+bool Elysium::Core::StringView::operator!=(const StringView & Other) const
+{
+	if (this == &Other)
+	{
+		return false;
+	}
+
+	return _Data != Other._Data || _Length != Other._Length;
+}
+bool Elysium::Core::StringView::operator<(const StringView & Other) const
+{
+	return _Data == Other._Data && _Length < Other._Length;
+}
+bool Elysium::Core::StringView::operator>(const StringView & Other) const
+{
+	return _Data == Other._Data && _Length > Other._Length;
+}
+bool Elysium::Core::StringView::operator<=(const StringView & Other) const
+{
+	if (this == &Other)
+	{
+		return true;
+	}
+
+	return _Data == Other._Data && _Length <= Other._Length;
+}
+bool Elysium::Core::StringView::operator>=(const StringView & Other) const
+{
+	if (this == &Other)
+	{
+		return true;
+	}
+
+	return _Data == Other._Data && _Length >= Other._Length;
 }
 
 size_t Elysium::Core::StringView::IndexOf(const ElysiumChar Value) const

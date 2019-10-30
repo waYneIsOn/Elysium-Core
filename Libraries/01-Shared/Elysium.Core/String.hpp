@@ -44,22 +44,22 @@ namespace Elysium
 			String(const ElysiumChar* Value);
 			String(const ElysiumChar* Value, size_t Length);
 			String(const String& Source);
-			String(String&& Right);
+			String(String&& Right) noexcept;
 			~String();
 
 			String& operator=(const String& Source);
-			String& operator=(String&& Right);
+			String& operator=(String&& Right) noexcept;
 
 			String& operator=(const ElysiumChar* Value);
 
 			ElysiumChar& operator[](size_t Index) const;
 
-			bool operator==(const String& Other);
-			bool operator!=(const String& Other);
-			bool operator<(const String& Other);
-			bool operator>(const String& Other);
-			bool operator<=(const String& Other);
-			bool operator>=(const String& Other);
+			bool operator==(const String& Other) const;
+			bool operator!=(const String& Other) const;
+			bool operator<(const String& Other) const;
+			bool operator>(const String& Other) const;
+			bool operator<=(const String& Other) const;
+			bool operator>=(const String& Other) const;
 
 			// properties - getter
 			const size_t GetLength() const;
@@ -80,16 +80,9 @@ namespace Elysium
 			static bool IsNullOrEmtpy(const String& Value);
 			//static void Concat(const unsigned int ArgumentCount, const String* Arguments[], String* Output);
 		private:
-			size_t _Length;	// ATTENTION: this is the number Of ElysiumChars - not the number of bytes!
+			size_t _Length;
 			ElysiumChar* _Data;
 		};
-
-		ELYSIUM_CORE_API bool operator==(const String& Left, const String& Right);
-		ELYSIUM_CORE_API bool operator!=(const String& Left, const String& Right);
-		ELYSIUM_CORE_API bool operator<(const String& Left, const String& Right);
-		ELYSIUM_CORE_API bool operator>(const String& Left, const String& Right);
-		ELYSIUM_CORE_API bool operator<=(const String& Left, const String& Right);
-		ELYSIUM_CORE_API bool operator>=(const String& Left, const String& Right);
 	}
 }
 #endif

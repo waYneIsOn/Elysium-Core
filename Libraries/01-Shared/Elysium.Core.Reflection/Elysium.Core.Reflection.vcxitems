@@ -21,13 +21,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldAttributes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Macros.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemberInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MethodBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MethodInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ModuleBuilder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessorArchitecture.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeAttributes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeBuilder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TypeOf.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Assembly.cpp" />
@@ -39,6 +42,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MemberInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MethodBase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MethodInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Module.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ModuleBuilder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Type.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeBuilder.cpp" />
   </ItemGroup>

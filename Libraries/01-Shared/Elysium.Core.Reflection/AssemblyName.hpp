@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_VERSION
+#include "../Elysium.Core/Version.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -28,21 +32,32 @@ namespace Elysium
 			{
 			public:
 				AssemblyName();
-				AssemblyName(const String& AssemblyName);
+				AssemblyName(const String& AssemblyName, const String& CodeBase, const Version& AssemblyVersion);
 				AssemblyName(const AssemblyName& Source);
-				AssemblyName(AssemblyName&& Right);
+				AssemblyName(AssemblyName&& Right) noexcept;
 				~AssemblyName();
 
 				AssemblyName& operator=(const AssemblyName& Source);
-				AssemblyName& operator=(AssemblyName&& Right);
+				AssemblyName& operator=(AssemblyName&& Right) noexcept;
+
+				bool operator==(const AssemblyName& Other) const;
+				bool operator!=(const AssemblyName& Other) const;
+				bool operator<(const AssemblyName& Other) const;
+				bool operator>(const AssemblyName& Other) const;
+				bool operator<=(const AssemblyName& Other) const;
+				bool operator>=(const AssemblyName& Other) const;
+
+				const String& GetCodeBase() const;
+				const String& GetName() const;
+				const Version& GetVersion() const;
 				/*
-				const String Name() const;
-				const Version Version() const;
-				const CultureInfo CultureInfo() const;
-				const String FullName() const;
+				const CultureInfo& GetCultureInfo() const;
+				const String& GetFullName() const;
 				*/
 			private:
-				const String _AssemblyName;
+				String _Name;
+				String _CodeBase;	// Location (Folder)
+				Version _Version;
 			};
 		}
 	}

@@ -36,7 +36,7 @@ Elysium::Core::Decimal::Decimal(const Decimal & Source)
 {
 	memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
 }
-Elysium::Core::Decimal::Decimal(Decimal && Right)
+Elysium::Core::Decimal::Decimal(Decimal && Right) noexcept
 {
 	*this = std::move(Right);
 }
@@ -52,7 +52,7 @@ Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(const Decimal & Sourc
 	}
 	return *this;
 }
-Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right)
+Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right) noexcept
 {
 	if (this != &Right)
 	{

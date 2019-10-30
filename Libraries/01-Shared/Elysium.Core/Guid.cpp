@@ -25,7 +25,7 @@ Elysium::Core::Guid::Guid(const Guid & Source)
 {
 	memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
 }
-Elysium::Core::Guid::Guid(Guid && Right)
+Elysium::Core::Guid::Guid(Guid && Right) noexcept
 {
 	*this = std::move(Right);
 }
@@ -42,7 +42,7 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(const Guid & Source)
 
 	return *this;
 }
-Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right)
+Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 {
 	if (this != &Right)
 	{

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{a8ec7cea-4204-4384-a93b-cb59901202b3}</ItemsProjectGuid>
+    <ItemsProjectName>Elysium.Core.Json</ItemsProjectName>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonDocument.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonNodeType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonTextWriter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriter.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonDocument.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonTextWriter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonWriter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Infos.txt" />
+  </ItemGroup>
+</Project>

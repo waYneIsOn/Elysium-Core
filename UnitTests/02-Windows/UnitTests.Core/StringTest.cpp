@@ -95,6 +95,7 @@ namespace UnitTestsCore
 
 			Assert::AreEqual(4, Count);
 			*/
+			Assert::Fail();
 		}
 		TEST_METHOD(IndexOf)
 		{

@@ -10,6 +10,10 @@
 #endif
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "Exception.hpp"
 #endif
@@ -25,18 +29,46 @@ Elysium::Core::CultureInfo::CultureInfo()
 {
 }
 Elysium::Core::CultureInfo::CultureInfo(int Culture)
-	: _Culture(Culture)
+	: _LCID(Culture)
 {
+}
+Elysium::Core::CultureInfo::CultureInfo(const CultureInfo & Source)
+	: _LCID(Source._LCID)
+{
+}
+Elysium::Core::CultureInfo::CultureInfo(CultureInfo && Right) noexcept
+	: _LCID(0)
+{
+	*this = std::move(Right);
 }
 Elysium::Core::CultureInfo::~CultureInfo()
 {
+}
+
+Elysium::Core::CultureInfo & Elysium::Core::CultureInfo::operator=(const CultureInfo & Source)
+{
+	if (this != &Source)
+	{
+		_LCID = int(Source._LCID);
+	}
+	return *this;
+}
+Elysium::Core::CultureInfo & Elysium::Core::CultureInfo::operator=(CultureInfo && Right) noexcept
+{
+	if (this != &Right)
+	{
+		_LCID = Right._LCID;
+
+		Right._LCID = 0;
+	}
+	return *this;
 }
 
 void Elysium::Core::CultureInfo::GetName(String * Output) const
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	*Output = String(LOCALE_NAME_MAX_LENGTH);
-	if (LCIDToLocaleName((LCID)_Culture, (LPWSTR)Output->GetCharArray(), LOCALE_NAME_MAX_LENGTH, 0) == 0)
+	if (LCIDToLocaleName((LCID)_LCID, (LPWSTR)Output->GetCharArray(), LOCALE_NAME_MAX_LENGTH, 0) == 0)
 	{
 		unsigned long LastError = GetLastError();
 		// ToDo: throw specific exception
@@ -50,5 +82,5 @@ void Elysium::Core::CultureInfo::GetName(String * Output) const
 }
 int Elysium::Core::CultureInfo::GetLCID() const
 {
-	return _Culture;
+	return _LCID;
 }

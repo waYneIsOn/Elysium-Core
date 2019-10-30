@@ -13,10 +13,6 @@ void Elysium::Core::Data::Common::DbParameterCollection::Add(const IDataParamete
 {
 	_InternalVector.push_back(&Item);
 }
-void Elysium::Core::Data::Common::DbParameterCollection::Add(const IDataParameter * Item)
-{
-	_InternalVector.push_back(Item);
-}
 void Elysium::Core::Data::Common::DbParameterCollection::Clear()
 {
 	_InternalVector.clear();

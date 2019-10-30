@@ -71,16 +71,17 @@ namespace Elysium
 					~Socket();
 
 					// properties - getter
-					AddressFamily GetAddressFamily();
-					SocketType GetSocketType();
-					ProtocolType GetProtocolType();
+					AddressFamily GetAddressFamily() const;
+					SocketType GetSocketType() const;
+					ProtocolType GetProtocolType() const;
 
-					int GetAvailable();
-					bool GetIsConnected();
-					int GetReceiveTimeout();
-					int GetSendTimeout();
-					int GetReceiveBufferSize();
-					int GetSendBufferSize();
+					int GetAvailable() const;
+					bool GetBlocking() const;
+					bool GetIsConnected() const;
+					int GetReceiveTimeout() const;
+					int GetSendTimeout() const;
+					int GetReceiveBufferSize() const;
+					int GetSendBufferSize() const;
 
 					// properties - setter
 					void SetReceiveTimeout(int Timeout);

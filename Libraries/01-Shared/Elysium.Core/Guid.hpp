@@ -41,11 +41,11 @@ namespace Elysium
 			Guid(const byte B[16]);
 			Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
 			Guid(const Guid& Source);
-			Guid(Guid&& Right);
+			Guid(Guid&& Right) noexcept;
 			~Guid();
 
 			Guid& operator=(const Guid& Source);
-			Guid& operator=(Guid&& Right);
+			Guid& operator=(Guid&& Right) noexcept;
 
 			bool operator==(const Guid& Other);
 			bool operator!=(const Guid& Other);

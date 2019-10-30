@@ -48,11 +48,11 @@ namespace Elysium
 			// constructors & destructors
 			Uri(const String& UriString);
 			Uri(const Uri& Source);
-			Uri(Uri&& Right);
+			Uri(Uri&& Right) noexcept;
 			~Uri();
 
 			Uri& operator=(const Uri& Source);
-			Uri& operator=(Uri&& Right);
+			Uri& operator=(Uri&& Right) noexcept;
 
 			// fields
 			static const String SchemeDelimiter;

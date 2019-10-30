@@ -27,13 +27,15 @@ namespace Elysium
 			namespace Generic
 			{
 				/*
+				//template <class T, int Size>
 				template <class T>
-				class ELYSIUM_CORE_API Array : public IList<T>
+				class Array : public IList<T>
 				{
 				public:
 					Array(size_t Length);
 					Array(std::initializer_list<T> InitializerList);
 					Array(const Array<T>& Source);
+					//Array(Array<T>&& Right);
 					~Array();
 				private:
 					size_t _Length;

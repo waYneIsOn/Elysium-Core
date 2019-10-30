@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "AssemblyName.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#include "../Elysium.Core/List.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -30,25 +34,34 @@ namespace Elysium
 		{
 			class ELYSIUM_CORE_API Assembly
 			{
+				friend class Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly>;
 			public:
 				Assembly(const Assembly& Source);
-				Assembly(Assembly&& Right);
+				Assembly(Assembly&& Right) noexcept;
 				virtual ~Assembly();
 
 				Assembly& operator=(const Assembly& Source);
-				Assembly& operator=(Assembly&& Right);
+				Assembly& operator=(Assembly&& Right) noexcept;
+
+				bool operator==(const Assembly& Other) const;
+				bool operator!=(const Assembly& Other) const;
+				bool operator<(const Assembly& Other) const;
+				bool operator>(const Assembly& Other) const;
+				bool operator<=(const Assembly& Other) const;
+				bool operator>=(const Assembly& Other) const;
 				
-				static Assembly GetEntryAssembly();
-				//static Assembly GetExecutingAssembly();
+				static Assembly& GetEntryAssembly();
+				//static Assembly& GetExecutingAssembly();
 
 				//const AssemblyName& FullName() const;
+
+				//static Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly> _RegisteredAssemblies;
+				//static std::map<Elysium::Core::Reflection::AssemblyName, Elysium::Core::Reflection::Assembly> _Bla;
 			protected:
 				Assembly();
 
-				//static std::map<x, y> _RegisteredAssemblies;
 			private:
-				const AssemblyName _AssemblyName;
-				const String _Location;
+				AssemblyName _AssemblyName;
 			};
 		}
 	}

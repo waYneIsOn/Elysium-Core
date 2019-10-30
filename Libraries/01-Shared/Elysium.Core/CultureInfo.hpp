@@ -27,12 +27,17 @@ namespace Elysium
 		public:
 			CultureInfo();
 			CultureInfo(int Culture);
+			CultureInfo(const CultureInfo& Source);
+			CultureInfo(CultureInfo&& Right) noexcept;
 			~CultureInfo();
+
+			CultureInfo& operator=(const CultureInfo& Source);
+			CultureInfo& operator=(CultureInfo&& Right) noexcept;
 
 			void GetName(String* Output) const;
 			int GetLCID() const;
 		private:
-			int _Culture;	// locale id (LCID)
+			int _LCID;	// locale id
 		};
 	}
 }

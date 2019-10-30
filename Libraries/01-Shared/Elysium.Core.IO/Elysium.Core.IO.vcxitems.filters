@@ -14,6 +14,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp">
       <Filter>Compression</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TextWriter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StreamWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -39,6 +41,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp">
       <Filter>Compression</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TextWriter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StreamWriter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

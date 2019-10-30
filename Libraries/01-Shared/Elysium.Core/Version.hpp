@@ -34,18 +34,18 @@ namespace Elysium
 			Version(const uint32_t& Major, const uint32_t& Minor, const uint32_t& Build);
 			Version(const uint32_t& Major, const uint32_t& Minor, const uint32_t& Build, const uint32_t& Revision);
 			Version(const Version& Source);
-			Version(Version&& Right);
+			Version(Version&& Right) noexcept;
 			~Version();
 
 			Version& operator=(const Version& Other);
-			Version& operator=(Version&& Right);
+			Version& operator=(Version&& Right) noexcept;
 
-			bool operator==(const Version& Other);
-			bool operator!=(const Version& Other);
-			bool operator<(const Version& Other);
-			bool operator>(const Version& Other);
-			bool operator<=(const Version& Other);
-			bool operator>=(const Version& Other);
+			bool operator==(const Version& Other) const;
+			bool operator!=(const Version& Other) const;
+			bool operator<(const Version& Other) const;
+			bool operator>(const Version& Other) const;
+			bool operator<=(const Version& Other) const;
+			bool operator>=(const Version& Other) const;
 
 			friend Elysium::Core::IO::Stream& operator<<(Elysium::Core::IO::Stream& Target, const Version& Version);
 			friend Elysium::Core::IO::Stream& operator>>(Elysium::Core::IO::Stream& Source, const Version& Version);
@@ -63,7 +63,7 @@ namespace Elysium
 			uint32_t _Build;
 			uint32_t _Revision;
 
-			uint32_t Compare(const Version& Other);
+			uint32_t Compare(const Version& Other) const;
 		};
 	}
 }

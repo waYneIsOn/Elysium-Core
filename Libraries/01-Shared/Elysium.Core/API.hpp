@@ -9,7 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_API
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
 #ifdef ELYSIUMCORE_EXPORTS
 #define ELYSIUM_CORE_API __declspec(dllexport)
 #else
@@ -17,8 +17,12 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 #elif defined(__ANDROID__)
 #define EXPORT
+#elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))
+
+#elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
+
 #else
-#error "undefined os"
+#error "unsupported os"
 #endif
 
 #endif

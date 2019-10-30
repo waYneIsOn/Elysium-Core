@@ -189,29 +189,29 @@ _Connection.Close();
 				// __int64 (bigint)
 				std::unique_ptr<IDataParameter> Int64Parameter = InsertCommand->CreateParameter();
 				Int64Parameter->SetValue(9223372036854775807);
-				InsertCommand->GetParameters()->Add(Int64Parameter.get());
+				InsertCommand->GetParameters()->Add(*Int64Parameter.get());
 
 				std::unique_ptr<IDataParameter> Int64NullParameter = InsertCommand->CreateParameter();
 				Int64NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(Int64NullParameter.get());
+				InsertCommand->GetParameters()->Add(*Int64NullParameter.get());
 
 				// BYTE (binary)
 				std::unique_ptr<IDataParameter> ByteParameter = InsertCommand->CreateParameter();
 				ByteParameter->SetValue((BYTE)'v');	//0x76
-				InsertCommand->GetParameters()->Add(ByteParameter.get());
+				InsertCommand->GetParameters()->Add(*ByteParameter.get());
 
 				std::unique_ptr<IDataParameter> ByteNullParameter = InsertCommand->CreateParameter();
 				ByteNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(ByteNullParameter.get());
+				InsertCommand->GetParameters()->Add(*ByteNullParameter.get());
 
 				// bool (bit)
 				std::unique_ptr<IDataParameter> BoolParameter = InsertCommand->CreateParameter();
 				BoolParameter->SetValue(true);
-				InsertCommand->GetParameters()->Add(BoolParameter.get());
+				InsertCommand->GetParameters()->Add(*BoolParameter.get());
 
 				std::unique_ptr<IDataParameter> BoolNullParameter = InsertCommand->CreateParameter();
 				BoolNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(BoolNullParameter.get());
+				InsertCommand->GetParameters()->Add(*BoolNullParameter.get());
 
 				// char (option 1)
 				/*
@@ -240,50 +240,50 @@ _Connection.Close();
 
 				std::unique_ptr<IDataParameter> StreamedStringParameter = InsertCommand->CreateParameter();
 				StreamedStringParameter->SetValue(&StringStream);
-				InsertCommand->GetParameters()->Add(StreamedStringParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedStringNullParameter = InsertCommand->CreateParameter();
 				StreamedStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(StreamedStringNullParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedStringNullParameter.get());
 
 				// DateTime (date)
 				std::unique_ptr<IDataParameter> DateParameter = InsertCommand->CreateParameter();
 				DateParameter->SetValue(&DateTime(2012, 06, 18));
 				DateParameter->SetDbType(DbType::Date);
-				InsertCommand->GetParameters()->Add(DateParameter.get());
+				InsertCommand->GetParameters()->Add(*DateParameter.get());
 
 				std::unique_ptr<IDataParameter> DateNullParameter = InsertCommand->CreateParameter();
 				DateNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(DateNullParameter.get());
+				InsertCommand->GetParameters()->Add(*DateNullParameter.get());
 
 				// DateTime (datetime2)
 				std::unique_ptr<IDataParameter> DateTime2Parameter = InsertCommand->CreateParameter();
 				DateTime2Parameter->SetValue(&DateTime(2012, 06, 18, 22, 34, 9));
 				DateTime2Parameter->SetDbType(DbType::DateTime2);
-				InsertCommand->GetParameters()->Add(DateTime2Parameter.get());
+				InsertCommand->GetParameters()->Add(*DateTime2Parameter.get());
 
 				std::unique_ptr<IDataParameter> DateTime2NullParameter = InsertCommand->CreateParameter();
 				DateTime2NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(DateTime2NullParameter.get());
+				InsertCommand->GetParameters()->Add(*DateTime2NullParameter.get());
 
 				// DateTime (datetime)
 				std::unique_ptr<IDataParameter> DateTimeParameter = InsertCommand->CreateParameter();
 				DateTimeParameter->SetValue(&DateTime(2012, 06, 18, 22, 34, 9));
 				DateTimeParameter->SetDbType(DbType::DateTime);
-				InsertCommand->GetParameters()->Add(DateTimeParameter.get());
+				InsertCommand->GetParameters()->Add(*DateTimeParameter.get());
 
 				std::unique_ptr<IDataParameter> DateTimeNullParameter = InsertCommand->CreateParameter();
 				DateTimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(DateTimeNullParameter.get());
+				InsertCommand->GetParameters()->Add(*DateTimeNullParameter.get());
 
 				// DateTimeOffset (datetimeoffset)
 				std::unique_ptr<IDataParameter> DateTimeOffsetParameter = InsertCommand->CreateParameter();
 				DateTimeOffsetParameter->SetValue(&DateTimeOffset(DateTime(2025, 12, 10, 12, 32, 10), TimeSpan::FromHours(1.0)));
-				InsertCommand->GetParameters()->Add(DateTimeOffsetParameter.get());
+				InsertCommand->GetParameters()->Add(*DateTimeOffsetParameter.get());
 
 				std::unique_ptr<IDataParameter> DateTimeOffsetNullParameter = InsertCommand->CreateParameter();
 				DateTimeOffsetNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(DateTimeOffsetNullParameter.get());
+				InsertCommand->GetParameters()->Add(*DateTimeOffsetNullParameter.get());
 				/*
 				// decimal
 				decimal DecimalValue;
@@ -301,11 +301,11 @@ _Connection.Close();
 				// float
 				std::unique_ptr<IDataParameter> SingleParameter = InsertCommand->CreateParameter();
 				SingleParameter->SetValue(0.27f);
-				InsertCommand->GetParameters()->Add(SingleParameter.get());
+				InsertCommand->GetParameters()->Add(*SingleParameter.get());
 
 				std::unique_ptr<IDataParameter> SingleNullParameter = InsertCommand->CreateParameter();
 				SingleNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(SingleNullParameter.get());
+				InsertCommand->GetParameters()->Add(*SingleNullParameter.get());
 
 				// geography - ToDo: mssql specific type
 
@@ -317,29 +317,29 @@ _Connection.Close();
 				Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + L"\\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
 				std::unique_ptr<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 				ImageParameter->SetValue(&ImageStream);
-				InsertCommand->GetParameters()->Add(ImageParameter.get());
+				InsertCommand->GetParameters()->Add(*ImageParameter.get());
 
 				std::unique_ptr<IDataParameter> ImageNullParameter = InsertCommand->CreateParameter();
 				ImageNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(ImageNullParameter.get());
+				InsertCommand->GetParameters()->Add(*ImageNullParameter.get());
 
 				// __int32 (int)
 				std::unique_ptr<IDataParameter> Int32Parameter = InsertCommand->CreateParameter();
 				Int32Parameter->SetValue((__int32)23);
-				InsertCommand->GetParameters()->Add(Int32Parameter.get());
+				InsertCommand->GetParameters()->Add(*Int32Parameter.get());
 
 				std::unique_ptr<IDataParameter> Int32NullParameter = InsertCommand->CreateParameter();
 				Int32NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(Int32NullParameter.get());
+				InsertCommand->GetParameters()->Add(*Int32NullParameter.get());
 
 				// money
 				std::unique_ptr<IDataParameter> MoneyParameter = InsertCommand->CreateParameter();
 				MoneyParameter->SetValue(37.56);
-				InsertCommand->GetParameters()->Add(MoneyParameter.get());
+				InsertCommand->GetParameters()->Add(*MoneyParameter.get());
 
 				std::unique_ptr<IDataParameter> MoneyNullParameter = InsertCommand->CreateParameter();
 				MoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(MoneyNullParameter.get());
+				InsertCommand->GetParameters()->Add(*MoneyNullParameter.get());
 
 				// nchar (option 1)
 				/*
@@ -368,11 +368,11 @@ _Connection.Close();
 
 				std::unique_ptr<IDataParameter> StreamedWStringParameter = InsertCommand->CreateParameter();
 				StreamedWStringParameter->SetValue(&WStringStream);
-				InsertCommand->GetParameters()->Add(StreamedWStringParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedWStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedWStringNullParameter = InsertCommand->CreateParameter();
 				StreamedWStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(StreamedWStringNullParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedWStringNullParameter.get());
 
 				// ntext (option 1)
 				/*
@@ -401,31 +401,31 @@ _Connection.Close();
 
 				std::unique_ptr<IDataParameter> StreamedWTextStringParameter = InsertCommand->CreateParameter();
 				StreamedWTextStringParameter->SetValue(&WTextStringStream);
-				InsertCommand->GetParameters()->Add(StreamedWTextStringParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedWTextStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedWTextStringNullParameter = InsertCommand->CreateParameter();
 				StreamedWTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(StreamedWTextStringNullParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedWTextStringNullParameter.get());
 
 				// numeric (decimal)
 
 				// nvarchar
 				std::unique_ptr<IDataParameter> NVarCharParameter = InsertCommand->CreateParameter();
 				NVarCharParameter->SetValue(L'n');
-				InsertCommand->GetParameters()->Add(NVarCharParameter.get());
+				InsertCommand->GetParameters()->Add(*NVarCharParameter.get());
 
 				std::unique_ptr<IDataParameter> NVarCharNullParameter = InsertCommand->CreateParameter();
 				NVarCharNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(NVarCharNullParameter.get());
+				InsertCommand->GetParameters()->Add(*NVarCharNullParameter.get());
 
 				// real
 				std::unique_ptr<IDataParameter> RealParameter = InsertCommand->CreateParameter();
 				RealParameter->SetValue(23.559999465942383f);
-				InsertCommand->GetParameters()->Add(RealParameter.get());
+				InsertCommand->GetParameters()->Add(*RealParameter.get());
 
 				std::unique_ptr<IDataParameter> RealNullParameter = InsertCommand->CreateParameter();
 				RealNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(RealNullParameter.get());
+				InsertCommand->GetParameters()->Add(*RealNullParameter.get());
 				/*
 				// smalldatetime - ToDo: mssql specific type
 				std::unique_ptr<IDataParameter> SmallDateTimeParameter = InsertCommand->CreateParameter();
@@ -440,20 +440,20 @@ _Connection.Close();
 				// int16 (smallint)
 				std::unique_ptr<IDataParameter> Int16Parameter = InsertCommand->CreateParameter();
 				Int16Parameter->SetValue(23);
-				InsertCommand->GetParameters()->Add(Int16Parameter.get());
+				InsertCommand->GetParameters()->Add(*Int16Parameter.get());
 
 				std::unique_ptr<IDataParameter> Int16NullParameter = InsertCommand->CreateParameter();
 				Int16NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(Int16NullParameter.get());
+				InsertCommand->GetParameters()->Add(*Int16NullParameter.get());
 
 				// float (smallmoney)
 				std::unique_ptr<IDataParameter> SmallmoneyParameter = InsertCommand->CreateParameter();
 				SmallmoneyParameter->SetValue(75.45f);
-				InsertCommand->GetParameters()->Add(SmallmoneyParameter.get());
+				InsertCommand->GetParameters()->Add(*SmallmoneyParameter.get());
 
 				std::unique_ptr<IDataParameter> SmallmoneyNullParameter = InsertCommand->CreateParameter();
 				SmallmoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(SmallmoneyNullParameter.get());
+				InsertCommand->GetParameters()->Add(*SmallmoneyNullParameter.get());
 
 				// sql_variant
 
@@ -486,20 +486,20 @@ _Connection.Close();
 
 				std::unique_ptr<IDataParameter> StreamedTextStringParameter = InsertCommand->CreateParameter();
 				StreamedTextStringParameter->SetValue(&TextStringStream);
-				InsertCommand->GetParameters()->Add(StreamedTextStringParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedTextStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedTextStringNullParameter = InsertCommand->CreateParameter();
 				StreamedTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(StreamedTextStringNullParameter.get());
+				InsertCommand->GetParameters()->Add(*StreamedTextStringNullParameter.get());
 
 				// time
 				std::unique_ptr<IDataParameter> TimeParameter = InsertCommand->CreateParameter();
 				TimeParameter->SetValue(&TimeSpan(13, 37, 27));
-				InsertCommand->GetParameters()->Add(TimeParameter.get());
+				InsertCommand->GetParameters()->Add(*TimeParameter.get());
 
 				std::unique_ptr<IDataParameter> TimeNullParameter = InsertCommand->CreateParameter();
 				TimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(TimeNullParameter.get());
+				InsertCommand->GetParameters()->Add(*TimeNullParameter.get());
 				/*
 				// timestamp - this datatype equals a 'rowversion' and doesn't contain DateTime-information as the name might imply
 				std::unique_ptr<IDataParameter> RowVersionParameter = InsertCommand->CreateParameter();
@@ -509,22 +509,22 @@ _Connection.Close();
 				// BYTE (tinyint)
 				std::unique_ptr<IDataParameter> TinyIntParameter = InsertCommand->CreateParameter();
 				TinyIntParameter->SetValue((unsigned short)17);
-				InsertCommand->GetParameters()->Add(TinyIntParameter.get());
+				InsertCommand->GetParameters()->Add(*TinyIntParameter.get());
 
 				std::unique_ptr<IDataParameter> TinyIntNullParameter = InsertCommand->CreateParameter();
 				TinyIntNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(TinyIntNullParameter.get());
+				InsertCommand->GetParameters()->Add(*TinyIntNullParameter.get());
 
 				// GUID (uniqueidentifier)
 				std::unique_ptr<IDataParameter> GuidParameter = InsertCommand->CreateParameter();
 				GuidParameter->SetValue(&Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70"));
-				InsertCommand->GetParameters()->Add(GuidParameter.get());
+				InsertCommand->GetParameters()->Add(*GuidParameter.get());
 
 				//Assert::AreEqual("ae019609-99e0-4ef5-85bb-ad90dc302e70", Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70").ToString().c_str());
 
 				std::unique_ptr<IDataParameter> GuidNullParameter = InsertCommand->CreateParameter();
 				GuidNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(GuidNullParameter.get());
+				InsertCommand->GetParameters()->Add(*GuidNullParameter.get());
 
 				// varbinary
 
@@ -534,11 +534,11 @@ _Connection.Close();
 				std::unique_ptr<IDataParameter> XmlParameter = InsertCommand->CreateParameter();
 				XmlParameter->SetValue(&std::string("<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>"));
 				//XmlParameter->SetDbType(DbType::Xml);
-				InsertCommand->GetParameters()->Add(XmlParameter.get());
+				InsertCommand->GetParameters()->Add(*XmlParameter.get());
 
 				std::unique_ptr<IDataParameter> XmlNullParameter = InsertCommand->CreateParameter();
 				XmlNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(XmlNullParameter.get());
+				InsertCommand->GetParameters()->Add(*XmlNullParameter.get());
 
 				PerformDataInsertionTest(InsertCommand.get());
 
@@ -552,7 +552,7 @@ _Connection.Close();
 				UpdateCommand->SetCommandText(L"UPDATE AllDataTypes SET [bigintNull] = ?");
 				std::unique_ptr<IDataParameter> UpdateParameter = UpdateCommand->CreateParameter();
 				UpdateParameter->SetValue((__int64)123);
-				UpdateCommand->GetParameters()->Add(UpdateParameter.get());
+				UpdateCommand->GetParameters()->Add(*UpdateParameter.get());
 				UpdateCommand->ExecuteNonQuery();
 
 				// perform D test

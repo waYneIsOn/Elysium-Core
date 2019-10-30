@@ -4,11 +4,11 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket * Socket)
+Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket & Socket)
 	: Elysium::Core::Net::Sockets::NetworkStream(Socket, false)
 {
 }
-Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket * Socket, bool OwnsSocket)
+Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket & Socket, bool OwnsSocket)
 	: Elysium::Core::IO::Stream(),
 	_Socket(Socket),
 	_OwnsSocket(OwnsSocket)
@@ -18,8 +18,7 @@ Elysium::Core::Net::Sockets::NetworkStream::~NetworkStream()
 {
 	if (_OwnsSocket)
 	{
-		_Socket->Disconnect(true);
-		_Socket = nullptr;	// don't delete the object!
+		_Socket.Disconnect(true);
 	}
 }
 
@@ -88,9 +87,9 @@ void Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, cons
 }
 size_t Elysium::Core::Net::Sockets::NetworkStream::Read(byte * Buffer, const size_t Count)
 {
-	return _Socket->Receive(&Buffer[0], Count);
+	return _Socket.Receive(&Buffer[0], Count);
 }
 void Elysium::Core::Net::Sockets::NetworkStream::Write(const byte * Buffer, const size_t Count)
 {
-	size_t BytesSent = _Socket->Send(&Buffer[0], Count);
+	size_t BytesSent = _Socket.Send(&Buffer[0], Count);
 }

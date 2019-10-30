@@ -8,15 +8,15 @@ Elysium::Core::Reflection::Type::~Type()
 {
 }
 
-bool Elysium::Core::Reflection::Type::GetIsArray()
+const bool Elysium::Core::Reflection::Type::GetIsArray() const
 {
 	return _IsArray;
 }
-bool Elysium::Core::Reflection::Type::GetIsEnum()
+const bool Elysium::Core::Reflection::Type::GetIsEnum() const
 {
 	return _IsEnum;
 }
-bool Elysium::Core::Reflection::Type::GetIsClass()
+const bool Elysium::Core::Reflection::Type::GetIsClass() const
 {
 	return _IsClass;
 }
@@ -24,6 +24,31 @@ bool Elysium::Core::Reflection::Type::GetIsClass()
 const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const
 {
 	throw NotImplementedException(L"const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const");
+}
+
+bool Elysium::Core::Reflection::Type::operator==(const Type & Other) const
+{
+	return _HashCode == Other._HashCode;
+}
+bool Elysium::Core::Reflection::Type::operator!=(const Type & Other) const
+{
+	return _HashCode != Other._HashCode;
+}
+bool Elysium::Core::Reflection::Type::operator<(const Type & Other) const
+{
+	return _HashCode < Other._HashCode;
+}
+bool Elysium::Core::Reflection::Type::operator>(const Type & Other) const
+{
+	return _HashCode > Other._HashCode;
+}
+bool Elysium::Core::Reflection::Type::operator<=(const Type & Other) const
+{
+	return _HashCode <= Other._HashCode;
+}
+bool Elysium::Core::Reflection::Type::operator>=(const Type & Other) const
+{
+	return _HashCode >= Other._HashCode;
 }
 
 Elysium::Core::Reflection::Type::Type()

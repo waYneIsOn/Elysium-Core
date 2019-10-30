@@ -27,6 +27,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StreamWriter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TextWriter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
@@ -36,5 +38,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StreamWriter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TextWriter.cpp" />
   </ItemGroup>
 </Project>

@@ -23,8 +23,6 @@ namespace UnitTestsCore
 			int ProcessorCount = Environment::ProcessorCount();
 			String UserName = Environment::UserName();
 			String SystemDirectory = Environment::SystemDirectory();
-
-			int x = 345;
 		}
 	};
 }
