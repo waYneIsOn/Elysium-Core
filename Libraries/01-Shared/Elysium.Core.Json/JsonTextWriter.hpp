@@ -29,25 +29,10 @@ namespace Elysium
 			public:
 				JsonTextWriter(Elysium::Core::IO::TextWriter& Writer);
 				~JsonTextWriter();
-
-				virtual void WriteStartObject() override;
-				virtual void WriteEndObject() override;
-
-				virtual void WriteStartArray() override;
-				virtual void WriteEndArray() override;
-
-				virtual void WritePropertyName(const String& Name) override;
-
-				virtual void WriteValue(const int& Value) override;
-				virtual void WriteValue(const String& Value) override;
-
-				virtual void WriteNull() override;
-
-				virtual void WriteComment(const String& Comment) override;
 			protected:
-				virtual void WriteIndent() override;
-				virtual void WriteValueDelimiter() override;
-				virtual void WriteIndentSpace() override;
+				virtual void WriteString(const char& Value) override;
+				virtual void WriteString(const wchar_t& Value) override;
+				virtual void WriteString(const String& Value) override;
 			private:
 				Elysium::Core::IO::TextWriter& _Writer;
 			};

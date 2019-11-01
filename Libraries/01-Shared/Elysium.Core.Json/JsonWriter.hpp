@@ -33,26 +33,55 @@ namespace Elysium
 			public:
 				virtual ~JsonWriter() {}
 
-				virtual void WriteStartObject();
-				virtual void WriteEndObject();
+				void WriteStartObject();
+				void WriteEndObject();
 
-				virtual void WriteStartArray();
-				virtual void WriteEndArray();
+				void WriteStartArray();
+				void WriteEndArray();
 
-				virtual void WritePropertyName(const String& Name);
+				void WritePropertyName(const String& Name);
 
-				virtual void WriteValue(const int& Value);
-				virtual void WriteValue(const String& Value);
+				void WriteValue(const bool& Value);
+				void WriteValue(const int& Value);
+				void WriteValue(const float& Value);
+				void WriteValue(const double& Value);
+				void WriteValue(const wchar_t* Value);
+				void WriteValue(const String& Value);
 
-				virtual void WriteNull();
+				void WriteNull();
 
-				virtual void WriteComment(const String& Comment);
+				void WriteComment(const String& Comment);
 			protected:
-				virtual void WriteIndent();
-				virtual void WriteValueDelimiter();
-				virtual void WriteIndentSpace();
-			protected:
+				void WriteIndent();
+				void WriteValueDelimiter();
+				void WriteIndentSpace();
+
+				virtual void WriteString(const char& Value) = 0;
+				virtual void WriteString(const wchar_t& Value) = 0;
+				virtual void WriteString(const String& Value) = 0;
+
 				JsonWriter();
+			private:
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+				enum class JsonWriterState : long
+#elif defined(__ANDROID__)
+				enum class JsonWriterState
+#else
+#error "undefined os"
+#endif
+				{
+					Initialized = 0,
+					StartedObject = 1,
+					WritingObject = 2,
+					StartedProperty = 3,
+					StartedArray = 4,
+					WritingArray = 5,
+					Finished = 6,
+					Error = 7
+				};
+
+				JsonWriterState _State;
+				uint16_t _Depth;
 			};
 		}
 	}

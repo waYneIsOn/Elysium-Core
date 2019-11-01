@@ -40,8 +40,52 @@ namespace UnitTestsCore
 			JsonWriter.WriteStartObject();
 			JsonWriter.WritePropertyName(L"Int");
 			JsonWriter.WriteValue(5448);
+			JsonWriter.WritePropertyName(L"Bool1");
+			JsonWriter.WriteValue(true);
+			JsonWriter.WritePropertyName(L"Bool2");
+			JsonWriter.WriteValue(false);
 			JsonWriter.WritePropertyName(L"Float");
+			JsonWriter.WriteValue(13.37f);
+			JsonWriter.WritePropertyName(L"Double");
 			JsonWriter.WriteValue(13.37);
+			JsonWriter.WritePropertyName(L"String");
+			JsonWriter.WriteValue(L"SomeValue");
+
+			// ToDo: this results in invalid json
+			JsonWriter.WritePropertyName(L"IntArray");
+			JsonWriter.WriteStartArray();
+			JsonWriter.WriteValue(1);
+			JsonWriter.WriteValue(2);
+			JsonWriter.WriteValue(3);
+			JsonWriter.WriteEndArray();
+			
+			JsonWriter.WritePropertyName(L"SomeObject");
+			JsonWriter.WriteStartObject();
+			JsonWriter.WritePropertyName(L"Property1");
+			JsonWriter.WriteValue(L"Value1");
+			JsonWriter.WritePropertyName(L"Property2");
+			JsonWriter.WriteValue(L"Value2");
+			JsonWriter.WritePropertyName(L"Property3");
+			JsonWriter.WriteStartArray();
+			/*
+			// ToDo: this results in invalid json
+			JsonWriter.WriteStartArray();
+			JsonWriter.WriteEndArray();
+			JsonWriter.WriteStartArray();
+			JsonWriter.WriteEndArray();
+			*/
+			JsonWriter.WriteEndArray();
+			JsonWriter.WriteEndObject();
+			/*
+			// ToDo: this results in invalid json - can there even be an empty object or should it be null?
+			JsonWriter.WritePropertyName(L"SomeEmptyObject");
+			JsonWriter.WriteStartObject();
+			JsonWriter.WriteEndObject();
+			*/
+			JsonWriter.WritePropertyName(L"NullValue");
+			JsonWriter.WriteNull();
+			JsonWriter.WritePropertyName(L"String");
+			JsonWriter.WriteValue(L"SomeValue");
 			JsonWriter.WriteEndObject();
 
 			// check
