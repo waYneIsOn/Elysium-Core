@@ -264,6 +264,6 @@ void Elysium::Core::IO::TextWriter::WriteLine()
 }
 
 Elysium::Core::IO::TextWriter::TextWriter()
-	: _NewLineCharacters(Environment::NewLine())
+	: _NewLineCharacters(Elysium::Core::String(Environment::NewLine()))
 {
 }

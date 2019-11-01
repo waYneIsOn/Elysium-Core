@@ -12,6 +12,34 @@
 #include <thread>
 #endif
 
+#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
+#ifdef UNICODE
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\r\n";
+#else
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\r\n";
+#endif
+#elif defined(UNIX)	// ToDo
+#ifdef UNICODE
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\n";
+#else
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\n";
+#endif
+#elif defined(PREOSX_MAC)	// ToDo
+#ifdef UNICODE
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\r";
+#else
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\r";
+#endif
+#elif defined(__ANDROID__)	// ToDo
+#ifdef UNICODE
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\n";
+#else
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\n";
+#endif
+#else
+#error "unsupported os"
+#endif
+
 Elysium::Core::Environment::~Environment()
 {
 }
@@ -38,35 +66,9 @@ Elysium::Core::String Elysium::Core::Environment::MachineName()
 		throw InvalidOperationException(L"The name of this computer cannot be obtained.");
 	}
 }
-Elysium::Core::String Elysium::Core::Environment::NewLine()
+const Elysium::Core::String & Elysium::Core::Environment::NewLine()
 {
-#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
-#ifdef UNICODE
-	return L"\r\n";
-#else
-	return "\r\n";
-#endif
-#elif defined(UNIX)	// ToDo
-#ifdef UNICODE
-	return L"\n";
-#else
-	return "\n";
-#endif
-#elif defined(PREOSX_MAC)	// ToDo
-#ifdef UNICODE
-	return L"\r";
-#else
-	return "\r";
-#endif
-#elif defined(__ANDROID__)	// ToDo
-#ifdef UNICODE
-	return L"\n";
-#else
-	return "\n";
-#endif
-#else
-#error "unsupported os"
-#endif
+	return _NewLineCharacters;
 }
 Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 {

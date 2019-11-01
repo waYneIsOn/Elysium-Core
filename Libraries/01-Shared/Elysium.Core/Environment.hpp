@@ -33,13 +33,15 @@ namespace Elysium
 
 			static bool Is64BitProcess();
 			static String MachineName();
-			static String NewLine();
+			static const String& NewLine();
 			static OperatingSystem OSVersion();
 			static int ProcessorCount();
 			static String UserName();
 			static String SystemDirectory();
 		private:
 			Environment();
+
+			static const String _NewLineCharacters;
 		};
 	}
 }

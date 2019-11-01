@@ -30,7 +30,7 @@ namespace Elysium
 			// constructors & destructor
 			Exception();
 			Exception(const String& Message);
-			~Exception();
+			virtual ~Exception();
 
 			// properties - getter
 			const Exception* GetInnerException() const;
