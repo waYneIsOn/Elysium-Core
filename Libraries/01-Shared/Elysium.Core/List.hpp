@@ -64,7 +64,7 @@ namespace Elysium
 				public:
 					List();
 					List(size_t Capacity);
-					List(std::initializer_list<T> InitializerList);
+					List(const std::initializer_list<T>& InitializerList);
 					List(const List<T>& Source);
 					List(List<T>&& Right) noexcept;
 					~List();
@@ -119,7 +119,7 @@ namespace Elysium
 					_Count(_Capacity)
 				{ }
 				template<class T>
-				inline List<T>::List(std::initializer_list<T> InitializerList)
+				inline List<T>::List(const std::initializer_list<T> & InitializerList)
 					: _Capacity(InitializerList.size()),
 					_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
 					_Count(_Capacity)
@@ -128,7 +128,7 @@ namespace Elysium
 					typename std::initializer_list<T>::iterator Iterator;
 					for (Iterator = InitializerList.begin(); Iterator < InitializerList.end(); ++Iterator)
 					{
-						_Data[i++] = std::move(*Iterator);
+						_Data[i++] = T(*Iterator);
 					}
 				}
 				template<class T>
@@ -139,7 +139,7 @@ namespace Elysium
 				{
 					for (size_t i = 0; i < _Capacity; i++)
 					{
-						_Data[i] = std::move(Source._Data[i]);
+						_Data[i] = T(Source._Data[i]);
 					}
 				}
 				template<typename T>
@@ -213,7 +213,7 @@ namespace Elysium
 						_Count = Value._Count;
 						for (size_t i = 0; i < _Count; i++)
 						{
-							_Data[i] = std::move(Value._Data[i]);
+							_Data[i] = T(Value._Data[i]);
 							i++;
 						}
 					}
@@ -238,7 +238,7 @@ namespace Elysium
 					Resize(_Count + 1);
 
 					// use the copy constructor to clone the element and increment the internal element counter
-					_Data[_Count] = std::move(Item);
+					_Data[_Count] = T(Item);
 					_Count++;
 				}
 				template<class T>
@@ -248,7 +248,7 @@ namespace Elysium
 					size_t CollectionCount = Collection->GetCount();
 					Resize(_Count + CollectionCount);
 
-					// use the copy constructor to clone all elements and increment the internal element counter
+					// use the move operator to move all elements and increment the internal element counter
 					for (size_t i = 0; i < CollectionCount; i++)
 					{
 						_Data[_Count] = std::move(Collection(i));
@@ -261,7 +261,7 @@ namespace Elysium
 					// resize if required
 					Resize(_Count + Count);
 
-					// use the copy constructor to clone all elements and increment the internal element counter
+					// use the move operator to move all elements and increment the internal element counter
 					for (size_t i = 0; i < Count; i++)
 					{
 						_Data[_Count] = std::move(Collection[i]);
@@ -321,7 +321,7 @@ namespace Elysium
 					Resize(_Count + 1, Index);
 
 					// use the copy constructor to clone the element and increment the internal element counter
-					_Data[Index] = std::move(Item);
+					_Data[Index] = T(Item);
 					_Count++;
 				}
 				template<typename T>
@@ -370,14 +370,14 @@ namespace Elysium
 					}
 
 					// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-					//memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_Count - Index));
-					
+					memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_Count - Index));
+					/*
 					// move all old elements right of InsertionIndex to _Data using the copy constructor
 					for (size_t i = Index; i < _Count; i++)
 					{
 						_Data[i] = std::move(_Data[i + 1]);
 					}
-					
+					*/
 					_Count--;
 				}
 				template<typename T>
@@ -389,11 +389,13 @@ namespace Elysium
 					}
 
 					// ToDo: I think, in this case we can actually use memcpy
-					//memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_Count - Index));
+					memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_Count - Index));
+					/*
 					for (size_t i = Index; i < Index + Count; i++)
 					{
 						_Data[i] = std::move(_Data[i + 1]);
 					}
+					*/
 					_Count -= Count;
 				}
 				template<typename T>
@@ -436,7 +438,7 @@ namespace Elysium
 						_Data = new T[ActualCapacity];
 						_Capacity = ActualCapacity;
 
-						// copy all old elements to _Data using the copy constructor
+						// copy all old elements to _Data using the move operator
 						for (size_t i = 0; i < _Count; i++)
 						{
 							_Data[i] = std::move(OldData[i]);
@@ -480,13 +482,13 @@ namespace Elysium
 						_Data = new T[ActualCapacity];
 						_Capacity = ActualCapacity;
 
-						// copy all old elements left of InsertionIndex to _Data using the copy constructor
+						// move all old elements left of InsertionIndex to _Data using the move operator
 						for (size_t i = 0; i < InsertionIndex; i++)
 						{
 							_Data[i] = std::move(OldData[i]);
 						}
 
-						// copy all old elements right of InsertionIndex to _Data using the copy constructor
+						// move all old elements right of InsertionIndex to _Data using the move oeprator
 						for (size_t i = _Count - 1; i >= InsertionIndex; i--)
 						{
 							_Data[i + 1] = std::move(OldData[i]);
@@ -498,13 +500,14 @@ namespace Elysium
 					else
 					{
 						// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-						//memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
-						
+						memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
+						/*
 						// copy all old elements right of InsertionIndex to _Data using the copy constructor
 						for (size_t i = _Count - 1; i >= InsertionIndex; i--)
 						{
 							_Data[i + 1] = std::move(_Data[i]);
 						}
+						*/
 					}
 				}
 			}
