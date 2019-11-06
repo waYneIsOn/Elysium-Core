@@ -63,7 +63,7 @@ namespace Elysium
 				JsonWriter();
 			private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-				enum class JsonWriterState : long
+				enum class JsonWriterState : uint32_t
 #elif defined(__ANDROID__)
 				enum class JsonWriterState
 #else
@@ -76,12 +76,13 @@ namespace Elysium
 					StartedProperty = 3,
 					StartedArray = 4,
 					WritingArray = 5,
-					Finished = 6,
-					Error = 7
+					Finished = 6
 				};
 
 				JsonWriterState _State;
 				uint16_t _Depth;
+
+				void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
 			};
 		}
 	}

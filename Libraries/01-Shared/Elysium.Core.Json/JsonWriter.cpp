@@ -12,9 +12,13 @@
 #include <regex>
 #endif
 
+#ifndef ELYSIUM_CORE_JSON_JSONWRITEREXCEPTION
+#include "JsonWriterException.hpp"
+#endif
+
 void Elysium::Core::Json::JsonWriter::WriteStartObject()
 {
-	_State = JsonWriter::JsonWriterState::StartedObject;
+	ValidateAndSet(JsonWriter::JsonWriterState::StartedObject);
 
 	if (_Depth > 0)
 	{
@@ -48,7 +52,7 @@ void Elysium::Core::Json::JsonWriter::WriteEndObject()
 
 	if (_Depth == 0)
 	{
-		_State = JsonWriter::JsonWriterState::Finished;
+		ValidateAndSet(JsonWriter::JsonWriterState::Finished);
 	}
 }
 
@@ -264,4 +268,43 @@ void Elysium::Core::Json::JsonWriter::WriteIndentSpace()
 Elysium::Core::Json::JsonWriter::JsonWriter()
 	: _State(JsonWriter::JsonWriterState::Initialized), _Depth(0)
 {
+}
+
+void Elysium::Core::Json::JsonWriter::ValidateAndSet(JsonWriter::JsonWriterState AspiredState)
+{
+	if (_State == JsonWriter::JsonWriterState::Initialized)
+	{
+		if (AspiredState != JsonWriter::JsonWriterState::StartedObject && AspiredState != JsonWriter::JsonWriterState::StartedArray)
+		{
+			throw JsonWriterException();
+		}
+	}
+	else if (_State == JsonWriter::JsonWriterState::StartedObject)
+	{
+		if (AspiredState != JsonWriter::JsonWriterState::StartedProperty)
+		{
+			throw JsonWriterException();
+		}
+	}
+	else if (_State == JsonWriter::JsonWriterState::StartedArray)
+	{
+		if (AspiredState != JsonWriter::JsonWriterState::StartedObject && AspiredState != JsonWriter::JsonWriterState::StartedArray)
+		{
+			throw JsonWriterException();
+		}
+	}
+	else if (_State == JsonWriter::JsonWriterState::StartedProperty)
+	{
+		if (AspiredState != JsonWriter::JsonWriterState::StartedObject && AspiredState != JsonWriter::JsonWriterState::StartedArray && 
+			AspiredState != JsonWriter::JsonWriterState::Finished)
+		{
+			throw JsonWriterException();
+		}
+	}
+	else if (_State == JsonWriter::JsonWriterState::Finished)
+	{
+		throw JsonWriterException();
+	}
+
+	_State = AspiredState;
 }
