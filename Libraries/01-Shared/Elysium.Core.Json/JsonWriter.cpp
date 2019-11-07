@@ -16,9 +16,33 @@
 #include "JsonWriterException.hpp"
 #endif
 
+const Elysium::Core::Json::JsonWriter::JsonWriterState Elysium::Core::Json::JsonWriter::_StateLookupTable[9][9] =
+{
+// AspiredState ->	Initialized					StartedObject						EndedObject						StartedArray					EndedArray,						PropertyName						PropertyValue							Finished					Error
+// _State (down)
+/*Initialized*/		{ JsonWriterState::Error,	JsonWriterState::StartedObject,		JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::Error,				JsonWriterState::Error,			JsonWriterState::Error,		JsonWriterState::Error },
+/*StartedObject*/	{ JsonWriterState::Error,	JsonWriterState::Error,				JsonWriterState::EndedObject,	JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::PropertyName,		JsonWriterState::Error,			JsonWriterState::Finished,	JsonWriterState::Error },
+/*EndedObject*/		{ JsonWriterState::Error,	JsonWriterState::StartedObject,		JsonWriterState::EndedObject,	JsonWriterState::Error,			JsonWriterState::EndedArray,	JsonWriterState::PropertyName,		JsonWriterState::Error,			JsonWriterState::Error,		JsonWriterState::Error },
+/*StartedArray*/	{ JsonWriterState::Error,	JsonWriterState::StartedObject,		JsonWriterState::Error,			JsonWriterState::StartedArray,	JsonWriterState::EndedArray,	JsonWriterState::PropertyName,		JsonWriterState::PropertyValue,	JsonWriterState::Error,		JsonWriterState::Error },
+/*EndedArray*/		{ JsonWriterState::Error,	JsonWriterState::Error,				JsonWriterState::Error,			JsonWriterState::StartedArray,	JsonWriterState::EndedArray,	JsonWriterState::PropertyName,		JsonWriterState::Error,			JsonWriterState::Finished,	JsonWriterState::Error },
+/*PropertyName*/	{ JsonWriterState::Error,	JsonWriterState::StartedObject,		JsonWriterState::Error,			JsonWriterState::StartedArray,	JsonWriterState::Error,			JsonWriterState::Error,				JsonWriterState::PropertyValue,	JsonWriterState::Error,		JsonWriterState::Error },
+/*PropertyValue*/	{ JsonWriterState::Error,	JsonWriterState::Error,				JsonWriterState::EndedObject,	JsonWriterState::Error,			JsonWriterState::EndedArray,	JsonWriterState::PropertyName,		JsonWriterState::PropertyValue,	JsonWriterState::Finished,	JsonWriterState::Error },
+/*Finished*/		{ JsonWriterState::Error,	JsonWriterState::Error,				JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::Error,				JsonWriterState::Error,			JsonWriterState::Error,		JsonWriterState::Error },
+/*Error*/			{ JsonWriterState::Error,	JsonWriterState::Error,				JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::Error,			JsonWriterState::Error,				JsonWriterState::Error,			JsonWriterState::Error,		JsonWriterState::Error },
+};
+
 void Elysium::Core::Json::JsonWriter::WriteStartObject()
 {
+	JsonWriter::JsonWriterState PreviousState = _State;
 	ValidateAndSet(JsonWriter::JsonWriterState::StartedObject);
+	if (PreviousState == JsonWriter::JsonWriterState::EndedObject)
+	{
+#ifdef UNICODE
+		WriteString(L',');
+#else
+		WriteString(',');
+#endif
+	}
 
 	if (_Depth > 0)
 	{
@@ -33,11 +57,19 @@ void Elysium::Core::Json::JsonWriter::WriteStartObject()
 #else
 	WriteString('{');
 #endif
-	WriteString(Environment::NewLine());
 	_Depth++;
 }
 void Elysium::Core::Json::JsonWriter::WriteEndObject()
 {
+	if (_Depth > 1)
+	{
+		ValidateAndSet(JsonWriter::JsonWriterState::EndedObject);
+	}
+	else
+	{
+		ValidateAndSet(JsonWriter::JsonWriterState::Finished);
+	}
+
 	WriteString(Environment::NewLine());
 	for (uint16_t i = 0; i < _Depth - 1; i++)
 	{
@@ -49,16 +81,20 @@ void Elysium::Core::Json::JsonWriter::WriteEndObject()
 	WriteString('}');
 #endif
 	_Depth--;
-
-	if (_Depth == 0)
-	{
-		ValidateAndSet(JsonWriter::JsonWriterState::Finished);
-	}
 }
 
 void Elysium::Core::Json::JsonWriter::WriteStartArray()
 {
-	_State = JsonWriter::JsonWriterState::StartedArray;
+	JsonWriter::JsonWriterState PreviousState = _State;
+	ValidateAndSet(JsonWriter::JsonWriterState::StartedArray);
+	if (PreviousState == JsonWriter::JsonWriterState::EndedArray)
+	{
+#ifdef UNICODE
+		WriteString(L',');
+#else
+		WriteString(',');
+#endif
+	}
 
 	WriteString(Environment::NewLine());
 	for (uint16_t i = 0; i < _Depth; i++)
@@ -74,6 +110,8 @@ void Elysium::Core::Json::JsonWriter::WriteStartArray()
 }
 void Elysium::Core::Json::JsonWriter::WriteEndArray()
 {
+	ValidateAndSet(JsonWriter::JsonWriterState::EndedArray);
+
 	WriteString(Environment::NewLine());
 	for (uint16_t i = 0; i < _Depth - 1; i++)
 	{
@@ -89,7 +127,14 @@ void Elysium::Core::Json::JsonWriter::WriteEndArray()
 
 void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 {
-	if (_State == JsonWriter::JsonWriterState::StartedProperty || _State == JsonWriter::JsonWriterState::StartedArray)
+	JsonWriter::JsonWriterState PreviousState = _State;
+	ValidateAndSet(JsonWriter::JsonWriterState::PropertyName);
+	if (PreviousState == JsonWriter::JsonWriterState::StartedObject)
+	{
+		WriteString(Environment::NewLine());
+	}
+	else if (PreviousState == JsonWriter::JsonWriterState::PropertyValue || PreviousState == JsonWriter::JsonWriterState::EndedObject || 
+		PreviousState == JsonWriter::JsonWriterState::EndedArray)
 	{
 #ifdef UNICODE
 		WriteString(L',');
@@ -98,13 +143,11 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 #endif
 		WriteString(Environment::NewLine());
 	}
-	_State = JsonWriter::JsonWriterState::StartedProperty;
 
 	for (uint16_t i = 0; i < _Depth; i++)
 	{
 		WriteIndent();
 	}
-
 #ifdef UNICODE
 	WriteString(L'"');
 #else
@@ -129,10 +172,7 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 
 void Elysium::Core::Json::JsonWriter::WriteValue(const bool & Value)
 {
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-	}
+	PrepareWritingValue();
 #ifdef UNICODE
 	WriteString(Value ? L"true" : L"false");
 #else
@@ -141,19 +181,33 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const bool & Value)
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const int & Value)
 {
+	PrepareWritingValue();
+#ifdef UNICODE
+	WriteString(std::to_wstring(Value).c_str());
+#else
+	WriteString(std::to_string(Value).c_str());
+#endif
+	/*
 	if (_State == JsonWriter::JsonWriterState::StartedProperty)
 	{
 		WriteIndentSpace();
 	}
 	else if (_State == JsonWriter::JsonWriterState::StartedArray)
 	{
-
+		ValidateAndSet(JsonWriter::JsonWriterState::StartedValue);
+		WriteString(Environment::NewLine());
+		for (uint16_t i = 0; i < _Depth; i++)
+		{
+			WriteIndent();
+		}
+	}
+	else if (_State == JsonWriter::JsonWriterState::StartedValue)
+	{
 #ifdef UNICODE
 		WriteString(L',');
 #else
 		WriteString(',');
 #endif
-
 		WriteString(Environment::NewLine());
 		for (uint16_t i = 0; i < _Depth; i++)
 		{
@@ -165,31 +219,37 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const int & Value)
 #else
 	WriteString(std::to_string(Value).c_str());
 #endif
-
+	*/
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const float & Value)
 {
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-}
+	PrepareWritingValue();
 #ifdef UNICODE
 	WriteString(std::to_wstring(Value).c_str());
 #else
 	WriteString(std::to_string(Value).c_str());
 #endif
-}
-void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
-{
+	/*
 	if (_State == JsonWriter::JsonWriterState::StartedProperty)
 	{
 		WriteIndentSpace();
 	}
+	*/
+}
+void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
+{
+	PrepareWritingValue();
 #ifdef UNICODE
 	WriteString(std::to_wstring(Value).c_str());
 #else
 	WriteString(std::to_string(Value).c_str());
 #endif
+	/*
+	if (_State == JsonWriter::JsonWriterState::StartedProperty)
+	{
+		WriteIndentSpace();
+	}
+	*/
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const wchar_t * Value)
 {
@@ -197,10 +257,7 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const wchar_t * Value)
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const String & Value)
 {
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-	}
+	PrepareWritingValue();
 #ifdef UNICODE
 	WriteString(L'"');
 #else
@@ -213,30 +270,21 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const String & Value)
 #else
 	WriteString('"');
 #endif
+	/*
+	if (_State == JsonWriter::JsonWriterState::StartedProperty)
+	{
+		WriteIndentSpace();
+	}
+	*/
 }
 
 void Elysium::Core::Json::JsonWriter::WriteNull()
 {
-	WriteIndentSpace();
+	PrepareWritingValue();
 #ifdef UNICODE
 	WriteString(L"null");
 #else
 	WriteString("null");
-#endif
-}
-
-void Elysium::Core::Json::JsonWriter::WriteComment(const String & Comment)
-{
-#ifdef UNICODE
-	WriteString(L"/*");
-#else
-	WriteString("/*");
-#endif
-	WriteString(Comment);
-#ifdef UNICODE
-	WriteString(L"*/");
-#else
-	WriteString("*/");
 #endif
 }
 
@@ -270,38 +318,39 @@ Elysium::Core::Json::JsonWriter::JsonWriter()
 {
 }
 
-void Elysium::Core::Json::JsonWriter::ValidateAndSet(JsonWriter::JsonWriterState AspiredState)
+void Elysium::Core::Json::JsonWriter::PrepareWritingValue()
 {
-	if (_State == JsonWriter::JsonWriterState::Initialized)
+	if (_State == JsonWriter::JsonWriterState::PropertyName)
 	{
-		if (AspiredState != JsonWriter::JsonWriterState::StartedObject && AspiredState != JsonWriter::JsonWriterState::StartedArray)
-		{
-			throw JsonWriterException();
-		}
-	}
-	else if (_State == JsonWriter::JsonWriterState::StartedObject)
-	{
-		if (AspiredState != JsonWriter::JsonWriterState::StartedProperty)
-		{
-			throw JsonWriterException();
-		}
+		WriteIndentSpace();
 	}
 	else if (_State == JsonWriter::JsonWriterState::StartedArray)
 	{
-		if (AspiredState != JsonWriter::JsonWriterState::StartedObject && AspiredState != JsonWriter::JsonWriterState::StartedArray)
+		WriteString(Environment::NewLine());
+		for (uint16_t i = 0; i < _Depth; i++)
 		{
-			throw JsonWriterException();
+			WriteIndent();
 		}
 	}
-	else if (_State == JsonWriter::JsonWriterState::StartedProperty)
+	else if (_State == JsonWriter::JsonWriterState::PropertyValue)
 	{
-		if (AspiredState != JsonWriter::JsonWriterState::StartedObject && AspiredState != JsonWriter::JsonWriterState::StartedArray && 
-			AspiredState != JsonWriter::JsonWriterState::Finished)
+#ifdef UNICODE
+		WriteString(L',');
+#else
+		WriteString(',');
+#endif
+		WriteString(Environment::NewLine());
+		for (uint16_t i = 0; i < _Depth; i++)
 		{
-			throw JsonWriterException();
+			WriteIndent();
 		}
 	}
-	else if (_State == JsonWriter::JsonWriterState::Finished)
+	ValidateAndSet(JsonWriter::JsonWriterState::PropertyValue);
+}
+void Elysium::Core::Json::JsonWriter::ValidateAndSet(JsonWriter::JsonWriterState AspiredState)
+{
+	JsonWriter::JsonWriterState NextState = _StateLookupTable[(uint32_t)_State][(uint32_t)AspiredState];
+	if (NextState == JsonWriter::JsonWriterState::Error)
 	{
 		throw JsonWriterException();
 	}

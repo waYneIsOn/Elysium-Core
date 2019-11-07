@@ -49,8 +49,6 @@ namespace Elysium
 				void WriteValue(const String& Value);
 
 				void WriteNull();
-
-				void WriteComment(const String& Comment);
 			protected:
 				void WriteIndent();
 				void WriteValueDelimiter();
@@ -71,17 +69,26 @@ namespace Elysium
 #endif
 				{
 					Initialized = 0,
+
 					StartedObject = 1,
-					WritingObject = 2,
-					StartedProperty = 3,
-					StartedArray = 4,
-					WritingArray = 5,
-					Finished = 6
+					EndedObject = 2,
+
+					StartedArray = 3,
+					EndedArray = 4,
+
+					PropertyName = 5,
+					PropertyValue = 6,
+
+					Finished = 7,
+					Error = 8
 				};
 
 				JsonWriterState _State;
 				uint16_t _Depth;
 
+				static const JsonWriterState _StateLookupTable[9][9];
+
+				void PrepareWritingValue();
 				void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
 			};
 		}
