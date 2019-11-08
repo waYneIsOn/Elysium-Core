@@ -90,6 +90,7 @@ namespace Elysium
 
 				void PrepareWritingValue();
 				void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
+				void WriteEscapedString(const String& Value);
 			};
 		}
 	}

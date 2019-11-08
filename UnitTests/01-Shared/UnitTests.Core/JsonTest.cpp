@@ -93,8 +93,8 @@ namespace UnitTestsCore
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteEndArray();
 			JsonWriter.WriteEndArray();
-			JsonWriter.WritePropertyName(L"SomeOtherString");
-			JsonWriter.WriteValue(L"SomeValue");
+			JsonWriter.WritePropertyName(L"StringWithSpecial\"Characters");
+			JsonWriter.WriteValue(L"\"\b\f\r\n\t.\\");
 			JsonWriter.WriteEndObject();
 			
 			// check

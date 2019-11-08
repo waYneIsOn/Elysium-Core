@@ -147,7 +147,6 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 #endif
 		WriteString(Environment::NewLine());
 	}
-
 	for (uint16_t i = 0; i < _Depth; i++)
 	{
 		WriteIndent();
@@ -157,11 +156,7 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 #else
 	WriteString('"');
 #endif
-	// [A-Za-z\s]	// A-Z and a-z and whitespaces
-	// [A-Za-z]	// A-Z and a-z
-	//std::regex_match()
-	// ToDo: quoting, escaping, (no numbers - can a name contain anything really???) etc.
-	WriteString(Name);
+	WriteEscapedString(Name);
 #ifdef UNICODE
 	WriteString(L'"');
 #else
@@ -191,39 +186,6 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const int & Value)
 #else
 	WriteString(std::to_string(Value).c_str());
 #endif
-	/*
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-	}
-	else if (_State == JsonWriter::JsonWriterState::StartedArray)
-	{
-		ValidateAndSet(JsonWriter::JsonWriterState::StartedValue);
-		WriteString(Environment::NewLine());
-		for (uint16_t i = 0; i < _Depth; i++)
-		{
-			WriteIndent();
-		}
-	}
-	else if (_State == JsonWriter::JsonWriterState::StartedValue)
-	{
-#ifdef UNICODE
-		WriteString(L',');
-#else
-		WriteString(',');
-#endif
-		WriteString(Environment::NewLine());
-		for (uint16_t i = 0; i < _Depth; i++)
-		{
-			WriteIndent();
-		}
-	}
-#ifdef UNICODE
-	WriteString(std::to_wstring(Value).c_str());
-#else
-	WriteString(std::to_string(Value).c_str());
-#endif
-	*/
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const float & Value)
 {
@@ -233,12 +195,6 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const float & Value)
 #else
 	WriteString(std::to_string(Value).c_str());
 #endif
-	/*
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-	}
-	*/
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
 {
@@ -248,12 +204,6 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
 #else
 	WriteString(std::to_string(Value).c_str());
 #endif
-	/*
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-	}
-	*/
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const wchar_t * Value)
 {
@@ -267,19 +217,12 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const String & Value)
 #else
 	WriteString('"');
 #endif
-	// ToDo: quoting, escaping, maybe encoding (utf-8 and 16 possible)
-	WriteString(Value);
+	WriteEscapedString(Value);
 #ifdef UNICODE
 	WriteString(L'"');
 #else
 	WriteString('"');
 #endif
-	/*
-	if (_State == JsonWriter::JsonWriterState::StartedProperty)
-	{
-		WriteIndentSpace();
-	}
-	*/
 }
 
 void Elysium::Core::Json::JsonWriter::WriteNull()
@@ -360,4 +303,45 @@ void Elysium::Core::Json::JsonWriter::ValidateAndSet(JsonWriter::JsonWriterState
 	}
 
 	_State = AspiredState;
+}
+
+void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
+{
+	const size_t ValueLength = Value.GetLength();
+	for (int i = 0; i < ValueLength; i++)
+	{
+		switch (Value[i])
+		{
+		case L'"':
+			WriteString(L"\\\\\\\"");
+			break;
+		case L'\\':
+			break;
+		case L'\b':
+			WriteString(L"\\\\b");
+			break;
+		case L'\f':
+			WriteString(L"\\\\f");
+			break;
+		case L'\n':
+			WriteString(L"\\\\n");
+			break;
+		case L'\r':
+			WriteString(L"\\\\r");
+			break;
+		case L'\t':
+			WriteString(L"\\\\t");
+			break;
+		default:
+			if (Value[i] >= 0x00 && Value[i] <= 0x1F)
+			{
+				// ToDo:!!!
+			}
+			else
+			{
+				WriteString(Value[i]);
+			}
+			break;
+		}
+	}
 }
