@@ -248,10 +248,10 @@ namespace Elysium
 					size_t CollectionCount = Collection->GetCount();
 					Resize(_Count + CollectionCount);
 
-					// use the move operator to move all elements and increment the internal element counter
+					// use the copy operator to copy all elements and increment the internal element counter
 					for (size_t i = 0; i < CollectionCount; i++)
 					{
-						_Data[_Count] = std::move(Collection(i));
+						_Data[_Count] = T(Collection(i));
 						_Count++;
 					}
 				}
@@ -261,10 +261,10 @@ namespace Elysium
 					// resize if required
 					Resize(_Count + Count);
 
-					// use the move operator to move all elements and increment the internal element counter
+					// use the copy operator to copy all elements and increment the internal element counter
 					for (size_t i = 0; i < Count; i++)
 					{
-						_Data[_Count] = std::move(Collection[i]);
+						_Data[_Count] = T(Collection[i]);
 						_Count++;
 					}
 				}
