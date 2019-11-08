@@ -316,6 +316,7 @@ void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
 			WriteString(L"\\\\\\\"");
 			break;
 		case L'\\':
+			WriteString(L"\\\\");
 			break;
 		case L'\b':
 			WriteString(L"\\\\b");
