@@ -94,10 +94,10 @@ namespace UnitTestsCore
 			JsonWriter.WriteEndArray();
 			JsonWriter.WriteEndArray();
 			JsonWriter.WritePropertyName(L"StringWithSpecial\"Characters ьсоcшdй");
-			//JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x1F\x0Fbar.?дьц");	// ToDo: this causes an issue due to x0fb becoming xfb. need to look up whether this is actually ok
-			JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x1F\x0F bar.?дьц");
+			//JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x0F\x1fbar.?дьц");	// ToDo: c++ interprets \x1fba as a single character so we need to actually use "" as seen in the next line
+			JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?дьц");
 			JsonWriter.WriteEndObject();
-			
+
 			// check
 		}
 		TEST_METHOD(WriterFixedArray)
