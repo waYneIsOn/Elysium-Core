@@ -317,28 +317,28 @@ void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
 		switch (Value[i])
 		{
 		case L'\x00':
-			WriteString(L"\\\\u0000");
+			WriteString(L"\\u0000");
 			break;
 		case L'\x01':
-			WriteString(L"\\\\u0001");
+			WriteString(L"\\u0001");
 			break;
 		case L'\x02':
-			WriteString(L"\\\\u0002");
+			WriteString(L"\\u0002");
 			break;
 		case L'\x03':
-			WriteString(L"\\\\u0003");
+			WriteString(L"\\u0003");
 			break;
 		case L'\x04':
-			WriteString(L"\\\\u0004");
+			WriteString(L"\\u0004");
 			break;
 		case L'\x05':
-			WriteString(L"\\\\u0005");
+			WriteString(L"\\u0005");
 			break;
 		case L'\x06':
-			WriteString(L"\\\\u0006");
+			WriteString(L"\\u0006");
 			break;
 		case L'\x07':
-			WriteString(L"\\\\u0007");
+			WriteString(L"\\u0007");
 			break;
 		case L'\x08':	// \b
 			WriteString(L"\\\\b");
@@ -350,7 +350,7 @@ void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
 			WriteString(L"\\\\n");
 			break;
 		case L'\x0B':
-			WriteString(L"\\\\u0011");
+			WriteString(L"\\u0011");
 			break;
 		case L'\x0C':	// \f
 			WriteString(L"\\\\f");
@@ -359,64 +359,64 @@ void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
 			WriteString(L"\\\\r");
 			break;
 		case L'\x0E':
-			WriteString(L"\\\\u0014");
+			WriteString(L"\\u0014");
 			break;
 		case L'\x0F':
-			WriteString(L"\\\\u0015");
+			WriteString(L"\\u0015");
 			break;
 		case L'\x10':
-			WriteString(L"\\\\u0016");
+			WriteString(L"\\u0016");
 			break;
 		case L'\x11':
-			WriteString(L"\\\\u0017");
+			WriteString(L"\\u0017");
 			break;
 		case L'\x12':
-			WriteString(L"\\\\u0018");
+			WriteString(L"\\u0018");
 			break;
 		case L'\x13':
-			WriteString(L"\\\\u0019");
+			WriteString(L"\\u0019");
 			break;
 		case L'\x14':
-			WriteString(L"\\\\u0020");
+			WriteString(L"\\u0020");
 			break;
 		case L'\x15':
-			WriteString(L"\\\\u0021");
+			WriteString(L"\\u0021");
 			break;
 		case L'\x16':
-			WriteString(L"\\\\u0022");
+			WriteString(L"\\u0022");
 			break;
 		case L'\x17':
-			WriteString(L"\\\\u0023");
+			WriteString(L"\\u0023");
 			break;
 		case L'\x18':
-			WriteString(L"\\\\u0024");
+			WriteString(L"\\u0024");
 			break;
 		case L'\x19':
-			WriteString(L"\\\\u0025");
+			WriteString(L"\\u0025");
 			break;
 		case L'\x1A':
-			WriteString(L"\\\\u0026");
+			WriteString(L"\\u0026");
 			break;
 		case L'\x1B':
-			WriteString(L"\\\\u0027");
+			WriteString(L"\\u0027");
 			break;
 		case L'\x1C':
-			WriteString(L"\\\\u0028");
+			WriteString(L"\\u0028");
 			break;
 		case L'\x1D':
-			WriteString(L"\\\\u0029");
+			WriteString(L"\\u0029");
 			break;
 		case L'\x1E':
-			WriteString(L"\\\\u0030");
+			WriteString(L"\\u0030");
 			break;
 		case L'\x1F':
-			WriteString(L"\\\\u0031");
+			WriteString(L"\\u0031");
 			break;
 		case L'\x22':	// \"
 			WriteString(L"\\\\\\\"");
 			break;
 		case L'\x5C':	// backslash
-			WriteString(L"\\\\");
+			WriteString(L"\\\\\\\\");
 			break;
 		default:
 			WriteString(Value[i]);
