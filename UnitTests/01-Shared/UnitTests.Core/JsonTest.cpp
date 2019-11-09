@@ -93,8 +93,9 @@ namespace UnitTestsCore
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteEndArray();
 			JsonWriter.WriteEndArray();
-			JsonWriter.WritePropertyName(L"StringWithSpecial\"Characters");
-			JsonWriter.WriteValue(L"\"\b\f\r\n\t.\\");
+			JsonWriter.WritePropertyName(L"StringWithSpecial\"Characters ьсоcшdй");
+			//JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x1F\x0Fbar.?дьц");	// ToDo: this causes an issue due to x0fb becoming xfb. need to look up whether this is actually ok
+			JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x1F\x0F bar.?дьц");
 			JsonWriter.WriteEndObject();
 			
 			// check
