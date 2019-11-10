@@ -16,6 +16,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TextWriter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamWriter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TextReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StreamReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StringWriter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -43,6 +46,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TextWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StreamWriter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TextReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StreamReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringWriter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">
