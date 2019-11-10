@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -27,8 +31,8 @@ namespace Elysium
 		public:
 			~Convert();
 
-			static int ToInt32(ElysiumChar* Value, int FromBase);
-			static int ToInt32(Elysium::Core::String& Value, int FromBase);
+			static int32_t ToInt32(ElysiumChar* Value, int32_t FromBase);
+			static int32_t ToInt32(Elysium::Core::String& Value, int32_t FromBase);
 		private:
 			Convert();
 		};
