@@ -24,12 +24,16 @@ const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonDocument::GetNo
 
 void Elysium::Core::Json::JsonDocument::WriteTo(JsonWriter & Writer)
 {
-	Writer.WriteStartObject();
 	/*
+	Writer.WriteStartArray();
+	Writer.WriteEndArray();
+	*/
+	/*
+	Writer.WriteStartObject();
 	for (int i = 0; i < _Children.GetCount(); i++)
 	{
 		_Children[i].WriteTo(Writer);
 	}
-	*/
 	Writer.WriteEndObject();
+	*/
 }

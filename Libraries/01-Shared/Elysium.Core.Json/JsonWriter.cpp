@@ -100,7 +100,7 @@ void Elysium::Core::Json::JsonWriter::WriteStartArray()
 #endif
 	}
 
-	if (PreviousState != JsonWriter::JsonWriterState::StartedArray)
+	if (PreviousState != JsonWriter::JsonWriterState::Initialized && PreviousState != JsonWriter::JsonWriterState::StartedArray)
 	{
 		WriteIndentSpace();
 	}
