@@ -4,12 +4,12 @@
 #include "CppUnitTestFrameworkExtension.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
-#include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
+#ifndef ELYSIUM_CORE_STRING
+#include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_STREAMWRITER
-#include "../../../Libraries/01-Shared/Elysium.Core.IO/StreamWriter.hpp"
+#ifndef ELYSIUM_CORE_IO_STRINGWRITER
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/StringWriter.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONDOCUMENT
@@ -21,8 +21,10 @@
 #endif
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
 using namespace Elysium::Core::Json;
+using namespace Elysium::Core::Text;
 
 namespace UnitTestsCore
 {
@@ -32,8 +34,8 @@ namespace UnitTestsCore
 		TEST_METHOD(WriterFixedObject)
 		{
 			// prepare
-			MemoryStream Target = MemoryStream();
-			StreamWriter Writer = StreamWriter(Target);
+			StringBuilder Target = StringBuilder();
+			StringWriter Writer = StringWriter(Target);
 			JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
 			// write
@@ -94,35 +96,35 @@ namespace UnitTestsCore
 			JsonWriter.WriteEndArray();
 			JsonWriter.WriteEndArray();
 			JsonWriter.WritePropertyName(L"StringWithSpecial\"Characters üñîcødé");
-			//JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x0F\x1fbar.?äüö");	// ToDo: c++ interprets \x1fba as a single character so we need to actually use "" as seen in the next line
+			//JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x0F\x1fbar.?äüö");	// c++ interprets \x1fba as a single character so we need to actually use "" as seen in the next line
 			JsonWriter.WriteValue(L"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö");
 			JsonWriter.WriteEndObject();
 
 			// check
+			//Assert::AreEqual(L"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
 		}
 		TEST_METHOD(WriterFixedArray)
 		{
 			// prepare
-			MemoryStream Target = MemoryStream();
-			StreamWriter Writer = StreamWriter(Target);
+			StringBuilder Target = StringBuilder();
+			StringWriter Writer = StringWriter(Target);
 			JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
 			// write
 			JsonWriter.WriteStartArray();
-			/*
-			JsonWriter.WriteValue(1);
-			JsonWriter.WriteValue(2);
-			JsonWriter.WriteValue(3);
-			*/
+			JsonWriter.WriteValue(L"Value1");
+			JsonWriter.WriteValue(L"Value2");
+			JsonWriter.WriteValue(L"Value3");
 			JsonWriter.WriteEndArray();
 
 			// check
+			Assert::AreEqual(L"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
 		}
 		TEST_METHOD(WriterFromDocument)
 		{
 			// prepare
-			MemoryStream Target = MemoryStream();
-			StreamWriter Writer = StreamWriter(Target);
+			StringBuilder Target = StringBuilder();
+			StringWriter Writer = StringWriter(Target);
 			JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
 			JsonDocument Document = JsonDocument();
@@ -131,6 +133,19 @@ namespace UnitTestsCore
 			Document.WriteTo(JsonWriter);
 
 			// check
+		}
+
+		TEST_METHOD(ReaderFixedObject)
+		{
+
+		}
+		TEST_METHOD(ReaderFixedArray)
+		{
+
+		}
+		TEST_METHOD(ReaderToDocument)
+		{
+
 		}
 	};
 }
