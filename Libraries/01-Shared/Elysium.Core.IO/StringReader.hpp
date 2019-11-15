@@ -7,15 +7,11 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_IO_STREAMREADER
-#define ELYSIUM_CORE_IO_STREAMREADER
+#ifndef ELYSIUM_CORE_IO_STRINGREADER
+#define ELYSIUM_CORE_IO_STRINGREADER
 
 #ifndef ELYSIUM_CORE_IO_TEXTREADER
 #include "TextReader.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_STREAM
-#include "Stream.hpp"
 #endif
 
 namespace Elysium
@@ -24,16 +20,22 @@ namespace Elysium
 	{
 		namespace IO
 		{
-			class ELYSIUM_CORE_API StreamReader : public TextReader
+			class ELYSIUM_CORE_API StringReader : public TextReader
 			{
 			public:
-				StreamReader(Stream& InputStream);
-				~StreamReader();
+				StringReader(String& Input);
+				~StringReader();
 
-				virtual void Close() override;
+				virtual int Peek() override;
+
+				virtual int Read() override;
+
+				virtual StringView ReadLine() override;
+
+				virtual StringView ReadToEnd() override;
 			private:
 				size_t _Position;
-				Stream& _InputStream;
+				String& _Input;
 			};
 		}
 	}

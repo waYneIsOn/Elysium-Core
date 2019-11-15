@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DECIMAL
 #include "../Elysium.Core/Decimal.hpp"
 #endif
@@ -42,11 +46,12 @@ namespace Elysium
 				virtual int Peek();
 
 				virtual int Read();
-				//virtual int Reader(array<char>& Buffer, int Index, int Count);
+				//virtual int Read(array<char>& Buffer, int Index, int Count);
+				//virtual int Read(String& Buffer, int Index, int Count);
 
-				//virtual String ReadLine();
+				virtual StringView ReadLine() = 0;
 
-				//virtual String ReadToEnd();
+				virtual StringView ReadToEnd() = 0;
 			protected:
 				TextReader();
 			};
