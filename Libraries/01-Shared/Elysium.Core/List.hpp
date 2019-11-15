@@ -42,10 +42,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "OutOfMemoryException.hpp"
 #endif
 
-#if defined(_WIN32) || defined(__WIN32__)
+#if defined (_WIN64)
+#define LIST_MAX LLONG_MAX
+#elif defined(_WIN32) || defined(__WIN32__)
 #define LIST_MAX INT_MAX
-#elif defined(_WIN64)
-#define LIST_MAX LONG_MAX
 #else
 #error Unsupported OS
 #endif
