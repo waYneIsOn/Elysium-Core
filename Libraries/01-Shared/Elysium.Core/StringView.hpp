@@ -62,8 +62,8 @@ namespace Elysium
 			// cast operators
 			operator Elysium::Core::String() const;
 		private:
-			ElysiumChar* _Data;
 			size_t _Length;
+			ElysiumChar* _Data;
 		};
 	}
 }

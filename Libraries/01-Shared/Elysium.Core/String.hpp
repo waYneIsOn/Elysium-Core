@@ -70,6 +70,7 @@ namespace Elysium
 			size_t IndexOf(const ElysiumChar Value, const size_t StartIndex) const;
 			size_t IndexOf(const ElysiumChar* Value) const;
 			size_t IndexOf(const ElysiumChar* Value, const size_t StartIndex) const;
+			size_t IndexOf(const String& Value, const size_t StartIndex) const;
 			bool StartsWith(const ElysiumChar* Value) const;
 			void Substring(size_t StartIndex, String* Result) const;
 			void Substring(size_t StartIndex, size_t Length, String* Result) const;

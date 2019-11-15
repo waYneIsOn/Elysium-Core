@@ -112,11 +112,6 @@ Elysium::Core::String & Elysium::Core::String::operator=(const ElysiumChar * Val
 	_Length = ElysiumStringLength(Value);
 	_Data = new ElysiumChar[_Length + sizeof(ElysiumChar)];
 	memcpy(_Data, Value, _Length * sizeof(ElysiumChar));
-#ifdef UNICODE
-	_Data[_Length] = L'\0';
-#else
-	_Data[_Length] = '\0';
-#endif 
 
 	return *this;
 }
@@ -289,7 +284,10 @@ size_t Elysium::Core::String::IndexOf(const ElysiumChar * Value, const size_t St
 		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
 	}
 }
-
+size_t Elysium::Core::String::IndexOf(const String & Value, const size_t StartIndex) const
+{
+	return IndexOf(Value._Data[StartIndex]);
+}
 bool Elysium::Core::String::StartsWith(const ElysiumChar * Value) const
 {
 	size_t ValueLength = ElysiumStringLength(Value);
