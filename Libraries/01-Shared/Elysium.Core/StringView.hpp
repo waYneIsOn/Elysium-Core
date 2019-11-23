@@ -49,10 +49,13 @@ namespace Elysium
 			bool operator<=(const StringView& Other) const;
 			bool operator>=(const StringView& Other) const;
 
+			const size_t GetLength() const;
+
 			size_t IndexOf(const ElysiumChar Value) const;
 			size_t IndexOf(const ElysiumChar Value, const size_t StartIndex) const;
 			size_t IndexOf(const ElysiumChar* Value) const;
 			size_t IndexOf(const ElysiumChar* Value, const size_t StartIndex) const;
+			size_t IndexOf(const String& Value, const size_t StartIndex) const;
 			void Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
 			void Split(const ElysiumChar* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
 

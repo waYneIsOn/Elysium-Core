@@ -115,6 +115,11 @@ bool Elysium::Core::StringView::operator>=(const StringView & Other) const
 	return _Data == Other._Data && _Length >= Other._Length;
 }
 
+const size_t Elysium::Core::StringView::GetLength() const
+{
+	return _Length;
+}
+
 size_t Elysium::Core::StringView::IndexOf(const ElysiumChar Value) const
 {
 #ifdef UNICODE
@@ -180,6 +185,10 @@ size_t Elysium::Core::StringView::IndexOf(const ElysiumChar * Value, const size_
 	{
 		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
 	}
+}
+size_t Elysium::Core::StringView::IndexOf(const String & Value, const size_t StartIndex) const
+{
+	return IndexOf(Value[StartIndex]);
 }
 void Elysium::Core::StringView::Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView> * Views) const
 {
