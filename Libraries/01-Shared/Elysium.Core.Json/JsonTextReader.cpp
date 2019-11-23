@@ -14,6 +14,10 @@ Elysium::Core::Json::JsonTextReader::~JsonTextReader()
 {
 }
 
+const int32_t Elysium::Core::Json::JsonTextReader::PeekNextCharacterFromSource()
+{
+	return _Reader.Peek();
+}
 const int32_t Elysium::Core::Json::JsonTextReader::ReadNextCharacterFromSource()
 {
 	return _Reader.Read();

@@ -146,11 +146,207 @@ namespace UnitTestsCore
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
 			Assert::AreEqual(L"Yep", JsonReader.GetNodeValue().GetCharArray());
-			/*
+
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Boolean, (uint32_t)JsonReader.GetToken());
 			Assert::AreEqual(L"true", JsonReader.GetNodeValue().GetCharArray());
-			*/
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Nope", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Boolean, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"false", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"NullValue", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Null, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"null", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Int", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"5448", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Float", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"13.370000", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Double", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"13.370000", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"String", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"SomeValue", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"EmptyObject", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedObject, (uint32_t)JsonReader.GetToken());
+			//Assert::AreEqual(L"SomeValue", JsonReader.GetNodeValue().GetCharArray());	// ToDo: reset _CurrentNodeValue
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"SomeObject", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Property1", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value1", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Property2", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value2", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"EmptyArray", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"IntArray", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"1", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"2", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"3", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"ObjectArray", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value1", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"5448", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value2", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"SomeValue", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value1", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"5448", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value2", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"SomeValue", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"TwoDimensionalArray", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+			
+			//Assert::IsTrue(JsonReader.Read());
+			//Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
+			//Assert::AreEqual(L"StringWithSpecial\\\"Characters ьсоcшdй", JsonReader.GetNodeValue().GetCharArray());
 		}
 		TEST_METHOD(ReadArray)
 		{

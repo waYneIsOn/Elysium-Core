@@ -30,6 +30,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <stdint.h>
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -42,7 +46,6 @@ namespace Elysium
 				virtual ~JsonReader();
 
 				const JsonToken GetToken() const;
-				const String& GetNodeName() const;
 				const String& GetNodeValue() const;
 
 				virtual bool Read();
@@ -53,14 +56,15 @@ namespace Elysium
 			protected:
 				JsonReader(const JsonIOSettings& IOSettings);
 
+				virtual const int32_t PeekNextCharacterFromSource() = 0;
 				virtual const int32_t ReadNextCharacterFromSource() = 0;
 
 				virtual bool ReadDocument();
 
 				//virtual bool ReadValueName();
+				virtual bool ReadProperty();
 
 				virtual bool ReadValueNumeric(const int32_t FirstCharacter);
-				virtual bool ReadValueString();
 				virtual bool ReadValueBool(const int32_t FirstCharacter);
 				virtual bool ReadValueNull(const int32_t FirstCharacter);
 			private:
@@ -93,8 +97,11 @@ namespace Elysium
 				const JsonIOSettings _IOSettings;
 
 				JsonToken _CurrentToken;
-				String _CurrentNodeName;
 				String _CurrentNodeValue;
+
+				Elysium::Core::Text::StringBuilder _PropertyBuffer;
+
+				void EatIndent();
 			};
 		}
 	}
