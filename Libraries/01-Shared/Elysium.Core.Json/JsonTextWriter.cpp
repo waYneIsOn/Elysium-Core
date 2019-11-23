@@ -1,7 +1,12 @@
 #include "JsonTextWriter.hpp"
 
 Elysium::Core::Json::JsonTextWriter::JsonTextWriter(Elysium::Core::IO::TextWriter & Writer)
-	: Elysium::Core::Json::JsonWriter(),
+	: Elysium::Core::Json::JsonWriter(JsonIOSettings()),
+	_Writer(Writer)
+{
+}
+Elysium::Core::Json::JsonTextWriter::JsonTextWriter(const JsonIOSettings& IOSettings, Elysium::Core::IO::TextWriter& Writer)
+	: Elysium::Core::Json::JsonWriter(IOSettings),
 	_Writer(Writer)
 {
 }

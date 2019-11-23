@@ -12,12 +12,20 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/StringWriter.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_STRINGREADER
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/StringReader.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_JSON_JSONDOCUMENT
 #include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonDocument.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONTEXTWRITER
 #include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonTextWriter.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_JSON_JSONTEXTREADER
+#include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonTextReader.hpp"
 #endif
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -31,7 +39,7 @@ namespace UnitTestsCore
 	TEST_CLASS(Core_Json)
 	{
 	public:
-		TEST_METHOD(WriterFixedObject)
+		TEST_METHOD(WriteObject)
 		{
 			// prepare
 			StringBuilder Target = StringBuilder();
@@ -104,7 +112,7 @@ namespace UnitTestsCore
 			Assert::AreEqual(L"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": 5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}",
 				Target.ToString().GetCharArray());
 		}
-		TEST_METHOD(WriterFixedArray)
+		TEST_METHOD(WriteArray)
 		{
 			// prepare
 			StringBuilder Target = StringBuilder();
@@ -121,7 +129,47 @@ namespace UnitTestsCore
 			// check
 			Assert::AreEqual(L"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
 		}
-		TEST_METHOD(WriterFromDocument)
+
+		TEST_METHOD(ReadObject)
+		{
+			// prepare
+			String Source = L"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": 5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+			StringReader Reader = StringReader(Source);
+			JsonTextReader JsonReader = JsonTextReader(Reader);
+			/*
+			// read & check
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((long)JsonToken::None, (long)JsonReader.GetToken());
+			*/
+		}
+		TEST_METHOD(ReadArray)
+		{
+			// prepare
+			String Source = L"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
+			StringReader Reader = StringReader(Source);
+			JsonTextReader JsonReader = JsonTextReader(Reader);
+
+			// read & check
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value1", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value2", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
+			Assert::AreEqual(L"Value3", JsonReader.GetNodeValue().GetCharArray());
+
+			Assert::IsTrue(JsonReader.Read());
+			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
+		}
+
+		TEST_METHOD(DocumentToWriter)
 		{
 			// prepare
 			StringBuilder Target = StringBuilder();
@@ -135,16 +183,7 @@ namespace UnitTestsCore
 
 			// check
 		}
-
-		TEST_METHOD(ReaderFixedObject)
-		{
-
-		}
-		TEST_METHOD(ReaderFixedArray)
-		{
-
-		}
-		TEST_METHOD(ReaderToDocument)
+		TEST_METHOD(DocumentFromReader)
 		{
 
 		}

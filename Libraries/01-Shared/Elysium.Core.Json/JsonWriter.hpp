@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_JSON_JSONIOSETTINGS
+#include "JsonIOSettings.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
@@ -50,15 +54,16 @@ namespace Elysium
 
 				void WriteNull();
 			protected:
+				JsonWriter(const JsonIOSettings& IOSettings);
+
 				void WriteIndent();
-				void WriteValueDelimiter();
 				void WriteIndentSpace();
+				void WriteValueDelimiter();
 
 				virtual void WriteString(const char& Value) = 0;
 				virtual void WriteString(const wchar_t& Value) = 0;
 				virtual void WriteString(const String& Value) = 0;
 
-				JsonWriter();
 			private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 				enum class JsonWriterState : uint32_t
@@ -85,6 +90,7 @@ namespace Elysium
 
 				JsonWriterState _State;
 				uint16_t _Depth;
+				const JsonIOSettings _IOSettings;
 
 				static const JsonWriterState _StateLookupTable[9][9];
 

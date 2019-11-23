@@ -7,8 +7,8 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_JSON_JSONNODETYPE
-#define ELYSIUM_CORE_JSON_JSONNODETYPE
+#ifndef ELYSIUM_CORE_JSON_JSONTOKEN
+#define ELYSIUM_CORE_JSON_JSONTOKEN
 
 #ifndef _STDINT
 #include <stdint.h>
@@ -21,20 +21,28 @@ namespace Elysium
 		namespace Json
 		{
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-			enum class JsonNodeType : uint32_t
+			enum class JsonToken : uint32_t
 #elif defined(__ANDROID__)
-			enum class JsonNodeType
+			enum class JsonToken
 #else
 #error "undefined os"
 #endif
 			{
-				Document = 0,
-				String = 1,
-				Number = 2,
-				Object = 3,
-				Array = 4,
-				Boolean = 5,
-				Null = 6
+				None = 0,
+
+				StartedObject = 1,
+				EndedObject = 2,
+
+				StartedArray = 3,
+				EndedArray = 4,
+
+				PropertyName = 5,
+
+				Integer = 6,
+				Float = 7,
+				String = 8,
+				Boolean = 9,
+				Null = 11,
 			};
 		}
 	}

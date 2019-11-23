@@ -28,9 +28,12 @@ namespace Elysium
 			{
 			public:
 				JsonTextReader(Elysium::Core::IO::TextReader& Reader);
+				JsonTextReader(const JsonIOSettings& IOSettings, Elysium::Core::IO::TextReader& Reader);
 				~JsonTextReader();
 			private:
 				Elysium::Core::IO::TextReader& _Reader;
+
+				virtual const ElysiumChar GetChar(uint32_t Index) override;
 			};
 		}
 	}

@@ -28,6 +28,7 @@ namespace Elysium
 			{
 			public:
 				JsonTextWriter(Elysium::Core::IO::TextWriter& Writer);
+				JsonTextWriter(const JsonIOSettings& IOSettings, Elysium::Core::IO::TextWriter& Writer);
 				~JsonTextWriter();
 			protected:
 				virtual void WriteString(const char& Value) override;

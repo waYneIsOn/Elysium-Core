@@ -18,12 +18,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonDocument.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonElement.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonIOSettings.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonNodeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonReaderException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonTextReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonTextWriter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonToken.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriterException.hpp" />
   </ItemGroup>
@@ -31,6 +33,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonDocument.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonElement.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonIOSettings.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonNode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonReaderException.cpp" />
