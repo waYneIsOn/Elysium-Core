@@ -39,7 +39,7 @@ namespace Elysium
 			class ELYSIUM_CORE_API JsonReader
 			{
 			public:
-				virtual ~JsonReader() {}
+				virtual ~JsonReader();
 
 				const JsonToken GetToken() const;
 				const String& GetNodeName() const;
@@ -53,22 +53,16 @@ namespace Elysium
 			protected:
 				JsonReader(const JsonIOSettings& IOSettings);
 
-				virtual const ElysiumChar GetChar(uint32_t Index) = 0;
+				virtual const int32_t ReadNextCharacterFromSource() = 0;
 
 				virtual bool ReadDocument();
 
-				//virtual bool ReadObject();
-				virtual bool ReadArray();
-
 				//virtual bool ReadValueName();
 
-				//virtual bool ReadValueInt();
-				//virtual bool ReadValueFloat();
+				virtual bool ReadValueNumeric(const int32_t FirstCharacter);
 				virtual bool ReadValueString();
-				//virtual bool ReadValueBool();
-				//virtual bool ReadValueNull();
-
-				virtual bool ReadInBetweenValues();
+				virtual bool ReadValueBool(const int32_t FirstCharacter);
+				virtual bool ReadValueNull(const int32_t FirstCharacter);
 			private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 				enum class JsonReaderState : uint32_t
@@ -90,14 +84,12 @@ namespace Elysium
 					PropertyValue = 6,
 
 					InBetweenValues = 7,
-					/*
-					Finished = 7,
-					Error = 8
-					*/
+					
+					Finished = 8,
+					Error = 9
 				};
 
 				JsonReaderState _State;
-				uint32_t _Index;
 				const JsonIOSettings _IOSettings;
 
 				JsonToken _CurrentToken;

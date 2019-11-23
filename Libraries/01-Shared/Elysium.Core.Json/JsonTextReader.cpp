@@ -14,7 +14,7 @@ Elysium::Core::Json::JsonTextReader::~JsonTextReader()
 {
 }
 
-const ElysiumChar Elysium::Core::Json::JsonTextReader::GetChar(uint32_t Index)
+const int32_t Elysium::Core::Json::JsonTextReader::ReadNextCharacterFromSource()
 {
 	return _Reader.Read();
 }

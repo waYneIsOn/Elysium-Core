@@ -33,7 +33,7 @@ namespace Elysium
 			private:
 				Elysium::Core::IO::TextReader& _Reader;
 
-				virtual const ElysiumChar GetChar(uint32_t Index) override;
+				virtual const int32_t ReadNextCharacterFromSource() override;
 			};
 		}
 	}

@@ -8,6 +8,10 @@
 #include "JsonReaderException.hpp"
 #endif
 
+Elysium::Core::Json::JsonReader::~JsonReader()
+{
+}
+
 const Elysium::Core::Json::JsonToken Elysium::Core::Json::JsonReader::GetToken() const
 {
 	return _CurrentToken;
@@ -28,41 +32,32 @@ bool Elysium::Core::Json::JsonReader::Read()
 		switch (_State)
 		{
 		case Elysium::Core::Json::JsonReader::JsonReaderState::Initialized:
+		case Elysium::Core::Json::JsonReader::JsonReaderState::StartedObject:
+		case Elysium::Core::Json::JsonReader::JsonReaderState::EndedObject:
+		case Elysium::Core::Json::JsonReader::JsonReaderState::StartedArray:
+		case Elysium::Core::Json::JsonReader::JsonReaderState::EndedArray:
 			return ReadDocument();
 			/*
-		case Elysium::Core::Json::JsonReader::JsonReaderState::StartedObject:
-			break;
-		case Elysium::Core::Json::JsonReader::JsonReaderState::EndedObject:
-			break;
-			*/
-		case Elysium::Core::Json::JsonReader::JsonReaderState::StartedArray:
-			return ReadArray();
-			/*
-		case Elysium::Core::Json::JsonReader::JsonReaderState::EndedArray:
-			break;
 		case Elysium::Core::Json::JsonReader::JsonReaderState::PropertyName:
 			break;
 		case Elysium::Core::Json::JsonReader::JsonReaderState::PropertyValue:
 			break;
 			*/
 		case Elysium::Core::Json::JsonReader::JsonReaderState::InBetweenValues:
-			return ReadInBetweenValues();
-			/*
+			return ReadDocument();
 		case Elysium::Core::Json::JsonReader::JsonReaderState::Finished:
-			break;
+			throw JsonReaderException(L"reader has already finished");
 		case Elysium::Core::Json::JsonReader::JsonReaderState::Error:
-			break;
-			*/
+			throw JsonReaderException(L"reader has already encountered an error");
 		default:
-			return false;
+			// ToDo: message
+			throw JsonReaderException();
 		}
 	}
-	// true if the next node was read successfully, false otherwise
-	return false;
 }
 
 Elysium::Core::Json::JsonReader::JsonReader(const JsonIOSettings& IOSettings)
-	: _IOSettings(IOSettings), _State(JsonReader::JsonReaderState::Initialized), _Index(0), _CurrentToken(JsonToken::None), _CurrentNodeName(), _CurrentNodeValue()
+	: _IOSettings(IOSettings), _State(JsonReader::JsonReaderState::Initialized), _CurrentToken(JsonToken::None), _CurrentNodeName(), _CurrentNodeValue()
 {
 }
 
@@ -70,45 +65,38 @@ bool Elysium::Core::Json::JsonReader::ReadDocument()
 {
 	while (true)
 	{
-		const ElysiumChar CurrentCharacter = GetChar(_Index);
+		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 		switch (CurrentCharacter)
 		{
-		/*
-		ToDo (maybe):
-			ignore/eat any indent? or would this be an error?
-		*/
 		case L'{':
 			_State = JsonReader::JsonReaderState::StartedObject;
 			_CurrentToken = JsonToken::StartedObject;
-			_Index++;
+			return true;
+		case L'}':
+			_State = JsonReader::JsonReaderState::EndedObject;
+			_CurrentToken = JsonToken::EndedObject;
 			return true;
 		case L'[':
 			_State = JsonReader::JsonReaderState::StartedArray;
 			_CurrentToken = JsonToken::StartedArray;
-			_Index++;
 			return true;
-		default:
+		case L']':
+			_State = JsonReader::JsonReaderState::EndedArray;
+			_CurrentToken = JsonToken::EndedArray;
+			return true;
+		case -1:	// end of source
+			_State = JsonReader::JsonReaderState::Finished;
+			_CurrentToken = JsonToken::None;
 			return false;
-		}
-	}
-}
-
-bool Elysium::Core::Json::JsonReader::ReadArray()
-{
-	while (true)
-	{
-		const ElysiumChar CurrentCharacter = GetChar(_Index);
-		switch (CurrentCharacter)
-		{
+		case L' ':
+		case L',':
 		case L'\r':
 		case L'\n':
 		case L'\t':
-			_Index++;
 			break;
 		case L'"':
 			_State = JsonReader::JsonReaderState::PropertyValue;
 			_CurrentToken = JsonToken::String;
-			_Index++;
 			return ReadValueString();
 		case L'1':
 		case L'2':
@@ -121,69 +109,137 @@ bool Elysium::Core::Json::JsonReader::ReadArray()
 		case L'9':
 			_State = JsonReader::JsonReaderState::PropertyValue;
 			_CurrentToken = JsonToken::Integer;
-			return true;	// ToDo: return ReadValueInt();
-		/*
-		ToDo:
-			numerics (int and floats), objects, array (of array), bool, null-values
-		*/
+			return ReadValueNumeric(CurrentCharacter);
+		case L't':
+		case L'f':
+			_State = JsonReader::JsonReaderState::PropertyValue;
+			_CurrentToken = JsonToken::Boolean;
+			return ReadValueBool(CurrentCharacter);
+		case L'n':
+			_State = JsonReader::JsonReaderState::PropertyValue;
+			_CurrentToken = JsonToken::Null;
+			return ReadValueNull(CurrentCharacter);
+			/*
+			ToDo:
+				objects, array (of array)
+			*/
 		default:
-			return false;
+			// ToDo: message
+			throw JsonReaderException();
 		}
 	}
 }
 
+
+bool Elysium::Core::Json::JsonReader::ReadValueNumeric(const int32_t FirstCharacter)
+{
+	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
+	ValueBuilder.Append(FirstCharacter);
+	while (true)
+	{
+		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
+		switch (CurrentCharacter)
+		{
+		case L',':
+		case L'\r':
+		case L'\n':
+			_State = JsonReader::JsonReaderState::InBetweenValues;
+			_CurrentNodeValue = ValueBuilder.ToString();
+			return true;
+		case L'.':
+			_CurrentToken = JsonToken::Float;
+		case L'0':
+		case L'1':
+		case L'2':
+		case L'3':
+		case L'4':
+		case L'5':
+		case L'6':
+		case L'7':
+		case L'8':
+		case L'9':
+			ValueBuilder.Append(CurrentCharacter);
+			break;
+		default:
+			// ToDo:
+			_State = JsonReader::JsonReaderState::Error;
+			throw JsonReaderException(L"unexpected character xy in line ....");
+		}
+	}
+}
 bool Elysium::Core::Json::JsonReader::ReadValueString()
 {
 	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
-
 	while (true)
 	{
-		const ElysiumChar CurrentCharacter = GetChar(_Index);
+		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 		switch (CurrentCharacter)
 		{
 		case L'"':
 			_State = JsonReader::JsonReaderState::InBetweenValues;
 			_CurrentNodeValue = ValueBuilder.ToString();
-			_Index++;
 			return true;
 		default:
 			ValueBuilder.Append(CurrentCharacter);
-			_Index++;
 			break;
 		}
 	}
 
 	return false;
 }
-
-bool Elysium::Core::Json::JsonReader::ReadInBetweenValues()
+bool Elysium::Core::Json::JsonReader::ReadValueBool(const int32_t FirstCharacter)
 {
+	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
+	ValueBuilder.Append(FirstCharacter);
 	while (true)
 	{
-		const ElysiumChar CurrentCharacter = GetChar(_Index);
+		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 		switch (CurrentCharacter)
 		{
 		case L',':
 		case L'\r':
 		case L'\n':
-		case L'\t':
-			_Index++;
-			break;
-		case L']':
-			_State = JsonReader::JsonReaderState::EndedArray;
-			_CurrentToken = JsonToken::EndedArray;
+			_State = JsonReader::JsonReaderState::InBetweenValues;
+			_CurrentNodeValue = ValueBuilder.ToString();
 			return true;
-		case L'"':
-			_State = JsonReader::JsonReaderState::PropertyValue;
-			_CurrentToken = JsonToken::String;
-			_Index++;
-			return ReadValueString();
-		/*
-		ToDo:
-			numerics (int and floats), objects, array (of array), bool, null-values
-		*/
+		case L'r':
+		case L'u':
+		case L'e':
+		case L'a':
+		case L'l':
+		case L's':
+			ValueBuilder.Append(CurrentCharacter);
+			break;
 		default:
-			return false;
+			// ToDo:
+			_State = JsonReader::JsonReaderState::Error;
+			throw JsonReaderException(L"unexpected character xy in line ....");
+		}
+	}
+}
+bool Elysium::Core::Json::JsonReader::ReadValueNull(const int32_t FirstCharacter)
+{
+	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
+	ValueBuilder.Append(FirstCharacter);
+	while (true)
+	{
+		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
+		switch (CurrentCharacter)
+		{
+		case L',':
+		case L'\r':
+		case L'\n':
+			_State = JsonReader::JsonReaderState::InBetweenValues;
+			_CurrentNodeValue = ValueBuilder.ToString();
+			return true;
+		case L'u':
+		case L'l':
+			ValueBuilder.Append(CurrentCharacter);
+			break;
+		default:
+			// ToDo:
+			_State = JsonReader::JsonReaderState::Error;
+			throw JsonReaderException(L"unexpected character xy in line ....");
 		}
 	}
 }
