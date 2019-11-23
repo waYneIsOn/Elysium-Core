@@ -62,6 +62,14 @@ void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Va
 	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);
 	_Length += ValueLength;
 }
+void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar & Value)
+{
+	Resize(_Length + 1);
+
+	// copy data and set _Length accordingly
+	memcpy(&_Data[_Length], &Value, sizeof(ElysiumChar));
+	_Length++;
+}
 void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar * Value)
 {
 	// resize if required
