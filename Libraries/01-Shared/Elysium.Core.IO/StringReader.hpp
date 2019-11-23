@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "TextReader.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -35,7 +39,7 @@ namespace Elysium
 				virtual StringView ReadToEnd() override;
 			private:
 				size_t _Position;
-				String& _Input;
+				StringView _Input;
 			};
 		}
 	}
