@@ -8,12 +8,12 @@ void Elysium::Core::IO::TextReader::Close()
 {
 }
 
-int Elysium::Core::IO::TextReader::Peek()
+const int32_t Elysium::Core::IO::TextReader::Peek()
 {
 	return -1;
 }
 
-int Elysium::Core::IO::TextReader::Read()
+const int32_t Elysium::Core::IO::TextReader::Read()
 {
 	return -1;
 }

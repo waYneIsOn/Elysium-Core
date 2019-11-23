@@ -30,6 +30,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Decimal.hpp"
 #endif
 
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -43,9 +47,9 @@ namespace Elysium
 
 				virtual void Close();
 
-				virtual int Peek();
+				virtual const int32_t Peek();
 
-				virtual int Read();
+				virtual const int32_t Read();
 				//virtual int Read(array<char>& Buffer, int Index, int Count);
 				//virtual int Read(String& Buffer, int Index, int Count);
 

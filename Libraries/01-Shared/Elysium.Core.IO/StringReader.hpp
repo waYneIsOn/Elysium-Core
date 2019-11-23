@@ -30,9 +30,9 @@ namespace Elysium
 				StringReader(String& Input);
 				~StringReader();
 
-				virtual int Peek() override;
+				virtual const int32_t Peek() override;
 
-				virtual int Read() override;
+				virtual const int32_t Read() override;
 
 				virtual StringView ReadLine() override;
 
