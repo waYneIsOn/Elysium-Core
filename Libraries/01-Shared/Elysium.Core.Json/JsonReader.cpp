@@ -19,27 +19,82 @@ const Elysium::Core::String & Elysium::Core::Json::JsonReader::GetNodeValue() co
 
 bool Elysium::Core::Json::JsonReader::Read()
 {
-	while (true)
+	switch (_State)
 	{
-		switch (_State)
+	case Elysium::Core::Json::JsonReader::JsonReaderState::Initialized:
+	case Elysium::Core::Json::JsonReader::JsonReaderState::StartedObject:
+	case Elysium::Core::Json::JsonReader::JsonReaderState::EndedObject:
+	case Elysium::Core::Json::JsonReader::JsonReaderState::StartedArray:
+	case Elysium::Core::Json::JsonReader::JsonReaderState::EndedArray:
+	case Elysium::Core::Json::JsonReader::JsonReaderState::PropertyName:
+	case Elysium::Core::Json::JsonReader::JsonReaderState::InBetweenValues:
+		while (true)
 		{
-		case Elysium::Core::Json::JsonReader::JsonReaderState::Initialized:
-		case Elysium::Core::Json::JsonReader::JsonReaderState::StartedObject:
-		case Elysium::Core::Json::JsonReader::JsonReaderState::EndedObject:
-		case Elysium::Core::Json::JsonReader::JsonReaderState::StartedArray:
-		case Elysium::Core::Json::JsonReader::JsonReaderState::EndedArray:
-		case Elysium::Core::Json::JsonReader::JsonReaderState::PropertyName:
-			return ReadDocument();
-		case Elysium::Core::Json::JsonReader::JsonReaderState::InBetweenValues:
-			return ReadDocument();
-		case Elysium::Core::Json::JsonReader::JsonReaderState::Finished:
-			throw JsonReaderException(L"reader has already finished");
-		case Elysium::Core::Json::JsonReader::JsonReaderState::Error:
-			throw JsonReaderException(L"reader has already encountered an error");
-		default:
-			// ToDo: message
-			throw JsonReaderException();
+			const int32_t CurrentCharacter = ReadNextCharacterFromSource();
+			switch (CurrentCharacter)
+			{
+			case L'{':
+				_State = JsonReader::JsonReaderState::StartedObject;
+				_CurrentToken = JsonToken::StartedObject;
+				return true;
+			case L'}':
+				_State = JsonReader::JsonReaderState::EndedObject;
+				_CurrentToken = JsonToken::EndedObject;
+				return true;
+			case L'[':
+				_State = JsonReader::JsonReaderState::StartedArray;
+				_CurrentToken = JsonToken::StartedArray;
+				return true;
+			case L']':
+				_State = JsonReader::JsonReaderState::EndedArray;
+				_CurrentToken = JsonToken::EndedArray;
+				return true;
+			case -1:	// end of source
+				_State = JsonReader::JsonReaderState::Finished;
+				_CurrentToken = JsonToken::None;
+				return false;
+			case L' ':
+			case L',':
+			case L'\r':
+			case L'\n':
+			case L'\t':
+				break;
+			case L'"':
+				// don't set the either _State or _CurrentToken here since we don't know whether we're reading a property name or value yet
+				return ReadProperty();
+			case L'1':
+			case L'2':
+			case L'3':
+			case L'4':
+			case L'5':
+			case L'6':
+			case L'7':
+			case L'8':
+			case L'9':
+				_State = JsonReader::JsonReaderState::PropertyValue;
+				_CurrentToken = JsonToken::Integer;
+				return ReadValueNumeric(CurrentCharacter);
+			case L't':
+			case L'f':
+				_State = JsonReader::JsonReaderState::PropertyValue;
+				_CurrentToken = JsonToken::Boolean;
+				return ReadValueBool(CurrentCharacter);
+			case L'n':
+				_State = JsonReader::JsonReaderState::PropertyValue;
+				_CurrentToken = JsonToken::Null;
+				return ReadValueNull(CurrentCharacter);
+			default:
+				// ToDo: message
+				throw JsonReaderException();
+			}
 		}
+	case Elysium::Core::Json::JsonReader::JsonReaderState::Finished:
+		throw JsonReaderException(L"reader has already finished");
+	case Elysium::Core::Json::JsonReader::JsonReaderState::Error:
+		throw JsonReaderException(L"reader has already encountered an error");
+	default:
+		// ToDo: message
+		throw JsonReaderException();
 	}
 }
 
@@ -48,77 +103,13 @@ Elysium::Core::Json::JsonReader::JsonReader(const JsonIOSettings& IOSettings)
 {
 }
 
-bool Elysium::Core::Json::JsonReader::ReadDocument()
-{
-	while (true)
-	{
-		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
-		switch (CurrentCharacter)
-		{
-		case L'{':
-			_State = JsonReader::JsonReaderState::StartedObject;
-			_CurrentToken = JsonToken::StartedObject;
-			return true;
-		case L'}':
-			_State = JsonReader::JsonReaderState::EndedObject;
-			_CurrentToken = JsonToken::EndedObject;
-			return true;
-		case L'[':
-			_State = JsonReader::JsonReaderState::StartedArray;
-			_CurrentToken = JsonToken::StartedArray;
-			return true;
-		case L']':
-			_State = JsonReader::JsonReaderState::EndedArray;
-			_CurrentToken = JsonToken::EndedArray;
-			return true;
-		case -1:	// end of source
-			_State = JsonReader::JsonReaderState::Finished;
-			_CurrentToken = JsonToken::None;
-			return false;
-		case L' ':
-		case L',':
-		case L'\r':
-		case L'\n':
-		case L'\t':
-			break;
-		case L'"':
-			// don't set the either _State or _CurrentToken here since we don't know whether we're reading a property name or value yet
-			return ReadProperty();
-		case L'1':
-		case L'2':
-		case L'3':
-		case L'4':
-		case L'5':
-		case L'6':
-		case L'7':
-		case L'8':
-		case L'9':
-			_State = JsonReader::JsonReaderState::PropertyValue;
-			_CurrentToken = JsonToken::Integer;
-			return ReadValueNumeric(CurrentCharacter);
-		case L't':
-		case L'f':
-			_State = JsonReader::JsonReaderState::PropertyValue;
-			_CurrentToken = JsonToken::Boolean;
-			return ReadValueBool(CurrentCharacter);
-		case L'n':
-			_State = JsonReader::JsonReaderState::PropertyValue;
-			_CurrentToken = JsonToken::Null;
-			return ReadValueNull(CurrentCharacter);
-		default:
-			// ToDo: message
-			throw JsonReaderException();
-		}
-	}
-}
-
 bool Elysium::Core::Json::JsonReader::ReadProperty()
 {
 	// buffer property name
 	while(true)
 	{
 		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
-		if (CurrentCharacter == L'"')
+		if (CurrentCharacter == -1 || CurrentCharacter == L'"')
 		{
 			break;
 		}

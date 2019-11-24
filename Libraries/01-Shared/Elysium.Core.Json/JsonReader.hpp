@@ -59,9 +59,6 @@ namespace Elysium
 				virtual const int32_t PeekNextCharacterFromSource() = 0;
 				virtual const int32_t ReadNextCharacterFromSource() = 0;
 
-				virtual bool ReadDocument();
-
-				//virtual bool ReadValueName();
 				virtual bool ReadProperty();
 
 				virtual bool ReadValueNumeric(const int32_t FirstCharacter);
