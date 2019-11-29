@@ -107,20 +107,26 @@ Elysium::Core::Json::JsonReader::JsonReader(const JsonIOSettings& IOSettings)
 bool Elysium::Core::Json::JsonReader::ReadProperty()
 {
 	// buffer property name
+	char16_t PreviousCharacter;
+	int32_t CurrentCharacter;
 	while(true)
 	{
-		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
-		if (CurrentCharacter == -1 || CurrentCharacter == u'"')
+		CurrentCharacter = ReadNextCharacterFromSource();
+		if (CurrentCharacter == -1)
+		{
+			return false;
+		}
+		if (CurrentCharacter == u'"' && PreviousCharacter != u'\\')
 		{
 			break;
 		}
 		_PropertyBuffer.Append(CurrentCharacter);
+		PreviousCharacter = CurrentCharacter;
 	}
 
 	// eat indent so we can check whether we've just read a property name or value
 	EatIndent();
 	const int32_t NextCharacter = PeekNextCharacterFromSource();
-	const char16_t Bla = NextCharacter;
 	if (NextCharacter == u':')
 	{
 		ReadNextCharacterFromSource();
