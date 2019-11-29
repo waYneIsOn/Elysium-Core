@@ -1,11 +1,7 @@
 #include "Exception.hpp"
 
 Elysium::Core::Exception::Exception()
-#ifdef UNICODE
-	: _Message(L"Exception"), _InnerException(nullptr)
-#else
-	: _Message("Exception"), _InnerException(nullptr)
-#endif 
+	: _Message(u"Exception"), _InnerException(nullptr)
 {
 }
 Elysium::Core::Exception::Exception(const String & Message)

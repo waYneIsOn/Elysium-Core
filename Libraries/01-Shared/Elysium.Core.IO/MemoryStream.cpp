@@ -79,11 +79,7 @@ void Elysium::Core::IO::MemoryStream::SetCapacity(size_t Capacity)
 {
 	if (Capacity > UINT_MAX)
 	{	// ToDo: throw a specific ArgumentOutOfRangeException
-#ifdef UNICODE
-		throw Exception(L"ArgumentOutOfRangeException");
-#else
-		throw Exception("ArgumentOutOfRangeException");
-#endif
+		throw Exception(u"ArgumentOutOfRangeException");
 	}
 
 	_Buffer.SetCapacity(Capacity);

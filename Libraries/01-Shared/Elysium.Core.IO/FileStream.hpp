@@ -83,6 +83,7 @@ namespace Elysium
 				FileAccess _Access;
 				FileShare _Share;
 
+				//std::basic_fstream<char16_t> _NativeStream;
 				std::fstream _NativeStream;
 
 				//std::fstream::_Openmode Convert(FileMode Mode, FileAccess Access, FileShare Share);

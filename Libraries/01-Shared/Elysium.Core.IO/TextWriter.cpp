@@ -59,114 +59,53 @@ void Elysium::Core::IO::TextWriter::Write(const byte * Value, const size_t Count
 void Elysium::Core::IO::TextWriter::Write(const byte * Value, const size_t Index, const size_t Count)
 {
 }
-void Elysium::Core::IO::TextWriter::Write(const char & Value)
+void Elysium::Core::IO::TextWriter::Write(const char16_t Value)
 {
-	Write(&Value, 1);
+	Elysium::Core::Collections::Generic::List<byte> Bytes = GetEncoding().GetBytes(Value);
+	Write(&Bytes[0], Bytes.GetCount());
 }
-void Elysium::Core::IO::TextWriter::Write(const char * Value)
+void Elysium::Core::IO::TextWriter::Write(const char16_t * Value, const size_t Count)
 {
-	Write(Value, strlen(Value));
-}
-void Elysium::Core::IO::TextWriter::Write(const char * Value, const size_t Count)
-{
-#if UNICODE
-	throw NotImplementedException(L"void Elysium::Core::IO::TextWriter::Write(const char * Value, const size_t Count)");
-#else
-	throw NotImplementedException("void Elysium::Core::IO::TextWriter::Write(const char * Value, const size_t Count)");
-#endif
-}
-void Elysium::Core::IO::TextWriter::Write(const wchar_t & Value)
-{
-	Write(&Value, 1);
-}
-void Elysium::Core::IO::TextWriter::Write(const wchar_t * Value)
-{
-	Write(Value, wcslen(Value));
-}
-void Elysium::Core::IO::TextWriter::Write(const wchar_t * Value, const size_t Count)
-{
-#if UNICODE
 	Elysium::Core::Collections::Generic::List<byte> Bytes = GetEncoding().GetBytes(Value, 0, Count);
 	Write(&Bytes[0], Bytes.GetCount());
-#else
-	throw NotImplementedException("void Elysium::Core::IO::TextWriter::Write(const wchar_t * Value, const size_t Count)");
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const float & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const double & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const Decimal & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(*Value.GetHighPart()).c_str());
-	Write(L".");
+	Write(u".");
 	Write(std::to_wstring(*Value.GetLowPart()).c_str());
-#else
-	Write(std::to_string(*Value.GetHighPart()).c_str());
-	Write(".");
-	Write(std::to_string(*Value.GetLowPart()).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const int16_t & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const int32_t & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const int64_t & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const uint16_t & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const uint32_t & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const uint64_t & Value)
 {
-#if UNICODE
 	Write(std::to_wstring(Value).c_str());
-#else
-	Write(std::to_string(Value).c_str());
-#endif
 }
 void Elysium::Core::IO::TextWriter::Write(const String & Value)
 {
@@ -188,22 +127,12 @@ void Elysium::Core::IO::TextWriter::WriteLine(const byte * Value, const size_t C
 	Write(Value, 0, Count);
 	WriteLine();
 }
-void Elysium::Core::IO::TextWriter::WriteLine(const char & Value)
+void Elysium::Core::IO::TextWriter::WriteLine(const char16_t & Value)
 {
 	Write(Value);
 	WriteLine();
 }
-void Elysium::Core::IO::TextWriter::WriteLine(const char * Value, const size_t Count)
-{
-	Write(&Value[0], Count);
-	WriteLine();
-}
-void Elysium::Core::IO::TextWriter::WriteLine(const wchar_t & Value)
-{
-	Write(Value);
-	WriteLine();
-}
-void Elysium::Core::IO::TextWriter::WriteLine(const wchar_t * Value, const size_t Count)
+void Elysium::Core::IO::TextWriter::WriteLine(const char16_t * Value, const size_t Count)
 {
 	Write(&Value[0], Count);
 	WriteLine();

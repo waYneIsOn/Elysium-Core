@@ -16,25 +16,25 @@
 #include "BuildInUriParser.hpp"
 #endif
 
-const Elysium::Core::String Elysium::Core::Uri::SchemeDelimiter(L"://");
+const Elysium::Core::String Elysium::Core::Uri::SchemeDelimiter(u"://");
 
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeFile(L"file");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeFtp(L"ftp");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeGopher(L"gopher");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttp(L"http");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttps(L"https");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeIrc(L"irc");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeLdap(L"ldap");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeMailto(L"mailto");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetPipe(L"net.pipe");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetTcp(L"net.tcp");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNews(L"news");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNntp(L"nntp");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeSecureWebSocket(L"wss");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeTel(L"tel");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeTelNet(L"telnet");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(L"urn");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(L"ws");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeFile(u"file");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeFtp(u"ftp");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeGopher(u"gopher");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttp(u"http");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttps(u"https");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeIrc(u"irc");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeLdap(u"ldap");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeMailto(u"mailto");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetPipe(u"net.pipe");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetTcp(u"net.tcp");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNews(u"news");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeNntp(u"nntp");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeSecureWebSocket(u"wss");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeTel(u"tel");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeTelNet(u"telnet");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(u"urn");
+const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(u"ws");
 
 Elysium::Core::Uri::Uri(const String& UriString)
 	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString), _Port(-1)
@@ -137,10 +137,10 @@ void Elysium::Core::Uri::Parse()
 {
 	// ToDo: implement this correctly using a std::map where the according parsers are stored
 	// for now just use the BuildInUriParser
-	BuildInUriParser Parser = BuildInUriParser(L"dummy", -1, UriParser::DummySyntaxFlags);
-	Parser.ParseComponent(UriComponents::Scheme, &_OriginalString, &_SchemeView);
-	Parser.ParseComponent(UriComponents::Host, &_OriginalString, &_HostView);
-	Parser.ParseComponent(UriComponents::PathAndQuery, &_OriginalString, &_PathAndQueryView);
+	BuildInUriParser Parser = BuildInUriParser(u"dummy", -1, UriParser::DummySyntaxFlags);
+	Parser.ParseComponent(UriComponents::Scheme, _OriginalString, _SchemeView);
+	Parser.ParseComponent(UriComponents::Host, _OriginalString, _HostView);
+	Parser.ParseComponent(UriComponents::PathAndQuery, _OriginalString, _PathAndQueryView);
 
 	/*
 	// grab the dummy parser to parse the scheme

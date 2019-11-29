@@ -98,9 +98,9 @@ namespace UnitTestsCoreNet
 		}
 	private:
 		// fields
-		//String _Host = "http://www.tutorialspoint.com"; // we don't get the correct ip using the host atm
-		String _Host = L"93.184.220.42";
-		//String _Host = L"127.0.0.1";
+		//String _Host = u"http://www.tutorialspoint.com"; // we don't get the correct ip using the host atm
+		String _Host = u"93.184.220.42";
+		//String _Host = u"127.0.0.1";
 		int _Port = 80;
 		bool _ReuseSocket = false;
 	};

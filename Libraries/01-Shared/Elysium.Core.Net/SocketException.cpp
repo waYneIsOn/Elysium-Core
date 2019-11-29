@@ -1,7 +1,7 @@
 #include "SocketException.hpp"
 
 Elysium::Core::Net::Sockets::SocketException::SocketException()
-	: Elysium::Core::Runtime::InteropServices::ExternalException(L"SocketException")
+	: Elysium::Core::Runtime::InteropServices::ExternalException(u"SocketException")
 {
 }
 Elysium::Core::Net::Sockets::SocketException::SocketException(const String & Message)

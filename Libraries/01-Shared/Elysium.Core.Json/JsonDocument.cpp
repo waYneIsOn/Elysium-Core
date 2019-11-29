@@ -10,11 +10,7 @@ Elysium::Core::Json::JsonDocument::~JsonDocument()
 
 const Elysium::Core::String & Elysium::Core::Json::JsonDocument::GetName() const
 {
-#ifdef UNICODE
-	static const Elysium::Core::String Name = L"#document";
-#else
-	static const Elysium::Core::String Name = "#document";
-#endif
+	static const Elysium::Core::String Name = u"#document";
 	return Name;
 }
 const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonDocument::GetNodeType() const

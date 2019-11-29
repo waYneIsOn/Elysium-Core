@@ -54,13 +54,13 @@ namespace Elysium
 				static const Encoding& UTF7();
 				static const Encoding& UTF8();
 				
-				// properties - getter
 				virtual bool GetIsSingleByte() const;
 				virtual int GetCodePage() const;
 				virtual const String& GetEncodingName() const;
 
-				// methods
+				virtual Elysium::Core::Collections::Generic::List<byte> GetBytes(const char16_t Input) const;
 				virtual Elysium::Core::Collections::Generic::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const;
+
 				virtual String GetString(const byte* Bytes, const size_t ByteCount) const;
 			protected:
 				Encoding();

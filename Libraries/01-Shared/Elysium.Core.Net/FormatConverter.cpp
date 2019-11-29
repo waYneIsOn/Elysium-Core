@@ -75,7 +75,7 @@ int Elysium::Core::Net::FormatConverter::Convert(Elysium::Core::Net::Sockets::Ad
 		throw exception("not implemented");
 	*/
 	default:
-		throw NotImplementedException(L"unknown address family");
+		throw NotImplementedException(u"unknown address family");
 	}
 }
 int Elysium::Core::Net::FormatConverter::Convert(Elysium::Core::Net::Sockets::ProtocolType ProtocolType)
@@ -137,7 +137,7 @@ int Elysium::Core::Net::FormatConverter::Convert(Elysium::Core::Net::Sockets::Pr
 		throw std::exception("not implemented");
 		*/
 	default:
-		throw NotImplementedException(L"unknown protocol type");
+		throw NotImplementedException(u"unknown protocol type");
 	}
 }
 int Elysium::Core::Net::FormatConverter::Convert(Elysium::Core::Net::Sockets::SocketType SocketType)
@@ -161,7 +161,7 @@ int Elysium::Core::Net::FormatConverter::Convert(Elysium::Core::Net::Sockets::So
 		throw std::exception("not implemented");
 		*/
 	default:
-		throw NotImplementedException(L"unknown socket type");
+		throw NotImplementedException(u"unknown socket type");
 	}
 }
 
@@ -173,7 +173,7 @@ Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::FormatConverter::
 		return Elysium::Core::Net::Sockets::AddressFamily::InterNetwork;
 		break;
 	default:
-		throw NotImplementedException(L"unknown windows address family");
+		throw NotImplementedException(u"unknown windows address family");
 	}
 }
 

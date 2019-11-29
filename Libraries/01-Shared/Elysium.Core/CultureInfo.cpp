@@ -72,7 +72,7 @@ void Elysium::Core::CultureInfo::GetName(String * Output) const
 	{
 		unsigned long LastError = GetLastError();
 		// ToDo: throw specific exception
-		throw Exception(L"couldn't get locale name from locale id");
+		throw Exception(u"couldn't get locale name from locale id");
 	}
 #elif defined(__ANDROID__)
 	// ToDo: ...

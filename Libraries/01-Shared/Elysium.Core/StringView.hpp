@@ -30,8 +30,8 @@ namespace Elysium
 		{
 		public:
 			StringView();
-			StringView(ElysiumChar* Input);
-			StringView(ElysiumChar* Input, size_t Length);
+			StringView(char16_t* Input);
+			StringView(char16_t* Input, size_t Length);
 			StringView(const Elysium::Core::String& Input);
 			StringView(const Elysium::Core::String& Input, size_t Length);
 			StringView(const Elysium::Core::String& Input, size_t Offset, size_t Length);
@@ -51,22 +51,22 @@ namespace Elysium
 
 			const size_t GetLength() const;
 
-			size_t IndexOf(const ElysiumChar Value) const;
-			size_t IndexOf(const ElysiumChar Value, const size_t StartIndex) const;
-			size_t IndexOf(const ElysiumChar* Value) const;
-			size_t IndexOf(const ElysiumChar* Value, const size_t StartIndex) const;
+			size_t IndexOf(const char16_t Value) const;
+			size_t IndexOf(const char16_t Value, const size_t StartIndex) const;
+			size_t IndexOf(const char16_t* Value) const;
+			size_t IndexOf(const char16_t* Value, const size_t StartIndex) const;
 			size_t IndexOf(const String& Value, const size_t StartIndex) const;
-			void Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
-			void Split(const ElysiumChar* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
+			void Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<StringView>& Views) const;
+			void Split(const char16_t* Delimiter, Elysium::Core::Collections::Generic::List<StringView>& Views) const;
 
 			// index operator
-			virtual ElysiumChar& operator[](size_t Index) const;
+			virtual char16_t& operator[](size_t Index) const;
 
 			// cast operators
 			operator Elysium::Core::String() const;
 		private:
 			size_t _Length;
-			ElysiumChar* _Data;
+			char16_t* _Data;
 		};
 	}
 }

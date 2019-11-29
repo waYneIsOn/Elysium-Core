@@ -27,7 +27,7 @@ int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceControllerS
 	case ServiceControllerStatus::StopPending:
 		return SERVICE_STOP_PENDING;
 	default:
-		throw NotImplementedException(L"unhandled ServiceControllerStatus");
+		throw NotImplementedException(u"unhandled ServiceControllerStatus");
 	}
 }
 int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceType ServiceType)
@@ -49,7 +49,7 @@ int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceType Servic
 	case ServiceType::InteractiveProcess:
 		return SERVICE_INTERACTIVE_PROCESS;
 	default:
-		throw NotImplementedException(L"unhandled ServiceType");
+		throw NotImplementedException(u"unhandled ServiceType");
 	}
 }
 

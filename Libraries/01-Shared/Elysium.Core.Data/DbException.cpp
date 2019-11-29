@@ -1,7 +1,7 @@
 #include "DbException.hpp"
 
 Elysium::Core::Data::Common::DbException::DbException()
-	: Elysium::Core::Runtime::InteropServices::ExternalException(L"DbException")
+	: Elysium::Core::Runtime::InteropServices::ExternalException(u"DbException")
 {
 }
 Elysium::Core::Data::Common::DbException::DbException(const String & Message)

@@ -28,7 +28,7 @@ namespace UnitTestsCore
 		TEST_METHOD(WriteReadCopyTo)
 		{
 			// write into a filestream
-			FileStream InputOutputStream = FileStream(L"FS1.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::ReadWrite);
+			FileStream InputOutputStream = FileStream(u"FS1.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::ReadWrite);
 			BYTE DataToWrite[] = { 0x73, 0x6F, 0x6D, 0x65, 0x20, 0x64, 0x61, 0x74, 0x61 };
 			InputOutputStream.Write(DataToWrite, 9);
 
@@ -41,7 +41,7 @@ namespace UnitTestsCore
 
 			// check the written data by using another stream (reading multiple times)
 			memset(&DataToRead[0], 0x00, 9);
-			FileStream OutputStream = FileStream(L"FS1.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
+			FileStream OutputStream = FileStream(u"FS1.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
 			BytesRead = OutputStream.Read(&DataToRead[0], 4);
 			Assert::AreEqual((size_t)4, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[4], 4);

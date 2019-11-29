@@ -37,22 +37,14 @@ void Elysium::Core::Json::JsonWriter::WriteStartObject()
 	ValidateAndSet(JsonWriter::JsonWriterState::StartedObject);
 	if (PreviousState == JsonWriter::JsonWriterState::EndedObject)
 	{
-#ifdef UNICODE
-		WriteString(L',');
-#else
-		WriteString(',');
-#endif
+		WriteString(u',');
 	}
 
 	if (_Depth > 0 && PreviousState != JsonWriter::JsonWriterState::StartedArray)
 	{
 		WriteIndentSpace();
 	}
-#ifdef UNICODE
-	WriteString(L'{');
-#else
-	WriteString('{');
-#endif
+	WriteString(u'{');
 	_Depth++;
 }
 void Elysium::Core::Json::JsonWriter::WriteEndObject()
@@ -75,11 +67,7 @@ void Elysium::Core::Json::JsonWriter::WriteEndObject()
 			WriteIndent();
 		}
 	}
-#ifdef UNICODE
-	WriteString(L'}');
-#else
-	WriteString('}');
-#endif
+	WriteString(u'}');
 	_Depth--;
 }
 
@@ -89,22 +77,14 @@ void Elysium::Core::Json::JsonWriter::WriteStartArray()
 	ValidateAndSet(JsonWriter::JsonWriterState::StartedArray);
 	if (PreviousState == JsonWriter::JsonWriterState::EndedArray)
 	{
-#ifdef UNICODE
-		WriteString(L',');
-#else
-		WriteString(',');
-#endif
+		WriteString(u',');
 	}
 
 	if (PreviousState != JsonWriter::JsonWriterState::Initialized && PreviousState != JsonWriter::JsonWriterState::StartedArray)
 	{
 		WriteIndentSpace();
 	}
-#ifdef UNICODE
-	WriteString(L'[');
-#else
-	WriteString('[');
-#endif
+	WriteString(u'[');
 	_Depth++;
 }
 void Elysium::Core::Json::JsonWriter::WriteEndArray()
@@ -121,11 +101,7 @@ void Elysium::Core::Json::JsonWriter::WriteEndArray()
 			WriteIndent();
 		}
 	}
-#ifdef UNICODE
-	WriteString(L']');
-#else
-	WriteString(']');
-#endif
+	WriteString(u']');
 	_Depth--;
 }
 
@@ -140,99 +116,55 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 	else if (PreviousState == JsonWriter::JsonWriterState::PropertyValue || PreviousState == JsonWriter::JsonWriterState::EndedObject || 
 		PreviousState == JsonWriter::JsonWriterState::EndedArray)
 	{
-#ifdef UNICODE
-		WriteString(L',');
-#else
-		WriteString(',');
-#endif
+		WriteString(u',');
 		WriteString(_IOSettings._NewLine);
 	}
 	for (uint16_t i = 0; i < _Depth; i++)
 	{
 		WriteIndent();
 	}
-#ifdef UNICODE
-	WriteString(L'"');
-#else
-	WriteString('"');
-#endif
+	WriteString(u'"');
 	WriteEscapedString(Name);
-#ifdef UNICODE
-	WriteString(L'"');
-#else
-	WriteString('"');
-#endif
-#ifdef UNICODE
-	WriteString(L':');
-#else
-	WriteString(':');
-#endif
+	WriteString(u'"');
+	WriteString(u':');
 }
 
 void Elysium::Core::Json::JsonWriter::WriteValue(const bool & Value)
 {
 	PrepareWritingValue();
-#ifdef UNICODE
-	WriteString(Value ? L"true" : L"false");
-#else
-	WriteString(Value ? "true" : "false");
-#endif
+	WriteString(Value ? u"true" : u"false");
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const int & Value)
 {
 	PrepareWritingValue();
-#ifdef UNICODE
-	WriteString(std::to_wstring(Value).c_str());
-#else
-	WriteString(std::to_string(Value).c_str());
-#endif
+	WriteString(Convert::ToString(Value, 10));
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const float & Value)
 {
 	PrepareWritingValue();
-#ifdef UNICODE
-	WriteString(std::to_wstring(Value).c_str());
-#else
-	WriteString(std::to_string(Value).c_str());
-#endif
+	WriteString(Convert::ToString(Value, 10));
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
 {
 	PrepareWritingValue();
-#ifdef UNICODE
-	WriteString(std::to_wstring(Value).c_str());
-#else
-	WriteString(std::to_string(Value).c_str());
-#endif
+	WriteString(Convert::ToString(Value, 10));
 }
-void Elysium::Core::Json::JsonWriter::WriteValue(const wchar_t * Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const char16_t * Value)
 {
 	WriteValue(String(Value));
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const String & Value)
 {
 	PrepareWritingValue();
-#ifdef UNICODE
-	WriteString(L'"');
-#else
-	WriteString('"');
-#endif
+	WriteString(u'"');
 	WriteEscapedString(Value);
-#ifdef UNICODE
-	WriteString(L'"');
-#else
-	WriteString('"');
-#endif
+	WriteString(u'"');
 }
 
 void Elysium::Core::Json::JsonWriter::WriteNull()
 {
 	PrepareWritingValue();
-#ifdef UNICODE
-	WriteString(L"null");
-#else
-	WriteString("null");
-#endif
+	WriteString(u"null");
 }
 
 Elysium::Core::Json::JsonWriter::JsonWriter(const JsonIOSettings& IOSettings)
@@ -250,11 +182,7 @@ void Elysium::Core::Json::JsonWriter::WriteIndentSpace()
 }
 void Elysium::Core::Json::JsonWriter::WriteValueDelimiter()
 {
-#ifdef UNICODE
-	WriteString(L',');
-#else
-	WriteString(',');
-#endif
+	WriteString(u',');
 }
 
 void Elysium::Core::Json::JsonWriter::PrepareWritingValue()
@@ -273,11 +201,7 @@ void Elysium::Core::Json::JsonWriter::PrepareWritingValue()
 	}
 	else if (_State == JsonWriter::JsonWriterState::PropertyValue)
 	{
-#ifdef UNICODE
-		WriteString(L',');
-#else
-		WriteString(',');
-#endif
+		WriteString(u',');
 		WriteString(_IOSettings._NewLine);
 		for (uint16_t i = 0; i < _Depth; i++)
 		{
@@ -304,107 +228,107 @@ void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
 	{
 		switch (Value[i])
 		{
-		case L'\x00':
-			WriteString(L"\\u0000");
+		case u'\x00':
+			WriteString(u"\\u0000");
 			break;
-		case L'\x01':
-			WriteString(L"\\u0001");
+		case u'\x01':
+			WriteString(u"\\u0001");
 			break;
-		case L'\x02':
-			WriteString(L"\\u0002");
+		case u'\x02':
+			WriteString(u"\\u0002");
 			break;
-		case L'\x03':
-			WriteString(L"\\u0003");
+		case u'\x03':
+			WriteString(u"\\u0003");
 			break;
-		case L'\x04':
-			WriteString(L"\\u0004");
+		case u'\x04':
+			WriteString(u"\\u0004");
 			break;
-		case L'\x05':
-			WriteString(L"\\u0005");
+		case u'\x05':
+			WriteString(u"\\u0005");
 			break;
-		case L'\x06':
-			WriteString(L"\\u0006");
+		case u'\x06':
+			WriteString(u"\\u0006");
 			break;
-		case L'\x07':
-			WriteString(L"\\u0007");
+		case u'\x07':
+			WriteString(u"\\u0007");
 			break;
-		case L'\x08':	// \b
-			WriteString(L"\\\\b");
+		case u'\x08':	// \b
+			WriteString(u"\\\\b");
 			break;
-		case L'\x09':	// \t
-			WriteString(L"\\\\t");
+		case u'\x09':	// \t
+			WriteString(u"\\\\t");
 			break;
-		case L'\x0A':	// \n
-			WriteString(L"\\\\n");
+		case u'\x0A':	// \n
+			WriteString(u"\\\\n");
 			break;
-		case L'\x0B':
-			WriteString(L"\\u0011");
+		case u'\x0B':
+			WriteString(u"\\u0011");
 			break;
-		case L'\x0C':	// \f
-			WriteString(L"\\\\f");
+		case u'\x0C':	// \f
+			WriteString(u"\\\\f");
 			break;
-		case L'\x0D':	// \r
-			WriteString(L"\\\\r");
+		case u'\x0D':	// \r
+			WriteString(u"\\\\r");
 			break;
-		case L'\x0E':
-			WriteString(L"\\u0014");
+		case u'\x0E':
+			WriteString(u"\\u0014");
 			break;
-		case L'\x0F':
-			WriteString(L"\\u0015");
+		case u'\x0F':
+			WriteString(u"\\u0015");
 			break;
-		case L'\x10':
-			WriteString(L"\\u0016");
+		case u'\x10':
+			WriteString(u"\\u0016");
 			break;
-		case L'\x11':
-			WriteString(L"\\u0017");
+		case u'\x11':
+			WriteString(u"\\u0017");
 			break;
-		case L'\x12':
-			WriteString(L"\\u0018");
+		case u'\x12':
+			WriteString(u"\\u0018");
 			break;
-		case L'\x13':
-			WriteString(L"\\u0019");
+		case u'\x13':
+			WriteString(u"\\u0019");
 			break;
-		case L'\x14':
-			WriteString(L"\\u0020");
+		case u'\x14':
+			WriteString(u"\\u0020");
 			break;
-		case L'\x15':
-			WriteString(L"\\u0021");
+		case u'\x15':
+			WriteString(u"\\u0021");
 			break;
-		case L'\x16':
-			WriteString(L"\\u0022");
+		case u'\x16':
+			WriteString(u"\\u0022");
 			break;
-		case L'\x17':
-			WriteString(L"\\u0023");
+		case u'\x17':
+			WriteString(u"\\u0023");
 			break;
-		case L'\x18':
-			WriteString(L"\\u0024");
+		case u'\x18':
+			WriteString(u"\\u0024");
 			break;
-		case L'\x19':
-			WriteString(L"\\u0025");
+		case u'\x19':
+			WriteString(u"\\u0025");
 			break;
-		case L'\x1A':
-			WriteString(L"\\u0026");
+		case u'\x1A':
+			WriteString(u"\\u0026");
 			break;
-		case L'\x1B':
-			WriteString(L"\\u0027");
+		case u'\x1B':
+			WriteString(u"\\u0027");
 			break;
-		case L'\x1C':
-			WriteString(L"\\u0028");
+		case u'\x1C':
+			WriteString(u"\\u0028");
 			break;
-		case L'\x1D':
-			WriteString(L"\\u0029");
+		case u'\x1D':
+			WriteString(u"\\u0029");
 			break;
-		case L'\x1E':
-			WriteString(L"\\u0030");
+		case u'\x1E':
+			WriteString(u"\\u0030");
 			break;
-		case L'\x1F':
-			WriteString(L"\\u0031");
+		case u'\x1F':
+			WriteString(u"\\u0031");
 			break;
-		case L'\x22':	// \"
-			WriteString(L"\\\\\\\"");
+		case u'\x22':	// \"
+			WriteString(u"\\\\\\\"");
 			break;
-		case L'\x5C':	// backslash
-			WriteString(L"\\\\\\\\");
+		case u'\x5C':	// backslash
+			WriteString(u"\\\\\\\\");
 			break;
 		default:
 			WriteString(Value[i]);

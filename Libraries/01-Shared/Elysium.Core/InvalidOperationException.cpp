@@ -1,11 +1,7 @@
 #include "InvalidOperationException.hpp"
 
 Elysium::Core::InvalidOperationException::InvalidOperationException()
-#ifdef UNICODE
-	: Elysium::Core::Exception(L"InvalidOperationException")
-#else
-	: Elysium::Core::Exception("InvalidOperationException")
-#endif 
+	: Elysium::Core::Exception(u"InvalidOperationException")
 {
 }
 Elysium::Core::InvalidOperationException::InvalidOperationException(const String & Message)

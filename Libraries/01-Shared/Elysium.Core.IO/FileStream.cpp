@@ -1,5 +1,9 @@
 #include "FileStream.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "NotSupportedException.hpp"
 #endif
@@ -13,13 +17,15 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode)
 	_Path(Path), _Mode(Mode), _Access(FileAccess::ReadWrite), _Share(FileShare::None)
 {
 	// ToDo: this is just for testing!!!
+	Elysium::Core::Collections::Generic::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		//_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
 	}
 	else
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::in);
+		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
 	}
 }
 Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, FileAccess Access)
@@ -27,13 +33,14 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, Fi
 	_Path(Path), _Mode(Mode), _Access(Access), _Share(FileShare::None)
 {
 	// ToDo: this is just for testing!!!
+	Elysium::Core::Collections::Generic::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
 	}
 	else
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::in);
+		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
 	}
 }
 Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share)
@@ -41,13 +48,14 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, Fil
 	_Path(Path), _Mode(Mode), _Access(Access), _Share(Share)
 {
 	// ToDo: this is just for testing!!!
+	Elysium::Core::Collections::Generic::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
 	}
 	else
 	{
-		_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::in);
+		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
 	}
 }
 Elysium::Core::IO::FileStream::~FileStream()
@@ -104,7 +112,7 @@ void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
 	size_t x = GetLength();
 	if (Position >= GetLength())
 	{	// ToDo: throw specific exception
-		throw Exception(L"Position >= FileSize");
+		throw Exception(u"Position >= FileSize");
 	}
 
 	_NativeStream.clear();	// required call (resets internal error state flags)

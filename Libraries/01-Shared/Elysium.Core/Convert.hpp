@@ -31,8 +31,12 @@ namespace Elysium
 		public:
 			~Convert();
 
-			static int32_t ToInt32(ElysiumChar* Value, int32_t FromBase);
-			static int32_t ToInt32(Elysium::Core::String& Value, int32_t FromBase);
+			static String ToString(const int32_t Value, const int32_t FromBase);
+			static String ToString(const float Value, const int32_t FromBase);
+			static String ToString(const double Value, const int32_t FromBase);
+
+			static int32_t ToInt32(const char16_t * Value, const int32_t FromBase);
+			static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
 		private:
 			Convert();
 		};

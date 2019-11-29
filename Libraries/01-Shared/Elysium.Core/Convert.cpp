@@ -1,5 +1,13 @@
 #include "Convert.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#ifndef _INC_LIMITS
+#include <limits.h>
+#endif
+
 #ifndef _STRING_
 #include <string>
 #endif
@@ -8,42 +16,82 @@ Elysium::Core::Convert::~Convert()
 {
 }
 
-int32_t Elysium::Core::Convert::ToInt32(ElysiumChar * Value, int32_t FromBase)
-{
-#if UNICODE
-	//return wcstoul(Value, nullptr, FromBase);
-	return wcstoul(Value, &Value, FromBase);
-#else
-	/*
-	if (FromBase == 16)
-	{
-		if (*Value > 47 && *Value < 58)
-		{
-			return Input - 48;
-		}
-		else if (*Value > 64 && *Value < 71)
-		{	// A-F
-			return Input - 55;
-		}
-		else if (*Value > 96 && *Value < 103)
-		{	// a-f
-			return Input - 87;
-		}
-		else
-		{
-			return 0;
-		}
-	}
-	*/
-#endif
+Elysium::Core::String Elysium::Core::Convert::ToString(const int32_t Value, const int32_t FromBase)
+{	// ToDo: Encoding::Unicode()
+	char Buffer[33];
+	errno_t ErrorNumber = _itoa_s(Value, Buffer, FromBase);
+	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-int32_t Elysium::Core::Convert::ToInt32(Elysium::Core::String & Value, int32_t FromBase)
-{
-#if UNICODE
-	return wcstoul(&Value[0], nullptr, FromBase);
-#else
+Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const int32_t FromBase)
+{	// ToDo: Encoding::Unicode()
+	std::string StringValue = std::to_string(Value);
+	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
+}
+Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const int32_t FromBase)
+{	// ToDo: Encoding::Unicode()
+	std::string StringValue = std::to_string(Value);
+	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
+}
 
-#endif
+int32_t Elysium::Core::Convert::ToInt32(const char16_t * Value, const int32_t FromBase)
+{	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
+	int16_t Sign = 1;
+	int32_t i = 0;
+	int32_t Base = 0;
+	
+	// eat all whitespaces
+	while (Value[i] == u' ')
+	{
+		i++;
+	}
+
+	// sign
+	if (Value[i] == u'-' || Value[i] == u'+')
+	{
+		Sign = 1 - 2 * (Value[i++] == '-');
+	}
+
+	// check for valid input
+	while (Value[i] >= u'0' && Value[i] <= '9')
+	{
+		// handle overflow cases
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u'0' > 7))
+		{
+			return Sign == 1 ? INT_MAX : INT_MIN;
+		}
+		Base = 10 * Base + (Value[i++] - u'0');
+	}
+	return Base * Sign;
+}
+int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::String & Value, const int32_t FromBase)
+{	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
+	int16_t Sign = 1;
+	int32_t i = 0;
+	int32_t Base = 0;
+
+	// eat leading whitespaces
+	while (Value[i] == u' ')
+	{
+		i++;
+	}
+
+	// sign
+	if (Value[i] == u'-' || Value[i] == u'+')
+	{
+		Sign = 1 - 2 * (Value[i++] == '-');
+	}
+
+	// check for valid input
+	while (Value[i] >= u'0' && Value[i] <= '9')
+	{
+		// handle overflow cases
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u'0' > 7))
+		{
+			return Sign == 1 ? INT_MAX : INT_MIN;
+		}
+		Base = 10 * Base + (Value[i++] - u'0');
+	}
+	return Base * Sign;
 }
 
 Elysium::Core::Convert::Convert()

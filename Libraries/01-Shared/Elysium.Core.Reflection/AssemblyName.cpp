@@ -40,13 +40,8 @@ Elysium::Core::Reflection::AssemblyName & Elysium::Core::Reflection::AssemblyNam
 		_CodeBase = std::move(Right._CodeBase);
 		_Version = std::move(Right._Version);
 
-#ifdef UNICODE
-		Right._Name = L"";
-		Right._CodeBase = L"";
-#else
-		Right._Name = "";
-		Right._CodeBase = "";
-#endif
+		Right._Name = u"";
+		Right._CodeBase = u"";
 		Right._Version = Version();
 	}
 	return *this;

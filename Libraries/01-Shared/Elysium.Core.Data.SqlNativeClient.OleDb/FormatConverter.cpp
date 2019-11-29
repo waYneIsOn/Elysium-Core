@@ -96,7 +96,7 @@ DBTYPEENUM Elysium::Core::Data::SqlNativeClient::OleDb::FormatConverter::Transla
 	case Elysium::Core::Data::DbType::DateTimeOffset:
 		return DBTYPE_DBTIMESTAMPOFFSET;
 	default:
-		throw NotImplementedException(L"unhandled DbType in DBTYPEENUM Elysium::Core::Data::SqlNativeClient::OleDb::FormatConverter::Translate(DbType DbType)");
+		throw NotImplementedException(u"unhandled DbType in DBTYPEENUM Elysium::Core::Data::SqlNativeClient::OleDb::FormatConverter::Translate(DbType DbType)");
 	}
 }
 
@@ -115,7 +115,7 @@ DBPARAMIOENUM Elysium::Core::Data::SqlNativeClient::OleDb::FormatConverter::Tran
 		return DBPARAMIO_OUTPUT;
 		*/
 	default:
-		throw NotImplementedException(L"unhandled ParameterDirection in DBPARAMIOENUM Elysium::Core::Data::SqlNativeClient::OleDb::FormatConverter::Translate(ParameterDirection ParameterDirection)");
+		throw NotImplementedException(u"unhandled ParameterDirection in DBPARAMIOENUM Elysium::Core::Data::SqlNativeClient::OleDb::FormatConverter::Translate(ParameterDirection ParameterDirection)");
 	}
 }
 

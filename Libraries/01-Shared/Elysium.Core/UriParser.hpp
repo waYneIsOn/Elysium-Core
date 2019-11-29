@@ -41,9 +41,9 @@ namespace Elysium
 		public:
 			virtual ~UriParser() = 0;
 
-			static void Register(UriParser* UriParser, const String& SchemeName, int DefaultPort);
+			static void Register(UriParser& UriParser, const String& SchemeName, int DefaultPort);
 
-			void ParseComponent(UriComponents Component, const String* Source, StringView* Output);
+			void ParseComponent(UriComponents Component, const String& Source, StringView& Output);
 		protected:
 			UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents);
 		private:

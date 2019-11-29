@@ -25,7 +25,7 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::Data::SqlNativeClient::OleDb;
 
-#define STRINGIFY(x) L#x
+#define STRINGIFY(x) u#x
 #define EXPAND(x) STRINGIFY(x)
 
 namespace SqlNativeClient
@@ -132,7 +132,7 @@ _Connection.Close();
 			try
 			{
 				// get the project path so we can get the FQPN to the test-image
-				std::wstring ProjectPath = EXPAND(UNITTESTPRJ);
+				std::u16string ProjectPath = EXPAND(UNITTESTPRJ);
 				ProjectPath.erase(0, 1); // erase the first quote
 				ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
 
@@ -140,7 +140,7 @@ _Connection.Close();
 
 				// perform C test
 				std::unique_ptr<IDbCommand> InsertCommand = _Connection.CreateCommand();
-				InsertCommand->SetCommandText(L"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (9223372036854775807, NULL, CONVERT(varbinary(9), N'varbinary'), NULL, 1, NULL, 'a', NULL, CONVERT(date, '18-06-12', 5), NULL, CONVERT(datetime2,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetime,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetimeoffset,'12-10-25 12:32:10 +01:00'), NULL, 1.35, NULL, 0.27, NULL, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, (SELECT * FROM OPENROWSET(BULK N'" + ProjectPath + L"\\TestImage.png', SINGLE_BLOB) AS Image), NULL, 23, NULL, 37.56, NULL, N'n', NULL, N't', NULL, 99.1, NULL, N'n', NULL, 23.56, NULL, '02/10/2010 12:30', NULL, 23, NULL, 75.45, NULL, 'v', NULL, N's', NULL, 's', NULL, '13:37:27', NULL, DEFAULT, 17, NULL, CONVERT(uniqueidentifier, 'AE019609-99E0-4EF5-85BB-AD90DC302E70'), NULL, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, CONVERT(XML, N'<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>'), NULL)");
+				InsertCommand->SetCommandText(u"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (9223372036854775807, NULL, CONVERT(varbinary(9), N'varbinary'), NULL, 1, NULL, 'a', NULL, CONVERT(date, '18-06-12', 5), NULL, CONVERT(datetime2,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetime,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetimeoffset,'12-10-25 12:32:10 +01:00'), NULL, 1.35, NULL, 0.27, NULL, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, (SELECT * FROM OPENROWSET(BULK N'" + ProjectPath + L"\\TestImage.png', SINGLE_BLOB) AS Image), NULL, 23, NULL, 37.56, NULL, N'n', NULL, N't', NULL, 99.1, NULL, N'n', NULL, 23.56, NULL, '02/10/2010 12:30', NULL, 23, NULL, 75.45, NULL, 'v', NULL, N's', NULL, 's', NULL, '13:37:27', NULL, DEFAULT, 17, NULL, CONVERT(uniqueidentifier, 'AE019609-99E0-4EF5-85BB-AD90DC302E70'), NULL, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, CONVERT(XML, N'<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>'), NULL)");
 				PerformDataInsertionTest(InsertCommand.get());
 
 				// perform R test
@@ -150,12 +150,12 @@ _Connection.Close();
 
 				// perform U test
 				std::unique_ptr<IDbCommand> UpdateCommand = _Connection.CreateCommand();
-				UpdateCommand->SetCommandText(L"UPDATE AllDataTypes SET [bigintNull] = 123");
+				UpdateCommand->SetCommandText(u"UPDATE AllDataTypes SET [bigintNull] = 123");
 				UpdateCommand->ExecuteNonQuery();
 
 				// perform D test
 				std::unique_ptr<IDbCommand> DeleteCommand = _Connection.CreateCommand();
-				DeleteCommand->SetCommandText(L"DELETE FROM AllDataTypes");
+				DeleteCommand->SetCommandText(u"DELETE FROM AllDataTypes");
 				DeleteCommand->ExecuteNonQuery();
 
 				_Connection.Close();
@@ -167,7 +167,7 @@ _Connection.Close();
 			}
 			catch (Exception& ex)
 			{
-				Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
+				//Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 				Assert::Fail();
 			}
 		}
@@ -176,7 +176,7 @@ _Connection.Close();
 			try
 			{
 				// get the project path so we can get the FQPN to the test-image
-				std::wstring ProjectPath = EXPAND(UNITTESTPRJ);
+				std::u16string ProjectPath = EXPAND(UNITTESTPRJ);
 				ProjectPath.erase(0, 1); // erase the first quote
 				ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
 
@@ -184,7 +184,7 @@ _Connection.Close();
 
 				// perform C test
 				std::unique_ptr<IDbCommand> InsertCommand = _Connection.CreateCommand();
-				InsertCommand->SetCommandText(L"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1.35, NULL, ?, ?, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 99.1, NULL, ?, ?, ?, ?, '02/10/2010 12:30', NULL, ?, ?, ?, ?, 'v', NULL, ?, ?, 's', NULL, ?, ?, DEFAULT, ?, ?, ?, ?, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, ?, ?)");
+				InsertCommand->SetCommandText(u"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1.35, NULL, ?, ?, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 99.1, NULL, ?, ?, ?, ?, '02/10/2010 12:30', NULL, ?, ?, ?, ?, 'v', NULL, ?, ?, 's', NULL, ?, ?, DEFAULT, ?, ?, ?, ?, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, ?, ?)");
 
 				// __int64 (bigint)
 				std::unique_ptr<IDataParameter> Int64Parameter = InsertCommand->CreateParameter();
@@ -314,7 +314,7 @@ _Connection.Close();
 				// hierarchyid - ToDo: mssql specific type
 
 				// image
-				Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + L"\\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
+				Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + u"\\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
 				std::unique_ptr<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 				ImageParameter->SetValue(&ImageStream);
 				InsertCommand->GetParameters()->Add(*ImageParameter.get());
@@ -569,7 +569,7 @@ _Connection.Close();
 			}
 			catch (Exception& ex)
 			{
-				Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
+				//Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 				Assert::Fail();
 			}
 		}
@@ -959,7 +959,7 @@ private:
 	}
 	static void LogSqlNativeException(SqlNativeException& ex)
 	{
-		Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
+		//Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 		Logger::WriteMessage(std::to_string(ex.GetErrorCode()).c_str());
 		for (unsigned int i = 0; i < ex.GetErrors().GetCount(); i++)
 		{

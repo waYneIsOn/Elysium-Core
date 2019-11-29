@@ -56,20 +56,12 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t Buffer
 {
 	if (&Destination == this)
 	{
-#ifdef UNICODE
-		throw InvalidOperationException(L"cannot copy from a stream to the same one");
-#else
-		throw InvalidOperationException("cannot copy from a stream to the same one");
-#endif
+		throw InvalidOperationException(u"cannot copy from a stream to the same one");
 	}
 
 	if (BufferSize > INT_MAX)
 	{	// ToDo: throw specific ArgumentOutOfRangeException
-#ifdef UNICODE
-		throw Exception(L"ArgumentOutOfRangeException");
-#else
-		throw Exception("ArgumentOutOfRangeException");
-#endif
+		throw Exception(u"ArgumentOutOfRangeException");
 	}
 
 	size_t BytesRead = 0;

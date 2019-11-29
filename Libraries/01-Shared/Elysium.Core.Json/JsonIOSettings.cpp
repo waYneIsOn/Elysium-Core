@@ -1,11 +1,7 @@
 #include "JsonIOSettings.hpp"
 
 Elysium::Core::Json::JsonIOSettings::JsonIOSettings()
-#ifdef UNICODE
-	: _IndentSpace(L" "), _Indent(L"\t"), _NewLine(L"\r\n")
-#else
-	: _IndentSpace(" "), _Indent("\t"), _NewLine("\r\n")
-#endif
+	: _IndentSpace(u" "), _Indent(u"\t"), _NewLine(u"\r\n")
 {
 }
 Elysium::Core::Json::JsonIOSettings::JsonIOSettings(const String & IndentSpace, const String & Indent, const String & NewLine)

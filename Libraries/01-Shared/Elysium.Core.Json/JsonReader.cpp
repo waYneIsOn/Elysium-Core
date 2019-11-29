@@ -33,19 +33,19 @@ bool Elysium::Core::Json::JsonReader::Read()
 			const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 			switch (CurrentCharacter)
 			{
-			case L'{':
+			case u'{':
 				_State = JsonReader::JsonReaderState::StartedObject;
 				_CurrentToken = JsonToken::StartedObject;
 				return true;
-			case L'}':
+			case u'}':
 				_State = JsonReader::JsonReaderState::EndedObject;
 				_CurrentToken = JsonToken::EndedObject;
 				return true;
-			case L'[':
+			case u'[':
 				_State = JsonReader::JsonReaderState::StartedArray;
 				_CurrentToken = JsonToken::StartedArray;
 				return true;
-			case L']':
+			case u']':
 				_State = JsonReader::JsonReaderState::EndedArray;
 				_CurrentToken = JsonToken::EndedArray;
 				return true;
@@ -53,33 +53,34 @@ bool Elysium::Core::Json::JsonReader::Read()
 				_State = JsonReader::JsonReaderState::Finished;
 				_CurrentToken = JsonToken::None;
 				return false;
-			case L' ':
-			case L',':
-			case L'\r':
-			case L'\n':
-			case L'\t':
+			case u' ':
+			case u',':
+			case u'\r':
+			case u'\n':
+			case u'\t':
 				break;
-			case L'"':
+			case u'"':
 				// don't set the either _State or _CurrentToken here since we don't know whether we're reading a property name or value yet
 				return ReadProperty();
-			case L'1':
-			case L'2':
-			case L'3':
-			case L'4':
-			case L'5':
-			case L'6':
-			case L'7':
-			case L'8':
-			case L'9':
+			case u'-':
+			case u'1':
+			case u'2':
+			case u'3':
+			case u'4':
+			case u'5':
+			case u'6':
+			case u'7':
+			case u'8':
+			case u'9':
 				_State = JsonReader::JsonReaderState::PropertyValue;
 				_CurrentToken = JsonToken::Integer;
 				return ReadValueNumeric(CurrentCharacter);
-			case L't':
-			case L'f':
+			case u't':
+			case u'f':
 				_State = JsonReader::JsonReaderState::PropertyValue;
 				_CurrentToken = JsonToken::Boolean;
 				return ReadValueBool(CurrentCharacter);
-			case L'n':
+			case u'n':
 				_State = JsonReader::JsonReaderState::PropertyValue;
 				_CurrentToken = JsonToken::Null;
 				return ReadValueNull(CurrentCharacter);
@@ -89,9 +90,9 @@ bool Elysium::Core::Json::JsonReader::Read()
 			}
 		}
 	case Elysium::Core::Json::JsonReader::JsonReaderState::Finished:
-		throw JsonReaderException(L"reader has already finished");
+		throw JsonReaderException(u"reader has already finished");
 	case Elysium::Core::Json::JsonReader::JsonReaderState::Error:
-		throw JsonReaderException(L"reader has already encountered an error");
+		throw JsonReaderException(u"reader has already encountered an error");
 	default:
 		// ToDo: message
 		throw JsonReaderException();
@@ -109,7 +110,7 @@ bool Elysium::Core::Json::JsonReader::ReadProperty()
 	while(true)
 	{
 		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
-		if (CurrentCharacter == -1 || CurrentCharacter == L'"')
+		if (CurrentCharacter == -1 || CurrentCharacter == u'"')
 		{
 			break;
 		}
@@ -119,8 +120,8 @@ bool Elysium::Core::Json::JsonReader::ReadProperty()
 	// eat indent so we can check whether we've just read a property name or value
 	EatIndent();
 	const int32_t NextCharacter = PeekNextCharacterFromSource();
-	const ElysiumChar Bla = NextCharacter;
-	if (NextCharacter == L':')
+	const char16_t Bla = NextCharacter;
+	if (NextCharacter == u':')
 	{
 		ReadNextCharacterFromSource();
 
@@ -130,7 +131,7 @@ bool Elysium::Core::Json::JsonReader::ReadProperty()
 		_PropertyBuffer.Clear();
 		return true;
 	}
-	else if (NextCharacter == L',' || NextCharacter == L'}' || NextCharacter == L']')
+	else if (NextCharacter == u',' || NextCharacter == u'}' || NextCharacter == u']')
 	{
 		_State = JsonReader::JsonReaderState::InBetweenValues;
 		_CurrentToken = JsonToken::String;
@@ -141,7 +142,7 @@ bool Elysium::Core::Json::JsonReader::ReadProperty()
 	else
 	{
 		// ToDo:
-		throw JsonReaderException(L"unexpected character xy in line ....");
+		throw JsonReaderException(u"unexpected character xy in line ....");
 	}
 }
 
@@ -154,30 +155,30 @@ bool Elysium::Core::Json::JsonReader::ReadValueNumeric(const int32_t FirstCharac
 		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 		switch (CurrentCharacter)
 		{
-		case L',':
-		case L'\r':
-		case L'\n':
+		case u',':
+		case u'\r':
+		case u'\n':
 			_State = JsonReader::JsonReaderState::InBetweenValues;
 			_CurrentNodeValue = ValueBuilder.ToString();
 			return true;
-		case L'.':
+		case u'.':
 			_CurrentToken = JsonToken::Float;
-		case L'0':
-		case L'1':
-		case L'2':
-		case L'3':
-		case L'4':
-		case L'5':
-		case L'6':
-		case L'7':
-		case L'8':
-		case L'9':
+		case u'0':
+		case u'1':
+		case u'2':
+		case u'3':
+		case u'4':
+		case u'5':
+		case u'6':
+		case u'7':
+		case u'8':
+		case u'9':
 			ValueBuilder.Append(CurrentCharacter);
 			break;
 		default:
 			// ToDo:
 			_State = JsonReader::JsonReaderState::Error;
-			throw JsonReaderException(L"unexpected character xy in line ....");
+			throw JsonReaderException(u"unexpected character xy in line ....");
 		}
 	}
 }
@@ -190,24 +191,24 @@ bool Elysium::Core::Json::JsonReader::ReadValueBool(const int32_t FirstCharacter
 		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 		switch (CurrentCharacter)
 		{
-		case L',':
-		case L'\r':
-		case L'\n':
+		case u',':
+		case u'\r':
+		case u'\n':
 			_State = JsonReader::JsonReaderState::InBetweenValues;
 			_CurrentNodeValue = ValueBuilder.ToString();
 			return true;
-		case L'r':
-		case L'u':
-		case L'e':
-		case L'a':
-		case L'l':
-		case L's':
+		case u'r':
+		case u'u':
+		case u'e':
+		case u'a':
+		case u'l':
+		case u's':
 			ValueBuilder.Append(CurrentCharacter);
 			break;
 		default:
 			// ToDo:
 			_State = JsonReader::JsonReaderState::Error;
-			throw JsonReaderException(L"unexpected character xy in line ....");
+			throw JsonReaderException(u"unexpected character xy in line ....");
 		}
 	}
 }
@@ -220,20 +221,20 @@ bool Elysium::Core::Json::JsonReader::ReadValueNull(const int32_t FirstCharacter
 		const int32_t CurrentCharacter = ReadNextCharacterFromSource();
 		switch (CurrentCharacter)
 		{
-		case L',':
-		case L'\r':
-		case L'\n':
+		case u',':
+		case u'\r':
+		case u'\n':
 			_State = JsonReader::JsonReaderState::InBetweenValues;
 			_CurrentNodeValue = ValueBuilder.ToString();
 			return true;
-		case L'u':
-		case L'l':
+		case u'u':
+		case u'l':
 			ValueBuilder.Append(CurrentCharacter);
 			break;
 		default:
 			// ToDo:
 			_State = JsonReader::JsonReaderState::Error;
-			throw JsonReaderException(L"unexpected character xy in line ....");
+			throw JsonReaderException(u"unexpected character xy in line ....");
 		}
 	}
 }
@@ -245,10 +246,10 @@ void Elysium::Core::Json::JsonReader::EatIndent()
 	{
 		switch (PeekNextCharacterFromSource())
 		{
-		case L' ':
-		case L'\r':
-		case L'\n':
-		case L'\t':
+		case u' ':
+		case u'\r':
+		case u'\n':
+		case u'\t':
 			ReadNextCharacterFromSource();
 			break;
 		default:

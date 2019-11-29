@@ -409,11 +409,7 @@ namespace Elysium
 				{
 					if (DesiredMinimumSize < _Count)
 					{	// ToDo: throw a specific ArgumentOutOfRangeException
-#ifdef UNICODE
-						throw Exception(L"ArgumentOutOfRangeException");
-#else
-						throw Exception("ArgumentOutOfRangeException");
-#endif
+						throw Exception(u"ArgumentOutOfRangeException");
 					}
 					if (DesiredMinimumSize > LIST_MAX)
 					{
@@ -453,11 +449,7 @@ namespace Elysium
 				{
 					if (DesiredMinimumSize < _Count)
 					{	// ToDo: throw a specific ArgumentOutOfRangeException
-#ifdef UNICODE
-						throw Exception(L"ArgumentOutOfRangeException");
-#else
-						throw Exception("ArgumentOutOfRangeException");
-#endif
+						throw Exception(u"ArgumentOutOfRangeException");
 					}
 					if (DesiredMinimumSize > LIST_MAX)
 					{

@@ -137,7 +137,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 			// make sure BlockLength equals the complement on BlockLengthComplement
 			if (BlockLength != ~BlockLengthComplement)
 			{
-				throw InvalidDataException(L"LEN doesn't match complement of NLEN");
+				throw InvalidDataException(u"LEN doesn't match complement of NLEN");
 			}
 
 			if (BlockLength > 0)
@@ -148,7 +148,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 		}
 		else if (!EncodingMethod1 && EncodingMethod2)
 		{	// 01 - statically compressed block
-			int32_t Symbol;
+			//int32_t Symbol;
 
 
 			int x = 34;
@@ -159,7 +159,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 		}
 		else
 		{	// 11
-			throw InvalidOperationException(L"EncodingMethod 11 is reserved and musn't be used");
+			throw InvalidOperationException(u"EncodingMethod 11 is reserved and musn't be used");
 		}
 	} while (!IsLastBlock);
 

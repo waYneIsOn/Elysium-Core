@@ -22,16 +22,17 @@ Elysium::Core::Text::StringBuilder::StringBuilder()
 }
 Elysium::Core::Text::StringBuilder::StringBuilder(const size_t Capacity)
 	: _Capacity(Capacity <= INT_MAX ? Capacity : INT_MAX),
-	_Data((ElysiumChar*)malloc(sizeof(ElysiumChar) * _Capacity)),
+	_Data((char16_t*)malloc(sizeof(char16_t) * _Capacity)),
 	_Length(0)
 {
 }
 Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Source)
 	: _Capacity(Source._Capacity),
-	_Data((ElysiumChar*)malloc(sizeof(ElysiumChar) * _Capacity)),
+	_Data(new char16_t[_Capacity]),
+	//_Data((char16_t*)malloc(sizeof(char16_t) * _Capacity)),
 	_Length(Source._Length)
 {
-	memcpy(_Data, Source._Data, sizeof(ElysiumChar) * _Capacity);
+	memcpy(_Data, Source._Data, sizeof(char16_t) * _Capacity);
 }
 Elysium::Core::Text::StringBuilder::~StringBuilder()
 {
@@ -59,114 +60,110 @@ void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Va
 	Resize(_Length + ValueLength);
 
 	// copy data and set _Length accordingly
-	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);
+	memcpy(&_Data[_Length], &Value[0], sizeof(char16_t) * ValueLength);
 	_Length += ValueLength;
 }
-void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar & Value)
+void Elysium::Core::Text::StringBuilder::Append(const char16_t Value)
 {
 	Resize(_Length + 1);
 
 	// copy data and set _Length accordingly
-	memcpy(&_Data[_Length], &Value, sizeof(ElysiumChar));
+	memcpy(&_Data[_Length], &Value, sizeof(char16_t));
 	_Length++;
 }
-void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar * Value)
-{
-	// resize if required
-#ifdef UNICODE
-	size_t ValueLength = wcslen(Value);
-#else
-	size_t ValueLength = strlen(Value);
-#endif 
-	Resize(_Length + ValueLength);
-
-	// copy data and set _Length accordingly
-	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * ValueLength);
-	_Length += ValueLength;
-}
-void Elysium::Core::Text::StringBuilder::Append(const ElysiumChar * Value, const size_t Length)
+void Elysium::Core::Text::StringBuilder::Append(const char16_t * Value, const size_t Length)
 {
 	// resize if required
 	Resize(_Length + Length);
 
 	// copy data and set _Length accordingly
-	memcpy(&_Data[_Length], &Value[0], sizeof(ElysiumChar) * Length);
+	memcpy(&_Data[_Length], &Value[0], sizeof(char16_t) * Length);
 	_Length += Length;
 }
 void Elysium::Core::Text::StringBuilder::Clear()
 {
 	_Length = 0;
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar Value) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t Value) const
 {
-#ifdef UNICODE
-	size_t Index = wcscspn(_Data, &Value);
-#else
-	size_t Index = strcspn(_Data, &Value);
-#endif
-
-	if (Index >= _Length)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return Index;
-	}
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(_Data, _Length, Value);
+	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - _Data;
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar Value, const size_t StartIndex) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t Value, const size_t StartIndex) const
 {
-#ifdef UNICODE
-	size_t Index = wcscspn(&_Data[StartIndex], &Value);
-#else
-	size_t Index = strcspn(&_Data[StartIndex], &Value);
-#endif
-
-	if (Index >= _Length - StartIndex)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return Index;
-	}
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length, Value);
+	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - &_Data[StartIndex];
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar * Value) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t * Value) const
 {
-#ifdef UNICODE
-	ElysiumChar* Result = wcswcs(_Data, Value);
-#else
-	ElysiumChar* Result = strstr(_Data, Value);
-#endif
+	size_t ValueLength = std::char_traits<char16_t>::length(Value);
+	for (size_t i = 0; i < _Length; i++)
+	{
+		if (_Data[i] == Value[0])
+		{
+			if (i + ValueLength > _Length)
+			{
+				return static_cast<size_t>(-1);
+			}
+
+			bool Found = true;
+			for (size_t j = 1; j < ValueLength; j++)
+			{
+				if (Value[j] != _Data[i++])
+				{
+					Found = false;
+					break;
+				}
+			}
+
+			if (Found)
+			{
+				return i;
+			}
+		}
+	}
+	return static_cast<size_t>(-1);
+	/*
+	char16_t* Result = wcswcs(_Data, Value);	// strstr
 	if (Result == nullptr)
 	{
-		return std::wstring::npos;
+		return static_cast<const char16_t>(-1);
 	}
 	else
 	{
-		return ElysiumStringLength(_Data) - ElysiumStringLength(Result);
+		return std::char_traits<char16_t>::length(_Data) - std::char_traits<char16_t>::length(Result);
 	}
+	*/
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t * Value, const size_t StartIndex) const
 {
-#ifdef UNICODE
-	ElysiumChar* Result = wcswcs(&_Data[StartIndex], Value);
-#else
-	ElysiumChar* Result = strstr(&_Data[StartIndex], Value);
-#endif
+	throw Exception(u"not implemented");
+	/*
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length, *Value);
+	if (CharPointer == nullptr)
+	{
+		return static_cast<const char16_t>(-1);
+	}
+	else
+	{
+		return CharPointer - &_Data[StartIndex];
+	}
+	/*
+	char16_t* Result = wcswcs(&_Data[StartIndex], Value);	// strstr
 	if (Result == nullptr)
 	{
-		return std::wstring::npos;
+		return static_cast<const char16_t>(-1);
 	}
 	else
 	{
-		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
+		return std::char_traits<char16_t>::length(&_Data[StartIndex]) - std::char_traits<char16_t>::length(Result);
 	}
+	*/
 }
 void Elysium::Core::Text::StringBuilder::Remove(const size_t StartIndex, const size_t Length)
 {
 	// copy data and set _Length accordingly
-	memcpy(&_Data[StartIndex], &_Data[Length], sizeof(ElysiumChar) * Length);
+	memcpy(&_Data[StartIndex], &_Data[Length], sizeof(char16_t) * Length);
 	_Length -= Length;
 }
 
@@ -183,11 +180,7 @@ void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)
 {
 	if (DesiredMinimumSize < _Length)
 	{	// ToDo: throw a specific ArgumentOutOfRangeException
-#ifdef UNICODE
-		throw Exception(L"ArgumentOutOfRangeException");
-#else
-		throw Exception("ArgumentOutOfRangeException");
-#endif
+		throw Exception(u"ArgumentOutOfRangeException");
 	}
 	if (DesiredMinimumSize > INT_MAX)
 	{
@@ -208,12 +201,12 @@ void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)
 		}
 
 		// store a pointer to old data before allocating new data
-		ElysiumChar* OldData = _Data;
-		_Data = (ElysiumChar*)malloc(sizeof(ElysiumChar) * ActualCapacity);
+		char16_t* OldData = _Data;
+		_Data = (char16_t*)malloc(sizeof(char16_t) * ActualCapacity);
 		_Capacity = ActualCapacity;
 
 		// copy all old elements to _Data
-		memcpy(&_Data[0], &OldData[0], sizeof(ElysiumChar) * _Length);
+		memcpy(&_Data[0], &OldData[0], sizeof(char16_t) * _Length);
 
 		// delete old data
 		delete[] OldData;

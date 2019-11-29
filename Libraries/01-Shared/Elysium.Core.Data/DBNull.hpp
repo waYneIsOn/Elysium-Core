@@ -23,11 +23,12 @@ namespace Elysium
 			class ELYSIUM_CORE_DATA_API DBNull final
 			{
 			public:
+				~DBNull();
+
 				static const DBNull* Value();
 			private:
 				DBNull();
 				DBNull(const DBNull& Source);
-				~DBNull();
 
 				static const DBNull _Value;
 			};

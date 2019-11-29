@@ -13,29 +13,13 @@
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
-#ifdef UNICODE
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\r\n";
-#else
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\r\n";
-#endif
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\r\n";
 #elif defined(UNIX)	// ToDo
-#ifdef UNICODE
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\n";
-#else
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\n";
-#endif
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\n";
 #elif defined(PREOSX_MAC)	// ToDo
-#ifdef UNICODE
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\r";
-#else
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\r";
-#endif
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\r";
 #elif defined(__ANDROID__)	// ToDo
-#ifdef UNICODE
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = L"\n";
-#else
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = "\n";
-#endif
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\n";
 #else
 #error "unsupported os"
 #endif
@@ -46,7 +30,6 @@ Elysium::Core::Environment::~Environment()
 
 bool Elysium::Core::Environment::Is64BitProcess()
 {
-//#if sizeof(void*) == 8
 #ifdef _WIN64 || __x86_64__ || __ppc64__
 	return true;
 #else
@@ -55,15 +38,16 @@ bool Elysium::Core::Environment::Is64BitProcess()
 }
 Elysium::Core::String Elysium::Core::Environment::MachineName()
 {
-	TCHAR MachineName[32767];
-	DWORD BufferCount = 32767;
+	wchar_t MachineName[32767];	// TCHAR
+	unsigned long BufferCount = 32767;	// DWORD
 	if (GetComputerName(MachineName, &BufferCount))
 	{
-		return MachineName;
+		//return MachineName;
+		return u"not implemented";
 	}
 	else
 	{
-		throw InvalidOperationException(L"The name of this computer cannot be obtained.");
+		throw InvalidOperationException(u"The name of this computer cannot be obtained.");
 	}
 }
 const Elysium::Core::String & Elysium::Core::Environment::NewLine()
@@ -101,7 +85,7 @@ Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 	}
 	else
 	{
-		throw InvalidOperationException(L"This property was unable to obtain the system version.");
+		throw InvalidOperationException(u"This property was unable to obtain the system version.");
 	}
 }
 int Elysium::Core::Environment::ProcessorCount()
@@ -114,28 +98,30 @@ int Elysium::Core::Environment::ProcessorCount()
 }
 Elysium::Core::String Elysium::Core::Environment::UserName()
 {
-	TCHAR UserName[32767];
-	DWORD BufferCount = 32767;
+	wchar_t UserName[32767];	// TCHAR
+	unsigned long BufferCount = 32767;	// DWORD
 	if (GetUserName(UserName, &BufferCount))
 	{
-		return UserName;
+		//return UserName;
+		return u"not implemented";
 	}
 	else
 	{
-		throw InvalidOperationException(L"This property was unable to obtain the user name.");
+		throw InvalidOperationException(u"This property was unable to obtain the user name.");
 	}
 }
 Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 {
-	TCHAR SystemDirectory[32767];
-	DWORD BufferCount = 32767;
+	wchar_t SystemDirectory[32767];	// TCHAR
+	unsigned long BufferCount = 32767;	// DWORD
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
 	{
-		return SystemDirectory;
+		//return SystemDirectory;
+		return u"not implemented";
 	}
 	else
 	{
-		throw InvalidOperationException(L"This property was unable to obtain the system directory.");
+		throw InvalidOperationException(u"This property was unable to obtain the system directory.");
 	}
 }
 

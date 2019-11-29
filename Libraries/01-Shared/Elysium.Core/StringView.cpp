@@ -16,11 +16,11 @@ Elysium::Core::StringView::StringView()
 	: _Data(nullptr), _Length(0)
 {
 }
-Elysium::Core::StringView::StringView(ElysiumChar * Input)
-	: _Data(&Input[0]), _Length(ElysiumStringLength(Input))
+Elysium::Core::StringView::StringView(char16_t * Input)
+	: _Data(&Input[0]), _Length(std::char_traits<char16_t>::length(Input))
 {
 }
-Elysium::Core::StringView::StringView(ElysiumChar * Input, size_t Length)
+Elysium::Core::StringView::StringView(char16_t * Input, size_t Length)
 	: _Data(&Input[0]), _Length(Length)
 {
 }
@@ -120,123 +120,117 @@ const size_t Elysium::Core::StringView::GetLength() const
 	return _Length;
 }
 
-size_t Elysium::Core::StringView::IndexOf(const ElysiumChar Value) const
+size_t Elysium::Core::StringView::IndexOf(const char16_t Value) const
 {
-#ifdef UNICODE
-	size_t Index = wcscspn(_Data, &Value);
-#else
-	size_t Index = strcspn(_Data, &Value);
-#endif
-
-	if (Index >= _Length)
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(_Data, _Length, Value);
+	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - _Data;
+}
+size_t Elysium::Core::StringView::IndexOf(const char16_t Value, const size_t StartIndex) const
+{
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length, Value);
+	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - &_Data[StartIndex];
+}
+size_t Elysium::Core::StringView::IndexOf(const char16_t * Value) const
+{
+	size_t ValueLength = std::char_traits<char16_t>::length(Value);
+	for (size_t i = 0; i < _Length; i++)
 	{
-		return std::wstring::npos;
+		if (_Data[i] == Value[0])
+		{
+			if (i + ValueLength > _Length)
+			{
+				return static_cast<size_t>(-1);
+			}
+
+			bool Found = true;
+			for (size_t j = 1; j < ValueLength; j++)
+			{
+				if (Value[j] != _Data[i++])
+				{
+					Found = false;
+					break;
+				}
+			}
+
+			if (Found)
+			{
+				return i;
+			}
+		}
+	}
+	return static_cast<size_t>(-1);
+}
+size_t Elysium::Core::StringView::IndexOf(const char16_t * Value, const size_t StartIndex) const
+{
+	throw Exception(u"not implemented");
+	/*
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length, *Value);
+	if (CharPointer == nullptr)
+	{
+		return static_cast<const char16_t>(-1);
 	}
 	else
 	{
-		return Index;
+		return CharPointer - &_Data[StartIndex];
 	}
-}
-size_t Elysium::Core::StringView::IndexOf(const ElysiumChar Value, const size_t StartIndex) const
-{
-#ifdef UNICODE
-	size_t Index = wcscspn(&_Data[StartIndex], &Value);
-#else
-	size_t Index = strcspn(&_Data[StartIndex], &Value);
-#endif
-
-	if (Index >= _Length - StartIndex)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return Index;
-	}
-}
-size_t Elysium::Core::StringView::IndexOf(const ElysiumChar * Value) const
-{
-#ifdef UNICODE
-	ElysiumChar* Result = wcswcs(_Data, Value);
-#else
-	ElysiumChar* Result = strstr(_Data, Value);
-#endif
+	/*
+	char16_t* Result = wcswcs(&_Data[StartIndex], Value);	// strstr
 	if (Result == nullptr)
 	{
-		return std::wstring::npos;
+		return static_cast<const char16_t>(-1);
 	}
 	else
 	{
-		return ElysiumStringLength(_Data) - ElysiumStringLength(Result);
+		return std::char_traits<char16_t>::length(&_Data[StartIndex]) - std::char_traits<char16_t>::length(Result);
 	}
-}
-size_t Elysium::Core::StringView::IndexOf(const ElysiumChar * Value, const size_t StartIndex) const
-{
-#ifdef UNICODE
-	ElysiumChar* Result = wcswcs(&_Data[StartIndex], Value);
-#else
-	ElysiumChar* Result = strstr(&_Data[StartIndex], Value);
-#endif
-	if (Result == nullptr)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
-	}
+	*/
 }
 size_t Elysium::Core::StringView::IndexOf(const String & Value, const size_t StartIndex) const
 {
 	return IndexOf(Value[StartIndex]);
 }
-void Elysium::Core::StringView::Split(const ElysiumChar Delimiter, Elysium::Core::Collections::Generic::List<StringView> * Views) const
+void Elysium::Core::StringView::Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<StringView> & Views) const
 {
 	size_t StartIndex = 0;
 	size_t Length = 0;
 
 	do
 	{
-#ifdef UNICODE
-		Length = wcscspn(&_Data[StartIndex], &Delimiter);
-#else
-		Length = strcspn(&_Data[StartIndex], &Delimiter);
-#endif
-
-		Views->Add(StringView(&_Data[StartIndex], Length));
+		Length = _Length + 1;
+		/*
+		Length = wcscspn(&_Data[StartIndex], &Delimiter);	// strcspn
+		Views.Add(StringView(&_Data[StartIndex], Length));
 		StartIndex = Length + 1;
+		*/
 	} while (Length < _Length);
 }
-void Elysium::Core::StringView::Split(const ElysiumChar* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const
+void Elysium::Core::StringView::Split(const char16_t* Delimiter, Elysium::Core::Collections::Generic::List<StringView> & Views) const
 {
-	size_t DelimiterLength = ElysiumStringLength(Delimiter);
+	size_t DelimiterLength = std::char_traits<char16_t>::length(Delimiter);
 	size_t StartIndex = 0;
 	size_t Length = 0;
-	ElysiumChar* Result = nullptr;
+	char16_t* Result = nullptr;
 
 	do
 	{
-#ifdef UNICODE
-		Result = wcswcs(&_Data[StartIndex], Delimiter);
-#else
-		Result = strstr(&_Data[StartIndex], Delimiter);
-#endif
-		
+		Result = nullptr;
+		/*
+		Result = wcswcs(&_Data[StartIndex], Delimiter);	// strstr	
 		if (Result == nullptr)
 		{
-			Length = ElysiumStringLength(&_Data[StartIndex]);
+			Length = std::char_traits<char16_t>::length(&_Data[StartIndex]);
 		}
 		else
 		{
-			Length = ElysiumStringLength(&_Data[StartIndex]) - ElysiumStringLength(Result);
+			Length = std::char_traits<char16_t>::length(&_Data[StartIndex]) - std::char_traits<char16_t>::length(Result);
 		}
-
-		Views->Add(StringView(&_Data[StartIndex], Length));
+		*/
+		Views.Add(StringView(&_Data[StartIndex], Length));
 		StartIndex += Length + DelimiterLength;
 	} while (Result != nullptr);
 }
 
-ElysiumChar & Elysium::Core::StringView::operator[](size_t Index) const
+char16_t & Elysium::Core::StringView::operator[](size_t Index) const
 {
 	if (Index > _Length)	// not >= because or \0
 	{

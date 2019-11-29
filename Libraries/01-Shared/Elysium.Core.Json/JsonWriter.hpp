@@ -49,7 +49,7 @@ namespace Elysium
 				void WriteValue(const int& Value);
 				void WriteValue(const float& Value);
 				void WriteValue(const double& Value);
-				void WriteValue(const wchar_t* Value);
+				void WriteValue(const char16_t* Value);
 				void WriteValue(const String& Value);
 
 				void WriteNull();
@@ -60,8 +60,7 @@ namespace Elysium
 				void WriteIndentSpace();
 				void WriteValueDelimiter();
 
-				virtual void WriteString(const char& Value) = 0;
-				virtual void WriteString(const wchar_t& Value) = 0;
+				virtual void WriteString(const char16_t Value) = 0;
 				virtual void WriteString(const String& Value) = 0;
 
 			private:

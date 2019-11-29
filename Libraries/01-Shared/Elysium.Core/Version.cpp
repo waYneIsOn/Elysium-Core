@@ -4,6 +4,10 @@
 #include "List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONVERT
+#include "Convert.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
 #include "ArgumentNullException.hpp"
 #endif
@@ -122,38 +126,37 @@ const uint32_t Elysium::Core::Version::GetRevision() const
 	return _Revision;
 }
 
-void Elysium::Core::Version::Parse(const StringView * Input, Version * Result)
+void Elysium::Core::Version::Parse(const StringView & Input, Version & Result)
 {
-	if (Result == nullptr)
-	{
-		throw ArgumentNullException(L"Result");
-	}
-
 	List<StringView> Numbers;
-	Input->Split(L'.', &Numbers);
+	Input.Split(u'.', Numbers);
 
 	const size_t NumberCount = Numbers.GetCount();
 	if (NumberCount >= 1)
 	{
-		Result->_Major = wcstoul(&Numbers[0][0], nullptr, 10);
+		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[0][0], 10);
+		//Result._Major = wcstoul(&Numbers[0][0], nullptr, 10);
 	}
 	if (NumberCount >= 2)
 	{
-		Result->_Minor = wcstoul(&Numbers[1][0], nullptr, 10);
+		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[1][0], 10);
+		//Result._Minor = wcstoul(&Numbers[1][0], nullptr, 10);
 	}
 	if (NumberCount >= 3)
 	{
-		Result->_Minor = wcstoul(&Numbers[2][0], nullptr, 10);
+		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[2][0], 10);
+		//Result._Minor = wcstoul(&Numbers[2][0], nullptr, 10);
 	}
 	if (NumberCount >= 4)
 	{
-		Result->_Minor = wcstoul(&Numbers[3][0], nullptr, 10);
+		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[3][0], 10);
+		//Result._Minor = wcstoul(&Numbers[3][0], nullptr, 10);
 	}
 }
-Elysium::Core::Version Elysium::Core::Version::Parse(const StringView * Input)
+Elysium::Core::Version Elysium::Core::Version::Parse(const StringView & Input)
 {
 	Version ParsedVersion;
-	Parse(Input, &ParsedVersion);
+	Parse(Input, ParsedVersion);
 	return ParsedVersion;
 }
 

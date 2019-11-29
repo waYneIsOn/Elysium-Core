@@ -22,6 +22,10 @@
 #error "undefined os"
 #endif
 
+#ifndef _UCHAR
+#include <uchar.h>
+#endif
+
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
 #include "../Elysium.Core/ArgumentNullException.hpp"
 #endif
@@ -45,28 +49,16 @@ Elysium::Core::Text::Encoding::~Encoding()
 
 void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 {
-#ifdef UNICODE
-	throw NotImplementedException(L"size_t Elysium::Core::Text::Encoding::GetBytes(String & Input, size_t CharIndex, size_t CharCount, byte * Output)");
-#else
-	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetBytes(String & Input, size_t CharIndex, size_t CharCount, byte * Output)");
-#endif
+	throw NotImplementedException(u"size_t Elysium::Core::Text::Encoding::GetBytes(String & Input, size_t CharIndex, size_t CharCount, byte * Output)");
 }
 
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()
 {
-#ifdef UNICODE
 	return _ASCII;
-#else
-	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()");
-#endif
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()
 {
-#ifdef UNICODE
-	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()");
-#else
-	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()");
-#endif
+	throw NotImplementedException(u"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUnicode()");
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Default()
 {
@@ -74,37 +66,19 @@ const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Default()
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()
 {
-#ifdef UNICODE
-	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()");
-#else
-	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()");
-#endif
+	throw NotImplementedException(u"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()");
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()
 {
-#ifdef UNICODE
-	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()");
-#else
-	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()");
-#endif
+	throw NotImplementedException(u"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()");
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()
 {
-#ifdef UNICODE
-	throw NotImplementedException(L"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()");
-#else
-	throw NotImplementedException("const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()");
-#endif
+	throw NotImplementedException(u"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()");
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF8()
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	return _UTF8;
-#elif defined(__ANDROID__)
-	throw NotImplementedException("size_t Elysium::Core::Text::Encoding::GetBytes(String & Input, size_t CharIndex, size_t CharCount, byte * Output)");
-#else
-#error "undefined os"
-#endif
 }
 
 bool Elysium::Core::Text::Encoding::GetIsSingleByte() const
@@ -120,58 +94,92 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 	return (const String&)_EncodingName;
 }
 
-Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::GetBytes(const String & Input, const size_t CharIndex, const size_t CharCount) const
+Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::GetBytes(const char16_t Input) const
 {
-	Elysium::Core::Collections::Generic::List<byte> Result;
+	// ToDo: can we not use nullptr as the first parameter in c16rtomb?
+	mbstate_t State{};
 
-#ifdef UNICODE
-	int Length = WideCharToMultiByte(_CodePage, 0, &Input.GetCharArray()[0], (int)CharCount, 0, 0, 0, 0);
+	// get the size required
+	char Buffer[4];
+	size_t RequiredSize = c16rtomb(Buffer, Input, &State);
 
-	char* ConvertedBytes = new char[Length];
-	WideCharToMultiByte(_CodePage, 0, &Input.GetCharArray()[0], -1, &ConvertedBytes[0], Length, 0, 0);
-	for (int i = 0; i < Length; i++)
-	{
-		Result.Add((byte(ConvertedBytes[i])));
-	}
-	delete[] ConvertedBytes;
-#else
-	throw NotImplementedException("Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::GetBytes(...)");
-#endif 
+	// write bytes to list
+	Elysium::Core::Collections::Generic::List<byte> Result = Elysium::Core::Collections::Generic::List<byte>(RequiredSize + 1);
+	c16rtomb((char*)&Result[0], Input, &State);
+	Result[RequiredSize] = u'\0';
 
 	return Result;
 }
+Elysium::Core::Collections::Generic::List<Elysium::Core::byte> Elysium::Core::Text::Encoding::GetBytes(const String & Input, const size_t CharIndex, const size_t CharCount) const
+{
+	// ToDo: can we not use nullptr as the first parameter in c16rtomb?
+	mbstate_t State{};
+
+	// iterate Input to get the size required
+	size_t InputLength = Input.GetLength() + 1;
+	size_t RequiredSize = 0;
+	char Buffer[4];
+	for (size_t i = 0; i < InputLength; i++)
+	{
+		RequiredSize += c16rtomb(Buffer, Input[i], &State);
+
+#ifdef _DEBUG
+		// ToDo: remove this block once I'm sure about buffer size
+		if (c16rtomb(Buffer, Input[i], &State) > 4)
+		{
+			throw Exception();
+		}
+#endif
+	}
+
+	// write bytes to list
+	Elysium::Core::Collections::Generic::List<byte> Result = Elysium::Core::Collections::Generic::List<byte>(RequiredSize);
+	RequiredSize = 0;
+	for (size_t i = 0; i < InputLength; i++)
+	{
+		RequiredSize += c16rtomb((char*)&Result[RequiredSize], Input[i], &State);
+	}
+	//Result[RequiredSize] = u'\0';
+
+	return Result;
+}
+
 Elysium::Core::String Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount) const
 {
-	String Result;
+	// ToDo: can we not use nullptr as the first parameter in mbrtoc16?
+	mbstate_t State{};
 
-#ifdef UNICODE
-	// determine the length of the string
-	const int Length = MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, nullptr, 0);
-
-	// prepare the string
-	Result._Length = (size_t)Length;
-	if (ByteCount != -1)
+	// iterate Bytes to get the size required
+	size_t RequiredSize = 0;
+	char16_t Buffer;
+	const char* ptr = (const char*)&Bytes[0];
+	const char* end = (const char*)&Bytes[ByteCount - 1];
+	while (size_t rc = mbrtoc16(&Buffer, ptr, end - ptr + 1, &State))
 	{
-		Result._Length++;
+		if (rc == -2 || rc == -1)
+		{
+			break;
+		}
+
+		ptr += rc;
+		RequiredSize++;
 	}
-	if (Result._Data != nullptr)
+
+	// ...
+	String Result = String(RequiredSize);
+	RequiredSize = 0;
+	ptr = (const char*)&Bytes[0];
+	while (size_t rc = mbrtoc16(&Result[RequiredSize], ptr, end - ptr + 1, &State))
 	{
-		delete[] Result._Data;
+		if (rc == -2 || rc == -1)
+		{
+			break;
+		}
+
+		ptr += rc;
+		RequiredSize++;
 	}
-	Result._Data = new wchar_t[Result._Length];
-
-	// now actually convert the bytes to string
-	MultiByteToWideChar(_CodePage, 0, (char*)Bytes, (int)ByteCount, Result._Data, Length);
-
-	// null terminate the string, if necessary
-	if (ByteCount != -1)
-	{
-		Result._Data[Length] = L'\0';
-	}
-#else
-	throw NotImplementedException("String Elysium::Core::Text::Encoding::GetString(const byte * Bytes, const size_t ByteCount, String * Output) const");
-#endif
-
+	Result[RequiredSize] = u'\0';
 	return Result;
 }
 
@@ -193,7 +201,8 @@ Elysium::Core::Text::Encoding::Encoding(int CodePage)
 	CPINFOEX Info;
 	if (GetCPInfoEx(_CodePage, 0, &Info))
 	{
-		_EncodingName = Info.CodePageName;
+		//_EncodingName = Info.CodePageName;
+		_EncodingName = u"not implemented";
 		_IsSingleByte = Info.MaxCharSize == 1;
 	}
 #elif defined(__ANDROID__)

@@ -55,8 +55,8 @@ namespace Elysium
 			const uint32_t GetBuild() const;
 			const uint32_t GetRevision() const;
 
-			static void Parse(const StringView* Input, Version* Result);
-			static Version Parse(const StringView* Input);
+			static void Parse(const StringView& Input, Version& Result);
+			static Version Parse(const StringView& Input);
 		private:
 			uint32_t _Major;
 			uint32_t _Minor;
