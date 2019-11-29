@@ -56,8 +56,8 @@ namespace Elysium
 			size_t IndexOf(const char16_t* Value) const;
 			size_t IndexOf(const char16_t* Value, const size_t StartIndex) const;
 			size_t IndexOf(const String& Value, const size_t StartIndex) const;
-			void Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<StringView>& Views) const;
-			void Split(const char16_t* Delimiter, Elysium::Core::Collections::Generic::List<StringView>& Views) const;
+			void Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
+			void Split(const char16_t* Delimiter, Elysium::Core::Collections::Generic::List<StringView>* Views) const;
 
 			// index operator
 			virtual char16_t& operator[](size_t Index) const;

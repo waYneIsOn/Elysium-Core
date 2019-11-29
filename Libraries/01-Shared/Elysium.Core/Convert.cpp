@@ -16,6 +16,12 @@ Elysium::Core::Convert::~Convert()
 {
 }
 
+Elysium::Core::String Elysium::Core::Convert::ToString(const uint32_t Value, const int32_t FromBase)
+{
+	char Buffer[33];
+	errno_t ErrorNumber = _itoa_s(Value, Buffer, FromBase);
+	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+}
 Elysium::Core::String Elysium::Core::Convert::ToString(const int32_t Value, const int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	char Buffer[33];

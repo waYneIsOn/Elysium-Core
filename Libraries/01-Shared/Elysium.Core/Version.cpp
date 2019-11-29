@@ -129,7 +129,7 @@ const uint32_t Elysium::Core::Version::GetRevision() const
 void Elysium::Core::Version::Parse(const StringView & Input, Version & Result)
 {
 	List<StringView> Numbers;
-	Input.Split(u'.', Numbers);
+	Input.Split(u'.', &Numbers);
 
 	const size_t NumberCount = Numbers.GetCount();
 	if (NumberCount >= 1)
