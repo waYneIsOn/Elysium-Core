@@ -108,7 +108,34 @@ namespace UnitTestsCore
 			Assert::AreEqual((size_t)0, SomeString.IndexOf(u'f', 3));
 			Assert::AreEqual((size_t)1, SomeString.IndexOf(u'e', 5));
 
+			Assert::AreEqual((size_t)0, SomeString.IndexOf(u"di"));
 			Assert::AreEqual((size_t)3, SomeString.IndexOf(u"fe"));
+			Assert::AreEqual((size_t)7, SomeString.IndexOf(u"nt"));
+		}
+		TEST_METHOD(Split)
+		{
+			Elysium::Core::String Source = Elysium::Core::String(u"HTTP/1.1 200 OK\r\nDate: Fri, 29 Nov 2019 12:49:19 GMT\r\nContent-Type: text/html; charset=UTF-8\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nSet-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly\r\nX-Powered-By: Express\r\nVary: Origin, Accept-Encoding\r\nAccess-Control-Allow-Credentials: true\r\nCache-Control: public, max-age=14400\r\nLast-Modified: Mon, 05 Aug 2019 03:07:14 GMT\r\nVia: 1.1 vegur\r\nCF-Cache-Status: HIT\r\nAge: 6201\r\nServer: cloudflare\r\nCF-RAY: 53d4b3737b75f3fb-LHR");
+
+			Elysium::Core::Collections::Generic::List<Elysium::Core::String> Lines;
+			Source.Split(u"\r\n", Lines);
+
+			Assert::AreEqual((size_t)16, Lines.GetCount());
+			AssertExtended::AreEqual(u"HTTP/1.1 200 OK", Lines[0].GetCharArray());
+			AssertExtended::AreEqual(u"Date: Fri, 29 Nov 2019 12:49:19 GMT", Lines[1].GetCharArray());
+			AssertExtended::AreEqual(u"Content-Type: text/html; charset=UTF-8", Lines[2].GetCharArray());
+			AssertExtended::AreEqual(u"Transfer-Encoding: chunked", Lines[3].GetCharArray());
+			AssertExtended::AreEqual(u"Connection: keep-alive", Lines[4].GetCharArray());
+			AssertExtended::AreEqual(u"Set-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly", Lines[5].GetCharArray());
+			AssertExtended::AreEqual(u"X-Powered-By: Express", Lines[6].GetCharArray());
+			AssertExtended::AreEqual(u"Vary: Origin, Accept-Encoding", Lines[7].GetCharArray());
+			AssertExtended::AreEqual(u"Access-Control-Allow-Credentials: true", Lines[8].GetCharArray());
+			AssertExtended::AreEqual(u"Cache-Control: public, max-age=14400", Lines[9].GetCharArray());
+			AssertExtended::AreEqual(u"Last-Modified: Mon, 05 Aug 2019 03:07:14 GMT", Lines[10].GetCharArray());
+			AssertExtended::AreEqual(u"Via: 1.1 vegur", Lines[11].GetCharArray());
+			AssertExtended::AreEqual(u"CF-Cache-Status: HIT", Lines[12].GetCharArray());
+			AssertExtended::AreEqual(u"Age: 6201", Lines[13].GetCharArray());
+			AssertExtended::AreEqual(u"Server: cloudflare", Lines[14].GetCharArray());
+			AssertExtended::AreEqual(u"CF-RAY: 53d4b3737b75f3fb-LHR", Lines[15].GetCharArray());
 		}
 		TEST_METHOD(Substring)
 		{

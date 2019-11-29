@@ -1,5 +1,9 @@
 #include "String.hpp"
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#include "List.hpp"
+#endif
+
 #ifndef _XSTRING_
 #include <xstring>
 #endif
@@ -175,72 +179,127 @@ const char16_t * Elysium::Core::String::GetCharArray() const
 size_t Elysium::Core::String::IndexOf(const char16_t Value) const
 {
 	const char16_t* CharPointer = std::char_traits<char16_t>::find(_Data, _Length, Value);
-	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - _Data;
+	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
 }
 size_t Elysium::Core::String::IndexOf(const char16_t Value, const size_t StartIndex) const
 {
 	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
-	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - &_Data[StartIndex];
+	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 }
 size_t Elysium::Core::String::IndexOf(const char16_t * Value) const
 {
-	size_t ValueLength = std::char_traits<char16_t>::length(Value);
-	for (size_t i = 0; i < _Length; i++)
+	size_t Index = 0;
+	size_t SizeOfValue = std::char_traits<char16_t>::length(Value);
+	while (true)
 	{
-		if (_Data[i] == Value[0])
+		size_t CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<size_t>(-1))
 		{
-			if (i + ValueLength > _Length)
-			{
-				return static_cast<size_t>(-1);
-			}
+			return CurrentIndex;
+		}
 
-			bool Found = true;
-			for (size_t j = 1; j < ValueLength; j++)
-			{
-				if (Value[j] != _Data[i++])
-				{
-					Found = false;
-					break;
-				}
-			}
+		Index += CurrentIndex;
+		if (Index + SizeOfValue > _Length)
+		{
+			return static_cast<size_t>(-1);
+		}
 
-			if (Found)
+		bool Found = true;
+		for (int i = 1; i < SizeOfValue; i++)
+		{
+			if (_Data[Index + i] != Value[i])
 			{
-				return i;
+				Found = false;
+				break;
 			}
 		}
+
+		if (Found)
+		{
+			return Index;
+		}
+		Index++;
 	}
-	return static_cast<size_t>(-1);
 }
 size_t Elysium::Core::String::IndexOf(const char16_t * Value, const size_t StartIndex) const
 {
-	throw Exception(u"not implemented");
-	/*
-	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length - StartIndex, *Value);
-	if (CharPointer == nullptr)
+	size_t Index = StartIndex;
+	size_t SizeOfValue = std::char_traits<char16_t>::length(Value);
+	while (true)
 	{
-		return static_cast<const char16_t>(-1);
+		size_t CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<size_t>(-1))
+		{
+			return CurrentIndex;
+		}
+
+		Index += CurrentIndex;
+		if (Index + SizeOfValue > _Length)
+		{
+			return static_cast<size_t>(-1);
+		}
+
+		bool Found = true;
+		for (int i = 1; i < SizeOfValue; i++)
+		{
+			if (_Data[Index + i] != Value[i])
+			{
+				Found = false;
+				break;
+			}
+		}
+
+		if (Found)
+		{
+			return Index;
+		}
+		Index++;
 	}
-	else
-	{
-		return CharPointer - &_Data[StartIndex];
-	}
-	*/
-	/*
-	char16_t* Result = wcswcs(&_Data[StartIndex], Value);	// strstr
-	if (Result == nullptr)
-	{
-		return std::wstring::npos;
-	}
-	else
-	{
-		return std::char_traits<char16_t>::length(&_Data[StartIndex]) - std::char_traits<char16_t>::length(Result);
-	}
-	*/
 }
 size_t Elysium::Core::String::IndexOf(const String & Value, const size_t StartIndex) const
 {
 	return IndexOf(Value._Data[StartIndex]);
+}
+void Elysium::Core::String::Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<Elysium::Core::String>& Target) const
+{
+	size_t StartIndex = 0;
+	size_t Length = 0;
+
+	while (true)
+	{
+		Length = IndexOf(Delimiter, StartIndex);
+		if (Length == static_cast<size_t>(-1))
+		{
+			if (_Length - StartIndex > 0)
+			{
+				Target.Add(String(&_Data[StartIndex], _Length - StartIndex));
+			}
+			break;
+		}
+		Target.Add(String(&_Data[StartIndex], Length));
+		StartIndex += Length + 1;
+	}
+}
+void Elysium::Core::String::Split(const char16_t * Delimiter, Elysium::Core::Collections::Generic::List<Elysium::Core::String>& Target) const
+{
+	size_t DelimiterLength = std::char_traits<char16_t>::length(Delimiter);
+	size_t StartIndex = 0;
+	size_t Length = 0;
+
+	while (true)
+	{
+		Length = IndexOf(Delimiter, StartIndex);
+		if (Length == static_cast<size_t>(-1))
+		{
+			if (_Length - StartIndex > 0)
+			{
+				Target.Add(String(&_Data[StartIndex], _Length - StartIndex));
+			}
+			break;
+		}
+		Target.Add(String(&_Data[StartIndex], Length - StartIndex));
+		StartIndex += (Length - StartIndex) + DelimiterLength;
+	}
 }
 bool Elysium::Core::String::StartsWith(const char16_t * Value) const
 {

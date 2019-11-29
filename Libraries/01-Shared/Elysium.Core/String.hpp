@@ -22,6 +22,14 @@ namespace Elysium
 {
 	namespace Core
 	{
+		namespace Collections
+		{
+			namespace Generic
+			{
+				template<class T>
+				class List;
+			}
+		}
 		namespace Text
 		{
 			class Encoding;
@@ -63,6 +71,8 @@ namespace Elysium
 			size_t IndexOf(const char16_t* Value) const;
 			size_t IndexOf(const char16_t* Value, const size_t StartIndex) const;
 			size_t IndexOf(const String& Value, const size_t StartIndex) const;
+			void Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<Elysium::Core::String>& Target) const;
+			void Split(const char16_t* Delimiter, Elysium::Core::Collections::Generic::List<Elysium::Core::String>& Target) const;
 			bool StartsWith(const char16_t* Value) const;
 			void Substring(size_t StartIndex, String* Result) const;
 			void Substring(size_t StartIndex, size_t Length, String* Result) const;

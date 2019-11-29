@@ -44,7 +44,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff", ((String)_TestUriHttps.GetAbsoluteUri()).GetCharArray());
 			AssertExtended::AreEqual(u"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#", ((String)_TestUriFtp.GetAbsoluteUri()).GetCharArray());
 			AssertExtended::AreEqual(u"mailto:some@mail.com", ((String)_TestUriMailTo.GetAbsoluteUri()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo", ((String)_TestUriNews.GetAbsoluteUri()).GetCharArray());
 			AssertExtended::AreEqual(u"ldap://[2001:db8::7]/c=GB?objectClass?onex", ((String)_TestUriLdap.GetAbsoluteUri()).GetCharArray());
 			AssertExtended::AreEqual(u"tel:+1-816-555-1212", ((String)_TestUriTel.GetAbsoluteUri()).GetCharArray());
@@ -57,7 +57,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"https", ((String)_TestUriHttps.GetSchema()).GetCharArray());
 			AssertExtended::AreEqual(u"ftp", ((String)_TestUriFtp.GetSchema()).GetCharArray());
 			AssertExtended::AreEqual(u"mailto", ((String)_TestUriMailTo.GetSchema()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"news", ((String)_TestUriNews.GetSchema()).GetCharArray());
 			AssertExtended::AreEqual(u"ldap", ((String)_TestUriLdap.GetSchema()).GetCharArray());
 			AssertExtended::AreEqual(u"tel", ((String)_TestUriTel.GetSchema()).GetCharArray());
@@ -70,7 +70,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"www.google.com:447", ((String)_TestUriHttps.GetAuthority()).GetCharArray());
 			AssertExtended::AreEqual(u"username:password@www.google.com", ((String)_TestUriFtp.GetAuthority()).GetCharArray());
 			AssertExtended::AreEqual(u"some@mail.com", ((String)_TestUriMailTo.GetAuthority()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"comp.infosystems.www.servers.unix", ((String)_TestUriNews.GetAuthority()).GetCharArray());
 			AssertExtended::AreEqual(u"[2001:db8::7]", ((String)_TestUriLdap.GetAuthority()).GetCharArray());
 			AssertExtended::AreEqual(u"+1-816-555-1212", ((String)_TestUriTel.GetAuthority()).GetCharArray());
@@ -83,7 +83,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"", ((String)_TestUriHttps.GetUserInfo()).GetCharArray());
 			AssertExtended::AreEqual(u"username:password", ((String)_TestUriFtp.GetUserInfo()).GetCharArray());
 			AssertExtended::AreEqual(u"some", ((String)_TestUriMailTo.GetUserInfo()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"", ((String)_TestUriNews.GetUserInfo()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriLdap.GetUserInfo()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriTel.GetUserInfo()).GetCharArray());
@@ -113,7 +113,7 @@ namespace UnitTestsCore
 			Assert::AreEqual(447, _TestUriHttps.GetPort());
 			Assert::AreEqual(21, _TestUriFtp.GetPort());
 			Assert::AreEqual(-1, _TestUriMailTo.GetPort());
-
+			
 			Assert::AreEqual(-1, _TestUriNews.GetPort());
 			Assert::AreEqual(389, _TestUriLdap.GetPort());
 			Assert::AreEqual(-1, _TestUriTel.GetPort());
@@ -140,7 +140,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"someFold/subfol/bla", ((String)_TestUriHttps.GetPath()).GetCharArray());
 			AssertExtended::AreEqual(u"xomeFold/subfol/bla", ((String)_TestUriFtp.GetPath()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriMailTo.GetPath()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"some/random/path", ((String)_TestUriNews.GetPath()).GetCharArray());
 			AssertExtended::AreEqual(u"c=GB", ((String)_TestUriLdap.GetPath()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriTel.GetPath()).GetCharArray());
@@ -153,7 +153,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"xyz=123&jkhsdf=8ndsf", ((String)_TestUriHttps.GetQuery()).GetCharArray());
 			AssertExtended::AreEqual(u"xyz=123&jkhsdf=8ndsf", ((String)_TestUriFtp.GetQuery()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriMailTo.GetQuery()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"", ((String)_TestUriNews.GetQuery()).GetCharArray());
 			AssertExtended::AreEqual(u"objectClass?onex", ((String)_TestUriLdap.GetQuery()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriTel.GetQuery()).GetCharArray());
@@ -166,7 +166,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u"fragmentstuff", ((String)_TestUriHttps.GetFragment()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriFtp.GetFragment()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriMailTo.GetFragment()).GetCharArray());
-
+			
 			AssertExtended::AreEqual(u"fragmentyoyo", ((String)_TestUriNews.GetFragment()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriLdap.GetFragment()).GetCharArray());
 			AssertExtended::AreEqual(u"", ((String)_TestUriTel.GetFragment()).GetCharArray());
@@ -179,7 +179,7 @@ namespace UnitTestsCore
 		Uri _TestUriHttps = Uri(u"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff");
 		Uri _TestUriFtp = Uri(u"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#");
 		Uri _TestUriMailTo = Uri(u"mailto:some@mail.com");
-
+		
 		Uri _TestUriNews = Uri(u"news:comp.infosystems.www.servers.unix/some/random/path#fragmentyoyo");
 		Uri _TestUriLdap = Uri(u"ldap://[2001:db8::7]/c=GB?objectClass?onex");
 		Uri _TestUriTel = Uri(u"tel:+1-816-555-1212");

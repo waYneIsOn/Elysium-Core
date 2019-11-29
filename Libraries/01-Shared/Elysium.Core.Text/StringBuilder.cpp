@@ -91,74 +91,78 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t Value) const
 }
 size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t Value, const size_t StartIndex) const
 {
-	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length, Value);
-	return CharPointer == nullptr ? static_cast<const char16_t>(-1) : CharPointer - &_Data[StartIndex];
+	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
+	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 }
 size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t * Value) const
 {
-	size_t ValueLength = std::char_traits<char16_t>::length(Value);
-	for (size_t i = 0; i < _Length; i++)
+	size_t Index = 0;
+	size_t SizeOfValue = std::char_traits<char16_t>::length(Value);
+	while (true)
 	{
-		if (_Data[i] == Value[0])
+		size_t CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<size_t>(-1))
 		{
-			if (i + ValueLength > _Length)
-			{
-				return static_cast<size_t>(-1);
-			}
+			return CurrentIndex;
+		}
 
-			bool Found = true;
-			for (size_t j = 1; j < ValueLength; j++)
-			{
-				if (Value[j] != _Data[i++])
-				{
-					Found = false;
-					break;
-				}
-			}
+		Index += CurrentIndex;
+		if (Index + SizeOfValue > _Length)
+		{
+			return static_cast<size_t>(-1);
+		}
 
-			if (Found)
+		bool Found = true;
+		for (int i = 1; i < SizeOfValue; i++)
+		{
+			if (_Data[Index + i] != Value[i])
 			{
-				return i;
+				Found = false;
+				break;
 			}
 		}
+
+		if (Found)
+		{
+			return Index;
+		}
+		Index++;
 	}
-	return static_cast<size_t>(-1);
-	/*
-	char16_t* Result = wcswcs(_Data, Value);	// strstr
-	if (Result == nullptr)
-	{
-		return static_cast<const char16_t>(-1);
-	}
-	else
-	{
-		return std::char_traits<char16_t>::length(_Data) - std::char_traits<char16_t>::length(Result);
-	}
-	*/
 }
 size_t Elysium::Core::Text::StringBuilder::IndexOf(const char16_t * Value, const size_t StartIndex) const
 {
-	throw Exception(u"not implemented");
-	/*
-	const char16_t* CharPointer = std::char_traits<char16_t>::find(&_Data[StartIndex], _Length, *Value);
-	if (CharPointer == nullptr)
+	size_t Index = StartIndex;
+	size_t SizeOfValue = std::char_traits<char16_t>::length(Value);
+	while (true)
 	{
-		return static_cast<const char16_t>(-1);
+		size_t CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<size_t>(-1))
+		{
+			return CurrentIndex;
+		}
+
+		Index += CurrentIndex;
+		if (Index + SizeOfValue > _Length)
+		{
+			return static_cast<size_t>(-1);
+		}
+
+		bool Found = true;
+		for (int i = 1; i < SizeOfValue; i++)
+		{
+			if (_Data[Index + i] != Value[i])
+			{
+				Found = false;
+				break;
+			}
+		}
+
+		if (Found)
+		{
+			return Index;
+		}
+		Index++;
 	}
-	else
-	{
-		return CharPointer - &_Data[StartIndex];
-	}
-	/*
-	char16_t* Result = wcswcs(&_Data[StartIndex], Value);	// strstr
-	if (Result == nullptr)
-	{
-		return static_cast<const char16_t>(-1);
-	}
-	else
-	{
-		return std::char_traits<char16_t>::length(&_Data[StartIndex]) - std::char_traits<char16_t>::length(Result);
-	}
-	*/
 }
 void Elysium::Core::Text::StringBuilder::Remove(const size_t StartIndex, const size_t Length)
 {
