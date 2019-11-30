@@ -39,18 +39,21 @@ namespace Elysium
 			class ELYSIUM_CORE_JSON_API JsonNode
 			{
 			public:
-				virtual ~JsonNode() {}
+				virtual ~JsonNode();
 
 				virtual const String& GetName() const = 0;
 				virtual const JsonNodeType GetNodeType() const = 0;
 				virtual const JsonNode* GetParentNode() const;
 
-				virtual void WriteTo(JsonWriter& Writer) = 0;
+				virtual void AddChild(JsonNode& Node);
+				virtual void RemoveChild(JsonNode& Node);
+
+				virtual void WriteTo(JsonWriter& Writer) const = 0;
 			protected:
 				JsonNode();
 
 				JsonNode* _ParentNode;
-				//Collections::Generic::List<JsonNode> _Children;
+				Collections::Generic::List<const JsonNode*> _Children;
 			};
 		}
 	}

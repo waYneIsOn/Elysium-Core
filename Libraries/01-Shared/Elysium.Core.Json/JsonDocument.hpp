@@ -40,7 +40,7 @@ namespace Elysium
 				//void Save(Elysium::Core::IO::Stream& OutputStream);
 				//void Save(Elysium::Core::String& Filename);
 
-				void WriteTo(JsonWriter& Writer) override;
+				void WriteTo(JsonWriter& Writer) const override;
 			};
 		}
 	}

@@ -30,11 +30,13 @@ namespace Elysium
 			{
 				Document = 0,
 				String = 1,
-				Number = 2,
-				Object = 3,
-				Array = 4,
-				Boolean = 5,
-				Null = 6
+				Integer = 2,
+				Float = 3,
+				Double = 4,
+				Object = 5,
+				Array = 6,
+				Boolean = 7,
+				Null = 8
 			};
 		}
 	}

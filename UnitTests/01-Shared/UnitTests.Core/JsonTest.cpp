@@ -20,6 +20,18 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonDocument.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_JSON_JSONOBJECT
+#include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonObject.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_JSON_JSONARRAY
+#include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonArray.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_JSON_JSONELEMENT
+#include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonElement.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_JSON_JSONTEXTWRITER
 #include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonTextWriter.hpp"
 #endif
@@ -512,21 +524,125 @@ namespace UnitTestsCore
 
 		TEST_METHOD(DocumentToWriter)
 		{
-			// prepare
-			StringBuilder Target = StringBuilder();
-			StringWriter Writer = StringWriter(Target);
-			JsonTextWriter JsonWriter = JsonTextWriter(Writer);
+			// test 1
+			{
+				// prepare
+				StringBuilder Target = StringBuilder();
+				StringWriter Writer = StringWriter(Target);
+				JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
-			JsonDocument Document = JsonDocument();
+				JsonDocument Document = JsonDocument();
+				JsonObject Root = JsonObject();
+				JsonElement Yep = JsonElement(u"Yep", true);
+				JsonElement Nope = JsonElement(u"Nope", false);
+				JsonElement NullValue = JsonElement(u"NullValue", nullptr);
+				JsonElement Int = JsonElement(u"Int", -5448);
+				JsonElement Float = JsonElement(u"Float", 13.370000f);
+				JsonElement Double = JsonElement(u"Double", 13.370000);
+				JsonElement String = JsonElement(u"String", Elysium::Core::String(u"SomeValue"));
+				JsonObject EmptyObject = JsonObject(u"EmptyObject");
+				JsonObject SomeObject = JsonObject(u"SomeObject");
+				JsonElement Property1 = JsonElement(u"Property1", Elysium::Core::String(u"Value1"));
+				JsonElement Property2 = JsonElement(u"Property2", Elysium::Core::String(u"Value2"));
+				JsonArray EmptyArray = JsonArray(u"EmptyArray");
+				JsonArray IntArray = JsonArray(u"IntArray");
+				JsonElement IntArrayValue1 = JsonElement(Elysium::Core::String(), 1);
+				JsonElement IntArrayValue2 = JsonElement(Elysium::Core::String(), 2);
+				JsonElement IntArrayValue3 = JsonElement(Elysium::Core::String(), 3);
+				JsonArray ObjectArray = JsonArray(u"ObjectArray");
+				JsonObject ObjectArrayObject1 = JsonObject();
+				JsonElement ObjectArrayObject1Value1 = JsonElement(u"Value1", 5448);
+				JsonElement ObjectArrayObject1Value2 = JsonElement(u"Value2", Elysium::Core::String(u"SomeValue"));
+				JsonObject ObjectArrayObject2 = JsonObject();
+				JsonElement ObjectArrayObject2Value1 = JsonElement(u"Value1", 5448);
+				JsonElement ObjectArrayObject2Value2 = JsonElement(u"Value2", Elysium::Core::String(u"SomeValue"));
+				JsonArray TwoDimensionalArray = JsonArray(u"TwoDimensionalArray");
+				JsonArray TwoDimensionalArray1 = JsonArray();
+				JsonArray TwoDimensionalArray2 = JsonArray();
+				JsonElement SpecialCharacterString = JsonElement(u"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
 
-			// write
-			Document.WriteTo(JsonWriter);
+				Document.AddChild(Root);
+				Root.AddChild(Yep);
+				Root.AddChild(Nope);
+				Root.AddChild(NullValue);
+				Root.AddChild(Int);
+				Root.AddChild(Float);
+				Root.AddChild(Double);
+				Root.AddChild(String);
+				Root.AddChild(EmptyObject);
+				Root.AddChild(SomeObject);
+				SomeObject.AddChild(Property1);
+				SomeObject.AddChild(Property2);
+				Root.AddChild(EmptyArray);
+				Root.AddChild(IntArray);
+				IntArray.AddChild(IntArrayValue1);
+				IntArray.AddChild(IntArrayValue2);
+				IntArray.AddChild(IntArrayValue3);
+				Root.AddChild(ObjectArray);
+				ObjectArray.AddChild(ObjectArrayObject1);
+				ObjectArrayObject1.AddChild(ObjectArrayObject1Value1);
+				ObjectArrayObject1.AddChild(ObjectArrayObject1Value2);
+				ObjectArray.AddChild(ObjectArrayObject2);
+				ObjectArrayObject2.AddChild(ObjectArrayObject2Value1);
+				ObjectArrayObject2.AddChild(ObjectArrayObject2Value2);
+				Root.AddChild(TwoDimensionalArray);
+				TwoDimensionalArray.AddChild(TwoDimensionalArray1);
+				TwoDimensionalArray.AddChild(TwoDimensionalArray2);
+				Root.AddChild(SpecialCharacterString);
 
-			// check
+				// write
+				Document.WriteTo(JsonWriter);
+
+				// check
+				AssertExtended::AreEqual(u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}",
+					Target.ToString().GetCharArray());
+			}
+
+			// test 2
+			{
+				// prepare
+				StringBuilder Target = StringBuilder();
+				StringWriter Writer = StringWriter(Target);
+				JsonTextWriter JsonWriter = JsonTextWriter(Writer);
+
+				JsonDocument Document = JsonDocument();
+				JsonArray Root = JsonArray();
+				JsonElement Value1 = JsonElement(Elysium::Core::String(), Elysium::Core::String(u"Value1"));
+				JsonElement Value2 = JsonElement(Elysium::Core::String(), Elysium::Core::String(u"Value2"));
+				JsonElement Value3 = JsonElement(Elysium::Core::String(), Elysium::Core::String(u"Value3"));
+
+				Document.AddChild(Root);
+				Root.AddChild(Value1);
+				Root.AddChild(Value2);
+				Root.AddChild(Value3);
+
+				// write
+				Document.WriteTo(JsonWriter);
+
+				// check
+				AssertExtended::AreEqual(u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
+			}
 		}
 		TEST_METHOD(DocumentFromReader)
 		{
+			// test 1
+			{
+				// prepare
+				String Source = u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+				StringReader Reader = StringReader(Source);
+				JsonTextReader JsonReader = JsonTextReader(Reader);
 
+				// read
+				JsonDocument Document = JsonDocument();
+				//Document.Load
+
+				// check
+			}
+
+			// test 2
+			{
+
+			}
 		}
 	};
 }

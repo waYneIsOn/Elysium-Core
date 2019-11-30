@@ -18,18 +18,10 @@ const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonDocument::GetNo
 	return JsonNodeType::Document;
 }
 
-void Elysium::Core::Json::JsonDocument::WriteTo(JsonWriter & Writer)
+void Elysium::Core::Json::JsonDocument::WriteTo(JsonWriter & Writer) const
 {
-	/*
-	Writer.WriteStartArray();
-	Writer.WriteEndArray();
-	*/
-	/*
-	Writer.WriteStartObject();
 	for (int i = 0; i < _Children.GetCount(); i++)
 	{
-		_Children[i].WriteTo(Writer);
+		_Children[i]->WriteTo(Writer);
 	}
-	Writer.WriteEndObject();
-	*/
 }
