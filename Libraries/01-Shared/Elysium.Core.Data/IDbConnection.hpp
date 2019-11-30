@@ -14,12 +14,12 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DATA_CONNECTIONSTATE
-#include "ConnectionState.hpp"
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
+#ifndef ELYSIUM_CORE_DATA_CONNECTIONSTATE
+#include "ConnectionState.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_IDBTRANSACTION
@@ -48,18 +48,18 @@ namespace Elysium
 				/// </summary>
 				virtual ~IDbConnection() {}
 
-				virtual const std::wstring& GetConnectionString() const = 0;
+				virtual const String& GetConnectionString() const = 0;
 				virtual const int& GetConnectionTimeout() const = 0;
-				virtual const std::wstring& GetDatabase() const = 0;
+				virtual const String& GetDatabase() const = 0;
 				virtual const ConnectionState& GetState() const = 0;
 
-				virtual void SetConnectionString(std::wstring ConnectionString) = 0;
+				virtual void SetConnectionString(const String& ConnectionString) = 0;
 
 				virtual void Open() = 0;
 				virtual std::unique_ptr<IDbTransaction> BeginTransaction() = 0;
 				virtual std::unique_ptr<IDbTransaction> BeginTransaction(IsolationLevel IsolationLevel) = 0;
 				virtual std::unique_ptr<IDbCommand> CreateCommand() = 0;
-				virtual void ChangeDatabase(std::wstring DatabaseName) = 0;
+				virtual void ChangeDatabase(const String& DatabaseName) = 0;
 				virtual void Close() = 0;
 			};
 		}

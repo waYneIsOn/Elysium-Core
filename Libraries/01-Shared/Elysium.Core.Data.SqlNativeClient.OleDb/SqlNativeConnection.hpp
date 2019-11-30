@@ -18,6 +18,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.Data/DbConnection.hpp"
 #endif
 
+
 #ifndef __sqlncli_h__
 #define _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_
 #define _SQLNCLI_OLEDB_
@@ -45,18 +46,18 @@ namespace Elysium
 						SqlNativeConnection();
 						~SqlNativeConnection();
 
-						virtual const std::wstring& GetConnectionString() const override;
+						virtual const String& GetConnectionString() const override;
 						virtual const int& GetConnectionTimeout() const override;
-						virtual const std::wstring& GetDatabase() const override;
+						virtual const String& GetDatabase() const override;
 						virtual const ConnectionState& GetState() const override;
 
-						virtual void SetConnectionString(std::wstring ConnectionString) override;
+						virtual void SetConnectionString(const String & ConnectionString) override;
 
 						virtual void Open() override;
 						virtual std::unique_ptr<IDbTransaction> BeginTransaction() override;
 						virtual std::unique_ptr<IDbTransaction> BeginTransaction(IsolationLevel IsolationLevel) override;
 						virtual std::unique_ptr<IDbCommand> CreateCommand() override;
-						virtual void ChangeDatabase(std::wstring DatabaseName) override;
+						virtual void ChangeDatabase(const String & DatabaseName) override;
 						virtual void Close() override;
 					private:
 						IDBInitialize* _NativeDataSource;

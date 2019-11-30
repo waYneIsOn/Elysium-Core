@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonDocument : public JsonNode
+			class ELYSIUM_CORE_JSON_API JsonDocument : public JsonNode
 			{
 			public:
 				JsonDocument();

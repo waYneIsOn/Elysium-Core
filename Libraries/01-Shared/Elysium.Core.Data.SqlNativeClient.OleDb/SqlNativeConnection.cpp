@@ -1,5 +1,13 @@
 #include "SqlNativeConnection.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_OS_WINDOWS_CONVERT
+#include "../Elysium.Core.OS.Windows/Convert.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVETRANSACTION
 #include "SqlNativeTransaction.hpp"
 #endif
@@ -48,7 +56,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::~SqlNativeConn
 	*/
 }
 
-const std::wstring & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetConnectionString() const
+const Elysium::Core::String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetConnectionString() const
 {
 	return DbConnection::GetConnectionString();
 }
@@ -56,7 +64,7 @@ const int & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Ge
 {
 	return DbConnection::GetConnectionTimeout();
 }
-const std::wstring & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetDatabase() const
+const Elysium::Core::String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetDatabase() const
 {
 	return DbConnection::GetDatabase();
 }
@@ -65,7 +73,7 @@ const Elysium::Core::Data::ConnectionState & Elysium::Core::Data::SqlNativeClien
 	return DbConnection::GetState();
 }
 
-void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::SetConnectionString(std::wstring ConnectionString)
+void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::SetConnectionString(const Elysium::Core::String & ConnectionString)
 {
 	DbConnection::SetConnectionString(ConnectionString);
 }
@@ -101,7 +109,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		VariantInit(&ConnectionProperties[0].vValue);
 		ConnectionProperties[0].dwPropertyID = DBPROP_INIT_PROVIDERSTRING;
 		ConnectionProperties[0].vValue.vt = VT_BSTR;
-		ConnectionProperties[0].vValue.bstrVal = SysAllocString(_ConnectionString.c_str());
+		ConnectionProperties[0].vValue.bstrVal = SysAllocString(Elysium::Core::OS::Windows::Convert::ToWString(_ConnectionString).c_str());
 		ConnectionProperties[0].dwOptions = DBPROPOPTIONS_REQUIRED;
 		ConnectionProperties[0].colid = DB_NULLID;
 
@@ -207,7 +215,7 @@ std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeC
 
 	return std::unique_ptr<SqlNativeCommand>(new SqlNativeCommand(this, CommandFactory));
 }
-void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDatabase(std::wstring DatabaseName)
+void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDatabase(const Elysium::Core::String & DatabaseName)
 {
 	HRESULT HResult;
 
@@ -223,7 +231,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	VariantInit(&ConnectionProperties[0].vValue);
 	ConnectionProperties[0].dwPropertyID = DBPROP_CURRENTCATALOG;
 	ConnectionProperties[0].vValue.vt = VT_BSTR;
-	ConnectionProperties[0].vValue.bstrVal = SysAllocString(DatabaseName.c_str());
+	ConnectionProperties[0].vValue.bstrVal = SysAllocString(Elysium::Core::OS::Windows::Convert::ToWString(DatabaseName).c_str());
 	ConnectionProperties[0].dwOptions = DBPROPOPTIONS_REQUIRED;
 	ConnectionProperties[0].colid = DB_NULLID;
 	ConnectionProperties[0].dwStatus = DBPROPSTATUS_OK;

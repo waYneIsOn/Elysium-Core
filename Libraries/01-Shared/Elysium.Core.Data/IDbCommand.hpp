@@ -14,12 +14,12 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DATA_ISOLATIONLEVEL
-#include "IsolationLevel.hpp"
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
+#ifndef ELYSIUM_CORE_DATA_ISOLATIONLEVEL
+#include "IsolationLevel.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_COMMANDTYPE
@@ -60,7 +60,7 @@ namespace Elysium
 				/// </summary>
 				virtual ~IDbCommand() {}
 
-				virtual const std::wstring GetCommandText() const = 0;
+				virtual const String& GetCommandText() const = 0;
 				virtual const int& GetConnectionTimeout() const = 0;
 				virtual const CommandType& GetCommandType() const = 0;
 				virtual const IDbConnection* GetConnection() const = 0;
@@ -68,7 +68,8 @@ namespace Elysium
 				virtual const IDbTransaction* GetTransaction() const = 0;
 				//virtual const UpdateRowSource* GetUpdateRowSource() const = 0;
 
-				virtual void SetCommandText(std::wstring CommandText) = 0;
+				virtual void SetCommandText(const char16_t* CommandText) = 0;
+				virtual void SetCommandText(const String& CommandText) = 0;
 				virtual void SetConnectionTimeout(int Timeout) = 0;
 				virtual void SetCommandType(CommandType Type) = 0;
 				//virtual void SetConnection(IDbConnection* Connection) = 0;

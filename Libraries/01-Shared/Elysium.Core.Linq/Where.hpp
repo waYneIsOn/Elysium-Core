@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_LINQ_WHERE
 #define ELYSIUM_CORE_LINQ_WHERE
 
+#ifndef ELYSIUM_CORE_LINQ_API
+#include "API.hpp"
+#endif
+
 #ifndef _ALGORITHM_
 #include <algorithm>
 #endif
@@ -20,7 +24,7 @@ namespace Elysium
 	{
 		namespace Linq
 		{
-			struct WhereContainer
+			struct ELYSIUM_CORE_LINQ_API WhereContainer
 			{
 				template<class ContainerType, class LambdaType>
 				ContainerType operator()(ContainerType & Container, LambdaType & Lambda)

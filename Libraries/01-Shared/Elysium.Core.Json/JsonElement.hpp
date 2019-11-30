@@ -20,7 +20,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonElement : public JsonNode
+			class ELYSIUM_CORE_JSON_API JsonElement : public JsonNode
 			{
 			public:
 				JsonElement();

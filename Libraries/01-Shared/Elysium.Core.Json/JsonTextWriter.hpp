@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonTextWriter final : public JsonWriter
+			class ELYSIUM_CORE_JSON_API JsonTextWriter final : public JsonWriter
 			{
 			public:
 				JsonTextWriter(Elysium::Core::IO::TextWriter& Writer);

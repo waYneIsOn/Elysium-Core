@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_JSON_JSONIOSETTINGS
 #define ELYSIUM_CORE_JSON_JSONIOSETTINGS
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_JSON_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonIOSettings final
+			class ELYSIUM_CORE_JSON_API JsonIOSettings final
 			{
 				friend class JsonWriter;
 				friend class JsonReader;

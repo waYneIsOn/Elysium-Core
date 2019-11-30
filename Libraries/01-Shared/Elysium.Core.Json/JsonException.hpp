@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_JSON_JSONEXCEPTION
 #define ELYSIUM_CORE_JSON_JSONEXCEPTION
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_JSON_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_EXCEPTION
@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonException : public Elysium::Core::Exception
+			class ELYSIUM_CORE_JSON_API JsonException : public Elysium::Core::Exception
 			{
 			public:
 				JsonException();

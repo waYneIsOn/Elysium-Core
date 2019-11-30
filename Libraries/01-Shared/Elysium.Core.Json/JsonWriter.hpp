@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_JSON_JSONWRITER
 #define ELYSIUM_CORE_JSON_JSONWRITER
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_JSON_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONIOSETTINGS
@@ -32,7 +32,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonWriter
+			class ELYSIUM_CORE_JSON_API JsonWriter
 			{
 			public:
 				virtual ~JsonWriter() {}

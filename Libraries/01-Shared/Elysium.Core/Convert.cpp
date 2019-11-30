@@ -1,3 +1,4 @@
+#include "..\Elysium.Core.OS.Windows\Convert.hpp"
 #include "Convert.hpp"
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING

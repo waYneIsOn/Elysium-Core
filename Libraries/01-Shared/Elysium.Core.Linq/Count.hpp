@@ -10,13 +10,17 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_LINQ_COUNT
 #define ELYSIUM_CORE_LINQ_COUNT
 
+#ifndef ELYSIUM_CORE_LINQ_API
+#include "API.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
 	{
 		namespace Linq
 		{
-			struct CountContainer
+			struct ELYSIUM_CORE_LINQ_API CountContainer
 			{
 				template<class ContainerType>
 				size_t operator()(ContainerType && Container)

@@ -28,6 +28,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonToken.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriterException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonDocument.cpp" />

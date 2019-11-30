@@ -10,13 +10,17 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_LINQ_CONTAINS
 #define ELYSIUM_CORE_LINQ_CONTAINS
 
+#ifndef ELYSIUM_CORE_LINQ_API
+#include "API.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
 	{
 		namespace Linq
 		{
-			struct ContainsContainer
+			struct ELYSIUM_CORE_LINQ_API ContainsContainer
 			{
 				template<class ContainerType, class ItemType>
 				bool operator()(ContainerType && Container, ItemType && Item)

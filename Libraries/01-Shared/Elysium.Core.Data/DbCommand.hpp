@@ -14,10 +14,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "IDbCommand.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
-#endif
-
 #pragma warning(disable : 4251)
 
 namespace Elysium
@@ -36,12 +32,13 @@ namespace Elysium
 					/// </summary>
 					virtual ~DbCommand() {}
 
-					virtual const std::wstring GetCommandText() const override;
+					virtual const String& GetCommandText() const override;
 					virtual const int& GetConnectionTimeout() const override;
 					virtual const CommandType& GetCommandType() const override;
 					//virtual const UpdateRowSource& GetUpdateRowSource() const override;
 
-					virtual void SetCommandText(std::wstring CommandText) override;
+					virtual void SetCommandText(const char16_t* CommandText) override;
+					virtual void SetCommandText(const String& CommandText) override;
 					virtual void SetConnectionTimeout(int Timeout) override;
 					virtual void SetCommandType(CommandType Type) override;
 					//virtual void SetConnection(IDbConnection Connection) override;
@@ -54,7 +51,7 @@ namespace Elysium
 					const IDbConnection* _Connection;
 					const IDbTransaction* _Transaction;
 
-					std::wstring _Text = L"";
+					String _Text = u"";
 					int _Timeout = 30;
 					CommandType _Type = CommandType::Text;
 				};

@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonTextReader final : public JsonReader
+			class ELYSIUM_CORE_JSON_API JsonTextReader final : public JsonReader
 			{
 			public:
 				JsonTextReader(Elysium::Core::IO::TextReader& Reader);

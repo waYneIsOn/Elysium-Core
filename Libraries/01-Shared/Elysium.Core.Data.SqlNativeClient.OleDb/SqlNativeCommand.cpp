@@ -12,6 +12,10 @@
 #include "../Elysium.Core/Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_OS_WINDOWS_CONVERT
+#include "../Elysium.Core.OS.Windows/Convert.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEEXCEPTION
 #include "SqlNativeException.hpp"
 #endif
@@ -61,7 +65,7 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	}
 
 	// set the command text
-	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, _Text.c_str())))
+	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, Elysium::Core::OS::Windows::Convert::ToWString(_Text).c_str())))
 	{
 		SqlNativeException Exception = SqlNativeException(u"Failed to set command text.\r\n", HResult, NativeCommandText);
 		NativeCommandText->Release();
@@ -116,7 +120,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	}
 
 	// set the command text
-	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, _Text.c_str())))
+	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, Elysium::Core::OS::Windows::Convert::ToWString(_Text).c_str())))
 	{
 		SqlNativeException Exception = SqlNativeException(u"Failed to set command text.\r\n", HResult, NativeCommandText);
 		NativeCommandText->Release();

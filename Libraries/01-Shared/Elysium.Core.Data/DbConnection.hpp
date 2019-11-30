@@ -40,19 +40,19 @@ namespace Elysium
 					/// </summary>
 					virtual ~DbConnection() {}
 
-					virtual const std::wstring& GetConnectionString() const override;
+					virtual const String& GetConnectionString() const override;
 					virtual const int& GetConnectionTimeout() const override;
-					virtual const std::wstring& GetDatabase() const override;
+					virtual const String& GetDatabase() const override;
 					virtual const ConnectionState& GetState() const override;
 
-					virtual void SetConnectionString(std::wstring ConnectionString) override;
+					virtual void SetConnectionString(const String& ConnectionString) override;
 				protected:
 					DbConnection();
-					DbConnection(std::wstring ConnectionString);
+					DbConnection(const String& ConnectionString);
 
-					std::wstring _ConnectionString;
+					String _ConnectionString;
 					int _ConnectionTimeout;
-					std::wstring _Database;
+					String _Database;
 					ConnectionState _ConnectionState;
 				};
 			}

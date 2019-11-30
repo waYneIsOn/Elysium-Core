@@ -20,7 +20,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonReaderException final : public JsonException
+			class ELYSIUM_CORE_JSON_API JsonReaderException final : public JsonException
 			{
 			public:
 				JsonReaderException();

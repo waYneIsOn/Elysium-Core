@@ -10,6 +10,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_LINQ_EXTENSION
 #define ELYSIUM_CORE_LINQ_EXTENSION
 
+#ifndef ELYSIUM_CORE_LINQ_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_LINQ_SINGLEPARAMETEREXTENSION
 #include "SingleParameterExtension.hpp"
 #endif
@@ -38,7 +42,7 @@ namespace Elysium
 		{
 			// this struct allows linq-structs to be wrapped with the purpose of being able to call the operator(...)
 			template<class LinqContainerType>
-			struct Extension
+			struct ELYSIUM_CORE_LINQ_API Extension
 			{
 				// operators for extensions without any parameter
 				Extension<LinqContainerType>& operator()()

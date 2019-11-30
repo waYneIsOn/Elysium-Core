@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_JSON_JSONNODE
 #define ELYSIUM_CORE_JSON_JSONNODE
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_JSON_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONNODETYPE
@@ -36,7 +36,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_API JsonNode
+			class ELYSIUM_CORE_JSON_API JsonNode
 			{
 			public:
 				virtual ~JsonNode() {}
