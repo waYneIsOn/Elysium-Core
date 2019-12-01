@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
 
@@ -58,8 +58,8 @@ namespace Elysium
 				virtual int GetCodePage() const;
 				virtual const String& GetEncodingName() const;
 
-				virtual Elysium::Core::Collections::Generic::List<byte> GetBytes(const char16_t Input) const;
-				virtual Elysium::Core::Collections::Generic::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const;
+				virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const char16_t Input) const;
+				virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const;
 
 				virtual String GetString(const byte* Bytes, const size_t ByteCount) const;
 			protected:

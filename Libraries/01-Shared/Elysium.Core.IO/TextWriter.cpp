@@ -61,12 +61,12 @@ void Elysium::Core::IO::TextWriter::Write(const byte * Value, const size_t Index
 }
 void Elysium::Core::IO::TextWriter::Write(const char16_t Value)
 {
-	Elysium::Core::Collections::Generic::List<byte> Bytes = GetEncoding().GetBytes(Value);
+	Elysium::Core::Collections::Template::List<byte> Bytes = GetEncoding().GetBytes(Value);
 	Write(&Bytes[0], Bytes.GetCount());
 }
 void Elysium::Core::IO::TextWriter::Write(const char16_t * Value, const size_t Count)
 {
-	Elysium::Core::Collections::Generic::List<byte> Bytes = GetEncoding().GetBytes(Value, 0, Count);
+	Elysium::Core::Collections::Template::List<byte> Bytes = GetEncoding().GetBytes(Value, 0, Count);
 	Write(&Bytes[0], Bytes.GetCount());
 }
 void Elysium::Core::IO::TextWriter::Write(const float & Value)

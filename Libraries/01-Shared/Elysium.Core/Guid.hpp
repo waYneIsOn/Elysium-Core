@@ -26,7 +26,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "List.hpp"
 #endif
 
@@ -36,7 +36,7 @@ namespace Elysium
 	{
 		class ELYSIUM_CORE_API Guid final
 		{
-			friend class Collections::Generic::List<Guid>;
+			friend class Collections::Template::List<Guid>;
 		public:
 			Guid(const byte B[16]);
 			Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);

@@ -189,7 +189,7 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, int Port)
 	}
 
 	// write bytes to list
-	Elysium::Core::Collections::Generic::List<byte> Result = Elysium::Core::Collections::Generic::List<byte>(RequiredSize + 1);
+	Elysium::Core::Collections::Template::List<byte> Result = Elysium::Core::Collections::Template::List<byte>(RequiredSize + 1);
 	RequiredSize = 0;
 	for (size_t i = 0; i < InputLength; i++)
 	{

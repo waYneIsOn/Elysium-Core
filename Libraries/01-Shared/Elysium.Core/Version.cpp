@@ -1,6 +1,6 @@
 #include "Version.hpp"
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "List.hpp"
 #endif
 
@@ -16,7 +16,7 @@
 #include "NotImplementedException.hpp"
 #endif
 
-using namespace Elysium::Core::Collections::Generic;
+using namespace Elysium::Core::Collections::Template;
 
 Elysium::Core::Version::Version()
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)

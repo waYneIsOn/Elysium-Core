@@ -10,14 +10,14 @@
     <Filter Include="Globalization">
       <UniqueIdentifier>{23c826fa-de84-4c8e-8b91-dc02b3c18f21}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collections\Generic">
-      <UniqueIdentifier>{2d41a0b3-0588-4f9f-9278-be2049f8ef5f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Runtime">
       <UniqueIdentifier>{d2fe92a0-e635-42f6-8730-da964314a787}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\InteropServices">
       <UniqueIdentifier>{446c94d0-507e-403c-ae98-72be6f78b20c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collections\Template">
+      <UniqueIdentifier>{7c593d0f-f0df-43ad-8a33-8d9cfe30877c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,9 +34,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp">
       <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
-      <Filter>Collections\Generic</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
@@ -55,9 +52,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
-      <Filter>Collections\Generic</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp">
       <Filter>Runtime\InteropServices</Filter>
@@ -82,6 +76,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

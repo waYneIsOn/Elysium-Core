@@ -94,7 +94,7 @@ const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() c
 	return (const String&)_EncodingName;
 }
 
-Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::GetBytes(const char16_t Input) const
+Elysium::Core::Collections::Template::List<byte> Elysium::Core::Text::Encoding::GetBytes(const char16_t Input) const
 {
 	// ToDo: can we not use nullptr as the first parameter in c16rtomb?
 	mbstate_t State{};
@@ -104,13 +104,13 @@ Elysium::Core::Collections::Generic::List<byte> Elysium::Core::Text::Encoding::G
 	size_t RequiredSize = c16rtomb(Buffer, Input, &State);
 
 	// write bytes to list
-	Elysium::Core::Collections::Generic::List<byte> Result = Elysium::Core::Collections::Generic::List<byte>(RequiredSize + 1);
+	Elysium::Core::Collections::Template::List<byte> Result = Elysium::Core::Collections::Template::List<byte>(RequiredSize + 1);
 	c16rtomb((char*)&Result[0], Input, &State);
 	Result[RequiredSize] = u'\0';
 
 	return Result;
 }
-Elysium::Core::Collections::Generic::List<Elysium::Core::byte> Elysium::Core::Text::Encoding::GetBytes(const String & Input, const size_t CharIndex, const size_t CharCount) const
+Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Text::Encoding::GetBytes(const String & Input, const size_t CharIndex, const size_t CharCount) const
 {
 	// ToDo: can we not use nullptr as the first parameter in c16rtomb?
 	mbstate_t State{};
@@ -133,7 +133,7 @@ Elysium::Core::Collections::Generic::List<Elysium::Core::byte> Elysium::Core::Te
 	}
 
 	// write bytes to list
-	Elysium::Core::Collections::Generic::List<byte> Result = Elysium::Core::Collections::Generic::List<byte>(RequiredSize);
+	Elysium::Core::Collections::Template::List<byte> Result = Elysium::Core::Collections::Template::List<byte>(RequiredSize);
 	RequiredSize = 0;
 	for (size_t i = 0; i < InputLength; i++)
 	{

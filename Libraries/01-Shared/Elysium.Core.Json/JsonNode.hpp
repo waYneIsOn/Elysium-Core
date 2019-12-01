@@ -26,7 +26,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "JsonWriter.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
 
@@ -58,7 +58,7 @@ namespace Elysium
 				JsonNode();
 
 				JsonNode* _ParentNode;
-				Collections::Generic::List<JsonNode*> _Children;
+				Collections::Template::List<JsonNode*> _Children;
 
 				virtual void Load(JsonReader& JsonReader) = 0;
 			};

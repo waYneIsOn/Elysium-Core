@@ -60,7 +60,7 @@ namespace Elysium
 				virtual size_t Read(byte* Buffer, const size_t Count) override;
 				virtual void Write(const byte* Buffer, const size_t Count) override;
 			private:
-				Elysium::Core::Collections::Generic::List<byte> _Buffer;
+				Elysium::Core::Collections::Template::List<byte> _Buffer;
 				size_t _CurrentPosition = 0;
 			};
 		}

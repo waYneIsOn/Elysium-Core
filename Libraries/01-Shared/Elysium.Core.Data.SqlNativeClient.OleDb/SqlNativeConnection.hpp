@@ -18,7 +18,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.Data/DbConnection.hpp"
 #endif
 
-
 #ifndef __sqlncli_h__
 #define _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_
 #define _SQLNCLI_OLEDB_

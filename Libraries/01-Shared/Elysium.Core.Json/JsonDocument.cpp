@@ -64,6 +64,11 @@ void Elysium::Core::Json::JsonDocument::AddChild(JsonNode & Node)
 	{
 		throw JsonException(u"A document can only hold one child - the root node!");
 	}
+	const JsonNodeType NodeType = Node.GetNodeType();
+	if (NodeType != JsonNodeType::Object && NodeType != JsonNodeType::Array)
+	{
+		throw JsonException(u"A root node must be either object or array!");
+	}
 	Elysium::Core::Json::JsonNode::AddChild(Node);
 }
 
@@ -102,16 +107,16 @@ void Elysium::Core::Json::JsonDocument::Load(JsonReader & JsonReader)
 		{
 		case JsonToken::StartedObject:
 		{
-			JsonObject* Node = new JsonObject();
-			AddChild(*Node);
-			Node->Load(JsonReader);
+			JsonObject Node = JsonObject();
+			AddChild(Node);
+			Node.Load(JsonReader);
 			break;
 		}
 		case JsonToken::StartedArray:
 		{
-			JsonArray* Node = new JsonArray();
-			AddChild(*Node);
-			Node->Load(JsonReader);
+			JsonArray Node = JsonArray();
+			AddChild(Node);
+			Node.Load(JsonReader);
 			break;
 		}
 		default:

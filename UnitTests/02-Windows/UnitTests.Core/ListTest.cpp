@@ -6,7 +6,7 @@
 #include <vector>
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Generic;
+using namespace Elysium::Core::Collections::Template;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestsCore

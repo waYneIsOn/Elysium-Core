@@ -14,7 +14,7 @@ Elysium::Core::OS::Windows::Convert::~Convert()
 
 std::wstring Elysium::Core::OS::Windows::Convert::ToWString(const String& Value)
 {
-	Elysium::Core::Collections::Generic::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
+	Elysium::Core::Collections::Template::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
 
 	// CP_ACP ?
 	int Length = MultiByteToWideChar(CP_UTF8, 0, (char*)&Bytes[0], -1, NULL, 0);

@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "AssemblyName.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
 
@@ -34,7 +34,7 @@ namespace Elysium
 		{
 			class ELYSIUM_CORE_API Assembly
 			{
-				friend class Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly>;
+				friend class Elysium::Core::Collections::Template::List<Elysium::Core::Reflection::Assembly>;
 			public:
 				Assembly(const Assembly& Source);
 				Assembly(Assembly&& Right) noexcept;

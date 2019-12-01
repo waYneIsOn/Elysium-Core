@@ -18,7 +18,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "AddressFamily.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
 
@@ -63,7 +63,7 @@ namespace Elysium
 				const int MaxSize = 32;
 
 				unsigned int _Size;
-				Elysium::Core::Collections::Generic::List<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
+				Elysium::Core::Collections::Template::List<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
 			};
 		}
 	}

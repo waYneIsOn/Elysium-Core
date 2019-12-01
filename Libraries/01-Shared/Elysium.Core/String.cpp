@@ -1,6 +1,6 @@
 #include "String.hpp"
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "List.hpp"
 #endif
 
@@ -260,7 +260,7 @@ size_t Elysium::Core::String::IndexOf(const String & Value, const size_t StartIn
 {
 	return IndexOf(Value._Data[StartIndex]);
 }
-void Elysium::Core::String::Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<Elysium::Core::String>& Target) const
+void Elysium::Core::String::Split(const char16_t Delimiter, Elysium::Core::Collections::Template::List<Elysium::Core::String>& Target) const
 {
 	size_t StartIndex = 0;
 	size_t Length = 0;
@@ -280,7 +280,7 @@ void Elysium::Core::String::Split(const char16_t Delimiter, Elysium::Core::Colle
 		StartIndex += Length + 1;
 	}
 }
-void Elysium::Core::String::Split(const char16_t * Delimiter, Elysium::Core::Collections::Generic::List<Elysium::Core::String>& Target) const
+void Elysium::Core::String::Split(const char16_t * Delimiter, Elysium::Core::Collections::Template::List<Elysium::Core::String>& Target) const
 {
 	size_t DelimiterLength = std::char_traits<char16_t>::length(Delimiter);
 	size_t StartIndex = 0;

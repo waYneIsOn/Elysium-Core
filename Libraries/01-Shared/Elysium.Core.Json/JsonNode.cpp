@@ -42,6 +42,6 @@ void Elysium::Core::Json::JsonNode::RemoveChild(JsonNode & Node)
 }
 
 Elysium::Core::Json::JsonNode::JsonNode()
-	: _ParentNode(nullptr), _Children(Collections::Generic::List<JsonNode*>())
+	: _ParentNode(nullptr), _Children(Collections::Template::List<JsonNode*>())
 {
 }

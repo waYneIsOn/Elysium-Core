@@ -4,6 +4,10 @@
 #include "JsonElement.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONVERT
+#include "../Elysium.Core/Convert.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
 #include "JsonReaderException.hpp"
 #endif
@@ -62,7 +66,9 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		{
 		case JsonToken::Integer:
 		{
-			throw JsonReaderException();
+			JsonElement Node = JsonElement(u"", Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
+			AddChild(Node);
+			break;
 		}
 		case JsonToken::Float:
 		{
@@ -70,8 +76,8 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::String:
 		{
-			JsonElement* Node = new JsonElement(u"", JsonReader.GetNodeValue());
-			AddChild(*Node);
+			JsonElement Node = JsonElement(u"", JsonReader.GetNodeValue());
+			AddChild(Node);
 			break;
 		}
 		case JsonToken::Boolean:
@@ -80,7 +86,9 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::Null:
 		{
-			throw JsonReaderException();
+			JsonElement Node = JsonElement(u"");
+			AddChild(Node);
+			break;
 		}
 		/*
 		case JsonToken::StartedObject:

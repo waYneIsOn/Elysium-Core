@@ -7,8 +7,8 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_ARRAY
-#define ELYSIUM_CORE_COLLECTIONS_GENERIC_ARRAY
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_ILIST
 #include "IList.hpp"
@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Collections
 		{
-			namespace Generic
+			namespace Template
 			{
 				/*
 				//template <class T, int Size>

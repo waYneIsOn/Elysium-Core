@@ -562,33 +562,33 @@ namespace UnitTestsCore
 				JsonElement SpecialCharacterString = JsonElement(u"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
 
 				Document.AddChild(Root);
-				Root.AddChild(Yep);
-				Root.AddChild(Nope);
-				Root.AddChild(NullValue);
-				Root.AddChild(Int);
-				Root.AddChild(Float);
-				Root.AddChild(Double);
-				Root.AddChild(String);
-				Root.AddChild(EmptyObject);
-				Root.AddChild(SomeObject);
-				SomeObject.AddChild(Property1);
-				SomeObject.AddChild(Property2);
-				Root.AddChild(EmptyArray);
-				Root.AddChild(IntArray);
-				IntArray.AddChild(IntArrayValue1);
-				IntArray.AddChild(IntArrayValue2);
-				IntArray.AddChild(IntArrayValue3);
-				Root.AddChild(ObjectArray);
-				ObjectArray.AddChild(ObjectArrayObject1);
-				ObjectArrayObject1.AddChild(ObjectArrayObject1Value1);
-				ObjectArrayObject1.AddChild(ObjectArrayObject1Value2);
-				ObjectArray.AddChild(ObjectArrayObject2);
-				ObjectArrayObject2.AddChild(ObjectArrayObject2Value1);
-				ObjectArrayObject2.AddChild(ObjectArrayObject2Value2);
-				Root.AddChild(TwoDimensionalArray);
-				TwoDimensionalArray.AddChild(TwoDimensionalArray1);
-				TwoDimensionalArray.AddChild(TwoDimensionalArray2);
-				Root.AddChild(SpecialCharacterString);
+				Document.GetRootNode().AddChild(Yep);
+				Document.GetRootNode().AddChild(Nope);
+				Document.GetRootNode().AddChild(NullValue);
+				Document.GetRootNode().AddChild(Int);
+				Document.GetRootNode().AddChild(Float);
+				Document.GetRootNode().AddChild(Double);
+				Document.GetRootNode().AddChild(String);
+				Document.GetRootNode().AddChild(EmptyObject);
+				Document.GetRootNode().AddChild(SomeObject);
+				Document.GetRootNode().GetChild(8).AddChild(Property1);
+				Document.GetRootNode().GetChild(8).AddChild(Property2);
+				Document.GetRootNode().AddChild(EmptyArray);
+				Document.GetRootNode().AddChild(IntArray);
+				Document.GetRootNode().GetChild(10).AddChild(IntArrayValue1);
+				Document.GetRootNode().GetChild(10).AddChild(IntArrayValue2);
+				Document.GetRootNode().GetChild(10).AddChild(IntArrayValue3);
+				Document.GetRootNode().AddChild(ObjectArray);
+				Document.GetRootNode().GetChild(11).AddChild(ObjectArrayObject1);
+				Document.GetRootNode().GetChild(11).GetChild(0).AddChild(ObjectArrayObject1Value1);
+				Document.GetRootNode().GetChild(11).GetChild(0).AddChild(ObjectArrayObject1Value2);
+				Document.GetRootNode().GetChild(11).AddChild(ObjectArrayObject2);
+				Document.GetRootNode().GetChild(11).GetChild(1).AddChild(ObjectArrayObject2Value1);
+				Document.GetRootNode().GetChild(11).GetChild(1).AddChild(ObjectArrayObject2Value2);
+				Document.GetRootNode().AddChild(TwoDimensionalArray);
+				Document.GetRootNode().GetChild(12).AddChild(TwoDimensionalArray1);
+				Document.GetRootNode().GetChild(12).AddChild(TwoDimensionalArray2);
+				Document.GetRootNode().AddChild(SpecialCharacterString);
 
 				// write
 				Document.WriteTo(JsonWriter);
@@ -612,9 +612,9 @@ namespace UnitTestsCore
 				JsonElement Value3 = JsonElement(Elysium::Core::String(), Elysium::Core::String(u"Value3"));
 
 				Document.AddChild(Root);
-				Root.AddChild(Value1);
-				Root.AddChild(Value2);
-				Root.AddChild(Value3);
+				Document.GetRootNode().AddChild(Value1);
+				Document.GetRootNode().AddChild(Value2);
+				Document.GetRootNode().AddChild(Value3);
 
 				// write
 				Document.WriteTo(JsonWriter);
@@ -625,7 +625,7 @@ namespace UnitTestsCore
 		}
 		TEST_METHOD(DocumentFromReader)
 		{
-			// test 1
+			// test 1: object
 			{
 				/*
 				// prepare
@@ -637,7 +637,7 @@ namespace UnitTestsCore
 				*/
 			}
 
-			// test 2
+			// test 2: string array
 			{
 				// prepare
 				String Source = u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
@@ -646,6 +646,8 @@ namespace UnitTestsCore
 
 				// read & check
 				JsonArray& RootNode = static_cast<JsonArray&>(Document.GetRootNode());
+				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)RootNode.GetNodeType());
+
 				JsonElement& Element1 = static_cast<JsonElement&>(RootNode.GetChild(0));
 				AssertExtended::AreEqual(u"Value1", Element1.GetValueAsString().GetCharArray());
 
@@ -654,9 +656,76 @@ namespace UnitTestsCore
 
 				JsonElement& Element3 = static_cast<JsonElement&>(RootNode.GetChild(2));
 				AssertExtended::AreEqual(u"Value3", Element3.GetValueAsString().GetCharArray());
+			}
+
+			// test 3: numeric array
+			{
+				// prepare
+				//String Source = u"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
+				String Source = u"[\r\n\t1,\r\n\t2,\r\n\t3453\r\n]";
+				JsonDocument Document = JsonDocument();
+				Document.LoadJson(Source);
+
+				// read & check
+				JsonArray& RootNode = static_cast<JsonArray&>(Document.GetRootNode());
+				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)RootNode.GetNodeType());
+
+				JsonElement& Element1 = static_cast<JsonElement&>(RootNode.GetChild(0));
+				//AssertExtended::AreEqual(1, Element1.GetValueAsString().GetCharArray());
+
+				JsonElement& Element2 = static_cast<JsonElement&>(RootNode.GetChild(1));
+				//AssertExtended::AreEqual(2, Element2.GetValueAsString().GetCharArray());
+
+				JsonElement& Element3 = static_cast<JsonElement&>(RootNode.GetChild(2));
+				//AssertExtended::AreEqual(3, Element3.GetValueAsString().GetCharArray());
+			}
+			/*
+			// test 4: bool array
+			{
+				// prepare
+				String Source = u"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
+				JsonDocument Document = JsonDocument();
+				Document.LoadJson(Source);
+
+				// read & check
+				JsonArray& RootNode = static_cast<JsonArray&>(Document.GetRootNode());
+				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)RootNode.GetNodeType());
+
+				JsonElement& Element1 = static_cast<JsonElement&>(RootNode.GetChild(0));
+				//AssertExtended::AreEqual(1, Element1.GetValueAsString().GetCharArray());
+
+				JsonElement& Element2 = static_cast<JsonElement&>(RootNode.GetChild(1));
+				//AssertExtended::AreEqual(2, Element2.GetValueAsString().GetCharArray());
+
+				JsonElement& Element3 = static_cast<JsonElement&>(RootNode.GetChild(2));
+				//AssertExtended::AreEqual(3, Element3.GetValueAsString().GetCharArray());
 
 				int x = 34;
 			}
+
+			// test 5: empty array
+			{
+				// prepare
+				String Source = u"[]";
+				JsonDocument Document = JsonDocument();
+				Document.LoadJson(Source);
+
+				// read & check
+				JsonArray& RootNode = static_cast<JsonArray&>(Document.GetRootNode());
+				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)RootNode.GetNodeType());
+				
+				JsonElement& Element1 = static_cast<JsonElement&>(RootNode.GetChild(0));
+				//AssertExtended::AreEqual(1, Element1.GetValueAsString().GetCharArray());
+
+				JsonElement& Element2 = static_cast<JsonElement&>(RootNode.GetChild(1));
+				//AssertExtended::AreEqual(2, Element2.GetValueAsString().GetCharArray());
+
+				JsonElement& Element3 = static_cast<JsonElement&>(RootNode.GetChild(2));
+				//AssertExtended::AreEqual(3, Element3.GetValueAsString().GetCharArray());
+				
+				int x = 34;
+			}
+			*/
 		}
 	};
 }

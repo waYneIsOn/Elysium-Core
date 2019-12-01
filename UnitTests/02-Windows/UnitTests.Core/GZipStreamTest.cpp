@@ -7,7 +7,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Math/MathHelper.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Generic;
+using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::IO;
 using namespace Elysium::Core::IO::Compression;
 using namespace Elysium::Core::Math;

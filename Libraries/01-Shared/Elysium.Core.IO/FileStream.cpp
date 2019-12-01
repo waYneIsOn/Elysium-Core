@@ -17,7 +17,7 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode)
 	_Path(Path), _Mode(Mode), _Access(FileAccess::ReadWrite), _Share(FileShare::None)
 {
 	// ToDo: this is just for testing!!!
-	Elysium::Core::Collections::Generic::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
+	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
 		//_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
@@ -33,7 +33,7 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, Fi
 	_Path(Path), _Mode(Mode), _Access(Access), _Share(FileShare::None)
 {
 	// ToDo: this is just for testing!!!
-	Elysium::Core::Collections::Generic::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
+	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
 		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
@@ -48,7 +48,7 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, Fil
 	_Path(Path), _Mode(Mode), _Access(Access), _Share(Share)
 {
 	// ToDo: this is just for testing!!!
-	Elysium::Core::Collections::Generic::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
+	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
 		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);

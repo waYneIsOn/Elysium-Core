@@ -204,7 +204,7 @@ size_t Elysium::Core::StringView::IndexOf(const String & Value, const size_t Sta
 {
 	return IndexOf(Value[StartIndex]);
 }
-void Elysium::Core::StringView::Split(const char16_t Delimiter, Elysium::Core::Collections::Generic::List<StringView> & Views) const
+void Elysium::Core::StringView::Split(const char16_t Delimiter, Elysium::Core::Collections::Template::List<StringView> & Views) const
 {
 	size_t StartIndex = 0;
 	size_t Length = 0;
@@ -224,7 +224,7 @@ void Elysium::Core::StringView::Split(const char16_t Delimiter, Elysium::Core::C
 		StartIndex += Length + 1;
 	}
 }
-void Elysium::Core::StringView::Split(const char16_t* Delimiter, Elysium::Core::Collections::Generic::List<StringView> & Views) const
+void Elysium::Core::StringView::Split(const char16_t* Delimiter, Elysium::Core::Collections::Template::List<StringView> & Views) const
 {
 	size_t DelimiterLength = std::char_traits<char16_t>::length(Delimiter);
 	size_t StartIndex = 0;

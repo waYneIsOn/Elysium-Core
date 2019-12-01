@@ -116,7 +116,7 @@ namespace UnitTestsCore
 		{
 			Elysium::Core::String Source = Elysium::Core::String(u"HTTP/1.1 200 OK\r\nDate: Fri, 29 Nov 2019 12:49:19 GMT\r\nContent-Type: text/html; charset=UTF-8\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nSet-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly\r\nX-Powered-By: Express\r\nVary: Origin, Accept-Encoding\r\nAccess-Control-Allow-Credentials: true\r\nCache-Control: public, max-age=14400\r\nLast-Modified: Mon, 05 Aug 2019 03:07:14 GMT\r\nVia: 1.1 vegur\r\nCF-Cache-Status: HIT\r\nAge: 6201\r\nServer: cloudflare\r\nCF-RAY: 53d4b3737b75f3fb-LHR");
 
-			Elysium::Core::Collections::Generic::List<Elysium::Core::String> Lines;
+			Elysium::Core::Collections::Template::List<Elysium::Core::String> Lines;
 			Source.Split(u"\r\n", Lines);
 
 			Assert::AreEqual((size_t)16, Lines.GetCount());
@@ -167,7 +167,7 @@ namespace UnitTestsCore
 			Assert::AreEqual(false, UTF8Encoding.GetIsSingleByte());
 			Assert::AreEqual(false, CastUTF8Encoding.GetIsSingleByte());
 
-			Elysium::Core::Collections::Generic::List<Elysium::Core::byte> OutputBytes = DefaultEncoding.GetBytes(u'[');
+			Elysium::Core::Collections::Template::List<Elysium::Core::byte> OutputBytes = DefaultEncoding.GetBytes(u'[');
 			Assert::AreEqual((size_t)2, OutputBytes.GetCount());
 			AssertExtended::AreEqual(u'[', OutputBytes[0]);
 
