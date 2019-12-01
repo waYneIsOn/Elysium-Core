@@ -4,7 +4,7 @@
 #include "../Elysium.Core/Environment.hpp"
 #endif
 
-Elysium::Core::IO::StringReader::StringReader(String & Input)
+Elysium::Core::IO::StringReader::StringReader(const String & Input)
 	: Elysium::Core::IO::TextReader(),
 	_Position(0), _Input(Input)
 {

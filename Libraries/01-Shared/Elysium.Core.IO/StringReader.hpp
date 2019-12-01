@@ -27,7 +27,7 @@ namespace Elysium
 			class ELYSIUM_CORE_API StringReader : public TextReader
 			{
 			public:
-				StringReader(String& Input);
+				StringReader(const String& Input);
 				~StringReader();
 
 				virtual const int32_t Peek() override;

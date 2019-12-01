@@ -31,6 +31,14 @@ namespace Elysium
 				~StreamReader();
 
 				virtual void Close() override;
+
+				virtual const int32_t Peek() override;
+
+				virtual const int32_t Read() override;
+
+				virtual StringView ReadLine() override;
+
+				virtual StringView ReadToEnd() override;
 			private:
 				size_t _Position;
 				Stream& _InputStream;
