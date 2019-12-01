@@ -32,7 +32,7 @@ namespace Elysium
 				JsonElement(const String& Name, const float Value);
 				JsonElement(const String& Name, const double Value);
 				JsonElement(const String& Name, const bool Value);
-				JsonElement(const String& Name, const void* Value);
+				JsonElement(const String& Name);
 				~JsonElement();
 
 				const String& GetName() const override;
@@ -41,6 +41,8 @@ namespace Elysium
 				const String& GetValueAsString() const;
 
 				virtual void WriteTo(JsonWriter& Writer) const override;
+			protected:
+				virtual void Load(JsonReader& JsonReader) override;
 			private:
 				String _Name;
 				JsonNodeType _Type;

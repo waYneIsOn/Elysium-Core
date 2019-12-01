@@ -1,5 +1,13 @@
 #include "JsonArray.hpp"
 
+#ifndef ELYSIUM_CORE_JSON_JSONELEMENT
+#include "JsonElement.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
+#include "JsonReaderException.hpp"
+#endif
+
 Elysium::Core::Json::JsonArray::JsonArray()
 	: Elysium::Core::Json::JsonNode(),
 	_Name()
@@ -43,4 +51,43 @@ void Elysium::Core::Json::JsonArray::WriteTo(JsonWriter & Writer) const
 		_Children[i]->WriteTo(Writer);
 	}
 	Writer.WriteEndArray();
+}
+
+void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
+{
+	while (JsonReader.Read())
+	{
+		const JsonToken Token = JsonReader.GetToken();
+		switch (Token)
+		{
+		case JsonToken::Integer:
+		{
+			throw JsonReaderException();
+		}
+		case JsonToken::Float:
+		{
+			throw JsonReaderException();
+		}
+		case JsonToken::String:
+		{
+			JsonElement* Node = new JsonElement(u"", JsonReader.GetNodeValue());
+			AddChild(*Node);
+			break;
+		}
+		case JsonToken::Boolean:
+		{
+			throw JsonReaderException();
+		}
+		case JsonToken::Null:
+		{
+			throw JsonReaderException();
+		}
+		/*
+		case JsonToken::StartedObject:
+		case JsonToken::StartedArray:
+		*/
+		case JsonToken::EndedArray:
+			return;
+		}
+	}
 }

@@ -44,3 +44,7 @@ void Elysium::Core::Json::JsonObject::WriteTo(JsonWriter & Writer) const
 	}
 	Writer.WriteEndObject();
 }
+
+void Elysium::Core::Json::JsonObject::Load(JsonReader & JsonReader)
+{
+}

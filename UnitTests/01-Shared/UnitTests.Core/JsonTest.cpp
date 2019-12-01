@@ -535,7 +535,7 @@ namespace UnitTestsCore
 				JsonObject Root = JsonObject();
 				JsonElement Yep = JsonElement(u"Yep", true);
 				JsonElement Nope = JsonElement(u"Nope", false);
-				JsonElement NullValue = JsonElement(u"NullValue", nullptr);
+				JsonElement NullValue = JsonElement(u"NullValue");
 				JsonElement Int = JsonElement(u"Int", -5448);
 				JsonElement Float = JsonElement(u"Float", 13.370000f);
 				JsonElement Double = JsonElement(u"Double", 13.370000);
@@ -627,21 +627,35 @@ namespace UnitTestsCore
 		{
 			// test 1
 			{
+				/*
 				// prepare
 				String Source = u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
-				StringReader Reader = StringReader(Source);
-				JsonTextReader JsonReader = JsonTextReader(Reader);
-
-				// read
 				JsonDocument Document = JsonDocument();
-				//Document.Load
+				Document.LoadJson(Source);
 
-				// check
+				// read & check
+				*/
 			}
 
 			// test 2
 			{
+				// prepare
+				String Source = u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
+				JsonDocument Document = JsonDocument();
+				Document.LoadJson(Source);
 
+				// read & check
+				JsonArray& RootNode = static_cast<JsonArray&>(Document.GetRootNode());
+				JsonElement& Element1 = static_cast<JsonElement&>(RootNode.GetChild(0));
+				AssertExtended::AreEqual(u"Value1", Element1.GetValueAsString().GetCharArray());
+
+				JsonElement& Element2 = static_cast<JsonElement&>(RootNode.GetChild(1));
+				AssertExtended::AreEqual(u"Value2", Element2.GetValueAsString().GetCharArray());
+
+				JsonElement& Element3 = static_cast<JsonElement&>(RootNode.GetChild(2));
+				AssertExtended::AreEqual(u"Value3", Element3.GetValueAsString().GetCharArray());
+
+				int x = 34;
 			}
 		}
 	};

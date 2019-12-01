@@ -30,6 +30,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_JSON_JSONREADER
+#include "JsonReader.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -44,8 +48,9 @@ namespace Elysium
 				virtual const String& GetName() const = 0;
 				virtual const JsonNodeType GetNodeType() const = 0;
 				virtual const JsonNode* GetParentNode() const;
-
+				
 				virtual void AddChild(JsonNode& Node);
+				virtual JsonNode& GetChild(size_t Index);
 				virtual void RemoveChild(JsonNode& Node);
 
 				virtual void WriteTo(JsonWriter& Writer) const = 0;
@@ -53,7 +58,9 @@ namespace Elysium
 				JsonNode();
 
 				JsonNode* _ParentNode;
-				Collections::Generic::List<const JsonNode*> _Children;
+				Collections::Generic::List<JsonNode*> _Children;
+
+				virtual void Load(JsonReader& JsonReader) = 0;
 			};
 		}
 	}

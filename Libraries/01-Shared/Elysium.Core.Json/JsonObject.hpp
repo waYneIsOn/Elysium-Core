@@ -22,6 +22,7 @@ namespace Elysium
 		{
 			class ELYSIUM_CORE_JSON_API JsonObject final : public JsonNode
 			{
+				friend class JsonDocument;
 			public:
 				JsonObject();
 				JsonObject(const String& Name);
@@ -31,6 +32,8 @@ namespace Elysium
 				virtual const JsonNodeType GetNodeType() const override;
 
 				virtual void WriteTo(JsonWriter& Writer) const override;
+			protected:
+				virtual void Load(JsonReader& JsonReader) override;
 			private:
 				String _Name;
 			};

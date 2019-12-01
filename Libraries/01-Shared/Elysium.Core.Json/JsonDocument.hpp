@@ -24,7 +24,7 @@ namespace Elysium
 	{
 		namespace Json
 		{
-			class ELYSIUM_CORE_JSON_API JsonDocument : public JsonNode
+			class ELYSIUM_CORE_JSON_API JsonDocument final : public JsonNode
 			{
 			public:
 				JsonDocument();
@@ -32,15 +32,17 @@ namespace Elysium
 
 				const String& GetName() const override;
 				const JsonNodeType GetNodeType() const override;
+				JsonNode& GetRootNode();
 
-				//void Load(const Elysium::Core::IO::Stream& InputStream);
-				//void Load(const Elysium::Core::String& Filename);
-				//void LoadJson(const Elysium::Core::String& Json);
+				virtual void AddChild(JsonNode& Node) override;
 
-				//void Save(Elysium::Core::IO::Stream& OutputStream);
-				//void Save(Elysium::Core::String& Filename);
+				void Load(const Elysium::Core::String& Filename);
+				void Load(Elysium::Core::IO::Stream& InputStream);
+				void LoadJson(const Elysium::Core::String& Json);
 
 				void WriteTo(JsonWriter& Writer) const override;
+			protected:
+				virtual void Load(JsonReader& JsonReader) override;
 			};
 		}
 	}
