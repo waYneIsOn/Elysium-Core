@@ -4,36 +4,6 @@
 #include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const String & Value)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name), _Type(JsonNodeType::String), _Value(Value)
-{
-}
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const int32_t Value)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name), _Type(JsonNodeType::Integer), _Value(Value)
-{
-}
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const float Value)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name), _Type(JsonNodeType::Float), _Value(Value)
-{
-}
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const double Value)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name), _Type(JsonNodeType::Double), _Value(Value)
-{
-}
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const bool Value)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name), _Type(JsonNodeType::Boolean), _Value(Value)
-{
-}
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name), _Type(JsonNodeType::Null), _Value()
-{
-}
 Elysium::Core::Json::JsonElement::~JsonElement()
 {
 }
@@ -86,5 +56,36 @@ void Elysium::Core::Json::JsonElement::WriteTo(JsonWriter & Writer) const
 }
 
 void Elysium::Core::Json::JsonElement::Load(JsonReader & JsonReader)
+{
+}
+
+Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const String & Value)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name), _Type(JsonNodeType::String), _Value(Value)
+{
+}
+Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const int32_t Value)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name), _Type(JsonNodeType::Integer), _Value(Value)
+{
+}
+Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const float Value)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name), _Type(JsonNodeType::Float), _Value(Value)
+{
+}
+Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const double Value)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name), _Type(JsonNodeType::Double), _Value(Value)
+{
+}
+Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const bool Value)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name), _Type(JsonNodeType::Boolean), _Value(Value)
+{
+}
+Elysium::Core::Json::JsonElement::JsonElement(const String & Name)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name), _Type(JsonNodeType::Null), _Value()
 {
 }

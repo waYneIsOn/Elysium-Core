@@ -18,6 +18,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_JSON_JSONOBJECT
+#include "JsonObject.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_JSON_JSONARRAY
+#include "JsonArray.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -28,13 +36,19 @@ namespace Elysium
 			{
 			public:
 				JsonDocument();
+				JsonDocument(const JsonDocument& Source) = delete;
+				JsonDocument(JsonDocument&& Right) noexcept = delete;
 				~JsonDocument();
+
+				JsonDocument& operator=(const JsonDocument& Source) = delete;
+				JsonDocument& operator=(JsonDocument&& Right) noexcept = delete;
 
 				const String& GetName() const override;
 				const JsonNodeType GetNodeType() const override;
 				JsonNode& GetRootNode();
 
-				virtual void AddChild(JsonNode& Node) override;
+				JsonObject& AddRootObject();
+				JsonArray& AddRootArray();
 
 				void Load(const Elysium::Core::String& Filename);
 				void Load(Elysium::Core::IO::Stream& InputStream);

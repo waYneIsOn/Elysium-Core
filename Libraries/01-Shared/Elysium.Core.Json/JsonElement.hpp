@@ -11,7 +11,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_CORE_JSON_JSONELEMENT
 
 #ifndef ELYSIUM_CORE_JSON_JSONNODE
-#include "JSONNode.hpp"
+#include "JsonNode.hpp"
 #endif
 
 #ifndef _VARIANT_
@@ -26,14 +26,16 @@ namespace Elysium
 		{
 			class ELYSIUM_CORE_JSON_API JsonElement final : public JsonNode
 			{
+				friend class JsonDocument;
+				friend class JsonObject;
+				friend class JsonArray;
 			public:
-				JsonElement(const String& Name, const String& Value);
-				JsonElement(const String& Name, const int32_t Value);
-				JsonElement(const String& Name, const float Value);
-				JsonElement(const String& Name, const double Value);
-				JsonElement(const String& Name, const bool Value);
-				JsonElement(const String& Name);
+				JsonElement(const JsonElement& Source) = delete;
+				JsonElement(JsonElement&& Right) noexcept = delete;
 				~JsonElement();
+
+				JsonElement& operator=(const JsonElement& Source) = delete;
+				JsonElement& operator=(JsonElement&& Right) noexcept = delete;
 
 				const String& GetName() const override;
 				virtual const JsonNodeType GetNodeType() const override;
@@ -44,6 +46,13 @@ namespace Elysium
 			protected:
 				virtual void Load(JsonReader& JsonReader) override;
 			private:
+				JsonElement(const String& Name, const String& Value);
+				JsonElement(const String& Name, const int32_t Value);
+				JsonElement(const String& Name, const float Value);
+				JsonElement(const String& Name, const double Value);
+				JsonElement(const String& Name, const bool Value);
+				JsonElement(const String& Name);
+
 				String _Name;
 				JsonNodeType _Type;
 				std::variant<bool, int32_t, float, double, String, void*> _Value;

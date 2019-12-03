@@ -16,14 +16,6 @@
 #include "JsonTextReader.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_JSON_JSONOBJECT
-#include "JsonObject.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_JSON_JSONARRAY
-#include "JsonArray.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
 #include "JsonReaderException.hpp"
 #endif
@@ -58,18 +50,25 @@ Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonDocument::GetRootNode()
 	return *_Children[0];
 }
 
-void Elysium::Core::Json::JsonDocument::AddChild(JsonNode & Node)
+Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonDocument::AddRootObject()
 {
 	if (_Children.GetCount() > 0)
-	{
+	{	// ToDo: InvalidOperationException
 		throw JsonException(u"A document can only hold one child - the root node!");
 	}
-	const JsonNodeType NodeType = Node.GetNodeType();
-	if (NodeType != JsonNodeType::Object && NodeType != JsonNodeType::Array)
-	{
-		throw JsonException(u"A root node must be either object or array!");
+	JsonObject* OwnedObject = new JsonObject();
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedObject);
+	return *OwnedObject;
+}
+Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray()
+{
+	if (_Children.GetCount() > 0)
+	{	// ToDo: InvalidOperationException
+		throw JsonException(u"A document can only hold one child - the root node!");
 	}
-	Elysium::Core::Json::JsonNode::AddChild(Node);
+	JsonArray* OwnedArray = new JsonArray();
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedArray);
+	return *OwnedArray;
 }
 
 void Elysium::Core::Json::JsonDocument::Load(const Elysium::Core::String & Filename)
@@ -107,16 +106,16 @@ void Elysium::Core::Json::JsonDocument::Load(JsonReader & JsonReader)
 		{
 		case JsonToken::StartedObject:
 		{
-			JsonObject Node = JsonObject();
-			AddChild(Node);
-			Node.Load(JsonReader);
+			JsonObject* Node = new JsonObject();
+			AddChild(*Node);
+			Node->Load(JsonReader);
 			break;
 		}
 		case JsonToken::StartedArray:
 		{
-			JsonArray Node = JsonArray();
-			AddChild(Node);
-			Node.Load(JsonReader);
+			JsonArray* Node = new JsonArray();
+			AddChild(*Node);
+			Node->Load(JsonReader);
 			break;
 		}
 		default:

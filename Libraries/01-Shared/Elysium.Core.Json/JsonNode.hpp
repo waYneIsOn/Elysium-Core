@@ -49,7 +49,6 @@ namespace Elysium
 				virtual const JsonNodeType GetNodeType() const = 0;
 				virtual const JsonNode* GetParentNode() const;
 				
-				virtual void AddChild(JsonNode& Node);
 				virtual JsonNode& GetChild(size_t Index);
 				virtual void RemoveChild(JsonNode& Node);
 
@@ -59,6 +58,8 @@ namespace Elysium
 
 				JsonNode* _ParentNode;
 				Collections::Template::List<JsonNode*> _Children;
+
+				virtual void AddChild(JsonNode& Node);
 
 				virtual void Load(JsonReader& JsonReader) = 0;
 			};

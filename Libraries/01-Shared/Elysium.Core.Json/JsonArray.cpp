@@ -4,6 +4,10 @@
 #include "JsonElement.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_JSON_JSONOBJECT
+#include "JsonObject.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_CONVERT
 #include "../Elysium.Core/Convert.hpp"
 #endif
@@ -12,16 +16,6 @@
 #include "JsonReaderException.hpp"
 #endif
 
-Elysium::Core::Json::JsonArray::JsonArray()
-	: Elysium::Core::Json::JsonNode(),
-	_Name()
-{
-}
-Elysium::Core::Json::JsonArray::JsonArray(const String & Name)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name)
-{
-}
 Elysium::Core::Json::JsonArray::~JsonArray()
 {
 }
@@ -57,6 +51,57 @@ void Elysium::Core::Json::JsonArray::WriteTo(JsonWriter & Writer) const
 	Writer.WriteEndArray();
 }
 
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonArray::AddElement(const String & Value)
+{
+	JsonElement* OwnedElement = new JsonElement(Elysium::Core::String(), Value);
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
+	return *OwnedElement;
+}
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonArray::AddElement(const int32_t Value)
+{
+	JsonElement* OwnedElement = new JsonElement(Elysium::Core::String(), Value);
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
+	return *OwnedElement;
+}
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonArray::AddElement(const float Value)
+{
+	JsonElement* OwnedElement = new JsonElement(Elysium::Core::String(), Value);
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
+	return *OwnedElement;
+}
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonArray::AddElement(const double Value)
+{
+	JsonElement* OwnedElement = new JsonElement(Elysium::Core::String(), Value);
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
+	return *OwnedElement;
+}
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonArray::AddElement(const bool Value)
+{
+	JsonElement* OwnedElement = new JsonElement(Elysium::Core::String(), Value);
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
+	return *OwnedElement;
+}
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonArray::AddElement()
+{
+	JsonElement* OwnedElement = new JsonElement(Elysium::Core::String());
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
+	return *OwnedElement;
+}
+
+Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonArray::AddObject()
+{
+	JsonObject* OwnedObject = new JsonObject(Elysium::Core::String());
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedObject);
+	return *OwnedObject;
+}
+
+Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonArray::AddArray()
+{
+	JsonArray* OwnedArray = new JsonArray(Elysium::Core::String());
+	Elysium::Core::Json::JsonNode::AddChild(*OwnedArray);
+	return *OwnedArray;
+}
+
 void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 {
 	while (JsonReader.Read())
@@ -66,8 +111,8 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		{
 		case JsonToken::Integer:
 		{
-			JsonElement Node = JsonElement(u"", Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
-			AddChild(Node);
+			JsonElement* Node = new JsonElement(u"", Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
+			AddChild(*Node);
 			break;
 		}
 		case JsonToken::Float:
@@ -76,8 +121,8 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::String:
 		{
-			JsonElement Node = JsonElement(u"", JsonReader.GetNodeValue());
-			AddChild(Node);
+			JsonElement* Node = new JsonElement(u"", JsonReader.GetNodeValue());
+			AddChild(*Node);
 			break;
 		}
 		case JsonToken::Boolean:
@@ -86,8 +131,8 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::Null:
 		{
-			JsonElement Node = JsonElement(u"");
-			AddChild(Node);
+			JsonElement* Node = new JsonElement(u"");
+			AddChild(*Node);
 			break;
 		}
 		/*
@@ -98,4 +143,15 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 			return;
 		}
 	}
+}
+
+Elysium::Core::Json::JsonArray::JsonArray()
+	: Elysium::Core::Json::JsonNode(),
+	_Name()
+{
+}
+Elysium::Core::Json::JsonArray::JsonArray(const String & Name)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name)
+{
 }
