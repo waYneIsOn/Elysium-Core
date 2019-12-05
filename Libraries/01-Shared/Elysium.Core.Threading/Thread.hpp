@@ -46,7 +46,7 @@ namespace Elysium
 				Thread& operator=(const Thread&) = delete;
 
 				// properties - getter
-				void GetCurrentCulture(CultureInfo* Value) const;
+				void GetCurrentCulture(Globalization::CultureInfo* Value) const;
 				void GetThreadId(unsigned int* Value) const;
 
 				static void GetCurrentThreadId(unsigned int* Value);
@@ -63,7 +63,7 @@ namespace Elysium
 				void(*_ThreadStart)();
 				std::thread _NativeThread;
 
-				CultureInfo _CurrentCulture;
+				Globalization::CultureInfo _CurrentCulture;
 			};
 		}
 	}

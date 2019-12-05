@@ -17,7 +17,7 @@ Elysium::Core::Threading::Thread::~Thread()
 	}
 }
 
-void Elysium::Core::Threading::Thread::GetCurrentCulture(CultureInfo * Value) const
+void Elysium::Core::Threading::Thread::GetCurrentCulture(Globalization::CultureInfo * Value) const
 {
 	*Value = _CurrentCulture;
 }
