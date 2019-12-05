@@ -12,7 +12,7 @@
 #include <Windows.h>
 #endif
 
-using namespace Elysium::Core;
+using namespace Elysium::Core::Globalization;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
