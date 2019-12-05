@@ -117,7 +117,9 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::Float:
 		{
-			throw JsonReaderException();
+			JsonElement* Node = new JsonElement(u"", Elysium::Core::Convert::ToSingle(JsonReader.GetNodeValue()));
+			AddChild(*Node);
+			break;
 		}
 		case JsonToken::String:
 		{
@@ -126,8 +128,10 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 			break;
 		}
 		case JsonToken::Boolean:
-		{
-			throw JsonReaderException();
+		{	// ToDo: what about True/TRUE?
+			JsonElement* Node = new JsonElement(u"", JsonReader.GetNodeValue() == u"true" ? true : false);
+			AddChild(*Node);
+			break;
 		}
 		case JsonToken::Null:
 		{
@@ -135,12 +139,24 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 			AddChild(*Node);
 			break;
 		}
-		/*
 		case JsonToken::StartedObject:
+		{
+			JsonObject* Node = new JsonObject(u"");
+			AddChild(*Node);
+			Node->Load(JsonReader);
+			break;
+		}
 		case JsonToken::StartedArray:
-		*/
+		{
+			JsonArray* Node = new JsonArray(u"");
+			AddChild(*Node);
+			Node->Load(JsonReader);
+			break;
+		}
 		case JsonToken::EndedArray:
 			return;
+		default:
+			throw JsonReaderException();
 		}
 	}
 }

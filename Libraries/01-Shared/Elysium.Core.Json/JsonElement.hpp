@@ -40,7 +40,11 @@ namespace Elysium
 				const String& GetName() const override;
 				virtual const JsonNodeType GetNodeType() const override;
 
+				const bool IsNull() const;
 				const String& GetValueAsString() const;
+				const int32_t GetValueAsInt32() const;
+				const float GetValueAsSingle() const;
+				const bool GetValueAsBoolean() const;
 
 				virtual void WriteTo(JsonWriter& Writer) const override;
 			protected:

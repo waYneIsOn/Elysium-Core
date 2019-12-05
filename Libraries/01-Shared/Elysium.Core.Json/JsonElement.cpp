@@ -17,6 +17,10 @@ const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonElement::GetNod
 	return _Type;
 }
 
+const bool Elysium::Core::Json::JsonElement::IsNull() const
+{
+	return _Type == JsonNodeType::Null;
+}
 const Elysium::Core::String & Elysium::Core::Json::JsonElement::GetValueAsString() const
 {
 	if (_Type != JsonNodeType::String)
@@ -24,6 +28,30 @@ const Elysium::Core::String & Elysium::Core::Json::JsonElement::GetValueAsString
 		throw InvalidOperationException();
 	}
 	return std::get<String>(_Value);
+}
+const int32_t Elysium::Core::Json::JsonElement::GetValueAsInt32() const
+{
+	if (_Type != JsonNodeType::Integer)
+	{
+		throw InvalidOperationException();
+	}
+	return std::get<int32_t>(_Value);
+}
+const float Elysium::Core::Json::JsonElement::GetValueAsSingle() const
+{
+	if (_Type != JsonNodeType::Float)
+	{
+		throw InvalidOperationException();
+	}
+	return std::get<float>(_Value);
+}
+const bool Elysium::Core::Json::JsonElement::GetValueAsBoolean() const
+{
+	if (_Type != JsonNodeType::Boolean)
+	{
+		throw InvalidOperationException();
+	}
+	return std::get<bool>(_Value);
 }
 
 void Elysium::Core::Json::JsonElement::WriteTo(JsonWriter & Writer) const

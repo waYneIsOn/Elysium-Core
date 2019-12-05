@@ -1,5 +1,13 @@
 #include "JsonObject.hpp"
 
+#ifndef ELYSIUM_CORE_CONVERT
+#include "../Elysium.Core/Convert.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
+#include "JsonReaderException.hpp"
+#endif
+
 Elysium::Core::Json::JsonObject::~JsonObject()
 {
 }
@@ -88,6 +96,67 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonObject::AddArray(const
 
 void Elysium::Core::Json::JsonObject::Load(JsonReader & JsonReader)
 {
+	String PropertyName;
+	while (JsonReader.Read())
+	{
+		const JsonToken Token = JsonReader.GetToken();
+		switch (Token)
+		{
+		case JsonToken::PropertyName:
+		{
+			PropertyName = JsonReader.GetNodeValue();
+			break;
+		}
+		case JsonToken::Integer:
+		{
+			JsonElement* Node = new JsonElement(PropertyName, Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
+			AddChild(*Node);
+			break;
+		}
+		case JsonToken::Float:
+		{
+			JsonElement* Node = new JsonElement(PropertyName, Elysium::Core::Convert::ToSingle(JsonReader.GetNodeValue()));
+			AddChild(*Node);
+			break;
+		}
+		case JsonToken::String:
+		{
+			JsonElement* Node = new JsonElement(PropertyName, JsonReader.GetNodeValue());
+			AddChild(*Node);
+			break;
+		}
+		case JsonToken::Boolean:
+		{	// ToDo: what about True/TRUE?
+			JsonElement* Node = new JsonElement(PropertyName, JsonReader.GetNodeValue() == u"true" ? true : false);
+			AddChild(*Node);
+			break;
+		}
+		case JsonToken::Null:
+		{
+			JsonElement* Node = new JsonElement(PropertyName);
+			AddChild(*Node);
+			break;
+		}
+		case JsonToken::StartedArray:
+		{
+			JsonArray* Node = new JsonArray(PropertyName);
+			AddChild(*Node);
+			Node->Load(JsonReader);
+			break;
+		}
+		case JsonToken::StartedObject:
+		{
+			JsonObject* Node = new JsonObject(PropertyName);
+			AddChild(*Node);
+			Node->Load(JsonReader);
+			break;
+		}
+		case JsonToken::EndedObject:
+			return;
+		default:
+			throw JsonReaderException();
+		}
+	}
 }
 
 Elysium::Core::Json::JsonObject::JsonObject()

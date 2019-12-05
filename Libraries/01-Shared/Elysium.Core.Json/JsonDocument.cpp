@@ -99,32 +99,34 @@ void Elysium::Core::Json::JsonDocument::WriteTo(JsonWriter & Writer) const
 
 void Elysium::Core::Json::JsonDocument::Load(JsonReader & JsonReader)
 {
-	while (JsonReader.Read())
-	{
-		const JsonToken Token = JsonReader.GetToken();
-		switch (Token)
-		{
-		case JsonToken::StartedObject:
-		{
-			JsonObject* Node = new JsonObject();
-			AddChild(*Node);
-			Node->Load(JsonReader);
-			break;
-		}
-		case JsonToken::StartedArray:
-		{
-			JsonArray* Node = new JsonArray();
-			AddChild(*Node);
-			Node->Load(JsonReader);
-			break;
-		}
-		default:
-			throw JsonReaderException();
-		}
+	if (!JsonReader.Read())
+	{	// there was nothing to read ergo: emtpy document
+		return;
 	}
 
 	const JsonToken Token = JsonReader.GetToken();
-	if (Token != JsonToken::None)
+	switch (Token)
+	{
+	case JsonToken::StartedObject:
+	{
+		JsonObject* Node = new JsonObject();
+		AddChild(*Node);
+		Node->Load(JsonReader);
+		break;
+	}
+	case JsonToken::StartedArray:
+	{
+		JsonArray* Node = new JsonArray();
+		AddChild(*Node);
+		Node->Load(JsonReader);
+		break;
+	}
+	default:
+		throw JsonReaderException();
+	}
+
+	JsonReader.Read();
+	if (JsonReader.GetToken() != JsonToken::None)
 	{
 		throw JsonReaderException();
 	}
