@@ -82,6 +82,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -120,5 +126,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp">
+      <Filter>Globalization</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

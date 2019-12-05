@@ -18,34 +18,34 @@
 #include "Exception.hpp"
 #endif
 
-Elysium::Core::CultureInfo::CultureInfo()
+Elysium::Core::Globalization::CultureInfo::CultureInfo()
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	: Elysium::Core::CultureInfo::CultureInfo(GetSystemDefaultLCID())
+	: Elysium::Core::Globalization::CultureInfo::CultureInfo(GetSystemDefaultLCID())
 	// ToDo: use GetUserDefaultLCID instead?
 #elif defined(__ANDROID__)
-	: Elysium::Core::CultureInfo::CultureInfo(0)
+	: Elysium::Core::Globalization::CultureInfo::CultureInfo(0)
 	// ToDo: how to get the current locale id on android? getDefaultLocale()?
 #endif
 {
 }
-Elysium::Core::CultureInfo::CultureInfo(int Culture)
+Elysium::Core::Globalization::CultureInfo::CultureInfo(int Culture)
 	: _LCID(Culture)
 {
 }
-Elysium::Core::CultureInfo::CultureInfo(const CultureInfo & Source)
+Elysium::Core::Globalization::CultureInfo::CultureInfo(const CultureInfo & Source)
 	: _LCID(Source._LCID)
 {
 }
-Elysium::Core::CultureInfo::CultureInfo(CultureInfo && Right) noexcept
+Elysium::Core::Globalization::CultureInfo::CultureInfo(CultureInfo && Right) noexcept
 	: _LCID(0)
 {
 	*this = std::move(Right);
 }
-Elysium::Core::CultureInfo::~CultureInfo()
+Elysium::Core::Globalization::CultureInfo::~CultureInfo()
 {
 }
 
-Elysium::Core::CultureInfo & Elysium::Core::CultureInfo::operator=(const CultureInfo & Source)
+Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::CultureInfo::operator=(const CultureInfo & Source)
 {
 	if (this != &Source)
 	{
@@ -53,7 +53,7 @@ Elysium::Core::CultureInfo & Elysium::Core::CultureInfo::operator=(const Culture
 	}
 	return *this;
 }
-Elysium::Core::CultureInfo & Elysium::Core::CultureInfo::operator=(CultureInfo && Right) noexcept
+Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::CultureInfo::operator=(CultureInfo && Right) noexcept
 {
 	if (this != &Right)
 	{
@@ -64,7 +64,7 @@ Elysium::Core::CultureInfo & Elysium::Core::CultureInfo::operator=(CultureInfo &
 	return *this;
 }
 
-void Elysium::Core::CultureInfo::GetName(String * Output) const
+void Elysium::Core::Globalization::CultureInfo::GetName(String * Output) const
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	*Output = String(LOCALE_NAME_MAX_LENGTH);
@@ -80,7 +80,7 @@ void Elysium::Core::CultureInfo::GetName(String * Output) const
 #error "undefined os"
 #endif
 }
-int Elysium::Core::CultureInfo::GetLCID() const
+int Elysium::Core::Globalization::CultureInfo::GetLCID() const
 {
 	return _LCID;
 }

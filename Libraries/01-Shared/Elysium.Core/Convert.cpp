@@ -1,8 +1,11 @@
-#include "..\Elysium.Core.OS.Windows\Convert.hpp"
 #include "Convert.hpp"
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
 #ifndef _INC_LIMITS
@@ -99,6 +102,42 @@ int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::String & Value, con
 		Base = 10 * Base + (Value[i++] - u'0');
 	}
 	return Base * Sign;
+}
+
+float Elysium::Core::Convert::ToSingle(const char16_t * Value)
+{
+	return ToSingle(String(Value));
+}
+float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
+{	// https://referencesource.microsoft.com/#mscorlib/system/number.cs,04291cc3a0b10032
+	/*
+	static const Elysium::Core::Globalization::NumberFormatInfo& InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo();
+
+	for (size_t i = 0; i < Value.GetLength(); i++)
+	{
+		switch (Value[i])
+		{
+		case u' ':
+			break;
+		case u'-':
+			break;
+		case u'0':
+		case u'1':
+		case u'2':
+		case u'3':
+		case u'4':
+		case u'5':
+		case u'6':
+		case u'7':
+		case u'8':
+		case u'9':
+			break;
+		}
+	}
+	*/
+	Elysium::Core::Collections::Template::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
+	std::string ByteString((char*)&Bytes[0]);
+	return std::stof(ByteString);
 }
 
 Elysium::Core::Convert::Convert()

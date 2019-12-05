@@ -16,13 +16,8 @@ namespace Elysium
 	{
 		namespace Boolean
 		{
-#if UNICODE
-			constexpr const wchar_t* TrueLiteral = L"True";
-			constexpr const wchar_t* FalseLiteral = L"False";
-#else
-			constexpr const char* TrueLiteral = "True";
-			constexpr const char* FalseLiteral = "False";
-#endif
+			constexpr const char16_t* TrueLiteral = u"True";
+			constexpr const char16_t* FalseLiteral = u"False";
 		}
 	}
 }

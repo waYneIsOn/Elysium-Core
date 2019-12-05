@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <stdint.h>
 #endif
 
+#ifndef ELYSIUM_CORE_GLOBALIZATION_NUMBERFORMATINFO
+#include "NumberFormatInfo.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -36,8 +40,11 @@ namespace Elysium
 			static String ToString(const float Value, const int32_t FromBase);
 			static String ToString(const double Value, const int32_t FromBase);
 
-			static int32_t ToInt32(const char16_t * Value, const int32_t FromBase);
+			static int32_t ToInt32(const char16_t* Value, const int32_t FromBase);
 			static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
+
+			static float ToSingle(const char16_t* Value);
+			static float ToSingle(const Elysium::Core::String& Value);
 		private:
 			Convert();
 		};

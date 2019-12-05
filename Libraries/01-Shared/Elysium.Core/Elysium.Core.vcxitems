@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeOffset.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
@@ -77,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
