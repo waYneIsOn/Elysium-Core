@@ -217,7 +217,6 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	*/
 	case Elysium::Core::UriComponents::PathAndQuery:
 	{
-		/*
 		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u"//");
 		size_t IndexOfPathDelimiterStart = Source.IndexOf(u'/');
 		if (IndexOfAuthorityDelimiterStart != static_cast<size_t>(-1))
@@ -248,7 +247,6 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 		{
 			Output = StringView(Source, IndexOfPathDelimiterStart + 1, IndexOfFragmentDelimiterStart - IndexOfPathDelimiterStart - 1);
 		}
-		*/
 		break;
 	}
 	default:
