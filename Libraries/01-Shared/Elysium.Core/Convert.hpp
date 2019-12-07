@@ -26,6 +26,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "NumberFormatInfo.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_BYTE
+#include "Byte.hpp"
+#endif
+
 namespace Elysium
 {
 	namespace Core
@@ -39,6 +47,8 @@ namespace Elysium
 			static String ToString(const int32_t Value, const int32_t FromBase);
 			static String ToString(const float Value, const int32_t FromBase);
 			static String ToString(const double Value, const int32_t FromBase);
+
+			static String ToBase64String(Elysium::Core::Collections::Template::List<Elysium::Core::byte> Bytes);
 
 			static int32_t ToInt32(const char16_t* Value, const int32_t FromBase);
 			static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
