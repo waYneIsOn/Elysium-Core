@@ -47,6 +47,7 @@ namespace Elysium
 		public:
 			// constructors & destructors
 			Uri(const String& UriString);
+			Uri(const Uri& BaseUri, const String& RelativeUri);
 			Uri(const Uri& Source);
 			Uri(Uri&& Right) noexcept;
 			~Uri();
@@ -102,6 +103,8 @@ namespace Elysium
 			StringView _PathView;
 			StringView _QueryView;
 			StringView _FragmentView;
+
+			const String CreateUri(const Uri& BaseUri, const String& RelativeUri, bool Escape);
 		};
 	}
 }

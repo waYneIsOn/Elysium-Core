@@ -16,6 +16,10 @@
 #include "BuildInUriParser.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
+#endif
+
 const Elysium::Core::String Elysium::Core::Uri::SchemeDelimiter(u"://");
 
 const Elysium::Core::String Elysium::Core::Uri::UriSchemeFile(u"file");
@@ -38,6 +42,11 @@ const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(u"ws");
 
 Elysium::Core::Uri::Uri(const String& UriString)
 	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString), _Port(-1)
+{
+	Parse();
+}
+Elysium::Core::Uri::Uri(const Uri & BaseUri, const String & RelativeUri)
+	: _OriginalString(CreateUri(BaseUri._OriginalString, RelativeUri, true)), _AbsoluteUri(_OriginalString), _Port(-1)
 {
 	Parse();
 }
@@ -304,4 +313,13 @@ void Elysium::Core::Uri::Parse()
 		_FragmentView = string_view(&(_OriginalString.c_str()[RelativeIndexOfFragmentStart + 1]));
 	}
 	*/
+}
+
+const Elysium::Core::String Elysium::Core::Uri::CreateUri(const Uri & BaseUri, const String & RelativeUri, bool DontEscape)
+{	// ToDo: make this function work correctly in all cases! atm it just concatenates two strings!
+	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder(BaseUri._OriginalString.GetLength() + RelativeUri.GetLength());
+	Builder.Append(BaseUri._OriginalString);
+	Builder.Append(RelativeUri);
+
+	return Builder.ToString();
 }
