@@ -45,6 +45,8 @@ namespace Elysium
 
 			static String ToString(const uint32_t Value, const int32_t FromBase);
 			static String ToString(const int32_t Value, const int32_t FromBase);
+			static String ToString(const int64_t Value, const int32_t FromBase);
+			static String ToString(const size_t Value, const int32_t FromBase);
 			static String ToString(const float Value, const int32_t FromBase);
 			static String ToString(const double Value, const int32_t FromBase);
 
