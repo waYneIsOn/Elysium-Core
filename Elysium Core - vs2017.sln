@@ -111,6 +111,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Json", "Librar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.OS.Windows", "Libraries\01-Shared\Elysium.Core.OS.Windows\Elysium.Core.OS.Windows.vcxitems", "{27B88356-378A-45DB-A395-C8BD0E9C1E76}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems", "{B7B28110-F6FA-4554-B115-BAE4337DEBC2}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{10f92d9c-832e-4ddd-b353-f3d89548cce6}*SharedItemsImports = 4
@@ -124,6 +126,7 @@ Global
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
@@ -145,6 +148,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{a8ec7cea-4204-4384-a93b-cb59901202b3}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems*{adb5d221-a0f1-4eee-9101-8988fdf910b8}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{b29c5cf1-d637-47aa-aae6-cbb9028ba3d3}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{b7b28110-f6fa-4554-b115-bae4337debc2}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{be1492a2-fd64-4dda-8ffd-7433f3d78eb6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1232826-d63b-4395-b204-f43d442c207e}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
@@ -424,6 +428,7 @@ Global
 		{A8EC7CEA-4204-4384-A93B-CB59901202B3} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{1AE389E0-479E-43D0-9299-77821B53DB54} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{27B88356-378A-45DB-A395-C8BD0E9C1E76} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B7B28110-F6FA-4554-B115-BAE4337DEBC2} = {8C483853-54B5-40FB-B14B-28383747B06B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

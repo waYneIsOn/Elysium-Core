@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Cryptography">
+      <UniqueIdentifier>{2ae08835-ec82-4363-ac3f-15b74b1b9e5b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

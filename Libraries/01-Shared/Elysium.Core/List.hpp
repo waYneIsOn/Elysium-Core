@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "IList.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "Array.hpp"
+#endif
+
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif
@@ -42,13 +46,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "OutOfMemoryException.hpp"
 #endif
 
-#if defined (_WIN64)
-#define LIST_MAX LLONG_MAX
-#elif defined(_WIN32) || defined(__WIN32__)
-#define LIST_MAX INT_MAX
-#else
-#error Unsupported OS
-#endif
+#define LIST_MAX static_cast<size_t>(-1)
 
 namespace Elysium
 {
@@ -63,11 +61,16 @@ namespace Elysium
 				{
 				public:
 					List();
-					List(size_t Capacity);
+					List(const size_t Capacity);
 					List(const std::initializer_list<T>& InitializerList);
 					List(const List<T>& Source);
 					List(List<T>&& Right) noexcept;
 					~List();
+
+					// operators
+					virtual List<T>& operator=(const List<T>& Source);
+					List<T>& operator=(List<T>&& Right) noexcept;
+					virtual T& operator[](size_t Index) const override;
 
 					// properties - getter
 					const size_t GetCapacity() const;
@@ -76,11 +79,6 @@ namespace Elysium
 
 					// properties - setter
 					void SetCapacity(size_t Value);
-
-					// operators
-					List<T>& operator=(List<T>&& Right) noexcept;
-					virtual List<T>& operator=(const List<T>& Value);
-					virtual T& operator[](size_t Index) const override;
 
 					// methods
 					virtual void Add(const T& Item) override;
@@ -113,7 +111,7 @@ namespace Elysium
 					_Count(0)
 				{ }
 				template<class T>
-				inline List<T>::List(size_t Capacity)
+				inline List<T>::List(const size_t Capacity)
 					: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX),
 					_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
 					_Count(_Capacity)
@@ -159,27 +157,21 @@ namespace Elysium
 				}
 
 				template<class T>
-				inline const size_t List<T>::GetCapacity() const
+				inline List<T>& List<T>::operator=(const List<T>& Source)
 				{
-					return _Capacity;
-				}
-				template<class T>
-				inline const size_t List<T>::GetCount() const
-				{
-					return _Count;
-				}
-				template<class T>
-				inline const bool List<T>::GetIsReadOnly() const
-				{
-					return false;
-				}
+					if (this != &Source)
+					{
+						SetCapacity(Source._Capacity);
+						_Count = Source._Count;
+						for (size_t i = 0; i < _Count; i++)
+						{
+							_Data[i] = T(Source._Data[i]);
+							i++;
+						}
+					}
 
-				template<class T>
-				inline void List<T>::SetCapacity(size_t Value)
-				{
-					Resize(Value);
+					return *this;
 				}
-
 				template<typename T>
 				inline List<T>& List<T>::operator=(List<T>&& Right) noexcept
 				{
@@ -205,22 +197,6 @@ namespace Elysium
 					return *this;
 				}
 				template<class T>
-				inline List<T>& List<T>::operator=(const List<T>& Value)
-				{
-					if (this != &Value)
-					{
-						SetCapacity(Value._Capacity);
-						_Count = Value._Count;
-						for (size_t i = 0; i < _Count; i++)
-						{
-							_Data[i] = T(Value._Data[i]);
-							i++;
-						}
-					}
-
-					return *this;
-				}
-				template<class T>
 				inline T & List<T>::operator[](size_t Index) const
 				{
 					if (Index >= _Count)
@@ -230,7 +206,29 @@ namespace Elysium
 
 					return _Data[Index];
 				}
-				
+
+				template<class T>
+				inline const size_t List<T>::GetCapacity() const
+				{
+					return _Capacity;
+				}
+				template<class T>
+				inline const size_t List<T>::GetCount() const
+				{
+					return _Count;
+				}
+				template<class T>
+				inline const bool List<T>::GetIsReadOnly() const
+				{
+					return false;
+				}
+
+				template<class T>
+				inline void List<T>::SetCapacity(size_t Value)
+				{
+					Resize(Value);
+				}
+
 				template<class T>
 				inline void List<T>::Add(const T & Item)
 				{
