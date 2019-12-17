@@ -37,7 +37,7 @@ namespace Elysium
 			namespace Template
 			{
 				template <class T>
-				class Array //: public IList<T>
+				class Array
 				{
 				public:
 					Array(const size_t Length);
@@ -130,7 +130,7 @@ namespace Elysium
 				template<class T>
 				inline const size_t Array<T>::GetLength() const
 				{
-					return size_t();
+					return _Length;
 				}
 			}
 		}
