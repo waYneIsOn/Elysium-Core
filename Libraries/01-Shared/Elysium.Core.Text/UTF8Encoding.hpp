@@ -14,22 +14,16 @@ Copyright (C) 2017 waYne (CAM)
 #include "Encoding.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Text
 {
-	namespace Core
+	class ELYSIUM_CORE_API UTF8Encoding final : public Encoding
 	{
-		namespace Text
-		{
-			class ELYSIUM_CORE_API UTF8Encoding final : public Encoding
-			{
-			public:
-				UTF8Encoding();
-				UTF8Encoding(bool EncoderShouldEmitUTF8Identifier);
-				~UTF8Encoding();
-			private:
-				bool _EncoderShouldEmitUTF8Identifier;
-			};
-		}
-	}
+	public:
+		UTF8Encoding();
+		UTF8Encoding(bool EncoderShouldEmitUTF8Identifier);
+		~UTF8Encoding();
+	private:
+		bool _EncoderShouldEmitUTF8Identifier;
+	};
 }
 #endif

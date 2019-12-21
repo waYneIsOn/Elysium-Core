@@ -18,25 +18,16 @@ Copyright (C) 2017 waYne (CAM)
 #include <xstring>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::OS::Windows
 {
-	namespace Core
+	class Convert final
 	{
-		namespace OS
-		{
-			namespace Windows
-			{
-				class Convert final
-				{
-				public:
-					~Convert();
+	public:
+		~Convert();
 
-					static std::wstring ToWString(const String& Value);
-				private:
-					Convert();
-				};
-			}
-		}
-	}
+		static std::wstring ToWString(const String& Value);
+	private:
+		Convert();
+	};
 }
 #endif

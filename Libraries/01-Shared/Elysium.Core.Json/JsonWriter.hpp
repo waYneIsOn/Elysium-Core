@@ -26,78 +26,72 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonWriter
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonWriter
-			{
-			public:
-				virtual ~JsonWriter() {}
+	public:
+		virtual ~JsonWriter() {}
 
-				void WriteStartObject();
-				void WriteEndObject();
+		void WriteStartObject();
+		void WriteEndObject();
 
-				void WriteStartArray();
-				void WriteEndArray();
+		void WriteStartArray();
+		void WriteEndArray();
 
-				void WritePropertyName(const String& Name);
+		void WritePropertyName(const String& Name);
 
-				void WriteValue(const bool& Value);
-				void WriteValue(const int& Value);
-				void WriteValue(const float& Value);
-				void WriteValue(const double& Value);
-				void WriteValue(const char16_t* Value);
-				void WriteValue(const String& Value);
+		void WriteValue(const bool& Value);
+		void WriteValue(const int& Value);
+		void WriteValue(const float& Value);
+		void WriteValue(const double& Value);
+		void WriteValue(const char16_t* Value);
+		void WriteValue(const String& Value);
 
-				void WriteNull();
-			protected:
-				JsonWriter(const JsonIOSettings& IOSettings);
+		void WriteNull();
+	protected:
+		JsonWriter(const JsonIOSettings& IOSettings);
 
-				void WriteIndent();
-				void WriteIndentSpace();
-				void WriteValueDelimiter();
+		void WriteIndent();
+		void WriteIndentSpace();
+		void WriteValueDelimiter();
 
-				virtual void WriteString(const char16_t Value) = 0;
-				virtual void WriteString(const String& Value) = 0;
+		virtual void WriteString(const char16_t Value) = 0;
+		virtual void WriteString(const String& Value) = 0;
 
-			private:
+	private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-				enum class JsonWriterState : uint32_t
+		enum class JsonWriterState : uint32_t
 #elif defined(__ANDROID__)
-				enum class JsonWriterState
+		enum class JsonWriterState
 #else
 #error "undefined os"
 #endif
-				{
-					Initialized = 0,
+		{
+			Initialized = 0,
 
-					StartedObject = 1,
-					EndedObject = 2,
+			StartedObject = 1,
+			EndedObject = 2,
 
-					StartedArray = 3,
-					EndedArray = 4,
+			StartedArray = 3,
+			EndedArray = 4,
 
-					PropertyName = 5,
-					PropertyValue = 6,
+			PropertyName = 5,
+			PropertyValue = 6,
 
-					Finished = 7,
-					Error = 8
-				};
+			Finished = 7,
+			Error = 8
+		};
 
-				JsonWriterState _State;
-				uint16_t _Depth;
-				const JsonIOSettings _IOSettings;
+		JsonWriterState _State;
+		uint16_t _Depth;
+		const JsonIOSettings _IOSettings;
 
-				static const JsonWriterState _StateLookupTable[9][9];
+		static const JsonWriterState _StateLookupTable[9][9];
 
-				void PrepareWritingValue();
-				void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
-				void WriteEscapedString(const String& Value);
-			};
-		}
-	}
+		void PrepareWritingValue();
+		void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
+		void WriteEscapedString(const String& Value);
+	};
 }
 #endif

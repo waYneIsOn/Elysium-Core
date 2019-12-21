@@ -22,48 +22,42 @@ Copyright (C) 2017 waYne (CAM)
 #include "JsonArray.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonObject final : public JsonNode
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonObject final : public JsonNode
-			{
-				friend class JsonDocument;
-				friend class JsonArray;
-			public:
-				JsonObject(const JsonObject& Source) = delete;
-				JsonObject(JsonObject&& Right) noexcept = delete;
-				~JsonObject();
+		friend class JsonDocument;
+		friend class JsonArray;
+	public:
+		JsonObject(const JsonObject& Source) = delete;
+		JsonObject(JsonObject&& Right) noexcept = delete;
+		~JsonObject();
 
-				JsonObject& operator=(const JsonObject& Source) = delete;
-				JsonObject& operator=(JsonObject&& Right) noexcept = delete;
+		JsonObject& operator=(const JsonObject& Source) = delete;
+		JsonObject& operator=(JsonObject&& Right) noexcept = delete;
 
-				const String& GetName() const override;
-				virtual const JsonNodeType GetNodeType() const override;
+		const String& GetName() const override;
+		virtual const JsonNodeType GetNodeType() const override;
 
-				virtual void WriteTo(JsonWriter& Writer) const override;
+		virtual void WriteTo(JsonWriter& Writer) const override;
 
-				JsonElement& AddElement(const String& Name, const String& Value);
-				JsonElement& AddElement(const String& Name, const int32_t Value);
-				JsonElement& AddElement(const String& Name, const float Value);
-				JsonElement& AddElement(const String& Name, const double Value);
-				JsonElement& AddElement(const String& Name, const bool Value);
-				JsonElement& AddElement(const String& Name);
+		JsonElement& AddElement(const String& Name, const String& Value);
+		JsonElement& AddElement(const String& Name, const int32_t Value);
+		JsonElement& AddElement(const String& Name, const float Value);
+		JsonElement& AddElement(const String& Name, const double Value);
+		JsonElement& AddElement(const String& Name, const bool Value);
+		JsonElement& AddElement(const String& Name);
 
-				JsonObject& AddObject(const String& Name);
+		JsonObject& AddObject(const String& Name);
 
-				JsonArray& AddArray(const String& Name);
-			protected:
-				virtual void Load(JsonReader& JsonReader) override;
-			private:
-				JsonObject();
-				JsonObject(const String& Name);
+		JsonArray& AddArray(const String& Name);
+	protected:
+		virtual void Load(JsonReader& JsonReader) override;
+	private:
+		JsonObject();
+		JsonObject(const String& Name);
 
-				String _Name;
-			};
-		}
-	}
+		String _Name;
+	};
 }
 #endif

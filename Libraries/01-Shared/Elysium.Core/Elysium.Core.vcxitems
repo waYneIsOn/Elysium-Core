@@ -50,7 +50,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringViewBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
@@ -82,8 +84,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />

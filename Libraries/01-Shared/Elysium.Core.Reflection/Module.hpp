@@ -18,37 +18,31 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API Module
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API Module
-			{
-			public:
-				Module(const Module& Source);
-				Module(Module&& Right) noexcept;
-				virtual ~Module();
+	public:
+		Module(const Module& Source);
+		Module(Module&& Right) noexcept;
+		virtual ~Module();
 
-				Module& operator=(const Module& Source);
-				Module& operator=(Module&& Right) noexcept;
+		Module& operator=(const Module& Source);
+		Module& operator=(Module&& Right) noexcept;
 
-				bool operator==(const Module& Other) const;
-				bool operator!=(const Module& Other) const;
-				bool operator<(const Module& Other) const;
-				bool operator>(const Module& Other) const;
-				bool operator<=(const Module& Other) const;
-				bool operator>=(const Module& Other) const;
+		bool operator==(const Module& Other) const;
+		bool operator!=(const Module& Other) const;
+		bool operator<(const Module& Other) const;
+		bool operator>(const Module& Other) const;
+		bool operator<=(const Module& Other) const;
+		bool operator>=(const Module& Other) const;
 
-				const String& GetName() const;
-			protected:
-				Module();
+		const String& GetName() const;
+	protected:
+		Module();
 
-				Elysium::Core::String _Name;
-				//Assembly& _Assembly;
-			};
-		}
-	}
+		Elysium::Core::String _Name;
+		//Assembly& _Assembly;
+	};
 }
 #endif

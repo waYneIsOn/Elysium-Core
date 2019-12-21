@@ -14,37 +14,31 @@ Copyright (C) 2017 waYne (CAM)
 #include <stdint.h>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
-	{
-		namespace Json
-		{
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-			enum class JsonToken : uint32_t
+	enum class JsonToken : uint32_t
 #elif defined(__ANDROID__)
-			enum class JsonToken
+	enum class JsonToken
 #else
 #error "undefined os"
 #endif
-			{
-				None = 0,
+	{
+		None = 0,
 
-				StartedObject = 1,
-				EndedObject = 2,
+		StartedObject = 1,
+		EndedObject = 2,
 
-				StartedArray = 3,
-				EndedArray = 4,
+		StartedArray = 3,
+		EndedArray = 4,
 
-				PropertyName = 5,
+		PropertyName = 5,
 
-				Integer = 6,
-				Float = 7,
-				String = 8,
-				Boolean = 9,
-				Null = 11,
-			};
-		}
-	}
+		Integer = 6,
+		Float = 7,
+		String = 8,
+		Boolean = 9,
+		Null = 11,
+	};
 }
 #endif

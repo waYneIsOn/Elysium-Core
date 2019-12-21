@@ -14,22 +14,16 @@ Copyright (C) 2017 waYne (CAM)
 #include "MemberInfo.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API FieldInfo : public MemberInfo
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API FieldInfo : public MemberInfo
-			{
-			public:
-				virtual ~FieldInfo();
-			protected:
-				FieldInfo();
+	public:
+		virtual ~FieldInfo();
+	protected:
+		FieldInfo();
 
-				void* _Address;
-			};
-		}
-	}
+		void* _Address;
+	};
 }
 #endif

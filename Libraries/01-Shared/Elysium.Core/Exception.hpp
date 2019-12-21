@@ -18,29 +18,29 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
-#pragma warning(disable : 4275)
+//#pragma warning(disable : 4275)
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	//class ELYSIUM_CORE_API String;
+
+	class ELYSIUM_CORE_API Exception
 	{
-		class ELYSIUM_CORE_API Exception
-		{
-		public:
-			// constructors & destructor
-			Exception();
-			Exception(const String& Message);
-			virtual ~Exception();
+	public:
+		// constructors & destructor
+		Exception();
+		Exception(const char16_t* Message);
+		Exception(const String& Message);
+		virtual ~Exception();
 
-			// properties - getter
-			const Exception* GetInnerException() const;
+		// properties - getter
+		const Exception* GetInnerException() const;
 
-			// methods
-			const String& GetExceptionMessage() const;
-		private:
-			String _Message;
-			Exception* _InnerException;
-		};
-	}
+		// methods
+		const String& GetExceptionMessage() const;
+	private:
+		String _Message;
+		Exception* _InnerException;
+	};
 }
 #endif

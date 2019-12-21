@@ -14,17 +14,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API InvalidCastException : public Exception
 	{
-		class ELYSIUM_CORE_API InvalidCastException : public Exception
-		{
-		public:
-			InvalidCastException();
-			InvalidCastException(const String& Message);
-			~InvalidCastException();
-		};
-	}
+	public:
+		InvalidCastException();
+		InvalidCastException(const String& Message);
+		~InvalidCastException();
+	};
 }
 #endif

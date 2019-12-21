@@ -10,25 +10,26 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETTYPE
 #define ELYSIUM_CORE_NET_SOCKETS_SOCKETTYPE
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::Net::Sockets
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class SocketType : uint32_t
+#elif defined(__ANDROID__)
+	enum class SocketType
+#else
+#error "undefined os"
+#endif
 	{
-		namespace Net
-		{
-			namespace Sockets
-			{
-				enum class SocketType : int
-				{
-					Dgram,
-					Raw,
-					Rdm,
-					Seqpacket,
-					Stream,
-					Unknown,
-				};
-			}
-		}
-	}
+		Dgram,
+		Raw,
+		Rdm,
+		Seqpacket,
+		Stream,
+		Unknown,
+	};
 }
 #endif

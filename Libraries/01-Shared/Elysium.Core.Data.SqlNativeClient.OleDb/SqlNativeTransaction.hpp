@@ -18,39 +18,27 @@ Copyright (C) 2017 waYne (CAM)
 #include "SqlNativeConnection.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
-	namespace Core
+	class SqlNativeCommand;
+
+	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeTransaction final : public Common::DbTransaction
 	{
-		namespace Data
-		{
-			namespace SqlNativeClient
-			{
-				namespace OleDb
-				{
-					class SqlNativeCommand;
+		friend class SqlNativeConnection;
+		friend class SqlNativeCommand;
+	public:
+		~SqlNativeTransaction();
 
-					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeTransaction final : public Common::DbTransaction
-					{
-						friend class SqlNativeConnection;
-						friend class SqlNativeCommand;
-					public:
-						~SqlNativeTransaction();
+		virtual std::unique_ptr<IDbCommand> CreateCommand() override;
 
-						virtual std::unique_ptr<IDbCommand> CreateCommand() override;
+		virtual void Commit() override;
+		virtual void Rollback() override;
+	private:
+		SqlNativeTransaction(SqlNativeConnection* Connection, IsolationLevel IsolationLevel, IDBCreateCommand* NativeCommandFactory, ITransactionLocal* NativeTransaction, unsigned long TransactionLevel);
 
-						virtual void Commit() override;
-						virtual void Rollback() override;
-					private:
-						SqlNativeTransaction(SqlNativeConnection* Connection, IsolationLevel IsolationLevel, IDBCreateCommand* NativeCommandFactory, ITransactionLocal* NativeTransaction, unsigned long TransactionLevel);
-
-						IDBCreateCommand* _NativeCommandFactory;
-						ITransactionLocal* _NativeTransaction;
-						unsigned long _TransactionLevel;
-					};
-				}
-			}
-		}
-	}
+		IDBCreateCommand* _NativeCommandFactory;
+		ITransactionLocal* _NativeTransaction;
+		unsigned long _TransactionLevel;
+	};
 }
 #endif

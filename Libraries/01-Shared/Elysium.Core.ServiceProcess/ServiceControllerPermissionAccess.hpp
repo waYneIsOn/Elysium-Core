@@ -10,19 +10,23 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_SERVICEPROCESS_SERVICECONTROLLERPERMISSIONACCESS
 #define ELYSIUM_CORE_SERVICEPROCESS_SERVICECONTROLLERPERMISSIONACCESS
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::ServiceProcess
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class ServiceControllerPermissionAccess : uint32_t
+#elif defined(__ANDROID__)
+	enum class ServiceControllerPermissionAccess
+#else
+#error "undefined os"
+#endif
 	{
-		namespace ServiceProcess
-		{
-			enum class ServiceControllerPermissionAccess : int
-			{
-				None = 0,
-				Browse = 2,
-				Control = 6,
-			};
-		}
-	}
+		None = 0,
+		Browse = 2,
+		Control = 6,
+	};
 }
 #endif

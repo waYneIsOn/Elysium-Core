@@ -19,26 +19,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "QuaternionTemplate.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Math::Numerics
 {
-	namespace Core
+	class ELYSIUM_CORE_MATH_API QuaternionDouble : public QuaternionTemplate<double>
 	{
-		namespace Math
-		{
-			namespace Numerics
-			{
-				class ELYSIUM_CORE_MATH_API QuaternionDouble : public QuaternionTemplate<double>
-				{
-				public:
-					// constructors & destructor
-					QuaternionDouble(double ValueX, double ValueY, double ValueZ, double ValueW);
-					~QuaternionDouble();
+	public:
+		// constructors & destructor
+		QuaternionDouble(double ValueX, double ValueY, double ValueZ, double ValueW);
+		~QuaternionDouble();
 
-					// static constructors
-					static QuaternionDouble Identity();
-				};
-			}
-		}
-	}
+		// static constructors
+		static QuaternionDouble Identity();
+	};
 }
 #endif

@@ -18,23 +18,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "RectangleTemplate.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Math::Geometry
 {
-	namespace Core
+	class ELYSIUM_CORE_MATH_API RectangleDouble : public RectangleTemplate<double>
 	{
-		namespace Math
-		{
-			namespace Geometry
-			{
-				class ELYSIUM_CORE_MATH_API RectangleDouble : public RectangleTemplate<double>
-				{
-				public:
-					RectangleDouble();
-					RectangleDouble(double X, double Y, double Width, double Height);
-					~RectangleDouble();
-				};
-			}
-		}
-	}
+	public:
+		RectangleDouble();
+		RectangleDouble(double X, double Y, double Width, double Height);
+		~RectangleDouble();
+	};
 }
 #endif

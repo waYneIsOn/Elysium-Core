@@ -58,62 +58,56 @@ Copyright (C) 2017 waYne (CAM)
 #include "DBNull.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API IDataParameter
 	{
-		namespace Data
-		{
-			class ELYSIUM_CORE_DATA_API IDataParameter
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~IDataParameter() {}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~IDataParameter() {}
 
-				virtual DbType GetDbType() const = 0;
-				virtual ParameterDirection GetDirection() const = 0;
-				virtual bool GetIsNullable() const = 0;
-				virtual std::string GetParameterName() const = 0;
-				virtual std::string GetSourceColumn() const = 0;
-				virtual DataRowVersion GetSourceVersion() const = 0;
-				virtual const BYTE* GetValue() const = 0;
-				virtual size_t GetSize() const = 0;
-				virtual bool GetIsDBNull() const = 0;
+		virtual DbType GetDbType() const = 0;
+		virtual ParameterDirection GetDirection() const = 0;
+		virtual bool GetIsNullable() const = 0;
+		virtual std::string GetParameterName() const = 0;
+		virtual std::string GetSourceColumn() const = 0;
+		virtual DataRowVersion GetSourceVersion() const = 0;
+		virtual const BYTE* GetValue() const = 0;
+		virtual size_t GetSize() const = 0;
+		virtual bool GetIsDBNull() const = 0;
 
-				virtual void SetDbType(DbType Type) = 0;
-				virtual void SetDirection(ParameterDirection Direction) = 0;
-				virtual void SetIsNullable(bool IsNullable) = 0;
-				virtual void SetParameterName(std::string ParameterName) = 0;
-				virtual void SetSourceColumn(std::string SourceColumn) = 0;
-				virtual void SetSourceVersion(DataRowVersion Version) = 0;
-				virtual void SetValue(const DBNull* Value) = 0;
-				virtual void SetValue(const bool Value) = 0;
-				virtual void SetValue(const BYTE Value) = 0;
-				virtual void SetValue(const BYTE* Value, const size_t BufferOffset, const size_t Length) = 0;
-				virtual void SetValue(const char Value) = 0;
-				virtual void SetValue(const char* Value, const size_t BufferOffset, const size_t Length) = 0;
-				virtual void SetValue(const std::string* Value) = 0;
-				virtual void SetValue(const DateTime* Value) = 0;
-				virtual void SetValue(const DateTimeOffset* Value) = 0;
-				virtual void SetValue(const TimeSpan* Value) = 0;
-				virtual void SetValue(const Decimal* Value) = 0;
-				virtual void SetValue(const double Value) = 0;
-				virtual void SetValue(const float Value) = 0;
-				virtual void SetValue(const Guid* Value) = 0;
-				virtual void SetValue(const __int16 Value) = 0;
-				virtual void SetValue(const __int32 Value) = 0;
-				virtual void SetValue(const __int64 Value) = 0;
-				virtual void SetValue(const unsigned __int16 Value) = 0;
-				virtual void SetValue(const unsigned __int32 Value) = 0;
-				virtual void SetValue(const unsigned __int64 Value) = 0;
-				virtual void SetValue(const wchar_t Value) = 0;
-				virtual void SetValue(const wchar_t* Value, const size_t BufferOffset, const size_t Length) = 0;
-				virtual void SetValue(const std::wstring* Value) = 0;
-				virtual void SetValue(const Elysium::Core::IO::Stream* Value) = 0;
-			};
-		}
-	}
+		virtual void SetDbType(DbType Type) = 0;
+		virtual void SetDirection(ParameterDirection Direction) = 0;
+		virtual void SetIsNullable(bool IsNullable) = 0;
+		virtual void SetParameterName(std::string ParameterName) = 0;
+		virtual void SetSourceColumn(std::string SourceColumn) = 0;
+		virtual void SetSourceVersion(DataRowVersion Version) = 0;
+		virtual void SetValue(const DBNull* Value) = 0;
+		virtual void SetValue(const bool Value) = 0;
+		virtual void SetValue(const BYTE Value) = 0;
+		virtual void SetValue(const BYTE* Value, const size_t BufferOffset, const size_t Length) = 0;
+		virtual void SetValue(const char Value) = 0;
+		virtual void SetValue(const char* Value, const size_t BufferOffset, const size_t Length) = 0;
+		virtual void SetValue(const std::string* Value) = 0;
+		virtual void SetValue(const DateTime* Value) = 0;
+		virtual void SetValue(const DateTimeOffset* Value) = 0;
+		virtual void SetValue(const TimeSpan* Value) = 0;
+		virtual void SetValue(const Decimal* Value) = 0;
+		virtual void SetValue(const double Value) = 0;
+		virtual void SetValue(const float Value) = 0;
+		virtual void SetValue(const Guid* Value) = 0;
+		virtual void SetValue(const __int16 Value) = 0;
+		virtual void SetValue(const __int32 Value) = 0;
+		virtual void SetValue(const __int64 Value) = 0;
+		virtual void SetValue(const unsigned __int16 Value) = 0;
+		virtual void SetValue(const unsigned __int32 Value) = 0;
+		virtual void SetValue(const unsigned __int64 Value) = 0;
+		virtual void SetValue(const wchar_t Value) = 0;
+		virtual void SetValue(const wchar_t* Value, const size_t BufferOffset, const size_t Length) = 0;
+		virtual void SetValue(const std::wstring* Value) = 0;
+		virtual void SetValue(const Elysium::Core::IO::Stream* Value) = 0;
+	};
 }
 #endif

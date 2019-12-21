@@ -14,17 +14,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API NotSupportedException : public Exception
 	{
-		class ELYSIUM_CORE_API NotSupportedException : public Exception
-		{
-		public:
-			NotSupportedException();
-			NotSupportedException(const String& Message);
-			~NotSupportedException();
-		};
-	}
+	public:
+		NotSupportedException();
+		NotSupportedException(const String& Message);
+		~NotSupportedException();
+	};
 }
 #endif

@@ -18,29 +18,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "SqlNativeErrorCollection.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeException final : public Elysium::Core::Data::Common::DbException
 	{
-		namespace Data
-		{
-			namespace SqlNativeClient
-			{
-				namespace OleDb
-				{
-					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeException final : public Elysium::Core::Data::Common::DbException
-					{
-					public:
-						SqlNativeException(const String& Message, const int ErrorCode, IUnknown* ErrorObject);
-						~SqlNativeException();
+	public:
+		SqlNativeException(const String& Message, const int ErrorCode, IUnknown* ErrorObject);
+		~SqlNativeException();
 
-						const SqlNativeErrorCollection& GetErrors() const;
-					private:
-						SqlNativeErrorCollection _Errors;
-					};
-				}
-			}
-		}
-	}
+		const SqlNativeErrorCollection& GetErrors() const;
+	private:
+		SqlNativeErrorCollection _Errors;
+	};
 }
 #endif

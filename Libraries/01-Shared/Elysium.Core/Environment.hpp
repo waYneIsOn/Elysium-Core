@@ -22,27 +22,24 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API Environment final
 	{
-		class ELYSIUM_CORE_API Environment final
-		{
-		public:
-			~Environment();
+	public:
+		~Environment();
 
-			static bool Is64BitProcess();
-			static String MachineName();
-			static const String& NewLine();
-			static OperatingSystem OSVersion();
-			static int ProcessorCount();
-			static String UserName();
-			static String SystemDirectory();
-		private:
-			Environment();
+		static bool Is64BitProcess();
+		static String MachineName();
+		static const String& NewLine();
+		static OperatingSystem OSVersion();
+		static int ProcessorCount();
+		static String UserName();
+		static String SystemDirectory();
+	private:
+		Environment();
 
-			static const String _NewLineCharacters;
-		};
-	}
+		static const String _NewLineCharacters;
+	};
 }
 #endif

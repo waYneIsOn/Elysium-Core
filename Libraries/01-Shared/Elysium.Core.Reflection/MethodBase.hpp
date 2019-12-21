@@ -14,20 +14,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "MemberInfo.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API MethodBase : public MemberInfo
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API MethodBase : public MemberInfo
-			{
-			public:
-				virtual ~MethodBase();
-			protected:
-				MethodBase();
-			};
-		}
-	}
+	public:
+		virtual ~MethodBase();
+	protected:
+		MethodBase();
+	};
 }
 #endif

@@ -14,19 +14,13 @@ Copyright (C) 2017 waYne (CAM)
 #include "Encoding.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Text
 {
-	namespace Core
+	class ELYSIUM_CORE_API ASCIIEncoding final : public Encoding
 	{
-		namespace Text
-		{
-			class ELYSIUM_CORE_API ASCIIEncoding final : public Encoding
-			{
-			public:
-				ASCIIEncoding();
-				~ASCIIEncoding();
-			};
-		}
-	}
+	public:
+		ASCIIEncoding();
+		~ASCIIEncoding();
+	};
 }
 #endif

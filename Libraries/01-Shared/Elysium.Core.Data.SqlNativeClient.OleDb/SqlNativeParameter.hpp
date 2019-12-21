@@ -19,27 +19,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "SqlNativeCommand.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeParameter final : public Common::DbParameter
 	{
-		namespace Data
-		{
-			namespace SqlNativeClient
-			{
-				namespace OleDb
-				{
-					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeParameter final : public Common::DbParameter
-					{
-						friend class SqlNativeCommand;
-					public:
-						~SqlNativeParameter();
-					private:
-						SqlNativeParameter(const SqlNativeCommand* const Command);
-					};
-				}
-			}
-		}
-	}
+		friend class SqlNativeCommand;
+	public:
+		~SqlNativeParameter();
+	private:
+		SqlNativeParameter(const SqlNativeCommand* const Command);
+	};
 }
 #endif

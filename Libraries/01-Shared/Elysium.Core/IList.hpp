@@ -14,29 +14,23 @@ Copyright (C) 2017 waYne (CAM)
 #include "ICollection.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Collections
 {
-	namespace Core
+	/// Represents a non-generic collection of objects that can be individually accessed by index.
+	template <typename T>
+	class IList : public ICollection<T>
 	{
-		namespace Collections
-		{
-			/// Represents a non-generic collection of objects that can be individually accessed by index.
-			template <typename T>
-			class IList : public ICollection<T>
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~IList() {}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~IList() {}
 
-				virtual T& operator[](size_t Index) const = 0;
+		virtual T& operator[](size_t Index) const = 0;
 
-				virtual const size_t IndexOf(const T& Item) const = 0;
-				virtual void Insert(size_t Index, const T& Item) = 0;
-				virtual void RemoveAt(size_t Index) = 0;
-			};
-		}
-	}
+		virtual const size_t IndexOf(const T& Item) const = 0;
+		virtual void Insert(size_t Index, const T& Item) = 0;
+		virtual void RemoveAt(size_t Index) = 0;
+	};
 }
 #endif

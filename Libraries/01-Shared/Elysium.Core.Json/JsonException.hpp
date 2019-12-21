@@ -18,20 +18,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonException : public Elysium::Core::Exception
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonException : public Elysium::Core::Exception
-			{
-			public:
-				JsonException();
-				JsonException(const String& Message);
-				virtual ~JsonException();
-			};
-		}
-	}
+	public:
+		JsonException();
+		JsonException(const String& Message);
+		virtual ~JsonException();
+	};
 }
 #endif

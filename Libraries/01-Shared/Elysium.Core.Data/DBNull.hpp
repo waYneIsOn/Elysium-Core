@@ -14,25 +14,19 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API DBNull final
 	{
-		namespace Data
-		{
-			class ELYSIUM_CORE_DATA_API DBNull final
-			{
-			public:
-				~DBNull();
+	public:
+		~DBNull();
 
-				static const DBNull* Value();
-			private:
-				DBNull();
-				DBNull(const DBNull& Source);
+		static const DBNull* Value();
+	private:
+		DBNull();
+		DBNull(const DBNull& Source);
 
-				static const DBNull _Value;
-			};
-		}
-	}
+		static const DBNull _Value;
+	};
 }
 #endif

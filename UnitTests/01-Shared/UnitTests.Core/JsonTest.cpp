@@ -649,15 +649,15 @@ namespace UnitTestsCore
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)IntArray.GetNodeType());
 
 				JsonElement& IntArrayValue1 = static_cast<JsonElement&>(IntArray.GetChild(0));
-				AssertExtended::AreEqual(u"", IntArrayValue1.GetName().GetCharArray());
+				Assert::IsNull(IntArrayValue1.GetName().GetCharArray());
 				Assert::AreEqual(1, IntArrayValue1.GetValueAsInt32());
 
 				JsonElement& IntArrayValue2 = static_cast<JsonElement&>(IntArray.GetChild(1));
-				AssertExtended::AreEqual(u"", IntArrayValue2.GetName().GetCharArray());
+				Assert::IsNull(IntArrayValue2.GetName().GetCharArray());
 				Assert::AreEqual(2, IntArrayValue2.GetValueAsInt32());
 
 				JsonElement& IntArrayValue3 = static_cast<JsonElement&>(IntArray.GetChild(2));
-				AssertExtended::AreEqual(u"", IntArrayValue3.GetName().GetCharArray());
+				Assert::IsNull(IntArrayValue3.GetName().GetCharArray());
 				Assert::AreEqual(3, IntArrayValue3.GetValueAsInt32());
 
 				JsonArray& ObjectArray = static_cast<JsonArray&>(RootNode.GetChild(10));

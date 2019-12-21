@@ -30,37 +30,25 @@ Copyright (C) 2017 waYne (CAM)
 
 #pragma warning(disable : 4251)
 
-namespace Elysium
+namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeErrorCollection final : public Elysium::Core::Collections::ICollection<SqlNativeError>
 	{
-		namespace Data
-		{
-			namespace SqlNativeClient
-			{
-				namespace OleDb
-				{
-					class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeErrorCollection final : public Elysium::Core::Collections::ICollection<SqlNativeError>
-					{
-					public:
-						SqlNativeErrorCollection(IUnknown* ErrorObject);
-						~SqlNativeErrorCollection();
+	public:
+		SqlNativeErrorCollection(IUnknown* ErrorObject);
+		~SqlNativeErrorCollection();
 
-						const SqlNativeError& operator [] (size_t i) const;
+		const SqlNativeError& operator [] (size_t i) const;
 
-						virtual const size_t GetCount() const override;
-						virtual const bool GetIsReadOnly() const override;
+		virtual const size_t GetCount() const override;
+		virtual const bool GetIsReadOnly() const override;
 
-						virtual void Add(const SqlNativeError& Item) override;
-						virtual void Clear() override;
-						virtual bool Contains(const SqlNativeError& Item) const override;
-						virtual bool Remove(const SqlNativeError& Item) override;
-					private:
-						std::vector<SqlNativeError> _Errors;
-					};
-				}
-			}
-		}
-	}
+		virtual void Add(const SqlNativeError& Item) override;
+		virtual void Clear() override;
+		virtual bool Contains(const SqlNativeError& Item) const override;
+		virtual bool Remove(const SqlNativeError& Item) override;
+	private:
+		std::vector<SqlNativeError> _Errors;
+	};
 }
 #endif

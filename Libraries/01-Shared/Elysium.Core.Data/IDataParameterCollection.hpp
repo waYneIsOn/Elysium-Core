@@ -18,23 +18,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "IDataParameter.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API IDataParameterCollection : public Collections::IList<IDataParameter>
 	{
-		namespace Data
-		{
-			class ELYSIUM_CORE_DATA_API IDataParameterCollection : public Collections::IList<IDataParameter>
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~IDataParameterCollection() {}
-			protected:
-				IDataParameterCollection() {}
-			};
-		}
-	}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~IDataParameterCollection() {}
+	protected:
+		IDataParameterCollection() {}
+	};
 }
 #endif

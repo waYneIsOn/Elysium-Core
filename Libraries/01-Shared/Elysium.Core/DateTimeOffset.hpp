@@ -22,28 +22,25 @@ Copyright (C) 2017 waYne (CAM)
 #include "TimeSpan.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API DateTimeOffset final
 	{
-		class ELYSIUM_CORE_API DateTimeOffset final
-		{
-		public:
-			DateTimeOffset(const DateTime DateTime);
-			DateTimeOffset(const DateTime DateTime, const TimeSpan Offset);
-			DateTimeOffset(const DateTimeOffset& Source);
-			DateTimeOffset(DateTimeOffset&& Right) noexcept;
-			~DateTimeOffset();
+	public:
+		DateTimeOffset(const DateTime DateTime);
+		DateTimeOffset(const DateTime DateTime, const TimeSpan Offset);
+		DateTimeOffset(const DateTimeOffset& Source);
+		DateTimeOffset(DateTimeOffset&& Right) noexcept;
+		~DateTimeOffset();
 
-			DateTimeOffset& operator=(const DateTimeOffset& Source);
-			DateTimeOffset& operator=(DateTimeOffset&& Right) noexcept;
+		DateTimeOffset& operator=(const DateTimeOffset& Source);
+		DateTimeOffset& operator=(DateTimeOffset&& Right) noexcept;
 
-			DateTime& GetDateTime() const;
-			TimeSpan& GetOffset() const;
-		private:
-			DateTime _DateTime;
-			TimeSpan _Offset;
-		};
-	}
+		DateTime& GetDateTime() const;
+		TimeSpan& GetOffset() const;
+	private:
+		DateTime _DateTime;
+		TimeSpan _Offset;
+	};
 }
 #endif

@@ -22,36 +22,27 @@ Copyright (C) 2017 waYne (CAM)
 #include "Vector4Single.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Math::Numerics
 {
-	namespace Core
+	class ELYSIUM_CORE_MATH_API Vector4Double : public Vector4Template<double>
 	{
-		namespace Math
-		{
-			namespace Numerics
-			{
-				class ELYSIUM_CORE_MATH_API Vector4Double : public Vector4Template<double>
-				{
-				public:
-					// constructors & destructor
-					Vector4Double();
-					Vector4Double(double Value);
-					Vector4Double(double ValueX, double ValueY, double ValueZ, double ValueW);
-					~Vector4Double();
+	public:
+		// constructors & destructor
+		Vector4Double();
+		Vector4Double(double Value);
+		Vector4Double(double ValueX, double ValueY, double ValueZ, double ValueW);
+		~Vector4Double();
 
-					// static constructors
-					static Vector4Double One();
-					static Vector4Double UnitX();
-					static Vector4Double UnitY();
-					static Vector4Double UnitZ();
-					static Vector4Double UnitW();
-					static Vector4Double Zero();
+		// static constructors
+		static Vector4Double One();
+		static Vector4Double UnitX();
+		static Vector4Double UnitY();
+		static Vector4Double UnitZ();
+		static Vector4Double UnitW();
+		static Vector4Double Zero();
 
-					// methods
-					Vector4Single ToVector4Single();
-				};
-			}
-		}
-	}
+		// methods
+		Vector4Single ToVector4Single();
+	};
 }
 #endif

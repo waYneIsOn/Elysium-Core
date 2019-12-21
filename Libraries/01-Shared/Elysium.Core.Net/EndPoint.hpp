@@ -26,29 +26,23 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketAddress.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net
 {
-	namespace Core
+	class ELYSIUM_CORE_NET_API EndPoint
 	{
-		namespace Net
-		{
-			class ELYSIUM_CORE_NET_API EndPoint
-			{
-			public:
-				virtual ~EndPoint();
+	public:
+		virtual ~EndPoint();
 
-				Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const;
+		Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const;
 
-				void Create(Elysium::Core::Net::SocketAddress* Address, Elysium::Core::Net::EndPoint* EndPoint);
-				Elysium::Core::Net::EndPoint* Create(Elysium::Core::Net::SocketAddress* Address);
+		void Create(Elysium::Core::Net::SocketAddress* Address, Elysium::Core::Net::EndPoint* EndPoint);
+		Elysium::Core::Net::EndPoint* Create(Elysium::Core::Net::SocketAddress* Address);
 
-				virtual void Serialize(SocketAddress* Address) const = 0;
-			protected:
-				EndPoint(const IPAddress& Address);
+		virtual void Serialize(SocketAddress* Address) const = 0;
+	protected:
+		EndPoint(const IPAddress& Address);
 
-				IPAddress _Address;
-			};
-		}
-	}
+		IPAddress _Address;
+	};
 }
 #endif

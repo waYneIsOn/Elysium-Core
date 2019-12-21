@@ -18,26 +18,20 @@ Copyright (C) 2017 waYne (CAM)
 #include <algorithm>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Linq
 {
-	namespace Core
+	struct ELYSIUM_CORE_LINQ_API WhereContainer
 	{
-		namespace Linq
+		template<class ContainerType, class LambdaType>
+		ContainerType operator()(ContainerType & Container, LambdaType & Lambda)
 		{
-			struct ELYSIUM_CORE_LINQ_API WhereContainer
-			{
-				template<class ContainerType, class LambdaType>
-				ContainerType operator()(ContainerType & Container, LambdaType & Lambda)
-				{
-					// ToDo: can we somehow create a new empty ContainerType?
-					ContainerType Result = ContainerType(Container);
-					Result.clear();
-					std::copy_if(cbegin(Container), cend(Container), std::back_inserter(Result), Lambda);
+			// ToDo: can we somehow create a new empty ContainerType?
+			ContainerType Result = ContainerType(Container);
+			Result.clear();
+			std::copy_if(cbegin(Container), cend(Container), std::back_inserter(Result), Lambda);
 					
-					return Result;
-				}
-			};
+			return Result;
 		}
-	}
+	};
 }
 #endif

@@ -18,24 +18,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/ExternalException.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data::Common
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API DbException : public Elysium::Core::Runtime::InteropServices::ExternalException
 	{
-		namespace Data
-		{
-			namespace Common
-			{
-				class ELYSIUM_CORE_DATA_API DbException : public Elysium::Core::Runtime::InteropServices::ExternalException
-				{
-				public:
-					DbException();
-					DbException(const String& Message);
-					DbException(const String& Message, const int ErrorCode);
-					~DbException();
-				};
-			}
-		}
-	}
+	public:
+		DbException();
+		DbException(const String& Message);
+		DbException(const String& Message, const int ErrorCode);
+		~DbException();
+	};
 }
 #endif

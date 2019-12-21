@@ -46,45 +46,39 @@ Copyright (C) 2017 waYne (CAM)
 #include "IDataReader.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API IDbCommand
 	{
-		namespace Data
-		{
-			class ELYSIUM_CORE_DATA_API IDbCommand
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~IDbCommand() {}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~IDbCommand() {}
 
-				virtual const String& GetCommandText() const = 0;
-				virtual const int& GetConnectionTimeout() const = 0;
-				virtual const CommandType& GetCommandType() const = 0;
-				virtual const IDbConnection* GetConnection() const = 0;
-				virtual IDataParameterCollection* GetParameters() const = 0;
-				virtual const IDbTransaction* GetTransaction() const = 0;
-				//virtual const UpdateRowSource* GetUpdateRowSource() const = 0;
+		virtual const String& GetCommandText() const = 0;
+		virtual const int& GetConnectionTimeout() const = 0;
+		virtual const CommandType& GetCommandType() const = 0;
+		virtual const IDbConnection* GetConnection() const = 0;
+		virtual IDataParameterCollection* GetParameters() const = 0;
+		virtual const IDbTransaction* GetTransaction() const = 0;
+		//virtual const UpdateRowSource* GetUpdateRowSource() const = 0;
 
-				virtual void SetCommandText(const char16_t* CommandText) = 0;
-				virtual void SetCommandText(const String& CommandText) = 0;
-				virtual void SetConnectionTimeout(int Timeout) = 0;
-				virtual void SetCommandType(CommandType Type) = 0;
-				//virtual void SetConnection(IDbConnection* Connection) = 0;
-				//virtual void SetTransaction(IDbTransaction* Transaction) = 0;
-				//virtual void SetUpdateRowSource(UpdateRowSource* UpdateRowSource) = 0;
+		virtual void SetCommandText(const char16_t* CommandText) = 0;
+		virtual void SetCommandText(const String& CommandText) = 0;
+		virtual void SetConnectionTimeout(int Timeout) = 0;
+		virtual void SetCommandType(CommandType Type) = 0;
+		//virtual void SetConnection(IDbConnection* Connection) = 0;
+		//virtual void SetTransaction(IDbTransaction* Transaction) = 0;
+		//virtual void SetUpdateRowSource(UpdateRowSource* UpdateRowSource) = 0;
 
-				//virtual void Cancel() = 0;
-				virtual std::unique_ptr<IDataParameter> CreateParameter() = 0;
-				virtual size_t ExecuteNonQuery() = 0;
-				virtual std::unique_ptr<IDataReader> ExecuteReader() = 0;
-				//virtual IDataReader ExecuteReader(CommandBehaviour Behaviour) = 0;
-				//virtual object ExecuteScalar() = 0;
-				virtual void Prepare() = 0;
-			};
-		}
-	}
+		//virtual void Cancel() = 0;
+		virtual std::unique_ptr<IDataParameter> CreateParameter() = 0;
+		virtual size_t ExecuteNonQuery() = 0;
+		virtual std::unique_ptr<IDataReader> ExecuteReader() = 0;
+		//virtual IDataReader ExecuteReader(CommandBehaviour Behaviour) = 0;
+		//virtual object ExecuteScalar() = 0;
+		virtual void Prepare() = 0;
+	};
 }
 #endif

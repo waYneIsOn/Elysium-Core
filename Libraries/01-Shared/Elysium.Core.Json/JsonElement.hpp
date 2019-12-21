@@ -18,50 +18,44 @@ Copyright (C) 2017 waYne (CAM)
 #include <variant>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonElement final : public JsonNode
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonElement final : public JsonNode
-			{
-				friend class JsonDocument;
-				friend class JsonObject;
-				friend class JsonArray;
-			public:
-				JsonElement(const JsonElement& Source) = delete;
-				JsonElement(JsonElement&& Right) noexcept = delete;
-				~JsonElement();
+		friend class JsonDocument;
+		friend class JsonObject;
+		friend class JsonArray;
+	public:
+		JsonElement(const JsonElement& Source) = delete;
+		JsonElement(JsonElement&& Right) noexcept = delete;
+		~JsonElement();
 
-				JsonElement& operator=(const JsonElement& Source) = delete;
-				JsonElement& operator=(JsonElement&& Right) noexcept = delete;
+		JsonElement& operator=(const JsonElement& Source) = delete;
+		JsonElement& operator=(JsonElement&& Right) noexcept = delete;
 
-				const String& GetName() const override;
-				virtual const JsonNodeType GetNodeType() const override;
+		const String& GetName() const override;
+		virtual const JsonNodeType GetNodeType() const override;
 
-				const bool IsNull() const;
-				const String& GetValueAsString() const;
-				const int32_t GetValueAsInt32() const;
-				const float GetValueAsSingle() const;
-				const bool GetValueAsBoolean() const;
+		const bool IsNull() const;
+		const String& GetValueAsString() const;
+		const int32_t GetValueAsInt32() const;
+		const float GetValueAsSingle() const;
+		const bool GetValueAsBoolean() const;
 
-				virtual void WriteTo(JsonWriter& Writer) const override;
-			protected:
-				virtual void Load(JsonReader& JsonReader) override;
-			private:
-				JsonElement(const String& Name, const String& Value);
-				JsonElement(const String& Name, const int32_t Value);
-				JsonElement(const String& Name, const float Value);
-				JsonElement(const String& Name, const double Value);
-				JsonElement(const String& Name, const bool Value);
-				JsonElement(const String& Name);
+		virtual void WriteTo(JsonWriter& Writer) const override;
+	protected:
+		virtual void Load(JsonReader& JsonReader) override;
+	private:
+		JsonElement(const String& Name, const String& Value);
+		JsonElement(const String& Name, const int32_t Value);
+		JsonElement(const String& Name, const float Value);
+		JsonElement(const String& Name, const double Value);
+		JsonElement(const String& Name, const bool Value);
+		JsonElement(const String& Name);
 
-				String _Name;
-				JsonNodeType _Type;
-				std::variant<bool, int32_t, float, double, String, void*> _Value;
-			};
-		}
-	}
+		String _Name;
+		JsonNodeType _Type;
+		std::variant<bool, int32_t, float, double, String, void*> _Value;
+	};
 }
 #endif

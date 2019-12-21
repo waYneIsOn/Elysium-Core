@@ -14,25 +14,19 @@ Copyright (C) 2017 waYne (CAM)
 #include <stdint.h>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Globalization
 {
-	namespace Core
-	{
-		namespace Globalization
-		{
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-			enum class DigitShapes : uint32_t
+	enum class DigitShapes : uint32_t
 #elif defined(__ANDROID__)
-			enum class DigitShapes
+	enum class DigitShapes
 #else
 #error "undefined os"
 #endif
-			{
-				Context = 0,
-				None = 1,
-				NativeNational = 2
-			};
-		}
-	}
+	{
+		Context = 0,
+		None = 1,
+		NativeNational = 2
+	};
 }
 #endif

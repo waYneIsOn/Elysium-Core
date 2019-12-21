@@ -18,33 +18,24 @@ Copyright (C) 2017 waYne (CAM)
 #include "Vector4Template.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Math::Numerics
 {
-	namespace Core
+	class ELYSIUM_CORE_MATH_API Vector4Single : public Vector4Template<float>
 	{
-		namespace Math
-		{
-			namespace Numerics
-			{
-				class ELYSIUM_CORE_MATH_API Vector4Single : public Vector4Template<float>
-				{
-				public:
-					// constructors & destructor
-					Vector4Single();
-					Vector4Single(float Value);
-					Vector4Single(float ValueX, float ValueY, float ValueZ, float ValueW);
-					~Vector4Single();
+	public:
+		// constructors & destructor
+		Vector4Single();
+		Vector4Single(float Value);
+		Vector4Single(float ValueX, float ValueY, float ValueZ, float ValueW);
+		~Vector4Single();
 
-					// static constructors
-					static Vector4Single One();
-					static Vector4Single UnitX();
-					static Vector4Single UnitY();
-					static Vector4Single UnitZ();
-					static Vector4Single UnitW();
-					static Vector4Single Zero();
-				};
-			}
-		}
-	}
+		// static constructors
+		static Vector4Single One();
+		static Vector4Single UnitX();
+		static Vector4Single UnitY();
+		static Vector4Single UnitZ();
+		static Vector4Single UnitW();
+		static Vector4Single Zero();
+	};
 }
 #endif

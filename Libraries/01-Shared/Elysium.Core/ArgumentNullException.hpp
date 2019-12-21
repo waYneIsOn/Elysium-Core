@@ -14,17 +14,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API ArgumentNullException : public Exception
 	{
-		class ELYSIUM_CORE_API ArgumentNullException : public Exception
-		{
-		public:
-			ArgumentNullException();
-			ArgumentNullException(const String& Message);
-			~ArgumentNullException();
-		};
-	}
+	public:
+		ArgumentNullException();
+		ArgumentNullException(const String& Message);
+		~ArgumentNullException();
+	};
 }
 #endif

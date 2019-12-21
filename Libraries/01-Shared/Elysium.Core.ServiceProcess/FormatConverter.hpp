@@ -38,27 +38,21 @@ Copyright (C) 2017 waYne (CAM)
 #include "SessionChangeReason.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::ServiceProcess
 {
-	namespace Core
+	class FormatConverter
 	{
-		namespace ServiceProcess
-		{
-			class FormatConverter
-			{
-			public:
-				//static int Translate(PowerBroadcastStatus PowerBroadcastStatus);
-				//static int Translate(ServiceAccount ServiceAccount);
-				//static int Translate(ServiceControllerPermissionAccess ServiceControllerPermissionAccess);
-				static int Translate(ServiceControllerStatus ServiceControllerStatus);
-				//static int Translate(ServiceStartMode ServiceStartMode);
-				static int Translate(ServiceType ServiceType);
-				//static int Translate(SessionChangeReason SessionChangeReason);
-			private:
-				FormatConverter();
-				~FormatConverter();
-			};
-		}
-	}
+	public:
+		//static int Translate(PowerBroadcastStatus PowerBroadcastStatus);
+		//static int Translate(ServiceAccount ServiceAccount);
+		//static int Translate(ServiceControllerPermissionAccess ServiceControllerPermissionAccess);
+		static int Translate(ServiceControllerStatus ServiceControllerStatus);
+		//static int Translate(ServiceStartMode ServiceStartMode);
+		static int Translate(ServiceType ServiceType);
+		//static int Translate(SessionChangeReason SessionChangeReason);
+	private:
+		FormatConverter();
+		~FormatConverter();
+	};
 }
 #endif

@@ -26,39 +26,33 @@ Copyright (C) 2017 waYne (CAM)
 #include "JsonArray.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonDocument final : public JsonNode
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonDocument final : public JsonNode
-			{
-			public:
-				JsonDocument();
-				JsonDocument(const JsonDocument& Source) = delete;
-				JsonDocument(JsonDocument&& Right) noexcept = delete;
-				~JsonDocument();
+	public:
+		JsonDocument();
+		JsonDocument(const JsonDocument& Source) = delete;
+		JsonDocument(JsonDocument&& Right) noexcept = delete;
+		~JsonDocument();
 
-				JsonDocument& operator=(const JsonDocument& Source) = delete;
-				JsonDocument& operator=(JsonDocument&& Right) noexcept = delete;
+		JsonDocument& operator=(const JsonDocument& Source) = delete;
+		JsonDocument& operator=(JsonDocument&& Right) noexcept = delete;
 
-				const String& GetName() const override;
-				const JsonNodeType GetNodeType() const override;
-				JsonNode& GetRootNode();
+		const String& GetName() const override;
+		const JsonNodeType GetNodeType() const override;
+		JsonNode& GetRootNode();
 
-				JsonObject& AddRootObject();
-				JsonArray& AddRootArray();
+		JsonObject& AddRootObject();
+		JsonArray& AddRootArray();
 
-				void Load(const Elysium::Core::String& Filename);
-				void Load(Elysium::Core::IO::Stream& InputStream);
-				void LoadJson(const Elysium::Core::String& Json);
+		void Load(const Elysium::Core::String& Filename);
+		void Load(Elysium::Core::IO::Stream& InputStream);
+		void LoadJson(const Elysium::Core::String& Json);
 
-				void WriteTo(JsonWriter& Writer) const override;
-			protected:
-				virtual void Load(JsonReader& JsonReader) override;
-			};
-		}
-	}
+		void WriteTo(JsonWriter& Writer) const override;
+	protected:
+		virtual void Load(JsonReader& JsonReader) override;
+	};
 }
 #endif

@@ -26,37 +26,31 @@ Copyright (C) 2017 waYne (CAM)
 #include "AddressFamily.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net
 {
-	namespace Core
+	class ELYSIUM_CORE_NET_API IPAddress final
 	{
-		namespace Net
-		{
-			class ELYSIUM_CORE_NET_API IPAddress final
-			{
-			public:
-				IPAddress(const byte* Address, size_t AddressSize);
-				IPAddress(const unsigned __int64 NewAddress);
-				~IPAddress();
+	public:
+		IPAddress(const byte* Address, size_t AddressSize);
+		IPAddress(const unsigned __int64 NewAddress);
+		~IPAddress();
 
-				static const IPAddress& Any();
-				//static const IPAddress* Broadcast();
-				//static const IPAddress* IPv6Any();
-				//static const IPAddress* IPv6Loopback();
-				//static const IPAddress* IPv6None();
-				//static const IPAddress* Loopback();
-				//static const IPAddress* None();
+		static const IPAddress& Any();
+		//static const IPAddress* Broadcast();
+		//static const IPAddress* IPv6Any();
+		//static const IPAddress* IPv6Loopback();
+		//static const IPAddress* IPv6None();
+		//static const IPAddress* Loopback();
+		//static const IPAddress* None();
 
-				Sockets::AddressFamily GetAddressFamily() const;
-			private:
-				const int WriteableOffset = 2;
-				const int MaxSize = 30;	// two bytes less than SocketAddress since we're not storing the port
+		Sockets::AddressFamily GetAddressFamily() const;
+	private:
+		const int WriteableOffset = 2;
+		const int MaxSize = 30;	// two bytes less than SocketAddress since we're not storing the port
 
-				// byte 0-1: AddressFamily
-				// byte rest: ip address
-				byte _Data[30];
-			};
-		}
-	}
+		// byte 0-1: AddressFamily
+		// byte rest: ip address
+		byte _Data[30];
+	};
 }
 #endif

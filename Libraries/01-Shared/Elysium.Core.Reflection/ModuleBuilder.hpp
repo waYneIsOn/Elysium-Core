@@ -26,38 +26,29 @@ Copyright (C) 2017 waYne (CAM)
 #include <typeinfo>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection::Emit
 {
-	namespace Core
+	class ELYSIUM_CORE_API ModuleBuilder final : public Module
 	{
-		namespace Reflection
-		{
-			namespace Emit
-			{
-				class ELYSIUM_CORE_API ModuleBuilder final : public Module
-				{
-					friend class AssemblyBuilder;
-				public:
-					virtual ~ModuleBuilder();
+		friend class AssemblyBuilder;
+	public:
+		virtual ~ModuleBuilder();
 
-					template<class T>
-					TypeBuilder DefineType(const String& Name, const TypeAttributes& Attributes);
-				private:
-					ModuleBuilder();
-				};
+		template<class T>
+		TypeBuilder DefineType(const String& Name, const TypeAttributes& Attributes);
+	private:
+		ModuleBuilder();
+	};
 
-				template<class T>
-				inline TypeBuilder ModuleBuilder::DefineType(const String & Name, const TypeAttributes & Attributes)
-				{
-					TypeBuilder DefinedType = TypeBuilder();
-					//DefinedType._Assembly = this;
-					DefinedType._Name = Name;
-					DefinedType._HashCode = typeid(T).hash_code();
+	template<class T>
+	inline TypeBuilder ModuleBuilder::DefineType(const String & Name, const TypeAttributes & Attributes)
+	{
+		TypeBuilder DefinedType = TypeBuilder();
+		//DefinedType._Assembly = this;
+		DefinedType._Name = Name;
+		DefinedType._HashCode = typeid(T).hash_code();
 
-					return DefinedType;
-				}
-			}
-		}
+		return DefinedType;
 	}
 }
 #endif

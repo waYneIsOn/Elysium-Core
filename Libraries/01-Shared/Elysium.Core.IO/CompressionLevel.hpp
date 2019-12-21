@@ -10,22 +10,23 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_IO_COMPRESSION_COMPRESSIONLEVEL
 #define ELYSIUM_CORE_IO_COMPRESSION_COMPRESSIONLEVEL
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::IO::Compression
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class CompressionLevel : uint32_t
+#elif defined(__ANDROID__)
+	enum class CompressionLevel
+#else
+#error "undefined os"
+#endif
 	{
-		namespace IO
-		{
-			namespace Compression
-			{
-				enum class CompressionLevel : long
-				{
-					Optimal = 1,
-					Fastest = 2,
-					NoCompression = 3,
-				};
-			}
-		}
-	}
+		Optimal = 1,
+		Fastest = 2,
+		NoCompression = 3,
+	};
 }
 #endif

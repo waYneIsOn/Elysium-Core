@@ -22,22 +22,19 @@ Copyright (C) 2017 waYne (CAM)
 #include "Version.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API OperatingSystem final
 	{
-		class ELYSIUM_CORE_API OperatingSystem final
-		{
-		public:
-			OperatingSystem(const PlatformID& PlatformID, const Version& Version);
-			~OperatingSystem();
+	public:
+		OperatingSystem(const PlatformID& PlatformID, const Version& Version);
+		~OperatingSystem();
 
-			const PlatformID& GetPlatform() const;
-			const Version& GetVersion() const;
-		private:
-			const PlatformID _PlatformId;
-			const Version _Version;
-		};
-	}
+		const PlatformID& GetPlatform() const;
+		const Version& GetVersion() const;
+	private:
+		const PlatformID _PlatformId;
+		const Version _Version;
+	};
 }
 #endif

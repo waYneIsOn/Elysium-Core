@@ -1,7 +1,7 @@
 #include "JsonNode.hpp"
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-#include "IndexOutOfRangeException.hpp"
+#include "../Elysium.Core/IndexOutOfRangeException.hpp"
 #endif
 
 Elysium::Core::Json::JsonNode::~JsonNode()

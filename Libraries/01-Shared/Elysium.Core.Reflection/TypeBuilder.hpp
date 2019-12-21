@@ -22,39 +22,30 @@ Copyright (C) 2017 waYne (CAM)
 #include "FieldAttributes.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection::Emit
 {
-	namespace Core
+	class ELYSIUM_CORE_API TypeBuilder final : public Type
 	{
-		namespace Reflection
-		{
-			namespace Emit
-			{
-				class ELYSIUM_CORE_API TypeBuilder final : public Type
-				{
-					friend class ModuleBuilder;
-				public:
-					virtual ~TypeBuilder();
+		friend class ModuleBuilder;
+	public:
+		virtual ~TypeBuilder();
 
-					template<class T>
-					FieldBuilder DefineField(const String& FieldName, const Type& Type, const FieldAttributes& Attributes);
-				private:
-					TypeBuilder();
+		template<class T>
+		FieldBuilder DefineField(const String& FieldName, const Type& Type, const FieldAttributes& Attributes);
+	private:
+		TypeBuilder();
 
-					Assembly* _Assembly;
-				};
+		Assembly* _Assembly;
+	};
 
-				template<class T>
-				inline FieldBuilder Elysium::Core::Reflection::Emit::TypeBuilder::DefineField(const String & FieldName, const Type & Type, const FieldAttributes & Attributes)
-				{
-					FieldBuilder DefinedField = FieldBuilder();
-					DefinedField._Name = FieldName;
-					DefinedField._Address = T;
+	template<class T>
+	inline FieldBuilder Elysium::Core::Reflection::Emit::TypeBuilder::DefineField(const String & FieldName, const Type & Type, const FieldAttributes & Attributes)
+	{
+		FieldBuilder DefinedField = FieldBuilder();
+		DefinedField._Name = FieldName;
+		DefinedField._Address = T;
 
-					return FieldBuilder();
-				}
-			}
-		}
+		return FieldBuilder();
 	}
 }
 #endif

@@ -14,26 +14,20 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Linq
 {
-	namespace Core
+	struct ELYSIUM_CORE_LINQ_API CountContainer
 	{
-		namespace Linq
+		template<class ContainerType>
+		size_t operator()(ContainerType && Container)
 		{
-			struct ELYSIUM_CORE_LINQ_API CountContainer
+			size_t Count = 0;
+			for (auto Element : Container)
 			{
-				template<class ContainerType>
-				size_t operator()(ContainerType && Container)
-				{
-					size_t Count = 0;
-					for (auto Element : Container)
-					{
-						Count++;
-					}
-					return Count;
-				}
-			};
+				Count++;
+			}
+			return Count;
 		}
-	}
+	};
 }
 #endif

@@ -14,24 +14,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "AuthenticatedStream.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net::Security
 {
-	namespace Core
+	/*
+	class ELYSIUM_CORE_NET_API SslStream final : public AuthenticatedStream
 	{
-		namespace Net
-		{
-			namespace Security
-			{
-				/*
-				class ELYSIUM_CORE_NET_API SslStream final : public AuthenticatedStream
-				{
-				public:
-					SslStream();
-					~SslStream();
-				};
-				*/
-			}
-		}
-	}
+	public:
+		SslStream();
+		~SslStream();
+	};
+	*/
 }
 #endif

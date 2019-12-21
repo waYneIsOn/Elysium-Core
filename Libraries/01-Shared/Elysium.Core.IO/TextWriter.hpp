@@ -26,64 +26,58 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Decimal.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API TextWriter
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API TextWriter
-			{
-			public:
-				virtual ~TextWriter();
+	public:
+		virtual ~TextWriter();
 
-				virtual const Text::Encoding& GetEncoding();
-				virtual const String& GetNewLine();
+		virtual const Text::Encoding& GetEncoding();
+		virtual const String& GetNewLine();
 
-				virtual void SetNewLine(const String& NewLine);
+		virtual void SetNewLine(const String& NewLine);
 
-				virtual void Close();
-				virtual void Flush();
+		virtual void Close();
+		virtual void Flush();
 
-				virtual void Write(const bool& Value);
-				virtual void Write(const byte& Value);
-				virtual void Write(const byte* Value, const size_t Count);
-				virtual void Write(const byte* Value, const size_t Index, const size_t Count);
-				virtual void Write(const char16_t Value);
-				virtual void Write(const char16_t* Value, const size_t Count);
-				virtual void Write(const float& Value);
-				virtual void Write(const double& Value);
-				virtual void Write(const Decimal& Value);
-				virtual void Write(const int16_t& Value);
-				virtual void Write(const int32_t& Value);
-				virtual void Write(const int64_t& Value);
-				virtual void Write(const uint16_t& Value);
-				virtual void Write(const uint32_t& Value);
-				virtual void Write(const uint64_t& Value);
-				virtual void Write(const String& Value);
+		virtual void Write(const bool& Value);
+		virtual void Write(const byte& Value);
+		virtual void Write(const byte* Value, const size_t Count);
+		virtual void Write(const byte* Value, const size_t Index, const size_t Count);
+		virtual void Write(const char16_t Value);
+		virtual void Write(const char16_t* Value, const size_t Count);
+		virtual void Write(const float& Value);
+		virtual void Write(const double& Value);
+		virtual void Write(const Decimal& Value);
+		virtual void Write(const int16_t& Value);
+		virtual void Write(const int32_t& Value);
+		virtual void Write(const int64_t& Value);
+		virtual void Write(const uint16_t& Value);
+		virtual void Write(const uint32_t& Value);
+		virtual void Write(const uint64_t& Value);
+		virtual void Write(const String& Value);
 
-				virtual void WriteLine(const bool& Value);
-				virtual void WriteLine(const byte& Value);
-				virtual void WriteLine(const byte* Value, const size_t Count);
-				virtual void WriteLine(const char16_t& Value);
-				virtual void WriteLine(const char16_t* Value, const size_t Count);
-				virtual void WriteLine(const float& Value);
-				virtual void WriteLine(const double& Value);
-				virtual void WriteLine(const Decimal& Value);
-				virtual void WriteLine(const int16_t& Value);
-				virtual void WriteLine(const int32_t& Value);
-				virtual void WriteLine(const int64_t& Value);
-				virtual void WriteLine(const uint16_t& Value);
-				virtual void WriteLine(const uint32_t& Value);
-				virtual void WriteLine(const uint64_t& Value);
-				virtual void WriteLine(const String& Value);
-				virtual void WriteLine();
-			protected:
-				TextWriter();
-			private:
-				String _NewLineCharacters;
-			};
-		}
-	}
+		virtual void WriteLine(const bool& Value);
+		virtual void WriteLine(const byte& Value);
+		virtual void WriteLine(const byte* Value, const size_t Count);
+		virtual void WriteLine(const char16_t& Value);
+		virtual void WriteLine(const char16_t* Value, const size_t Count);
+		virtual void WriteLine(const float& Value);
+		virtual void WriteLine(const double& Value);
+		virtual void WriteLine(const Decimal& Value);
+		virtual void WriteLine(const int16_t& Value);
+		virtual void WriteLine(const int32_t& Value);
+		virtual void WriteLine(const int64_t& Value);
+		virtual void WriteLine(const uint16_t& Value);
+		virtual void WriteLine(const uint32_t& Value);
+		virtual void WriteLine(const uint64_t& Value);
+		virtual void WriteLine(const String& Value);
+		virtual void WriteLine();
+	protected:
+		TextWriter();
+	private:
+		String _NewLineCharacters;
+	};
 }
 #endif

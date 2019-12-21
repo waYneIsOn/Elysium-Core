@@ -14,15 +14,12 @@ Copyright (C) 2017 waYne (CAM)
 #include "UriParser.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class BuildInUriParser : public UriParser
 	{
-		class BuildInUriParser : public UriParser
-		{
-		public:
-			BuildInUriParser(String Scheme, int Port, UriSyntaxFlags RequiredComponents);
-		};
-	}
+	public:
+		BuildInUriParser(String Scheme, int Port, UriSyntaxFlags RequiredComponents);
+	};
 }
 #endif

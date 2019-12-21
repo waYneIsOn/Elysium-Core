@@ -26,46 +26,40 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net
 {
-	namespace Core
+	namespace Sockets
 	{
-		namespace Net
-		{
-			namespace Sockets
-			{
-				class Socket;
-			}
-
-			// make sure the following classes get exported (warning C4251)
-			// ToDo: can't do this here because we also need to do it in MemoryStream which means we export twice
-			// will have to think about how to do it correctly
-			//template class ELYSIUM_CORE_API Elysium::Core::Collections::Generic::List<BYTE>;
-
-			class ELYSIUM_CORE_NET_API SocketAddress
-			{
-				friend class Sockets::Socket;
-			public:
-				SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily, int Size);
-				SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
-				~SocketAddress();
-
-				Elysium::Core::Net::Sockets::AddressFamily GetFamily();
-				int GetPort();
-				unsigned int GetSize();
-			private:
-				SocketAddress();
-
-				const int IPv6AddressSize = 28;
-				const int IPv4AddressSize = 16;
-
-				const int WriteableOffset = 2;
-				const int MaxSize = 32;
-
-				unsigned int _Size;
-				Elysium::Core::Collections::Template::List<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
-			};
-		}
+		class Socket;
 	}
+
+	// make sure the following classes get exported (warning C4251)
+	// ToDo: can't do this here because we also need to do it in MemoryStream which means we export twice
+	// will have to think about how to do it correctly
+	//template class ELYSIUM_CORE_API Elysium::Core::Collections::Generic::List<BYTE>;
+
+	class ELYSIUM_CORE_NET_API SocketAddress
+	{
+		friend class Sockets::Socket;
+	public:
+		SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily, int Size);
+		SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
+		~SocketAddress();
+
+		Elysium::Core::Net::Sockets::AddressFamily GetFamily();
+		int GetPort();
+		unsigned int GetSize();
+	private:
+		SocketAddress();
+
+		const int IPv6AddressSize = 28;
+		const int IPv4AddressSize = 16;
+
+		const int WriteableOffset = 2;
+		const int MaxSize = 32;
+
+		unsigned int _Size;
+		Elysium::Core::Collections::Template::List<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
+	};
 }
 #endif

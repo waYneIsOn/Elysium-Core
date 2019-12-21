@@ -10,15 +10,9 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_BOOLEAN
 #define ELYSIUM_CORE_BOOLEAN
 
-namespace Elysium
+namespace Elysium::Core::Boolean
 {
-	namespace Core
-	{
-		namespace Boolean
-		{
-			constexpr const char16_t* TrueLiteral = u"True";
-			constexpr const char16_t* FalseLiteral = u"False";
-		}
-	}
+	constexpr const char16_t* TrueLiteral = u"True";
+	constexpr const char16_t* FalseLiteral = u"False";
 }
 #endif

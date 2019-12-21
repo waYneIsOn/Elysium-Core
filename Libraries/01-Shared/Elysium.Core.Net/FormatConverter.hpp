@@ -28,24 +28,18 @@ Copyright (C) 2017 waYne (CAM)
 #pragma comment(lib, "Ws2_32.lib")
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net
 {
-	namespace Core
+	class FormatConverter
 	{
-		namespace Net
-		{
-			class FormatConverter
-			{
-			public:
-				static int Convert(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
-				static int Convert(Elysium::Core::Net::Sockets::ProtocolType ProtocolType);
-				static int Convert(Elysium::Core::Net::Sockets::SocketType SocketType);
+	public:
+		static int Convert(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
+		static int Convert(Elysium::Core::Net::Sockets::ProtocolType ProtocolType);
+		static int Convert(Elysium::Core::Net::Sockets::SocketType SocketType);
 
-				static Elysium::Core::Net::Sockets::AddressFamily Convert(ADDRESS_FAMILY WinAddressFamily);
-			private:
-				FormatConverter();
-				~FormatConverter();
-			};
-		}
-	}
+		static Elysium::Core::Net::Sockets::AddressFamily Convert(ADDRESS_FAMILY WinAddressFamily);
+	private:
+		FormatConverter();
+		~FormatConverter();
+	};
 }

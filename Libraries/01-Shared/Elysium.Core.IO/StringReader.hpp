@@ -18,30 +18,24 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/StringView.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API StringReader : public TextReader
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API StringReader : public TextReader
-			{
-			public:
-				StringReader(const String& Input);
-				~StringReader();
+	public:
+		StringReader(const String& Input);
+		~StringReader();
 
-				virtual const int32_t Peek() override;
+		virtual const int32_t Peek() override;
 
-				virtual const int32_t Read() override;
+		virtual const int32_t Read() override;
 
-				virtual StringView ReadLine() override;
+		virtual StringView ReadLine() override;
 
-				virtual StringView ReadToEnd() override;
-			private:
-				size_t _Position;
-				StringView _Input;
-			};
-		}
-	}
+		virtual StringView ReadToEnd() override;
+	private:
+		size_t _Position;
+		StringView _Input;
+	};
 }
 #endif

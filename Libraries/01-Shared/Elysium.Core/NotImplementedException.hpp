@@ -14,17 +14,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API NotImplementedException : public Exception
 	{
-		class ELYSIUM_CORE_API NotImplementedException : public Exception
-		{
-		public:
-			NotImplementedException();
-			NotImplementedException(const String& Message);
-			~NotImplementedException();
-		};
-	}
+	public:
+		NotImplementedException();
+		NotImplementedException(const char16_t* Message);
+		NotImplementedException(const String& Message);
+		~NotImplementedException();
+	};
 }
 #endif

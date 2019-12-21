@@ -22,32 +22,26 @@ Copyright (C) 2017 waYne (CAM)
 #include <memory>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data
 {
-	namespace Core
+	class IDbConnection;
+	class IDbCommand;
+
+	class ELYSIUM_CORE_DATA_API IDbTransaction
 	{
-		namespace Data
-		{
-			class IDbConnection;
-			class IDbCommand;
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~IDbTransaction() {}
 
-			class ELYSIUM_CORE_DATA_API IDbTransaction
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~IDbTransaction() {}
+		virtual const IDbConnection* GetConnection() const = 0;
+		virtual const IsolationLevel GetIsolationLevel() const = 0;
 
-				virtual const IDbConnection* GetConnection() const = 0;
-				virtual const IsolationLevel GetIsolationLevel() const = 0;
+		virtual std::unique_ptr<IDbCommand> CreateCommand() = 0;
 
-				virtual std::unique_ptr<IDbCommand> CreateCommand() = 0;
-
-				virtual void Commit() = 0;
-				virtual void Rollback() = 0;
-			};
-		}
-	}
+		virtual void Commit() = 0;
+		virtual void Rollback() = 0;
+	};
 }
 #endif

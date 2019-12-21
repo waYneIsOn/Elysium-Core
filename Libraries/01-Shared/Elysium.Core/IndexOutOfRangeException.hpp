@@ -14,17 +14,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API IndexOutOfRangeException : public Exception
 	{
-		class ELYSIUM_CORE_API IndexOutOfRangeException : public Exception
-		{
-		public:
-			IndexOutOfRangeException();
-			IndexOutOfRangeException(const String& Message);
-			~IndexOutOfRangeException();
-		};
-	}
+	public:
+		IndexOutOfRangeException();
+		IndexOutOfRangeException(const String& Message);
+		~IndexOutOfRangeException();
+	};
 }
 #endif

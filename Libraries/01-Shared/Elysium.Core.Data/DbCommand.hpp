@@ -16,47 +16,38 @@ Copyright (C) 2017 waYne (CAM)
 
 #pragma warning(disable : 4251)
 
-namespace Elysium
+namespace Elysium::Core::Data::Common
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API DbCommand : public IDbCommand
 	{
-		namespace Data
-		{
-			namespace Common
-			{
-				class ELYSIUM_CORE_DATA_API DbCommand : public IDbCommand
-				{
-				public:
-					/// <summary>
-					/// Destroy the object using the virtual destructor
-					/// </summary>
-					virtual ~DbCommand() {}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~DbCommand() {}
 
-					virtual const String& GetCommandText() const override;
-					virtual const int& GetConnectionTimeout() const override;
-					virtual const CommandType& GetCommandType() const override;
-					//virtual const UpdateRowSource& GetUpdateRowSource() const override;
+		virtual const String& GetCommandText() const override;
+		virtual const int& GetConnectionTimeout() const override;
+		virtual const CommandType& GetCommandType() const override;
+		//virtual const UpdateRowSource& GetUpdateRowSource() const override;
 
-					virtual void SetCommandText(const char16_t* CommandText) override;
-					virtual void SetCommandText(const String& CommandText) override;
-					virtual void SetConnectionTimeout(int Timeout) override;
-					virtual void SetCommandType(CommandType Type) override;
-					//virtual void SetConnection(IDbConnection Connection) override;
-					//virtual void SetTransaction(IDbTransaction Transaction) override;
-					//virtual void SetUpdateRowSource(UpdateRowSource UpdateRowSource) override;
-				protected:
-					DbCommand(IDbConnection* Connection);
-					DbCommand(IDbTransaction* Transaction);
+		virtual void SetCommandText(const char16_t* CommandText) override;
+		virtual void SetCommandText(const String& CommandText) override;
+		virtual void SetConnectionTimeout(int Timeout) override;
+		virtual void SetCommandType(CommandType Type) override;
+		//virtual void SetConnection(IDbConnection Connection) override;
+		//virtual void SetTransaction(IDbTransaction Transaction) override;
+		//virtual void SetUpdateRowSource(UpdateRowSource UpdateRowSource) override;
+	protected:
+		DbCommand(IDbConnection* Connection);
+		DbCommand(IDbTransaction* Transaction);
 
-					const IDbConnection* _Connection;
-					const IDbTransaction* _Transaction;
+		const IDbConnection* _Connection;
+		const IDbTransaction* _Transaction;
 
-					String _Text = u"";
-					int _Timeout = 30;
-					CommandType _Type = CommandType::Text;
-				};
-			}
-		}
-	}
+		String _Text = u"";
+		int _Timeout = 30;
+		CommandType _Type = CommandType::Text;
+	};
 }
 #endif

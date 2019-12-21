@@ -34,32 +34,29 @@ Copyright (C) 2017 waYne (CAM)
 #include "Byte.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API Convert final
 	{
-		class ELYSIUM_CORE_API Convert final
-		{
-		public:
-			~Convert();
+	public:
+		~Convert();
 
-			static String ToString(const uint32_t Value, const int32_t FromBase);
-			static String ToString(const int32_t Value, const int32_t FromBase);
-			static String ToString(const int64_t Value, const int32_t FromBase);
-			static String ToString(const size_t Value, const int32_t FromBase);
-			static String ToString(const float Value, const int32_t FromBase);
-			static String ToString(const double Value, const int32_t FromBase);
+		static String ToString(const uint32_t Value, const int32_t FromBase);
+		static String ToString(const int32_t Value, const int32_t FromBase);
+		static String ToString(const int64_t Value, const int32_t FromBase);
+		static String ToString(const size_t Value, const int32_t FromBase);
+		static String ToString(const float Value, const int32_t FromBase);
+		static String ToString(const double Value, const int32_t FromBase);
 
-			static String ToBase64String(Elysium::Core::Collections::Template::List<Elysium::Core::byte> Bytes);
+		static String ToBase64String(Elysium::Core::Collections::Template::List<Elysium::Core::byte> Bytes);
 
-			static int32_t ToInt32(const char16_t* Value, const int32_t FromBase);
-			static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
+		static int32_t ToInt32(const char16_t* Value, const int32_t FromBase);
+		static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
 
-			static float ToSingle(const char16_t* Value);
-			static float ToSingle(const Elysium::Core::String& Value);
-		private:
-			Convert();
-		};
-	}
+		static float ToSingle(const char16_t* Value);
+		static float ToSingle(const Elysium::Core::String& Value);
+	private:
+		Convert();
+	};
 }
 #endif

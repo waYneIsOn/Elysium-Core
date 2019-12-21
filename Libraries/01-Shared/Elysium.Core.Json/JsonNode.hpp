@@ -34,36 +34,30 @@ Copyright (C) 2017 waYne (CAM)
 #include "JsonReader.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonNode
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonNode
-			{
-			public:
-				virtual ~JsonNode();
+	public:
+		virtual ~JsonNode();
 
-				virtual const String& GetName() const = 0;
-				virtual const JsonNodeType GetNodeType() const = 0;
-				virtual const JsonNode* GetParentNode() const;
+		virtual const String& GetName() const = 0;
+		virtual const JsonNodeType GetNodeType() const = 0;
+		virtual const JsonNode* GetParentNode() const;
 				
-				virtual JsonNode& GetChild(size_t Index);
-				virtual void RemoveChild(JsonNode& Node);
+		virtual JsonNode& GetChild(size_t Index);
+		virtual void RemoveChild(JsonNode& Node);
 
-				virtual void WriteTo(JsonWriter& Writer) const = 0;
-			protected:
-				JsonNode();
+		virtual void WriteTo(JsonWriter& Writer) const = 0;
+	protected:
+		JsonNode();
 
-				JsonNode* _ParentNode;
-				Collections::Template::List<JsonNode*> _Children;
+		JsonNode* _ParentNode;
+		Collections::Template::List<JsonNode*> _Children;
 
-				virtual void AddChild(JsonNode& Node);
+		virtual void AddChild(JsonNode& Node);
 
-				virtual void Load(JsonReader& JsonReader) = 0;
-			};
-		}
-	}
+		virtual void Load(JsonReader& JsonReader) = 0;
+	};
 }
 #endif

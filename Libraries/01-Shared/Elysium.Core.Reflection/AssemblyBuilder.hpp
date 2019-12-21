@@ -18,25 +18,16 @@ Copyright (C) 2017 waYne (CAM)
 #include "ModuleBuilder.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection::Emit
 {
-	namespace Core
+	class ELYSIUM_CORE_API AssemblyBuilder final : public Assembly
 	{
-		namespace Reflection
-		{
-			namespace Emit
-			{
-				class ELYSIUM_CORE_API AssemblyBuilder final : public Assembly
-				{
-				public:
-					AssemblyBuilder();
-					virtual ~AssemblyBuilder();
+	public:
+		AssemblyBuilder();
+		virtual ~AssemblyBuilder();
 
-					ModuleBuilder DefineDynamicModule(const String& Name);
-					ModuleBuilder DefineDynamicModule(const String& Name, const String& FileName, bool EmitSymbolInfo);
-				};
-			}
-		}
-	}
+		ModuleBuilder DefineDynamicModule(const String& Name);
+		ModuleBuilder DefineDynamicModule(const String& Name, const String& FileName, bool EmitSymbolInfo);
+	};
 }
 #endif

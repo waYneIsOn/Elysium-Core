@@ -14,24 +14,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "FieldInfo.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection::Emit
 {
-	namespace Core
+	class ELYSIUM_CORE_API FieldBuilder final : public FieldInfo
 	{
-		namespace Reflection
-		{
-			namespace Emit
-			{
-				class ELYSIUM_CORE_API FieldBuilder final : public FieldInfo
-				{
-					friend class TypeBuilder;
-				public:
-					~FieldBuilder();
-				protected:
-					FieldBuilder();
-				};
-			}
-		}
-	}
+		friend class TypeBuilder;
+	public:
+		~FieldBuilder();
+	protected:
+		FieldBuilder();
+	};
 }
 #endif

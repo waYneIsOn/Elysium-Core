@@ -22,32 +22,23 @@ Copyright (C) 2017 waYne (CAM)
 #include "IsolationLevel.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data::Common
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API DbTransaction : public IDbTransaction
 	{
-		namespace Data
-		{
-			namespace Common
-			{
-				class ELYSIUM_CORE_DATA_API DbTransaction : public IDbTransaction
-				{
-				public:
-					/// <summary>
-					/// Destroy the object using the virtual destructor
-					/// </summary>
-					virtual ~DbTransaction() {}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~DbTransaction() {}
 
-					virtual const IDbConnection* GetConnection() const override;
-					virtual const IsolationLevel GetIsolationLevel() const override;
-				protected:
-					DbTransaction(IDbConnection* Connection, IsolationLevel _IsolationLevel);
+		virtual const IDbConnection* GetConnection() const override;
+		virtual const IsolationLevel GetIsolationLevel() const override;
+	protected:
+		DbTransaction(IDbConnection* Connection, IsolationLevel _IsolationLevel);
 
-					const IDbConnection* _Connection;
-					IsolationLevel _IsolationLevel;
-				};
-			}
-		}
-	}
+		const IDbConnection* _Connection;
+		IsolationLevel _IsolationLevel;
+	};
 }
 #endif

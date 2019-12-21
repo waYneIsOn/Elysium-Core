@@ -10,31 +10,35 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_SERVICEPROCESS_POWERBROADCASTSTATUS
 #define ELYSIUM_CORE_SERVICEPROCESS_POWERBROADCASTSTATUS
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::ServiceProcess
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class PowerBroadcastStatus : uint32_t
+#elif defined(__ANDROID__)
+	enum class PowerBroadcastStatus
+#else
+#error "undefined os"
+#endif
 	{
-		namespace ServiceProcess
-		{
-			enum class PowerBroadcastStatus : int
-			{
-				QuerySuspend = 0,
+		QuerySuspend = 0,
 
-				QuerySuspendFailed = 2,
+		QuerySuspendFailed = 2,
 
-				Suspend = 4,
+		Suspend = 4,
 
-				ResumeCritical = 6,
-				ResumeSuspend = 7,
+		ResumeCritical = 6,
+		ResumeSuspend = 7,
 
-				BatteryLow = 9,
+		BatteryLow = 9,
 
-				PowerStatusChange = 10,
-				OemEvent = 11,
+		PowerStatusChange = 10,
+		OemEvent = 11,
 
-				ResumeAutomatic = 18
-			};
-		}
-	}
+		ResumeAutomatic = 18
+	};
 }
 #endif

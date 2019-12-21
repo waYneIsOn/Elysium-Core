@@ -22,29 +22,26 @@ Copyright (C) 2017 waYne (CAM)
 #include "Byte.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API Decimal final
 	{
-		class ELYSIUM_CORE_API Decimal final
-		{
-		public:
-			Decimal();
-			Decimal(const float& Value);
-			Decimal(const double& Value);
-			Decimal(const int64_t& HighPart, const int64_t& LowPart);
-			Decimal(const Decimal& Source);
-			Decimal(Decimal&& Right) noexcept;
-			~Decimal();
+	public:
+		Decimal();
+		Decimal(const float& Value);
+		Decimal(const double& Value);
+		Decimal(const int64_t& HighPart, const int64_t& LowPart);
+		Decimal(const Decimal& Source);
+		Decimal(Decimal&& Right) noexcept;
+		~Decimal();
 
-			Decimal& operator=(const Decimal& Source);
-			Decimal& operator=(Decimal&& Right) noexcept;
+		Decimal& operator=(const Decimal& Source);
+		Decimal& operator=(Decimal&& Right) noexcept;
 
-			const int64_t* GetHighPart() const;
-			const int64_t* GetLowPart() const;
-		private:
-			byte _Data[16];
-		};
-	}
+		const int64_t* GetHighPart() const;
+		const int64_t* GetLowPart() const;
+	private:
+		byte _Data[16];
+	};
 }
 #endif

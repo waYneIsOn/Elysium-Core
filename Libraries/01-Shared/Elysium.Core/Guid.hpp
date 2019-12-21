@@ -30,52 +30,49 @@ Copyright (C) 2017 waYne (CAM)
 #include "List.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API Guid final
 	{
-		class ELYSIUM_CORE_API Guid final
-		{
-			friend class Collections::Template::List<Guid>;
-		public:
-			Guid(const byte B[16]);
-			Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
-			Guid(const Guid& Source);
-			Guid(Guid&& Right) noexcept;
-			~Guid();
+		friend class Collections::Template::List<Guid>;
+	public:
+		Guid(const byte B[16]);
+		Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
+		Guid(const Guid& Source);
+		Guid(Guid&& Right) noexcept;
+		~Guid();
 
-			Guid& operator=(const Guid& Source);
-			Guid& operator=(Guid&& Right) noexcept;
+		Guid& operator=(const Guid& Source);
+		Guid& operator=(Guid&& Right) noexcept;
 
-			bool operator==(const Guid& Other);
-			bool operator!=(const Guid& Other);
-			bool operator<(const Guid& Other);
-			bool operator>(const Guid& Other);
-			bool operator<=(const Guid& Other);
-			bool operator>=(const Guid& Other);
+		bool operator==(const Guid& Other);
+		bool operator!=(const Guid& Other);
+		bool operator<(const Guid& Other);
+		bool operator>(const Guid& Other);
+		bool operator<=(const Guid& Other);
+		bool operator>=(const Guid& Other);
 
-			static const Guid& Empty();
-			static Guid NewGuid();
-			static Guid Parse(const char* Input);
+		static const Guid& Empty();
+		static Guid NewGuid();
+		static Guid Parse(const char* Input);
 
-			const byte* ToByteArray() const;
-			String ToString() const;
-		private:
-			byte _Data[16];
+		const byte* ToByteArray() const;
+		String ToString() const;
+	private:
+		byte _Data[16];
 
-			Guid();
+		Guid();
 
-			static Guid _EmptyGuid;
+		static Guid _EmptyGuid;
 
-			static void ParseN(const char* Input, byte* Data);
-			static void ParseD(const char* Input, byte* Data);
-			static void ParseB(const char* Input, byte* Data);
-			static void ParseP(const char* Input, byte* Data);
-			static void ParseX(const char* Input, byte* Data);
+		static void ParseN(const char* Input, byte* Data);
+		static void ParseD(const char* Input, byte* Data);
+		static void ParseB(const char* Input, byte* Data);
+		static void ParseP(const char* Input, byte* Data);
+		static void ParseX(const char* Input, byte* Data);
 
-			static char HexDigitToChar(char Input);
-			static void ByteToHexDigit(byte Input, char* Chars);
-		};
-	}
+		static char HexDigitToChar(char Input);
+		static void ByteToHexDigit(byte Input, char* Chars);
+	};
 }
 #endif

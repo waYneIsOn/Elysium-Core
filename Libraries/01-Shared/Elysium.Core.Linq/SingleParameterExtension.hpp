@@ -14,29 +14,23 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Linq
 {
-	namespace Core
+	// this struct is used by Extension as a wrapper-functionality
+	template<class LinqContainerType, class ParameterType>
+	struct ELYSIUM_CORE_LINQ_API SingleParameterExtension
 	{
-		namespace Linq
+		SingleParameterExtension(ParameterType Value)
+			: Value(Value)
+		{}
+
+		ParameterType Value;
+
+		template<class ContainerType>
+		friend auto operator>>(ContainerType && Container, SingleParameterExtension && Input)
 		{
-			// this struct is used by Extension as a wrapper-functionality
-			template<class LinqContainerType, class ParameterType>
-			struct ELYSIUM_CORE_LINQ_API SingleParameterExtension
-			{
-				SingleParameterExtension(ParameterType Value)
-					: Value(Value)
-				{}
-
-				ParameterType Value;
-
-				template<class ContainerType>
-				friend auto operator>>(ContainerType && Container, SingleParameterExtension && Input)
-				{
-					return LinqContainerType()(std::forward<ContainerType>(Container), Input.Value);
-				}
-			};
+			return LinqContainerType()(std::forward<ContainerType>(Container), Input.Value);
 		}
-	}
+	};
 }
 #endif

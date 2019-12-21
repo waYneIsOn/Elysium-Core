@@ -14,17 +14,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "Exception.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API InvalidOperationException : public Exception
 	{
-		class ELYSIUM_CORE_API InvalidOperationException : public Exception
-		{
-		public:
-			InvalidOperationException();
-			InvalidOperationException(const String& Message);
-			~InvalidOperationException();
-		};
-	}
+	public:
+		InvalidOperationException();
+		InvalidOperationException(const char16_t* Message);
+		InvalidOperationException(const String& Message);
+		~InvalidOperationException();
+	};
 }
 #endif

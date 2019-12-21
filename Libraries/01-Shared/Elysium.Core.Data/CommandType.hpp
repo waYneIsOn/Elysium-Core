@@ -10,19 +10,23 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_COMMANDTYPE
 #define ELYSIUM_CORE_DATA_COMMANDTYPE
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::Data
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class CommandType : uint32_t
+#elif defined(__ANDROID__)
+	enum class CommandType
+#else
+#error "undefined os"
+#endif
 	{
-		namespace Data
-		{
-			enum class CommandType : int
-			{
-				Text = 1,
-				StoredProcedure = 4,
-				TableDirect = 512
-			};
-		}
-	}
+		Text = 1,
+		StoredProcedure = 4,
+		TableDirect = 512
+	};
 }
 #endif

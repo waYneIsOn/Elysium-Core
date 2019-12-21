@@ -14,18 +14,12 @@ Copyright (C) 2017 waYne (CAM)
 #include "SessionChangeReason.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::ServiceProcess
 {
-	namespace Core
+	typedef struct _SessionChangeDescription
 	{
-		namespace ServiceProcess
-		{
-			typedef struct _SessionChangeDescription
-			{
-				SessionChangeReason Reason;
-				int SessionId;
-			} SessionChangeDescription;
-		}
-	}
+		SessionChangeReason Reason;
+		int SessionId;
+	} SessionChangeDescription;
 }
 #endif

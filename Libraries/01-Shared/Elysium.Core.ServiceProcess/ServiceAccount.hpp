@@ -10,20 +10,24 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_SERVICEPROCESS_SERVICEACCOUNT
 #define ELYSIUM_CORE_SERVICEPROCESS_SERVICEACCOUNT
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::ServiceProcess
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class ServiceAccount : uint32_t
+#elif defined(__ANDROID__)
+	enum class ServiceAccount
+#else
+#error "undefined os"
+#endif
 	{
-		namespace ServiceProcess
-		{
-			enum class ServiceAccount : int
-			{
-				LocalService = 0,
-				NetworkService = 1,
-				LocalSystem = 2,
-				User = 3,
-			};
-		}
-	}
+		LocalService = 0,
+		NetworkService = 1,
+		LocalSystem = 2,
+		User = 3,
+	};
 }
 #endif

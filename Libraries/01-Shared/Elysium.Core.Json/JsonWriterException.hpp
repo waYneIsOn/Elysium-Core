@@ -14,20 +14,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "JsonException.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonWriterException final : public JsonException
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonWriterException final : public JsonException
-			{
-			public:
-				JsonWriterException();
-				JsonWriterException(const String& Message);
-				~JsonWriterException();
-			};
-		}
-	}
+	public:
+		JsonWriterException();
+		JsonWriterException(const String& Message);
+		~JsonWriterException();
+	};
 }
 #endif

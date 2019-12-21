@@ -34,32 +34,26 @@ Copyright (C) 2017 waYne (CAM)
 #include <stdint.h>
 #endif
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API TextReader
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API TextReader
-			{
-			public:
-				virtual ~TextReader();
+	public:
+		virtual ~TextReader();
 
-				virtual void Close();
+		virtual void Close();
 
-				virtual const int32_t Peek();
+		virtual const int32_t Peek();
 
-				virtual const int32_t Read();
-				//virtual int Read(array<char>& Buffer, int Index, int Count);
-				//virtual int Read(String& Buffer, int Index, int Count);
+		virtual const int32_t Read();
+		//virtual int Read(array<char>& Buffer, int Index, int Count);
+		//virtual int Read(String& Buffer, int Index, int Count);
 
-				virtual StringView ReadLine() = 0;
+		virtual StringView ReadLine() = 0;
 
-				virtual StringView ReadToEnd() = 0;
-			protected:
-				TextReader();
-			};
-		}
-	}
+		virtual StringView ReadToEnd() = 0;
+	protected:
+		TextReader();
+	};
 }
 #endif

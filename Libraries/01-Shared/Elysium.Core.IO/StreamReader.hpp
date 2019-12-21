@@ -18,32 +18,26 @@ Copyright (C) 2017 waYne (CAM)
 #include "Stream.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API StreamReader : public TextReader
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API StreamReader : public TextReader
-			{
-			public:
-				StreamReader(Stream& InputStream);
-				~StreamReader();
+	public:
+		StreamReader(Stream& InputStream);
+		~StreamReader();
 
-				virtual void Close() override;
+		virtual void Close() override;
 
-				virtual const int32_t Peek() override;
+		virtual const int32_t Peek() override;
 
-				virtual const int32_t Read() override;
+		virtual const int32_t Read() override;
 
-				virtual StringView ReadLine() override;
+		virtual StringView ReadLine() override;
 
-				virtual StringView ReadToEnd() override;
-			private:
-				size_t _Position;
-				Stream& _InputStream;
-			};
-		}
-	}
+		virtual StringView ReadToEnd() override;
+	private:
+		size_t _Position;
+		Stream& _InputStream;
+	};
 }
 #endif

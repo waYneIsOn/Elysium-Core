@@ -22,44 +22,38 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Version.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API AssemblyName final
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API AssemblyName final
-			{
-			public:
-				AssemblyName();
-				AssemblyName(const String& AssemblyName, const String& CodeBase, const Version& AssemblyVersion);
-				AssemblyName(const AssemblyName& Source);
-				AssemblyName(AssemblyName&& Right) noexcept;
-				~AssemblyName();
+	public:
+		AssemblyName();
+		AssemblyName(const String& AssemblyName, const String& CodeBase, const Version& AssemblyVersion);
+		AssemblyName(const AssemblyName& Source);
+		AssemblyName(AssemblyName&& Right) noexcept;
+		~AssemblyName();
 
-				AssemblyName& operator=(const AssemblyName& Source);
-				AssemblyName& operator=(AssemblyName&& Right) noexcept;
+		AssemblyName& operator=(const AssemblyName& Source);
+		AssemblyName& operator=(AssemblyName&& Right) noexcept;
 
-				bool operator==(const AssemblyName& Other) const;
-				bool operator!=(const AssemblyName& Other) const;
-				bool operator<(const AssemblyName& Other) const;
-				bool operator>(const AssemblyName& Other) const;
-				bool operator<=(const AssemblyName& Other) const;
-				bool operator>=(const AssemblyName& Other) const;
+		bool operator==(const AssemblyName& Other) const;
+		bool operator!=(const AssemblyName& Other) const;
+		bool operator<(const AssemblyName& Other) const;
+		bool operator>(const AssemblyName& Other) const;
+		bool operator<=(const AssemblyName& Other) const;
+		bool operator>=(const AssemblyName& Other) const;
 
-				const String& GetCodeBase() const;
-				const String& GetName() const;
-				const Version& GetVersion() const;
-				/*
-				const CultureInfo& GetCultureInfo() const;
-				const String& GetFullName() const;
-				*/
-			private:
-				String _Name;
-				String _CodeBase;	// Location (Folder)
-				Version _Version;
-			};
-		}
-	}
+		const String& GetCodeBase() const;
+		const String& GetName() const;
+		const Version& GetVersion() const;
+		/*
+		const CultureInfo& GetCultureInfo() const;
+		const String& GetFullName() const;
+		*/
+	private:
+		String _Name;
+		String _CodeBase;	// Location (Folder)
+		Version _Version;
+	};
 }
 #endif

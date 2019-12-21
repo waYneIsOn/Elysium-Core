@@ -63,19 +63,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationLevel.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)SslPolicyErrors.hpp">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EncryptionPolicy.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationLevel.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SslStream.hpp">
       <Filter>Security</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ProtectionLevel.hpp">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslPolicyErrors.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)EncryptionPolicy.hpp">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslStream.hpp" />
   </ItemGroup>
 </Project>

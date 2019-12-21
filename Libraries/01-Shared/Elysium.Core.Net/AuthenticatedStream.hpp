@@ -18,29 +18,20 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net::Security
 {
-	namespace Core
+	class ELYSIUM_CORE_NET_API AuthenticatedStream : public Elysium::Core::IO::Stream
 	{
-		namespace Net
-		{
-			namespace Security
-			{
-				class ELYSIUM_CORE_NET_API AuthenticatedStream : public Elysium::Core::IO::Stream
-				{
-				public:
-					virtual ~AuthenticatedStream();
+	public:
+		virtual ~AuthenticatedStream();
 
-					const Elysium::Core::IO::Stream* GetInnerStream() const;
-					const bool GetLeaveInnerStreamOpen() const;
-				protected:
-					AuthenticatedStream(Elysium::Core::IO::Stream& InnerStream, const bool LeaveInnerStreamOpen);
-				private:
-					Elysium::Core::IO::Stream* _InnerStream;
-					bool _LeaveInnerStreamOpen;
-				};
-			}
-		}
-	}
+		const Elysium::Core::IO::Stream* GetInnerStream() const;
+		const bool GetLeaveInnerStreamOpen() const;
+	protected:
+		AuthenticatedStream(Elysium::Core::IO::Stream& InnerStream, const bool LeaveInnerStreamOpen);
+	private:
+		Elysium::Core::IO::Stream* _InnerStream;
+		bool _LeaveInnerStreamOpen;
+	};
 }
 #endif

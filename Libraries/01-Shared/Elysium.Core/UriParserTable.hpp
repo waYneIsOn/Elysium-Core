@@ -26,27 +26,24 @@ Copyright (C) 2017 waYne (CAM)
 #include "UriSyntaxFlags.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	/*
+	class ELYSIUM_CORE_API UriParser;
+
+	// make sure the following classes get exported (warning C4251)
+	template class ELYSIUM_CORE_API std::map<String, UriParser*>;
+	//template struct ELYSIUM_CORE_API std::pair<String, UriParser*>;
+	//template class ELYSIUM_CORE_API std::allocator<std::pair<String, UriParser*>>;
+
+	class ELYSIUM_CORE_API UriParserTable final
 	{
-		/*
-		class ELYSIUM_CORE_API UriParser;
+	public:
+		UriParserTable();
+		~UriParserTable();
 
-		// make sure the following classes get exported (warning C4251)
-		template class ELYSIUM_CORE_API std::map<String, UriParser*>;
-		//template struct ELYSIUM_CORE_API std::pair<String, UriParser*>;
-		//template class ELYSIUM_CORE_API std::allocator<std::pair<String, UriParser*>>;
-
-		class ELYSIUM_CORE_API UriParserTable final
-		{
-		public:
-			UriParserTable();
-			~UriParserTable();
-
-			std::map<String, UriParser*> Map;
-		};
-		*/
-	}
+		std::map<String, UriParser*> Map;
+	};
+	*/
 }
 #endif

@@ -16,20 +16,15 @@ Copyright (C) 2017 waYne (CAM)
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API InvalidDataException : public Exception
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API InvalidDataException : public Exception
-			{
-			public:
-				InvalidDataException();
-				InvalidDataException(const String& Message);
-				~InvalidDataException();
-			};
-		}
-	}
+	public:
+		InvalidDataException();
+		InvalidDataException(const char16_t* Message);
+		InvalidDataException(const String& Message);
+		~InvalidDataException();
+	};
 }
 #endif

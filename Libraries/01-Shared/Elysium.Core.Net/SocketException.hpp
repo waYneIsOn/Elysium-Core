@@ -22,28 +22,19 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketError.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Net::Sockets
 {
-	namespace Core
+	/// <summary>
+	/// 
+	/// </summary>
+	class ELYSIUM_CORE_NET_API SocketException : public Elysium::Core::Runtime::InteropServices::ExternalException
 	{
-		namespace Net
-		{
-			namespace Sockets
-			{
-				/// <summary>
-				/// 
-				/// </summary>
-				class ELYSIUM_CORE_NET_API SocketException : public Elysium::Core::Runtime::InteropServices::ExternalException
-				{
-				public:
-					// constructors & destructor
-					SocketException();
-					SocketException(const String& Message);
-					SocketException(const String& Message, const int ErrorCode);
-					~SocketException();
-				};
-			}
-		}
-	}
+	public:
+		// constructors & destructor
+		SocketException();
+		SocketException(const String& Message);
+		SocketException(const String& Message, const int ErrorCode);
+		~SocketException();
+	};
 }
 #endif

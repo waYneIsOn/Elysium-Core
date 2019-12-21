@@ -10,23 +10,27 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_COMMANDBEHAVIOUR
 #define ELYSIUM_CORE_DATA_COMMANDBEHAVIOUR
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::Data
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class CommandBehaviour : uint32_t
+#elif defined(__ANDROID__)
+	enum class CommandBehaviour
+#else
+#error "undefined os"
+#endif
 	{
-		namespace Data
-		{
-			enum class CommandBehaviour : int
-			{
-				Default = 0,
-				SingleResult = 1,
-				SchemaOnly = 2,
-				KeyInfo = 4,
-				SingleRow = 8,
-				SequentialAccess = 16,
-				CloseConnection = 32
-			};
-		}
-	}
+		Default = 0,
+		SingleResult = 1,
+		SchemaOnly = 2,
+		KeyInfo = 4,
+		SingleRow = 8,
+		SequentialAccess = 16,
+		CloseConnection = 32
+	};
 }
 #endif

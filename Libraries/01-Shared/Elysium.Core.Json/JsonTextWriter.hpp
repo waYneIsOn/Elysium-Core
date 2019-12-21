@@ -18,25 +18,19 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.IO/TextWriter.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Json
 {
-	namespace Core
+	class ELYSIUM_CORE_JSON_API JsonTextWriter final : public JsonWriter
 	{
-		namespace Json
-		{
-			class ELYSIUM_CORE_JSON_API JsonTextWriter final : public JsonWriter
-			{
-			public:
-				JsonTextWriter(Elysium::Core::IO::TextWriter& Writer);
-				JsonTextWriter(const JsonIOSettings& IOSettings, Elysium::Core::IO::TextWriter& Writer);
-				~JsonTextWriter();
-			protected:
-				virtual void WriteString(const char16_t Value) override;
-				virtual void WriteString(const String& Value) override;
-			private:
-				Elysium::Core::IO::TextWriter& _Writer;
-			};
-		}
-	}
+	public:
+		JsonTextWriter(Elysium::Core::IO::TextWriter& Writer);
+		JsonTextWriter(const JsonIOSettings& IOSettings, Elysium::Core::IO::TextWriter& Writer);
+		~JsonTextWriter();
+	protected:
+		virtual void WriteString(const char16_t Value) override;
+		virtual void WriteString(const String& Value) override;
+	private:
+		Elysium::Core::IO::TextWriter& _Writer;
+	};
 }
 #endif

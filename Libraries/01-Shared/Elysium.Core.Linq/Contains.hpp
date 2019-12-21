@@ -14,28 +14,22 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Linq
 {
-	namespace Core
+	struct ELYSIUM_CORE_LINQ_API ContainsContainer
 	{
-		namespace Linq
+		template<class ContainerType, class ItemType>
+		bool operator()(ContainerType && Container, ItemType && Item)
 		{
-			struct ELYSIUM_CORE_LINQ_API ContainsContainer
+			for (auto Element : Container)
 			{
-				template<class ContainerType, class ItemType>
-				bool operator()(ContainerType && Container, ItemType && Item)
+				if (Element == Item)
 				{
-					for (auto Element : Container)
-					{
-						if (Element == Item)
-						{
-							return true;
-						}
-					}
-					return false;
+					return true;
 				}
-			};
+			}
+			return false;
 		}
-	}
+	};
 }
 #endif

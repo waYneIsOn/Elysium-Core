@@ -14,18 +14,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Globalization
 {
-	namespace Core
+	/*
+	class ELYSIUM_CORE_API Calendar
 	{
-		/*
-		class ELYSIUM_CORE_API Calendar
-		{
-		public:
-			Calendar() {};
-			virtual ~Calendar() = 0;
-		};
-		*/
-	}
+	public:
+		Calendar() {};
+		virtual ~Calendar() = 0;
+	};
+	*/
 }
 #endif

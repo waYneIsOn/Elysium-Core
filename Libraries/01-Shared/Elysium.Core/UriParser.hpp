@@ -30,33 +30,30 @@ Copyright (C) 2017 waYne (CAM)
 #include "StringView.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	class ELYSIUM_CORE_API Uri;
+
+	class ELYSIUM_CORE_API UriParser
 	{
-		class ELYSIUM_CORE_API Uri;
+	public:
+		virtual ~UriParser() = 0;
 
-		class ELYSIUM_CORE_API UriParser
-		{
-		public:
-			virtual ~UriParser() = 0;
+		static void Register(UriParser& UriParser, const String& SchemeName, int DefaultPort);
 
-			static void Register(UriParser& UriParser, const String& SchemeName, int DefaultPort);
+		void ParseComponent(UriComponents Component, const String& Source, StringView& Output);
+	protected:
+		UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents);
+	private:
+		friend class Uri;
+		friend class UriParserTable;
 
-			void ParseComponent(UriComponents Component, const String& Source, StringView& Output);
-		protected:
-			UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents);
-		private:
-			friend class Uri;
-			friend class UriParserTable;
+		static UriSyntaxFlags DummySyntaxFlags;
+		static UriSyntaxFlags HttpSyntaxFlags;
 
-			static UriSyntaxFlags DummySyntaxFlags;
-			static UriSyntaxFlags HttpSyntaxFlags;
-
-			String _Scheme;
-			int _Port;
-			UriSyntaxFlags _RequiredComponents;
-		};
-	}
+		String _Scheme;
+		int _Port;
+		UriSyntaxFlags _RequiredComponents;
+	};
 }
 #endif

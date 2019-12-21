@@ -18,43 +18,37 @@ Copyright (C) 2017 waYne (CAM)
 #include "Assembly.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API Type : public MemberInfo
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API Type : public MemberInfo
-			{
-				//friend class Elysium::Core::Collections::Generic::List<Type>;
-			public:
-				virtual ~Type();
+		//friend class Elysium::Core::Collections::Generic::List<Type>;
+	public:
+		virtual ~Type();
 
-				const bool GetIsArray() const;
-				const bool GetIsEnum() const;
-				const bool GetIsClass() const;
+		const bool GetIsArray() const;
+		const bool GetIsEnum() const;
+		const bool GetIsClass() const;
 
-				const StringView& GetFullName() const;
-				//const StringView& GetNamespace() const;
+		const StringView& GetFullName() const;
+		//const StringView& GetNamespace() const;
 
-				bool operator==(const Type& Other) const;
-				bool operator!=(const Type& Other) const;
-				bool operator<(const Type& Other) const;
-				bool operator>(const Type& Other) const;
-				bool operator<=(const Type& Other) const;
-				bool operator>=(const Type& Other) const;
-			protected:
-				Type();
+		bool operator==(const Type& Other) const;
+		bool operator!=(const Type& Other) const;
+		bool operator<(const Type& Other) const;
+		bool operator>(const Type& Other) const;
+		bool operator<=(const Type& Other) const;
+		bool operator>=(const Type& Other) const;
+	protected:
+		Type();
 
-				size_t _HashCode;
-				bool _IsArray;
-				bool _IsEnum;
-				bool _IsClass;
+		size_t _HashCode;
+		bool _IsArray;
+		bool _IsEnum;
+		bool _IsClass;
 
-				//std::map<const size_t, const Elysium::Core::Reflection::Type _TypeHashTypeMap;
-				//std::map<const size_t, const Elysium::Core::Reflection::Assembly&> _TypeHashAssemblyMap;
-			};
-		}
-	}
+		//std::map<const size_t, const Elysium::Core::Reflection::Type _TypeHashTypeMap;
+		//std::map<const size_t, const Elysium::Core::Reflection::Assembly&> _TypeHashAssemblyMap;
+	};
 }
 #endif

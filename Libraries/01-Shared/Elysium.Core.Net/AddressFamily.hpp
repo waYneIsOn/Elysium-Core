@@ -10,53 +10,51 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
 #define ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::Net::Sockets
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class AddressFamily : uint32_t
+#elif defined(__ANDROID__)
+	enum class AddressFamily
+#else
+#error "undefined os"
+#endif
 	{
-		namespace Net
-		{
-			namespace Sockets
-			{
-				/// <summary>
-				/// 
-				/// </summary>
-				enum class AddressFamily : int
-				{
-					AppleTalk,
-					Atm,
-					Banyan,
-					Ccitt,
-					Chaos,
-					Cluster,
-					DataKit,
-					DataLink,
-					DecNet,
-					Ecma,
-					FireFox,
-					HyperChannel,
-					Ieee12844,
-					ImpLink,
-					InterNetwork,
-					InterNetworkV6,
-					Ipx,
-					AtmIrda,
-					Iso,
-					Lat,
-					Max,
-					NetBios,
-					NetworkDesigners,
-					NS,
-					Osi,
-					Pup,
-					Sna,
-					Unix,
-					Unknown,
-					Unspecified,
-					VoiceView,
-				};
-			}
-		}
-	}
+		AppleTalk,
+		Atm,
+		Banyan,
+		Ccitt,
+		Chaos,
+		Cluster,
+		DataKit,
+		DataLink,
+		DecNet,
+		Ecma,
+		FireFox,
+		HyperChannel,
+		Ieee12844,
+		ImpLink,
+		InterNetwork,
+		InterNetworkV6,
+		Ipx,
+		AtmIrda,
+		Iso,
+		Lat,
+		Max,
+		NetBios,
+		NetworkDesigners,
+		NS,
+		Osi,
+		Pup,
+		Sna,
+		Unix,
+		Unknown,
+		Unspecified,
+		VoiceView,
+	};
 }
 #endif

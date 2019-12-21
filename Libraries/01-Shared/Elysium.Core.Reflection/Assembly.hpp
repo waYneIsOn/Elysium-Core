@@ -26,44 +26,38 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/List.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API Assembly
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API Assembly
-			{
-				friend class Elysium::Core::Collections::Template::List<Elysium::Core::Reflection::Assembly>;
-			public:
-				Assembly(const Assembly& Source);
-				Assembly(Assembly&& Right) noexcept;
-				virtual ~Assembly();
+		friend class Elysium::Core::Collections::Template::List<Elysium::Core::Reflection::Assembly>;
+	public:
+		Assembly(const Assembly& Source);
+		Assembly(Assembly&& Right) noexcept;
+		virtual ~Assembly();
 
-				Assembly& operator=(const Assembly& Source);
-				Assembly& operator=(Assembly&& Right) noexcept;
+		Assembly& operator=(const Assembly& Source);
+		Assembly& operator=(Assembly&& Right) noexcept;
 
-				bool operator==(const Assembly& Other) const;
-				bool operator!=(const Assembly& Other) const;
-				bool operator<(const Assembly& Other) const;
-				bool operator>(const Assembly& Other) const;
-				bool operator<=(const Assembly& Other) const;
-				bool operator>=(const Assembly& Other) const;
+		bool operator==(const Assembly& Other) const;
+		bool operator!=(const Assembly& Other) const;
+		bool operator<(const Assembly& Other) const;
+		bool operator>(const Assembly& Other) const;
+		bool operator<=(const Assembly& Other) const;
+		bool operator>=(const Assembly& Other) const;
 				
-				static Assembly& GetEntryAssembly();
-				//static Assembly& GetExecutingAssembly();
+		static Assembly& GetEntryAssembly();
+		//static Assembly& GetExecutingAssembly();
 
-				//const AssemblyName& FullName() const;
+		//const AssemblyName& FullName() const;
 
-				//static Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly> _RegisteredAssemblies;
-				//static std::map<Elysium::Core::Reflection::AssemblyName, Elysium::Core::Reflection::Assembly> _Bla;
-			protected:
-				Assembly();
+		//static Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly> _RegisteredAssemblies;
+		//static std::map<Elysium::Core::Reflection::AssemblyName, Elysium::Core::Reflection::Assembly> _Bla;
+	protected:
+		Assembly();
 
-			private:
-				AssemblyName _AssemblyName;
-			};
-		}
-	}
+	private:
+		AssemblyName _AssemblyName;
+	};
 }
 #endif

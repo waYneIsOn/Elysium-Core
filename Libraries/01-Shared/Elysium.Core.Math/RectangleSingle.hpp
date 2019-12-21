@@ -18,23 +18,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "RectangleTemplate.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Math::Geometry
 {
-	namespace Core
+	class ELYSIUM_CORE_MATH_API RectangleSingle : public RectangleTemplate<float>
 	{
-		namespace Math
-		{
-			namespace Geometry
-			{
-				class ELYSIUM_CORE_MATH_API RectangleSingle : public RectangleTemplate<float>
-				{
-				public:
-					RectangleSingle();
-					RectangleSingle(float X, float Y, float Width, float Height);
-					~RectangleSingle();
-				};
-			}
-		}
-	}
+	public:
+		RectangleSingle();
+		RectangleSingle(float X, float Y, float Width, float Height);
+		~RectangleSingle();
+	};
 }
 #endif

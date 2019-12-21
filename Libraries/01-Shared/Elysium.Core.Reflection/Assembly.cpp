@@ -8,6 +8,10 @@
 #include <windows.h>
 #endif
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
 //Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly> Elysium::Core::Reflection::Assembly::_RegisteredAssemblies = Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly>();
 
 Elysium::Core::Reflection::Assembly::Assembly(const Assembly & Source)
@@ -67,7 +71,7 @@ bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly & Other) con
 
 Elysium::Core::Reflection::Assembly & Elysium::Core::Reflection::Assembly::GetEntryAssembly()
 {
-	throw Exception();
+	throw NotImplementedException();
 	/*
 	TCHAR Location[MAX_PATH + 1];
 	GetModuleFileName(nullptr, Location, MAX_PATH);

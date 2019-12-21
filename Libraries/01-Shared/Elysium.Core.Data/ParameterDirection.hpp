@@ -10,20 +10,24 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATA_PARAMETERDIRECTION
 #define ELYSIUM_CORE_DATA_PARAMETERDIRECTION
 
-namespace Elysium
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
+namespace Elysium::Core::Data
 {
-	namespace Core
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class ParameterDirection : int32_t
+#elif defined(__ANDROID__)
+	enum class ParameterDirection
+#else
+#error "undefined os"
+#endif
 	{
-		namespace Data
-		{
-			enum class ParameterDirection : int
-			{
-				Input = 1,
-				Output = 2,
-				InputOutput = 3,
-				ReturnValue = 6,
-			};
-		}
-	}
+		Input = 1,
+		Output = 2,
+		InputOutput = 3,
+		ReturnValue = 6,
+	};
 }
 #endif

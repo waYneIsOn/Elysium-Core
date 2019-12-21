@@ -28,29 +28,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.Data/ParameterDirection.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
-	namespace Core
+	class FormatConverter final
 	{
-		namespace Data
-		{
-			namespace SqlNativeClient
-			{
-				namespace OleDb
-				{
-					class FormatConverter final
-					{
-					public:
-						//static long Translate(IsolationLevel IsolationLevel);
-						static DBTYPEENUM Translate(DbType DbType);
-						static DBPARAMIOENUM Translate(ParameterDirection ParameterDirection);
-					private:
-						FormatConverter();
-						~FormatConverter();
-					};
-				}
-			}
-		}
-	}
+	public:
+		//static long Translate(IsolationLevel IsolationLevel);
+		static DBTYPEENUM Translate(DbType DbType);
+		static DBPARAMIOENUM Translate(ParameterDirection ParameterDirection);
+	private:
+		FormatConverter();
+		~FormatConverter();
+	};
 }
 #endif

@@ -18,28 +18,22 @@ Copyright (C) 2017 waYne (CAM)
 #include "Stream.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API StreamWriter : public TextWriter
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API StreamWriter : public TextWriter
-			{
-			public:
-				StreamWriter(Stream& OutputStream);
-				~StreamWriter();
+	public:
+		StreamWriter(Stream& OutputStream);
+		~StreamWriter();
 
-				virtual const Text::Encoding& GetEncoding() override;
+		virtual const Text::Encoding& GetEncoding() override;
 
-				virtual void Close() override;
-				virtual void Flush() override;
+		virtual void Close() override;
+		virtual void Flush() override;
 
-				virtual void Write(const byte* Value, const size_t Index, const size_t Length) override;
-			private:
-				Stream& _OutputStream;
-			};
-		}
-	}
+		virtual void Write(const byte* Value, const size_t Index, const size_t Length) override;
+	private:
+		Stream& _OutputStream;
+	};
 }
 #endif

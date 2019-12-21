@@ -18,24 +18,18 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::IO
 {
-	namespace Core
+	class ELYSIUM_CORE_API StringWriter : public TextWriter
 	{
-		namespace IO
-		{
-			class ELYSIUM_CORE_API StringWriter : public TextWriter
-			{
-			public:
-				StringWriter(Elysium::Core::Text::StringBuilder& StringBuilder);
-				~StringWriter();
+	public:
+		StringWriter(Elysium::Core::Text::StringBuilder& StringBuilder);
+		~StringWriter();
 
-				virtual void Write(const byte* Value, const size_t Index, const size_t Length) override;
-				virtual void Write(const String& Value) override;
-			private:
-				Elysium::Core::Text::StringBuilder& _StringBuilder;
-			};
-		}
-	}
+		virtual void Write(const byte* Value, const size_t Index, const size_t Length) override;
+		virtual void Write(const String& Value) override;
+	private:
+		Elysium::Core::Text::StringBuilder& _StringBuilder;
+	};
 }
 #endif

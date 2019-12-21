@@ -24,7 +24,24 @@ namespace UnitTestsCore
 	{
 	public:
 		TEST_METHOD(Constructors)
-		{			
+		{
+			Elysium::Core::String NullString1 = Elysium::Core::String();
+			Assert::IsNull(NullString1.GetCharArray());
+			Assert::AreEqual((size_t)0, NullString1.GetLength());
+			Assert::IsTrue(Elysium::Core::String::IsNull(NullString1));
+			Assert::IsFalse(Elysium::Core::String::IsEmpty(NullString1));
+			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(NullString1));
+
+			Elysium::Core::String LString = Elysium::Core::String(5);
+			Assert::AreEqual((size_t)5, LString.GetLength());
+			
+			Elysium::Core::String EmptyString(u"");
+			Assert::IsNull(EmptyString.GetCharArray());
+			Assert::AreEqual((size_t)0, EmptyString.GetLength());
+			Assert::IsTrue(Elysium::Core::String::IsNull(EmptyString));
+			Assert::IsFalse(Elysium::Core::String::IsEmpty(EmptyString));
+			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(EmptyString));
+			
 			Elysium::Core::String String1 = Elysium::Core::String(u"text");
 			AssertExtended::AreEqual(u"text", String1.GetCharArray());
 			Assert::AreEqual((size_t)4, String1.GetLength());
@@ -32,7 +49,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u'e', String1[1]);
 			AssertExtended::AreEqual(u'x', String1[2]);
 			AssertExtended::AreEqual(u't', String1[3]);
-
+			
 			Elysium::Core::String String2 = u"different";
 			AssertExtended::AreEqual(u"different", String2.GetCharArray());
 			Assert::AreEqual((size_t)9, String2.GetLength());
@@ -45,24 +62,21 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u'e', String2[6]);
 			AssertExtended::AreEqual(u'n', String2[7]);
 			AssertExtended::AreEqual(u't', String2[8]);
-
+			
 			Elysium::Core::String String3(&u"random"[2], 3);
 			AssertExtended::AreEqual(u"ndo", String3.GetCharArray());
 			Assert::AreEqual((size_t)3, String3.GetLength());
 			AssertExtended::AreEqual(u'n', String3[0]);
 			AssertExtended::AreEqual(u'd', String3[1]);
 			AssertExtended::AreEqual(u'o', String3[2]);
-
-			Elysium::Core::String EmptyString1(u"");
-			AssertExtended::AreEqual(u"", EmptyString1.GetCharArray());
-			Assert::AreEqual((size_t)0, EmptyString1.GetLength());
-			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(EmptyString1));
-
-			Elysium::Core::String EmptyString2(nullptr);
-			//Assert::AreEqual(nullptr, EmptyString2.GetCharArray());
-			Assert::AreEqual((size_t)0, EmptyString2.GetLength());
-			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(EmptyString2));
-
+			
+			Elysium::Core::String NullString2(nullptr);
+			Assert::IsNull(NullString2.GetCharArray());
+			Assert::AreEqual((size_t)0, NullString2.GetLength());
+			Assert::IsTrue(Elysium::Core::String::IsNull(NullString2));
+			Assert::IsFalse(Elysium::Core::String::IsEmpty(NullString2));
+			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(NullString2));
+			
 			Elysium::Core::String CopiedString(String1);
 			AssertExtended::AreEqual(u"text", CopiedString.GetCharArray());
 			Assert::AreEqual((size_t)4, CopiedString.GetLength());
@@ -70,7 +84,7 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u'e', CopiedString[1]);
 			AssertExtended::AreEqual(u'x', CopiedString[2]);
 			AssertExtended::AreEqual(u't', CopiedString[3]);
-
+			
 			Elysium::Core::String MovedString = std::move(String1);
 			AssertExtended::AreEqual(u"text", MovedString.GetCharArray());
 			Assert::AreEqual((size_t)4, MovedString.GetLength());
@@ -78,6 +92,27 @@ namespace UnitTestsCore
 			AssertExtended::AreEqual(u'e', MovedString[1]);
 			AssertExtended::AreEqual(u'x', MovedString[2]);
 			AssertExtended::AreEqual(u't', MovedString[3]);
+			Assert::IsNull(String1.GetCharArray());
+			Assert::AreEqual((size_t)0, String1.GetLength());
+			Assert::IsTrue(Elysium::Core::String::IsNull(String1));
+			Assert::IsFalse(Elysium::Core::String::IsEmpty(String1));
+			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(String1));
+		}
+		TEST_METHOD(Operators)
+		{
+			Elysium::Core::String Source = u"some text";
+			Elysium::Core::String Copy = Source;
+
+			AssertExtended::AreEqual(u"some text", Source.GetCharArray());
+			Assert::AreEqual((size_t)9, Source.GetLength());
+			AssertExtended::AreEqual(u"some text", Copy.GetCharArray());
+			Assert::AreEqual((size_t)9, Copy.GetLength());
+
+			Elysium::Core::String Move = std::move(Source);
+			Assert::IsNull(Source.GetCharArray());
+			Assert::AreEqual((size_t)0, Source.GetLength());
+			AssertExtended::AreEqual(u"some text", Move.GetCharArray());
+			Assert::AreEqual((size_t)9, Move.GetLength());
 		}
 		TEST_METHOD(GetEnumerator)
 		{
@@ -144,11 +179,11 @@ namespace UnitTestsCore
 			Elysium::Core::String Substring1;
 			Elysium::Core::String Substring2;
 			
-			Source.Substring(5, &Substring1);
+			Source.Substring(5, Substring1);
 			Assert::AreEqual((size_t)32, Substring1.GetLength());
 			AssertExtended::AreEqual(u"is a string containing some text", Substring1.GetCharArray());
 			
-			Source.Substring(8, 19, &Substring2);
+			Source.Substring(8, 19, Substring2);
 			Assert::AreEqual((size_t)19, Substring2.GetLength());
 			AssertExtended::AreEqual(u"a string containing", Substring2.GetCharArray());
 		}

@@ -52,7 +52,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClInclude>
@@ -88,6 +87,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringViewBase.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringBase.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -119,9 +123,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />

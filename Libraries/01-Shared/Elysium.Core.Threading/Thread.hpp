@@ -28,44 +28,38 @@ Copyright (C) 2017 waYne (CAM)
 
 #pragma warning(disable : 4251)
 
-namespace Elysium
+namespace Elysium::Core::Threading
 {
-	namespace Core
+	class ELYSIUM_CORE_API Thread
 	{
-		namespace Threading
-		{
-			class ELYSIUM_CORE_API Thread
-			{
-			public:
-				// constructors & destructor
-				Thread(void(*Start)());
-				Thread(const Thread& Source) = delete;
-				//Thread(void(*Start)(void*));
-				~Thread();
+	public:
+		// constructors & destructor
+		Thread(void(*Start)());
+		Thread(const Thread& Source) = delete;
+		//Thread(void(*Start)(void*));
+		~Thread();
 
-				Thread& operator=(const Thread&) = delete;
+		Thread& operator=(const Thread&) = delete;
 
-				// properties - getter
-				void GetCurrentCulture(Globalization::CultureInfo* Value) const;
-				void GetThreadId(unsigned int* Value) const;
+		// properties - getter
+		void GetCurrentCulture(Globalization::CultureInfo* Value) const;
+		void GetThreadId(unsigned int* Value) const;
 
-				static void GetCurrentThreadId(unsigned int* Value);
+		static void GetCurrentThreadId(unsigned int* Value);
 
-				// properties - setter
+		// properties - setter
 
-				// methods
-				void Join();
-				void Start();
+		// methods
+		void Join();
+		void Start();
 
-				static void Sleep(TimeSpan& Timeout);
-				//static bool Yield();
-			private:
-				void(*_ThreadStart)();
-				std::thread _NativeThread;
+		static void Sleep(TimeSpan& Timeout);
+		//static bool Yield();
+	private:
+		void(*_ThreadStart)();
+		std::thread _NativeThread;
 
-				Globalization::CultureInfo _CurrentCulture;
-			};
-		}
-	}
+		Globalization::CultureInfo _CurrentCulture;
+	};
 }
 #endif

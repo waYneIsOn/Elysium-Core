@@ -26,86 +26,83 @@ Copyright (C) 2017 waYne (CAM)
 #include <cstdint>
 #endif
 
-namespace Elysium
+namespace Elysium::Core
 {
-	namespace Core
+	/*
+	[scheme:]scheme-specific-part[#fragment]
+	mailto:john.doe@example.com
+	news:comp.infosystems.www.servers.unix
+	tel:+1-816-555-1212
+
+	[scheme:][//authority][/path][?query][#fragment]
+	[user_info@]host[:port]
+
+	https://tools.ietf.org/html/rfc3986
+	scheme ":" "hierarchical part" [ "?" query ] [ "#" fragment ]
+	*/
+	class ELYSIUM_CORE_API Uri final
 	{
-		/*
-		[scheme:]scheme-specific-part[#fragment]
-		mailto:john.doe@example.com
-		news:comp.infosystems.www.servers.unix
-		tel:+1-816-555-1212
+	public:
+		// constructors & destructors
+		Uri(const String& UriString);
+		Uri(const Uri& BaseUri, const String& RelativeUri);
+		Uri(const Uri& Source);
+		Uri(Uri&& Right) noexcept;
+		~Uri();
 
-		[scheme:][//authority][/path][?query][#fragment]
-		[user_info@]host[:port]
+		Uri& operator=(const Uri& Source);
+		Uri& operator=(Uri&& Right) noexcept;
 
-		https://tools.ietf.org/html/rfc3986
-		scheme ":" "hierarchical part" [ "?" query ] [ "#" fragment ]
-		*/
-		class ELYSIUM_CORE_API Uri final
-		{
-		public:
-			// constructors & destructors
-			Uri(const String& UriString);
-			Uri(const Uri& BaseUri, const String& RelativeUri);
-			Uri(const Uri& Source);
-			Uri(Uri&& Right) noexcept;
-			~Uri();
+		// fields
+		static const String SchemeDelimiter;
 
-			Uri& operator=(const Uri& Source);
-			Uri& operator=(Uri&& Right) noexcept;
+		static const String UriSchemeFile;
+		static const String UriSchemeFtp;
+		static const String UriSchemeGopher;
+		static const String UriSchemeHttp;
+		static const String UriSchemeHttps;
+		static const String UriSchemeIrc;
+		static const String UriSchemeLdap;
+		static const String UriSchemeMailto;
+		static const String UriSchemeNetPipe;
+		static const String UriSchemeNetTcp;
+		static const String UriSchemeNews;
+		static const String UriSchemeNntp;
+		static const String UriSchemeSecureWebSocket;
+		static const String UriSchemeTel;
+		static const String UriSchemeTelNet;
+		static const String UriSchemeUrn;
+		static const String UriSchemeWebSocket;
 
-			// fields
-			static const String SchemeDelimiter;
+		// properties - getter
+		const StringView& GetAbsoluteUri() const;
+		const StringView& GetSchema() const;
+		const StringView& GetAuthority() const;
+		const StringView& GetUserInfo() const;
+		const StringView& GetHost() const;
+		const int32_t& GetPort() const;
+		const StringView& GetPathAndQuery() const;
+		const StringView& GetPath() const;
+		const StringView& GetQuery() const;
+		const StringView& GetFragment() const;
+	protected:
+		void Parse();
+	private:
+		// fields
+		String _OriginalString;
 
-			static const String UriSchemeFile;
-			static const String UriSchemeFtp;
-			static const String UriSchemeGopher;
-			static const String UriSchemeHttp;
-			static const String UriSchemeHttps;
-			static const String UriSchemeIrc;
-			static const String UriSchemeLdap;
-			static const String UriSchemeMailto;
-			static const String UriSchemeNetPipe;
-			static const String UriSchemeNetTcp;
-			static const String UriSchemeNews;
-			static const String UriSchemeNntp;
-			static const String UriSchemeSecureWebSocket;
-			static const String UriSchemeTel;
-			static const String UriSchemeTelNet;
-			static const String UriSchemeUrn;
-			static const String UriSchemeWebSocket;
+		StringView _AbsoluteUri;
+		StringView _SchemeView;
+		StringView _AuthorityView;
+		StringView _UserInfoView;
+		StringView _HostView;
+		int32_t _Port = -1;
+		StringView _PathAndQueryView;
+		StringView _PathView;
+		StringView _QueryView;
+		StringView _FragmentView;
 
-			// properties - getter
-			const StringView& GetAbsoluteUri() const;
-			const StringView& GetSchema() const;
-			const StringView& GetAuthority() const;
-			const StringView& GetUserInfo() const;
-			const StringView& GetHost() const;
-			const int32_t& GetPort() const;
-			const StringView& GetPathAndQuery() const;
-			const StringView& GetPath() const;
-			const StringView& GetQuery() const;
-			const StringView& GetFragment() const;
-		protected:
-			void Parse();
-		private:
-			// fields
-			String _OriginalString;
-
-			StringView _AbsoluteUri;
-			StringView _SchemeView;
-			StringView _AuthorityView;
-			StringView _UserInfoView;
-			StringView _HostView;
-			int32_t _Port = -1;
-			StringView _PathAndQueryView;
-			StringView _PathView;
-			StringView _QueryView;
-			StringView _FragmentView;
-
-			const String CreateUri(const Uri& BaseUri, const String& RelativeUri, bool Escape);
-		};
-	}
+		const String CreateUri(const Uri& BaseUri, const String& RelativeUri, bool Escape);
+	};
 }
 #endif

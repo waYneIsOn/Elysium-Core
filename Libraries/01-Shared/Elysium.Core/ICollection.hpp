@@ -14,31 +14,25 @@ Copyright (C) 2017 waYne (CAM)
 #include "IEnumerable.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Collections
 {
-	namespace Core
+	/// Defines size, enumerators, and synchronization methods for all nongeneric collections.
+	template <typename T>
+	class ICollection : public IEnumerable<T>
 	{
-		namespace Collections
-		{
-			/// Defines size, enumerators, and synchronization methods for all nongeneric collections.
-			template <typename T>
-			class ICollection : public IEnumerable<T>
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~ICollection() {}
+	public:
+		/// <summary>
+		/// Destroy the object using the virtual destructor
+		/// </summary>
+		virtual ~ICollection() {}
 
-				virtual const size_t GetCount() const = 0;
-				virtual const bool GetIsReadOnly() const = 0;
+		virtual const size_t GetCount() const = 0;
+		virtual const bool GetIsReadOnly() const = 0;
 
-				virtual void Add(const T& Item) = 0;
-				virtual void Clear() = 0;
-				virtual bool Contains(const T& Item) const = 0;
-				virtual bool Remove(const T& Item) = 0;
-			};
-		}
-	}
+		virtual void Add(const T& Item) = 0;
+		virtual void Clear() = 0;
+		virtual bool Contains(const T& Item) const = 0;
+		virtual bool Remove(const T& Item) = 0;
+	};
 }
 #endif

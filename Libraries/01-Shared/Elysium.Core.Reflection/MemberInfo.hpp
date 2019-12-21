@@ -22,24 +22,18 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/StringView.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Reflection
 {
-	namespace Core
+	class ELYSIUM_CORE_API MemberInfo
 	{
-		namespace Reflection
-		{
-			class ELYSIUM_CORE_API MemberInfo
-			{
-			public:
-				virtual ~MemberInfo();
+	public:
+		virtual ~MemberInfo();
 
-				const StringView GetName() const;
-			protected:
-				MemberInfo(); 
+		const StringView GetName() const;
+	protected:
+		MemberInfo(); 
 
-				String _Name;
-			};
-		}
-	}
+		String _Name;
+	};
 }
 #endif

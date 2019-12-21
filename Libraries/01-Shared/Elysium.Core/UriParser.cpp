@@ -73,6 +73,11 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	// scheme : //
 	// userinfo @ host : port
 
+	if (String::IsNullOrEmtpy(Source))
+	{
+		return;
+	}
+
 	switch (Component)
 	{
 	case Elysium::Core::UriComponents::Scheme:
