@@ -17,7 +17,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core
 {
 	template <class ReturnType, class T, class ...Args>
-	class ELYSIUM_CORE_API Delegate
+	class Delegate
 	{
 	public:
 		Delegate(const Delegate& Source) = delete;
@@ -28,14 +28,13 @@ namespace Elysium::Core
 		Delegate& operator=(Delegate&& Right) noexcept = delete;
 
 		ReturnType operator()(Args... Parameters);
+		ReturnType operator()(T& Instance, Args... Parameters);
 
 		Delegate(ReturnType(*StaticMethod)(Args... Parameters));
-		Delegate(T* Instance, ReturnType(T::*Method)(Args... Parameters));
+		Delegate(ReturnType(T::*Method)(Args... Parameters));
 	protected:
 	private:
 		ReturnType(*_StaticMethod)(Args... Parameters);
-
-		T* _Instance;
 		ReturnType(T::*_Method)(Args... Parameters);
 	};
 
@@ -46,11 +45,12 @@ namespace Elysium::Core
 	template<class ReturnType, class T, class ...Args>
 	inline ReturnType Delegate<ReturnType, T, Args...>::operator()(Args... Parameters)
 	{
-		if (_StaticMethod != nullptr)
-		{
-			return _StaticMethod(Parameters...);
-		}
-		return (_Instance->*_Method)(Parameters...);
+		return _StaticMethod(Parameters...);
+	}
+	template<class ReturnType, class T, class ...Args>
+	inline ReturnType Delegate<ReturnType, T, Args...>::operator()(T & Instance, Args... Parameters)
+	{
+		return (Instance.*_Method)(Parameters...);
 	}
 
 	template<class ReturnType, class T, class ...Args>
@@ -58,8 +58,8 @@ namespace Elysium::Core
 		: _StaticMethod(StaticMethod)
 	{ }
 	template<class ReturnType, class T, class ...Args>
-	inline Delegate<ReturnType, T, Args...>::Delegate(T * Instance, ReturnType(T::* Method)(Args... Parameters))
-		: _Instance(Instance), _Method(Method)
+	inline Delegate<ReturnType, T, Args...>::Delegate(ReturnType(T::* Method)(Args... Parameters))
+		: _Method(Method)
 	{ }
 
 
@@ -72,14 +72,14 @@ namespace Elysium::Core
 	public:
 		inline void Test()
 		{
-			Delegate<void, TestClass> ParameterlessInstance = Delegate<void, TestClass>(this, &TestClass::Parameterless);
-			ParameterlessInstance();
+			Delegate<void, TestClass> ParameterlessInstance = Delegate<void, TestClass>(&TestClass::Parameterless);
+			ParameterlessInstance(*this);
 
-			Delegate<int, TestClass> ParameterlessReturnInstance = Delegate<int, TestClass>(this, &TestClass::ParameterlessReturn);
-			int Result = ParameterlessReturnInstance();
+			Delegate<int, TestClass> ParameterlessReturnInstance = Delegate<int, TestClass>(&TestClass::ParameterlessReturn);
+			int Result = ParameterlessReturnInstance(*this);
 			
-			Delegate<float, TestClass, int> OneParameterInstance = Delegate<float, TestClass, int>(this, &TestClass::OneParameter);
-			float Result2 = OneParameterInstance(5);
+			Delegate<float, TestClass, int> OneParameterInstance = Delegate<float, TestClass, int>(&TestClass::OneParameter);
+			float Result2 = OneParameterInstance(*this, 5);
 
 			Delegate<void, TestClass> StaticParameterless = Delegate<void, TestClass>(&TestClass::StaticParameterless);
 			StaticParameterless();
