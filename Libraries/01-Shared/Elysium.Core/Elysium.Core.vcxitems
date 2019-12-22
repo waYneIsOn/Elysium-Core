@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeOffset.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />

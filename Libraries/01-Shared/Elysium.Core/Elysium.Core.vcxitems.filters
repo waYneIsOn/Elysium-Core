@@ -91,7 +91,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StringViewBase.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringBase.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

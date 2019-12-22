@@ -22,8 +22,6 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
-	//class ELYSIUM_CORE_API String;
-
 	class ELYSIUM_CORE_API Exception
 	{
 	public:

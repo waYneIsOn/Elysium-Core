@@ -91,8 +91,8 @@ namespace Elysium::Core::Collections::Template
 		void Reverse();
 	private:
 		size_t _Capacity;
-		T* _Data;
 		size_t _Count;
+		T* _Data;
 
 		void Resize(size_t DesiredMinimumSize);
 		void Resize(size_t DesiredMinimumSize, size_t InsertionIndex);

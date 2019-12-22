@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <initializer_list>
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 #ifndef _STDINT
 #include <stdint.h>
 #endif
