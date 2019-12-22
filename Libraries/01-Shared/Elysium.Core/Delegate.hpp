@@ -29,30 +29,38 @@ namespace Elysium::Core
 
 		ReturnType operator()(Args... Parameters);
 
-		//Delegate(const ReturnType(T::*Method)());
+		Delegate(ReturnType(*StaticMethod)(Args... Parameters));
 		Delegate(T* Instance, ReturnType(T::*Method)(Args... Parameters));
 	protected:
 	private:
+		ReturnType(*_StaticMethod)(Args... Parameters);
+
 		T* _Instance;
 		ReturnType(T::*_Method)(Args... Parameters);
 	};
 
 	template<class ReturnType, class T, class ...Args>
 	inline Delegate<ReturnType, T, Args...>::~Delegate()
-	{
-	}
+	{ }
 
 	template<class ReturnType, class T, class ...Args>
 	inline ReturnType Delegate<ReturnType, T, Args...>::operator()(Args... Parameters)
 	{
+		if (_StaticMethod != nullptr)
+		{
+			return _StaticMethod(Parameters...);
+		}
 		return (_Instance->*_Method)(Parameters...);
 	}
 
 	template<class ReturnType, class T, class ...Args>
+	inline Delegate<ReturnType, T, Args...>::Delegate(ReturnType(*StaticMethod)(Args...Parameters))
+		: _StaticMethod(StaticMethod)
+	{ }
+	template<class ReturnType, class T, class ...Args>
 	inline Delegate<ReturnType, T, Args...>::Delegate(T * Instance, ReturnType(T::* Method)(Args... Parameters))
 		: _Instance(Instance), _Method(Method)
-	{
-	}
+	{ }
 
 
 
@@ -72,9 +80,15 @@ namespace Elysium::Core
 			
 			Delegate<float, TestClass, int> OneParameterInstance = Delegate<float, TestClass, int>(this, &TestClass::OneParameter);
 			float Result2 = OneParameterInstance(5);
+
+			Delegate<void, TestClass> StaticParameterless = Delegate<void, TestClass>(&TestClass::StaticParameterless);
+			StaticParameterless();
 			
-			//Delegate<double, TestClass> ParameterlessStaticReturnInstance = Delegate<double, TestClass>(nullptr, &TestClass::StaticParameterlessReturn);
-			//double Result2 = ParameterlessStaticReturnInstance();
+			Delegate<double, TestClass> ParameterlessStaticReturnInstance = Delegate<double, TestClass>(&TestClass::StaticParameterlessReturn);
+			double Result3 = ParameterlessStaticReturnInstance();
+			
+			Delegate<double, TestClass, int> OneParameterStaticReturnInstance = Delegate<double, TestClass, int>(&TestClass::StaticOneParameterReturn);
+			double Result4 = OneParameterStaticReturnInstance(23);
 		}
 	private:
 		inline void Parameterless()
@@ -83,15 +97,20 @@ namespace Elysium::Core
 		{
 			return 5;
 		}
-
 		inline float OneParameter(int x)
 		{ 
 			return (float)x;
 		}
 
+		inline static void StaticParameterless()
+		{ }
 		inline static double StaticParameterlessReturn()
 		{
 			return 0.5;
+		}
+		inline static double StaticOneParameterReturn(int x)
+		{
+			return 2 * x;
 		}
 	};
 }
