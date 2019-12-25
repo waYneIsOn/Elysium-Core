@@ -14,104 +14,123 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 namespace Elysium::Core
 {
-	template <class ReturnType, class T, class ...Args>
+	template <class ReturnType, class ...Args>
 	class Delegate
 	{
 	public:
-		Delegate(const Delegate& Source) = delete;
-		Delegate(Delegate&& Right) noexcept = delete;
+		Delegate(const Delegate& Source);
+		Delegate(Delegate&& Right) noexcept;
 		virtual ~Delegate();
 
-		Delegate& operator=(const Delegate& Source) = delete;
-		Delegate& operator=(Delegate&& Right) noexcept = delete;
+		Delegate& operator=(const Delegate& Source);
+		Delegate& operator=(Delegate&& Right) noexcept;
 
 		ReturnType operator()(Args... Parameters);
-		ReturnType operator()(T& Instance, Args... Parameters);
 
-		Delegate(ReturnType(*StaticMethod)(Args... Parameters));
-		Delegate(ReturnType(T::*Method)(Args... Parameters));
+		template <ReturnType(*ActualMethod)(Args...)>
+		static Delegate<ReturnType, Args...> CreateDelegate();
+		template <class T, ReturnType(T::*ActualMethod)(Args...)>
+		static Delegate<ReturnType, Args...> CreateDelegate(T* Target);
 	protected:
+		Delegate();
+
+		template<ReturnType(*ActualMethod)(Args ...Parameters)>
+		static ReturnType WrapMethod(void* NullPointer, Args ...Parameters);
+		template<class T, ReturnType(T::* ActualMethod)(Args ...Parameters)>
+		static ReturnType WrapMethod(void* NonSpecificInstance, Args ...Parameters);
 	private:
-		ReturnType(*_StaticMethod)(Args... Parameters);
-		ReturnType(T::*_Method)(Args... Parameters);
+		void* _Target;
+		ReturnType(*_Method)(void* NonSpecificInstance, Args...);
 	};
 
-	template<class ReturnType, class T, class ...Args>
-	inline Delegate<ReturnType, T, Args...>::~Delegate()
+	template<class ReturnType, class ...Args>
+	inline Elysium::Core::Delegate<ReturnType, Args...>::Delegate(const Delegate & Source)
+		: _Target(Source._Target), _Method(Source._Method)
 	{ }
-
-	template<class ReturnType, class T, class ...Args>
-	inline ReturnType Delegate<ReturnType, T, Args...>::operator()(Args... Parameters)
+	template<class ReturnType, class ...Args>
+	inline Delegate<ReturnType, Args...>::Delegate(Delegate && Right) noexcept
+		: _Target(nullptr), _Method(nullptr)
 	{
-		return _StaticMethod(Parameters...);
+		*this = std::move(Right);
 	}
-	template<class ReturnType, class T, class ...Args>
-	inline ReturnType Delegate<ReturnType, T, Args...>::operator()(T & Instance, Args... Parameters)
+	template<class ReturnType, class ...Args>
+	inline Delegate<ReturnType, Args...>::~Delegate()
+	{ }
+
+	template<class ReturnType, class ...Args>
+	inline Delegate<ReturnType, Args...> & Delegate<ReturnType, Args...>::operator=(const Delegate & Source)
 	{
-		return (Instance.*_Method)(Parameters...);
+		if (this != &Source)
+		{
+			_Target = Source._Target;
+			_Method = Source._Method;
+		}
+		return *this;
+	}
+	template<class ReturnType, class ...Args>
+	inline Delegate<ReturnType, Args...> & Delegate<ReturnType, Args...>::operator=(Delegate && Right) noexcept
+	{
+		if (this != &Right)
+		{
+			_Target = Right._Target;
+			_Method = Right._Method;
+
+			Right._Target = nullptr;
+			Right._Method = nullptr;
+		}
+		return *this;
+	}
+	
+	template<class ReturnType, class ...Args>
+	inline ReturnType Delegate<ReturnType, Args...>::operator()(Args ...Parameters)
+	{
+		return (*_Method)(_Target, Parameters...);
+	}
+	
+	template<class ReturnType, class ...Args>
+	inline Delegate<ReturnType, Args...>::Delegate()
+		: _Target(nullptr), _Method(nullptr)
+	{ }
+
+	template<class ReturnType, class ...Args>
+	template<ReturnType(*ActualMethod)(Args...)>
+	inline Delegate<ReturnType, Args...> Delegate<ReturnType, Args...>::CreateDelegate()
+	{
+		Delegate<ReturnType, Args...> Instance;
+		Instance._Target = nullptr;
+		Instance._Method = &WrapMethod<ActualMethod>;
+
+		return Instance;
+	}
+	template<class ReturnType, class ...Args>
+	template<class T, ReturnType(T::* ActualMethod)(Args...)>
+	inline Delegate<ReturnType, Args...> Delegate<ReturnType, Args...>::CreateDelegate(T * Target)
+	{
+		Delegate<ReturnType, Args...> Instance;
+		Instance._Target = Target;
+		Instance._Method = &WrapMethod<T, ActualMethod>;
+
+		return Instance;
 	}
 
-	template<class ReturnType, class T, class ...Args>
-	inline Delegate<ReturnType, T, Args...>::Delegate(ReturnType(*StaticMethod)(Args...Parameters))
-		: _StaticMethod(StaticMethod)
-	{ }
-	template<class ReturnType, class T, class ...Args>
-	inline Delegate<ReturnType, T, Args...>::Delegate(ReturnType(T::* Method)(Args... Parameters))
-		: _Method(Method)
-	{ }
-
-
-
-
-
-
-	class TestClass
+	template<class ReturnType, class ...Args>
+	template<ReturnType(*ActualMethod)(Args...Parameters)>
+	inline ReturnType Delegate<ReturnType, Args...>::WrapMethod(void * NullPointer, Args ...Parameters)
 	{
-	public:
-		inline void Test()
-		{
-			Delegate<void, TestClass> ParameterlessInstance = Delegate<void, TestClass>(&TestClass::Parameterless);
-			ParameterlessInstance(*this);
-
-			Delegate<int, TestClass> ParameterlessReturnInstance = Delegate<int, TestClass>(&TestClass::ParameterlessReturn);
-			int Result = ParameterlessReturnInstance(*this);
-			
-			Delegate<float, TestClass, int> OneParameterInstance = Delegate<float, TestClass, int>(&TestClass::OneParameter);
-			float Result2 = OneParameterInstance(*this, 5);
-
-			Delegate<void, TestClass> StaticParameterless = Delegate<void, TestClass>(&TestClass::StaticParameterless);
-			StaticParameterless();
-			
-			Delegate<double, TestClass> ParameterlessStaticReturnInstance = Delegate<double, TestClass>(&TestClass::StaticParameterlessReturn);
-			double Result3 = ParameterlessStaticReturnInstance();
-			
-			Delegate<double, TestClass, int> OneParameterStaticReturnInstance = Delegate<double, TestClass, int>(&TestClass::StaticOneParameterReturn);
-			double Result4 = OneParameterStaticReturnInstance(23);
-		}
-	private:
-		inline void Parameterless()
-		{ }
-		inline int ParameterlessReturn()
-		{
-			return 5;
-		}
-		inline float OneParameter(int x)
-		{ 
-			return (float)x;
-		}
-
-		inline static void StaticParameterless()
-		{ }
-		inline static double StaticParameterlessReturn()
-		{
-			return 0.5;
-		}
-		inline static double StaticOneParameterReturn(int x)
-		{
-			return 2 * x;
-		}
-	};
+		return (*ActualMethod)(Parameters...);
+	}
+	template<class ReturnType, class ...Args>
+	template<class T, ReturnType(T::* ActualMethod)(Args...Parameters)>
+	inline ReturnType Delegate<ReturnType, Args...>::WrapMethod(void * NonSpecificInstance, Args ...Parameters)
+	{
+		T* SpecificInstance = static_cast<T*>(NonSpecificInstance);
+		return (SpecificInstance->*ActualMethod)(Parameters...);
+	}
 }
 #endif

@@ -176,6 +176,7 @@
   <ItemGroup>
     <ClCompile Include="DateTimeTest.cpp" />
     <ClCompile Include="Decimal.cpp" />
+    <ClCompile Include="DelegateTest.cpp" />
     <ClCompile Include="EnvironmentTest.cpp" />
     <ClCompile Include="GZipStreamTest.cpp" />
     <ClCompile Include="FileStreamTest.cpp" />
