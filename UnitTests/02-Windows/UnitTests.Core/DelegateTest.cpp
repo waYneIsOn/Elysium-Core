@@ -37,17 +37,21 @@ namespace UnitTestsCore
 		TEST_METHOD(Constructors)
 		{
 			Delegate<float, int> DelegateFree = Delegate<float, int>::CreateDelegate<&FreeOneParameter>();
-			float Result1 = DelegateFree(3);
-			Assert::AreEqual(3.0f, Result1);
+			float ResultFree = DelegateFree(3);
+			Assert::AreEqual(3.0f, ResultFree);
 
 			Delegate<float, int> DelegateStatic = Delegate<float, int>::CreateDelegate<&UnitTestClass::StaticOneParameter>();
-			float Result2 = DelegateStatic(2);
-			Assert::AreEqual(8.0f, Result2);
+			float ResultStatic = DelegateStatic(2);
+			Assert::AreEqual(8.0f, ResultStatic);
+
+			Delegate<float, int> DelegateLambda = Delegate<float, int>::CreateDelegate<[](int x) -> float { return (float)x * x; }>();
+			float ResultLambda = DelegateLambda(3);
+			Assert::AreEqual(9.0f, ResultLambda);
 
 			UnitTestClass TestInstance = UnitTestClass();
 			Delegate<float, int> DelegateInstance = Delegate<float, int>::CreateDelegate<UnitTestClass, &UnitTestClass::OneParameter>(&TestInstance);
-			float Result3 = DelegateInstance(5);
-			Assert::AreEqual(25.0f, Result3);
+			float ResultInstance = DelegateInstance(5);
+			Assert::AreEqual(25.0f, ResultInstance);
 		}
 	};
 }
