@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_DELEGATE
+#include "../Elysium.Core/Delegate.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TIMESPAN
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
@@ -30,36 +34,47 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Threading
 {
+	//class ThreadPool;
+
 	class ELYSIUM_CORE_API Thread
 	{
+		//friend class Elysium::Core::Collections::Template::List<Thread>;
+		//friend class Elysium::Core::Threading::ThreadPool;
 	public:
-		// constructors & destructor
-		Thread(void(*Start)());
+		Thread();
 		Thread(const Thread& Source) = delete;
-		//Thread(void(*Start)(void*));
+		Thread(Thread&& Right) noexcept;
 		~Thread();
 
-		Thread& operator=(const Thread&) = delete;
+		Thread& operator=(const Thread& Source) = delete;
+		Thread& operator=(Thread&& Right) noexcept;
 
-		// properties - getter
-		void GetCurrentCulture(Globalization::CultureInfo* Value) const;
-		void GetThreadId(unsigned int* Value) const;
+		bool operator==(const Thread& Other) const;
+		bool operator!=(const Thread& Other) const;
 
-		static void GetCurrentThreadId(unsigned int* Value);
+		const Globalization::CultureInfo& GetCurrentCulture() const;
+		const int GetThreadId() const;
 
-		// properties - setter
+		static const int GetCurrentThreadId();
 
-		// methods
+		void Start(const Delegate<void>& ThreadStart);
+		template<class T>
+		void Start(const Delegate<void, T>& ParameterizedThreadStart, T Parameter);
+
 		void Join();
-		void Start();
 
 		static void Sleep(TimeSpan& Timeout);
 		//static bool Yield();
 	private:
-		void(*_ThreadStart)();
 		std::thread _NativeThread;
 
 		Globalization::CultureInfo _CurrentCulture;
 	};
+
+	template<class T>
+	inline void Thread::Start(const Delegate<void, T>& ParameterizedThreadStart, T Parameter)
+	{
+		_NativeThread = std::thread(ParameterizedThreadStart, Parameter);
+	}
 }
 #endif

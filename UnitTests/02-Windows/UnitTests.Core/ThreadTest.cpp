@@ -4,6 +4,10 @@
 #include "CppUnitTestFrameworkExtension.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../../../Libraries/01-Shared/Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_THREAD
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 #endif
@@ -12,6 +16,8 @@
 #include <Windows.h>
 #endif
 
+using namespace Elysium::Core;
+using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Globalization;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -21,21 +27,29 @@ namespace UnitTestsCore
 	TEST_CLASS(Core_Threading_Thread)
 	{
 	public:
-		TEST_METHOD(ThreadStart)
+		TEST_METHOD(ThreadStartThread)
 		{
-
+			Thread T = Thread();
+			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::ZeroParameterThreadStart>(this));
+			Assert::AreEqual(25, _CalculatedValue);
 		}
-		TEST_METHOD(ParameterizedThreadStart)
+		TEST_METHOD(ParameterizedThreadStartThread)
 		{
-
+			Thread T = Thread();
+			T.Start<int>(Delegate<void, int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::SingleParameterThreadStart>(this), 6);
+			Assert::AreEqual(36, _CalculatedValue);
 		}
-		TEST_METHOD(Culture)
-		{
-			CultureInfo CurrentCulture;
-			Assert::AreEqual((int)GetSystemDefaultLCID(), CurrentCulture.GetLCID());
+	private:
+		int _OriginalValue = 5;
+		int _CalculatedValue;
 
-			//Thread::GetCurrentCulture(&CurrentCulture);
-			//Assert::AreEqual((int)GetSystemDefaultLCID(), CurrentCulture.GetLCID());
+		void ZeroParameterThreadStart()
+		{
+			_CalculatedValue = _OriginalValue * _OriginalValue;
+		}
+		void SingleParameterThreadStart(int OriginalValue)
+		{
+			_CalculatedValue = OriginalValue * OriginalValue;
 		}
 	};
 }

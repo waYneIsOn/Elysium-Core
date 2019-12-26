@@ -34,17 +34,17 @@ namespace Elysium::Core
 		ReturnType operator()(Args... Parameters);
 
 		template <ReturnType(*ActualMethod)(Args...)>
-		static Delegate<ReturnType, Args...> CreateDelegate();
+		static Delegate CreateDelegate();
 		template <class T, ReturnType(T::*ActualMethod)(Args...)>
-		static Delegate<ReturnType, Args...> CreateDelegate(T* Target);
+		static Delegate CreateDelegate(T* Target);
 	protected:
-		Delegate();
-
 		template<ReturnType(*ActualMethod)(Args ...Parameters)>
 		static ReturnType WrapMethod(void* NullPointer, Args ...Parameters);
 		template<class T, ReturnType(T::* ActualMethod)(Args ...Parameters)>
 		static ReturnType WrapMethod(void* NonSpecificInstance, Args ...Parameters);
 	private:
+		Delegate();
+
 		void* _Target;
 		ReturnType(*_Method)(void* NonSpecificInstance, Args...);
 	};
@@ -78,25 +78,20 @@ namespace Elysium::Core
 	{
 		if (this != &Right)
 		{
-			_Target = Right._Target;
-			_Method = Right._Method;
+			_Target = std::move(Right._Target);
+			_Method = std::move(Right._Method);
 
 			Right._Target = nullptr;
 			Right._Method = nullptr;
 		}
 		return *this;
 	}
-	
+
 	template<class ReturnType, class ...Args>
 	inline ReturnType Delegate<ReturnType, Args...>::operator()(Args ...Parameters)
 	{
 		return (*_Method)(_Target, Parameters...);
 	}
-	
-	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>::Delegate()
-		: _Target(nullptr), _Method(nullptr)
-	{ }
 
 	template<class ReturnType, class ...Args>
 	template<ReturnType(*ActualMethod)(Args...)>
@@ -118,7 +113,6 @@ namespace Elysium::Core
 
 		return Instance;
 	}
-
 	template<class ReturnType, class ...Args>
 	template<ReturnType(*ActualMethod)(Args...Parameters)>
 	inline ReturnType Delegate<ReturnType, Args...>::WrapMethod(void * NullPointer, Args ...Parameters)
@@ -131,6 +125,12 @@ namespace Elysium::Core
 	{
 		T* SpecificInstance = static_cast<T*>(NonSpecificInstance);
 		return (SpecificInstance->*ActualMethod)(Parameters...);
+	}
+
+	template<class ReturnType, class ...Args>
+	inline Delegate<ReturnType, Args...>::Delegate()
+		: _Target(nullptr), _Method(nullptr)
+	{
 	}
 }
 #endif
