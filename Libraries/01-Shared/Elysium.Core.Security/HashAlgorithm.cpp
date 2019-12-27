@@ -1,5 +1,9 @@
 #include "HashAlgorithm.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
@@ -30,8 +34,8 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 		}
 	} while (BytesRead > 0);
 
-	_HashValue = HashFinal();
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue);
+	_HashValue = std::move(HashFinal());
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = std::move(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue));
 	Initialize();
 
 	return Temporary;
@@ -39,8 +43,8 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::byte* Buffer, const size_t Length)
 {
 	HashCore(&Buffer[0], Length);
-	_HashValue = HashFinal();
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue);
+	_HashValue = std::move(HashFinal());
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = std::move(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue));
 	Initialize();
 
 	return Temporary;

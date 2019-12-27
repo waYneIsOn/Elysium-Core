@@ -84,7 +84,7 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(Elysium::Core::Coll
 	*/
 	static const byte base64_chars[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-	int in_len = Bytes.GetCount() - 1;
+	size_t in_len = Bytes.GetCount() - 1;
 	int c = 0;
 	int i = 0;
 	int j = 0;

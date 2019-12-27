@@ -46,12 +46,12 @@ Copyright (C) 2017 waYne (CAM)
 //#include "OutOfMemoryException.hpp"
 #endif
 
-#define LIST_MAX static_cast<size_t>(-1)
+constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
 
 namespace Elysium::Core::Collections::Template
 {
 	template <typename T>
-	class List : public IList<T>
+	class List final
 	{
 	public:
 		List();
@@ -62,31 +62,31 @@ namespace Elysium::Core::Collections::Template
 		~List();
 
 		// operators
-		virtual List<T>& operator=(const List<T>& Source);
+		List<T>& operator=(const List<T>& Source);
 		List<T>& operator=(List<T>&& Right) noexcept;
-		virtual T& operator[](size_t Index) const override;
+		T& operator[](size_t Index) const;
 
 		// properties - getter
 		const size_t GetCapacity() const;
-		virtual const size_t GetCount() const override;
-		virtual const bool GetIsReadOnly() const override;
+		const size_t GetCount() const;
+		const bool GetIsReadOnly() const;
 
 		// properties - setter
 		void SetCapacity(size_t Value);
 
 		// methods
-		virtual void Add(const T& Item) override;
+		void Add(const T& Item);
 		void AddRange(const IList<T>& Collection);
 		void AddRange(const T* Collection, size_t Count);
-		virtual void Clear() override;
-		virtual bool Contains(const T& Item) const override;
-		virtual const size_t IndexOf(const T& Item) const override;
+		void Clear();
+		bool Contains(const T& Item) const;
+		const size_t IndexOf(const T& Item) const;
 		const size_t IndexOf(const T& Item, size_t Index) const;
-		virtual void Insert(size_t Index, const T& Item) override;
+		void Insert(size_t Index, const T& Item);
 		const size_t LastIndexOf(const T& Item) const;
 		const size_t LastIndexOf(const T& Item, size_t Index) const;
-		bool Remove(const T& Item) override;
-		void RemoveAt(size_t Index) override;
+		bool Remove(const T& Item);
+		void RemoveAt(size_t Index);
 		void RemoveRange(size_t Index, size_t Count);
 		void Reverse();
 	private:
@@ -160,10 +160,8 @@ namespace Elysium::Core::Collections::Template
 			for (size_t i = 0; i < _Count; i++)
 			{
 				_Data[i] = T(Source._Data[i]);
-				i++;
 			}
 		}
-
 		return *this;
 	}
 	template<typename T>
@@ -187,7 +185,6 @@ namespace Elysium::Core::Collections::Template
 			Right._Count = 0;
 			Right._Capacity = 0;
 		}
-
 		return *this;
 	}
 	template<class T>

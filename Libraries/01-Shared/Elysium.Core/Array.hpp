@@ -30,12 +30,12 @@ Copyright (C) 2017 waYne (CAM)
 //#include "IndexOutOfRangeException.hpp"
 #endif
 
-#define ARRAY_MAX static_cast<size_t>(-1)
+constexpr const size_t ARRAY_MAX = static_cast<size_t>(-1);
 
 namespace Elysium::Core::Collections::Template
 {
 	template <class T>
-	class Array
+	class Array final
 	{
 	public:
 		Array(const size_t Length);
