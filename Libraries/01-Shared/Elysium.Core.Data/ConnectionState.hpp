@@ -34,11 +34,11 @@ namespace Elysium::Core::Data
 
 	inline ConnectionState operator|(ConnectionState lhs, ConnectionState rhs)
 	{
-		return static_cast<ConnectionState>(static_cast<int>(lhs) | static_cast<int>(rhs));
+		return static_cast<ConnectionState>(static_cast<uint32_t>(lhs) | static_cast<uint32_t>(rhs));
 	}
 	inline ConnectionState operator&(ConnectionState lhs, ConnectionState rhs)
 	{
-		return static_cast<ConnectionState>(static_cast<int>(lhs) & static_cast<int>(rhs));
+		return static_cast<ConnectionState>(static_cast<uint32_t>(lhs) & static_cast<uint32_t>(rhs));
 	}
 }
 #endif
