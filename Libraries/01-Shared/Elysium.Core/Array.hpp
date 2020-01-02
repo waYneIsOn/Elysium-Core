@@ -10,10 +10,6 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 #define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_ILIST
-#include "IList.hpp"
-#endif
-
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif

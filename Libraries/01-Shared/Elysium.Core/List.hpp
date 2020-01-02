@@ -10,10 +10,6 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_ILIST
-#include "IList.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 #include "Array.hpp"
 #endif
@@ -76,7 +72,7 @@ namespace Elysium::Core::Collections::Template
 
 		// methods
 		void Add(const T& Item);
-		void AddRange(const IList<T>& Collection);
+		void AddRange(const List<T>& Collection);
 		void AddRange(const T* Collection, size_t Count);
 		void Clear();
 		bool Contains(const T& Item) const;
@@ -231,7 +227,7 @@ namespace Elysium::Core::Collections::Template
 		_Count++;
 	}
 	template<class T>
-	inline void List<T>::AddRange(const IList<T>& Collection)
+	inline void List<T>::AddRange(const List<T>& Collection)
 	{
 		// resize if required
 		size_t CollectionCount = Collection->GetCount();

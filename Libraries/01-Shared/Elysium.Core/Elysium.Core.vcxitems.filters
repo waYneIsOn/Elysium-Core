@@ -95,6 +95,11 @@
       <Filter>Collections\Template</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -134,5 +139,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp">
       <Filter>Globalization</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
   </ItemGroup>
 </Project>

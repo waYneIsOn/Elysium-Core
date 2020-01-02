@@ -88,7 +88,7 @@ Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 		throw InvalidOperationException(u"This property was unable to obtain the system version.");
 	}
 }
-int Elysium::Core::Environment::ProcessorCount()
+uint32_t Elysium::Core::Environment::ProcessorCount()
 {
 	/*
 	SYSTEM_INFO sysinfo;

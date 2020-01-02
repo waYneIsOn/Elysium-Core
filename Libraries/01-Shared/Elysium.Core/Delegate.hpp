@@ -21,7 +21,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core
 {
 	template <class ReturnType, class ...Args>
-	class Delegate
+	class Delegate final
 	{
 	public:
 		Delegate(const Delegate& Source);
@@ -36,11 +36,11 @@ namespace Elysium::Core
 		template <ReturnType(*ActualMethod)(Args...)>
 		static Delegate CreateDelegate();
 		template <class T, ReturnType(T::*ActualMethod)(Args...)>
-		static Delegate CreateDelegate(T* Target);
+		static Delegate CreateDelegate(T& Target);
 	protected:
-		template<ReturnType(*ActualMethod)(Args ...Parameters)>
+		template<ReturnType(*ActualMethod)(Args...)>
 		static ReturnType WrapMethod(void* NullPointer, Args ...Parameters);
-		template<class T, ReturnType(T::* ActualMethod)(Args ...Parameters)>
+		template<class T, ReturnType(T::* ActualMethod)(Args...)>
 		static ReturnType WrapMethod(void* NonSpecificInstance, Args ...Parameters);
 	private:
 		Delegate();
@@ -105,22 +105,22 @@ namespace Elysium::Core
 	}
 	template<class ReturnType, class ...Args>
 	template<class T, ReturnType(T::* ActualMethod)(Args...)>
-	inline Delegate<ReturnType, Args...> Delegate<ReturnType, Args...>::CreateDelegate(T * Target)
+	inline Delegate<ReturnType, Args...> Delegate<ReturnType, Args...>::CreateDelegate(T & Target)
 	{
 		Delegate<ReturnType, Args...> Instance;
-		Instance._Target = Target;
+		Instance._Target = &Target;
 		Instance._Method = &WrapMethod<T, ActualMethod>;
 
 		return Instance;
 	}
 	template<class ReturnType, class ...Args>
-	template<ReturnType(*ActualMethod)(Args...Parameters)>
+	template<ReturnType(*ActualMethod)(Args...)>
 	inline ReturnType Delegate<ReturnType, Args...>::WrapMethod(void * NullPointer, Args ...Parameters)
 	{
 		return (*ActualMethod)(Parameters...);
 	}
 	template<class ReturnType, class ...Args>
-	template<class T, ReturnType(T::* ActualMethod)(Args...Parameters)>
+	template<class T, ReturnType(T::* ActualMethod)(Args...)>
 	inline ReturnType Delegate<ReturnType, Args...>::WrapMethod(void * NonSpecificInstance, Args ...Parameters)
 	{
 		T* SpecificInstance = static_cast<T*>(NonSpecificInstance);

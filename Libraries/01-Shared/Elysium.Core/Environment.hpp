@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
+#ifndef _STDINT
+#include <stdint.h>
+#endif
+
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API Environment final
@@ -33,7 +37,7 @@ namespace Elysium::Core
 		static String MachineName();
 		static const String& NewLine();
 		static OperatingSystem OSVersion();
-		static int ProcessorCount();
+		static uint32_t ProcessorCount();
 		static String UserName();
 		static String SystemDirectory();
 	private:
