@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp">
+      <Filter>Tasks</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPool.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Task.hpp">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TaskStatus.hpp">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TaskCreationOptions.hpp">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Threading\OperationCanceledException.hpp">
+      <Filter>Tasks</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tasks">
+      <UniqueIdentifier>{bad83907-379c-4371-a4d3-d4725bd2c230}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

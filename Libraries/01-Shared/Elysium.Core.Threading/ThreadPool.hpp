@@ -14,12 +14,16 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_THREAD
 #include "Thread.hpp"
+#endif
+
+#ifndef _ATOMIC_
+#include <atomic>
 #endif
 
 namespace Elysium::Core::Threading
@@ -27,6 +31,8 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API ThreadPool final
 	{
 	public:
+		ThreadPool();
+		ThreadPool(const size_t NumberOfWorkerThreads, const size_t NumberOfIOThreads);
 		ThreadPool(const ThreadPool& Source) = delete;
 		ThreadPool(TimeSpan&& Right) noexcept = delete;
 		~ThreadPool();
@@ -34,17 +40,17 @@ namespace Elysium::Core::Threading
 		ThreadPool& operator=(const ThreadPool& Source) = delete;
 		ThreadPool& operator=(ThreadPool&& Right) noexcept = delete;
 
-		static const ThreadPool& GetThreadPool();
+		void Start();
+		void Stop();
 	private:
-		ThreadPool();
+		const Elysium::Core::Collections::Template::Array<Thread> _WorkerThreads;
+		const Elysium::Core::Collections::Template::Array<Thread> _IOThreads;
 
-		//Elysium::Core::Collections::Template::List<Thread> _WorkerThreads;
-		//Elysium::Core::Collections::Template::List<Thread> _IOThreads;
+		std::atomic<bool> _ShouldStop;
+		std::atomic<bool> _IsRunning;
 
 		void RunWorker();
 		void RunIO();
-
-		static const ThreadPool _Instance;
 	};
 }
 #endif

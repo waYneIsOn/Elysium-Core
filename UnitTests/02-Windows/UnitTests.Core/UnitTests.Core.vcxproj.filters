@@ -54,5 +54,8 @@
     <ClCompile Include="DelegateTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="TaskTest.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

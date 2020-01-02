@@ -4,10 +4,6 @@
 #include "CppUnitTestFrameworkExtension.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../../../Libraries/01-Shared/Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_THREADING_THREAD
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 #endif
@@ -17,8 +13,6 @@
 #endif
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
-using namespace Elysium::Core::Globalization;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -29,15 +23,19 @@ namespace UnitTestsCore
 	public:
 		TEST_METHOD(ThreadStartThread)
 		{
+			_WorkerThreadId = std::this_thread::get_id();
+
 			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::ZeroParameterThreadStart>(this));
+			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::ZeroParameterThreadStart>(*this));
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 		}
 		TEST_METHOD(ParameterizedThreadStartThread)
 		{
+			_WorkerThreadId = std::this_thread::get_id();
+
 			Thread T = Thread();
-			T.Start<int>(Delegate<void, int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::SingleParameterThreadStart>(this), 6);
+			T.Start<int>(Delegate<void, int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::SingleParameterThreadStart>(*this), 6);
 			Assert::AreEqual(36, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 		}

@@ -22,6 +22,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_THREADSTATE
+#include "ThreadState.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
 #include "../Elysium.Core/CultureInfo.hpp"
 #endif
@@ -34,14 +42,11 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Threading
 {
-	//class ThreadPool;
-
-	class ELYSIUM_CORE_API Thread
+	class ELYSIUM_CORE_API Thread final
 	{
-		//friend class Elysium::Core::Collections::Template::List<Thread>;
-		//friend class Elysium::Core::Threading::ThreadPool;
 	public:
 		Thread();
+		Thread(const String& Name);
 		Thread(const Thread& Source) = delete;
 		Thread(Thread&& Right) noexcept;
 		~Thread();
@@ -58,14 +63,18 @@ namespace Elysium::Core::Threading
 		static const int GetCurrentThreadId();
 
 		void Start(const Delegate<void>& ThreadStart);
+
 		template<class T>
 		void Start(const Delegate<void, T>& ParameterizedThreadStart, T Parameter);
-
+		
 		void Join();
 
-		static void Sleep(TimeSpan& Timeout);
+		static void Sleep(const TimeSpan& Timeout);
 		//static bool Yield();
 	private:
+		const Elysium::Core::String _Name;
+
+		ThreadState _State;
 		std::thread _NativeThread;
 
 		Globalization::CultureInfo _CurrentCulture;
@@ -74,7 +83,12 @@ namespace Elysium::Core::Threading
 	template<class T>
 	inline void Thread::Start(const Delegate<void, T>& ParameterizedThreadStart, T Parameter)
 	{
+		if ((_State | ThreadState::Running) == ThreadState::Running)
+		{
+			return;
+		}
 		_NativeThread = std::thread(ParameterizedThreadStart, Parameter);
+		_State = ThreadState::Running;
 	}
 }
 #endif

@@ -4,24 +4,27 @@
 #include <type_traits>
 #endif
 
+#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
+#include "../Elysium.Core/InvalidOperationException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
+#include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
 Elysium::Core::Threading::Thread::Thread()
-{
-}
+	: _Name(), _State(ThreadState::Unstarted)
+{ }
+Elysium::Core::Threading::Thread::Thread(const String& Name)
+	: _Name(Name), _State(ThreadState::Unstarted)
+{ }
 Elysium::Core::Threading::Thread::Thread(Thread && Right) noexcept
 {
 	*this = std::move(Right);
 }
 Elysium::Core::Threading::Thread::~Thread()
 {
-	if (_NativeThread.joinable())
-	{
-		// ToDo: request the thread to stop somehow
-		_NativeThread.join();
-	}
+	Join();
 }
 
 Elysium::Core::Threading::Thread & Elysium::Core::Threading::Thread::operator=(Thread && Right) noexcept
@@ -65,15 +68,25 @@ const int Elysium::Core::Threading::Thread::GetCurrentThreadId()
 
 void Elysium::Core::Threading::Thread::Start(const Delegate<void>& ThreadStart)
 {
+	if ((_State | ThreadState::Running) == ThreadState::Running)
+	{
+		return;
+	}
 	_NativeThread = std::thread(ThreadStart);
+	_State = ThreadState::Running;
 }
 
 void Elysium::Core::Threading::Thread::Join()
 {
-	_NativeThread.join();
+	_State = ThreadState::StopRequested;
+	if (_NativeThread.joinable())
+	{
+		_NativeThread.join();
+	}
+	_State = ThreadState::Stopped;
 }
 
-void Elysium::Core::Threading::Thread::Sleep(TimeSpan & Timeout)
+void Elysium::Core::Threading::Thread::Sleep(const TimeSpan & Timeout)
 {
 	std::this_thread::sleep_for(std::chrono::nanoseconds(Timeout.GetTicks() * 100));
 }

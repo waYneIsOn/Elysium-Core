@@ -49,7 +49,7 @@ namespace UnitTestsCore
 			Assert::AreEqual(9.0f, ResultLambda);
 
 			UnitTestClass TestInstance = UnitTestClass();
-			Delegate<float, int> DelegateInstance = Delegate<float, int>::CreateDelegate<UnitTestClass, &UnitTestClass::OneParameter>(&TestInstance);
+			Delegate<float, int> DelegateInstance = Delegate<float, int>::CreateDelegate<UnitTestClass, &UnitTestClass::OneParameter>(TestInstance);
 			float ResultInstance = DelegateInstance(5);
 			Assert::AreEqual(25.0f, ResultInstance);
 		}
