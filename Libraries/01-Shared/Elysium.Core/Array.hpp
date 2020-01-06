@@ -18,10 +18,6 @@ Copyright (C) 2017 waYne (CAM)
 #include <type_traits>
 #endif
 
-#ifndef _STDINT
-#include <stdint.h>
-#endif
-
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 //#include "IndexOutOfRangeException.hpp"
 #endif

@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dictionary.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
@@ -51,6 +52,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBase.hpp" />

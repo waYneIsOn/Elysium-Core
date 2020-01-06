@@ -18,18 +18,6 @@ Copyright (C) 2017 waYne (CAM)
 #include <initializer_list>
 #endif
 
-#ifndef __midl
-#include <cstring>
-#endif
-
-#ifndef _INC_LIMITS
-#include <limits>
-#endif
-
-#ifndef _XUTILITY_
-#include <xutility>
-#endif
-
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -96,21 +84,15 @@ namespace Elysium::Core::Collections::Template
 
 	template<class T>
 	inline List<T>::List()
-		: _Capacity(0),
-		_Data(nullptr),
-		_Count(0)
+		: _Capacity(0), _Count(0), _Data(nullptr)
 	{ }
 	template<class T>
 	inline List<T>::List(const size_t Capacity)
-		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX),
-		_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
-		_Count(_Capacity)
+		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{ }
 	template<class T>
 	inline List<T>::List(const std::initializer_list<T> & InitializerList)
-		: _Capacity(InitializerList.size()),
-		_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
-		_Count(_Capacity)
+		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
 		size_t i = 0;
 		typename std::initializer_list<T>::iterator Iterator;
@@ -121,18 +103,16 @@ namespace Elysium::Core::Collections::Template
 	}
 	template<class T>
 	inline List<T>::List(const List<T>& Source)
-		: _Capacity(Source._Capacity),
-		_Data(_Capacity == 0 ? nullptr : new T[_Capacity]),
-		_Count(Source._Count)
+		: _Capacity(Source._Capacity), _Count(Source._Count), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
-		for (size_t i = 0; i < _Capacity; i++)
+		for (size_t i = 0; i < _Count; i++)
 		{
 			_Data[i] = T(Source._Data[i]);
 		}
 	}
 	template<typename T>
 	inline List<T>::List(List<T>&& Right) noexcept
-		: _Capacity(0), _Data(nullptr), _Count(0)
+		: _Capacity(0), _Count(0), _Data(nullptr)
 	{
 		*this = std::move(Right);
 	}
@@ -230,7 +210,7 @@ namespace Elysium::Core::Collections::Template
 	inline void List<T>::AddRange(const List<T>& Collection)
 	{
 		// resize if required
-		size_t CollectionCount = Collection->GetCount();
+		size_t CollectionCount = Collection.GetCount();
 		Resize(_Count + CollectionCount);
 
 		// use the copy operator to copy all elements and increment the internal element counter
@@ -393,8 +373,8 @@ namespace Elysium::Core::Collections::Template
 	inline void List<T>::Resize(size_t DesiredMinimumSize)
 	{
 		if (DesiredMinimumSize < _Count)
-		{	// ToDo: throw a specific ArgumentOutOfRangeException
-			//throw Exception(u"ArgumentOutOfRangeException");
+		{
+			//throw ArgumentOutOfRangeException();
 		}
 		if (DesiredMinimumSize > LIST_MAX)
 		{
@@ -419,7 +399,7 @@ namespace Elysium::Core::Collections::Template
 			_Data = new T[ActualCapacity];
 			_Capacity = ActualCapacity;
 
-			// copy all old elements to _Data using the move operator
+			// move all old elements to _Data
 			for (size_t i = 0; i < _Count; i++)
 			{
 				_Data[i] = std::move(OldData[i]);
@@ -459,13 +439,13 @@ namespace Elysium::Core::Collections::Template
 			_Data = new T[ActualCapacity];
 			_Capacity = ActualCapacity;
 
-			// move all old elements left of InsertionIndex to _Data using the move operator
+			// move all old elements left of InsertionIndex to _Data
 			for (size_t i = 0; i < InsertionIndex; i++)
 			{
 				_Data[i] = std::move(OldData[i]);
 			}
 
-			// move all old elements right of InsertionIndex to _Data using the move oeprator
+			// move all old elements right of InsertionIndex to _Data
 			for (size_t i = _Count - 1; i >= InsertionIndex; i--)
 			{
 				_Data[i + 1] = std::move(OldData[i]);
@@ -479,7 +459,7 @@ namespace Elysium::Core::Collections::Template
 			// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
 			memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
 			/*
-			// copy all old elements right of InsertionIndex to _Data using the copy constructor
+			// move all old elements right of InsertionIndex to _Data
 			for (size_t i = _Count - 1; i >= InsertionIndex; i--)
 			{
 				_Data[i + 1] = std::move(_Data[i]);
