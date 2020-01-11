@@ -8,7 +8,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestsCore
 {
-	TEST_CLASS(Core_Template_List)
+	TEST_CLASS(Core_Collections_Template_List)
 	{
 	public:
 		TEST_METHOD(Value)

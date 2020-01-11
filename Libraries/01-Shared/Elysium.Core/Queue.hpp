@@ -11,7 +11,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_QUEUE
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-//#include "InvalidOperationException.hpp"
+#include "InvalidOperationException.hpp"
 #endif
 
 constexpr const size_t QUEUE_MAX = static_cast<size_t>(-1);
@@ -119,23 +119,24 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline const T Queue<T>::Peek() const
 	{
-		if (_Capacity == 0)
+		if (_Count == 0)
 		{
-			//throw InvalidOperationException();
+			throw InvalidOperationException(u"The Queue is empty");
 		}
 		return _Data[_HeadIndex];
 	}
 	template<class T>
 	inline T Queue<T>::Dequeue()
 	{
-		if (_Capacity == 0)
+		if (_Count == 0)
 		{
-			//throw InvalidOperationException();
+			throw InvalidOperationException(u"The Queue is empty");
 		}
 
-		T RemovedItem = _Data[_HeadIndex];
+		T& RemovedItem = _Data[_HeadIndex];
 		_HeadIndex = (_HeadIndex + 1) % _Capacity;
 		_Count--;
+
 		return RemovedItem;
 	}
 
@@ -148,16 +149,30 @@ namespace Elysium::Core::Collections::Template
 		{
 			if (_HeadIndex < _TailIndex)
 			{
-
+				for (size_t i = 0; i < _Capacity; i++)
+				{
+					_Data[i] = T(OldData[_HeadIndex + i]);
+					//_Data[i] = std::move(OldData[_HeadIndex + i]);
+				}
 			}
 			else
 			{
-
+				for (size_t i = 0; i < _Count - _HeadIndex; i++)
+				{
+					_Data[i] = T(OldData[_HeadIndex + i]);
+					//_Data[i] = std::move(OldData[_HeadIndex + i]);
+				}
+				for (size_t i = 0; i < _TailIndex; i++)
+				{
+					_Data[_Count - _HeadIndex + i] = T(OldData[i]);
+					//_Data[_Count - _HeadIndex + i] = std::move(OldData[i]);
+				}
 			}
 		}
 
 		_HeadIndex = 0;
 		_TailIndex = (_Capacity == DesiredCapacity) ? 0 : _Capacity;
+		_Capacity = DesiredCapacity;
 	}
 }
 #endif

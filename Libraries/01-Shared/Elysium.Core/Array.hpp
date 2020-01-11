@@ -41,6 +41,12 @@ namespace Elysium::Core::Collections::Template
 		T& operator[](size_t Index) const;
 
 		const size_t GetLength() const;
+
+		static void Clear(T* Array, const size_t Length);
+
+		static void Copy(const T* Source, T* Destination, const size_t Length);
+
+		static void Move(const T* Source, T* Destination, const size_t Length);
 	private:
 		size_t _Length;
 		T* _Data;
@@ -121,6 +127,29 @@ namespace Elysium::Core::Collections::Template
 	inline const size_t Array<T>::GetLength() const
 	{
 		return _Length;
+	}
+
+	template<class T>
+	inline void Array<T>::Clear(T * Array, const size_t Length)
+	{
+		std::memset(Array, 0, Length);
+	}
+
+	template<class T>
+	inline void Array<T>::Copy(const T* Source, T* Destination, const size_t Length)
+	{
+		for (size_t i = 0; i < Length; i++)
+		{
+			Destination[i] = T(Source[i]);
+		}
+	}
+	template<class T>
+	inline void Array<T>::Move(const T * Source, T * Destination, const size_t Length)
+	{
+		for (size_t i = 0; i < Length; i++)
+		{
+			Destination[i] = std::move(Source[i]);
+		}
 	}
 }
 #endif
