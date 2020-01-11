@@ -23,7 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskCreationOptions.hpp">
       <Filter>Tasks</Filter>
     </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Threading\OperationCanceledException.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)OperationCanceledException.hpp">
       <Filter>Tasks</Filter>
     </ClInclude>
   </ItemGroup>

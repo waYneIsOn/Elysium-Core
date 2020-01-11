@@ -32,7 +32,7 @@ namespace Elysium::Core::Threading
 	{
 	public:
 		ThreadPool();
-		ThreadPool(const size_t NumberOfWorkerThreads, const size_t NumberOfIOThreads);
+		ThreadPool(const size_t NumberOfThreads);
 		ThreadPool(const ThreadPool& Source) = delete;
 		ThreadPool(TimeSpan&& Right) noexcept = delete;
 		~ThreadPool();
@@ -40,17 +40,17 @@ namespace Elysium::Core::Threading
 		ThreadPool& operator=(const ThreadPool& Source) = delete;
 		ThreadPool& operator=(ThreadPool&& Right) noexcept = delete;
 
+		const size_t GetNumberOfThreads() const;
+
 		void Start();
 		void Stop();
 	private:
-		const Elysium::Core::Collections::Template::Array<Thread> _WorkerThreads;
-		const Elysium::Core::Collections::Template::Array<Thread> _IOThreads;
+		const Elysium::Core::Collections::Template::Array<Thread> _Threads;
 
 		std::atomic<bool> _ShouldStop;
 		std::atomic<bool> _IsRunning;
 
-		void RunWorker();
-		void RunIO();
+		void Run();
 	};
 }
 #endif

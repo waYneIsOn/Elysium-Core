@@ -16,6 +16,10 @@
 #include <Windows.h>
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_TASKS_OPERATIONCANCELEDEXCEPTION
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/OperationCanceledException.hpp"
+#endif
+
 using namespace Elysium::Core;
 using namespace Elysium::Core::Threading;
 using namespace Elysium::Core::Threading::Tasks;
@@ -26,22 +30,35 @@ namespace UnitTestsCore
 	TEST_CLASS(Core_Threading_Task)
 	{
 	public:
-		TEST_METHOD(RunSynchronouslyWithoutException)
+		TEST_METHOD(RunSynchronouslySuccessfully)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::ZeroParameterThreadStart>(*this));
 			SimpleTask.RunSynchronously();
+
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsTrue(std::this_thread::get_id() == _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsCompletedSuccessfully());
 		}
-		TEST_METHOD(RunSynchronouslyWithException)
+		TEST_METHOD(RunSynchronouslyCancelled)
+		{
+			_WorkerThreadId = std::this_thread::get_id();
+
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::Cancel>(*this));
+			SimpleTask.RunSynchronously();
+
+			Assert::AreEqual(123, _CalculatedValue);
+			Assert::IsTrue(std::this_thread::get_id() == _WorkerThreadId);
+			Assert::IsTrue(SimpleTask.GetIsCanceled());
+		}
+		TEST_METHOD(RunSynchronouslyFaulted)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::ThrowException>(*this));
 			SimpleTask.RunSynchronously();
+
 			Assert::AreEqual(3, _CalculatedValue);
 			Assert::IsTrue(std::this_thread::get_id() == _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsFaulted());
@@ -51,13 +68,11 @@ namespace UnitTestsCore
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1, 0);
+			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
 			Pool.Start();
-
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::ZeroParameterThreadStart>(*this));
 			SimpleTask.Start(Pool);
 			SimpleTask.Wait();
-
 			Pool.Stop();
 
 			Assert::AreEqual(25, _CalculatedValue);
@@ -73,6 +88,12 @@ namespace UnitTestsCore
 		{
 			_CalculatedValue = _OriginalValue * _OriginalValue;
 			_WorkerThreadId = std::this_thread::get_id();
+		}
+		void Cancel()
+		{
+			_CalculatedValue = 123;
+			_WorkerThreadId = std::this_thread::get_id();
+			throw OperationCanceledException();
 		}
 		void ThrowException()
 		{

@@ -99,7 +99,6 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 	}
 	catch (OperationCanceledException& Ex)
 	{
-		// ToDo: store exception
 		_Status = TaskStatus::Canceled;
 	}
 	catch (Exception& Ex)
@@ -112,7 +111,13 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 }
 void Elysium::Core::Threading::Tasks::Task::Start(const ThreadPool & ThreadPool)
 {
+	
 }
 void Elysium::Core::Threading::Tasks::Task::Wait()
 {
+	// ToDo: wait signal
+	if (_Status == TaskStatus::Canceled)
+	{
+		//throw OperationCanceledException();
+	}
 }
