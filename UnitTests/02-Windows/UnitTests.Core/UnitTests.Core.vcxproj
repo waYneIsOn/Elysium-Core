@@ -182,6 +182,7 @@
     <ClCompile Include="FileStreamTest.cpp" />
     <ClCompile Include="ListTest.cpp" />
     <ClCompile Include="MemoryStreamTest.cpp" />
+    <ClCompile Include="QueueTest.cpp" />
     <ClCompile Include="ReflectionTest.cpp" />
     <ClCompile Include="StringTest.cpp" />
     <ClCompile Include="TaskTest.cpp" />

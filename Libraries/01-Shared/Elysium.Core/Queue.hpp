@@ -24,6 +24,7 @@ namespace Elysium::Core::Collections::Template
 	public:
 		Queue();
 		Queue(const size_t Capacity);
+		Queue(const size_t Capacity, const float GrowFactor);
 		Queue(const Queue<T>& Source) = delete;
 		Queue(Queue<T>&& Right) noexcept = delete;
 		~Queue();
@@ -34,27 +35,39 @@ namespace Elysium::Core::Collections::Template
 		const size_t GetCount() const;
 
 		void Clear();
+		void TrimToSize();
+
 		void Enqueue(const T& Item);
 		const T Peek() const;
 		T Dequeue();
 	private:
-		size_t _Capacity;
 		size_t _Count;
+		size_t _Capacity;
+		size_t _GrowFactor;
 		size_t _HeadIndex;
 		size_t _TailIndex;
 		T* _Data;
 
-		void Resize(size_t DesiredMinimumSize);
+		static const size_t _MinimumGrow = 4;
+		static const size_t _ShrinkThreshold = 32;
+
+		void SetCapacity(size_t DesiredCapacity);
 	};
 
 	template<class T>
 	inline Queue<T>::Queue()
-		: _Capacity(32), _Count(0), _HeadIndex(0), _TailIndex(0), _Data(new T[_Capacity])
+		: Queue(32, 2.0f)
 	{ }
 	template<class T>
 	inline Queue<T>::Queue(const size_t Capacity)
-		: _Capacity(Capacity <= QUEUE_MAX ? Capacity : QUEUE_MAX), _Count(0), _HeadIndex(0), _TailIndex(0),
-		_Data(_Capacity == 0 ? nullptr : new T[_Capacity])
+		: Queue(Capacity, 2.0f)
+	{ }
+	template<class T>
+	inline Queue<T>::Queue(const size_t Capacity, const float GrowFactor)
+		: _Count(0),
+		_Capacity(Capacity <= QUEUE_MAX ? Capacity : QUEUE_MAX), 
+		_GrowFactor(static_cast<size_t>(GrowFactor * 100)), 
+		_HeadIndex(0), _TailIndex(0), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{ }
 	template<class T>
 	inline Queue<T>::~Queue()
@@ -75,26 +88,38 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline void Queue<T>::Clear()
 	{
-		_Capacity = 0;
 		_Count = 0;
+		_Capacity = 0;
 		_HeadIndex = 0;
 		_TailIndex = 0;
 	}
 	template<class T>
+	inline void Queue<T>::TrimToSize()
+	{
+		SetCapacity(_Count);
+	}
+
+	template<class T>
 	inline void Queue<T>::Enqueue(const T & Item)
 	{
-		// resize if required
-		Resize(_Count + 1);
+		if (_Count == _Capacity)
+		{
+			size_t DesiredCapacity = _Capacity * _GrowFactor / 100;
+			if (DesiredCapacity < _Capacity + _MinimumGrow)
+			{
+				DesiredCapacity = _Capacity + _MinimumGrow;
+			}
+			SetCapacity(DesiredCapacity);
+		}
 
-		// use the copy constructor to clone the element and increment the internal element counter
-		_Data[_Count] = T(Item);
-		_TailIndex = (_TailIndex + 1) % _Count;
+		_Data[_TailIndex] = T(Item);
+		_TailIndex = (_TailIndex + 1) % _Capacity;
 		_Count++;
 	}
 	template<class T>
 	inline const T Queue<T>::Peek() const
 	{
-		if (_Count == 0)
+		if (_Capacity == 0)
 		{
 			//throw InvalidOperationException();
 		}
@@ -103,56 +128,36 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline T Queue<T>::Dequeue()
 	{
-		if (_Count == 0)
+		if (_Capacity == 0)
 		{
 			//throw InvalidOperationException();
 		}
 
 		T RemovedItem = _Data[_HeadIndex];
-		_HeadIndex = (_HeadIndex + 1) % _Count;
+		_HeadIndex = (_HeadIndex + 1) % _Capacity;
 		_Count--;
 		return RemovedItem;
 	}
 
 	template<class T>
-	inline void Queue<T>::Resize(size_t DesiredMinimumSize)
+	inline void Queue<T>::SetCapacity(size_t DesiredCapacity)
 	{
-		if (DesiredMinimumSize < _Count)
+		T* OldData = _Data;
+		_Data = new T[DesiredCapacity];
+		if (_Capacity > 0)
 		{
-			//throw ArgumentOutOfRangeException();
-		}
-		if (DesiredMinimumSize > QUEUE_MAX)
-		{
-			//throw OutOfMemoryException();
-		}
-
-		if (DesiredMinimumSize > _Capacity)
-		{
-			// define actual capacity
-			size_t ActualCapacity = _Capacity * 2 + 1;
-			while (ActualCapacity < DesiredMinimumSize)
+			if (_HeadIndex < _TailIndex)
 			{
-				ActualCapacity = ActualCapacity * 2 + 1;
+
 			}
-			if (ActualCapacity > QUEUE_MAX)
+			else
 			{
-				ActualCapacity = QUEUE_MAX;
+
 			}
-
-			// store a pointer to old data before allocating new data
-			T* OldData = _Data;
-			_Data = new T[ActualCapacity];
-			_Capacity = ActualCapacity;
-
-			// move all old elements to _Data
-			for (size_t i = 0; i < _Count; i++)
-			{
-				_Data[i] = std::move(OldData[i]);
-			}
-
-			// delete old data
-			delete[] OldData;
 		}
+
+		_HeadIndex = 0;
+		_TailIndex = (_Capacity == DesiredCapacity) ? 0 : _Capacity;
 	}
 }
 #endif
