@@ -9,6 +9,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp">
       <Filter>Tasks</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -26,6 +28,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OperationCanceledException.hpp">
       <Filter>Tasks</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

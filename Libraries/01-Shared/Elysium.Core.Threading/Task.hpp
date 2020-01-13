@@ -39,14 +39,15 @@ namespace Elysium::Core::Threading::Tasks
 	class ELYSIUM_CORE_API Task final
 	{
 	public:
-		Task(Delegate<void> Action);
-		Task(const Task& Source);
-		Task(Task&& Right) noexcept;
+		Task(const Delegate<void> Action);
+		Task(const Task& Source) = delete;
+		Task(Task&& Right) noexcept = delete;
 		~Task();
 
-		Task& operator=(const Task& Source);
-		Task& operator=(Task&& Right) noexcept;
+		Task& operator=(const Task& Source) = delete;
+		Task& operator=(Task&& Right) noexcept = delete;
 
+		const int32_t GetId() const;
 		const TaskCreationOptions GetCreationOptions() const;
 		const TaskStatus GetStatus() const;
 		const AggregateException* GetException() const;
@@ -57,14 +58,17 @@ namespace Elysium::Core::Threading::Tasks
 		const bool GetIsFaulted() const;
 		
 		void RunSynchronously();
-		void Start(const ThreadPool& ThreadPool);
+		void Start(ThreadPool& ThreadPool);
 		void Wait();
 	private:
-		TaskStatus _Status;	// ToDo: threadsafe! volatile? atomic? something else?
+		const int32_t _Id;
+		const Delegate<void> _Action;
+		const TaskCreationOptions _CreationOptions;
 
-		Delegate<void> _Action;
-		TaskCreationOptions _CreationOptions;
-		AggregateException* _Exception;	// ToDo: threadsafe! volatile? atomic? something else?
+		std::atomic<TaskStatus> _Status;
+		std::atomic<AggregateException*> _Exception;
+
+		static int32_t _TaskIdCounter;
 	};
 }
 #endif

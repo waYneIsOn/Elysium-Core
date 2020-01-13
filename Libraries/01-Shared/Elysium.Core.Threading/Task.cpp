@@ -4,6 +4,10 @@
 #include <type_traits>
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_INTERLOCKED
+#include "Interlocked.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "../Elysium.Core/Exception.hpp"
 #endif
@@ -12,17 +16,11 @@
 #include "OperationCanceledException.hpp"
 #endif
 
-Elysium::Core::Threading::Tasks::Task::Task(Delegate<void> Action)
-	: _Status(TaskStatus::Created), _Action(Action), _CreationOptions(TaskCreationOptions::None), _Exception(nullptr)
+int32_t Elysium::Core::Threading::Tasks::Task::_TaskIdCounter = 0;
+
+Elysium::Core::Threading::Tasks::Task::Task(const Delegate<void> Action)
+	: _Id(Interlocked::Increment(_TaskIdCounter)), _Action(Action), _CreationOptions(TaskCreationOptions::None), _Status(TaskStatus::Created), _Exception(nullptr)
 { }
-Elysium::Core::Threading::Tasks::Task::Task(const Task & Source)
-	: _Status(TaskStatus::Created), _Action(Source._Action), _CreationOptions(TaskCreationOptions::None), _Exception(nullptr)
-{ }
-Elysium::Core::Threading::Tasks::Task::Task(Task && Right) noexcept
-	: _Status(TaskStatus::Created), _Action(Delegate<void>::CreateDelegate<[]() -> void { }>()), _CreationOptions(TaskCreationOptions::None), _Exception(nullptr)
-{
-	*this = std::move(Right);
-}
 Elysium::Core::Threading::Tasks::Task::~Task()
 {
 	if (_Exception != nullptr)
@@ -32,34 +30,10 @@ Elysium::Core::Threading::Tasks::Task::~Task()
 	}
 }
 
-Elysium::Core::Threading::Tasks::Task & Elysium::Core::Threading::Tasks::Task::operator=(const Task & Source)
+const int32_t Elysium::Core::Threading::Tasks::Task::GetId() const
 {
-	if (this != &Source)
-	{
-		_Action = Source._Action;
-		_Status = Source._Status;
-		_CreationOptions = Source._CreationOptions;
-		_Exception = Source._Exception;
-	}
-	return *this;
+	return _Id;
 }
-Elysium::Core::Threading::Tasks::Task & Elysium::Core::Threading::Tasks::Task::operator=(Task && Right) noexcept
-{
-	if (this != &Right)
-	{
-		_Action = std::move(Right._Action);
-		_Status = std::move(Right._Status);
-		_CreationOptions = std::move(Right._CreationOptions);
-		_Exception = std::move(Right._Exception);
-
-		Right._Action = Delegate<void>::CreateDelegate<[]() -> void {}>();
-		Right._Status = TaskStatus::Created;
-		Right._CreationOptions = TaskCreationOptions::None;
-		Right._Exception = nullptr;
-	}
-	return *this;
-}
-
 const Elysium::Core::Threading::Tasks::TaskCreationOptions Elysium::Core::Threading::Tasks::Task::GetCreationOptions() const
 {
 	return _CreationOptions;
@@ -92,8 +66,10 @@ const bool Elysium::Core::Threading::Tasks::Task::GetIsFaulted() const
 
 void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 {
+	_Status = TaskStatus::WaitingToRun;
 	try
 	{
+		_Status = TaskStatus::Running;
 		_Action();
 		_Status = TaskStatus::RanToCompletion;
 	}
@@ -109,7 +85,7 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 
 	// ToDo: wait signal
 }
-void Elysium::Core::Threading::Tasks::Task::Start(const ThreadPool & ThreadPool)
+void Elysium::Core::Threading::Tasks::Task::Start(ThreadPool & ThreadPool)
 {
 	
 }

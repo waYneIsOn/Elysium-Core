@@ -14,7 +14,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperationCanceledException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Task.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskCreationOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskStatus.hpp" />
@@ -23,6 +26,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadState.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
