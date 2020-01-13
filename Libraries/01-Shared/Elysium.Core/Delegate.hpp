@@ -31,7 +31,7 @@ namespace Elysium::Core
 		Delegate& operator=(const Delegate& Source);
 		Delegate& operator=(Delegate&& Right) noexcept;
 
-		ReturnType operator()(Args... Parameters);
+		ReturnType operator()(Args... Parameters) const;
 
 		template <ReturnType(*ActualMethod)(Args...)>
 		static Delegate CreateDelegate();
@@ -88,7 +88,7 @@ namespace Elysium::Core
 	}
 
 	template<class ReturnType, class ...Args>
-	inline ReturnType Delegate<ReturnType, Args...>::operator()(Args ...Parameters)
+	inline ReturnType Delegate<ReturnType, Args...>::operator()(Args ...Parameters) const
 	{
 		return (*_Method)(_Target, Parameters...);
 	}

@@ -9,7 +9,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_API
 
-#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
+#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__) || defined(__CYGWIN__)
 #ifdef ELYSIUMCORE_EXPORTS
 #define ELYSIUM_CORE_API __declspec(dllexport)
 #else

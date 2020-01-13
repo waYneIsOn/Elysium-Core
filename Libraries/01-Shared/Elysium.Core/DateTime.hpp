@@ -26,6 +26,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "DatePart.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TIMESPAN
+#include "TimeSpan.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API DateTime
@@ -42,6 +46,9 @@ namespace Elysium::Core
 
 		DateTime& operator=(const DateTime& Source);
 		DateTime& operator=(DateTime&& Right) noexcept;
+
+		TimeSpan operator+(const DateTime& Other) noexcept;
+		TimeSpan operator-(const DateTime& Other) noexcept;
 
 		static DateTime MaxValue();
 		static DateTime MinValue();

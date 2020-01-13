@@ -71,6 +71,15 @@ Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right) 
 	return *this;
 }
 
+Elysium::Core::TimeSpan Elysium::Core::DateTime::operator+(const DateTime & Other) noexcept
+{
+	return TimeSpan(_Ticks + Other._Ticks);
+}
+Elysium::Core::TimeSpan Elysium::Core::DateTime::operator-(const DateTime & Other) noexcept
+{
+	return TimeSpan(_Ticks - Other._Ticks);
+}
+
 Elysium::Core::DateTime Elysium::Core::DateTime::MaxValue()
 {
 	return DateTime(DateTimeUtility::MaxTicks, DateTimeKind::Unspecified);
