@@ -12,6 +12,14 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_DATETIME
+#include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TIMESPAN
+#include "../../../Libraries/01-Shared/Elysium.Core/TimeSpan.hpp"
+#endif
+
 #ifndef _WINDOWS_
 #include <Windows.h>
 #endif
@@ -27,14 +35,14 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTestsCore
 {
-	TEST_CLASS(Core_Threading_Task)
+	TEST_CLASS(Core_Threading_Tasks_Task)
 	{
 	public:
 		TEST_METHOD(RunSynchronouslySuccessfully)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::ZeroParameterThreadStart>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ZeroParameterThreadStart>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(25, _CalculatedValue);
@@ -45,7 +53,7 @@ namespace UnitTestsCore
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::Cancel>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::Cancel>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(123, _CalculatedValue);
@@ -56,7 +64,7 @@ namespace UnitTestsCore
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::ThrowException>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ThrowException>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(3, _CalculatedValue);
@@ -64,13 +72,13 @@ namespace UnitTestsCore
 			Assert::IsTrue(SimpleTask.GetIsFaulted());
 		}
 
-		TEST_METHOD(Start)
+		TEST_METHOD(RunAsynchronously)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
 			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
 			Pool.Start();
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Task, &Core_Threading_Task::ZeroParameterThreadStart>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ZeroParameterThreadStart>(*this));
 			SimpleTask.Start(Pool);
 			SimpleTask.Wait();
 			Pool.Stop();
@@ -78,6 +86,21 @@ namespace UnitTestsCore
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsCompletedSuccessfully());
+		}
+		TEST_METHOD(RunAsynchronouslyAndAwaitLongRunning)
+		{
+			_WorkerThreadId = std::this_thread::get_id();
+
+			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
+			Pool.Start();
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::LongRunning>(*this));
+			DateTime Start = DateTime::Now();
+			SimpleTask.Start(Pool);
+			SimpleTask.Wait();
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			Pool.Stop();
+
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5.0);
 		}
 	private:
 		int _OriginalValue = 5;
@@ -100,6 +123,11 @@ namespace UnitTestsCore
 			_CalculatedValue = 3;
 			_WorkerThreadId = std::this_thread::get_id();
 			throw Exception(u"any exception");
+		}
+
+		void LongRunning()
+		{
+			Thread::Sleep(TimeSpan::FromSeconds(5));
 		}
 	};
 }
