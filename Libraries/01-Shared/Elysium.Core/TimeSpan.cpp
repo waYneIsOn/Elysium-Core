@@ -14,28 +14,23 @@
 
 Elysium::Core::TimeSpan::TimeSpan(int64_t Ticks)
 	: _Ticks(Ticks)
-{
-}
+{ }
 Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds)
 	: Elysium::Core::TimeSpan::TimeSpan(TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds))
-{
-}
+{ }
 Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds)
 	: Elysium::Core::TimeSpan::TimeSpan(TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds) + TimeSpan::FromTicks(Milliseconds))
-{
-}
+{ }
 Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 	: _Ticks(Source._Ticks)
-{
-}
+{ }
 Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right) noexcept
 	: _Ticks(0)
 {
 	*this = std::move(Right);
 }
 Elysium::Core::TimeSpan::~TimeSpan()
-{
-}
+{ }
 
 Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(const TimeSpan & Source)
 {
@@ -123,30 +118,30 @@ void Elysium::Core::TimeSpan::GetMilliseconds(int * Value) const
 
 void Elysium::Core::TimeSpan::GetTotalDays(double * Value) const
 {
-	*Value = (double)_Ticks * DateTimeUtility::DaysPerTick;
+	*Value = _Ticks * DateTimeUtility::DaysPerTick;
 }
 void Elysium::Core::TimeSpan::GetTotalHours(double * Value) const
 {
-	*Value = (double)_Ticks * DateTimeUtility::HoursPerTick;
+	*Value = _Ticks * DateTimeUtility::HoursPerTick;
 }
 void Elysium::Core::TimeSpan::GetTotalMinutes(double * Value) const
 {
-	*Value = (double)_Ticks * DateTimeUtility::MinutesPerTick;
+	*Value = _Ticks * DateTimeUtility::MinutesPerTick;
 }
 void Elysium::Core::TimeSpan::GetTotalSeconds(double * Value) const
 {
-	*Value = (double)_Ticks * DateTimeUtility::SecondsPerTick;
+	*Value = _Ticks * DateTimeUtility::SecondsPerTick;
 }
 void Elysium::Core::TimeSpan::GetTotalMilliseconds(double * Value) const
 {
-	double IntermediateValue = (double)_Ticks * DateTimeUtility::MillisecondsPerTick;
+	double IntermediateValue = _Ticks * DateTimeUtility::MillisecondsPerTick;
 	if (IntermediateValue > DateTimeUtility::MaxMilliseconds)
 	{
-		*Value = (double)DateTimeUtility::MaxMilliseconds;
+		*Value = DateTimeUtility::MaxMilliseconds;
 	}
 	else if (IntermediateValue < DateTimeUtility::MinMilliseconds)
 	{
-		*Value = (double)DateTimeUtility::MinMilliseconds;
+		*Value = DateTimeUtility::MinMilliseconds;
 	}
 	else
 	{
@@ -177,19 +172,19 @@ int Elysium::Core::TimeSpan::GetMilliseconds() const
 
 double Elysium::Core::TimeSpan::GetTotalDays() const
 {
-	return (double)_Ticks * DateTimeUtility::DaysPerTick;
+	return _Ticks * DateTimeUtility::DaysPerTick;
 }
 double Elysium::Core::TimeSpan::GetTotalHours() const
 {
-	return (double)_Ticks * DateTimeUtility::HoursPerTick;
+	return _Ticks * DateTimeUtility::HoursPerTick;
 }
 double Elysium::Core::TimeSpan::GetTotalMinutes() const
 {
-	return (double)_Ticks * DateTimeUtility::MinutesPerTick;
+	return _Ticks * DateTimeUtility::MinutesPerTick;
 }
 double Elysium::Core::TimeSpan::GetTotalSeconds() const
 {
-	return (double)_Ticks * DateTimeUtility::SecondsPerTick;
+	return _Ticks * DateTimeUtility::SecondsPerTick;
 }
 double Elysium::Core::TimeSpan::GetTotalMilliseconds() const
 {
