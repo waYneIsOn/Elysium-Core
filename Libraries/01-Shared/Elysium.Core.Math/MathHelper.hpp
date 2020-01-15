@@ -15,6 +15,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
+#ifndef _STDINT
+#include <cstdint>
+#endif
+
 namespace Elysium::Core::Math
 {
 	class ELYSIUM_CORE_MATH_API MathHelper
@@ -35,33 +39,36 @@ namespace Elysium::Core::Math
 		*/
 
 		// static methods
-		static int Absolute(int Value);
-		static long Absolute(long Value);
-		static float Absolute(float Value);
-		static double Absolute(double Value);
+		static int Absolute(const int Value);
+		static long Absolute(const long Value);
+		static float Absolute(const float Value);
+		static double Absolute(const double Value);
 
-		static double Max(double Value1, double Value2);
-		static float Max(float Value1, float Value2);
+		static double Max(const double Value1, const double Value2);
+		static float Max(const float Value1, const float Value2);
+		static size_t Max(const size_t Value1, const size_t Value2);
+		static uint32_t Max(const uint32_t Value1, const uint32_t Value2);
 
-		static double Min(double Value1, double Value2);
-		static float Min(float Value1, float Value2);
-		static size_t Min(size_t Value1, size_t Value2);
+		static double Min(const double Value1, const  double Value2);
+		static float Min(const float Value1, const float Value2);
+		static size_t Min(const size_t Value1, const size_t Value2);
+		static uint32_t Min(const uint32_t Value1, const uint32_t Value2);
 
 		// static methods (algorithms)
-		static double Barycentric(double Value1, double Value2, double Value3, double Amount1, double Amount2);
-		static float Barycentric(float Value1, float Value2, float Value3, float Amount1, float Amount2);
+		static double Barycentric(const double Value1, const double Value2, const double Value3, const double Amount1, const double Amount2);
+		static float Barycentric(const float Value1, const float Value2, const float Value3, const float Amount1, const float Amount2);
 
-		static double CatmullRom(double Value1, double Value2, double Value3, double Value4, double Amount);
-		static float CatmullRom(float Value1, float Value2, float Value3, float Value4, float Amount);
+		static double CatmullRom(const double Value1, const double Value2, const double Value3, const double Value4, const double Amount);
+		static float CatmullRom(const float Value1, const float Value2, const float Value3, const float Value4, const float Amount);
 
-		static double CatmullRom(double Value1, double Value2, double Value3, double Value4, double Amount, double AmountSquared, double AmountCubed);
-		static float CatmullRom(float Value1, float Value2, float Value3, float Value4, float Amount, double AmountSquared, double AmountCubed);
+		static double CatmullRom(const double Value1, const double Value2, const double Value3, const double Value4, const double Amount, const double AmountSquared, const double AmountCubed);
+		static float CatmullRom(const float Value1, const float Value2, const float Value3, const float Value4, const float Amount, const double AmountSquared, const double AmountCubed);
 
 		static double Clamp(double Value, double Min, double Max);
 		static float Clamp(float Value, float Min, float Max);
 
-		static double Distance(double Value1, double Value2);
-		static float Distance(float Value1, float Value2);
+		static double Distance(const double Value1, const double Value2);
+		static float Distance(const float Value1, const float Value2);
 
 		static double Hermite(double Value1, double Tangent1, double Value2, double Tangent2, double Amount);
 		static float Hermite(float Value1, float Tangent1, float Value2, float Tangent2, float Amount);

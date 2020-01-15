@@ -4,59 +4,71 @@
 #include <limits>
 #endif
 
-int Elysium::Core::Math::MathHelper::Absolute(int Value)
+int Elysium::Core::Math::MathHelper::Absolute(const int Value)
 {
 	// http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
-	int const Mask = (Value >> sizeof(int)) * CHAR_BIT - 1;
+	const int Mask = (Value >> sizeof(int)) * CHAR_BIT - 1;
 	return (Value + Mask) ^ Mask;
 }
-long Elysium::Core::Math::MathHelper::Absolute(long Value)
+long Elysium::Core::Math::MathHelper::Absolute(const long Value)
 {
 	// http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
-	long const Mask = (Value >> sizeof(long)) * CHAR_BIT - 1;
+	const long Mask = (Value >> sizeof(long)) * CHAR_BIT - 1;
 	return (Value + Mask) ^ Mask;
 }
-float Elysium::Core::Math::MathHelper::Absolute(float Value)
+float Elysium::Core::Math::MathHelper::Absolute(const float Value)
 {
 	return (Value < 0) ? -Value : Value;
 }
-double Elysium::Core::Math::MathHelper::Absolute(double Value)
+double Elysium::Core::Math::MathHelper::Absolute(const double Value)
 {
 	return (Value < 0) ? -Value : Value;
 }
 
-double Elysium::Core::Math::MathHelper::Max(double Value1, double Value2)
+double Elysium::Core::Math::MathHelper::Max(const double Value1, const double Value2)
 {
 	return (Value1 > Value2) ? Value1 : Value2;
 }
-float Elysium::Core::Math::MathHelper::Max(float Value1, float Value2)
+float Elysium::Core::Math::MathHelper::Max(const float Value1, const float Value2)
+{
+	return (Value1 > Value2) ? Value1 : Value2;
+}
+size_t Elysium::Core::Math::MathHelper::Max(const size_t Value1, const size_t Value2)
+{
+	return (Value1 > Value2) ? Value1 : Value2;
+}
+uint32_t Elysium::Core::Math::MathHelper::Max(const uint32_t Value1, const uint32_t Value2)
 {
 	return (Value1 > Value2) ? Value1 : Value2;
 }
 
-double Elysium::Core::Math::MathHelper::Min(double Value1, double Value2)
+double Elysium::Core::Math::MathHelper::Min(const double Value1, const double Value2)
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
-float Elysium::Core::Math::MathHelper::Min(float Value1, float Value2)
+float Elysium::Core::Math::MathHelper::Min(const float Value1, const float Value2)
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
-size_t Elysium::Core::Math::MathHelper::Min(size_t Value1, size_t Value2)
+size_t Elysium::Core::Math::MathHelper::Min(const size_t Value1, const size_t Value2)
+{
+	return (Value1 < Value2) ? Value1 : Value2;
+}
+uint32_t Elysium::Core::Math::MathHelper::Min(const uint32_t Value1, const uint32_t Value2)
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
 
-double Elysium::Core::Math::MathHelper::Barycentric(double Value1, double Value2, double Value3, double Amount1, double Amount2)
+double Elysium::Core::Math::MathHelper::Barycentric(const double Value1, const double Value2, const double Value3, const double Amount1, const double Amount2)
 {
 	return Value1 + (Value2 - Value1) * Amount1 + (Value3 - Value1) * Amount2;
 }
-float Elysium::Core::Math::MathHelper::Barycentric(float Value1, float Value2, float Value3, float Amount1, float Amount2)
+float Elysium::Core::Math::MathHelper::Barycentric(const float Value1, const float Value2, const float Value3, const float Amount1, const float Amount2)
 {
 	return Value1 + (Value2 - Value1) * Amount1 + (Value3 - Value1) * Amount2;
 }
 
-double Elysium::Core::Math::MathHelper::CatmullRom(double Value1, double Value2, double Value3, double Value4, double Amount)
+double Elysium::Core::Math::MathHelper::CatmullRom(const double Value1, const double Value2, const double Value3, const double Value4, const double Amount)
 {
 	// http://www.mvps.org/directx/articles/catmull/
 	// use double to not lose precission!
@@ -65,7 +77,7 @@ double Elysium::Core::Math::MathHelper::CatmullRom(double Value1, double Value2,
 
 	return CatmullRom(Value1, Value2, Value3, Value4, Amount, AmountSquared, AmountCubed);
 }
-float Elysium::Core::Math::MathHelper::CatmullRom(float Value1, float Value2, float Value3, float Value4, float Amount)
+float Elysium::Core::Math::MathHelper::CatmullRom(const float Value1, const float Value2, const float Value3, const float Value4, const float Amount)
 {
 	// http://www.mvps.org/directx/articles/catmull/
 	// use double to not lose precission!
@@ -75,7 +87,7 @@ float Elysium::Core::Math::MathHelper::CatmullRom(float Value1, float Value2, fl
 	return CatmullRom(Value1, Value2, Value3, Value4, Amount, AmountSquared, AmountCubed);
 }
 
-double Elysium::Core::Math::MathHelper::CatmullRom(double Value1, double Value2, double Value3, double Value4, double Amount, double AmountSquared, double AmountCubed)
+double Elysium::Core::Math::MathHelper::CatmullRom(const double Value1, const double Value2, const double Value3, const double Value4, const double Amount, const double AmountSquared, const double AmountCubed)
 {
 	return (0.5 * (2.0 * Value2 +
 		(Value3 - Value1) * Amount +
@@ -83,7 +95,7 @@ double Elysium::Core::Math::MathHelper::CatmullRom(double Value1, double Value2,
 		(3.0 * Value2 - Value1 - 3.0 * Value3 + Value4) * AmountCubed));
 }
 
-float Elysium::Core::Math::MathHelper::CatmullRom(float Value1, float Value2, float Value3, float Value4, float Amount, double AmountSquared, double AmountCubed)
+float Elysium::Core::Math::MathHelper::CatmullRom(const float Value1, const float Value2, const float Value3, const float Value4, const float Amount, const double AmountSquared, const double AmountCubed)
 {
 	return (float)(0.5 * (2.0 * Value2 +
 		(Value3 - Value1) * Amount +
@@ -91,7 +103,7 @@ float Elysium::Core::Math::MathHelper::CatmullRom(float Value1, float Value2, fl
 		(3.0 * Value2 - Value1 - 3.0 * Value3 + Value4) * AmountCubed));
 }
 
-double Elysium::Core::Math::MathHelper::Clamp(double Value, double Min, double Max)
+double Elysium::Core::Math::MathHelper::Clamp(double Value, const double Min, const double Max)
 {
 	Value = (Value > Max) ? Max : Value;
 	Value = (Value < Min) ? Min : Value;
@@ -104,11 +116,11 @@ float Elysium::Core::Math::MathHelper::Clamp(float Value, float Min, float Max)
 	return Value;
 }
 
-double Elysium::Core::Math::MathHelper::Distance(double Value1, double Value2)
+double Elysium::Core::Math::MathHelper::Distance(const double Value1, const double Value2)
 {
 	return Absolute(Value1 - Value2);
 }
-float Elysium::Core::Math::MathHelper::Distance(float Value1, float Value2)
+float Elysium::Core::Math::MathHelper::Distance(const float Value1, const float Value2)
 {
 	return Absolute(Value1 - Value2);
 }
