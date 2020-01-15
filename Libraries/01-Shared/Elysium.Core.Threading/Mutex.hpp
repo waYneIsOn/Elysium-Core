@@ -14,12 +14,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
-#endif
-
-#ifndef _STDINT
-#include <cstdint>
+#ifndef ELYSIUM_CORE_THREADING_SYSTEM
+#include "System.hpp"
 #endif
 
 namespace Elysium::Core::Threading
@@ -38,10 +34,10 @@ namespace Elysium::Core::Threading
 		Mutex& operator=(const Mutex& Source) = delete;
 		Mutex& operator=(Mutex&& Right) noexcept = delete;
 
-		void Lock();
+		bool Lock(bool Blocking = true);
 		void Unlock();
 	private:
-		volatile uint64_t _Target;
+		ELYSIUM_MUTEX_HANDLE _Handle;
 	};
 }
 #endif

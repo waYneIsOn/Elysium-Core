@@ -36,5 +36,32 @@ namespace Elysium::Core::Threading
 		Interlocked();
 		~Interlocked();
 	};
+	/*
+	template <class T>
+	class Interlocked final
+	{
+	public:
+		static_assert(std::is_same<T, int32_t>::value || std::is_same<T, int64_t>::value,
+			"some meaningful error message");
+	private:
+	};
+	*/
+	/*
+#include <type_traits>
+
+	template <typename RealType>
+	class A
+	{
+		static_assert(std::is_same<RealType, double>::value || std::is_same<RealType, float>::value,
+			"some meaningful error message");
+	};
+
+	template <typename RealType>
+	class A
+	{
+		static_assert(std::is_floating_point<RealType>::value,
+			"class A can only be instantiated with floating point types");
+	};
+	*/
 }
 #endif

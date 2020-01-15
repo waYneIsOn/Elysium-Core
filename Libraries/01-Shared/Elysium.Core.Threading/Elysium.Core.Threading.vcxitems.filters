@@ -11,6 +11,7 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -31,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

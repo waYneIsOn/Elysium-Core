@@ -16,10 +16,18 @@ Copyright (C) 2017 waYne (CAM)
 #include <Windows.h>
 #endif
 
-#ifndef _STDINT
-#include <cstdint>
+#ifndef _SYNCHAPI_H_
+#include <synchapi.h>
 #endif
 
+// Thread
+#define ELYSIUM_THREAD_CREATE CreateThread
+
+#define ELYSIUM_THREAD_DESTROY CloseHandle
+
+#define ELYSIUM_THREAD_SETPRIORITY SetThreadPriority
+
+// Interlocked
 #define ELYSIUM_INTERLOCKED_ADD InterlockedAdd
 #define ELYSIUM_INTERLOCKED_ADD64 InterlockedAdd64
 
@@ -31,6 +39,19 @@ Copyright (C) 2017 waYne (CAM)
 
 #define ELYSIUM_INTERLOCKED_INCREMENT InterlockedIncrement
 #define ELYSIUM_INTERLOCKED_INCREMENT64 InterlockedIncrement64
+
+// Mutex
+#define ELYSIUM_MUTEX_HANDLE _RTL_CRITICAL_SECTION
+
+#define ELYSIUM_MUTEX_CREATE InitializeCriticalSection
+
+#define ELYSIUM_MUTEX_DESTROY DeleteCriticalSection
+
+#define ELYSIUM_MUTEX_TRYLOCK TryEnterCriticalSection
+
+#define ELYSIUM_MUTEX_LOCK EnterCriticalSection
+
+#define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
 
 #elif defined(__ANDROID__)
 
