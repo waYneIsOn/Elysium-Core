@@ -106,6 +106,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

@@ -42,6 +42,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp" />
