@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_JSON_JSONNODETYPE
 #define ELYSIUM_CORE_JSON_JSONNODETYPE
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 namespace Elysium::Core::Json

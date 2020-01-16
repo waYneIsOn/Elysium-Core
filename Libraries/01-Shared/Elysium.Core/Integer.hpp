@@ -20,9 +20,9 @@ namespace Elysium::Core
 	typedef unsigned int uint32_t;
 	typedef unsigned long long uint64_t;
 	/*
-	constexpr const int16_t INT16_MIN = (-32767i16 - 1);
-	constexpr const int32_t INT32_MIN = (-2147483647i32 - 1);
-	constexpr const int64_t INT64_MIN = (-9223372036854775807i64 - 1);
+	//constexpr const int16_t INT16_MIN = (-32767i16 - 1);
+	//constexpr const int32_t INT32_MIN = (-2147483647i32 - 1);
+	//constexpr const int64_t INT64_MIN = (-9223372036854775807i64 - 1);
 
 	constexpr const int16_t INT16_MAX = 32767i16;
 	constexpr const int32_t INT32_MAX = 2147483647i32;

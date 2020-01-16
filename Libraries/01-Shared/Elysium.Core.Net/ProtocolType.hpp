@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_NET_SOCKETS_PROTOCOLTYPE
 #define ELYSIUM_CORE_NET_SOCKETS_PROTOCOLTYPE
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 namespace Elysium::Core::Net::Sockets

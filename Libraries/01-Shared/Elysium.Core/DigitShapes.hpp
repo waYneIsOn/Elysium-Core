@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
 #define ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

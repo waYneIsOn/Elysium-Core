@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_URISYNTAXFLAGS
 #define ELYSIUM_CORE_URISYNTAXFLAGS
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
 #endif
 
 namespace Elysium::Core

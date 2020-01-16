@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_IO_FILEACCESS
 #define ELYSIUM_CORE_IO_FILEACCESS
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 namespace Elysium::Core::IO

@@ -26,8 +26,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER

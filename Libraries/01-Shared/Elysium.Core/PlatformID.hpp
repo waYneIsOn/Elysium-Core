@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_PLATFORMID
 #define ELYSIUM_CORE_PLATFORMID
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
 #endif
 
 namespace Elysium::Core

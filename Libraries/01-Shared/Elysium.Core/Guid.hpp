@@ -18,8 +18,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "Byte.hpp"
 #endif
 
-#ifndef _STDINT_H
-#include <cstdint>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING

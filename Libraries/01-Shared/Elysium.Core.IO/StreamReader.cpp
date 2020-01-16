@@ -18,12 +18,12 @@ void Elysium::Core::IO::StreamReader::Close()
 	_InputStream.Close();
 }
 
-const int32_t Elysium::Core::IO::StreamReader::Peek()
+const Elysium::Core::int32_t Elysium::Core::IO::StreamReader::Peek()
 {
 	throw NotImplementedException();
 }
 
-const int32_t Elysium::Core::IO::StreamReader::Read()
+const Elysium::Core::int32_t Elysium::Core::IO::StreamReader::Read()
 {
 	throw NotImplementedException();
 }

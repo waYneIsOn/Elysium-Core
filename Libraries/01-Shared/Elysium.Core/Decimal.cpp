@@ -62,7 +62,7 @@ Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right) noe
 	return *this;
 }
 
-const int64_t* Elysium::Core::Decimal::GetHighPart() const
+const Elysium::Core::int64_t* Elysium::Core::Decimal::GetHighPart() const
 {
 #ifdef BIGENDIAN
 	return (int64_t*)&_Data[8];
@@ -70,7 +70,7 @@ const int64_t* Elysium::Core::Decimal::GetHighPart() const
 	return (int64_t*)&_Data[0];
 #endif
 }
-const int64_t * Elysium::Core::Decimal::GetLowPart() const
+const Elysium::Core::int64_t * Elysium::Core::Decimal::GetLowPart() const
 {
 #ifdef BIGENDIAN
 	return (int64_t*)&_Data[0];

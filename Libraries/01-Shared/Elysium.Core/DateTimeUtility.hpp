@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_DATETIMEUTILITY
 #define ELYSIUM_CORE_DATETIMEUTILITY
 
-#ifndef _STDINT_H
-#include <cstdint>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
 #endif
 
 namespace Elysium::Core

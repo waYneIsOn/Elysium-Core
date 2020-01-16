@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_IO_COMPRESSION_HUFFMANTREE
 #define ELYSIUM_CORE_IO_COMPRESSION_HUFFMANTREE
 
-#ifndef _STDINT_H
-#include <cstdint>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BYTE

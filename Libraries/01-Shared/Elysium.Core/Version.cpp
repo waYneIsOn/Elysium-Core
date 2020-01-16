@@ -109,19 +109,19 @@ Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream 
 	return Source;
 }
 
-const uint32_t Elysium::Core::Version::GetMajor() const
+const Elysium::Core::uint32_t Elysium::Core::Version::GetMajor() const
 {
 	return _Major;
 }
-const uint32_t Elysium::Core::Version::GetMinor() const
+const Elysium::Core::uint32_t Elysium::Core::Version::GetMinor() const
 {
 	return _Minor;
 }
-const uint32_t Elysium::Core::Version::GetBuild() const
+const Elysium::Core::uint32_t Elysium::Core::Version::GetBuild() const
 {
 	return _Build;
 }
-const uint32_t Elysium::Core::Version::GetRevision() const
+const Elysium::Core::uint32_t Elysium::Core::Version::GetRevision() const
 {
 	return _Revision;
 }
@@ -156,7 +156,7 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const StringView & Input)
 	return ParsedVersion;
 }
 
-uint32_t Elysium::Core::Version::Compare(const Version & Other) const
+Elysium::Core::uint32_t Elysium::Core::Version::Compare(const Version & Other) const
 {
 	if (this != &Other)
 	{

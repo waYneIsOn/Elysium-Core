@@ -22,8 +22,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "SeekOrigin.hpp"
 #endif
 
-#ifndef _STDINT_H
-#include <cstdint>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 namespace Elysium::Core::IO

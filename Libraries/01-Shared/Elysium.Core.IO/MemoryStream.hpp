@@ -18,8 +18,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/List.hpp"
 #endif
 
-#ifndef _STDINT_H
-#include <cstdint>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 #pragma warning( disable : 4251 )

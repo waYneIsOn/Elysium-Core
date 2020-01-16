@@ -20,7 +20,7 @@ bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
 }
-int64_t Elysium::Core::IO::Stream::GetPosition()
+Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition()
 {
 	if (!GetCanSeek())
 	{

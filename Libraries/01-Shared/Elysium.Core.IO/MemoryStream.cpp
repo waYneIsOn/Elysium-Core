@@ -37,7 +37,7 @@ size_t Elysium::Core::IO::MemoryStream::GetLength()
 {
 	return _Buffer.GetCount();
 }
-int64_t Elysium::Core::IO::MemoryStream::GetPosition()
+Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition()
 {
 	return Elysium::Core::IO::Stream::GetPosition();
 }

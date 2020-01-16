@@ -90,7 +90,7 @@ Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromTicks(int64_t Value)
 	return TimeSpan(Value);
 }
 
-int64_t Elysium::Core::TimeSpan::GetTicks() const
+Elysium::Core::int64_t Elysium::Core::TimeSpan::GetTicks() const
 {
 	return _Ticks;
 }

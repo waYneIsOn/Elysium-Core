@@ -37,7 +37,7 @@ size_t Elysium::Core::Math::MathHelper::Max(const size_t Value1, const size_t Va
 {
 	return (Value1 > Value2) ? Value1 : Value2;
 }
-uint32_t Elysium::Core::Math::MathHelper::Max(const uint32_t Value1, const uint32_t Value2)
+Elysium::Core::uint32_t Elysium::Core::Math::MathHelper::Max(const uint32_t Value1, const uint32_t Value2)
 {
 	return (Value1 > Value2) ? Value1 : Value2;
 }
@@ -54,7 +54,7 @@ size_t Elysium::Core::Math::MathHelper::Min(const size_t Value1, const size_t Va
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
-uint32_t Elysium::Core::Math::MathHelper::Min(const uint32_t Value1, const uint32_t Value2)
+Elysium::Core::uint32_t Elysium::Core::Math::MathHelper::Min(const uint32_t Value1, const uint32_t Value2)
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
