@@ -14,8 +14,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef _STDINT
-#include <cstdint>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 namespace Elysium::Core::Threading
@@ -31,8 +31,11 @@ namespace Elysium::Core::Threading
 
 		Semaphore& operator=(const Semaphore& Source) = delete;
 		Semaphore& operator=(Semaphore&& Right) noexcept = delete;
+
+		void Increment();
+		void Decrement();
 	private:
-		const uint32_t _Count;
+		uint32_t _Count;
 		const uint32_t _MaximumCount;
 	};
 }

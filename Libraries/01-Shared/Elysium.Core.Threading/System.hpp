@@ -53,6 +53,27 @@ Copyright (C) 2017 waYne (CAM)
 
 #define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
 
+#define ELYSIUM_MUTEX_WAIT WaitForSingleObject
+
+// Semaphore
+#define ELYSIUM_SEMAPHORE_CREATE CreateSemaphoreEx
+
+#define ELYSIUM_SEMAPHORE_RELEASE ReleaseSemaphore
+
+// Signal
+#define ELYSIUM_SIGNAL_HANDLE _SECURITY_ATTRIBUTES
+
+#define ELYSIUM_SIGNAL_CREATE CreateEvent
+#define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
+
+#define ELYSIUM_SIGNAL_DESTROY CloseHandle
+
+#define ELYSIUM_SIGNAL_RAISE SetEvent
+
+#define ELYSIUM_SIGNAL_CLEAR ResetEvent
+
+#define ELYSIUM_SIGNAL_WAIT WaitForSingleObject
+
 #elif defined(__ANDROID__)
 
 #elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))

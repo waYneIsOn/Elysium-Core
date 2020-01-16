@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASKCREATIONOPTIONS
 #define ELYSIUM_CORE_THREADING_TASKS_TASKCREATIONOPTIONS
 
-#ifndef _STDINT
-#include <stdint.h>
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
 #endif
 
 namespace Elysium::Core::Threading::Tasks

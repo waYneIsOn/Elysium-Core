@@ -12,6 +12,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AutoResetEvent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ManualResetEvent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EventWaitHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -33,6 +36,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

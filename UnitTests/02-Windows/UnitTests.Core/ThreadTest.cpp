@@ -12,6 +12,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Mutex.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_SEMAPHORE
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Semaphore.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATETIME
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 #endif
@@ -74,7 +78,24 @@ namespace UnitTestsCore
 
 			// sleep for a bit just to make sure T has locked the mutex
 			Thread::Sleep(TimeSpan::FromSeconds(1));
-			RunMutex();
+			_Mutex.Wait();
+
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
+			Assert::AreEqual(5, ElapsedTime.GetSeconds());
+			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
+		}
+		TEST_METHOD(AwaitSemaphore)
+		{
+			_WorkerThreadId = std::this_thread::get_id();
+
+			DateTime Start = DateTime::Now();
+			Thread T = Thread();
+			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
+
+			// sleep for a bit just to make sure T has incremented the semaphore
+			Thread::Sleep(TimeSpan::FromSeconds(1));
+			RunSemaphore();
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
@@ -106,6 +127,7 @@ namespace UnitTestsCore
 		std::thread::id _WorkerThreadId;
 
 		Mutex _Mutex = Mutex();
+		Semaphore _Semaphore = Semaphore(0, 1);
 
 		void ZeroParameterThreadStart()
 		{
@@ -126,6 +148,12 @@ namespace UnitTestsCore
 			_Mutex.Lock();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
 			_Mutex.Unlock();
+		}
+		void RunSemaphore()
+		{
+			_Semaphore.Increment();
+			Thread::Sleep(TimeSpan::FromSeconds(5));
+			_Semaphore.Decrement();
 		}
 	};
 }

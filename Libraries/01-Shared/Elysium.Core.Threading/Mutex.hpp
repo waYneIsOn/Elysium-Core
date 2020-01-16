@@ -36,6 +36,7 @@ namespace Elysium::Core::Threading
 
 		bool Lock(bool Blocking = true);
 		void Unlock();
+		const bool Wait();
 	private:
 		ELYSIUM_MUTEX_HANDLE _Handle;
 	};
