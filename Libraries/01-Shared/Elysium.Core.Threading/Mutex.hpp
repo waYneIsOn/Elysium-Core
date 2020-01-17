@@ -34,9 +34,8 @@ namespace Elysium::Core::Threading
 		Mutex& operator=(const Mutex& Source) = delete;
 		Mutex& operator=(Mutex&& Right) noexcept = delete;
 
-		bool Lock(bool Blocking = true);
-		void Unlock();
-		const bool Wait();
+		const bool WaitOne(bool Blocking = true);
+		void ReleaseMutex();
 	private:
 		ELYSIUM_MUTEX_HANDLE _Handle;
 	};

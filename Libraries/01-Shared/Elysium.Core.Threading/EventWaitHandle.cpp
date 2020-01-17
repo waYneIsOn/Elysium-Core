@@ -7,7 +7,7 @@ Elysium::Core::Threading::EventWaitHandle::EventWaitHandle(const bool Automatica
 }
 Elysium::Core::Threading::EventWaitHandle::~EventWaitHandle()
 {
-	// ToDo: do we need to clear before destroying?
+	// ToDo: do I need to Reset() before destroying?
 	bool WasDestroyed = ELYSIUM_SIGNAL_DESTROY(&_Handle);
 }
 
@@ -19,7 +19,7 @@ const bool Elysium::Core::Threading::EventWaitHandle::Reset()
 {
 	return ELYSIUM_SIGNAL_CLEAR(&_Handle);
 }
-const bool Elysium::Core::Threading::EventWaitHandle::Wait()
+const bool Elysium::Core::Threading::EventWaitHandle::WaitOne()
 {
 	return ELYSIUM_SIGNAL_WAIT(&_Handle, 0) == WAIT_OBJECT_0;
 }

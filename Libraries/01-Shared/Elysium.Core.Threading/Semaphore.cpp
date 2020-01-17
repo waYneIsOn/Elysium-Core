@@ -25,3 +25,7 @@ void Elysium::Core::Threading::Semaphore::Decrement()
 {
 	//ELYSIUM_INTERLOCKED_DECREMENT(reinterpret_cast<long*>(&_Count));
 }
+const bool Elysium::Core::Threading::Semaphore::WaitOne()
+{
+	return false;
+}

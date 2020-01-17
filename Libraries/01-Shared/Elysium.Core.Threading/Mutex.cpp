@@ -6,11 +6,11 @@ Elysium::Core::Threading::Mutex::Mutex()
 }
 Elysium::Core::Threading::Mutex::~Mutex()
 {
-	// ToDo: do we need to unlock before destroying?
+	// ToDo: do I need to ReleaseMutex() before destroying?
 	ELYSIUM_MUTEX_DESTROY(&_Handle);
 }
 
-bool Elysium::Core::Threading::Mutex::Lock(bool Blocking)
+const bool Elysium::Core::Threading::Mutex::WaitOne(bool Blocking)
 {
 	if (ELYSIUM_MUTEX_TRYLOCK(&_Handle) == 0)
 	{
@@ -22,11 +22,7 @@ bool Elysium::Core::Threading::Mutex::Lock(bool Blocking)
 	}
 	return true;
 }
-void Elysium::Core::Threading::Mutex::Unlock()
+void Elysium::Core::Threading::Mutex::ReleaseMutex()
 {
 	ELYSIUM_MUTEX_UNLOCK(&_Handle);
-}
-const bool Elysium::Core::Threading::Mutex::Wait()
-{
-	return ELYSIUM_MUTEX_WAIT(&_Handle, 50000) == WAIT_OBJECT_0;
 }

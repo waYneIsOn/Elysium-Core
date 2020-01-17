@@ -38,7 +38,7 @@ namespace Elysium::Core::Threading
 
 		const bool Set();
 		const bool Reset();
-		const bool Wait();
+		const bool WaitOne();
 	private:
 		ELYSIUM_SIGNAL_HANDLE _Handle;
 	};

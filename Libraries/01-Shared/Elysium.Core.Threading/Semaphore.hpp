@@ -34,6 +34,7 @@ namespace Elysium::Core::Threading
 
 		void Increment();
 		void Decrement();
+		const bool WaitOne();
 	private:
 		uint32_t _Count;
 		const uint32_t _MaximumCount;

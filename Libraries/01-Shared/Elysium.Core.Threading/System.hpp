@@ -20,13 +20,6 @@ Copyright (C) 2017 waYne (CAM)
 #include <synchapi.h>
 #endif
 
-// Thread
-#define ELYSIUM_THREAD_CREATE CreateThread
-
-#define ELYSIUM_THREAD_DESTROY CloseHandle
-
-#define ELYSIUM_THREAD_SETPRIORITY SetThreadPriority
-
 // Interlocked
 #define ELYSIUM_INTERLOCKED_ADD InterlockedAdd
 #define ELYSIUM_INTERLOCKED_ADD64 InterlockedAdd64
@@ -42,23 +35,17 @@ Copyright (C) 2017 waYne (CAM)
 
 // Mutex
 #define ELYSIUM_MUTEX_HANDLE _RTL_CRITICAL_SECTION
-
 #define ELYSIUM_MUTEX_CREATE InitializeCriticalSection
-
 #define ELYSIUM_MUTEX_DESTROY DeleteCriticalSection
 
 #define ELYSIUM_MUTEX_TRYLOCK TryEnterCriticalSection
-
 #define ELYSIUM_MUTEX_LOCK EnterCriticalSection
 
 #define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
 
-#define ELYSIUM_MUTEX_WAIT WaitForSingleObject
-
 // Semaphore
 #define ELYSIUM_SEMAPHORE_CREATE CreateSemaphoreEx
-
-#define ELYSIUM_SEMAPHORE_RELEASE ReleaseSemaphore
+#define ELYSIUM_SEMAPHORE_DESTROY ReleaseSemaphore
 
 // Signal
 #define ELYSIUM_SIGNAL_HANDLE _SECURITY_ATTRIBUTES
@@ -73,6 +60,13 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_SIGNAL_CLEAR ResetEvent
 
 #define ELYSIUM_SIGNAL_WAIT WaitForSingleObject
+
+// Thread
+#define ELYSIUM_THREAD_CREATE CreateThread
+
+#define ELYSIUM_THREAD_DESTROY CloseHandle
+
+#define ELYSIUM_THREAD_SETPRIORITY SetThreadPriority
 
 #elif defined(__ANDROID__)
 
