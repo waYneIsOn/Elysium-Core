@@ -82,16 +82,19 @@ namespace UnitTestsCore
 
 		TEST_METHOD(InterlockedX)
 		{
-			Thread T[4];
-			for (uint16_t i = 0; i < 4; i++)
+			const int NumberOfThreads = 64;
+			const int NumberOfIncrementsPerThread = 10000;
+
+			Thread T[NumberOfThreads];
+			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				T[i].Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this));
+				T[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this), NumberOfIncrementsPerThread);
 			}
-			for (uint16_t i = 0; i < 4; i++)
+			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
 				T[i].Join();
 			}
-			Assert::AreEqual(8000, _InterlockedInteger);
+			Assert::AreEqual(NumberOfThreads * NumberOfIncrementsPerThread, _InterlockedInteger);
 		}
 
 		TEST_METHOD(MutexLock)
@@ -196,10 +199,11 @@ namespace UnitTestsCore
 			Thread::Sleep(TimeSpan::FromSeconds(5));
 		}
 
-		void IncrementInterlocked()
+		void IncrementInterlocked(const int NumberOfIncrementsPerThread)
 		{
-			for (uint16_t i = 0; i < 2000; i++)
+			for (uint16_t i = 0; i < NumberOfIncrementsPerThread; i++)
 			{
+				//_InterlockedInteger = _InterlockedInteger + 1;
 				Interlocked::Increment(_InterlockedInteger);
 			}
 		}
