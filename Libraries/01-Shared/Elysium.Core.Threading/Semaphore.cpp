@@ -4,28 +4,25 @@
 #include "../Elysium.Core.Math/MathHelper.hpp"
 #endif
 */
-#ifndef ELYSIUM_CORE_THREADING_SYSTEM
-#include "System.hpp"
-#endif
+
+#include <assert.h>
 
 Elysium::Core::Threading::Semaphore::Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount)
-	: _MaximumCount(MaximumCount), _Count(InitialCount)
-	//: _MaximumCount(Elysium::Core::Math::MathHelper::Min(1, MaximumCount)), _Count(Elysium::Core::Math::MathHelper::Max(_MaximumCount, InitialCount))
-{ 
-	//ELYSIUM_SEMAPHORE_CREATE()
+	: _Handle(ELYSIUM_SEMAPHORE_CREATE(nullptr, InitialCount, MaximumCount, nullptr))
+{
+	assert(_Handle != nullptr);
 }
 Elysium::Core::Threading::Semaphore::~Semaphore()
-{ }
+{ 
+	bool WasDestroyed = ELYSIUM_SEMAPHORE_DESTROY(_Handle);
+	assert(WasDestroyed == true);
+}
 
-void Elysium::Core::Threading::Semaphore::Increment()
-{
-	//ELYSIUM_INTERLOCKED_INCREMENT(reinterpret_cast<long*>(&_Count));
-}
-void Elysium::Core::Threading::Semaphore::Decrement()
-{
-	//ELYSIUM_INTERLOCKED_DECREMENT(reinterpret_cast<long*>(&_Count));
-}
 const bool Elysium::Core::Threading::Semaphore::WaitOne()
 {
-	return false;
+	return ELYSIUM_SEMAPHORE_WAIT(_Handle, -1) == WAIT_OBJECT_0;
+}
+const int Elysium::Core::Threading::Semaphore::Release()
+{
+	return ELYSIUM_SEMAPHORE_RELEASE(_Handle, 1, nullptr);
 }

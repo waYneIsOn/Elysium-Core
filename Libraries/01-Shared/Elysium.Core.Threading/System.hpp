@@ -47,11 +47,15 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_SEMAPHORE_HANDLE HANDLE
 #define ELYSIUM_SEMAPHORE_CREATE CreateSemaphore
 #define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
-#define ELYSIUM_SEMAPHORE_DESTROY ReleaseSemaphore
+
+#define ELYSIUM_SEMAPHORE_DESTROY CloseHandle
+
+#define ELYSIUM_SEMAPHORE_RELEASE ReleaseSemaphore
+
+#define ELYSIUM_SEMAPHORE_WAIT WaitForSingleObject
 
 // Signal
 #define ELYSIUM_SIGNAL_HANDLE HANDLE
-
 #define ELYSIUM_SIGNAL_CREATE CreateEvent
 #define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
 
@@ -64,6 +68,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_SIGNAL_WAIT WaitForSingleObject
 
 // Thread
+#define ELYSIUM_THREAD_HANDLE HANDLE
 #define ELYSIUM_THREAD_CREATE CreateThread
 
 #define ELYSIUM_THREAD_DESTROY CloseHandle

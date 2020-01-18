@@ -4,7 +4,9 @@
 
 Elysium::Core::Threading::EventWaitHandle::EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const WideString& Name)
 	: _Handle(ELYSIUM_SIGNAL_CREATE(nullptr, AutomaticallyReset, InitialState, &Name[0]))
-{ }
+{
+	assert(_Handle != nullptr);
+}
 Elysium::Core::Threading::EventWaitHandle::~EventWaitHandle()
 {
 	bool WasDestroyed = ELYSIUM_SIGNAL_DESTROY(_Handle);

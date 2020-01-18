@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_SYSTEM
+#include "System.hpp"
+#endif
+
 namespace Elysium::Core::Threading
 {
 	// Limits the number of threads that can access a resource or pool of resources concurrently.
@@ -32,12 +36,10 @@ namespace Elysium::Core::Threading
 		Semaphore& operator=(const Semaphore& Source) = delete;
 		Semaphore& operator=(Semaphore&& Right) noexcept = delete;
 
-		void Increment();
-		void Decrement();
 		const bool WaitOne();
+		const int Release();
 	private:
-		uint32_t _Count;
-		const uint32_t _MaximumCount;
+		ELYSIUM_SEMAPHORE_HANDLE _Handle;
 	};
 }
 #endif

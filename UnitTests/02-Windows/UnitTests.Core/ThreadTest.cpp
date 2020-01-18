@@ -179,8 +179,8 @@ namespace UnitTestsCore
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
-			Assert::AreEqual(10, ElapsedTime.GetSeconds());
-			Assert::IsTrue(ElapsedSecondsTotal > 10.0 && ElapsedSecondsTotal < 11.0);
+			Assert::AreEqual(5, ElapsedTime.GetSeconds());
+			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
 		}
 	private:
 		int _OriginalValue = 5;
@@ -248,9 +248,8 @@ namespace UnitTestsCore
 
 		void RunSemaphore()
 		{
-			_Semaphore.Increment();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
-			_Semaphore.Decrement();
+			const int Bla = _Semaphore.Release();
 		}
 	};
 }
