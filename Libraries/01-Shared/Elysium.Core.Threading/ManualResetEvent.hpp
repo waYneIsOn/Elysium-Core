@@ -23,7 +23,7 @@ namespace Elysium::Core::Threading
 		ManualResetEvent(const bool InitialState);
 		ManualResetEvent(const ManualResetEvent& Source) = delete;
 		ManualResetEvent(ManualResetEvent&& Right) noexcept = delete;
-		~ManualResetEvent();
+		virtual ~ManualResetEvent();
 
 		ManualResetEvent& operator=(const ManualResetEvent& Source) = delete;
 		ManualResetEvent& operator=(ManualResetEvent&& Right) noexcept = delete;

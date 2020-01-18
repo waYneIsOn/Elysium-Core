@@ -31,13 +31,18 @@ namespace Elysium::Core::Threading
 		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const WideString& Name);
 		EventWaitHandle(const EventWaitHandle& Source) = delete;
 		EventWaitHandle(EventWaitHandle&& Right) noexcept = delete;
-		~EventWaitHandle();
+		virtual ~EventWaitHandle();
 
 		EventWaitHandle& operator=(const EventWaitHandle& Source) = delete;
 		EventWaitHandle& operator=(EventWaitHandle&& Right) noexcept = delete;
 
+		// Sets the state of the event to signaled, allowing one or more waiting threads to proceed.
 		const bool Set();
+
+		// Sets the state of the event to nonsignaled, causing threads to block.
 		const bool Reset();
+
+		// Blocks the current thread until the current WaitHandle receives a signal.
 		const bool WaitOne();
 	private:
 		ELYSIUM_SIGNAL_HANDLE _Handle;

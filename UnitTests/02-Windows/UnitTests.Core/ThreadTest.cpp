@@ -16,6 +16,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/AutoResetEvent.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_SEMAPHORE
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Semaphore.hpp"
 #endif
@@ -62,8 +66,6 @@ namespace UnitTestsCore
 
 		TEST_METHOD(LongRunningJoin)
 		{
-			_WorkerThreadId = std::this_thread::get_id();
-
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::LongRunning>(*this));
@@ -76,8 +78,6 @@ namespace UnitTestsCore
 
 		TEST_METHOD(MutexLock)
 		{
-			_WorkerThreadId = std::this_thread::get_id();
-
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunMutex>(*this));
@@ -93,8 +93,6 @@ namespace UnitTestsCore
 		}
 		TEST_METHOD(MutexWaitOne)
 		{
-			_WorkerThreadId = std::this_thread::get_id();
-
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunMutex>(*this));
@@ -112,15 +110,25 @@ namespace UnitTestsCore
 
 		TEST_METHOD(AutoResetEventWaitOne)
 		{
-			_WorkerThreadId = std::this_thread::get_id();
-
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunAutoResetEvent>(*this));
 
-			// sleep for a bit just to make sure T has set the auto reset event
-			Thread::Sleep(TimeSpan::FromSeconds(1));
 			_AutoResetEvent.WaitOne();
+
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
+			Assert::AreEqual(5, ElapsedTime.GetSeconds());
+			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
+		}
+
+		TEST_METHOD(ManualResetEventWaitOne)
+		{
+			DateTime Start = DateTime::Now();
+			Thread T = Thread();
+			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunManualResetEvent>(*this));
+
+			_ManualResetEvent.WaitOne();
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
@@ -132,8 +140,6 @@ namespace UnitTestsCore
 		{
 			Assert::Fail();
 			/*
-			_WorkerThreadId = std::this_thread::get_id();
-
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
@@ -155,6 +161,7 @@ namespace UnitTestsCore
 
 		Mutex _Mutex = Mutex();
 		AutoResetEvent _AutoResetEvent = AutoResetEvent(false);
+		ManualResetEvent _ManualResetEvent = ManualResetEvent(false);
 		Semaphore _Semaphore = Semaphore(0, 1);
 
 		void ZeroParameterThreadStart()
@@ -182,9 +189,15 @@ namespace UnitTestsCore
 
 		void RunAutoResetEvent()
 		{
-			_AutoResetEvent.Set();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
-			_AutoResetEvent.Reset();
+			_AutoResetEvent.Set();
+		}
+
+		void RunManualResetEvent()
+		{
+			Thread::Sleep(TimeSpan::FromSeconds(5));
+			_ManualResetEvent.Set();
+			_ManualResetEvent.Reset();
 		}
 
 		void RunSemaphore()

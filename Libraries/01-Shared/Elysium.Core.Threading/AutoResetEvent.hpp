@@ -23,7 +23,7 @@ namespace Elysium::Core::Threading
 		AutoResetEvent(const bool InitialState);
 		AutoResetEvent(const AutoResetEvent& Source) = delete;
 		AutoResetEvent(AutoResetEvent&& Right) noexcept = delete;
-		~AutoResetEvent();
+		virtual ~AutoResetEvent();
 
 		AutoResetEvent& operator=(const AutoResetEvent& Source) = delete;
 		AutoResetEvent& operator=(AutoResetEvent&& Right) noexcept = delete;

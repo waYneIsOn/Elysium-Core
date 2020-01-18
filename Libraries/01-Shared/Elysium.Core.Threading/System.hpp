@@ -34,7 +34,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_INTERLOCKED_INCREMENT64 InterlockedIncrement64
 
 // Mutex
-#define ELYSIUM_MUTEX_HANDLE _RTL_CRITICAL_SECTION
+#define ELYSIUM_MUTEX_HANDLE CRITICAL_SECTION
 #define ELYSIUM_MUTEX_CREATE InitializeCriticalSection
 #define ELYSIUM_MUTEX_DESTROY DeleteCriticalSection
 
@@ -44,11 +44,13 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
 
 // Semaphore
-#define ELYSIUM_SEMAPHORE_CREATE CreateSemaphoreEx
+#define ELYSIUM_SEMAPHORE_HANDLE HANDLE
+#define ELYSIUM_SEMAPHORE_CREATE CreateSemaphore
+#define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
 #define ELYSIUM_SEMAPHORE_DESTROY ReleaseSemaphore
 
 // Signal
-#define ELYSIUM_SIGNAL_HANDLE _SECURITY_ATTRIBUTES
+#define ELYSIUM_SIGNAL_HANDLE HANDLE
 
 #define ELYSIUM_SIGNAL_CREATE CreateEvent
 #define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
