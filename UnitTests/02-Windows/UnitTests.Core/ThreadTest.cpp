@@ -80,7 +80,7 @@ namespace UnitTestsCore
 			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
 		}
 
-		TEST_METHOD(InterlockedX)
+		TEST_METHOD(InterlockedIncrementAndDecrement)
 		{
 			const int NumberOfThreads = 64;
 			const int NumberOfIncrementsPerThread = 10000;
@@ -95,6 +95,16 @@ namespace UnitTestsCore
 				T[i].Join();
 			}
 			Assert::AreEqual(NumberOfThreads * NumberOfIncrementsPerThread, _InterlockedInteger);
+
+			for (uint16_t i = 0; i < NumberOfThreads; i++)
+			{
+				T[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this), NumberOfIncrementsPerThread);
+			}
+			for (uint16_t i = 0; i < NumberOfThreads; i++)
+			{
+				T[i].Join();
+			}
+			Assert::AreEqual(0, _InterlockedInteger);
 		}
 
 		TEST_METHOD(MutexLock)
@@ -205,6 +215,14 @@ namespace UnitTestsCore
 			{
 				//_InterlockedInteger = _InterlockedInteger + 1;
 				Interlocked::Increment(_InterlockedInteger);
+			}
+		}
+		void DecrementInterlocked(const int NumberOfIncrementsPerThread)
+		{
+			for (uint16_t i = 0; i < NumberOfIncrementsPerThread; i++)
+			{
+				//_InterlockedInteger = _InterlockedInteger - 1;
+				Interlocked::Decrement(_InterlockedInteger);
 			}
 		}
 
