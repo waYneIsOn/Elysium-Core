@@ -8,6 +8,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_INTERLOCKED
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Interlocked.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_MUTEX
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Mutex.hpp"
 #endif
@@ -76,6 +80,20 @@ namespace UnitTestsCore
 			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
 		}
 
+		TEST_METHOD(InterlockedX)
+		{
+			Thread T[4];
+			for (uint16_t i = 0; i < 4; i++)
+			{
+				T[i].Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this));
+			}
+			for (uint16_t i = 0; i < 4; i++)
+			{
+				T[i].Join();
+			}
+			Assert::AreEqual(8000, _InterlockedInteger);
+		}
+
 		TEST_METHOD(MutexLock)
 		{
 			DateTime Start = DateTime::Now();
@@ -138,8 +156,6 @@ namespace UnitTestsCore
 
 		TEST_METHOD(SemaphoreWaitOne)
 		{
-			Assert::Fail();
-			/*
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
@@ -152,13 +168,13 @@ namespace UnitTestsCore
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
 			Assert::AreEqual(10, ElapsedTime.GetSeconds());
 			Assert::IsTrue(ElapsedSecondsTotal > 10.0 && ElapsedSecondsTotal < 11.0);
-			*/
 		}
 	private:
 		int _OriginalValue = 5;
 		int _CalculatedValue;
 		std::thread::id _WorkerThreadId;
 
+		int32_t _InterlockedInteger = 0;
 		Mutex _Mutex = Mutex();
 		AutoResetEvent _AutoResetEvent = AutoResetEvent(false);
 		ManualResetEvent _ManualResetEvent = ManualResetEvent(false);
@@ -178,6 +194,14 @@ namespace UnitTestsCore
 		void LongRunning()
 		{
 			Thread::Sleep(TimeSpan::FromSeconds(5));
+		}
+
+		void IncrementInterlocked()
+		{
+			for (uint16_t i = 0; i < 2000; i++)
+			{
+				Interlocked::Increment(_InterlockedInteger);
+			}
 		}
 
 		void RunMutex()
