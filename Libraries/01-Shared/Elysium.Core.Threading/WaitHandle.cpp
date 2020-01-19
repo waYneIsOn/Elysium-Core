@@ -4,11 +4,8 @@
 
 Elysium::Core::Threading::WaitHandle::~WaitHandle()
 {
-	if (_Handle != nullptr)
-	{
-		bool WasDestroyed = ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY(_Handle);
-		assert(WasDestroyed == true);
-	}
+	bool WasDestroyed = ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY(_Handle);
+	assert(WasDestroyed == true);
 }
 
 const bool Elysium::Core::Threading::WaitHandle::WaitOne()
@@ -34,4 +31,6 @@ const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t Milliseco
 
 Elysium::Core::Threading::WaitHandle::WaitHandle(const ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE Handle)
 	: _Handle(Handle)
-{ }
+{
+	assert(_Handle != nullptr);
+}

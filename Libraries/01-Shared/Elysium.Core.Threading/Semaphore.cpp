@@ -8,13 +8,9 @@
 #include "SemaphoreFullException.hpp"
 #endif
 
-#include <assert.h>
-
 Elysium::Core::Threading::Semaphore::Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount)
 	: WaitHandle(ELYSIUM_SEMAPHORE_CREATE(nullptr, InitialCount, MaximumCount, nullptr))
-{
-	assert(_Handle != nullptr);
-}
+{ }
 Elysium::Core::Threading::Semaphore::~Semaphore()
 { }
 

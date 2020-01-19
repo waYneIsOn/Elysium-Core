@@ -131,7 +131,7 @@ namespace UnitTestsCore
 			// sleep for a bit just to make sure T has locked the mutex
 			Thread::Sleep(TimeSpan::FromSeconds(1));
 			_Mutex.WaitOne();
-			_Mutex.ReleaseMutex();
+			_Mutex.ReleaseMutexX();
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
@@ -236,7 +236,7 @@ namespace UnitTestsCore
 		{
 			_Mutex.WaitOne();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
-			_Mutex.ReleaseMutex();
+			_Mutex.ReleaseMutexX();
 		}
 
 		void RunAutoResetEvent()

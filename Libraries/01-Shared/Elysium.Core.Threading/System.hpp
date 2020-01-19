@@ -25,8 +25,8 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY CloseHandle
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_SINGLE_OBJECT WaitForSingleObject
 
-#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS WaitForMultipleObjects
-#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTSEX WaitForMultipleObjectsEx
+//#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS WaitForMultipleObjects
+//#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTSEX WaitForMultipleObjectsEx
 
 // Interlocked
 #define ELYSIUM_INTERLOCKED_ADD InterlockedAdd
@@ -42,24 +42,29 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_INTERLOCKED_INCREMENT64 InterlockedIncrement64
 
 // Mutex
+#define ELYSIUM_MUTEX_CREATE CreateMutex
+
+#define ELYSIUM_MUTEX_UNLOCK ReleaseMutex
+/*
 #define ELYSIUM_MUTEX_HANDLE CRITICAL_SECTION
 #define ELYSIUM_MUTEX_CREATE InitializeCriticalSection
+#define ELYSIUM_MUTEX_CREATEEX InitializeCriticalSectionEx
 #define ELYSIUM_MUTEX_DESTROY DeleteCriticalSection
 
 #define ELYSIUM_MUTEX_TRYLOCK TryEnterCriticalSection
 #define ELYSIUM_MUTEX_LOCK EnterCriticalSection
 
 #define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
-
+*/
 // Semaphore
 #define ELYSIUM_SEMAPHORE_CREATE CreateSemaphore
-#define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
+//#define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
 
 #define ELYSIUM_SEMAPHORE_RELEASE ReleaseSemaphore
 
 // Signal
 #define ELYSIUM_SIGNAL_CREATE CreateEvent
-#define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
+//#define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
 
 #define ELYSIUM_SIGNAL_RAISE SetEvent
 
