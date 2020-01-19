@@ -37,7 +37,7 @@ namespace Elysium::Core::Threading
 		Semaphore& operator=(Semaphore&& Right) noexcept = delete;
 
 		const bool WaitOne();
-		const int Release();
+		const int32_t Release();
 	private:
 		ELYSIUM_SEMAPHORE_HANDLE _Handle;
 	};

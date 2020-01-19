@@ -85,24 +85,24 @@ namespace UnitTestsCore
 			const int NumberOfThreads = 64;
 			const int NumberOfIncrementsPerThread = 10000;
 
-			Thread T[NumberOfThreads];
+			Thread Ts[NumberOfThreads];
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				T[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this), NumberOfIncrementsPerThread);
+				Ts[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this), NumberOfIncrementsPerThread);
 			}
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				T[i].Join();
+				Ts[i].Join();
 			}
 			Assert::AreEqual(NumberOfThreads * NumberOfIncrementsPerThread, _InterlockedInteger);
 
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				T[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this), NumberOfIncrementsPerThread);
+				Ts[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this), NumberOfIncrementsPerThread);
 			}
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				T[i].Join();
+				Ts[i].Join();
 			}
 			Assert::AreEqual(0, _InterlockedInteger);
 		}
@@ -169,18 +169,26 @@ namespace UnitTestsCore
 
 		TEST_METHOD(SemaphoreWaitOne)
 		{
-			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
+			const int NumberOfThreads = 3;
 
-			// sleep for a bit just to make sure T has incremented the semaphore
+			Thread Ts[NumberOfThreads];
+			DateTime Start = DateTime::Now();
+			for (uint16_t i = 0; i < NumberOfThreads; i++)
+			{
+				Ts[i].Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
+			}
+
+			// sleep for a bit just to make sure any thread has incremented the semaphore
 			Thread::Sleep(TimeSpan::FromSeconds(1));
-			_Semaphore.WaitOne();
+			for (uint16_t i = 0; i < NumberOfThreads; i++)
+			{
+				Ts[i].Join();
+			}
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
-			Assert::AreEqual(5, ElapsedTime.GetSeconds());
-			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
+			Assert::AreEqual(NumberOfThreads * 5, ElapsedTime.GetSeconds());
+			Assert::IsTrue(ElapsedSecondsTotal > NumberOfThreads * 5  && ElapsedSecondsTotal < NumberOfThreads * 5 + 1);
 		}
 	private:
 		int _OriginalValue = 5;
@@ -191,7 +199,7 @@ namespace UnitTestsCore
 		Mutex _Mutex = Mutex();
 		AutoResetEvent _AutoResetEvent = AutoResetEvent(false);
 		ManualResetEvent _ManualResetEvent = ManualResetEvent(false);
-		Semaphore _Semaphore = Semaphore(0, 1);
+		Semaphore _Semaphore = Semaphore(1, 1);
 
 		void ZeroParameterThreadStart()
 		{
@@ -248,8 +256,9 @@ namespace UnitTestsCore
 
 		void RunSemaphore()
 		{
+			const bool IsSignaled = _Semaphore.WaitOne();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
-			const int Bla = _Semaphore.Release();
+			const int PreviousCount = _Semaphore.Release();
 		}
 	};
 }
