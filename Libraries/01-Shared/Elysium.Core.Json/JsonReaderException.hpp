@@ -21,7 +21,7 @@ namespace Elysium::Core::Json
 	public:
 		JsonReaderException();
 		JsonReaderException(const String& Message);
-		~JsonReaderException();
+		virtual ~JsonReaderException();
 	};
 }
 #endif

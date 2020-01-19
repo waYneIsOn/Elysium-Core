@@ -21,7 +21,7 @@ namespace Elysium::Core
 	public:
 		IndexOutOfRangeException();
 		IndexOutOfRangeException(const String& Message);
-		~IndexOutOfRangeException();
+		virtual ~IndexOutOfRangeException();
 	};
 }
 #endif

@@ -30,7 +30,7 @@ namespace Elysium::Core::Runtime::InteropServices
 		ExternalException();
 		ExternalException(const String& Message);
 		ExternalException(const String& Message, const int ErrorCode);
-		~ExternalException();
+		virtual ~ExternalException();
 
 		int GetErrorCode();
 		HRESULT GetHResult();

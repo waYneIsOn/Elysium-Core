@@ -21,7 +21,7 @@ namespace Elysium::Core
 	public:
 		InvalidCastException();
 		InvalidCastException(const String& Message);
-		~InvalidCastException();
+		virtual ~InvalidCastException();
 	};
 }
 #endif

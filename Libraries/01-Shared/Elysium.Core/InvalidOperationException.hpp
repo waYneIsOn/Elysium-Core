@@ -22,7 +22,7 @@ namespace Elysium::Core
 		InvalidOperationException();
 		InvalidOperationException(const char16_t* Message);
 		InvalidOperationException(const String& Message);
-		~InvalidOperationException();
+		virtual ~InvalidOperationException();
 	};
 }
 #endif

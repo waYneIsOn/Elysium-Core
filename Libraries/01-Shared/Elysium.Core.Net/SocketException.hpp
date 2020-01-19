@@ -34,7 +34,7 @@ namespace Elysium::Core::Net::Sockets
 		SocketException();
 		SocketException(const String& Message);
 		SocketException(const String& Message, const int ErrorCode);
-		~SocketException();
+		virtual ~SocketException();
 	};
 }
 #endif
