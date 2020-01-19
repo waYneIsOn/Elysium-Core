@@ -59,6 +59,7 @@ namespace UnitTestsCore
 
 			Thread T = Thread();
 			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::ZeroParameterThreadStart>(*this));
+			T.Join();
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 		}
@@ -68,6 +69,7 @@ namespace UnitTestsCore
 
 			Thread T = Thread();
 			T.Start<int>(Delegate<void, int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::SingleParameterThreadStart>(*this), 6);
+			T.Join();
 			Assert::AreEqual(36, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 		}
@@ -143,7 +145,7 @@ namespace UnitTestsCore
 			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
 		}
 
-		TEST_METHOD(CriticalSectionEnter)
+		TEST_METHOD(CriticalSectionTest)
 		{
 			DateTime Start = DateTime::Now();
 			Thread T = Thread();
@@ -151,7 +153,8 @@ namespace UnitTestsCore
 
 			// sleep for a bit just to make sure T has entered the critical section
 			Thread::Sleep(TimeSpan::FromSeconds(1));
-			T.Join();
+			_CriticalSection.Enter();
+			_CriticalSection.Exit();
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
