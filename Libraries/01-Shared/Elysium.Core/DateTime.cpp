@@ -91,8 +91,8 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
 	// ToDo: UtcNow.ToLocalTime()
-	return DateTime(std::chrono::high_resolution_clock::now().time_since_epoch().count() / 100, DateTimeKind::Local);
-	//return DateTime(std::chrono::system_clock::now().time_since_epoch().count(), DateTimeKind::Local);
+	//return DateTime(std::chrono::high_resolution_clock::now().time_since_epoch().count() / 100, DateTimeKind::Local);
+	return DateTime(std::chrono::system_clock::now().time_since_epoch().count(), DateTimeKind::Local);
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 {
