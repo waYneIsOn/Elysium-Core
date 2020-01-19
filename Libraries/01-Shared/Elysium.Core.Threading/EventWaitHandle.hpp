@@ -10,22 +10,18 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_THREADING_EVENTWAITHANDLE
 #define ELYSIUM_CORE_THREADING_EVENTWAITHANDLE
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
+#include "WaitHandle.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_SYSTEM
-#include "System.hpp"
-#endif
-
 namespace Elysium::Core::Threading
 {
 	// Represents a thread synchronization event.
-	class ELYSIUM_CORE_API EventWaitHandle
+	class ELYSIUM_CORE_API EventWaitHandle : public WaitHandle
 	{
 	public:
 		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const WideString& Name);
@@ -41,11 +37,6 @@ namespace Elysium::Core::Threading
 
 		// Sets the state of the event to nonsignaled, causing threads to block.
 		const bool Reset();
-
-		// Blocks the current thread until the current WaitHandle receives a signal.
-		const bool WaitOne();
-	private:
-		ELYSIUM_SIGNAL_HANDLE _Handle;
 	};
 }
 #endif

@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoResetEvent.cpp" />
@@ -42,5 +43,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ManualResetEvent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventWaitHandle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SemaphoreFullException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

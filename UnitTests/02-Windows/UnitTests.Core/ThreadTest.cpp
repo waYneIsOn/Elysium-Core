@@ -178,8 +178,6 @@ namespace UnitTestsCore
 				Ts[i].Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
 			}
 
-			// sleep for a bit just to make sure any thread has incremented the semaphore
-			Thread::Sleep(TimeSpan::FromSeconds(1));
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
 				Ts[i].Join();

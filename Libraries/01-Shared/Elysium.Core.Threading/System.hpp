@@ -20,6 +20,14 @@ Copyright (C) 2017 waYne (CAM)
 #include <synchapi.h>
 #endif
 
+// Any synchronization primitive
+#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE HANDLE
+#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY CloseHandle
+#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_SINGLE_OBJECT WaitForSingleObject
+
+#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS WaitForMultipleObjects
+#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTSEX WaitForMultipleObjectsEx
+
 // Interlocked
 #define ELYSIUM_INTERLOCKED_ADD InterlockedAdd
 #define ELYSIUM_INTERLOCKED_ADD64 InterlockedAdd64
@@ -44,34 +52,21 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
 
 // Semaphore
-#define ELYSIUM_SEMAPHORE_HANDLE HANDLE
 #define ELYSIUM_SEMAPHORE_CREATE CreateSemaphore
 #define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
 
-#define ELYSIUM_SEMAPHORE_DESTROY CloseHandle
-
 #define ELYSIUM_SEMAPHORE_RELEASE ReleaseSemaphore
 
-#define ELYSIUM_SEMAPHORE_WAIT WaitForSingleObject
-
 // Signal
-#define ELYSIUM_SIGNAL_HANDLE HANDLE
 #define ELYSIUM_SIGNAL_CREATE CreateEvent
 #define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
-
-#define ELYSIUM_SIGNAL_DESTROY CloseHandle
 
 #define ELYSIUM_SIGNAL_RAISE SetEvent
 
 #define ELYSIUM_SIGNAL_CLEAR ResetEvent
 
-#define ELYSIUM_SIGNAL_WAIT WaitForSingleObject
-
 // Thread
-#define ELYSIUM_THREAD_HANDLE HANDLE
 #define ELYSIUM_THREAD_CREATE CreateThread
-
-#define ELYSIUM_THREAD_DESTROY CloseHandle
 
 #define ELYSIUM_THREAD_SETPRIORITY SetThreadPriority
 

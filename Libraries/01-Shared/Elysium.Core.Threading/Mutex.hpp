@@ -10,8 +10,8 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_THREADING_MUTEX
 #define ELYSIUM_CORE_THREADING_MUTEX
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
+#include "WaitHandle.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
@@ -21,7 +21,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Threading
 {
 	// A synchronization primitive that can also be used for interprocess synchronization.
-	class ELYSIUM_CORE_API Mutex final
+	class ELYSIUM_CORE_API Mutex final //: public WaitHandle
 	{
 	public:
 		Mutex();
@@ -34,7 +34,9 @@ namespace Elysium::Core::Threading
 		Mutex& operator=(const Mutex& Source) = delete;
 		Mutex& operator=(Mutex&& Right) noexcept = delete;
 
-		const bool WaitOne(bool Blocking = true);
+		//virtual const bool WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext) override;
+
+		const bool WaitOne();
 		void ReleaseMutex();
 	private:
 		ELYSIUM_MUTEX_HANDLE _Handle;
