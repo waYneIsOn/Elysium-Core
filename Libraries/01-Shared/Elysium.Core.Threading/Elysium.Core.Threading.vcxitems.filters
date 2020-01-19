@@ -17,6 +17,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EventWaitHandle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CriticalSection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SemaphoreFullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

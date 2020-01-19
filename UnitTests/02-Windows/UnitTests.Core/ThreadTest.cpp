@@ -16,6 +16,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Mutex.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_CRITICALSECTION
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/CriticalSection.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/AutoResetEvent.hpp"
 #endif
@@ -131,7 +135,23 @@ namespace UnitTestsCore
 			// sleep for a bit just to make sure T has locked the mutex
 			Thread::Sleep(TimeSpan::FromSeconds(1));
 			_Mutex.WaitOne();
-			_Mutex.ReleaseMutexX();
+			_Mutex.Release();
+
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
+			Assert::AreEqual(5, ElapsedTime.GetSeconds());
+			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
+		}
+
+		TEST_METHOD(CriticalSectionEnter)
+		{
+			DateTime Start = DateTime::Now();
+			Thread T = Thread();
+			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunCriticalSection>(*this));
+
+			// sleep for a bit just to make sure T has entered the critical section
+			Thread::Sleep(TimeSpan::FromSeconds(1));
+			T.Join();
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
@@ -195,6 +215,7 @@ namespace UnitTestsCore
 
 		int32_t _InterlockedInteger = 0;
 		Mutex _Mutex = Mutex();
+		CriticalSection _CriticalSection = CriticalSection();
 		AutoResetEvent _AutoResetEvent = AutoResetEvent(false);
 		ManualResetEvent _ManualResetEvent = ManualResetEvent(false);
 		Semaphore _Semaphore = Semaphore(1, 1);
@@ -236,7 +257,14 @@ namespace UnitTestsCore
 		{
 			_Mutex.WaitOne();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
-			_Mutex.ReleaseMutexX();
+			_Mutex.Release();
+		}
+
+		void RunCriticalSection()
+		{
+			_CriticalSection.Enter();
+			Thread::Sleep(TimeSpan::FromSeconds(5));
+			_CriticalSection.Exit();
 		}
 
 		void RunAutoResetEvent()

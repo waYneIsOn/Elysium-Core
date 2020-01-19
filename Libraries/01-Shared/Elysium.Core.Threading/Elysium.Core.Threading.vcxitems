@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AutoResetEvent.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CriticalSection.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventWaitHandle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ManualResetEvent.cpp" />

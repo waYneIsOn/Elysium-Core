@@ -28,6 +28,17 @@ Copyright (C) 2017 waYne (CAM)
 //#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS WaitForMultipleObjects
 //#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTSEX WaitForMultipleObjectsEx
 
+// Critical section (lightweight "mutexes" which - as opposed to mutexes - cannot be shared across multiple processes (making them faster/more lightweight))
+#define ELYSIUM_CRITICAL_SECTION_HANDLE CRITICAL_SECTION
+#define ELYSIUM_CRITICAL_SECTION_CREATE InitializeCriticalSection
+//#define ELYSIUM_CRITICAL_SECTION_CREATEEX InitializeCriticalSectionEx
+#define ELYSIUM_CRITICAL_SECTION_DESTROY DeleteCriticalSection
+
+#define ELYSIUM_CRITICAL_SECTION_TRYENTER TryEnterCriticalSection
+#define ELYSIUM_CRITICAL_SECTION_ENTER EnterCriticalSection
+
+#define ELYSIUM_CRITICAL_SECTION_LEAVE LeaveCriticalSection
+
 // Interlocked
 #define ELYSIUM_INTERLOCKED_ADD InterlockedAdd
 #define ELYSIUM_INTERLOCKED_ADD64 InterlockedAdd64
@@ -45,17 +56,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_MUTEX_CREATE CreateMutex
 
 #define ELYSIUM_MUTEX_UNLOCK ReleaseMutex
-/*
-#define ELYSIUM_MUTEX_HANDLE CRITICAL_SECTION
-#define ELYSIUM_MUTEX_CREATE InitializeCriticalSection
-#define ELYSIUM_MUTEX_CREATEEX InitializeCriticalSectionEx
-#define ELYSIUM_MUTEX_DESTROY DeleteCriticalSection
 
-#define ELYSIUM_MUTEX_TRYLOCK TryEnterCriticalSection
-#define ELYSIUM_MUTEX_LOCK EnterCriticalSection
-
-#define ELYSIUM_MUTEX_UNLOCK LeaveCriticalSection
-*/
 // Semaphore
 #define ELYSIUM_SEMAPHORE_CREATE CreateSemaphore
 //#define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
