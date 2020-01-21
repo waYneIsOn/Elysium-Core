@@ -20,9 +20,15 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
+	namespace Threading
+	{
+		class Thread;
+	}
+
 	template <class ReturnType, class ...Args>
 	class Delegate final
 	{
+		friend class Threading::Thread;
 	public:
 		Delegate(const Delegate& Source);
 		Delegate(Delegate&& Right) noexcept;

@@ -18,8 +18,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_THREAD
-#include "Thread.hpp"
+#ifndef ELYSIUM_CORE_THREADING_SYSTEM
+#include "System.hpp"
 #endif
 
 #ifndef _ATOMIC_
@@ -34,7 +34,7 @@ namespace Elysium::Core::Threading
 		ThreadPool();
 		ThreadPool(const size_t NumberOfThreads);
 		ThreadPool(const ThreadPool& Source) = delete;
-		ThreadPool(TimeSpan&& Right) noexcept = delete;
+		ThreadPool(ThreadPool&& Right) noexcept = delete;
 		~ThreadPool();
 
 		ThreadPool& operator=(const ThreadPool& Source) = delete;
@@ -45,7 +45,7 @@ namespace Elysium::Core::Threading
 		void Start();
 		void Stop();
 	private:
-		const Elysium::Core::Collections::Template::Array<Thread> _Threads;
+		const Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE> _ThreadHandles;
 
 		std::atomic<bool> _ShouldStop;
 		std::atomic<bool> _IsRunning;

@@ -34,8 +34,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/CultureInfo.hpp"
 #endif
 
-#ifndef _THREAD_
-#include <thread>
+#ifndef ELYSIUM_CORE_THREADING_SYSTEM
+#include "System.hpp"
 #endif
 
 #pragma warning(disable : 4251)
@@ -45,14 +45,14 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API Thread final
 	{
 	public:
-		Thread();
-		Thread(const String& Name);
+		Thread(const Delegate<void>& ThreadStart);
+		Thread(const Delegate<void, void*>& ParameterizedThreadStart);
 		Thread(const Thread& Source) = delete;
-		Thread(Thread&& Right) noexcept;
+		Thread(Thread&& Right) noexcept = delete;
 		~Thread();
 
 		Thread& operator=(const Thread& Source) = delete;
-		Thread& operator=(Thread&& Right) noexcept;
+		Thread& operator=(Thread&& Right) noexcept = delete;
 
 		bool operator==(const Thread& Other) const;
 		bool operator!=(const Thread& Other) const;
@@ -62,33 +62,35 @@ namespace Elysium::Core::Threading
 
 		static const int GetCurrentThreadId();
 
-		void Start(const Delegate<void>& ThreadStart);
+		void Start();
+		void Start(void* Parameter);
 
-		template<class T>
-		void Start(const Delegate<void, T>& ParameterizedThreadStart, T Parameter);
-		
 		void Join();
 
 		static void Sleep(const TimeSpan& Timeout);
 		//static bool Yield();
 	private:
-		const Elysium::Core::String _Name;
-
+		unsigned long _Id;
+		ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE _Handle;
+		Elysium::Core::String _Name;
 		ThreadState _State;
-		std::thread _NativeThread;
-
 		Globalization::CultureInfo _CurrentCulture;
-	};
 
-	template<class T>
-	inline void Thread::Start(const Delegate<void, T>& ParameterizedThreadStart, T Parameter)
-	{
-		if ((_State | ThreadState::Running) == ThreadState::Running)
+		struct ThreadParameters
 		{
-			return;
-		}
-		_NativeThread = std::thread(ParameterizedThreadStart, Parameter);
-		_State = ThreadState::Running;
-	}
+			ThreadParameters(const Delegate<void>& ThreadStart);
+			ThreadParameters(const Delegate<void, void*>& ParameterizedThreadStart);
+			~ThreadParameters();
+
+			void* _Target;
+			void(*_Method)(void* NonSpecificInstance);
+			void* _FurtherParameter;
+			void(*_ParamaterizedMethod)(void* NonSpecificInstance, void* FurtherParameter);
+		};
+
+		ThreadParameters _Parameters;
+
+		static void ThreadMain(ThreadParameters& Parameters);
+	};
 }
 #endif

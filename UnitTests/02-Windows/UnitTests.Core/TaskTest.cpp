@@ -12,6 +12,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_THREAD
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATETIME
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 #endif

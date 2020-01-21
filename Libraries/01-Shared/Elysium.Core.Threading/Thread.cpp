@@ -12,32 +12,22 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Threading::Thread::Thread()
-	: _Name(), _State(ThreadState::Unstarted)
+#ifndef _THREAD_
+#include <thread>
+#endif
+
+Elysium::Core::Threading::Thread::Thread(const Delegate<void>& ThreadStart)
+	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo()),
+	_Parameters(ThreadParameters(ThreadStart))
 { }
-Elysium::Core::Threading::Thread::Thread(const String& Name)
-	: _Name(Name), _State(ThreadState::Unstarted)
+Elysium::Core::Threading::Thread::Thread(const Delegate<void, void*>& ParameterizedThreadStart)
+	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo()),
+	_Parameters(ThreadParameters(ParameterizedThreadStart))
 { }
-Elysium::Core::Threading::Thread::Thread(Thread && Right) noexcept
-{
-	*this = std::move(Right);
-}
 Elysium::Core::Threading::Thread::~Thread()
 {
 	Join();
-}
-
-Elysium::Core::Threading::Thread & Elysium::Core::Threading::Thread::operator=(Thread && Right) noexcept
-{
-	if (this != &Right)
-	{
-		//_ThreadStart = std::move(Right._ThreadStart);
-		_NativeThread = std::move(Right._NativeThread);
-
-		//Right._ThreadStart = nullptr;
-		_NativeThread = std::thread();
-	}
-	return *this;
+	bool WasDestroyed = ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY(_Handle);
 }
 
 bool Elysium::Core::Threading::Thread::operator==(const Thread & Other) const
@@ -55,38 +45,69 @@ const Elysium::Core::Globalization::CultureInfo & Elysium::Core::Threading::Thre
 }
 const int Elysium::Core::Threading::Thread::GetThreadId() const
 {
-	std::thread::id NativeId = _NativeThread.get_id();
-	//unsigned int Bla = NativeId._Id;
-	throw NotImplementedException();
+	return _Id;
 }
 
 const int Elysium::Core::Threading::Thread::GetCurrentThreadId()
 {
-	std::thread::id NativeId = std::this_thread::get_id();
 	throw NotImplementedException();
 }
 
-void Elysium::Core::Threading::Thread::Start(const Delegate<void>& ThreadStart)
+void Elysium::Core::Threading::Thread::Start()
 {
 	if ((_State | ThreadState::Running) == ThreadState::Running)
 	{
 		return;
 	}
-	_NativeThread = std::thread(ThreadStart);
 	_State = ThreadState::Running;
+	_Handle = ELYSIUM_THREAD_CREATE(nullptr, 0, (LPTHREAD_START_ROUTINE)ThreadMain, &_Parameters, 0, &_Id);
+}
+void Elysium::Core::Threading::Thread::Start(void * Parameter)
+{
+	if ((_State | ThreadState::Running) == ThreadState::Running)
+	{
+		return;
+	}
+	_State = ThreadState::Running;
+	_Parameters._FurtherParameter = Parameter;
+	_Handle = ELYSIUM_THREAD_CREATE(nullptr, 0, (LPTHREAD_START_ROUTINE)ThreadMain, &_Parameters, 0, &_Id);
 }
 
 void Elysium::Core::Threading::Thread::Join()
 {
-	_State = ThreadState::StopRequested;
-	if (_NativeThread.joinable())
+	/*
+	if ((_State & ThreadState::Stopped) == ThreadState::Stopped)
 	{
-		_NativeThread.join();
+		return;
 	}
+	*/
+	_State = ThreadState::WaitSleepJoin;
+	bool SignalReceived = ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_SINGLE_OBJECT(_Handle, INFINITE) == WAIT_OBJECT_0;
 	_State = ThreadState::Stopped;
 }
 
 void Elysium::Core::Threading::Thread::Sleep(const TimeSpan & Timeout)
 {
 	std::this_thread::sleep_for(std::chrono::nanoseconds(Timeout.GetTicks() * 100));
+}
+
+Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void>& ThreadStart)
+	: _Target(ThreadStart._Target), _Method(ThreadStart._Method), _ParamaterizedMethod(nullptr)
+{ }
+Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void, void*>& ParameterizedThreadStart)
+	: _Target(ParameterizedThreadStart._Target), _Method(nullptr), _ParamaterizedMethod(ParameterizedThreadStart._Method)
+{ }
+Elysium::Core::Threading::Thread::ThreadParameters::~ThreadParameters()
+{ }
+
+void Elysium::Core::Threading::Thread::ThreadMain(ThreadParameters& Parameters)
+{
+	if (Parameters._Method == nullptr)
+	{
+		Parameters._ParamaterizedMethod(Parameters._Target, Parameters._FurtherParameter);
+	}
+	else
+	{
+		Parameters._Method(Parameters._Target);
+	}
 }

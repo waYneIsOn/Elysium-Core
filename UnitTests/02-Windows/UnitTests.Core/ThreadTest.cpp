@@ -69,16 +69,14 @@ namespace UnitTestsCore
 		}
 		TEST_METHOD(ParameterizedThreadStartThread)
 		{
-			Assert::Fail();
-			/*
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Thread T = Thread();
-			T.Start<int>(Delegate<void, int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::SingleParameterThreadStart>(*this), 6);
+			Thread T = Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::SingleParameterThreadStart>(*this));
+			int Value = 6;
+			T.Start(static_cast<void*>(&Value));
 			T.Join();
 			Assert::AreEqual(36, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
-			*/
 		}
 
 		TEST_METHOD(LongRunningJoin)
@@ -95,32 +93,54 @@ namespace UnitTestsCore
 
 		TEST_METHOD(InterlockedIncrementAndDecrement)
 		{
-			Assert::Fail();
-			/*
-			const int NumberOfThreads = 64;
-			const int NumberOfIncrementsPerThread = 10000;
+			const int NumberOfThreads = 10;
+			int NumberOfIncrementsPerThread = 10000;
 
-			Thread Ts[NumberOfThreads];
+			Thread IncrementTs[NumberOfThreads] =
+			{
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this))
+			};
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				Ts[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::IncrementInterlocked>(*this), NumberOfIncrementsPerThread);
+				IncrementTs[i].Start(static_cast<void*>(&NumberOfIncrementsPerThread));
 			}
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				Ts[i].Join();
+				IncrementTs[i].Join();
 			}
 			Assert::AreEqual(NumberOfThreads * NumberOfIncrementsPerThread, _InterlockedInteger);
 
+			Thread DecrementTs[NumberOfThreads] =
+			{
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this))
+			};
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				Ts[i].Start<const int>(Delegate<void, const int>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::DecrementInterlocked>(*this), NumberOfIncrementsPerThread);
+				DecrementTs[i].Start(static_cast<void*>(&NumberOfIncrementsPerThread));
 			}
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				Ts[i].Join();
+				DecrementTs[i].Join();
 			}
 			Assert::AreEqual(0, _InterlockedInteger);
-			*/
 		}
 
 		TEST_METHOD(MutexLock)
@@ -202,15 +222,18 @@ namespace UnitTestsCore
 
 		TEST_METHOD(SemaphoreWaitOne)
 		{
-			Assert::Fail();
-			/*
 			const int NumberOfThreads = 3;
-
-			Thread Ts[NumberOfThreads];
+			
+			Thread Ts[NumberOfThreads] = 
+			{
+				Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this)),
+				Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this)),
+				Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this))
+			};
 			DateTime Start = DateTime::Now();
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
-				Ts[i].Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunSemaphore>(*this));
+				Ts[i].Start();
 			}
 
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
@@ -222,7 +245,6 @@ namespace UnitTestsCore
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
 			Assert::AreEqual(NumberOfThreads * 5, ElapsedTime.GetSeconds());
 			Assert::IsTrue(ElapsedSecondsTotal > NumberOfThreads * 5  && ElapsedSecondsTotal < NumberOfThreads * 5 + 1);
-			*/
 		}
 	private:
 		int _OriginalValue = 5;
@@ -241,9 +263,11 @@ namespace UnitTestsCore
 			_CalculatedValue = _OriginalValue * _OriginalValue;
 			_WorkerThreadId = std::this_thread::get_id();
 		}
-		void SingleParameterThreadStart(int OriginalValue)
+		void SingleParameterThreadStart(void* Input)
 		{
-			_CalculatedValue = OriginalValue * OriginalValue;
+			int* OriginalValue = static_cast<int*>(Input);
+
+			_CalculatedValue = *OriginalValue * *OriginalValue;
 			_WorkerThreadId = std::this_thread::get_id();
 		}
 
@@ -252,17 +276,19 @@ namespace UnitTestsCore
 			Thread::Sleep(TimeSpan::FromSeconds(5));
 		}
 
-		void IncrementInterlocked(const int NumberOfIncrementsPerThread)
+		void IncrementInterlocked(void* Input)
 		{
-			for (uint16_t i = 0; i < NumberOfIncrementsPerThread; i++)
+			int* NumberOfIncrementsPerThread = static_cast<int*>(Input);
+			for (uint16_t i = 0; i < *NumberOfIncrementsPerThread; i++)
 			{
 				//_InterlockedInteger = _InterlockedInteger + 1;
 				Interlocked::Increment(_InterlockedInteger);
 			}
 		}
-		void DecrementInterlocked(const int NumberOfIncrementsPerThread)
+		void DecrementInterlocked(void* Input)
 		{
-			for (uint16_t i = 0; i < NumberOfIncrementsPerThread; i++)
+			int* NumberOfIncrementsPerThread = static_cast<int*>(Input);
+			for (uint16_t i = 0; i < *NumberOfIncrementsPerThread; i++)
 			{
 				//_InterlockedInteger = _InterlockedInteger - 1;
 				Interlocked::Decrement(_InterlockedInteger);

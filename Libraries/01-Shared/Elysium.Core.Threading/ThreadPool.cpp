@@ -9,11 +9,11 @@
 #endif
 
 Elysium::Core::Threading::ThreadPool::ThreadPool()
-	: _Threads(Elysium::Core::Collections::Template::Array<Thread>(Environment::ProcessorCount() - 1)),
+	: _ThreadHandles(Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE>(Environment::ProcessorCount() - 1)),
 	_ShouldStop(false), _IsRunning(false)
 { }
 Elysium::Core::Threading::ThreadPool::ThreadPool(const size_t NumberOfThreads)
-	: _Threads(Elysium::Core::Collections::Template::Array<Thread>(NumberOfThreads)),
+	: _ThreadHandles(Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE>(NumberOfThreads)),
 	_ShouldStop(false), _IsRunning(false)
 { }
 Elysium::Core::Threading::ThreadPool::~ThreadPool()
@@ -23,7 +23,8 @@ Elysium::Core::Threading::ThreadPool::~ThreadPool()
 
 const size_t Elysium::Core::Threading::ThreadPool::GetNumberOfThreads() const
 {
-	return _Threads.GetLength();
+	return 0;
+	//return _Threads.GetLength();
 }
 
 void Elysium::Core::Threading::ThreadPool::Start()
@@ -33,12 +34,12 @@ void Elysium::Core::Threading::ThreadPool::Start()
 		return;
 	}
 	_ShouldStop = false;
-
+	/*
 	for (size_t i = 0; i < _Threads.GetLength(); i++)
 	{
-		_Threads[i].Start(Delegate<void>::CreateDelegate<ThreadPool, &ThreadPool::Run>(*this));
+		_Threads[i].Start();	// Delegate<void>::CreateDelegate<ThreadPool, &ThreadPool::Run>(*this)
 	}
-
+	*/
 	_IsRunning = true;
 }
 void Elysium::Core::Threading::ThreadPool::Stop()
@@ -48,12 +49,12 @@ void Elysium::Core::Threading::ThreadPool::Stop()
 		return;
 	}
 	_ShouldStop = true;
-
+	/*
 	for (size_t i = 0; i < _Threads.GetLength(); i++)
 	{
 		_Threads[i].Join();
 	}
-
+	*/
 	_IsRunning = false;
 }
 

@@ -14,5 +14,5 @@ Elysium::Core::Threading::Mutex::~Mutex()
 
 void Elysium::Core::Threading::Mutex::Release()
 {
-	ELYSIUM_MUTEX_UNLOCK(_Handle);
+	bool WasReleased = ELYSIUM_MUTEX_UNLOCK(_Handle);
 }
