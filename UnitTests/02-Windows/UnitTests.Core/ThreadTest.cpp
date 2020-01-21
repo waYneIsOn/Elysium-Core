@@ -44,6 +44,10 @@
 #include <Windows.h>
 #endif
 
+#ifndef _THREAD_
+#include <thread>
+#endif
+
 using namespace Elysium::Core;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -57,14 +61,16 @@ namespace UnitTestsCore
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::ZeroParameterThreadStart>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::ZeroParameterThreadStart>(*this));
+			T.Start();
 			T.Join();
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 		}
 		TEST_METHOD(ParameterizedThreadStartThread)
 		{
+			Assert::Fail();
+			/*
 			_WorkerThreadId = std::this_thread::get_id();
 
 			Thread T = Thread();
@@ -72,13 +78,14 @@ namespace UnitTestsCore
 			T.Join();
 			Assert::AreEqual(36, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
+			*/
 		}
 
 		TEST_METHOD(LongRunningJoin)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::LongRunning>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::LongRunning>(*this));
+			T.Start();
 			T.Join();
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
@@ -88,6 +95,8 @@ namespace UnitTestsCore
 
 		TEST_METHOD(InterlockedIncrementAndDecrement)
 		{
+			Assert::Fail();
+			/*
 			const int NumberOfThreads = 64;
 			const int NumberOfIncrementsPerThread = 10000;
 
@@ -111,13 +120,14 @@ namespace UnitTestsCore
 				Ts[i].Join();
 			}
 			Assert::AreEqual(0, _InterlockedInteger);
+			*/
 		}
 
 		TEST_METHOD(MutexLock)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunMutex>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunMutex>(*this));
+			T.Start();
 
 			// sleep for a bit just to make sure T has locked the mutex
 			Thread::Sleep(TimeSpan::FromSeconds(1));
@@ -131,8 +141,8 @@ namespace UnitTestsCore
 		TEST_METHOD(MutexWaitOne)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunMutex>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunMutex>(*this));
+			T.Start();
 
 			// sleep for a bit just to make sure T has locked the mutex
 			Thread::Sleep(TimeSpan::FromSeconds(1));
@@ -148,8 +158,8 @@ namespace UnitTestsCore
 		TEST_METHOD(CriticalSectionTest)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunCriticalSection>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunCriticalSection>(*this));
+			T.Start();
 
 			// sleep for a bit just to make sure T has entered the critical section
 			Thread::Sleep(TimeSpan::FromSeconds(1));
@@ -165,8 +175,8 @@ namespace UnitTestsCore
 		TEST_METHOD(AutoResetEventWaitOne)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunAutoResetEvent>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunAutoResetEvent>(*this));
+			T.Start();
 
 			_AutoResetEvent.WaitOne();
 
@@ -179,8 +189,8 @@ namespace UnitTestsCore
 		TEST_METHOD(ManualResetEventWaitOne)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread();
-			T.Start(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunManualResetEvent>(*this));
+			Thread T = Thread(Delegate<void>::CreateDelegate<Core_Threading_Thread, &Core_Threading_Thread::RunManualResetEvent>(*this));
+			T.Start();
 
 			_ManualResetEvent.WaitOne();
 
@@ -192,6 +202,8 @@ namespace UnitTestsCore
 
 		TEST_METHOD(SemaphoreWaitOne)
 		{
+			Assert::Fail();
+			/*
 			const int NumberOfThreads = 3;
 
 			Thread Ts[NumberOfThreads];
@@ -210,6 +222,7 @@ namespace UnitTestsCore
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
 			Assert::AreEqual(NumberOfThreads * 5, ElapsedTime.GetSeconds());
 			Assert::IsTrue(ElapsedSecondsTotal > NumberOfThreads * 5  && ElapsedSecondsTotal < NumberOfThreads * 5 + 1);
+			*/
 		}
 	private:
 		int _OriginalValue = 5;

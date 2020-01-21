@@ -45,6 +45,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SemaphoreFullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

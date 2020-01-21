@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPool.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
   </ItemGroup>

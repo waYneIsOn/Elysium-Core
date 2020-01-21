@@ -28,6 +28,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/OperationCanceledException.hpp"
 #endif
 
+#ifndef _THREAD_
+#include <thread>
+#endif
+
 using namespace Elysium::Core;
 using namespace Elysium::Core::Threading;
 using namespace Elysium::Core::Threading::Tasks;
