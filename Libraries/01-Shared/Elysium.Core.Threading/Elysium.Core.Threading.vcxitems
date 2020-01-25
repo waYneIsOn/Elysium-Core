@@ -18,6 +18,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt64.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperationCanceledException.hpp" />
@@ -29,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPool.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
@@ -38,6 +41,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CriticalSection.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventWaitHandle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt32.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt64.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ManualResetEvent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp" />
@@ -46,6 +51,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
   </ItemGroup>
 </Project>

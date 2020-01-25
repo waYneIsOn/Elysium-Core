@@ -4,16 +4,16 @@
 #include <type_traits>
 #endif
 
+#ifndef ELYSIUM_CORE_DATETIMEUTILITY
+#include "../Elysium.Core/DateTimeUtility.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
-#endif
-
-#ifndef _THREAD_
-#include <thread>
 #endif
 
 Elysium::Core::Threading::Thread::Thread(const Delegate<void>& ThreadStart)
@@ -88,7 +88,7 @@ void Elysium::Core::Threading::Thread::Join()
 
 void Elysium::Core::Threading::Thread::Sleep(const TimeSpan & Timeout)
 {
-	std::this_thread::sleep_for(std::chrono::nanoseconds(Timeout.GetTicks() * 100));
+	ELYSIUM_THREAD_SLEEP(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond, false);
 }
 
 Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void>& ThreadStart)

@@ -38,6 +38,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "System.hpp"
 #endif
 
+#ifndef _ATOMIC_
+#include <atomic>
+#endif
+
 #pragma warning(disable : 4251)
 
 namespace Elysium::Core::Threading
@@ -73,7 +77,7 @@ namespace Elysium::Core::Threading
 		unsigned long _Id;
 		ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE _Handle;
 		Elysium::Core::String _Name;
-		ThreadState _State;
+		std::atomic<ThreadState> _State;
 		Globalization::CultureInfo _CurrentCulture;
 
 		struct ThreadParameters

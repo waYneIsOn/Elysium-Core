@@ -24,9 +24,8 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE HANDLE
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY CloseHandle
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_SINGLE_OBJECT WaitForSingleObject
-
 //#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS WaitForMultipleObjects
-//#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTSEX WaitForMultipleObjectsEx
+#define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS_EX WaitForMultipleObjectsEx
 
 // Critical section (lightweight "mutexes" which - as opposed to mutexes - cannot be shared across multiple processes (making them faster/more lightweight))
 #define ELYSIUM_CRITICAL_SECTION_HANDLE CRITICAL_SECTION
@@ -59,13 +58,13 @@ Copyright (C) 2017 waYne (CAM)
 
 // Semaphore
 #define ELYSIUM_SEMAPHORE_CREATE CreateSemaphore
-//#define ELYSIUM_SEMAPHORE_CREATEEX CreateSemaphoreEx
+//#define ELYSIUM_SEMAPHORE_CREATE_EX CreateSemaphoreEx
 
 #define ELYSIUM_SEMAPHORE_RELEASE ReleaseSemaphore
 
 // Signal
 #define ELYSIUM_SIGNAL_CREATE CreateEvent
-//#define ELYSIUM_SIGNAL_CREATEEX CreateEventEx
+//#define ELYSIUM_SIGNAL_CREATE_EX CreateEventEx
 
 #define ELYSIUM_SIGNAL_RAISE SetEvent
 
@@ -75,6 +74,8 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_THREAD_CREATE CreateThread
 
 #define ELYSIUM_THREAD_SETPRIORITY SetThreadPriority
+
+#define ELYSIUM_THREAD_SLEEP SleepEx
 
 #elif defined(__ANDROID__)
 

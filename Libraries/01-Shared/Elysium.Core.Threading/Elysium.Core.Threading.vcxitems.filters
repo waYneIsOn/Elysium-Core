@@ -18,6 +18,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CriticalSection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt32.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt64.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -46,6 +49,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt64.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

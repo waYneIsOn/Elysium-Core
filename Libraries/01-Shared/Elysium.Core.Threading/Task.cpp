@@ -87,7 +87,7 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 }
 void Elysium::Core::Threading::Tasks::Task::Start(ThreadPool & ThreadPool)
 {
-	
+	ThreadPool._WorkQueue.Submit(*this);
 }
 void Elysium::Core::Threading::Tasks::Task::Wait()
 {

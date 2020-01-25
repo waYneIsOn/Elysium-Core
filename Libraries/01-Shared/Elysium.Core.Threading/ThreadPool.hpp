@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_THREADPOOLWORKQUEUE
+#include "ThreadPoolWorkQueue.hpp"
+#endif
+
 #ifndef _ATOMIC_
 #include <atomic>
 #endif
@@ -30,6 +34,7 @@ namespace Elysium::Core::Threading
 {
 	class ELYSIUM_CORE_API ThreadPool final
 	{
+		friend class Tasks::Task;
 	public:
 		ThreadPool();
 		ThreadPool(const size_t NumberOfThreads);
@@ -45,12 +50,15 @@ namespace Elysium::Core::Threading
 		void Start();
 		void Stop();
 	private:
+		const Elysium::Core::Collections::Template::Array<unsigned long> _Ids;
 		const Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE> _ThreadHandles;
+
+		ThreadPoolWorkQueue _WorkQueue;
 
 		std::atomic<bool> _ShouldStop;
 		std::atomic<bool> _IsRunning;
 
-		void Run();
+		static void ThreadMain(ThreadPool& ThreadPool);
 	};
 }
 #endif
