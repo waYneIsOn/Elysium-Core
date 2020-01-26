@@ -22,6 +22,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_CRITICALSECTION
+#include "CriticalSection.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_QUEUE
+#include "../Elysium.Core/Queue.hpp"
+#endif
+
 namespace Elysium::Core::Threading
 {
 	namespace Tasks
@@ -40,9 +48,11 @@ namespace Elysium::Core::Threading
 		ThreadPoolWorkQueue& operator=(const ThreadPoolWorkQueue& Source) = delete;
 		ThreadPoolWorkQueue& operator=(ThreadPoolWorkQueue&& Right) noexcept = delete;
 
-		void Submit(const Elysium::Core::Threading::Tasks::Task& Task);
+		void Submit(Elysium::Core::Threading::Tasks::Task& Task);
+		Tasks::Task* GetNextTask();
 	private:
-
+		CriticalSection _CriticalSection;
+		Elysium::Core::Collections::Template::Queue<Tasks::Task*> _Queue;
 	};
 }
 #endif

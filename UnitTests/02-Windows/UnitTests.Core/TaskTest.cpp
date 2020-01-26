@@ -85,8 +85,8 @@ namespace UnitTestsCore
 			_WorkerThreadId = std::this_thread::get_id();
 
 			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
-			Pool.Start();
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ZeroParameterThreadStart>(*this));
+			Pool.Start();
 			SimpleTask.Start(Pool);
 			SimpleTask.Wait();
 			Pool.Stop();

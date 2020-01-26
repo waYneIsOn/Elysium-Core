@@ -54,23 +54,13 @@ void Elysium::Core::Threading::ThreadPool::Stop()
 
 void Elysium::Core::Threading::ThreadPool::ThreadMain(ThreadPool & ThreadPool)
 {
-	/*
-	Elysium::Core::Collections::Template::Array<Elysium::Core::Threading::Tasks::Task> RingBuffer = 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::Threading::Tasks::Task>(128);
-	*/
-	//Elysium::Core::Threading::Tasks::Task RingBuffer[128];
-	//size_t CurrentJob = 0;
-	//int32_t LastStalledJob = -1;
-
 	while (!ThreadPool._ShouldStop)
 	{
-		// fetch any new task to add to the local ringbuffer
-		// ...
-
-		// grab the next task
-		// ...
-
-		// execute the job
-		// ...
+		// grab the next task and execute it
+		Tasks::Task* NextTask = ThreadPool._WorkQueue.GetNextTask();
+		if (NextTask != nullptr)
+		{
+			NextTask->RunSynchronously();
+		}
 	}
 }

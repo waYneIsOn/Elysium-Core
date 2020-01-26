@@ -19,7 +19,8 @@
 int32_t Elysium::Core::Threading::Tasks::Task::_TaskIdCounter = 0;
 
 Elysium::Core::Threading::Tasks::Task::Task(const Delegate<void> Action)
-	: _Id(Interlocked::Increment(_TaskIdCounter)), _Action(Action), _CreationOptions(TaskCreationOptions::None), _Status(TaskStatus::Created), _Exception(nullptr)
+	: _Id(Interlocked::Increment(_TaskIdCounter)), _Action(Action), _CreationOptions(TaskCreationOptions::None), _Status(TaskStatus::Created), _Exception(nullptr),
+	_WaitEvent(AutoResetEvent(false))
 { }
 Elysium::Core::Threading::Tasks::Task::~Task()
 {
@@ -83,7 +84,7 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 		_Status = TaskStatus::Faulted;
 	}
 
-	// ToDo: wait signal
+	_WaitEvent.Set();
 }
 void Elysium::Core::Threading::Tasks::Task::Start(ThreadPool & ThreadPool)
 {
@@ -91,7 +92,7 @@ void Elysium::Core::Threading::Tasks::Task::Start(ThreadPool & ThreadPool)
 }
 void Elysium::Core::Threading::Tasks::Task::Wait()
 {
-	// ToDo: wait signal
+	_WaitEvent.WaitOne();
 	if (_Status == TaskStatus::Canceled)
 	{
 		//throw OperationCanceledException();

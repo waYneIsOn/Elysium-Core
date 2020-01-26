@@ -26,12 +26,16 @@ Copyright (C) 2017 waYne (CAM)
 #include "TaskStatus.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_AGGREGATEEXCEPTION
-#include "../Elysium.Core/AggregateException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_THREADING_THREADPOOL
 #include "ThreadPool.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
+#include "AutoResetEvent.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_AGGREGATEEXCEPTION
+#include "../Elysium.Core/AggregateException.hpp"
 #endif
 
 namespace Elysium::Core::Threading::Tasks
@@ -67,6 +71,8 @@ namespace Elysium::Core::Threading::Tasks
 
 		std::atomic<TaskStatus> _Status;
 		std::atomic<AggregateException*> _Exception;
+
+		AutoResetEvent _WaitEvent;
 
 		static int32_t _TaskIdCounter;
 	};
