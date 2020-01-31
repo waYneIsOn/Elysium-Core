@@ -14,10 +14,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)AssertJsonVisitor.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AssertJsonVisitor.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.hpp" />
   </ItemGroup>
 </Project>

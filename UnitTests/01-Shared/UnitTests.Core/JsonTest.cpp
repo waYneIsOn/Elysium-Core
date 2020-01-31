@@ -40,8 +40,8 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonTextReader.hpp"
 #endif
 
-#ifndef UNITTESTS_CORE_JSON_ASSERTJSONVISITOR
-#include "AssertJsonVisitor.hpp"
+#ifndef UNITTESTS_CORE_JSON_CHANGINGJSONVISITOR
+#include "ChangingJsonVisitor.hpp"
 #endif
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -781,38 +781,113 @@ namespace UnitTestsCore
 
 		TEST_METHOD(Visitor)
 		{
+			// prepare
+			String Source = u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 			JsonDocument Document = JsonDocument();
-			JsonObject& Root = Document.AddRootObject();
-			Root.AddElement(u"Yep", true);
-			Root.AddElement(u"Nope", false);
-			Root.AddElement(u"NullValue");
-			Root.AddElement(u"Int", -5448);
-			Root.AddElement(u"Float", 13.370000f);
-			Root.AddElement(u"Double", 13.370000);
-			Root.AddElement(u"String", Elysium::Core::String(u"SomeValue"));
-			Root.AddObject(u"EmptyObject");
-			JsonObject& SomeObject = Root.AddObject(u"SomeObject");
-			SomeObject.AddElement(u"Property1", Elysium::Core::String(u"Value1"));
-			SomeObject.AddElement(u"Property2", Elysium::Core::String(u"Value2"));
-			Root.AddArray(u"EmptyArray");
-			JsonArray& IntArray = Root.AddArray(u"IntArray");
-			IntArray.AddElement(1);
-			IntArray.AddElement(2);
-			IntArray.AddElement(3);
-			JsonArray& ObjectArray = Root.AddArray(u"ObjectArray");
-			JsonObject& ObjectArrayObject1 = ObjectArray.AddObject();
-			ObjectArrayObject1.AddElement(u"Value1", 5448);
-			ObjectArrayObject1.AddElement(u"Value2", Elysium::Core::String(u"SomeValue"));
-			JsonObject& ObjectArrayObject2 = ObjectArray.AddObject();
-			ObjectArrayObject2.AddElement(u"Value1", 5448);
-			ObjectArrayObject2.AddElement(u"Value2", Elysium::Core::String(u"SomeValue"));
-			JsonArray& TwoDimensionalArray = Root.AddArray(u"TwoDimensionalArray");
-			TwoDimensionalArray.AddArray();
-			TwoDimensionalArray.AddArray();
-			Root.AddElement(u"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
+			Document.LoadJson(Source);
 
-			UnitTests::Core::Json::AssertJsonVisitor Visitor = UnitTests::Core::Json::AssertJsonVisitor();
+			UnitTests::Core::Json::ChangingJsonVisitor Visitor = UnitTests::Core::Json::ChangingJsonVisitor();
 			Visitor.Visit(static_cast<JsonNode&>(Document));
+
+			// read & check
+			JsonObject& RootNode = static_cast<JsonObject&>(Document.GetRootNode());
+			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)RootNode.GetNodeType());
+
+			JsonElement& Yep = static_cast<JsonElement&>(RootNode.GetChild(0));
+			AssertExtended::AreEqual(u"Yep", Yep.GetName().GetCharArray());
+			Assert::AreEqual(false, Yep.GetValueAsBoolean());
+
+			JsonElement& Nope = static_cast<JsonElement&>(RootNode.GetChild(1));
+			AssertExtended::AreEqual(u"Nope", Nope.GetName().GetCharArray());
+			Assert::AreEqual(true, Nope.GetValueAsBoolean());
+
+			JsonElement& NullValue = static_cast<JsonElement&>(RootNode.GetChild(2));
+			AssertExtended::AreEqual(u"NullValue", NullValue.GetName().GetCharArray());
+			Assert::IsTrue(NullValue.IsNull());
+
+			JsonElement& Int = static_cast<JsonElement&>(RootNode.GetChild(3));
+			AssertExtended::AreEqual(u"Int", Int.GetName().GetCharArray());
+			Assert::AreEqual(5448, Int.GetValueAsInt32());
+
+			JsonElement& Float = static_cast<JsonElement&>(RootNode.GetChild(4));
+			AssertExtended::AreEqual(u"Float", Float.GetName().GetCharArray());
+			Assert::AreEqual(-13.370000f, Float.GetValueAsSingle());
+
+			JsonElement& String = static_cast<JsonElement&>(RootNode.GetChild(5));
+			AssertExtended::AreEqual(u"String", String.GetName().GetCharArray());
+			AssertExtended::AreEqual(u"SomeValue", String.GetValueAsString().GetCharArray());
+
+			JsonObject& EmptyObject = static_cast<JsonObject&>(RootNode.GetChild(6));
+			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)EmptyObject.GetNodeType());
+			AssertExtended::AreEqual(u"EmptyObject", EmptyObject.GetName().GetCharArray());
+
+			JsonObject& SomeObject = static_cast<JsonObject&>(RootNode.GetChild(7));
+			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)SomeObject.GetNodeType());
+			AssertExtended::AreEqual(u"SomeObject", SomeObject.GetName().GetCharArray());
+
+			JsonElement& SomeObjectProperty1 = static_cast<JsonElement&>(SomeObject.GetChild(0));
+			AssertExtended::AreEqual(u"Property1", SomeObjectProperty1.GetName().GetCharArray());
+			AssertExtended::AreEqual(u"Value1", SomeObjectProperty1.GetValueAsString().GetCharArray());
+
+			JsonElement& SomeObjectProperty2 = static_cast<JsonElement&>(SomeObject.GetChild(1));
+			AssertExtended::AreEqual(u"Property2", SomeObjectProperty2.GetName().GetCharArray());
+			AssertExtended::AreEqual(u"Value2", SomeObjectProperty2.GetValueAsString().GetCharArray());
+
+			JsonArray& EmptyArray = static_cast<JsonArray&>(RootNode.GetChild(8));
+			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)EmptyArray.GetNodeType());
+
+			JsonArray& IntArray = static_cast<JsonArray&>(RootNode.GetChild(9));
+			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)IntArray.GetNodeType());
+
+			JsonElement& IntArrayValue1 = static_cast<JsonElement&>(IntArray.GetChild(0));
+			Assert::IsNull(IntArrayValue1.GetName().GetCharArray());
+			Assert::AreEqual(-1, IntArrayValue1.GetValueAsInt32());
+
+			JsonElement& IntArrayValue2 = static_cast<JsonElement&>(IntArray.GetChild(1));
+			Assert::IsNull(IntArrayValue2.GetName().GetCharArray());
+			Assert::AreEqual(-2, IntArrayValue2.GetValueAsInt32());
+
+			JsonElement& IntArrayValue3 = static_cast<JsonElement&>(IntArray.GetChild(2));
+			Assert::IsNull(IntArrayValue3.GetName().GetCharArray());
+			Assert::AreEqual(-3, IntArrayValue3.GetValueAsInt32());
+
+			JsonArray& ObjectArray = static_cast<JsonArray&>(RootNode.GetChild(10));
+			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)ObjectArray.GetNodeType());
+
+			JsonObject& ObjectArrayObject1 = static_cast<JsonObject&>(ObjectArray.GetChild(0));
+			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)ObjectArrayObject1.GetNodeType());
+
+			JsonElement& ObjectArrayObject1Value1 = static_cast<JsonElement&>(ObjectArrayObject1.GetChild(0));
+			AssertExtended::AreEqual(u"Value1", ObjectArrayObject1Value1.GetName().GetCharArray());
+			Assert::AreEqual(-5448, ObjectArrayObject1Value1.GetValueAsInt32());
+
+			JsonElement& ObjectArrayObject1Value2 = static_cast<JsonElement&>(ObjectArrayObject1.GetChild(1));
+			AssertExtended::AreEqual(u"Value2", ObjectArrayObject1Value2.GetName().GetCharArray());
+			AssertExtended::AreEqual(u"SomeValue", ObjectArrayObject1Value2.GetValueAsString().GetCharArray());
+
+			JsonObject& ObjectArrayObject2 = static_cast<JsonObject&>(ObjectArray.GetChild(1));
+			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)ObjectArrayObject2.GetNodeType());
+
+			JsonElement& ObjectArrayObject2Value1 = static_cast<JsonElement&>(ObjectArrayObject2.GetChild(0));
+			AssertExtended::AreEqual(u"Value1", ObjectArrayObject2Value1.GetName().GetCharArray());
+			Assert::AreEqual(-5448, ObjectArrayObject2Value1.GetValueAsInt32());
+
+			JsonElement& ObjectArrayObject2Value2 = static_cast<JsonElement&>(ObjectArrayObject2.GetChild(1));
+			AssertExtended::AreEqual(u"Value2", ObjectArrayObject2Value2.GetName().GetCharArray());
+			AssertExtended::AreEqual(u"SomeValue", ObjectArrayObject2Value2.GetValueAsString().GetCharArray());
+
+			JsonArray& TwoDimensionalArray = static_cast<JsonArray&>(RootNode.GetChild(11));
+			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArray.GetNodeType());
+
+			JsonArray& TwoDimensionalArrayArray1 = static_cast<JsonArray&>(TwoDimensionalArray.GetChild(0));
+			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArrayArray1.GetNodeType());
+
+			JsonArray& TwoDimensionalArrayArray2 = static_cast<JsonArray&>(TwoDimensionalArray.GetChild(1));
+			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArrayArray2.GetNodeType());
+
+			JsonElement& StringWithSpecialCharacters = static_cast<JsonElement&>(RootNode.GetChild(12));
+			AssertExtended::AreEqual(u"StringWithSpecial\\\\\\\"Characters üñîcødé", StringWithSpecialCharacters.GetName().GetCharArray());
+			AssertExtended::AreEqual(u"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", StringWithSpecialCharacters.GetValueAsString().GetCharArray());
 		}
 	};
 }

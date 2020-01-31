@@ -42,6 +42,11 @@ namespace Elysium::Core::Json
 		const float GetValueAsSingle() const;
 		const bool GetValueAsBoolean() const;
 
+		void SetValue(const String& Value);
+		void SetValue(const int32_t Value);
+		void SetValue(const float Value);
+		void SetValue(const bool Value);
+
 		virtual void WriteTo(JsonWriter& Writer) const override;
 	protected:
 		virtual void Load(JsonReader& JsonReader) override;

@@ -54,6 +54,23 @@ const bool Elysium::Core::Json::JsonElement::GetValueAsBoolean() const
 	return std::get<bool>(_Value);
 }
 
+void Elysium::Core::Json::JsonElement::SetValue(const String & Value)
+{
+	_Value = Value;
+}
+void Elysium::Core::Json::JsonElement::SetValue(const int32_t Value)
+{
+	_Value = Value;
+}
+void Elysium::Core::Json::JsonElement::SetValue(const float Value)
+{
+	_Value = Value;
+}
+void Elysium::Core::Json::JsonElement::SetValue(const bool Value)
+{
+	_Value = Value;
+}
+
 void Elysium::Core::Json::JsonElement::WriteTo(JsonWriter & Writer) const
 {
 	if (_Name.GetLength() > 0)
