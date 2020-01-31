@@ -40,6 +40,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Json/JsonTextReader.hpp"
 #endif
 
+#ifndef UNITTESTS_CORE_JSON_ASSERTJSONVISITOR
+#include "AssertJsonVisitor.hpp"
+#endif
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
@@ -773,6 +777,42 @@ namespace UnitTestsCore
 				JsonArray& RootNode = static_cast<JsonArray&>(Document.GetRootNode());
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)RootNode.GetNodeType());
 			}
+		}
+
+		TEST_METHOD(Visitor)
+		{
+			JsonDocument Document = JsonDocument();
+			JsonObject& Root = Document.AddRootObject();
+			Root.AddElement(u"Yep", true);
+			Root.AddElement(u"Nope", false);
+			Root.AddElement(u"NullValue");
+			Root.AddElement(u"Int", -5448);
+			Root.AddElement(u"Float", 13.370000f);
+			Root.AddElement(u"Double", 13.370000);
+			Root.AddElement(u"String", Elysium::Core::String(u"SomeValue"));
+			Root.AddObject(u"EmptyObject");
+			JsonObject& SomeObject = Root.AddObject(u"SomeObject");
+			SomeObject.AddElement(u"Property1", Elysium::Core::String(u"Value1"));
+			SomeObject.AddElement(u"Property2", Elysium::Core::String(u"Value2"));
+			Root.AddArray(u"EmptyArray");
+			JsonArray& IntArray = Root.AddArray(u"IntArray");
+			IntArray.AddElement(1);
+			IntArray.AddElement(2);
+			IntArray.AddElement(3);
+			JsonArray& ObjectArray = Root.AddArray(u"ObjectArray");
+			JsonObject& ObjectArrayObject1 = ObjectArray.AddObject();
+			ObjectArrayObject1.AddElement(u"Value1", 5448);
+			ObjectArrayObject1.AddElement(u"Value2", Elysium::Core::String(u"SomeValue"));
+			JsonObject& ObjectArrayObject2 = ObjectArray.AddObject();
+			ObjectArrayObject2.AddElement(u"Value1", 5448);
+			ObjectArrayObject2.AddElement(u"Value2", Elysium::Core::String(u"SomeValue"));
+			JsonArray& TwoDimensionalArray = Root.AddArray(u"TwoDimensionalArray");
+			TwoDimensionalArray.AddArray();
+			TwoDimensionalArray.AddArray();
+			Root.AddElement(u"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
+
+			UnitTests::Core::Json::AssertJsonVisitor Visitor = UnitTests::Core::Json::AssertJsonVisitor();
+			Visitor.Visit(static_cast<JsonNode&>(Document));
 		}
 	};
 }

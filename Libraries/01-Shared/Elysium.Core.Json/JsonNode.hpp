@@ -44,7 +44,9 @@ namespace Elysium::Core::Json
 		virtual const String& GetName() const = 0;
 		virtual const JsonNodeType GetNodeType() const = 0;
 		virtual const JsonNode* GetParentNode() const;
-				
+		
+		virtual const size_t GetChildCount();
+
 		virtual JsonNode& GetChild(size_t Index);
 		virtual void RemoveChild(JsonNode& Node);
 

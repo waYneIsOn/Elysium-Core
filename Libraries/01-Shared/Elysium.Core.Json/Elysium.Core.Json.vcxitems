@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonTextReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonTextWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonToken.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JsonVisitor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JsonWriterException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
@@ -46,6 +47,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonSerializer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTextReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTextWriter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JsonVisitor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonWriter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonWriterException.cpp" />
   </ItemGroup>

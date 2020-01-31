@@ -23,6 +23,11 @@ const Elysium::Core::Json::JsonNode * Elysium::Core::Json::JsonNode::GetParentNo
 	return _ParentNode;
 }
 
+const size_t Elysium::Core::Json::JsonNode::GetChildCount()
+{
+	return _Children.GetCount();
+}
+
 Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonNode::GetChild(size_t Index)
 {
 	if (Index > _Children.GetCount())
