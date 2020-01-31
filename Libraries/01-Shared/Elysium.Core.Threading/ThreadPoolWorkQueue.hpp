@@ -26,6 +26,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "CriticalSection.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
+#include "AutoResetEvent.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_QUEUE
 #include "../Elysium.Core/Queue.hpp"
 #endif
@@ -39,6 +43,7 @@ namespace Elysium::Core::Threading
 
 	class ThreadPoolWorkQueue final
 	{
+		friend class ThreadPool;
 	public:
 		ThreadPoolWorkQueue();
 		ThreadPoolWorkQueue(const ThreadPoolWorkQueue& Source) = delete;
@@ -53,6 +58,8 @@ namespace Elysium::Core::Threading
 	private:
 		CriticalSection _CriticalSection;
 		Elysium::Core::Collections::Template::Queue<Tasks::Task*> _Queue;
+
+		AutoResetEvent _WorkAvailable;
 	};
 }
 #endif

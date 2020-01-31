@@ -56,6 +56,9 @@ void Elysium::Core::Threading::ThreadPool::ThreadMain(ThreadPool & ThreadPool)
 {
 	while (!ThreadPool._ShouldStop)
 	{
+		// wait for available tasks
+		ThreadPool._WorkQueue._WorkAvailable.WaitOne();
+
 		// grab the next task and execute it
 		Tasks::Task* NextTask = ThreadPool._WorkQueue.GetNextTask();
 		if (NextTask != nullptr)

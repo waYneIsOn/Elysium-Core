@@ -5,16 +5,16 @@
 #endif
 
 Elysium::Core::Threading::ThreadPoolWorkQueue::ThreadPoolWorkQueue()
-{
-}
+	: _WorkAvailable(false)
+{ }
 Elysium::Core::Threading::ThreadPoolWorkQueue::~ThreadPoolWorkQueue()
-{
-}
+{ }
 
 void Elysium::Core::Threading::ThreadPoolWorkQueue::Submit(Elysium::Core::Threading::Tasks::Task & Task)
 {
 	_CriticalSection.Enter();
 	_Queue.Enqueue(&Task);
+	_WorkAvailable.Set();
 	_CriticalSection.Exit();
 }
 Elysium::Core::Threading::Tasks::Task * Elysium::Core::Threading::ThreadPoolWorkQueue::GetNextTask()
