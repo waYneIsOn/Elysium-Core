@@ -22,6 +22,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <type_traits>
 #endif
 
+#ifndef __midl
+#include <vcruntime_string.h>
+#endif
+
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 //#include "IndexOutOfRangeException.hpp"
 #endif
