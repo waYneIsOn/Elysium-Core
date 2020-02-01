@@ -14,6 +14,10 @@
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.Html/Debug
+/Libraries/02-Windows/Elysium.Core.Html/Debugbin
+/Libraries/02-Windows/Elysium.Core.Html/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.Json/Debug
 /Libraries/02-Windows/Elysium.Core.Json/Debugbin
 /Libraries/02-Windows/Elysium.Core.Json/Releasebin
@@ -29,6 +33,14 @@
 /Libraries/02-Windows/Elysium.Core.Net/Debug
 /Libraries/02-Windows/Elysium.Core.Net/Debugbin
 /Libraries/02-Windows/Elysium.Core.Net/Releasebin
+
+/Libraries/02-Windows/Elysium.Core.ServiceProcess/Debug
+/Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
+/Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin
+
+/Libraries/04-Android/Elysium.Core/Debugbin
+/Libraries/04-Android/Elysium.Core/Debugbin
+/Libraries/04-Android/Elysium.Core/Releasebin
 
 /UnitTests/02-Windows/UnitTests.Core/Debug
 /UnitTests/02-Windows/UnitTests.Core/Debugbin
@@ -49,14 +61,6 @@
 /UnitTests/02-Windows/UnitTests.Core.Net/Debug
 /UnitTests/02-Windows/UnitTests.Core.Net/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Net/Releasebin
-
-/Libraries/02-Windows/Elysium.Core.ServiceProcess/Debug
-/Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
-/Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin
-
-/Libraries/04-Android/Elysium.Core/Debugbin
-/Libraries/04-Android/Elysium.Core/Debugbin
-/Libraries/04-Android/Elysium.Core/Releasebin
 
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM/Debug
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM64/Debug
