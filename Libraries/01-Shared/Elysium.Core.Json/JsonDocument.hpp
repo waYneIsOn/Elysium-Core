@@ -34,7 +34,7 @@ namespace Elysium::Core::Json
 		JsonDocument();
 		JsonDocument(const JsonDocument& Source) = delete;
 		JsonDocument(JsonDocument&& Right) noexcept = delete;
-		~JsonDocument();
+		virtual ~JsonDocument();
 
 		JsonDocument& operator=(const JsonDocument& Source) = delete;
 		JsonDocument& operator=(JsonDocument&& Right) noexcept = delete;

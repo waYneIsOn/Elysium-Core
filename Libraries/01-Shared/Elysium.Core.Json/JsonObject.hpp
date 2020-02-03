@@ -31,7 +31,7 @@ namespace Elysium::Core::Json
 	public:
 		JsonObject(const JsonObject& Source) = delete;
 		JsonObject(JsonObject&& Right) noexcept = delete;
-		~JsonObject();
+		virtual ~JsonObject();
 
 		JsonObject& operator=(const JsonObject& Source) = delete;
 		JsonObject& operator=(JsonObject&& Right) noexcept = delete;

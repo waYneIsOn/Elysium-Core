@@ -56,6 +56,7 @@ Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonDocument::AddRootObje
 	{	// ToDo: InvalidOperationException
 		throw JsonException(u"A document can only hold one child - the root node!");
 	}
+	// ToDo: having the elements scattered around memory obviously isn't good
 	JsonObject* OwnedObject = new JsonObject();
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedObject);
 	return *OwnedObject;
@@ -66,6 +67,7 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray
 	{	// ToDo: InvalidOperationException
 		throw JsonException(u"A document can only hold one child - the root node!");
 	}
+	// ToDo: having the elements scattered around memory obviously isn't good
 	JsonArray* OwnedArray = new JsonArray();
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedArray);
 	return *OwnedArray;
