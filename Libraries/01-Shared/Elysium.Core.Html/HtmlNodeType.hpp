@@ -16,7 +16,6 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Html
 {
-	// Represents HTML Tags
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	enum class HtmlNodeType : uint32_t
 #elif defined(__ANDROID__)
@@ -26,8 +25,21 @@ namespace Elysium::Core::Html
 #endif
 	{
 		Document = 0,
-		Comment = 1,	// <!--...-->
-		DocumentType = 2,	// <!DOCTYPE>
+		Comment = 1,				// <!--...-->
+		ProcessingInstruction = 2,	// <!--[if IE 7]>...<![endif]--> (misused comment-tag)
+		CDATASection = 3,			// <![CDATA[...]]>
+		DocumentType = 4,			// <!DOCTYPE>
+		DocumentFragment,			// "lightweight" document to be added to a document
+		Element,					// <a/>
+		Attribute,					// <a href=""/>
+		Text,						// <a href="SOME TEXT">SOME OTHER TEXT</a>
+		Entity,						// &EntityName; or &#EntityNumber; ie. < becomes &lt; or &#60;
+		EntityReference,			// &euro; &#8364; or &#x20AC; becomes € (<!ENTITY name "value">)
+		Notation,					// ...
+
+
+
+		/*
 		Root,	// <html>
 		Head,	// <head>
 		Meta,	// <meta>
@@ -155,6 +167,7 @@ namespace Elysium::Core::Html
 		Variable,
 		Video,
 		PossibleLineBreak,	// <wbr>
+		*/
 	};
 }
 #endif

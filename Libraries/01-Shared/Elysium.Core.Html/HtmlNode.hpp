@@ -18,6 +18,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "HtmlNodeType.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
@@ -29,7 +33,7 @@ namespace Elysium::Core::Html
 	public:
 		virtual ~HtmlNode();
 
-		//virtual const String& GetName() const = 0;
+		virtual const String& GetName() const = 0;
 		virtual const HtmlNodeType GetNodeType() const = 0;
 		virtual const HtmlNode* GetParentNode() const;
 

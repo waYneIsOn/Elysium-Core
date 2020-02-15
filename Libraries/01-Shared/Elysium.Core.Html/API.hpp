@@ -16,7 +16,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_CORE_HTML_API __declspec(dllimport)
 #endif
 #elif defined(__ANDROID__)
-#define EXPORT
+#define ELYSIUM_CORE_HTML_API
 #elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))
 
 #elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))

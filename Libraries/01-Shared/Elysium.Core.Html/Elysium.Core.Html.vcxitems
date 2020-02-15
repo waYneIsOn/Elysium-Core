@@ -15,11 +15,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlAttribute.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlDocument.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlDocumentFragment.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlElement.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HtmlException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HtmlNamedColor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HtmlNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HtmlNodeType.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlAttribute.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlDocument.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlDocumentFragment.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlElement.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HtmlException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HtmlNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Infos.txt" />
   </ItemGroup>
 </Project>
