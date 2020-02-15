@@ -10,11 +10,15 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_BYTE
 #define ELYSIUM_CORE_BYTE
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
+#endif
+
 namespace Elysium::Core
 {
-	typedef unsigned char byte;
-	typedef unsigned char BYTE;
-	typedef unsigned char Byte;
+	typedef uint8_t byte;
+	typedef uint8_t BYTE;
+	typedef uint8_t Byte;
 	/*
 	void printbytes_char(const char* ANSI_or_UTF8)
 	{
