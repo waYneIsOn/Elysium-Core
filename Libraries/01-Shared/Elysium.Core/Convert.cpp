@@ -16,6 +16,8 @@
 #include <string>
 #endif
 
+const Elysium::Core::CharString Elysium::Core::Convert::_Base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+
 Elysium::Core::Convert::~Convert()
 {
 }
@@ -55,7 +57,7 @@ Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
 
-Elysium::Core::String Elysium::Core::Convert::ToBase64String(Elysium::Core::Collections::Template::List<Elysium::Core::byte> Bytes)
+Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const String & Base64String)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
 	base64.cpp and base64.h
@@ -82,8 +84,80 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(Elysium::Core::Coll
 
 	René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 	*/
-	static const byte base64_chars[65] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	Elysium::Core::Collections::Template::List<Elysium::Core::byte> Result;
+	size_t InputLength = Base64String.GetLength();
+	int i = 0;
+	int j = 0;
+	int Index = 0;
+	byte Array4[4];
+	byte Array3[3];
 
+	while (InputLength-- && (Base64String[Index] != u'=' && IsBase64(Base64String[Index])))
+	{
+		Array4[i++] = Base64String[Index];
+		Index++;
+
+		if (i == 4)
+		{
+			for (i = 0; i < 4; i++)
+			{
+				Array4[i] = _Base64Chars.IndexOf(Array4[i]);
+			}
+
+			Array3[0] = (Array4[0] << 2) + ((Array4[1] & 0x30) >> 4);
+			Array3[1] = ((Array4[1] & 0xF) << 4) + ((Array4[2] & 0x3C) >> 2);
+			Array3[2] = ((Array4[2] & 0x3) << 6) + Array4[3];
+
+			Result.AddRange(&Array3[0], 3);
+			i = 0;
+		}
+	}
+
+	if (i)
+	{
+		for (j = 0; j < i; j++)
+		{
+			Array4[j] = _Base64Chars.IndexOf(Array4[j]);
+		}
+
+		Array3[0] = (Array4[0] << 2) + ((Array4[1] & 0x30) >> 4);
+		Array3[1] = ((Array4[1] << 0xF) << 4) + ((Array4[2] & 0x3C) >> 2);
+
+		for (j = 0; j < i - 1; j++)
+		{
+			Result.Add(Array3[j]);
+		}
+	}
+
+	return Result;
+}
+Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core::Collections::Template::List<Elysium::Core::byte>& Bytes)
+{	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
+	/*
+	base64.cpp and base64.h
+
+	Copyright (C) 2004-2008 René Nyffenegger
+
+	This source code is provided 'as-is', without any express or implied
+	warranty. In no event will the author be held liable for any damages
+	arising from the use of this software.
+
+	Permission is granted to anyone to use this software for any purpose,
+	including commercial applications, and to alter it and redistribute it
+	freely, subject to the following restrictions:
+
+	1. The origin of this source code must not be misrepresented; you must not
+		claim that you wrote the original source code. If you use this source code
+		in a product, an acknowledgment in the product documentation would be
+		appreciated but is not required.
+
+	2. Altered source versions must be plainly marked as such, and must not be
+		misrepresented as being the original source code.
+
+	3. This notice may not be removed or altered from any source distribution.
+
+	René Nyffenegger rene.nyffenegger@adp-gmbh.ch
+	*/
 	size_t in_len = Bytes.GetCount() - 1;
 	int c = 0;
 	int i = 0;
@@ -105,7 +179,7 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(Elysium::Core::Coll
 
 			for (i = 0; i < 4; i++)
 			{
-				Result.Add(base64_chars[Array4[i]]);
+				Result.Add(_Base64Chars[Array4[i]]);
 			}
 			i = 0;
 		}
@@ -125,7 +199,7 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(Elysium::Core::Coll
 
 		for (j = 0; j < i  +1; j++)
 		{
-			Result.Add(base64_chars[Array4[j]]);
+			Result.Add(_Base64Chars[Array4[j]]);
 		}
 
 		while (i++ < 3)
@@ -236,4 +310,9 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 
 Elysium::Core::Convert::Convert()
 {
+}
+
+bool Elysium::Core::Convert::IsBase64(const char16_t Char)
+{
+	return (isalnum(Char) || (Char == u'+') || (Char == u'/'));
 }

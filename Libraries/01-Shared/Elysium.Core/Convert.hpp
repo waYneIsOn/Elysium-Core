@@ -48,7 +48,8 @@ namespace Elysium::Core
 		static String ToString(const float Value, const int32_t FromBase);
 		static String ToString(const double Value, const int32_t FromBase);
 
-		static String ToBase64String(Elysium::Core::Collections::Template::List<Elysium::Core::byte> Bytes);
+		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
+		static String ToBase64String(const Elysium::Core::Collections::Template::List<Elysium::Core::byte>& Bytes);
 
 		static int32_t ToInt32(const char16_t* Value, const int32_t FromBase);
 		static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
@@ -57,6 +58,10 @@ namespace Elysium::Core
 		static float ToSingle(const Elysium::Core::String& Value);
 	private:
 		Convert();
+
+		static const CharString _Base64Chars;
+
+		static bool IsBase64(const char16_t Char);
 	};
 }
 #endif
