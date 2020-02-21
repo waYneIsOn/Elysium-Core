@@ -16,9 +16,20 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ContentType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509KeyStorageFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Certificate.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp" />
   </ItemGroup>
 </Project>

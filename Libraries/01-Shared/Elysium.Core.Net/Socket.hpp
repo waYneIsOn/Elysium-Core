@@ -62,7 +62,12 @@ namespace Elysium::Core::Net::Sockets
 	public:
 		// constructors & destructor
 		Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
+		Socket(const Socket& Source) = delete;
+		Socket(Socket&& Right) noexcept = delete;
 		~Socket();
+
+		Socket& operator=(const Socket& Source) = delete;
+		Socket& operator=(Socket&& Right) noexcept = delete;
 
 		// properties - getter
 		AddressFamily GetAddressFamily() const;

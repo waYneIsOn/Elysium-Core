@@ -4,6 +4,9 @@
     <Filter Include="Cryptography">
       <UniqueIdentifier>{2ae08835-ec82-4363-ac3f-15b74b1b9e5b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cryptography\X509Certificates">
+      <UniqueIdentifier>{982170ae-d71c-4228-81cf-6b59d90ed31d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp">
@@ -12,6 +15,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp">
       <Filter>Cryptography</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Certificate.cpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -19,6 +31,30 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp">
       <Filter>Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509KeyStorageFlags.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ContentType.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Security\X509CertificateCollection.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
