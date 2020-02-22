@@ -52,7 +52,8 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		X509Store& operator=(const X509Store& Source) = delete;
 		X509Store& operator=(X509Store&& Right) noexcept = delete;
 
-		const X509CertificateCollection& GetCerificateCollection() const;
+		const bool GetIsOpen() const;
+		const X509CertificateCollection& GetCertificates() const;
 
 		void Open(const OpenFlags OpenFlags);
 	private:

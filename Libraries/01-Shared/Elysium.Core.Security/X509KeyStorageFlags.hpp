@@ -30,7 +30,9 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		Exportable = 4,
 		UserProtected = 8,
 		PersistKeySet = 16,
-		EphemeralKeySet = 32
+		EphemeralKeySet = 32,
+
+		All = DefaultKeySet | UserKeySet | MachineKeySet | Exportable | UserProtected | PersistKeySet | EphemeralKeySet,
 	};
 
 	inline X509KeyStorageFlags operator|(X509KeyStorageFlags lhs, X509KeyStorageFlags rhs)

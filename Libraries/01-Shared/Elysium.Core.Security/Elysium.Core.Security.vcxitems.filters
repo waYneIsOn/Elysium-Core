@@ -53,7 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp">
       <Filter>Cryptography\X509Certificates</Filter>
     </ClInclude>
-    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Security\X509CertificateCollection.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp">
       <Filter>Cryptography\X509Certificates</Filter>
     </ClInclude>
   </ItemGroup>

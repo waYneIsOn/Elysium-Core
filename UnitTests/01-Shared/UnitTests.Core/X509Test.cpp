@@ -24,13 +24,20 @@ namespace UnitTestsCore
 	TEST_CLASS(Core_Security_Cryptography_X509Certificates_Test)
 	{
 	public:
-		TEST_METHOD(OpenStores)
+		TEST_METHOD(OpenStoreRootCurrentUser)
 		{
-			X509Store MyCurrentUserStore = X509Store(StoreName::My, StoreLocation::CurrentUser);
-			MyCurrentUserStore.Open(OpenFlags::ReadOnly);
+			X509Store RootCurrentUserStore = X509Store(StoreName::Root, StoreLocation::CurrentUser);
+			Assert::AreEqual(static_cast<size_t>(0), RootCurrentUserStore.GetCertificates().GetCount());
 
-			//Assert::AreEqual(0, MyCurrentUserStore.GetCerificateCollection().GetCount());
-			int x = 25;
+			RootCurrentUserStore.Open(OpenFlags::ReadOnly);
+			Assert::AreNotEqual(static_cast<size_t>(0), RootCurrentUserStore.GetCertificates().GetCount());
+
+			for (size_t i = 0; i < RootCurrentUserStore.GetCertificates().GetCount(); i++)
+			{
+				const X509Certificate& Certificate = RootCurrentUserStore.GetCertificates()[i];
+
+				int x = 25;
+			}
 		}
 
 		TEST_METHOD(ReadCertificate)
