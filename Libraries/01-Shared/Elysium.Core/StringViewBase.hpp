@@ -37,7 +37,7 @@ namespace Elysium::Core::Collections::Template
 		StringViewBase<T>& operator=(const StringViewBase<T>& Source);
 		StringViewBase<T>& operator=(StringViewBase<T>&& Right) noexcept;
 
-		virtual T& operator[](size_t Index) const;
+		T& operator[](size_t Index) const;
 
 		operator StringBase<T>() const;
 
