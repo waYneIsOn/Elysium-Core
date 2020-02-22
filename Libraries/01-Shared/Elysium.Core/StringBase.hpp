@@ -186,7 +186,7 @@ namespace Elysium::Core::Collections::Template
 		{
 			if (_Data != nullptr)
 			{
-				delete _Data;
+				delete[] _Data;
 			}
 
 			_Length = Right._Length;
