@@ -155,6 +155,7 @@ namespace UnitTestsCore
 			Source.Split(u"\r\n", Lines);
 
 			Assert::AreEqual((size_t)16, Lines.GetCount());
+			AssertExtended::AreEqual(u'H', Lines[0][0]);
 			AssertExtended::AreEqual(u"HTTP/1.1 200 OK", Lines[0].GetCharArray());
 			AssertExtended::AreEqual(u"Date: Fri, 29 Nov 2019 12:49:19 GMT", Lines[1].GetCharArray());
 			AssertExtended::AreEqual(u"Content-Type: text/html; charset=UTF-8", Lines[2].GetCharArray());
