@@ -24,6 +24,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp">
       <Filter>Cryptography\X509Certificates</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -56,5 +59,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp">
       <Filter>Cryptography\X509Certificates</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </Text>
   </ItemGroup>
 </Project>

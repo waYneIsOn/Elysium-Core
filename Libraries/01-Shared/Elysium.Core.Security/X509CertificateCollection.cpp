@@ -17,11 +17,12 @@ const size_t Elysium::Core::Security::Cryptography::X509Certificates::X509Certif
 	return _Certificates.GetCount();
 }
 
-void Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::Add(const X509Certificate & Item)
+void Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::Add(X509Certificate && Item)
 {
-	_Certificates.Add(Item);
+	_Certificates.Add(std::move(Item));
 }
 void Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::Clear()
 {
 	_Certificates.Clear();
 }
+

@@ -1,0 +1,3 @@
+http://www.coastrd.com/c-schannel-smtp
+https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certopenstore
+https://docs.microsoft.com/de-de/windows/win32/seccng/cng-portal

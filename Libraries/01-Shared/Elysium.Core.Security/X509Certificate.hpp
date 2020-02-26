@@ -34,26 +34,30 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_SYSTEM
+#include "System.hpp"
+#endif
+
 namespace Elysium::Core::Security::Cryptography::X509Certificates
 {
 	class ELYSIUM_CORE_API X509Certificate final
 	{
+		friend class Elysium::Core::Collections::Template::List<X509Certificate>;
 	public:
-		X509Certificate(const Collections::Template::Array<byte>& RawData, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
-		X509Certificate(const String& FileName, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext);
 		X509Certificate(const X509Certificate& Source);
 		X509Certificate(X509Certificate&& Right) noexcept;
 		~X509Certificate();
 
 		X509Certificate& operator=(const X509Certificate& Source);
 		X509Certificate& operator=(X509Certificate&& Right) noexcept;
+
+		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromFile(const String& FileName, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 	private:
-		static const String _Format;
+		X509Certificate();
 
-		Collections::Template::Array<byte> _RawData;
-
-		void LoadCertificateFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password, const X509KeyStorageFlags Flags);
-		void LoadCertificateFromFile(const String& FileName, const String& Password, const X509KeyStorageFlags Flags);
+		ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER _CertificateContext = nullptr;
 	};
 }
 #endif

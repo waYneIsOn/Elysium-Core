@@ -26,17 +26,12 @@ Copyright (C) 2017 waYne (CAM)
 #include "OpenFlags.hpp"
 #endif
 
-#ifndef __WINCRYPT_H__
-#ifndef _WINDOWS_
-#include <windows.h>
-#endif
-
-#include <wincrypt.h>
-#pragma comment(lib, "Crypt32.Lib")
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATECOLLECTION
 #include "X509CertificateCollection.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_SYSTEM
+#include "System.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
@@ -61,13 +56,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		const StoreName _StoreName;
 		const StoreLocation _StoreLocation;
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-		HCERTSTORE _NativeCertificateStore = nullptr;
-#elif defined(__ANDROID__)
-
-#else
-
-#endif
+		ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATESTOREPOINTER _NativeCertificateStore = nullptr;
 	};
 }
 #endif

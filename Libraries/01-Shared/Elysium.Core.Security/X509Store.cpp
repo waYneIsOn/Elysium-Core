@@ -4,16 +4,20 @@
 #include "X509Certificate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Store::X509Store(const StoreName StoreName, const StoreLocation StoreLocation)
 	: _StoreName(StoreName), _StoreLocation(StoreLocation)
 {
 }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Store::~X509Store()
 {
-	_CertificateCollection.Clear();
 	if (_NativeCertificateStore != nullptr)
 	{
-		CertCloseStore(_NativeCertificateStore, CERT_CLOSE_STORE_CHECK_FLAG);
+		CertCloseStore(_NativeCertificateStore, CERT_CLOSE_STORE_CHECK_FLAG);	// CERT_CLOSE_STORE_FORCE_FLAG
+		_NativeCertificateStore = nullptr;
 	}
 }
 
@@ -32,53 +36,69 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 	{
 		return;
 	}
-	/*
-	StoreName:
-		- ToWString (ie. L"MY")
 
-	StoreLocation:
-		- CERT_SYSTEM_STORE_CURRENT_USER
-		- CERT_SYSTEM_STORE_LOCAL_MACHINE
-		- etc.
+	int StoreLocation = 0;
+	switch (_StoreLocation)
+	{
+	case StoreLocation::CurrentUser:
+		StoreLocation = CERT_SYSTEM_STORE_CURRENT_USER;
+		break;
+	case StoreLocation::LocalMachine:
+		StoreLocation = CERT_SYSTEM_STORE_LOCAL_MACHINE;
+		break;
+	default:
+		throw NotImplementedException(u"Unhandled StoreLocation");
+	}
 
-	OpenFlags
-		- ...
-	*/
-	if ((_NativeCertificateStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, 0, NULL, CERT_SYSTEM_STORE_CURRENT_USER, L"ROOT")) == nullptr)
+	WideString StoreName;
+	switch (_StoreName)
+	{
+	case StoreName::AddressBook:
+		// ToDo
+		throw NotImplementedException(u"Unhandled StoreName AddressBook");
+		break;
+	case StoreName::AuthRoot:
+		// ToDo
+		throw NotImplementedException(u"Unhandled StoreName AuthRoot");
+		break;
+	case StoreName::CertificateAuthority:
+		// ToDo
+		throw NotImplementedException(u"Unhandled StoreName CertificateAuthority");
+		break;
+	case StoreName::Disallowed:
+		// ToDo
+		throw NotImplementedException(u"Unhandled StoreName Disallowed");
+		break;
+	case StoreName::My:
+		StoreName = L"MY";
+		break;
+	case StoreName::Root:
+		StoreName = L"ROOT";
+		break;
+	case StoreName::TrustedPeople:
+		// ToDo
+		throw NotImplementedException(u"Unhandled StoreName TrustedPeople");
+		break;
+	case StoreName::TrustedPublisher:
+		// ToDo
+		throw NotImplementedException(u"Unhandled StoreName TrustedPublisher");
+		break;
+	default:
+		throw NotImplementedException(u"Unhandled StoreName");
+	}
+
+	if ((_NativeCertificateStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, 0, NULL, StoreLocation, &StoreName[0])) == nullptr)
 	{
 		// ToDo: throw specific exception
 		throw GetLastError();
 	}
 	else
 	{
-		// iterare all certificates of the opened store
-		PCCERT_CONTEXT NativeCertificateContext = nullptr;
-		while (NativeCertificateContext = CertEnumCertificatesInStore(_NativeCertificateStore, NativeCertificateContext))
+		ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer = nullptr;
+		while (CertificateContextPointer = CertEnumCertificatesInStore(_NativeCertificateStore, CertificateContextPointer))
 		{
-			// get the size of the certificate
-			unsigned long ByteLength;
-			if (CertSerializeCertificateStoreElement(NativeCertificateContext, 0, nullptr, &ByteLength))
-			{
-				// serialize the certificate into a byte-array
-				Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(ByteLength);
-				if (CertSerializeCertificateStoreElement(NativeCertificateContext, 0, &RawData[0], &ByteLength))
-				{
-					_CertificateCollection.Add(X509Certificate(RawData));
-
-					int x = 234;
-				}
-				else
-				{
-					// ToDo: throw specific exception
-					throw GetLastError();
-				}
-			}
-			else
-			{
-				// ToDo: throw specific exception
-				throw GetLastError();
-			}
+			_CertificateCollection.Add(X509Certificate(CertificateContextPointer));
 		}
-		CertFreeCertificateContext(NativeCertificateContext);
+		CertFreeCertificateContext(CertificateContextPointer);
 	}
 }

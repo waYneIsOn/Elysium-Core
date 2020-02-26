@@ -24,14 +24,14 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 #error "undefined os"
 #endif
 	{
-		Unknown = 0,
-		Cert = 1,
-		SerializedCert = 2,
-		Pfx = 3,
-		Pkcs12 = 3,
-		SerializedStore = 4,
-		Pkcs7 = 5,
-		Authenticode = 6
+		Unknown = 0x00,
+		Cert = 0x01,
+		SerializedCert = 0x02,
+		Pfx = 0x03,
+		Pkcs12 = Pfx,
+		SerializedStore = 0x04,
+		Pkcs7 = 0x05,
+		Authenticode = 0x06
 	};
 }
 #endif

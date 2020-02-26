@@ -39,7 +39,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const size_t GetCount() const;
 
-		void Add(const X509Certificate& Item);
+		void Add(X509Certificate&& Item);
 		void Clear();
 	private:
 		Collections::Template::List<X509Certificate> _Certificates = { };
