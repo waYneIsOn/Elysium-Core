@@ -18,8 +18,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Contains.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Count.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Expression.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Extension.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SingleParameterExtension.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Where.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Expression.cpp" />
   </ItemGroup>
 </Project>

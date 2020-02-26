@@ -8,10 +8,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Extension.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SingleParameterExtension.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Where.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Expression.hpp">
+      <Filter>Expressions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Expressions">
       <UniqueIdentifier>{b401590f-1f5a-475f-bb0e-393c078553f0}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Expression.cpp">
+      <Filter>Expressions</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

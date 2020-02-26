@@ -31,7 +31,7 @@ namespace UnitTestsCoreLinq
 			std::vector<int> EmptyVector = std::vector<int>();
 			Assert::IsFalse(EmptyVector >> Any());
 		}
-
+		
 		TEST_METHOD(Core_Linq_Contains)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
