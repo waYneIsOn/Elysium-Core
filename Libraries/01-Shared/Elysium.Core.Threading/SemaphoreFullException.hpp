@@ -25,7 +25,7 @@ namespace Elysium::Core::Threading
 	{
 	public:
 		SemaphoreFullException();
-		SemaphoreFullException(const String& Message);
+		SemaphoreFullException(String&& Message);
 		virtual ~SemaphoreFullException();
 	};
 }

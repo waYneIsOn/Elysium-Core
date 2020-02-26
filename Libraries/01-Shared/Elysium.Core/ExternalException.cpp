@@ -10,13 +10,13 @@ Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 {
 	SetHResult(E_FAIL);
 }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const String & Message)
-	: Elysium::Core::Exception(Message)
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(String && Message)
+	: Elysium::Core::Exception(std::move(Message))
 {
 	SetHResult(E_FAIL);
 }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const String & Message, const int ErrorCode)
-	: Elysium::Core::Exception(Message)
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(String && Message, const int ErrorCode)
+	: Elysium::Core::Exception(std::move(Message))
 {
 	SetHResult(ErrorCode);
 }

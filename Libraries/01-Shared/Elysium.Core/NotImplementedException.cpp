@@ -6,16 +6,12 @@
 
 Elysium::Core::NotImplementedException::NotImplementedException()
 	: Elysium::Core::Exception(u"NotImplementedException")
-{
-}
+{ }
 Elysium::Core::NotImplementedException::NotImplementedException(const char16_t * Message)
 	: Elysium::Core::Exception(Message)
-{
-}
-Elysium::Core::NotImplementedException::NotImplementedException(const String & Message)
-	: Elysium::Core::Exception(Message)
-{
-}
+{ }
+Elysium::Core::NotImplementedException::NotImplementedException(String && Message)
+	: Elysium::Core::Exception(std::move(Message))
+{ }
 Elysium::Core::NotImplementedException::~NotImplementedException()
-{
-}
+{ }

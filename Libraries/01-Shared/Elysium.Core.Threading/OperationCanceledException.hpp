@@ -20,7 +20,7 @@ namespace Elysium::Core::Threading::Tasks
 	{
 	public:
 		OperationCanceledException();
-		OperationCanceledException(const String& Message);
+		OperationCanceledException(String&& Message);
 		~OperationCanceledException();
 	};
 }

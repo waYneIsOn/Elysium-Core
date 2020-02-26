@@ -20,7 +20,7 @@ namespace Elysium::Core
 	{
 	public:
 		InvalidCastException();
-		InvalidCastException(const String& Message);
+		InvalidCastException(String&& Message);
 		virtual ~InvalidCastException();
 	};
 }

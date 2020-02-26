@@ -20,7 +20,7 @@ namespace Elysium::Core
 	{
 	public:
 		NotSupportedException();
-		NotSupportedException(const String& Message);
+		NotSupportedException(String&& Message);
 		virtual ~NotSupportedException();
 	};
 }

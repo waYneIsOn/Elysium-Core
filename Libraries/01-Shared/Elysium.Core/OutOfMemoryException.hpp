@@ -20,7 +20,7 @@ namespace Elysium::Core
 	{
 	public:
 		OutOfMemoryException();
-		OutOfMemoryException(const String& Message);
+		OutOfMemoryException(String&& Message);
 		virtual ~OutOfMemoryException();
 	};
 }

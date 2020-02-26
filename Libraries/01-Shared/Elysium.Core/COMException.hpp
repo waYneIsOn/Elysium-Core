@@ -21,8 +21,8 @@ namespace Elysium::Core::Runtime::InteropServices
 	{
 	public:
 		COMException();
-		COMException(const String& Message);
-		COMException(const String& Message, const int ErrorCode);
+		COMException(String&& Message);
+		COMException(String&& Message, const int ErrorCode);
 		virtual ~COMException();
 	};
 }

@@ -24,8 +24,8 @@ namespace Elysium::Core::Data::Common
 	{
 	public:
 		DbException();
-		DbException(const String& Message);
-		DbException(const String& Message, const int ErrorCode);
+		DbException(String&& Message);
+		DbException(String&& Message, const int ErrorCode);
 		~DbException();
 	};
 }

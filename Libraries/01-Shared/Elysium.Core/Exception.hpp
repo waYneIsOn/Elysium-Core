@@ -28,7 +28,7 @@ namespace Elysium::Core
 		// constructors & destructor
 		Exception();
 		Exception(const char16_t* Message);
-		Exception(const String& Message);
+		Exception(String&& Message);
 		virtual ~Exception();
 
 		// properties - getter

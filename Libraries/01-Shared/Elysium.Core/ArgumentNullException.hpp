@@ -20,7 +20,7 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentNullException();
-		ArgumentNullException(const String& Message);
+		ArgumentNullException(String&& Message);
 		virtual ~ArgumentNullException();
 	};
 }

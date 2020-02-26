@@ -20,7 +20,7 @@ namespace Elysium::Core
 	{
 	public:
 		AggregateException();
-		AggregateException(const String& Message);
+		AggregateException(String&& Message);
 		virtual ~AggregateException();
 	};
 }

@@ -2,16 +2,13 @@
 
 Elysium::Core::Exception::Exception()
 	: _Message(u"Exception"), _InnerException(nullptr)
-{
-}
+{ }
 Elysium::Core::Exception::Exception(const char16_t * Message)
 	: _Message(String(Message)), _InnerException(nullptr)
-{
-}
-Elysium::Core::Exception::Exception(const String & Message)
-	: _Message(Message), _InnerException(nullptr)
-{
-}
+{ }
+Elysium::Core::Exception::Exception(String && Message)
+	: _Message(std::move(Message)), _InnerException(nullptr)
+{ }
 Elysium::Core::Exception::~Exception()
 {
 	if (_InnerException != nullptr)

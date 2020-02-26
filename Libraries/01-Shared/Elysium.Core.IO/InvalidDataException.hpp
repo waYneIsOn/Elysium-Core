@@ -23,7 +23,7 @@ namespace Elysium::Core::IO
 	public:
 		InvalidDataException();
 		InvalidDataException(const char16_t* Message);
-		InvalidDataException(const String& Message);
+		InvalidDataException(String&& Message);
 		virtual ~InvalidDataException();
 	};
 }

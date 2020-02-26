@@ -21,7 +21,7 @@ namespace Elysium::Core
 	public:
 		InvalidOperationException();
 		InvalidOperationException(const char16_t* Message);
-		InvalidOperationException(const String& Message);
+		InvalidOperationException(String&& Message);
 		virtual ~InvalidOperationException();
 	};
 }

@@ -32,8 +32,8 @@ namespace Elysium::Core::Net::Sockets
 	public:
 		// constructors & destructor
 		SocketException();
-		SocketException(const String& Message);
-		SocketException(const String& Message, const int ErrorCode);
+		SocketException(String&& Message);
+		SocketException(String&& Message, const int ErrorCode);
 		virtual ~SocketException();
 	};
 }

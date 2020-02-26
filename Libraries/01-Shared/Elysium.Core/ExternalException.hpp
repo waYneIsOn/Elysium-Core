@@ -28,8 +28,8 @@ namespace Elysium::Core::Runtime::InteropServices
 	{
 	public:
 		ExternalException();
-		ExternalException(const String& Message);
-		ExternalException(const String& Message, const int ErrorCode);
+		ExternalException(String&& Message);
+		ExternalException(String&& Message, const int ErrorCode);
 		virtual ~ExternalException();
 
 		int GetErrorCode();

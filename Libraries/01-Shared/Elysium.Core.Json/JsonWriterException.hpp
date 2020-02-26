@@ -20,7 +20,7 @@ namespace Elysium::Core::Json
 	{
 	public:
 		JsonWriterException();
-		JsonWriterException(const String& Message);
+		JsonWriterException(String&& Message);
 		virtual ~JsonWriterException();
 	};
 }
