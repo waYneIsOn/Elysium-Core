@@ -4,6 +4,10 @@
 #include <type_traits>
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #include "CryptographicException.hpp"
 #endif
@@ -45,6 +49,25 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysi
 		Right._CertificateContext = nullptr;
 	}
 	return *this;
+}
+
+const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetIssuer() const
+{
+	unsigned long BufferLength = CertNameToStrA(X509_ASN_ENCODING, &_CertificateContext->pCertInfo->Issuer, CERT_X500_NAME_STR, nullptr, 0);
+
+	Collections::Template::Array<byte> Buffer = Collections::Template::Array<byte>(BufferLength);
+	CertNameToStrA(X509_ASN_ENCODING, &_CertificateContext->pCertInfo->Issuer, CERT_X500_NAME_STR, (char*)&Buffer[0], BufferLength);
+
+	return Elysium::Core::Text::Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());
+}
+const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetSubject() const
+{
+	unsigned long BufferLength = CertNameToStrA(X509_ASN_ENCODING, &_CertificateContext->pCertInfo->Subject, CERT_X500_NAME_STR, nullptr, 0);
+
+	Collections::Template::Array<byte> Buffer = Collections::Template::Array<byte>(BufferLength);
+	CertNameToStrA(X509_ASN_ENCODING, &_CertificateContext->pCertInfo->Subject, CERT_X500_NAME_STR, (char*)&Buffer[0], BufferLength);
+
+	return Elysium::Core::Text::Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());
 }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String & Password, const X509KeyStorageFlags Flags)

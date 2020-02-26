@@ -52,6 +52,9 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		X509Certificate& operator=(const X509Certificate& Source);
 		X509Certificate& operator=(X509Certificate&& Right) noexcept;
 
+		const String GetIssuer() const;
+		const String GetSubject() const;
+
 		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		static X509Certificate LoadFromFile(const String& FileName, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 	private:

@@ -16,6 +16,10 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security/X509Store.hpp"
 #endif
 
+#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#endif
+
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -98,6 +102,9 @@ namespace UnitTestsCore
 			}
 
 			X509Certificate Certificate = X509Certificate::LoadFromBlob(RawDataArray);
+
+			AssertExtended::AreEqual(u"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
+			AssertExtended::AreEqual(u"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
 
 			int x = 25;
 		}
