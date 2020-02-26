@@ -1,8 +1,6 @@
 /*
 ===========================================================================
-
 Copyright (C) 2017 waYne (CAM)
-
 ===========================================================================
 */
 #pragma once
@@ -64,6 +62,7 @@ namespace Elysium::Core::Collections::Template
 
 		// methods
 		void Add(const T& Item);
+		void Add(T&& Item);
 		void AddRange(const List<T>& Collection);
 		void AddRange(const T* Collection, size_t Count);
 		void Clear();
@@ -92,30 +91,26 @@ namespace Elysium::Core::Collections::Template
 	{ }
 	template<class T>
 	inline List<T>::List(const size_t Capacity)
-		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : static_cast<T*>(malloc(sizeof(T) * _Capacity)))
-	{ 
-		memset(_Data, 0, sizeof(T) * _Capacity);
-	}
+		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
+	{ }
 	template<class T>
 	inline List<T>::List(const std::initializer_list<T> & InitializerList)
-		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : static_cast<T*>(malloc(sizeof(T) * _Capacity)))
+		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
-		memset(_Data, 0, sizeof(T) * _Capacity);
 		size_t i = 0;
 		typename std::initializer_list<T>::iterator Iterator;
 		for (Iterator = InitializerList.begin(); Iterator < InitializerList.end(); ++Iterator)
 		{
-			_Data[i++] = *Iterator;
+			_Data[i++] = T(*Iterator);
 		}
 	}
 	template<class T>
 	inline List<T>::List(const List<T>& Source)
-		: _Capacity(Source._Capacity), _Count(Source._Count), _Data(_Capacity == 0 ? nullptr : static_cast<T*>(malloc(sizeof(T) * _Capacity)))
+		: _Capacity(Source._Capacity), _Count(Source._Count), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
-		memset(_Data, 0, sizeof(T) * _Capacity);
 		for (size_t i = 0; i < _Count; i++)
 		{
-			_Data[i] = Source._Data[i];
+			_Data[i] = T(Source._Data[i]);
 		}
 	}
 	template<typename T>
@@ -129,7 +124,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (_Data != nullptr)
 		{
-			free(_Data);
+			delete[] _Data;
 			_Data = nullptr;
 		}
 	}
@@ -156,7 +151,7 @@ namespace Elysium::Core::Collections::Template
 			// release currently held objects
 			if (_Data != nullptr)
 			{
-				free(_Data);
+				delete _Data;
 			}
 
 			// grab Right's objects
@@ -211,7 +206,17 @@ namespace Elysium::Core::Collections::Template
 		Resize(_Count + 1);
 
 		// copy the element and increment the internal element counter
-		_Data[_Count] = Item;
+		_Data[_Count] = T(Item);
+		_Count++;
+	}
+	template<typename T>
+	inline void List<T>::Add(T && Item)
+	{
+		// resize if required
+		Resize(_Count + 1);
+
+		// move the element and increment the internal element counter
+		_Data[_Count] = std::move(Item);
 		_Count++;
 	}
 	template<class T>
@@ -404,9 +409,8 @@ namespace Elysium::Core::Collections::Template
 
 			// store a pointer to old data before allocating new data
 			T* OldData = _Data;
+			_Data = new T[ActualCapacity];
 			_Capacity = ActualCapacity;
-			_Data = static_cast<T*>(malloc(sizeof(T) * _Capacity));
-			memset(_Data, 0, sizeof(T) * _Capacity);
 
 			// move all old elements to _Data
 			for (size_t i = 0; i < _Count; i++)
@@ -414,8 +418,8 @@ namespace Elysium::Core::Collections::Template
 				_Data[i] = std::move(OldData[i]);
 			}
 
-			// free old data
-			free(OldData);
+			// delete old data
+			delete[] OldData;
 		}
 	}
 	template<class T>
@@ -445,9 +449,8 @@ namespace Elysium::Core::Collections::Template
 
 			// store a pointer to old data before allocating new data
 			T* OldData = _Data;
+			_Data = new T[ActualCapacity];
 			_Capacity = ActualCapacity;
-			_Data = static_cast<T*>(malloc(sizeof(T) * _Capacity));
-			memset(_Data, 0, _Capacity);
 
 			// move all old elements left of InsertionIndex to _Data
 			for (size_t i = 0; i < InsertionIndex; i++)
@@ -461,8 +464,8 @@ namespace Elysium::Core::Collections::Template
 				_Data[i + 1] = std::move(OldData[i]);
 			}
 
-			// free old data
-			free(OldData);
+			// delete old data
+			delete[] OldData;
 		}
 		else
 		{
