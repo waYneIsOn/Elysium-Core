@@ -103,6 +103,11 @@ int Elysium::Core::IO::FileStream::GetWriteTimeout() const
 	throw NotImplementedException();
 }
 
+bool Elysium::Core::IO::FileStream::GetIsOpen() const
+{
+	return _NativeStream.is_open();
+}
+
 void Elysium::Core::IO::FileStream::SetLength(size_t Value)
 {
 	throw NotImplementedException();
