@@ -48,7 +48,6 @@ namespace UnitTestsCore
 
 		TEST_METHOD(ReadCertificateFromBlob)
 		{
-			/*
 			Elysium::Core::CharString Input = "-----BEGIN CERTIFICATE-----"
 				"MIIF7zCCBNegAwIBAgIRANdVj9r18RBbshMoK3B3KaMwDQYJKoZIhvcNAQEFBQAw"
 				"gZcxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtl"
@@ -83,7 +82,7 @@ namespace UnitTestsCore
 				"TaDQqwEZCjK36OPP8dKXSXuspJf38FeuY3eaf5baTf2+3Ac24yW9iXmOKRITi4gH"
 				"+2vbpM2zLSfp1Mpg14VT+3TGXDWMcB/5sreSJyDHlNVnFDA="
 				"-----END CERTIFICATE-----";
-			*/
+			/*
 			Elysium::Core::CharString Input = "-----BEGIN RSA PRIVATE KEY-----"
 				"MIICXAIBAAKBgQCf6YAJOSBYPve1jpYDzq+w++8YVoATI/YCi/RKZaQk+l2ZfoUQ"
 				"g0qrYrfkzeoOa/qd5VLjTTvHEgwXnlDXMfo+vSgxosUxDOZXMTBqJGOViv5K2QBv"
@@ -99,7 +98,7 @@ namespace UnitTestsCore
 				"koGJ/TluQLxNzUNQnQJBAImwr/yYFenIx3HQ6UX/fCt6qpGDv0VfOLyR64MNeegx"
 				"o7DhNxHbFkIGzk4lKhMKcHKDrawZbdJtS9ie2geSwVQ="
 				"-----END RSA PRIVATE KEY-----";
-			
+			*/
 			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> RawDataArray = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(Input.GetLength());
 			for (size_t i = 0; i < Input.GetLength(); i++)
 			{
