@@ -8,6 +8,10 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_FILESTREAM
+#include "../Elysium.Core.IO/FileStream.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #include "CryptographicException.hpp"
 #endif
@@ -75,14 +79,12 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	unsigned long BufferLength = 0;
 	if (!CryptStringToBinaryA((const char*)&RawData[0], 0, CRYPT_STRING_BASE64HEADER, NULL, &BufferLength, NULL, NULL))
 	{
-		/*
-		DWORD ErrorCode = GetLastError();
-		HRESULT hr = HRESULT_FROM_WIN32(ErrorCode);
-		LPSTR ErrorMessageBuffer = nullptr;
+		unsigned long ErrorCode = GetLastError();
+		char* ErrorMessageBuffer = nullptr;
 		size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessageBuffer, 0, NULL);
 		LocalFree(ErrorMessageBuffer);
-		*/
+		
 		// ToDo: message
 		throw CryptographicException();
 	}
@@ -90,14 +92,12 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	Collections::Template::Array<byte> Buffer = Collections::Template::Array<byte>(BufferLength);
 	if (!CryptStringToBinaryA((const char*)&RawData[0], 0, CRYPT_STRING_BASE64HEADER, &Buffer[0], &BufferLength, NULL, NULL))
 	{
-		/*
-		DWORD ErrorCode = GetLastError();
-		HRESULT hr = HRESULT_FROM_WIN32(ErrorCode);
-		LPSTR ErrorMessageBuffer = nullptr;
+		unsigned long ErrorCode = GetLastError();
+		char* ErrorMessageBuffer = nullptr;
 		size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessageBuffer, 0, NULL);
 		LocalFree(ErrorMessageBuffer);
-		*/
+
 		// ToDo: message
 		throw CryptographicException();
 	}
@@ -107,12 +107,11 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	if (CertificateContextPointer == nullptr)
 	{
 		/*
-		DWORD ErrorCode = GetLastError();
-		HRESULT hr = HRESULT_FROM_WIN32(ErrorCode);
-		LPSTR ErrorMessageBuffer = nullptr;
-		size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessageBuffer, 0, NULL);
-		LocalFree(ErrorMessageBuffer);
+		char* ErrorMessage = nullptr;
+		unsigned long ErrorMessageLength = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessage, 0, NULL);
+		String ExceptionMessage = Elysium::Core::Text::Encoding::UTF8().GetString((byte*)ErrorMessage, ErrorMessageLength);
+		LocalFree(ErrorMessage);
 		*/
 		// ToDo: message
 		throw CryptographicException();
@@ -122,9 +121,24 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const String & FileName, const String & Password, const X509KeyStorageFlags Flags)
 {
-	// ToDo
-	throw CryptographicException();
-	return X509Certificate();
+	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
+	if (!SourceStream.GetIsOpen())
+	{	// ToDo: throw specific exception
+		throw Exception();
+	}
+
+	size_t BytesRead = 0;
+	size_t TotalBytesRead = 0;
+	byte Buffer[65536];	// https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc938632(v=technet.10)?redirectedfrom=MSDN
+	Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(SourceStream.GetLength());
+	do
+	{
+		BytesRead = SourceStream.Read(&Buffer[0], 65536);
+		Collections::Template::Array<byte>::Copy(&Buffer[0], &RawData[TotalBytesRead], BytesRead);
+		TotalBytesRead += BytesRead;
+	} while (BytesRead > 0);
+
+	return LoadFromBlob(RawData, Password, Flags);
 }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
