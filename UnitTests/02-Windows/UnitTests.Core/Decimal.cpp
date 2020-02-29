@@ -8,9 +8,9 @@
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {		
-	TEST_CLASS(Core_Decimal)
+	TEST_CLASS(DecimalTests)
 	{
 	public:
 		TEST_METHOD(Constructors)

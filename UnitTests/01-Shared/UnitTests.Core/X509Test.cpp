@@ -27,9 +27,9 @@
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core::Security::Cryptography
 {
-	TEST_CLASS(Core_Security_Cryptography_X509Certificates_Test)
+	TEST_CLASS(X509CertificatesTests)
 	{
 	public:
 		TEST_METHOD(OpenStoreRootCurrentUser)

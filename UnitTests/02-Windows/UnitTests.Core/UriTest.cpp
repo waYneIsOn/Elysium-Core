@@ -11,9 +11,9 @@
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
-	TEST_CLASS(Core_Uri)
+	TEST_CLASS(UriTests)
 	{
 	public:
 		TEST_METHOD(StaticFields)

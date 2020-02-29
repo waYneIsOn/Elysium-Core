@@ -11,7 +11,7 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
 	float FreeOneParameter(int x)
 	{
@@ -31,7 +31,7 @@ namespace UnitTestsCore
 		}
 	};
 
-	TEST_CLASS(Core_Delegate)
+	TEST_CLASS(DelegateTests)
 	{
 	public:
 		TEST_METHOD(Constructors)

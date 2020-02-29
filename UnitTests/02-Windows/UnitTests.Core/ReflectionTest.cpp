@@ -8,9 +8,9 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Reflection/Assembly.hpp"
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
-	TEST_CLASS(Core_Reflection)
+	TEST_CLASS(ReflectionTests)
 	{
 	public:
 		TEST_METHOD(ReflectStringAtRuntime)

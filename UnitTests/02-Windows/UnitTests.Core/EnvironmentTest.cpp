@@ -11,9 +11,9 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
-	TEST_CLASS(Core_Environment)
+	TEST_CLASS(EnvironmentTests)
 	{
 	public:
 		TEST_METHOD(Properties)

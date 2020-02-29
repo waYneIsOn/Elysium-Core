@@ -6,9 +6,9 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core::Collections::Template
 {
-	TEST_CLASS(Core_Collections_Template_List)
+	TEST_CLASS(ListTests)
 	{
 	public:
 		TEST_METHOD(Value)

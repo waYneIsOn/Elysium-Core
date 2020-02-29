@@ -11,9 +11,9 @@
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
-	TEST_CLASS(Core_DateTime)
+	TEST_CLASS(DateTimeTests)
 	{
 	public:
 		TEST_METHOD(Constructors)

@@ -28,7 +28,7 @@ using namespace Elysium::Core::Data::SqlNativeClient::OleDb;
 #define STRINGIFY(x) u#x
 #define EXPAND(x) STRINGIFY(x)
 
-namespace SqlNativeClient
+namespace UnitTests::Core::Data::SqlNativeClient
 {
 	TEST_CLASS(OleDbTests), DatabaseTestBase
 	{

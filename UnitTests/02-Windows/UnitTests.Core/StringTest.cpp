@@ -18,9 +18,9 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
-	TEST_CLASS(Core_String)
+	TEST_CLASS(StringTests)
 	{
 	public:
 		TEST_METHOD(Constructors)

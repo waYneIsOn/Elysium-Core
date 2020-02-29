@@ -50,9 +50,9 @@ using namespace Elysium::Core::IO;
 using namespace Elysium::Core::Json;
 using namespace Elysium::Core::Text;
 
-namespace UnitTestsCore
+namespace UnitTests::Core
 {
-	TEST_CLASS(Core_Json)
+	TEST_CLASS(JsonTests)
 	{
 	public:
 		TEST_METHOD(WriteObject)

@@ -5,9 +5,9 @@
 using namespace Elysium::Core::Collections::Template;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core::Collections::Template
 {
-	TEST_CLASS(Core_Collections_Template_Queue)
+	TEST_CLASS(QueueTests)
 	{
 	public:
 		TEST_METHOD(ValueWithoutResizing)

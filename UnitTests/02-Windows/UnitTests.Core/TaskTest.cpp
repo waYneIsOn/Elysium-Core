@@ -41,16 +41,16 @@ using namespace Elysium::Core::Threading;
 using namespace Elysium::Core::Threading::Tasks;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core::Threading::Tasks
 {
-	TEST_CLASS(Core_Threading_Tasks_Task)
+	TEST_CLASS(TaskTests)
 	{
 	public:
 		TEST_METHOD(RunSynchronouslySuccessfully)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ZeroParameterThreadStart>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(25, _CalculatedValue);
@@ -61,7 +61,7 @@ namespace UnitTestsCore
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::Cancel>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::Cancel>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(123, _CalculatedValue);
@@ -72,7 +72,7 @@ namespace UnitTestsCore
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ThrowException>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ThrowException>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(3, _CalculatedValue);
@@ -85,7 +85,7 @@ namespace UnitTestsCore
 			_WorkerThreadId = std::this_thread::get_id();
 
 			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::ZeroParameterThreadStart>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
 			Pool.Start();
 			SimpleTask.Start(Pool);
 			SimpleTask.Wait();
@@ -101,7 +101,7 @@ namespace UnitTestsCore
 
 			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
 			Pool.Start();
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<Core_Threading_Tasks_Task, &Core_Threading_Tasks_Task::LongRunning>(*this));
+			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::LongRunning>(*this));
 			DateTime Start = DateTime::Now();
 			SimpleTask.Start(Pool);
 			SimpleTask.Wait();

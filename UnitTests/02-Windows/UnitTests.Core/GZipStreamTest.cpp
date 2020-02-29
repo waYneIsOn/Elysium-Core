@@ -13,9 +13,9 @@ using namespace Elysium::Core::IO::Compression;
 using namespace Elysium::Core::Math;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCore
+namespace UnitTests::Core::Compression
 {
-	TEST_CLASS(Core_IO_Compression_GZipStream)
+	TEST_CLASS(GZipStreamTests)
 	{
 	public:
 		TEST_METHOD(Read)
