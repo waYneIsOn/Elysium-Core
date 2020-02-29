@@ -4,6 +4,10 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_FILENOTFOUNDEXCEPTION
+#include "FileNotFoundException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "NotSupportedException.hpp"
 #endif
@@ -27,6 +31,11 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode)
 	{
 		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
 	}
+
+	if (!_NativeStream.is_open())
+	{
+		throw FileNotFoundException();
+	}
 }
 Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, FileAccess Access)
 	: Elysium::Core::IO::Stream(),
@@ -41,6 +50,11 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, Fi
 	else
 	{
 		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
+	}
+
+	if (!_NativeStream.is_open())
+	{
+		throw FileNotFoundException();
 	}
 }
 Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share)
@@ -101,11 +115,6 @@ int Elysium::Core::IO::FileStream::GetReadTimeout() const
 int Elysium::Core::IO::FileStream::GetWriteTimeout() const
 {
 	throw NotImplementedException();
-}
-
-bool Elysium::Core::IO::FileStream::GetIsOpen() const
-{
-	return _NativeStream.is_open();
 }
 
 void Elysium::Core::IO::FileStream::SetLength(size_t Value)

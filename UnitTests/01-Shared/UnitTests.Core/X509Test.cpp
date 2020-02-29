@@ -106,11 +106,8 @@ namespace UnitTestsCore
 			}
 
 			X509Certificate Certificate = X509Certificate::LoadFromBlob(RawDataArray);
-
 			AssertExtended::AreEqual(u"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
 			AssertExtended::AreEqual(u"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
-
-			int x = 25;
 		}
 
 		TEST_METHOD(ReadCertificateFromFile)

@@ -20,6 +20,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringWriter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -51,6 +53,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StreamReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

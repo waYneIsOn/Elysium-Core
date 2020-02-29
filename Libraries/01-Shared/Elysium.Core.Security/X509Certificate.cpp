@@ -122,10 +122,6 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const String & FileName, const String & Password, const X509KeyStorageFlags Flags)
 {
 	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
-	if (!SourceStream.GetIsOpen())
-	{	// ToDo: throw specific exception
-		throw Exception();
-	}
 
 	size_t BytesRead = 0;
 	size_t TotalBytesRead = 0;

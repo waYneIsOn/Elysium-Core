@@ -65,8 +65,6 @@ namespace Elysium
 				virtual int GetReadTimeout() const override;
 				virtual int GetWriteTimeout() const override;
 
-				bool GetIsOpen() const;
-
 				// properties - setter
 				virtual void SetLength(size_t Value) override;
 				virtual void SetPosition(int64_t Position) override;

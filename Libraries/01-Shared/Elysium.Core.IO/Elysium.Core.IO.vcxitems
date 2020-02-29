@@ -19,11 +19,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
@@ -36,10 +38,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReader.cpp" />

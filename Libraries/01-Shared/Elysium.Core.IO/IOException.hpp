@@ -7,8 +7,8 @@ Copyright (C) 2017 waYne (CAM)
 */
 #pragma once
 
-#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
-#define ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
+#ifndef ELYSIUM_CORE_IO_IOEXCEPTION
+#define ELYSIUM_CORE_IO_IOEXCEPTION
 
 #ifndef ELYSIUM_CORE_API
 #include "../Elysium.Core/API.hpp"
@@ -20,13 +20,13 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::IO
 {
-	class ELYSIUM_CORE_API InvalidDataException : public Exception
+	class ELYSIUM_CORE_API IOException : public Exception
 	{
 	public:
-		InvalidDataException();
-		InvalidDataException(const char16_t* Message);
-		InvalidDataException(String&& Message);
-		virtual ~InvalidDataException();
+		IOException();
+		IOException(const char16_t* Message);
+		IOException(String&& Message);
+		virtual ~IOException();
 	};
 }
 #endif
