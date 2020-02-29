@@ -34,6 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SslPolicyErrors.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SslProtocols.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SslStream.hpp" />
   </ItemGroup>
   <ItemGroup>

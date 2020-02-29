@@ -33,19 +33,19 @@ bool Elysium::Core::IO::MemoryStream::GetCanWrite() const
 	return true;
 }
 
-size_t Elysium::Core::IO::MemoryStream::GetLength()
+const size_t Elysium::Core::IO::MemoryStream::GetLength()
 {
 	return _Buffer.GetCount();
 }
-Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition()
+const Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition()
 {
 	return Elysium::Core::IO::Stream::GetPosition();
 }
-int Elysium::Core::IO::MemoryStream::GetReadTimeout() const
+const int Elysium::Core::IO::MemoryStream::GetReadTimeout() const
 {
 	return Elysium::Core::IO::Stream::GetReadTimeout();
 }
-int Elysium::Core::IO::MemoryStream::GetWriteTimeout() const
+const int Elysium::Core::IO::MemoryStream::GetWriteTimeout() const
 {
 	return Elysium::Core::IO::Stream::GetWriteTimeout();
 }

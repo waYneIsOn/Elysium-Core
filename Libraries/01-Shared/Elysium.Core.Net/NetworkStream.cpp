@@ -39,19 +39,19 @@ bool Elysium::Core::Net::Sockets::NetworkStream::GetCanWrite() const
 	throw NotImplementedException();
 }
 
-size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength()
+const size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength()
 {
 	throw NotImplementedException();
 }
-__int64 Elysium::Core::Net::Sockets::NetworkStream::GetPosition()
+const __int64 Elysium::Core::Net::Sockets::NetworkStream::GetPosition()
 {
 	throw NotImplementedException();
 }
-int Elysium::Core::Net::Sockets::NetworkStream::GetReadTimeout() const
+const int Elysium::Core::Net::Sockets::NetworkStream::GetReadTimeout() const
 {
 	throw NotImplementedException();
 }
-int Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
+const int Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
 {
 	throw NotImplementedException();
 }

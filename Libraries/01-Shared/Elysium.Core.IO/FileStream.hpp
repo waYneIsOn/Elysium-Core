@@ -49,10 +49,15 @@ namespace Elysium
 			class ELYSIUM_CORE_API FileStream : public Stream
 			{
 			public:
-				FileStream(const String& Path, FileMode Mode);
-				FileStream(const String& Path, FileMode Mode, FileAccess Access);
-				FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share);
-				~FileStream();
+				FileStream(const String& Path, const FileMode Mode);
+				FileStream(const String& Path, const FileMode Mode, const FileAccess Access);
+				FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share);
+				FileStream(const FileStream& Source) = delete;
+				FileStream(FileStream&& Right) noexcept = delete;
+				virtual ~FileStream();
+
+				FileStream& operator=(const FileStream& Source) = delete;
+				FileStream& operator=(FileStream&& Right) noexcept = delete;
 
 				// properties - getter
 				virtual bool GetCanRead() const override;
@@ -60,10 +65,10 @@ namespace Elysium
 				virtual bool GetCanTimeout() const override;
 				virtual bool GetCanWrite() const override;
 
-				virtual size_t GetLength() override;
-				virtual int64_t GetPosition() override;
-				virtual int GetReadTimeout() const override;
-				virtual int GetWriteTimeout() const override;
+				virtual const size_t GetLength() override;
+				virtual const int64_t GetPosition() override;
+				virtual const int GetReadTimeout() const override;
+				virtual const int GetWriteTimeout() const override;
 
 				// properties - setter
 				virtual void SetLength(size_t Value) override;
@@ -79,9 +84,6 @@ namespace Elysium
 				virtual void Write(const byte* Buffer, const size_t Count) override;
 			private:
 				String _Path;
-				FileMode _Mode;
-				FileAccess _Access;
-				FileShare _Share;
 
 				//std::basic_fstream<char16_t> _NativeStream;
 				std::fstream _NativeStream;

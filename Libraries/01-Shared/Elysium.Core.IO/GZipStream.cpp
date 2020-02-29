@@ -68,19 +68,19 @@ bool Elysium::Core::IO::Compression::GZipStream::GetCanWrite() const
 	return _CompressionMode == CompressionMode::Compress && _BaseStream.GetCanWrite();
 }
 
-size_t Elysium::Core::IO::Compression::GZipStream::GetLength()
+const size_t Elysium::Core::IO::Compression::GZipStream::GetLength()
 {	// ToDo: message
 	throw NotSupportedException();
 }
-int64_t Elysium::Core::IO::Compression::GZipStream::GetPosition()
+const int64_t Elysium::Core::IO::Compression::GZipStream::GetPosition()
 {	// ToDo: message
 	throw NotSupportedException();
 }
-int Elysium::Core::IO::Compression::GZipStream::GetReadTimeout() const
+const int Elysium::Core::IO::Compression::GZipStream::GetReadTimeout() const
 {
 	return 0;
 }
-int Elysium::Core::IO::Compression::GZipStream::GetWriteTimeout() const
+const int Elysium::Core::IO::Compression::GZipStream::GetWriteTimeout() const
 {
 	return 0;
 }

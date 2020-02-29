@@ -30,7 +30,7 @@ namespace Elysium::Core::IO
 	{
 	public:
 		MemoryStream();
-		~MemoryStream();
+		virtual ~MemoryStream();
 
 		// properties - getter
 		virtual bool GetCanRead() const override;
@@ -38,10 +38,10 @@ namespace Elysium::Core::IO
 		virtual bool GetCanTimeout() const override;
 		virtual bool GetCanWrite() const override;
 
-		virtual size_t GetLength() override;
-		virtual int64_t GetPosition() override;
-		virtual int GetReadTimeout() const override;
-		virtual int GetWriteTimeout() const override;
+		virtual const size_t GetLength() override;
+		virtual const int64_t GetPosition() override;
+		virtual const int GetReadTimeout() const override;
+		virtual const int GetWriteTimeout() const override;
 
 		virtual size_t GetCapacity() const;
 

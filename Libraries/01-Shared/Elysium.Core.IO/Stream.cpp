@@ -19,8 +19,8 @@
 bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
-}
-Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition()
+} 
+const Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition()
 {
 	if (!GetCanSeek())
 	{
@@ -29,11 +29,11 @@ Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition()
 
 	return 0;
 }
-int Elysium::Core::IO::Stream::GetReadTimeout() const
+const int Elysium::Core::IO::Stream::GetReadTimeout() const
 {
 	throw InvalidOperationException();
 }
-int Elysium::Core::IO::Stream::GetWriteTimeout() const
+const int Elysium::Core::IO::Stream::GetWriteTimeout() const
 {
 	throw InvalidOperationException();
 }

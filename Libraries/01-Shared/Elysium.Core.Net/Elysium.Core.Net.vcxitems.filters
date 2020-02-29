@@ -81,5 +81,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EncryptionPolicy.hpp">
       <Filter>Security</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SslProtocols.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

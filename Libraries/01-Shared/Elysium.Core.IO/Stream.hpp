@@ -43,10 +43,10 @@ namespace Elysium::Core::IO
 		virtual bool GetCanTimeout() const;
 		virtual bool GetCanWrite() const = 0;
 
-		virtual size_t GetLength() = 0;
-		virtual int64_t GetPosition();
-		virtual int GetReadTimeout() const;
-		virtual int GetWriteTimeout() const;
+		virtual const size_t GetLength() = 0;
+		virtual const int64_t GetPosition();
+		virtual const int GetReadTimeout() const;
+		virtual const int GetWriteTimeout() const;
 
 		// properties - setter
 		virtual void SetLength(size_t Value) = 0;

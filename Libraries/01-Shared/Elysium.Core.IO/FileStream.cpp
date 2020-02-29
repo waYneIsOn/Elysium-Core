@@ -16,31 +16,18 @@
 #include "NotImplementedException.hpp"
 #endif
 
-Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode)
-	: Elysium::Core::IO::Stream(),
-	_Path(Path), _Mode(Mode), _Access(FileAccess::ReadWrite), _Share(FileShare::None)
+Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode)
+	: FileStream(Path, Mode, FileAccess::ReadWrite, FileShare::None)
+{ }
+Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode, const FileAccess Access)
+	: FileStream(Path, Mode, Access, FileShare::None)
+{ }
+Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share)
+	: Elysium::Core::IO::Stream(), _Path(Path)
 {
-	// ToDo: this is just for testing!!!
-	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
-	if (Mode == FileMode::Create)
-	{
-		//_NativeStream.open(_Path.GetCharArray(), std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
-		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
-	}
-	else
-	{
-		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
-	}
-
-	if (!_NativeStream.is_open())
-	{
-		throw FileNotFoundException();
-	}
-}
-Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, FileAccess Access)
-	: Elysium::Core::IO::Stream(),
-	_Path(Path), _Mode(Mode), _Access(Access), _Share(FileShare::None)
-{
+	int ModeFlag = std::ios::binary;
+	int ProtectionFlag = 0;
+	
 	// ToDo: this is just for testing!!!
 	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
@@ -52,27 +39,7 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, FileMode Mode, Fi
 		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
 	}
 
-	if (!_NativeStream.is_open())
-	{
-		throw FileNotFoundException();
-	}
-}
-Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, FileAccess Access, FileShare Share)
-	: Elysium::Core::IO::Stream(),
-	_Path(Path), _Mode(Mode), _Access(Access), _Share(Share)
-{
-	// ToDo: this is just for testing!!!
-	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
-	if (Mode == FileMode::Create)
-	{
-		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
-	}
-	else
-	{
-		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
-	}
-
-	if (!_NativeStream.is_open())
+	if (!_NativeStream.good())
 	{
 		throw FileNotFoundException();
 	}
@@ -100,7 +67,7 @@ bool Elysium::Core::IO::FileStream::GetCanWrite() const
 	throw NotImplementedException();
 }
 
-size_t Elysium::Core::IO::FileStream::GetLength()
+const size_t Elysium::Core::IO::FileStream::GetLength()
 {	// ToDo: if the stream position is of the end of the file, this doesn't work!!
 	size_t OriginalPosition = _NativeStream.tellg();
 	_NativeStream.seekg(0, std::ios::end);
@@ -109,15 +76,15 @@ size_t Elysium::Core::IO::FileStream::GetLength()
 
 	return FileLength;
 }
-int64_t Elysium::Core::IO::FileStream::GetPosition()
+const int64_t Elysium::Core::IO::FileStream::GetPosition()
 {
 	return _NativeStream.tellg();
 }
-int Elysium::Core::IO::FileStream::GetReadTimeout() const
+const int Elysium::Core::IO::FileStream::GetReadTimeout() const
 {
 	throw NotImplementedException();
 }
-int Elysium::Core::IO::FileStream::GetWriteTimeout() const
+const int Elysium::Core::IO::FileStream::GetWriteTimeout() const
 {
 	throw NotImplementedException();
 }
@@ -156,6 +123,7 @@ void Elysium::Core::IO::FileStream::Flush()
 }
 void Elysium::Core::IO::FileStream::Seek(const int64_t Offset, const SeekOrigin Origin)
 {
+	throw NotImplementedException();
 }
 size_t Elysium::Core::IO::FileStream::Read(byte * Buffer, const size_t Count)
 {
