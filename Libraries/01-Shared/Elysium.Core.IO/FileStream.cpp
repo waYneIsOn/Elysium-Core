@@ -71,6 +71,11 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, FileMode Mode, Fil
 	{
 		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
 	}
+
+	if (!_NativeStream.is_open())
+	{
+		throw FileNotFoundException();
+	}
 }
 Elysium::Core::IO::FileStream::~FileStream()
 {
