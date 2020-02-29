@@ -1,6 +1,6 @@
 #include "SslStream.hpp"
 
-Elysium::Core::Net::Security::SslStream::SslStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen)
+Elysium::Core::Net::Security::SslStream::SslStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const RemoteCertificateValidationCallback* UserCertificateValidationCallback, const LocalCertificateSelectionCallback* UserCertificateSelectionCallback, const EncryptionPolicy EncryptionPolicy)
 	: AuthenticatedStream(InnerStream, LeaveInnerStreamOpen)
 { }
 Elysium::Core::Net::Security::SslStream::~SslStream()
