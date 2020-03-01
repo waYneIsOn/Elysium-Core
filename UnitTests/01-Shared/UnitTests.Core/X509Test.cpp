@@ -16,6 +16,10 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security/X509Store.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAIN
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security/X509Chain.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_FILESTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #endif
@@ -44,6 +48,16 @@ namespace UnitTests::Core::Security::Cryptography
 			{
 				const X509Certificate& Certificate = RootCurrentUserStore.GetCertificates()[i];
 			}
+		}
+		TEST_METHOD(BuildCertificateChain)
+		{
+			X509Store RootCurrentUserStore = X509Store(StoreName::Root, StoreLocation::CurrentUser);
+			RootCurrentUserStore.Open(OpenFlags::ReadOnly);
+
+			X509Chain Chain = X509Chain();
+			bool Result = Chain.Build(RootCurrentUserStore.GetCertificates()[0]);
+
+			Assert::IsTrue(Result);
 		}
 
 		TEST_METHOD(ReadCertificateFromBlob)

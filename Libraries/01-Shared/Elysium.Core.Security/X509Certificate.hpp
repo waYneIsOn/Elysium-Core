@@ -43,6 +43,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	class ELYSIUM_CORE_API X509Certificate final
 	{
 		friend class Elysium::Core::Collections::Template::List<X509Certificate>;
+		friend class X509Chain;
 	public:
 		X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext);
 		X509Certificate(const X509Certificate& Source);
