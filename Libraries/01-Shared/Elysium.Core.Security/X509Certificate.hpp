@@ -34,7 +34,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_SYSTEM
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
 #include "System.hpp"
 #endif
 

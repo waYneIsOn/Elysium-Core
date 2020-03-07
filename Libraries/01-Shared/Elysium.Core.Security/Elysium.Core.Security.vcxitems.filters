@@ -30,6 +30,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)X509Chain.cpp">
       <Filter>Cryptography\X509Certificates</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509ChainPolicy.cpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -62,14 +71,35 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp">
       <Filter>Cryptography\X509Certificates</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp">
       <Filter>Cryptography</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp">
       <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationFlag.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationMode.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ChainPolicy.hpp">
+      <Filter>Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp">
+      <Filter>Cryptography</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

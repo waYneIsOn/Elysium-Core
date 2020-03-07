@@ -1,6 +1,6 @@
 #include "X509Chain.hpp"
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_SYSTEM
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
 #include "System.hpp"
 #endif
 
@@ -12,6 +12,11 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::X509Chain()
 { }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::~X509Chain()
 { }
+
+const Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy & Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::GetChainPolicy() const
+{
+	return _ChainPolicy;
+}
 
 const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::Build(const X509Certificate & Certificate)
 {
@@ -111,4 +116,8 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 	CertFreeCertificateChainEngine(CertificateChainEngine);
 
 	return true;
+}
+void Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::Reset()
+{
+	_ChainPolicy.Reset();
 }
