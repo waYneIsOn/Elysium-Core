@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
+#include "Oid.hpp"
+#endif
+
 namespace Elysium::Core::Security::Cryptography
 {
 	class ELYSIUM_CORE_API OidCollection final
@@ -26,6 +30,10 @@ namespace Elysium::Core::Security::Cryptography
 
 		OidCollection& operator=(const OidCollection& Source) = delete;
 		OidCollection& operator=(OidCollection&& Right) noexcept = delete;
+	private:
+		size_t _Capacity;
+		size_t _Count;
+		Oid* _Data;
 	};
 }
 #endif

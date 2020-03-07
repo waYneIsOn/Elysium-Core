@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 
 #ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -22,10 +22,6 @@
 
 #ifndef ELYSIUM_CORE_IO_FILESTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
-#endif
-
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #endif
 
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;

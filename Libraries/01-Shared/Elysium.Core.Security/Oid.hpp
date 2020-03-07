@@ -22,32 +22,31 @@ Copyright (C) 2017 waYne (CAM)
 #include "OidGroup.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
+#include "System.hpp"
+#endif
+
 namespace Elysium::Core::Security::Cryptography
 {
 	class ELYSIUM_CORE_API Oid final
 	{
 	public:
-		Oid();
 		Oid(const Oid& Source) = delete;
 		Oid(Oid&& Right) noexcept = delete;
 		~Oid();
 
-		static Oid FromFriendlyName(const String& FriendlyName, const OidGroup Group);
-		static Oid FromOidValue(const String& OidValue, const OidGroup Group);
+		static Oid FromFriendlyName(const WideString& FriendlyName, const OidGroup Group);
+		static Oid FromOidValue(const CharString& OidValue, const OidGroup Group);
 
 		Oid& operator=(const Oid& Source) = delete;
 		Oid& operator=(Oid&& Right) noexcept = delete;
 
-		const String GetFriendlyName() const;
-		const String GetValue() const;
-
-		void SetFriendlyName(const String& Value);
-		void SetFriendlyName(String&& Value);
-		void SetValue(const String& Value);
-		void SetValue(String&& Value);
+		const WideString GetFriendlyName() const;
+		const CharString GetValue() const;
 	private:
-		String _FriendlyName;
-		String _Value;
+		Oid(const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER NativeOid);
+
+		const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER _NativeOid = nullptr;
 	};
 }
 #endif

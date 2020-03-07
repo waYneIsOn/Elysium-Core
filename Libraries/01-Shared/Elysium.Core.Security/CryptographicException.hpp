@@ -10,13 +10,13 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "../Elysium.Core/Exception.hpp"
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "../Elysium.Core/SystemException.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_API CryptographicException : public Exception
+	class ELYSIUM_CORE_API CryptographicException : public SystemException
 	{
 	public:
 		CryptographicException();

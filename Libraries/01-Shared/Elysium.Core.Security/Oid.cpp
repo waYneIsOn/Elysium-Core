@@ -1,47 +1,42 @@
 #include "Oid.hpp"
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
-#include "System.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
+#include "CryptographicException.hpp"
 #endif
 
-Elysium::Core::Security::Cryptography::Oid::Oid()
-{ }
 Elysium::Core::Security::Cryptography::Oid::~Oid()
 { }
 
-Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromFriendlyName(const String & FriendlyName, const OidGroup Group)
+Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromFriendlyName(const WideString & FriendlyName, const OidGroup Group)
 {
-	// CryptFindOIDInfo - https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptfindoidinfo
-	return Oid();
+	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, (void*)&FriendlyName[0], (uint32_t)Group);
+	if (NativeOid == nullptr)
+	{
+		throw CryptographicException();
+	}
+
+	return Oid(NativeOid);
 }
-Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const String & OidValue, const OidGroup Group)
+Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const CharString & OidValue, const OidGroup Group)
 {
-	// CryptFindOIDInfo - https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-cryptfindoidinfo
-	return Oid();
+	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, (void*)&OidValue[0], (uint32_t)Group);
+	if (NativeOid == nullptr)
+	{
+		throw CryptographicException();
+	}
+
+	return Oid(NativeOid);
 }
 
-const Elysium::Core::String Elysium::Core::Security::Cryptography::Oid::GetFriendlyName() const
+const Elysium::Core::WideString Elysium::Core::Security::Cryptography::Oid::GetFriendlyName() const
 {
-	return _FriendlyName;
+	return WideString(_NativeOid->pwszName);
 }
-const Elysium::Core::String Elysium::Core::Security::Cryptography::Oid::GetValue() const
+const Elysium::Core::CharString Elysium::Core::Security::Cryptography::Oid::GetValue() const
 {
-	return _Value;
+	return CharString(_NativeOid->pszOID);
 }
 
-void Elysium::Core::Security::Cryptography::Oid::SetFriendlyName(const String & Value)
-{
-	_FriendlyName = Value;
-}
-void Elysium::Core::Security::Cryptography::Oid::SetFriendlyName(String && Value)
-{
-	_FriendlyName = Value;
-}
-void Elysium::Core::Security::Cryptography::Oid::SetValue(const String & Value)
-{
-	_Value = Value;
-}
-void Elysium::Core::Security::Cryptography::Oid::SetValue(String && Value)
-{
-	_Value = Value;
-}
+Elysium::Core::Security::Cryptography::Oid::Oid(const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER NativeOid)
+	: _NativeOid(NativeOid)
+{ }

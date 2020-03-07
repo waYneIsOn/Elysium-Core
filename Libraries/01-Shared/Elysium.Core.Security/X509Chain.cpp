@@ -33,7 +33,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 	CertificateChainEngineConfig.cAdditionalStore = 0;
 	CertificateChainEngineConfig.rghAdditionalStore = nullptr;
 	CertificateChainEngineConfig.dwFlags = CERT_CHAIN_CACHE_END_CERT;
-	CertificateChainEngineConfig.dwUrlRetrievalTimeout = 0;
+	CertificateChainEngineConfig.dwUrlRetrievalTimeout = _ChainPolicy.GetUrlRetrievalTimeout().GetTotalMilliseconds();
 	CertificateChainEngineConfig.MaximumCachedCertificates = 0;
 	CertificateChainEngineConfig.CycleDetectionModulus = 0;
 
