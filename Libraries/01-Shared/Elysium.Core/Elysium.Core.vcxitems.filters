@@ -107,6 +107,7 @@
       <Filter>Collections\Template</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -147,5 +148,6 @@
       <Filter>Globalization</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
   </ItemGroup>
 </Project>
