@@ -57,6 +57,23 @@ Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
 
+Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
+{
+	// ToDo: do this the right way!
+	/*
+	Elysium::Core::Collections::Template::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
+
+	// CP_ACP ?
+	int Length = MultiByteToWideChar(CP_UTF8, 0, (char*)&Bytes[0], -1, NULL, 0);
+	wchar_t* WideChars = new wchar_t[Length];
+	MultiByteToWideChar(CP_UTF8, 0, (char*)&Bytes[0], -1, WideChars, Length);
+
+	std::wstring WideString = std::wstring(WideChars);
+	delete[] WideChars;
+	*/
+	return WideString((wchar_t*)(&Value[0]));
+}
+
 Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const String & Base64String)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*

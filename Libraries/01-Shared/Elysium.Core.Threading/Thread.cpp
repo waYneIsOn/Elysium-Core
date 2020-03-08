@@ -41,6 +41,7 @@ bool Elysium::Core::Threading::Thread::operator!=(const Thread & Other) const
 
 const Elysium::Core::Globalization::CultureInfo & Elysium::Core::Threading::Thread::GetCurrentCulture() const
 {
+	// SetThreadUILanguage
 	return _CurrentCulture;
 }
 const int Elysium::Core::Threading::Thread::GetThreadId() const

@@ -109,8 +109,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Json", "Librar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Json", "Libraries\02-Windows\Elysium.Core.Json\Elysium.Core.Json.vcxproj", "{1AE389E0-479E-43D0-9299-77821B53DB54}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.OS.Windows", "Libraries\01-Shared\Elysium.Core.OS.Windows\Elysium.Core.OS.Windows.vcxitems", "{27B88356-378A-45DB-A395-C8BD0E9C1E76}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems", "{B7B28110-F6FA-4554-B115-BAE4337DEBC2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Xml", "Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems", "{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7}"
@@ -125,7 +123,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{1ae389e0-479e-43d0-9299-77821b53db54}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{275d07c1-a1bf-46db-9b7f-3c135aa74ee3}*SharedItemsImports = 9
-		Libraries\01-Shared\Elysium.Core.OS.Windows\Elysium.Core.OS.Windows.vcxitems*{27b88356-378a-45db-a395-c8bd0e9c1e76}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{2e31205a-3fcd-45b6-a9a1-329204ceb079}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{328bc640-06c0-47c1-8091-fe3b2c191222}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
@@ -150,7 +147,6 @@ Global
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{93501e30-8bf5-4cb7-8c13-de2001425bf5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
-		Libraries\01-Shared\Elysium.Core.OS.Windows\Elysium.Core.OS.Windows.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems*{98e6f0e2-d2c3-46ad-aaff-e6ae02ec11e7}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{a4b705a1-60e7-4bb9-ba2a-a012faf826fd}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{a8ec7cea-4204-4384-a93b-cb59901202b3}*SharedItemsImports = 9
@@ -448,7 +444,6 @@ Global
 		{9CB6AB93-E407-49CC-BFB6-215CE1C857D4} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{A8EC7CEA-4204-4384-A93B-CB59901202B3} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{1AE389E0-479E-43D0-9299-77821B53DB54} = {1030673B-B627-44FE-A2AE-327B6146535E}
-		{27B88356-378A-45DB-A395-C8BD0E9C1E76} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{B7B28110-F6FA-4554-B115-BAE4337DEBC2} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E} = {8C483853-54B5-40FB-B14B-28383747B06B}

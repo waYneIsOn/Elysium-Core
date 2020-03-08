@@ -4,10 +4,6 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_OS_WINDOWS_CONVERT
-#include "../Elysium.Core.OS.Windows/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVETRANSACTION
 #include "SqlNativeTransaction.hpp"
 #endif
@@ -18,6 +14,10 @@
 
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEEXCEPTION
 #include "SqlNativeException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONVERT
+#include "../Elysium.Core/Convert.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
@@ -109,7 +109,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		VariantInit(&ConnectionProperties[0].vValue);
 		ConnectionProperties[0].dwPropertyID = DBPROP_INIT_PROVIDERSTRING;
 		ConnectionProperties[0].vValue.vt = VT_BSTR;
-		ConnectionProperties[0].vValue.bstrVal = SysAllocString(Elysium::Core::OS::Windows::Convert::ToWString(_ConnectionString).c_str());
+		ConnectionProperties[0].vValue.bstrVal = SysAllocString(&Elysium::Core::Convert::ToWideString(_ConnectionString)[0]);
 		ConnectionProperties[0].dwOptions = DBPROPOPTIONS_REQUIRED;
 		ConnectionProperties[0].colid = DB_NULLID;
 
@@ -231,7 +231,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	VariantInit(&ConnectionProperties[0].vValue);
 	ConnectionProperties[0].dwPropertyID = DBPROP_CURRENTCATALOG;
 	ConnectionProperties[0].vValue.vt = VT_BSTR;
-	ConnectionProperties[0].vValue.bstrVal = SysAllocString(Elysium::Core::OS::Windows::Convert::ToWString(DatabaseName).c_str());
+	ConnectionProperties[0].vValue.bstrVal = SysAllocString(&Elysium::Core::Convert::ToWideString(DatabaseName)[0]);
 	ConnectionProperties[0].dwOptions = DBPROPOPTIONS_REQUIRED;
 	ConnectionProperties[0].colid = DB_NULLID;
 	ConnectionProperties[0].dwStatus = DBPROPSTATUS_OK;

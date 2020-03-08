@@ -23,7 +23,7 @@ namespace Elysium::Core
 		SystemException(String&& Message);
 		virtual ~SystemException();
 	private:
-		//DWORD _ErrorCode;
+		const unsigned long _HResult;
 	};
 }
 #endif

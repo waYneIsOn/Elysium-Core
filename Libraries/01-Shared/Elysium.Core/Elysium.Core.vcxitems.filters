@@ -108,6 +108,7 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
