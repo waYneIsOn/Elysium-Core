@@ -42,6 +42,8 @@ namespace Elysium::Core::Net::Sockets
 		virtual const int GetReadTimeout() const override;
 		virtual const int GetWriteTimeout() const override;
 
+		virtual const Socket& GetSocket() const;
+
 		// properties - setter
 		virtual void SetLength(size_t Value) override;
 		virtual void SetPosition(__int64 Position) override;

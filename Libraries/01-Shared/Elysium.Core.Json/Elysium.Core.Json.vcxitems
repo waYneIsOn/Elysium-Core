@@ -5,6 +5,7 @@
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{a8ec7cea-4204-4384-a93b-cb59901202b3}</ItemsProjectGuid>
     <ItemsProjectName>Elysium.Core.Json</ItemsProjectName>
+    <ItemsRootNamespace>Elysium::Core::Json</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

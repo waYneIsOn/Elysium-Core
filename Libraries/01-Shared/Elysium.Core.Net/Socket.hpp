@@ -42,15 +42,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketShutdown.hpp"
 #endif
 
-#ifndef _WINSOCK2API_
 #if defined(__ANDROID__)
 // ToDo ...
 #elif defined(_WIN32)
+
+#ifndef _WINSOCK2API_
 #include <WinSock2.h>
 #pragma comment(lib, "Ws2_32.lib")
+#endif
+
 #else
 #error "undefined os"
-#endif
 #endif
 
 namespace Elysium::Core::Net::Sockets

@@ -14,6 +14,7 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef __WINCRYPT_H__
 #ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
 #include <windows.h>
 #endif
 

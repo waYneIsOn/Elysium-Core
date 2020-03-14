@@ -4,6 +4,7 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{8bbdea16-0960-479d-941d-fe662e7740e8}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Core::Data::SqlNativeClient::OleDb</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

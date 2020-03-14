@@ -21,13 +21,13 @@ using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsCoreNet
+namespace UnitTests::Core::Net::Sockets
 {
 	TEST_CLASS(UnitTestSocket)
 	{
 	public:
 		// methods
-		TEST_METHOD(Core_Net_Socket_ConnectAndDisconnect)
+		TEST_METHOD(ConnectAndDisconnect)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			Logger::WriteMessage("instanced");

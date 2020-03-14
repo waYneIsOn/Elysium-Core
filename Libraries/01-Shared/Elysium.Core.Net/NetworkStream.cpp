@@ -16,10 +16,7 @@ Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket & Socket, bool 
 }
 Elysium::Core::Net::Sockets::NetworkStream::~NetworkStream()
 {
-	if (_OwnsSocket)
-	{
-		_Socket.Disconnect(true);
-	}
+	Close();
 }
 
 bool Elysium::Core::Net::Sockets::NetworkStream::GetCanRead() const
@@ -56,6 +53,11 @@ const int Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
 	throw NotImplementedException();
 }
 
+const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::NetworkStream::GetSocket() const
+{
+	return _Socket;
+}
+
 void Elysium::Core::Net::Sockets::NetworkStream::SetLength(size_t Value)
 {
 	throw NotImplementedException();
@@ -75,7 +77,10 @@ void Elysium::Core::Net::Sockets::NetworkStream::SetWriteTimeout(int Value)
 
 void Elysium::Core::Net::Sockets::NetworkStream::Close()
 {
-	throw NotImplementedException();
+	if (_OwnsSocket)
+	{
+		_Socket.Disconnect(true);
+	}
 }
 void Elysium::Core::Net::Sockets::NetworkStream::Flush()
 {

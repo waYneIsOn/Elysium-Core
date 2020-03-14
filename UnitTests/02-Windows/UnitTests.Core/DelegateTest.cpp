@@ -25,9 +25,19 @@ namespace UnitTests::Core
 			return (float)x * x * x;
 		}
 
+		static inline double StaticTwoParameters(int x, int y)
+		{
+			return (double)x / y;
+		}
+
 		inline float OneParameter(int x)
 		{
 			return (float)x * x;
+		}
+
+		inline double TwoParameters(int x, int y)
+		{
+			return (double)x / y;
 		}
 	};
 
@@ -44,6 +54,10 @@ namespace UnitTests::Core
 			float ResultStatic = DelegateStatic(2);
 			Assert::AreEqual(8.0f, ResultStatic);
 
+			Delegate<double, int, int> DelegateStatic2 = Delegate<double, int, int>::CreateDelegate<&UnitTestClass::StaticTwoParameters>();
+			double ResultStatic2 = DelegateStatic2(5, 2);
+			Assert::AreEqual(2.5, ResultStatic2);
+
 			Delegate<float, int> DelegateLambda = Delegate<float, int>::CreateDelegate<[](int x) -> float { return (float)x * x; }>();
 			float ResultLambda = DelegateLambda(3);
 			Assert::AreEqual(9.0f, ResultLambda);
@@ -52,6 +66,10 @@ namespace UnitTests::Core
 			Delegate<float, int> DelegateInstance = Delegate<float, int>::CreateDelegate<UnitTestClass, &UnitTestClass::OneParameter>(TestInstance);
 			float ResultInstance = DelegateInstance(5);
 			Assert::AreEqual(25.0f, ResultInstance);
+			
+			Delegate<double, int, int> DelegateInstance2 = Delegate<double, int, int>::CreateDelegate<UnitTestClass, &UnitTestClass::TwoParameters>(TestInstance);
+			double ResultInstance2 = DelegateInstance2(5, 2);
+			Assert::AreEqual(2.5, ResultInstance2);
 		}
 	};
 }

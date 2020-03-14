@@ -1,6 +1,7 @@
 #include "ServiceBase.hpp"
 
 #ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
 

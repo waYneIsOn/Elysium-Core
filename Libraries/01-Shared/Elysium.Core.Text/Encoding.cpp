@@ -14,6 +14,7 @@
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
 #elif defined(__ANDROID__)

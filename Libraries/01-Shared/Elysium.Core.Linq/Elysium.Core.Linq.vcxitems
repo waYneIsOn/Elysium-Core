@@ -4,6 +4,7 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{a4b705a1-60e7-4bb9-ba2a-a012faf826fd}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Core::Linq</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

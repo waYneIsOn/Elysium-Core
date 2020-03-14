@@ -13,6 +13,7 @@ Copyright (C) 2017 waYne (CAM)
 #if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__) || defined(__CYGWIN__)
 
 #ifndef _WINNT_
+#define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
 

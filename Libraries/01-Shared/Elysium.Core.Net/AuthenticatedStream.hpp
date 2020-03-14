@@ -34,8 +34,9 @@ namespace Elysium::Core::Net::Security
 		const bool GetLeaveInnerStreamOpen() const;
 	protected:
 		AuthenticatedStream(IO::Stream& InnerStream, const bool LeaveInnerStreamOpen);
-	private:
+
 		Elysium::Core::IO::Stream& _InnerStream;
+	private:
 		const bool _LeaveInnerStreamOpen;
 	};
 }
