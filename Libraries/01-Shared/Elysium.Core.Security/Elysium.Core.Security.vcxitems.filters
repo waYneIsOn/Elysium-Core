@@ -7,6 +7,9 @@
     <Filter Include="Cryptography\X509Certificates">
       <UniqueIdentifier>{982170ae-d71c-4228-81cf-6b59d90ed31d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cryptography\Asn1">
+      <UniqueIdentifier>{a8adce33-e473-4edd-8f36-ec4071d131a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp">
@@ -39,6 +42,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp">
       <Filter>Cryptography</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -101,6 +111,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp">
       <Filter>Cryptography</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagNumber.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt">

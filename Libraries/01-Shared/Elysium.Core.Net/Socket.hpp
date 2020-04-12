@@ -100,8 +100,8 @@ namespace Elysium::Core::Net::Sockets
 		void Listen(const int Backlog);
 		void Accept(Socket* ConnectedClient);
 
-		size_t Send(const byte* Buffer, const size_t Count);
-		size_t Receive(byte* Buffer, const size_t Count);
+		size_t Send(const byte* Buffer, const size_t Count) const;
+		size_t Receive(byte* Buffer, const size_t Count) const;
 	private:
 		// fields
 		AddressFamily _AddressFamily;

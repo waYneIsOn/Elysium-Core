@@ -15,6 +15,11 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagNumber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp" />
@@ -37,6 +42,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp" />

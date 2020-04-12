@@ -92,11 +92,14 @@ namespace Elysium::Core::Net::Security
 
 		CredHandle _hClientCreds;
 		CtxtHandle _hContext;
+		SecBuffer _ExtraData;
 
 		HINSTANCE LoadSecurityLibrary();
 		void UnloadSecurityLibrary();
 
 		void PrepareCredentials();
+
+		void ClientHandshakeLoop(const bool PerformInitialRead);
 	};
 }
 #endif

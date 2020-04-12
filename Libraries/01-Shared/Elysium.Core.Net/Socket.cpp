@@ -49,8 +49,8 @@ Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketT
 				// configurate the socket with the default settings
 				SetReceiveBufferSize(65536);
 				SetSendBufferSize(65536);
-				SetReceiveTimeout(0);
-				SetSendTimeout(0);
+				//SetReceiveTimeout(-1);
+				//SetSendTimeout(-1);
 			}
 		}
 		else
@@ -296,7 +296,7 @@ void Elysium::Core::Net::Sockets::Socket::Accept(Socket * ConnectedClient)
 	ConnectedClient->_ProtocolType = _ProtocolType;
 }
 
-size_t Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const size_t Count)
+size_t Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const size_t Count) const
 {
 	int BytesSent = send(_WinSocketHandle, (const char*)&Buffer[0], (int)Count, 0);
 	if (BytesSent == SOCKET_ERROR)
@@ -306,7 +306,7 @@ size_t Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const size_
 
 	return (size_t)BytesSent;
 }
-size_t Elysium::Core::Net::Sockets::Socket::Receive(byte* Buffer, const size_t Count)
+size_t Elysium::Core::Net::Sockets::Socket::Receive(byte* Buffer, const size_t Count) const
 {
 	int BytesReceived = recv(_WinSocketHandle, (char*)&Buffer[0], (int)Count, 0);
 	if (BytesReceived == SOCKET_ERROR)
