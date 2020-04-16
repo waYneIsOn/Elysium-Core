@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_URIPARSERTABLE
 #define ELYSIUM_CORE_URIPARSERTABLE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_API
 #include "API.hpp"

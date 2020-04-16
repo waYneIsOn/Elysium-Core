@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
 #define ELYSIUM_CORE_THREADING_AUTORESETEVENT
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_THREADING_EVENTWAITHANDLE
 #include "EventWaitHandle.hpp"

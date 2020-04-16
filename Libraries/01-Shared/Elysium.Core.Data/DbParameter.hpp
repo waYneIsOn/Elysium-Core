@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBPARAMETER
 #define ELYSIUM_CORE_DATA_COMMON_DBPARAMETER
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_DATA_IDATAPARAMETER
 #include "IDataParameter.hpp"

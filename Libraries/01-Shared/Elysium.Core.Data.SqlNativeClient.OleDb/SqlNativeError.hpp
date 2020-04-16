@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEERROR
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEERROR
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
 #include "API.hpp"

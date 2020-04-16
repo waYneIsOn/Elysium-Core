@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_THREADING_MUTEX
 #define ELYSIUM_CORE_THREADING_MUTEX
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
 #include "WaitHandle.hpp"

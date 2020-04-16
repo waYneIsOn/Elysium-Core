@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONSINGLE
 #define ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONSINGLE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_MATH_API
 #include "API.hpp"

@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BigInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Matrix3x3Template.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Matrix4x4Template.hpp" />
@@ -36,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Template.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MathHelper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionDouble.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionSingle.cpp" />

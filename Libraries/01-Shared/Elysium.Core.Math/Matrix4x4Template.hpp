@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4TEMPLATE
 #define ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4TEMPLATE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_MATH_MATHHELPER
 #include "MathHelper.hpp"

@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_NET_DNSENDPOINT
 #define ELYSIUM_CORE_NET_DNSENDPOINT
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_NET_ENDPOINT
 #include "EndPoint.hpp"

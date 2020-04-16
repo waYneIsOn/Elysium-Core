@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_JSON_JSONELEMENT
 #define ELYSIUM_CORE_JSON_JSONELEMENT
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONNODE
 #include "JsonNode.hpp"

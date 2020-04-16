@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #define ELYSIUM_CORE_TEXT_ENCODING
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_API
 #include "../Elysium.Core/API.hpp"

@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
 #define ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONEXCEPTION
 #include "JsonException.hpp"

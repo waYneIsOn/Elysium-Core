@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
 #define ELYSIUM_CORE_THREADING_TASKS_TASK
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_API
 #include "../Elysium.Core/API.hpp"

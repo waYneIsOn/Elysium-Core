@@ -40,6 +40,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)RectangleDouble.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp">
+      <Filter>Numerics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.hpp" />
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RectangleTemplate.hpp">
       <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BigInteger.hpp">
+      <Filter>Numerics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

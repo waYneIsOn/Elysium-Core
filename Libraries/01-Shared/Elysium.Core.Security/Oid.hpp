@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
 #define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_API
 #include "../Elysium.Core/API.hpp"

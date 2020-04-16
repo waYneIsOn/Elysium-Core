@@ -5,10 +5,11 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_NET_FORMATCONVERTER
 #define ELYSIUM_CORE_NET_FORMATCONVERTER
+
+#ifdef _MSC_VER
+#pragma once
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
@@ -43,3 +44,4 @@ namespace Elysium::Core::Net
 		~FormatConverter();
 	};
 }
+#endif

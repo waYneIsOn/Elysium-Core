@@ -1,4 +1,3 @@
-#pragma once
 /*
 ===========================================================================
 
@@ -6,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_MATH_MATHHELPER
 #define ELYSIUM_CORE_MATH_MATHHELPER
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_MATH_API
 #include "API.hpp"

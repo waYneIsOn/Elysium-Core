@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_LINQ_EXTENSION
 #define ELYSIUM_CORE_LINQ_EXTENSION
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_LINQ_SINGLEPARAMETEREXTENSION
 #include "SingleParameterExtension.hpp"

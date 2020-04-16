@@ -5,9 +5,11 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_DATA_API
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifdef ELYSIUMCOREDATA_EXPORTS

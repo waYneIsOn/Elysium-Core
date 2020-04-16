@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_REFLECTION_METHODBASE
 #define ELYSIUM_CORE_REFLECTION_METHODBASE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_MEMBERINFO
 #include "MemberInfo.hpp"

@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONTEMPLATE
 #define ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONTEMPLATE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef _INC_MATH
 #include <math.h>

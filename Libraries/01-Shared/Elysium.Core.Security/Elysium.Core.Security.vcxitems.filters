@@ -48,7 +48,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -123,7 +125,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt">

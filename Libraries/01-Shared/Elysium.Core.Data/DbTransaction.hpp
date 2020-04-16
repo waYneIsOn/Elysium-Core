@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBTRANSACTION
 #define ELYSIUM_CORE_DATA_COMMON_DBTRANSACTION
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_DATA_IDBTRANSACTION
 #include "IDbTransaction.hpp"

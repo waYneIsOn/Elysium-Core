@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_NET_SECURITY_AUTHENTICATEDSTREAM
 #define ELYSIUM_CORE_NET_SECURITY_AUTHENTICATEDSTREAM
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_NET_API
 #include "API.hpp"

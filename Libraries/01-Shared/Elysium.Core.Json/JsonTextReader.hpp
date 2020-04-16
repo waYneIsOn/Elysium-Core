@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_JSON_JSONTEXTREADER
 #define ELYSIUM_CORE_JSON_JSONTEXTREADER
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_JSON_JSONREADER
 #include "JsonReader.hpp"

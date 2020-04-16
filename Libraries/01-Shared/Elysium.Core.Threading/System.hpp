@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
 #define ELYSIUM_CORE_THREADING_SYSTEM
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__) || defined(__CYGWIN__)
 

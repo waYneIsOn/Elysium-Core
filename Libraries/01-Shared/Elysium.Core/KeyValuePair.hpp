@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_KEYVALUEPAIR
 #define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_KEYVALUEPAIR
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef _TYPE_TRAITS_
 #include <type_traits>

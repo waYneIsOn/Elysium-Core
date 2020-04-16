@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_IO_COMPRESSION_DEFLATESTREAM
 #define ELYSIUM_CORE_IO_COMPRESSION_DEFLATESTREAM
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "Stream.hpp"

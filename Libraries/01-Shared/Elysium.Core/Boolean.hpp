@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_BOOLEAN
 #define ELYSIUM_CORE_BOOLEAN
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 namespace Elysium::Core::Boolean
 {

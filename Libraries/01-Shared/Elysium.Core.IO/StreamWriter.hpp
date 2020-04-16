@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_IO_STREAMWRITER
 #define ELYSIUM_CORE_IO_STREAMWRITER
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_IO_TEXTWRITER
 #include "TextWriter.hpp"

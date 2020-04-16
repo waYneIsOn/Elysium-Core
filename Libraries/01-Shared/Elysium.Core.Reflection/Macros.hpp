@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_REFLECTION_MACROS
 #define ELYSIUM_CORE_REFLECTION_MACROS
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_TYPE
 #include "Type.hpp"

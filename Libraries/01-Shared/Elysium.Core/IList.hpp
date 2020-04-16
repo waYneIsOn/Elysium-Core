@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_ILIST
 #define ELYSIUM_CORE_COLLECTIONS_ILIST
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_ICOLLECTION
 #include "ICollection.hpp"

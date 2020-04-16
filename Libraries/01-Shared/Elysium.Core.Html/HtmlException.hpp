@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_HTML_HTMLEXCEPTION
 #define ELYSIUM_CORE_HTML_HTMLEXCEPTION
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_HTML_API
 #include "API.hpp"

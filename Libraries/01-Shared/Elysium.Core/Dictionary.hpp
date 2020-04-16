@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_DICTIONARY
 #define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_DICTIONARY
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 namespace Elysium::Core::Collections::Template
 {

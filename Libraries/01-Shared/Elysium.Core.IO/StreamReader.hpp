@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_IO_STREAMREADER
 #define ELYSIUM_CORE_IO_STREAMREADER
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_IO_TEXTREADER
 #include "TextReader.hpp"

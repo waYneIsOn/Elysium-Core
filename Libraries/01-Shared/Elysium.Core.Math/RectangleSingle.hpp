@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_MATH_GEOMETRY_RECTANGLESINGLE
 #define ELYSIUM_CORE_MATH_GEOMETRY_RECTANGLESINGLE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef ELYSIUM_CORE_MATH_API
 #include "API.hpp"

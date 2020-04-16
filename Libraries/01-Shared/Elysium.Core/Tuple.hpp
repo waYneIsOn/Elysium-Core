@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_TUPLE
 #define ELYSIUM_CORE_TUPLE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 namespace Elysium::Core
 {

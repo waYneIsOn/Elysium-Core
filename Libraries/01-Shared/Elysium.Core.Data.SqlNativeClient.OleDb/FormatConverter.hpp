@@ -5,10 +5,12 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#pragma once
-
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_FORMATCONVERTER
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_FORMATCONVERTER
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef __sqlncli_h__
 #define _SQLNCLI_OLEDB_
