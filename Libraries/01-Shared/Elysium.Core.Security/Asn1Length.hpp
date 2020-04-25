@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER
@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
-	class ELYSIUM_CORE_API Asn1Length final
+	class ELYSIUM_CORE_SECURITY_API Asn1Length final
 	{
 	public:
 		Asn1Length(const int32_t Length, const int32_t EncodedLength);

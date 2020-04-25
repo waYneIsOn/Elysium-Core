@@ -74,6 +74,31 @@ const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certifica
 	return Elysium::Core::Text::Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());
 }
 
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetRawCertData() const
+{
+	// get the size of the certificate
+	unsigned long ByteLength;
+	if (CertSerializeCertificateStoreElement(_CertificateContext, 0, nullptr, &ByteLength))
+	{
+		// serialize the certificate into a byte-array
+		Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(ByteLength);
+		if (CertSerializeCertificateStoreElement(_CertificateContext, 0, &RawData[0], &ByteLength))
+		{
+			return RawData;
+		}
+		else
+		{
+			// ToDo: throw specific exception
+			throw GetLastError();
+		}
+	}
+	else
+	{
+		// ToDo: throw specific exception
+		throw GetLastError();
+	}
+}
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String & Password, const X509KeyStorageFlags Flags)
 {
 	unsigned long BufferLength = 0;

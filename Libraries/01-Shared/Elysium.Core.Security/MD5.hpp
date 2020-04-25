@@ -18,7 +18,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_API MD5 final : public HashAlgorithm
+	class ELYSIUM_CORE_SECURITY_API MD5 final : public HashAlgorithm
 	{
 	public:
 		MD5();

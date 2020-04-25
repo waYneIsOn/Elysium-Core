@@ -12,8 +12,12 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATE
@@ -26,7 +30,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
 {
-	class ELYSIUM_CORE_API X509Chain final
+	class ELYSIUM_CORE_SECURITY_API X509Chain final
 	{
 	public:
 		X509Chain();

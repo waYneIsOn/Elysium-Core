@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class Asn1TagNumber : uint32_t
+	enum class Asn1TagNumber : uint8_t
 #elif defined(__ANDROID__)
 	enum class Asn1TagNumber
 #else

@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_API OidCollection final
+	class ELYSIUM_CORE_SECURITY_API OidCollection final
 	{
 	public:
 		OidCollection();

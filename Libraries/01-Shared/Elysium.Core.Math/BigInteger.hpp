@@ -24,6 +24,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_BYTE
+#include "../Elysium.Core/Byte.hpp"
+#endif
+
 namespace Elysium::Core::Math::Numerics
 {
 	class ELYSIUM_CORE_MATH_API BigInteger
@@ -31,8 +35,8 @@ namespace Elysium::Core::Math::Numerics
 	public:
 		BigInteger(const uint32_t Value);
 		//BigInteger(const int32_t Value);
-		//BigInteger(const Collections::Template::Array<byte> Value);
-		BigInteger(const BigInteger& Source) = delete;
+		BigInteger(const Collections::Template::Array<byte>& Value);
+		BigInteger(const BigInteger& Source);
 		BigInteger(BigInteger&& Right) = delete;
 		~BigInteger();
 

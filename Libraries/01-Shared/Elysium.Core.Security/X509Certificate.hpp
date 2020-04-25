@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
@@ -42,7 +42,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
 {
-	class ELYSIUM_CORE_API X509Certificate final
+	class ELYSIUM_CORE_SECURITY_API X509Certificate final
 	{
 		friend class Elysium::Core::Collections::Template::List<X509Certificate>;
 		friend class X509Chain;
@@ -57,6 +57,8 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const String GetIssuer() const;
 		const String GetSubject() const;
+
+		const Collections::Template::Array<byte> GetRawCertData() const;
 
 		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		static X509Certificate LoadFromFile(const String& FileName, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);

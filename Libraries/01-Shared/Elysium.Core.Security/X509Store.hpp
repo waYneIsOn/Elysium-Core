@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORELOCATION
@@ -38,7 +38,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
 {
-	class ELYSIUM_CORE_API X509Store final
+	class ELYSIUM_CORE_SECURITY_API X509Store final
 	{
 	public:
 		X509Store(const StoreName StoreName, const StoreLocation StoreLocation);

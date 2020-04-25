@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
@@ -36,7 +36,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_API HashAlgorithm
+	class ELYSIUM_CORE_SECURITY_API HashAlgorithm
 	{
 	public:
 		HashAlgorithm(const HashAlgorithm& Source) = delete;

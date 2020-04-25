@@ -12,3 +12,20 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(cons
 { }
 Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::~Asn1Identifier()
 { }
+
+const Elysium::Core::Security::Cryptography::Asn1::Asn1TagClass Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetTagClass() const
+{
+	return _TagClass;
+}
+const bool Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetIsConstructed() const
+{
+	return _IsConstructed;
+}
+const Elysium::Core::Security::Cryptography::Asn1::Asn1TagNumber Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetTagNumber() const
+{
+	return _TagNumber;
+}
+const Elysium::Core::int32_t Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetEncodedLength() const
+{
+	return _EncodedLength;
+}

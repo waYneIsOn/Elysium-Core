@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1TAGCLASS
@@ -30,13 +30,18 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
-	class ELYSIUM_CORE_API Asn1Identifier final
+	class ELYSIUM_CORE_SECURITY_API Asn1Identifier final
 	{
 	public:
 		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber, const int32_t EncodedLength);
 		Asn1Identifier(const Asn1Identifier& Source);
 		Asn1Identifier(Asn1Identifier&& Right) noexcept = delete;
 		~Asn1Identifier();
+
+		const Asn1TagClass GetTagClass() const;
+		const bool GetIsConstructed() const;
+		const Asn1TagNumber GetTagNumber() const;
+		const int32_t GetEncodedLength() const;
 
 		Asn1Identifier& operator=(const Asn1Identifier& Source) = delete;
 		Asn1Identifier& operator=(Asn1Identifier&& Right) noexcept = delete;

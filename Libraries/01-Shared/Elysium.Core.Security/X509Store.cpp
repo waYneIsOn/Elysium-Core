@@ -53,20 +53,16 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 	switch (_StoreName)
 	{
 	case StoreName::AddressBook:
-		// ToDo
-		throw NotImplementedException(u"Unhandled StoreName AddressBook");
+		StoreName = L"ADDRESSBOOK";
 		break;
 	case StoreName::AuthRoot:
-		// ToDo
-		throw NotImplementedException(u"Unhandled StoreName AuthRoot");
+		StoreName = L"AUTHROOT";
 		break;
 	case StoreName::CertificateAuthority:
-		// ToDo
-		throw NotImplementedException(u"Unhandled StoreName CertificateAuthority");
+		StoreName = L"CERTIFICATEAUTHORITY";
 		break;
 	case StoreName::Disallowed:
-		// ToDo
-		throw NotImplementedException(u"Unhandled StoreName Disallowed");
+		StoreName = L"DISALLOWED";
 		break;
 	case StoreName::My:
 		StoreName = L"MY";
@@ -75,18 +71,16 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 		StoreName = L"ROOT";
 		break;
 	case StoreName::TrustedPeople:
-		// ToDo
-		throw NotImplementedException(u"Unhandled StoreName TrustedPeople");
+		StoreName = L"TRUSTEDPEOPLE";
 		break;
 	case StoreName::TrustedPublisher:
-		// ToDo
-		throw NotImplementedException(u"Unhandled StoreName TrustedPublisher");
+		StoreName = L"TRUSTEDPUBLISHER";
 		break;
 	default:
 		throw NotImplementedException(u"Unhandled StoreName");
 	}
 
-	if ((_NativeCertificateStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, 0, NULL, StoreLocation, &StoreName[0])) == nullptr)
+	if ((_NativeCertificateStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, StoreLocation, &StoreName[0])) == nullptr)
 	{
 		// ToDo: throw specific exception
 		throw GetLastError();

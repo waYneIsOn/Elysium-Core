@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER
@@ -26,7 +26,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
-	class ELYSIUM_CORE_API Asn1Object
+	class ELYSIUM_CORE_SECURITY_API Asn1Object
 	{
 	public:
 		Asn1Object(const Asn1Object& Source) = delete;

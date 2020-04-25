@@ -12,8 +12,8 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -30,7 +30,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_API Oid final
+	class ELYSIUM_CORE_SECURITY_API Oid final
 	{
 	public:
 		Oid(const Oid& Source) = delete;

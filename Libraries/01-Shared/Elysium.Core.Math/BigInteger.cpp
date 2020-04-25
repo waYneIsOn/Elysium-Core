@@ -8,5 +8,13 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const uint32_t Value)
 		_Bits[0] = Value;
 	}
 }
+Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Template::Array<byte>& Value)
+	: _Sign(0), _Bits(Collections::Template::Array<uint32_t>(Value.GetLength() / 4))
+{ 
+	// ToDo!
+}
+Elysium::Core::Math::Numerics::BigInteger::BigInteger(const BigInteger & Source)
+	: _Sign(Source._Sign), _Bits(Source._Bits)
+{ }
 Elysium::Core::Math::Numerics::BigInteger::~BigInteger()
 { }

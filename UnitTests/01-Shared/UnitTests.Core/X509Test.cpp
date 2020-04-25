@@ -24,6 +24,21 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_DERDECODER
+#include "../../../Libraries/01-Shared/Elysium.Core.Security/DERDecoder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/InvalidDataException.hpp"
+#endif
+
+using namespace Elysium::Core::Collections::Template;
+using namespace Elysium::Core::IO;
+using namespace Elysium::Core::Security::Cryptography::Asn1;
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -163,6 +178,94 @@ namespace UnitTests::Core::Security::Cryptography
 			X509Certificate Certificate = X509Certificate::LoadFromFile(u"sample.crt");
 			AssertExtended::AreEqual(u"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
 			AssertExtended::AreEqual(u"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
+		}
+
+		TEST_METHOD(ReadCertificateUsingDERDecoder)
+		{
+			DERDecoder Decoder = DERDecoder();
+			for (uint32_t StoreNameInt = (uint32_t)StoreName::AddressBook; StoreNameInt != (uint32_t)StoreName::TrustedPublisher; StoreNameInt++)
+			{
+				for (uint8_t StoreLocationInt = (uint8_t)StoreLocation::CurrentUser; StoreLocationInt != (uint8_t)StoreLocation::LocalMachine; StoreLocationInt++)
+				{
+					X509Store CurrentStore = X509Store(static_cast<StoreName>(StoreNameInt), static_cast<StoreLocation>(StoreLocationInt));
+					CurrentStore.Open(OpenFlags::ReadOnly);
+
+					for (size_t i = 0; i < CurrentStore.GetCertificates().GetCount(); i++)
+					{
+						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
+						const Array<byte> RawData = Certificate.GetRawCertData();
+
+						// need to use this offset until Certificate.GetRawCertData() has been implemented correctly
+						size_t StartIndex = 352;
+						MemoryStream InputStream = MemoryStream(RawData, StartIndex, RawData.GetLength() - StartIndex);
+						/*
+						Certificate  ::=  SEQUENCE  {
+							tbsCertificate       TBSCertificate,
+							signatureAlgorithm   AlgorithmIdentifier,
+							signatureValue       BIT STRING  }
+
+						TBSCertificate  ::=  SEQUENCE  {
+							version         [0]  EXPLICIT Version DEFAULT v1,
+							serialNumber         CertificateSerialNumber,
+							signature            AlgorithmIdentifier,
+							issuer               Name,
+							validity             Validity,
+							subject              Name,
+							subjectPublicKeyInfo SubjectPublicKeyInfo,
+							issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
+												 -- If present, version MUST be v2 or v3
+							subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
+												 -- If present, version MUST be v2 or v3
+							extensions      [3]  EXPLICIT Extensions OPTIONAL
+												 -- If present, version MUST be v3
+							}
+
+						Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+						*/
+						Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
+						if (CertificateSequence.GetTagNumber() != Asn1TagNumber::Sequence)
+						{
+							throw InvalidDataException(u"CertificateSequence");
+						}
+						Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
+						
+						Asn1Identifier TbsCertificateSequence = Decoder.DecodeIdentifier(InputStream);
+						if (TbsCertificateSequence.GetTagNumber() != Asn1TagNumber::Sequence)
+						{
+							throw InvalidDataException(u"TbsCertificateSequence");
+						}
+						Asn1Length TbsCertificateLength = Decoder.DecodeLength(InputStream);
+
+						Asn1Identifier PossibleVersionIdentifier = Decoder.DecodeIdentifier(InputStream);
+						switch (PossibleVersionIdentifier.GetTagNumber())
+						{
+						case Asn1TagNumber::Integer:
+						{
+							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
+						}
+							break;
+						case Asn1TagNumber::EndOfContent:
+						{
+							Asn1Length EndOfContentLength = Decoder.DecodeLength(InputStream);
+
+							Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
+							if (VersionIdentifier.GetTagNumber() != Asn1TagNumber::Integer)
+							{
+								throw InvalidDataException(u"VersionIdentifier");
+							}
+							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
+						}
+							break;
+						default:
+							throw InvalidDataException(u"PossibleVersionIdentifier");
+						}
+						//Asn1Integer Version = Decoder.DecodeInteger(InputStream);
+
+						// at the moment we only look at the first certificate
+						return;
+					}
+				}
+			}
 		}
 	};
 }

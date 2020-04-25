@@ -15,13 +15,20 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagNumber.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
@@ -43,9 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Integer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Numeric.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp" />

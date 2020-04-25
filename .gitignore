@@ -34,6 +34,10 @@
 /Libraries/02-Windows/Elysium.Core.Net/Debugbin
 /Libraries/02-Windows/Elysium.Core.Net/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.Security/Debug
+/Libraries/02-Windows/Elysium.Core.Security/Debugbin
+/Libraries/02-Windows/Elysium.Core.Security/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debug
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin
