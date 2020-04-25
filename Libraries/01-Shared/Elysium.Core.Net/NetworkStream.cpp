@@ -94,6 +94,13 @@ size_t Elysium::Core::Net::Sockets::NetworkStream::Read(byte * Buffer, const siz
 {
 	return _Socket.Receive(&Buffer[0], Count);
 }
+Elysium::Core::int32_t Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
+{
+	byte Buffer;
+	size_t BytesRead = _Socket.Receive(&Buffer, 1);
+
+	return static_cast<int32_t>(Buffer);
+}
 void Elysium::Core::Net::Sockets::NetworkStream::Write(const byte * Buffer, const size_t Count)
 {
 	size_t BytesSent = _Socket.Send(&Buffer[0], Count);

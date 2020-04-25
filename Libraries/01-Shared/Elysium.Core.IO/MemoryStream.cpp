@@ -8,13 +8,19 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+#include <iostream>
+
 Elysium::Core::IO::MemoryStream::MemoryStream()
 	: Elysium::Core::IO::Stream()
-{
+{ }
+Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length)
+	: Elysium::Core::IO::Stream(),
+	_Buffer(Collections::Template::List<byte>(Length))
+{ 
+	std::memcpy(&_Buffer[0], &Data[Offset], Length);
 }
 Elysium::Core::IO::MemoryStream::~MemoryStream()
-{
-}
+{ }
 
 bool Elysium::Core::IO::MemoryStream::GetCanRead() const
 {
@@ -132,6 +138,14 @@ size_t Elysium::Core::IO::MemoryStream::Read(byte * Buffer, const size_t Count)
 	_CurrentPosition += BytesToRead;
 
 	return BytesToRead;
+}
+int32_t Elysium::Core::IO::MemoryStream::ReadByte()
+{
+	byte Buffer;
+	memcpy(&Buffer, &_Buffer[_CurrentPosition], 1);
+	_CurrentPosition++;
+
+	return static_cast<int32_t>(Buffer);
 }
 void Elysium::Core::IO::MemoryStream::Write(const byte * Buffer, const size_t Count)
 {

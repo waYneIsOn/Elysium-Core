@@ -63,6 +63,7 @@ namespace Elysium::Core::IO
 		virtual void Flush() = 0;
 		virtual void Seek(const int64_t Offset, const SeekOrigin Origin) = 0;
 		virtual size_t Read(byte* Buffer, const size_t Count) = 0;
+		virtual int32_t ReadByte() = 0;
 		virtual void Write(const byte* Buffer, const size_t Count) = 0;
 
 		// stream extraction and insertion

@@ -134,9 +134,17 @@ size_t Elysium::Core::IO::FileStream::Read(byte * Buffer, const size_t Count)
 
 	char* CastBuffer = (char*)&Buffer[0];
 	_NativeStream.read(CastBuffer, (std::streamsize)Count);
-	std::streamsize BytesReceived = _NativeStream.gcount();
+	std::streamsize BytesRead = _NativeStream.gcount();
 
-	return (size_t)BytesReceived;
+	return (size_t)BytesRead;
+}
+int32_t Elysium::Core::IO::FileStream::ReadByte()
+{
+	byte Buffer;
+	char* CastBuffer = (char*)&Buffer;
+	_NativeStream.read(CastBuffer, 1);
+
+	return static_cast<int32_t>(Buffer);
 }
 void Elysium::Core::IO::FileStream::Write(const byte * Buffer, const size_t Count)
 {

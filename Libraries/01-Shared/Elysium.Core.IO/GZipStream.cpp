@@ -212,6 +212,10 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 	// use the deflate stream to read the compressed blocks
 	return _DeflateStream.Read(Buffer, Count);
 }
+int32_t Elysium::Core::IO::Compression::GZipStream::ReadByte()
+{
+	return _DeflateStream.ReadByte();
+}
 void Elysium::Core::IO::Compression::GZipStream::Write(const byte * Buffer, const size_t Count)
 {
 	if (_CompressionMode != CompressionMode::Compress)

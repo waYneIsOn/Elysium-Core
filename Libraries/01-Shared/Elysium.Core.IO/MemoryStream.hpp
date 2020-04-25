@@ -16,6 +16,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
@@ -32,6 +36,7 @@ namespace Elysium::Core::IO
 	{
 	public:
 		MemoryStream();
+		MemoryStream(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length);
 		virtual ~MemoryStream();
 
 		// properties - getter
@@ -58,9 +63,10 @@ namespace Elysium::Core::IO
 		virtual void Flush() override;
 		virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
 		virtual size_t Read(byte* Buffer, const size_t Count) override;
+		virtual int32_t ReadByte() override;
 		virtual void Write(const byte* Buffer, const size_t Count) override;
 	private:
-		Elysium::Core::Collections::Template::List<byte> _Buffer;
+		Collections::Template::List<byte> _Buffer;
 		size_t _CurrentPosition = 0;
 	};
 }

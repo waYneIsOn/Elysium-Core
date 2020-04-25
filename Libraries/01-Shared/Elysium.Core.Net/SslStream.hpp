@@ -84,6 +84,7 @@ namespace Elysium::Core::Net::Security
 		virtual void Flush() override;
 		virtual void Seek(const int64_t Offset, const IO::SeekOrigin Origin) override;
 		virtual size_t Read(byte* Buffer, const size_t Count) override;
+		virtual int32_t ReadByte() override;
 		virtual void Write(const byte* Buffer, const size_t Count) override;
 
 		virtual void AuthenticateAsClient(const String& TargetHost, const Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const SslProtocols EnabledSslProtocols = SslProtocols::Tls13, const bool CheckCertficateRevocation = true);

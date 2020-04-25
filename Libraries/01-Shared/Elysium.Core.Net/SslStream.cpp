@@ -95,6 +95,10 @@ size_t Elysium::Core::Net::Security::SslStream::Read(byte * Buffer, const size_t
 {
 	return _InnerStream.Read(Buffer, Count);
 }
+Elysium::Core::int32_t Elysium::Core::Net::Security::SslStream::ReadByte()
+{
+	return _InnerStream.ReadByte();
+}
 void Elysium::Core::Net::Security::SslStream::Write(const byte * Buffer, const size_t Count)
 {
 	_InnerStream.Write(Buffer, Count);

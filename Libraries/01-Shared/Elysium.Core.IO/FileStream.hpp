@@ -83,6 +83,7 @@ namespace Elysium
 				virtual void Flush() override;
 				virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
 				virtual size_t Read(byte* Buffer, const size_t Count) override;
+				virtual int32_t ReadByte() override;
 				virtual void Write(const byte* Buffer, const size_t Count) override;
 			private:
 				String _Path;
