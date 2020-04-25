@@ -1,5 +1,9 @@
 #include "SocketException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Net::Sockets::SocketException::SocketException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(u"SocketException")
 { }

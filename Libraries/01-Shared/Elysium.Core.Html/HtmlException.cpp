@@ -1,5 +1,9 @@
 #include "HtmlException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Html::HtmlException::HtmlException()
 	: Elysium::Core::Exception()
 { }

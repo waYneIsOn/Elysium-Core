@@ -1,5 +1,9 @@
 #include "InvalidOperationException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::InvalidOperationException::InvalidOperationException()
 	: Elysium::Core::Exception(u"InvalidOperationException")
 { }

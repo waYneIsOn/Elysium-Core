@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EndOfStreamException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
@@ -39,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EndOfStreamException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />

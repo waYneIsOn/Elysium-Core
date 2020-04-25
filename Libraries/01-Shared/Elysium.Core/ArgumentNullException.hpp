@@ -22,6 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentNullException();
+		ArgumentNullException(const char16_t* Message);
 		ArgumentNullException(String&& Message);
 		virtual ~ArgumentNullException();
 	};

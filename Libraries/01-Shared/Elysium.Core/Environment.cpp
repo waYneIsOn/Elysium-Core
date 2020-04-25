@@ -14,13 +14,13 @@
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\r\n";
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\r\n");
 #elif defined(UNIX)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\n";
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\n");
 #elif defined(PREOSX_MAC)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\r";
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\r");
 #elif defined(__ANDROID__)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u"\n";
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\n");
 #else
 #error "unsupported os"
 #endif
@@ -44,11 +44,11 @@ Elysium::Core::String Elysium::Core::Environment::MachineName()
 	if (GetComputerName(MachineName, &BufferCount))
 	{
 		//return MachineName;
-		return u"not implemented";
+		return String(u"not implemented");
 	}
 	else
 	{
-		throw InvalidOperationException(u"The name of this computer cannot be obtained.");
+		throw InvalidOperationException(String(u"The name of this computer cannot be obtained."));
 	}
 }
 const Elysium::Core::String & Elysium::Core::Environment::NewLine()

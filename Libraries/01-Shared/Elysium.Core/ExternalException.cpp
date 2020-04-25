@@ -1,5 +1,9 @@
 #include "ExternalException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _INC_STDLIB
 #include <stdlib.h>
@@ -10,6 +14,9 @@ Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 {
 	SetHResult(E_FAIL);
 }
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const char16_t * Message)
+	: Elysium::Core::Exception(Message)
+{ }
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(String && Message)
 	: Elysium::Core::Exception(std::move(Message))
 {

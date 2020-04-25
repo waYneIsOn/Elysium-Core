@@ -22,6 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		SystemException();
+		SystemException(const char16_t* Message);
 		SystemException(String&& Message);
 		virtual ~SystemException();
 	private:

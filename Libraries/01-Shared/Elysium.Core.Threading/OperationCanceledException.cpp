@@ -1,5 +1,9 @@
 #include "OperationCanceledException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Threading::Tasks::OperationCanceledException::OperationCanceledException()
 	: Elysium::Core::Exception(u"OperationCanceledException")
 { }

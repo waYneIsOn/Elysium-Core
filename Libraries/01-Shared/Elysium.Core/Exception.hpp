@@ -16,14 +16,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
-#endif
-
 //#pragma warning(disable : 4275)
 
 namespace Elysium::Core
 {
+	namespace Collections::Template
+	{
+		template <typename T>
+		class StringBase;
+	}
+	using String = Collections::Template::StringBase<char16_t>;
+
 	class ELYSIUM_CORE_API Exception
 	{
 	public:
@@ -39,7 +42,7 @@ namespace Elysium::Core
 		// methods
 		const String& GetExceptionMessage() const;
 	private:
-		String _Message;
+		String* _Message;
 		Exception* _InnerException;
 	};
 }

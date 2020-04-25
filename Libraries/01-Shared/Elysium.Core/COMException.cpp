@@ -1,5 +1,9 @@
 #include "COMException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 Elysium::Core::Runtime::InteropServices::COMException::COMException()
 	: ExternalException(u"COMException")

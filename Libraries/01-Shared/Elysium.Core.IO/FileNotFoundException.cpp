@@ -1,7 +1,11 @@
 #include "FileNotFoundException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::IO::FileNotFoundException::FileNotFoundException()
-	: Elysium::Core::IO::IOException(u"IOException")
+	: Elysium::Core::IO::IOException(u"FileNotFoundException")
 { }
 Elysium::Core::IO::FileNotFoundException::FileNotFoundException(const char16_t * Message)
 	: Elysium::Core::IO::IOException(Message)

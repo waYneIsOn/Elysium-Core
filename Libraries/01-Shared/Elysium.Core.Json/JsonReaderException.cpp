@@ -1,5 +1,9 @@
 #include "JsonReaderException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Json::JsonReaderException::JsonReaderException()
 	: Elysium::Core::Json::JsonException()
 { }

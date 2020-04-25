@@ -1,5 +1,9 @@
 #include "InvalidDataException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::IO::InvalidDataException::InvalidDataException()
 	: Elysium::Core::Exception(u"InvalidDataException")
 { }

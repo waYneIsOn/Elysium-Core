@@ -21,7 +21,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-//#include "IndexOutOfRangeException.hpp"
+#include "IndexOutOfRangeException.hpp"
 #endif
 
 constexpr const size_t ARRAY_MAX = static_cast<size_t>(-1);
@@ -120,7 +120,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (Index >= _Length)
 		{
-			//throw IndexOutOfRangeException();
+			throw IndexOutOfRangeException();
 		}
 
 		return _Data[Index];

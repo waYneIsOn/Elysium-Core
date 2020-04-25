@@ -1,5 +1,9 @@
 #include "DbException.hpp"
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Data::Common::DbException::DbException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(u"DbException")
 { }

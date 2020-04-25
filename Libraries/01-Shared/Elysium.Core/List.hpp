@@ -27,11 +27,15 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-//#include "IndexOutOfRangeException.hpp"
+#include "IndexOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_OUTOFMEMORYEXCEPTION
-//#include "OutOfMemoryException.hpp"
+#include "OutOfMemoryException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "ArgumentOutOfRangeException.hpp"
 #endif
 
 constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
@@ -173,7 +177,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (Index >= _Count)
 		{
-			//throw IndexOutOfRangeException();
+			throw IndexOutOfRangeException();
 		}
 
 		return _Data[Index];
@@ -294,7 +298,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (Index > _Count)
 		{
-			//throw IndexOutOfRangeException();
+			throw IndexOutOfRangeException();
 		}
 
 		// resize if required
@@ -346,7 +350,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (Index >= _Count)
 		{
-			//throw IndexOutOfRangeException();
+			throw IndexOutOfRangeException();
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
@@ -365,7 +369,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (_Count < Index || Index + Count > _Count)
 		{
-			//throw IndexOutOfRangeException();
+			throw IndexOutOfRangeException();
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy
@@ -389,11 +393,11 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (DesiredMinimumSize < _Count)
 		{
-			//throw ArgumentOutOfRangeException();
+			throw ArgumentOutOfRangeException();
 		}
 		if (DesiredMinimumSize > LIST_MAX)
 		{
-			//throw OutOfMemoryException();
+			throw OutOfMemoryException();
 		}
 
 		if (DesiredMinimumSize > _Capacity)
@@ -428,12 +432,12 @@ namespace Elysium::Core::Collections::Template
 	inline void List<T>::Resize(size_t DesiredMinimumSize, size_t InsertionIndex)
 	{
 		if (DesiredMinimumSize < _Count)
-		{	// ToDo: throw a specific ArgumentOutOfRangeException
-			//throw Exception(u"ArgumentOutOfRangeException");
+		{
+			throw ArgumentOutOfRangeException();
 		}
 		if (DesiredMinimumSize > LIST_MAX)
 		{
-			//throw OutOfMemoryException();
+			throw OutOfMemoryException();
 		}
 
 		if (DesiredMinimumSize > _Capacity)
