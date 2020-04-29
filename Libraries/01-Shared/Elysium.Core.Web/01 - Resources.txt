@@ -1,0 +1,9 @@
+https://www.iana.org/assignments/media-types/media-types.xhtml#application
+https://www.iana.org/assignments/media-types/media-types.xhtml#audio
+https://www.iana.org/assignments/media-types/media-types.xhtml#font
+https://www.iana.org/assignments/media-types/media-types.xhtml#image
+https://www.iana.org/assignments/media-types/media-types.xhtml#message
+https://www.iana.org/assignments/media-types/media-types.xhtml#model
+https://www.iana.org/assignments/media-types/media-types.xhtml#multipart
+https://www.iana.org/assignments/media-types/media-types.xhtml#text
+https://www.iana.org/assignments/media-types/media-types.xhtml#video
