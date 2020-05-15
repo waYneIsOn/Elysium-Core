@@ -10,6 +10,9 @@
     <Filter Include="Cryptography\Asn1">
       <UniqueIdentifier>{a8adce33-e473-4edd-8f36-ec4071d131a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cryptography\Sasl">
+      <UniqueIdentifier>{e81ff6e7-a90c-4e90-8bff-65f77b06c4b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp">
@@ -61,6 +64,9 @@
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Numeric.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
   </ItemGroup>
@@ -159,6 +165,12 @@
       <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h">
+      <Filter>Cryptography\Sasl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt">

@@ -27,6 +27,8 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 	public:
 		Asn1Integer(const Asn1Identifier& Identifier, const Math::Numerics::BigInteger& Value);
 		virtual ~Asn1Integer();
+
+		const Math::Numerics::BigInteger GetValue() const;
 	private:
 		const Math::Numerics::BigInteger _Value;
 	};

@@ -32,6 +32,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Asn1Length.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1BOOLEAN
+#include "Asn1Boolean.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1INTEGER
 #include "Asn1Integer.hpp"
 #endif
@@ -49,7 +53,8 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 		virtual Asn1Length DecodeLength(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
 		virtual Asn1Length DecodeLength(IO::Stream& InputStream) = 0;
 
-		//virtual Asn1Boolean
+		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;

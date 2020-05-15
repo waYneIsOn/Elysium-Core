@@ -32,6 +32,9 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 
 		Asn1Length& operator=(const Asn1Length& Source) = delete;
 		Asn1Length& operator=(Asn1Length&& Right) noexcept = delete;
+
+		const int32_t GetLength() const;
+		const int32_t GetEncodedLength() const;
 	private:
 		const int32_t _Length;
 		const int32_t _EncodedLength;

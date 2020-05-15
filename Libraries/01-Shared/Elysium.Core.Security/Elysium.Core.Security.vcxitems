@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
@@ -49,6 +51,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Integer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp" />

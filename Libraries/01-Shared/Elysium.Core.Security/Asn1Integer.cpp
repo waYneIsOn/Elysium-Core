@@ -6,3 +6,8 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Integer::Asn1Integer(const Asn1
 { }
 Elysium::Core::Security::Cryptography::Asn1::Asn1Integer::~Asn1Integer()
 { }
+
+const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Security::Cryptography::Asn1::Asn1Integer::GetValue() const
+{
+	return _Value;
+}

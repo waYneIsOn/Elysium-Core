@@ -5,3 +5,12 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Length::Asn1Length(const int32_
 { }
 Elysium::Core::Security::Cryptography::Asn1::Asn1Length::~Asn1Length()
 { }
+
+const Elysium::Core::int32_t Elysium::Core::Security::Cryptography::Asn1::Asn1Length::GetLength() const
+{
+	return _Length;
+}
+const Elysium::Core::int32_t Elysium::Core::Security::Cryptography::Asn1::Asn1Length::GetEncodedLength() const
+{
+	return _EncodedLength;
+}

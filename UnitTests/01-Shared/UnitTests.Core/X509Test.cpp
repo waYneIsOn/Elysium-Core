@@ -242,6 +242,7 @@ namespace UnitTests::Core::Security::Cryptography
 						case Asn1TagNumber::Integer:
 						{
 							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
+							Asn1Integer Version = Decoder.DecodeInteger(PossibleVersionIdentifier, VersionLength, InputStream);
 						}
 							break;
 						case Asn1TagNumber::EndOfContent:
@@ -254,12 +255,12 @@ namespace UnitTests::Core::Security::Cryptography
 								throw InvalidDataException(u"VersionIdentifier");
 							}
 							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
+							Asn1Integer Version = Decoder.DecodeInteger(VersionIdentifier, VersionLength, InputStream);
 						}
 							break;
 						default:
 							throw InvalidDataException(u"PossibleVersionIdentifier");
 						}
-						//Asn1Integer Version = Decoder.DecodeInteger(InputStream);
 
 						// at the moment we only look at the first certificate
 						return;
