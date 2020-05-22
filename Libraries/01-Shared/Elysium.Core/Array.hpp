@@ -138,7 +138,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline void Array<T>::Copy(const T* Source, T* Destination, const size_t Length)
+	inline void Array<T>::Copy(const T * Source, T * Destination, const size_t Length)
 	{
 		for (size_t i = 0; i < Length; i++)
 		{
