@@ -45,7 +45,7 @@ const size_t Elysium::Core::IO::MemoryStream::GetLength()
 }
 const Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition()
 {
-	return Elysium::Core::IO::Stream::GetPosition();
+	return _CurrentPosition;
 }
 const int Elysium::Core::IO::MemoryStream::GetReadTimeout() const
 {
