@@ -223,14 +223,14 @@ namespace UnitTests::Core::Security::Cryptography
 						Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
 						*/
 						Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
-						if (CertificateSequence.GetTagNumber() != Asn1TagNumber::Sequence)
+						if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Sequence))
 						{
 							throw InvalidDataException(u"CertificateSequence");
 						}
 						Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
 						
 						Asn1Identifier TbsCertificateSequence = Decoder.DecodeIdentifier(InputStream);
-						if (TbsCertificateSequence.GetTagNumber() != Asn1TagNumber::Sequence)
+						if (TbsCertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Sequence))
 						{
 							throw InvalidDataException(u"TbsCertificateSequence");
 						}
@@ -239,18 +239,18 @@ namespace UnitTests::Core::Security::Cryptography
 						Asn1Identifier PossibleVersionIdentifier = Decoder.DecodeIdentifier(InputStream);
 						switch (PossibleVersionIdentifier.GetTagNumber())
 						{
-						case Asn1TagNumber::Integer:
+						case static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Integer):
 						{
 							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
 							Asn1Integer Version = Decoder.DecodeInteger(PossibleVersionIdentifier, VersionLength, InputStream);
 						}
 							break;
-						case Asn1TagNumber::EndOfContent:
+						case static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::EndOfContent):
 						{
 							Asn1Length EndOfContentLength = Decoder.DecodeLength(InputStream);
 
 							Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
-							if (VersionIdentifier.GetTagNumber() != Asn1TagNumber::Integer)
+							if (VersionIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Integer))
 							{
 								throw InvalidDataException(u"VersionIdentifier");
 							}

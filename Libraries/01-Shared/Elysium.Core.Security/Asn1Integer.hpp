@@ -26,7 +26,12 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 	{
 	public:
 		Asn1Integer(const Asn1Identifier& Identifier, const Math::Numerics::BigInteger& Value);
+		Asn1Integer(const Asn1Integer& Source) = delete;
+		Asn1Integer(Asn1Integer&& Right) noexcept = delete;
 		virtual ~Asn1Integer();
+
+		Asn1Integer& operator=(const Asn1Integer& Source) = delete;
+		Asn1Integer& operator=(Asn1Integer&& Right) noexcept = delete;
 
 		const Math::Numerics::BigInteger GetValue() const;
 	private:

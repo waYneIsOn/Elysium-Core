@@ -21,7 +21,12 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 	class ELYSIUM_CORE_SECURITY_API Asn1Numeric : public Asn1Object
 	{
 	public:
+		Asn1Numeric(const Asn1Numeric& Source) = delete;
+		Asn1Numeric(Asn1Numeric&& Right) noexcept = delete;
 		virtual ~Asn1Numeric();
+
+		Asn1Numeric& operator=(const Asn1Numeric& Source) = delete;
+		Asn1Numeric& operator=(Asn1Numeric&& Right) noexcept = delete;
 	protected:
 		Asn1Numeric(const Asn1Identifier& Identifier);
 	};

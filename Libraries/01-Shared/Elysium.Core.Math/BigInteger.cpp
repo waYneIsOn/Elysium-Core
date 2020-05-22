@@ -4,9 +4,16 @@
 #include <type_traits>
 #endif
 
+#ifndef ELYSIUM_CORE_MATH_MATHHELPER
+#include "MathHelper.hpp"
+#endif
+
+const Elysium::Core::uint32_t Elysium::Core::Math::Numerics::BigInteger::_uMaskHighBit = static_cast<Elysium::Core::uint32_t>(Elysium::Core::UINT32_MIN_);
 const Elysium::Core::int32_t Elysium::Core::Math::Numerics::BigInteger::_CBITUINT = 32;
 
+const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_bnMinInt = Elysium::Core::Math::Numerics::BigInteger(-1, Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t>({ _uMaskHighBit }));
 const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_MinusOneInt = Elysium::Core::Math::Numerics::BigInteger(-1);
+const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_ZeroInt = Elysium::Core::Math::Numerics::BigInteger(0);
 
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const int32_t Sign, const Collections::Template::Array<uint32_t>& Value)
 	: _Sign(Sign), _Bits(Collections::Template::Array<uint32_t>(Value))
@@ -14,34 +21,209 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const int32_t Sign, const 
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Template::Array<uint32_t>& Value, const bool IsNegative)
 	: _Sign(0), _Bits(Collections::Template::Array<uint32_t>(Value))
 {
-	// ToDo!
+	int32_t Length;
+
+	// Try to conserve space as much as possible by checking for wasted leading uint[] entries 
+	// sometimes the uint[] has leading zeros from bit manipulation operations & and ^
+	for (Length = Value.GetLength(); Length > 0 && Value[Length - 1] == 0; Length--);
+
+	if (Length == 0)
+	{
+		*this = BigInteger(_ZeroInt);
+	}
+	else if (Length == 1 && Value[0] < _uMaskHighBit)
+	{	// values like (Int32.MaxValue+1) are stored as "0x80000000" and as such cannot be packed into _sign
+		_Sign = IsNegative ? -static_cast<int32_t>(Value[0]) : static_cast<int32_t>(Value[0]);
+		_Bits = Collections::Template::Array<uint32_t>(0);
+
+		// Although Int32.MinValue fits in _sign, we represent this case differently for negate
+		if (_Sign == Elysium::Core::UINT32_MIN_)
+		{
+			*this = BigInteger(_bnMinInt);
+		}
+	}
+	else
+	{
+		_Sign = IsNegative ? -1 : +1;
+		_Bits = Collections::Template::Array<uint32_t>(Length);
+		Collections::Template::Array<uint32_t>::Copy(&Value[0], &_Bits[0], Length);
+	}
 }
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const int32_t Value)
 	: _Sign(Value == INT32_MIN_ ? -1 : (int32_t)Value), _Bits(Value == INT32_MIN_ ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
 {
-	// ToDo!
 	if (Value == INT32_MIN_)
 	{
-		_Bits[0] = static_cast<uint32_t>(Value);
+		*this = BigInteger(_bnMinInt);
 	}
 	else
 	{
-
+		_Sign = Value;
+		_Bits = Collections::Template::Array<uint32_t>(0);
 	}
 }
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const uint32_t Value)
 	: _Sign(Value < INT32_MAX_ ? (int32_t)Value : 1), _Bits(Value < INT32_MAX_ ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
 {
-	// ToDo!
-	if (Value >= INT32_MAX_)
+	if (Value <= INT32_MAX_)
 	{
+		_Sign = static_cast<int32_t>(Value);
+		_Bits = Collections::Template::Array<uint32_t>(0);
+	}
+	else
+	{
+		_Sign = 1;
+		_Bits = Collections::Template::Array<uint32_t>(1);
 		_Bits[0] = Value;
 	}
 }
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Template::Array<byte>& Value)
 	: _Sign(0), _Bits(Collections::Template::Array<uint32_t>(Value.GetLength() / 4))
 { 
-	// ToDo!
+	int32_t ByteCount = Value.GetLength();
+	bool IsNegative = ByteCount > 0 && ((Value[ByteCount - 1] & 0x80) == 0x80);
+
+	// Try to conserve space as much as possible by checking for wasted leading byte[] entries 
+	while (ByteCount > 0 && Value[ByteCount - 1] == 0)
+	{
+		ByteCount--;
+	}
+
+	if (ByteCount == 0)
+	{
+		_Sign = 0;
+		_Bits = Collections::Template::Array<uint32_t>(0);
+	}
+	else if (ByteCount <= 4)
+	{
+		if (IsNegative)
+		{
+			_Sign = static_cast<int32_t>(0xffffffff);
+		}
+		else
+		{
+			_Sign = 0;
+		}
+
+		for (int32_t i = ByteCount - 1; i >= 0; i--)
+		{
+			_Sign <<= 8;
+			_Sign |= Value[i];
+		}
+		_Bits = Collections::Template::Array<uint32_t>(0);
+
+		if (_Sign < 0 && !IsNegative)
+		{
+			// int32 overflow
+			// example: Int64 value 2362232011 (0xCB, 0xCC, 0xCC, 0x8C, 0x0)
+			// can be naively packed into 4 bytes (due to the leading 0x0)
+			// it overflows into the int32 sign bit
+			_Bits = Collections::Template::Array<uint32_t>(1);
+			_Bits[0] = static_cast<uint32_t>(_Sign);
+			_Sign = +1;
+		}
+
+		if (_Sign == Elysium::Core::INT32_MIN_)
+		{
+			*this = _bnMinInt;
+		}
+	}
+	else
+	{
+		int32_t UnalignedBytes = ByteCount % 4;
+		int32_t DWordCount = ByteCount & 4 + (UnalignedBytes == 0 ? 0 : 1);
+		bool IsZero = true;
+		Collections::Template::Array<uint32_t> Val = Collections::Template::Array<uint32_t>(1);
+
+		// Copy all dwords, except but don't do the last one if it's not a full four bytes
+		int32_t CurrentDWord;
+		int32_t CurrentByte;
+		int32_t ByteInDWord;
+		CurrentByte = 3;
+		for (CurrentDWord = 0; CurrentDWord < DWordCount - (UnalignedBytes == 0 ? 0 : 1); CurrentDWord++)
+		{
+			ByteInDWord = 0;
+			while (ByteInDWord < 4)
+			{
+				if (Value[CurrentByte] != 0x00)
+				{
+					IsZero = false;
+				}
+				Val[CurrentDWord] <<= 8;
+				Val[CurrentDWord] |= Value[CurrentByte];
+				CurrentByte--;
+				ByteInDWord++;
+			}
+			CurrentByte += 8;
+		}
+
+		// Copy the last dword specially if it's not aligned
+		if (UnalignedBytes != 0)
+		{
+			if (IsNegative)
+			{
+				Val[DWordCount - 1] = 0xffffffff;
+				for (CurrentByte = ByteCount - 1; CurrentByte >= ByteCount - UnalignedBytes; CurrentByte--)
+				{
+					if (Value[CurrentByte] != 0x00)
+					{
+						IsZero = false;
+					}
+					Val[CurrentDWord] <<= 8;
+					Val[CurrentDWord] |= Value[CurrentByte];
+				}
+			}
+		}
+
+		if (IsZero)
+		{
+			*this = BigInteger(_ZeroInt);
+		}
+		else if (IsNegative)
+		{
+			DangerousMakeTwosComplement(Val);	// mutates Val
+
+			// pack _bits to remove any wasted space after the twos complement
+			int32_t Length = Val.GetLength();
+			while (Length > 0 && Val[Length - 1] == 0)
+			{
+				Length--;
+			}
+
+			if (Length == 1 && static_cast<int32_t>(Val[0]) > 0)
+			{
+				if (Val[0] == 1)
+				{
+					*this = BigInteger(_MinusOneInt);
+				}
+				else if (Val[0] == _uMaskHighBit)
+				{
+					*this = BigInteger(_bnMinInt);
+				}
+				else
+				{
+					_Sign = (-1) * (static_cast<int32_t>(Val[0]));
+					_Bits = Collections::Template::Array<uint32_t>(0);
+				}
+			}
+			else if (Length != Val.GetLength())
+			{
+				_Sign = -1;
+				_Bits = Collections::Template::Array<uint32_t>(Length);
+				Collections::Template::Array<uint32_t>::Copy(&Val[0], &_Bits[0], Length);
+			}
+			else
+			{
+				_Sign = -1;
+				_Bits = Val;
+			}
+		}
+		else
+		{
+			_Sign = +1;
+			_Bits = Val;
+		}
+	}
 }
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const BigInteger & Source)
 	: _Sign(Source._Sign), _Bits(Source._Bits)
@@ -143,9 +325,6 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	int32_t Length;
 	const bool IsNegative = GetPartsForBitManipulation(*this, Bits, Length);
 
-	int32_t zl = Length + DigitShift + 1;
-	Collections::Template::Array<uint32_t> zd = Collections::Template::Array<uint32_t>(zl);
-
 	if (IsNegative)
 	{
 		if (Shift >= (_CBITUINT * Length))
@@ -153,13 +332,51 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 			return _MinusOneInt;
 		}
 
-		Collections::Template::Array<uint32_t> temp = Collections::Template::Array<uint32_t>(Length);
-		Collections::Template::Array<uint32_t>::Copy(&Bits[0], &temp[0], Length);
-		Bits = temp;
-		// ToDo
+		Collections::Template::Array<uint32_t> Temp = Collections::Template::Array<uint32_t>(Length);
+		Collections::Template::Array<uint32_t>::Copy(&Bits[0], &Temp[0], Length);
+		Bits = Temp;
+		DangerousMakeTwosComplement(Bits);
 	}
-	// ToDo
-	return Elysium::Core::Math::Numerics::BigInteger(1);
+
+	int32_t zl = Length - DigitShift;
+	if (zl < 0)
+	{
+		zl = 0;
+	}
+	Collections::Template::Array<uint32_t> zd = Collections::Template::Array<uint32_t>(zl);
+
+	if (SmallShift == 0)
+	{
+		for (int32_t i = Length - 1; i >= DigitShift; i--)
+		{
+			zd[i - DigitShift] = Bits[i];
+		}
+	}
+	else
+	{
+		int32_t CarryShift = _CBITUINT - SmallShift;
+		uint32_t Carry = 0;
+		for (int32_t i = Length - 1; i >= DigitShift; i--)
+		{
+			uint32_t rot = Bits[i];
+			if (IsNegative && i == Length - 1)
+			{	// sign-extend the first shift for negative ints then let the carry propagate
+				zd[i - DigitShift] = (rot >> SmallShift) | (0xFFFFFFFF << CarryShift);
+			}
+			else
+			{
+				zd[i - DigitShift] = (rot >> SmallShift) | Carry;
+			}
+			Carry = rot << CarryShift;
+		}
+	}
+
+	if (IsNegative)
+	{
+		DangerousMakeTwosComplement(zd);	// mutates zd
+	}
+
+	return Elysium::Core::Math::Numerics::BigInteger(zd, IsNegative);
 }
 
 Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::operator|(const int32_t & Right)
@@ -173,11 +390,11 @@ const bool Elysium::Core::Math::Numerics::BigInteger::GetPartsForBitManipulation
 	{
 		if (Value._Sign < 0)
 		{
-			Bits = Collections::Template::Array<uint32_t>(static_cast<uint32_t>(-Value._Sign));
+			Bits = Collections::Template::Array<uint32_t>({ static_cast<uint32_t>(-Value._Sign) });
 		}
 		else
 		{
-			Bits = Collections::Template::Array<uint32_t>(static_cast<uint32_t>(Value._Sign));
+			Bits = Collections::Template::Array<uint32_t>({ static_cast<uint32_t>(Value._Sign) });
 		}
 	}
 	else
@@ -187,4 +404,50 @@ const bool Elysium::Core::Math::Numerics::BigInteger::GetPartsForBitManipulation
 	Length = (Value._Bits.GetLength() == 0 ? 1 : Value._Bits.GetLength());
 
 	return Value._Sign < 0;
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysium::Core::Math::Numerics::BigInteger::DangerousMakeTwosComplement(Elysium::Core::Collections::Template::Array<uint32_t> & d)
+{	// first do complement and +1 as long as carry is needed
+	Elysium::Core::int32_t i = 0;
+	Elysium::Core::uint32_t v = 0;
+	for (; i < d.GetLength(); i++)
+	{
+		v = ~d[i] + 1;
+		d[i] = v;
+		if (v != 0)
+		{
+			i++;
+			break;
+		}
+	}
+
+	if (v != 0)
+	{	// now ones complement is sufficient
+		for (; i < d.GetLength(); i++)
+		{
+			d[i] = ~d[i];
+		}
+	}
+	else
+	{	//??? this is weird
+		d = Resize(d, d.GetLength() + 1);
+		d[d.GetLength() - 1] = 1;
+	}
+	return d;
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysium::Core::Math::Numerics::BigInteger::Resize(Elysium::Core::Collections::Template::Array<uint32_t>& Value, const Elysium::Core::int32_t Length)
+{
+	if (Value.GetLength() == Length)
+	{
+		return Value;
+	}
+
+	Collections::Template::Array<uint32_t> Result = Collections::Template::Array<uint32_t>(Length);
+	Elysium::Core::int32_t NewLength = Elysium::Core::Math::MathHelper::Min(Value.GetLength(), Length);
+	for (Elysium::Core::int32_t i = 0; i < NewLength; i++)
+	{
+		Result[i] = Value[i];
+	}
+	return Result;
 }

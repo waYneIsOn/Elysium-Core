@@ -5,7 +5,16 @@
 #endif
 
 Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber, const int32_t EncodedLength)
+	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(static_cast<const Elysium::Core::int32_t>(TagNumber)), _EncodedLength(EncodedLength)
+{ }
+Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const int32_t TagNumber, const int32_t EncodedLength)
 	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(TagNumber), _EncodedLength(EncodedLength)
+{ }
+Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber)
+	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(static_cast<const Elysium::Core::int32_t>(TagNumber)), _EncodedLength(0)
+{ }
+Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const int32_t TagNumber)
+	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(TagNumber), _EncodedLength(0)
 { }
 Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1Identifier & Source)
 	: _TagClass(Source._TagClass), _IsConstructed(Source._IsConstructed), _TagNumber(Source._TagNumber), _EncodedLength(Source._EncodedLength)
@@ -21,7 +30,7 @@ const bool Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetIsCon
 {
 	return _IsConstructed;
 }
-const Elysium::Core::Security::Cryptography::Asn1::Asn1TagNumber Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetTagNumber() const
+const Elysium::Core::int32_t Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::GetTagNumber() const
 {
 	return _TagNumber;
 }

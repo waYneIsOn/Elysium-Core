@@ -3,7 +3,7 @@
 
 Copyright (C) 2017 waYne (CAM)
 
-Code "translated" from original implementation:
+Code translated and edited from original implementation:
 https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs
 Copyright (c) Microsoft Corporation. All rights reserved.
 
@@ -57,11 +57,18 @@ namespace Elysium::Core::Math::Numerics
 		int32_t _Sign;
 		Collections::Template::Array<uint32_t> _Bits;
 
+		static const uint32_t _uMaskHighBit;
 		static const int32_t _CBITUINT;
 
+		static const BigInteger _bnMinInt;
 		static const BigInteger _MinusOneInt;
+		static const BigInteger _ZeroInt;
 
 		static const bool GetPartsForBitManipulation(const BigInteger& Value, Collections::Template::Array<uint32_t>& Bits, int32_t& Length);
+
+		// ToDo: move to Elysium::Core::Numerics::NumericsHelper-class
+		static const Collections::Template::Array<uint32_t> DangerousMakeTwosComplement(Collections::Template::Array<uint32_t>& d);
+		static const Collections::Template::Array<uint32_t> Resize(Collections::Template::Array<uint32_t>& Value, const Elysium::Core::int32_t Length);
 	};
 }
 #endif

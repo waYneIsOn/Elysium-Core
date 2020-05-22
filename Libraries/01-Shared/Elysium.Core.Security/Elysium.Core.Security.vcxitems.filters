@@ -69,6 +69,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Null.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -170,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h">
       <Filter>Cryptography\Sasl</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Null.hpp">
+      <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

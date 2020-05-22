@@ -22,7 +22,12 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 	{
 	public:
 		Asn1Boolean(const Asn1Identifier& Identifier, const bool Value);
+		Asn1Boolean(const Asn1Boolean& Source) = delete;
+		Asn1Boolean(Asn1Boolean&& Right) noexcept = delete;
 		virtual ~Asn1Boolean();
+
+		Asn1Boolean& operator=(const Asn1Boolean& Source) = delete;
+		Asn1Boolean& operator=(Asn1Boolean&& Right) noexcept = delete;
 
 		const bool GetValue() const;
 	private:
