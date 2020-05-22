@@ -66,8 +66,8 @@ namespace Elysium::Core::IO
 		virtual int32_t ReadByte() override;
 		virtual void Write(const byte* Buffer, const size_t Count) override;
 	private:
-		Collections::Template::List<byte> _Buffer;
 		size_t _CurrentPosition = 0;
+		Collections::Template::List<byte> _Buffer;
 	};
 }
 #endif
