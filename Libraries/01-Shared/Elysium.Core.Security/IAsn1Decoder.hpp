@@ -40,6 +40,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "Asn1Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1OBJECTIDENTIFIER
+#include "Asn1ObjectIdentifier.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1STRING
+#include "Asn1String.hpp"
+#endif
+
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API IAsn1Decoder
@@ -58,6 +66,12 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
+
+		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
+
+		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 	};
 }
 #endif

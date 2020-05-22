@@ -23,6 +23,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Null.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Tag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp" />
@@ -67,6 +69,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Null.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Numeric.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Tag.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp" />

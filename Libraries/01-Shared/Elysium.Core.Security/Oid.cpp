@@ -4,6 +4,9 @@
 #include "CryptographicException.hpp"
 #endif
 
+Elysium::Core::Security::Cryptography::Oid::Oid(const Oid & Source)
+	: _NativeOid(Source._NativeOid)
+{ }
 Elysium::Core::Security::Cryptography::Oid::~Oid()
 { }
 

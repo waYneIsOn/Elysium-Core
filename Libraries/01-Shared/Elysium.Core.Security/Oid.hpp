@@ -33,7 +33,7 @@ namespace Elysium::Core::Security::Cryptography
 	class ELYSIUM_CORE_SECURITY_API Oid final
 	{
 	public:
-		Oid(const Oid& Source) = delete;
+		Oid(const Oid& Source);
 		Oid(Oid&& Right) noexcept = delete;
 		~Oid();
 

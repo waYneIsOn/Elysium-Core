@@ -4,6 +4,10 @@
 #include "../Elysium.Core.IO/MemoryStream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_ENDOFSTREAMEXCEPTION
 #include "../Elysium.Core.IO/EndOfStreamException.hpp"
 #endif
@@ -146,6 +150,84 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Integer Elysium::Core::Security
 		}
 		return Asn1Integer(Asn1Identifier, Value);
 	}
+}
+
+Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length)
+{
+	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
+	return DecodeObjectIdentifier(Asn1Identifier, Asn1Length, InputStream);
+}
+Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
+{
+	Elysium::Core::Collections::Template::Array<byte> OidBytes = Elysium::Core::Collections::Template::Array<byte>(Asn1Length.GetLength());
+	for (int32_t i = 0; i < OidBytes.GetLength(); i++)
+	{
+		OidBytes[i] = InputStream.ReadByte();
+	}
+
+	const size_t OidLength = OidBytes.GetLength();
+	if (OidLength <= 9)
+	{	// fast path
+		int64_t AccumulatedValue = 0;
+		for (int32_t i = 0; i < OidLength; i++)
+		{
+			byte CurrentByte = OidBytes[i];
+			AccumulatedValue <<= 7;
+			AccumulatedValue |= static_cast<byte>(CurrentByte & 0x7F);
+		}
+
+		byte FirstArc;
+		if (AccumulatedValue < 40)
+		{
+			FirstArc = 0;
+		}
+		else if (AccumulatedValue < 80)
+		{
+			FirstArc = 1;
+			AccumulatedValue -= 40;
+		}
+		else
+		{
+			FirstArc = 1;
+			AccumulatedValue -= 80;
+		}
+
+		throw NotImplementedException();
+	}
+	else
+	{	// slow path
+		throw NotImplementedException();
+	}
+
+	throw NotImplementedException();
+}
+
+Elysium::Core::Security::Cryptography::Asn1::Asn1String Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length)
+{
+	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
+	return DecodeString(Asn1Identifier, Asn1Length, InputStream);
+}
+Elysium::Core::Security::Cryptography::Asn1::Asn1String Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
+{
+	const int32_t Length = Asn1Length.GetLength();
+	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
+	for (int32_t i = 0; i < Length; i++)
+	{
+		Bytes[i] = InputStream.ReadByte();
+	}
+	/*
+	switch (Asn1Identifier.GetTagNumber())
+	{
+		case static_cast<int32_t>(Asn1UniversalTag::BitString):
+			throw NotImplementedException();
+		default:
+			throw NotImplementedException();
+	}
+	
+	throw NotImplementedException();
+	*/
+	const Elysium::Core::String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
+	return Asn1String(Asn1Identifier, Value);
 }
 
 size_t Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeIdentifierTagNumber(IO::Stream & InputStream, int32_t EncodedLength)

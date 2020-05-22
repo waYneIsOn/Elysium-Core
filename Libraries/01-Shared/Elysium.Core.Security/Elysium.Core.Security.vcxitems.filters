@@ -96,6 +96,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -223,6 +229,12 @@
       <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1String.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.hpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
   </ItemGroup>
