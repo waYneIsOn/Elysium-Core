@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1TAGNUMBER
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1TAGNUMBER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1UNIVERSALTAG
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1UNIVERSALTAG
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,9 +19,9 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class Asn1TagNumber : uint8_t
+	enum class Asn1UniversalTag : uint8_t
 #elif defined(__ANDROID__)
-	enum class Asn1TagNumber
+	enum class Asn1UniversalTag
 #else
 #error "undefined os"
 #endif

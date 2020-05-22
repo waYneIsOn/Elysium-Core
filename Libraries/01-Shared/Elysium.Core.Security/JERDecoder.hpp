@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_BERDECODER
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_BERDECODER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_JERDECODER
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_JERDECODER
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,17 +19,17 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
 	/*
-	// Basic Encoding Rules - for instance used when communicating with active directory
-	class ELYSIUM_CORE_SECURITY_API BERDecoder final : public IAsn1Decoder
+	// JSON Encoding Rules
+	class ELYSIUM_CORE_SECURITY_API JERDecoder final : public IAsn1Decoder
 	{
 	public:
-		BERDecoder();
-		BERDecoder(const BERDecoder& Source) = delete;
-		BERDecoder(BERDecoder&& Right) noexcept = delete;
-		virtual ~BERDecoder();
+		JERDecoder();
+		JERDecoder(const JERDecoder& Source) = delete;
+		JERDecoder(JERDecoder&& Right) noexcept = delete;
+		virtual ~JERDecoder();
 
-		BERDecoder& operator=(const BERDecoder& Source) = delete;
-		BERDecoder& operator=(BERDecoder&& Right) noexcept = delete;
+		JERDecoder& operator=(const JERDecoder& Source) = delete;
+		JERDecoder& operator=(JERDecoder&& Right) noexcept = delete;
 
 		virtual Asn1Identifier DecodeIdentifier(IO::Stream& InputStream) override;
 

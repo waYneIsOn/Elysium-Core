@@ -4,13 +4,13 @@
 #include <type_traits>
 #endif
 
-Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber, const int32_t EncodedLength)
+Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1UniversalTag TagNumber, const int32_t EncodedLength)
 	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(static_cast<const Elysium::Core::int32_t>(TagNumber)), _EncodedLength(EncodedLength)
 { }
 Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const int32_t TagNumber, const int32_t EncodedLength)
 	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(TagNumber), _EncodedLength(EncodedLength)
 { }
-Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber)
+Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1UniversalTag TagNumber)
 	: _TagClass(TagClass), _IsConstructed(IsConstructed), _TagNumber(static_cast<const Elysium::Core::int32_t>(TagNumber)), _EncodedLength(0)
 { }
 Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier::Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const int32_t TagNumber)

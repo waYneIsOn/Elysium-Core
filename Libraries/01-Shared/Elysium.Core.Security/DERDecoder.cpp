@@ -33,10 +33,10 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier Elysium::Core::Secur
 	}
 	Asn1TagClass TagClass = (Asn1TagClass)(CurrentByteValue >> 6);  // read the first two bits
 	bool IsConstructed = (CurrentByteValue & 0x20) != 0;    // read the third bit
-	Asn1TagNumber TagNumber = (Asn1TagNumber)(CurrentByteValue & 0x1F); // read the other five bits. if Tag is less than 30, it's a single octet identifier
+	Asn1UniversalTag TagNumber = (Asn1UniversalTag)(CurrentByteValue & 0x1F); // read the other five bits. if Tag is less than 30, it's a single octet identifier
 	if ((int)TagNumber == 0x1F)
 	{   // if Tag is 30 or more, it's a multiple octet identifier which means we need to read at least one more byte
-		TagNumber = (Asn1TagNumber)DecodeIdentifierTagNumber(InputStream, EncodedLength);
+		TagNumber = static_cast<Asn1UniversalTag>(DecodeIdentifierTagNumber(InputStream, EncodedLength));
 	}
 
 	return Asn1Identifier(TagClass, IsConstructed, TagNumber, EncodedLength);

@@ -18,6 +18,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography::Asn1
 {
+	// Distinguished Encoding Rules - for instance used in x509certificates
 	class ELYSIUM_CORE_SECURITY_API DERDecoder final : public IAsn1Decoder
 	{
 	public:

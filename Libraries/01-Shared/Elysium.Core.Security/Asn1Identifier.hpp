@@ -20,8 +20,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "Asn1TagClass.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1TAGNUMBER
-#include "Asn1TagNumber.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1UNIVERSALTAG
+#include "Asn1UniversalTag.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER
@@ -33,9 +33,9 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 	class ELYSIUM_CORE_SECURITY_API Asn1Identifier final
 	{
 	public:
-		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber, const int32_t EncodedLength);
+		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1UniversalTag TagNumber, const int32_t EncodedLength);
 		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const int32_t TagNumber, const int32_t EncodedLength);
-		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1TagNumber TagNumber);
+		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const Asn1UniversalTag TagNumber);
 		Asn1Identifier(const Asn1TagClass TagClass, const bool IsConstructed, const int32_t TagNumber);
 		Asn1Identifier(const Asn1Identifier& Source);
 		Asn1Identifier(Asn1Identifier&& Right) noexcept = delete;

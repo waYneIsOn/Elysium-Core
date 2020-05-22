@@ -35,6 +35,8 @@ namespace Elysium::Core::Security::Cryptography::Asn1
 
 		Asn1Object& operator=(const Asn1Object& Source) = delete;
 		Asn1Object& operator=(Asn1Object&& Right) noexcept = delete;
+
+		const Asn1Identifier& GetIdentifier() const;
 	protected:
 		Asn1Object(const Asn1Identifier& Identifier);
 	private:
