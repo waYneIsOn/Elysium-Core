@@ -141,11 +141,12 @@ size_t Elysium::Core::IO::MemoryStream::Read(byte * Buffer, const size_t Count)
 }
 int32_t Elysium::Core::IO::MemoryStream::ReadByte()
 {
-	byte Buffer;
-	memcpy(&Buffer, &_Buffer[_CurrentPosition], 1);
-	_CurrentPosition++;
+	if (_CurrentPosition >= _Buffer.GetCount())
+	{
+		return -1;
+	}
 
-	return static_cast<int32_t>(Buffer);
+	return static_cast<int32_t>(_Buffer[_CurrentPosition++]);
 }
 void Elysium::Core::IO::MemoryStream::Write(const byte * Buffer, const size_t Count)
 {
