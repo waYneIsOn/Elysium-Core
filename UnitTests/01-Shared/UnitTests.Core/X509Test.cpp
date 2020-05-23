@@ -199,6 +199,8 @@ namespace UnitTests::Core::Security::Cryptography
 						size_t StartIndex = 352;
 						MemoryStream InputStream = MemoryStream(RawData, StartIndex, RawData.GetLength() - StartIndex);
 						/*
+						https://tools.ietf.org/html/rfc5280
+
 						Certificate  ::=  SEQUENCE  {
 							tbsCertificate       TBSCertificate,
 							signatureAlgorithm   AlgorithmIdentifier,
@@ -221,51 +223,232 @@ namespace UnitTests::Core::Security::Cryptography
 							}
 
 						Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+
+						AlgorithmIdentifier  ::=  SEQUENCE  {
+							algorithm               OBJECT IDENTIFIER,
+							parameters              ANY DEFINED BY algorithm OPTIONAL  }
+						
+						Validity ::= SEQUENCE {
+							notBefore      Time,
+							notAfter       Time }
+
+						SubjectPublicKeyInfo  ::=  SEQUENCE  {
+							algorithm            AlgorithmIdentifier,
+							subjectPublicKey     BIT STRING  }
+
+						Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
+
+						Extension  ::=  SEQUENCE  {
+							extnID      OBJECT IDENTIFIER,
+							critical    BOOLEAN DEFAULT FALSE,
+							extnValue   OCTET STRING
+										-- contains the DER encoding of an ASN.1 value
+										-- corresponding to the extension type identified
+										-- by extnID
+							}
 						*/
 						Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
-						if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Sequence))
+						if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 						{
 							throw InvalidDataException(u"CertificateSequence");
 						}
 						Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
 						
 						Asn1Identifier TbsCertificateSequence = Decoder.DecodeIdentifier(InputStream);
-						if (TbsCertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Sequence))
+						if (TbsCertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 						{
 							throw InvalidDataException(u"TbsCertificateSequence");
 						}
 						Asn1Length TbsCertificateLength = Decoder.DecodeLength(InputStream);
-
-						Asn1Identifier PossibleVersionIdentifier = Decoder.DecodeIdentifier(InputStream);
-						switch (PossibleVersionIdentifier.GetTagNumber())
+						 
+						Asn1Identifier ExplicitlyTaggedVersionIdentifier = Decoder.DecodeIdentifier(InputStream);
+						if (ExplicitlyTaggedVersionIdentifier.GetTagClass() != Asn1TagClass::Context || ExplicitlyTaggedVersionIdentifier.GetIsConstructed() == false)
 						{
-						case static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Integer):
-						{
-							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
-							Asn1Integer Version = Decoder.DecodeInteger(PossibleVersionIdentifier, VersionLength, InputStream);
+							throw InvalidDataException(u"TaggedVersionIdentifier");
 						}
-							break;
-						case static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::EndOfContent):
-						{
-							Asn1Length EndOfContentLength = Decoder.DecodeLength(InputStream);
+						Asn1Length ExplicitlyTaggedVersiontLength = Decoder.DecodeLength(InputStream);
 
-							Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
-							if (VersionIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1TagNumber::Integer))
-							{
-								throw InvalidDataException(u"VersionIdentifier");
-							}
-							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
-							Asn1Integer Version = Decoder.DecodeInteger(VersionIdentifier, VersionLength, InputStream);
+						Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
+						if (VersionIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Integer))
+						{
+							throw InvalidDataException(u"VersionIdentifier");
 						}
-							break;
-						default:
-							throw InvalidDataException(u"PossibleVersionIdentifier");
-						}
+						Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
+						Asn1Integer Version = Decoder.DecodeInteger(VersionIdentifier, VersionLength, InputStream);
 
+						Asn1Identifier SerialNumberIdentifier = Decoder.DecodeIdentifier(InputStream);
+						Asn1Length SerialNumberLength = Decoder.DecodeLength(InputStream);
+						Asn1Integer SerialNumber = Decoder.DecodeInteger(SerialNumberIdentifier, SerialNumberLength, InputStream);
+
+						// signature
+						ReadAlgorithmIdentifier(Decoder, InputStream);
+
+						// issuer
+						ReadName(Decoder, InputStream);
+						
+						// validity
+						Asn1Identifier ValiditySequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
+						if (ValiditySequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+						{
+							throw InvalidDataException(u"ValiditySequenceIdentifier");
+						}
+						Asn1Length ValiditySequenceLength = Decoder.DecodeLength(InputStream);
+
+						Asn1Identifier ValidityNotBeforeIdentifier = Decoder.DecodeIdentifier(InputStream);
+						if (ValidityNotBeforeIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTCTime))
+						{
+							throw InvalidDataException(u"ValidityNotBeforeIdentifier");
+						}
+						Asn1Length ValidityNotBeforeLength = Decoder.DecodeLength(InputStream);
+						InputStream.SetPosition(InputStream.GetPosition() + ValidityNotBeforeLength.GetLength());	// ToDo
+
+						Asn1Identifier ValidityNotAfterIdentifier = Decoder.DecodeIdentifier(InputStream);
+						if (ValidityNotAfterIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTCTime))
+						{
+							throw InvalidDataException(u"ValidityNotAfterIdentifier");
+						}
+						Asn1Length ValidityNotAfterLength = Decoder.DecodeLength(InputStream);
+						InputStream.SetPosition(InputStream.GetPosition() + ValidityNotAfterLength.GetLength());	// ToDo
+						
+						// subject
+						ReadName(Decoder, InputStream);
+						
+						// subjectPublicKeyInfo
+						Asn1Identifier SubjectPublicKeySequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
+						Asn1Length SubjectPublicKeySequenceLength = Decoder.DecodeLength(InputStream);
+
+						ReadAlgorithmIdentifier(Decoder, InputStream);
+
+						// issuerUniqueID
+						Asn1Identifier IssuerUniqueIDIdentifier = Decoder.DecodeIdentifier(InputStream);
+						Asn1Length IssuerUniqueIDLength = Decoder.DecodeLength(InputStream);
+						Asn1Integer IssuerUniqueID = Decoder.DecodeInteger(IssuerUniqueIDIdentifier, IssuerUniqueIDLength, InputStream);
+
+						// subjectUniqueID
+						Asn1Identifier SubjectUniqueIDIdentifier = Decoder.DecodeIdentifier(InputStream);
+						Asn1Length SubjectUniqueIDLength = Decoder.DecodeLength(InputStream);
+						Asn1Integer SubjectUniqueID = Decoder.DecodeInteger(SubjectUniqueIDIdentifier, SubjectUniqueIDLength, InputStream);
+						
+						// extensions
+						Asn1Identifier ExtensionSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
+						Asn1Length ExtensionSequenceLength = Decoder.DecodeLength(InputStream);
+
+						int64_t CurrentPosition = InputStream.GetPosition();
+						while (InputStream.GetPosition() < CurrentPosition + ExtensionSequenceLength.GetLength())
+						{
+							Asn1Identifier ExtensionOidIdentifier = Decoder.DecodeIdentifier(InputStream);
+							Asn1Length ExtensionOidLength = Decoder.DecodeLength(InputStream);
+							InputStream.SetPosition(InputStream.GetPosition() + ExtensionOidLength.GetLength());	// ToDo
+
+							Asn1Identifier ExtensionCriticalIdentifier = Decoder.DecodeIdentifier(InputStream);
+							Asn1Length ExtensionCriticalLength = Decoder.DecodeLength(InputStream);
+							Asn1Boolean ExtensionCritical = Decoder.DecodeBoolean(ExtensionCriticalIdentifier, ExtensionCriticalLength, InputStream);
+
+							Asn1Identifier ExtensionValueIdentifier = Decoder.DecodeIdentifier(InputStream);
+							Asn1Length ExtensionValueLength = Decoder.DecodeLength(InputStream);
+							Asn1String ExtensionValue = Decoder.DecodeString(ExtensionValueIdentifier, ExtensionValueLength, InputStream);
+						}
+						
 						// at the moment we only look at the first certificate
 						return;
 					}
 				}
+			}
+		}
+
+	private:
+		void ReadAlgorithmIdentifier(Elysium::Core::Security::Cryptography::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream & InputStream)
+		{
+			/*
+			AlgorithmIdentifier  ::=  SEQUENCE  {
+				algorithm               OBJECT IDENTIFIER,
+				parameters              ANY DEFINED BY algorithm OPTIONAL  }
+			*/
+			const int64_t CurrentPosition = InputStream.GetPosition();
+			Asn1Identifier AlgorithmSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
+			if (AlgorithmSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+			{
+				throw InvalidDataException(u"AlgorithmSequenceIdentifier");
+			}
+			Asn1Length AlgorithmSequenceLength = Decoder.DecodeLength(InputStream);
+
+			Asn1Identifier AlgorithmIdentifier = Decoder.DecodeIdentifier(InputStream);
+			if (AlgorithmIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::ObjectIdentifier))
+			{
+				throw InvalidDataException(u"AlgorithmIdentifier");
+			}
+			Asn1Length AlgorithmLength = Decoder.DecodeLength(InputStream);
+			// ToDo: don't skip but actually read the value
+			InputStream.SetPosition(InputStream.GetPosition() + AlgorithmLength.GetLength());
+			//Asn1ObjectIdentifier AlgorithmIdentifier = Decoder.DecodeObjectIdentifier(AlgorithmIdentifier, AlgorithmLength, InputStream);
+
+			Asn1Identifier FirstParameterIdentifier = Decoder.DecodeIdentifier(InputStream);
+			Asn1Length FirstParameterLength = Decoder.DecodeLength(InputStream);
+			if (FirstParameterIdentifier.GetTagNumber() != static_cast<int32_t>(Asn1UniversalTag::Null))
+			{
+				// ToDo: read algorithm parameters
+				throw 1;
+			}
+		}
+
+		void ReadName(Elysium::Core::Security::Cryptography::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream & InputStream)
+		{
+			/*
+			Name ::= CHOICE { -- only one possibility for now --
+				rdnSequence  RDNSequence }
+
+			RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+
+			RelativeDistinguishedName ::=
+				SET SIZE (1..MAX) OF AttributeTypeAndValue
+
+			AttributeTypeAndValue ::= SEQUENCE {
+				type     AttributeType,
+				value    AttributeValue }
+
+			AttributeType ::= OBJECT IDENTIFIER
+
+			AttributeValue ::= ANY -- DEFINED BY AttributeType
+			*/
+			Asn1Identifier NameSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
+			if (NameSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+			{
+				throw InvalidDataException(u"NameSequenceIdentifier");
+			}
+			Asn1Length NameSequenceLength = Decoder.DecodeLength(InputStream);
+
+			int64_t CurrentPosition = InputStream.GetPosition();
+			while (InputStream.GetPosition() < CurrentPosition + NameSequenceLength.GetLength())
+			{
+				Asn1Identifier RDNSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (RDNSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Set))
+				{
+					throw InvalidDataException(u"RDNSequenceIdentifier");
+				}
+				Asn1Length RDNSequenceIdentifierLength = Decoder.DecodeLength(InputStream);
+
+				Asn1Identifier RelativeDistinguishedNameIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (RelativeDistinguishedNameIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+				{
+					throw InvalidDataException(u"RelativeDistinguishedNameIdentifier");
+				}
+				Asn1Length RelativeDistinguishedNameLength = Decoder.DecodeLength(InputStream);
+
+				Asn1Identifier AttributeTypeIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (AttributeTypeIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::ObjectIdentifier))
+				{
+					throw InvalidDataException(u"AttributeTypeIdentifier");
+				}
+				Asn1Length AttributeTypeLength = Decoder.DecodeLength(InputStream);
+				InputStream.SetPosition(InputStream.GetPosition() + AttributeTypeLength.GetLength());	// ToDo
+
+				Asn1Identifier AttributeValueIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::PrintableString))
+				{
+					throw InvalidDataException(u"AttributeValueIdentifier");
+				}
+				Asn1Length AttributeValueLength = Decoder.DecodeLength(InputStream);
+				Asn1String AttributeValue = Decoder.DecodeString(AttributeValueIdentifier, AttributeValueLength, InputStream);
 			}
 		}
 	};
