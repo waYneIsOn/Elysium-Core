@@ -182,6 +182,8 @@ namespace UnitTests::Core::Security::Cryptography
 
 		TEST_METHOD(ReadCertificateUsingDERDecoder)
 		{
+			int32_t Count = 0;
+
 			DERDecoder Decoder = DERDecoder();
 			for (uint32_t StoreNameInt = (uint32_t)StoreName::AddressBook; StoreNameInt != (uint32_t)StoreName::TrustedPublisher; StoreNameInt++)
 			{
@@ -194,10 +196,8 @@ namespace UnitTests::Core::Security::Cryptography
 					{
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
 						const Array<byte> RawData = Certificate.GetRawCertData();
+						MemoryStream InputStream = MemoryStream(RawData, 0, RawData.GetLength());
 
-						// need to use this offset until Certificate.GetRawCertData() has been implemented correctly
-						size_t StartIndex = 352;
-						MemoryStream InputStream = MemoryStream(RawData, StartIndex, RawData.GetLength() - StartIndex);
 						/*
 						https://tools.ietf.org/html/rfc5280
 
@@ -262,10 +262,12 @@ namespace UnitTests::Core::Security::Cryptography
 						Asn1Length TbsCertificateLength = Decoder.DecodeLength(InputStream);
 						 
 						Asn1Identifier ExplicitlyTaggedVersionIdentifier = Decoder.DecodeIdentifier(InputStream);
+						/*
 						if (ExplicitlyTaggedVersionIdentifier.GetTagClass() != Asn1TagClass::Context || ExplicitlyTaggedVersionIdentifier.GetIsConstructed() == false)
 						{
 							throw InvalidDataException(u"TaggedVersionIdentifier");
 						}
+						*/
 						Asn1Length ExplicitlyTaggedVersiontLength = Decoder.DecodeLength(InputStream);
 
 						Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
@@ -350,7 +352,8 @@ namespace UnitTests::Core::Security::Cryptography
 						}
 						
 						// at the moment we only look at the first certificate
-						return;
+						//return;
+						Count++;
 					}
 				}
 			}
@@ -443,7 +446,8 @@ namespace UnitTests::Core::Security::Cryptography
 				InputStream.SetPosition(InputStream.GetPosition() + AttributeTypeLength.GetLength());	// ToDo
 
 				Asn1Identifier AttributeValueIdentifier = Decoder.DecodeIdentifier(InputStream);
-				if (AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::PrintableString))
+				if (AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::PrintableString) &&
+					AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTF8String))
 				{
 					throw InvalidDataException(u"AttributeValueIdentifier");
 				}
