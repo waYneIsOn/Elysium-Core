@@ -30,11 +30,11 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier Elysium::Core::Secur
 {
 	int32_t EncodedLength = 0;
 	int32_t CurrentByteValue = InputStream.ReadByte();
-	EncodedLength++;
 	if (CurrentByteValue < 0)
 	{
 		throw IO::EndOfStreamException();
 	}
+	EncodedLength++;
 	Asn1TagClass TagClass = (Asn1TagClass)(CurrentByteValue >> 6);  // read the first two bits
 	bool IsConstructed = (CurrentByteValue & 0x20) != 0;    // read the third bit
 	Asn1UniversalTag TagNumber = (Asn1UniversalTag)(CurrentByteValue & 0x1F); // read the other five bits. if Tag is less than 30, it's a single octet identifier
