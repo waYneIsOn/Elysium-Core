@@ -76,15 +76,24 @@ const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certifica
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetRawCertData() const
 {
+	if (_CertificateContext->dwCertEncodingType != X509_ASN_ENCODING)
+	{
+		int sdf = 45;
+	}
+
 	// get the size of the certificate
 	unsigned long ByteLength;
 	if (CertSerializeCertificateStoreElement(_CertificateContext, 0, nullptr, &ByteLength))
 	{
-		// serialize the certificate into a byte-array
+		// serialize the certificate context's encoded certificate and its properties.
 		Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(ByteLength);
 		if (CertSerializeCertificateStoreElement(_CertificateContext, 0, &RawData[0], &ByteLength))
 		{
-			return RawData;
+			// we don't care for the encoded certificate but only it's properties here
+			Collections::Template::Array<byte> PropertyData = Collections::Template::Array<byte>(_CertificateContext->cbCertEncoded);
+			Collections::Template::Array<byte>::Copy(&RawData[ByteLength - _CertificateContext->cbCertEncoded], &PropertyData[0], _CertificateContext->cbCertEncoded);
+
+			return PropertyData;
 		}
 		else
 		{
