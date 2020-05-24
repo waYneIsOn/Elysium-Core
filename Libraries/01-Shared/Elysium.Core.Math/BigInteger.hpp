@@ -39,6 +39,7 @@ namespace Elysium::Core::Math::Numerics
 	public:
 		BigInteger(const int32_t Sign, const Collections::Template::Array<uint32_t>& Value);
 		BigInteger(const Collections::Template::Array<uint32_t>& Value, const bool IsNegative);
+		BigInteger(Collections::Template::Array<uint32_t>& Value);
 		BigInteger(const int32_t Value);
 		BigInteger(const uint32_t Value);
 		BigInteger(const Collections::Template::Array<byte>& Value);
@@ -52,7 +53,9 @@ namespace Elysium::Core::Math::Numerics
 		BigInteger operator<<(const int32_t& Shift);
 		BigInteger operator>>(const int32_t& Shift);
 
-		BigInteger operator|(const int32_t& Right);
+		BigInteger operator|(const BigInteger& Right);
+
+		const bool GetIsZero() const;
 	private:
 		int32_t _Sign;
 		Collections::Template::Array<uint32_t> _Bits;
@@ -65,6 +68,8 @@ namespace Elysium::Core::Math::Numerics
 		static const BigInteger _ZeroInt;
 
 		static const bool GetPartsForBitManipulation(const BigInteger& Value, Collections::Template::Array<uint32_t>& Bits, int32_t& Length);
+
+		const Collections::Template::Array<uint32_t> ToUInt32Array() const;
 
 		// ToDo: move to Elysium::Core::Numerics::NumericsHelper-class
 		static const Collections::Template::Array<uint32_t> DangerousMakeTwosComplement(Collections::Template::Array<uint32_t>& d);

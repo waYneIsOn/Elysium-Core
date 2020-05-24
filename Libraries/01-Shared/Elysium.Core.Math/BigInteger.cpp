@@ -49,6 +49,98 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Templat
 		Collections::Template::Array<uint32_t>::Copy(&Value[0], &_Bits[0], Length);
 	}
 }
+Elysium::Core::Math::Numerics::BigInteger::BigInteger(Collections::Template::Array<uint32_t>& Value)
+	: _Sign(0), _Bits(Value)
+{ 
+	int32_t DWordCount = Value.GetLength();
+	const bool IsNegative = DWordCount > 0 && ((Value[DWordCount - 1] & 0x80000000) == 0x80000000);
+
+	while (DWordCount > 0 && Value[DWordCount - 1] == 0)
+	{
+		DWordCount--;
+	}
+
+	if (DWordCount == 0)
+	{
+		*this = _ZeroInt;
+	}
+	else if (DWordCount == 1)
+	{
+		if (static_cast<int32_t>(Value[0]) < 0 && !IsNegative)
+		{
+			_Bits = Collections::Template::Array<uint32_t>(1);
+			_Bits[0] = Value[0];
+			_Sign = +1;
+		}
+		else if (static_cast<int32_t>(Value[0]) == INT32_MIN_)
+		{
+			*this = _bnMinInt;
+		}
+		else
+		{
+			_Sign = static_cast<int32_t>(Value[0]);
+			_Bits = Collections::Template::Array<uint32_t>(0);
+		}
+	}
+	else
+	{
+		if (!IsNegative)
+		{
+			if (DWordCount != Value.GetLength())
+			{
+				_Sign = +1;
+				_Bits = Collections::Template::Array<uint32_t>(DWordCount);
+				Collections::Template::Array<uint32_t>::Copy(&Value[0], &_Bits[0], DWordCount);
+			}
+			else
+			{
+				_Sign = +1;
+				_Bits = Value;
+			}
+		}
+		else
+		{
+			// finally handle the more complex cases where we must transform the input into sign magnitude
+			DangerousMakeTwosComplement(Value);	// mutates Value
+
+			// pack _bits to remove any wasted space after the twos complement
+			size_t Length = Value.GetLength();
+			while (Length > 0 && Value[Length - 1] == 0) 
+			{
+				Length--;
+			}
+
+			if (Length == 1 && static_cast<int32_t>(Value[0]) > 0)
+			{	// the number is represented by a single dword
+				if (Value[0] == 1)
+				{
+					*this = _MinusOneInt;
+				}
+				else if (Value[0] == _uMaskHighBit)
+				{
+					*this = _bnMinInt;
+				}
+				else
+				{
+					_Sign = -1 * static_cast<int32_t>(Value[0]);
+					_Bits = Collections::Template::Array<uint32_t>(0);
+				}
+			}
+			else if (Length != Value.GetLength())
+			{	// the number is represented by multiple dwords
+				// trim off any wasted uint values when possible
+				_Sign = -1;
+				_Bits = Collections::Template::Array<uint32_t>(Length);
+				Collections::Template::Array<uint32_t>::Copy(&Value[0], &_Bits[0], Length);
+			}
+			else
+			{	// no trimming is possible. Assign value directly to _Bits.  
+				_Sign = -1;
+				_Bits = Value;
+			}
+		}
+	}
+}
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const int32_t Value)
 	: _Sign(Value == INT32_MIN_ ? -1 : (int32_t)Value), _Bits(Value == INT32_MIN_ ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
 {
@@ -379,9 +471,36 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	return Elysium::Core::Math::Numerics::BigInteger(zd, IsNegative);
 }
 
-Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::operator|(const int32_t & Right)
+Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::operator|(const BigInteger & Right)
 {
-	return Elysium::Core::Math::Numerics::BigInteger(1);
+	if (GetIsZero())
+	{
+		return Right;
+	}
+	if (Right.GetIsZero() == 0)
+	{
+		return *this;
+	}
+
+	Collections::Template::Array<uint32_t> x = ToUInt32Array();
+	Collections::Template::Array<uint32_t> y = Right.ToUInt32Array();
+	Collections::Template::Array<uint32_t> z = Collections::Template::Array<uint32_t>(MathHelper::Max(x.GetLength(), y.GetLength()));
+	uint32_t xExtend = _Sign < 0 ? UINT32_MAX_ : 0;
+	uint32_t yExtend = Right._Sign < 0 ? UINT32_MAX_ : 0;
+
+	for (size_t i = 0; i < z.GetLength(); i++)
+	{
+		uint32_t xu = i < x.GetLength() ? x[i] : xExtend;
+		uint32_t yu = i < y.GetLength() ? y[i] : yExtend;
+		z[i] = xu | yu;
+	}
+	
+	return Elysium::Core::Math::Numerics::BigInteger(z);
+}
+
+const bool Elysium::Core::Math::Numerics::BigInteger::GetIsZero() const
+{
+	return _Sign == 0;
 }
 
 const bool Elysium::Core::Math::Numerics::BigInteger::GetPartsForBitManipulation(const BigInteger & Value, Collections::Template::Array<uint32_t>& Bits, int32_t& Length)
@@ -404,6 +523,56 @@ const bool Elysium::Core::Math::Numerics::BigInteger::GetPartsForBitManipulation
 	Length = (Value._Bits.GetLength() == 0 ? 1 : Value._Bits.GetLength());
 
 	return Value._Sign < 0;
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysium::Core::Math::Numerics::BigInteger::ToUInt32Array() const
+{
+	if (_Bits.GetLength() == 0 && _Sign == 0)
+	{
+		return Elysium::Core::Collections::Template::Array<uint32_t>({ 0 });
+	}
+
+	Elysium::Core::Collections::Template::Array<uint32_t> DWords = Elysium::Core::Collections::Template::Array<uint32_t>(0);
+	uint32_t HighDWord;
+
+	if (_Bits.GetLength() == 0)
+	{
+		DWords = Elysium::Core::Collections::Template::Array<uint32_t>({ static_cast<uint32_t>(_Sign) });
+		HighDWord = _Sign < 0 ? UINT32_MAX_ : 0;
+	}
+	else if (_Sign == -1)
+	{
+		DWords = _Bits;
+		HighDWord = UINT32_MAX_;
+	}
+	else
+	{
+		DWords = _Bits;
+		HighDWord = 0;
+	}
+
+	// find highest significatn byte
+	int32_t msb;
+	for (msb = DWords.GetLength() - 1; msb > 0; msb--)
+	{
+		if (DWords[msb] != HighDWord)
+		{
+			break;
+		}
+	}
+
+	// ensure high bit is 0 if positive, 1 if negative
+	bool NeedExtraByte = (DWords[msb] & 0x80000000) != (HighDWord & 0x80000000);
+
+	Elysium::Core::Collections::Template::Array<uint32_t> Trimmed = Elysium::Core::Collections::Template::Array<uint32_t>(msb + 1 + (NeedExtraByte ? 1 : 0));
+	Elysium::Core::Collections::Template::Array<uint32_t>::Copy(&DWords[0], &Trimmed[0], msb + 1);
+
+	if (NeedExtraByte)
+	{
+		Trimmed[Trimmed.GetLength() - 1] = HighDWord;
+	}
+
+	return Trimmed;
 }
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysium::Core::Math::Numerics::BigInteger::DangerousMakeTwosComplement(Elysium::Core::Collections::Template::Array<uint32_t> & d)
