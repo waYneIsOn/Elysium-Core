@@ -125,7 +125,7 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Integer Elysium::Core::Security
 	if (Asn1Length.GetLength() == 0)
 	{
 		// ToDo: can this ever occurre? if so, should we just "return Asn1Integer(Asn1Identifier, Math::Numerics::BigInteger(0));"?
-		throw 1;
+		throw NotImplementedException();
 	}
 	else
 	{
