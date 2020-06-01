@@ -28,7 +28,7 @@ namespace Elysium::Core::IO
 		StringWriter(Elysium::Core::Text::StringBuilder& StringBuilder);
 		~StringWriter();
 
-		virtual void Write(const byte* Value, const size_t Index, const size_t Length) override;
+		virtual void Write(const byte* Value, const size_t Length) override;
 		virtual void Write(const String& Value) override;
 	private:
 		Elysium::Core::Text::StringBuilder& _StringBuilder;

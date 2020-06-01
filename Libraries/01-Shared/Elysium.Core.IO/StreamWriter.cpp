@@ -23,7 +23,7 @@ void Elysium::Core::IO::StreamWriter::Flush()
 	_OutputStream.Flush();
 }
 
-void Elysium::Core::IO::StreamWriter::Write(const byte * Value, const size_t Index, const size_t Length)
+void Elysium::Core::IO::StreamWriter::Write(const byte * Value, const size_t Length)
 {
-	_OutputStream.Write(&Value[Index], Length);
+	_OutputStream.Write(&Value[0], Length);
 }

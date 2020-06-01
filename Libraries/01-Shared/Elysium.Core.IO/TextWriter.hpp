@@ -43,10 +43,9 @@ namespace Elysium::Core::IO
 		virtual void Close();
 		virtual void Flush();
 
-		virtual void Write(const bool& Value);
-		virtual void Write(const byte& Value);
-		virtual void Write(const byte* Value, const size_t Count);
-		virtual void Write(const byte* Value, const size_t Index, const size_t Count);
+		virtual void Write(const bool Value);
+		virtual void Write(const byte Value);
+		virtual void Write(const byte* Value, const size_t Count) = 0;
 		virtual void Write(const char16_t Value);
 		virtual void Write(const char16_t* Value, const size_t Count);
 		virtual void Write(const float& Value);
@@ -60,8 +59,8 @@ namespace Elysium::Core::IO
 		virtual void Write(const uint64_t& Value);
 		virtual void Write(const String& Value);
 
-		virtual void WriteLine(const bool& Value);
-		virtual void WriteLine(const byte& Value);
+		virtual void WriteLine(const bool Value);
+		virtual void WriteLine(const byte Value);
 		virtual void WriteLine(const byte* Value, const size_t Count);
 		virtual void WriteLine(const char16_t& Value);
 		virtual void WriteLine(const char16_t* Value, const size_t Count);

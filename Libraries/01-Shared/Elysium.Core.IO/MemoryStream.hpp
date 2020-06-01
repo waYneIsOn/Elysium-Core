@@ -36,6 +36,7 @@ namespace Elysium::Core::IO
 	{
 	public:
 		MemoryStream();
+		MemoryStream(const size_t Capacity);
 		MemoryStream(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length);
 		virtual ~MemoryStream();
 

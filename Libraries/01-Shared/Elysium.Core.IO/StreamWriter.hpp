@@ -33,7 +33,7 @@ namespace Elysium::Core::IO
 		virtual void Close() override;
 		virtual void Flush() override;
 
-		virtual void Write(const byte* Value, const size_t Index, const size_t Length) override;
+		virtual void Write(const byte* Value, const size_t Length) override;
 	private:
 		Stream& _OutputStream;
 	};
