@@ -160,10 +160,15 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core:
 Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
 {
 	Elysium::Core::Collections::Template::Array<byte> OidBytes = Elysium::Core::Collections::Template::Array<byte>(Asn1Length.GetLength());
-	for (int32_t i = 0; i < OidBytes.GetLength(); i++)
-	{
-		OidBytes[i] = InputStream.ReadByte();
-	}
+	InputStream.Read(&OidBytes[0], OidBytes.GetLength());
+
+
+	// - The first two nodes of the OID are encoded onto a single byte. The first node is multiplied by the decimal 40 and
+	//	 the result is added to the value of the second node.
+	// - Node values less than or equal to 127 are encoded on one byte.
+	// - Node values greater than or equal to 128 are encoded on multiple bytes. Bit 7 of the leftmost byte is set to one. 
+	//	 Bits 0 through 6 of each byte contains the encoded value.
+
 
 	const size_t OidLength = OidBytes.GetLength();
 	if (OidLength <= 9)
@@ -198,8 +203,6 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core:
 	{	// slow path
 		throw NotImplementedException();
 	}
-
-	throw NotImplementedException();
 }
 
 Elysium::Core::Security::Cryptography::Asn1::Asn1String Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length)

@@ -102,6 +102,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -235,6 +238,9 @@
       <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.hpp">
+      <Filter>Cryptography\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DEREncoder.hpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
   </ItemGroup>

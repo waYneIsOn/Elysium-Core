@@ -32,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DEREncoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EXERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp" />
@@ -76,6 +77,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EXERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp" />
