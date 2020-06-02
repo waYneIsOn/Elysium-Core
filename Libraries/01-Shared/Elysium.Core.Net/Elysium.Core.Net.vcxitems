@@ -16,27 +16,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertDescription.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DnsEndPoint.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)EncryptionPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IPEndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProtectionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProtocolType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsContentType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketError.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslPolicyErrors.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslProtocols.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertLevel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsPolicyErrors.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsCipherSuite.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsExtensionType.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp" />
@@ -49,6 +52,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SslStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TlsStream.cpp" />
   </ItemGroup>
 </Project>

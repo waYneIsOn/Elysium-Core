@@ -27,7 +27,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp">
       <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SslStream.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)TlsStream.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.cpp">
       <Filter>Security</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,25 +66,34 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslPolicyErrors.hpp">
-      <Filter>Security</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp">
       <Filter>Security</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationLevel.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslStream.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsCipherSuite.hpp">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProtectionLevel.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsExtensionType.hpp">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EncryptionPolicy.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp">
       <Filter>Security</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SslProtocols.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsPolicyErrors.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertLevel.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertDescription.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsContentType.hpp">
       <Filter>Security</Filter>
     </ClInclude>
   </ItemGroup>

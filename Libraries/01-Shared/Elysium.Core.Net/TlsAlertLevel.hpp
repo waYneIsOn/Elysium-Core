@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_SECURITY_PROTECTIONLEVEL
-#define ELYSIUM_CORE_NET_SECURITY_PROTECTIONLEVEL
+#ifndef ELYSIUM_CORE_NET_SECURITY_TLSALERTLEVEL
+#define ELYSIUM_CORE_NET_SECURITY_TLSALERTLEVEL
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,16 +19,15 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Security
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class ProtectionLevel : uint32_t
+	enum class TlsAlertLevel : uint8_t
 #elif defined(__ANDROID__)
-	enum class ProtectionLevel
+	enum class TlsAlertLevel
 #else
 #error "undefined os"
 #endif
 	{
-		None = 0,
-		Sign = 1,
-		EncryptAndSign = 2
+		Warning = 1,
+		Fatal = 2
 	};
 }
 #endif

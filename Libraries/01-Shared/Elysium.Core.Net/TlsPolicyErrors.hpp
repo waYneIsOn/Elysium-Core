@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_SECURITY_SSLPOLICYERRORS
-#define ELYSIUM_CORE_NET_SECURITY_SSLPOLICYERRORS
+#ifndef ELYSIUM_CORE_NET_SECURITY_TLSPOLICYERRORS
+#define ELYSIUM_CORE_NET_SECURITY_TLSPOLICYERRORS
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,9 +19,9 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Security
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SslPolicyErrors : uint32_t
+	enum class TlsPolicyErrors : uint32_t
 #elif defined(__ANDROID__)
-	enum class SslPolicyErrors
+	enum class TlsPolicyErrors
 #else
 #error "undefined os"
 #endif
@@ -32,13 +32,13 @@ namespace Elysium::Core::Net::Security
 		RemoteCertificateChainErrors = 4
 	};
 
-	inline SslPolicyErrors operator|(SslPolicyErrors lhs, SslPolicyErrors rhs)
+	inline TlsPolicyErrors operator|(TlsPolicyErrors Left, TlsPolicyErrors Right)
 	{
-		return static_cast<SslPolicyErrors>(static_cast<int>(lhs) | static_cast<int>(rhs));
+		return static_cast<TlsPolicyErrors>(static_cast<int>(Left) | static_cast<int>(Right));
 	}
-	inline SslPolicyErrors operator&(SslPolicyErrors lhs, SslPolicyErrors rhs)
+	inline TlsPolicyErrors operator&(TlsPolicyErrors Left, TlsPolicyErrors Right)
 	{
-		return static_cast<SslPolicyErrors>(static_cast<int>(lhs) & static_cast<int>(rhs));
+		return static_cast<TlsPolicyErrors>(static_cast<int>(Left) & static_cast<int>(Right));
 	}
 }
 #endif
