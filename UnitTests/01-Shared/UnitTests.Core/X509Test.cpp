@@ -352,10 +352,9 @@ namespace UnitTests::Core::Security::Cryptography
 							Asn1Length ExtensionOidLength = Decoder.DecodeLength(InputStream);
 							if (ExtensionOidIdentifier.GetTagNumber() == static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::EndOfContent))
 							{
-								// ToDo: I might simply have implemented BigInteger in a faulty way
 								break;
 							}
-							InputStream.SetPosition(InputStream.GetPosition() + ExtensionOidLength.GetLength());	// ToDo
+							Asn1ObjectIdentifier ExtensionOid = Decoder.DecodeObjectIdentifier(ExtensionOidIdentifier, ExtensionOidLength, InputStream);
 
 							Asn1Identifier ExtensionCriticalIdentifier = Decoder.DecodeIdentifier(InputStream);
 							Asn1Length ExtensionCriticalLength = Decoder.DecodeLength(InputStream);
