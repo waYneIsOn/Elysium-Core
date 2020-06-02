@@ -28,6 +28,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Tag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CipherAlgorithmType.hpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)JERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LBERDecoder.hpp" />
@@ -77,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Tag.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />
@@ -84,6 +87,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EXERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LBERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp" />

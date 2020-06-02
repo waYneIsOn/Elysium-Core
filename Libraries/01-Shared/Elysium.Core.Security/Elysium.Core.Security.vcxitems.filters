@@ -111,6 +111,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp">
       <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp">
+      <Filter>Authentication</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp">
+      <Filter>Authentication</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
@@ -259,6 +265,12 @@
       <Filter>Authentication</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsProtocols.hpp">
+      <Filter>Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationException.hpp">
+      <Filter>Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp">
       <Filter>Authentication</Filter>
     </ClInclude>
   </ItemGroup>
