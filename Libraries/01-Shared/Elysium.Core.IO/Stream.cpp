@@ -71,6 +71,10 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t Buffer
 		Destination.Write(&Buffer[0], BytesRead);
 	}
 }
+void Elysium::Core::IO::Stream::WriteByte(byte Value)
+{
+	Write(&Value, 1);
+}
 
 Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const byte & Value)
 {

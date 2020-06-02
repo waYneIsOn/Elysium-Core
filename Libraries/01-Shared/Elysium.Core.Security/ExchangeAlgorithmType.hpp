@@ -1,0 +1,38 @@
+/*
+===========================================================================
+
+Copyright (C) 2017 waYne (CAM)
+
+===========================================================================
+*/
+#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_EXCHANGEALGORITHMTYPE
+#define ELYSIUM_CORE_SECURITY_AUTHENTICATION_EXCHANGEALGORITHMTYPE
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
+#endif
+
+namespace Elysium::Core::Security::Authentication
+{
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	enum class ExchangeAlgorithmType : uint16_t
+#elif defined(__ANDROID__)
+	enum class ExchangeAlgorithmType
+#else
+#error "undefined os"
+#endif
+	{
+		None = 0,
+
+		RsaSign = 9216,
+
+		RsaKeyX = 41984,
+
+		DiffieHellman = 43522
+	};
+}
+#endif

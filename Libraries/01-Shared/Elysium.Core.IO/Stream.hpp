@@ -65,6 +65,7 @@ namespace Elysium::Core::IO
 		virtual size_t Read(byte* Buffer, const size_t Count) = 0;
 		virtual int32_t ReadByte() = 0;
 		virtual void Write(const byte* Buffer, const size_t Count) = 0;
+		virtual void WriteByte(byte Value);
 
 		// stream extraction and insertion
 		Elysium::Core::IO::Stream& operator<<(const byte& Value);

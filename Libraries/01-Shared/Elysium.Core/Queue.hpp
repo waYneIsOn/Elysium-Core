@@ -153,7 +153,7 @@ namespace Elysium::Core::Collections::Template
 			{
 				for (size_t i = 0; i < _Capacity; i++)
 				{
-					_Data[i] = T(OldData[_HeadIndex + i]);
+					_Data[i] = OldData[_HeadIndex + i];
 					//_Data[i] = std::move(OldData[_HeadIndex + i]);
 				}
 			}
@@ -161,12 +161,12 @@ namespace Elysium::Core::Collections::Template
 			{
 				for (size_t i = 0; i < _Count - _HeadIndex; i++)
 				{
-					_Data[i] = T(OldData[_HeadIndex + i]);
+					_Data[i] = OldData[_HeadIndex + i];
 					//_Data[i] = std::move(OldData[_HeadIndex + i]);
 				}
 				for (size_t i = 0; i < _TailIndex; i++)
 				{
-					_Data[_Count - _HeadIndex + i] = T(OldData[i]);
+					_Data[_Count - _HeadIndex + i] = OldData[i];
 					//_Data[_Count - _HeadIndex + i] = std::move(OldData[i]);
 				}
 			}

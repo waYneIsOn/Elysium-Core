@@ -103,11 +103,11 @@ namespace Elysium::Core::Collections::Template
 	inline List<T>::List(const std::initializer_list<T> & InitializerList)
 		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
-		size_t i = 0;
-		typename std::initializer_list<T>::iterator Iterator;
-		for (Iterator = InitializerList.begin(); Iterator < InitializerList.end(); ++Iterator)
+		size_t Index = 0;
+		const T* Iterator = InitializerList.begin();
+		for (; Iterator != InitializerList.end(); ++Iterator)
 		{
-			_Data[i++] = T(*Iterator);
+			_Data[Index++] = *Iterator;
 		}
 	}
 	template<class T>
@@ -116,7 +116,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		for (size_t i = 0; i < _Count; i++)
 		{
-			_Data[i] = T(Source._Data[i]);
+			_Data[i] = Source._Data[i];
 		}
 	}
 	template<typename T>

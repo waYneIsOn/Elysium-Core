@@ -20,6 +20,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <type_traits>
 #endif
 
+#ifndef _XUTILITY_
+#include <xutility>
+#endif
+
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
@@ -49,6 +53,8 @@ namespace Elysium::Core::Collections::Template
 		static void Copy(const T* Source, T* Destination, const size_t Length);
 
 		static void Move(const T* Source, T* Destination, const size_t Length);
+
+		static void Reverse(Array<T>& Array);
 	private:
 		size_t _Length;
 		T* _Data;
@@ -62,6 +68,12 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(std::initializer_list<T> InitializerList)
 		: _Length(InitializerList.size()), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
+		size_t Index = 0;
+		const T* Iterator = InitializerList.begin();
+		for (; Iterator != InitializerList.end(); ++Iterator)
+		{
+			_Data[Index++] = *Iterator;
+		}
 	}
 	template<class T>
 	inline Array<T>::Array(const Array<T>& Source)
@@ -69,7 +81,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		for (size_t i = 0; i < _Length; i++)
 		{
-			_Data[i] = T(Source._Data[i]);
+			_Data[i] = Source._Data[i];
 		}
 	}
 	template<class T>
@@ -97,7 +109,7 @@ namespace Elysium::Core::Collections::Template
 			_Data = _Length == 0 ? nullptr : new T[_Length];
 			for (size_t i = 0; i < _Length; i++)
 			{
-				_Data[i] = T(Source._Data[i]);
+				_Data[i] = Source._Data[i];
 			}
 		}
 		return *this;
@@ -142,7 +154,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		for (size_t i = 0; i < Length; i++)
 		{
-			Destination[i] = T(Source[i]);
+			Destination[i] = Source[i];
 		}
 	}
 	template<class T>
@@ -152,6 +164,12 @@ namespace Elysium::Core::Collections::Template
 		{
 			Destination[i] = std::move(Source[i]);
 		}
+	}
+
+	template<class T>
+	inline void Array<T>::Reverse(Array<T>& Array)
+	{
+		std::reverse(Array._Data, &Array._Data[Array.GetLength()]);
 	}
 }
 #endif

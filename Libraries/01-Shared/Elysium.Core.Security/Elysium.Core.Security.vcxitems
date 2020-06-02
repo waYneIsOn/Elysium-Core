@@ -30,11 +30,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CipherAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DEREncoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExchangeAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EXERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h" />
@@ -50,6 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsProtocols.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp" />

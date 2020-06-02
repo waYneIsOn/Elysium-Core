@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
@@ -76,6 +77,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />

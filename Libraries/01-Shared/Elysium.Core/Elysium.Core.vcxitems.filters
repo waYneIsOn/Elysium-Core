@@ -110,6 +110,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -152,5 +153,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
   </ItemGroup>
 </Project>

@@ -31,8 +31,8 @@ namespace Elysium::Core::Security::Cryptography
 
 		virtual void Initialize() override;
 	private:
-		static const Elysium::Core::Collections::Template::Array<const uint32_t> _S;
-		static const Elysium::Core::Collections::Template::Array<const uint32_t> _K;
+		static const Elysium::Core::Collections::Template::Array<uint32_t> _S;
+		static const Elysium::Core::Collections::Template::Array<uint32_t> _K;
 
 		virtual void HashCore(Elysium::Core::byte* Array, const size_t Length) override;
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() override;
