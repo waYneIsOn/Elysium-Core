@@ -33,13 +33,21 @@ namespace Elysium::Core
 
 		static const bool GetIsLittleEndian();
 
-		static const Collections::Template::Array<byte> GetBytes(int16_t Value);
-		static const Collections::Template::Array<byte> GetBytes(int32_t Value);
-		static const Collections::Template::Array<byte> GetBytes(int64_t Value);
-		static const Collections::Template::Array<byte> GetBytes(uint16_t Value);
-		static const Collections::Template::Array<byte> GetBytes(uint32_t Value);
+		static const Collections::Template::Array<byte> GetBytes(const int16_t Value);
+		static const Collections::Template::Array<byte> GetBytes(const int32_t Value);
+		static const Collections::Template::Array<byte> GetBytes(const int64_t Value);
+		static const Collections::Template::Array<byte> GetBytes(const uint16_t Value);
+		static const Collections::Template::Array<byte> GetBytes(const uint32_t Value);
+		static const Collections::Template::Array<byte> GetBytes(const uint64_t Value);
 
-		static const uint16_t ToUint16(byte* Value);
+		static const int16_t ToInt16(const byte* Value);
+		static const int32_t ToInt24(const byte* Value);	// ToDo: return custom uint24_t-type?
+		static const int32_t ToInt32(const byte* Value);
+		static const int64_t ToInt64(const byte* Value);
+		static const uint16_t ToUint16(const byte* Value);
+		static const uint32_t ToUint24(const byte* Value);	// ToDo: return custom uint24_t-type?
+		static const uint32_t ToUint32(const byte* Value);
+		static const uint64_t ToUint64(const byte* Value);
 	private:
 		BitConverter();
 	};

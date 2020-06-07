@@ -37,6 +37,7 @@ namespace Elysium::Core::Collections::Template
 	{
 	public:
 		Array(const size_t Length);
+		Array(const T* Begin, const size_t Length);
 		Array(std::initializer_list<T> InitializerList);
 		Array(const Array<T>& Source);
 		Array(Array<T>&& Right);
@@ -64,6 +65,15 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(const size_t Length)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{ }
+	template<class T>
+	inline Array<T>::Array(const T * Begin, const size_t Length)
+		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
+	{
+		for (size_t i = 0; i < _Length; i++)
+		{
+			_Data[i] = Begin[i];
+		}
+	}
 	template<class T>
 	inline Array<T>::Array(std::initializer_list<T> InitializerList)
 		: _Length(InitializerList.size()), _Data(_Length == 0 ? nullptr : new T[_Length])

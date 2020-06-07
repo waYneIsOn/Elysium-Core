@@ -17,6 +17,12 @@ Elysium::Core::IO::MemoryStream::MemoryStream(const size_t Capacity)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(Collections::Template::List<byte>(Capacity))
 { }
+Elysium::Core::IO::MemoryStream::MemoryStream(const byte* Data, size_t Length)
+	: Elysium::Core::IO::Stream(),
+	_Buffer(Collections::Template::List<byte>(Length))
+{
+	std::memcpy(&_Buffer[0], &Data[0], Length);
+}
 Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(Collections::Template::List<byte>(Length))

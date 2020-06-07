@@ -12,8 +12,20 @@
 #include "../Elysium.Core.IO/FileStream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_DERDECODER
+#include "DERDecoder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
+#include "../Elysium.Core.IO/MemoryStream.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #include "CryptographicException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
+#include "../Elysium.Core.IO/InvalidDataException.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext)
@@ -110,6 +122,24 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String & Password, const X509KeyStorageFlags Flags)
 {
+	return LoadFromBlob(&RawData[0], RawData.GetLength(), Password, Flags);
+}
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const String & Password, const X509KeyStorageFlags Flags)
+{
+	Asn1::DERDecoder Decoder = Asn1::DERDecoder();
+	IO::MemoryStream InputStream = IO::MemoryStream(RawData, DataLength);
+
+	Asn1::Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
+	if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1::Asn1UniversalTag::Sequence))
+	{
+		throw IO::InvalidDataException(u"CertificateSequence");
+	}
+	Asn1::Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
+
+
+
+
+
 	unsigned long BufferLength = 0;
 	if (!CryptStringToBinaryA((const char*)&RawData[0], 0, CRYPT_STRING_BASE64HEADER, NULL, &BufferLength, NULL, NULL))
 	{
@@ -118,7 +148,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 		size_t size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			NULL, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessageBuffer, 0, NULL);
 		LocalFree(ErrorMessageBuffer);
-		
+
 		// ToDo: message
 		throw CryptographicException();
 	}
@@ -136,7 +166,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 		throw CryptographicException();
 	}
 
-	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer = 
+	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer =
 		CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, &Buffer[0], BufferLength);
 	if (CertificateContextPointer == nullptr)
 	{
@@ -153,6 +183,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 
 	return X509Certificate(CertificateContextPointer);
 }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const String & FileName, const String & Password, const X509KeyStorageFlags Flags)
 {
 	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
