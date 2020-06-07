@@ -12,20 +12,8 @@
 #include "../Elysium.Core.IO/FileStream.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_DERDECODER
-#include "DERDecoder.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
-#include "../Elysium.Core.IO/MemoryStream.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #include "CryptographicException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
-#include "../Elysium.Core.IO/InvalidDataException.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext)
@@ -126,20 +114,20 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const String & Password, const X509KeyStorageFlags Flags)
 {
-	Asn1::DERDecoder Decoder = Asn1::DERDecoder();
-	IO::MemoryStream InputStream = IO::MemoryStream(RawData, DataLength);
-
-	Asn1::Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
-	if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1::Asn1UniversalTag::Sequence))
+	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, RawData, DataLength);
+	if (CertificateContextPointer == nullptr)
 	{
-		throw IO::InvalidDataException(u"CertificateSequence");
+		throw CryptographicException();
 	}
-	Asn1::Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
+	return X509Certificate(CertificateContextPointer);
+}
 
-
-
-
-
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const String & FileName, const String & Password, const X509KeyStorageFlags Flags)
+{
+	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
+	Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(SourceStream.GetLength());
+	SourceStream.Read(&RawData[0], SourceStream.GetLength());
+	
 	unsigned long BufferLength = 0;
 	if (!CryptStringToBinaryA((const char*)&RawData[0], 0, CRYPT_STRING_BASE64HEADER, NULL, &BufferLength, NULL, NULL))
 	{
@@ -166,40 +154,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 		throw CryptographicException();
 	}
 
-	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer =
-		CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, &Buffer[0], BufferLength);
-	if (CertificateContextPointer == nullptr)
-	{
-		/*
-		char* ErrorMessage = nullptr;
-		unsigned long ErrorMessageLength = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessage, 0, NULL);
-		String ExceptionMessage = Elysium::Core::Text::Encoding::UTF8().GetString((byte*)ErrorMessage, ErrorMessageLength);
-		LocalFree(ErrorMessage);
-		*/
-		// ToDo: message
-		throw CryptographicException();
-	}
-
-	return X509Certificate(CertificateContextPointer);
-}
-
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const String & FileName, const String & Password, const X509KeyStorageFlags Flags)
-{
-	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
-
-	size_t BytesRead = 0;
-	size_t TotalBytesRead = 0;
-	byte Buffer[65536];	// https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-2000-server/cc938632(v=technet.10)?redirectedfrom=MSDN
-	Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(SourceStream.GetLength());
-	do
-	{
-		BytesRead = SourceStream.Read(&Buffer[0], 65536);
-		Collections::Template::Array<byte>::Copy(&Buffer[0], &RawData[TotalBytesRead], BytesRead);
-		TotalBytesRead += BytesRead;
-	} while (BytesRead > 0);
-
-	return LoadFromBlob(RawData, Password, Flags);
+	return LoadFromBlob(Buffer, Password, Flags);
 }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
