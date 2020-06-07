@@ -28,6 +28,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_TLSPROTOCOLS
+#include "../../../Libraries/01-Shared/Elysium.Core.Security/TlsProtocols.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
 #endif
@@ -36,6 +40,7 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net::Security;
 using namespace Elysium::Core::Net::Sockets;
+using namespace Elysium::Core::Security::Authentication;
 using namespace Elysium::Core::Security::Cryptography::Asn1;
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -70,7 +75,8 @@ namespace UnitTests::Core::Net::Security
 					TlsCipherSuite::TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,
 					TlsCipherSuite::TLS_RSA_WITH_3DES_EDE_CBC_SHA
 				}),
-				&RemoteCertificateValidationCallback::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(), nullptr));
+				&RemoteCertificateValidationCallback::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(), 
+				&LocalCertificateSelectionCallback::CreateDelegate<&SslStreamTests::SelectLocalCertificate>()));
 			/*
 			TlsStream Stream = TlsStream(InnerStream, false,
 				TlsClientAuthenticationOptions(true, Array<TlsCipherSuite>({
@@ -82,7 +88,7 @@ namespace UnitTests::Core::Net::Security
 			*/
 			try
 			{
-				Stream.AuthenticateAsClient(String(u"3.232.168.170"));
+				Stream.AuthenticateAsClient(String(u"3.232.168.170"), nullptr, TlsProtocols::Tls12);
 			}
 			/*
 			catch (const AuthenticationException& ex)
@@ -108,6 +114,17 @@ namespace UnitTests::Core::Net::Security
 			}
 
 			return false;
+		}
+
+		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Collections::Template::Array<String>& AcceptableIssuers)
+		{
+			// https://docs.microsoft.com/en-us/dotnet/api/system.net.security.localcertificateselectioncallback?view=netcore-3.1
+			if (LocalCertificates.GetCount() > 0 && AcceptableIssuers.GetLength() > 0)
+			{
+
+			}
+
+			return LocalCertificates[0];
 		}
 	};
 }

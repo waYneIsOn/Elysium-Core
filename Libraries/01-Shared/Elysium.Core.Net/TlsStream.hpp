@@ -68,13 +68,17 @@ namespace Elysium::Core::Net::Security
 		virtual int32_t ReadByte() override;
 		virtual void Write(const byte* Buffer, const size_t Count) override;
 
-		void AuthenticateAsClient(const String& TargetHost, const Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
-		void AuthenticateAsServer(const Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
+		void AuthenticateAsClient(const String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
+		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 
 		void WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols);
 		void ReadServerHello();
+		void ReadServerCertificates();
+		void ReadCertificate(const byte* Begin, const uint32_t BytesToRead);
+		void ReadServerKeyExchange();
+		void ReadServerHelloDone();
 	};
 }
 #endif

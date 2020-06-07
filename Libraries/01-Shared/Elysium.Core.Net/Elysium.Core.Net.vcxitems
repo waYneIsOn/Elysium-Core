@@ -35,6 +35,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertLevel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsHandshakeMessageType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsPolicyErrors.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp" />

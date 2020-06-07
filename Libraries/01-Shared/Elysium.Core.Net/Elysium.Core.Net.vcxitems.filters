@@ -96,5 +96,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsContentType.hpp">
       <Filter>Security</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsHandshakeMessageType.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

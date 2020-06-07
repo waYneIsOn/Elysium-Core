@@ -39,7 +39,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Security
 {
 #define RemoteCertificateValidationCallback Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>
-#define LocalCertificateSelectionCallback Delegate<void, const void*, const String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Collections::Template::Array<String>&>
+#define LocalCertificateSelectionCallback Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Collections::Template::Array<String>&>
 
 	class ELYSIUM_CORE_NET_API TlsClientAuthenticationOptions sealed
 	{
