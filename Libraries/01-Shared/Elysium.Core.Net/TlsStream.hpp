@@ -76,7 +76,6 @@ namespace Elysium::Core::Net::Security
 		void WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols);
 		void ReadServerHello();
 		void ReadServerCertificates();
-		void ReadCertificate(const byte* Begin, const uint32_t BytesToRead);
 		void ReadServerKeyExchange();
 		void ReadServerHelloDone();
 	};

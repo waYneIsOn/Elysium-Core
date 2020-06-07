@@ -55,7 +55,7 @@ namespace UnitTests::Core::Net::Security
 			Socket TcpSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			TcpSocket.Connect(String(u"52.6.191.28"), 443);	// https://ulfheim.net/
 			NetworkStream InnerStream = NetworkStream(TcpSocket);
-
+			
 			TlsStream Stream = TlsStream(InnerStream, false, TlsClientAuthenticationOptions(true,
 				Array<TlsCipherSuite>({
 					TlsCipherSuite::TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
@@ -74,18 +74,9 @@ namespace UnitTests::Core::Net::Security
 					TlsCipherSuite::TLS_RSA_WITH_AES_256_CBC_SHA,
 					TlsCipherSuite::TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,
 					TlsCipherSuite::TLS_RSA_WITH_3DES_EDE_CBC_SHA
-				}),
-				&RemoteCertificateValidationCallback::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(), 
-				&LocalCertificateSelectionCallback::CreateDelegate<&SslStreamTests::SelectLocalCertificate>()));
-			/*
-			TlsStream Stream = TlsStream(InnerStream, false,
-				TlsClientAuthenticationOptions(true, Array<TlsCipherSuite>({
-					TlsCipherSuite::TLS_AES_128_GCM_SHA256,
-					TlsCipherSuite::TLS_AES_256_GCM_SHA384,
-					TlsCipherSuite::TLS_CHACHA20_POLY1305_SHA256
-				}),
-				&RemoteCertificateValidationCallback::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(), nullptr));
-			*/
+					}),
+				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(),
+				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&SslStreamTests::SelectLocalCertificate>()));
 			try
 			{
 				Stream.AuthenticateAsClient(String(u"3.232.168.170"), nullptr, TlsProtocols::Tls12);

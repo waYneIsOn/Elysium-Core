@@ -276,13 +276,36 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerCertificates()
 		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
 		const uint32_t CertificatesLength = BitConverter::ToUint24(&ContentBuffer[4]);
 
+		Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection ServerCertificates = Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection();
 		size_t CertificateBytesRead = 0;
 		do
 		{
 			const uint32_t CertificateLength = BitConverter::ToUint24(&ContentBuffer[CertificateBytesRead + 7]);
-			ReadCertificate(&ContentBuffer[CertificateBytesRead + 10], CertificateLength);
+			ServerCertificates.Add(std::move(Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(&ContentBuffer[CertificateBytesRead + 10], CertificateLength)));
 			CertificateBytesRead += CertificateLength + 3;
 		} while (CertificateBytesRead < CertificatesLength);
+
+
+
+		/*
+		const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate* ServerCertificate;
+		const size_t NumberOfServerCertificates = ServerCertificates.GetCount();
+		switch (NumberOfServerCertificates)
+		{
+		case 0:
+			throw 1;
+		case 1:
+			ServerCertificate = &ServerCertificates[0];
+			break;
+		default:
+			const Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>& SelectionCallback = _AuthenticationOptions.GetUserCertificateSelectionCallback();
+			ServerCertificate = &SelectionCallback(nullptr, Elysium::Core::String(u""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::String>(0));
+			break;
+		}
+		const bool IsCertificateValidDespiteErrors = _AuthenticationOptions.GetUserCertificateValidationCallback()(nullptr, *ServerCertificate, Elysium::Core::Security::Cryptography::X509Certificates::X509Chain(), TlsPolicyErrors::None);
+		*/
+
+
 
 		if (CertificateBytesRead != CertificatesLength)
 		{
@@ -293,10 +316,6 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerCertificates()
 	{
 		throw 1;
 	}
-}
-void Elysium::Core::Net::Security::TlsStream::ReadCertificate(const byte * Begin, const uint32_t BytesToRead)
-{
-	Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate cert = Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(Begin, BytesToRead);
 }
 void Elysium::Core::Net::Security::TlsStream::ReadServerKeyExchange()
 {
