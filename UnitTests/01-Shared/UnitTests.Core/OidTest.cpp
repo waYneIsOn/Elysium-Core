@@ -18,13 +18,13 @@ namespace UnitTests::Core::Security::Cryptography
 	public:
 		TEST_METHOD(StaticConstruction)
 		{
-			Oid OidFromFriendlyName = Oid::FromFriendlyName(L"sha1", OidGroup::All);
-			Assert::AreEqual(L"sha1", OidFromFriendlyName.GetFriendlyName().GetCharArray());
-			Assert::AreEqual("1.3.14.3.2.26", &OidFromFriendlyName.GetValue()[0]);
+			Oid OidFromFriendlyName = Oid::FromFriendlyName(u"sha1", OidGroup::All);
+			AssertExtended::AreEqual(u"sha1", OidFromFriendlyName.GetFriendlyName().GetCharArray());
+			AssertExtended::AreEqual(u"1.3.14.3.2.26", &OidFromFriendlyName.GetValue()[0]);
 
-			Oid OidFromOidValue = Oid::FromOidValue("1.2.840.113549.1.1.1", OidGroup::All);
-			Assert::AreEqual(L"RSA", OidFromOidValue.GetFriendlyName().GetCharArray());
-			Assert::AreEqual("1.2.840.113549.1.1.1", &OidFromOidValue.GetValue()[0]);
+			Oid OidFromOidValue = Oid::FromOidValue(u"1.2.840.113549.1.1.1", OidGroup::All);
+			AssertExtended::AreEqual(u"RSA", OidFromOidValue.GetFriendlyName().GetCharArray());
+			AssertExtended::AreEqual(u"1.2.840.113549.1.1.1", &OidFromOidValue.GetValue()[0]);
 		}
 	};
 }

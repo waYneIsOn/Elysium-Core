@@ -60,7 +60,6 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const Collections::Template::Array<byte> GetRawCertData() const;
 
-
 		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const String& Password = u"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		

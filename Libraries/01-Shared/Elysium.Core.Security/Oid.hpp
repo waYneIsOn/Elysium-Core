@@ -37,14 +37,14 @@ namespace Elysium::Core::Security::Cryptography
 		Oid(Oid&& Right) noexcept = delete;
 		~Oid();
 
-		static Oid FromFriendlyName(const WideString& FriendlyName, const OidGroup Group);
-		static Oid FromOidValue(const CharString& OidValue, const OidGroup Group);
+		static Oid FromFriendlyName(const Elysium::Core::String& FriendlyName, const OidGroup Group);
+		static Oid FromOidValue(const Elysium::Core::String& OidValue, const OidGroup Group);
 
 		Oid& operator=(const Oid& Source) = delete;
 		Oid& operator=(Oid&& Right) noexcept = delete;
 
-		const WideString GetFriendlyName() const;
-		const CharString GetValue() const;
+		const Elysium::Core::String GetFriendlyName() const;
+		const Elysium::Core::String GetValue() const;
 	private:
 		Oid(const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER NativeOid);
 

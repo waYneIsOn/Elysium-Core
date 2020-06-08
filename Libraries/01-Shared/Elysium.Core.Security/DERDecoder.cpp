@@ -8,8 +8,20 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONVERT
+#include "../Elysium.Core/Convert.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_ENDOFSTREAMEXCEPTION
 #include "../Elysium.Core.IO/EndOfStreamException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
+#include "../Elysium.Core.IO/InvalidDataException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
@@ -33,7 +45,7 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier Elysium::Core::Secur
 Elysium::Core::Security::Cryptography::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeIdentifier(IO::Stream & InputStream)
 {
 	int32_t EncodedLength = 0;
-	int32_t CurrentByteValue = InputStream.ReadByte();
+	byte CurrentByteValue = InputStream.ReadByte();
 	if (CurrentByteValue < 0)
 	{
 		throw IO::EndOfStreamException();
@@ -65,7 +77,7 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1Length Elysium::Core::Security:
 	int32_t EncodedLength = 0;
 	int32_t Length = 0;
 
-	int32_t CurrentByteValue = InputStream.ReadByte();
+	byte CurrentByteValue = InputStream.ReadByte();
 	EncodedLength++;
 	if (CurrentByteValue < 0)
 	{
@@ -183,50 +195,58 @@ Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core:
 }
 Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
 {
-	Elysium::Core::Collections::Template::Array<byte> OidBytes = Elysium::Core::Collections::Template::Array<byte>(Asn1Length.GetLength());
-	InputStream.Read(&OidBytes[0], OidBytes.GetLength());
-
-
-	// - The first two nodes of the OID are encoded onto a single byte. The first node is multiplied by the decimal 40 and
-	//	 the result is added to the value of the second node.
-	// - Node values less than or equal to 127 are encoded on one byte.
-	// - Node values greater than or equal to 128 are encoded on multiple bytes. Bit 7 of the leftmost byte is set to one. 
-	//	 Bits 0 through 6 of each byte contains the encoded value.
-
-
-	const size_t OidLength = OidBytes.GetLength();
-	if (OidLength <= 9)
-	{	// fast path
-		int64_t AccumulatedValue = 0;
-		for (int32_t i = 0; i < OidLength; i++)
-		{
-			byte CurrentByte = OidBytes[i];
-			AccumulatedValue <<= 7;
-			AccumulatedValue |= static_cast<byte>(CurrentByte & 0x7F);
-		}
-
-		byte FirstArc;
-		if (AccumulatedValue < 40)
-		{
-			FirstArc = 0;
-		}
-		else if (AccumulatedValue < 80)
-		{
-			FirstArc = 1;
-			AccumulatedValue -= 40;
-		}
-		else
-		{
-			FirstArc = 1;
-			AccumulatedValue -= 80;
-		}
-
-		throw NotImplementedException();
+	const size_t OidLength = Asn1Length.GetLength();
+	if (OidLength < 2)
+	{	// two bytes equals three nodes
+		throw IO::InvalidDataException(u"An Oid must contain at least three nodes.");
 	}
-	else
-	{	// slow path
-		throw NotImplementedException();
+
+	Text::StringBuilder OidBuilder = Text::StringBuilder(OidLength + 1 + OidLength);	// start with one char16_t for each node and one for each dot in between
+
+	// The first two nodes of the OID are encoded onto a single byte. The first node is multiplied by the decimal 40 and
+	// the result is added to the value of the second node.
+	byte FirstByte = InputStream.ReadByte();
+	uint32_t FirstNode = FirstByte / 40;
+	if (FirstNode > 2)
+	{
+		throw IO::InvalidDataException(u"The first node of an Oid cannot be bigger than two.");
 	}
+	uint32_t SecondNode = FirstByte % 40;
+	if (SecondNode > 39)
+	{
+		throw IO::InvalidDataException(u"The second node of an Oid cannot be bigger than 39.");
+	}
+
+	OidBuilder.Append(Convert::ToString(FirstNode, 10));
+	OidBuilder.Append(u'.');
+	OidBuilder.Append(Convert::ToString(SecondNode, 10));
+
+	for (int32_t i = 1; i < OidLength; i++)
+	{
+		byte CurrentByte = InputStream.ReadByte();
+		uint64_t Value = 0;
+		bool IsMultipleByteEncoded;
+		do 
+		{
+			// Node values less than or equal to 127 are encoded on one byte.
+			Value <<= 7;
+			Value += (uint64_t)(CurrentByte & 0x7F);
+
+			// Node values greater than or equal to 128 are encoded on multiple bytes. Bit 7 of the leftmost byte is set to one.
+			// Bits 0 through 6 of each byte contains the encoded value.
+			IsMultipleByteEncoded = (CurrentByte & 0x80) > 0;
+			if (IsMultipleByteEncoded)
+			{
+				CurrentByte = InputStream.ReadByte();
+				i++;
+			}
+		} while (IsMultipleByteEncoded);
+
+		OidBuilder.Append(u'.');
+		OidBuilder.Append(Convert::ToString(Value, 10));
+	}
+
+	return Elysium::Core::Security::Cryptography::Asn1::Asn1ObjectIdentifier(Asn1Identifier, Elysium::Core::Security::Cryptography::Oid::FromOidValue(OidBuilder.ToString(), Elysium::Core::Security::Cryptography::OidGroup::All));
 }
 
 Elysium::Core::Security::Cryptography::Asn1::Asn1String Elysium::Core::Security::Cryptography::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)

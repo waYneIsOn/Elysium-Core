@@ -457,7 +457,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 					Asn1Identifier ParameterOidIdentifier = Decoder.DecodeIdentifier(InputStream);
 					Asn1Length ParameterOidLength = Decoder.DecodeLength(InputStream);
-					InputStream.SetPosition(InputStream.GetPosition() + ParameterOidLength.GetLength());	// ToDo
+					Asn1ObjectIdentifier ParameterOid = Decoder.DecodeObjectIdentifier(ParameterOidIdentifier, ParameterOidLength, InputStream);
 
 					Asn1Identifier ParameterNameIdentifier = Decoder.DecodeIdentifier(InputStream);
 					Asn1Length ParameterNameLength = Decoder.DecodeLength(InputStream);
