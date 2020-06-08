@@ -57,7 +57,7 @@ namespace Elysium::Core::Net::Sockets
 		virtual void Flush() override;
 		virtual void Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin) override;
 		virtual size_t Read(byte* Buffer, const size_t Count) override;
-		virtual int32_t ReadByte() override;
+		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const byte* Buffer, const size_t Count) override;
 	private:
 		// fields

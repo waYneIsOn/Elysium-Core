@@ -192,7 +192,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 	while not last block
 	*/
 }
-int32_t Elysium::Core::IO::Compression::DeflateStream::ReadByte()
+Elysium::Core::byte Elysium::Core::IO::Compression::DeflateStream::ReadByte()
 {
 	throw NotImplementedException();
 }

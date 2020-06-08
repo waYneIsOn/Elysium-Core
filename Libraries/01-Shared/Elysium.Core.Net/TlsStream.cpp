@@ -95,7 +95,7 @@ size_t Elysium::Core::Net::Security::TlsStream::Read(byte * Buffer, const size_t
 {
 	return _InnerStream.Read(Buffer, Count);
 }
-Elysium::Core::int32_t Elysium::Core::Net::Security::TlsStream::ReadByte()
+Elysium::Core::byte Elysium::Core::Net::Security::TlsStream::ReadByte()
 {
 	return _InnerStream.ReadByte();
 }
@@ -299,10 +299,11 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerCertificates()
 			break;
 		default:
 			const Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>& SelectionCallback = _AuthenticationOptions.GetUserCertificateSelectionCallback();
-			ServerCertificate = &SelectionCallback(nullptr, Elysium::Core::String(u""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::String>(0));
+			ServerCertificate = &SelectionCallback(this, Elysium::Core::String(u""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::String>(0));
 			break;
 		}
-		const bool IsCertificateValidDespiteErrors = _AuthenticationOptions.GetUserCertificateValidationCallback()(nullptr, *ServerCertificate, Elysium::Core::Security::Cryptography::X509Certificates::X509Chain(), TlsPolicyErrors::None);
+
+		const bool IsCertificateValidDespiteErrors = _AuthenticationOptions.GetUserCertificateValidationCallback()(this, *ServerCertificate, Elysium::Core::Security::Cryptography::X509Certificates::X509Chain(), TlsPolicyErrors::None);
 		*/
 
 

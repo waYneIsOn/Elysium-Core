@@ -149,7 +149,7 @@ size_t Elysium::Core::IO::MemoryStream::Read(byte * Buffer, const size_t Count)
 
 	return BytesToRead;
 }
-int32_t Elysium::Core::IO::MemoryStream::ReadByte()
+Elysium::Core::byte Elysium::Core::IO::MemoryStream::ReadByte()
 {
 	if (_CurrentPosition >= _Buffer.GetCount())
 	{

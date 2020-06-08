@@ -61,7 +61,7 @@ namespace Elysium::Core::IO::Compression
 		virtual void Flush() override;
 		virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
 		virtual size_t Read(byte* Buffer, const size_t Count) override;
-		virtual int32_t ReadByte() override;
+		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const byte* Buffer, const size_t Count) override;
 	private:
 		Stream& _BaseStream;

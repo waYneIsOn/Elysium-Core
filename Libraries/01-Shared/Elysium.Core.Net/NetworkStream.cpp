@@ -94,7 +94,7 @@ size_t Elysium::Core::Net::Sockets::NetworkStream::Read(byte * Buffer, const siz
 {
 	return _Socket.Receive(&Buffer[0], Count);
 }
-Elysium::Core::int32_t Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
+Elysium::Core::byte Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
 {
 	byte Buffer;
 	size_t BytesRead = _Socket.Receive(&Buffer, 1);

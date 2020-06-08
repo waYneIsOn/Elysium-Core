@@ -138,7 +138,7 @@ size_t Elysium::Core::IO::FileStream::Read(byte * Buffer, const size_t Count)
 
 	return (size_t)BytesRead;
 }
-int32_t Elysium::Core::IO::FileStream::ReadByte()
+Elysium::Core::byte Elysium::Core::IO::FileStream::ReadByte()
 {
 	byte Buffer;
 	char* CastBuffer = (char*)&Buffer;
