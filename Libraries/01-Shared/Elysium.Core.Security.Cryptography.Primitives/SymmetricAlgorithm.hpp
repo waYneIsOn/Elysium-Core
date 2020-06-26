@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASYMMETRICALGORITHM
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASYMMETRICALGORITHM
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICALGORITHM
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICALGORITHM
 
 #ifdef _MSC_VER
 #pragma once
@@ -34,24 +34,22 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_SECURITY_API AsymmetricAlgorithm
+	class ELYSIUM_CORE_SECURITY_API SymmetricAlgorithm
 	{
 	public:
-		AsymmetricAlgorithm(const AsymmetricAlgorithm& Source) = delete;
-		AsymmetricAlgorithm(AsymmetricAlgorithm&& Right) noexcept = delete;
-		~AsymmetricAlgorithm();
+		SymmetricAlgorithm(const SymmetricAlgorithm& Source) = delete;
+		SymmetricAlgorithm(SymmetricAlgorithm&& Right) noexcept = delete;
+		~SymmetricAlgorithm();
 
-		AsymmetricAlgorithm& operator=(const AsymmetricAlgorithm& Source) = delete;
-		AsymmetricAlgorithm& operator=(AsymmetricAlgorithm&& Right) noexcept = delete;
+		SymmetricAlgorithm& operator=(const SymmetricAlgorithm& Source) = delete;
+		SymmetricAlgorithm& operator=(SymmetricAlgorithm&& Right) noexcept = delete;
 
 		const virtual Elysium::Core::String GetKeyExchangeAlgorithm() const = 0;
 		const virtual Elysium::Core::uint32_t GetKeySize() const;
 		const virtual Collections::Template::Array<KeySizes>& GetLegalKeySizes() const;
-		const virtual Elysium::Core::String GetSignatureAlgorithm () const = 0;
-
-		//void Clear();
+		const virtual Elysium::Core::String GetSignatureAlgorithm() const = 0;
 	protected:
-		AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue);
+		SymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue);
 
 		Elysium::Core::uint32_t _KeySizeValue;
 		Collections::Template::Array<KeySizes> _LegalKeySizesValue;

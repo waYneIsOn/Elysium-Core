@@ -18,10 +18,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AsymmetricAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeySizes.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SymmetricAlgorithm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AsymmetricAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeySizes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SymmetricAlgorithm.hpp" />
   </ItemGroup>
 </Project>

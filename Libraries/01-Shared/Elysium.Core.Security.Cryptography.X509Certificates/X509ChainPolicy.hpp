@@ -17,7 +17,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OIDCOLLECTION
-#include "../Elysium.Core.Security/OidCollection.hpp"
+#include "../Elysium.Core.Security.Cryptography.Encoding/OidCollection.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATECOLLECTION

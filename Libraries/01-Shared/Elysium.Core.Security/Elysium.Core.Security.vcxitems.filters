@@ -18,33 +18,15 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp">
       <Filter>Cryptography</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp">
-      <Filter>Cryptography</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp">
-      <Filter>Cryptography</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp">
       <Filter>Authentication</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp">
       <Filter>Authentication</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.cpp">
-      <Filter>Cryptography</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp">
-      <Filter>Cryptography</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp">
-      <Filter>Cryptography</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp">
-      <Filter>Cryptography</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp">
       <Filter>Cryptography</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp">
@@ -71,9 +53,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp">
       <Filter>Authentication</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.hpp">
-      <Filter>Cryptography</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

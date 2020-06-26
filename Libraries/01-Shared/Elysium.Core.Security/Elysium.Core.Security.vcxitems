@@ -23,10 +23,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsProtocols.hpp" />
   </ItemGroup>
@@ -34,8 +30,5 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.cpp" />
   </ItemGroup>
 </Project>

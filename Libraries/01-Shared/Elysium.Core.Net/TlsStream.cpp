@@ -5,7 +5,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_RANDOMNUMBERGENERATOR
-#include "../Elysium.Core.Security/RandomNumberGenerator.hpp"
+#include "../Elysium.Core.Security.Cryptography.Algorithms/RandomNumberGenerator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCONTENTTYPE

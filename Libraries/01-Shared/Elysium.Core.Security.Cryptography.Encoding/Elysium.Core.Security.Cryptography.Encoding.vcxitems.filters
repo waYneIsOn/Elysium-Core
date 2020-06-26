@@ -66,6 +66,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)XERDecoder.cpp">
       <Filter>Asn1</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp">
@@ -140,5 +142,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp">
       <Filter>Asn1</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp" />
   </ItemGroup>
 </Project>

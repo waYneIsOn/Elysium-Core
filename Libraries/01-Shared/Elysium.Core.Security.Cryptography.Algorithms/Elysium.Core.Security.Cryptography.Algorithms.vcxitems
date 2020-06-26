@@ -17,9 +17,11 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)MD4.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)MD4.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.hpp" />
   </ItemGroup>
 </Project>

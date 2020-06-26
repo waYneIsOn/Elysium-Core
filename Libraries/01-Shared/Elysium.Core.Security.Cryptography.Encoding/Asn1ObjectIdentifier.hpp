@@ -21,7 +21,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
-#include "../Elysium.Core.Security/Oid.hpp"
+#include "Oid.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
