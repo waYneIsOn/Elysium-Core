@@ -4,7 +4,7 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
     <ItemsProjectGuid>{96932fcb-7d28-4130-90f2-9cc5216c7540}</ItemsProjectGuid>
-    <ItemsRootNamespace>Elysium::Core::Security</ItemsRootNamespace>
+    <ItemsRootNamespace>Elysium::Core::Security::Cryptography</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

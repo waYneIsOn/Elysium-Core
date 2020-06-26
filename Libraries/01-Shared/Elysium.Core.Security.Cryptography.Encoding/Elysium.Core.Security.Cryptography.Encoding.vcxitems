@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{72c118aa-b5cd-484f-ae38-5ed19ce85580}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Core::Security::Cryptography::Encoding</ItemsRootNamespace>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Integer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Null.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Numeric.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Tag.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EXERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LBERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PERDecoder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)XERDecoder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Integer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Null.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Numeric.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1String.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Tag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DEREncoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EXERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)JERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LBERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PERDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp" />
+  </ItemGroup>
+</Project>

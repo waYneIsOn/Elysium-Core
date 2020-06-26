@@ -21,7 +21,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_DERENCODER
-#include "../../../Libraries/01-Shared/Elysium.Core.Security/DEREncoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DEREncoder.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_NETWORKSTREAM

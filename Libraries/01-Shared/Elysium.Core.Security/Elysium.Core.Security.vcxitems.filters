@@ -4,9 +4,6 @@
     <Filter Include="Cryptography">
       <UniqueIdentifier>{2ae08835-ec82-4363-ac3f-15b74b1b9e5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cryptography\Asn1">
-      <UniqueIdentifier>{a8adce33-e473-4edd-8f36-ec4071d131a3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Cryptography\Sasl">
       <UniqueIdentifier>{e81ff6e7-a90c-4e90-8bff-65f77b06c4b1}</UniqueIdentifier>
     </Filter>
@@ -26,66 +23,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp">
       <Filter>Cryptography</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)DERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Integer.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Numeric.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Null.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Tag.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)LBERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)OERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)EXERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp">
-      <Filter>Cryptography\Asn1</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp">
       <Filter>Authentication</Filter>
@@ -113,81 +50,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp">
       <Filter>Cryptography</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Integer.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Numeric.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h">
       <Filter>Cryptography\Sasl</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Null.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Tag.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LBERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EXERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)JERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1String.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.hpp">
-      <Filter>Cryptography\Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DEREncoder.hpp">
-      <Filter>Cryptography\Asn1</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CipherAlgorithmType.hpp">
       <Filter>Authentication</Filter>
