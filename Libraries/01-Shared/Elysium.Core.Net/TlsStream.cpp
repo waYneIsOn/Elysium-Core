@@ -4,6 +4,10 @@
 #include "../Elysium.Core/BitConverter.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_RANDOMNUMBERGENERATOR
+#include "../Elysium.Core.Security/RandomNumberGenerator.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCONTENTTYPE
 #include "TlsContentType.hpp"
 #endif
@@ -22,7 +26,10 @@
 
 Elysium::Core::Net::Security::TlsStream::TlsStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions& AuthenticationOptions)
 	: AuthenticatedStream(InnerStream, LeaveInnerStreamOpen),
-	_AuthenticationOptions(AuthenticationOptions)
+	_AuthenticationOptions(AuthenticationOptions),
+	_LocalRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
+	_SessionId(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
+	_RemoteRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32))
 { }
 Elysium::Core::Net::Security::TlsStream::~TlsStream()
 { }
@@ -148,26 +155,27 @@ void Elysium::Core::Net::Security::TlsStream::WriteClientHello(const Elysium::Co
 	_InnerStream.Write(&UpcomingLength[0], UpcomingLength.GetLength());
 
 	// handshake layer
+	Elysium::Core::Security::Cryptography::RandomNumberGenerator RNG = Elysium::Core::Security::Cryptography::RandomNumberGenerator();
+
 	Collections::Template::Array<byte> HandshakeLength = BitConverter::GetBytes(static_cast<uint32_t>(HandshakeSize));
 	Collections::Template::Array<byte> ClientVersion = BitConverter::GetBytes(static_cast<uint16_t>(EnabledTlsProtocols));
-	Collections::Template::Array<byte> ClientRandom = Collections::Template::Array<byte>(32);
-	Collections::Template::Array<byte> SessionId = Collections::Template::Array<byte>(32);
+	RNG.GetBytes(_LocalRandom);
 	Collections::Template::Array<byte> CipherSuitesLength = BitConverter::GetBytes(static_cast<uint16_t>(NumberOfCipherSuites * 2));
 	if (BitConverter::GetIsLittleEndian())
 	{
 		Collections::Template::Array<byte>::Reverse(HandshakeLength);
 		Collections::Template::Array<byte>::Reverse(ClientVersion);
-		Collections::Template::Array<byte>::Reverse(ClientRandom);
-		Collections::Template::Array<byte>::Reverse(SessionId);
+		Collections::Template::Array<byte>::Reverse(_LocalRandom);
+		Collections::Template::Array<byte>::Reverse(_SessionId);
 		Collections::Template::Array<byte>::Reverse(CipherSuitesLength);
 	}
 
 	_InnerStream.WriteByte(static_cast<byte>(TlsHandshakeMessageType::ClientHello));
 	_InnerStream.Write(&HandshakeLength[1], HandshakeLength.GetLength() - 1);	// handshake message length
 	_InnerStream.Write(&ClientVersion[0], ClientVersion.GetLength());	// client version
-	_InnerStream.Write(&ClientRandom[0], ClientRandom.GetLength());	// client random
-	_InnerStream.WriteByte(static_cast<byte>(0x20));	// session id length
-	_InnerStream.Write(&SessionId[0], SessionId.GetLength());	// session id
+	_InnerStream.Write(&_LocalRandom[0], _LocalRandom.GetLength());	// client random
+	_InnerStream.WriteByte(static_cast<byte>(_SessionId.GetLength()));
+	_InnerStream.Write(&_SessionId[0], _SessionId.GetLength());
 	_InnerStream.Write(&CipherSuitesLength[0], CipherSuitesLength.GetLength());
 	for (size_t i = 0; i < NumberOfCipherSuites; i++)
 	{
@@ -224,12 +232,16 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerHello()
 	{
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
-		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&ContentBuffer[4]));
-		// ToDo: 32 bytes: server random
+		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&ContentBuffer[4]));	
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[6], &_RemoteRandom[0], 32);
 		const uint8_t SessionIdLength = ContentBuffer[38];
-		// ToDo: SessionIdLength bytes (should be 32): session id
-		const TlsCipherSuite ServerSelectedCipherSuite = static_cast<const TlsCipherSuite>(BitConverter::ToUint16(&ContentBuffer[71]));
-		const uint8_t ServerSelectedCompressionMethod = ContentBuffer[72];
+		if (SessionIdLength != 0x20)
+		{
+			throw 1;
+		}
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[39], &_SessionId[0], SessionIdLength);
+		_ServerSelectedCipherSuite = static_cast<const TlsCipherSuite>(BitConverter::ToUint16(&ContentBuffer[71]));
+		_ServerSelectedCompressionMethod = ContentBuffer[72];
 		// ToDo: extensions
 	}
 	else
@@ -355,14 +367,39 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerKeyExchange()
 	{
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
-		const uint32_t CurveInfo = BitConverter::ToUint24(&ContentBuffer[4]);
+		const byte CurveInfoType = ContentBuffer[4];
+		// Curve types:
+		// - 0x01 explicit prime
+		// - 0x02 explicit char2
+		// - 0x03 named curve
+		if (CurveInfoType != 0x03)
+		{	// not "named curve"
+			throw 1;
+		}
+		// named curves:
+		// - 0x13 (19d) secp192r1
+		// - 0x17 (23d) secp256r1
+		const uint16_t CurveInfo = BitConverter::ToUint16(&ContentBuffer[5]);
 		const uint8_t LengthOfPublicKey = static_cast<uint8_t>(ContentBuffer[7]);
 		// public key
-		const uint16_t SignatureType = BitConverter::ToUint16(&ContentBuffer[7 + LengthOfPublicKey]);
-		const uint16_t LengthOfSignature = BitConverter::ToUint16(&ContentBuffer[7 + LengthOfPublicKey]);
+		const uint16_t SignatureType = BitConverter::ToUint16(&ContentBuffer[8 + LengthOfPublicKey]);
+		const uint16_t LengthOfSignature = BitConverter::ToUint16(&ContentBuffer[9 + LengthOfPublicKey]);
 		// computed signature for ENCRYPT(client_hello_random + server_hello_random + curve_info + public_key)
 
+
+
+
+		const Collections::Template::Array<byte> PublicKeyBytes = Collections::Template::Array<byte>(LengthOfPublicKey);
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[8], &PublicKeyBytes[0], LengthOfPublicKey);
+
+		const Collections::Template::Array<byte> SignatureBytes = Collections::Template::Array<byte>(LengthOfSignature);
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[9 + LengthOfPublicKey], &SignatureBytes[0], LengthOfSignature);
+
+
+
+
 		//throw 1;
+		int sdf = 45;
 	}
 	else
 	{

@@ -21,7 +21,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAIN
-#include "../Elysium.Core.Security/X509Chain.hpp"
+#include "../Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSPOLICYERRORS

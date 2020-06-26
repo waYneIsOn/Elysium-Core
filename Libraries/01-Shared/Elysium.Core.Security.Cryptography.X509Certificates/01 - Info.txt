@@ -1,0 +1,6 @@
+http://www.coastrd.com/c-schannel-smtp
+https://en.wikipedia.org/wiki/Security_Support_Provider_Interface
+https://docs.microsoft.com/en-us/windows/win32/secauthn/sspi
+https://docs.microsoft.com/en-us/windows/win32/api/wincrypt/nf-wincrypt-certopenstore
+https://docs.microsoft.com/de-de/windows/win32/seccng/cng-portal
+https://docs.microsoft.com/en-us/windows/win32/seccrypto/example-c-program-creating-a-certificate-chain

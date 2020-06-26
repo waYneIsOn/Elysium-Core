@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{0bd00c32-9322-44bc-bde1-9c6f8c1818da}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Core::Security::Cryptography::X509Certificates</ItemsRootNamespace>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ChainPolicy.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ContentType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509KeyStorageFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationFlag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Certificate.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Chain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509ChainPolicy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp" />
+  </ItemGroup>
+</Project>

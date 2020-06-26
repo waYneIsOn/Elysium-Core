@@ -13,7 +13,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
-#include "API.hpp"
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST

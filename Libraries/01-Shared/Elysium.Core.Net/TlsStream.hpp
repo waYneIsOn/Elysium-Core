@@ -25,11 +25,15 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATECOLLECTION
-#include "../Elysium.Core.Security/X509CertificateCollection.hpp"
+#include "../Elysium.Core.Security.Cryptography.X509Certificates/X509CertificateCollection.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_TLSPROTOCOLS
 #include "../Elysium.Core.Security/TlsProtocols.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
+#include "TlsCipherSuite.hpp"
 #endif
 
 namespace Elysium::Core::Net::Security
@@ -72,6 +76,12 @@ namespace Elysium::Core::Net::Security
 		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
+
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _LocalRandom;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _SessionId;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _RemoteRandom;
+		TlsCipherSuite _ServerSelectedCipherSuite;
+		uint8_t _ServerSelectedCompressionMethod;
 
 		void WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols);
 		void ReadServerHello();

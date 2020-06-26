@@ -13,7 +13,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
-#include "API.hpp"
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
@@ -37,7 +37,7 @@ Copyright (C) 2017 waYne (CAM)
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
-#include "System.hpp"
+#include "../Elysium.Core.Security/System.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates

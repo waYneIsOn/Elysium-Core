@@ -12,8 +12,12 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "../Elysium.Core.Security/API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_HASHALGORITHM
-#include "HashAlgorithm.hpp"
+#include "../Elysium.Core.Security.Cryptography.Primitives/HashAlgorithm.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography

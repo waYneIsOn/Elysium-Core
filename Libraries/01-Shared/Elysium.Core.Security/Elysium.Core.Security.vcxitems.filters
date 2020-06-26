@@ -4,9 +4,6 @@
     <Filter Include="Cryptography">
       <UniqueIdentifier>{2ae08835-ec82-4363-ac3f-15b74b1b9e5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cryptography\X509Certificates">
-      <UniqueIdentifier>{982170ae-d71c-4228-81cf-6b59d90ed31d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Cryptography\Asn1">
       <UniqueIdentifier>{a8adce33-e473-4edd-8f36-ec4071d131a3}</UniqueIdentifier>
     </Filter>
@@ -21,29 +18,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp">
-      <Filter>Cryptography</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp">
-      <Filter>Cryptography</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509Certificate.cpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp">
       <Filter>Cryptography</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509Chain.cpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509ChainPolicy.cpp">
-      <Filter>Cryptography\X509Certificates</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp">
       <Filter>Cryptography</Filter>
@@ -117,55 +93,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp">
       <Filter>Authentication</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp">
-      <Filter>Cryptography</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp">
-      <Filter>Cryptography</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509KeyStorageFlags.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509ContentType.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp">
       <Filter>Cryptography</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationFlag.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationMode.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509ChainPolicy.hpp">
-      <Filter>Cryptography\X509Certificates</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp">
       <Filter>Cryptography</Filter>
@@ -273,10 +207,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp">
       <Filter>Authentication</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt">
-      <Filter>Cryptography\X509Certificates</Filter>
-    </Text>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.hpp">
+      <Filter>Cryptography</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
