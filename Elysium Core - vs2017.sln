@@ -177,8 +177,8 @@ Global
 		Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems*{e02b4f08-16e6-45ba-aa47-72d24d6ebd2e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{ee7a43c1-c408-4688-920f-5878c6e6a7c7}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems*{f612b617-2b63-4644-852f-642827a6ba4f}*SharedItemsImports = 9
-		Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4

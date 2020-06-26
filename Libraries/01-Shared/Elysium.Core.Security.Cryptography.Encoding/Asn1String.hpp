@@ -5,14 +5,18 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1STRING
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1STRING
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1STRING
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1STRING
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1OBJECT
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "../Elysium.Core.Security/API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1OBJECT
 #include "Asn1Object.hpp"
 #endif
 
@@ -20,7 +24,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/String.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::Asn1
+namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API Asn1String final : public Asn1Object
 	{

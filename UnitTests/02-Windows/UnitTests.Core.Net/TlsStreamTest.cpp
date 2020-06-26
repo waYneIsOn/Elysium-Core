@@ -20,7 +20,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsPolicyErrors.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_DERENCODER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_DERENCODER
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DEREncoder.hpp"
 #endif
 
@@ -41,7 +41,7 @@ using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net::Security;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Elysium::Core::Security::Authentication;
-using namespace Elysium::Core::Security::Cryptography::Asn1;
+using namespace Elysium::Core::Security::Cryptography::Encoding::Asn1;
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

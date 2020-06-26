@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1UNIVERSALTAG
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1UNIVERSALTAG
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1UNIVERSALTAG
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1UNIVERSALTAG
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::Asn1
+namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	enum class Asn1UniversalTag : uint8_t

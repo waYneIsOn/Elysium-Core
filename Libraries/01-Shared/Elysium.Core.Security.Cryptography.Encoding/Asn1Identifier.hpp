@@ -5,22 +5,22 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1IDENTIFIER
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1IDENTIFIER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1IDENTIFIER
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1IDENTIFIER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
-#include "API.hpp"
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1TAGCLASS
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1TAGCLASS
 #include "Asn1TagClass.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1UNIVERSALTAG
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1UNIVERSALTAG
 #include "Asn1UniversalTag.hpp"
 #endif
 
@@ -28,7 +28,7 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::Asn1
+namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API Asn1Identifier final
 	{

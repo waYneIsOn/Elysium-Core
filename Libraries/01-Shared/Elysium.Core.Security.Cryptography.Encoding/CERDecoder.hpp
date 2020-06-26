@@ -5,18 +5,18 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_CERDECODER
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_CERDECODER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_CERDECODER
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_CERDECODER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_IASN1DECODER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_IASN1DECODER
 #include "IAsn1Decoder.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::Asn1
+namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	/*
 	// Caninocal Encoding Rules

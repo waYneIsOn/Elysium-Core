@@ -5,26 +5,26 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1OBJECT
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1OBJECT
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1OBJECT
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1OBJECT
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
-#include "API.hpp"
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1IDENTIFIER
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1IDENTIFIER
 #include "Asn1Identifier.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::Asn1
+namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API Asn1Object
 	{

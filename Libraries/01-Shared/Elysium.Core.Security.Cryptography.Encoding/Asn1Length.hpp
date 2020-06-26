@@ -5,22 +5,22 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1LENGTH
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_ASN1LENGTH
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1LENGTH
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1LENGTH
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
-#include "API.hpp"
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::Asn1
+namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API Asn1Length final
 	{

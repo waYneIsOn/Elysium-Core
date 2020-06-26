@@ -13,19 +13,19 @@
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509STORE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security/X509Store.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAIN
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security/X509Chain.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_FILESTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ASN1_DERDECODER
-#include "../../../Libraries/01-Shared/Elysium.Core.Security/DERDecoder.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_DERDECODER
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
@@ -38,7 +38,7 @@
 
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::IO;
-using namespace Elysium::Core::Security::Cryptography::Asn1;
+using namespace Elysium::Core::Security::Cryptography::Encoding::Asn1;
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -413,7 +413,7 @@ namespace UnitTests::Core::Security::Cryptography
 		}
 
 	private:
-		void ReadAlgorithmIdentifier(Elysium::Core::Security::Cryptography::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream & InputStream, int32_t Count)
+		void ReadAlgorithmIdentifier(Elysium::Core::Security::Cryptography::Encoding::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream & InputStream, int32_t Count)
 		{
 			/*
 			AlgorithmIdentifier  ::=  SEQUENCE  {
@@ -470,7 +470,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadName(Elysium::Core::Security::Cryptography::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream & InputStream, int32_t Count)
+		void ReadName(Elysium::Core::Security::Cryptography::Encoding::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream & InputStream, int32_t Count)
 		{
 			/*
 			Name ::= CHOICE { -- only one possibility for now --
