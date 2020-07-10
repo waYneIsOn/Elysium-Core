@@ -20,7 +20,7 @@ namespace Elysium::Core::Linq
 	{
 		SingleParameterExtension(ParameterType Value)
 			: Value(Value)
-		{}
+		{ }
 
 		ParameterType Value;
 

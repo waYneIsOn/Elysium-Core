@@ -21,15 +21,18 @@ namespace Elysium::Core::Linq
 	struct ELYSIUM_CORE_LINQ_API CountContainer
 	{
 		template<class ContainerType>
-		size_t operator()(ContainerType & Container)
-		{
-			size_t Count = 0;
-			for (auto Element : Container)
-			{
-				Count++;
-			}
-			return Count;
-		}
+		size_t operator()(ContainerType & Container);
 	};
+
+	template<class ContainerType>
+	inline size_t CountContainer::operator()(ContainerType & Container)
+	{
+		size_t Count = 0;
+		for (auto Element : Container)
+		{
+			Count++;
+		}
+		return Count;
+	}
 }
 #endif
