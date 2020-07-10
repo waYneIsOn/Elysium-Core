@@ -9,8 +9,7 @@
 #endif
 
 Elysium::Core::Security::Cryptography::HashAlgorithm::~HashAlgorithm()
-{
-}
+{ }
 
 const size_t Elysium::Core::Security::Cryptography::HashAlgorithm::GetHashSize() const
 {
@@ -18,7 +17,7 @@ const size_t Elysium::Core::Security::Cryptography::HashAlgorithm::GetHashSize()
 }
 const bool Elysium::Core::Security::Cryptography::HashAlgorithm::GetCanReuseTransform() const
 {
-	return true;
+	return false;
 }
 
 Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::IO::Stream & InputStream)
@@ -34,8 +33,9 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 		}
 	} while (BytesRead > 0);
 
-	_HashValue = std::move(HashFinal());
+	_HashValue = HashFinal();
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = std::move(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue));
+
 	Initialize();
 
 	return Temporary;
@@ -43,8 +43,9 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::byte* Buffer, const size_t Length)
 {
 	HashCore(&Buffer[0], Length);
-	_HashValue = std::move(HashFinal());
+	_HashValue = HashFinal();
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = std::move(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue));
+
 	Initialize();
 
 	return Temporary;
@@ -52,5 +53,4 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 
 Elysium::Core::Security::Cryptography::HashAlgorithm::HashAlgorithm(int32_t HashSizeValue)
 	: _HashValue(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(HashSizeValue)), _State(0)
-{
-}
+{ }

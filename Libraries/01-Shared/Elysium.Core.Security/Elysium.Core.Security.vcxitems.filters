@@ -10,9 +10,6 @@
     <Filter Include="Authentication">
       <UniqueIdentifier>{6cb5ec38-e660-47ad-9e10-57fd3af3e6aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Cryptography\Pkcs">
-      <UniqueIdentifier>{2441c4d8-baae-473b-9063-45e3c06ece51}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp">

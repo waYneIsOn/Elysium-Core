@@ -81,7 +81,7 @@ namespace UnitTests::Core::Net::Security
 				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(),
 				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&SslStreamTests::SelectLocalCertificate>()));
 			try
-			{
+			{ 
 				Stream.AuthenticateAsClient(String(u"3.232.168.170"), nullptr, TlsProtocols::Tls12);
 			}
 			/*

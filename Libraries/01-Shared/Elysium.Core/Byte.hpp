@@ -12,12 +12,20 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INTEGER
 #include "Integer.hpp"
 #endif
 
 namespace Elysium::Core
 {
+	/*
+	enum class byte : unsigned char
+	{};
+	*/
 	typedef uint8_t byte;
 	typedef uint8_t BYTE;
 	typedef uint8_t Byte;

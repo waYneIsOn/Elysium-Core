@@ -40,13 +40,8 @@ const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::Encoding::_ASCII =
 #else
 #endif
 
-Elysium::Core::Text::Encoding::Encoding(const Encoding & Encoding)
-	: _CodePage(Encoding._CodePage)
-{
-}
 Elysium::Core::Text::Encoding::~Encoding()
-{
-}
+{ }
 
 void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 {
@@ -185,16 +180,10 @@ Elysium::Core::String Elysium::Core::Text::Encoding::GetString(const byte * Byte
 }
 
 Elysium::Core::Text::Encoding::Encoding()
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	: Elysium::Core::Text::Encoding((int)GetACP())
-#elif defined(__ANDROID__)
 	// ToDo: how to get default encoding codepage on android?
-	: Elysium::Core::Text::Encoding(0)
-#else
-#error "undefined os"
-#endif
-{
-}
+{ }
+
 Elysium::Core::Text::Encoding::Encoding(int CodePage)
 	: _CodePage(CodePage)
 {

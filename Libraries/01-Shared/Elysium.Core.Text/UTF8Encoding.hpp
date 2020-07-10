@@ -23,7 +23,12 @@ namespace Elysium::Core::Text
 	public:
 		UTF8Encoding();
 		UTF8Encoding(bool EncoderShouldEmitUTF8Identifier);
-		~UTF8Encoding();
+		UTF8Encoding(const UTF8Encoding& Source) = delete;
+		UTF8Encoding(UTF8Encoding&& Right) noexcept = delete;
+		virtual ~UTF8Encoding();
+
+		UTF8Encoding& operator=(const UTF8Encoding& Source) = delete;
+		UTF8Encoding& operator=(UTF8Encoding&& Right) noexcept = delete;
 	private:
 		bool _EncoderShouldEmitUTF8Identifier;
 	};

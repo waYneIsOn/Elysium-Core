@@ -39,8 +39,12 @@ namespace Elysium::Core::Text
 	class ELYSIUM_CORE_API Encoding
 	{
 	public:
-		Encoding(const Encoding& Encoding);
+		Encoding(const Encoding& Source) = delete;
+		Encoding(Encoding&& Right) noexcept = delete;
 		virtual ~Encoding();
+
+		Encoding& operator=(const Encoding& Source) = delete;
+		Encoding& operator=(Encoding&& Right) noexcept = delete;
 
 		static void GetEncoding(int CodePage, Encoding* Output);
 
