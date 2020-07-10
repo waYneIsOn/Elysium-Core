@@ -21,7 +21,7 @@ namespace Elysium::Core::Linq
 	struct ELYSIUM_CORE_LINQ_API CountContainer
 	{
 		template<class ContainerType>
-		size_t operator()(ContainerType && Container)
+		size_t operator()(ContainerType & Container)
 		{
 			size_t Count = 0;
 			for (auto Element : Container)

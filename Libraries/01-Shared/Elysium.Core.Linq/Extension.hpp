@@ -35,15 +35,15 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Linq
 {
 	// this struct allows linq-structs to be wrapped with the purpose of being able to call the operator(...)
-	template<class LinqContainerType>
+	template<class LinqExpressionType>
 	struct Extension
 	{
 		// operators for extensions without any parameter
-		Extension<LinqContainerType>& operator()()
+		Extension<LinqExpressionType>& operator()()
 		{
 			return *this;
 		}
-		const Extension<LinqContainerType>& operator()() const
+		const Extension<LinqExpressionType>& operator()() const
 		{
 			return *this;
 		}
@@ -52,20 +52,20 @@ namespace Elysium::Core::Linq
 		template<class ParameterType>
 		auto operator()(ParameterType && Parameter1)
 		{
-			return SingleParameterExtension<LinqContainerType, ParameterType>(Parameter1);
+			return SingleParameterExtension<LinqExpressionType, ParameterType>(Parameter1);
 		}
 		template<class ParameterType>
 		auto operator()(ParameterType && Parameter1) const
 		{
-			return SingleParameterExtension<LinqContainerType, ParameterType>(Parameter1);
+			return SingleParameterExtension<LinqExpressionType, ParameterType>(Parameter1);
 		}
 	};
 
 	// the following operator allows to chain together containers and extensions
-	template<class ContainerType, class LinqContainerType>
-	auto operator>>(ContainerType && Container, const Extension<LinqContainerType>)
+	template<class ContainerType, class LinqExpressionType>
+	auto operator>>(ContainerType & Container, const Extension<LinqExpressionType>)
 	{
-		return LinqContainerType()(std::forward<ContainerType>(Container));
+		return LinqExpressionType()(Container);
 	};
 
 	// create instances of Extension for each struct so they can be used in a extension-like manner

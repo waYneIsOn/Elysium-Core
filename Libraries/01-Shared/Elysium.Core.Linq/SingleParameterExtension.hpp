@@ -25,9 +25,9 @@ namespace Elysium::Core::Linq
 		ParameterType Value;
 
 		template<class ContainerType>
-		friend auto operator>>(ContainerType && Container, SingleParameterExtension && Input)
+		friend auto operator>>(ContainerType & Container, SingleParameterExtension & Input)
 		{
-			return LinqContainerType()(std::forward<ContainerType>(Container), Input.Value);
+			return LinqContainerType()(Container, Input.Value);
 		}
 	};
 }

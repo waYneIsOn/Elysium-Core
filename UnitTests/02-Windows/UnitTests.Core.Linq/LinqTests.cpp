@@ -4,12 +4,20 @@
 #include <vector>
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../../../Libraries/01-Shared/Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
 #include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_LINQ_EXTENSION
 #include "../../../Libraries/01-Shared/Elysium.Core.Linq/Extension.hpp"
+#endif
+
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
 #endif
 
 using namespace Elysium::Core::Linq;
@@ -30,6 +38,14 @@ namespace UnitTestsCoreLinq
 
 			std::vector<int> EmptyVector = std::vector<int>();
 			Assert::IsFalse(EmptyVector >> Any());
+
+			//Elysium::Core::Collections::Template::Array<int> Array = { 1, 2, 3 };
+			Elysium::Core::Collections::Template::Array<int> Array = Elysium::Core::Collections::Template::Array<int>(0);
+			Assert::IsFalse(Array >> Any());
+			/*
+			Elysium::Core::Linq::AnyContainer bla = Elysium::Core::Linq::AnyContainer();
+			bool istrue = bla.operator()(std::forward<Elysium::Core::Collections::Template::Array<int>>(Array));
+			*/
 		}
 		
 		TEST_METHOD(Core_Linq_Contains)
