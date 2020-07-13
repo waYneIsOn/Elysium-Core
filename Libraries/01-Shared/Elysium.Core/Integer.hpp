@@ -30,6 +30,16 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
+	typedef char int8_t;
+	typedef short int16_t;
+	typedef int int32_t;
+	typedef long long int64_t;
+
+	typedef unsigned char uint8_t;
+	typedef unsigned short uint16_t;
+	typedef unsigned int uint32_t;
+	typedef unsigned long long uint64_t;
+
 	template<class T, typename Enabled = void>
 	class Integer
 	{
@@ -47,24 +57,42 @@ namespace Elysium::Core
 
 		static constexpr const T GetMinValue() noexcept;
 		static constexpr const T GetMaxValue() noexcept;
+		
+		Integer& operator++();
+		Integer& operator++(int);
+		
+		Integer& operator--();
+		Integer& operator--(int);
+		
+		Integer& operator+=(const Integer& Other);
+		Integer& operator+=(const T Other);
 
-		Integer& operator+(const Integer& Value);
-		Integer& operator+(const T Value);
+		Integer& operator-=(const Integer& Other);
+		Integer& operator-=(const T Other);
 
-		Integer& operator-(const Integer& Value);
-		Integer& operator-(const T Value);
+		//Integer& operator*=(const Integer& Other);
+		//Integer& operator*=(const T Other);
 
-		Integer& operator*(const Integer& Value);
-		Integer& operator*(const T Value);
+		//Integer& operator/=(const Integer& Other);
+		//Integer& operator/=(const T Other);
 
-		Integer& operator+=(const Integer& Value);
-		Integer& operator+=(const T Value);
+		Integer& operator+(const Integer& Other);
+		Integer& operator+(const T Other);
 
-		Integer& operator-=(const Integer& Value);
-		Integer& operator-=(const T Value);
+		Integer& operator-(const Integer& Other);
+		Integer& operator-(const T Other);
 
-		Integer& operator*=(const Integer& Value);
-		Integer& operator*=(const T Value);
+		Integer& operator*(const Integer& Other);
+		Integer& operator*(const T VOtheralue);
+
+		Integer& operator*=(const Integer& Other);
+		Integer& operator*=(const T Other);
+
+		//Integer& operator/(const Integer& Other);
+		//Integer& operator/(const T Other);
+
+		//Integer& operator/=(const Integer& Other);
+		//Integer& operator/=(const T Other);
 	private:
 		T _Value;
 	};
@@ -140,253 +168,299 @@ namespace Elysium::Core
 	{
 		return (std::numeric_limits<T>::max)();
 	}
-
+	
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+(const Integer & Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator++()
 	{
-		if (this != &Value)
+		if (_Value == GetMaxValue())
 		{
-			if (Value._Value > 0 && _Value > GetMaxValue() - Value._Value)
+			throw OverflowException();
+		}
+
+		_Value++;
+
+		return *this;
+	}
+	
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator++(int)
+	{
+		Integer<T, Enabled> Result = Integer<T, Enabled>(*this);
+		++(*this);
+		return Result;
+	}
+	
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator--()
+	{
+		if (_Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+
+		_Value--;
+
+		return *this;
+	}
+	
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator--(int)
+	{
+		Integer<T, Enabled> Result = Integer<T, Enabled>(*this);
+		--(*this);
+		return Result;
+	}
+	
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+=(const Integer & Other)
+	{
+		if (this != &Other)
+		{
+			if (Other._Value > 0 && _Value > GetMaxValue() - Other._Value)
 			{
 				throw OverflowException();
 			}
-			if (Value._Value < 0 && _Value < GetMinValue() - Value._Value)
+			if (Other._Value < 0 && _Value < GetMinValue() - Other._Value)
 			{
 				throw OverflowException();
 			}
 
-			_Value += Value._Value;
+			_Value += Other._Value;
 		}
 
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+(const T Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+=(const T Other)
 	{
-		if (Value > 0 && _Value > GetMaxValue() - Value)
+		if (Other > 0 && _Value > GetMaxValue() - Other)
 		{
 			throw OverflowException();
 		}
-		if (Value < 0 && _Value < GetMinValue() - Value)
+		if (Other < 0 && _Value < GetMinValue() - Other)
 		{
 			throw OverflowException();
 		}
 
-		_Value += Value;
+		_Value += Other;
 
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-(const Integer & Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-=(const Integer & Other)
 	{
-		if (this != &Value)
+		if (this != &Other)
 		{
-			if (Value._Value < 0 && _Value > GetMaxValue() + Value._Value)
+			if (Other._Value < 0 && _Value > GetMaxValue() + Other._Value)
 			{
 				throw OverflowException();
 			}
-			if (Value._Value > 0 && _Value < GetMinValue() + Value._Value)
-			{
-				throw OverflowException();
-			}
-
-			_Value -= Value._Value;
-		}
-
-		return *this;
-	}
-
-	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-(const T Value)
-	{
-		if (Value < 0 && _Value > GetMaxValue() + Value)
-		{
-			throw OverflowException();
-		}
-		if (Value > 0 && _Value < GetMinValue() + Value)
-		{
-			throw OverflowException();
-		}
-
-		_Value -= Value;
-
-		return *this;
-	}
-
-	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*(const Integer & Value)
-	{
-		if (this != &Value)
-		{
-			if (_Value == -1 && Value._Value == GetMinValue())
-			{
-				throw OverflowException();
-			}
-			if (Value._Value == -1 && _Value == GetMinValue())
-			{
-				throw OverflowException();
-			}
-			if (_Value > GetMaxValue() / Value._Value)
-			{
-				throw OverflowException();
-			}
-			if (_Value < GetMinValue() / Value._Value)
+			if (Other._Value > 0 && _Value < GetMinValue() + Other._Value)
 			{
 				throw OverflowException();
 			}
 
-			_Value *= Value._Value;
+			_Value -= Other._Value;
 		}
 
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*(const T Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-=(const T Other)
 	{
-		if (_Value == -1 && Value == GetMinValue())
+		if (Other < 0 && _Value > GetMaxValue() + Other)
 		{
 			throw OverflowException();
 		}
-		if (Value == -1 && _Value == GetMinValue())
+		if (Other > 0 && _Value < GetMinValue() + Other)
 		{
 			throw OverflowException();
 		}
-		if (_Value > GetMaxValue() / Value)
-		{
-			throw OverflowException();
-		}
-		if (_Value < GetMinValue() / Value)
-		{
-			throw OverflowException();
-		}
-		
+
+		_Value -= Other;
+
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+=(const Integer & Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+(const Integer & Other)
 	{
-		if (this != &Value)
+		if (this != &Other)
 		{
-			if (Value._Value > 0 && _Value > GetMaxValue() - Value._Value)
+			if (Other._Value > 0 && _Value > GetMaxValue() - Other._Value)
 			{
 				throw OverflowException();
 			}
-			if (Value._Value < 0 && _Value < GetMinValue() - Value._Value)
+			if (Other._Value < 0 && _Value < GetMinValue() - Other._Value)
 			{
 				throw OverflowException();
 			}
 
-			_Value += Value._Value;
+			_Value += Other._Value;
 		}
 
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+=(const T Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+(const T Other)
 	{
-		if (Value > 0 && _Value > GetMaxValue() - Value)
+		if (Other > 0 && _Value > GetMaxValue() - Other)
 		{
 			throw OverflowException();
 		}
-		if (Value < 0 && _Value < GetMinValue() - Value)
+		if (Other < 0 && _Value < GetMinValue() - Other)
 		{
 			throw OverflowException();
 		}
 
-		_Value += Value;
+		_Value += Other;
 
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-=(const Integer & Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-(const Integer & Other)
 	{
-		if (this != &Value)
+		if (this != &Other)
 		{
-			if (Value._Value < 0 && _Value > GetMaxValue() + Value._Value)
+			if (Other._Value < 0 && _Value > GetMaxValue() + Other._Value)
 			{
 				throw OverflowException();
 			}
-			if (Value._Value > 0 && _Value < GetMinValue() + Value._Value)
-			{
-				throw OverflowException();
-			}
-
-			_Value -= Value._Value;
-		}
-
-		return *this;
-	}
-
-	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-=(const T Value)
-	{
-		if (Value < 0 && _Value > GetMaxValue() + Value)
-		{
-			throw OverflowException();
-		}
-		if (Value > 0 && _Value < GetMinValue() + Value)
-		{
-			throw OverflowException();
-		}
-
-		_Value -= Value;
-
-		return *this;
-	}
-
-	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*=(const Integer & Value)
-	{
-		if (this != &Value)
-		{
-			if (_Value == -1 && Value._Value == GetMinValue())
-			{
-				throw OverflowException();
-			}
-			if (Value._Value == -1 && _Value == GetMinValue())
-			{
-				throw OverflowException();
-			}
-			if (_Value > GetMaxValue() / Value._Value)
-			{
-				throw OverflowException();
-			}
-			if (_Value < GetMinValue() / Value._Value)
+			if (Other._Value > 0 && _Value < GetMinValue() + Other._Value)
 			{
 				throw OverflowException();
 			}
 
-			_Value *= Value._Value;
+			_Value -= Other._Value;
 		}
 
 		return *this;
 	}
 
 	template<class T, typename Enabled>
-	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*=(const T Value)
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-(const T Other)
 	{
-		if (_Value == -1 && Value == GetMinValue())
+		if (Other < 0 && _Value > GetMaxValue() + Other)
 		{
 			throw OverflowException();
 		}
-		if (Value == -1 && _Value == GetMinValue())
+		if (Other > 0 && _Value < GetMinValue() + Other)
 		{
 			throw OverflowException();
 		}
-		if (_Value > GetMaxValue() / Value)
+
+		_Value -= Other;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*(const Integer & Other)
+	{
+		if (this != &Other)
+		{
+			if (_Value == -1 && Other._Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (Other._Value == -1 && _Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (_Value > GetMaxValue() / Other._Value)
+			{
+				throw OverflowException();
+			}
+			if (_Value < GetMinValue() / Other._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value *= Other._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*(const T Other)
+	{
+		if (_Value == -1 && Other == GetMinValue())
 		{
 			throw OverflowException();
 		}
-		if (_Value < GetMinValue() / Value)
+		if (Other == -1 && _Value == GetMinValue())
 		{
 			throw OverflowException();
 		}
+		if (_Value > GetMaxValue() / Other)
+		{
+			throw OverflowException();
+		}
+		if (_Value < GetMinValue() / Other)
+		{
+			throw OverflowException();
+		}
+
+		_Value *= Other;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*=(const Integer & Other)
+	{
+		if (this != &Other)
+		{
+			if (_Value == -1 && Other._Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (Other._Value == -1 && _Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (_Value > GetMaxValue() / Other._Value)
+			{
+				throw OverflowException();
+			}
+			if (_Value < GetMinValue() / Other._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value *= Other._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*=(const T Other)
+	{
+		if (_Value == -1 && Other == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (Other == -1 && _Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (_Value > GetMaxValue() / Other)
+		{
+			throw OverflowException();
+		}
+		if (_Value < GetMinValue() / Other)
+		{
+			throw OverflowException();
+		}
+
+		_Value *= Other;
 
 		return *this;
 	}
@@ -395,17 +469,6 @@ namespace Elysium::Core
 	template<class T>
 	class Integer<T, std::enable_if<std::is_integral<T>::value, T>>
 	{ };
-
-	// simple integer aliases
-	typedef char int8_t;
-	typedef short int16_t;
-	typedef int int32_t;
-	typedef long long int64_t;
-
-	typedef unsigned char uint8_t;
-	typedef unsigned short uint16_t;
-	typedef unsigned int uint32_t;
-	typedef unsigned long long uint64_t;
 
 	// safe integer aliases
 	//typedef Integer<int8_t> Byte;

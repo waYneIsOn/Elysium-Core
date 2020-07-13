@@ -13,6 +13,21 @@ namespace UnitTests::Core
 	TEST_CLASS(IntegerTest)
 	{
 	public:
+		TEST_METHOD(Size)
+		{
+			//Assert::AreEqual((size_t)1, sizeof(Elysium::Core::Byte));
+			//Assert::AreEqual((size_t)1, sizeof(Elysium::Core::SByte));
+
+			Assert::AreEqual((size_t)2, sizeof(Elysium::Core::UInt16));
+			Assert::AreEqual((size_t)2, sizeof(Elysium::Core::Int16));
+
+			Assert::AreEqual((size_t)4, sizeof(Elysium::Core::UInt32));
+			Assert::AreEqual((size_t)4, sizeof(Elysium::Core::Int32));
+
+			Assert::AreEqual((size_t)8, sizeof(Elysium::Core::UInt64));
+			Assert::AreEqual((size_t)8, sizeof(Elysium::Core::Int64));
+		}
+
 		TEST_METHOD(StaticMethods)
 		{
 			// unsigned
@@ -38,7 +53,6 @@ namespace UnitTests::Core
 		
 		TEST_METHOD(Operators)
 		{
-
 			// underflow via subtraction
 			Elysium::Core::UInt16 UnsignedShortMin = 0;
 			try
@@ -55,6 +69,20 @@ namespace UnitTests::Core
 			}
 			catch (Elysium::Core::OverflowException& ex)
 			{ }
+			try
+			{
+				UnsignedShortMin--;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
+			try
+			{
+				--UnsignedShortMin;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
 
 			// overflow via addition
 			Elysium::Core::UInt16 UnsignedShortMax = 65535;
@@ -64,7 +92,7 @@ namespace UnitTests::Core
 				Assert::Fail();
 			}
 			catch (Elysium::Core::OverflowException& ex)
-			{ }			
+			{ }
 			try
 			{
 				UnsignedShortMax += 1;
@@ -72,8 +100,21 @@ namespace UnitTests::Core
 			}
 			catch (Elysium::Core::OverflowException& ex)
 			{ }
+			try
+			{
+				UnsignedShortMax++;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
+			try
+			{
+				++UnsignedShortMax;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
 
-			// overflow via multiplication
 			Elysium::Core::Int16 SignedShortMinusOne = -1;
 			try
 			{
