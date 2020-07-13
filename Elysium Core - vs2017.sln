@@ -163,6 +163,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{7f54a7d9-3259-424a-8713-07095e9a8f44}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{8bbdea16-0960-479d-941d-fe662e7740e8}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems*{8d5b0f66-ca1c-4fb6-83d2-b9d2ae8a1230}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{93501e30-8bf5-4cb7-8c13-de2001425bf5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems*{96932fcb-7d28-4130-90f2-9cc5216c7540}*SharedItemsImports = 9
@@ -174,6 +175,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{b29c5cf1-d637-47aa-aae6-cbb9028ba3d3}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{b7b28110-f6fa-4554-b115-bae4337debc2}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems*{b8fd36bf-ecb1-433f-a981-47834d8a65ab}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{be1492a2-fd64-4dda-8ffd-7433f3d78eb6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1232826-d63b-4395-b204-f43d442c207e}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{d72c0184-b715-4762-9004-ace86b3e15fb}*SharedItemsImports = 4

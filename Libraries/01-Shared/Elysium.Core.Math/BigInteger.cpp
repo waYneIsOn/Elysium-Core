@@ -8,7 +8,7 @@
 #include "MathHelper.hpp"
 #endif
 
-const Elysium::Core::uint32_t Elysium::Core::Math::Numerics::BigInteger::_uMaskHighBit = static_cast<Elysium::Core::uint32_t>(Elysium::Core::UINT32_MIN_);
+const Elysium::Core::uint32_t Elysium::Core::Math::Numerics::BigInteger::_uMaskHighBit = static_cast<Elysium::Core::uint32_t>(Elysium::Core::UInt32::GetMinValue());
 const Elysium::Core::int32_t Elysium::Core::Math::Numerics::BigInteger::_CBITUINT = 32;
 
 const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_bnMinInt = Elysium::Core::Math::Numerics::BigInteger(-1, Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t>({ _uMaskHighBit }));
@@ -37,7 +37,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Templat
 		_Bits = Collections::Template::Array<uint32_t>(0);
 
 		// Although Int32.MinValue fits in _sign, we represent this case differently for negate
-		if (_Sign == Elysium::Core::UINT32_MIN_)
+		if (_Sign == Elysium::Core::UInt32::GetMinValue())
 		{
 			*this = BigInteger(_bnMinInt);
 		}
@@ -72,7 +72,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(Collections::Template::Arr
 			_Bits[0] = Value[0];
 			_Sign = +1;
 		}
-		else if (static_cast<int32_t>(Value[0]) == INT32_MIN_)
+		else if (static_cast<int32_t>(Value[0]) == Elysium::Core::Int32::GetMinValue())
 		{
 			*this = _bnMinInt;
 		}
@@ -142,9 +142,10 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(Collections::Template::Arr
 	}
 }
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const int32_t Value)
-	: _Sign(Value == INT32_MIN_ ? -1 : (int32_t)Value), _Bits(Value == INT32_MIN_ ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
+	: _Sign(Value == Elysium::Core::Int32::GetMinValue() ? -1 : (int32_t)Value),
+	_Bits(Value == Elysium::Core::Int32::GetMinValue() ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
 {
-	if (Value == INT32_MIN_)
+	if (Value == Elysium::Core::Int32::GetMinValue())
 	{
 		*this = BigInteger(_bnMinInt);
 	}
@@ -155,9 +156,10 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const int32_t Value)
 	}
 }
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const uint32_t Value)
-	: _Sign(Value < INT32_MAX_ ? (int32_t)Value : 1), _Bits(Value < INT32_MAX_ ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
+	: _Sign(Value < Elysium::Core::Int32::GetMaxValue() ? (int32_t)Value : 1), 
+	_Bits(Value < Elysium::Core::Int32::GetMaxValue() ? Collections::Template::Array<uint32_t>(0) : Collections::Template::Array<uint32_t>(1))
 {
-	if (Value <= INT32_MAX_)
+	if (Value <= Elysium::Core::Int32::GetMaxValue())
 	{
 		_Sign = static_cast<int32_t>(Value);
 		_Bits = Collections::Template::Array<uint32_t>(0);
@@ -215,7 +217,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Templat
 			_Sign = +1;
 		}
 
-		if (_Sign == Elysium::Core::INT32_MIN_)
+		if (_Sign == Elysium::Core::Int32::GetMinValue())
 		{
 			*this = _bnMinInt;
 		}
@@ -353,9 +355,9 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	{
 		return *this;
 	}
-	else if (Shift == INT32_MIN_)
+	else if (Shift == Elysium::Core::Int32::GetMinValue())
 	{
-		return ((*this >> INT32_MAX_) >> 1);
+		return ((*this >> Elysium::Core::Int32::GetMaxValue()) >> 1);
 	}
 	else if (Shift < 0)
 	{
@@ -401,9 +403,9 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	{
 		return *this;
 	}
-	else if (Shift == INT32_MIN_)
+	else if (Shift == Elysium::Core::Int32::GetMinValue())
 	{
-		return ((*this << INT32_MAX_) << 1);
+		return ((*this << Elysium::Core::Int32::GetMaxValue()) << 1);
 	}
 	else if (Shift < 0)
 	{
@@ -485,8 +487,8 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	Collections::Template::Array<uint32_t> x = ToUInt32Array();
 	Collections::Template::Array<uint32_t> y = Right.ToUInt32Array();
 	Collections::Template::Array<uint32_t> z = Collections::Template::Array<uint32_t>(MathHelper::Max(x.GetLength(), y.GetLength()));
-	uint32_t xExtend = _Sign < 0 ? UINT32_MAX_ : 0;
-	uint32_t yExtend = Right._Sign < 0 ? UINT32_MAX_ : 0;
+	uint32_t xExtend = _Sign < 0 ? Elysium::Core::UInt32::GetMaxValue() : 0;
+	uint32_t yExtend = Right._Sign < 0 ? Elysium::Core::UInt32::GetMaxValue() : 0;
 
 	for (size_t i = 0; i < z.GetLength(); i++)
 	{
@@ -538,12 +540,12 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysi
 	if (_Bits.GetLength() == 0)
 	{
 		DWords = Elysium::Core::Collections::Template::Array<uint32_t>({ static_cast<uint32_t>(_Sign) });
-		HighDWord = _Sign < 0 ? UINT32_MAX_ : 0;
+		HighDWord = _Sign < 0 ? Elysium::Core::UInt32::GetMaxValue() : 0;
 	}
 	else if (_Sign == -1)
 	{
 		DWords = _Bits;
-		HighDWord = UINT32_MAX_;
+		HighDWord = Elysium::Core::UInt32::GetMaxValue();
 	}
 	else
 	{
