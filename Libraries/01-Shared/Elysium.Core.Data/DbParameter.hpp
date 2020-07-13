@@ -42,7 +42,7 @@ namespace Elysium::Core::Data::Common
 		virtual std::string GetParameterName() const override;
 		virtual std::string GetSourceColumn() const override;
 		virtual DataRowVersion GetSourceVersion() const override;
-		virtual const BYTE* GetValue() const override;
+		virtual const byte* GetValue() const override;
 		virtual size_t GetSize() const override;
 		virtual bool GetIsDBNull() const override;
 
@@ -54,8 +54,8 @@ namespace Elysium::Core::Data::Common
 		virtual void SetSourceVersion(DataRowVersion Version) override;
 		virtual void SetValue(const DBNull* Value) override;
 		virtual void SetValue(const bool Value) override;
-		virtual void SetValue(const BYTE Value) override;
-		virtual void SetValue(const BYTE* Value, const size_t BufferOffset, const  size_t Length) override;
+		virtual void SetValue(const byte Value) override;
+		virtual void SetValue(const byte* Value, const size_t BufferOffset, const  size_t Length) override;
 		virtual void SetValue(const char Value) override;
 		virtual void SetValue(const char* Value, const size_t BufferOffset, const size_t Length) override;
 		virtual void SetValue(const std::string* Value) override;
@@ -87,7 +87,7 @@ namespace Elysium::Core::Data::Common
 		std::string _ParameterName;
 		std::string _SourceColumn;
 		DataRowVersion _SourceVersion;
-		std::vector<BYTE> _Data;
+		std::vector<byte> _Data;
 		const DBNull* _DBNullPointer = nullptr;
 	};
 }

@@ -28,7 +28,7 @@ Elysium::Core::Data::DataRowVersion Elysium::Core::Data::Common::DbParameter::Ge
 {
 	return _SourceVersion;
 }
-const Elysium::Core::BYTE * Elysium::Core::Data::Common::DbParameter::GetValue() const
+const Elysium::Core::byte * Elysium::Core::Data::Common::DbParameter::GetValue() const
 {
 	return _Data.data();
 }
@@ -78,17 +78,17 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const bool Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const BYTE Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const byte Value)
 {
-	size_t Size = sizeof(BYTE);
+	size_t Size = sizeof(byte);
 	_DbType = DbType::Byte;
 	_Data.resize(Size);
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const BYTE * Value, const size_t BufferOffset, const size_t Length)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const byte * Value, const size_t BufferOffset, const size_t Length)
 {
-	size_t Size = sizeof(BYTE) * Length;
+	size_t Size = sizeof(byte) * Length;
 	_DbType = DbType::Byte;
 	_Data.resize(Size);
 	memcpy(&_Data[0], &Value[BufferOffset], Size);

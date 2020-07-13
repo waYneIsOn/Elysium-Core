@@ -9,7 +9,7 @@ Elysium::Core::Security::Cryptography::RandomNumberGenerator::RandomNumberGenera
 Elysium::Core::Security::Cryptography::RandomNumberGenerator::~RandomNumberGenerator()
 { }
 
-void Elysium::Core::Security::Cryptography::RandomNumberGenerator::GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::Byte>& Data)
+void Elysium::Core::Security::Cryptography::RandomNumberGenerator::GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data)
 {
 	for (size_t i = 0; i < Data.GetLength(); i++)
 	{

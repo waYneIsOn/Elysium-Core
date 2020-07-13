@@ -114,7 +114,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetBoolea
 		throw InvalidCastException();
 	}
 }
-void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByte(unsigned int Index, BYTE * Value)
+void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByte(unsigned int Index, byte * Value)
 {
 	if (Index > _FieldCount)
 	{
@@ -124,13 +124,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByte(u
 	switch (_IndexBindingMap[Index]->wType)
 	{
 	case DBTYPE_BYTES:
-		memcpy(Value, &_RowDataBuffer[_IndexBindingMap[Index]->obValue], sizeof(BYTE));
+		memcpy(Value, &_RowDataBuffer[_IndexBindingMap[Index]->obValue], sizeof(byte));
 		break;
 	default:
 		throw InvalidCastException();
 	}
 }
-__int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetBytes(unsigned int Index, size_t FieldOffset, BYTE * Value, size_t BufferOffset, size_t Length)
+__int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetBytes(unsigned int Index, size_t FieldOffset, byte * Value, size_t BufferOffset, size_t Length)
 {
 	if (Index > _FieldCount)
 	{
@@ -169,7 +169,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByt
 		__int64 AvailableBytes = 0;
 		if (Value == nullptr)
 		{
-			BYTE* IntermediateValue = new BYTE[BLOCK_SIZE];
+			byte* IntermediateValue = new byte[BLOCK_SIZE];
 			do
 			{
 				if (SUCCEEDED(HResult = SequentialStream->Read(&IntermediateValue[0], BLOCK_SIZE, &cbRead)))

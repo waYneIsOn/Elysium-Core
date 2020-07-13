@@ -76,7 +76,7 @@ namespace Elysium::Core::Data
 		virtual std::string GetParameterName() const = 0;
 		virtual std::string GetSourceColumn() const = 0;
 		virtual DataRowVersion GetSourceVersion() const = 0;
-		virtual const BYTE* GetValue() const = 0;
+		virtual const byte* GetValue() const = 0;
 		virtual size_t GetSize() const = 0;
 		virtual bool GetIsDBNull() const = 0;
 
@@ -88,8 +88,8 @@ namespace Elysium::Core::Data
 		virtual void SetSourceVersion(DataRowVersion Version) = 0;
 		virtual void SetValue(const DBNull* Value) = 0;
 		virtual void SetValue(const bool Value) = 0;
-		virtual void SetValue(const BYTE Value) = 0;
-		virtual void SetValue(const BYTE* Value, const size_t BufferOffset, const size_t Length) = 0;
+		virtual void SetValue(const byte Value) = 0;
+		virtual void SetValue(const byte* Value, const size_t BufferOffset, const size_t Length) = 0;
 		virtual void SetValue(const char Value) = 0;
 		virtual void SetValue(const char* Value, const size_t BufferOffset, const size_t Length) = 0;
 		virtual void SetValue(const std::string* Value) = 0;

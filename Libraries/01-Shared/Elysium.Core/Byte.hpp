@@ -27,12 +27,8 @@ namespace Elysium::Core
 	{};
 	*/
 	typedef uint8_t byte;
-	typedef uint8_t BYTE;
-	typedef uint8_t Byte;
 
 	typedef int8_t sbyte;
-	typedef int8_t SBYTE;
-	typedef int8_t SByte;
 	/*
 	void printbytes_char(const char* ANSI_or_UTF8)
 	{

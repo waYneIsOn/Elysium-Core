@@ -29,12 +29,12 @@ namespace UnitTests::Core
 		{
 			// write into a filestream
 			FileStream InputOutputStream = FileStream(u"FS1.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::ReadWrite);
-			BYTE DataToWrite[] = { 0x73, 0x6F, 0x6D, 0x65, 0x20, 0x64, 0x61, 0x74, 0x61 };
+			byte DataToWrite[] = { 0x73, 0x6F, 0x6D, 0x65, 0x20, 0x64, 0x61, 0x74, 0x61 };
 			InputOutputStream.Write(DataToWrite, 9);
 
 			// use the same stream to read from the file (in a single command)
 			InputOutputStream.SetPosition(0);
-			BYTE DataToRead[9];
+			byte DataToRead[9];
 			size_t BytesRead = InputOutputStream.Read(&DataToRead[0], 9);
 			Assert::AreEqual((size_t)9, BytesRead);
 			InputOutputStream.Close();
@@ -50,15 +50,15 @@ namespace UnitTests::Core
 			Assert::AreEqual((size_t)1, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[10], 20);
 			Assert::AreEqual((size_t)0, BytesRead);
-			Assert::AreEqual((BYTE)'s', DataToRead[0]);
-			Assert::AreEqual((BYTE)'o', DataToRead[1]);
-			Assert::AreEqual((BYTE)'m', DataToRead[2]);
-			Assert::AreEqual((BYTE)'e', DataToRead[3]);
-			Assert::AreEqual((BYTE)' ', DataToRead[4]);
-			Assert::AreEqual((BYTE)'d', DataToRead[5]);
-			Assert::AreEqual((BYTE)'a', DataToRead[6]);
-			Assert::AreEqual((BYTE)'t', DataToRead[7]);
-			Assert::AreEqual((BYTE)'a', DataToRead[8]);
+			Assert::AreEqual((byte)'s', DataToRead[0]);
+			Assert::AreEqual((byte)'o', DataToRead[1]);
+			Assert::AreEqual((byte)'m', DataToRead[2]);
+			Assert::AreEqual((byte)'e', DataToRead[3]);
+			Assert::AreEqual((byte)' ', DataToRead[4]);
+			Assert::AreEqual((byte)'d', DataToRead[5]);
+			Assert::AreEqual((byte)'a', DataToRead[6]);
+			Assert::AreEqual((byte)'t', DataToRead[7]);
+			Assert::AreEqual((byte)'a', DataToRead[8]);
 
 			// copy from the previously used file stream to a memory stream
 			OutputStream.SetPosition(0);
@@ -71,15 +71,15 @@ namespace UnitTests::Core
 			DestinationStream.SetPosition(0);
 			BytesRead = DestinationStream.Read(&DataToRead[0], 9);
 			Assert::AreEqual((size_t)9, BytesRead);
-			Assert::AreEqual((BYTE)'s', DataToRead[0]);
-			Assert::AreEqual((BYTE)'o', DataToRead[1]);
-			Assert::AreEqual((BYTE)'m', DataToRead[2]);
-			Assert::AreEqual((BYTE)'e', DataToRead[3]);
-			Assert::AreEqual((BYTE)' ', DataToRead[4]);
-			Assert::AreEqual((BYTE)'d', DataToRead[5]);
-			Assert::AreEqual((BYTE)'a', DataToRead[6]);
-			Assert::AreEqual((BYTE)'t', DataToRead[7]);
-			Assert::AreEqual((BYTE)'a', DataToRead[8]);
+			Assert::AreEqual((byte)'s', DataToRead[0]);
+			Assert::AreEqual((byte)'o', DataToRead[1]);
+			Assert::AreEqual((byte)'m', DataToRead[2]);
+			Assert::AreEqual((byte)'e', DataToRead[3]);
+			Assert::AreEqual((byte)' ', DataToRead[4]);
+			Assert::AreEqual((byte)'d', DataToRead[5]);
+			Assert::AreEqual((byte)'a', DataToRead[6]);
+			Assert::AreEqual((byte)'t', DataToRead[7]);
+			Assert::AreEqual((byte)'a', DataToRead[8]);
 		}
 	};
 }

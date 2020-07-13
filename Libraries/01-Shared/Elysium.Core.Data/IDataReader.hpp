@@ -63,8 +63,8 @@ namespace Elysium
 				virtual void Close() = 0;
 
 				virtual void GetBoolean(unsigned int Index, bool* Value) = 0;
-				virtual void GetByte(unsigned int Index, BYTE* Value) = 0;
-				virtual __int64 GetBytes(unsigned int Index, size_t FieldOffset, BYTE* Value, size_t BufferOffset, size_t Length) = 0;
+				virtual void GetByte(unsigned int Index, byte* Value) = 0;
+				virtual __int64 GetBytes(unsigned int Index, size_t FieldOffset, byte* Value, size_t BufferOffset, size_t Length) = 0;
 				virtual void GetChar(unsigned int Index, char* Value) = 0;
 				virtual __int64 GetChars(unsigned int Index, size_t FieldOffset, char* Value, size_t BufferOffset, size_t Length) = 0;
 				virtual void GetDateTime(uint32_t Index, DateTime* Value) = 0;

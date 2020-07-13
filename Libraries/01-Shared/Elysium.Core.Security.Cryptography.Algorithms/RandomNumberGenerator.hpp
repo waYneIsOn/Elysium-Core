@@ -38,7 +38,7 @@ namespace Elysium::Core::Security::Cryptography
 		RandomNumberGenerator& operator=(const RandomNumberGenerator& Source) = delete;
 		RandomNumberGenerator& operator=(RandomNumberGenerator&& Right) noexcept = delete;
 
-		void GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::Byte>& Data);
+		void GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
 	private:
 	};
 }

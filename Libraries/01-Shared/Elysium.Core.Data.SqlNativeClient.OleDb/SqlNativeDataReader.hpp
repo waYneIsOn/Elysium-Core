@@ -48,8 +48,8 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual void Close() override;
 
 		virtual void GetBoolean(uint32_t Index, bool* Value) override;
-		virtual void GetByte(unsigned int Index, BYTE* Value) override;
-		virtual __int64 GetBytes(unsigned int Index, size_t FieldOffset, BYTE* Value, size_t BufferOffset, size_t Length) override;
+		virtual void GetByte(unsigned int Index, byte* Value) override;
+		virtual __int64 GetBytes(unsigned int Index, size_t FieldOffset, byte* Value, size_t BufferOffset, size_t Length) override;
 		virtual void GetChar(unsigned int Index, char* Value) override;
 		virtual __int64 GetChars(unsigned int Index, size_t FieldOffset, char* Value, size_t BufferOffset, size_t Length) override;
 		virtual void GetDateTime(uint32_t Index, DateTime* Value) override;

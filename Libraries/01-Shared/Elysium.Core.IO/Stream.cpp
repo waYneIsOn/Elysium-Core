@@ -65,7 +65,7 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t Buffer
 	}
 
 	size_t BytesRead = 0;
-	Elysium::Core::Collections::Template::List<Byte> Buffer = Elysium::Core::Collections::Template::List<Byte>(BufferSize);
+	Elysium::Core::Collections::Template::List<byte> Buffer = Elysium::Core::Collections::Template::List<byte>(BufferSize);
 	while ((BytesRead = Read(&Buffer[0], BufferSize)) > 0)
 	{
 		Destination.Write(&Buffer[0], BytesRead);
