@@ -144,6 +144,8 @@ Global
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{2e31205a-3fcd-45b6-a9a1-329204ceb079}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{328bc640-06c0-47c1-8091-fe3b2c191222}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{32cecf97-4ffe-4e20-abc3-0093563ae62f}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4

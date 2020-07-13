@@ -180,6 +180,7 @@
     <ClCompile Include="EnvironmentTest.cpp" />
     <ClCompile Include="GZipStreamTest.cpp" />
     <ClCompile Include="FileStreamTest.cpp" />
+    <ClCompile Include="IntegerTest.cpp" />
     <ClCompile Include="ListTest.cpp" />
     <ClCompile Include="MemoryStreamTest.cpp" />
     <ClCompile Include="QueueTest.cpp" />

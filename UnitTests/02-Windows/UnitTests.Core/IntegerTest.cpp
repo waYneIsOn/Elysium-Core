@@ -1,0 +1,49 @@
+#include "CppUnitTest.h"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../../../Libraries/01-Shared/Elysium.Core/Integer.hpp"
+#endif
+
+using namespace Elysium::Core;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace UnitTests::Core
+{
+	TEST_CLASS(IntegerTest)
+	{
+	public:
+		TEST_METHOD(StaticMethods)
+		{
+			// unsigned
+			AssertExtended::AreEqual((Elysium::Core::uint16_t)0, Elysium::Core::UInt16::GetMinValue());
+			AssertExtended::AreEqual((Elysium::Core::uint16_t)65535, Elysium::Core::UInt16::GetMaxValue());
+
+			Assert::AreEqual((Elysium::Core::uint32_t)0, Elysium::Core::UInt32::GetMinValue());
+			Assert::AreEqual((Elysium::Core::uint32_t)4294967295, Elysium::Core::UInt32::GetMaxValue());
+
+			Assert::AreEqual((Elysium::Core::uint64_t)0, Elysium::Core::UInt64::GetMinValue());
+			Assert::AreEqual((Elysium::Core::uint64_t)18446744073709551615, Elysium::Core::UInt64::GetMaxValue());
+
+			// signed
+			Assert::AreEqual((Elysium::Core::int16_t)-32768, Elysium::Core::Int16::GetMinValue());
+			Assert::AreEqual((Elysium::Core::int16_t)32767, Elysium::Core::Int16::GetMaxValue());
+
+			Assert::AreEqual((Elysium::Core::int32_t)-2147483648, Elysium::Core::Int32::GetMinValue());
+			Assert::AreEqual((Elysium::Core::int32_t)2147483647, Elysium::Core::Int32::GetMaxValue());
+
+			Assert::AreEqual((Elysium::Core::int64_t)-9223372036854775808, Elysium::Core::Int64::GetMinValue());
+			Assert::AreEqual((Elysium::Core::int64_t)9223372036854775807, Elysium::Core::Int64::GetMaxValue());
+		}
+		
+		TEST_METHOD(Operators)
+		{
+			Elysium::Core::UInt16 UnsignedShortMax = 65535;
+			Elysium::Core::UInt32 UnsignedIntMax = 4294967295;
+			Elysium::Core::UInt64 UnsignedLongMax = 18446744073709551615;
+
+			//UnsignedShort += 1;
+			UnsignedShortMax = UnsignedShortMax + 1;
+		}
+	};
+}

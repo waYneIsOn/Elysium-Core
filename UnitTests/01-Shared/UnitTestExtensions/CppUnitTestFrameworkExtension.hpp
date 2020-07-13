@@ -114,6 +114,11 @@ namespace Microsoft
 
 					Assert::AreEqual(StringExpected, StringActual);
 				}
+
+				static void AreEqual(const unsigned short expected, const unsigned short actual)
+				{
+					Assert::IsTrue(expected == actual);
+				}
 			};
 		}
 	}
