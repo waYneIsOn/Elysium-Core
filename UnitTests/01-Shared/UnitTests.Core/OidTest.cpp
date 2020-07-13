@@ -5,7 +5,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security/Oid.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
 #endif
 
 using namespace Elysium::Core::Security::Cryptography;
