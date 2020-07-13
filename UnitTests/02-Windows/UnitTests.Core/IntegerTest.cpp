@@ -38,12 +38,57 @@ namespace UnitTests::Core
 		
 		TEST_METHOD(Operators)
 		{
-			Elysium::Core::UInt16 UnsignedShortMax = 65535;
-			Elysium::Core::UInt32 UnsignedIntMax = 4294967295;
-			Elysium::Core::UInt64 UnsignedLongMax = 18446744073709551615;
 
-			//UnsignedShort += 1;
-			UnsignedShortMax = UnsignedShortMax + 1;
+			// underflow via subtraction
+			Elysium::Core::UInt16 UnsignedShortMin = 0;
+			try
+			{
+				UnsignedShortMin = UnsignedShortMin - 1;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
+			try
+			{
+				UnsignedShortMin -= 1;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
+
+			// overflow via addition
+			Elysium::Core::UInt16 UnsignedShortMax = 65535;
+			try
+			{
+				UnsignedShortMax = UnsignedShortMax + 1;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }			
+			try
+			{
+				UnsignedShortMax += 1;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
+
+			// overflow via multiplication
+			Elysium::Core::Int16 SignedShortMinusOne = -1;
+			try
+			{
+				SignedShortMinusOne = SignedShortMinusOne * Elysium::Core::Int16::GetMinValue();
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
+			try
+			{
+				SignedShortMinusOne *= Elysium::Core::Int16::GetMinValue();
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException& ex)
+			{ }
 		}
 	};
 }

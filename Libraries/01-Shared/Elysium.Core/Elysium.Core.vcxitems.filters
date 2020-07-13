@@ -111,6 +111,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -154,5 +156,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ArithmeticException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OverflowException.cpp" />
   </ItemGroup>
 </Project>

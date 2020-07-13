@@ -20,6 +20,10 @@ Copyright (C) 2017 waYne (CAM)
 #include <type_traits>
 #endif
 
+#ifndef ELYSIUM_CORE_OVERFLOWEXCEPTION
+#include "OverflowException.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	template<class T, typename Enabled = void>
@@ -42,6 +46,21 @@ namespace Elysium::Core
 
 		Integer& operator+(const Integer& Value);
 		Integer& operator+(const T Value);
+
+		Integer& operator-(const Integer& Value);
+		Integer& operator-(const T Value);
+
+		Integer& operator*(const Integer& Value);
+		Integer& operator*(const T Value);
+
+		Integer& operator+=(const Integer& Value);
+		Integer& operator+=(const T Value);
+
+		Integer& operator-=(const Integer& Value);
+		Integer& operator-=(const T Value);
+
+		Integer& operator*=(const Integer& Value);
+		Integer& operator*=(const T Value);
 	private:
 		T _Value;
 	};
@@ -124,32 +143,246 @@ namespace Elysium::Core
 		if (this != &Value)
 		{
 			if (Value._Value > 0 && _Value > GetMaxValue() - Value._Value)
-			{	// ToDo: OverflowException
-				throw 1;
+			{
+				throw OverflowException();
 			}
-			else if (Value._Value < 0 && _Value < GetMinValue() - Value._Value)
-			{	// ToDo: OverflowException
-				throw 1;
+			if (Value._Value < 0 && _Value < GetMinValue() - Value._Value)
+			{
+				throw OverflowException();
 			}
 
 			_Value += Value._Value;
 		}
+
 		return *this;
 	}
 
 	template<class T, typename Enabled>
 	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+(const T Value)
 	{
-		if (_Value > 0 && _Value > GetMaxValue() - Value)
-		{	// ToDo: OverflowException
-			throw 1;
+		if (Value > 0 && _Value > GetMaxValue() - Value)
+		{
+			throw OverflowException();
 		}
-		else if (Value < 0 && _Value < GetMinValue() - Value)
-		{	// ToDo: OverflowException
-			throw 1;
+		if (Value < 0 && _Value < GetMinValue() - Value)
+		{
+			throw OverflowException();
 		}
 
 		_Value += Value;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-(const Integer & Value)
+	{
+		if (this != &Value)
+		{
+			if (Value._Value < 0 && _Value > GetMaxValue() + Value._Value)
+			{
+				throw OverflowException();
+			}
+			if (Value._Value > 0 && _Value < GetMinValue() + Value._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value -= Value._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-(const T Value)
+	{
+		if (Value < 0 && _Value > GetMaxValue() + Value)
+		{
+			throw OverflowException();
+		}
+		if (Value > 0 && _Value < GetMinValue() + Value)
+		{
+			throw OverflowException();
+		}
+
+		_Value -= Value;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*(const Integer & Value)
+	{
+		if (this != &Value)
+		{
+			if (_Value == -1 && Value._Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (Value._Value == -1 && _Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (_Value > GetMaxValue() / Value._Value)
+			{
+				throw OverflowException();
+			}
+			if (_Value < GetMinValue() / Value._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value *= Value._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*(const T Value)
+	{
+		if (_Value == -1 && Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (Value == -1 && _Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (_Value > GetMaxValue() / Value)
+		{
+			throw OverflowException();
+		}
+		if (_Value < GetMinValue() / Value)
+		{
+			throw OverflowException();
+		}
+		
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+=(const Integer & Value)
+	{
+		if (this != &Value)
+		{
+			if (Value._Value > 0 && _Value > GetMaxValue() - Value._Value)
+			{
+				throw OverflowException();
+			}
+			if (Value._Value < 0 && _Value < GetMinValue() - Value._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value += Value._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator+=(const T Value)
+	{
+		if (Value > 0 && _Value > GetMaxValue() - Value)
+		{
+			throw OverflowException();
+		}
+		if (Value < 0 && _Value < GetMinValue() - Value)
+		{
+			throw OverflowException();
+		}
+
+		_Value += Value;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-=(const Integer & Value)
+	{
+		if (this != &Value)
+		{
+			if (Value._Value < 0 && _Value > GetMaxValue() + Value._Value)
+			{
+				throw OverflowException();
+			}
+			if (Value._Value > 0 && _Value < GetMinValue() + Value._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value -= Value._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator-=(const T Value)
+	{
+		if (Value < 0 && _Value > GetMaxValue() + Value)
+		{
+			throw OverflowException();
+		}
+		if (Value > 0 && _Value < GetMinValue() + Value)
+		{
+			throw OverflowException();
+		}
+
+		_Value -= Value;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*=(const Integer & Value)
+	{
+		if (this != &Value)
+		{
+			if (_Value == -1 && Value._Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (Value._Value == -1 && _Value == GetMinValue())
+			{
+				throw OverflowException();
+			}
+			if (_Value > GetMaxValue() / Value._Value)
+			{
+				throw OverflowException();
+			}
+			if (_Value < GetMinValue() / Value._Value)
+			{
+				throw OverflowException();
+			}
+
+			_Value *= Value._Value;
+		}
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Integer<T, Enabled> & Integer<T, Enabled>::operator*=(const T Value)
+	{
+		if (_Value == -1 && Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (Value == -1 && _Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (_Value > GetMaxValue() / Value)
+		{
+			throw OverflowException();
+		}
+		if (_Value < GetMinValue() / Value)
+		{
+			throw OverflowException();
+		}
 
 		return *this;
 	}

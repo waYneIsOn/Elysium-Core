@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
@@ -56,6 +57,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
@@ -77,6 +79,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ArithmeticException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
@@ -99,6 +102,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OverflowException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
