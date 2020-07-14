@@ -15,43 +15,46 @@ namespace UnitTests::Core
 	public:
 		TEST_METHOD(Size)
 		{
-			//Assert::AreEqual((size_t)1, sizeof(Elysium::Core::Byte));
-			//Assert::AreEqual((size_t)1, sizeof(Elysium::Core::SByte));
+			Assert::AreEqual(static_cast<size_t>(2), sizeof(Elysium::Core::UInt16));
+			Assert::AreEqual(static_cast<size_t>(2), sizeof(Elysium::Core::Int16));
 
-			Assert::AreEqual((size_t)2, sizeof(Elysium::Core::UInt16));
-			Assert::AreEqual((size_t)2, sizeof(Elysium::Core::Int16));
+			Assert::AreEqual(static_cast<size_t>(4), sizeof(Elysium::Core::UInt32));
+			Assert::AreEqual(static_cast<size_t>(4), sizeof(Elysium::Core::Int32));
 
-			Assert::AreEqual((size_t)4, sizeof(Elysium::Core::UInt32));
-			Assert::AreEqual((size_t)4, sizeof(Elysium::Core::Int32));
-
-			Assert::AreEqual((size_t)8, sizeof(Elysium::Core::UInt64));
-			Assert::AreEqual((size_t)8, sizeof(Elysium::Core::Int64));
+			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::UInt64));
+			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::Int64));
 		}
 
 		TEST_METHOD(StaticMethods)
 		{
 			// unsigned
-			AssertExtended::AreEqual((Elysium::Core::uint16_t)0, Elysium::Core::UInt16::GetMinValue());
-			AssertExtended::AreEqual((Elysium::Core::uint16_t)65535, Elysium::Core::UInt16::GetMaxValue());
+			AssertExtended::AreEqual(static_cast<Elysium::Core::uint16_t>(0), Elysium::Core::UInt16::GetMinValue());
+			AssertExtended::AreEqual(static_cast<Elysium::Core::uint16_t>(65535), Elysium::Core::UInt16::GetMaxValue());
+			Assert::IsFalse(Elysium::Core::UInt16::GetIsSigned());
 
-			Assert::AreEqual((Elysium::Core::uint32_t)0, Elysium::Core::UInt32::GetMinValue());
-			Assert::AreEqual((Elysium::Core::uint32_t)4294967295, Elysium::Core::UInt32::GetMaxValue());
+			Assert::AreEqual(static_cast<Elysium::Core::uint32_t>(0), Elysium::Core::UInt32::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::uint32_t>(4294967295), Elysium::Core::UInt32::GetMaxValue());
+			Assert::IsFalse(Elysium::Core::UInt32::GetIsSigned());
 
-			Assert::AreEqual((Elysium::Core::uint64_t)0, Elysium::Core::UInt64::GetMinValue());
-			Assert::AreEqual((Elysium::Core::uint64_t)18446744073709551615, Elysium::Core::UInt64::GetMaxValue());
+			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(0), Elysium::Core::UInt64::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(18446744073709551615), Elysium::Core::UInt64::GetMaxValue());
+			Assert::IsFalse(Elysium::Core::UInt64::GetIsSigned());
 
 			// signed
-			Assert::AreEqual((Elysium::Core::int16_t)-32768, Elysium::Core::Int16::GetMinValue());
-			Assert::AreEqual((Elysium::Core::int16_t)32767, Elysium::Core::Int16::GetMaxValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int16_t>(-32768), Elysium::Core::Int16::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int16_t>(32767), Elysium::Core::Int16::GetMaxValue());
+			Assert::IsTrue(Elysium::Core::Int16::GetIsSigned());
 
-			Assert::AreEqual((Elysium::Core::int32_t)-2147483648, Elysium::Core::Int32::GetMinValue());
-			Assert::AreEqual((Elysium::Core::int32_t)2147483647, Elysium::Core::Int32::GetMaxValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(-2147483648), Elysium::Core::Int32::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(2147483647), Elysium::Core::Int32::GetMaxValue());
+			Assert::IsTrue(Elysium::Core::Int32::GetIsSigned());
 
-			Assert::AreEqual((Elysium::Core::int64_t)-9223372036854775808, Elysium::Core::Int64::GetMinValue());
-			Assert::AreEqual((Elysium::Core::int64_t)9223372036854775807, Elysium::Core::Int64::GetMaxValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(-9223372036854775808), Elysium::Core::Int64::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(9223372036854775807), Elysium::Core::Int64::GetMaxValue());
+			Assert::IsTrue(Elysium::Core::Int64::GetIsSigned());
 		}
 		
-		TEST_METHOD(Operators)
+		TEST_METHOD(Overflow)
 		{
 			// underflow via subtraction
 			Elysium::Core::UInt16 UnsignedShortMin = 0;
@@ -60,28 +63,28 @@ namespace UnitTests::Core
 				UnsignedShortMin = UnsignedShortMin - 1;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				UnsignedShortMin -= 1;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				UnsignedShortMin--;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				--UnsignedShortMin;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 
 			// overflow via addition
@@ -91,28 +94,28 @@ namespace UnitTests::Core
 				UnsignedShortMax = UnsignedShortMax + 1;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				UnsignedShortMax += 1;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				UnsignedShortMax++;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				++UnsignedShortMax;
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 
 			Elysium::Core::Int16 SignedShortMinusOne = -1;
@@ -121,15 +124,96 @@ namespace UnitTests::Core
 				SignedShortMinusOne = SignedShortMinusOne * Elysium::Core::Int16::GetMinValue();
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
 			try
 			{
 				SignedShortMinusOne *= Elysium::Core::Int16::GetMinValue();
 				Assert::Fail();
 			}
-			catch (Elysium::Core::OverflowException& ex)
+			catch (Elysium::Core::OverflowException&)
 			{ }
+
+			/*
+			
+			remaining:
+			/
+
+			*/
+		}
+
+		TEST_METHOD(AssigmentOperators)
+		{
+			Elysium::Core::Int32 Value1 = -25;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(-25), static_cast<Elysium::Core::int32_t>(Value1));
+
+			Value1 += 25;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(0), static_cast<Elysium::Core::int32_t>(Value1));
+
+			Value1 -= 12;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(-12), static_cast<Elysium::Core::int32_t>(Value1));
+
+			Value1 *= -1;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(12), static_cast<Elysium::Core::int32_t>(Value1));
+
+			Value1 %= 3;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(0), static_cast<Elysium::Core::int32_t>(Value1));
+
+			//Value1 /= 2;
+			//Assert::AreEqual(static_cast<Elysium::Core::int32_t>(6), static_cast<Elysium::Core::int32_t>(Value1));
+
+			/*
+
+			remaining:
+			/=
+			&=
+			|=
+			^=
+			>>=
+			<<=
+
+			*/
+		}
+
+		TEST_METHOD(ComparisonOperators)
+		{
+			Elysium::Core::Int16 Value1 = -25;
+			Elysium::Core::Int16 Value2 = 32;
+
+			Assert::IsFalse(Value1 == Value2);
+			Assert::IsTrue(Value1 != Value2);
+			Assert::IsTrue(Value1 < Value2);
+			Assert::IsFalse(Value1 > Value2);
+			Assert::IsTrue(Value1 <= Value2);
+			Assert::IsFalse(Value1 >= Value2);
+		}
+
+		TEST_METHOD(LogicalOperators)
+		{
+			Elysium::Core::Int16 Value1 = -25;
+			Elysium::Core::Int16 Value2 = -25;
+			Elysium::Core::Int16 Value3 = 32;
+			Elysium::Core::Int16 Value4 = 32;
+
+			Assert::IsFalse((Value1 == Value2) && (Value3 > Value4));
+			Assert::IsTrue((Value1 == Value2) || (Value3 > Value4));
+			Assert::IsTrue(!((Value1 == Value2) && (Value3 > Value4)));
+		}
+
+		TEST_METHOD(BitwiseOperators)
+		{
+			Assert::Fail();
+			/*
+
+			remaining:
+			&
+			|
+			^
+			~
+			<<
+			>>
+
+			*/
 		}
 	};
 }
