@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SocketError : uint32_t
+	enum class SocketError : int32_t
 #elif defined(__ANDROID__)
 	enum class SocketError
 #else
