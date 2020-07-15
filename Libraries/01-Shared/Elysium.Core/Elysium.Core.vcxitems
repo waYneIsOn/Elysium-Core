@@ -42,6 +42,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Float.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />

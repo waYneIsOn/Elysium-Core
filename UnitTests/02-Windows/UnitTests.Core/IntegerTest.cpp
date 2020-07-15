@@ -159,6 +159,13 @@ namespace UnitTests::Core
 			Value1 %= 3;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(0), static_cast<Elysium::Core::int32_t>(Value1));
 
+			Value1 = 1;
+			Value1 <<= 8;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(256), static_cast<Elysium::Core::int32_t>(Value1));
+
+			Value1 >>= 1;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(128), static_cast<Elysium::Core::int32_t>(Value1));
+
 			//Value1 /= 2;
 			//Assert::AreEqual(static_cast<Elysium::Core::int32_t>(6), static_cast<Elysium::Core::int32_t>(Value1));
 
@@ -166,11 +173,10 @@ namespace UnitTests::Core
 
 			remaining:
 			/=
+
 			&=
 			|=
 			^=
-			>>=
-			<<=
 
 			*/
 		}
@@ -202,7 +208,13 @@ namespace UnitTests::Core
 
 		TEST_METHOD(BitwiseOperators)
 		{
-			Assert::Fail();
+			Elysium::Core::Int32 Value = 1;
+
+			Value = Value << 2;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(4), static_cast<Elysium::Core::int32_t>(Value));
+
+			Value = Value >> 1;
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(2), static_cast<Elysium::Core::int32_t>(Value));
 			/*
 
 			remaining:
@@ -210,8 +222,6 @@ namespace UnitTests::Core
 			|
 			^
 			~
-			<<
-			>>
 
 			*/
 		}
