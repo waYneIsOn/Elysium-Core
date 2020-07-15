@@ -29,7 +29,7 @@ Elysium::Core::Environment::~Environment()
 {
 }
 
-bool Elysium::Core::Environment::Is64BitProcess()
+constexpr const bool Elysium::Core::Environment::Is64BitProcess()
 {
 #ifdef _WIN64 || __x86_64__ || __ppc64__
 	return true;
@@ -37,10 +37,11 @@ bool Elysium::Core::Environment::Is64BitProcess()
 	return false;
 #endif
 }
-Elysium::Core::String Elysium::Core::Environment::MachineName()
+
+const Elysium::Core::String Elysium::Core::Environment::MachineName()
 {
-	wchar_t MachineName[32767];	// TCHAR
-	unsigned long BufferCount = 32767;	// DWORD
+	wchar_t MachineName[4096];	// TCHAR
+	unsigned long BufferCount = 4096;	// DWORD
 	if (GetComputerName(MachineName, &BufferCount))
 	{
 		//return MachineName;
@@ -55,7 +56,7 @@ const Elysium::Core::String & Elysium::Core::Environment::NewLine()
 {
 	return _NewLineCharacters;
 }
-Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
+const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 {
 	// ToDos:
 	//		- use preprocessor for different os
@@ -89,7 +90,7 @@ Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 		throw InvalidOperationException(u"This property was unable to obtain the system version.");
 	}
 }
-uint32_t Elysium::Core::Environment::ProcessorCount()
+const uint32_t Elysium::Core::Environment::ProcessorCount()
 {
 	/*
 	SYSTEM_INFO sysinfo;
@@ -97,10 +98,10 @@ uint32_t Elysium::Core::Environment::ProcessorCount()
 	*/
 	return std::thread::hardware_concurrency();
 }
-Elysium::Core::String Elysium::Core::Environment::UserName()
+const Elysium::Core::String Elysium::Core::Environment::UserName()
 {
-	wchar_t UserName[32767];	// TCHAR
-	unsigned long BufferCount = 32767;	// DWORD
+	wchar_t UserName[4096];	// TCHAR
+	unsigned long BufferCount = 4096;	// DWORD
 	if (GetUserName(UserName, &BufferCount))
 	{
 		//return UserName;
@@ -111,10 +112,10 @@ Elysium::Core::String Elysium::Core::Environment::UserName()
 		throw InvalidOperationException(u"This property was unable to obtain the user name.");
 	}
 }
-Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
+const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 {
-	wchar_t SystemDirectory[32767];	// TCHAR
-	unsigned long BufferCount = 32767;	// DWORD
+	wchar_t SystemDirectory[4096];	// TCHAR
+	unsigned long BufferCount = 4096;	// DWORD
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
 	{
 		//return SystemDirectory;

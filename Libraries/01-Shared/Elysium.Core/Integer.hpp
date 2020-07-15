@@ -16,10 +16,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "Numeric.hpp"
 #endif
 
-#ifndef _LIMITS_
-#include <limits>
-#endif
-
 namespace Elysium::Core
 {
 	typedef char int8_t;

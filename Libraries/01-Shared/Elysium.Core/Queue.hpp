@@ -68,7 +68,7 @@ namespace Elysium::Core::Collections::Template
 	inline Queue<T>::Queue(const size_t Capacity, const float GrowFactor)
 		: _Count(0),
 		_Capacity(Capacity <= QUEUE_MAX ? Capacity : QUEUE_MAX), 
-		_GrowFactor(static_cast<size_t>(GrowFactor * 100)), 
+		_GrowFactor(static_cast<size_t>(static_cast<double>(GrowFactor) * 100)), 
 		_HeadIndex(0), _TailIndex(0), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{ }
 	template<class T>

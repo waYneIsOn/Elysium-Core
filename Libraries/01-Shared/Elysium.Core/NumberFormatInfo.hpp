@@ -30,12 +30,12 @@ namespace Elysium::Core::Globalization
 	{
 	public:
 		NumberFormatInfo();
-		//NumberFormatInfo(const NumberFormatInfo& Source);
-		//NumberFormatInfo(NumberFormatInfo&& Right) noexcept;
+		//NumberFormatInfo(const NumberFormatInfo& Source) = delete;
+		//NumberFormatInfo(NumberFormatInfo&& Right) noexcept = delete;
 		~NumberFormatInfo();
 
-		//NumberFormatInfo& operator=(const NumberFormatInfo& Source);
-		//NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept;
+		//NumberFormatInfo& operator=(const NumberFormatInfo& Source) = delete;
+		//NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept = delete;
 
 		const int GetCurrencyDecimalDigits() const;
 		const String& GetCurrencyDecimalSeparator() const;

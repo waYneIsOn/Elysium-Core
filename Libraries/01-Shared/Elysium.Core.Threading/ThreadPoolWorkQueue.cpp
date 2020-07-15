@@ -25,7 +25,7 @@ Elysium::Core::Threading::Tasks::Task * Elysium::Core::Threading::ThreadPoolWork
 	{
 		NextTask = _Queue.Dequeue();
 	}
-	catch(InvalidOperationException& Ex)
+	catch(InvalidOperationException&)
 	{ 
 		// ...
 	}

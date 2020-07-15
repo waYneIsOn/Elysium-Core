@@ -74,7 +74,7 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 		_Action();
 		_Status = TaskStatus::RanToCompletion;
 	}
-	catch (OperationCanceledException& Ex)
+	catch (OperationCanceledException&)
 	{
 		_Status = TaskStatus::Canceled;
 	}

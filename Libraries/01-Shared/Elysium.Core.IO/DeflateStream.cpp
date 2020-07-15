@@ -20,22 +20,22 @@
 
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionMode CompressionMode)
 	: Elysium::Core::IO::Stream(),
-	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false)
+	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false)
 {
 }
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionMode CompressionMode, bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
-	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen)
+	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen)
 {
 }
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
-	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false)
+	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false)
 {
 }
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionLevel CompressionLevel, bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
-	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen)
+	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen)
 {
 }
 Elysium::Core::IO::Compression::DeflateStream::~DeflateStream()

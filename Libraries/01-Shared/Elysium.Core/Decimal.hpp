@@ -40,8 +40,8 @@ namespace Elysium::Core
 		Decimal& operator=(const Decimal& Source);
 		Decimal& operator=(Decimal&& Right) noexcept;
 
-		const int64_t* GetHighPart() const;
-		const int64_t* GetLowPart() const;
+		const int64_t GetHighPart() const;
+		const int64_t GetLowPart() const;
 	private:
 		byte _Data[16];
 	};

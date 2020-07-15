@@ -110,7 +110,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String & Password, const X509KeyStorageFlags Flags)
 {
-	return LoadFromBlob(&RawData[0], RawData.GetLength(), Password, Flags);
+	return LoadFromBlob(&RawData[0], static_cast<const int32_t>(RawData.GetLength()), Password, Flags);
 }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const String & Password, const X509KeyStorageFlags Flags)
 {

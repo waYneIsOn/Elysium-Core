@@ -101,7 +101,7 @@ Elysium::Core::Collections::Template::List<byte> Elysium::Core::Text::Encoding::
 
 	// write bytes to list
 	Elysium::Core::Collections::Template::List<byte> Result = Elysium::Core::Collections::Template::List<byte>(RequiredSize + 1);
-	c16rtomb((char*)&Result[0], Input, &State);
+	size_t ConvertedSize = c16rtomb((char*)&Result[0], Input, &State);
 	Result[RequiredSize] = u'\0';
 
 	return Result;
@@ -185,7 +185,7 @@ Elysium::Core::Text::Encoding::Encoding()
 { }
 
 Elysium::Core::Text::Encoding::Encoding(int CodePage)
-	: _CodePage(CodePage)
+	: _IsSingleByte(false), _CodePage(CodePage)
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	CPINFOEX Info;

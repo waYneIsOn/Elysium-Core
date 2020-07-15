@@ -16,10 +16,10 @@ Elysium::Core::TimeSpan::TimeSpan(int64_t Ticks)
 	: _Ticks(Ticks)
 { }
 Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds)
-	: Elysium::Core::TimeSpan::TimeSpan(TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds))
+	: _Ticks((TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds)).GetTicks())
 { }
 Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds)
-	: Elysium::Core::TimeSpan::TimeSpan(TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds) + TimeSpan::FromTicks(Milliseconds))
+	: _Ticks((TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds) + TimeSpan::FromTicks(Milliseconds)).GetTicks())
 { }
 Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 	: _Ticks(Source._Ticks)

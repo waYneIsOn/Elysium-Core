@@ -72,9 +72,9 @@ void Elysium::Core::IO::TextWriter::Write(const double & Value)
 }
 void Elysium::Core::IO::TextWriter::Write(const Decimal & Value)
 {
-	Write(std::to_wstring(*Value.GetHighPart()).c_str());
+	Write(std::to_wstring(Value.GetHighPart()).c_str());
 	Write(u".");
-	Write(std::to_wstring(*Value.GetLowPart()).c_str());
+	Write(std::to_wstring(Value.GetLowPart()).c_str());
 }
 void Elysium::Core::IO::TextWriter::Write(const int16_t & Value)
 {

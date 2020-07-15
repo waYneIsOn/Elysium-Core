@@ -11,10 +11,12 @@
 Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid();
 
 Elysium::Core::Guid::Guid(const byte B[16])
+	: _Data()
 {
 	memcpy(&_Data[0], &B[0], sizeof(byte) * 16);
 }
 Elysium::Core::Guid::Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8])
+	: _Data()
 {
 	memcpy(&_Data[0], &A, sizeof(uint32_t));
 	memcpy(&_Data[4], &B, sizeof(uint16_t));
@@ -22,16 +24,17 @@ Elysium::Core::Guid::Guid(const uint32_t A, const uint16_t B, const uint16_t C, 
 	memcpy(&_Data[8], D[0], sizeof(byte) * 8);
 }
 Elysium::Core::Guid::Guid(const Guid & Source)
+	: _Data()
 {
 	memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
 }
 Elysium::Core::Guid::Guid(Guid && Right) noexcept
+	: _Data()
 {
 	*this = std::move(Right);
 }
 Elysium::Core::Guid::~Guid()
-{
-}
+{ }
 
 Elysium::Core::Guid & Elysium::Core::Guid::operator=(const Guid & Source)
 {

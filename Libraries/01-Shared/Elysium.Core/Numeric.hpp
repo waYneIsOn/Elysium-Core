@@ -65,8 +65,10 @@ namespace Elysium::Core
 		Numeric& operator*=(const Numeric& Other);
 		Numeric& operator*=(const T Other);
 
-		//FloatingPoint& operator/=(const Numeric& Other);
-		//FloatingPoint& operator/=(const T Other);
+		//Numeric& operator/=(const Numeric& Other);
+		//Numeric& operator/=(const T Other);
+		//Numeric<double, std::enable_if<std::is_floating_point<T>::value, T>>& operator/=(const Numeric& Other);
+		//Numeric<double, std::enable_if<std::is_floating_point<T>::value, T>>& operator/=(const T Other);
 
 		Numeric& operator%=(const Numeric& Other);
 		Numeric& operator%=(const T Other);
@@ -88,6 +90,8 @@ namespace Elysium::Core
 		Numeric operator*(const Numeric& Other);
 		Numeric operator*(const T Other);
 
+		//Numeric operator/(const Numeric& Other);
+		//Numeric operator/(const T Other);
 		//FloatingPoint operator/(const Numeric& Other);
 		//FloatingPoint operator/(const T Other);
 
@@ -103,10 +107,10 @@ namespace Elysium::Core
 
 
 		Numeric& operator++();
-		Numeric& operator++(int);
+		Numeric operator++(int);
 
 		Numeric& operator--();
-		Numeric& operator--(int);
+		Numeric operator--(int);
 	private:
 		T _Value;
 	};
@@ -467,7 +471,7 @@ namespace Elysium::Core
 	}
 
 	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator++(int)
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator++(int)
 	{
 		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
 		++(*this);
@@ -488,7 +492,7 @@ namespace Elysium::Core
 	}
 
 	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator--(int)
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator--(int)
 	{
 		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
 		--(*this);

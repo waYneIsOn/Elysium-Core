@@ -35,13 +35,13 @@ namespace Elysium::Core
 	public:
 		~Environment();
 
-		static bool Is64BitProcess();
-		static String MachineName();
+		static constexpr const bool Is64BitProcess();
+		static const String MachineName();
 		static const String& NewLine();
-		static OperatingSystem OSVersion();
-		static uint32_t ProcessorCount();
-		static String UserName();
-		static String SystemDirectory();
+		static const OperatingSystem OSVersion();
+		static const uint32_t ProcessorCount();
+		static const String UserName();
+		static const String SystemDirectory();
 	private:
 		Environment();
 

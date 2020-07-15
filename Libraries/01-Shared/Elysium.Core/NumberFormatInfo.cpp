@@ -9,15 +9,13 @@ Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::Num
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
 	: 
 	_CurrencyDecimalDigits(2), _CurrencyDecimalSeparator(u"."), _CurrencyGroupSeparator(u","), _CurrencyNegativePattern(0),
-	_CurrencyPositivePattern(0), _CurrencySymbol(u"¤"), _IsReadOnly(false), _NaNSymbol(u"NaN"), _NegativeInfinitySymbol(u"-Infinity"),
-	_NegativeSign(u"-"), _NumberDecimalDigits(2), _NumberDecimalSeparator(u"."), _NumberGroupSeparator(u","),
+	_CurrencyPositivePattern(0), _CurrencySymbol(u"¤"), _DigitSubstitution(DigitShapes::None), _IsReadOnly(false), _NaNSymbol(u"NaN"), 
+	_NegativeInfinitySymbol(u"-Infinity"), _NegativeSign(u"-"), _NumberDecimalDigits(2), _NumberDecimalSeparator(u"."), _NumberGroupSeparator(u","),
 	_PercentDecimalDigits(2), _PercentDecimalSeparator(u"."), _PercentGroupSeparator(u","),_PercentNegativePattern(0),
 	_PercentPositivePattern(0), _PercentSymbol(u"%"), _PerMilleSymbol(u"‰"), _PositiveInfinitySymbol(u"Infinity"), _PositiveSign(u"+")
-{
-}
+{ }
 Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
-{
-}
+{ }
 
 const int Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalDigits() const
 {

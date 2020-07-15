@@ -14,7 +14,7 @@ const bool Elysium::Core::Threading::WaitHandle::WaitOne()
 }
 const bool Elysium::Core::Threading::WaitHandle::WaitOne(const TimeSpan & Timeout)
 {
-	return WaitOne(Timeout.GetTotalMilliseconds(), false);
+	return WaitOne(static_cast<const int32_t>(Timeout.GetTotalMilliseconds()), false);
 }
 const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t MillisecondsTimeout)
 {
@@ -22,7 +22,7 @@ const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t Milliseco
 }
 const bool Elysium::Core::Threading::WaitHandle::WaitOne(const TimeSpan & Timeout, const bool ExitContext)
 {
-	return WaitOne(Timeout.GetTotalMilliseconds(), ExitContext);
+	return WaitOne(static_cast<const int32_t>(Timeout.GetTotalMilliseconds()), ExitContext);
 }
 const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext)
 {
