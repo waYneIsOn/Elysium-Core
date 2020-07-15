@@ -5,12 +5,16 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_FLOAT
+#include "../../../Libraries/01-Shared/Elysium.Core/Float.hpp"
+#endif
+
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core
 {
-	TEST_CLASS(IntegerTest)
+	TEST_CLASS(NumericTest)
 	{
 	public:
 		TEST_METHOD(Size)
@@ -23,6 +27,10 @@ namespace UnitTests::Core
 
 			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::UInt64));
 			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::Int64));
+
+			Assert::AreEqual(static_cast<size_t>(4), sizeof(Elysium::Core::Single));
+
+			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::Double));
 		}
 
 		TEST_METHOD(StaticMethods)
@@ -45,13 +53,21 @@ namespace UnitTests::Core
 			Assert::AreEqual(static_cast<Elysium::Core::int16_t>(32767), Elysium::Core::Int16::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Int16::GetIsSigned());
 
-			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(-2147483648), Elysium::Core::Int32::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(-2147483647 - 1), Elysium::Core::Int32::GetMinValue());
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(2147483647), Elysium::Core::Int32::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Int32::GetIsSigned());
 
-			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(-9223372036854775808), Elysium::Core::Int64::GetMinValue());
+			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(-9223372036854775807 - 1), Elysium::Core::Int64::GetMinValue());
 			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(9223372036854775807), Elysium::Core::Int64::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Int64::GetIsSigned());
+
+			Assert::AreEqual(static_cast<float>(1.175494351e-38), Elysium::Core::Single::GetMinValue());
+			Assert::AreEqual(static_cast<float>(3.40282347e+38), Elysium::Core::Single::GetMaxValue());
+			Assert::IsTrue(Elysium::Core::Single::GetIsSigned());
+
+			Assert::AreEqual(static_cast<double>(2.22507385850720138e-308), Elysium::Core::Double::GetMinValue());
+			Assert::AreEqual(static_cast<double>(1.79769313486231571e+308), Elysium::Core::Double::GetMaxValue());
+			Assert::IsTrue(Elysium::Core::Double::GetIsSigned());
 		}
 		
 		TEST_METHOD(Overflow)
@@ -138,6 +154,7 @@ namespace UnitTests::Core
 			
 			remaining:
 			/
+			/=
 
 			*/
 		}

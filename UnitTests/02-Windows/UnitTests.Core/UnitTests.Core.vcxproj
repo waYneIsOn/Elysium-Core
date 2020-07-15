@@ -176,12 +176,12 @@
   <ItemGroup>
     <ClCompile Include="ByteClass.cpp" />
     <ClCompile Include="DateTimeTest.cpp" />
-    <ClCompile Include="Decimal.cpp" />
+    <ClCompile Include="DecimalTest.cpp" />
     <ClCompile Include="DelegateTest.cpp" />
     <ClCompile Include="EnvironmentTest.cpp" />
     <ClCompile Include="GZipStreamTest.cpp" />
     <ClCompile Include="FileStreamTest.cpp" />
-    <ClCompile Include="IntegerTest.cpp" />
+    <ClCompile Include="NumericTest.cpp" />
     <ClCompile Include="ListTest.cpp" />
     <ClCompile Include="MemoryStreamTest.cpp" />
     <ClCompile Include="QueueTest.cpp" />
