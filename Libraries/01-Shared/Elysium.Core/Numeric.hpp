@@ -54,8 +54,12 @@ namespace Elysium::Core
 		bool operator<=(const Numeric& Other) const;
 		bool operator>=(const Numeric& Other) const;
 
+		Numeric& operator++();
+		Numeric operator++(int);
 
-		
+		Numeric& operator--();
+		Numeric operator--(int);
+
 		Numeric& operator+=(const Numeric& Other);
 		Numeric& operator+=(const T Other);
 
@@ -65,10 +69,8 @@ namespace Elysium::Core
 		Numeric& operator*=(const Numeric& Other);
 		Numeric& operator*=(const T Other);
 
-		//Numeric& operator/=(const Numeric& Other);
-		//Numeric& operator/=(const T Other);
-		//Numeric<double, std::enable_if<std::is_floating_point<T>::value, T>>& operator/=(const Numeric& Other);
-		//Numeric<double, std::enable_if<std::is_floating_point<T>::value, T>>& operator/=(const T Other);
+		Numeric& operator/=(const Numeric& Other);
+		Numeric& operator/=(const T Other);
 
 		Numeric& operator%=(const Numeric& Other);
 		Numeric& operator%=(const T Other);
@@ -79,7 +81,14 @@ namespace Elysium::Core
 		Numeric& operator>>=(const Numeric& Other);
 		Numeric& operator>>=(const T Other);
 
+		Numeric& operator&=(const Numeric& Other);
+		Numeric& operator&=(const T Other);
 
+		Numeric& operator|=(const Numeric& Other);
+		Numeric& operator|=(const T Other);
+
+		Numeric& operator^=(const Numeric& Other);
+		Numeric& operator^=(const T Other);
 
 		Numeric operator+(const Numeric& Other);
 		Numeric operator+(const T Other);
@@ -90,10 +99,8 @@ namespace Elysium::Core
 		Numeric operator*(const Numeric& Other);
 		Numeric operator*(const T Other);
 
-		//Numeric operator/(const Numeric& Other);
-		//Numeric operator/(const T Other);
-		//FloatingPoint operator/(const Numeric& Other);
-		//FloatingPoint operator/(const T Other);
+		Numeric operator/(const Numeric& Other);
+		Numeric operator/(const T Other);
 
 		Numeric operator%(const Numeric& Other);
 		Numeric operator%(const T VOtheralue);
@@ -104,13 +111,14 @@ namespace Elysium::Core
 		Numeric operator>>(const Numeric& Other);
 		Numeric operator>>(const T Other);
 
+		Numeric operator&(const Numeric& Other);
+		Numeric operator&(const T Other);
 
+		Numeric operator|(const Numeric& Other);
+		Numeric operator|(const T Other);
 
-		Numeric& operator++();
-		Numeric operator++(int);
-
-		Numeric& operator--();
-		Numeric operator--(int);
+		Numeric operator^(const Numeric& Other);
+		Numeric operator^(const T Other);
 	private:
 		T _Value;
 	};
@@ -232,6 +240,48 @@ namespace Elysium::Core
 	}
 
 	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator++()
+	{
+		if (_Value == GetMaxValue())
+		{
+			throw OverflowException();
+		}
+
+		_Value++;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator++(int)
+	{
+		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
+		++(*this);
+		return Result;
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator--()
+	{
+		if (_Value == GetMinValue())
+		{
+			throw OverflowException();
+		}
+
+		_Value--;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator--(int)
+	{
+		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
+		--(*this);
+		return Result;
+	}
+
+	template<class T, typename Enabled>
 	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator+=(const Numeric & Other)
 	{
 		return this->operator+=(Other._Value);
@@ -309,6 +359,20 @@ namespace Elysium::Core
 	}
 
 	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator/=(const Numeric & Other)
+	{
+		return this->operator/=(Other._Value);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator/=(const T Other)
+	{
+		_Value /= Other;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
 	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator%=(const Numeric & Other)
 	{
 		return this->operator%=(Other._Value);
@@ -346,6 +410,48 @@ namespace Elysium::Core
 	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator>>=(const T Other)
 	{
 		_Value >>= Other;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator&=(const Numeric & Other)
+	{
+		return this->operator&=(Other._Value);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator&=(const T Other)
+	{
+		_Value &= Other;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator|=(const Numeric & Other)
+	{
+		return this->operator|=(Other._Value);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator|=(const T Other)
+	{
+		_Value |= Other;
+
+		return *this;
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator^=(const Numeric & Other)
+	{
+		return this->operator^=(Other._Value);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator^=(const T Other)
+	{
+		_Value ^= Other;
 
 		return *this;
 	}
@@ -422,6 +528,18 @@ namespace Elysium::Core
 	}
 
 	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator/(const Numeric & Other)
+	{
+		return this->operator/(Other._Value);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator/(const T Other)
+	{
+		return Numeric(_Value / Other);
+	}
+
+	template<class T, typename Enabled>
 	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator%(const Numeric & Other)
 	{
 		return this->operator%(Other._Value);
@@ -458,45 +576,39 @@ namespace Elysium::Core
 	}
 
 	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator++()
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator&(const Numeric & Other)
 	{
-		if (_Value == GetMaxValue())
-		{
-			throw OverflowException();
-		}
-
-		_Value++;
-
-		return *this;
+		return this->operator&(Other._Value);
 	}
 
 	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator++(int)
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator&(const T Other)
 	{
-		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
-		++(*this);
-		return Result;
+		return Numeric(_Value & Other);
 	}
 
 	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator--()
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator|(const Numeric & Other)
 	{
-		if (_Value == GetMinValue())
-		{
-			throw OverflowException();
-		}
-
-		_Value--;
-
-		return *this;
+		return this->operator|(Other._Value);
 	}
 
 	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator--(int)
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator|(const T Other)
 	{
-		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
-		--(*this);
-		return Result;
+		return Numeric(_Value | Other);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator^(const Numeric & Other)
+	{
+		return this->operator^(Other._Value);
+	}
+
+	template<class T, typename Enabled>
+	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator^(const T Other)
+	{
+		return Numeric(_Value ^ Other);
 	}
 }
 #endif
