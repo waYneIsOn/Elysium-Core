@@ -85,8 +85,8 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		std::map<int, DBBINDING*> _IndexBindingMap;
 		std::map<int, int> _IndexBufferMap;
 
-		DBROWOFFSET _RowsetByteLength;
-		BYTE* _RowDataBuffer;
+		DBROWOFFSET _RowsetByteLength = 0;
+		BYTE* _RowDataBuffer = nullptr;
 
 		IAccessor* _NativeRowAccessor = nullptr;
 		std::vector<HACCESSOR> _NativeRowAccessorHandles;

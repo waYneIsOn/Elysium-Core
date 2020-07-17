@@ -123,7 +123,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		// set the connection properties using the propertyset
 		HResult = DataBaseProperties->SetProperties(ConnectionPropertySetsCount, ConnectionPropertySet);
 		SysFreeString(ConnectionProperties[0].vValue.bstrVal);
-		VariantClear(&ConnectionProperties[1].vValue);
+		VariantClear(&ConnectionProperties[0].vValue);
 		if (FAILED(HResult))
 		{
 			// prepare the exception
@@ -246,7 +246,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	// set the connection properties using the propertyset
 	HResult = DataBaseProperties->SetProperties(ConnectionPropertySetsCount, ConnectionPropertySet);
 	SysFreeString(ConnectionProperties[0].vValue.bstrVal);
-	VariantClear(&ConnectionProperties[1].vValue);
+	VariantClear(&ConnectionProperties[0].vValue);
 	if (FAILED(HResult))
 	{
 		// prepare the exception

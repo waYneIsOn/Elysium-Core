@@ -95,7 +95,6 @@ void Elysium::Core::IO::FileStream::SetLength(size_t Value)
 }
 void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
 {
-	size_t x = GetLength();
 	if (Position >= GetLength())
 	{	// ToDo: throw specific exception
 		throw Exception(u"Position >= FileSize");

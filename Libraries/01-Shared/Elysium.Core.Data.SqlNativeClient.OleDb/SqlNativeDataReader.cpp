@@ -842,7 +842,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 
 	// create the non-blob columns binding
 	unsigned long ColumnIndex = 0;
-	for (unsigned long i = 0; i < _FieldCount; i++)
+	for (size_t i = 0; i < _FieldCount; i++)
 	{
 		if (_ColumnInfo[i].ulColumnSize <= MSSQL_BLOB_SIZE && _ColumnInfo[i].wType != DBTYPE_IUNKNOWN)
 		{
@@ -876,7 +876,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 
 	// create the blob columns binding
 	_NumberOfNonBlobFields == 0 ? ColumnIndex = 0 : ColumnIndex = 1;	// start at one because index zero points to the non-blob columns
-	for (unsigned long i = 0; i < _FieldCount; i++)
+	for (size_t i = 0; i < _FieldCount; i++)
 	{
 		if (_ColumnInfo[i].ulColumnSize > MSSQL_BLOB_SIZE || _ColumnInfo[i].wType == DBTYPE_IUNKNOWN)
 		{

@@ -53,8 +53,8 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual void ChangeDatabase(const String & DatabaseName) override;
 		virtual void Close() override;
 	private:
-		IDBInitialize* _NativeDataSource;
-		IDBCreateSession* _NativeSession;
+		IDBInitialize* _NativeDataSource = nullptr;
+		IDBCreateSession* _NativeSession = nullptr;
 
 		SqlNativeTransaction* _ActiveTransaction = nullptr;
 	};

@@ -300,7 +300,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 		unsigned long StreamCounter = 0;
 		std::vector<DBBINDING> ParameterBindings = std::vector<DBBINDING>(ParameterCount);
 		std::vector<DBBINDSTATUS> ParameterBindingsStatus = std::vector<DBBINDSTATUS>(ParameterCount, DBACCESSOR_PARAMETERDATA);
-		for (unsigned long i = 0; i < ParameterCount; i++)
+		for (size_t i = 0; i < ParameterCount; i++)
 		{
 			ParameterBindings[i].iOrdinal = i + 1;
 			ParameterBindings[i].wType = FormatConverter::Translate(_Parameters[i].GetDbType());

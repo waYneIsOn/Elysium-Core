@@ -26,8 +26,8 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::SqlNative
 			if (SUCCEEDED(HResult = NativeErrorInfoFactory->QueryInterface(IID_IErrorRecords, (void**)&NativeErrorRecords)))
 			{
 				// prepare are variables that can possibly be read
-				HRESULT ErrorSpecificErrorCode;
-				unsigned long ProviderSpecificErrorCode;
+				HRESULT ErrorSpecificErrorCode = 0;
+				unsigned long ProviderSpecificErrorCode = 0;
 				GUID ClassId;
 				GUID InterfaceId;
 				long DisplayId;

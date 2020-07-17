@@ -8,25 +8,23 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError::SqlNativeError(long
 	_ClassId(ClassId),
 	_InterfaceId(InterfaceId),
 	_DisplayId(DisplayId),
-	_Description(Description == nullptr ? (wchar_t*)"" : Description),
+	_Description(Description),
 	_GUID(GUID),
 	_HelpContext(HelpContext),
-	_HelpFile(HelpFile == nullptr ? (wchar_t*)"" : HelpFile),
-	_Source(Source == nullptr ? (wchar_t*)"" : Source),
-	_SqlState(SqlState == nullptr ? (wchar_t*)"" : SqlState),
+	_HelpFile(HelpFile == nullptr ? L"" : HelpFile),
+	_Source(Source),
+	_SqlState(SqlState == nullptr ? L"" : SqlState),
 	_ErrorCode(ErrorCode),
-	_SSError(SSError == nullptr ? (wchar_t*)"" : SSError),
-	_Server(Server == nullptr ? (wchar_t*)"" : Server),
-	_Procedure(Procedure == nullptr ? (wchar_t*)"" : Procedure),
+	_SSError(SSError == nullptr ? L"" : SSError),
+	_Server(Server == nullptr ? L"" : Server),
+	_Procedure(Procedure == nullptr ? L"" : Procedure),
 	_Number(Number),
 	_State(State),
 	_ErrorSeverity(ErrorSeverity),
 	_LineNumber(LineNumber)
-{
-}
+{ }
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError::~SqlNativeError()
-{
-}
+{ }
 
 const long & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError::GetErrorSpecificErrorCode() const
 {
