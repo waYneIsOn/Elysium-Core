@@ -37,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dictionary.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />

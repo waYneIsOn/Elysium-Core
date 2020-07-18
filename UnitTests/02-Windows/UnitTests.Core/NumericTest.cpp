@@ -70,7 +70,7 @@ namespace UnitTests::Core
 			Assert::IsTrue(Elysium::Core::Double::GetIsSigned());
 		}
 		
-		TEST_METHOD(Overflow)
+		TEST_METHOD(Exceptions)
 		{
 			// underflow via subtraction
 			Elysium::Core::UInt16 UnsignedShortMin = 0;
@@ -134,6 +134,7 @@ namespace UnitTests::Core
 			catch (Elysium::Core::OverflowException&)
 			{ }
 
+			// overflow via multiplication
 			Elysium::Core::Int16 SignedShortMinusOne = -1;
 			try
 			{
@@ -150,13 +151,37 @@ namespace UnitTests::Core
 			catch (Elysium::Core::OverflowException&)
 			{ }
 
-			/*
-			
-			remaining:
-			/
-			/=
+			// overflow via division
+			try
+			{
+				SignedShortMinusOne = SignedShortMinusOne / Elysium::Core::Int16::GetMinValue();
+				Assert::Fail();
+			}
+			catch(Elysium::Core::OverflowException&)
+			{ }
+			try
+			{
+				SignedShortMinusOne /= Elysium::Core::Int16::GetMinValue();
+				Assert::Fail();
+			}
+			catch (Elysium::Core::OverflowException&)
+			{ }
 
-			*/
+			// divide by zero
+			try
+			{
+				SignedShortMinusOne = SignedShortMinusOne / 0;
+				Assert::Fail();
+			}
+			catch(Elysium::Core::DivideByZeroException&)
+			{ }
+			try
+			{
+				SignedShortMinusOne /= 0;
+				Assert::Fail();
+			}
+			catch (Elysium::Core::DivideByZeroException&)
+			{ }
 		}
 
 		TEST_METHOD(AssigmentOperators)
@@ -197,6 +222,9 @@ namespace UnitTests::Core
 			Elysium::Core::Double Value2 = static_cast<Elysium::Core::int32_t>(Value1);
 			Value2 /= 3;
 			Assert::AreEqual(static_cast<double>(21.333333333333333), static_cast<double>(Value2));
+
+			Elysium::Core::Double Value3 = static_cast<Elysium::Core::int32_t>(Value1) / 3.0;
+			Assert::AreEqual(static_cast<double>(21.333333333333333), static_cast<double>(Value3));
 		}
 
 		TEST_METHOD(ComparisonOperators)

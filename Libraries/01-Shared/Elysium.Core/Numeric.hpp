@@ -24,6 +24,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "OverflowException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_DIVIDEBYZEROEXCEPTION
+#include "DivideByZeroException.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	template<class T, typename Enabled = void>
@@ -344,11 +348,11 @@ namespace Elysium::Core
 		{
 			throw OverflowException();
 		}
-		if (_Value > -1 && (_Value > GetMaxValue() / Other))
+		if (_Value > 0 && (_Value > GetMaxValue() / Other))
 		{
 			throw OverflowException();
 		}
-		if (_Value > -1 && (_Value < GetMinValue() / Other))
+		if (_Value > 0 && (_Value < GetMinValue() / Other))
 		{
 			throw OverflowException();
 		}
@@ -367,6 +371,19 @@ namespace Elysium::Core
 	template<class T, typename Enabled>
 	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator/=(const T Other)
 	{
+		if (_Value == GetMinValue() && Other == -1)
+		{
+			throw OverflowException();
+		}
+		if (_Value == -1 && Other == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (Other == 0)
+		{
+			throw DivideByZeroException();
+		}
+
 		_Value /= Other;
 
 		return *this;
@@ -536,6 +553,19 @@ namespace Elysium::Core
 	template<class T, typename Enabled>
 	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator/(const T Other)
 	{
+		if (_Value == GetMinValue() && Other == -1)
+		{
+			throw OverflowException();
+		}
+		if (_Value == -1 && Other == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (Other == 0)
+		{
+			throw DivideByZeroException();
+		}
+
 		return Numeric(_Value / Other);
 	}
 

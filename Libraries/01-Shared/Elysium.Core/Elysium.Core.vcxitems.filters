@@ -115,6 +115,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Float.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -160,5 +161,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArithmeticException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OverflowException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
   </ItemGroup>
 </Project>
