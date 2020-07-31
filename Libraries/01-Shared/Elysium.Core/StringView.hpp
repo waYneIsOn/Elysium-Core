@@ -16,11 +16,15 @@ Copyright (C) 2017 waYne (CAM)
 #include "StringViewBase.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_BYTE
+#include "Byte.hpp"
+#endif
+
 #pragma warning( disable : 4251 )
 
 namespace Elysium::Core
 {
-	using ByteStringView = Collections::Template::StringViewBase<unsigned char>;
+	using ByteStringView = Collections::Template::StringViewBase<byte>;
 	using CharStringView = Collections::Template::StringViewBase<char>;
 	using WideStringView = Collections::Template::StringViewBase<wchar_t>;
 	using StringView = Collections::Template::StringViewBase<char16_t>;

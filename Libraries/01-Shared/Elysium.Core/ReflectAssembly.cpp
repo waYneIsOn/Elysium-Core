@@ -24,6 +24,7 @@ Copyright (C) 2017 waYne (CAM)
 
 REFLECT
 {
+	/*
 	Elysium::Core::Reflection::AssemblyName CoreAssemblyName = Elysium::Core::Reflection::AssemblyName(L"AssemblyName", L"Location", Elysium::Core::Version(0, 1));
 
 	Elysium::Core::Reflection::Emit::AssemblyBuilder CoreAssemblyBuilder = Elysium::Core::Reflection::Emit::AssemblyBuilder();
@@ -36,4 +37,5 @@ REFLECT
 
 	Elysium::Core::Reflection::Emit::TypeBuilder StringType = GlobalModuleCore.DefineType<Elysium::Core::String>(L"String", Elysium::Core::Reflection::TypeAttributes::Public);
 	//StringType.DefineField<Elysium::Core::String::_Data>(L"Data", WCharPointerType, Elysium::Core::Reflection::FieldAttributes::Private);
+	*/
 };

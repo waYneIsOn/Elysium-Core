@@ -38,7 +38,7 @@ namespace Elysium::Core::Net
 	// make sure the following classes get exported (warning C4251)
 	// ToDo: can't do this here because we also need to do it in MemoryStream which means we export twice
 	// will have to think about how to do it correctly
-	//template class ELYSIUM_CORE_API Elysium::Core::Collections::Generic::List<BYTE>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Collections::Template::List<byte>;
 
 	class ELYSIUM_CORE_NET_API SocketAddress
 	{

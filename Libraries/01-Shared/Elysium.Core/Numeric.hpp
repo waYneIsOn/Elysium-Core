@@ -568,7 +568,26 @@ namespace Elysium::Core
 
 		return Numeric(_Value / Other);
 	}
+	/*
+	template<class T>
+	inline Numeric<T, std::enable_if<std::is_signed<T>::value, T>> Numeric<T, std::enable_if<std::is_signed<T>::value, T>>::operator/(const T Other)
+	{
+		if (_Value == GetMinValue() && Other == -1)
+		{
+			throw OverflowException();
+		}
+		if (_Value == -1 && Other == GetMinValue())
+		{
+			throw OverflowException();
+		}
+		if (Other == 0)
+		{
+			throw DivideByZeroException();
+		}
 
+		return Numeric(_Value / Other);
+	}
+	*/
 	template<class T, typename Enabled>
 	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator%(const Numeric & Other)
 	{
