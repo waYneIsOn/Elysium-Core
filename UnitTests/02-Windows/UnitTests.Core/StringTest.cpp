@@ -224,13 +224,7 @@ namespace UnitTests::Core
 			}
 
 			Elysium::Core::String Output = ASCIIEncoding.GetString(&Bytes[0], Bytes.GetCount());
-			for (size_t i = 0; i < Input.GetLength(); ++i)
-			{
-				Assert::AreEqual(Input[i], Output[i]);
-			}
-
-
-			int x = 45;
+			AssertExtended::AreEqual(&Input[0], &Output[0]);
 
 			/*
 			Elysium::Core::Collections::Template::List<Elysium::Core::byte> OutputBytes = DefaultEncoding.GetBytes(u'[');
