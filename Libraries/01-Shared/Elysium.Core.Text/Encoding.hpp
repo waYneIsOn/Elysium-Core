@@ -56,25 +56,24 @@ namespace Elysium::Core::Text
 		static const Encoding& UTF7();
 		static const Encoding& UTF8();
 				
-		virtual bool GetIsSingleByte() const;
-		virtual int GetCodePage() const;
-		virtual const String& GetEncodingName() const;
+		virtual const bool GetIsSingleByte() const = 0;
+		virtual const int GetCodePage() const;
+		virtual const String GetEncodingName() const = 0;
 
-		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const char16_t Input) const;
-		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const;
+		//virtual int GetMaxByteCount(int charCount) = 0;
 
-		virtual String GetString(const byte* Bytes, const size_t ByteCount) const;
+		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const char16_t Input) const = 0;
+		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
+
+		virtual String GetString(const byte* Bytes, const size_t ByteCount) const = 0;
 	protected:
 		Encoding();
 		Encoding(int CodePage);
 	private:
 		int _CodePage;
-		String _EncodingName;
-		bool _IsSingleByte;
 
-		static const Encoding _Default;
-		static const UTF8Encoding _UTF8;
 		static const ASCIIEncoding _ASCII;
+		static const UTF8Encoding _UTF8;
 	};
 }
 #endif

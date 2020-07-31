@@ -191,18 +191,48 @@ namespace UnitTests::Core
 
 		TEST_METHOD(Encoding)
 		{
+			const Elysium::Core::Text::Encoding& ASCIIEncoding = Elysium::Core::Text::Encoding::ASCII();
 			const Elysium::Core::Text::Encoding& DefaultEncoding = Elysium::Core::Text::Encoding::Default();
 			const Elysium::Core::Text::Encoding& UTF8Encoding = Elysium::Core::Text::Encoding::UTF8();
 			const Elysium::Core::Text::UTF8Encoding& CastUTF8Encoding = static_cast<const Elysium::Core::Text::UTF8Encoding&>(UTF8Encoding);
 
-			Assert::AreEqual(1252, DefaultEncoding.GetCodePage());
+			Assert::AreEqual(20127, ASCIIEncoding.GetCodePage());
+			Assert::AreEqual(65001, DefaultEncoding.GetCodePage());
 			Assert::AreEqual(65001, UTF8Encoding.GetCodePage());
 			Assert::AreEqual(65001, CastUTF8Encoding.GetCodePage());
 
-			Assert::AreEqual(true, DefaultEncoding.GetIsSingleByte());
+			Assert::AreEqual(true, ASCIIEncoding.GetIsSingleByte());
+			Assert::AreEqual(false, DefaultEncoding.GetIsSingleByte());
 			Assert::AreEqual(false, UTF8Encoding.GetIsSingleByte());
 			Assert::AreEqual(false, CastUTF8Encoding.GetIsSingleByte());
 
+
+			Elysium::Core::String Input = Elysium::Core::String(256);
+			for (size_t i = 0; i < Input.GetLength(); ++i)
+			{
+				Input[i] = (char16_t)i;
+			}
+
+			Elysium::Core::Collections::Template::List<Elysium::Core::byte> Bytes = ASCIIEncoding.GetBytes(Input, 0, Input.GetLength());
+			for (size_t i = 0; i < 128; ++i)
+			{
+				Assert::AreEqual((int)Bytes[i], (int)i);
+			}
+			for (size_t i = 128; i < 256; ++i)
+			{
+				Assert::AreEqual((int)Bytes[i], 0x3F);
+			}
+
+			Elysium::Core::String Output = ASCIIEncoding.GetString(&Bytes[0], Bytes.GetCount());
+			for (size_t i = 0; i < Input.GetLength(); ++i)
+			{
+				Assert::AreEqual(Input[i], Output[i]);
+			}
+
+
+			int x = 45;
+
+			/*
 			Elysium::Core::Collections::Template::List<Elysium::Core::byte> OutputBytes = DefaultEncoding.GetBytes(u'[');
 			Assert::AreEqual((size_t)2, OutputBytes.GetCount());
 			AssertExtended::AreEqual(u'[', OutputBytes[0]);
@@ -218,6 +248,7 @@ namespace UnitTests::Core
 			Elysium::Core::String OutputString = DefaultEncoding.GetString(&OutputBytes[0], OutputBytes.GetCount());
 			Assert::AreEqual(OriginalString.GetLength(), OutputString.GetLength());
 			AssertExtended::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());
+			*/
 			/*
 			OutputString = DefaultEncoding.GetString(&OutputBytes[0], -1);
 			AssertExtended::AreEqual(OriginalString.GetCharArray(), OutputString.GetCharArray());

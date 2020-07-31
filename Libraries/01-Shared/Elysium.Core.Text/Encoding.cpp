@@ -4,12 +4,12 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEXT_UTF8ENCODING
-#include "UTF8Encoding.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEXT_ASCIIENCODING
 #include "ASCIIEncoding.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_UTF8ENCODING
+#include "UTF8Encoding.hpp"
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
@@ -27,18 +27,8 @@
 #include <uchar.h>
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
-#include "../Elysium.Core/ArgumentNullException.hpp"
-#endif
-
-const Elysium::Core::Text::Encoding Elysium::Core::Text::Encoding::_Default = Encoding();
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 const Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::Encoding::_UTF8 = UTF8Encoding();
 const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::Encoding::_ASCII = ASCIIEncoding();
-#elif defined(__ANDROID__)
-// ToDo: E0298
-#else
-#endif
 
 Elysium::Core::Text::Encoding::~Encoding()
 { }
@@ -58,7 +48,7 @@ const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::BigEndianUn
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Default()
 {
-	return _Default;
+	return _UTF8;
 }
 const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Unicode()
 {
@@ -77,19 +67,11 @@ const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF8()
 	return _UTF8;
 }
 
-bool Elysium::Core::Text::Encoding::GetIsSingleByte() const
-{
-	return _IsSingleByte;
-}
-int Elysium::Core::Text::Encoding::GetCodePage() const
+const int Elysium::Core::Text::Encoding::GetCodePage() const
 {
 	return _CodePage;
 }
-const Elysium::Core::String & Elysium::Core::Text::Encoding::GetEncodingName() const
-{
-	return (const String&)_EncodingName;
-}
-
+/*
 Elysium::Core::Collections::Template::List<byte> Elysium::Core::Text::Encoding::GetBytes(const char16_t Input) const
 {
 	// ToDo: can we not use nullptr as the first parameter in c16rtomb?
@@ -178,21 +160,20 @@ Elysium::Core::String Elysium::Core::Text::Encoding::GetString(const byte * Byte
 	Result[RequiredSize] = u'\0';
 	return Result;
 }
-
+*/
 Elysium::Core::Text::Encoding::Encoding()
-	: Elysium::Core::Text::Encoding((int)GetACP())
-	// ToDo: how to get default encoding codepage on android?
+	: Elysium::Core::Text::Encoding(0)
 { }
 
 Elysium::Core::Text::Encoding::Encoding(int CodePage)
-	: _IsSingleByte(false), _CodePage(CodePage)
+	: _CodePage(CodePage)
 {
+	/*
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	CPINFOEX Info;
 	if (GetCPInfoEx(_CodePage, 0, &Info))
 	{
 		//_EncodingName = Info.CodePageName;
-		_EncodingName = u"not implemented";
 		_IsSingleByte = Info.MaxCharSize == 1;
 	}
 #elif defined(__ANDROID__)
@@ -200,4 +181,5 @@ Elysium::Core::Text::Encoding::Encoding(int CodePage)
 #else
 #error "undefined os"
 #endif
+	*/
 }

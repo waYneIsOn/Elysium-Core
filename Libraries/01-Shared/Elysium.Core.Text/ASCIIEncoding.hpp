@@ -33,9 +33,13 @@ namespace Elysium::Core::Text
 		ASCIIEncoding& operator=(const ASCIIEncoding& Source) = delete;
 		ASCIIEncoding& operator=(ASCIIEncoding&& Right) noexcept = delete;
 
+		virtual const bool GetIsSingleByte() const override;
+		virtual const String GetEncodingName() const override;
+
+		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const char16_t Input) const override;
+		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const override;
+
 		virtual String GetString(const byte* Bytes, const size_t ByteCount) const override;
-	private:
-		//static const Elysium::Core::Collections::Template::Array<char16_t> _Chart;
 	};
 }
 #endif
