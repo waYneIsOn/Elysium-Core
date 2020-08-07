@@ -22,7 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		NotImplementedException();
-		NotImplementedException(const char16_t* Message);
+		NotImplementedException(const char* Message);
 		NotImplementedException(String&& Message);
 		virtual ~NotImplementedException();
 	};

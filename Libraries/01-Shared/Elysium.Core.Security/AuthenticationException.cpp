@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException()
-	: Elysium::Core::SystemException(u"AuthenticationException")
+	: Elysium::Core::SystemException(u8"AuthenticationException")
 { }
-Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(const char16_t * Message)
+Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(const char * Message)
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(String && Message)

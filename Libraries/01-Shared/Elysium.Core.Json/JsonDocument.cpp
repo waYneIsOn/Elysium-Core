@@ -34,7 +34,7 @@ Elysium::Core::Json::JsonDocument::~JsonDocument()
 
 const Elysium::Core::String & Elysium::Core::Json::JsonDocument::GetName() const
 {
-	static const Elysium::Core::String Name = u"#document";
+	static const Elysium::Core::String Name = u8"#document";
 	return Name;
 }
 const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonDocument::GetNodeType() const
@@ -54,7 +54,7 @@ Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonDocument::AddRootObje
 {
 	if (_Children.GetCount() > 0)
 	{	// ToDo: InvalidOperationException
-		throw JsonException(u"A document can only hold one child - the root node!");
+		throw JsonException(u8"A document can only hold one child - the root node!");
 	}
 	// ToDo: having the elements scattered around memory obviously isn't good
 	JsonObject* OwnedObject = new JsonObject();
@@ -65,7 +65,7 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray
 {
 	if (_Children.GetCount() > 0)
 	{	// ToDo: InvalidOperationException
-		throw JsonException(u"A document can only hold one child - the root node!");
+		throw JsonException(u8"A document can only hold one child - the root node!");
 	}
 	// ToDo: having the elements scattered around memory obviously isn't good
 	JsonArray* OwnedArray = new JsonArray();

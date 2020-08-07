@@ -16,6 +16,10 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
+#endif
+
 bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
@@ -56,12 +60,12 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t Buffer
 {
 	if (&Destination == this)
 	{
-		throw InvalidOperationException(u"cannot copy from a stream to the same one");
+		throw InvalidOperationException(u8"cannot copy from a stream to the same one");
 	}
 
 	if (BufferSize > INT_MAX)
-	{	// ToDo: throw specific ArgumentOutOfRangeException
-		throw Exception(u"ArgumentOutOfRangeException");
+	{
+		throw ArgumentOutOfRangeException();
 	}
 
 	size_t BytesRead = 0;
@@ -96,5 +100,4 @@ Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator>>(const unsigned
 }
 
 Elysium::Core::IO::Stream::Stream()
-{
-}
+{ }

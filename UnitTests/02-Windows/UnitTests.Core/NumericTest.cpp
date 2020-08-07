@@ -44,8 +44,8 @@ namespace UnitTests::Core
 			Assert::AreEqual(static_cast<Elysium::Core::uint32_t>(4294967295), Elysium::Core::UInt32::GetMaxValue());
 			Assert::IsFalse(Elysium::Core::UInt32::GetIsSigned());
 
-			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(0), Elysium::Core::UInt64::GetMinValue());
-			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(18446744073709551615), Elysium::Core::UInt64::GetMaxValue());
+			AssertExtended::AreEqual(static_cast<Elysium::Core::uint64_t>(0), Elysium::Core::UInt64::GetMinValue());
+			AssertExtended::AreEqual(static_cast<Elysium::Core::uint64_t>(18446744073709551615), Elysium::Core::UInt64::GetMaxValue());
 			Assert::IsFalse(Elysium::Core::UInt64::GetIsSigned());
 
 			// signed
@@ -57,8 +57,8 @@ namespace UnitTests::Core
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(2147483647), Elysium::Core::Int32::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Int32::GetIsSigned());
 
-			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(-9223372036854775807 - 1), Elysium::Core::Int64::GetMinValue());
-			Assert::AreEqual(static_cast<Elysium::Core::int64_t>(9223372036854775807), Elysium::Core::Int64::GetMaxValue());
+			AssertExtended::AreEqual(static_cast<Elysium::Core::int64_t>(-9223372036854775807 - 1), Elysium::Core::Int64::GetMinValue());
+			AssertExtended::AreEqual(static_cast<Elysium::Core::int64_t>(9223372036854775807), Elysium::Core::Int64::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Int64::GetIsSigned());
 
 			Assert::AreEqual(static_cast<float>(1.175494351e-38), Elysium::Core::Single::GetMinValue());

@@ -51,12 +51,12 @@ namespace UnitTests::Core
 			TimeSpan TSMinutes = TimeSpan::FromMinutes(1.5);
 
 			TSSeconds += TSMinutes;
-			Assert::AreEqual((__int64)1050000000, TSSeconds.GetTicks());
+			AssertExtended::AreEqual((__int64)1050000000, TSSeconds.GetTicks());
 			Assert::AreEqual(45, TSSeconds.GetSeconds());
 			Assert::AreEqual(105.0, TSSeconds.GetTotalSeconds());
 
 			TimeSpan Sum = TSSeconds + TSMinutes;
-			Assert::AreEqual((__int64)1950000000, Sum.GetTicks());
+			AssertExtended::AreEqual((__int64)1950000000, Sum.GetTicks());
 			Assert::AreEqual(15, Sum.GetSeconds());
 			Assert::AreEqual(195.0, Sum.GetTotalSeconds());
 		}

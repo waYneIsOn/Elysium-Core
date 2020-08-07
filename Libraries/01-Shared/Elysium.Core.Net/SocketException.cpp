@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::Net::Sockets::SocketException::SocketException()
-	: Elysium::Core::Runtime::InteropServices::ExternalException(u"SocketException")
+	: Elysium::Core::Runtime::InteropServices::ExternalException(u8"SocketException")
 { }
 Elysium::Core::Net::Sockets::SocketException::SocketException(String && Message)
 	: Elysium::Core::Runtime::InteropServices::ExternalException(std::move(Message))

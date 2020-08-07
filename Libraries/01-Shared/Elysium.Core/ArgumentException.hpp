@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_ARITHMETICEXCEPTION
-#define ELYSIUM_CORE_ARITHMETICEXCEPTION
+#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
+#define ELYSIUM_CORE_ARGUMENTEXCEPTION
 
 #ifdef _MSC_VER
 #pragma once
@@ -18,13 +18,13 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API ArithmeticException : public SystemException
+	class ELYSIUM_CORE_API ArgumentException : public SystemException
 	{
 	public:
-		ArithmeticException();
-		ArithmeticException(const char* Message);
-		ArithmeticException(String&& Message);
-		virtual ~ArithmeticException();
+		ArgumentException();
+		ArgumentException(const char* Message);
+		ArgumentException(String&& Message);
+		virtual ~ArgumentException();
 	};
 }
 #endif

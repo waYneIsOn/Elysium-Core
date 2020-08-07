@@ -40,7 +40,7 @@ bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::Read()
 	HROW* RowHandlesPointer = &_RowHandles[0];
 	if (FAILED(HResult = _NativeRowset->GetNextRows(DB_NULL_HCHAPTER, 0, 1, &_NumberOfRowsObtained, &RowHandlesPointer)))
 	{
-		throw SqlNativeException(u"Failed to get next row.\r\n", HResult, _NativeRowset);
+		throw SqlNativeException(u8"Failed to get next row.\r\n", HResult, _NativeRowset);
 	}
 
 	// get the row's data if we've received at least one row
@@ -50,7 +50,7 @@ bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::Read()
 		{
 			if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[i], _RowDataBuffer)))
 			{
-				throw SqlNativeException(u"Failed to get row data.\r\n", HResult, _NativeRowset);
+				throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
 			}
 
 			if (_NumberOfNonBlobFields == 0 || i > 0)
@@ -102,7 +102,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetBoolea
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -118,7 +118,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByte(u
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -134,7 +134,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByt
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -153,14 +153,14 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByt
 	{
 		if (_NumberOfRowsObtained == 0)
 		{	// ToDo: throw specific exception
-			throw Exception(u"InvalidOperationException? Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetBytes");
+			throw Exception(u8"InvalidOperationException? Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetBytes");
 		}
 
 		HRESULT HResult;
 		int BufferIndex = _IndexBufferMap[Index];
 		if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[BufferIndex], _RowDataBuffer)))
 		{
-			throw SqlNativeException(u"Failed to get row data.\r\n", HResult, _NativeRowset);
+			throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
 		}
 
 		ULONG BLOCK_SIZE = 32;
@@ -223,7 +223,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetChar(u
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -233,7 +233,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetChar(u
 		break;
 	case DBTYPE_XML:
 	{
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChar");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChar");
 	}
 	default:
 		throw InvalidCastException();
@@ -243,7 +243,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetCha
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -252,14 +252,14 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetCha
 	{
 		if (_NumberOfRowsObtained == 0)
 		{	// ToDo: throw specific exception
-			throw Exception(u"InvalidOperationException? Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetBytes");
+			throw Exception(u8"InvalidOperationException? Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetBytes");
 		}
 
 		HRESULT HResult;
 		int BufferIndex = _IndexBufferMap[Index];
 		if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[BufferIndex], _RowDataBuffer)))
 		{
-			throw SqlNativeException(u"Failed to get row data.\r\n", HResult, _NativeRowset);
+			throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
 		}
 
 		ULONG BLOCK_SIZE = 32;
@@ -303,7 +303,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetCha
 		}
 	case DBTYPE_XML:
 	{
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChars");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChars");
 	}
 	default:
 		throw InvalidCastException();
@@ -313,13 +313,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDateTi
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
 	{
 	case DBTYPE_DATE:
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetDateTime");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetDateTime");
 	case DBTYPE_DBDATE:
 	{	// date
 		tagDBDATE* Date = static_cast<tagDBDATE*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]));
@@ -327,7 +327,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDateTi
 		break;
 	}
 	case DBTYPE_DBTIME:
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetDateTime");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetDateTime");
 	case DBTYPE_DBTIMESTAMP:
 	{	// datetime and datetime2
 		tagDBTIMESTAMP* TimeStamp = static_cast<tagDBTIMESTAMP*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]));
@@ -348,7 +348,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDateTi
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -367,7 +367,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDecima
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -386,7 +386,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDouble
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -421,7 +421,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetFloat(
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -450,7 +450,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetGuid(u
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -468,7 +468,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetInt16(
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -485,7 +485,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetInt16(
 		*Value = *static_cast<int16_t*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]));
 		break;
 	case DBTYPE_I8:
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetInt16");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetInt16");
 	default:
 		throw InvalidCastException();
 	}
@@ -494,7 +494,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetInt32(
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -514,7 +514,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetInt64(
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -533,13 +533,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetString
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
 	{
 	case DBTYPE_BSTR:
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetString");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetString");
 	case DBTYPE_STR:
 	{
 		size_t ResultLength = strlen((char*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue]);
@@ -560,7 +560,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetTimeSp
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -579,7 +579,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetWChar(
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -588,7 +588,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetWChar(
 		*Value = *static_cast<wchar_t*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]));
 		break;
 	case DBTYPE_XML:
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetWChar");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetWChar");
 	default:
 		throw InvalidCastException();
 	}
@@ -597,7 +597,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetWCh
 {
 	if (Index > _FieldCount)
 	{
-		throw IndexOutOfRangeException(u"Index");
+		throw IndexOutOfRangeException(u8"Index");
 	}
 
 	switch (_IndexBindingMap[Index]->wType)
@@ -606,14 +606,14 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetWCh
 	{
 		if (_NumberOfRowsObtained == 0)
 		{	// ToDo: throw specific exception
-			throw Exception(u"InvalidOperationException? Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetBytes");
+			throw Exception(u8"InvalidOperationException? Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetBytes");
 		}
 
 		HRESULT HResult;
 		int BufferIndex = _IndexBufferMap[Index];
 		if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[BufferIndex], _RowDataBuffer)))
 		{
-			throw SqlNativeException(u"Failed to get row data.\r\n", HResult, _NativeRowset);
+			throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
 		}
 
 		ULONG BLOCK_SIZE = 32;
@@ -658,7 +658,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetWCh
 		}
 	case DBTYPE_XML:
 	{
-		throw NotImplementedException(u"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChars");
+		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChars");
 	}
 	default:
 		throw InvalidCastException();
@@ -772,7 +772,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDataTy
 		*Value = L"DBTYPE_DBTIMESTAMP";
 		break;
 	default:
-		throw NotImplementedException(u"unhandled datatype in Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetDataTypeName");
+		throw NotImplementedException(u8"unhandled datatype in Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetDataTypeName");
 	}
 }
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetName(uint32_t Index, std::wstring * Value)
@@ -914,7 +914,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 	// create the row accessor
 	if (FAILED(HResult = _NativeRowset->QueryInterface(IID_IAccessor, (void**)&_NativeRowAccessor)))
 	{
-		throw SqlNativeException(u"Failed to obtain IAccessor interface.\r\n", HResult, _NativeRowset);
+		throw SqlNativeException(u8"Failed to obtain IAccessor interface.\r\n", HResult, _NativeRowset);
 	}
 	if (_NumberOfNonBlobFields > 0)
 	{
@@ -927,7 +927,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 			_NativeDatabaseBindStatus[0].data()	// Information about binding validity
 		)))
 		{
-			throw SqlNativeException(u"Failed to create accessor.\r\n", HResult, _NativeRowAccessor);
+			throw SqlNativeException(u8"Failed to create accessor.\r\n", HResult, _NativeRowAccessor);
 		}
 	}
 	if (NumberOfBlobFields > 0)
@@ -948,7 +948,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 				_NativeDatabaseBindStatus[i].data()	// Information about binding validity
 			)))
 			{
-				throw SqlNativeException(u"Failed to create accessor.\r\n", HResult, _NativeRowAccessor);
+				throw SqlNativeException(u8"Failed to create accessor.\r\n", HResult, _NativeRowAccessor);
 			}
 		}
 	}

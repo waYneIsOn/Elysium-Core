@@ -198,7 +198,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 	const size_t OidLength = Asn1Length.GetLength();
 	if (OidLength < 2)
 	{	// two bytes equals three nodes
-		throw IO::InvalidDataException(u"An Oid must contain at least three nodes.");
+		throw IO::InvalidDataException(u8"An Oid must contain at least three nodes.");
 	}
 
 	Text::StringBuilder OidBuilder = Text::StringBuilder(OidLength + 1 + OidLength);	// start with one char16_t for each node and one for each dot in between
@@ -209,16 +209,16 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 	uint32_t FirstNode = FirstByte / 40;
 	if (FirstNode > 2)
 	{
-		throw IO::InvalidDataException(u"The first node of an Oid cannot be bigger than two.");
+		throw IO::InvalidDataException(u8"The first node of an Oid cannot be bigger than two.");
 	}
 	uint32_t SecondNode = FirstByte % 40;
 	if (SecondNode > 39)
 	{
-		throw IO::InvalidDataException(u"The second node of an Oid cannot be bigger than 39.");
+		throw IO::InvalidDataException(u8"The second node of an Oid cannot be bigger than 39.");
 	}
 
 	OidBuilder.Append(Convert::ToString(FirstNode, 10));
-	OidBuilder.Append(u'.');
+	OidBuilder.Append(u8'.');
 	OidBuilder.Append(Convert::ToString(SecondNode, 10));
 
 	for (int32_t i = 1; i < OidLength; i++)
@@ -242,7 +242,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 			}
 		} while (IsMultipleByteEncoded);
 
-		OidBuilder.Append(u'.');
+		OidBuilder.Append(u8'.');
 		OidBuilder.Append(Convert::ToString(Value, 10));
 	}
 

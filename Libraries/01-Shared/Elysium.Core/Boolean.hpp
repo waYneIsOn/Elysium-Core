@@ -14,7 +14,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Boolean
 {
-	constexpr const char16_t* TrueLiteral = u"True";
-	constexpr const char16_t* FalseLiteral = u"False";
+	constexpr const char* TrueLiteral = u8"True";
+	constexpr const char* FalseLiteral = u8"False";
 }
 #endif

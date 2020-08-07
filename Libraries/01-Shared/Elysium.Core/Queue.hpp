@@ -123,7 +123,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (_Count == 0)
 		{
-			throw InvalidOperationException(u"The Queue is empty");
+			throw InvalidOperationException(u8"The Queue is empty");
 		}
 		return _Data[_HeadIndex];
 	}
@@ -132,7 +132,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (_Count == 0)
 		{
-			throw InvalidOperationException(u"The Queue is empty");
+			throw InvalidOperationException(u8"The Queue is empty");
 		}
 
 		T& RemovedItem = _Data[_HeadIndex];

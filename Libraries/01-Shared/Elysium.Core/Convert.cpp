@@ -16,7 +16,18 @@
 #include <string>
 #endif
 
-const Elysium::Core::CharString Elysium::Core::Convert::_Base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
+#include <Windows.h>
+#endif
+#elif defined(__ANDROID__)
+#define EXPORT
+#else
+#error "undefined os"
+#endif
+
+const Elysium::Core::String Elysium::Core::Convert::_Base64Chars = u8"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 Elysium::Core::Convert::~Convert()
 {
@@ -60,18 +71,17 @@ Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const
 Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
 {
 	// ToDo: do this the right way!
-	/*
-	Elysium::Core::Collections::Template::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
+	//Elysium::Core::Collections::Template::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
 
 	// CP_ACP ?
-	int Length = MultiByteToWideChar(CP_UTF8, 0, (char*)&Bytes[0], -1, NULL, 0);
+	int Length = MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, NULL, 0);
 	wchar_t* WideChars = new wchar_t[Length];
-	MultiByteToWideChar(CP_UTF8, 0, (char*)&Bytes[0], -1, WideChars, Length);
+	MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, WideChars, Length);
 
-	std::wstring WideString = std::wstring(WideChars);
+	std::wstring wc = std::wstring(WideChars);
 	delete[] WideChars;
-	*/
-	return WideString((wchar_t*)(&Value[0]));
+	
+	return WideString(&wc[0]);
 }
 
 Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const String & Base64String)
@@ -109,7 +119,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 	byte Array4[4];
 	byte Array3[3];
 
-	while (InputLength-- && (Base64String[Index] != u'=' && IsBase64(Base64String[Index])))
+	while (InputLength-- && (Base64String[Index] != u8'=' && IsBase64(Base64String[Index])))
 	{
 		Array4[i++] = Base64String[Index];
 		Index++;
@@ -228,33 +238,33 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core
 	return Elysium::Core::Text::Encoding::Default().GetString(&Result[0], Result.GetCount());
 }
 
-int32_t Elysium::Core::Convert::ToInt32(const char16_t * Value, const int32_t FromBase)
+int32_t Elysium::Core::Convert::ToInt32(const char * Value, const int32_t FromBase)
 {	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
 	int16_t Sign = 1;
 	int32_t i = 0;
 	int32_t Base = 0;
 	
 	// eat all whitespaces
-	while (Value[i] == u' ')
+	while (Value[i] == u8' ')
 	{
 		i++;
 	}
 
 	// sign
-	if (Value[i] == u'-' || Value[i] == u'+')
+	if (Value[i] == u8'-' || Value[i] == u8'+')
 	{
-		Sign = 1 - 2 * (Value[i++] == '-');
+		Sign = 1 - 2 * (Value[i++] == u8'-');
 	}
 
 	// check for valid input
-	while (Value[i] >= u'0' && Value[i] <= '9')
+	while (Value[i] >= u8'0' && Value[i] <= u8'9')
 	{
 		// handle overflow cases
-		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u'0' > 7))
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
 		{
 			return Sign == 1 ? INT_MAX : INT_MIN;
 		}
-		Base = 10 * Base + (Value[i++] - u'0');
+		Base = 10 * Base + (Value[i++] - u8'0');
 	}
 	return Base * Sign;
 }
@@ -265,31 +275,31 @@ int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::String & Value, con
 	int32_t Base = 0;
 
 	// eat leading whitespaces
-	while (Value[i] == u' ')
+	while (Value[i] == u8' ')
 	{
 		i++;
 	}
 
 	// sign
-	if (Value[i] == u'-' || Value[i] == u'+')
+	if (Value[i] == u8'-' || Value[i] == u8'+')
 	{
-		Sign = 1 - 2 * (Value[i++] == '-');
+		Sign = 1 - 2 * (Value[i++] == u8'-');
 	}
 
 	// check for valid input
-	while (Value[i] >= u'0' && Value[i] <= '9')
+	while (Value[i] >= u8'0' && Value[i] <= u8'9')
 	{
 		// handle overflow cases
-		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u'0' > 7))
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
 		{
 			return Sign == 1 ? INT_MAX : INT_MIN;
 		}
-		Base = 10 * Base + (Value[i++] - u'0');
+		Base = 10 * Base + (Value[i++] - u8'0');
 	}
 	return Base * Sign;
 }
 
-float Elysium::Core::Convert::ToSingle(const char16_t * Value)
+float Elysium::Core::Convert::ToSingle(const char * Value)
 {
 	return ToSingle(String(Value));
 }
@@ -302,20 +312,20 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 	{
 		switch (Value[i])
 		{
-		case u' ':
+		case u8' ':
 			break;
-		case u'-':
+		case u8'-':
 			break;
-		case u'0':
-		case u'1':
-		case u'2':
-		case u'3':
-		case u'4':
-		case u'5':
-		case u'6':
-		case u'7':
-		case u'8':
-		case u'9':
+		case u8'0':
+		case u8'1':
+		case u8'2':
+		case u8'3':
+		case u8'4':
+		case u8'5':
+		case u8'6':
+		case u8'7':
+		case u8'8':
+		case u8'9':
 			break;
 		}
 	}
@@ -331,5 +341,5 @@ Elysium::Core::Convert::Convert()
 
 bool Elysium::Core::Convert::IsBase64(const char16_t Char)
 {
-	return (isalnum(Char) || (Char == u'+') || (Char == u'/'));
+	return (isalnum(Char) || (Char == u8'+') || (Char == u8'/'));
 }

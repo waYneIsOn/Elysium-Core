@@ -61,13 +61,13 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	ICommandText* NativeCommandText;
 	if (FAILED(HResult = _NativeCommandFactory->CreateCommand(NULL, IID_ICommandText, (IUnknown**)&NativeCommandText)))
 	{
-		throw SqlNativeException(u"Failed to obtain ICommandText interface.\r\n", HResult, _NativeCommandFactory);
+		throw SqlNativeException(u8"Failed to obtain ICommandText interface.\r\n", HResult, _NativeCommandFactory);
 	}
 
 	// set the command text
 	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, &Elysium::Core::Convert::ToWideString(_Text)[0])))
 	{
-		SqlNativeException Exception = SqlNativeException(u"Failed to set command text.\r\n", HResult, NativeCommandText);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to set command text.\r\n", HResult, NativeCommandText);
 		NativeCommandText->Release();
 		throw Exception;
 	}
@@ -82,7 +82,7 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	DBROWCOUNT RowsAffected;
 	if (FAILED(HResult = NativeCommandText->Execute(NULL, IID_NULL, &CommandParameters, &RowsAffected, NULL)))
 	{
-		SqlNativeException Exception = SqlNativeException(u"Failed to execute non-query.\r\n", HResult, NativeCommandText);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to execute non-query.\r\n", HResult, NativeCommandText);
 		for (size_t i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
@@ -116,14 +116,14 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	ICommandText* NativeCommandText;
 	if (FAILED(HResult = _NativeCommandFactory->CreateCommand(NULL, IID_ICommandText, (IUnknown**)&NativeCommandText)))
 	{
-		throw SqlNativeException(u"Failed to obtain ICommandText interface.\r\n", HResult, _NativeCommandFactory);
+		throw SqlNativeException(u8"Failed to obtain ICommandText interface.\r\n", HResult, _NativeCommandFactory);
 	}
 
 	// set the command text
 	const wchar_t* Test = &Elysium::Core::Convert::ToWideString(_Text)[0];
 	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, &Elysium::Core::Convert::ToWideString(_Text)[0])))
 	{
-		SqlNativeException Exception = SqlNativeException(u"Failed to set command text.\r\n", HResult, NativeCommandText);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to set command text.\r\n", HResult, NativeCommandText);
 		NativeCommandText->Release();
 		throw Exception;
 	}
@@ -139,7 +139,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	IRowset* NativeRowset;
 	if (FAILED(HResult = NativeCommandText->Execute(NULL, IID_IRowset, &CommandParameters, &RowsAffected, (IUnknown**)&NativeRowset)))
 	{
-		SqlNativeException Exception = SqlNativeException(u"Failed to execute the reader.\r\n", HResult, NativeCommandText);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to execute the reader.\r\n", HResult, NativeCommandText);
 		for (size_t i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
@@ -156,7 +156,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	IColumnsInfo* NativeColumnsInfo;
 	if (FAILED(HResult = NativeRowset->QueryInterface(IID_IColumnsInfo, (void**)&NativeColumnsInfo)))
 	{
-		SqlNativeException Exception = SqlNativeException(u"Failed to obtain IColumnsInfo interface.\r\n", HResult, NativeRowset);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to obtain IColumnsInfo interface.\r\n", HResult, NativeRowset);
 		for (size_t i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
@@ -174,7 +174,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	wchar_t* ColumnNames;
 	if (FAILED(HResult = NativeColumnsInfo->GetColumnInfo(&FieldCount, &ColumnInfo, &ColumnNames)))
 	{
-		SqlNativeException Exception = SqlNativeException(u"Failed to get column info.\r\n", HResult, NativeColumnsInfo);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to get column info.\r\n", HResult, NativeColumnsInfo);
 		for (size_t i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
@@ -213,12 +213,12 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::Prepare()
 	if (FAILED(HResult = _NativeCommandFactory->QueryInterface(IID_ICommandPrepare, (void**)&NativeCommandPrepare)))
 		//if (FAILED(HResult = NativeCommandText->QueryInterface(IID_ICommandPrepare, (void**)&NativeCommandPrepare)))
 	{
-		throw SqlNativeException(u"Failed to obtain ICommandPrepare interface.\r\n", HResult, _NativeCommandFactory);
+		throw SqlNativeException(u8"Failed to obtain ICommandPrepare interface.\r\n", HResult, _NativeCommandFactory);
 	}
 	if (FAILED(HResult = NativeCommandPrepare->Prepare(0)))
 	{
 		// prepare the exception
-		SqlNativeException Exception = SqlNativeException(u"Failed to prepare command.\r\n", HResult, NativeCommandPrepare);
+		SqlNativeException Exception = SqlNativeException(u8"Failed to prepare command.\r\n", HResult, NativeCommandPrepare);
 
 		// clean-up and throw the exception
 		NativeCommandPrepare->Release();
@@ -262,7 +262,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 		ICommandWithParameters* NativeCommandWithParameters;
 		if (FAILED(HResult = NativeCommandText->QueryInterface(IID_ICommandWithParameters, (void**)&NativeCommandWithParameters)))
 		{
-			SqlNativeException Exception = SqlNativeException(u"Failed to obtain ICommandWithParameters interface.\r\n", HResult, NativeCommandText);
+			SqlNativeException Exception = SqlNativeException(u8"Failed to obtain ICommandWithParameters interface.\r\n", HResult, NativeCommandText);
 			NativeCommandText->Release();
 			throw Exception;
 		}
@@ -366,7 +366,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 						{
 							if (FAILED(HResult = CurrentStream->Write(&Buffer[0], (unsigned long)BytesRead, nullptr)))
 							{
-								SqlNativeException Exception = SqlNativeException(u"Failed to obtain IAccessor interface.\r\n", HResult, CurrentStream);
+								SqlNativeException Exception = SqlNativeException(u8"Failed to obtain IAccessor interface.\r\n", HResult, CurrentStream);
 								NativeCommandWithParameters->Release();
 								NativeCommandText->Release();
 								throw Exception;
@@ -496,7 +496,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 		HResult = NativeCommandText->QueryInterface(IID_IAccessor, (void**)&NativeParameterAccessor);
 		if (FAILED(HResult))
 		{
-			SqlNativeException Exception = SqlNativeException(u"Failed to obtain IAccessor interface.\r\n", HResult, NativeCommandText);
+			SqlNativeException Exception = SqlNativeException(u8"Failed to obtain IAccessor interface.\r\n", HResult, NativeCommandText);
 			NativeCommandWithParameters->Release();
 			NativeCommandText->Release();
 			throw Exception;
@@ -505,7 +505,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 		HResult = NativeParameterAccessor->CreateAccessor(DBACCESSOR_PARAMETERDATA, ParameterCount, ParameterBindings.data(), RowsetByteLength, &NativeParameterAccessorHandle, ParameterBindingsStatus.data());
 		if (FAILED(HResult))
 		{
-			SqlNativeException Exception = SqlNativeException(u"Failed to create accessor.\r\n", HResult, NativeParameterAccessor);
+			SqlNativeException Exception = SqlNativeException(u8"Failed to create accessor.\r\n", HResult, NativeParameterAccessor);
 			NativeParameterAccessor->Release();
 			NativeCommandWithParameters->Release();
 			NativeCommandText->Release();

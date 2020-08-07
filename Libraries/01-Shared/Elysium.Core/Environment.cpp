@@ -14,13 +14,13 @@
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\r\n");
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r\n");
 #elif defined(UNIX)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\n");
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
 #elif defined(PREOSX_MAC)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\r");
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r");
 #elif defined(__ANDROID__)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u"\n");
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
 #else
 #error "unsupported os"
 #endif
@@ -45,11 +45,11 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 	if (GetComputerName(MachineName, &BufferCount))
 	{
 		//return MachineName;
-		return String(u"not implemented");
+		return String("not implemented");
 	}
 	else
 	{
-		throw InvalidOperationException(String(u"The name of this computer cannot be obtained."));
+		throw InvalidOperationException(String("The name of this computer cannot be obtained."));
 	}
 }
 const Elysium::Core::String & Elysium::Core::Environment::NewLine()
@@ -87,7 +87,7 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 	}
 	else
 	{
-		throw InvalidOperationException(u"This property was unable to obtain the system version.");
+		throw InvalidOperationException("This property was unable to obtain the system version.");
 	}
 }
 const uint32_t Elysium::Core::Environment::ProcessorCount()
@@ -105,11 +105,11 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 	if (GetUserName(UserName, &BufferCount))
 	{
 		//return UserName;
-		return u"not implemented";
+		return "not implemented";
 	}
 	else
 	{
-		throw InvalidOperationException(u"This property was unable to obtain the user name.");
+		throw InvalidOperationException("This property was unable to obtain the user name.");
 	}
 }
 const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
@@ -119,11 +119,11 @@ const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
 	{
 		//return SystemDirectory;
-		return u"not implemented";
+		return "not implemented";
 	}
 	else
 	{
-		throw InvalidOperationException(u"This property was unable to obtain the system directory.");
+		throw InvalidOperationException("This property was unable to obtain the system directory.");
 	}
 }
 

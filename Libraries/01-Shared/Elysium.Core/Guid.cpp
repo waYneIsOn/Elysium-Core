@@ -4,6 +4,10 @@
 #include <cstring>
 #endif
 
+#ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
+#include "ArgumentNullException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "NotImplementedException.hpp"
 #endif
@@ -93,8 +97,8 @@ Elysium::Core::Guid Elysium::Core::Guid::NewGuid()
 Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 {
 	if (Input == nullptr)
-	{	// ToDo: throw specific exception
-		throw Exception(u"ArgumentNullException: Input");
+	{
+		throw ArgumentNullException();
 	}
 
 	byte Data[16];
@@ -123,7 +127,7 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char * Input)
 		break;
 	default:
 		// ToDo: throw specific exception
-		throw Exception(u"FormatException: Input");
+		throw Exception(u8"FormatException: Input");
 	}
 
 	return Guid(Data);
@@ -135,7 +139,7 @@ const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 }
 Elysium::Core::String Elysium::Core::Guid::ToString() const
 {
-	throw NotImplementedException(u"void Elysium::Core::Guid::ToString(String * Output) const");
+	throw NotImplementedException(u8"void Elysium::Core::Guid::ToString(String * Output) const");
 	/*
 	char Data[38] = "00000000-0000-0000-0000-000000000000";
 	ByteToHexDigit(_Data[3], &Data[0]);
@@ -164,7 +168,7 @@ Elysium::Core::Guid::Guid()
 
 void Elysium::Core::Guid::ParseN(const char * Input, byte * Data)
 {	// 00000000000000000000000000000000
-	throw NotImplementedException(u"ParseN");
+	throw NotImplementedException(u8"ParseN");
 }
 void Elysium::Core::Guid::ParseD(const char * Input, byte * Data)
 {	// 00000000-0000-0000-0000-000000000000
@@ -187,15 +191,15 @@ void Elysium::Core::Guid::ParseD(const char * Input, byte * Data)
 }
 void Elysium::Core::Guid::ParseB(const char * Input, byte * Data)
 {	// {00000000-0000-0000-0000-000000000000}
-	throw NotImplementedException(u"ParseB");
+	throw NotImplementedException(u8"ParseB");
 }
 void Elysium::Core::Guid::ParseP(const char * Input, byte * Data)
 {	// (00000000-0000-0000-0000-000000000000)
-	throw NotImplementedException(u"ParseP");
+	throw NotImplementedException(u8"ParseP");
 }
 void Elysium::Core::Guid::ParseX(const char * Input, byte * Data)
 {	// {0x00000000,0x0000,0x0000,{0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}}
-	throw NotImplementedException(u"ParseX");
+	throw NotImplementedException(u8"ParseX");
 }
 
 char Elysium::Core::Guid::HexDigitToChar(char Input)

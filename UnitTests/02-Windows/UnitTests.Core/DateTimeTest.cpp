@@ -21,15 +21,15 @@ namespace UnitTests::Core
 			DateTime DT0 = DateTime(634755744000000000);
 			DateTime DT1 = DateTime(2012, 06, 18);
 
-			Assert::AreEqual(DT0.GetTicks(), DT1.GetTicks());
+			AssertExtended::AreEqual(DT0.GetTicks(), DT1.GetTicks());
 		}
 		TEST_METHOD(FromX)
 		{
 			DateTime Max = DateTime::MaxValue();
-			Assert::AreEqual(3155378975999999999, Max.GetTicks());
+			AssertExtended::AreEqual(3155378975999999999, Max.GetTicks());
 
 			DateTime Min = DateTime::MinValue();
-			Assert::AreEqual(0LL, Min.GetTicks());
+			AssertExtended::AreEqual(0LL, Min.GetTicks());
 		}
 		TEST_METHOD(Operators)
 		{

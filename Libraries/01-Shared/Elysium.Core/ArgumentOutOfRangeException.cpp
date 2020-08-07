@@ -5,13 +5,13 @@
 #endif
 
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException()
-	: Elysium::Core::Exception(u"ArgumentNullException")
+	: Elysium::Core::ArgumentException(u8"ArgumentNullException")
 { }
-Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char16_t * Message)
-	: Elysium::Core::Exception(Message)
+Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char * Message)
+	: Elysium::Core::ArgumentException(Message)
 { }
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(String && Message)
-	: Elysium::Core::Exception(std::move(Message))
+	: Elysium::Core::ArgumentException(std::move(Message))
 { }
 Elysium::Core::ArgumentOutOfRangeException::~ArgumentOutOfRangeException()
 { }

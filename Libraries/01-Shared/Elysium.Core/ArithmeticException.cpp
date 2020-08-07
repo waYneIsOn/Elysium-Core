@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::ArithmeticException::ArithmeticException()
-	: Elysium::Core::SystemException(u"ArgumentNullException")
+	: Elysium::Core::SystemException(u8"ArgumentNullException")
 { }
-Elysium::Core::ArithmeticException::ArithmeticException(const char16_t * Message)
+Elysium::Core::ArithmeticException::ArithmeticException(const char * Message)
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::ArithmeticException::ArithmeticException(String && Message)

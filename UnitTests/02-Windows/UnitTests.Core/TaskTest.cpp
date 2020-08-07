@@ -130,7 +130,7 @@ namespace UnitTests::Core::Threading::Tasks
 		{
 			_CalculatedValue = 3;
 			_WorkerThreadId = std::this_thread::get_id();
-			throw Exception(u"any exception");
+			throw Exception(u8"any exception");
 		}
 
 		void LongRunning()

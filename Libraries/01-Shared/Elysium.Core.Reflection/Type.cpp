@@ -23,7 +23,7 @@ const bool Elysium::Core::Reflection::Type::GetIsClass() const
 
 const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const
 {
-	throw NotImplementedException(u"const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const");
+	throw NotImplementedException(u8"const Elysium::Core::StringView & Elysium::Core::Reflection::Type::GetFullName() const");
 }
 
 bool Elysium::Core::Reflection::Type::operator==(const Type & Other) const

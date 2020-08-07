@@ -107,7 +107,7 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 {
 	if (_CompressionMode != CompressionMode::Decompress)
 	{
-		throw InvalidOperationException(u"Compression mode is not set to decompress");
+		throw InvalidOperationException(u8"Compression mode is not set to decompress");
 	}
 
 	// read header and footer if it hasn't been done so far
@@ -120,13 +120,13 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 		BytesRead = _BaseStream.Read(_Buffer, 10);
 		if (BytesRead != 10 || _Buffer[0] != 0x1F || _Buffer[1] != 0x8B)
 		{
-			throw InvalidDataException(u"BaseStream does not contain gzip-compressed data");
+			throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data");
 		}
 
 		// check CM (compression method)
 		if (_Buffer[2] != 0x08)
 		{
-			throw InvalidDataException(u"This implementation only supports DEFLATE compressed data");
+			throw InvalidDataException(u8"This implementation only supports DEFLATE compressed data");
 		}
 
 		// FLG (file flags)
@@ -171,7 +171,7 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 			BytesRead = _BaseStream.Read(_Buffer, 4);
 			if (BytesRead != 4)
 			{
-				throw InvalidDataException(u"BaseStream does not contain gzip-compressed data");
+				throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data");
 			}
 
 			// SI1 and SI2
@@ -194,7 +194,7 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 		BytesRead = _BaseStream.Read(&_Buffer[11], 8);
 		if (BytesRead != 8)
 		{
-			throw InvalidDataException(u"BaseStream does not contain gzip-compressed data");
+			throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data");
 		}
 
 		// cyclic redundancy check

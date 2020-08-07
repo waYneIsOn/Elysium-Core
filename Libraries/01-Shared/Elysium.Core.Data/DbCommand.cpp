@@ -26,7 +26,7 @@ const Elysium::Core::Data::CommandType & Elysium::Core::Data::Common::DbCommand:
 	return _Type;
 }
 
-void Elysium::Core::Data::Common::DbCommand::SetCommandText(const char16_t * CommandText)
+void Elysium::Core::Data::Common::DbCommand::SetCommandText(const char * CommandText)
 {
 	_Text = String(CommandText);
 }

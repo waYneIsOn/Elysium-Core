@@ -6,7 +6,7 @@
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 Elysium::Core::Runtime::InteropServices::COMException::COMException()
-	: ExternalException(u"COMException")
+	: ExternalException(u8"COMException")
 { }
 Elysium::Core::Runtime::InteropServices::COMException::COMException(String && Message)
 	: ExternalException(std::move(Message))

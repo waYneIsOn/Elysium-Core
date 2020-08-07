@@ -15,11 +15,11 @@ Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::EndPoint::GetAddr
 
 void Elysium::Core::Net::EndPoint::Create(Elysium::Core::Net::SocketAddress * Address, Elysium::Core::Net::EndPoint * EndPoint)
 {
-	throw NotImplementedException(u"void Elysium::Core::Net::EndPoint::Create");
+	throw NotImplementedException(u8"void Elysium::Core::Net::EndPoint::Create");
 }
 Elysium::Core::Net::EndPoint * Elysium::Core::Net::EndPoint::Create(Elysium::Core::Net::SocketAddress * Address)
 {
-	throw NotImplementedException(u"Elysium::Core::Net::EndPoint * Elysium::Core::Net::EndPoint::Create");
+	throw NotImplementedException(u8"Elysium::Core::Net::EndPoint * Elysium::Core::Net::EndPoint::Create");
 }
 
 Elysium::Core::Net::EndPoint::EndPoint(const IPAddress& Address)

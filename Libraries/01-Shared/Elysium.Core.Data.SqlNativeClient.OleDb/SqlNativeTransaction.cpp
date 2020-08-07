@@ -30,13 +30,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::Commit()
 {
 	if (_NativeTransaction == nullptr)
 	{
-		throw InvalidOperationException(u"SqlNativeTransaction has already been committed or rolled back.\r\n");
+		throw InvalidOperationException(u8"SqlNativeTransaction has already been committed or rolled back.\r\n");
 	}
 
 	HRESULT HResult;
 	if (FAILED(HResult = _NativeTransaction->Commit(false, XACTTC_SYNC, 0)))
 	{
-		throw SqlNativeException(u"Transaction commit failed.\r\n", HResult, _NativeTransaction);
+		throw SqlNativeException(u8"Transaction commit failed.\r\n", HResult, _NativeTransaction);
 	}
 
 	// the transaction cannot be reused after a commit which means we can release it right away
@@ -49,13 +49,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::Rollback
 {
 	if (_NativeTransaction == nullptr)
 	{
-		throw InvalidOperationException(u"SqlNativeTransaction has already been committed or rolled back.\r\n");
+		throw InvalidOperationException(u8"SqlNativeTransaction has already been committed or rolled back.\r\n");
 	}
 
 	HRESULT HResult;
 	if (FAILED(HResult = _NativeTransaction->Abort(NULL, false, false)))
 	{
-		throw SqlNativeException(u"Transaction rollback failed.\r\n", HResult, _NativeTransaction);
+		throw SqlNativeException(u8"Transaction rollback failed.\r\n", HResult, _NativeTransaction);
 	}
 
 	// the transaction cannot be reused after a commit which means we can release it right away

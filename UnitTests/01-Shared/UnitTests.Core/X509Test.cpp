@@ -172,14 +172,14 @@ namespace UnitTests::Core::Security::Cryptography
 				0x67, 0x14, 0x30 });
 			
 			X509Certificate Certificate = X509Certificate::LoadFromBlob(RawDataArray);
-			AssertExtended::AreEqual(u"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
-			AssertExtended::AreEqual(u"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
+			Assert::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
+			Assert::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
 		}
 
 		TEST_METHOD(ReadCertificateFromFile)
 		{
-			Elysium::Core::IO::FileStream TargetStream = Elysium::Core::IO::FileStream(u"sample.crt", Elysium::Core::IO::FileMode::Create, Elysium::Core::IO::FileAccess::Write);
-			Elysium::Core::CharString Input = "-----BEGIN CERTIFICATE-----"
+			Elysium::Core::IO::FileStream TargetStream = Elysium::Core::IO::FileStream("sample.crt", Elysium::Core::IO::FileMode::Create, Elysium::Core::IO::FileAccess::Write);
+			Elysium::Core::String Input = u8"-----BEGIN CERTIFICATE-----"
 				"MIIF7zCCBNegAwIBAgIRANdVj9r18RBbshMoK3B3KaMwDQYJKoZIhvcNAQEFBQAw"
 				"gZcxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtl"
 				"IENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1QgTmV0d29yazEhMB8GA1UECxMY"
@@ -216,9 +216,9 @@ namespace UnitTests::Core::Security::Cryptography
 			TargetStream.Write((byte*)&Input[0], Input.GetLength());
 			TargetStream.Close();
 
-			X509Certificate Certificate = X509Certificate::LoadFromFile(u"sample.crt");
-			AssertExtended::AreEqual(u"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
-			AssertExtended::AreEqual(u"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
+			X509Certificate Certificate = X509Certificate::LoadFromFile(u8"sample.crt");
+			Assert::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
+			Assert::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
 		}
 
 		TEST_METHOD(ReadCertificateUsingDERDecoder)
@@ -298,14 +298,14 @@ namespace UnitTests::Core::Security::Cryptography
 						Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
 						if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 						{
-							throw InvalidDataException(u"CertificateSequence");
+							throw InvalidDataException(u8"CertificateSequence");
 						}
 						Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
 						
 						Asn1Identifier TbsCertificateSequence = Decoder.DecodeIdentifier(InputStream);
 						if (TbsCertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 						{
-							throw InvalidDataException(u"TbsCertificateSequence");
+							throw InvalidDataException(u8"TbsCertificateSequence");
 						}
 						Asn1Length TbsCertificateLength = Decoder.DecodeLength(InputStream);
 						 
@@ -323,7 +323,7 @@ namespace UnitTests::Core::Security::Cryptography
 							Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
 							if (VersionIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Integer))
 							{
-								throw InvalidDataException(u"VersionIdentifier");
+								throw InvalidDataException(u8"VersionIdentifier");
 							}
 							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
 							Asn1Integer Version = Decoder.DecodeInteger(VersionIdentifier, VersionLength, InputStream);
@@ -343,14 +343,14 @@ namespace UnitTests::Core::Security::Cryptography
 						Asn1Identifier ValiditySequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
 						if (ValiditySequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 						{
-							throw InvalidDataException(u"ValiditySequenceIdentifier");
+							throw InvalidDataException(u8"ValiditySequenceIdentifier");
 						}
 						Asn1Length ValiditySequenceLength = Decoder.DecodeLength(InputStream);
 
 						Asn1Identifier ValidityNotBeforeIdentifier = Decoder.DecodeIdentifier(InputStream);
 						if (ValidityNotBeforeIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTCTime))
 						{
-							throw InvalidDataException(u"ValidityNotBeforeIdentifier");
+							throw InvalidDataException(u8"ValidityNotBeforeIdentifier");
 						}
 						Asn1Length ValidityNotBeforeLength = Decoder.DecodeLength(InputStream);
 						InputStream.SetPosition(InputStream.GetPosition() + ValidityNotBeforeLength.GetLength());	// ToDo
@@ -358,7 +358,7 @@ namespace UnitTests::Core::Security::Cryptography
 						Asn1Identifier ValidityNotAfterIdentifier = Decoder.DecodeIdentifier(InputStream);
 						if (ValidityNotAfterIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTCTime))
 						{
-							throw InvalidDataException(u"ValidityNotAfterIdentifier");
+							throw InvalidDataException(u8"ValidityNotAfterIdentifier");
 						}
 						Asn1Length ValidityNotAfterLength = Decoder.DecodeLength(InputStream);
 						InputStream.SetPosition(InputStream.GetPosition() + ValidityNotAfterLength.GetLength());	// ToDo
@@ -424,14 +424,14 @@ namespace UnitTests::Core::Security::Cryptography
 			Asn1Identifier AlgorithmSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
 			if (AlgorithmSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 			{
-				throw InvalidDataException(u"AlgorithmSequenceIdentifier");
+				throw InvalidDataException(u8"AlgorithmSequenceIdentifier");
 			}
 			Asn1Length AlgorithmSequenceLength = Decoder.DecodeLength(InputStream);
 
 			Asn1Identifier AlgorithmIdentifier = Decoder.DecodeIdentifier(InputStream);
 			if (AlgorithmIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::ObjectIdentifier))
 			{
-				throw InvalidDataException(u"AlgorithmIdentifier");
+				throw InvalidDataException(u8"AlgorithmIdentifier");
 			}
 			Asn1Length AlgorithmLength = Decoder.DecodeLength(InputStream);
 			// ToDo: don't skip but actually read the value
@@ -448,7 +448,7 @@ namespace UnitTests::Core::Security::Cryptography
 					Asn1Identifier ParameterSetIdentifier = Decoder.DecodeIdentifier(InputStream);
 					if (ParameterSetIdentifier.GetTagNumber() != static_cast<int32_t>(Asn1UniversalTag::Set))
 					{
-						throw InvalidDataException(u"ParameterSetIdentifier");
+						throw InvalidDataException(u8"ParameterSetIdentifier");
 					}
 					Asn1Length ParameterSetLength = Decoder.DecodeLength(InputStream);
 
@@ -466,7 +466,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (ParameterSequenceIdentifier.GetTagNumber() != static_cast<int32_t>(Asn1UniversalTag::Null))
 			{
-				throw InvalidDataException(u"ParameterSequenceIdentifier");
+				throw InvalidDataException(u8"ParameterSequenceIdentifier");
 			}
 		}
 
@@ -492,7 +492,7 @@ namespace UnitTests::Core::Security::Cryptography
 			Asn1Identifier NameSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
 			if (NameSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 			{
-				throw InvalidDataException(u"NameSequenceIdentifier");
+				throw InvalidDataException(u8"NameSequenceIdentifier");
 			}
 			Asn1Length NameSequenceLength = Decoder.DecodeLength(InputStream);
 
@@ -507,14 +507,14 @@ namespace UnitTests::Core::Security::Cryptography
 					Asn1Identifier RelativeDistinguishedNameIdentifier = Decoder.DecodeIdentifier(InputStream);
 					if (RelativeDistinguishedNameIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
 					{
-						throw InvalidDataException(u"RelativeDistinguishedNameIdentifier");
+						throw InvalidDataException(u8"RelativeDistinguishedNameIdentifier");
 					}
 					Asn1Length RelativeDistinguishedNameLength = Decoder.DecodeLength(InputStream);
 
 					Asn1Identifier AttributeTypeIdentifier = Decoder.DecodeIdentifier(InputStream);
 					if (AttributeTypeIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::ObjectIdentifier))
 					{
-						throw InvalidDataException(u"AttributeTypeIdentifier");
+						throw InvalidDataException(u8"AttributeTypeIdentifier");
 					}
 					Asn1Length AttributeTypeLength = Decoder.DecodeLength(InputStream);
 					InputStream.SetPosition(InputStream.GetPosition() + AttributeTypeLength.GetLength());	// ToDo
@@ -524,14 +524,14 @@ namespace UnitTests::Core::Security::Cryptography
 						AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::PrintableString) &&
 						AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::IA5String))
 					{
-						throw InvalidDataException(u"AttributeValueIdentifier");
+						throw InvalidDataException(u8"AttributeValueIdentifier");
 					}
 					Asn1Length AttributeValueLength = Decoder.DecodeLength(InputStream);
 					Asn1String AttributeValue = Decoder.DecodeString(AttributeValueIdentifier, AttributeValueLength, InputStream);
 				}
 				else
 				{
-					throw InvalidDataException(u"RDNSequenceIdentifier");
+					throw InvalidDataException(u8"RDNSequenceIdentifier");
 				}
 			}
 		}

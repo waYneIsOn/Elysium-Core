@@ -45,8 +45,8 @@ namespace UnitTests::Core::Security::Cryptography
 			Array<byte> HashBytes2 = Hash(Algorithm, UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength()));
 		}
 	private:
-		const String _Value1 = u"";
-		const String _Value2 = u"bla";
+		const String _Value1 = u8"";
+		const String _Value2 = u8"bla";
 
 		Array<byte> Hash(HashAlgorithm& Algorithm, List<byte>& Bytes)
 		{

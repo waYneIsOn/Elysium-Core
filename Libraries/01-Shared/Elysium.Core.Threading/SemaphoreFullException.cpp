@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::Threading::SemaphoreFullException::SemaphoreFullException()
-	: Elysium::Core::Exception(u"")
+	: Elysium::Core::Exception(u8"SemaphoreFullException")
 { }
 Elysium::Core::Threading::SemaphoreFullException::SemaphoreFullException(String && Message)
 	: Elysium::Core::Exception(std::move(Message))

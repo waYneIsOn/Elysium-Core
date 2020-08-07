@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::IO::IOException::IOException()
-	: Elysium::Core::Exception(u"IOException")
+	: Elysium::Core::Exception(u8"IOException")
 { }
-Elysium::Core::IO::IOException::IOException(const char16_t * Message)
+Elysium::Core::IO::IOException::IOException(const char * Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::IO::IOException::IOException(String && Message)

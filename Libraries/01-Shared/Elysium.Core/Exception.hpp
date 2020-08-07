@@ -25,14 +25,14 @@ namespace Elysium::Core
 		template <typename T>
 		class StringBase;
 	}
-	using String = Collections::Template::StringBase<char16_t>;
+	using String = Collections::Template::StringBase<char>;
 
 	class ELYSIUM_CORE_API Exception
 	{
 	public:
 		// constructors & destructor
 		Exception();
-		Exception(const char16_t* Message);
+		Exception(const char* Message);
 		Exception(String&& Message);
 		virtual ~Exception();
 

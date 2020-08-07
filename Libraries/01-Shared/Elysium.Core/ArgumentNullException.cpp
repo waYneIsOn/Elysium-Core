@@ -5,13 +5,13 @@
 #endif
 
 Elysium::Core::ArgumentNullException::ArgumentNullException()
-	: Elysium::Core::Exception(u"ArgumentNullException")
+	: Elysium::Core::ArgumentException(u8"ArgumentNullException")
 { }
-Elysium::Core::ArgumentNullException::ArgumentNullException(const char16_t * Message)
-	: Elysium::Core::Exception(Message)
+Elysium::Core::ArgumentNullException::ArgumentNullException(const char * Message)
+	: Elysium::Core::ArgumentException(Message)
 { }
 Elysium::Core::ArgumentNullException::ArgumentNullException(String && Message)
-	: Elysium::Core::Exception(std::move(Message))
+	: Elysium::Core::ArgumentException(std::move(Message))
 { }
 Elysium::Core::ArgumentNullException::~ArgumentNullException()
 { }

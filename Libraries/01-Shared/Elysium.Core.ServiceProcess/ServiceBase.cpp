@@ -56,7 +56,7 @@ void Elysium::Core::ServiceProcess::ServiceBase::Run(size_t ServiceCount, const 
 }
 void Elysium::Core::ServiceProcess::ServiceBase::Stop()
 {
-	throw NotImplementedException(u"Elysium::Core::ServiceProcess::ServiceBase::Stop");
+	throw NotImplementedException(u8"Elysium::Core::ServiceProcess::ServiceBase::Stop");
 }
 
 bool Elysium::Core::ServiceProcess::ServiceBase::GetAutoLog() const

@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::IO::InvalidDataException::InvalidDataException()
-	: Elysium::Core::Exception(u"InvalidDataException")
+	: Elysium::Core::Exception(u8"InvalidDataException")
 { }
-Elysium::Core::IO::InvalidDataException::InvalidDataException(const char16_t * Message)
+Elysium::Core::IO::InvalidDataException::InvalidDataException(const char * Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::IO::InvalidDataException::InvalidDataException(String && Message)

@@ -1,7 +1,7 @@
 #include "JsonIOSettings.hpp"
 
 Elysium::Core::Json::JsonIOSettings::JsonIOSettings()
-	: _IndentSpace(u" "), _Indent(u"\t"), _NewLine(u"\r\n")
+	: _IndentSpace(u8" "), _Indent(u8"\t"), _NewLine(u8"\r\n")
 {
 }
 Elysium::Core::Json::JsonIOSettings::JsonIOSettings(const String & IndentSpace, const String & Indent, const String & NewLine)

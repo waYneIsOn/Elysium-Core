@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::OutOfMemoryException::OutOfMemoryException()
-	: Elysium::Core::Exception(u"OutOfMemoryException")
+	: Elysium::Core::Exception(u8"OutOfMemoryException")
 { }
-Elysium::Core::OutOfMemoryException::OutOfMemoryException(const char16_t * Message)
+Elysium::Core::OutOfMemoryException::OutOfMemoryException(const char * Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::OutOfMemoryException::OutOfMemoryException(String && Message)

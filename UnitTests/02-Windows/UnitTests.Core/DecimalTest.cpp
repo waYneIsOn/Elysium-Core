@@ -16,8 +16,8 @@ namespace UnitTests::Core
 		TEST_METHOD(Constructors)
 		{
 			Elysium::Core::Decimal FromFloat(3.14154564564564567458757686574867867586758675867876f);
-			Assert::AreEqual(3LL, FromFloat.GetHighPart());
-			Assert::AreEqual(14154LL, FromFloat.GetLowPart());
+			AssertExtended::AreEqual(3LL, FromFloat.GetHighPart());
+			AssertExtended::AreEqual(14154LL, FromFloat.GetLowPart());
 		}
 	};
 }

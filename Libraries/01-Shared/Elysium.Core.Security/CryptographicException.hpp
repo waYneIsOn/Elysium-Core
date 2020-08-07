@@ -26,7 +26,7 @@ namespace Elysium::Core::Security::Cryptography
 	{
 	public:
 		CryptographicException();
-		CryptographicException(const char16_t* Message);
+		CryptographicException(const char* Message);
 		CryptographicException(String&& Message);
 		virtual ~CryptographicException();
 	};

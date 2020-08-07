@@ -58,14 +58,19 @@ namespace Elysium::Core::Text
 				
 		virtual const bool GetIsSingleByte() const = 0;
 		virtual const int GetCodePage() const;
-		virtual const String GetEncodingName() const = 0;
+		virtual const Elysium::Core::String GetEncodingName() const = 0;
+		//virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetPreamble() const = 0;	// BOM
 
-		//virtual int GetMaxByteCount(int charCount) = 0;
+		//virtual Elysium::Core::uint32_t GetMaxByteCount(Elysium::Core::uint32_t charCount) = 0;
 
-		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const char16_t Input) const = 0;
-		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
+		virtual const Elysium::Core::uint32_t GetByteCount(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
 
-		virtual String GetString(const byte* Bytes, const size_t ByteCount) const = 0;
+		virtual Elysium::Core::Collections::Template::List<Elysium::Core::byte> GetBytes(const char Input) const = 0;
+		virtual Elysium::Core::Collections::Template::List<Elysium::Core::byte> GetBytes(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
+
+		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const size_t ByteCount) const = 0;
+
+		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const size_t ByteCount) const = 0;
 	protected:
 		Encoding();
 		Encoding(int CodePage);

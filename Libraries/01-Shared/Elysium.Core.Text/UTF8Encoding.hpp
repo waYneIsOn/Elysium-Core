@@ -22,7 +22,7 @@ namespace Elysium::Core::Text
 	{
 	public:
 		UTF8Encoding();
-		UTF8Encoding(bool EncoderShouldEmitUTF8Identifier);
+		UTF8Encoding(bool EncoderShouldEmitUTF8Identifier, bool ThrowOnInvalidBytes);
 		UTF8Encoding(const UTF8Encoding& Source) = delete;
 		UTF8Encoding(UTF8Encoding&& Right) noexcept = delete;
 		virtual ~UTF8Encoding();
@@ -33,12 +33,21 @@ namespace Elysium::Core::Text
 		virtual const bool GetIsSingleByte() const override;
 		virtual const String GetEncodingName() const override;
 
-		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const char16_t Input) const override;
-		virtual Elysium::Core::Collections::Template::List<byte> GetBytes(const String& Input, const size_t CharIndex, const size_t CharCount) const override;
+		virtual const Elysium::Core::uint32_t GetByteCount(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const override;
 
-		virtual String GetString(const byte* Bytes, const size_t ByteCount) const override;
+		virtual Elysium::Core::Collections::Template::List<Elysium::Core::byte> GetBytes(const char Input) const override;
+		virtual Elysium::Core::Collections::Template::List<Elysium::Core::byte> GetBytes(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const override;
+
+		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const size_t ByteCount) const override;
+
+		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const size_t ByteCount) const override;
 	private:
-		bool _EncoderShouldEmitUTF8Identifier;
+		const bool _EncoderShouldEmitUTF8Identifier;
+		const bool _ThrowOnInvalidBytes;
+
+		static const Collections::Template::Array<Elysium::Core::byte> _BOM;
+
+		void ValidateTrailByte(const Elysium::Core::byte TrailByte) const;
 	};
 }
 #endif

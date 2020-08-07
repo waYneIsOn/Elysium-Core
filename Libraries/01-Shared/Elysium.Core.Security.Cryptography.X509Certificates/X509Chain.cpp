@@ -22,7 +22,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 {
 	if (Certificate._CertificateContext == nullptr)
 	{
-		throw CryptographicException(u"The certificate is unreadable.");
+		throw CryptographicException(u8"The certificate is unreadable.");
 	}
 
 	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINECONFIG CertificateChainEngineConfig = ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINECONFIG();
@@ -40,7 +40,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINEHANDLE CertificateChainEngine;
 	if (!CertCreateCertificateChainEngine(&CertificateChainEngineConfig, &CertificateChainEngine))
 	{
-		throw CryptographicException(u"Certificate chain engine creation failed.");
+		throw CryptographicException(u8"Certificate chain engine creation failed.");
 	}
 
 	CERT_ENHKEY_USAGE CertificateEnhandedKeyUsage;
@@ -59,7 +59,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 	PCCERT_CHAIN_CONTEXT ChainContext;
 	if(!CertGetCertificateChain(nullptr, Certificate._CertificateContext, nullptr, nullptr, &ChainParameter, Flags, nullptr, &ChainContext))
 	{
-		throw CryptographicException(u"Certificate chain creation failed.");
+		throw CryptographicException(u8"Certificate chain creation failed.");
 	}
 
 	switch (ChainContext->TrustStatus.dwErrorStatus)

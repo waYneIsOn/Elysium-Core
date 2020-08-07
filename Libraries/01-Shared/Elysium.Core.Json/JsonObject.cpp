@@ -14,7 +14,7 @@ Elysium::Core::Json::JsonObject::~JsonObject()
 
 const Elysium::Core::String & Elysium::Core::Json::JsonObject::GetName() const
 {
-	static const Elysium::Core::String Name = u"#object";
+	static const Elysium::Core::String Name = u8"#object";
 	if (_Name.GetLength() > 0)
 	{
 		return _Name;
@@ -127,7 +127,7 @@ void Elysium::Core::Json::JsonObject::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::Boolean:
 		{	// ToDo: what about True/TRUE?
-			JsonElement* Node = new JsonElement(PropertyName, JsonReader.GetNodeValue() == u"true" ? true : false);
+			JsonElement* Node = new JsonElement(PropertyName, JsonReader.GetNodeValue() == u8"true" ? true : false);
 			AddChild(*Node);
 			break;
 		}

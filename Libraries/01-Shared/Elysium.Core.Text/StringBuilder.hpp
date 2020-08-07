@@ -36,20 +36,20 @@ namespace Elysium::Core::Text
 		void SetLength(const size_t Value);
 
 		void Append(const Elysium::Core::String& Value);
-		void Append(const char16_t Value);
-		void Append(const char16_t* Value, const size_t Length);
+		void Append(const char Value);
+		void Append(const char* Value, const size_t Length);
 		void Clear();
-		size_t IndexOf(const char16_t Value) const;
-		size_t IndexOf(const char16_t Value, const size_t StartIndex) const;
-		size_t IndexOf(const char16_t* Value) const;
-		size_t IndexOf(const char16_t* Value, const size_t StartIndex) const;
+		size_t IndexOf(const char Value) const;
+		size_t IndexOf(const char Value, const size_t StartIndex) const;
+		size_t IndexOf(const char* Value) const;
+		size_t IndexOf(const char* Value, const size_t StartIndex) const;
 		void Remove(const size_t StartIndex, const size_t Length);
 
 		Elysium::Core::String ToString();
 		Elysium::Core::String ToString(const size_t Length);
 	private:
 		size_t _Capacity;
-		char16_t* _Data;
+		char* _Data;
 		size_t _Length;
 
 		void Resize(size_t DesiredMinimumSize);

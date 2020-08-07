@@ -66,7 +66,7 @@ namespace Elysium::Core::Data
 		virtual const IDbTransaction* GetTransaction() const = 0;
 		//virtual const UpdateRowSource* GetUpdateRowSource() const = 0;
 
-		virtual void SetCommandText(const char16_t* CommandText) = 0;
+		virtual void SetCommandText(const char* CommandText) = 0;
 		virtual void SetCommandText(const String& CommandText) = 0;
 		virtual void SetConnectionTimeout(int Timeout) = 0;
 		virtual void SetCommandType(CommandType Type) = 0;

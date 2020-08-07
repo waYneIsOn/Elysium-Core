@@ -26,7 +26,7 @@ namespace Elysium::Core::Security::Authentication
 	{
 	public:
 		AuthenticationException();
-		AuthenticationException(const char16_t* Message);
+		AuthenticationException(const char* Message);
 		AuthenticationException(String&& Message);
 		virtual ~AuthenticationException();
 	};

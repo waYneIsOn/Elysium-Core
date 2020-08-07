@@ -14,7 +14,7 @@ Elysium::Core::Json::JsonTextWriter::~JsonTextWriter()
 {
 }
 
-void Elysium::Core::Json::JsonTextWriter::WriteString(const char16_t Value)
+void Elysium::Core::Json::JsonTextWriter::WriteString(const char Value)
 {
 	_Writer.Write(Value);
 }

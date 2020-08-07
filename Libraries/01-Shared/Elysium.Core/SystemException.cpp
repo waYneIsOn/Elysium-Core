@@ -10,10 +10,10 @@
 #endif
 
 Elysium::Core::SystemException::SystemException()
-	: Elysium::Core::Exception(u"SystemException"),
+	: Elysium::Core::Exception(u8"SystemException"),
 	_HResult(GetLastError())
 { }
-Elysium::Core::SystemException::SystemException(const char16_t * Message)
+Elysium::Core::SystemException::SystemException(const char * Message)
 	: Elysium::Core::Exception(Message),
 	_HResult(GetLastError())
 { }

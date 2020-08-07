@@ -137,7 +137,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 			// make sure BlockLength equals the complement on BlockLengthComplement
 			if (BlockLength != ~BlockLengthComplement)
 			{
-				throw InvalidDataException(u"LEN doesn't match complement of NLEN");
+				throw InvalidDataException(u8"LEN doesn't match complement of NLEN");
 			}
 
 			if (BlockLength > 0)
@@ -159,7 +159,7 @@ size_t Elysium::Core::IO::Compression::DeflateStream::Read(byte * Buffer, const 
 		}
 		else
 		{	// 11
-			throw InvalidOperationException(u"EncodingMethod 11 is reserved and musn't be used");
+			throw InvalidOperationException(u8"EncodingMethod 11 is reserved and musn't be used");
 		}
 	} while (!IsLastBlock);
 

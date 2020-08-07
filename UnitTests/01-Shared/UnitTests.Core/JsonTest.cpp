@@ -64,68 +64,68 @@ namespace UnitTests::Core
 
 			// write
 			JsonWriter.WriteStartObject();
-			JsonWriter.WritePropertyName(u"Yep");
+			JsonWriter.WritePropertyName(u8"Yep");
 			JsonWriter.WriteValue(true);
-			JsonWriter.WritePropertyName(u"Nope");
+			JsonWriter.WritePropertyName(u8"Nope");
 			JsonWriter.WriteValue(false);
-			JsonWriter.WritePropertyName(u"NullValue");
+			JsonWriter.WritePropertyName(u8"NullValue");
 			JsonWriter.WriteNull();
-			JsonWriter.WritePropertyName(u"Int");
+			JsonWriter.WritePropertyName(u8"Int");
 			JsonWriter.WriteValue(-5448);
-			JsonWriter.WritePropertyName(u"Float");
+			JsonWriter.WritePropertyName(u8"Float");
 			JsonWriter.WriteValue(13.37f);
-			JsonWriter.WritePropertyName(u"Double");
+			JsonWriter.WritePropertyName(u8"Double");
 			JsonWriter.WriteValue(13.37);
-			JsonWriter.WritePropertyName(u"String");
-			JsonWriter.WriteValue(u"SomeValue");
-			JsonWriter.WritePropertyName(u"EmptyObject");
+			JsonWriter.WritePropertyName(u8"String");
+			JsonWriter.WriteValue(u8"SomeValue");
+			JsonWriter.WritePropertyName(u8"EmptyObject");
 			JsonWriter.WriteStartObject();
 			JsonWriter.WriteEndObject();
-			JsonWriter.WritePropertyName(u"SomeObject");
+			JsonWriter.WritePropertyName(u8"SomeObject");
 			JsonWriter.WriteStartObject();
-			JsonWriter.WritePropertyName(u"Property1");
-			JsonWriter.WriteValue(u"Value1");
-			JsonWriter.WritePropertyName(u"Property2");
-			JsonWriter.WriteValue(u"Value2");
+			JsonWriter.WritePropertyName(u8"Property1");
+			JsonWriter.WriteValue(u8"Value1");
+			JsonWriter.WritePropertyName(u8"Property2");
+			JsonWriter.WriteValue(u8"Value2");
 			JsonWriter.WriteEndObject();
-			JsonWriter.WritePropertyName(u"EmptyArray");
+			JsonWriter.WritePropertyName(u8"EmptyArray");
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteEndArray();
-			JsonWriter.WritePropertyName(u"IntArray");
+			JsonWriter.WritePropertyName(u8"IntArray");
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteValue(1);
 			JsonWriter.WriteValue(2);
 			JsonWriter.WriteValue(3);
 			JsonWriter.WriteEndArray();
-			JsonWriter.WritePropertyName(u"ObjectArray");
+			JsonWriter.WritePropertyName(u8"ObjectArray");
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteStartObject();
-			JsonWriter.WritePropertyName(u"Value1");
+			JsonWriter.WritePropertyName(u8"Value1");
 			JsonWriter.WriteValue(5448);
-			JsonWriter.WritePropertyName(u"Value2");
-			JsonWriter.WriteValue(u"SomeValue");
+			JsonWriter.WritePropertyName(u8"Value2");
+			JsonWriter.WriteValue(u8"SomeValue");
 			JsonWriter.WriteEndObject();
 			JsonWriter.WriteStartObject();
-			JsonWriter.WritePropertyName(u"Value1");
+			JsonWriter.WritePropertyName(u8"Value1");
 			JsonWriter.WriteValue(5448);
-			JsonWriter.WritePropertyName(u"Value2");
-			JsonWriter.WriteValue(u"SomeValue");
+			JsonWriter.WritePropertyName(u8"Value2");
+			JsonWriter.WriteValue(u8"SomeValue");
 			JsonWriter.WriteEndObject();
 			JsonWriter.WriteEndArray();
-			JsonWriter.WritePropertyName(u"TwoDimensionalArray");
+			JsonWriter.WritePropertyName(u8"TwoDimensionalArray");
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteEndArray();
 			JsonWriter.WriteStartArray();
 			JsonWriter.WriteEndArray();
 			JsonWriter.WriteEndArray();
-			JsonWriter.WritePropertyName(u"StringWithSpecial\"Characters üñîcødé");
-			//JsonWriter.WriteValue(u"\"\b\f\r\n\t\\foo\x02\x0F\x1fbar.?äüö");	// c++ interprets \x1fba as a single character so we need to actually use "" as seen in the next line
-			JsonWriter.WriteValue(u"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö");
+			JsonWriter.WritePropertyName(u8"StringWithSpecial\"Characters üñîcødé");
+			//JsonWriter.WriteValue(u8"\"\b\f\r\n\t\\foo\x02\x0F\x1fbar.?äüö");	// c++ interprets \x1fba as a single character so we need to actually use "" as seen in the next line
+			JsonWriter.WriteValue(u8"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö");
 			JsonWriter.WriteEndObject();
 
 			// check
-			AssertExtended::AreEqual(u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}",
+			Assert::AreEqual(u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}",
 				Target.ToString().GetCharArray());
 		}
 		TEST_METHOD(WriteArray)
@@ -137,19 +137,19 @@ namespace UnitTests::Core
 
 			// write
 			JsonWriter.WriteStartArray();
-			JsonWriter.WriteValue(u"Value1");
-			JsonWriter.WriteValue(u"Value2");
-			JsonWriter.WriteValue(u"Value3");
+			JsonWriter.WriteValue(u8"Value1");
+			JsonWriter.WriteValue(u8"Value2");
+			JsonWriter.WriteValue(u8"Value3");
 			JsonWriter.WriteEndArray();
 
 			// check
-			AssertExtended::AreEqual(u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
+			Assert::AreEqual(u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
 		}
 
 		TEST_METHOD(ReadObject)
 		{
 			// prepare
-			String Source = u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+			String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 			StringReader Reader = StringReader(Source);
 			JsonTextReader JsonReader = JsonTextReader(Reader);
 			
@@ -161,100 +161,100 @@ namespace UnitTests::Core
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Yep", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Yep", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Boolean, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"true", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"true", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Nope", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Nope", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Boolean, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"false", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"false", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"NullValue", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"NullValue", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Null, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"null", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"null", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Int", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Int", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"-5448", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"-5448", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Float", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Float", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"13.370000", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"13.370000", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Double", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Double", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"13.370000", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"13.370000", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"String", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"String", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"SomeValue", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"SomeValue", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"EmptyObject", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"EmptyObject", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::StartedObject, (uint32_t)JsonReader.GetToken());
-			//AssertExtended::AreEqual(u"SomeValue", JsonReader.GetNodeValue().GetCharArray());	// ToDo: reset _CurrentNodeValue
+			//AssertExtended::AreEqual("SomeValue", JsonReader.GetNodeValue().GetCharArray());	// ToDo: reset _CurrentNodeValue
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"SomeObject", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"SomeObject", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::StartedObject, (uint32_t)JsonReader.GetToken());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Property1", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Property1", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Value1", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Value1", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Property2", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Property2", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Value2", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Value2", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"EmptyArray", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"EmptyArray", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
@@ -264,29 +264,29 @@ namespace UnitTests::Core
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"IntArray", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"IntArray", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"1", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"1", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"2", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"2", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"3", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"3", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"ObjectArray", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"ObjectArray", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
@@ -296,19 +296,19 @@ namespace UnitTests::Core
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Value1", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Value1", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"5448", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"5448", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Value2", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Value2", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"SomeValue", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"SomeValue", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
@@ -318,19 +318,19 @@ namespace UnitTests::Core
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Value1", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Value1", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"5448", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"5448", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"Value2", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"Value2", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"SomeValue", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"SomeValue", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
@@ -340,7 +340,7 @@ namespace UnitTests::Core
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"TwoDimensionalArray", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"TwoDimensionalArray", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::StartedArray, (uint32_t)JsonReader.GetToken());
@@ -362,11 +362,11 @@ namespace UnitTests::Core
 			
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::PropertyName, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"StringWithSpecial\\\\\\\"Characters üñîcødé", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"StringWithSpecial\\\\\\\"Characters üñîcødé", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-			AssertExtended::AreEqual(u"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", JsonReader.GetNodeValue().GetCharArray());
+			Assert::AreEqual(u8"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", JsonReader.GetNodeValue().GetCharArray());
 
 			Assert::IsTrue(JsonReader.Read());
 			Assert::AreEqual((uint32_t)JsonToken::EndedObject, (uint32_t)JsonReader.GetToken());
@@ -379,7 +379,7 @@ namespace UnitTests::Core
 			// test: string array
 			{
 				// prepare
-				String Source = u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
+				String Source = u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -391,15 +391,15 @@ namespace UnitTests::Core
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"Value1", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"Value1", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"Value2", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"Value2", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::String, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"Value3", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"Value3", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
@@ -411,7 +411,7 @@ namespace UnitTests::Core
 			// test: int array
 			{
 				// prepare
-				String Source = u"[\r\n\t12,\r\n\t2,\r\n\t3453\r\n]";
+				String Source = u8"[\r\n\t12,\r\n\t2,\r\n\t3453\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -423,15 +423,15 @@ namespace UnitTests::Core
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"12", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"12", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"2", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"2", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Integer, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"3453", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"3453", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
@@ -443,7 +443,7 @@ namespace UnitTests::Core
 			// test: float array
 			{
 				// prepare
-				String Source = u"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
+				String Source = u8"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 				
@@ -455,15 +455,15 @@ namespace UnitTests::Core
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"1.2", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"1.2", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"2.3", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"2.3", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Float, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"3453.0", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"3453.0", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
@@ -475,7 +475,7 @@ namespace UnitTests::Core
 			// test: bool array
 			{
 				// prepare
-				String Source = u"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
+				String Source = u8"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -487,15 +487,15 @@ namespace UnitTests::Core
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Boolean, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"false", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"false", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Boolean, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"true", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"true", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::Null, (uint32_t)JsonReader.GetToken());
-				AssertExtended::AreEqual(u"null", JsonReader.GetNodeValue().GetCharArray());
+				Assert::AreEqual(u8"null", JsonReader.GetNodeValue().GetCharArray());
 
 				Assert::IsTrue(JsonReader.Read());
 				Assert::AreEqual((uint32_t)JsonToken::EndedArray, (uint32_t)JsonReader.GetToken());
@@ -507,8 +507,8 @@ namespace UnitTests::Core
 			// test: empty array
 			{
 				// prepare
-				String Source = u"[]";
-				//String Source = u"[ ]";
+				String Source = u8"[]";
+				//String Source = u8"[ ]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -537,39 +537,39 @@ namespace UnitTests::Core
 
 				JsonDocument Document = JsonDocument();
 				JsonObject& Root = Document.AddRootObject();
-				Root.AddElement(u"Yep", true);
-				Root.AddElement(u"Nope", false);
-				Root.AddElement(u"NullValue");
-				Root.AddElement(u"Int", -5448);
-				Root.AddElement(u"Float", 13.370000f);
-				Root.AddElement(u"Double", 13.370000);
-				Root.AddElement(u"String", Elysium::Core::String(u"SomeValue"));
-				Root.AddObject(u"EmptyObject");
-				JsonObject& SomeObject = Root.AddObject(u"SomeObject");
-				SomeObject.AddElement(u"Property1", Elysium::Core::String(u"Value1"));
-				SomeObject.AddElement(u"Property2", Elysium::Core::String(u"Value2"));
-				Root.AddArray(u"EmptyArray");
-				JsonArray& IntArray = Root.AddArray(u"IntArray");
+				Root.AddElement(u8"Yep", true);
+				Root.AddElement(u8"Nope", false);
+				Root.AddElement(u8"NullValue");
+				Root.AddElement(u8"Int", -5448);
+				Root.AddElement(u8"Float", 13.370000f);
+				Root.AddElement(u8"Double", 13.370000);
+				Root.AddElement(u8"String", Elysium::Core::String(u8"SomeValue"));
+				Root.AddObject(u8"EmptyObject");
+				JsonObject& SomeObject = Root.AddObject(u8"SomeObject");
+				SomeObject.AddElement(u8"Property1", Elysium::Core::String(u8"Value1"));
+				SomeObject.AddElement(u8"Property2", Elysium::Core::String(u8"Value2"));
+				Root.AddArray(u8"EmptyArray");
+				JsonArray& IntArray = Root.AddArray(u8"IntArray");
 				IntArray.AddElement(1);
 				IntArray.AddElement(2);
 				IntArray.AddElement(3);
-				JsonArray& ObjectArray = Root.AddArray(u"ObjectArray");
+				JsonArray& ObjectArray = Root.AddArray(u8"ObjectArray");
 				JsonObject& ObjectArrayObject1 = ObjectArray.AddObject();
-				ObjectArrayObject1.AddElement(u"Value1", 5448);
-				ObjectArrayObject1.AddElement(u"Value2", Elysium::Core::String(u"SomeValue"));
+				ObjectArrayObject1.AddElement(u8"Value1", 5448);
+				ObjectArrayObject1.AddElement(u8"Value2", Elysium::Core::String(u8"SomeValue"));
 				JsonObject& ObjectArrayObject2 = ObjectArray.AddObject();
-				ObjectArrayObject2.AddElement(u"Value1", 5448);
-				ObjectArrayObject2.AddElement(u"Value2", Elysium::Core::String(u"SomeValue"));
-				JsonArray& TwoDimensionalArray = Root.AddArray(u"TwoDimensionalArray");
+				ObjectArrayObject2.AddElement(u8"Value1", 5448);
+				ObjectArrayObject2.AddElement(u8"Value2", Elysium::Core::String(u8"SomeValue"));
+				JsonArray& TwoDimensionalArray = Root.AddArray(u8"TwoDimensionalArray");
 				TwoDimensionalArray.AddArray();
 				TwoDimensionalArray.AddArray();
-				Root.AddElement(u"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
+				Root.AddElement(u8"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u8"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
 				
 				// write
 				Document.WriteTo(JsonWriter);
 
 				// check
-				AssertExtended::AreEqual(u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}",
+				Assert::AreEqual(u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}",
 					Target.ToString().GetCharArray());
 			}
 
@@ -582,15 +582,15 @@ namespace UnitTests::Core
 
 				JsonDocument Document = JsonDocument();
 				JsonArray& Root = Document.AddRootArray();
-				Root.AddElement(Elysium::Core::String(u"Value1"));
-				Root.AddElement(Elysium::Core::String(u"Value2"));
-				Root.AddElement(Elysium::Core::String(u"Value3"));
+				Root.AddElement(Elysium::Core::String(u8"Value1"));
+				Root.AddElement(Elysium::Core::String(u8"Value2"));
+				Root.AddElement(Elysium::Core::String(u8"Value3"));
 
 				// write
 				Document.WriteTo(JsonWriter);
 
 				// check
-				AssertExtended::AreEqual(u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
+				Assert::AreEqual(u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]", Target.ToString().GetCharArray());
 			}
 		}
 		TEST_METHOD(DocumentFromReader)
@@ -598,7 +598,7 @@ namespace UnitTests::Core
 			// test 1: object
 			{
 				// prepare
-				String Source = u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+				String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 				
@@ -607,44 +607,44 @@ namespace UnitTests::Core
 				Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)RootNode.GetNodeType());
 
 				JsonElement& Yep = static_cast<JsonElement&>(RootNode.GetChild(0));
-				AssertExtended::AreEqual(u"Yep", Yep.GetName().GetCharArray());
+				Assert::AreEqual(u8"Yep", Yep.GetName().GetCharArray());
 				Assert::AreEqual(true, Yep.GetValueAsBoolean());
 
 				JsonElement& Nope = static_cast<JsonElement&>(RootNode.GetChild(1));
-				AssertExtended::AreEqual(u"Nope", Nope.GetName().GetCharArray());
+				Assert::AreEqual(u8"Nope", Nope.GetName().GetCharArray());
 				Assert::AreEqual(false, Nope.GetValueAsBoolean());
 
 				JsonElement& NullValue = static_cast<JsonElement&>(RootNode.GetChild(2));
-				AssertExtended::AreEqual(u"NullValue", NullValue.GetName().GetCharArray());
+				Assert::AreEqual(u8"NullValue", NullValue.GetName().GetCharArray());
 				Assert::IsTrue(NullValue.IsNull());
 
 				JsonElement& Int = static_cast<JsonElement&>(RootNode.GetChild(3));
-				AssertExtended::AreEqual(u"Int", Int.GetName().GetCharArray());
+				Assert::AreEqual(u8"Int", Int.GetName().GetCharArray());
 				Assert::AreEqual(-5448, Int.GetValueAsInt32());
 
 				JsonElement& Float = static_cast<JsonElement&>(RootNode.GetChild(4));
-				AssertExtended::AreEqual(u"Float", Float.GetName().GetCharArray());
+				Assert::AreEqual(u8"Float", Float.GetName().GetCharArray());
 				Assert::AreEqual(13.370000f, Float.GetValueAsSingle());
 
 				JsonElement& String = static_cast<JsonElement&>(RootNode.GetChild(5));
-				AssertExtended::AreEqual(u"String", String.GetName().GetCharArray());
-				AssertExtended::AreEqual(u"SomeValue", String.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"String", String.GetName().GetCharArray());
+				Assert::AreEqual(u8"SomeValue", String.GetValueAsString().GetCharArray());
 
 				JsonObject& EmptyObject = static_cast<JsonObject&>(RootNode.GetChild(6));
 				Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)EmptyObject.GetNodeType());
-				AssertExtended::AreEqual(u"EmptyObject", EmptyObject.GetName().GetCharArray());
+				Assert::AreEqual(u8"EmptyObject", EmptyObject.GetName().GetCharArray());
 
 				JsonObject& SomeObject = static_cast<JsonObject&>(RootNode.GetChild(7));
 				Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)SomeObject.GetNodeType());
-				AssertExtended::AreEqual(u"SomeObject", SomeObject.GetName().GetCharArray());
+				Assert::AreEqual(u8"SomeObject", SomeObject.GetName().GetCharArray());
 
 				JsonElement& SomeObjectProperty1 = static_cast<JsonElement&>(SomeObject.GetChild(0));
-				AssertExtended::AreEqual(u"Property1", SomeObjectProperty1.GetName().GetCharArray());
-				AssertExtended::AreEqual(u"Value1", SomeObjectProperty1.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Property1", SomeObjectProperty1.GetName().GetCharArray());
+				Assert::AreEqual(u8"Value1", SomeObjectProperty1.GetValueAsString().GetCharArray());
 
 				JsonElement& SomeObjectProperty2 = static_cast<JsonElement&>(SomeObject.GetChild(1));
-				AssertExtended::AreEqual(u"Property2", SomeObjectProperty2.GetName().GetCharArray());
-				AssertExtended::AreEqual(u"Value2", SomeObjectProperty2.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Property2", SomeObjectProperty2.GetName().GetCharArray());
+				Assert::AreEqual(u8"Value2", SomeObjectProperty2.GetValueAsString().GetCharArray());
 				
 				JsonArray& EmptyArray = static_cast<JsonArray&>(RootNode.GetChild(8));
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)EmptyArray.GetNodeType());
@@ -671,23 +671,23 @@ namespace UnitTests::Core
 				Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)ObjectArrayObject1.GetNodeType());
 
 				JsonElement& ObjectArrayObject1Value1 = static_cast<JsonElement&>(ObjectArrayObject1.GetChild(0));
-				AssertExtended::AreEqual(u"Value1", ObjectArrayObject1Value1.GetName().GetCharArray());
+				Assert::AreEqual(u8"Value1", ObjectArrayObject1Value1.GetName().GetCharArray());
 				Assert::AreEqual(5448, ObjectArrayObject1Value1.GetValueAsInt32());
 
 				JsonElement& ObjectArrayObject1Value2 = static_cast<JsonElement&>(ObjectArrayObject1.GetChild(1));
-				AssertExtended::AreEqual(u"Value2", ObjectArrayObject1Value2.GetName().GetCharArray());
-				AssertExtended::AreEqual(u"SomeValue", ObjectArrayObject1Value2.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Value2", ObjectArrayObject1Value2.GetName().GetCharArray());
+				Assert::AreEqual(u8"SomeValue", ObjectArrayObject1Value2.GetValueAsString().GetCharArray());
 
 				JsonObject& ObjectArrayObject2 = static_cast<JsonObject&>(ObjectArray.GetChild(1));
 				Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)ObjectArrayObject2.GetNodeType());
 
 				JsonElement& ObjectArrayObject2Value1 = static_cast<JsonElement&>(ObjectArrayObject2.GetChild(0));
-				AssertExtended::AreEqual(u"Value1", ObjectArrayObject2Value1.GetName().GetCharArray());
+				Assert::AreEqual(u8"Value1", ObjectArrayObject2Value1.GetName().GetCharArray());
 				Assert::AreEqual(5448, ObjectArrayObject2Value1.GetValueAsInt32());
 
 				JsonElement& ObjectArrayObject2Value2 = static_cast<JsonElement&>(ObjectArrayObject2.GetChild(1));
-				AssertExtended::AreEqual(u"Value2", ObjectArrayObject2Value2.GetName().GetCharArray());
-				AssertExtended::AreEqual(u"SomeValue", ObjectArrayObject2Value2.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Value2", ObjectArrayObject2Value2.GetName().GetCharArray());
+				Assert::AreEqual(u8"SomeValue", ObjectArrayObject2Value2.GetValueAsString().GetCharArray());
 
 				JsonArray& TwoDimensionalArray = static_cast<JsonArray&>(RootNode.GetChild(11));
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArray.GetNodeType());
@@ -699,14 +699,14 @@ namespace UnitTests::Core
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArrayArray2.GetNodeType());
 
 				JsonElement& StringWithSpecialCharacters = static_cast<JsonElement&>(RootNode.GetChild(12));
-				AssertExtended::AreEqual(u"StringWithSpecial\\\\\\\"Characters üñîcødé", StringWithSpecialCharacters.GetName().GetCharArray());
-				AssertExtended::AreEqual(u"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", StringWithSpecialCharacters.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"StringWithSpecial\\\\\\\"Characters üñîcødé", StringWithSpecialCharacters.GetName().GetCharArray());
+				Assert::AreEqual(u8"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", StringWithSpecialCharacters.GetValueAsString().GetCharArray());
 			}
 
 			// test 2: string array
 			{
 				// prepare
-				String Source = u"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
+				String Source = u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -715,19 +715,19 @@ namespace UnitTests::Core
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)RootNode.GetNodeType());
 
 				JsonElement& Element1 = static_cast<JsonElement&>(RootNode.GetChild(0));
-				AssertExtended::AreEqual(u"Value1", Element1.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Value1", Element1.GetValueAsString().GetCharArray());
 
 				JsonElement& Element2 = static_cast<JsonElement&>(RootNode.GetChild(1));
-				AssertExtended::AreEqual(u"Value2", Element2.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Value2", Element2.GetValueAsString().GetCharArray());
 
 				JsonElement& Element3 = static_cast<JsonElement&>(RootNode.GetChild(2));
-				AssertExtended::AreEqual(u"Value3", Element3.GetValueAsString().GetCharArray());
+				Assert::AreEqual(u8"Value3", Element3.GetValueAsString().GetCharArray());
 			}
 
 			// test 3: numeric array
 			{
 				// prepare
-				String Source = u"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
+				String Source = u8"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -748,7 +748,7 @@ namespace UnitTests::Core
 			// test 4: bool array
 			{
 				// prepare
-				String Source = u"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
+				String Source = u8"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -769,7 +769,7 @@ namespace UnitTests::Core
 			// test 5: empty array
 			{
 				// prepare
-				String Source = u"[]";
+				String Source = u8"[]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -782,7 +782,7 @@ namespace UnitTests::Core
 		TEST_METHOD(Visitor)
 		{
 			// prepare
-			String Source = u"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+			String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 			JsonDocument Document = JsonDocument();
 			Document.LoadJson(Source);
 
@@ -794,44 +794,44 @@ namespace UnitTests::Core
 			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)RootNode.GetNodeType());
 
 			JsonElement& Yep = static_cast<JsonElement&>(RootNode.GetChild(0));
-			AssertExtended::AreEqual(u"Yep", Yep.GetName().GetCharArray());
+			Assert::AreEqual(u8"Yep", Yep.GetName().GetCharArray());
 			Assert::AreEqual(false, Yep.GetValueAsBoolean());
 
 			JsonElement& Nope = static_cast<JsonElement&>(RootNode.GetChild(1));
-			AssertExtended::AreEqual(u"Nope", Nope.GetName().GetCharArray());
+			Assert::AreEqual(u8"Nope", Nope.GetName().GetCharArray());
 			Assert::AreEqual(true, Nope.GetValueAsBoolean());
 
 			JsonElement& NullValue = static_cast<JsonElement&>(RootNode.GetChild(2));
-			AssertExtended::AreEqual(u"NullValue", NullValue.GetName().GetCharArray());
+			Assert::AreEqual(u8"NullValue", NullValue.GetName().GetCharArray());
 			Assert::IsTrue(NullValue.IsNull());
 
 			JsonElement& Int = static_cast<JsonElement&>(RootNode.GetChild(3));
-			AssertExtended::AreEqual(u"Int", Int.GetName().GetCharArray());
+			Assert::AreEqual(u8"Int", Int.GetName().GetCharArray());
 			Assert::AreEqual(5448, Int.GetValueAsInt32());
 
 			JsonElement& Float = static_cast<JsonElement&>(RootNode.GetChild(4));
-			AssertExtended::AreEqual(u"Float", Float.GetName().GetCharArray());
+			Assert::AreEqual(u8"Float", Float.GetName().GetCharArray());
 			Assert::AreEqual(-13.370000f, Float.GetValueAsSingle());
 
 			JsonElement& String = static_cast<JsonElement&>(RootNode.GetChild(5));
-			AssertExtended::AreEqual(u"String", String.GetName().GetCharArray());
-			AssertExtended::AreEqual(u"SomeValue", String.GetValueAsString().GetCharArray());
+			Assert::AreEqual(u8"String", String.GetName().GetCharArray());
+			Assert::AreEqual(u8"SomeValue", String.GetValueAsString().GetCharArray());
 
 			JsonObject& EmptyObject = static_cast<JsonObject&>(RootNode.GetChild(6));
 			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)EmptyObject.GetNodeType());
-			AssertExtended::AreEqual(u"EmptyObject", EmptyObject.GetName().GetCharArray());
+			Assert::AreEqual(u8"EmptyObject", EmptyObject.GetName().GetCharArray());
 
 			JsonObject& SomeObject = static_cast<JsonObject&>(RootNode.GetChild(7));
 			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)SomeObject.GetNodeType());
-			AssertExtended::AreEqual(u"SomeObject", SomeObject.GetName().GetCharArray());
+			Assert::AreEqual(u8"SomeObject", SomeObject.GetName().GetCharArray());
 
 			JsonElement& SomeObjectProperty1 = static_cast<JsonElement&>(SomeObject.GetChild(0));
-			AssertExtended::AreEqual(u"Property1", SomeObjectProperty1.GetName().GetCharArray());
-			AssertExtended::AreEqual(u"Value1", SomeObjectProperty1.GetValueAsString().GetCharArray());
+			Assert::AreEqual(u8"Property1", SomeObjectProperty1.GetName().GetCharArray());
+			Assert::AreEqual(u8"Value1", SomeObjectProperty1.GetValueAsString().GetCharArray());
 
 			JsonElement& SomeObjectProperty2 = static_cast<JsonElement&>(SomeObject.GetChild(1));
-			AssertExtended::AreEqual(u"Property2", SomeObjectProperty2.GetName().GetCharArray());
-			AssertExtended::AreEqual(u"Value2", SomeObjectProperty2.GetValueAsString().GetCharArray());
+			Assert::AreEqual(u8"Property2", SomeObjectProperty2.GetName().GetCharArray());
+			Assert::AreEqual(u8"Value2", SomeObjectProperty2.GetValueAsString().GetCharArray());
 
 			JsonArray& EmptyArray = static_cast<JsonArray&>(RootNode.GetChild(8));
 			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)EmptyArray.GetNodeType());
@@ -858,23 +858,23 @@ namespace UnitTests::Core
 			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)ObjectArrayObject1.GetNodeType());
 
 			JsonElement& ObjectArrayObject1Value1 = static_cast<JsonElement&>(ObjectArrayObject1.GetChild(0));
-			AssertExtended::AreEqual(u"Value1", ObjectArrayObject1Value1.GetName().GetCharArray());
+			Assert::AreEqual(u8"Value1", ObjectArrayObject1Value1.GetName().GetCharArray());
 			Assert::AreEqual(-5448, ObjectArrayObject1Value1.GetValueAsInt32());
 
 			JsonElement& ObjectArrayObject1Value2 = static_cast<JsonElement&>(ObjectArrayObject1.GetChild(1));
-			AssertExtended::AreEqual(u"Value2", ObjectArrayObject1Value2.GetName().GetCharArray());
-			AssertExtended::AreEqual(u"SomeValue", ObjectArrayObject1Value2.GetValueAsString().GetCharArray());
+			Assert::AreEqual(u8"Value2", ObjectArrayObject1Value2.GetName().GetCharArray());
+			Assert::AreEqual(u8"SomeValue", ObjectArrayObject1Value2.GetValueAsString().GetCharArray());
 
 			JsonObject& ObjectArrayObject2 = static_cast<JsonObject&>(ObjectArray.GetChild(1));
 			Assert::AreEqual((uint32_t)JsonNodeType::Object, (uint32_t)ObjectArrayObject2.GetNodeType());
 
 			JsonElement& ObjectArrayObject2Value1 = static_cast<JsonElement&>(ObjectArrayObject2.GetChild(0));
-			AssertExtended::AreEqual(u"Value1", ObjectArrayObject2Value1.GetName().GetCharArray());
+			Assert::AreEqual(u8"Value1", ObjectArrayObject2Value1.GetName().GetCharArray());
 			Assert::AreEqual(-5448, ObjectArrayObject2Value1.GetValueAsInt32());
 
 			JsonElement& ObjectArrayObject2Value2 = static_cast<JsonElement&>(ObjectArrayObject2.GetChild(1));
-			AssertExtended::AreEqual(u"Value2", ObjectArrayObject2Value2.GetName().GetCharArray());
-			AssertExtended::AreEqual(u"SomeValue", ObjectArrayObject2Value2.GetValueAsString().GetCharArray());
+			Assert::AreEqual(u8"Value2", ObjectArrayObject2Value2.GetName().GetCharArray());
+			Assert::AreEqual(u8"SomeValue", ObjectArrayObject2Value2.GetValueAsString().GetCharArray());
 
 			JsonArray& TwoDimensionalArray = static_cast<JsonArray&>(RootNode.GetChild(11));
 			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArray.GetNodeType());
@@ -886,8 +886,8 @@ namespace UnitTests::Core
 			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)TwoDimensionalArrayArray2.GetNodeType());
 
 			JsonElement& StringWithSpecialCharacters = static_cast<JsonElement&>(RootNode.GetChild(12));
-			AssertExtended::AreEqual(u"StringWithSpecial\\\\\\\"Characters üñîcødé", StringWithSpecialCharacters.GetName().GetCharArray());
-			AssertExtended::AreEqual(u"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", StringWithSpecialCharacters.GetValueAsString().GetCharArray());
+			Assert::AreEqual(u8"StringWithSpecial\\\\\\\"Characters üñîcødé", StringWithSpecialCharacters.GetName().GetCharArray());
+			Assert::AreEqual(u8"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö", StringWithSpecialCharacters.GetValueAsString().GetCharArray());
 		}
 	};
 }

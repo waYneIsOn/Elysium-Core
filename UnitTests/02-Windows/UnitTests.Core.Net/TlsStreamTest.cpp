@@ -53,7 +53,7 @@ namespace UnitTests::Core::Net::Security
 		TEST_METHOD(Https)
 		{
 			Socket TcpSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			TcpSocket.Connect(String(u"52.6.191.28"), 443);	// https://ulfheim.net/
+			TcpSocket.Connect(String(u8"52.6.191.28"), 443);	// https://ulfheim.net/
 			NetworkStream InnerStream = NetworkStream(TcpSocket);
 			
 			TlsStream Stream = TlsStream(InnerStream, false, TlsClientAuthenticationOptions(true,
@@ -82,7 +82,7 @@ namespace UnitTests::Core::Net::Security
 				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&SslStreamTests::SelectLocalCertificate>()));
 			try
 			{ 
-				Stream.AuthenticateAsClient(String(u"3.232.168.170"), nullptr, TlsProtocols::Tls12);
+				Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
 			}
 			/*
 			catch (const AuthenticationException& ex)

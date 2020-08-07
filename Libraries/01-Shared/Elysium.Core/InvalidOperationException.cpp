@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::InvalidOperationException::InvalidOperationException()
-	: Elysium::Core::Exception(u"InvalidOperationException")
+	: Elysium::Core::Exception(u8"InvalidOperationException")
 { }
-Elysium::Core::InvalidOperationException::InvalidOperationException(const char16_t * Message)
+Elysium::Core::InvalidOperationException::InvalidOperationException(const char * Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::InvalidOperationException::InvalidOperationException(String && Message)

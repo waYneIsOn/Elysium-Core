@@ -18,9 +18,9 @@ const Elysium::Core::String & Elysium::Core::Html::HtmlElement::GetValue() const
 
 Elysium::Core::Html::HtmlElement::HtmlElement(const HtmlNodeType NodeType, const String & Value)
 	: Elysium::Core::Html::HtmlNode(),
-	_Name(NodeType == HtmlNodeType::Text ? u"#Text" : 
-		NodeType == HtmlNodeType::CDATASection ? u"#CDATASection" : 
-		NodeType == HtmlNodeType::Comment ? u"#Comment" : u""), _Type(NodeType), _Value(Value)
+	_Name(NodeType == HtmlNodeType::Text ? u8"#Text" :
+		NodeType == HtmlNodeType::CDATASection ? u8"#CDATASection" :
+		NodeType == HtmlNodeType::Comment ? u8"#Comment" : u8""), _Type(NodeType), _Value(Value)
 { }
 Elysium::Core::Html::HtmlElement::HtmlElement(const String & Name, const HtmlNodeType NodeType, const String& Value)
 	: Elysium::Core::Html::HtmlNode(),

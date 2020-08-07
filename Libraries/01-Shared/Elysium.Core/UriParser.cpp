@@ -82,7 +82,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	{
 	case Elysium::Core::UriComponents::Scheme:
 	{
-		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(L':');
+		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
 		Output = StringView(Source, IndexOfSchemeDelimiterEnd);
 		break;
 	}
@@ -96,22 +96,22 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	{
 		// calculate the start index
 		size_t OriginalUriLength = Source.GetLength();
-		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(u':');
+		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
 		size_t IndexOfHostStart = IndexOfSchemeDelimiterEnd + 1;
 
-		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u"//");
-		size_t IndexOfPathDelimiterStart = Source.IndexOf(u'/');
+		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u8"//");
+		size_t IndexOfPathDelimiterStart = Source.IndexOf(u8'/');
 		if (IndexOfAuthorityDelimiterStart != static_cast<size_t>(-1))
 		{
 			IndexOfHostStart = IndexOfAuthorityDelimiterStart + 2;
-			IndexOfPathDelimiterStart = Source.IndexOf(u'/', IndexOfAuthorityDelimiterStart + 3);
+			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
 			if (IndexOfPathDelimiterStart != static_cast<size_t>(-1))
 			{
 				IndexOfPathDelimiterStart += IndexOfAuthorityDelimiterStart + 3;
 			}
 		}
 
-		size_t IndexOfHostDelimiterStart = Source.IndexOf(u'@');
+		size_t IndexOfHostDelimiterStart = Source.IndexOf(u8'@');
 		if (IndexOfHostDelimiterStart != static_cast<size_t>(-1))
 		{
 			IndexOfHostStart = IndexOfHostDelimiterStart + 1;
@@ -124,7 +124,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 			IndexOfHostEnd = OriginalUriLength;
 		}
 
-		size_t IndexOfPortDelimiter = Source.IndexOf(u':', IndexOfHostStart + 1);
+		size_t IndexOfPortDelimiter = Source.IndexOf(u8':', IndexOfHostStart + 1);
 		if (IndexOfPortDelimiter != static_cast<size_t>(-1))
 		{
 			IndexOfHostEnd = IndexOfPortDelimiter + IndexOfHostStart + 1;
@@ -222,11 +222,11 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	*/
 	case Elysium::Core::UriComponents::PathAndQuery:
 	{
-		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u"//");
-		size_t IndexOfPathDelimiterStart = Source.IndexOf(u'/');
+		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u8"//");
+		size_t IndexOfPathDelimiterStart = Source.IndexOf(u8'/');
 		if (IndexOfAuthorityDelimiterStart != static_cast<size_t>(-1))
 		{
-			IndexOfPathDelimiterStart = Source.IndexOf(u'/', IndexOfAuthorityDelimiterStart + 3);
+			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
 			if (IndexOfPathDelimiterStart == std::wstring::npos)
 			{	// Uri doesn't contain a path
 				break;
@@ -242,7 +242,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 			break;
 		}
 
-		size_t IndexOfFragmentDelimiterStart = Source.IndexOf(u'#');
+		size_t IndexOfFragmentDelimiterStart = Source.IndexOf(u8'#');
 		if (IndexOfFragmentDelimiterStart == static_cast<size_t>(-1))
 		{
 			size_t OriginalUriLength = Source.GetLength();
@@ -256,7 +256,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	}
 	default:
 		// ToDo:
-		//throw NotImplementedException((u"unknown component " + std::to_wstring((int)Component)).c_str());
-		throw NotImplementedException(u"unknown component ");
+		//throw NotImplementedException(("unknown component " + std::to_wstring((int)Component)).c_str());
+		throw NotImplementedException(u8"unknown component ");
 	}
 }

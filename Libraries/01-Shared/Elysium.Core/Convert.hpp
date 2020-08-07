@@ -55,15 +55,15 @@ namespace Elysium::Core
 		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
 		static String ToBase64String(const Elysium::Core::Collections::Template::List<Elysium::Core::byte>& Bytes);
 
-		static int32_t ToInt32(const char16_t* Value, const int32_t FromBase);
+		static int32_t ToInt32(const char* Value, const int32_t FromBase);
 		static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
 
-		static float ToSingle(const char16_t* Value);
+		static float ToSingle(const char* Value);
 		static float ToSingle(const Elysium::Core::String& Value);
 	private:
 		Convert();
 
-		static const CharString _Base64Chars;
+		static const String _Base64Chars;
 
 		static bool IsBase64(const char16_t Char);
 	};

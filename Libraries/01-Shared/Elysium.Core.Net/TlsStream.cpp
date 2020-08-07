@@ -311,7 +311,7 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerCertificates()
 			break;
 		default:
 			const Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>& SelectionCallback = _AuthenticationOptions.GetUserCertificateSelectionCallback();
-			ServerCertificate = &SelectionCallback(this, Elysium::Core::String(u""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::String>(0));
+			ServerCertificate = &SelectionCallback(this, Elysium::Core::String(u8""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::String>(0));
 			break;
 		}
 

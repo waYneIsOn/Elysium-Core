@@ -24,10 +24,9 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
-	using ByteString = Collections::Template::StringBase<byte>;
-	using CharString = Collections::Template::StringBase<char>;
+	using Utf8Char = char;	// char8_t;
+
+	using String = Collections::Template::StringBase<Utf8Char>;
 	using WideString = Collections::Template::StringBase<wchar_t>;
-	using String = Collections::Template::StringBase<char16_t>;
-	using Ut32String = Collections::Template::StringBase<char32_t>;
 }
 #endif

@@ -52,12 +52,12 @@ void Elysium::Core::IO::TextWriter::Write(const byte Value)
 {
 	Write(&Value, 1);
 }
-void Elysium::Core::IO::TextWriter::Write(const char16_t Value)
+void Elysium::Core::IO::TextWriter::Write(const char Value)
 {
 	Elysium::Core::Collections::Template::List<byte> Bytes = GetEncoding().GetBytes(Value);
 	Write(&Bytes[0], Bytes.GetCount());
 }
-void Elysium::Core::IO::TextWriter::Write(const char16_t * Value, const size_t Count)
+void Elysium::Core::IO::TextWriter::Write(const char * Value, const size_t Count)
 {
 	Elysium::Core::Collections::Template::List<byte> Bytes = GetEncoding().GetBytes(Value, 0, Count);
 	Write(&Bytes[0], Bytes.GetCount());
@@ -73,7 +73,7 @@ void Elysium::Core::IO::TextWriter::Write(const double & Value)
 void Elysium::Core::IO::TextWriter::Write(const Decimal & Value)
 {
 	Write(std::to_wstring(Value.GetHighPart()).c_str());
-	Write(u".");
+	Write(".");
 	Write(std::to_wstring(Value.GetLowPart()).c_str());
 }
 void Elysium::Core::IO::TextWriter::Write(const int16_t & Value)
@@ -120,12 +120,12 @@ void Elysium::Core::IO::TextWriter::WriteLine(const byte * Value, const size_t C
 	Write(Value, Count);
 	WriteLine();
 }
-void Elysium::Core::IO::TextWriter::WriteLine(const char16_t & Value)
+void Elysium::Core::IO::TextWriter::WriteLine(const char & Value)
 {
 	Write(Value);
 	WriteLine();
 }
-void Elysium::Core::IO::TextWriter::WriteLine(const char16_t * Value, const size_t Count)
+void Elysium::Core::IO::TextWriter::WriteLine(const char * Value, const size_t Count)
 {
 	Write(&Value[0], Count);
 	WriteLine();

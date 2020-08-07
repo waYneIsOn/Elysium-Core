@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException()
-	: Elysium::Core::SystemException(u"CryptographicException")
+	: Elysium::Core::SystemException(u8"CryptographicException")
 { }
-Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(const char16_t * Message)
+Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(const char * Message)
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(String && Message)

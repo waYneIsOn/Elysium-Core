@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::NotSupportedException::NotSupportedException()
-	: Elysium::Core::Exception(u"NotSupportedException")
+	: Elysium::Core::Exception(u8"NotSupportedException")
 { }
-Elysium::Core::NotSupportedException::NotSupportedException(const char16_t * Message)
+Elysium::Core::NotSupportedException::NotSupportedException(const char * Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::NotSupportedException::NotSupportedException(String && Message)

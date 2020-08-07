@@ -33,7 +33,7 @@ namespace Elysium::Core::Data::Common
 		virtual const CommandType& GetCommandType() const override;
 		//virtual const UpdateRowSource& GetUpdateRowSource() const override;
 
-		virtual void SetCommandText(const char16_t* CommandText) override;
+		virtual void SetCommandText(const char* CommandText) override;
 		virtual void SetCommandText(const String& CommandText) override;
 		virtual void SetConnectionTimeout(int Timeout) override;
 		virtual void SetCommandType(CommandType Type) override;
@@ -47,7 +47,7 @@ namespace Elysium::Core::Data::Common
 		const IDbConnection* _Connection;
 		const IDbTransaction* _Transaction;
 
-		String _Text = u"";
+		String _Text = "";
 		int _Timeout = 30;
 		CommandType _Type = CommandType::Text;
 	};

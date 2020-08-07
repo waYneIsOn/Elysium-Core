@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::NotImplementedException::NotImplementedException()
-	: Elysium::Core::Exception(u"NotImplementedException")
+	: Elysium::Core::Exception(u8"NotImplementedException")
 { }
-Elysium::Core::NotImplementedException::NotImplementedException(const char16_t * Message)
+Elysium::Core::NotImplementedException::NotImplementedException(const char * Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::NotImplementedException::NotImplementedException(String && Message)

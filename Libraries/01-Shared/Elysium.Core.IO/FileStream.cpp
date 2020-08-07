@@ -29,14 +29,13 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 	int ProtectionFlag = 0;
 	
 	// ToDo: this is just for testing!!!
-	Elysium::Core::Collections::Template::List<byte> ConvertedPath = Elysium::Core::Text::Encoding::Default().GetBytes(_Path.GetCharArray(), 0, _Path.GetLength());
 	if (Mode == FileMode::Create)
 	{
-		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
+		_NativeStream.open(&Path[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
 	}
 	else
 	{
-		_NativeStream.open((char*)&ConvertedPath[0], std::ios::binary | std::ios::in);
+		_NativeStream.open(&Path[0], std::ios::binary | std::ios::in);
 	}
 
 	if (!_NativeStream.good())
@@ -97,7 +96,7 @@ void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
 {
 	if (Position >= GetLength())
 	{	// ToDo: throw specific exception
-		throw Exception(u"Position >= FileSize");
+		throw Exception(u8"Position >= FileSize");
 	}
 
 	_NativeStream.clear();	// required call (resets internal error state flags)

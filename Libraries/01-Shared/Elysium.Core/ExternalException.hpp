@@ -30,7 +30,7 @@ namespace Elysium::Core::Runtime::InteropServices
 	{
 	public:
 		ExternalException();
-		ExternalException(const char16_t* Message);
+		ExternalException(const char* Message);
 		ExternalException(String&& Message);
 		ExternalException(String&& Message, const int ErrorCode);
 		virtual ~ExternalException();

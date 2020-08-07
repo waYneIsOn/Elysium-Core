@@ -9,9 +9,9 @@
 #endif
 
 Elysium::Core::Exception::Exception()
-	: _Message(&Elysium::Core::String(u"Exception")), _InnerException(nullptr)
+	: _Message(&Elysium::Core::String(u8"Exception")), _InnerException(nullptr)
 { }
-Elysium::Core::Exception::Exception(const char16_t * Message)
+Elysium::Core::Exception::Exception(const char * Message)
 	: _Message(&Elysium::Core::String(Message)), _InnerException(nullptr)
 { }
 Elysium::Core::Exception::Exception(Elysium::Core::String && Message)

@@ -8,11 +8,11 @@ Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::Num
 
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
 	: 
-	_CurrencyDecimalDigits(2), _CurrencyDecimalSeparator(u"."), _CurrencyGroupSeparator(u","), _CurrencyNegativePattern(0),
-	_CurrencyPositivePattern(0), _CurrencySymbol(u"¤"), _DigitSubstitution(DigitShapes::None), _IsReadOnly(false), _NaNSymbol(u"NaN"), 
-	_NegativeInfinitySymbol(u"-Infinity"), _NegativeSign(u"-"), _NumberDecimalDigits(2), _NumberDecimalSeparator(u"."), _NumberGroupSeparator(u","),
-	_PercentDecimalDigits(2), _PercentDecimalSeparator(u"."), _PercentGroupSeparator(u","),_PercentNegativePattern(0),
-	_PercentPositivePattern(0), _PercentSymbol(u"%"), _PerMilleSymbol(u"‰"), _PositiveInfinitySymbol(u"Infinity"), _PositiveSign(u"+")
+	_CurrencyDecimalDigits(2), _CurrencyDecimalSeparator(u8"."), _CurrencyGroupSeparator(u8","), _CurrencyNegativePattern(0),
+	_CurrencyPositivePattern(0), _CurrencySymbol(u8"¤"), _DigitSubstitution(DigitShapes::None), _IsReadOnly(false), _NaNSymbol(u8"NaN"),
+	_NegativeInfinitySymbol(u8"-Infinity"), _NegativeSign(u8"-"), _NumberDecimalDigits(2), _NumberDecimalSeparator(u8"."), _NumberGroupSeparator(u8","),
+	_PercentDecimalDigits(2), _PercentDecimalSeparator(u8"."), _PercentGroupSeparator(u8","),_PercentNegativePattern(0),
+	_PercentPositivePattern(0), _PercentSymbol(u8"%"), _PerMilleSymbol(u8"‰"), _PositiveInfinitySymbol(u8"Infinity"), _PositiveSign(u8"+")
 { }
 Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
 { }

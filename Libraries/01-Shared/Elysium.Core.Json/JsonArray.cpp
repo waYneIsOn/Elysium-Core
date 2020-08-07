@@ -22,7 +22,7 @@ Elysium::Core::Json::JsonArray::~JsonArray()
 
 const Elysium::Core::String & Elysium::Core::Json::JsonArray::GetName() const
 {
-	static const Elysium::Core::String Name = u"#array";
+	static const Elysium::Core::String Name = u8"#array";
 	if (_Name.GetLength() > 0)
 	{
 		return _Name;
@@ -111,44 +111,44 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		{
 		case JsonToken::Integer:
 		{
-			JsonElement* Node = new JsonElement(u"", Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
+			JsonElement* Node = new JsonElement(u8"", Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
 			AddChild(*Node);
 			break;
 		}
 		case JsonToken::Float:
 		{
-			JsonElement* Node = new JsonElement(u"", Elysium::Core::Convert::ToSingle(JsonReader.GetNodeValue()));
+			JsonElement* Node = new JsonElement(u8"", Elysium::Core::Convert::ToSingle(JsonReader.GetNodeValue()));
 			AddChild(*Node);
 			break;
 		}
 		case JsonToken::String:
 		{
-			JsonElement* Node = new JsonElement(u"", JsonReader.GetNodeValue());
+			JsonElement* Node = new JsonElement(u8"", JsonReader.GetNodeValue());
 			AddChild(*Node);
 			break;
 		}
 		case JsonToken::Boolean:
 		{	// ToDo: what about True/TRUE?
-			JsonElement* Node = new JsonElement(u"", JsonReader.GetNodeValue() == u"true" ? true : false);
+			JsonElement* Node = new JsonElement(u8"", JsonReader.GetNodeValue() == "true" ? true : false);
 			AddChild(*Node);
 			break;
 		}
 		case JsonToken::Null:
 		{
-			JsonElement* Node = new JsonElement(u"");
+			JsonElement* Node = new JsonElement(u8"");
 			AddChild(*Node);
 			break;
 		}
 		case JsonToken::StartedObject:
 		{
-			JsonObject* Node = new JsonObject(u"");
+			JsonObject* Node = new JsonObject(u8"");
 			AddChild(*Node);
 			Node->Load(JsonReader);
 			break;
 		}
 		case JsonToken::StartedArray:
 		{
-			JsonArray* Node = new JsonArray(u"");
+			JsonArray* Node = new JsonArray(u8"");
 			AddChild(*Node);
 			Node->Load(JsonReader);
 			break;

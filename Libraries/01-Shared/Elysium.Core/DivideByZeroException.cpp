@@ -5,9 +5,9 @@
 #endif
 
 Elysium::Core::DivideByZeroException::DivideByZeroException()
-	: Elysium::Core::ArithmeticException(u"DivideByZeroException")
+	: Elysium::Core::ArithmeticException(u8"DivideByZeroException")
 { }
-Elysium::Core::DivideByZeroException::DivideByZeroException(const char16_t * Message)
+Elysium::Core::DivideByZeroException::DivideByZeroException(const char * Message)
 	: Elysium::Core::ArithmeticException(Message)
 { }
 Elysium::Core::DivideByZeroException::DivideByZeroException(String && Message)

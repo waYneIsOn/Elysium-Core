@@ -22,7 +22,7 @@ namespace Elysium::Core::IO
 	{
 	public:
 		FileNotFoundException();
-		FileNotFoundException(const char16_t* Message);
+		FileNotFoundException(const char* Message);
 		FileNotFoundException(String&& Message);
 		virtual ~FileNotFoundException();
 	};

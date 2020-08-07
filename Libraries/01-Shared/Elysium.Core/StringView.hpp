@@ -24,10 +24,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
-	using ByteStringView = Collections::Template::StringViewBase<byte>;
-	using CharStringView = Collections::Template::StringViewBase<char>;
+	using StringView = Collections::Template::StringViewBase<char>;
 	using WideStringView = Collections::Template::StringViewBase<wchar_t>;
-	using StringView = Collections::Template::StringViewBase<char16_t>;
-	using Ut32StringView = Collections::Template::StringViewBase<char32_t>;
 }
 #endif

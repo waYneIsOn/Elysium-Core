@@ -1,5 +1,9 @@
 #include "MemoryStream.hpp"
 
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "../Elysium.Core/NotSupportedException.hpp"
 #endif
@@ -94,8 +98,8 @@ void Elysium::Core::IO::MemoryStream::SetPosition(int64_t Position)
 void Elysium::Core::IO::MemoryStream::SetCapacity(size_t Capacity)
 {
 	if (Capacity > UINT_MAX)
-	{	// ToDo: throw a specific ArgumentOutOfRangeException
-		throw Exception(u"ArgumentOutOfRangeException");
+	{
+		throw ArgumentOutOfRangeException();
 	}
 
 	_Buffer.SetCapacity(Capacity);

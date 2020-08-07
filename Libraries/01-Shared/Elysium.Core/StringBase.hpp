@@ -203,7 +203,7 @@ namespace Elysium::Core::Collections::Template
 	template<typename T>
 	inline T & StringBase<T>::operator[](size_t Index) const
 	{
-		if (Index > _Length)
+		if (Index >= _Length)
 		{
 			return _NullTerminationChar;
 		}
@@ -441,9 +441,9 @@ namespace Elysium::Core::Collections::Template
 			delete[] Result._Data;
 		}
 		Result._Length = Length;
-		Result._Data = new T[Result._Length * sizeof(T)];
+		Result._Data = new T[(Result._Length + 1) * sizeof(T)];
 		memcpy(Result._Data, &_Data[StartIndex], Length * sizeof(T));
-		Result._Data[Result._Length] = u'\0';
+		Result._Data[Result._Length] = _NullTerminationChar;
 	}
 
 	template<typename T>

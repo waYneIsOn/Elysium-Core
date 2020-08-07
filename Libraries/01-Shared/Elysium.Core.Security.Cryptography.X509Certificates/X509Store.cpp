@@ -46,7 +46,7 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 		StoreLocation = CERT_SYSTEM_STORE_LOCAL_MACHINE;
 		break;
 	default:
-		throw NotImplementedException(u"Unhandled StoreLocation");
+		throw NotImplementedException(u8"Unhandled StoreLocation");
 	}
 
 	WideString StoreName;
@@ -77,7 +77,7 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 		StoreName = L"TRUSTEDPUBLISHER";
 		break;
 	default:
-		throw NotImplementedException(u"Unhandled StoreName");
+		throw NotImplementedException(u8"Unhandled StoreName");
 	}
 
 	if ((_NativeCertificateStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, StoreLocation, &StoreName[0])) == nullptr)
