@@ -48,9 +48,9 @@ namespace UnitTests::Core::Security::Cryptography
 		const String _Value1 = u8"";
 		const String _Value2 = u8"bla";
 
-		Array<byte> Hash(HashAlgorithm& Algorithm, List<byte>& Bytes)
+		Array<byte> Hash(HashAlgorithm& Algorithm, Array<byte>& Bytes)
 		{
-			return Algorithm.ComputeHash(&Bytes[0], Bytes.GetCount());
+			return Algorithm.ComputeHash(&Bytes[0], Bytes.GetLength());
 		}
 	};
 }

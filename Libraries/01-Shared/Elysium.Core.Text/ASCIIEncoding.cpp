@@ -12,7 +12,8 @@ const bool Elysium::Core::Text::ASCIIEncoding::GetIsSingleByte() const
 }
 const Elysium::Core::String Elysium::Core::Text::ASCIIEncoding::GetEncodingName() const
 {
-	return Elysium::Core::String(u8"US-ASCII");
+	static Elysium::Core::String EncodingName = Elysium::Core::String(u8"US-ASCII");
+	return EncodingName;
 }
 
 const Elysium::Core::uint32_t Elysium::Core::Text::ASCIIEncoding::GetByteCount(const Elysium::Core::String & Input, const size_t CharIndex, const size_t CharCount) const
@@ -20,17 +21,9 @@ const Elysium::Core::uint32_t Elysium::Core::Text::ASCIIEncoding::GetByteCount(c
 	return static_cast<Elysium::Core::uint32_t>(CharCount);
 }
 
-Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Text::ASCIIEncoding::GetBytes(const char Input) const
+Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::ASCIIEncoding::GetBytes(const Elysium::Core::String & Input, const size_t CharIndex, const size_t CharCount) const
 {
-	Elysium::Core::Collections::Template::List<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::List<Elysium::Core::byte>(1);
-	Elysium::Core::uint32_t IntegerRepresentation = Input;
-	Result[0] = IntegerRepresentation < 0x80 ? static_cast<byte>(IntegerRepresentation) : 0x3F;
-
-	return Result;
-}
-Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Text::ASCIIEncoding::GetBytes(const Elysium::Core::String & Input, const size_t CharIndex, const size_t CharCount) const
-{
-	Elysium::Core::Collections::Template::List<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::List<Elysium::Core::byte>(CharCount);
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(CharCount);
 
 	Elysium::Core::uint32_t IntegerRepresentation;
 	for (size_t i = 0; i < CharCount; ++i)

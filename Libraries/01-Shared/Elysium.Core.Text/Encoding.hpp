@@ -24,8 +24,8 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
 #endif
 
 namespace Elysium::Core::Text
@@ -65,8 +65,7 @@ namespace Elysium::Core::Text
 
 		virtual const Elysium::Core::uint32_t GetByteCount(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
 
-		virtual Elysium::Core::Collections::Template::List<Elysium::Core::byte> GetBytes(const char Input) const = 0;
-		virtual Elysium::Core::Collections::Template::List<Elysium::Core::byte> GetBytes(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
+		virtual Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const = 0;
 
 		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const size_t ByteCount) const = 0;
 
