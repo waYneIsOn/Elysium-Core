@@ -16,14 +16,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "IEnumerable.hpp"
 #endif
 
-#ifndef __midl
-#include <vcruntime_string.h>
-#endif
-
-#ifndef _IOSFWD_
-#include <iosfwd>
-#endif
-
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -34,6 +26,14 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Collections::Template
 {
+	/*
+	ToDos:
+	- empty/null string as static instance where every empty/null string references it internally
+	- strings on stack if small enough
+	- ToCharArray() -> Array<char> with copied values
+	- possibly get rid of \0 (will have to think this one through first)
+	*/
+
 	template <typename T>
 	class StringBase final
 	{
@@ -86,7 +86,7 @@ namespace Elysium::Core::Collections::Template
 		size_t _Length;
 		T* _Data;
 
-		inline static T _NullTerminationChar = (T)0x00;
+		inline static T _NullTerminationChar = static_cast<T>(0x00);
 	};
 
 	template<class T>

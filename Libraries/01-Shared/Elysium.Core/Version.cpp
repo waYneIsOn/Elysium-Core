@@ -20,32 +20,26 @@ using namespace Elysium::Core::Collections::Template;
 
 Elysium::Core::Version::Version()
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
-{
-}
+{ }
 Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor)
 	: _Major(Major), _Minor(Minor), _Build(0), _Revision(0)
-{
-}
+{ }
 Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor, const uint32_t & Build)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(0)
-{
-}
+{ }
 Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor, const uint32_t & Build, const uint32_t & Revision)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Revision)
-{
-}
+{ }
 Elysium::Core::Version::Version(const Version & Source)
 	: _Major(Source._Major), _Minor(Source._Minor), _Build(Source._Build), _Revision(Source._Revision)
-{
-}
+{ }
 Elysium::Core::Version::Version(Version && Right) noexcept
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
 {
 	*this = std::move(Right);
 }
 Elysium::Core::Version::~Version()
-{
-}
+{ }
 
 Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
 {

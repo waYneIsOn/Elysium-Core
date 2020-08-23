@@ -80,7 +80,7 @@ void Elysium::Core::Json::JsonDocument::Load(const Elysium::Core::String & Filen
 }
 void Elysium::Core::Json::JsonDocument::Load(Elysium::Core::IO::Stream & InputStream)
 {
-	Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(InputStream);
+	Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(InputStream, Elysium::Core::Text::Encoding::UTF8());
 	JsonTextReader JsonReader = JsonTextReader(Reader);
 	Load(JsonReader);
 }

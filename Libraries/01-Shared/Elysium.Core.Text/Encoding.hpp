@@ -30,11 +30,11 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Text
 {
-	class ELYSIUM_CORE_API ASCIIEncoding;
-	class ELYSIUM_CORE_API UnicodeEncoding;
-	class ELYSIUM_CORE_API UTF32Encoding;
-	class ELYSIUM_CORE_API UTF7Encoding;
-	class ELYSIUM_CORE_API UTF8Encoding;
+	class ASCIIEncoding;
+	class UTF7Encoding;
+	class UTF8Encoding;
+	class UTF16Encoding;
+	class UTF32Encoding;
 
 	class ELYSIUM_CORE_API Encoding
 	{
@@ -46,15 +46,17 @@ namespace Elysium::Core::Text
 		Encoding& operator=(const Encoding& Source) = delete;
 		Encoding& operator=(Encoding&& Right) noexcept = delete;
 
-		static void GetEncoding(int CodePage, Encoding* Output);
+		//static void GetEncoding(int CodePage, Encoding* Output);
 
-		static const Encoding& ASCII();
-		static const Encoding& BigEndianUnicode();	// UTF-16 big-endian
 		static const Encoding& Default();
-		static const Encoding& Unicode();	// UTF-16 little-endian
-		static const Encoding& UTF32();
+		static const Encoding& ASCII();
 		static const Encoding& UTF7();
 		static const Encoding& UTF8();
+		static const Encoding& UTF16BE();
+		static const Encoding& UTF16LE();
+		static const Encoding& UTF32();
+
+		static const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Convert(const Encoding& SourceEncoding, const Encoding& TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const size_t Index, const size_t Count);
 				
 		virtual const bool GetIsSingleByte() const = 0;
 		virtual const int GetCodePage() const;
@@ -78,6 +80,8 @@ namespace Elysium::Core::Text
 
 		static const ASCIIEncoding _ASCII;
 		static const UTF8Encoding _UTF8;
+		static const UTF16Encoding _UTF16BE;
+		static const UTF16Encoding _UTF16LE;
 	};
 }
 #endif

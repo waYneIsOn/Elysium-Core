@@ -31,7 +31,7 @@ namespace Elysium::Core::Text
 		UTF8Encoding& operator=(UTF8Encoding&& Right) noexcept = delete;
 
 		virtual const bool GetIsSingleByte() const override;
-		virtual const String GetEncodingName() const override;
+		virtual const Elysium::Core::String GetEncodingName() const override;
 
 		virtual const Elysium::Core::uint32_t GetByteCount(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const override;
 
@@ -45,8 +45,6 @@ namespace Elysium::Core::Text
 		const bool _ThrowOnInvalidBytes;
 
 		static const Collections::Template::Array<Elysium::Core::byte> _BOM;
-
-		void ValidateTrailByte(const Elysium::Core::byte TrailByte) const;
 	};
 }
 #endif

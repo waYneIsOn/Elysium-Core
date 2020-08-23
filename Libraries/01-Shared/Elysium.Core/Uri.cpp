@@ -61,8 +61,7 @@ Elysium::Core::Uri::Uri(Uri && Right) noexcept
 	*this = std::move(Right);
 }
 Elysium::Core::Uri::~Uri()
-{
-}
+{ }
 
 Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
 {

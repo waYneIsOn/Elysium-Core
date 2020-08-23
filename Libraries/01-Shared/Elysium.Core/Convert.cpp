@@ -70,18 +70,14 @@ Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const
 
 Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
 {
-	// ToDo: do this the right way!
-	//Elysium::Core::Collections::Template::List<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
-
-	// CP_ACP ?
 	int Length = MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, NULL, 0);
 	wchar_t* WideChars = new wchar_t[Length];
 	MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, WideChars, Length);
 
-	std::wstring wc = std::wstring(WideChars);
+	WideString Result = WideString(WideChars);
 	delete[] WideChars;
 	
-	return WideString(&wc[0]);
+	return Result;
 }
 
 Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const String & Base64String)
@@ -158,7 +154,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 
 	return Result;
 }
-Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core::Collections::Template::List<Elysium::Core::byte>& Bytes)
+Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core::byte * Bytes, const Elysium::Core::uint32_t Length)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
 	base64.cpp and base64.h
@@ -185,7 +181,7 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core
 
 	René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 	*/
-	size_t in_len = Bytes.GetCount() - 1;
+	size_t in_len = Length;
 	int c = 0;
 	int i = 0;
 	int j = 0;
@@ -214,9 +210,9 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core
 
 	if (i)
 	{
-		for (j = i; i < 3; j++)
+		for (j = i; j < 3; j++)
 		{
-			Array3[j] = '\0';
+			Array3[j] = u8'\0';
 		}
 
 		Array4[0] = (Array3[0] & 0xFC) >> 2;
@@ -224,14 +220,14 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core
 		Array4[2] = ((Array3[1] & 0x0F) << 2) + ((Array3[2] & 0xC0) >> 6);
 		Array4[3] = Array3[2] & 0x3F;
 
-		for (j = 0; j < i  +1; j++)
+		for (j = 0; j < i + 1; j++)
 		{
 			Result.Add(_Base64Chars[Array4[j]]);
 		}
 
 		while (i++ < 3)
 		{
-			Result.Add('=');
+			Result.Add(u8'=');
 		}
 	}
 

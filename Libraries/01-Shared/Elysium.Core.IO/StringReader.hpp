@@ -32,9 +32,9 @@ namespace Elysium::Core::IO
 
 		virtual const int32_t Read() override;
 
-		virtual StringView ReadLine() override;
+		virtual String ReadLine() override;
 
-		virtual StringView ReadToEnd() override;
+		virtual String ReadToEnd() override;
 	private:
 		size_t _Position;
 		StringView _Input;

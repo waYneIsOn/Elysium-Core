@@ -53,7 +53,7 @@ namespace Elysium::Core
 		static WideString ToWideString(const String& Value);
 
 		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
-		static String ToBase64String(const Elysium::Core::Collections::Template::List<Elysium::Core::byte>& Bytes);
+		static String ToBase64String(const Elysium::Core::byte* Bytes, const Elysium::Core::uint32_t Length);
 
 		static int32_t ToInt32(const char* Value, const int32_t FromBase);
 		static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);

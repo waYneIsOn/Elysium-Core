@@ -238,12 +238,3 @@ Elysium::Core::String Elysium::Core::Text::UTF8Encoding::GetString(const Elysium
 	return Result;
 	*/
 }
-
-void Elysium::Core::Text::UTF8Encoding::ValidateTrailByte(const Elysium::Core::byte TrailByte) const
-{
-	if ((TrailByte >> 6) & 0x03 != 0x02)
-	{	// should have encountered a trial byte but didn't
-		// ToDo: specific exception message
-		throw Elysium::Core::ArgumentException(u8"trailbyte");
-	}
-}

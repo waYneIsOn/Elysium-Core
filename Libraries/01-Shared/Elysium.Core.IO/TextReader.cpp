@@ -1,12 +1,10 @@
 #include "TextReader.hpp"
 
 Elysium::Core::IO::TextReader::~TextReader()
-{
-}
+{ }
 
 void Elysium::Core::IO::TextReader::Close()
-{
-}
+{ }
 
 const Elysium::Core::int32_t Elysium::Core::IO::TextReader::Peek()
 {
@@ -19,5 +17,4 @@ const Elysium::Core::int32_t Elysium::Core::IO::TextReader::Read()
 }
 
 Elysium::Core::IO::TextReader::TextReader()
-{
-}
+{ }

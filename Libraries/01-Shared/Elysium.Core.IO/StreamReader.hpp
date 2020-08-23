@@ -25,7 +25,7 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API StreamReader : public TextReader
 	{
 	public:
-		StreamReader(Stream& InputStream);
+		StreamReader(Stream& InputStream, const Text::Encoding& Encoding, const bool DetectEncodingFromByteOrderMarks = true, const Elysium::Core::int32_t MinimumBufferSize = -1, const bool LeaveOpen = false);
 		~StreamReader();
 
 		virtual void Close() override;
@@ -34,12 +34,16 @@ namespace Elysium::Core::IO
 
 		virtual const int32_t Read() override;
 
-		virtual StringView ReadLine() override;
+		virtual String ReadLine() override;
 
-		virtual StringView ReadToEnd() override;
+		virtual String ReadToEnd() override;
 	private:
 		size_t _Position;
 		Stream& _InputStream;
+		const Text::Encoding& _Encoding;
+		const bool _LeaveOpen;
+
+		//Elysium::Core::Collections::Template::List<Elysium::Core::byte> _Buffer;
 	};
 }
 #endif

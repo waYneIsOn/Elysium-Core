@@ -103,8 +103,7 @@ namespace Elysium::Core::Collections::Template
 	}
 	template<typename T>
 	inline StringViewBase<T>::~StringViewBase()
-	{
-	}
+	{ }
 
 	template<typename T>
 	inline StringViewBase<T> & StringViewBase<T>::operator=(const StringViewBase<T> & Source)

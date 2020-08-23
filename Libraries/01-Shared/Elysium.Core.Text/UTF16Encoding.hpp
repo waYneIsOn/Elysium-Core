@@ -18,7 +18,6 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Text
 {
-	/*
 	class ELYSIUM_CORE_API UTF16Encoding final : public Encoding
 	{
 	public:
@@ -32,7 +31,7 @@ namespace Elysium::Core::Text
 		UTF16Encoding& operator=(UTF16Encoding&& Right) noexcept = delete;
 
 		virtual const bool GetIsSingleByte() const override;
-		virtual const String GetEncodingName() const override;
+		virtual const Elysium::Core::String GetEncodingName() const override;
 
 		virtual const Elysium::Core::uint32_t GetByteCount(const Elysium::Core::String& Input, const size_t CharIndex, const size_t CharCount) const override;
 
@@ -42,11 +41,13 @@ namespace Elysium::Core::Text
 
 		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const size_t ByteCount) const override;
 	private:
+		const bool _BigEndian;
 		const bool _EncoderShouldEmitUTF8Identifier;
 		const bool _ThrowOnInvalidBytes;
 
 		static const Collections::Template::Array<Elysium::Core::byte> _BOM;
+
+		//void ValidateTrailByte(const Elysium::Core::byte TrailByte) const;
 	};
-	*/
 }
 #endif
