@@ -16,20 +16,30 @@ Copyright (C) 2017 waYne (CAM)
 #include "EndPoint.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_IPADDRESS
+#include "IPAddress.hpp"
+#endif
+
 namespace Elysium::Core::Net
 {
 	class ELYSIUM_CORE_NET_API IPEndPoint final : public EndPoint
 	{
 	public:
-		IPEndPoint(const IPAddress& Address, const int Port);
-		~IPEndPoint();
+		IPEndPoint(const IPAddress& Address, const Elysium::Core::uint16_t Port);
+		IPEndPoint(const IPEndPoint& Source) = delete;
+		IPEndPoint(IPEndPoint&& Right) noexcept = delete;
+		virtual ~IPEndPoint();
 
-		const IPAddress& GetAddress() const;
+		IPEndPoint& operator=(const IPEndPoint& Source) = delete;
+		IPEndPoint& operator=(IPEndPoint&& Right) noexcept = delete;
+
+		virtual const Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const override;
 		const int GetPort() const;
-
-		virtual void Serialize(SocketAddress* Address) const override;
+	protected:
+		virtual const Elysium::Core::Net::SocketAddress Serialize() const override;
 	private:
-		int _Port;
+		IPAddress _Address;
+		Elysium::Core::uint16_t _Port;
 	};
 }
 #endif

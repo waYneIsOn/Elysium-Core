@@ -16,26 +16,33 @@ Copyright (C) 2017 waYne (CAM)
 #include "EndPoint.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
-/*
+
 namespace Elysium::Core::Net
 {
 	class ELYSIUM_CORE_NET_API DnsEndPoint final : public EndPoint
 	{
 	public:
-		DnsEndPoint(const std::string& Host, const int Port);
-		~DnsEndPoint();
+		DnsEndPoint(const Elysium::Core::String& Host, const Elysium::Core::uint16_t Port, const Sockets::AddressFamily AddressFamily);
+		DnsEndPoint(const DnsEndPoint& Source) = delete;
+		DnsEndPoint(DnsEndPoint&& Right) noexcept = delete;
+		virtual ~DnsEndPoint();
 
-		std::string GetHost() const;
-		int GetPort() const;
+		DnsEndPoint& operator=(const DnsEndPoint& Source) = delete;
+		DnsEndPoint& operator=(DnsEndPoint&& Right) noexcept = delete;
 
-		virtual void Serialize(SocketAddress* Address) const override;
+		virtual const Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const override;
+		const Elysium::Core::String& GetHost() const;
+		const Elysium::Core::uint16_t GetPort() const;
+
+	protected:
+		virtual const Elysium::Core::Net::SocketAddress Serialize() const override;
 	private:
-		std::string _Host;
-		int _Port;
+		const Elysium::Core::String _Host;
+		const Elysium::Core::uint16_t _Port;
+		const Sockets::AddressFamily _AddressFamily;
 	};
 }
-*/
 #endif

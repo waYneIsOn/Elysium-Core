@@ -19,38 +19,39 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class ProtocolType : uint32_t
+	enum class ProtocolType : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
 	enum class ProtocolType
 #else
 #error "undefined os"
 #endif
 	{
-		Ggp,
-		Icmp,
-		IcmpV6,
-		Idp,
-		Igmp,
-		IP,
-		IPSecAuthenticationHeader,
-		IPSecEncapsulatingSecurityPayload,
-		IPv4,
-		IPv6,
-		IPv6DestinationOptions,
-		IPv6FragmentHeader,
-		IPv6HopByHopOptions,
-		IPv6NoNextHeader,
-		IPv6RoutingHeader,
-		Ipx,
-		ND,
-		Pup,
-		Raw,
-		Spx,
-		SpxII,
-		Tcp,
-		Udp,
-		Unknown,
-		Unspecified,
+		//Unknown = -1,
+
+		Unspecified = 0,
+		IP = 0,
+		IPv6HopByHopOptions = 0,
+		Icmp = 1,
+		Igmp = 2,
+		Ggp = 3,
+		IPv4 = 4,
+		Tcp = 6,
+		Udp = 17,
+		Pup = 12,
+		Idp = 22,
+		IPv6 = 41,
+		IPv6RoutingHeader = 43,
+		IPv6FragmentHeader = 44,
+		IPSecEncapsulatingSecurityPayload = 50,
+		IPSecAuthenticationHeader = 51,
+		IcmpV6 = 58,
+		IPv6NoNextHeader = 59,
+		IPv6DestinationOptions = 60,
+		ND = 77,
+		Raw = 255,
+		Ipx = 1000,
+		Spx = 1256,
+		SpxII = 1257
 	};
 }
 #endif

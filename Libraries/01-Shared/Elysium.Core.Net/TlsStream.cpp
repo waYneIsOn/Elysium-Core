@@ -208,8 +208,8 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerHello()
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&RecordBuffer[1]));
-	const uint16_t ContentLength = BitConverter::ToUint16(&RecordBuffer[3]);
+	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
 	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
@@ -231,8 +231,8 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerHello()
 	else if(ContentType == TlsContentType::Handshake)
 	{
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
-		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
-		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&ContentBuffer[4]));	
+		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
+		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&ContentBuffer[4]));
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[6], &_RemoteRandom[0], 32);
 		const uint8_t SessionIdLength = ContentBuffer[38];
 		if (SessionIdLength != 0x20)
@@ -240,7 +240,7 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerHello()
 			throw 1;
 		}
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[39], &_SessionId[0], SessionIdLength);
-		_ServerSelectedCipherSuite = static_cast<const TlsCipherSuite>(BitConverter::ToUint16(&ContentBuffer[71]));
+		_ServerSelectedCipherSuite = static_cast<const TlsCipherSuite>(BitConverter::ToUInt16(&ContentBuffer[71]));
 		_ServerSelectedCompressionMethod = ContentBuffer[72];
 		// ToDo: extensions
 	}
@@ -262,8 +262,8 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerCertificates()
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&RecordBuffer[1]));
-	const uint16_t ContentLength = BitConverter::ToUint16(&RecordBuffer[3]);
+	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
 	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
@@ -285,14 +285,14 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerCertificates()
 	else if (ContentType == TlsContentType::Handshake)
 	{
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
-		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
-		const uint32_t CertificatesLength = BitConverter::ToUint24(&ContentBuffer[4]);
+		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
+		const uint32_t CertificatesLength = BitConverter::ToUInt24(&ContentBuffer[4]);
 
 		Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection ServerCertificates = Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection();
 		size_t CertificateBytesRead = 0;
 		do
 		{
-			const uint32_t CertificateLength = BitConverter::ToUint24(&ContentBuffer[CertificateBytesRead + 7]);
+			const uint32_t CertificateLength = BitConverter::ToUInt24(&ContentBuffer[CertificateBytesRead + 7]);
 			ServerCertificates.Add(std::move(Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(&ContentBuffer[CertificateBytesRead + 10], CertificateLength)));
 			CertificateBytesRead += CertificateLength + 3;
 		} while (CertificateBytesRead < CertificatesLength);
@@ -343,8 +343,8 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerKeyExchange()
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&RecordBuffer[1]));
-	const uint16_t ContentLength = BitConverter::ToUint16(&RecordBuffer[3]);
+	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
 	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
@@ -366,7 +366,7 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerKeyExchange()
 	else if (ContentType == TlsContentType::Handshake)
 	{
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
-		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
+		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 		const byte CurveInfoType = ContentBuffer[4];
 		// Curve types:
 		// - 0x01 explicit prime
@@ -379,11 +379,11 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerKeyExchange()
 		// named curves:
 		// - 0x13 (19d) secp192r1
 		// - 0x17 (23d) secp256r1
-		const uint16_t CurveInfo = BitConverter::ToUint16(&ContentBuffer[5]);
+		const uint16_t CurveInfo = BitConverter::ToUInt16(&ContentBuffer[5]);
 		const uint8_t LengthOfPublicKey = static_cast<uint8_t>(ContentBuffer[7]);
 		// public key
-		const uint16_t SignatureType = BitConverter::ToUint16(&ContentBuffer[8 + LengthOfPublicKey]);
-		const uint16_t LengthOfSignature = BitConverter::ToUint16(&ContentBuffer[9 + LengthOfPublicKey]);
+		const uint16_t SignatureType = BitConverter::ToUInt16(&ContentBuffer[8 + LengthOfPublicKey]);
+		const uint16_t LengthOfSignature = BitConverter::ToUInt16(&ContentBuffer[9 + LengthOfPublicKey]);
 		// computed signature for ENCRYPT(client_hello_random + server_hello_random + curve_info + public_key)
 
 
@@ -419,8 +419,8 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerHelloDone()
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUint16(&RecordBuffer[1]));
-	const uint16_t ContentLength = BitConverter::ToUint16(&RecordBuffer[3]);
+	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
 	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
@@ -442,7 +442,7 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerHelloDone()
 	else if (ContentType == TlsContentType::Handshake)
 	{
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
-		const uint32_t ResponseLength = BitConverter::ToUint24(&ContentBuffer[1]);
+		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 
 		throw 1;
 	}

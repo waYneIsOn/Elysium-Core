@@ -24,6 +24,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DEREncoder.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_IPENDPOINT
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_SOCKETS_NETWORKSTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
 #endif
@@ -53,7 +57,7 @@ namespace UnitTests::Core::Net::Security
 		TEST_METHOD(Https)
 		{
 			Socket TcpSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			TcpSocket.Connect(String(u8"52.6.191.28"), 443);	// https://ulfheim.net/
+			TcpSocket.Connect(Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"52.6.191.28")), 443));	// https://ulfheim.net/
 			NetworkStream InnerStream = NetworkStream(TcpSocket);
 			
 			TlsStream Stream = TlsStream(InnerStream, false, TlsClientAuthenticationOptions(true,

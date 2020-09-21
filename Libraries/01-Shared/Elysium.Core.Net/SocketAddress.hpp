@@ -12,16 +12,12 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_NET_API
-#include "API.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
 #include "AddressFamily.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_NET_IPADDRESS
+#include "IPAddress.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BYTE
@@ -30,38 +26,36 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Net
 {
-	namespace Sockets
+	class SocketAddress final
 	{
-		class Socket;
-	}
-
-	// make sure the following classes get exported (warning C4251)
-	// ToDo: can't do this here because we also need to do it in MemoryStream which means we export twice
-	// will have to think about how to do it correctly
-	//template class ELYSIUM_CORE_API Elysium::Core::Collections::Template::List<byte>;
-
-	class ELYSIUM_CORE_NET_API SocketAddress
-	{
-		friend class Sockets::Socket;
+		friend class DnsEndPoint;
+		friend class IPEndPoint;
 	public:
-		SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily, int Size);
-		SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
+		SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily, const Elysium::Core::uint8_t Size);
+		SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
+		SocketAddress(const SocketAddress& Source) = delete;
+		SocketAddress(SocketAddress&& Right) noexcept = delete;
 		~SocketAddress();
 
-		Elysium::Core::Net::Sockets::AddressFamily GetFamily();
-		int GetPort();
-		unsigned int GetSize();
+		SocketAddress& operator=(const SocketAddress& Source) = delete;
+		SocketAddress& operator=(SocketAddress&& Right) noexcept = delete;
+
+		const Elysium::Core::Net::Sockets::AddressFamily GetFamily() const;
+		const Elysium::Core::byte& operator[](size_t Index) const;
+		const Elysium::Core::uint8_t GetSize() const;
 	private:
-		SocketAddress();
+		SocketAddress(const IPAddress& Address);
+		SocketAddress(const IPAddress& Address, const Elysium::Core::uint16_t Port);
 
-		const int IPv6AddressSize = 28;
-		const int IPv4AddressSize = 16;
+		static const Elysium::Core::uint8_t IPv6AddressSize = 28;	// 2 byte address family, 26 byte rest (???)
+		static const Elysium::Core::uint8_t IPv4AddressSize = 16;	// 2 byte address family, 14 byte rest (2 byte port? 12 byte ip?)
 
-		const int WriteableOffset = 2;
-		const int MaxSize = 32;
+		static const Elysium::Core::uint8_t WriteableOffset = 2;	// first two bytes contain address family
+		static const Elysium::Core::uint8_t MaxSize = 32;
 
-		unsigned int _Size;
-		Elysium::Core::Collections::Template::List<byte> _Data;	// byte 0 and 1: AddressFamily; byte 2 and 3: Port; rest ipaddress
+		// DO NOT CHANGE THE ORDER OF FIELDS!
+		char _Data[MaxSize];
+		const Elysium::Core::uint8_t _Size;
 	};
 }
 #endif

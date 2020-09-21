@@ -1,28 +1,22 @@
 #include "IPEndPoint.hpp"
 
-Elysium::Core::Net::IPEndPoint::IPEndPoint(const IPAddress & Address, const int Port)
-	: EndPoint(Address),
-	_Port(Port)
-{
-}
+Elysium::Core::Net::IPEndPoint::IPEndPoint(const IPAddress & Address, const Elysium::Core::uint16_t Port)
+	: EndPoint(),
+	_Address(Address), _Port(Port)
+{ }
 Elysium::Core::Net::IPEndPoint::~IPEndPoint()
-{
-}
+{ }
 
-const Elysium::Core::Net::IPAddress & Elysium::Core::Net::IPEndPoint::GetAddress() const
+const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::IPEndPoint::GetAddressFamily() const
 {
-	return _Address;
+	return _Address.GetAddressFamily();
 }
 const int Elysium::Core::Net::IPEndPoint::GetPort() const
 {
 	return _Port;
 }
 
-void Elysium::Core::Net::IPEndPoint::Serialize(SocketAddress * Address) const
+const Elysium::Core::Net::SocketAddress Elysium::Core::Net::IPEndPoint::Serialize() const
 {
-	// byte 0 & 1: address family
-	// byte 2 & 3: port
-	// byte rest: ip address
-
-	//*Address = SocketAddress(GetAddressFamily())
+	return SocketAddress(_Address, _Port);
 }

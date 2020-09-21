@@ -93,14 +93,14 @@ namespace Elysium::Core::Net::Sockets
 		void SetSendBufferSize(int BufferSize);
 
 		// methods
-		void Connect(const String& Host, int Port);
+		void Connect(const String& Host, const Elysium::Core::int32_t Port);
 		void Connect(const EndPoint& RemoteEndPoint);
-		void Shutdown(SocketShutdown Value);
-		void Disconnect(bool ReuseSocket);
+		void Shutdown(const SocketShutdown Value);
+		void Disconnect(const bool ReuseSocket);
 
 		void Bind(const EndPoint& LocalEndPoint);
 		void Listen(const int Backlog);
-		void Accept(Socket* ConnectedClient);
+		const Socket Accept();
 
 		size_t Send(const byte* Buffer, const size_t Count) const;
 		size_t Receive(byte* Buffer, const size_t Count) const;

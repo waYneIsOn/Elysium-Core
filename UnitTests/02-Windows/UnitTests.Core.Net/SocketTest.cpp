@@ -8,6 +8,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/SocketException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_DNSENDPOINT
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/DnsEndPoint.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_IPENDPOINT
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
 #endif
@@ -26,82 +30,47 @@ namespace UnitTests::Core::Net::Sockets
 	TEST_CLASS(UnitTestSocket)
 	{
 	public:
-		// methods
-		TEST_METHOD(ConnectAndDisconnect)
+		TEST_METHOD(ParseIpAddresses)
+		{
+			// int64
+			Elysium::Core::Net::IPAddress Int64_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"2130706433"));
+
+			// IPv4
+			Elysium::Core::Net::IPAddress IPv4_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"127.0.0.1"));
+			Elysium::Core::Net::IPAddress IPv4_2 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"127.0.0.1:80"));
+
+			// IPv6
+			Elysium::Core::Net::IPAddress IPv6_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"0:0:0:0:0:0:0:1"));
+
+			// invalid input
+			Elysium::Core::Net::IPAddress IP1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"277.0.0.1"));
+		}
+
+		TEST_METHOD(ConnectUsingHost)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			Logger::WriteMessage("instanced");
-
-			try
-			{
-				// connect to the host
-				ClientSocket.Connect(_Host, _Port);
-				Logger::WriteMessage("connected");
-
-				// set both timeouts
-				ClientSocket.SetReceiveTimeout(200);
-				ClientSocket.SetSendTimeout(200);
-
-				// send some data to the host
-				byte Data[] = "GET /Hello.htm HTTP/1.1\r\nUser-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)\r\nHost: www.tutorialspoint.com\r\nAccept-Language: en-us\r\nAccept-Encoding: gzip, deflate\r\nConnection: Keep-Alive\r\n\r\n";
-				size_t DataLength = strlen((char*)Data);
-
-				size_t BytesSent = ClientSocket.Send(Data, DataLength);
-				Logger::WriteMessage("bytes sent:");
-				Logger::WriteMessage((char*)Data);
-
-				// ...
-				//Logger::WriteMessage("bytes available:");
-				//Logger::WriteMessage(std::to_string(ClientSocket.GetAvailable()).c_str());
-
-				// received some data from the host
-				byte ReceivedData[1024];
-				size_t BytesReceived = 0;
-				do
-				{
-					try
-					{
-						BytesReceived = ClientSocket.Receive(ReceivedData, 1024);
-						//Logger::WriteMessage("bytes received:");
-						//Logger::WriteMessage(std::to_string(BytesReceived).c_str());
-					}
-					catch (SocketException& ex)
-					{
-						if (ex.GetErrorCode() == 10060)
-						{	// timeout is ok for the test
-							break;
-						}
-						else
-						{	// any other error isn't
-							throw;
-						}
-					}
-
-					if (BytesReceived > 0)
-					{
-						std::string test;
-						test.assign(&ReceivedData[0], &ReceivedData[BytesReceived]);
-
-						Logger::WriteMessage("bytes received:");
-						Logger::WriteMessage(test.c_str());
-					}
-				} while (BytesReceived != 0);
-
-				// disconnect from the host
-				ClientSocket.Disconnect(_ReuseSocket);
-				Logger::WriteMessage("disconnected");
-			}
-			catch (std::exception e)
-			{
-				Logger::WriteMessage(e.what());
-			}
+			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Disconnect(false);
 		}
-	private:
-		// fields
-		//String _Host = u8"http://www.tutorialspoint.com"; // we don't get the correct ip using the host atm
-		String _Host = u8"93.184.220.42";
-		//String _Host = u8"127.0.0.1";
-		int _Port = 80;
-		bool _ReuseSocket = false;
+
+		TEST_METHOD(ConnectUsingDnsEndPoint)
+		{
+			Elysium::Core::Net::DnsEndPoint RemoteEndPoint = Elysium::Core::Net::DnsEndPoint(Elysium::Core::String(u8"www.tutorialspoint.com"), 80,
+				Elysium::Core::Net::Sockets::AddressFamily::InterNetwork);
+
+			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(RemoteEndPoint);
+			ClientSocket.Disconnect(false);
+		}
+
+		TEST_METHOD(ConnectUsingIpEndPoint)
+		{
+			Elysium::Core::Net::IPEndPoint RemoteEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String("93.184.220.42")),
+				443);
+
+			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(RemoteEndPoint);
+			ClientSocket.Disconnect(false);
+		}
 	};
 }

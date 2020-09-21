@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dns.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertDescription.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp" />
@@ -44,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Dns.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DnsEndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />

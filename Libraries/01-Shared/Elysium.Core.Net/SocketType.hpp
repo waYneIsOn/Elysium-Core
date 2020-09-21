@@ -19,19 +19,20 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SocketType : uint32_t
+	enum class SocketType : Elysium::Core::uint8_t
 #elif defined(__ANDROID__)
 	enum class SocketType
 #else
 #error "undefined os"
 #endif
 	{
-		Dgram,
-		Raw,
-		Rdm,
-		Seqpacket,
-		Stream,
-		Unknown,
+		//Unknown = -1,
+
+		Stream = 1,
+		Dgram = 2,
+		Raw = 3,
+		Rdm = 4,
+		Seqpacket = 5,
 	};
 }
 #endif

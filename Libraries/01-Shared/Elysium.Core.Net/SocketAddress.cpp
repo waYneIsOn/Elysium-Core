@@ -1,53 +1,58 @@
 #include "SocketAddress.hpp"
 
-Elysium::Core::Net::SocketAddress::SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily, int Size)
-	: _Size(Size <= INT_MAX ? Size : INT_MAX), _Data(Elysium::Core::Collections::Template::List<byte>(_Size))
+Elysium::Core::Net::SocketAddress::SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily, const Elysium::Core::uint8_t Size)
+	: _Size(Size < WriteableOffset ? WriteableOffset : Size)
 {
+	memset(&_Data[0], 0, _Size);
+
 #ifdef BIGENDIAN
-	_Data[0] = (byte)((int)AddressFamily >> 8);
-	_Data[1] = (byte)((int)AddressFamily);
+	_Data[0] = static_cast<char>(static_cast<Elysium::Core::uint16_t>(AddressFamily) >> 8);
+	_Data[1] = static_cast<char>(AddressFamily);
 #else
-	_Data[0] = (byte)((int)AddressFamily);
-	_Data[1] = (byte)((int)AddressFamily >> 8);
+	_Data[0] = static_cast<char>(AddressFamily);
+	_Data[1] = static_cast<char>(static_cast<Elysium::Core::uint16_t>(AddressFamily) >> 8);
 #endif
 }
-Elysium::Core::Net::SocketAddress::SocketAddress(Elysium::Core::Net::Sockets::AddressFamily AddressFamily)
+Elysium::Core::Net::SocketAddress::SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily)
 	: Elysium::Core::Net::SocketAddress::SocketAddress(AddressFamily, MaxSize)
-{
-}
+{ }
 Elysium::Core::Net::SocketAddress::~SocketAddress()
+{ }
+
+const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::SocketAddress::GetFamily() const
 {
+	return static_cast<Elysium::Core::Net::Sockets::AddressFamily>(_Data[0] | (_Data[1] << 8));
 }
-
-Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::SocketAddress::GetFamily()
+const Elysium::Core::byte & Elysium::Core::Net::SocketAddress::operator[](size_t Index) const
 {
-	int Family;
-
-#ifdef BIGENDIAN
-	Family = ((int)_Data[0] << 8) | _Data[1];
-#else
-	Family = _Data[0] | ((int)_Data[1] << 8);
-#endif
-
-	return (Elysium::Core::Net::Sockets::AddressFamily)Family;
+	throw 1;
 }
-int Elysium::Core::Net::SocketAddress::GetPort()
-{
-	int Port;
-
-#ifdef BIGENDIAN
-	Port = ((int)_Data[2] << 8) | _Data[3];
-#else
-	Port = _Data[2] | ((int)_Data[3] << 8);
-#endif
-
-	return Port;
-}
-unsigned int Elysium::Core::Net::SocketAddress::GetSize()
+const Elysium::Core::uint8_t Elysium::Core::Net::SocketAddress::GetSize() const
 {
 	return _Size;
 }
 
-Elysium::Core::Net::SocketAddress::SocketAddress()
+Elysium::Core::Net::SocketAddress::SocketAddress(const IPAddress & Address)
+	: Elysium::Core::Net::SocketAddress::SocketAddress(Address.GetAddressFamily(), 
+		Address.GetAddressFamily() == Elysium::Core::Net::Sockets::AddressFamily::InterNetwork ? IPv4AddressSize : IPv6AddressSize)
 {
+	if (Address.GetAddressFamily() == Elysium::Core::Net::Sockets::AddressFamily::InterNetworkV6)
+	{
+		// ToDo:
+		throw 1;
+	}
+	else
+	{
+		_Data[4] = static_cast<char>(Address._Address >> 24);
+		_Data[5] = static_cast<char>(Address._Address >> 16);
+		_Data[6] = static_cast<char>(Address._Address >> 8);
+		_Data[7] = static_cast<char>(Address._Address);
+	}
 }
+Elysium::Core::Net::SocketAddress::SocketAddress(const IPAddress & Address, const Elysium::Core::uint16_t Port)
+	: Elysium::Core::Net::SocketAddress::SocketAddress(Address)
+{
+	_Data[2] = static_cast<char>(Port >> 8);
+	_Data[3] = static_cast<char>(Port);
+}
+

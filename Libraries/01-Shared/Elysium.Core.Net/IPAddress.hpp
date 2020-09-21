@@ -16,10 +16,6 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_BYTE
 #include "../Elysium.Core/Byte.hpp"
 #endif
@@ -28,31 +24,39 @@ Copyright (C) 2017 waYne (CAM)
 #include "AddressFamily.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 namespace Elysium::Core::Net
 {
 	class ELYSIUM_CORE_NET_API IPAddress final
 	{
+		friend class SocketAddress;
 	public:
-		IPAddress(const byte* Address, size_t AddressSize);
-		IPAddress(const unsigned __int64 NewAddress);
+		IPAddress();
+		IPAddress(const Elysium::Core::uint32_t Address);
+		//IPAddress(const IPAddress& Source) = delete;
+		//IPAddress(IPAddress&& Right) noexcept = delete;
 		~IPAddress();
 
+		//IPAddress& operator=(const IPAddress& Source) = delete;
+		//IPAddress& operator=(IPAddress&& Right) noexcept = delete;
+
+		const Sockets::AddressFamily& GetAddressFamily() const;
+
 		static const IPAddress& Any();
-		//static const IPAddress* Broadcast();
-		//static const IPAddress* IPv6Any();
-		//static const IPAddress* IPv6Loopback();
-		//static const IPAddress* IPv6None();
-		//static const IPAddress* Loopback();
-		//static const IPAddress* None();
+		//static const IPAddress& Broadcast();
+		//static const IPAddress& IPv6Any();
+		//static const IPAddress& IPv6Loopback();
+		//static const IPAddress& IPv6None();
+		//static const IPAddress& Loopback();
+		//static const IPAddress& None();
 
-		Sockets::AddressFamily GetAddressFamily() const;
+		static const IPAddress Parse(const Elysium::Core::String& Value);
 	private:
-		const int WriteableOffset = 2;
-		const int MaxSize = 30;	// two bytes less than SocketAddress since we're not storing the port
-
-		// byte 0-1: AddressFamily
-		// byte rest: ip address
-		byte _Data[30];
+		Sockets::AddressFamily _Family;
+		Elysium::Core::uint32_t _Address;
 	};
 }
 #endif

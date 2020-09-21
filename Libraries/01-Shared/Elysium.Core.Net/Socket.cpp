@@ -28,12 +28,17 @@
 #include "SocketException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_DNSENDPOINT
+#include "DnsEndPoint.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
 Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
-	: _AddressFamily(AddressFamily), _SocketType(SocketType), _ProtocolType(ProtocolType)
+	: _AddressFamily(AddressFamily), _SocketType(SocketType), _ProtocolType(ProtocolType),
+	_WinSocketHandle(INVALID_SOCKET)
 {
 	WSADATA wsaData;
 	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != SOCKET_ERROR)
@@ -175,37 +180,17 @@ void Elysium::Core::Net::Sockets::Socket::SetSendBufferSize(int BufferSize)
 	}
 }
 
-void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, int Port)
+void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elysium::Core::int32_t Port)
 {
-	mbstate_t State{};
-
-	// iterate Input to get the size required
-	size_t InputLength = Host.GetLength();
-	size_t RequiredSize = 0;
-	char Buffer[2];
-	for (size_t i = 0; i < InputLength; i++)
-	{
-		RequiredSize += c16rtomb(Buffer, Host[i], &State);
-	}
-
-	// write bytes to list
-	Elysium::Core::Collections::Template::List<byte> Result = Elysium::Core::Collections::Template::List<byte>(RequiredSize + 1);
-	RequiredSize = 0;
-	for (size_t i = 0; i < InputLength; i++)
-	{
-		RequiredSize += c16rtomb((char*)&Result[RequiredSize], Host[i], &State);
-	}
-	Result[RequiredSize++] = '\0';
+	DnsEndPoint RemoteEndPoint = DnsEndPoint(Host, Port, AddressFamily::InterNetwork);
+	Connect(RemoteEndPoint);
+}
+void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoint)
+{
+	const SocketAddress Address = RemoteEndPoint.Serialize();
 	
-	// convert Host to ip-address
-	struct addrinfo Hints = {}, *Address;
-	if (GetAddrInfoA((const char*)&Result[0], std::to_string(Port).c_str(), &Hints, &Address) != 0)
-	{	// ToDo: throw a specific exception
-		throw Exception(u8"couldn't get ip from host.\r\n");
-	}
-
 	// try to connect to the server
-	if (connect(_WinSocketHandle, Address[0].ai_addr, Address[0].ai_addrlen) == SOCKET_ERROR)
+	if (connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
 	{
 		closesocket(_WinSocketHandle);
 		throw SocketException(u8"connection not possible.\r\n", WSAGetLastError());
@@ -214,15 +199,11 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, int Port)
 	// set the corresponding flag
 	_IsConnected = true;
 }
-void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoint)
-{
-	throw NotImplementedException();
-}
-void Elysium::Core::Net::Sockets::Socket::Shutdown(SocketShutdown Value)
+void Elysium::Core::Net::Sockets::Socket::Shutdown(const SocketShutdown Value)
 {
 	shutdown(_WinSocketHandle, (int)Value);
 }
-void Elysium::Core::Net::Sockets::Socket::Disconnect(bool ReuseSocket)
+void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 {
 	if (!_IsConnected)
 	{
@@ -273,13 +254,8 @@ void Elysium::Core::Net::Sockets::Socket::Listen(const int Backlog)
 		throw SocketException(u8"couldn't listen.\r\n", WSAGetLastError());
 	}
 }
-void Elysium::Core::Net::Sockets::Socket::Accept(Socket * ConnectedClient)
+const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::Accept()
 {
-	if (ConnectedClient == nullptr)
-	{	// ToDo: throw a specific exception
-		throw Exception(u8"ArgumentNullException: ConnectedClient");
-	}
-
 	// wait for a client to connect
 	SOCKET ClientWinSocketHandle;
 	sockaddr_in ConnectionInfo;
@@ -289,11 +265,7 @@ void Elysium::Core::Net::Sockets::Socket::Accept(Socket * ConnectedClient)
 		throw SocketException(u8"couldn't accept connection.\r\n", WSAGetLastError());
 	}
 
-	// populate ConnectedClient (don't instantiate!!!!)
-	ConnectedClient->_WinSocketHandle = ClientWinSocketHandle;
-	ConnectedClient->_AddressFamily = FormatConverter::Convert(ConnectionInfo.sin_family);
-	ConnectedClient->_SocketType = _SocketType;
-	ConnectedClient->_ProtocolType = _ProtocolType;
+	return Socket(ClientWinSocketHandle, _AddressFamily, _SocketType, _ProtocolType);
 }
 
 size_t Elysium::Core::Net::Sockets::Socket::Send(const byte* Buffer, const size_t Count) const
@@ -320,5 +292,4 @@ size_t Elysium::Core::Net::Sockets::Socket::Receive(byte* Buffer, const size_t C
 Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle, AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
 	: _WinSocketHandle(WinSocketHandle),
 	_AddressFamily(AddressFamily), _SocketType(SocketType), _ProtocolType(ProtocolType)
-{
-}
+{ }
