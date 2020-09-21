@@ -36,6 +36,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "StringView.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API Convert final
@@ -57,6 +61,9 @@ namespace Elysium::Core
 
 		static int32_t ToInt32(const char* Value, const int32_t FromBase);
 		static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
+		static int32_t ToInt32(const Elysium::Core::StringView& Value, const int32_t FromBase);
+
+		static uint16_t ToUInt16(const char* Value, const int32_t FromBase);
 
 		static float ToSingle(const char* Value);
 		static float ToSingle(const Elysium::Core::String& Value);

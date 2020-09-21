@@ -23,7 +23,7 @@ namespace Elysium::Core
 	public:
 		ArgumentException();
 		ArgumentException(const char* Message);
-		ArgumentException(String&& Message);
+		ArgumentException(Elysium::Core::String&& Message);
 		virtual ~ArgumentException();
 	};
 }

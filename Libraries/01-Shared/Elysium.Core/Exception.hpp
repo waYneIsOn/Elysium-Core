@@ -33,7 +33,7 @@ namespace Elysium::Core
 		// constructors & destructor
 		Exception();
 		Exception(const char* Message);
-		Exception(String&& Message);
+		Exception(Elysium::Core::String&& Message);
 		virtual ~Exception();
 
 		// properties - getter

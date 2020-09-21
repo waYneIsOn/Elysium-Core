@@ -62,22 +62,28 @@ namespace Elysium::Core::Collections::Template
 		const size_t GetLength() const;
 		const T* GetCharArray() const;
 
-		size_t IndexOf(const T Value) const;
-		size_t IndexOf(const T Value, const size_t StartIndex) const;
-		size_t IndexOf(const T* Value) const;
-		size_t IndexOf(const T* Value, const size_t StartIndex) const;
-		size_t IndexOf(const StringBase<T>& Value, const size_t StartIndex) const;
+		const size_t IndexOf(const T Value) const;
+		const size_t IndexOf(const T Value, const size_t StartIndex) const;
+		const size_t IndexOf(const T* Value) const;
+		const size_t IndexOf(const T* Value, const size_t StartIndex) const;
+		const size_t IndexOf(const StringBase<T>& Value, const size_t StartIndex) const;
+
+		//List<StringBase<T>> Split(const T Delimiter) const;
 
 		void Split(const T Delimiter, List<StringBase<T>>& Target) const;
 		void Split(const T* Delimiter, List<StringBase<T>>& Target) const;
 
-		bool StartsWith(const T* Value) const;
+		const bool StartsWith(const T* Value) const;
 
-		void Substring(size_t StartIndex, StringBase<T>& Result) const;
-		void Substring(size_t StartIndex, size_t Length, StringBase<T>& Result) const;
+		const bool EndsWith(const T* Value) const;
 
-		//void ToLower(StringBase<T>& Result);
-		//void ToUpper(StringBase<T>& Result);
+		//Elysium::Core::Collections::Template::StringBase<T> Replace(T OldCharacter, T NewCharacter);
+
+		StringBase<T> Substring(const size_t StartIndex) const;
+		StringBase<T> Substring(const size_t StartIndex, const size_t Length) const;
+
+		//StringBase<T> ToLower();
+		//StringBase<T> ToUpper();
 
 		static bool IsNull(const StringBase<T>& Value);
 		static bool IsEmpty(const StringBase<T>& Value);
@@ -281,19 +287,19 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline size_t StringBase<T>::IndexOf(const T Value) const
+	inline const size_t StringBase<T>::IndexOf(const T Value) const
 	{
 		const T* CharPointer = std::char_traits<T>::find(_Data, _Length, Value);
 		return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
 	}
 	template<typename T>
-	inline size_t StringBase<T>::IndexOf(const T Value, const size_t StartIndex) const
+	inline const size_t StringBase<T>::IndexOf(const T Value, const size_t StartIndex) const
 	{
 		const T* CharPointer = std::char_traits<T>::find(&_Data[StartIndex], _Length - StartIndex, Value);
 		return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 	}
 	template<typename T>
-	inline size_t StringBase<T>::IndexOf(const T * Value) const
+	inline const size_t StringBase<T>::IndexOf(const T * Value) const
 	{
 		size_t Index = 0;
 		size_t SizeOfValue = std::char_traits<T>::length(Value);
@@ -329,7 +335,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<typename T>
-	inline size_t StringBase<T>::IndexOf(const T * Value, const size_t StartIndex) const
+	inline const size_t StringBase<T>::IndexOf(const T * Value, const size_t StartIndex) const
 	{
 		size_t Index = StartIndex;
 		size_t SizeOfValue = std::char_traits<T>::length(Value);
@@ -365,11 +371,37 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<typename T>
-	inline size_t StringBase<T>::IndexOf(const StringBase<T>& Value, const size_t StartIndex) const
+	inline const size_t StringBase<T>::IndexOf(const StringBase<T>& Value, const size_t StartIndex) const
 	{
 		return IndexOf(Value._Data[StartIndex]);
 	}
-	
+	/*
+	template<typename T>
+	inline List<StringBase<T>> StringBase<T>::Split(const T Delimiter) const
+	{
+		List<StringBase<T>>() Result = List<StringBase<T>>();
+
+		size_t StartIndex = 0;
+		size_t Length = 0;
+
+		while (true)
+		{
+			Length = IndexOf(Delimiter, StartIndex);
+			if (Length == static_cast<size_t>(-1))
+			{
+				if (_Length - StartIndex > 0)
+				{
+					Result.Add(StringBase<T>(&_Data[StartIndex], _Length - StartIndex));
+				}
+				break;
+			}
+			Result.Add(StringBase<T>(&_Data[StartIndex], Length));
+			StartIndex += Length + 1;
+		}
+
+		return Result;
+	}
+	*/
 	template<typename T>
 	inline void StringBase<T>::Split(const T Delimiter, List<StringBase<T>>& Target) const
 	{
@@ -415,7 +447,7 @@ namespace Elysium::Core::Collections::Template
 	}
 	
 	template<typename T>
-	inline bool StringBase<T>::StartsWith(const T * Value) const
+	inline const bool StringBase<T>::StartsWith(const T * Value) const
 	{
 		size_t ValueLength = std::char_traits<T>::length(Value);
 		for (size_t i = 0; i < ValueLength; i++)
@@ -429,21 +461,28 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline void StringBase<T>::Substring(size_t StartIndex, StringBase<T>& Result) const
+	inline const bool StringBase<T>::EndsWith(const T * Value) const
 	{
-		StringBase<T>::Substring(StartIndex, _Length - StartIndex, Result);
+		size_t ValueLength = std::char_traits<T>::length(Value);
+		for (size_t i = _Length - ValueLength; i < _Length; i++)
+		{
+			if (_Data[i] != Value[i])
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	template<typename T>
+	inline StringBase<T> StringBase<T>::Substring(const size_t StartIndex) const
+	{
+		return StringBase<T>(&_Data[StartIndex], _Length - StartIndex);
 	}
 	template<typename T>
-	inline void StringBase<T>::Substring(size_t StartIndex, size_t Length, StringBase<T>& Result) const
+	inline StringBase<T> StringBase<T>::Substring(const size_t StartIndex, const size_t Length) const
 	{
-		if (Result._Data != nullptr)
-		{
-			delete[] Result._Data;
-		}
-		Result._Length = Length;
-		Result._Data = new T[(Result._Length + 1) * sizeof(T)];
-		memcpy(Result._Data, &_Data[StartIndex], Length * sizeof(T));
-		Result._Data[Result._Length] = _NullTerminationChar;
+		return StringBase<T>(&_Data[StartIndex], Length);
 	}
 
 	template<typename T>

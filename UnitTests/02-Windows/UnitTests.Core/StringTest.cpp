@@ -172,11 +172,11 @@ namespace UnitTests::Core
 			Elysium::Core::String Substring1;
 			Elysium::Core::String Substring2;
 			
-			Source.Substring(5, Substring1);
+			Substring1 = Source.Substring(5);
 			Assert::AreEqual((size_t)32, Substring1.GetLength());
 			Assert::AreEqual(u8"is a string containing some text", Substring1.GetCharArray());
 			
-			Source.Substring(8, 19, Substring2);
+			Substring2 = Source.Substring(8, 19);
 			Assert::AreEqual((size_t)19, Substring2.GetLength());
 			Assert::AreEqual(u8"a string containing", Substring2.GetCharArray());
 		}

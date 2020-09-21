@@ -207,6 +207,10 @@ namespace Elysium::Core::Collections::Template
 	template<typename T>
 	inline size_t StringViewBase<T>::IndexOf(const T Value, const size_t StartIndex) const
 	{
+		const T* Test1 = std::char_traits<T>::find(&_Data[0], _Length - 0, Value);
+		const T* Test2 = std::char_traits<T>::find(&_Data[1], _Length - 1, Value);
+		const T* Test3 = std::char_traits<T>::find(&_Data[2], _Length - 2, Value);
+
 		const T* CharPointer = std::char_traits<T>::find(&_Data[StartIndex], _Length - StartIndex, Value);
 		return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 	}

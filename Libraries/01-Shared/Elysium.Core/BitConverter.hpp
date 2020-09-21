@@ -44,10 +44,10 @@ namespace Elysium::Core
 		static const int32_t ToInt24(const byte* Value);	// ToDo: return custom uint24_t-type?
 		static const int32_t ToInt32(const byte* Value);
 		static const int64_t ToInt64(const byte* Value);
-		static const uint16_t ToUint16(const byte* Value);
-		static const uint32_t ToUint24(const byte* Value);	// ToDo: return custom uint24_t-type?
-		static const uint32_t ToUint32(const byte* Value);
-		static const uint64_t ToUint64(const byte* Value);
+		static const uint16_t ToUInt16(const byte* Value);
+		static const uint32_t ToUInt24(const byte* Value);	// ToDo: return custom uint24_t-type?
+		static const uint32_t ToUInt32(const byte* Value);
+		static const uint64_t ToUInt64(const byte* Value);
 	private:
 		BitConverter();
 	};
