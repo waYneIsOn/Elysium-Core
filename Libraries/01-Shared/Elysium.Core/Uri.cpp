@@ -68,6 +68,7 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
 	if (this != &Source)
 	{
 		_OriginalString = String(Source._OriginalString);
+		/*
 		_AbsoluteUri = StringView(Source._AbsoluteUri);
 		_SchemeView = StringView(Source._SchemeView);
 		_AuthorityView = StringView(Source._AuthorityView);
@@ -78,6 +79,8 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
 		_PathView = StringView(Source._PathView);
 		_QueryView = StringView(Source._QueryView);
 		_FragmentView = StringView(Source._FragmentView);
+		*/
+		Parse();
 	}
 	return *this;
 }
@@ -86,16 +89,19 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right) noexcept
 	if (this != &Right)
 	{
 		_OriginalString = std::move(Right._OriginalString);
+		/*
 		_AbsoluteUri = std::move(Right._AbsoluteUri);
 		_SchemeView = std::move(Right._SchemeView);
 		_AuthorityView = std::move(Right._AuthorityView);
 		_UserInfoView = std::move(Right._UserInfoView);
 		_HostView = std::move(Right._HostView);
-		_Port = Right._Port;
+		_Port = std::move(Right._Port);
 		_PathAndQueryView = std::move(Right._PathAndQueryView);
 		_PathView = std::move(Right._PathView);
 		_QueryView = std::move(Right._QueryView);
 		_FragmentView = std::move(Right._FragmentView);
+		*/
+		Parse();
 	}
 	return *this;
 }

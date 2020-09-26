@@ -25,7 +25,20 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>
 	Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>(Count);
 	for (Elysium::Core::int32_t i = 0; i < Count; i++)
 	{
-		Result[i] = Elysium::Core::Net::IPAddress::IPAddress(BitConverter::ToUInt32((Elysium::Core::byte*)&Addresses[i].ai_addr->sa_data[2]));
+		switch (Addresses[i].ai_family)
+		{
+		case AF_INET:
+			Result[i] = Elysium::Core::Net::IPAddress::IPAddress(BitConverter::ToUInt32((Elysium::Core::byte*)&Addresses[i].ai_addr->sa_data[2]));
+			break;
+		case AF_INET6:
+			// ToDo:
+			Result[i] = Elysium::Core::Net::IPAddress::IPAddress();
+			break;
+		default:
+			// ToDo:
+			Result[i] = Elysium::Core::Net::IPAddress::IPAddress();
+			break;
+		}
 	}
 
 	return Result;
