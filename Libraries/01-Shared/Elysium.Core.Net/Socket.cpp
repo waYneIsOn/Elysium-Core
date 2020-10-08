@@ -45,18 +45,7 @@ Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketT
 	{
 		if (LOBYTE(wsaData.wVersion) == 2 && HIBYTE(wsaData.wVersion) == 2)
 		{
-			if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
-			{
-				WSACleanup();
-			}
-			else
-			{
-				// configurate the socket with the default settings
-				SetReceiveBufferSize(65536);
-				SetSendBufferSize(65536);
-				//SetReceiveTimeout(-1);
-				//SetSendTimeout(-1);
-			}
+			// ...
 		}
 		else
 		{
@@ -187,21 +176,40 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elys
 }
 void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoint)
 {
+	if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
+	{
+		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
+	}
+	else
+	{
+		// configurate the socket with the default settings
+		SetReceiveBufferSize(65536);
+		SetSendBufferSize(65536);
+		//SetReceiveTimeout(-1);
+		//SetSendTimeout(-1);
+	}
+
 	const SocketAddress Address = RemoteEndPoint.Serialize();
 	
-	// try to connect to the server
-	if (connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
+	if (Elysium::Core::int32_t Result = connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
 	{
-		closesocket(_WinSocketHandle);
+		Close();
 		throw SocketException(u8"connection not possible.\r\n", WSAGetLastError());
 	}
 
-	// set the corresponding flag
 	_IsConnected = true;
+}
+void Elysium::Core::Net::Sockets::Socket::Close()
+{
+	closesocket(_WinSocketHandle);
+	_WinSocketHandle = INVALID_SOCKET;
 }
 void Elysium::Core::Net::Sockets::Socket::Shutdown(const SocketShutdown Value)
 {
-	shutdown(_WinSocketHandle, (int)Value);
+	if (Elysium::Core::int32_t Result = shutdown(_WinSocketHandle, static_cast<Elysium::Core::int32_t>(Value)) == SOCKET_ERROR)
+	{
+		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
+	}
 }
 void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 {
@@ -209,17 +217,19 @@ void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 	{
 		return;
 	}
-
+	
 	// define whether we want to reuse the socket or not
 	if (setsockopt(_WinSocketHandle, SOL_SOCKET, SO_REUSEADDR, (char*)&ReuseSocket, sizeof(int)) == SOCKET_ERROR)
 	{
 		throw SocketException(u8"couldn't set socket reuse.\r\n", WSAGetLastError());
 	}
+	
+	Shutdown(SocketShutdown::Both);
+	if (!ReuseSocket)
+	{
+		Close();
+	}
 
-	// close the socket
-	closesocket(_WinSocketHandle);
-
-	// set the corresponding flag
 	_IsConnected = false;
 }
 

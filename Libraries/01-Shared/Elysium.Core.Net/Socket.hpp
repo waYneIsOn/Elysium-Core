@@ -95,6 +95,7 @@ namespace Elysium::Core::Net::Sockets
 		// methods
 		void Connect(const String& Host, const Elysium::Core::int32_t Port);
 		void Connect(const EndPoint& RemoteEndPoint);
+		void Close();
 		void Shutdown(const SocketShutdown Value);
 		void Disconnect(const bool ReuseSocket);
 

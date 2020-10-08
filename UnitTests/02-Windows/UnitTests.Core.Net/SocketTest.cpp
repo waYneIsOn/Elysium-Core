@@ -72,5 +72,15 @@ namespace UnitTests::Core::Net::Sockets
 			ClientSocket.Connect(RemoteEndPoint);
 			ClientSocket.Disconnect(false);
 		}
+
+		TEST_METHOD(Reconnect)
+		{
+			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Disconnect(true);
+
+			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Disconnect(true);
+		}
 	};
 }
