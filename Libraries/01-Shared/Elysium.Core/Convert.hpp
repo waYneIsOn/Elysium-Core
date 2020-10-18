@@ -65,6 +65,8 @@ namespace Elysium::Core
 
 		static uint16_t ToUInt16(const char* Value, const int32_t FromBase);
 
+		static uint8_t ToUInt8(const char* Value, const int32_t FromBase);
+
 		static float ToSingle(const char* Value);
 		static float ToSingle(const Elysium::Core::String& Value);
 	private:

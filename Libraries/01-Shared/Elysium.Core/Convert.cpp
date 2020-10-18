@@ -295,11 +295,68 @@ Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Stri
 }
 
 Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::StringView & Value, const int32_t FromBase)
-{
-	throw 1;
+{	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
+	int16_t Sign = 1;
+	int32_t i = 0;
+	int32_t Base = 0;
+
+	// eat leading whitespaces
+	while (Value[i] == u8' ')
+	{
+		i++;
+	}
+
+	// sign
+	if (Value[i] == u8'-' || Value[i] == u8'+')
+	{
+		Sign = 1 - 2 * (Value[i++] == u8'-');
+	}
+
+	// check for valid input
+	while (Value[i] >= u8'0' && Value[i] <= u8'9')
+	{
+		// handle overflow cases
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
+		{
+			return Sign == 1 ? INT_MAX : INT_MIN;
+		}
+		Base = 10 * Base + (Value[i++] - u8'0');
+	}
+	return Base * Sign;
 }
 
 Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char * Value, const int32_t FromBase)
+{
+	Elysium::Core::int16_t Sign = 1;
+	Elysium::Core::uint16_t i = 0;
+	Elysium::Core::uint16_t Base = 0;
+
+	// eat all whitespaces
+	while (Value[i] == u8' ')
+	{
+		i++;
+	}
+
+	// sign
+	if (Value[i] == u8'-' || Value[i] == u8'+')
+	{
+		Sign = 1 - 2 * (Value[i++] == u8'-');
+	}
+
+	// check for valid input
+	while (Value[i] >= u8'0' && Value[i] <= u8'9')
+	{
+		// handle overflow cases
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
+		{
+			return Sign == 1 ? INT_MAX : INT_MIN;
+		}
+		Base = 10 * Base + (Value[i++] - u8'0');
+	}
+	return Base * Sign;
+}
+
+uint8_t Elysium::Core::Convert::ToUInt8(const char * Value, const int32_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;

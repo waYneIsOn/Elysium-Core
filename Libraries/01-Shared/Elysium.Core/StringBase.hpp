@@ -50,6 +50,8 @@ namespace Elysium::Core::Collections::Template
 		StringBase<T>& operator=(const StringBase<T>& Source);
 		StringBase<T>& operator=(StringBase<T>&& Right) noexcept;
 
+		static const StringBase<T> Empty();
+
 		T& operator[](size_t Index) const;
 
 		bool operator==(const StringBase<T>& Other) const;
@@ -67,6 +69,10 @@ namespace Elysium::Core::Collections::Template
 		const size_t IndexOf(const T* Value) const;
 		const size_t IndexOf(const T* Value, const size_t StartIndex) const;
 		const size_t IndexOf(const StringBase<T>& Value, const size_t StartIndex) const;
+
+		const size_t LastIndexOf(const T* Value) const;
+		const size_t LastIndexOf(const T* Value, const size_t StartIndex) const;
+		const size_t LastIndexOf(const StringBase<T>& Value, const size_t StartIndex) const;
 
 		//List<StringBase<T>> Split(const T Delimiter) const;
 
@@ -204,6 +210,13 @@ namespace Elysium::Core::Collections::Template
 			Right._Data = nullptr;
 		}
 		return *this;
+	}
+
+	template<typename T>
+	inline const StringBase<T> StringBase<T>::Empty()
+	{
+		static const StringBase<T> Empty = StringBase<T>();
+		return Empty;
 	}
 
 	template<typename T>
@@ -374,6 +387,22 @@ namespace Elysium::Core::Collections::Template
 	inline const size_t StringBase<T>::IndexOf(const StringBase<T>& Value, const size_t StartIndex) const
 	{
 		return IndexOf(Value._Data[StartIndex]);
+	}
+
+	template<typename T>
+	inline const size_t StringBase<T>::LastIndexOf(const T * Value) const
+	{
+		return size_t(-1);
+	}
+	template<typename T>
+	inline const size_t StringBase<T>::LastIndexOf(const T * Value, const size_t StartIndex) const
+	{
+		return size_t(-1);
+	}
+	template<typename T>
+	inline const size_t StringBase<T>::LastIndexOf(const StringBase<T>& Value, const size_t StartIndex) const
+	{
+		return size_t(-1);
 	}
 	/*
 	template<typename T>

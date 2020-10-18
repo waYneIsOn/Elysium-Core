@@ -52,14 +52,19 @@ namespace Elysium::Core::Collections::Template
 
 		const size_t GetLength() const;
 
-		size_t IndexOf(const T Value) const;
-		size_t IndexOf(const T Value, const size_t StartIndex) const;
-		size_t IndexOf(const T* Value) const;
-		size_t IndexOf(const T* Value, const size_t StartIndex) const;
-		size_t IndexOf(const StringBase<T>& Value, const size_t StartIndex) const;
+		const size_t IndexOf(const T Value) const;
+		const size_t IndexOf(const T Value, const size_t StartIndex) const;
+		const size_t IndexOf(const T* Value) const;
+		const size_t IndexOf(const T* Value, const size_t StartIndex) const;
+		const size_t IndexOf(const StringBase<T>& Value, const size_t StartIndex) const;
+
+		const size_t LastIndexOf(const T* Value) const;
 
 		void Split(const T Delimiter, List<StringViewBase<T>>& Views) const;
 		void Split(const T* Delimiter,List<StringViewBase<T>>& Views) const;
+
+		StringViewBase<T> Substringview(const size_t StartIndex) const;
+		StringViewBase<T> Substringview(const size_t StartIndex, const size_t Length) const;
 	private:
 		size_t _Length;
 		T* _Data;
@@ -199,13 +204,13 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline size_t StringViewBase<T>::IndexOf(const T Value) const
+	inline const size_t StringViewBase<T>::IndexOf(const T Value) const
 	{
 		const T* CharPointer = std::char_traits<T>::find(_Data, _Length, Value);
 		return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
 	}
 	template<typename T>
-	inline size_t StringViewBase<T>::IndexOf(const T Value, const size_t StartIndex) const
+	inline const size_t StringViewBase<T>::IndexOf(const T Value, const size_t StartIndex) const
 	{
 		const T* Test1 = std::char_traits<T>::find(&_Data[0], _Length - 0, Value);
 		const T* Test2 = std::char_traits<T>::find(&_Data[1], _Length - 1, Value);
@@ -215,7 +220,7 @@ namespace Elysium::Core::Collections::Template
 		return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 	}
 	template<typename T>
-	inline size_t StringViewBase<T>::IndexOf(const T * Value) const
+	inline const size_t StringViewBase<T>::IndexOf(const T * Value) const
 	{
 		size_t Index = 0;
 		size_t SizeOfValue = std::char_traits<T>::length(Value);
@@ -251,7 +256,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<typename T>
-	inline size_t StringViewBase<T>::IndexOf(const T * Value, const size_t StartIndex) const
+	inline const size_t StringViewBase<T>::IndexOf(const T * Value, const size_t StartIndex) const
 	{
 		size_t Index = StartIndex;
 		size_t SizeOfValue = std::char_traits<T>::length(Value);
@@ -287,9 +292,15 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<typename T>
-	inline size_t StringViewBase<T>::IndexOf(const StringBase<T>& Value, const size_t StartIndex) const
+	inline const size_t StringViewBase<T>::IndexOf(const StringBase<T>& Value, const size_t StartIndex) const
 	{
 		return IndexOf(Value[StartIndex]);
+	}
+
+	template<typename T>
+	inline const size_t StringViewBase<T>::LastIndexOf(const T * Value) const
+	{
+		throw 1;
 	}
 
 	template<typename T>
@@ -334,6 +345,18 @@ namespace Elysium::Core::Collections::Template
 			Views.Add(StringViewBase<T>(&_Data[StartIndex], Length - StartIndex));
 			StartIndex += (Length - StartIndex) + DelimiterLength;
 		}
+	}
+
+	template<typename T>
+	inline StringViewBase<T> StringViewBase<T>::Substringview(const size_t StartIndex) const
+	{
+		return StringViewBase<T>(&_Data[StartIndex], _Length - StartIndex);
+	}
+
+	template<typename T>
+	inline StringViewBase<T> StringViewBase<T>::Substringview(const size_t StartIndex, const size_t Length) const
+	{
+		return StringViewBase<T>(&_Data[StartIndex], Length);
 	}
 }
 #endif

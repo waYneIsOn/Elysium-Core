@@ -18,14 +18,12 @@
 
 Elysium::Core::Text::StringBuilder::StringBuilder()
 	: StringBuilder(16)
-{
-}
+{ }
 Elysium::Core::Text::StringBuilder::StringBuilder(const size_t Capacity)
 	: _Capacity(Capacity <= INT_MAX ? Capacity : INT_MAX),
 	_Data((char*)malloc(sizeof(char) * _Capacity)),
 	_Length(0)
-{
-}
+{ }
 Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Source)
 	: _Capacity(Source._Capacity),
 	_Data(new char[_Capacity]),
