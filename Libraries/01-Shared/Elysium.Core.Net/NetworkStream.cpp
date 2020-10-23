@@ -6,14 +6,12 @@
 
 Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket & Socket)
 	: Elysium::Core::Net::Sockets::NetworkStream(Socket, false)
-{
-}
+{ }
 Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket & Socket, bool OwnsSocket)
 	: Elysium::Core::IO::Stream(),
 	_Socket(Socket),
 	_OwnsSocket(OwnsSocket)
-{
-}
+{ }
 Elysium::Core::Net::Sockets::NetworkStream::~NetworkStream()
 {
 	Close();

@@ -44,6 +44,18 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketShutdown.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETOPTIONLEVEL
+#include "SocketOptionLevel.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETOPTIONNAME
+#include "SocketOptionName.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SOCKETS_IOCONTROLCODE
+#include "IOControlCode.hpp"
+#endif
+
 #if defined(__ANDROID__)
 // ToDo ...
 #elif defined(_WIN32)
@@ -87,10 +99,10 @@ namespace Elysium::Core::Net::Sockets
 		int GetSendBufferSize() const;
 
 		// properties - setter
-		void SetReceiveTimeout(int Timeout);
-		void SetSendTimeout(int Timeout);
-		void SetReceiveBufferSize(int BufferSize);
-		void SetSendBufferSize(int BufferSize);
+		void SetReceiveTimeout(const Elysium::Core::int32_t Timeout);
+		void SetSendTimeout(const Elysium::Core::int32_t Timeout);
+		void SetReceiveBufferSize(const Elysium::Core::int32_t BufferSize);
+		void SetSendBufferSize(const Elysium::Core::int32_t BufferSize);
 
 		// methods
 		void Connect(const String& Host, const Elysium::Core::int32_t Port);
@@ -103,8 +115,14 @@ namespace Elysium::Core::Net::Sockets
 		void Listen(const int Backlog);
 		const Socket Accept();
 
-		size_t Send(const byte* Buffer, const size_t Count) const;
-		size_t Receive(byte* Buffer, const size_t Count) const;
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
+
+		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
+		const size_t Receive(Elysium::Core::byte* Buffer, const size_t Count) const;
 	private:
 		// fields
 		AddressFamily _AddressFamily;

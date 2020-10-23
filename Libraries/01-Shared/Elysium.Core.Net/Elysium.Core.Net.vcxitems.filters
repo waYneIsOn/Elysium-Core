@@ -101,5 +101,14 @@
       <Filter>Security</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Dns.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionLevel.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionName.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IOControlCode.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
