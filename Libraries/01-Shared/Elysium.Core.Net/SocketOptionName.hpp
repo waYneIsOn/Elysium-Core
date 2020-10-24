@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SocketOptionName : Elysium::Core::uint32_t
+	enum class SocketOptionName : Elysium::Core::int32_t
 #elif defined(__ANDROID__)
 	enum class SocketOptionName
 #else
@@ -116,7 +116,7 @@ namespace Elysium::Core::Net::Sockets
 
 		UpdateConnectContext = 28688,
 
-		MaxConnections = Elysium::Core::UInt32::GetMaxValue()
+		MaxConnections = Elysium::Core::Int32::GetMaxValue()
 	};
 }
 
