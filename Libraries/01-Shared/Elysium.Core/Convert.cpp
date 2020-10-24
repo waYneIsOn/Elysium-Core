@@ -32,42 +32,78 @@ const Elysium::Core::String Elysium::Core::Convert::_Base64Chars = u8"ABCDEFGHIJ
 Elysium::Core::Convert::~Convert()
 { }
 
-Elysium::Core::String Elysium::Core::Convert::ToString(const uint32_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const int16_t Value, const int32_t FromBase)
 {	// ToDo
-	char Buffer[33];
-	errno_t ErrorNumber = _itoa_s(Value, Buffer, FromBase);
+	char Buffer[7];
+	if (errno_t ErrorNumber = _itoa_s(Value, Buffer, 7, FromBase) != 0)
+	{
+		throw 1;
+	}
+
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-Elysium::Core::String Elysium::Core::Convert::ToString(const int32_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const int32_t Value, const int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	char Buffer[33];
-	errno_t ErrorNumber = _itoa_s(Value, Buffer, FromBase);
+	if (errno_t ErrorNumber = _itoa_s(Value, Buffer, 33, FromBase) != 0)
+	{
+		throw 1;
+	}
+	
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-Elysium::Core::String Elysium::Core::Convert::ToString(const int64_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const int64_t Value, const int32_t FromBase)
 {	// ToDo
 	char Buffer[33];
-	errno_t ErrorNumber = _itoa_s(Value, Buffer, FromBase);
+	if (errno_t ErrorNumber = _i64toa_s(Value, Buffer, 33, FromBase) != 0)
+	{
+		throw 1;
+	}
+
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-Elysium::Core::String Elysium::Core::Convert::ToString(const size_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const uint16_t Value, const int32_t FromBase)
+{	// ToDo
+	char Buffer[7];
+	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 7, FromBase) != 0)
+	{
+		throw 1;
+	}
+
+	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+}
+const Elysium::Core::String Elysium::Core::Convert::ToString(const uint32_t Value, const int32_t FromBase)
+{	// ToDo
+	char Buffer[33];
+	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 33, FromBase) != 0)
+	{
+		throw 1;
+	}
+
+	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+}
+const Elysium::Core::String Elysium::Core::Convert::ToString(const uint64_t Value, const int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	char Buffer[33];
-	errno_t ErrorNumber = _itoa_s(Value, Buffer, FromBase);
+	if(errno_t ErrorNumber = _ui64toa_s(Value, Buffer, 33, FromBase) != 0)
+	{
+		throw 1;
+	}
+
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	std::string StringValue = std::to_string(Value);
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
-Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	std::string StringValue = std::to_string(Value);
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
 
-Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
+const Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
 {
 	int Length = MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, NULL, 0);
 	wchar_t* WideChars = new wchar_t[Length];

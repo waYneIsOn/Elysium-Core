@@ -47,14 +47,16 @@ namespace Elysium::Core
 	public:
 		~Convert();
 
-		static String ToString(const uint32_t Value, const int32_t FromBase);
-		static String ToString(const int32_t Value, const int32_t FromBase);
-		static String ToString(const int64_t Value, const int32_t FromBase);
-		static String ToString(const size_t Value, const int32_t FromBase);
-		static String ToString(const float Value, const int32_t FromBase);
-		static String ToString(const double Value, const int32_t FromBase);
+		static const String ToString(const int16_t Value, const int32_t FromBase);
+		static const String ToString(const int32_t Value, const int32_t FromBase);
+		static const String ToString(const int64_t Value, const int32_t FromBase);
+		static const String ToString(const uint16_t Value, const int32_t FromBase);
+		static const String ToString(const uint32_t Value, const int32_t FromBase);
+		static const String ToString(const uint64_t Value, const int32_t FromBase);
+		static const String ToString(const float Value, const int32_t FromBase);
+		static const String ToString(const double Value, const int32_t FromBase);
 
-		static WideString ToWideString(const String& Value);
+		static const WideString ToWideString(const String& Value);
 
 		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
 		static String ToBase64String(const Elysium::Core::byte* Bytes, const Elysium::Core::uint32_t Length);
