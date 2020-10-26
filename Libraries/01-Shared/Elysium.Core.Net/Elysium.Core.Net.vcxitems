@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dns.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOControlCode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertDescription.hpp" />

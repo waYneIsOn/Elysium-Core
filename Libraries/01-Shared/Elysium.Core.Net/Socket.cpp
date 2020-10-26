@@ -164,19 +164,21 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elys
 }
 void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoint)
 {
-	if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
+	//if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
+	if ((_WinSocketHandle = WSASocket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType), 0, 0, 0)) == INVALID_SOCKET)
 	{
 		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
 	}
+	/*
 	else
 	{
 		// configurate the socket with the default settings
 		SetReceiveBufferSize(65536);
 		SetSendBufferSize(65536);
-		//SetReceiveTimeout(-1);
-		//SetSendTimeout(-1);
+		SetReceiveTimeout(-1);
+		SetSendTimeout(-1);
 	}
-
+	*/
 	const SocketAddress Address = RemoteEndPoint.Serialize();	
 	if (Elysium::Core::int32_t Result = connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
 	{
@@ -218,18 +220,20 @@ void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 void Elysium::Core::Net::Sockets::Socket::Bind(const EndPoint & LocalEndPoint)
 {
 	if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
+	//if ((_WinSocketHandle = WSASocket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType), 0, 0, 0)) == INVALID_SOCKET)
 	{
 		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
 	}
+	/*
 	else
 	{
 		// configurate the socket with the default settings
 		SetReceiveBufferSize(65536);
 		SetSendBufferSize(65536);
-		//SetReceiveTimeout(-1);
-		//SetSendTimeout(-1);
+		SetReceiveTimeout(-1);
+		SetSendTimeout(-1);
 	}
-
+	*/
 	const SocketAddress Address = LocalEndPoint.Serialize();
 	if (Elysium::Core::int32_t Result = bind(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
 	{
@@ -285,7 +289,7 @@ const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(cons
 const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
 {
 	unsigned long dwBytesReturned = 0;
-	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, static_cast<const Elysium::Core::uint32_t>(ControlCode), (DWORD*)&OptionInValue, sizeof(const Elysium::Core::uint32_t),
+	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, static_cast<const Elysium::Core::uint64_t>(ControlCode), (DWORD*)&OptionInValue, sizeof(const Elysium::Core::uint32_t),
 		OptionOutValue, OptionOutValueLength, &dwBytesReturned, nullptr, nullptr) == SOCKET_ERROR)
 	{
 		throw SocketException(u8"couldn't control the i/o mode of the socket.\r\n", WSAGetLastError());
@@ -320,9 +324,51 @@ const size_t Elysium::Core::Net::Sockets::Socket::Send(const Elysium::Core::byte
 
 	return BytesSent;
 }
+
+const size_t Elysium::Core::Net::Sockets::Socket::SendTo(const Elysium::Core::byte * Buffer, const size_t Count, const EndPoint & RemoteEndpoint) const
+{
+	return SendTo(Buffer, Count, SocketFlags::None, RemoteEndpoint);
+}
+
+const size_t Elysium::Core::Net::Sockets::Socket::SendTo(const Elysium::Core::byte * Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint & RemoteEndpoint) const
+{
+	const SocketAddress Address = RemoteEndpoint.Serialize();
+	Elysium::Core::int32_t BytesSent = sendto(_WinSocketHandle, (const char*)&Buffer[0], static_cast<const Elysium::Core::int32_t>(Count),
+		static_cast<const Elysium::Core::int32_t>(SocketFlags), (const sockaddr*)&Address, Address.GetSize());
+	if (BytesSent == SOCKET_ERROR)
+	{
+		throw SocketException(u8"couldn't send bytes.\r\n", WSAGetLastError());
+	}
+
+	return BytesSent;
+}
+
 const size_t Elysium::Core::Net::Sockets::Socket::Receive(Elysium::Core::byte * Buffer, const size_t Count) const
 {
 	Elysium::Core::int32_t BytesReceived = recv(_WinSocketHandle, (char*)&Buffer[0], static_cast<const Elysium::Core::int32_t>(Count), 0);
+	if (BytesReceived == SOCKET_ERROR)
+	{
+		throw SocketException(u8"couldn't received bytes.\r\n", WSAGetLastError());
+	}
+
+	return BytesReceived;
+}
+
+const size_t Elysium::Core::Net::Sockets::Socket::ReceiveFrom(const Elysium::Core::byte * Buffer, const size_t Count, EndPoint & RemoteEndpoint) const
+{
+	return ReceiveFrom(Buffer, Count, SocketFlags::None, RemoteEndpoint);
+}
+
+const size_t Elysium::Core::Net::Sockets::Socket::ReceiveFrom(const Elysium::Core::byte * Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint & RemoteEndpoint) const
+{
+	SocketAddress Address = RemoteEndpoint.Serialize();
+	Elysium::Core::int32_t AddressLength = Address.GetSize();
+	/*
+	sockaddr_in Address;
+	Elysium::Core::int32_t AddressLength = sizeof(Address);
+	*/
+	Elysium::Core::int32_t BytesReceived = recvfrom(_WinSocketHandle, (char*)&Buffer[0], static_cast<const Elysium::Core::int32_t>(Count),
+		static_cast<const Elysium::Core::int32_t>(SocketFlags), (sockaddr*)&Address, &AddressLength);
 	if (BytesReceived == SOCKET_ERROR)
 	{
 		throw SocketException(u8"couldn't received bytes.\r\n", WSAGetLastError());

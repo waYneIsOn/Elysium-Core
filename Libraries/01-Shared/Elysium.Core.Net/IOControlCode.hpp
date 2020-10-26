@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class IOControlCode : Elysium::Core::uint32_t
+	enum class IOControlCode : Elysium::Core::uint64_t
 #elif defined(__ANDROID__)
 	enum class IOControlCode
 #else
@@ -92,7 +92,12 @@ namespace Elysium::Core::Net::Sockets
 
 		RoutingInterfaceQuery = 3355443220,
 
-		AddressListSort = 3355443225
+		AddressListSort = 3355443225,
+
+
+
+		// #define SIO_UDP_CONNRESET _WSAIOW(IOC_VENDOR,12) -> 0x80000000 | 0x18000000 | 12 -> 2550136844
+		UdpConnectionReset = 2550136844
 	};
 }
 

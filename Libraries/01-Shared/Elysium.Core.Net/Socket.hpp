@@ -56,6 +56,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "IOControlCode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETFLAGS
+#include "SocketFlags.hpp"
+#endif
+
 #if defined(__ANDROID__)
 // ToDo ...
 #elif defined(_WIN32)
@@ -76,7 +80,6 @@ namespace Elysium::Core::Net::Sockets
 	class ELYSIUM_CORE_NET_API Socket
 	{
 	public:
-		// constructors & destructor
 		Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
 		Socket(const Socket& Source) = delete;
 		Socket(Socket&& Right) noexcept = delete;
@@ -85,10 +88,11 @@ namespace Elysium::Core::Net::Sockets
 		Socket& operator=(const Socket& Source) = delete;
 		Socket& operator=(Socket&& Right) noexcept = delete;
 
-		// properties - getter
 		AddressFamily GetAddressFamily() const;
 		SocketType GetSocketType() const;
 		ProtocolType GetProtocolType() const;
+
+		//Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
 
 		int GetAvailable() const;
 		bool GetBlocking() const;
@@ -98,13 +102,11 @@ namespace Elysium::Core::Net::Sockets
 		int GetReceiveBufferSize() const;
 		int GetSendBufferSize() const;
 
-		// properties - setter
 		void SetReceiveTimeout(const Elysium::Core::int32_t Timeout);
 		void SetSendTimeout(const Elysium::Core::int32_t Timeout);
 		void SetReceiveBufferSize(const Elysium::Core::int32_t BufferSize);
 		void SetSendBufferSize(const Elysium::Core::int32_t BufferSize);
 
-		// methods
 		void Connect(const String& Host, const Elysium::Core::int32_t Port);
 		void Connect(const EndPoint& RemoteEndPoint);
 		void Close();
@@ -122,7 +124,14 @@ namespace Elysium::Core::Net::Sockets
 		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
 
 		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
+
+		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const EndPoint& RemoteEndpoint) const;
+		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint) const;
+
 		const size_t Receive(Elysium::Core::byte* Buffer, const size_t Count) const;
+
+		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
+		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
 	private:
 		// fields
 		AddressFamily _AddressFamily;

@@ -110,5 +110,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IOControlCode.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SocketFlags.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
