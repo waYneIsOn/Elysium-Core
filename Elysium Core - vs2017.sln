@@ -135,6 +135,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Security", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Text.RegularExpressions", "Libraries\01-Shared\Elysium.Core\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems", "{81BC69AC-724D-4A7F-AE92-08B66D25D0BF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.TdsClient", "Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems", "{74FBB0FC-33B2-4419-9C86-5F7511EEA181}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{0a65e452-28ea-4cb0-9691-ed819ef56d96}*SharedItemsImports = 9
@@ -162,6 +164,7 @@ Global
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems*{6a52f036-6569-4db6-bad5-d50ff58f39ee}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{72c118aa-b5cd-484f-ae38-5ed19ce85580}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems*{74fbb0fc-33b2-4419-9c86-5f7511eea181}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{7d30fe61-9249-4556-b392-29563d82e150}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{7f54a7d9-3259-424a-8713-07095e9a8f44}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems*{81bc69ac-724d-4a7f-ae92-08b66d25d0bf}*SharedItemsImports = 9
@@ -437,6 +440,7 @@ Global
 		{B24D2A65-DD25-4F56-8CA1-6068EAA0C9E5} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{32CECF97-4FFE-4E20-ABC3-0093563AE62F} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{81BC69AC-724D-4A7F-AE92-08B66D25D0BF} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{74FBB0FC-33B2-4419-9C86-5F7511EEA181} = {8C483853-54B5-40FB-B14B-28383747B06B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

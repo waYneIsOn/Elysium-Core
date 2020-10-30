@@ -11,7 +11,12 @@ Elysium::Core::Net::Sockets::NetworkStream::NetworkStream(Socket & Socket, bool 
 	: Elysium::Core::IO::Stream(),
 	_Socket(Socket),
 	_OwnsSocket(OwnsSocket)
-{ }
+{ 
+	if (_Socket.GetSocketType() != Elysium::Core::Net::Sockets::SocketType::Stream)
+	{	// ToDo: throw according exception
+		throw 1;
+	}
+}
 Elysium::Core::Net::Sockets::NetworkStream::~NetworkStream()
 {
 	Close();

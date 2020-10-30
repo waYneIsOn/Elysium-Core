@@ -28,14 +28,20 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketType.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_GETADAPTERSADDRESSESFLAGS
+#include "GetAdaptersAddressesFlags.hpp"
+#endif
+
 namespace Elysium::Core::Net
 {
 	class FormatConverter
 	{
 	public:
-		static Elysium::Core::int32_t Convert(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
-		static Elysium::Core::int32_t Convert(Elysium::Core::Net::Sockets::ProtocolType ProtocolType);
-		static Elysium::Core::int32_t Convert(Elysium::Core::Net::Sockets::SocketType SocketType);
+		static const Elysium::Core::int32_t Convert(Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
+		static const Elysium::Core::int32_t Convert(Elysium::Core::Net::Sockets::ProtocolType ProtocolType);
+		static const Elysium::Core::int32_t Convert(Elysium::Core::Net::Sockets::SocketType SocketType);
+
+		static const Elysium::Core::int32_t Convert(Elysium::Core::Net::NetworkInformation::GetAdaptersAddressesFlags GetAdaptersAddressesFlags);
 	private:
 		FormatConverter();
 		~FormatConverter();

@@ -17,7 +17,12 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dns.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GetAdaptersAddressesFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOControlCode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInformationException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterface.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OperationalStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionName.hpp" />
@@ -55,6 +60,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IPAddress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IPEndPoint.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInformationException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInterface.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />

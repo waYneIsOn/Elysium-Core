@@ -7,6 +7,9 @@
     <Filter Include="Security">
       <UniqueIdentifier>{3f89c7c0-7606-4be4-9504-3f6d2b5f30e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NetworkInformation">
+      <UniqueIdentifier>{7d5f5b51-9af7-441e-a87e-c2f60c02528a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
@@ -34,6 +37,12 @@
       <Filter>Security</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Dns.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInterface.cpp">
+      <Filter>NetworkInformation</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInformationException.cpp">
+      <Filter>NetworkInformation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
@@ -112,6 +121,21 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketFlags.hpp">
       <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterface.hpp">
+      <Filter>NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceType.hpp">
+      <Filter>NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GetAdaptersAddressesFlags.hpp">
+      <Filter>NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OperationalStatus.hpp">
+      <Filter>NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInformationException.hpp">
+      <Filter>NetworkInformation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

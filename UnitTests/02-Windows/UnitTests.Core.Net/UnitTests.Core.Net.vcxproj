@@ -173,6 +173,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="NetworkInterfaceTest.cpp" />
     <ClCompile Include="SocketTest.cpp" />
     <ClCompile Include="TlsStreamTest.cpp" />
   </ItemGroup>

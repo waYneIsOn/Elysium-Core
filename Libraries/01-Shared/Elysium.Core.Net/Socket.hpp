@@ -20,6 +20,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
 #include "AddressFamily.hpp"
 #endif
@@ -60,14 +64,11 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketFlags.hpp"
 #endif
 
-#if defined(__ANDROID__)
-// ToDo ...
-#elif defined(_WIN32)
-
+#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
-#pragma comment(lib, "Ws2_32.lib")
 #endif
+#elif defined(__ANDROID__)
 
 #else
 #error "undefined os"
@@ -88,19 +89,19 @@ namespace Elysium::Core::Net::Sockets
 		Socket& operator=(const Socket& Source) = delete;
 		Socket& operator=(Socket&& Right) noexcept = delete;
 
-		AddressFamily GetAddressFamily() const;
-		SocketType GetSocketType() const;
-		ProtocolType GetProtocolType() const;
+		const AddressFamily& GetAddressFamily() const;
+		const SocketType& GetSocketType() const;
+		const ProtocolType& GetProtocolType() const;
 
 		//Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
 
-		int GetAvailable() const;
-		bool GetBlocking() const;
-		bool GetIsConnected() const;
-		int GetReceiveTimeout() const;
-		int GetSendTimeout() const;
-		int GetReceiveBufferSize() const;
-		int GetSendBufferSize() const;
+		const Elysium::Core::int32_t GetAvailable() const;
+		const bool GetBlocking() const;
+		const bool GetIsConnected() const;
+		const Elysium::Core::int32_t GetReceiveTimeout() const;
+		const Elysium::Core::int32_t GetSendTimeout() const;
+		const Elysium::Core::int32_t GetReceiveBufferSize() const;
+		const Elysium::Core::int32_t GetSendBufferSize() const;
 
 		void SetReceiveTimeout(const Elysium::Core::int32_t Timeout);
 		void SetSendTimeout(const Elysium::Core::int32_t Timeout);
@@ -139,6 +140,8 @@ namespace Elysium::Core::Net::Sockets
 		ProtocolType _ProtocolType;
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+		static void InitializeWinSockAPI();
+
 		Socket(SOCKET WinSocketHandle, AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
 		SOCKET _WinSocketHandle;
 #elif defined(__ANDROID__)
