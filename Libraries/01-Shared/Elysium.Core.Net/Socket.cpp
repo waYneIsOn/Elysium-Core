@@ -12,31 +12,64 @@
 #include "DnsEndPoint.hpp"
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
 Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
-	: _AddressFamily(AddressFamily), _SocketType(SocketType), _ProtocolType(ProtocolType),
-	_WinSocketHandle(INVALID_SOCKET)
+	: _WinSocketHandle(INVALID_SOCKET)
 {
 	InitializeWinSockAPI();
+
+	if ((_WinSocketHandle = socket(FormatConverter::Convert(AddressFamily), FormatConverter::Convert(SocketType), FormatConverter::Convert(ProtocolType))) == INVALID_SOCKET)
+	{
+		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
+	}
+
+}
+Elysium::Core::Net::Sockets::Socket::Socket(Socket && Right)
+{
+	*this = std::move(Right);
 }
 Elysium::Core::Net::Sockets::Socket::~Socket()
 {
-	Disconnect(true);
+	if (_WinSocketHandle != INVALID_SOCKET)
+	{
+		Disconnect(true);
+	}
 	WSACleanup();
+}
+
+Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::Socket::operator=(Socket && Right) noexcept
+{
+	if (this != &Right)
+	{
+		_WinSocketHandle = Right._WinSocketHandle;
+
+		Right._WinSocketHandle = INVALID_SOCKET;
+	}
+	return *this;
 }
 
 const Elysium::Core::Net::Sockets::AddressFamily & Elysium::Core::Net::Sockets::Socket::GetAddressFamily() const
 {
-	return _AddressFamily;
+	WSAPROTOCOL_INFO proto;
+	WSADuplicateSocket(_WinSocketHandle, GetCurrentProcessId(), &proto);
+	return static_cast<Elysium::Core::Net::Sockets::AddressFamily>(proto.iAddressFamily);
 }
 
 const Elysium::Core::Net::Sockets::SocketType & Elysium::Core::Net::Sockets::Socket::GetSocketType() const
 {
-	return _SocketType;
+	WSAPROTOCOL_INFO proto;
+	WSADuplicateSocket(_WinSocketHandle, GetCurrentProcessId(), &proto);
+	return static_cast<Elysium::Core::Net::Sockets::SocketType>(proto.iSocketType);
 }
 
 const Elysium::Core::Net::Sockets::ProtocolType & Elysium::Core::Net::Sockets::Socket::GetProtocolType() const
 {
-	return _ProtocolType;
+	WSAPROTOCOL_INFO proto;
+	WSADuplicateSocket(_WinSocketHandle, GetCurrentProcessId(), &proto);
+	return static_cast<Elysium::Core::Net::Sockets::ProtocolType>(proto.iProtocol);
 }
 
 const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::GetAvailable() const
@@ -117,14 +150,17 @@ void Elysium::Core::Net::Sockets::Socket::SetReceiveTimeout(const Elysium::Core:
 {
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReceiveTimeout, Timeout);
 }
+
 void Elysium::Core::Net::Sockets::Socket::SetSendTimeout(const Elysium::Core::int32_t Timeout)
 {
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::SendTimeout, Timeout);
 }
+
 void Elysium::Core::Net::Sockets::Socket::SetReceiveBufferSize(const Elysium::Core::int32_t BufferSize)
 {
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReceiveBuffer, BufferSize);
 }
+
 void Elysium::Core::Net::Sockets::Socket::SetSendBufferSize(const Elysium::Core::int32_t BufferSize)
 {
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::SendBuffer, BufferSize);
@@ -135,25 +171,18 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elys
 	DnsEndPoint RemoteEndPoint = DnsEndPoint(Host, Port, AddressFamily::InterNetwork);
 	Connect(RemoteEndPoint);
 }
+
 void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoint)
 {
-	//if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
-	if ((_WinSocketHandle = WSASocket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType), 0, 0, 0)) == INVALID_SOCKET)
-	{
-		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
-	}
 	/*
-	else
+	if (GetIsConnected())
 	{
-		// configurate the socket with the default settings
-		SetReceiveBufferSize(65536);
-		SetSendBufferSize(65536);
-		SetReceiveTimeout(-1);
-		SetSendTimeout(-1);
+		return;
 	}
 	*/
-	const SocketAddress Address = RemoteEndPoint.Serialize();	
-	if (Elysium::Core::int32_t Result = connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
+	const SocketAddress Address = RemoteEndPoint.Serialize();
+	Elysium::Core::int32_t Result;
+	if ((Result = connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize())) == SOCKET_ERROR)
 	{
 		Close();
 		throw SocketException(u8"connection not possible.\r\n", WSAGetLastError());
@@ -161,67 +190,51 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoin
 
 	_IsConnected = true;
 }
-void Elysium::Core::Net::Sockets::Socket::Close()
-{
-	closesocket(_WinSocketHandle);
-	_WinSocketHandle = INVALID_SOCKET;
-}
+
 void Elysium::Core::Net::Sockets::Socket::Shutdown(const SocketShutdown Value)
 {
-	if (Elysium::Core::int32_t Result = shutdown(_WinSocketHandle, static_cast<Elysium::Core::int32_t>(Value)) == SOCKET_ERROR)
+	Elysium::Core::int32_t Result;
+	if ((Result = shutdown(_WinSocketHandle, static_cast<Elysium::Core::int32_t>(Value))) == SOCKET_ERROR)
 	{
 		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
 	}
 }
+
 void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 {
-	if (!_IsConnected)
+	/*
+	if (!GetIsConnected())
 	{
 		return;
 	}
-	
+	*/
+	/*
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReuseAddress, true);	
 	Shutdown(SocketShutdown::Both);
 	if (!ReuseSocket)
 	{
 		Close();
 	}
-
+	*/
 	_IsConnected = false;
+}
+
+void Elysium::Core::Net::Sockets::Socket::Close()
+{
+	closesocket(_WinSocketHandle);
+	_WinSocketHandle = INVALID_SOCKET;
 }
 
 void Elysium::Core::Net::Sockets::Socket::Bind(const EndPoint & LocalEndPoint)
 {
-	if ((_WinSocketHandle = socket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType))) == INVALID_SOCKET)
-	//if ((_WinSocketHandle = WSASocket(FormatConverter::Convert(_AddressFamily), FormatConverter::Convert(_SocketType), FormatConverter::Convert(_ProtocolType), 0, 0, 0)) == INVALID_SOCKET)
-	{
-		throw SocketException(u8"An error occurred when attempting to access the socket.\r\n", WSAGetLastError());
-	}
-	/*
-	else
-	{
-		// configurate the socket with the default settings
-		SetReceiveBufferSize(65536);
-		SetSendBufferSize(65536);
-		SetReceiveTimeout(-1);
-		SetSendTimeout(-1);
-	}
-	*/
 	const SocketAddress Address = LocalEndPoint.Serialize();
 	if (Elysium::Core::int32_t Result = bind(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
 	{
 		throw SocketException(u8"couldn't bind socket.\r\n", WSAGetLastError());
 	}
-	else
-	{
-		// configurate the socket with the default settings
-		SetReceiveBufferSize(65536);
-		SetSendBufferSize(65536);
-		//SetReceiveTimeout(-1);
-		//SetSendTimeout(-1);
-	}
 }
-void Elysium::Core::Net::Sockets::Socket::Listen(const int Backlog)
+
+void Elysium::Core::Net::Sockets::Socket::Listen(const Elysium::Core::int32_t Backlog)
 {
 	if (int Result = listen(_WinSocketHandle, Backlog) == SOCKET_ERROR)
 	{
@@ -230,7 +243,6 @@ void Elysium::Core::Net::Sockets::Socket::Listen(const int Backlog)
 }
 const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::Accept()
 {
-	// wait for a client to connect
 	SOCKET ClientWinSocketHandle;
 	sockaddr_in ConnectionInfo;
 	int AddressLength = sizeof(ConnectionInfo);
@@ -239,7 +251,13 @@ const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::A
 		throw SocketException(u8"couldn't accept connection.\r\n", WSAGetLastError());
 	}
 
-	return Socket(ClientWinSocketHandle, _AddressFamily, _SocketType, _ProtocolType);
+	return Socket(ClientWinSocketHandle);
+}
+
+const Elysium::Core::IAsyncResult & Elysium::Core::Net::Sockets::Socket::BeginAccept(const Socket & AcceptSocket, Elysium::Core::uint16_t ReceiveSize, const Delegate<void, IAsyncResult&>& Callback, const void * State)
+{
+	//WSAEventSelect(_WinSocketHandle, )
+	throw 1;
 }
 
 const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
@@ -366,7 +384,8 @@ void Elysium::Core::Net::Sockets::Socket::InitializeWinSockAPI()
 	}
 }
 
-Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle, AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
-	: _WinSocketHandle(WinSocketHandle),
-	_AddressFamily(AddressFamily), _SocketType(SocketType), _ProtocolType(ProtocolType)
-{ }
+Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle)
+	: _WinSocketHandle(WinSocketHandle)
+{ 
+	InitializeWinSockAPI();
+}

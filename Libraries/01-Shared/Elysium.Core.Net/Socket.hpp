@@ -64,6 +64,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketFlags.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IASYNCRESULT
+#include "../Elysium.Core/IAsyncResult.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_DELEGATE
+#include "../Elysium.Core/Delegate.hpp"
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
@@ -76,6 +84,10 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Net::Sockets
 {
+	/*
+	Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::ZeroParameterThreadStart>(*this)
+	const Delegate<void, void*>& ParameterizedThreadStart
+	*/
 	// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-server-code
 	// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-client-code
 	class ELYSIUM_CORE_NET_API Socket
@@ -83,11 +95,11 @@ namespace Elysium::Core::Net::Sockets
 	public:
 		Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
 		Socket(const Socket& Source) = delete;
-		Socket(Socket&& Right) noexcept = delete;
+		Socket(Socket&& Right);
 		~Socket();
 
 		Socket& operator=(const Socket& Source) = delete;
-		Socket& operator=(Socket&& Right) noexcept = delete;
+		Socket& operator=(Socket&& Right) noexcept;
 
 		const AddressFamily& GetAddressFamily() const;
 		const SocketType& GetSocketType() const;
@@ -110,13 +122,15 @@ namespace Elysium::Core::Net::Sockets
 
 		void Connect(const String& Host, const Elysium::Core::int32_t Port);
 		void Connect(const EndPoint& RemoteEndPoint);
-		void Close();
 		void Shutdown(const SocketShutdown Value);
 		void Disconnect(const bool ReuseSocket);
+		void Close();
 
 		void Bind(const EndPoint& LocalEndPoint);
-		void Listen(const int Backlog);
+		void Listen(const Elysium::Core::int32_t Backlog);
 		const Socket Accept();
+
+		const IAsyncResult& BeginAccept(const Socket& AcceptSocket, Elysium::Core::uint16_t ReceiveSize, const Delegate<void, IAsyncResult&>& Callback, const void* State);
 
 		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
 		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
@@ -134,21 +148,18 @@ namespace Elysium::Core::Net::Sockets
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
 	private:
-		// fields
-		AddressFamily _AddressFamily;
-		SocketType _SocketType;
-		ProtocolType _ProtocolType;
-
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+		Socket(SOCKET WinSocketHandle);
+
 		static void InitializeWinSockAPI();
 
-		Socket(SOCKET WinSocketHandle, AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
 		SOCKET _WinSocketHandle;
 #elif defined(__ANDROID__)
 
 #else
 
 #endif
+
 		bool _IsConnected = false;
 	};
 }

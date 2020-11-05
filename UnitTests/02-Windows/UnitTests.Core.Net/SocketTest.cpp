@@ -77,9 +77,11 @@ namespace UnitTests::Core::Net::Sockets
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(true);
 
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(true);
 		}
 	};
