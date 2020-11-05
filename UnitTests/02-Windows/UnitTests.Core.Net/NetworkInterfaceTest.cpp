@@ -24,8 +24,9 @@ namespace UnitTests::Core::Net::NetworkInformation
 				const String& Id = NetworkInterface.GetId();
 				const String& Name = NetworkInterface.GetName();
 				const String& Description = NetworkInterface.GetDescription();
-				const NetworkInterfaceType& Type = NetworkInterface.GetType();
+				const NetworkInterfaceType& Type = NetworkInterface.GetNetworkInterfaceType();
 				const OperationalStatus& Status = NetworkInterface.GetOperationalStatus();
+				const Elysium::Core::int64_t Speed = NetworkInterface.GetSpeed();
 			}
 		}
 	};

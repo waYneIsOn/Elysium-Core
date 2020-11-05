@@ -137,5 +137,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInformationException.hpp">
       <Filter>NetworkInformation</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceComponent.hpp">
+      <Filter>NetworkInformation</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

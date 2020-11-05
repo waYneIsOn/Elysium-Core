@@ -84,10 +84,19 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Id = CurrentAdapterAddress->AdapterName;
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Type = static_cast<NetworkInterfaceType>(CurrentAdapterAddress->IfType);
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Status = static_cast<OperationalStatus>(CurrentAdapterAddress->OperStatus);
+			NetworkInterfaces[NumberOfNetworkInterfaces]._Speed = CurrentAdapterAddress->ReceiveLinkSpeed;
+			NetworkInterfaces[NumberOfNetworkInterfaces]._IsReceiveOnly = CurrentAdapterAddress->ReceiveOnly == 1;
+			NetworkInterfaces[NumberOfNetworkInterfaces]._SupportsMulticast = CurrentAdapterAddress->NoMulticast != 1;
+
+			NetworkInterfaces[NumberOfNetworkInterfaces]._LoopbackInterfaceIndex = CurrentAdapterAddress->IfIndex;
+			NetworkInterfaces[NumberOfNetworkInterfaces]._IPv6LoopbackInterfaceIndex = CurrentAdapterAddress->Ipv6IfIndex;
 
 			// ToDo: just interpreting wchar_t as char is obviously bs
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Name = (char*)CurrentAdapterAddress->FriendlyName;
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Description = (char*)CurrentAdapterAddress->Description;
+
+			//CurrentAdapterAddress->PhysicalAddress
+			//CurrentAdapterAddress->PhysicalAddressLength
 
 			//CurrentAdapterAddress->Alignment
 			//CurrentAdapterAddress->CompartmentId
@@ -109,11 +118,9 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 			//CurrentAdapterAddress->FirstUnicastAddress
 			//CurrentAdapterAddress->FirstWinsServerAddress
 			//CurrentAdapterAddress->Flags
-			//CurrentAdapterAddress->IfIndex
 			//CurrentAdapterAddress->Ipv4Enabled
 			//CurrentAdapterAddress->Ipv4Metric
 			//CurrentAdapterAddress->Ipv6Enabled
-			//CurrentAdapterAddress->Ipv6IfIndex
 			//CurrentAdapterAddress->Ipv6ManagedAddressConfigurationSupported
 			//CurrentAdapterAddress->Ipv6OtherStatefulConfig
 			//CurrentAdapterAddress->Length
@@ -121,11 +128,6 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 			//CurrentAdapterAddress->Mtu
 			//CurrentAdapterAddress->NetbiosOverTcpipEnabled
 			//CurrentAdapterAddress->NetworkGuid
-			//CurrentAdapterAddress->NoMulticast
-			//CurrentAdapterAddress->PhysicalAddress
-			//CurrentAdapterAddress->PhysicalAddressLength
-			//CurrentAdapterAddress->ReceiveLinkSpeed
-			//CurrentAdapterAddress->ReceiveOnly
 			//CurrentAdapterAddress->RegisterAdapterSuffix
 			//CurrentAdapterAddress->TransmitLinkSpeed
 			//CurrentAdapterAddress->TunnelType
@@ -173,7 +175,7 @@ const Elysium::Core::String & Elysium::Core::Net::NetworkInformation::NetworkInt
 	return _Description;
 }
 
-const Elysium::Core::Net::NetworkInformation::NetworkInterfaceType & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetType() const
+const Elysium::Core::Net::NetworkInformation::NetworkInterfaceType & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetNetworkInterfaceType() const
 {
 	return _Type;
 }
@@ -181,6 +183,11 @@ const Elysium::Core::Net::NetworkInformation::NetworkInterfaceType & Elysium::Co
 const Elysium::Core::Net::NetworkInformation::OperationalStatus & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetOperationalStatus() const
 {
 	return _Status;
+}
+
+const Elysium::Core::int64_t Elysium::Core::Net::NetworkInformation::NetworkInterface::GetSpeed() const
+{
+	return _Speed;
 }
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface()

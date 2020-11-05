@@ -32,6 +32,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "OperationalStatus.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_NETWORKINTERFACECOMPONENT
+#include "NetworkInterfaceComponent.hpp"
+#endif
+
 namespace Elysium::Core::Net::NetworkInformation
 {
 	class ELYSIUM_CORE_NET_API NetworkInterface
@@ -47,15 +51,22 @@ namespace Elysium::Core::Net::NetworkInformation
 
 		static const Elysium::Core::Collections::Template::Array<NetworkInterface> GetAllNetworkInterfaces();
 
+		//static const Elysium::Core::int32_t GetLoopbackInterfaceIndex();
+		//static const Elysium::Core::int32_t GetIPv6LoopbackInterfaceIndex();
+
 		const Elysium::Core::String& GetId() const;
 
 		const Elysium::Core::String& GetName() const;
 
 		const Elysium::Core::String& GetDescription() const;
 
-		const NetworkInterfaceType& GetType() const;
+		const NetworkInterfaceType& GetNetworkInterfaceType() const;
 
 		const OperationalStatus& GetOperationalStatus() const;
+
+		const Elysium::Core::int64_t GetSpeed() const;
+
+		//const bool Supports(const NetworkInterfaceComponent NetworkInterfaceComponent) const;
 	protected:
 		NetworkInterface();
 	private:
@@ -64,7 +75,11 @@ namespace Elysium::Core::Net::NetworkInformation
 		Elysium::Core::String _Description;
 		NetworkInterfaceType _Type;
 		OperationalStatus _Status;
-		//bool _IsReceiveOnly;
+		Elysium::Core::int64_t _Speed;
+		Elysium::Core::int32_t _LoopbackInterfaceIndex;
+		Elysium::Core::int32_t _IPv6LoopbackInterfaceIndex;
+		bool _IsReceiveOnly;
+		bool _SupportsMulticast;
 	};
 }
 #endif

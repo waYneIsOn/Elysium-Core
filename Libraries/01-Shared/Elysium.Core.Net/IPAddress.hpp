@@ -46,11 +46,11 @@ namespace Elysium::Core::Net
 		const Sockets::AddressFamily& GetAddressFamily() const;
 
 		static const IPAddress& Any();
-		//static const IPAddress& Broadcast();
+		static const IPAddress& Broadcast();
 		//static const IPAddress& IPv6Any();
 		//static const IPAddress& IPv6Loopback();
 		//static const IPAddress& IPv6None();
-		//static const IPAddress& Loopback();
+		static const IPAddress& Loopback();
 		//static const IPAddress& None();
 
 		static const IPAddress Parse(const Elysium::Core::String& Value);

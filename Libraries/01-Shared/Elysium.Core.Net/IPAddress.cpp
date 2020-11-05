@@ -28,8 +28,20 @@ const Elysium::Core::Net::Sockets::AddressFamily & Elysium::Core::Net::IPAddress
 
 const Elysium::Core::Net::IPAddress & Elysium::Core::Net::IPAddress::Any()
 {
-	static const Elysium::Core::Net::IPAddress _Any = Elysium::Core::Net::IPAddress::IPAddress(0);
-	return _Any;
+	static const Elysium::Core::Net::IPAddress Address = Elysium::Core::Net::IPAddress::IPAddress(0);
+	return Address;
+}
+
+const Elysium::Core::Net::IPAddress & Elysium::Core::Net::IPAddress::Broadcast()
+{
+	static const Elysium::Core::Net::IPAddress Address = Elysium::Core::Net::IPAddress::IPAddress(0xFFFFFFFF);
+	return Address;
+}
+
+const Elysium::Core::Net::IPAddress & Elysium::Core::Net::IPAddress::Loopback()
+{
+	static const Elysium::Core::Net::IPAddress Address = Elysium::Core::Net::IPAddress::IPAddress(0x100007F);
+	return Address;
 }
 
 const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const Elysium::Core::String & Value)
