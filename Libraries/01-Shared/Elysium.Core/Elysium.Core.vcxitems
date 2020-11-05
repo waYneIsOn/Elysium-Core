@@ -46,6 +46,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Float.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
@@ -100,6 +101,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />

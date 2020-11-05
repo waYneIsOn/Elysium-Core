@@ -117,6 +117,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Float.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -165,5 +166,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
   </ItemGroup>
 </Project>

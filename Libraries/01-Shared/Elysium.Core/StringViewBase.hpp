@@ -50,6 +50,8 @@ namespace Elysium::Core::Collections::Template
 		bool operator<=(const StringViewBase<T>& Other) const;
 		bool operator>=(const StringViewBase<T>& Other) const;
 
+		bool operator==(const StringBase<T>& Other) const;
+
 		const size_t GetLength() const;
 
 		const size_t IndexOf(const T Value) const;
@@ -195,6 +197,31 @@ namespace Elysium::Core::Collections::Template
 			return true;
 		}
 		return _Data == Other._Data && _Length >= Other._Length;
+	}
+
+	template<typename T>
+	inline bool StringViewBase<T>::operator==(const StringBase<T>& Other) const
+	{
+		/*
+		if (this == &Other)
+		{
+			return true;
+		}
+		*/
+		if (_Length > Other.GetLength())
+		{
+			return false;
+		}
+
+		for (size_t i = 0; i < _Length; i++)
+		{
+			if (_Data[i] != Other[i])
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	template<typename T>
