@@ -40,7 +40,7 @@ bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::Read()
 	HROW* RowHandlesPointer = &_RowHandles[0];
 	if (FAILED(HResult = _NativeRowset->GetNextRows(DB_NULL_HCHAPTER, 0, 1, &_NumberOfRowsObtained, &RowHandlesPointer)))
 	{
-		throw SqlNativeException(u8"Failed to get next row.\r\n", HResult, _NativeRowset);
+		throw SqlNativeException(HResult, _NativeRowset);
 	}
 
 	// get the row's data if we've received at least one row
@@ -50,7 +50,7 @@ bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::Read()
 		{
 			if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[i], _RowDataBuffer)))
 			{
-				throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
+				throw SqlNativeException(HResult, _NativeRowset);
 			}
 
 			if (_NumberOfNonBlobFields == 0 || i > 0)
@@ -160,7 +160,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetByt
 		int BufferIndex = _IndexBufferMap[Index];
 		if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[BufferIndex], _RowDataBuffer)))
 		{
-			throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
+			throw SqlNativeException(HResult, _NativeRowset);
 		}
 
 		ULONG BLOCK_SIZE = 32;
@@ -259,7 +259,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetCha
 		int BufferIndex = _IndexBufferMap[Index];
 		if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[BufferIndex], _RowDataBuffer)))
 		{
-			throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
+			throw SqlNativeException(HResult, _NativeRowset);
 		}
 
 		ULONG BLOCK_SIZE = 32;
@@ -613,7 +613,7 @@ __int64 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetWCh
 		int BufferIndex = _IndexBufferMap[Index];
 		if (FAILED(HResult = _NativeRowset->GetData(_RowHandles[0], _NativeRowAccessorHandles[BufferIndex], _RowDataBuffer)))
 		{
-			throw SqlNativeException(u8"Failed to get row data.\r\n", HResult, _NativeRowset);
+			throw SqlNativeException(HResult, _NativeRowset);
 		}
 
 		ULONG BLOCK_SIZE = 32;
@@ -914,7 +914,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 	// create the row accessor
 	if (FAILED(HResult = _NativeRowset->QueryInterface(IID_IAccessor, (void**)&_NativeRowAccessor)))
 	{
-		throw SqlNativeException(u8"Failed to obtain IAccessor interface.\r\n", HResult, _NativeRowset);
+		throw SqlNativeException(HResult, _NativeRowset);
 	}
 	if (_NumberOfNonBlobFields > 0)
 	{
@@ -927,7 +927,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 			_NativeDatabaseBindStatus[0].data()	// Information about binding validity
 		)))
 		{
-			throw SqlNativeException(u8"Failed to create accessor.\r\n", HResult, _NativeRowAccessor);
+			throw SqlNativeException(HResult, _NativeRowAccessor);
 		}
 	}
 	if (NumberOfBlobFields > 0)
@@ -948,7 +948,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 				_NativeDatabaseBindStatus[i].data()	// Information about binding validity
 			)))
 			{
-				throw SqlNativeException(u8"Failed to create accessor.\r\n", HResult, _NativeRowAccessor);
+				throw SqlNativeException(HResult, _NativeRowAccessor);
 			}
 		}
 	}

@@ -5,13 +5,10 @@
 #endif
 
 Elysium::Core::Data::Common::DbException::DbException()
-	: Elysium::Core::Runtime::InteropServices::ExternalException(u8"DbException")
+	: Elysium::Core::Runtime::InteropServices::ExternalException()
 { }
-Elysium::Core::Data::Common::DbException::DbException(String && Message)
-	: Elysium::Core::Runtime::InteropServices::ExternalException(std::move(Message))
-{ }
-Elysium::Core::Data::Common::DbException::DbException(String && Message, const int ErrorCode)
-	: Elysium::Core::Runtime::InteropServices::ExternalException(std::move(Message), ErrorCode)
+Elysium::Core::Data::Common::DbException::DbException(const Elysium::Core::int32_t ErrorCode)
+	: Elysium::Core::Runtime::InteropServices::ExternalException(ErrorCode)
 { }
 Elysium::Core::Data::Common::DbException::~DbException()
 { }

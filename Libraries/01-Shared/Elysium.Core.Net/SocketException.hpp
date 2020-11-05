@@ -32,11 +32,11 @@ namespace Elysium::Core::Net::Sockets
 	class ELYSIUM_CORE_NET_API SocketException : public Elysium::Core::Runtime::InteropServices::ExternalException
 	{
 	public:
-		// constructors & destructor
 		SocketException();
-		SocketException(String&& Message);
-		SocketException(String&& Message, const int ErrorCode);
+		SocketException(const int ErrorCode);
 		virtual ~SocketException();
+
+		const SocketError GetSocketError() const;
 	};
 }
 #endif

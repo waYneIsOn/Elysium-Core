@@ -25,7 +25,7 @@ namespace Elysium::Core::Net::NetworkInformation
 	class ELYSIUM_CORE_NET_API NetworkInformationException : public Elysium::Core::Runtime::InteropServices::ExternalException
 	{
 	public:
-		NetworkInformationException(const int ErrorCode);
+		NetworkInformationException(const Elysium::Core::int32_t ErrorCode);
 		NetworkInformationException(const NetworkInformationException& Source) = delete;
 		NetworkInformationException(NetworkInformationException&& Right) noexcept = delete;
 		virtual ~NetworkInformationException();

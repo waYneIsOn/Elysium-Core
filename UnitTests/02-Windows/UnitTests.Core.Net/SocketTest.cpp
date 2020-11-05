@@ -30,6 +30,13 @@ namespace UnitTests::Core::Net::Sockets
 	TEST_CLASS(UnitTestSocket)
 	{
 	public:
+		TEST_METHOD(Properties)
+		{
+			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			Assert::IsTrue(ClientSocket.GetBlocking());
+		}
+
 		TEST_METHOD(ParseIpAddresses)
 		{
 			// int64
@@ -80,9 +87,18 @@ namespace UnitTests::Core::Net::Sockets
 			ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(true);
 
-			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
-			ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
-			ClientSocket.Disconnect(true);
+			try
+			{
+				ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+				ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
+				ClientSocket.Disconnect(true);
+
+				Assert::Fail();
+			}
+			catch (SocketException& ex)
+			{
+				int sadf = 456;
+			}
 		}
 	};
 }

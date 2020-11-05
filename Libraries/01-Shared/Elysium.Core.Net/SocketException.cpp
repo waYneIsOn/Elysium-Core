@@ -4,14 +4,20 @@
 #include <type_traits>
 #endif
 
+#ifndef _INC_COMDEF
+#include <comdef.h>
+#endif
+
 Elysium::Core::Net::Sockets::SocketException::SocketException()
-	: Elysium::Core::Runtime::InteropServices::ExternalException(u8"SocketException")
+	: Elysium::Core::Runtime::InteropServices::ExternalException(WSAGetLastError())
 { }
-Elysium::Core::Net::Sockets::SocketException::SocketException(String && Message)
-	: Elysium::Core::Runtime::InteropServices::ExternalException(std::move(Message))
-{ }
-Elysium::Core::Net::Sockets::SocketException::SocketException(String && Message, const int ErrorCode)
-	: Elysium::Core::Runtime::InteropServices::ExternalException(std::move(Message), ErrorCode)
+Elysium::Core::Net::Sockets::SocketException::SocketException(const int ErrorCode)
+	: Elysium::Core::Runtime::InteropServices::ExternalException(ErrorCode)
 { }
 Elysium::Core::Net::Sockets::SocketException::~SocketException()
 { }
+
+const Elysium::Core::Net::Sockets::SocketError Elysium::Core::Net::Sockets::SocketException::GetSocketError() const
+{
+	return static_cast<SocketError>(_ErrorCode);
+}

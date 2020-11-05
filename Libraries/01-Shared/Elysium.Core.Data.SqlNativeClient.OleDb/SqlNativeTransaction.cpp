@@ -36,7 +36,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::Commit()
 	HRESULT HResult;
 	if (FAILED(HResult = _NativeTransaction->Commit(false, XACTTC_SYNC, 0)))
 	{
-		throw SqlNativeException(u8"Transaction commit failed.\r\n", HResult, _NativeTransaction);
+		throw SqlNativeException(HResult, _NativeTransaction);
 	}
 
 	// the transaction cannot be reused after a commit which means we can release it right away
@@ -55,7 +55,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::Rollback
 	HRESULT HResult;
 	if (FAILED(HResult = _NativeTransaction->Abort(NULL, false, false)))
 	{
-		throw SqlNativeException(u8"Transaction rollback failed.\r\n", HResult, _NativeTransaction);
+		throw SqlNativeException(HResult, _NativeTransaction);
 	}
 
 	// the transaction cannot be reused after a commit which means we can release it right away
@@ -70,5 +70,4 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::SqlNativeTran
 	_NativeCommandFactory(NativeCommandFactory),
 	_NativeTransaction(NativeTransaction),
 	_TransactionLevel(TransactionLevel)
-{
-}
+{ }

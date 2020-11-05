@@ -105,7 +105,7 @@ namespace Elysium::Core::Net::Sockets
 		const SocketType& GetSocketType() const;
 		const ProtocolType& GetProtocolType() const;
 
-		//Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
 
 		const Elysium::Core::int32_t GetAvailable() const;
 		const bool GetBlocking() const;
@@ -114,6 +114,9 @@ namespace Elysium::Core::Net::Sockets
 		const Elysium::Core::int32_t GetSendTimeout() const;
 		const Elysium::Core::int32_t GetReceiveBufferSize() const;
 		const Elysium::Core::int32_t GetSendBufferSize() const;
+
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
 
 		void SetReceiveTimeout(const Elysium::Core::int32_t Timeout);
 		void SetSendTimeout(const Elysium::Core::int32_t Timeout);
@@ -134,9 +137,6 @@ namespace Elysium::Core::Net::Sockets
 
 		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
 		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
-
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
 
 		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
 
@@ -161,6 +161,7 @@ namespace Elysium::Core::Net::Sockets
 #endif
 
 		bool _IsConnected = false;
+		bool _IsClosed = false;
 	};
 }
 #endif

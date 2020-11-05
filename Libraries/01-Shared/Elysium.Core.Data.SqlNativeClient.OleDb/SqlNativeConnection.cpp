@@ -88,7 +88,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		if (FAILED(HResult = CoCreateInstance(CLSID_SQLNCLI11, NULL, CLSCTX_INPROC_SERVER, IID_IDBInitialize, (void **)&_NativeDataSource)))
 			//if (FAILED(HResult = CoCreateInstance({ 0x397C2819L,0x8272,0x4532,{0xAD,0x3A,0xFB,0x5E,0x43,0xBE,0xAA,0x38} }, NULL, CLSCTX_INPROC_SERVER, IID_IDBInitialize, (void **)&_NativeDataSource)))
 		{
-			throw COMException(u8"Failed to CoCreateInstance\r\n", HResult);
+			throw COMException(HResult);
 		}
 
 		// Set initialization properties.
@@ -96,7 +96,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		if (FAILED(HResult = _NativeDataSource->QueryInterface(IID_IDBProperties, (void **)&DataBaseProperties)))
 		{
 			// prepare the exception
-			SqlNativeException Exception = SqlNativeException(u8"Failed to obtain IDBProperties interface.\r\n", HResult, _NativeDataSource);
+			SqlNativeException Exception = SqlNativeException(HResult, _NativeDataSource);
 
 			// clean-up and throw the exception
 			_NativeDataSource->Release();
@@ -127,7 +127,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		if (FAILED(HResult))
 		{
 			// prepare the exception
-			SqlNativeException Exception = SqlNativeException(u8"Failed to set initialization properties.\r\n", HResult, DataBaseProperties);
+			SqlNativeException Exception = SqlNativeException(HResult, DataBaseProperties);
 
 			// clean-up and throw the exception
 			DataBaseProperties->Release();
@@ -140,7 +140,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		if (FAILED(HResult = _NativeDataSource->Initialize()))
 		{
 			// prepare the exception
-			SqlNativeException Exception = SqlNativeException(u8"Problem in initializing.\r\n", HResult, _NativeDataSource);
+			SqlNativeException Exception = SqlNativeException(HResult, _NativeDataSource);
 
 			// clean-up and throw the exception
 			_NativeDataSource->Release();
@@ -152,7 +152,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		if (FAILED(HResult = _NativeDataSource->QueryInterface(IID_IDBCreateSession, (void**)&_NativeSession)))
 		{
 			// prepare the exception
-			SqlNativeException Exception = SqlNativeException(u8"Session initialization failed.\r\n", HResult, _NativeDataSource);
+			SqlNativeException Exception = SqlNativeException(HResult, _NativeDataSource);
 
 			// clean-up and throw the exception
 			_NativeSession->Release();
@@ -182,21 +182,21 @@ std::unique_ptr<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNat
 	IDBCreateCommand* NativeCommandFactory;
 	if (FAILED(HResult = _NativeSession->CreateSession(NULL, IID_IDBCreateCommand, (IUnknown**)&NativeCommandFactory)))
 	{
-		throw SqlNativeException(u8"Create transaction-command failed.\r\n", HResult, _NativeSession);
+		throw SqlNativeException(HResult, _NativeSession);
 	}
 
 	// create the transaction
 	ITransactionLocal* NativeTransaction;
 	if (FAILED(HResult = NativeCommandFactory->QueryInterface(IID_ITransactionLocal, (void**)&NativeTransaction)))
 	{
-		throw SqlNativeException(u8"Transaction initialization failed.\r\n", HResult, NativeCommandFactory);
+		throw SqlNativeException(HResult, NativeCommandFactory);
 	}
 
 	// begin the transaction
 	unsigned long TransactionLevel;
 	if (FAILED(HResult = NativeTransaction->StartTransaction((ISOLEVEL)IsolationLevel, 0, NULL, &TransactionLevel)))
 	{
-		throw SqlNativeException(u8"Transaction beginning failed.\r\n", HResult, NativeTransaction);
+		throw SqlNativeException(HResult, NativeTransaction);
 	}
 
 	SqlNativeTransaction* Transaction = new SqlNativeTransaction(this, IsolationLevel, NativeCommandFactory, NativeTransaction, TransactionLevel);
@@ -210,7 +210,7 @@ std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeC
 	IDBCreateCommand* CommandFactory;
 	if (FAILED(HResult = _NativeSession->CreateSession(NULL, IID_IDBCreateCommand, (IUnknown**)&CommandFactory)))
 	{
-		throw SqlNativeException(u8"Create command failed.\r\n", HResult, _NativeSession);
+		throw SqlNativeException(HResult, _NativeSession);
 	}
 
 	return std::unique_ptr<SqlNativeCommand>(new SqlNativeCommand(this, CommandFactory));
@@ -223,7 +223,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	IDBProperties* DataBaseProperties;
 	if (FAILED(HResult = _NativeDataSource->QueryInterface(IID_IDBProperties, (void**)&(DataBaseProperties))))
 	{
-		throw SqlNativeException(u8"Properties initialization failed.\r\n", HResult, _NativeDataSource);
+		throw SqlNativeException(HResult, _NativeDataSource);
 	}
 	// initialize the properties and populate their values
 	const ULONG ConnectionPropertiesCount = 1;
@@ -250,7 +250,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	if (FAILED(HResult))
 	{
 		// prepare the exception
-		SqlNativeException Exception = SqlNativeException(u8"Failed to set initialization properties.\r\n", HResult, DataBaseProperties);
+		SqlNativeException Exception = SqlNativeException(HResult, DataBaseProperties);
 
 		// clean-up and throw the exception
 		DataBaseProperties->Release();

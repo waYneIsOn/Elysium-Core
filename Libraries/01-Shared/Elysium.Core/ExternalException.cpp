@@ -1,97 +1,41 @@
 #include "ExternalException.hpp"
 
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-#ifndef _INC_STDLIB
-#include <stdlib.h>
-#endif
-
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
-	: Elysium::Core::Exception(u8"ExternalException"), _ErrorCode(0)
-{
-	SetHResult(E_FAIL);
-}
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const char * Message)
-	: Elysium::Core::Exception(Message), _ErrorCode(0)
+	: Elysium::Core::Runtime::InteropServices::ExternalException(0x80004005L)
 { }
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(String && Message)
-	: Elysium::Core::Exception(std::move(Message)), _ErrorCode(0)
-{
-	SetHResult(E_FAIL);
-}
-Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(String && Message, const int ErrorCode)
-	: Elysium::Core::Exception(std::move(Message)), _ErrorCode(ErrorCode)
-{
-	SetHResult(ErrorCode);
-}
+Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const Elysium::Core::int32_t ErrorCode)
+	: Elysium::Core::Exception(std::move(GetErrorMessage())), _ErrorCode(ErrorCode)
+{ }
 Elysium::Core::Runtime::InteropServices::ExternalException::~ExternalException()
-{
-	/*
-	if (_ErrorMessage != nullptr)
-	{
-		delete[] _ErrorMessage;
-	}
-	*/
-}
+{ }
 
-int Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorCode()
+const Elysium::Core::int32_t Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorCode() const
 {
 	return _ErrorCode;
 }
-HRESULT Elysium::Core::Runtime::InteropServices::ExternalException::GetHResult()
+
+const HRESULT Elysium::Core::Runtime::InteropServices::ExternalException::GetHResult() const
 {
-	return _ErrorCode;
+	return static_cast<HRESULT>(_ErrorCode);
 }
-/*
-const char * Elysium::Core::Runtime::InteropServices::ExternalException::what() const throw()
+
+Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorMessage()
 {
-	/*
-	size_t NumberOfCharsConverted = 0;
-	const wchar_t* Source = _COMError.ErrorMessage();
-	const size_t SourceLength = wcslen(Source) + 1; // +1 because of '\0'
+	_com_error COMError = _com_error(_ErrorCode);
+	const wchar_t* ErrorMessageW = COMError.ErrorMessage();
 
-	if (_ErrorMessage != nullptr)
-	{
-		delete[] _ErrorMessage;
-	}
-	_ErrorMessage = new char[SourceLength];
-
-	wcstombs_s(&NumberOfCharsConverted, _ErrorMessage, SourceLength, Source, SourceLength);
-
-	return _ErrorMessage;
-	*/
-	/*
-	const wchar_t* Source = _COMError.ErrorMessage();
-	IErrorInfo* ErrorInfo = _COMError.ErrorInfo();
-	HRESULT HResult = _COMError.Error();
-	*-/
-	// ToDo: this will only return the first char and therefore won't display the whole message
-	//return (char*)_COMError.ErrorMessage();
-
-	return "Elysium::Core::Runtime::InteropServices::ExternalException::what() isn't implemented yet";
+	const Elysium::Core::Text::Encoding& Utf16BeEncoding = Elysium::Core::Text::Encoding::UTF16BE();
+	return Utf16BeEncoding.GetString((const byte*)&ErrorMessageW[0], std::char_traits<wchar_t>::length(ErrorMessageW));
 }
-*/
-void Elysium::Core::Runtime::InteropServices::ExternalException::SetHResult(HRESULT ErrorCode)
-{
-	_ErrorCode = ErrorCode;
-
-	// use _com_error to read more information
-	_com_error COMError = ErrorCode;
-	//IErrorInfo* ErrorInfo = COMError.ErrorInfo();
-
-	//std::wstring SourceMessage = COMError.ErrorMessage();
-	//SourceMessage.to
-
-	/*
-	const wchar_t* Source = COMError.ErrorMessage();
-	size_t SourceSize = wcslen(Source) + 1;
-	size_t ConvertedChars = 0;
-	const size_t TargetSize = SourceSize * 2;
-	char* Target;
-	wcstombs_s(&ConvertedChars, Target, TargetSize, Source, SourceSize);
-	*/
-}
-#endif
