@@ -12,6 +12,18 @@
 #include "DnsEndPoint.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_BITCONVERTER
+#include "../Elysium.Core/BitConverter.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
+#include "../Elysium.Core/ArgumentException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
+#include "../Elysium.Core/NotSupportedException.hpp"
+#endif
+
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -73,7 +85,8 @@ const Elysium::Core::Net::Sockets::ProtocolType & Elysium::Core::Net::Sockets::S
 	return static_cast<Elysium::Core::Net::Sockets::ProtocolType>(proto.iProtocol);
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Net::Sockets::Socket::GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength)
+Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Net::Sockets::Socket::GetSocketOption(const SocketOptionLevel OptionLevel,
+	const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength)
 {
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(OptionLength);
 
@@ -99,19 +112,8 @@ const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::GetAvailable()
 }
 
 const bool Elysium::Core::Net::Sockets::Socket::GetBlocking() const
-{	
-	//GetSocketOption(SocketOptionLevel::IP, SocketOptionName::BlockSource, 
-	
-	// ToDo: ioctlsocket seems to only be used for setting values?
-	unsigned long Bla;
-	if (ioctlsocket(_WinSocketHandle, FIONBIO, &Bla) == SOCKET_ERROR)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+{
+	return _IsBlocking;
 }
 
 const bool Elysium::Core::Net::Sockets::Socket::GetIsConnected() const
@@ -177,6 +179,27 @@ void Elysium::Core::Net::Sockets::Socket::SetSocketOption(const SocketOptionLeve
 	}
 }
 
+void Elysium::Core::Net::Sockets::Socket::SetIPProtectionLevel(const IPProtectionLevel Level)
+{
+	if (Level == IPProtectionLevel::Unspecified)
+	{	// ToDo: message
+		throw ArgumentException();
+	}
+
+	switch (GetAddressFamily())
+	{
+	case AddressFamily::InterNetwork:
+		SetSocketOption(SocketOptionLevel::IP, SocketOptionName::IPProtectionLevel, static_cast<Elysium::Core::int32_t>(Level));
+		break;
+	case AddressFamily::InterNetworkV6:
+		SetSocketOption(SocketOptionLevel::IPv6, SocketOptionName::IPProtectionLevel, static_cast<Elysium::Core::int32_t>(Level));
+		break;
+	default:
+		// ToDo: message
+		throw NotSupportedException();
+	}
+}
+
 void Elysium::Core::Net::Sockets::Socket::SetReceiveTimeout(const Elysium::Core::int32_t Timeout)
 {
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReceiveTimeout, Timeout);
@@ -195,6 +218,144 @@ void Elysium::Core::Net::Sockets::Socket::SetReceiveBufferSize(const Elysium::Co
 void Elysium::Core::Net::Sockets::Socket::SetSendBufferSize(const Elysium::Core::int32_t BufferSize)
 {
 	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::SendBuffer, BufferSize);
+}
+
+void Elysium::Core::Net::Sockets::Socket::SetBlocking(const bool Value)
+{
+	SocketError Result = static_cast<SocketError>(IOControl(IOControlCode::NonBlockingIO, Value == true ? 0 : -1, nullptr, 0));
+	if (Result != SocketError::Success)
+	{	// ToDo: throw according exception
+		throw 1;
+	}
+
+	_IsBlocking = Value;
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
+{
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = BitConverter::GetBytes(OptionInValue);
+	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), &Bytes[0], Bytes.GetLength(), OptionOutValue, OptionOutValueLength);
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
+{
+	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), OptionInValue, OptionInValueLength, OptionOutValue, OptionOutValueLength);
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
+{
+	unsigned long BytesReturned = 0;
+	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, ControlCode, (DWORD*)&OptionInValue, OptionInValueLength,
+		OptionOutValue, OptionOutValueLength, &BytesReturned, nullptr, nullptr) == SOCKET_ERROR)
+	{
+		throw SocketException();
+	}
+	else
+	{
+		return Result;
+	}
+}
+
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds)
+{
+	fd_set ReadSet = fd_set();
+	fd_set WriteSet = fd_set();
+	fd_set ErrorSet = fd_set();
+
+	FD_ZERO(&ReadSet);
+	FD_ZERO(&WriteSet);
+	FD_ZERO(&ErrorSet);
+
+	if (CheckRead != nullptr)
+	{
+		for (size_t i = 0; i < CheckRead->GetCount(); i++)
+		{
+			FD_SET(CheckRead->operator[](i)->_WinSocketHandle, &ReadSet);
+		}
+	}
+	if (CheckWrite != nullptr)
+	{
+		for (size_t i = 0; i < CheckWrite->GetCount(); i++)
+		{
+			FD_SET(CheckWrite->operator[](i)->_WinSocketHandle, &WriteSet);
+		}
+	}
+	if (CheckError != nullptr)
+	{
+		for (size_t i = 0; i < CheckError->GetCount(); i++)
+		{
+			FD_SET(CheckError->operator[](i)->_WinSocketHandle, &ErrorSet);
+		}
+	}
+
+	timeval Duration;
+	Duration.tv_sec = static_cast<Elysium::Core::int32_t>(MicroSeconds / 1000000);
+	Duration.tv_usec = static_cast<Elysium::Core::int32_t>(MicroSeconds % 1000000);
+
+	if (const Elysium::Core::int32_t Result = select(0, &ReadSet, &WriteSet, &ErrorSet, &Duration) == SOCKET_ERROR)
+	{
+		throw SocketException();
+	}
+
+	if (CheckRead != nullptr)
+	{
+		for (size_t i = CheckRead->GetCount(); i > 0; i--)
+		{
+			if (!FD_ISSET(CheckRead->operator[](i - 1)->_WinSocketHandle, &ReadSet))
+			{
+				CheckRead->RemoveAt(i - 1);
+			}
+		}
+	}
+	if (CheckWrite != nullptr)
+	{
+		for (size_t i = CheckWrite->GetCount(); i > 0; i--)
+		{
+			if (!FD_ISSET(CheckWrite->operator[](i - 1)->_WinSocketHandle, &WriteSet))
+			{
+				CheckWrite->RemoveAt(i - 1);
+			}
+		}
+	}
+	if (CheckError != nullptr)
+	{
+		for (size_t i = CheckError->GetCount(); i > 0; i--)
+		{
+			if (!FD_ISSET(CheckError->operator[](i - 1)->_WinSocketHandle, &ErrorSet))
+			{
+				CheckError->RemoveAt(i - 1);
+			}
+		}
+	}
+}
+
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::TimeSpan Duration)
+{
+	return Select(CheckRead, CheckWrite, CheckError, Duration.GetTotalMilliseconds() * 1000);
+}
+
+const bool Elysium::Core::Net::Sockets::Socket::Poll(const Elysium::Core::int32_t MicroSeconds, const SelectMode Mode)
+{
+	fd_set CheckSet = fd_set();
+	FD_ZERO(&CheckSet);
+	FD_SET(_WinSocketHandle, &CheckSet);
+
+	timeval Duration;
+	Duration.tv_sec = static_cast<Elysium::Core::int32_t>(MicroSeconds / 1000000);
+	Duration.tv_usec = static_cast<Elysium::Core::int32_t>(MicroSeconds % 1000000);
+
+	if (const Elysium::Core::int32_t Result = select(0, Mode == SelectMode::SelectRead ? &CheckSet : nullptr, Mode == SelectMode::SelectWrite ? &CheckSet : nullptr,
+		Mode == SelectMode::SelectError ? &CheckSet : nullptr, &Duration) == SOCKET_ERROR)
+	{
+		throw SocketException();
+	}
+
+	return FD_ISSET(_WinSocketHandle, &CheckSet);
+}
+
+const bool Elysium::Core::Net::Sockets::Socket::Poll(const Elysium::Core::TimeSpan Duration, const SelectMode Mode)
+{
+	return Poll(Duration.GetTotalMilliseconds() * 1000, Mode);
 }
 
 void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elysium::Core::int32_t Port)
@@ -295,37 +456,6 @@ const Elysium::Core::IAsyncResult & Elysium::Core::Net::Sockets::Socket::BeginAc
 {
 	//WSAEventSelect(_WinSocketHandle, )
 	throw 1;
-}
-
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
-{
-	throw 1;	// either BitConverter for unsigned integers isn't working correctly or I'm doing something else incorrectly
-	/*
-	unsigned long dwBytesReturned = 0;
-	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, static_cast<const Elysium::Core::uint32_t>(ControlCode), &OptionInValue, OptionInValueLength,
-		OptionOutValue, OptionOutValueLength, &dwBytesReturned, nullptr, nullptr) == SOCKET_ERROR)
-	{
-		throw SocketException(u8"couldn't control the i/o mode of the socket.\r\n", WSAGetLastError());
-	}
-	else
-	{
-		return Result;
-	}
-	*/
-}
-
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength)
-{
-	unsigned long dwBytesReturned = 0;
-	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, static_cast<const Elysium::Core::uint64_t>(ControlCode), (DWORD*)&OptionInValue, sizeof(const Elysium::Core::uint32_t),
-		OptionOutValue, OptionOutValueLength, &dwBytesReturned, nullptr, nullptr) == SOCKET_ERROR)
-	{
-		throw SocketException();
-	}
-	else
-	{
-		return Result;
-	}
 }
 
 const size_t Elysium::Core::Net::Sockets::Socket::Send(const Elysium::Core::byte * Buffer, const size_t Count) const

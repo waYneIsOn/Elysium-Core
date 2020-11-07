@@ -16,18 +16,15 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <string>
-#endif
-
 using namespace Elysium::Core;
+using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Net::Sockets
 {
-	TEST_CLASS(UnitTestSocket)
+	TEST_CLASS(BlockingSocketTest)
 	{
 	public:
 		TEST_METHOD(Properties)
@@ -35,6 +32,24 @@ namespace UnitTests::Core::Net::Sockets
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
 			Assert::IsTrue(ClientSocket.GetBlocking());
+		}
+
+		TEST_METHOD(PollAndSelectRead)
+		{
+			Socket HttpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			HttpClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			Assert::IsFalse(HttpClientSocket.Poll(1000000, SelectMode::SelectRead));
+
+			Socket FtpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			FtpClientSocket.Connect(Elysium::Core::String("demo.wftpserver.com"), 21);
+			Assert::IsTrue(FtpClientSocket.Poll(1000000, SelectMode::SelectRead));
+
+			List<const Socket*> CheckRead = List<const Socket*>(2);
+			CheckRead[0] = &HttpClientSocket;
+			CheckRead[1] = &FtpClientSocket;
+			Socket::Select(&CheckRead, nullptr, nullptr, 1000000);
+			Assert::AreEqual((size_t)1, CheckRead.GetCount());
+			Assert::AreEqual((const void*)&FtpClientSocket, (const void*)CheckRead[0]);
 		}
 
 		TEST_METHOD(ParseIpAddresses)
@@ -99,6 +114,23 @@ namespace UnitTests::Core::Net::Sockets
 			{
 				int sadf = 456;
 			}
+		}
+
+		TEST_METHOD(RunIntoTimeout)
+		{
+			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.SetReceiveTimeout(1000);
+
+			try
+			{
+				byte Buffer[32];
+				const size_t BytesReceived = ClientSocket.Receive(&Buffer[0], 32);
+
+				Assert::Fail();
+			}
+			catch (const SocketException& ex)
+			{ }
 		}
 	};
 }

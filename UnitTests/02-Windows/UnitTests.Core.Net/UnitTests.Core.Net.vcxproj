@@ -174,7 +174,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="NetworkInterfaceTest.cpp" />
-    <ClCompile Include="SocketTest.cpp" />
+    <ClCompile Include="BlockingSocketTest.cpp" />
+    <ClCompile Include="NonBlockingSocketTest.cpp" />
     <ClCompile Include="TlsStreamTest.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class IOControlCode : Elysium::Core::uint64_t
+	enum class IOControlCode : Elysium::Core::int64_t
 #elif defined(__ANDROID__)
 	enum class IOControlCode
 #else

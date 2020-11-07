@@ -140,5 +140,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceComponent.hpp">
       <Filter>NetworkInformation</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IPProtectionLevel.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectMode.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

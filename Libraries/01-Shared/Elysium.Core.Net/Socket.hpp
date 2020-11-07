@@ -64,6 +64,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "SocketFlags.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_IPPROTECTIONLEVEL
+#include "IPProtectionLevel.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SELECTMODE
+#include "SelectMode.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IASYNCRESULT
 #include "../Elysium.Core/IAsyncResult.hpp"
 #endif
@@ -118,10 +126,24 @@ namespace Elysium::Core::Net::Sockets
 		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
 		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
 
+		void SetIPProtectionLevel(const IPProtectionLevel Level);
+
 		void SetReceiveTimeout(const Elysium::Core::int32_t Timeout);
 		void SetSendTimeout(const Elysium::Core::int32_t Timeout);
 		void SetReceiveBufferSize(const Elysium::Core::int32_t BufferSize);
 		void SetSendBufferSize(const Elysium::Core::int32_t BufferSize);
+
+		void SetBlocking(const bool Value);
+
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+
+		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
+		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
+
+		const bool Poll(const Elysium::Core::int32_t MicroSeconds, const SelectMode Mode);
+		const bool Poll(const Elysium::Core::TimeSpan Duration, const SelectMode Mode);
 
 		void Connect(const String& Host, const Elysium::Core::int32_t Port);
 		void Connect(const EndPoint& RemoteEndPoint);
@@ -134,9 +156,6 @@ namespace Elysium::Core::Net::Sockets
 		const Socket Accept();
 
 		const IAsyncResult& BeginAccept(const Socket& AcceptSocket, Elysium::Core::uint16_t ReceiveSize, const Delegate<void, IAsyncResult&>& Callback, const void* State);
-
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
 
 		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
 
@@ -162,6 +181,7 @@ namespace Elysium::Core::Net::Sockets
 
 		bool _IsConnected = false;
 		bool _IsClosed = false;
+		bool _IsBlocking = true;
 	};
 }
 #endif
