@@ -22,7 +22,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API IAsyncResult final
+	class ELYSIUM_CORE_API IAsyncResult
 	{
 	public:
 		IAsyncResult(const IAsyncResult& Source) = delete;
@@ -36,6 +36,8 @@ namespace Elysium::Core
 		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const = 0;
 		virtual const bool GetCompletedSynchronously() const = 0;
 		virtual const bool GetIsCompleted() const = 0;
+	protected:
+		IAsyncResult();
 	};
 }
 #endif

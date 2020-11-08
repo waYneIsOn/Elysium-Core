@@ -60,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />

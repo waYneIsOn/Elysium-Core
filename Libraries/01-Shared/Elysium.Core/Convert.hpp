@@ -45,7 +45,13 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Convert final
 	{
 	public:
-		~Convert();
+		Convert() = delete;
+		Convert(const Convert& Source) = delete;
+		Convert(Convert&& Right) noexcept = delete;
+		~Convert() = delete;
+
+		Convert& operator=(const Convert& Source) = delete;
+		Convert& operator=(Convert&& Right) noexcept = delete;
 
 		static const String ToString(const int16_t Value, const int32_t FromBase);
 		static const String ToString(const int32_t Value, const int32_t FromBase);
@@ -72,8 +78,6 @@ namespace Elysium::Core
 		static float ToSingle(const char* Value);
 		static float ToSingle(const Elysium::Core::String& Value);
 	private:
-		Convert();
-
 		static const String _Base64Chars;
 
 		static bool IsBase64(const char16_t Char);

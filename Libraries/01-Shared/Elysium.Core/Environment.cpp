@@ -1,5 +1,9 @@
 #include "Environment.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "InvalidOperationException.hpp"
 #endif
@@ -25,10 +29,6 @@ const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Ely
 #error "unsupported os"
 #endif
 
-Elysium::Core::Environment::~Environment()
-{
-}
-
 constexpr const bool Elysium::Core::Environment::Is64BitProcess()
 {
 #ifdef _WIN64 || __x86_64__ || __ppc64__
@@ -44,8 +44,8 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 	unsigned long BufferCount = 4096;	// DWORD
 	if (GetComputerName(MachineName, &BufferCount))
 	{
-		//return MachineName;
-		return String("not implemented");
+		const Elysium::Core::Text::Encoding& UTF16BE = Elysium::Core::Text::Encoding::UTF16BE();
+		return UTF16BE.GetString((byte*)&MachineName, BufferCount);
 	}
 	else
 	{
@@ -90,7 +90,7 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 		throw InvalidOperationException("This property was unable to obtain the system version.");
 	}
 }
-const uint32_t Elysium::Core::Environment::ProcessorCount()
+const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
 {
 	/*
 	SYSTEM_INFO sysinfo;
@@ -104,8 +104,8 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 	unsigned long BufferCount = 4096;	// DWORD
 	if (GetUserName(UserName, &BufferCount))
 	{
-		//return UserName;
-		return "not implemented";
+		const Elysium::Core::Text::Encoding& UTF16BE = Elysium::Core::Text::Encoding::UTF16BE();
+		return UTF16BE.GetString((byte*)&UserName, BufferCount);
 	}
 	else
 	{
@@ -118,8 +118,8 @@ const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 	unsigned long BufferCount = 4096;	// DWORD
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
 	{
-		//return SystemDirectory;
-		return "not implemented";
+		const Elysium::Core::Text::Encoding& UTF16BE = Elysium::Core::Text::Encoding::UTF16BE();
+		return UTF16BE.GetString((byte*)&SystemDirectory, BufferCount);
 	}
 	else
 	{
@@ -127,6 +127,3 @@ const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 	}
 }
 
-Elysium::Core::Environment::Environment()
-{
-}

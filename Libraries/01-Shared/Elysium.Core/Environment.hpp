@@ -33,18 +33,21 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Environment final
 	{
 	public:
-		~Environment();
+		Environment() = delete;
+		Environment(const Environment& Source) = delete;
+		Environment(Environment&& Right) noexcept = delete;
+		~Environment() = delete;
+
+		Environment& operator=(const Environment& Source) = delete;
+		Environment& operator=(Environment&& Right) noexcept = delete;
 
 		static constexpr const bool Is64BitProcess();
 		static const String MachineName();
 		static const String& NewLine();
 		static const OperatingSystem OSVersion();
-		static const uint32_t ProcessorCount();
+		static const Elysium::Core::uint32_t ProcessorCount();
 		static const String UserName();
 		static const String SystemDirectory();
-	private:
-		Environment();
-
 		static const String _NewLineCharacters;
 	};
 }

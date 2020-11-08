@@ -29,9 +29,6 @@
 
 const Elysium::Core::String Elysium::Core::Convert::_Base64Chars = u8"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-Elysium::Core::Convert::~Convert()
-{ }
-
 const Elysium::Core::String Elysium::Core::Convert::ToString(const int16_t Value, const int32_t FromBase)
 {	// ToDo
 	char Buffer[7];
@@ -457,10 +454,6 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
 	std::string ByteString((char*)&Bytes[0]);
 	return std::stof(ByteString);
-}
-
-Elysium::Core::Convert::Convert()
-{
 }
 
 bool Elysium::Core::Convert::IsBase64(const char16_t Char)

@@ -30,6 +30,12 @@ namespace UnitTests::Core
 			return (double)x / y;
 		}
 
+		static inline void StaticOneReferenceParameter(int & x)
+		{ }
+
+		static inline void StaticOnePointerParameter(int * x)
+		{ }
+
 		inline float OneParameter(int x)
 		{
 			return (float)x * x;
@@ -70,6 +76,10 @@ namespace UnitTests::Core
 			Delegate<double, int, int> DelegateInstance2 = Delegate<double, int, int>::CreateDelegate<UnitTestClass, &UnitTestClass::TwoParameters>(TestInstance);
 			double ResultInstance2 = DelegateInstance2(5, 2);
 			Assert::AreEqual(2.5, ResultInstance2);
+			
+			Delegate<void, int&> DelegateReference = Delegate<void, int&>::CreateDelegate<&UnitTestClass::StaticOneReferenceParameter>();
+
+			Delegate<void, int*> DelegatePointer = Delegate<void, int*>::CreateDelegate<&UnitTestClass::StaticOnePointerParameter>();
 		}
 	};
 }

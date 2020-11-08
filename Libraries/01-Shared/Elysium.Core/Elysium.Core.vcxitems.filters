@@ -118,6 +118,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
