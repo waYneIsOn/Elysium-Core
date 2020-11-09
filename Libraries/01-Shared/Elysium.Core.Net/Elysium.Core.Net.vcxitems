@@ -25,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceComponent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperationalStatus.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionLevel.hpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInformationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInterface.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp" />

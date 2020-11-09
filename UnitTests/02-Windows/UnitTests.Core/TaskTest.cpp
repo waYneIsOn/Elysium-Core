@@ -99,7 +99,7 @@ namespace UnitTests::Core::Threading::Tasks
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
+			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1, false);
 			Pool.Start();
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::LongRunning>(*this));
 			DateTime Start = DateTime::Now();

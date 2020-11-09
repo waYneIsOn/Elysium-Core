@@ -80,6 +80,14 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SENDRECEIVEASYNCRESULT
+#include "SendReceiveAsyncResult.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETERROR
+#include "SocketError.hpp"
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
@@ -90,6 +98,11 @@ Copyright (C) 2017 waYne (CAM)
 #error "undefined os"
 #endif
 
+namespace Elysium::Core::Threading
+{
+	class ThreadPool;
+}
+
 namespace Elysium::Core::Net::Sockets
 {
 	/*
@@ -98,8 +111,9 @@ namespace Elysium::Core::Net::Sockets
 	*/
 	// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-server-code
 	// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-client-code
-	class ELYSIUM_CORE_NET_API Socket
+	class ELYSIUM_CORE_NET_API Socket final
 	{
+		friend class Elysium::Core::Threading::ThreadPool;
 	public:
 		Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
 		Socket(const Socket& Source) = delete;
@@ -155,17 +169,19 @@ namespace Elysium::Core::Net::Sockets
 		void Listen(const Elysium::Core::int32_t Backlog);
 		const Socket Accept();
 
-		const IAsyncResult& BeginAccept(const Socket& AcceptSocket, Elysium::Core::uint16_t ReceiveSize, const Delegate<void, IAsyncResult&>& Callback, const void* State);
-
 		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
 
 		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const EndPoint& RemoteEndpoint) const;
 		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint) const;
 
-		const size_t Receive(Elysium::Core::byte* Buffer, const size_t Count) const;
+		const size_t Receive(const Elysium::Core::byte* Buffer, const size_t Count) const;
 
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
+		
+		const SendReceiveAsyncResult BeginReceive(const Elysium::Core::byte* Buffer, const size_t Count, const size_t Size, SocketFlags Flags,
+			const Delegate<void, const SendReceiveAsyncResult&>& Callback, const void* State) const;
+		const size_t EndReceive(const SendReceiveAsyncResult& Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
 	private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		Socket(SOCKET WinSocketHandle);
@@ -173,6 +189,7 @@ namespace Elysium::Core::Net::Sockets
 		static void InitializeWinSockAPI();
 
 		SOCKET _WinSocketHandle;
+		HANDLE _CompletionPort;
 #elif defined(__ANDROID__)
 
 #else

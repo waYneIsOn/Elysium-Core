@@ -8,13 +8,12 @@
 #include "Task.hpp"
 #endif
 
-Elysium::Core::Threading::ThreadPool::ThreadPool()
-	: _Ids(Elysium::Core::Collections::Template::Array<unsigned long>(Environment::ProcessorCount() - 1)),
-	_ThreadHandles(Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE>(Environment::ProcessorCount() - 1)),
-	_ShouldStop(false), _IsRunning(false)
+Elysium::Core::Threading::ThreadPool::ThreadPool(const bool IsIOPool)
+	: Elysium::Core::Threading::ThreadPool::ThreadPool(Environment::ProcessorCount() - 1, IsIOPool)
 { }
-Elysium::Core::Threading::ThreadPool::ThreadPool(const size_t NumberOfThreads)
-	: _Ids(Elysium::Core::Collections::Template::Array<unsigned long>(NumberOfThreads)),
+Elysium::Core::Threading::ThreadPool::ThreadPool(const size_t NumberOfThreads, const bool IsIOPool)
+	: _IsIOPool(IsIOPool),
+	_Ids(Elysium::Core::Collections::Template::Array<unsigned long>(NumberOfThreads)),
 	_ThreadHandles(Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE>(NumberOfThreads)),
 	_ShouldStop(false), _IsRunning(false)
 { }
@@ -35,9 +34,10 @@ void Elysium::Core::Threading::ThreadPool::Start()
 		return;
 	}
 	_ShouldStop = false;
+	LPTHREAD_START_ROUTINE ThreadMainMethod = _IsIOPool ? (LPTHREAD_START_ROUTINE)IOThreadMain : (LPTHREAD_START_ROUTINE)WorkerThreadMain;
 	for (size_t i = 0; i < _ThreadHandles.GetLength(); i++)
 	{
-		_ThreadHandles[i] = ELYSIUM_THREAD_CREATE(nullptr, 0, (LPTHREAD_START_ROUTINE)ThreadMain, this, 0, &_Ids[i]);
+		_ThreadHandles[i] = ELYSIUM_THREAD_CREATE(nullptr, 0, ThreadMainMethod, this, 0, nullptr);
 	}
 	_IsRunning = true;
 }
@@ -52,7 +52,14 @@ void Elysium::Core::Threading::ThreadPool::Stop()
 	_IsRunning = false;
 }
 
-void Elysium::Core::Threading::ThreadPool::ThreadMain(ThreadPool & ThreadPool)
+const bool Elysium::Core::Threading::ThreadPool::BindIOCompletionCallback(const Elysium::Core::Net::Sockets::Socket & Socket)
+{
+	_IOCompletionPortHandle = (ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._WinSocketHandle;
+
+	return BindIOCompletionCallback((ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._WinSocketHandle);
+}
+
+void Elysium::Core::Threading::ThreadPool::WorkerThreadMain(ThreadPool & ThreadPool)
 {
 	while (!ThreadPool._ShouldStop)
 	{
@@ -66,4 +73,22 @@ void Elysium::Core::Threading::ThreadPool::ThreadMain(ThreadPool & ThreadPool)
 			NextTask->RunSynchronously();
 		}
 	}
+}
+
+void Elysium::Core::Threading::ThreadPool::IOThreadMain(ThreadPool & ThreadPool)
+{
+	DWORD BytesTransferred;
+	DWORD SendBytes;
+	DWORD RecvBytes;
+
+	while (!ThreadPool._ShouldStop)
+	{
+		//ThreadPool._IOCompletionPortHandle
+	}
+}
+
+const bool Elysium::Core::Threading::ThreadPool::BindIOCompletionCallback(const ELYSIUM_IOCOMPLETIONPORT_HANDLE IOCompletionPortHandle)
+{
+	// ToDo: 2nd parameter = callback function
+	return ELYSIUM_IOCOMPLETIONPORT_BIND_CALLBACK(IOCompletionPortHandle, nullptr, 0);
 }

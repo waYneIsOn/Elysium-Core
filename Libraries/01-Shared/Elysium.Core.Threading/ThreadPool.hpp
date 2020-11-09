@@ -32,14 +32,18 @@ Copyright (C) 2017 waYne (CAM)
 #include <atomic>
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKET
+#include "../Elysium.Core.Net/Socket.hpp"
+#endif
+
 namespace Elysium::Core::Threading
 {
 	class ELYSIUM_CORE_API ThreadPool final
 	{
 		friend class Tasks::Task;
 	public:
-		ThreadPool();
-		ThreadPool(const size_t NumberOfThreads);
+		ThreadPool(const bool IsIOPool);
+		ThreadPool(const size_t NumberOfThreads, const bool IsIOPool);
 		ThreadPool(const ThreadPool& Source) = delete;
 		ThreadPool(ThreadPool&& Right) noexcept = delete;
 		~ThreadPool();
@@ -51,7 +55,12 @@ namespace Elysium::Core::Threading
 
 		void Start();
 		void Stop();
+
+		const bool BindIOCompletionCallback(const Elysium::Core::Net::Sockets::Socket& Socket);
 	private:
+		const bool _IsIOPool;
+		ELYSIUM_IOCOMPLETIONPORT_HANDLE _IOCompletionPortHandle;
+
 		const Elysium::Core::Collections::Template::Array<unsigned long> _Ids;
 		const Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE> _ThreadHandles;
 
@@ -60,7 +69,11 @@ namespace Elysium::Core::Threading
 		std::atomic<bool> _ShouldStop;
 		std::atomic<bool> _IsRunning;
 
-		static void ThreadMain(ThreadPool& ThreadPool);
+		static void WorkerThreadMain(ThreadPool& ThreadPool);
+
+		static void IOThreadMain(ThreadPool& ThreadPool);
+
+		const bool BindIOCompletionCallback(const ELYSIUM_IOCOMPLETIONPORT_HANDLE IOCompletionPortHandle);
 	};
 }
 #endif

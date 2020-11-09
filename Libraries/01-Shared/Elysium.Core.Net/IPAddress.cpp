@@ -8,8 +8,8 @@
 #include "../Elysium.Core/Convert.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "../Elysium.Core/NotImplementedException.hpp"
+#ifndef ELYSIUM_CORE_OBJECT
+#include "../Elysium.Core/Object.hpp"
 #endif
 
 Elysium::Core::Net::IPAddress::IPAddress()
@@ -65,4 +65,27 @@ const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const E
 	const Elysium::Core::uint8_t IpPart4 = Elysium::Core::Convert::ToInt32(&Value[StartIndexIpPart], 10);
 
 	return IPAddress((IpPart1 << 24) + (IpPart2 << 16) + (IpPart3 << 8) + IpPart4);
+}
+
+const Elysium::Core::String Elysium::Core::Net::IPAddress::ToString() const
+{	// ToDo
+	throw 1;
+	/*
+	Elysium::Core::byte* Data = (Elysium::Core::byte*)&_Address;
+
+	Elysium::Core::uint8_t b1 = Data[0];
+	Elysium::Core::uint8_t b2 = Data[1];
+	Elysium::Core::uint8_t b3 = Data[2];
+	Elysium::Core::uint8_t b4 = Data[3];
+	
+	switch (_Family)
+	{
+	case Elysium::Core::Net::Sockets::AddressFamily::InterNetwork:
+		return Elysium::Core::String();
+	case Elysium::Core::Net::Sockets::AddressFamily::InterNetworkV6:
+		return Elysium::Core::String();
+	default:
+		return Elysium::Core::String();
+	}
+	*/
 }

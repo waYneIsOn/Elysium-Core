@@ -38,6 +38,7 @@ Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketT
 		throw SocketException();
 	}
 
+	_CompletionPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, nullptr, 0, 0);
 }
 Elysium::Core::Net::Sockets::Socket::Socket(Socket && Right)
 {
@@ -376,7 +377,7 @@ void Elysium::Core::Net::Sockets::Socket::Connect(const EndPoint & RemoteEndPoin
 	Elysium::Core::int32_t Result;
 	if ((Result = connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize())) == SOCKET_ERROR)
 	{
-		Close();
+		//Close();
 		throw SocketException();
 	}
 
@@ -394,20 +395,6 @@ void Elysium::Core::Net::Sockets::Socket::Shutdown(const SocketShutdown Value)
 
 void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 {
-	/*
-	if (!GetIsConnected())
-	{
-		return;
-	}
-	*/
-	/*
-	SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ReuseAddress, true);	
-	Shutdown(SocketShutdown::Both);
-	if (!ReuseSocket)
-	{
-		Close();
-	}
-	*/
 	_IsConnected = false;
 }
 
@@ -452,12 +439,6 @@ const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::A
 	return Socket(ClientWinSocketHandle);
 }
 
-const Elysium::Core::IAsyncResult & Elysium::Core::Net::Sockets::Socket::BeginAccept(const Socket & AcceptSocket, Elysium::Core::uint16_t ReceiveSize, const Delegate<void, IAsyncResult&>& Callback, const void * State)
-{
-	//WSAEventSelect(_WinSocketHandle, )
-	throw 1;
-}
-
 const size_t Elysium::Core::Net::Sockets::Socket::Send(const Elysium::Core::byte * Buffer, const size_t Count) const
 {
 	Elysium::Core::int32_t BytesSent = send(_WinSocketHandle, (const char*)&Buffer[0], static_cast<const Elysium::Core::int32_t>(Count), 0);
@@ -487,7 +468,7 @@ const size_t Elysium::Core::Net::Sockets::Socket::SendTo(const Elysium::Core::by
 	return BytesSent;
 }
 
-const size_t Elysium::Core::Net::Sockets::Socket::Receive(Elysium::Core::byte * Buffer, const size_t Count) const
+const size_t Elysium::Core::Net::Sockets::Socket::Receive(const Elysium::Core::byte * Buffer, const size_t Count) const
 {
 	Elysium::Core::int32_t BytesReceived = recv(_WinSocketHandle, (char*)&Buffer[0], static_cast<const Elysium::Core::int32_t>(Count), 0);
 	if (BytesReceived == SOCKET_ERROR)
@@ -521,6 +502,43 @@ const size_t Elysium::Core::Net::Sockets::Socket::ReceiveFrom(const Elysium::Cor
 	return BytesReceived;
 }
 
+const Elysium::Core::Net::Sockets::SendReceiveAsyncResult Elysium::Core::Net::Sockets::Socket::BeginReceive(const Elysium::Core::byte * Buffer, const size_t Count, const size_t Size, SocketFlags Flags, const Delegate<void, const SendReceiveAsyncResult&>& Callback, const void * State) const
+{
+	/*
+	if (CreateIoCompletionPort((HANDLE)_WinSocketHandle, _CompletionPort, (DWORD)_WinSocketHandle, 0) == nullptr)
+	{
+		throw SocketException();
+	}
+	*/
+	SendReceiveAsyncResult AsyncResult = SendReceiveAsyncResult(this, State, 8192);
+	
+	/*
+	Elysium::Core::int32_t BytesReceived = WSARecv(_WinSocketHandle, (LPWSABUF)&AsyncResult.GetBuffer()[0], 1,
+		(char*)&Buffer[0], static_cast<const Elysium::Core::int32_t>(Count), 0);
+	if (BytesReceived == SOCKET_ERROR)
+	{
+		if (WSAGetLastError() != ERROR_IO_PENDING)
+		{
+			throw SocketException();
+		}
+	}
+	*/
+	//Callback(AsyncResult);
+
+	return AsyncResult;
+}
+
+const size_t Elysium::Core::Net::Sockets::Socket::EndReceive(const SendReceiveAsyncResult & Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode) const
+{
+	throw 1;
+}
+
+Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle)
+	: _WinSocketHandle(WinSocketHandle)
+{ 
+	InitializeWinSockAPI();
+}
+
 void Elysium::Core::Net::Sockets::Socket::InitializeWinSockAPI()
 {
 	WSADATA wsaData;
@@ -535,10 +553,4 @@ void Elysium::Core::Net::Sockets::Socket::InitializeWinSockAPI()
 			WSACleanup();
 		}
 	}
-}
-
-Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle)
-	: _WinSocketHandle(WinSocketHandle)
-{ 
-	InitializeWinSockAPI();
 }

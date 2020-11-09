@@ -16,10 +16,19 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_THREADPOOL
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
+#endif
+
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::Sockets;
+using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Net::Sockets
@@ -32,6 +41,9 @@ namespace UnitTests::Core::Net::Sockets
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
 			Assert::IsTrue(ClientSocket.GetBlocking());
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
 		}
 
 		TEST_METHOD(PollAndSelectRead)
@@ -50,6 +62,12 @@ namespace UnitTests::Core::Net::Sockets
 			Socket::Select(&CheckRead, nullptr, nullptr, 1000000);
 			Assert::AreEqual((size_t)1, CheckRead.GetCount());
 			Assert::AreEqual((const void*)&FtpClientSocket, (const void*)CheckRead[0]);
+
+			HttpClientSocket.Shutdown(SocketShutdown::Both);
+			HttpClientSocket.Disconnect(false);
+
+			FtpClientSocket.Shutdown(SocketShutdown::Both);
+			FtpClientSocket.Disconnect(false);
 		}
 
 		TEST_METHOD(ParseIpAddresses)
@@ -60,6 +78,8 @@ namespace UnitTests::Core::Net::Sockets
 			// IPv4
 			Elysium::Core::Net::IPAddress IPv4_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"127.0.0.1"));
 			Elysium::Core::Net::IPAddress IPv4_2 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"127.0.0.1:80"));
+
+			//Assert::AreEqual("127.0.0.1", &IPv4_1.ToString()[0]);
 
 			// IPv6
 			Elysium::Core::Net::IPAddress IPv6_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"0:0:0:0:0:0:0:1"));
@@ -72,6 +92,8 @@ namespace UnitTests::Core::Net::Sockets
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
 
@@ -82,6 +104,8 @@ namespace UnitTests::Core::Net::Sockets
 
 			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(RemoteEndPoint);
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
 
@@ -92,6 +116,8 @@ namespace UnitTests::Core::Net::Sockets
 
 			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(RemoteEndPoint);
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
 
@@ -99,14 +125,13 @@ namespace UnitTests::Core::Net::Sockets
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
-			ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
-			ClientSocket.Disconnect(true);
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
 
 			try
 			{
 				ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
-				ClientSocket.Shutdown(Elysium::Core::Net::Sockets::SocketShutdown::Both);
-				ClientSocket.Disconnect(true);
 
 				Assert::Fail();
 			}
@@ -131,6 +156,36 @@ namespace UnitTests::Core::Net::Sockets
 			}
 			catch (const SocketException& ex)
 			{ }
+		}
+
+		TEST_METHOD(AsyncReceive)
+		{
+
+			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+
+			ThreadPool IOPool = ThreadPool(1, true);
+			const bool IsSocketBound = IOPool.BindIOCompletionCallback(AsyncClient);
+			IOPool.Start();
+
+			AsyncClient.Connect(Elysium::Core::String("demo.wftpserver.com"), 21);
+
+			Elysium::Core::byte Buffer[256];
+			Delegate<void, const SendReceiveAsyncResult&> DelegateReceiveCallback = Delegate<void, const SendReceiveAsyncResult&>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this);
+			
+			SendReceiveAsyncResult Result = AsyncClient.BeginReceive(&Buffer[0], 256, 0, SocketFlags::None, DelegateReceiveCallback, nullptr);
+			_ReceiveDone.WaitOne();
+
+			IOPool.Stop();
+		}
+	private:
+		ManualResetEvent _ReceiveDone = ManualResetEvent(false);
+
+		void ReceiveCallback(const SendReceiveAsyncResult& Result)
+		{
+			SocketError ErrorCode = SocketError::Success;
+			const Socket& Socket = Result.GetSocket();
+			const size_t BytesReceived = Socket.EndReceive(Result, ErrorCode);
+			_ReceiveDone.Set();
 		}
 	};
 }

@@ -26,7 +26,48 @@ namespace UnitTests::Core::Net::Sockets
 	TEST_CLASS(NonBlockingSocketTest)
 	{
 	public:
-		TEST_METHOD(DoNothing)
+		TEST_METHOD(ConnectUsingHost)
+		{
+			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.SetBlocking(false);
+
+			try
+			{
+				ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+				Assert::Fail();
+			}
+			catch (const SocketException& ex)
+			{
+				SocketError InitialError = ex.GetSocketError();
+				if (InitialError != SocketError::WouldBlock)
+				{
+					Assert::Fail();
+				}
+
+				SocketError Error = SocketError::IsConnected;
+				do
+				{
+					try
+					{
+						ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+						Assert::Fail();
+					}
+					catch (const SocketException& ex)
+					{
+						Error = ex.GetSocketError();
+						if (Error == SocketError::NotConnected)
+						{
+							Assert::Fail();
+						}
+					}
+				} while (Error != SocketError::IsConnected);
+			}
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
+		}
+
+		TEST_METHOD(ReceiveNothing)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
@@ -43,6 +84,9 @@ namespace UnitTests::Core::Net::Sockets
 			}
 			catch(const SocketException& ex)
 			{ }
+
+			ClientSocket.Shutdown(SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
 		}
 	};
 }

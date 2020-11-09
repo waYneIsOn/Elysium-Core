@@ -80,6 +80,11 @@ Copyright (C) 2017 waYne (CAM)
 
 #define ELYSIUM_THREAD_SLEEP SleepEx
 
+// io completion port
+#define ELYSIUM_IOCOMPLETIONPORT_HANDLE HANDLE
+#define ELYSIUM_IOCOMPLETIONPORT_CREATE CreateIoCompletionPort
+#define ELYSIUM_IOCOMPLETIONPORT_BIND_CALLBACK BindIoCompletionCallback
+
 #elif defined(__ANDROID__)
 
 #elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))

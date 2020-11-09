@@ -43,6 +43,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInformationException.cpp">
       <Filter>NetworkInformation</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.cpp">
+      <Filter>Sockets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
@@ -144,6 +147,9 @@
       <Filter>Sockets</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectMode.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
   </ItemGroup>
