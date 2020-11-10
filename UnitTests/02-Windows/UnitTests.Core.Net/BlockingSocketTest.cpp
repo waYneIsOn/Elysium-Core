@@ -20,6 +20,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_THREAD
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
 #endif
@@ -160,19 +164,17 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(AsyncReceive)
 		{
-
-			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			Elysium::Core::byte Buffer[256];
+			Delegate<void, const Elysium::Core::IAsyncResult*> DelegateReceiveCallback = Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this);
 
 			ThreadPool IOPool = ThreadPool(1, true);
+
+			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			const bool IsSocketBound = IOPool.BindIOCompletionCallback(AsyncClient);
 			IOPool.Start();
 
 			AsyncClient.Connect(Elysium::Core::String("demo.wftpserver.com"), 21);
-
-			Elysium::Core::byte Buffer[256];
-			Delegate<void, const SendReceiveAsyncResult&> DelegateReceiveCallback = Delegate<void, const SendReceiveAsyncResult&>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this);
-			
-			SendReceiveAsyncResult Result = AsyncClient.BeginReceive(&Buffer[0], 256, 0, SocketFlags::None, DelegateReceiveCallback, nullptr);
+			const SendReceiveAsyncResult* Result = AsyncClient.BeginReceive(&Buffer[0], 256, 0, SocketFlags::None, DelegateReceiveCallback, nullptr);
 			_ReceiveDone.WaitOne();
 
 			IOPool.Stop();
@@ -180,10 +182,11 @@ namespace UnitTests::Core::Net::Sockets
 	private:
 		ManualResetEvent _ReceiveDone = ManualResetEvent(false);
 
-		void ReceiveCallback(const SendReceiveAsyncResult& Result)
+		void ReceiveCallback(const Elysium::Core::IAsyncResult* Result)
 		{
 			SocketError ErrorCode = SocketError::Success;
-			const Socket& Socket = Result.GetSocket();
+			const SendReceiveAsyncResult* AsyncResult = (const SendReceiveAsyncResult*)Result;
+			const Socket& Socket = AsyncResult->GetSocket();
 			const size_t BytesReceived = Socket.EndReceive(Result, ErrorCode);
 			_ReceiveDone.Set();
 		}

@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Net::Sockets
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SocketFlags : Elysium::Core::uint16_t
+	enum class SocketFlags : Elysium::Core::int32_t
 #elif defined(__ANDROID__)
 	enum class SocketFlags
 #else

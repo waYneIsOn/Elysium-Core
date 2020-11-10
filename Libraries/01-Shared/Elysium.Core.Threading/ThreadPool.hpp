@@ -59,7 +59,7 @@ namespace Elysium::Core::Threading
 		const bool BindIOCompletionCallback(const Elysium::Core::Net::Sockets::Socket& Socket);
 	private:
 		const bool _IsIOPool;
-		ELYSIUM_IOCOMPLETIONPORT_HANDLE _IOCompletionPortHandle;
+		ELYSIUM_IOCOMPLETIONPORT_HANDLE _SomeSocketIOCompletionPortHandle;
 
 		const Elysium::Core::Collections::Template::Array<unsigned long> _Ids;
 		const Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE> _ThreadHandles;

@@ -49,9 +49,9 @@ const int Elysium::Core::Threading::Thread::GetThreadId() const
 	return _Id;
 }
 
-const int Elysium::Core::Threading::Thread::GetCurrentThreadId()
+const int Elysium::Core::Threading::Thread::GetCurrentThreadIdX()
 {
-	throw NotImplementedException();
+	return ELYSIUM_THREAD_GETCURRENTTHREADID();
 }
 
 void Elysium::Core::Threading::Thread::Start()

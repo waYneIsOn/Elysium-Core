@@ -4,6 +4,10 @@
 #include "../Elysium.Core/Environment.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IASYNCRESULT
+#include "../Elysium.Core/IAsyncResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
 #include "Task.hpp"
 #endif
@@ -12,7 +16,7 @@ Elysium::Core::Threading::ThreadPool::ThreadPool(const bool IsIOPool)
 	: Elysium::Core::Threading::ThreadPool::ThreadPool(Environment::ProcessorCount() - 1, IsIOPool)
 { }
 Elysium::Core::Threading::ThreadPool::ThreadPool(const size_t NumberOfThreads, const bool IsIOPool)
-	: _IsIOPool(IsIOPool),
+	: _IsIOPool(IsIOPool), _SomeSocketIOCompletionPortHandle(nullptr),
 	_Ids(Elysium::Core::Collections::Template::Array<unsigned long>(NumberOfThreads)),
 	_ThreadHandles(Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE>(NumberOfThreads)),
 	_ShouldStop(false), _IsRunning(false)
@@ -48,15 +52,22 @@ void Elysium::Core::Threading::ThreadPool::Stop()
 		return;
 	}
 	_ShouldStop = true;
+	if (_IsIOPool)
+	{
+		OVERLAPPED Overlapped = OVERLAPPED();
+		ELYSIUM_IOCOMPLETIONPORT_POST_QUEUED_COMPLETION_STATUS(_SomeSocketIOCompletionPortHandle, 0, 0, &Overlapped);
+	}
 	ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS_EX(_ThreadHandles.GetLength(), &_ThreadHandles[0], true, INFINITE, false);
 	_IsRunning = false;
 }
 
 const bool Elysium::Core::Threading::ThreadPool::BindIOCompletionCallback(const Elysium::Core::Net::Sockets::Socket & Socket)
 {
-	_IOCompletionPortHandle = (ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._WinSocketHandle;
+	_SomeSocketIOCompletionPortHandle = (ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._CompletionPort;
 
-	return BindIOCompletionCallback((ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._WinSocketHandle);
+	return true;
+	//return BindIOCompletionCallback((ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._WinSocketHandle);
+	//return BindIOCompletionCallback((ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._CompletionPort);
 }
 
 void Elysium::Core::Threading::ThreadPool::WorkerThreadMain(ThreadPool & ThreadPool)
@@ -77,13 +88,30 @@ void Elysium::Core::Threading::ThreadPool::WorkerThreadMain(ThreadPool & ThreadP
 
 void Elysium::Core::Threading::ThreadPool::IOThreadMain(ThreadPool & ThreadPool)
 {
-	DWORD BytesTransferred;
+	DWORD BytesTransferred = 0;
 	DWORD SendBytes;
 	DWORD RecvBytes;
 
+	ULONG_PTR CompletionKey = 0;
+	LPOVERLAPPED Overlapped;
+
 	while (!ThreadPool._ShouldStop)
 	{
-		//ThreadPool._IOCompletionPortHandle
+		if (ELYSIUM_IOCOMPLETIONPORT_GET_QUEUED_COMPLETION_STATUS(ThreadPool._SomeSocketIOCompletionPortHandle, &BytesTransferred, &CompletionKey, &Overlapped, INFINITE) == 0)
+		{	// ERROR
+			int lkjasdf = 45;
+		}
+		else
+		{	// SUCCESS
+			Elysium::Core::IAsyncResult* AsyncResult = (Elysium::Core::IAsyncResult*)Overlapped->Pointer;
+			if (AsyncResult != nullptr)
+			{
+				const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = AsyncResult->GetCallback();
+				Callback(AsyncResult);
+
+				delete Overlapped;
+			}
+		}
 	}
 }
 

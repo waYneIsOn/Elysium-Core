@@ -66,7 +66,7 @@ namespace Elysium::Core::Threading
 		const Globalization::CultureInfo& GetCurrentCulture() const;
 		const int GetThreadId() const;
 
-		static const int GetCurrentThreadId();
+		static const int GetCurrentThreadIdX();
 
 		void Start();
 		void Start(void* Parameter);

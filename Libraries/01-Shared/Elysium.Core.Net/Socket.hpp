@@ -179,9 +179,9 @@ namespace Elysium::Core::Net::Sockets
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
 		
-		const SendReceiveAsyncResult BeginReceive(const Elysium::Core::byte* Buffer, const size_t Count, const size_t Size, SocketFlags Flags,
-			const Delegate<void, const SendReceiveAsyncResult&>& Callback, const void* State) const;
-		const size_t EndReceive(const SendReceiveAsyncResult& Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
+		const SendReceiveAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Count, const size_t Size, SocketFlags Flags,
+			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
+		const size_t EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
 	private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		Socket(SOCKET WinSocketHandle);

@@ -41,25 +41,12 @@ const bool Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetIsCompleted()
 	return false;
 }
 
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket * Socket, const void * AsyncState, const size_t BufferSize)
+const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetCallback() const
+{
+	return _Callback;
+}
+
+Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const IAsyncResult*> & Callback, const void * AsyncState, const size_t BufferSize)
 	: Elysium::Core::IAsyncResult(),
-	_Socket(Socket), _AsyncState(AsyncState), _Buffer(BufferSize)
+	_Socket(Socket), _Callback(Callback), _AsyncState(AsyncState), _Buffer(BufferSize)
 { }
-
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(SendReceiveAsyncResult && Right) noexcept
-	: Elysium::Core::IAsyncResult(),
-	_Socket(nullptr), _AsyncState(nullptr), _Buffer(0)
-{
-	*this = std::move(Right);
-}
-
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::operator=(SendReceiveAsyncResult && Right) noexcept
-{
-	if (this != &Right)
-	{
-		_Socket = std::move(Right._Socket);
-		_AsyncState = std::move(Right._AsyncState);
-		_Buffer = std::move(Right._Buffer);
-	}
-	return *this;
-}
