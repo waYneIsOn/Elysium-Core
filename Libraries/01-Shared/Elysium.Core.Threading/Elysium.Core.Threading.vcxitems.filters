@@ -21,6 +21,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt64.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InternalThreadPool.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
@@ -52,10 +55,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt64.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InternalThreadPool.hpp">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">
       <UniqueIdentifier>{bad83907-379c-4371-a4d3-d4725bd2c230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{bfcc74d7-ec95-4393-b1af-a07ca69f8349}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

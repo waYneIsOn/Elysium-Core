@@ -4,119 +4,33 @@
 #include "../Elysium.Core/Environment.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IASYNCRESULT
-#include "../Elysium.Core/IAsyncResult.hpp"
-#endif
+Elysium::Core::Threading::Internal::InternalThreadPool Elysium::Core::Threading::ThreadPool::_WorkerPool = Elysium::Core::Threading::Internal::InternalThreadPool(Elysium::Core::Environment::ProcessorCount(), Elysium::Core::Environment::ProcessorCount() * 128 - 1);
+Elysium::Core::Threading::Internal::InternalThreadPool Elysium::Core::Threading::ThreadPool::_IOPool = Elysium::Core::Threading::Internal::InternalThreadPool(Elysium::Core::Environment::ProcessorCount(), 1000);
 
-#ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
-#include "Task.hpp"
-#endif
-
-Elysium::Core::Threading::ThreadPool::ThreadPool(const bool IsIOPool)
-	: Elysium::Core::Threading::ThreadPool::ThreadPool(Environment::ProcessorCount() - 1, IsIOPool)
-{ }
-Elysium::Core::Threading::ThreadPool::ThreadPool(const size_t NumberOfThreads, const bool IsIOPool)
-	: _IsIOPool(IsIOPool), _SomeSocketIOCompletionPortHandle(nullptr),
-	_Ids(Elysium::Core::Collections::Template::Array<unsigned long>(NumberOfThreads)),
-	_ThreadHandles(Elysium::Core::Collections::Template::Array<ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE>(NumberOfThreads)),
-	_ShouldStop(false), _IsRunning(false)
-{ }
-Elysium::Core::Threading::ThreadPool::~ThreadPool()
-{ 
-	Stop();
+void Elysium::Core::Threading::ThreadPool::GetAvailableThreads(Elysium::Core::uint32_t & WorkerThreads, Elysium::Core::uint32_t & CompletionPortThreads)
+{
+	_WorkerPool.GetAvailableThreads(WorkerThreads);
+	_IOPool.GetAvailableThreads(CompletionPortThreads);
 }
 
-const size_t Elysium::Core::Threading::ThreadPool::GetNumberOfThreads() const
+void Elysium::Core::Threading::ThreadPool::GetMaxThreads(Elysium::Core::uint32_t & WorkerThreads, Elysium::Core::uint32_t & CompletionPortThreads)
 {
-	return _ThreadHandles.GetLength();
+	_WorkerPool.GetMaxThreads(WorkerThreads);
+	_IOPool.GetMaxThreads(CompletionPortThreads);
 }
 
-void Elysium::Core::Threading::ThreadPool::Start()
+void Elysium::Core::Threading::ThreadPool::GetMinThreads(Elysium::Core::uint32_t & WorkerThreads, Elysium::Core::uint32_t & CompletionPortThreads)
 {
-	if (_IsRunning)
-	{
-		return;
-	}
-	_ShouldStop = false;
-	LPTHREAD_START_ROUTINE ThreadMainMethod = _IsIOPool ? (LPTHREAD_START_ROUTINE)IOThreadMain : (LPTHREAD_START_ROUTINE)WorkerThreadMain;
-	for (size_t i = 0; i < _ThreadHandles.GetLength(); i++)
-	{
-		_ThreadHandles[i] = ELYSIUM_THREAD_CREATE(nullptr, 0, ThreadMainMethod, this, 0, nullptr);
-	}
-	_IsRunning = true;
-}
-void Elysium::Core::Threading::ThreadPool::Stop()
-{
-	if (_ShouldStop)
-	{
-		return;
-	}
-	_ShouldStop = true;
-	if (_IsIOPool)
-	{
-		OVERLAPPED Overlapped = OVERLAPPED();
-		ELYSIUM_IOCOMPLETIONPORT_POST_QUEUED_COMPLETION_STATUS(_SomeSocketIOCompletionPortHandle, 0, 0, &Overlapped);
-	}
-	ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_MULTIPLE_OBJECTS_EX(_ThreadHandles.GetLength(), &_ThreadHandles[0], true, INFINITE, false);
-	_IsRunning = false;
+	_WorkerPool.GetMinThreads(WorkerThreads);
+	_IOPool.GetMinThreads(CompletionPortThreads);
 }
 
-const bool Elysium::Core::Threading::ThreadPool::BindIOCompletionCallback(const Elysium::Core::Net::Sockets::Socket & Socket)
+const bool Elysium::Core::Threading::ThreadPool::SetMaxThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads)
 {
-	_SomeSocketIOCompletionPortHandle = (ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._CompletionPort;
-
-	return true;
-	//return BindIOCompletionCallback((ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._WinSocketHandle);
-	//return BindIOCompletionCallback((ELYSIUM_IOCOMPLETIONPORT_HANDLE)Socket._CompletionPort);
+	return _WorkerPool.SetMaxThreads(WorkerThreads) && _IOPool.SetMaxThreads(CompletionPortThreads);
 }
 
-void Elysium::Core::Threading::ThreadPool::WorkerThreadMain(ThreadPool & ThreadPool)
+const bool Elysium::Core::Threading::ThreadPool::SetMinThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads)
 {
-	while (!ThreadPool._ShouldStop)
-	{
-		// wait for available tasks
-		ThreadPool._WorkQueue._WorkAvailable.WaitOne();
-
-		// grab the next task and execute it
-		Tasks::Task* NextTask = ThreadPool._WorkQueue.GetNextTask();
-		if (NextTask != nullptr)
-		{
-			NextTask->RunSynchronously();
-		}
-	}
-}
-
-void Elysium::Core::Threading::ThreadPool::IOThreadMain(ThreadPool & ThreadPool)
-{
-	DWORD BytesTransferred = 0;
-	DWORD SendBytes;
-	DWORD RecvBytes;
-
-	ULONG_PTR CompletionKey = 0;
-	LPOVERLAPPED Overlapped;
-
-	while (!ThreadPool._ShouldStop)
-	{
-		if (ELYSIUM_IOCOMPLETIONPORT_GET_QUEUED_COMPLETION_STATUS(ThreadPool._SomeSocketIOCompletionPortHandle, &BytesTransferred, &CompletionKey, &Overlapped, INFINITE) == 0)
-		{	// ERROR
-			int lkjasdf = 45;
-		}
-		else
-		{	// SUCCESS
-			Elysium::Core::IAsyncResult* AsyncResult = (Elysium::Core::IAsyncResult*)Overlapped->Pointer;
-			if (AsyncResult != nullptr)
-			{
-				const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = AsyncResult->GetCallback();
-				Callback(AsyncResult);
-
-				delete Overlapped;
-			}
-		}
-	}
-}
-
-const bool Elysium::Core::Threading::ThreadPool::BindIOCompletionCallback(const ELYSIUM_IOCOMPLETIONPORT_HANDLE IOCompletionPortHandle)
-{
-	// ToDo: 2nd parameter = callback function
-	return ELYSIUM_IOCOMPLETIONPORT_BIND_CALLBACK(IOCompletionPortHandle, nullptr, 0);
+	return _WorkerPool.SetMinThreads(WorkerThreads) && _IOPool.SetMinThreads(CompletionPortThreads);
 }

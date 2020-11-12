@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt64.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InternalThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperationCanceledException.hpp" />
@@ -44,6 +45,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt64.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InternalThreadPool.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ManualResetEvent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp" />

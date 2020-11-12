@@ -19,10 +19,6 @@ Copyright (C) 2017 waYne (CAM)
 #include <Windows.h>
 #endif
 
-#ifndef _SYNCHAPI_H_
-#include <synchapi.h>
-#endif
-
 // Any synchronization primitive
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE HANDLE
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_DESTROY CloseHandle
@@ -81,6 +77,34 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_THREAD_SLEEP SleepEx
 
 #define ELYSIUM_THREAD_GETCURRENTTHREADID GetCurrentThreadId
+
+// Thread Pool
+#define ELYSIUM_THREADPOOL_HANDLE PTP_POOL
+#define ELYSIUM_THREADPOOL_ENVIRONMENT TP_CALLBACK_ENVIRON_V3
+#define ELYSIUM_THREADPOOL_CLEANUPGROUP_HANDLE PTP_CLEANUP_GROUP
+
+#define ELYSIUM_THREADPOOL_CREATE CreateThreadpool
+#define ELYSIUM_THREADPOOL_ENVIRONMENT_INITIALIZE InitializeThreadpoolEnvironment
+#define ELYSIUM_THREADPOOL_CLEANUPGROUP_CREATE CreateThreadpoolCleanupGroup
+#define ELYSIUM_THREADPOOL_SET_CALLBACK_POOL SetThreadpoolCallbackPool
+#define ELYSIUM_THREADPOOL_SET_CALLBACK_LIBRARY SetThreadpoolCallbackLibrary
+#define ELYSIUM_THREADPOOL_SET_CALLBACK_CLEANUPGROUP SetThreadpoolCallbackCleanupGroup
+
+#define ELYSIUM_THREADPOOL_SET_THREAD_MAXIMUM SetThreadpoolThreadMaximum
+#define ELYSIUM_THREADPOOL_SET_THREAD_MINIMUM SetThreadpoolThreadMinimum
+
+#define ELYSIUM_THREADPOOL_CLEANUPGROUP_CLOSE_MEMBERS CloseThreadpoolCleanupGroupMembers
+#define ELYSIUM_THREADPOOL_CLEANUPGROUP_CLOSE CloseThreadpoolCleanupGroup
+#define ELYSIUM_THREADPOOL_ENVIRONMENT_DESTROY DestroyThreadpoolEnvironment
+#define ELYSIUM_THREADPOOL_CLOSE CloseThreadpool
+
+/*
+#define ELYSIUM_THREADPOOL_IO_CREATE CreateThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_START StartThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_CANCEL CancelThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_CLOSE CloseThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_WAIT_FOR_CALLBACKS WaitForThreadpoolIoCallbacks
+*/
 
 // io completion port
 #define ELYSIUM_IOCOMPLETIONPORT_HANDLE HANDLE

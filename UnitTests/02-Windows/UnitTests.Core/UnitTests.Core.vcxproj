@@ -188,6 +188,7 @@
     <ClCompile Include="ReflectionTest.cpp" />
     <ClCompile Include="StringTest.cpp" />
     <ClCompile Include="TaskTest.cpp" />
+    <ClCompile Include="ThreadPoolTest.cpp" />
     <ClCompile Include="ThreadTest.cpp" />
     <ClCompile Include="TimeSpanTest.cpp" />
     <ClCompile Include="UriTest.cpp" />

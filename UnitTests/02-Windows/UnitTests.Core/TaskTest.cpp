@@ -41,7 +41,7 @@ using namespace Elysium::Core::Threading;
 using namespace Elysium::Core::Threading::Tasks;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Threading::Tasks
+namespace UnitTests::Core::Threading
 {
 	TEST_CLASS(TaskTests)
 	{
@@ -83,7 +83,7 @@ namespace UnitTests::Core::Threading::Tasks
 		TEST_METHOD(RunAsynchronously)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
-
+			/*
 			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1);
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
 			Pool.Start();
@@ -94,11 +94,13 @@ namespace UnitTests::Core::Threading::Tasks
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsCompletedSuccessfully());
+			*/
+			Assert::Fail();
 		}
 		TEST_METHOD(RunAsynchronouslyAndAwaitLongRunning)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
-
+			/*
 			Elysium::Core::Threading::ThreadPool Pool = Elysium::Core::Threading::ThreadPool(1, false);
 			Pool.Start();
 			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::LongRunning>(*this));
@@ -109,6 +111,8 @@ namespace UnitTests::Core::Threading::Tasks
 			Pool.Stop();
 
 			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5.0);
+			*/
+			Assert::Fail();
 		}
 	private:
 		int _OriginalValue = 5;

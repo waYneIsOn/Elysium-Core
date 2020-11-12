@@ -40,6 +40,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/AggregateException.hpp"
 #endif
 
+#ifndef _ATOMIC_
+#include <atomic>
+#endif
+
 namespace Elysium::Core::Threading::Tasks
 {
 	class ELYSIUM_CORE_API Task final
