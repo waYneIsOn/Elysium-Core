@@ -5,8 +5,8 @@ Copyright (C) 2017 waYne (CAM)
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_THREADING_INTERNAL_INTERNALTHREADPOOL
-#define ELYSIUM_CORE_THREADING_INTERNAL_INTERNALTHREADPOOL
+#ifndef ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
+#define ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,19 +24,29 @@ Copyright (C) 2017 waYne (CAM)
 #include "System.hpp"
 #endif
 
+namespace Elysium::Core::Threading::Tasks
+{
+	class Task;
+}
+
 namespace Elysium::Core::Threading::Internal
 {
-	class InternalThreadPool final
+	class OSThreadPool final
 	{
+		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
-		InternalThreadPool(const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum);
-		InternalThreadPool(const InternalThreadPool& Source) = delete;
-		InternalThreadPool(InternalThreadPool&& Right) noexcept = delete;
-		~InternalThreadPool();
+		OSThreadPool(const bool IsIOPool, const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum);
+		OSThreadPool(const OSThreadPool& Source) = delete;
+		OSThreadPool(OSThreadPool&& Right) noexcept = delete;
+		~OSThreadPool();
 
-		InternalThreadPool& operator=(const InternalThreadPool& Source) = delete;
-		InternalThreadPool& operator=(InternalThreadPool&& Right) noexcept = delete;
-
+		OSThreadPool& operator=(const OSThreadPool& Source) = delete;
+		OSThreadPool& operator=(OSThreadPool&& Right) noexcept = delete;
+		/*
+		const Elysium::Core::uint64_t GetCompletedWorkItemCount() const;
+		const Elysium::Core::uint64_t GetPendingWorkItemCount() const;
+		const Elysium::Core::uint32_t GetThreadCount() const;
+		*/
 		void GetAvailableThreads(Elysium::Core::uint32_t& Threads) const;
 		void GetMaxThreads(Elysium::Core::uint32_t& Threads) const;
 		void GetMinThreads(Elysium::Core::uint32_t& Threads) const;

@@ -8,23 +8,27 @@ Elysium::Core::Threading::WaitHandle::~WaitHandle()
 	assert(WasDestroyed == true);
 }
 
-const bool Elysium::Core::Threading::WaitHandle::WaitOne()
+const bool Elysium::Core::Threading::WaitHandle::WaitOne() const
 {
 	return WaitOne(INFINITE, false);
 }
-const bool Elysium::Core::Threading::WaitHandle::WaitOne(const TimeSpan & Timeout)
+
+const bool Elysium::Core::Threading::WaitHandle::WaitOne(const TimeSpan & Timeout) const
 {
 	return WaitOne(static_cast<const int32_t>(Timeout.GetTotalMilliseconds()), false);
 }
-const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t MillisecondsTimeout)
+
+const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t MillisecondsTimeout) const
 {
 	return WaitOne(MillisecondsTimeout, false);
 }
-const bool Elysium::Core::Threading::WaitHandle::WaitOne(const TimeSpan & Timeout, const bool ExitContext)
+
+const bool Elysium::Core::Threading::WaitHandle::WaitOne(const TimeSpan & Timeout, const bool ExitContext) const
 {
 	return WaitOne(static_cast<const int32_t>(Timeout.GetTotalMilliseconds()), ExitContext);
 }
-const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext)
+
+const bool Elysium::Core::Threading::WaitHandle::WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext) const
 {
 	return ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_SINGLE_OBJECT(_Handle, MillisecondsTimeout) == WAIT_OBJECT_0;
 	//GetLastError();

@@ -19,9 +19,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CriticalSection.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt32.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InterlockedInt64.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InternalThreadPool.cpp">
+    <ClCompile Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Threading\OSThreadPool.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,9 +51,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt32.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)InterlockedInt64.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)InternalThreadPool.hpp">
+    <ClInclude Include="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Threading\OSThreadPool.hpp">
       <Filter>Internal</Filter>
     </ClInclude>
   </ItemGroup>

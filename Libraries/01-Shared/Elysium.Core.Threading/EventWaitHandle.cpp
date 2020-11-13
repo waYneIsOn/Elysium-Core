@@ -6,11 +6,11 @@ Elysium::Core::Threading::EventWaitHandle::EventWaitHandle(const bool Automatica
 Elysium::Core::Threading::EventWaitHandle::~EventWaitHandle()
 { }
 
-const bool Elysium::Core::Threading::EventWaitHandle::Set()
+const bool Elysium::Core::Threading::EventWaitHandle::Set()  const
 {
 	return ELYSIUM_SIGNAL_RAISE(_Handle);
 }
-const bool Elysium::Core::Threading::EventWaitHandle::Reset()
+const bool Elysium::Core::Threading::EventWaitHandle::Reset() const
 {
 	return ELYSIUM_SIGNAL_CLEAR(_Handle);
 }

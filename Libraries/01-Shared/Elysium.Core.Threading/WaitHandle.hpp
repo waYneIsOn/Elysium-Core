@@ -42,19 +42,19 @@ namespace Elysium::Core::Threading
 		WaitHandle& operator=(WaitHandle&& Right) noexcept = delete;
 
 		// Blocks the current thread until the current WaitHandle receives a signal.
-		virtual const bool WaitOne();
+		virtual const bool WaitOne() const;
 
 		// Blocks the current thread until the current instance receives a signal, using a TimeSpan to specify the time interval.
-		virtual const bool WaitOne(const TimeSpan& Timeout);
+		virtual const bool WaitOne(const TimeSpan& Timeout) const;
 
 		// Blocks the current thread until the current instance receives a signal, using a 32-bit signed integer to specify the time interval in milliseconds.
-		virtual const bool WaitOne(const int32_t MillisecondsTimeout);
+		virtual const bool WaitOne(const int32_t MillisecondsTimeout) const;
 
 		// Blocks the current thread until the current instance receives a signal, using a TimeSpan to specify the time interval and specifying whether to exit the synchronization domain before the wait.
-		virtual const bool WaitOne(const TimeSpan& Timeout, const bool ExitContext);
+		virtual const bool WaitOne(const TimeSpan& Timeout, const bool ExitContext) const;
 
 		// Blocks the current thread until the current instance receives a signal, using a 32-bit signed integer to specify the time interval and specifying whether to exit the synchronization domain before the wait.
-		virtual const bool WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext);
+		virtual const bool WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext) const;
 	protected:
 		WaitHandle(const ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE Handle);
 

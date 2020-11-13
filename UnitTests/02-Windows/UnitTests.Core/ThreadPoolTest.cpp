@@ -21,7 +21,7 @@ namespace UnitTests::Core::Threading
 	TEST_CLASS(ThreadPoolTest)
 	{
 	public:
-		TEST_METHOD(Bla)
+		TEST_METHOD(ReadProperties)
 		{
 			Elysium::Core::uint32_t WorkerThreads;
 			Elysium::Core::uint32_t IOThreads;

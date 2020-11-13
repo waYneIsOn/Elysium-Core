@@ -20,14 +20,21 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_INTERNAL_INTERNALTHREADPOOL
-#include "InternalThreadPool.hpp"
+#ifndef ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
+#include "OSThreadPool.hpp"
 #endif
+
+namespace Elysium::Core::Threading::Tasks
+{
+	class Task;
+}
 
 namespace Elysium::Core::Threading
 {
+
 	class ELYSIUM_CORE_API ThreadPool final
 	{
+		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
 		ThreadPool() = delete;
 		ThreadPool(const ThreadPool& Source) = delete;
@@ -36,7 +43,11 @@ namespace Elysium::Core::Threading
 
 		ThreadPool& operator=(const ThreadPool& Source) = delete;
 		ThreadPool& operator=(ThreadPool&& Right) noexcept = delete;
-
+		/*
+		static const Elysium::Core::uint64_t GetCompletedWorkItemCount();
+		static const Elysium::Core::uint64_t GetPendingWorkItemCount();
+		static const Elysium::Core::uint32_t GetThreadCount();
+		*/
 		static void GetAvailableThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
 		static void GetMaxThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
 		static void GetMinThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
@@ -44,8 +55,8 @@ namespace Elysium::Core::Threading
 		static const bool SetMaxThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
 		static const bool SetMinThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
 	private:
-		static Internal::InternalThreadPool _WorkerPool;
-		static Internal::InternalThreadPool _IOPool;
+		static Internal::OSThreadPool _WorkerPool;
+		static Internal::OSThreadPool _IOPool;
 	};
 }
 #endif

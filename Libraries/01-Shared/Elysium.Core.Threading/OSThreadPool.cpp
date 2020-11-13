@@ -1,4 +1,4 @@
-#include "InternalThreadPool.hpp"
+#include "OSThreadPool.hpp"
 
 #ifndef ELYSIUM_CORE_ENVIRONMENT
 #include "../Elysium.Core/Environment.hpp"
@@ -8,7 +8,7 @@
 #include <libloaderapi.h>
 #endif
 
-Elysium::Core::Threading::Internal::InternalThreadPool::InternalThreadPool(const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum)
+Elysium::Core::Threading::Internal::OSThreadPool::OSThreadPool(const bool IsIOPool, const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum)
 	: _Handle(ELYSIUM_THREADPOOL_CREATE(nullptr)), _Environment(ELYSIUM_THREADPOOL_ENVIRONMENT()), _CleanupGroup(ELYSIUM_THREADPOOL_CLEANUPGROUP_CREATE()),
 	_MaxThreads(Maximum), _MinThreads(Minimum)
 {
@@ -23,10 +23,10 @@ Elysium::Core::Threading::Internal::InternalThreadPool::InternalThreadPool(const
 	ELYSIUM_THREADPOOL_SET_CALLBACK_LIBRARY(&_Environment, ExecutingModuleHandle);
 	ELYSIUM_THREADPOOL_SET_CALLBACK_CLEANUPGROUP(&_Environment, _CleanupGroup, nullptr);
 
-	SetMaxThreads(Maximum);
-	SetMinThreads(Minimum);
+	const bool SetMaxThreadsResult = SetMaxThreads(Maximum);
+	const bool SetMinThreadsResult = SetMinThreads(Minimum);
 }
-Elysium::Core::Threading::Internal::InternalThreadPool::~InternalThreadPool()
+Elysium::Core::Threading::Internal::OSThreadPool::~OSThreadPool()
 {
 	ELYSIUM_THREADPOOL_CLEANUPGROUP_CLOSE_MEMBERS(_CleanupGroup, false, nullptr);
 
@@ -35,30 +35,30 @@ Elysium::Core::Threading::Internal::InternalThreadPool::~InternalThreadPool()
 	ELYSIUM_THREADPOOL_CLOSE(_Handle);
 }
 
-void Elysium::Core::Threading::Internal::InternalThreadPool::GetAvailableThreads(Elysium::Core::uint32_t & Threads) const
+void Elysium::Core::Threading::Internal::OSThreadPool::GetAvailableThreads(Elysium::Core::uint32_t & Threads) const
 {	// ToDo: this should return the difference of _MaxThreads and currently used ones 
 	Threads = _MaxThreads;
 }
 
-void Elysium::Core::Threading::Internal::InternalThreadPool::GetMaxThreads(Elysium::Core::uint32_t & Threads) const
+void Elysium::Core::Threading::Internal::OSThreadPool::GetMaxThreads(Elysium::Core::uint32_t & Threads) const
 {
 	Threads = _MaxThreads;
 }
 
-void Elysium::Core::Threading::Internal::InternalThreadPool::GetMinThreads(Elysium::Core::uint32_t & Threads) const
+void Elysium::Core::Threading::Internal::OSThreadPool::GetMinThreads(Elysium::Core::uint32_t & Threads) const
 {
 	Threads = _MinThreads;
 }
 
-const bool Elysium::Core::Threading::Internal::InternalThreadPool::SetMaxThreads(const Elysium::Core::uint32_t Threads)
+const bool Elysium::Core::Threading::Internal::OSThreadPool::SetMaxThreads(const Elysium::Core::uint32_t Threads)
 {
 	ELYSIUM_THREADPOOL_SET_THREAD_MAXIMUM(_Handle, Threads);
 	_MaxThreads = Threads;
 
-	return false;
+	return true;
 }
 
-const bool Elysium::Core::Threading::Internal::InternalThreadPool::SetMinThreads(const Elysium::Core::uint32_t Threads)
+const bool Elysium::Core::Threading::Internal::OSThreadPool::SetMinThreads(const Elysium::Core::uint32_t Threads)
 {
 	_MinThreads = Threads;
 	return ELYSIUM_THREADPOOL_SET_THREAD_MINIMUM(_Handle, Threads);

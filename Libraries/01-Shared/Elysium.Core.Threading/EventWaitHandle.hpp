@@ -35,10 +35,10 @@ namespace Elysium::Core::Threading
 		EventWaitHandle& operator=(EventWaitHandle&& Right) noexcept = delete;
 
 		// Sets the state of the event to signaled, allowing one or more waiting threads to proceed.
-		const bool Set();
+		const bool Set() const;
 
 		// Sets the state of the event to nonsignaled, causing threads to block.
-		const bool Reset();
+		const bool Reset() const;
 	};
 }
 #endif

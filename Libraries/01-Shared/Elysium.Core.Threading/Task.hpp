@@ -20,6 +20,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_SYSTEM
+#include "System.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASKCREATIONOPTIONS
 #include "TaskCreationOptions.hpp"
 #endif
@@ -57,7 +61,7 @@ namespace Elysium::Core::Threading::Tasks
 		Task& operator=(const Task& Source) = delete;
 		Task& operator=(Task&& Right) noexcept = delete;
 
-		const int32_t GetId() const;
+		const Elysium::Core::int32_t GetId() const;
 		const TaskCreationOptions GetCreationOptions() const;
 		const TaskStatus GetStatus() const;
 		const AggregateException* GetException() const;
@@ -68,19 +72,21 @@ namespace Elysium::Core::Threading::Tasks
 		const bool GetIsFaulted() const;
 		
 		void RunSynchronously();
-		void Start(ThreadPool& ThreadPool);
+		void Start();
 		void Wait();
 	private:
-		const int32_t _Id;
+		static Elysium::Core::int32_t _TaskIdCounter;
+
+		const ELYSIUM_TASK_HANDLE _Handle;
 		const Delegate<void> _Action;
+		const Elysium::Core::int32_t _Id;
 		const TaskCreationOptions _CreationOptions;
+		const AutoResetEvent _WaitEvent;
 
 		std::atomic<TaskStatus> _Status;
 		std::atomic<AggregateException*> _Exception;
 
-		AutoResetEvent _WaitEvent;
-
-		static int32_t _TaskIdCounter;
+		static void Callback(PTP_CALLBACK_INSTANCE Instance, void* Context, PTP_WORK Work);
 	};
 }
 #endif
