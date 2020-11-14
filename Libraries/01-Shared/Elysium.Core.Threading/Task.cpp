@@ -106,7 +106,7 @@ void Elysium::Core::Threading::Tasks::Task::Wait()
 	}
 }
 
-void Elysium::Core::Threading::Tasks::Task::Callback(PTP_CALLBACK_INSTANCE Instance, void * Context, PTP_WORK Work)
+void Elysium::Core::Threading::Tasks::Task::Callback(ELYSIUM_TASK_CALLBACK_INSTANCE Instance, void * Context, ELYSIUM_TASK_HANDLE Work)
 {
 	Task* CurrentTask = (Task*)Context;
 	CurrentTask->RunSynchronously();

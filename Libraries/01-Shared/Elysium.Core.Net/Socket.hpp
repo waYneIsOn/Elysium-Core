@@ -179,7 +179,7 @@ namespace Elysium::Core::Net::Sockets
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
 		
-		const SendReceiveAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Count, const size_t Size, SocketFlags Flags,
+		const SendReceiveAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
 			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
 		const size_t EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
 	private:
@@ -189,16 +189,17 @@ namespace Elysium::Core::Net::Sockets
 		static void InitializeWinSockAPI();
 
 		SOCKET _WinSocketHandle;
-		HANDLE _CompletionPort;
+		PTP_IO _CompletionPortHandle;
 #elif defined(__ANDROID__)
 
 #else
 
 #endif
-
 		bool _IsConnected = false;
 		bool _IsClosed = false;
 		bool _IsBlocking = true;
+
+		static void Callback(PTP_CALLBACK_INSTANCE Instance, PVOID Context, PVOID Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
 	};
 }
 #endif

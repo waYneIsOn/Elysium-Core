@@ -164,20 +164,16 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(AsyncReceive)
 		{
-			Elysium::Core::byte Buffer[256];
-			Delegate<void, const Elysium::Core::IAsyncResult*> DelegateReceiveCallback = Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this);
-
-			ThreadPool IOPool = ThreadPool(1, true);
-
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			const bool IsSocketBound = IOPool.BindIOCompletionCallback(AsyncClient);
-			IOPool.Start();
-
 			AsyncClient.Connect(Elysium::Core::String("demo.wftpserver.com"), 21);
-			const SendReceiveAsyncResult* Result = AsyncClient.BeginReceive(&Buffer[0], 256, 0, SocketFlags::None, DelegateReceiveCallback, nullptr);
+
+			Elysium::Core::byte Buffer[256];
+			const SendReceiveAsyncResult* Result = AsyncClient.BeginReceive(&Buffer[0], 256, SocketFlags::None,
+				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			_ReceiveDone.WaitOne();
 
-			IOPool.Stop();
+			AsyncClient.Shutdown(SocketShutdown::Both);
+			AsyncClient.Disconnect(false);
 		}
 	private:
 		ManualResetEvent _ReceiveDone = ManualResetEvent(false);

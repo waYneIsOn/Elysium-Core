@@ -8,7 +8,7 @@
 #include <libloaderapi.h>
 #endif
 
-Elysium::Core::Threading::Internal::OSThreadPool::OSThreadPool(const bool IsIOPool, const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum)
+Elysium::Core::Threading::Internal::OSThreadPool::OSThreadPool(const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum)
 	: _Handle(ELYSIUM_THREADPOOL_CREATE(nullptr)), _Environment(ELYSIUM_THREADPOOL_ENVIRONMENT()), _CleanupGroup(ELYSIUM_THREADPOOL_CLEANUPGROUP_CREATE()),
 	_MaxThreads(Maximum), _MinThreads(Minimum)
 {

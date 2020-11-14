@@ -4,8 +4,8 @@
 #include "../Elysium.Core/Environment.hpp"
 #endif
 
-Elysium::Core::Threading::Internal::OSThreadPool Elysium::Core::Threading::ThreadPool::_WorkerPool = Elysium::Core::Threading::Internal::OSThreadPool(false, Elysium::Core::Environment::ProcessorCount(), Elysium::Core::Environment::ProcessorCount() * 128 - 1);
-Elysium::Core::Threading::Internal::OSThreadPool Elysium::Core::Threading::ThreadPool::_IOPool = Elysium::Core::Threading::Internal::OSThreadPool(true, Elysium::Core::Environment::ProcessorCount(), 1000);
+Elysium::Core::Threading::Internal::OSThreadPool Elysium::Core::Threading::ThreadPool::_WorkerPool = Elysium::Core::Threading::Internal::OSThreadPool(Elysium::Core::Environment::ProcessorCount(), Elysium::Core::Environment::ProcessorCount() * 128 - 1);
+Elysium::Core::Threading::Internal::OSThreadPool Elysium::Core::Threading::ThreadPool::_IOPool = Elysium::Core::Threading::Internal::OSThreadPool(Elysium::Core::Environment::ProcessorCount(), 1000);
 
 void Elysium::Core::Threading::ThreadPool::GetAvailableThreads(Elysium::Core::uint32_t & WorkerThreads, Elysium::Core::uint32_t & CompletionPortThreads)
 {

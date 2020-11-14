@@ -11,16 +11,6 @@
 Elysium::Core::Net::Sockets::SendReceiveAsyncResult::~SendReceiveAsyncResult()
 { }
 
-const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetSocket() const
-{
-	return *_Socket;
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetBuffer() const
-{
-	return _Buffer;
-}
-
 const void * Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetAsyncState() const
 {
 	return _AsyncState;
@@ -45,6 +35,17 @@ const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Elysium
 {
 	return _Callback;
 }
+
+const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetSocket() const
+{
+	return *_Socket;
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetBuffer() const
+{
+	return _Buffer;
+}
+
 
 Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const IAsyncResult*> & Callback, const void * AsyncState, const size_t BufferSize)
 	: Elysium::Core::IAsyncResult(),

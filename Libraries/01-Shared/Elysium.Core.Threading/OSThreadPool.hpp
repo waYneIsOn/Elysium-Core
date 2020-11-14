@@ -24,6 +24,11 @@ Copyright (C) 2017 waYne (CAM)
 #include "System.hpp"
 #endif
 
+namespace Elysium::Core::Net::Sockets
+{
+	class Socket;
+}
+
 namespace Elysium::Core::Threading::Tasks
 {
 	class Task;
@@ -33,9 +38,10 @@ namespace Elysium::Core::Threading::Internal
 {
 	class OSThreadPool final
 	{
+		friend class Elysium::Core::Net::Sockets::Socket;
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
-		OSThreadPool(const bool IsIOPool, const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum);
+		OSThreadPool(const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum);
 		OSThreadPool(const OSThreadPool& Source) = delete;
 		OSThreadPool(OSThreadPool&& Right) noexcept = delete;
 		~OSThreadPool();

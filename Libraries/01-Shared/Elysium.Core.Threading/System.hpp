@@ -85,15 +85,6 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_THREADPOOL_SET_THREAD_MINIMUM SetThreadpoolThreadMinimum
 #define ELYSIUM_THREADPOOL_CLOSE CloseThreadpool
 
-/*
-// Thread Pool - IO
-#define ELYSIUM_THREADPOOL_IO_CREATE CreateThreadpoolIo
-#define ELYSIUM_THREADPOOL_IO_START StartThreadpoolIo
-#define ELYSIUM_THREADPOOL_IO_CANCEL CancelThreadpoolIo
-#define ELYSIUM_THREADPOOL_IO_CLOSE CloseThreadpoolIo
-#define ELYSIUM_THREADPOOL_IO_WAIT_FOR_CALLBACKS WaitForThreadpoolIoCallbacks
-*/
-
 // Thread Pool - Environment
 #define ELYSIUM_THREADPOOL_ENVIRONMENT TP_CALLBACK_ENVIRON_V3
 #define ELYSIUM_THREADPOOL_ENVIRONMENT_INITIALIZE InitializeThreadpoolEnvironment
@@ -116,17 +107,26 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_TASK_AWAIT_CALLBACK WaitForThreadpoolWorkCallbacks
 #define ELYSIUM_TASK_CLOSE CloseThreadpoolWork
 
-// Task - Callback
 #define ELYSIUM_TASK_CALLBACK_HANDLE PTP_WORK_CALLBACK
-//#define ELYSIUM_TASK_CALLBACK_INSTANCE PTP_CALLBACK_INSTANCE
+#define ELYSIUM_TASK_CALLBACK_INSTANCE PTP_CALLBACK_INSTANCE
 
+//#define BLA CreateThreadpoolWait
+/*
+// Task - IOCompletionPort (used in Elysium::Core::Net and not here)
+#define ELYSIUM_THREADPOOL_IO_HANDLE PTP_IO
+#define ELYSIUM_THREADPOOL_IO_CREATE CreateThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_START StartThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_WAIT_FOR_CALLBACKS WaitForThreadpoolIoCallbacks
+#define ELYSIUM_THREADPOOL_IO_CANCEL CancelThreadpoolIo
+#define ELYSIUM_THREADPOOL_IO_CLOSE CloseThreadpoolIo
+/*
 // io completion port
 #define ELYSIUM_IOCOMPLETIONPORT_HANDLE HANDLE
 #define ELYSIUM_IOCOMPLETIONPORT_CREATE CreateIoCompletionPort
 #define ELYSIUM_IOCOMPLETIONPORT_BIND_CALLBACK BindIoCompletionCallback
 #define ELYSIUM_IOCOMPLETIONPORT_POST_QUEUED_COMPLETION_STATUS PostQueuedCompletionStatus
 #define ELYSIUM_IOCOMPLETIONPORT_GET_QUEUED_COMPLETION_STATUS GetQueuedCompletionStatus
-
+*/
 #elif defined(__ANDROID__)
 
 #elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))

@@ -3,7 +3,7 @@
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
 #include "Task.hpp"
 #endif
-
+/*
 Elysium::Core::Threading::ThreadPoolWorkQueue::ThreadPoolWorkQueue()
 	: _WorkAvailable(false)
 { }
@@ -33,3 +33,4 @@ Elysium::Core::Threading::Tasks::Task * Elysium::Core::Threading::ThreadPoolWork
 
 	return NextTask;
 }
+*/

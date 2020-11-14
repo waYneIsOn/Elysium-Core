@@ -86,7 +86,7 @@ namespace Elysium::Core::Threading::Tasks
 		std::atomic<TaskStatus> _Status;
 		std::atomic<AggregateException*> _Exception;
 
-		static void Callback(PTP_CALLBACK_INSTANCE Instance, void* Context, PTP_WORK Work);
+		static void Callback(ELYSIUM_TASK_CALLBACK_INSTANCE Instance, void* Context, ELYSIUM_TASK_HANDLE Work);
 	};
 }
 #endif

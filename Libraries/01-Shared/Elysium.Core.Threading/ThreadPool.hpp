@@ -24,6 +24,11 @@ Copyright (C) 2017 waYne (CAM)
 #include "OSThreadPool.hpp"
 #endif
 
+namespace Elysium::Core::Net::Sockets
+{
+	class Socket;
+}
+
 namespace Elysium::Core::Threading::Tasks
 {
 	class Task;
@@ -31,9 +36,9 @@ namespace Elysium::Core::Threading::Tasks
 
 namespace Elysium::Core::Threading
 {
-
 	class ELYSIUM_CORE_API ThreadPool final
 	{
+		friend class Elysium::Core::Net::Sockets::Socket;
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
 		ThreadPool() = delete;

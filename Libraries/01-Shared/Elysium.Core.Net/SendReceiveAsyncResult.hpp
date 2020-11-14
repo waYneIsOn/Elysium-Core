@@ -61,20 +61,20 @@ namespace Elysium::Core::Net::Sockets
 		SendReceiveAsyncResult& operator=(const SendReceiveAsyncResult& Source) = delete;
 		SendReceiveAsyncResult& operator=(SendReceiveAsyncResult&& Right) noexcept = delete;
 
-		const Elysium::Core::Net::Sockets::Socket& GetSocket() const;
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetBuffer() const;
-
 		virtual const void* GetAsyncState() const override;
 		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const override;
 		virtual const bool GetCompletedSynchronously() const override;
 		virtual const bool GetIsCompleted() const override;
 
 		virtual const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const override;
+
+		const Elysium::Core::Net::Sockets::Socket& GetSocket() const;
+		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetBuffer() const;
 	private:
 		SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
 		
 		const Elysium::Core::Net::Sockets::Socket* _Socket;
-		const Elysium::Core::Delegate<void, const IAsyncResult*>& _Callback;
+		const Elysium::Core::Delegate<void, const IAsyncResult*> _Callback;
 		const void* _AsyncState;
 
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
@@ -82,8 +82,8 @@ namespace Elysium::Core::Net::Sockets
 		Elysium::Core::uint32_t _BytesSent = 0;
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-		OVERLAPPED Overlapped;
-		WSABUF DataBuf;
+		WSABUF _WSABuffer;
+		OVERLAPPED _Overlapped;
 #elif defined(__ANDROID__)
 
 #else

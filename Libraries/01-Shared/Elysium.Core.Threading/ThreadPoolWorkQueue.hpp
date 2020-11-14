@@ -38,6 +38,7 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Threading
 {
+	/*
 	namespace Tasks
 	{
 		class Task;
@@ -63,5 +64,6 @@ namespace Elysium::Core::Threading
 
 		AutoResetEvent _WorkAvailable;
 	};
+	*/
 }
 #endif
