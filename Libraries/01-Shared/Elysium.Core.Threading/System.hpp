@@ -120,7 +120,7 @@ Copyright (C) 2017 waYne (CAM)
 #define ELYSIUM_THREADPOOL_IO_CANCEL CancelThreadpoolIo
 #define ELYSIUM_THREADPOOL_IO_CLOSE CloseThreadpoolIo
 /*
-// io completion port
+// io completion port - old API
 #define ELYSIUM_IOCOMPLETIONPORT_HANDLE HANDLE
 #define ELYSIUM_IOCOMPLETIONPORT_CREATE CreateIoCompletionPort
 #define ELYSIUM_IOCOMPLETIONPORT_BIND_CALLBACK BindIoCompletionCallback

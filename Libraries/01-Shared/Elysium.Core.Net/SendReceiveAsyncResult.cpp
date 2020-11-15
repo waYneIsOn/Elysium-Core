@@ -18,7 +18,7 @@ const void * Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetAsyncState(
 
 const Elysium::Core::Threading::WaitHandle & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetAsyncWaitHandle() const
 {
-	throw 1;
+	return _OperationDoneEvent;
 }
 
 const bool Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetCompletedSynchronously() const
@@ -41,13 +41,12 @@ const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendRec
 	return *_Socket;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetBuffer() const
+const Elysium::Core::uint32_t & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetBytesTransferred() const
 {
-	return _Buffer;
+	return _BytesTransferred;
 }
 
-
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const IAsyncResult*> & Callback, const void * AsyncState, const size_t BufferSize)
+Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> & Callback, const void * AsyncState, const size_t BufferSize)
 	: Elysium::Core::IAsyncResult(),
-	_Socket(Socket), _Callback(Callback), _AsyncState(AsyncState), _Buffer(BufferSize)
+	_OperationDoneEvent(false), _Socket(Socket), _Callback(Callback), _AsyncState(AsyncState)
 { }

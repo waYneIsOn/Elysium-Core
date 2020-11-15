@@ -16,6 +16,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IASYNCRESULT
+#include "../Elysium.Core/IAsyncResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DELEGATE
 #include "../Elysium.Core/Delegate.hpp"
 #endif
@@ -50,13 +54,13 @@ Copyright (C) 2017 waYne (CAM)
 
 namespace Elysium::Core::Threading::Tasks
 {
-	class ELYSIUM_CORE_API Task final
+	class ELYSIUM_CORE_API Task final : public IAsyncResult
 	{
 	public:
 		Task(const Delegate<void> Action);
 		Task(const Task& Source) = delete;
 		Task(Task&& Right) noexcept = delete;
-		~Task();
+		virtual ~Task();
 
 		Task& operator=(const Task& Source) = delete;
 		Task& operator=(Task&& Right) noexcept = delete;
@@ -66,8 +70,12 @@ namespace Elysium::Core::Threading::Tasks
 		const TaskStatus GetStatus() const;
 		const AggregateException* GetException() const;
 
+		virtual const void* GetAsyncState() const override;
+		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const override;
+		virtual const bool GetCompletedSynchronously() const override;
+		virtual const bool GetIsCompleted() const override;
+
 		const bool GetIsCanceled() const;
-		const bool GetIsCompleted() const;
 		const bool GetIsCompletedSuccessfully() const;
 		const bool GetIsFaulted() const;
 		

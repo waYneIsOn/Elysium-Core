@@ -40,8 +40,6 @@ namespace Elysium::Core
 		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const = 0;
 		virtual const bool GetCompletedSynchronously() const = 0;
 		virtual const bool GetIsCompleted() const = 0;
-
-		virtual const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const = 0;
 	protected:
 		IAsyncResult();
 	};

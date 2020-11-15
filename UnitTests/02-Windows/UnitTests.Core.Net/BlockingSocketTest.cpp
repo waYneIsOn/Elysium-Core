@@ -16,6 +16,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_THREADPOOL
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
 #endif
@@ -32,6 +36,7 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::Sockets;
+using namespace Elysium::Core::Text;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -162,29 +167,59 @@ namespace UnitTests::Core::Net::Sockets
 			{ }
 		}
 
-		TEST_METHOD(AsyncReceive)
+		TEST_METHOD(AsyncSendReceive)
 		{
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(Elysium::Core::String("demo.wftpserver.com"), 21);
 
-			Elysium::Core::byte Buffer[256];
-			const SendReceiveAsyncResult* Result = AsyncClient.BeginReceive(&Buffer[0], 256, SocketFlags::None,
+			Elysium::Core::byte ReceiveBuffer[256];
+			const SendReceiveAsyncResult* ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
-			_ReceiveDone.WaitOne();
-
+			ReceiveResult->GetAsyncWaitHandle().WaitOne();
+			delete ReceiveResult;
+			
+			Elysium::Core::String HelpMessage = Elysium::Core::String(u8"HELP\r\n");
+			const Encoding& UTF8Encoding = Encoding::UTF8();
+			Array<byte> Bytes = UTF8Encoding.GetBytes(HelpMessage, 0, HelpMessage.GetLength());
+			const SendReceiveAsyncResult* SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
+				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
+			SendResult->GetAsyncWaitHandle().WaitOne();
+			delete SendResult;
+			
+			ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
+				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+			ReceiveResult->GetAsyncWaitHandle().WaitOne();
+			delete ReceiveResult;
+			
 			AsyncClient.Shutdown(SocketShutdown::Both);
 			AsyncClient.Disconnect(false);
 		}
 	private:
-		ManualResetEvent _ReceiveDone = ManualResetEvent(false);
-
 		void ReceiveCallback(const Elysium::Core::IAsyncResult* Result)
 		{
-			SocketError ErrorCode = SocketError::Success;
+			//StateObject state = (StateObject)ar.AsyncState;
+			//Socket client = state.workSocket;
+
 			const SendReceiveAsyncResult* AsyncResult = (const SendReceiveAsyncResult*)Result;
 			const Socket& Socket = AsyncResult->GetSocket();
+
+			SocketError ErrorCode = SocketError::Success;
 			const size_t BytesReceived = Socket.EndReceive(Result, ErrorCode);
-			_ReceiveDone.Set();
+
+			// signal that all bytes have been retrieved
+			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
+		}
+
+		void SendCallback(const Elysium::Core::IAsyncResult* Result)
+		{
+			const SendReceiveAsyncResult* AsyncResult = (const SendReceiveAsyncResult*)Result;
+			const Socket& Socket = AsyncResult->GetSocket();
+
+			SocketError ErrorCode = SocketError::Success;
+			const size_t BytesSent = Socket.EndSend(Result, ErrorCode);
+
+			// signal that all bytes have been sent
+			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
 		}
 	};
 }

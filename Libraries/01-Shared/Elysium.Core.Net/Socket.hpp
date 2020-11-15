@@ -169,15 +169,25 @@ namespace Elysium::Core::Net::Sockets
 		void Listen(const Elysium::Core::int32_t Backlog);
 		const Socket Accept();
 
-		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
-
-		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const EndPoint& RemoteEndpoint) const;
-		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint) const;
-
 		const size_t Receive(const Elysium::Core::byte* Buffer, const size_t Count) const;
 
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
 		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
+
+		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
+
+		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const EndPoint& RemoteEndpoint) const;
+		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint) const;
+		
+		// BeginAccept
+		// BeginConnect
+		// BeginDisconnect
+		// BeginReceiveFrom
+		// BeginSendTo
+		
+		const SendReceiveAsyncResult* BeginSend(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags, 
+			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
+		const size_t EndSend(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
 		
 		const SendReceiveAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
 			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
@@ -199,7 +209,10 @@ namespace Elysium::Core::Net::Sockets
 		bool _IsClosed = false;
 		bool _IsBlocking = true;
 
-		static void Callback(PTP_CALLBACK_INSTANCE Instance, PVOID Context, PVOID Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
+		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
+
+		//static void SendCallback(DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags);
+		//static void ReceiveCallback(DWORD dwError, DWORD cbTransferred, LPWSAOVERLAPPED lpOverlapped, DWORD dwFlags);
 	};
 }
 #endif

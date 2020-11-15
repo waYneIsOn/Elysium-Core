@@ -36,6 +36,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
+#include "../Elysium.Core.Threading/ManualResetEvent.hpp"
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
@@ -66,24 +70,22 @@ namespace Elysium::Core::Net::Sockets
 		virtual const bool GetCompletedSynchronously() const override;
 		virtual const bool GetIsCompleted() const override;
 
-		virtual const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const override;
-
+		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
 		const Elysium::Core::Net::Sockets::Socket& GetSocket() const;
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetBuffer() const;
+		const Elysium::Core::uint32_t& GetBytesTransferred() const;
 	private:
-		SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
-		
-		const Elysium::Core::Net::Sockets::Socket* _Socket;
-		const Elysium::Core::Delegate<void, const IAsyncResult*> _Callback;
-		const void* _AsyncState;
+		SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
-		Elysium::Core::uint32_t _BytesReceived = 0;
-		Elysium::Core::uint32_t _BytesSent = 0;
+		const void* _AsyncState;
+		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
+
+		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
+		const Elysium::Core::Net::Sockets::Socket* _Socket;
+		Elysium::Core::uint32_t _BytesTransferred = 0;
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		WSABUF _WSABuffer;
-		OVERLAPPED _Overlapped;
+		WSAOVERLAPPED _Overlapped;
 #elif defined(__ANDROID__)
 
 #else

@@ -19,9 +19,10 @@
 Elysium::Core::int32_t Elysium::Core::Threading::Tasks::Task::_TaskIdCounter = 0;
 
 Elysium::Core::Threading::Tasks::Task::Task(const Delegate<void> Action)
-	: _Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::_WorkerPool._Environment)),
-	_Action(Action), _Id(Interlocked::Increment(_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)),
-	_Status(TaskStatus::Created), _Exception(nullptr)
+	: Elysium::Core::IAsyncResult(),
+	_Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::_WorkerPool._Environment)), _Action(Action), 
+	_Id(Interlocked::Increment(_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)), _Status(TaskStatus::Created), 
+	_Exception(nullptr)
 { }
 Elysium::Core::Threading::Tasks::Task::~Task()
 {
@@ -53,18 +54,36 @@ const Elysium::Core::AggregateException * Elysium::Core::Threading::Tasks::Task:
 	return _Exception;
 }
 
-const bool Elysium::Core::Threading::Tasks::Task::GetIsCanceled() const
+const void * Elysium::Core::Threading::Tasks::Task::GetAsyncState() const
 {
-	return _Status == TaskStatus::Canceled;
+	return nullptr;
 }
+
+const Elysium::Core::Threading::WaitHandle & Elysium::Core::Threading::Tasks::Task::GetAsyncWaitHandle() const
+{
+	return _WaitEvent;
+}
+
+const bool Elysium::Core::Threading::Tasks::Task::GetCompletedSynchronously() const
+{
+	return false;
+}
+
 const bool Elysium::Core::Threading::Tasks::Task::GetIsCompleted() const
 {
 	return _Status == TaskStatus::RanToCompletion || _Status == TaskStatus::Faulted || _Status == TaskStatus::Canceled;
 }
+
+const bool Elysium::Core::Threading::Tasks::Task::GetIsCanceled() const
+{
+	return _Status == TaskStatus::Canceled;
+}
+
 const bool Elysium::Core::Threading::Tasks::Task::GetIsCompletedSuccessfully() const
 {
 	return _Status == TaskStatus::RanToCompletion;
 }
+
 const bool Elysium::Core::Threading::Tasks::Task::GetIsFaulted() const
 {
 	return _Status == TaskStatus::Faulted;
