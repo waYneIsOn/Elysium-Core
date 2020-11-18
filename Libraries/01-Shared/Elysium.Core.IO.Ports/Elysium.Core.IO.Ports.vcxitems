@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{abbe2c07-62a6-4498-a409-fad7482b59d2}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Core::IO::Ports</ItemsRootNamespace>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Handshake.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parity.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialData.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialError.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialPinChange.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SerialPort.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StopBits.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SerialPort.cpp" />
+  </ItemGroup>
+</Project>

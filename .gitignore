@@ -18,6 +18,10 @@
 /Libraries/02-Windows/Elysium.Core.Html/Debugbin
 /Libraries/02-Windows/Elysium.Core.Html/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.IO.Ports/Debug
+/Libraries/02-Windows/Elysium.Core.IO.Ports/Debugbin
+/Libraries/02-Windows/Elysium.Core.IO.Ports/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.Json/Debug
 /Libraries/02-Windows/Elysium.Core.Json/Debugbin
 /Libraries/02-Windows/Elysium.Core.Json/Releasebin
