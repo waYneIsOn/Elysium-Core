@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dns.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GetAdaptersAddressesFlags.hpp" />
@@ -57,6 +58,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsExtensionType.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Dns.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DnsEndPoint.cpp" />

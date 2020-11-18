@@ -124,7 +124,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\bin\Debug\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Iphlpapi.lib;Ws2_32.lib;Elysium.Core.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Iphlpapi.lib;mswsock.lib;Ws2_32.lib;Elysium.Core.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -168,7 +168,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\..\bin\Release\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Iphlpapi.lib;Ws2_32.lib;Elysium.Core.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Iphlpapi.lib;mswsock.lib;Ws2_32.lib;Elysium.Core.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

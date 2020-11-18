@@ -46,6 +46,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.cpp">
       <Filter>Sockets</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.cpp">
+      <Filter>Sockets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
@@ -150,6 +153,9 @@
       <Filter>Sockets</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.hpp">
+      <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
   </ItemGroup>

@@ -32,8 +32,12 @@
 #include <type_traits>
 #endif
 
+#ifndef _MSWSOCK_
+#include <MSWSock.h>
+#endif
+
 Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
-	: _WinSocketHandle(INVALID_SOCKET)
+	: _WinSocketHandle(INVALID_SOCKET), _CompletionPortHandle(nullptr)
 {
 	InitializeWinSockAPI();
 	
@@ -44,7 +48,6 @@ Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketT
 	}
 
 	_CompletionPortHandle = CreateThreadpoolIo((HANDLE)_WinSocketHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment);
-	StartThreadpoolIo(_CompletionPortHandle);
 }
 Elysium::Core::Net::Sockets::Socket::Socket(Socket && Right)
 {
@@ -57,6 +60,8 @@ Elysium::Core::Net::Sockets::Socket::~Socket()
 		CancelThreadpoolIo(_CompletionPortHandle);
 		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, false);
 		CloseThreadpoolIo(_CompletionPortHandle);
+
+		_CompletionPortHandle = nullptr;
 	}
 
 	if (_WinSocketHandle != INVALID_SOCKET)
@@ -416,6 +421,8 @@ void Elysium::Core::Net::Sockets::Socket::Shutdown(const SocketShutdown Value)
 
 void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 {
+	//WSARecvDisconnect()
+	//WSASendDisconnect()
 	_IsConnected = false;
 }
 
@@ -530,37 +537,77 @@ const size_t Elysium::Core::Net::Sockets::Socket::SendTo(const Elysium::Core::by
 	return BytesSent;
 }
 
-const Elysium::Core::Net::Sockets::SendReceiveAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginSend(const Elysium::Core::byte * Buffer, const size_t Size, SocketFlags Flags, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State) const
+const Elysium::Core::Net::Sockets::AcceptAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginAccept(const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State) const
 {
-	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(this, Callback, State, 8192);
-	AsyncResult->_WSABuffer.len = Size;
-	AsyncResult->_WSABuffer.buf = (char*)Buffer;
+	AcceptAsyncResult* AsyncResult = new AcceptAsyncResult(this, Callback, State, 8192);
 	AsyncResult->_Overlapped.Pointer = AsyncResult;
-
-	Elysium::Core::int32_t Result = WSASend(_WinSocketHandle, (LPWSABUF)&AsyncResult->_WSABuffer, 1, (LPDWORD)&AsyncResult->_BytesTransferred, (DWORD)Flags,
-		&AsyncResult->_Overlapped, nullptr);
+	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
+		FormatConverter::Convert(GetProtocolType()), nullptr, 0, WSA_FLAG_OVERLAPPED);
+	
+	StartThreadpoolIo(_CompletionPortHandle);
+	Elysium::Core::int32_t Result = AcceptEx(_WinSocketHandle, AsyncResult->_ClientSocket, (void*)&AsyncResult->_Addresses[0], 0, 44, 44, nullptr, &AsyncResult->_Overlapped);
 	if (Result == SOCKET_ERROR)
 	{
 		if (WSAGetLastError() != ERROR_IO_PENDING)
 		{
+			CancelThreadpoolIo(_CompletionPortHandle);
 			delete AsyncResult;
 			throw SocketException();
 		}
 	}
+	/*
+	else if (Result == NO_ERROR)
+	{
+		CancelThreadpoolIo(_CompletionPortHandle);
+	}
+	*/
+
+	return AsyncResult;
+}
+const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const Elysium::Core::IAsyncResult * Result) const
+{
+	AcceptAsyncResult* CastResult = (AcceptAsyncResult*)Result;
+
+	return Elysium::Core::Net::Sockets::Socket(CastResult->_ClientSocket);
+}
+/*
+const Elysium::Core::Net::Sockets::SendReceiveAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginConnect(const EndPoint & RemoteEndPoint, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State) const
+{
+	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(this, Callback, State, 8192);
+	AsyncResult->_WSABuffer.len = 0;
+	AsyncResult->_WSABuffer.buf = nullptr;
+	AsyncResult->_Overlapped.Pointer = AsyncResult;
+
+	FLOWSPEC xyz = FLOWSPEC();
+
+	const SocketAddress Address = RemoteEndPoint.Serialize();
+	Elysium::Core::int32_t Result = WSAConnect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize(), nullptr, nullptr, nullptr, nullptr);
+	//ConnectEx()
+	//LpfnConnectex()
+	if (Result == SOCKET_ERROR)
+	{
+		if (WSAGetLastError() != ERROR_IO_PENDING)
+		{
+			CancelThreadpoolIo(_CompletionPortHandle);
+			delete AsyncResult;
+			throw SocketException();- 
+		}
+	}
+	/*
+	else if (Result == NO_ERROR)
+	{
+		CancelThreadpoolIo(_CompletionPortHandle);
+	}
+	*-/
 
 	return AsyncResult;
 }
 
-const size_t Elysium::Core::Net::Sockets::Socket::EndSend(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode) const
+void Elysium::Core::Net::Sockets::Socket::EndConnect(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode) const
 {
 	SendReceiveAsyncResult* CastResult = (SendReceiveAsyncResult*)Result;
-	const size_t BytesTransferred = CastResult->_BytesTransferred;
-
-	//delete Result;
-
-	return BytesTransferred;
 }
-
+*/
 const Elysium::Core::Net::Sockets::SendReceiveAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginReceive(const Elysium::Core::byte * Buffer, const size_t Size,
 	SocketFlags Flags, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State) const
 {
@@ -576,10 +623,17 @@ const Elysium::Core::Net::Sockets::SendReceiveAsyncResult * Elysium::Core::Net::
 	{
 		if (WSAGetLastError() != ERROR_IO_PENDING)
 		{
+			CancelThreadpoolIo(_CompletionPortHandle);
 			delete AsyncResult;
 			throw SocketException();
 		}
 	}
+	/*
+	else if (Result == NO_ERROR)
+	{
+		CancelThreadpoolIo(_CompletionPortHandle);
+	}
+	*/
 	
 	return AsyncResult;
 }
@@ -587,17 +641,52 @@ const Elysium::Core::Net::Sockets::SendReceiveAsyncResult * Elysium::Core::Net::
 const size_t Elysium::Core::Net::Sockets::Socket::EndReceive(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode) const
 {
 	SendReceiveAsyncResult* CastResult = (SendReceiveAsyncResult*)Result;
-	const size_t BytesTransferred = CastResult->_BytesTransferred;
 
-	//delete Result;
+	return CastResult->_BytesTransferred;
+}
 
-	return BytesTransferred;
+const Elysium::Core::Net::Sockets::SendReceiveAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginSend(const Elysium::Core::byte * Buffer, const size_t Size, SocketFlags Flags, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State) const
+{
+	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(this, Callback, State, 8192);
+	AsyncResult->_WSABuffer.len = Size;
+	AsyncResult->_WSABuffer.buf = (char*)Buffer;
+	AsyncResult->_Overlapped.Pointer = AsyncResult;
+
+	StartThreadpoolIo(_CompletionPortHandle);
+	Elysium::Core::int32_t Result = WSASend(_WinSocketHandle, (LPWSABUF)&AsyncResult->_WSABuffer, 1, (LPDWORD)&AsyncResult->_BytesTransferred, (DWORD)Flags,
+		&AsyncResult->_Overlapped, nullptr);
+	if (Result == SOCKET_ERROR)
+	{
+		if (WSAGetLastError() != ERROR_IO_PENDING)
+		{
+			CancelThreadpoolIo(_CompletionPortHandle);
+			delete AsyncResult;
+			throw SocketException();
+		}
+	}
+	/*
+	else if (Result == NO_ERROR)
+	{
+		CancelThreadpoolIo(_CompletionPortHandle);
+	}
+	*/
+
+	return AsyncResult;
+}
+
+const size_t Elysium::Core::Net::Sockets::Socket::EndSend(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode) const
+{
+	SendReceiveAsyncResult* CastResult = (SendReceiveAsyncResult*)Result;
+
+	return CastResult->_BytesTransferred;
 }
 
 Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle)
-	: _WinSocketHandle(WinSocketHandle)
+	: _WinSocketHandle(WinSocketHandle), _CompletionPortHandle(nullptr)
 { 
 	InitializeWinSockAPI();
+
+	_CompletionPortHandle = CreateThreadpoolIo((HANDLE)_WinSocketHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment);
 }
 
 void Elysium::Core::Net::Sockets::Socket::InitializeWinSockAPI()
@@ -624,10 +713,20 @@ void Elysium::Core::Net::Sockets::Socket::IOCompletionPortCallback(PTP_CALLBACK_
 	Elysium::Core::IAsyncResult* AsyncResult = (Elysium::Core::IAsyncResult*)((LPOVERLAPPED)Overlapped)->Pointer;
 	if (AsyncResult != nullptr)
 	{
-		SendReceiveAsyncResult* CastResult = (SendReceiveAsyncResult*)AsyncResult;
-		CastResult->_BytesTransferred = NumberOfBytesTransferred;
+		SendReceiveAsyncResult* TriggeredSendReceiveAsyncResult = dynamic_cast<SendReceiveAsyncResult*>(AsyncResult);
+		if (TriggeredSendReceiveAsyncResult != nullptr)
+		{
+			TriggeredSendReceiveAsyncResult->_BytesTransferred = NumberOfBytesTransferred;
 
-		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = CastResult->GetCallback();
-		Callback(AsyncResult);
+			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = TriggeredSendReceiveAsyncResult->GetCallback();
+			Callback(AsyncResult);
+		}
+
+		AcceptAsyncResult* TriggeredAcceptAsyncResult = dynamic_cast<AcceptAsyncResult*>(AsyncResult);
+		if (TriggeredAcceptAsyncResult != nullptr)
+		{
+			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = TriggeredAcceptAsyncResult->GetCallback();
+			Callback(AsyncResult);
+		}
 	}
 }
