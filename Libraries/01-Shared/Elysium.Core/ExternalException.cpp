@@ -16,7 +16,7 @@ Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(0x80004005L)
 { }
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const Elysium::Core::int32_t ErrorCode)
-	: Elysium::Core::Exception(std::move(GetErrorMessage())), _ErrorCode(ErrorCode)
+	: Elysium::Core::Exception(std::move(GetErrorMessage(ErrorCode))), _ErrorCode(ErrorCode)
 { }
 Elysium::Core::Runtime::InteropServices::ExternalException::~ExternalException()
 { }
@@ -31,9 +31,9 @@ const HRESULT Elysium::Core::Runtime::InteropServices::ExternalException::GetHRe
 	return static_cast<HRESULT>(_ErrorCode);
 }
 
-Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorMessage()
+Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorMessage(const Elysium::Core::int32_t ErrorCode)
 {
-	_com_error COMError = _com_error(_ErrorCode);
+	_com_error COMError = _com_error(ErrorCode);
 	const wchar_t* ErrorMessageW = COMError.ErrorMessage();
 
 	const Elysium::Core::Text::Encoding& Utf16BeEncoding = Elysium::Core::Text::Encoding::UTF16BE();

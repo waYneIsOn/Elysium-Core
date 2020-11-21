@@ -45,7 +45,7 @@ namespace Elysium::Core::Runtime::InteropServices
 	protected:
 		const Elysium::Core::int32_t _ErrorCode;
 	private:
-		Elysium::Core::String GetErrorMessage();
+		Elysium::Core::String GetErrorMessage(const Elysium::Core::int32_t ErrorCode);
 	};
 }
 #endif

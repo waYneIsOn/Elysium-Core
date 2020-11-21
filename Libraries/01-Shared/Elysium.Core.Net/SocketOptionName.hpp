@@ -110,6 +110,8 @@ namespace Elysium::Core::Net::Sockets
 
 		Type = 4104,
 
+		//ConditionalAccept = 12290,	// SO_CONDITIONAL_ACCEPT
+
 		ReuseUnicastPort = 12295,
 
 		UpdateAcceptContext = 28683,

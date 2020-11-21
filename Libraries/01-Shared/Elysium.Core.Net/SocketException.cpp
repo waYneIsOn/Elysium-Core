@@ -11,7 +11,7 @@
 Elysium::Core::Net::Sockets::SocketException::SocketException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(WSAGetLastError())
 { }
-Elysium::Core::Net::Sockets::SocketException::SocketException(const int ErrorCode)
+Elysium::Core::Net::Sockets::SocketException::SocketException(const Elysium::Core::int32_t ErrorCode)
 	: Elysium::Core::Runtime::InteropServices::ExternalException(ErrorCode)
 { }
 Elysium::Core::Net::Sockets::SocketException::~SocketException()

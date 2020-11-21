@@ -96,6 +96,10 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
 #endif
+
+#ifndef _MSWSOCK_
+#include <MSWSock.h>
+#endif
 #elif defined(__ANDROID__)
 
 #else
@@ -109,12 +113,6 @@ namespace Elysium::Core::Threading
 
 namespace Elysium::Core::Net::Sockets
 {
-	/*
-	Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::ZeroParameterThreadStart>(*this)
-	const Delegate<void, void*>& ParameterizedThreadStart
-	*/
-	// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-server-code
-	// https://docs.microsoft.com/en-us/windows/desktop/winsock/complete-client-code
 	class ELYSIUM_CORE_NET_API Socket final
 	{
 		friend class Elysium::Core::Threading::ThreadPool;
@@ -141,8 +139,8 @@ namespace Elysium::Core::Net::Sockets
 		const Elysium::Core::int32_t GetReceiveBufferSize() const;
 		const Elysium::Core::int32_t GetSendBufferSize() const;
 
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue) const;
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue) const;
 
 		void SetIPProtectionLevel(const IPProtectionLevel Level);
 
@@ -153,9 +151,9 @@ namespace Elysium::Core::Net::Sockets
 
 		void SetBlocking(const bool Value);
 
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
-		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength) const;
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength) const;
+		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength) const;
 
 		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
 		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
@@ -164,12 +162,12 @@ namespace Elysium::Core::Net::Sockets
 		const bool Poll(const Elysium::Core::TimeSpan Duration, const SelectMode Mode);
 
 		void Connect(const String& Host, const Elysium::Core::int32_t Port);
-		void Connect(const EndPoint& RemoteEndPoint);
+		void Connect(const Elysium::Core::Net::EndPoint& RemoteEndPoint);
 		void Shutdown(const SocketShutdown Value);
 		void Disconnect(const bool ReuseSocket);
 		void Close();
 
-		void Bind(const EndPoint& LocalEndPoint);
+		void Bind(const Elysium::Core::Net::EndPoint& LocalEndPoint) const;
 		void Listen(const Elysium::Core::int32_t Backlog);
 		const Socket Accept();
 
@@ -185,19 +183,22 @@ namespace Elysium::Core::Net::Sockets
 
 		const AcceptAsyncResult* BeginAccept(const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
 		const Socket EndAccept(const Elysium::Core::IAsyncResult* Result) const;
-		/*
-		const SendReceiveAsyncResult* BeginConnect(const EndPoint& RemoteEndPoint, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
-			const void* State) const;
+		
+		const Elysium::Core::IAsyncResult* BeginConnect(const Elysium::Core::Net::EndPoint& RemoteEndPoint, 
+			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
 		void EndConnect(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
-		// BeginDisconnect
-		// BeginReceiveFrom
-		// BeginSendTo
-		*/
-		const SendReceiveAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
+
+		const Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, 
+			const void* State) const;
+		void EndDisconnect(const Elysium::Core::IAsyncResult* Result) const;
+
+		// ToDo: BeginReceiveFrom and BeginSendTo
+		
+		const Elysium::Core::IAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
 			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
 		const size_t EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
 
-		const SendReceiveAsyncResult* BeginSend(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
+		const Elysium::Core::IAsyncResult* BeginSend(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
 			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
 		const size_t EndSend(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
 	private:
@@ -208,6 +209,12 @@ namespace Elysium::Core::Net::Sockets
 
 		SOCKET _WinSocketHandle;
 		PTP_IO _CompletionPortHandle;
+
+		// these need to be obtained during runtime!
+		LPFN_CONNECTEX ConnectEx;	
+		LPFN_DISCONNECTEX DisconnectEx;
+
+		void RetrieveFunctions();
 #elif defined(__ANDROID__)
 
 #else

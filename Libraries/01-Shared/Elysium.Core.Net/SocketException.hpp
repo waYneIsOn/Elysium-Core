@@ -33,7 +33,7 @@ namespace Elysium::Core::Net::Sockets
 	{
 	public:
 		SocketException();
-		SocketException(const int ErrorCode);
+		SocketException(const Elysium::Core::int32_t ErrorCode);
 		virtual ~SocketException();
 
 		const SocketError GetSocketError() const;
