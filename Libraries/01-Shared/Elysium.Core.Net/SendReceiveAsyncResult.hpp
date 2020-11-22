@@ -71,16 +71,16 @@ namespace Elysium::Core::Net::Sockets
 		virtual const bool GetIsCompleted() const override;
 
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
-		const Elysium::Core::Net::Sockets::Socket& GetSocket() const;
+		Elysium::Core::Net::Sockets::Socket& GetSocket() const;
 		const Elysium::Core::uint32_t& GetBytesTransferred() const;
 	private:
-		SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
+		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
 
 		const void* _AsyncState;
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
 
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
-		const Elysium::Core::Net::Sockets::Socket* _Socket;
+		Elysium::Core::Net::Sockets::Socket* _Socket;
 		Elysium::Core::uint32_t _BytesTransferred = 0;
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)

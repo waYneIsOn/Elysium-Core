@@ -71,15 +71,15 @@ namespace Elysium::Core::Net::Sockets
 		virtual const bool GetIsCompleted() const override;
 
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
-		const Elysium::Core::Net::Sockets::Socket& GetSocket() const;
+		Elysium::Core::Net::Sockets::Socket& GetSocket() const;
 	private:
-		AcceptAsyncResult(const Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
+		AcceptAsyncResult(Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
 
 		const void* _AsyncState;
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
 
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
-		const Elysium::Core::Net::Sockets::Socket* _Socket;
+		Elysium::Core::Net::Sockets::Socket* _Socket;
 
 		const Elysium::Core::byte _Addresses[88];	// (sizeof(sockaddr_in6) + 16) * 2.... sizeof(sockaddr_in6) = 28
 

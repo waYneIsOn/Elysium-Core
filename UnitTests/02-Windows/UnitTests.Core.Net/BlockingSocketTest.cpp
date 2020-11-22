@@ -243,7 +243,7 @@ namespace UnitTests::Core::Net::Sockets
 		void AcceptCallback(const Elysium::Core::IAsyncResult* Result)
 		{
 			const AcceptAsyncResult* AsyncResult = (const AcceptAsyncResult*)Result;
-			const Socket& Socket = AsyncResult->GetSocket();
+			Socket& Socket = AsyncResult->GetSocket();
 
 			Elysium::Core::Net::Sockets::Socket Client = Socket.EndAccept(Result);
 
@@ -266,7 +266,7 @@ namespace UnitTests::Core::Net::Sockets
 			//Socket client = state.workSocket;
 
 			const SendReceiveAsyncResult* AsyncResult = (const SendReceiveAsyncResult*)Result;
-			const Socket& Socket = AsyncResult->GetSocket();
+			Socket& Socket = AsyncResult->GetSocket();
 
 			SocketError ErrorCode = SocketError::Success;
 			const size_t BytesReceived = Socket.EndReceive(Result, ErrorCode);
@@ -278,7 +278,7 @@ namespace UnitTests::Core::Net::Sockets
 		void SendCallback(const Elysium::Core::IAsyncResult* Result)
 		{
 			const SendReceiveAsyncResult* AsyncResult = (const SendReceiveAsyncResult*)Result;
-			const Socket& Socket = AsyncResult->GetSocket();
+			Socket& Socket = AsyncResult->GetSocket();
 
 			SocketError ErrorCode = SocketError::Success;
 			const size_t BytesSent = Socket.EndSend(Result, ErrorCode);

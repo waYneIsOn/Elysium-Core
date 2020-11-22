@@ -139,8 +139,8 @@ namespace Elysium::Core::Net::Sockets
 		const Elysium::Core::int32_t GetReceiveBufferSize() const;
 		const Elysium::Core::int32_t GetSendBufferSize() const;
 
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue) const;
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue) const;
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
+		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
 
 		void SetIPProtectionLevel(const IPProtectionLevel Level);
 
@@ -151,9 +151,9 @@ namespace Elysium::Core::Net::Sockets
 
 		void SetBlocking(const bool Value);
 
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength) const;
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength) const;
-		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength) const;
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
 
 		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
 		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
@@ -167,40 +167,40 @@ namespace Elysium::Core::Net::Sockets
 		void Disconnect(const bool ReuseSocket);
 		void Close();
 
-		void Bind(const Elysium::Core::Net::EndPoint& LocalEndPoint) const;
+		void Bind(const Elysium::Core::Net::EndPoint& LocalEndPoint);
 		void Listen(const Elysium::Core::int32_t Backlog);
-		const Socket Accept();
+		Socket Accept();
 
-		const size_t Receive(const Elysium::Core::byte* Buffer, const size_t Count) const;
+		const size_t Receive(const Elysium::Core::byte* Buffer, const size_t Count);
 
-		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint) const;
-		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint) const;
+		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, EndPoint& RemoteEndpoint);
+		const size_t ReceiveFrom(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint);
 
-		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count) const;
+		const size_t Send(const Elysium::Core::byte* Buffer, const size_t Count);
 
-		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const EndPoint& RemoteEndpoint) const;
-		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint) const;
+		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const EndPoint& RemoteEndpoint);
+		const size_t SendTo(const Elysium::Core::byte* Buffer, const size_t Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
 
-		const AcceptAsyncResult* BeginAccept(const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
-		const Socket EndAccept(const Elysium::Core::IAsyncResult* Result) const;
+		const AcceptAsyncResult* BeginAccept(const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+		Socket EndAccept(const Elysium::Core::IAsyncResult* Result);
 		
 		const Elysium::Core::IAsyncResult* BeginConnect(const Elysium::Core::Net::EndPoint& RemoteEndPoint, 
-			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
-		void EndConnect(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
+			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+		void EndConnect(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 
-		const Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, 
-			const void* State) const;
-		void EndDisconnect(const Elysium::Core::IAsyncResult* Result) const;
+		const Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
+			const void* State);
+		void EndDisconnect(const Elysium::Core::IAsyncResult* Result);
 
 		// ToDo: BeginReceiveFrom and BeginSendTo
 		
 		const Elysium::Core::IAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
-			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
-		const size_t EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
+			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+		const size_t EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 
 		const Elysium::Core::IAsyncResult* BeginSend(const Elysium::Core::byte* Buffer, const size_t Size, SocketFlags Flags,
-			const Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) const;
-		const size_t EndSend(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode) const;
+			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+		const size_t EndSend(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 	private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		Socket(SOCKET WinSocketHandle);

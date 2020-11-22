@@ -36,7 +36,7 @@ const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Elysium
 	return _Callback;
 }
 
-const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetSocket() const
+Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetSocket() const
 {
 	return *_Socket;
 }
@@ -46,7 +46,7 @@ const Elysium::Core::uint32_t & Elysium::Core::Net::Sockets::SendReceiveAsyncRes
 	return _BytesTransferred;
 }
 
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(const Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> & Callback, const void * AsyncState, const size_t BufferSize)
+Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> & Callback, const void * AsyncState, const size_t BufferSize)
 	: Elysium::Core::IAsyncResult(),
 	_OperationDoneEvent(false), _Socket(Socket), _Callback(Callback), _AsyncState(AsyncState)
 { }
