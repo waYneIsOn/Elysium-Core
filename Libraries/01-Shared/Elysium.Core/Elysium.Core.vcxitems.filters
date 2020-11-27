@@ -119,6 +119,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeBlock.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -168,5 +178,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Char.cpp" />
   </ItemGroup>
 </Project>

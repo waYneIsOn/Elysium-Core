@@ -4,11 +4,10 @@
 #include "InvalidOperationException.hpp"
 #endif
 
-Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::_InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo();
+Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::_InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo();
 
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
-	: 
-	_CurrencyDecimalDigits(2), _CurrencyDecimalSeparator(u8"."), _CurrencyGroupSeparator(u8","), _CurrencyNegativePattern(0),
+	: _CurrencyDecimalDigits(2), _CurrencyDecimalSeparator(u8"."), _CurrencyGroupSeparator(u8","), _CurrencyNegativePattern(0),
 	_CurrencyPositivePattern(0), _CurrencySymbol(u8"¤"), _DigitSubstitution(DigitShapes::None), _IsReadOnly(false), _NaNSymbol(u8"NaN"),
 	_NegativeInfinitySymbol(u8"-Infinity"), _NegativeSign(u8"-"), _NumberDecimalDigits(2), _NumberDecimalSeparator(u8"."), _NumberGroupSeparator(u8","),
 	_PercentDecimalDigits(2), _PercentDecimalSeparator(u8"."), _PercentGroupSeparator(u8","),_PercentNegativePattern(0),
@@ -17,7 +16,7 @@ Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
 Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
 { }
 
-const int Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalDigits() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalDigits() const
 {
 	return _CurrencyDecimalDigits;
 }
@@ -29,11 +28,11 @@ const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::Ge
 {
 	return _CurrencyGroupSeparator;
 }
-const int Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyNegativePattern() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyNegativePattern() const
 {
 	return _CurrencyNegativePattern;
 }
-const int Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyPositivePattern() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyPositivePattern() const
 {
 	return _CurrencyPositivePattern;
 }
@@ -61,7 +60,7 @@ const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::Ge
 {
 	return _NegativeSign;
 }
-const int Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalDigits() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalDigits() const
 {
 	return _NumberDecimalDigits;
 }
@@ -73,7 +72,7 @@ const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::Ge
 {
 	return _NumberGroupSeparator;
 }
-const int Elysium::Core::Globalization::NumberFormatInfo::GetPercentDecimalDigits() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentDecimalDigits() const
 {
 	return _PercentDecimalDigits;
 }
@@ -85,11 +84,11 @@ const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::Ge
 {
 	return _PercentGroupSeparator;
 }
-const int Elysium::Core::Globalization::NumberFormatInfo::GetPercentNegativePattern() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentNegativePattern() const
 {
 	return _PercentNegativePattern;
 }
-const int Elysium::Core::Globalization::NumberFormatInfo::GetPercentPositivePattern() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentPositivePattern() const
 {
 	return _PercentPositivePattern;
 }
@@ -110,7 +109,7 @@ const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::Ge
 	return _PositiveSign;
 }
 
-void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
@@ -135,7 +134,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyGroupSeparator(c
 	}
 	_CurrencyGroupSeparator = Value;
 }
-void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyNegativePattern(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyNegativePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
@@ -143,7 +142,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyNegativePattern(
 	}
 	_CurrencyNegativePattern = Value;
 }
-void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyPositivePattern(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyPositivePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
@@ -191,7 +190,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNegativeSign(const Strin
 	}
 	_NegativeSign = Value;
 }
-void Elysium::Core::Globalization::NumberFormatInfo::SetNumberDecimalDigits(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetNumberDecimalDigits(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
@@ -215,7 +214,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNumberGroupSeparator(con
 	}
 	_NumberGroupSeparator = Value;
 }
-void Elysium::Core::Globalization::NumberFormatInfo::SetPercentDecimalDigits(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetPercentDecimalDigits(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
@@ -239,7 +238,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentGroupSeparator(co
 	}
 	_PercentGroupSeparator = Value;
 }
-void Elysium::Core::Globalization::NumberFormatInfo::SetPercentNegativePattern(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetPercentNegativePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
@@ -247,7 +246,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentNegativePattern(c
 	}
 	_PercentNegativePattern = Value;
 }
-void Elysium::Core::Globalization::NumberFormatInfo::SetPercentPositivePattern(const int Value)
+void Elysium::Core::Globalization::NumberFormatInfo::SetPercentPositivePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{

@@ -82,7 +82,7 @@ void Elysium::Core::Net::Sockets::NetworkStream::Close()
 {
 	if (_OwnsSocket)
 	{
-		_Socket.Disconnect(true);
+		_Socket.Close();
 	}
 }
 void Elysium::Core::Net::Sockets::NetworkStream::Flush()

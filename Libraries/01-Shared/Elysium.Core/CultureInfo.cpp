@@ -27,30 +27,26 @@ Elysium::Core::Globalization::CultureInfo::CultureInfo()
 	: Elysium::Core::Globalization::CultureInfo::CultureInfo(0)
 	// ToDo: how to get the current locale id on android? getDefaultLocale()?
 #endif
-{
-}
-Elysium::Core::Globalization::CultureInfo::CultureInfo(int Culture)
+{ }
+Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int32_t Culture)
 	: _LCID(Culture)
-{
-}
+{ }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(const CultureInfo & Source)
 	: _LCID(Source._LCID)
-{
-}
+{ }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(CultureInfo && Right) noexcept
 	: _LCID(0)
 {
 	*this = std::move(Right);
 }
 Elysium::Core::Globalization::CultureInfo::~CultureInfo()
-{
-}
+{ }
 
 Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::CultureInfo::operator=(const CultureInfo & Source)
 {
 	if (this != &Source)
 	{
-		_LCID = int(Source._LCID);
+		_LCID = Source._LCID;
 	}
 	return *this;
 }
@@ -81,7 +77,7 @@ void Elysium::Core::Globalization::CultureInfo::GetName(String * Output) const
 #error "undefined os"
 #endif
 }
-int Elysium::Core::Globalization::CultureInfo::GetLCID() const
+const Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLCID() const
 {
 	return _LCID;
 }

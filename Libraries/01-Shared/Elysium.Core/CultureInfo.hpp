@@ -20,13 +20,17 @@ Copyright (C) 2017 waYne (CAM)
 #include "String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
+#endif
+
 namespace Elysium::Core::Globalization
 {
 	class ELYSIUM_CORE_API CultureInfo
 	{
 	public:
 		CultureInfo();
-		CultureInfo(int Culture);
+		CultureInfo(const Elysium::Core::int32_t Culture);
 		CultureInfo(const CultureInfo& Source);
 		CultureInfo(CultureInfo&& Right) noexcept;
 		~CultureInfo();
@@ -35,9 +39,9 @@ namespace Elysium::Core::Globalization
 		CultureInfo& operator=(CultureInfo&& Right) noexcept;
 
 		void GetName(String* Output) const;
-		int GetLCID() const;
+		const Elysium::Core::int32_t GetLCID() const;
 	private:
-		int _LCID;	// locale id
+		Elysium::Core::int32_t _LCID;	// locale id
 	};
 }
 #endif

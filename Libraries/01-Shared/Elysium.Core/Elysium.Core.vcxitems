@@ -26,6 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
@@ -55,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
@@ -74,6 +76,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeBlock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
@@ -90,6 +94,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Char.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />

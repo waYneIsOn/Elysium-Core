@@ -77,9 +77,15 @@ Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::Socket::opera
 {
 	if (this != &Right)
 	{
-		_WinSocketHandle = Right._WinSocketHandle;
+		_WinSocketHandle = std::move(Right._WinSocketHandle);
+		_CompletionPortHandle = std::move(Right._CompletionPortHandle);
+		ConnectEx = std::move(Right.ConnectEx);
+		DisconnectEx = std::move(Right.DisconnectEx);
 
 		Right._WinSocketHandle = INVALID_SOCKET;
+		Right._CompletionPortHandle = 0;
+		Right.ConnectEx = nullptr;
+		Right.DisconnectEx = nullptr;
 	}
 	return *this;
 }
