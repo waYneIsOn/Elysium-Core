@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -28,11 +28,11 @@ namespace Elysium::Core::Collections
 		/// </summary>
 		virtual ~IList() {}
 
-		virtual T& operator[](size_t Index) const = 0;
+		virtual T& operator[](const size_t Index) const = 0;
 
 		virtual const size_t IndexOf(const T& Item) const = 0;
-		virtual void Insert(size_t Index, const T& Item) = 0;
-		virtual void RemoveAt(size_t Index) = 0;
+		virtual void Insert(const size_t Index, const T& Item) = 0;
+		virtual void RemoveAt(const size_t Index) = 0;
 	};
 }
 #endif

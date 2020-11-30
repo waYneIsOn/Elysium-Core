@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,7 +22,7 @@ namespace Elysium::Core::IO
 	{
 	public:
 		EndOfStreamException();
-		EndOfStreamException(const char* Message);
+		EndOfStreamException(const char8_t* Message);
 		EndOfStreamException(String&& Message);
 		virtual ~EndOfStreamException();
 	};

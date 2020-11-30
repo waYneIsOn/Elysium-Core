@@ -149,7 +149,7 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
 	PrepareWritingValue();
 	WriteString(Convert::ToString(Value, 10));
 }
-void Elysium::Core::Json::JsonWriter::WriteValue(const char * Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const char8_t * Value)
 {
 	WriteValue(String(Value));
 }

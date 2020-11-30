@@ -7,7 +7,7 @@
 Elysium::Core::InvalidOperationException::InvalidOperationException()
 	: Elysium::Core::Exception(u8"InvalidOperationException")
 { }
-Elysium::Core::InvalidOperationException::InvalidOperationException(const char * Message)
+Elysium::Core::InvalidOperationException::InvalidOperationException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::InvalidOperationException::InvalidOperationException(String && Message)

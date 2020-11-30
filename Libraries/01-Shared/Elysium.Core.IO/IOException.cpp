@@ -7,7 +7,7 @@
 Elysium::Core::IO::IOException::IOException()
 	: Elysium::Core::Exception(u8"IOException")
 { }
-Elysium::Core::IO::IOException::IOException(const char * Message)
+Elysium::Core::IO::IOException::IOException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::IO::IOException::IOException(String && Message)

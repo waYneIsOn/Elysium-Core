@@ -51,6 +51,7 @@ namespace UnitTestsCoreLinq
 		TEST_METHOD(Core_Linq_Contains)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
+
 			Assert::IsTrue(PopulatedVector >> Contains(2));
 			Assert::IsFalse(PopulatedVector >> Contains(4));
 
@@ -78,9 +79,18 @@ namespace UnitTestsCoreLinq
 		TEST_METHOD(Core_Linq_Where)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
-			Assert::AreEqual((size_t)2, PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count());
+			std::vector<int> Result = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; });
 
-			int x = 345;
+			Assert::AreEqual((size_t)2, Result.size());
+			Assert::AreEqual(2, Result[0]);
+			Assert::AreEqual(3, Result[1]);
+		}
+
+		TEST_METHOD(Combined)
+		{
+			std::vector<int> PopulatedVector = { 1, 2, 3 };
+			//Assert::AreEqual((size_t)2, PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count());
+			Assert::Fail();
 		}
 	};
 }

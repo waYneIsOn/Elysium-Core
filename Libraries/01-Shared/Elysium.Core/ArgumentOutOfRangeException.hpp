@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentOutOfRangeException();
-		ArgumentOutOfRangeException(const char* Message);
-		ArgumentOutOfRangeException(String&& Message);
+		ArgumentOutOfRangeException(const char8_t* Message);
+		ArgumentOutOfRangeException(Elysium::Core::String&& Message);
 		virtual ~ArgumentOutOfRangeException();
 	};
 }

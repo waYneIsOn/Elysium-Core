@@ -172,13 +172,13 @@ namespace UnitTests::Core::Security::Cryptography
 				0x67, 0x14, 0x30 });
 			
 			X509Certificate Certificate = X509Certificate::LoadFromBlob(RawDataArray);
-			Assert::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
-			Assert::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
+			AssertExtended::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", &Certificate.GetIssuer()[0]);
+			AssertExtended::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", &Certificate.GetSubject()[0]);
 		}
 
 		TEST_METHOD(ReadCertificateFromFile)
 		{
-			Elysium::Core::IO::FileStream TargetStream = Elysium::Core::IO::FileStream("sample.crt", Elysium::Core::IO::FileMode::Create, Elysium::Core::IO::FileAccess::Write);
+			Elysium::Core::IO::FileStream TargetStream = Elysium::Core::IO::FileStream(u8"sample.crt", Elysium::Core::IO::FileMode::Create, Elysium::Core::IO::FileAccess::Write);
 			Elysium::Core::String Input = u8"-----BEGIN CERTIFICATE-----"
 				"MIIF7zCCBNegAwIBAgIRANdVj9r18RBbshMoK3B3KaMwDQYJKoZIhvcNAQEFBQAw"
 				"gZcxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtl"
@@ -217,8 +217,8 @@ namespace UnitTests::Core::Security::Cryptography
 			TargetStream.Close();
 
 			X509Certificate Certificate = X509Certificate::LoadFromFile(u8"sample.crt");
-			Assert::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", Certificate.GetIssuer().GetCharArray());
-			Assert::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", Certificate.GetSubject().GetCharArray());
+			AssertExtended::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", &Certificate.GetIssuer()[0]);
+			AssertExtended::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", &Certificate.GetSubject()[0]);
 		}
 
 		TEST_METHOD(ReadCertificateUsingDERDecoder)

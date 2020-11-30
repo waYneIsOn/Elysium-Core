@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -36,20 +36,20 @@ namespace Elysium::Core::Text
 		void SetLength(const size_t Value);
 
 		void Append(const Elysium::Core::String& Value);
-		void Append(const char Value);
-		void Append(const char* Value, const size_t Length);
+		void Append(const char8_t Value);
+		void Append(const char8_t* Value, const size_t Length);
 		void Clear();
-		size_t IndexOf(const char Value) const;
-		size_t IndexOf(const char Value, const size_t StartIndex) const;
-		size_t IndexOf(const char* Value) const;
-		size_t IndexOf(const char* Value, const size_t StartIndex) const;
+		size_t IndexOf(const char8_t Value) const;
+		size_t IndexOf(const char8_t Value, const size_t StartIndex) const;
+		size_t IndexOf(const char8_t* Value) const;
+		size_t IndexOf(const char8_t* Value, const size_t StartIndex) const;
 		void Remove(const size_t StartIndex, const size_t Length);
 
 		Elysium::Core::String ToString();
 		Elysium::Core::String ToString(const size_t Length);
 	private:
 		size_t _Capacity;
-		char* _Data;
+		char8_t* _Data;
 		size_t _Length;
 
 		void Resize(size_t DesiredMinimumSize);

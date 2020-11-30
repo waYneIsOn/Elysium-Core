@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -38,6 +38,10 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "../Elysium.Core/List.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_ENDPOINT

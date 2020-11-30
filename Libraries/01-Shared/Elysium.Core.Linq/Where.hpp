@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -25,11 +25,11 @@ namespace Elysium::Core::Linq
 	struct ELYSIUM_CORE_LINQ_API WhereContainer
 	{
 		template<class ContainerType, class LambdaType>
-		ContainerType operator()(ContainerType & Container, LambdaType & Lambda);
+		ContainerType operator()(ContainerType & Container, LambdaType && Lambda);
 	};
 
 	template<class ContainerType, class LambdaType>
-	inline ContainerType WhereContainer::operator()(ContainerType & Container, LambdaType & Lambda)
+	inline ContainerType WhereContainer::operator()(ContainerType & Container, LambdaType && Lambda)
 	{
 		// ToDo: can we somehow create a new empty ContainerType?
 		ContainerType Result = ContainerType(Container);

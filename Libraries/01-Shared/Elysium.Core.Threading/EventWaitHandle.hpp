@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -26,7 +26,7 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API EventWaitHandle : public WaitHandle
 	{
 	public:
-		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const WideString& Name);
+		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const String& Name);
 		EventWaitHandle(const EventWaitHandle& Source) = delete;
 		EventWaitHandle(EventWaitHandle&& Right) noexcept = delete;
 		virtual ~EventWaitHandle();

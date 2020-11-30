@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -42,13 +42,13 @@ namespace Elysium::Core
 		Environment& operator=(Environment&& Right) noexcept = delete;
 
 		static constexpr const bool Is64BitProcess();
-		static const String MachineName();
-		static const String& NewLine();
+		static const Elysium::Core::String MachineName();
+		static const Elysium::Core::String& NewLine();
 		static const OperatingSystem OSVersion();
 		static const Elysium::Core::uint32_t ProcessorCount();
-		static const String UserName();
-		static const String SystemDirectory();
-		static const String _NewLineCharacters;
+		static const Elysium::Core::String UserName();
+		static const Elysium::Core::String SystemDirectory();
+		static const Elysium::Core::String _NewLineCharacters;
 	};
 }
 #endif

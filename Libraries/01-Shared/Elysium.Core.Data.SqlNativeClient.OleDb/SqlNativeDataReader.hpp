@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -44,39 +44,40 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	public:
 		~SqlNativeDataReader();
 
-		virtual bool Read() override;
+		virtual const bool GetIsClosed() const override;
+
 		virtual void Close() override;
+		virtual const bool NextResult() override;
+		virtual const bool Read() override;
 
-		virtual void GetBoolean(uint32_t Index, bool* Value) override;
-		virtual void GetByte(unsigned int Index, byte* Value) override;
-		virtual __int64 GetBytes(unsigned int Index, size_t FieldOffset, byte* Value, size_t BufferOffset, size_t Length) override;
-		virtual void GetChar(unsigned int Index, char* Value) override;
-		virtual __int64 GetChars(unsigned int Index, size_t FieldOffset, char* Value, size_t BufferOffset, size_t Length) override;
-		virtual void GetDateTime(uint32_t Index, DateTime* Value) override;
-		virtual void GetDateTimeOffset(uint32_t Index, DateTimeOffset* Value) override;
-		virtual void GetDecimal(uint32_t Index, Decimal* Value) override;
-		virtual void GetDouble(uint32_t Index, double* Value) override;
-		virtual void GetFloat(uint32_t Index, float* Value) override;
-		virtual void GetGuid(uint32_t Index, Guid* Value) override;
-		virtual void GetInt16(uint32_t Index, int16_t* Value) override;
-		virtual void GetInt32(uint32_t Index, int32_t* Value) override;
-		virtual void GetInt64(uint32_t Index, int64_t* Value) override;
-		virtual void GetString(uint32_t Index, std::string* Value) override;
-		virtual void GetTimeSpan(uint32_t Index, TimeSpan* Value) override;
-		virtual void GetWChar(unsigned int Index, wchar_t* Value) override;
-		virtual __int64 GetWChars(unsigned int Index, size_t FieldOffset, wchar_t* Value, size_t BufferOffset, size_t Length) override;
+		virtual const bool GetBoolean(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::byte GetByte(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::uint64_t GetBytes(const Elysium::Core::uint32_t Index, const size_t FieldOffset, byte* Value, const size_t Length) override;
+		virtual const char8_t GetChar(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::uint64_t GetChars(const Elysium::Core::uint32_t Index, const size_t FieldOffset, char8_t* Value, const size_t Length) override;
+		virtual const Elysium::Core::DateTime GetDateTime(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::DateTimeOffset GetDateTimeOffset(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::Decimal GetDecimal(const Elysium::Core::uint32_t Index) override;
+		virtual const double GetDouble(const Elysium::Core::uint32_t Index) override;
+		virtual const float GetFloat(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::Guid GetGuid(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::int16_t GetInt16(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::int32_t GetInt32(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::int64_t GetInt64(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::String GetString(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::TimeSpan GetTimeSpan(const Elysium::Core::uint32_t Index) override;
 
-		virtual void GetDataTypeName(uint32_t Index, std::wstring* Value) override;
-		virtual void GetName(uint32_t Index, std::wstring* Value) override;
-		virtual void GetOrdinal(wchar_t* Name, unsigned __int64* Value) override;
+		virtual const Elysium::Core::String GetDataTypeName(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::String GetName(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::uint64_t GetOrdinal(const Elysium::Core::String& Name) override;
 
-		virtual bool IsDBNull(uint32_t Index) override;
+		virtual const bool IsDBNull(const uint32_t Index) override;
 	private:
-		SqlNativeDataReader(IRowset* NativeRowset, size_t RowsAffected, size_t FieldCount, DBCOLUMNINFO* ColumnInfo, wchar_t* ColumnNames);
+		SqlNativeDataReader(IRowset* NativeRowset, const size_t RowsAffected, const size_t FieldCount, const DBCOLUMNINFO* ColumnInfo, const wchar_t* ColumnNames);
 
 		IRowset* _NativeRowset;
-		DBCOLUMNINFO* _ColumnInfo = nullptr;
-		wchar_t* _ColumnNames = nullptr;
+		const DBCOLUMNINFO* _ColumnInfo = nullptr;
+		const wchar_t* _ColumnNames = nullptr;
 
 		size_t _NumberOfNonBlobFields;
 		size_t _NumberOfBuffers;

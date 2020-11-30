@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,7 +22,7 @@ namespace Elysium::Core::Security::Authentication
 	{
 	public:
 		InvalidCredentialException();
-		InvalidCredentialException(const char* Message);
+		InvalidCredentialException(const char8_t* Message);
 		InvalidCredentialException(String&& Message);
 		virtual ~InvalidCredentialException();
 	};

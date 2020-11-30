@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -48,6 +48,10 @@ Copyright (C) 2017 waYne (CAM)
 #include "IDataReader.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
+#endif
+
 namespace Elysium::Core::Data
 {
 	class ELYSIUM_CORE_DATA_API IDbCommand
@@ -59,17 +63,17 @@ namespace Elysium::Core::Data
 		virtual ~IDbCommand() {}
 
 		virtual const String& GetCommandText() const = 0;
-		virtual const int& GetConnectionTimeout() const = 0;
+		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const = 0;
 		virtual const CommandType& GetCommandType() const = 0;
-		virtual const IDbConnection* GetConnection() const = 0;
-		virtual IDataParameterCollection* GetParameters() const = 0;
+		virtual const IDbConnection& GetConnection() const = 0;
+		virtual IDataParameterCollection& GetParameters() const = 0;
 		virtual const IDbTransaction* GetTransaction() const = 0;
 		//virtual const UpdateRowSource* GetUpdateRowSource() const = 0;
 
-		virtual void SetCommandText(const char* CommandText) = 0;
+		virtual void SetCommandText(const char8_t* CommandText) = 0;
 		virtual void SetCommandText(const String& CommandText) = 0;
-		virtual void SetConnectionTimeout(int Timeout) = 0;
-		virtual void SetCommandType(CommandType Type) = 0;
+		virtual void SetConnectionTimeout(const Elysium::Core::uint32_t Timeout) = 0;
+		virtual void SetCommandType(const CommandType Type) = 0;
 		//virtual void SetConnection(IDbConnection* Connection) = 0;
 		//virtual void SetTransaction(IDbTransaction* Transaction) = 0;
 		//virtual void SetUpdateRowSource(UpdateRowSource* UpdateRowSource) = 0;

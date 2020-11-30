@@ -60,30 +60,50 @@ namespace UnitTests::Core::Net::Security
 			TcpSocket.Connect(Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"52.6.191.28")), 443));	// https://ulfheim.net/
 			NetworkStream InnerStream = NetworkStream(TcpSocket);
 			
-			TlsStream Stream = TlsStream(InnerStream, false, TlsClientAuthenticationOptions(true,
-				Array<TlsCipherSuite>({
-					/*
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
-					TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-					TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-					TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-					TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-					TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-					TlsCipherSuite::TLS_RSA_WITH_AES_128_GCM_SHA256,
-					TlsCipherSuite::TLS_RSA_WITH_AES_256_GCM_SHA384,
-					TlsCipherSuite::TLS_RSA_WITH_AES_128_CBC_SHA,
-					TlsCipherSuite::TLS_RSA_WITH_AES_256_CBC_SHA,
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,
-					TlsCipherSuite::TLS_RSA_WITH_3DES_EDE_CBC_SHA
-					*/
-					TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-					}),
-				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&SslStreamTests::ValidateServerCertificate>(),
-				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&SslStreamTests::SelectLocalCertificate>()));
+			const Array<TlsCipherSuite> CipherSuites = Array<TlsCipherSuite>({
+				/*
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
+				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
+				TlsCipherSuite::TLS_RSA_WITH_AES_128_GCM_SHA256,
+				TlsCipherSuite::TLS_RSA_WITH_AES_256_GCM_SHA384,
+				TlsCipherSuite::TLS_RSA_WITH_AES_128_CBC_SHA,
+				TlsCipherSuite::TLS_RSA_WITH_AES_256_CBC_SHA,
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,
+				TlsCipherSuite::TLS_RSA_WITH_3DES_EDE_CBC_SHA
+				*/
+				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+				});
+
+			// UserCertificateValidationCallback
+			// UserCertificateSelectionCallback
+
+			Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
+				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
+				const Elysium::Core::Net::Security::TlsPolicyErrors> UserCertificateValidationCallback =
+				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
+				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
+				const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&SslStreamTests::ValidateServerCertificate>();
+
+			Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
+				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
+				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
+				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&> UserCertificateSelectionCallback =
+				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
+				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
+				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
+				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&SslStreamTests::SelectLocalCertificate>();
+
+			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
+
+			TlsStream Stream = TlsStream(InnerStream, false, ClientAuthenticationOptions);
 			try
 			{ 
 				Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);

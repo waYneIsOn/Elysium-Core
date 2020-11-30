@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		ArithmeticException();
-		ArithmeticException(const char* Message);
-		ArithmeticException(String&& Message);
+		ArithmeticException(const char8_t* Message);
+		ArithmeticException(Elysium::Core::String&& Message);
 		virtual ~ArithmeticException();
 	};
 }

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -47,7 +47,7 @@ namespace Elysium::Core::Json
 		void WriteValue(const int& Value);
 		void WriteValue(const float& Value);
 		void WriteValue(const double& Value);
-		void WriteValue(const char* Value);
+		void WriteValue(const char8_t* Value);
 		void WriteValue(const String& Value);
 
 		void WriteNull();
@@ -58,7 +58,7 @@ namespace Elysium::Core::Json
 		void WriteIndentSpace();
 		void WriteValueDelimiter();
 
-		virtual void WriteString(const char Value) = 0;
+		virtual void WriteString(const char8_t Value) = 0;
 		virtual void WriteString(const String& Value) = 0;
 
 	private:

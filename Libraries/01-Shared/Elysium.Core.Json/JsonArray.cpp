@@ -129,7 +129,7 @@ void Elysium::Core::Json::JsonArray::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::Boolean:
 		{	// ToDo: what about True/TRUE?
-			JsonElement* Node = new JsonElement(u8"", JsonReader.GetNodeValue() == "true" ? true : false);
+			JsonElement* Node = new JsonElement(u8"", JsonReader.GetNodeValue() == u8"true" ? true : false);
 			AddChild(*Node);
 			break;
 		}

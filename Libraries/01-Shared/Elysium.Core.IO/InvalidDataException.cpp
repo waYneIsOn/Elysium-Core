@@ -7,7 +7,7 @@
 Elysium::Core::IO::InvalidDataException::InvalidDataException()
 	: Elysium::Core::Exception(u8"InvalidDataException")
 { }
-Elysium::Core::IO::InvalidDataException::InvalidDataException(const char * Message)
+Elysium::Core::IO::InvalidDataException::InvalidDataException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::IO::InvalidDataException::InvalidDataException(String && Message)

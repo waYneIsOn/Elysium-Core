@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		NotImplementedException();
-		NotImplementedException(const char* Message);
-		NotImplementedException(String&& Message);
+		NotImplementedException(const char8_t* Message);
+		NotImplementedException(Elysium::Core::String&& Message);
 		virtual ~NotImplementedException();
 	};
 }

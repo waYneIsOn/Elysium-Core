@@ -48,7 +48,7 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(Properties)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
 			Assert::IsTrue(ClientSocket.GetBlocking());
 
 			ClientSocket.Shutdown(SocketShutdown::Both);
@@ -58,11 +58,11 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(PollAndSelectRead)
 		{
 			Socket HttpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			HttpClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			HttpClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
 			Assert::IsFalse(HttpClientSocket.Poll(1000000, SelectMode::SelectRead));
 
 			Socket FtpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			FtpClientSocket.Connect(Elysium::Core::String("demo.wftpserver.com"), 21);
+			FtpClientSocket.Connect(Elysium::Core::String(u8"demo.wftpserver.com"), 21);
 			Assert::IsTrue(FtpClientSocket.Poll(1000000, SelectMode::SelectRead));
 
 			List<const Socket*> CheckRead = List<const Socket*>(2);
@@ -100,7 +100,7 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(ConnectUsingHost)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
 
 			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
@@ -120,7 +120,7 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(ConnectUsingIpEndPoint)
 		{
-			Elysium::Core::Net::IPEndPoint RemoteEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String("93.184.220.42")),
+			Elysium::Core::Net::IPEndPoint RemoteEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"93.184.220.42")),
 				443);
 
 			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
@@ -133,14 +133,14 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(Reconnect)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
 
 			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 
 			try
 			{
-				ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+				ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
 
 				Assert::Fail();
 			}
@@ -153,7 +153,7 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(RunIntoTimeout)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::String("www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
 			ClientSocket.SetReceiveTimeout(1000);
 
 			try
@@ -169,7 +169,7 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(AsyncClient)
 		{
-			DnsEndPoint RemoteEndPoint = DnsEndPoint(Elysium::Core::String("demo.wftpserver.com"), 21, AddressFamily::InterNetwork);
+			DnsEndPoint RemoteEndPoint = DnsEndPoint(Elysium::Core::String(u8"demo.wftpserver.com"), 21, AddressFamily::InterNetwork);
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 
 			const IAsyncResult* ConnectResult = AsyncClient.BeginConnect(RemoteEndPoint,
@@ -205,7 +205,7 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(CloseWhileWaitingForAsyncReceive)
 		{
-			DnsEndPoint RemoteEndPoint = DnsEndPoint(Elysium::Core::String("www.google.com"), 80, AddressFamily::InterNetwork);
+			DnsEndPoint RemoteEndPoint = DnsEndPoint(Elysium::Core::String(u8"www.google.com"), 80, AddressFamily::InterNetwork);
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(RemoteEndPoint);
 
@@ -222,7 +222,7 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(AsyncAccept)
 		{
-			IPEndPoint LocalEndPoint = IPEndPoint(IPAddress::Parse("127.0.0.1"), 80);
+			IPEndPoint LocalEndPoint = IPEndPoint(IPAddress::Parse(u8"127.0.0.1"), 80);
 			Socket AsyncServer = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncServer.Bind(LocalEndPoint);
 			AsyncServer.Listen(100);

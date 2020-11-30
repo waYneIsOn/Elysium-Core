@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		OutOfMemoryException();
-		OutOfMemoryException(const char* Message);
-		OutOfMemoryException(String&& Message);
+		OutOfMemoryException(const char8_t* Message);
+		OutOfMemoryException(Elysium::Core::String&& Message);
 		virtual ~OutOfMemoryException();
 	};
 }

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -60,10 +60,10 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const Collections::Template::Array<byte> GetRawCertData() const;
 
-		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password = "", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
-		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const String& Password = "", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		
-		static X509Certificate LoadFromFile(const String& FileName, const String& Password = "", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromFile(const String& FileName, const String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 	private:
 		X509Certificate();
 

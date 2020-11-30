@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -16,7 +16,9 @@ Copyright (C) 2017 waYne (CAM)
 #include "IDbCommand.hpp"
 #endif
 
-#pragma warning(disable : 4251)
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
+#endif
 
 namespace Elysium::Core::Data::Common
 {
@@ -29,26 +31,26 @@ namespace Elysium::Core::Data::Common
 		virtual ~DbCommand() {}
 
 		virtual const String& GetCommandText() const override;
-		virtual const int& GetConnectionTimeout() const override;
+		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const override;
 		virtual const CommandType& GetCommandType() const override;
 		//virtual const UpdateRowSource& GetUpdateRowSource() const override;
 
-		virtual void SetCommandText(const char* CommandText) override;
+		virtual void SetCommandText(const char8_t* CommandText) override;
 		virtual void SetCommandText(const String& CommandText) override;
-		virtual void SetConnectionTimeout(int Timeout) override;
+		virtual void SetConnectionTimeout(const Elysium::Core::uint32_t Timeout) override;
 		virtual void SetCommandType(CommandType Type) override;
 		//virtual void SetConnection(IDbConnection Connection) override;
 		//virtual void SetTransaction(IDbTransaction Transaction) override;
 		//virtual void SetUpdateRowSource(UpdateRowSource UpdateRowSource) override;
 	protected:
-		DbCommand(IDbConnection* Connection);
+		DbCommand(IDbConnection& Connection);
 		DbCommand(IDbTransaction* Transaction);
 
-		const IDbConnection* _Connection;
+		const IDbConnection& _Connection;
 		const IDbTransaction* _Transaction;
 
-		String _Text = "";
-		int _Timeout = 30;
+		String _Text = String::Empty;
+		Elysium::Core::uint32_t _Timeout = 30;
 		CommandType _Type = CommandType::Text;
 	};
 }

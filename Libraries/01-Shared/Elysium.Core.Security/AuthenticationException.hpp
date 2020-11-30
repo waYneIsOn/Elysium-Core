@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -26,7 +26,7 @@ namespace Elysium::Core::Security::Authentication
 	{
 	public:
 		AuthenticationException();
-		AuthenticationException(const char* Message);
+		AuthenticationException(const char8_t* Message);
 		AuthenticationException(String&& Message);
 		virtual ~AuthenticationException();
 	};

@@ -64,6 +64,9 @@ Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::Cultur
 void Elysium::Core::Globalization::CultureInfo::GetName(String * Output) const
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+	// ToDo: char/wchar_t -> char8_t
+	throw 1;
+	/*
 	*Output = String(LOCALE_NAME_MAX_LENGTH);
 	if (LCIDToLocaleName((LCID)_LCID, (LPWSTR)Output->GetCharArray(), LOCALE_NAME_MAX_LENGTH, 0) == 0)
 	{
@@ -71,6 +74,7 @@ void Elysium::Core::Globalization::CultureInfo::GetName(String * Output) const
 		// ToDo: throw specific exception
 		throw Exception(u8"couldn't get locale name from locale id");
 	}
+	*/
 #elif defined(__ANDROID__)
 	// ToDo: ...
 #else

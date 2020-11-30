@@ -7,7 +7,7 @@
 Elysium::Core::IO::FileNotFoundException::FileNotFoundException()
 	: Elysium::Core::IO::IOException(u8"FileNotFoundException")
 { }
-Elysium::Core::IO::FileNotFoundException::FileNotFoundException(const char * Message)
+Elysium::Core::IO::FileNotFoundException::FileNotFoundException(const char8_t* Message)
 	: Elysium::Core::IO::IOException(Message)
 { }
 Elysium::Core::IO::FileNotFoundException::FileNotFoundException(String && Message)

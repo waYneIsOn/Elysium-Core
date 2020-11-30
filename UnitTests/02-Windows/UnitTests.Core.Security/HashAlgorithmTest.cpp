@@ -27,22 +27,26 @@ namespace UnitTests::Core::Security::Cryptography
 	TEST_CLASS(HashAlgorithmTest)
 	{
 	public:
-		TEST_METHOD(MD4)
+		TEST_METHOD(HashMD4)
 		{
 			const Encoding& UsedEncoding = Encoding::ASCII();
-			HashAlgorithm& Algorithm = MD4::MD4();
+			MD4 Algorithm = MD4();
+
+			Array<byte> Bytes2 = UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength());
 
 			//Array<byte> HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
-			Array<byte> HashBytes2 = Hash(Algorithm, UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength()));
+			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);
 		}
 
-		TEST_METHOD(MD5)
+		TEST_METHOD(HashMD5)
 		{
 			const Encoding& UsedEncoding = Encoding::ASCII();
-			HashAlgorithm& Algorithm = MD5::MD5();
+			MD5 Algorithm = MD5();
+
+			Array<byte> Bytes2 = UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength());
 
 			//Array<byte> HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
-			Array<byte> HashBytes2 = Hash(Algorithm, UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength()));
+			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);
 		}
 	private:
 		const String _Value1 = u8"";

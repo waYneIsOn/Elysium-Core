@@ -1,31 +1,23 @@
 #include "CppUnitTest.h"
+#include "CppUnitTestFrameworkExtension.hpp"
 
 #include "DatabaseTestBase.hpp"
 
-#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVECONNECTION
+#include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Data/DbDataReader.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Data.SqlNativeClient.OleDB/SqlNativeConnection.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEEXCEPTION
 #include "../../../Libraries/01-Shared/Elysium.Core.Data.SqlNativeClient.OleDB/SqlNativeException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_FILESTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
-#endif
-
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "CppUnitTestFrameworkExtension.hpp"
-#endif
+#include "../../../Libraries/01-Shared/Elysium.Core.Text/StringBuilder.hpp"
 
 using namespace Elysium::Core;
+using namespace Elysium::Core::Collections::Template;
+using namespace Elysium::Core::Data::Common;
 using namespace Elysium::Core::Data::SqlNativeClient::OleDb;
+using namespace Elysium::Core::Text;
 
-#define STRINGIFY(x) #x
+#define STRINGIFY(x) u8#x
 #define EXPAND(x) STRINGIFY(x)
 
 namespace UnitTests::Core::Data::SqlNativeClient
@@ -99,7 +91,6 @@ namespace UnitTests::Core::Data::SqlNativeClient
 		TEST_METHOD_INITIALIZE(Initialize)
 		{
 			// create the connection and set it up so we can work with it
-			_Connection = SqlNativeConnection();
 			_Connection.SetConnectionString(u8"Driver={SQL Server Native Client 11.0};Application Name=Elysium Framework;Server=localhost;Database=ElysiumTest;Trusted_Connection=Yes;");
 		}
 
@@ -133,32 +124,36 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			try
 			{
 				// get the project path so we can get the FQPN to the test-image
-				std::string ProjectPath = EXPAND(UNITTESTPRJ);
-				ProjectPath.erase(0, 1); // erase the first quote
-				ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
+				String ProjectPath = EXPAND(UNITTESTPRJ);
+				ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
+				//ProjectPath.erase(0, 1); // erase the first quote
+				//ProjectPath.erase(ProjectPath.GetLength() - 2); // erase the last quote and the dot
 
 				_Connection.Open();
 
 				// perform C test
-				std::string Command = "SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (9223372036854775807, NULL, CONVERT(varbinary(9), N'varbinary'), NULL, 1, NULL, 'a', NULL, CONVERT(date, '18-06-12', 5), NULL, CONVERT(datetime2,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetime,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetimeoffset,'12-10-25 12:32:10 +01:00'), NULL, 1.35, NULL, 0.27, NULL, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, (SELECT * FROM OPENROWSET(BULK N'" +
-					ProjectPath + "\\TestImage.png', SINGLE_BLOB) AS Image), NULL, 23, NULL, 37.56, NULL, N'n', NULL, N't', NULL, 99.1, NULL, N'n', NULL, 23.56, NULL, '02/10/2010 12:30', NULL, 23, NULL, 75.45, NULL, 'v', NULL, N's', NULL, 's', NULL, '13:37:27', NULL, DEFAULT, 17, NULL, CONVERT(uniqueidentifier, 'AE019609-99E0-4EF5-85BB-AD90DC302E70'), NULL, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, CONVERT(XML, N'<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>'), NULL)";
+				StringBuilder Builder = StringBuilder();
+				Builder.Append(u8"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (9223372036854775807, NULL, CONVERT(varbinary(9), N'varbinary'), NULL, 1, NULL, 'a', NULL, CONVERT(date, '18-06-12', 5), NULL, CONVERT(datetime2,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetime,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetimeoffset,'12-10-25 12:32:10 +01:00'), NULL, 1.35, NULL, 0.27, NULL, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, (SELECT * FROM OPENROWSET(BULK N'");
+				Builder.Append(ProjectPath);
+				Builder.Append(u8"\\TestImage.png', SINGLE_BLOB) AS Image), NULL, 23, NULL, 37.56, NULL, N'n', NULL, N't', NULL, 99.1, NULL, N'n', NULL, 23.56, NULL, '02/10/2010 12:30', NULL, 23, NULL, 75.45, NULL, 'v', NULL, N's', NULL, 's', NULL, '13:37:27', NULL, DEFAULT, 17, NULL, CONVERT(uniqueidentifier, 'AE019609-99E0-4EF5-85BB-AD90DC302E70'), NULL, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, CONVERT(XML, N'<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>'), NULL)");
+				String Command = Builder.ToString();
 				std::unique_ptr<IDbCommand> InsertCommand = _Connection.CreateCommand();
-				InsertCommand->SetCommandText(Command.c_str());
+				InsertCommand->SetCommandText(Command);
 				PerformDataInsertionTest(InsertCommand.get());
 
 				// perform R test
 				std::unique_ptr<IDbCommand> SelectCommand = _Connection.CreateCommand();
-				SelectCommand->SetCommandText("SELECT [bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geographyNotNull].Lat As Latitude, [geographyNotNull].Long As Longitude, [geographyNotNull].M As Magnitude, [geographyNotNull].Z As Depth, [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [hierarchyidNotNull].ToString() AS HierarchyPath, [hierarchyidNotNull].GetLevel() AS HierarchyLevel, [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull] FROM AllDataTypes");
+				SelectCommand->SetCommandText(u8"SELECT [bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geographyNotNull].Lat As Latitude, [geographyNotNull].Long As Longitude, [geographyNotNull].M As Magnitude, [geographyNotNull].Z As Depth, [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [hierarchyidNotNull].ToString() AS HierarchyPath, [hierarchyidNotNull].GetLevel() AS HierarchyLevel, [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull] FROM AllDataTypes");
 				TestReader(SelectCommand);
 
 				// perform U test
 				std::unique_ptr<IDbCommand> UpdateCommand = _Connection.CreateCommand();
-				UpdateCommand->SetCommandText("UPDATE AllDataTypes SET [bigintNull] = 123");
+				UpdateCommand->SetCommandText(u8"UPDATE AllDataTypes SET [bigintNull] = 123");
 				UpdateCommand->ExecuteNonQuery();
 
 				// perform D test
 				std::unique_ptr<IDbCommand> DeleteCommand = _Connection.CreateCommand();
-				DeleteCommand->SetCommandText("DELETE FROM AllDataTypes");
+				DeleteCommand->SetCommandText(u8"DELETE FROM AllDataTypes");
 				DeleteCommand->ExecuteNonQuery();
 
 				_Connection.Close();
@@ -179,62 +174,65 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			try
 			{
 				// get the project path so we can get the FQPN to the test-image
-				std::string ProjectPath = EXPAND(UNITTESTPRJ);
-				ProjectPath.erase(0, 1); // erase the first quote
-				ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
+				String ProjectPath = EXPAND(UNITTESTPRJ);
+				ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
+				//ProjectPath.erase(0, 1); // erase the first quote
+				//ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
 
 				_Connection.Open();
 
 				// perform C test
 				std::unique_ptr<IDbCommand> InsertCommand = _Connection.CreateCommand();
-				InsertCommand->SetCommandText("SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1.35, NULL, ?, ?, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 99.1, NULL, ?, ?, ?, ?, '02/10/2010 12:30', NULL, ?, ?, ?, ?, 'v', NULL, ?, ?, 's', NULL, ?, ?, DEFAULT, ?, ?, ?, ?, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, ?, ?)");
+				InsertCommand->SetCommandText(u8"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1.35, NULL, ?, ?, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 99.1, NULL, ?, ?, ?, ?, '02/10/2010 12:30', NULL, ?, ?, ?, ?, 'v', NULL, ?, ?, 's', NULL, ?, ?, DEFAULT, ?, ?, ?, ?, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, ?, ?)");
+
+				IDataParameterCollection& col = InsertCommand->GetParameters();
 
 				// __int64 (bigint)
 				std::unique_ptr<IDataParameter> Int64Parameter = InsertCommand->CreateParameter();
 				Int64Parameter->SetValue(9223372036854775807);
-				InsertCommand->GetParameters()->Add(*Int64Parameter.get());
+				InsertCommand->GetParameters().Add(*Int64Parameter.get());
 
 				std::unique_ptr<IDataParameter> Int64NullParameter = InsertCommand->CreateParameter();
-				Int64NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*Int64NullParameter.get());
+				Int64NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*Int64NullParameter.get());
 
 				// BYTE (binary)
 				std::unique_ptr<IDataParameter> ByteParameter = InsertCommand->CreateParameter();
 				ByteParameter->SetValue((BYTE)'v');	//0x76
-				InsertCommand->GetParameters()->Add(*ByteParameter.get());
+				InsertCommand->GetParameters().Add(*ByteParameter.get());
 
 				std::unique_ptr<IDataParameter> ByteNullParameter = InsertCommand->CreateParameter();
-				ByteNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*ByteNullParameter.get());
+				ByteNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*ByteNullParameter.get());
 
 				// bool (bit)
 				std::unique_ptr<IDataParameter> BoolParameter = InsertCommand->CreateParameter();
 				BoolParameter->SetValue(true);
-				InsertCommand->GetParameters()->Add(*BoolParameter.get());
+				InsertCommand->GetParameters().Add(*BoolParameter.get());
 
 				std::unique_ptr<IDataParameter> BoolNullParameter = InsertCommand->CreateParameter();
-				BoolNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*BoolNullParameter.get());
+				BoolNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*BoolNullParameter.get());
 
 				// char (option 1)
 				/*
 				std::unique_ptr<IDataParameter> CharParameter = InsertCommand->CreateParameter();
 				CharParameter->SetValue('a');
-				InsertCommand->GetParameters()->Add(CharParameter.get());
+				InsertCommand->GetParameters().Add(CharParameter.get());
 
 				std::unique_ptr<IDataParameter> CharNullParameter = InsertCommand->CreateParameter();
 				CharNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(CharNullParameter.get());
+				InsertCommand->GetParameters().Add(CharNullParameter.get());
 				*/
 				// char (option 2)
 				/*
 				std::unique_ptr<IDataParameter> StringParameter = InsertCommand->CreateParameter();
 				StringParameter->SetValue(&std::string("a - mssql will trim automatically"));
-				InsertCommand->GetParameters()->Add(StringParameter.get());
+				InsertCommand->GetParameters().Add(StringParameter.get());
 
 				std::unique_ptr<IDataParameter> StringNullParameter = InsertCommand->CreateParameter();
 				StringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(StringNullParameter.get());
+				InsertCommand->GetParameters().Add(StringNullParameter.get());
 				*/
 				// char (option 3)
 				Elysium::Core::IO::MemoryStream StringStream;
@@ -243,50 +241,50 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				std::unique_ptr<IDataParameter> StreamedStringParameter = InsertCommand->CreateParameter();
 				StreamedStringParameter->SetValue(&StringStream);
-				InsertCommand->GetParameters()->Add(*StreamedStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedStringNullParameter = InsertCommand->CreateParameter();
-				StreamedStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*StreamedStringNullParameter.get());
+				StreamedStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*StreamedStringNullParameter.get());
 
 				// DateTime (date)
 				std::unique_ptr<IDataParameter> DateParameter = InsertCommand->CreateParameter();
-				DateParameter->SetValue(&DateTime(2012, 06, 18));
+				DateParameter->SetValue(DateTime(2012, 06, 18));
 				DateParameter->SetDbType(DbType::Date);
-				InsertCommand->GetParameters()->Add(*DateParameter.get());
+				InsertCommand->GetParameters().Add(*DateParameter.get());
 
 				std::unique_ptr<IDataParameter> DateNullParameter = InsertCommand->CreateParameter();
-				DateNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*DateNullParameter.get());
+				DateNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*DateNullParameter.get());
 
 				// DateTime (datetime2)
 				std::unique_ptr<IDataParameter> DateTime2Parameter = InsertCommand->CreateParameter();
-				DateTime2Parameter->SetValue(&DateTime(2012, 06, 18, 22, 34, 9));
+				DateTime2Parameter->SetValue(DateTime(2012, 06, 18, 22, 34, 9));
 				DateTime2Parameter->SetDbType(DbType::DateTime2);
-				InsertCommand->GetParameters()->Add(*DateTime2Parameter.get());
+				InsertCommand->GetParameters().Add(*DateTime2Parameter.get());
 
 				std::unique_ptr<IDataParameter> DateTime2NullParameter = InsertCommand->CreateParameter();
-				DateTime2NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*DateTime2NullParameter.get());
+				DateTime2NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*DateTime2NullParameter.get());
 
 				// DateTime (datetime)
 				std::unique_ptr<IDataParameter> DateTimeParameter = InsertCommand->CreateParameter();
-				DateTimeParameter->SetValue(&DateTime(2012, 06, 18, 22, 34, 9));
+				DateTimeParameter->SetValue(DateTime(2012, 06, 18, 22, 34, 9));
 				DateTimeParameter->SetDbType(DbType::DateTime);
-				InsertCommand->GetParameters()->Add(*DateTimeParameter.get());
+				InsertCommand->GetParameters().Add(*DateTimeParameter.get());
 
 				std::unique_ptr<IDataParameter> DateTimeNullParameter = InsertCommand->CreateParameter();
-				DateTimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*DateTimeNullParameter.get());
+				DateTimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*DateTimeNullParameter.get());
 
 				// DateTimeOffset (datetimeoffset)
 				std::unique_ptr<IDataParameter> DateTimeOffsetParameter = InsertCommand->CreateParameter();
-				DateTimeOffsetParameter->SetValue(&DateTimeOffset(DateTime(2025, 12, 10, 12, 32, 10), TimeSpan::FromHours(1.0)));
-				InsertCommand->GetParameters()->Add(*DateTimeOffsetParameter.get());
+				DateTimeOffsetParameter->SetValue(DateTimeOffset(DateTime(2025, 12, 10, 12, 32, 10), TimeSpan::FromHours(1.0)));
+				InsertCommand->GetParameters().Add(*DateTimeOffsetParameter.get());
 
 				std::unique_ptr<IDataParameter> DateTimeOffsetNullParameter = InsertCommand->CreateParameter();
-				DateTimeOffsetNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*DateTimeOffsetNullParameter.get());
+				DateTimeOffsetNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*DateTimeOffsetNullParameter.get());
 				/*
 				// decimal
 				decimal DecimalValue;
@@ -295,20 +293,20 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				std::unique_ptr<IDataParameter> DecimalParameter = InsertCommand->CreateParameter();
 				DecimalParameter->SetValue(&DecimalValue);
-				InsertCommand->GetParameters()->Add(DecimalParameter.get());
+				InsertCommand->GetParameters().Add(DecimalParameter.get());
 
 				std::unique_ptr<IDataParameter> DecimalNullParameter = InsertCommand->CreateParameter();
 				DecimalNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(DecimalNullParameter.get());
+				InsertCommand->GetParameters().Add(DecimalNullParameter.get());
 				*/
 				// float
 				std::unique_ptr<IDataParameter> SingleParameter = InsertCommand->CreateParameter();
 				SingleParameter->SetValue(0.27f);
-				InsertCommand->GetParameters()->Add(*SingleParameter.get());
+				InsertCommand->GetParameters().Add(*SingleParameter.get());
 
 				std::unique_ptr<IDataParameter> SingleNullParameter = InsertCommand->CreateParameter();
-				SingleNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*SingleNullParameter.get());
+				SingleNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*SingleNullParameter.get());
 
 				// geography - ToDo: mssql specific type
 
@@ -317,52 +315,56 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				// hierarchyid - ToDo: mssql specific type
 
 				// image
-				Elysium::Core::IO::FileStream ImageStream(Elysium::Core::String((ProjectPath + "\\TestImage.png").c_str()), Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
+				StringBuilder Builder = StringBuilder();
+				Builder.Append(ProjectPath);
+				Builder.Append(u8"\\TestImage.png");
+				String ImagePath = Builder.ToString();
+				Elysium::Core::IO::FileStream ImageStream(ImagePath, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
 				std::unique_ptr<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 				ImageParameter->SetValue(&ImageStream);
-				InsertCommand->GetParameters()->Add(*ImageParameter.get());
+				InsertCommand->GetParameters().Add(*ImageParameter.get());
 
 				std::unique_ptr<IDataParameter> ImageNullParameter = InsertCommand->CreateParameter();
-				ImageNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*ImageNullParameter.get());
+				ImageNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*ImageNullParameter.get());
 
 				// __int32 (int)
 				std::unique_ptr<IDataParameter> Int32Parameter = InsertCommand->CreateParameter();
 				Int32Parameter->SetValue((__int32)23);
-				InsertCommand->GetParameters()->Add(*Int32Parameter.get());
+				InsertCommand->GetParameters().Add(*Int32Parameter.get());
 
 				std::unique_ptr<IDataParameter> Int32NullParameter = InsertCommand->CreateParameter();
-				Int32NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*Int32NullParameter.get());
+				Int32NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*Int32NullParameter.get());
 
 				// money
 				std::unique_ptr<IDataParameter> MoneyParameter = InsertCommand->CreateParameter();
 				MoneyParameter->SetValue(37.56);
-				InsertCommand->GetParameters()->Add(*MoneyParameter.get());
+				InsertCommand->GetParameters().Add(*MoneyParameter.get());
 
 				std::unique_ptr<IDataParameter> MoneyNullParameter = InsertCommand->CreateParameter();
-				MoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*MoneyNullParameter.get());
+				MoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*MoneyNullParameter.get());
 
 				// nchar (option 1)
 				/*
 				std::unique_ptr<IDataParameter> WCharParameter = InsertCommand->CreateParameter();
 				WCharParameter->SetValue(L'n');
-				InsertCommand->GetParameters()->Add(WCharParameter.get());
+				InsertCommand->GetParameters().Add(WCharParameter.get());
 
 				std::unique_ptr<IDataParameter> WCharNullParameter = InsertCommand->CreateParameter();
 				WCharNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(WCharNullParameter.get());
+				InsertCommand->GetParameters().Add(WCharNullParameter.get());
 				*/
 				// nchar (option 2)
 				/*
 				std::unique_ptr<IDataParameter> WStringParameter = InsertCommand->CreateParameter();
 				WStringParameter->SetValue(&std::wstring(L"n - mssql will trim automatically"));
-				InsertCommand->GetParameters()->Add(WStringParameter.get());
+				InsertCommand->GetParameters().Add(WStringParameter.get());
 
 				std::unique_ptr<IDataParameter> WStringNullParameter = InsertCommand->CreateParameter();
 				WStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(WStringNullParameter.get());
+				InsertCommand->GetParameters().Add(WStringNullParameter.get());
 				*/
 				// nchar (option 3)
 				Elysium::Core::IO::MemoryStream WStringStream;
@@ -371,31 +373,31 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				std::unique_ptr<IDataParameter> StreamedWStringParameter = InsertCommand->CreateParameter();
 				StreamedWStringParameter->SetValue(&WStringStream);
-				InsertCommand->GetParameters()->Add(*StreamedWStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedWStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedWStringNullParameter = InsertCommand->CreateParameter();
-				StreamedWStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*StreamedWStringNullParameter.get());
+				StreamedWStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*StreamedWStringNullParameter.get());
 
 				// ntext (option 1)
 				/*
 				std::unique_ptr<IDataParameter> WTextParameter = InsertCommand->CreateParameter();
 				WTextParameter->SetValue(L't - mssql will trim automatically');
-				InsertCommand->GetParameters()->Add(WTextParameter.get());
+				InsertCommand->GetParameters().Add(WTextParameter.get());
 
 				std::unique_ptr<IDataParameter> WTextNullParameter = InsertCommand->CreateParameter();
 				WTextNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(WTextNullParameter.get());
+				InsertCommand->GetParameters().Add(WTextNullParameter.get());
 				*/
 				// ntext (option 2)
 				/*
 				std::unique_ptr<IDataParameter> WTextStringParameter = InsertCommand->CreateParameter();
 				WTextStringParameter->SetValue(&std::wstring(L"t - mssql will trim automatically"));
-				InsertCommand->GetParameters()->Add(WTextStringParameter.get());
+				InsertCommand->GetParameters().Add(WTextStringParameter.get());
 
 				std::unique_ptr<IDataParameter> WTextStringNullParameter = InsertCommand->CreateParameter();
 				WTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(WTextStringNullParameter.get());
+				InsertCommand->GetParameters().Add(WTextStringNullParameter.get());
 				*/
 				// ntext (option 3)
 				Elysium::Core::IO::MemoryStream WTextStringStream;
@@ -404,59 +406,59 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				std::unique_ptr<IDataParameter> StreamedWTextStringParameter = InsertCommand->CreateParameter();
 				StreamedWTextStringParameter->SetValue(&WTextStringStream);
-				InsertCommand->GetParameters()->Add(*StreamedWTextStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedWTextStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedWTextStringNullParameter = InsertCommand->CreateParameter();
-				StreamedWTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*StreamedWTextStringNullParameter.get());
+				StreamedWTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*StreamedWTextStringNullParameter.get());
 
 				// numeric (decimal)
 
 				// nvarchar
 				std::unique_ptr<IDataParameter> NVarCharParameter = InsertCommand->CreateParameter();
 				NVarCharParameter->SetValue(L'n');
-				InsertCommand->GetParameters()->Add(*NVarCharParameter.get());
+				InsertCommand->GetParameters().Add(*NVarCharParameter.get());
 
 				std::unique_ptr<IDataParameter> NVarCharNullParameter = InsertCommand->CreateParameter();
-				NVarCharNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*NVarCharNullParameter.get());
+				NVarCharNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*NVarCharNullParameter.get());
 
 				// real
 				std::unique_ptr<IDataParameter> RealParameter = InsertCommand->CreateParameter();
 				RealParameter->SetValue(23.559999465942383f);
-				InsertCommand->GetParameters()->Add(*RealParameter.get());
+				InsertCommand->GetParameters().Add(*RealParameter.get());
 
 				std::unique_ptr<IDataParameter> RealNullParameter = InsertCommand->CreateParameter();
-				RealNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*RealNullParameter.get());
+				RealNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*RealNullParameter.get());
 				/*
 				// smalldatetime - ToDo: mssql specific type
 				std::unique_ptr<IDataParameter> SmallDateTimeParameter = InsertCommand->CreateParameter();
 				SmallDateTimeParameter->SetValue(&DateTime(2010, 02, 10, 12, 30, 0));
 				SmallDateTimeParameter->SetDbType(DbType::SmallDateTime);
-				InsertCommand->GetParameters()->Add(SmallDateTimeParameter.get());
+				InsertCommand->GetParameters().Add(SmallDateTimeParameter.get());
 
 				std::unique_ptr<IDataParameter> SmallDateTimeNullParameter = InsertCommand->CreateParameter();
 				SmallDateTimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(SmallDateTimeNullParameter.get());
+				InsertCommand->GetParameters().Add(SmallDateTimeNullParameter.get());
 				*/
 				// int16 (smallint)
 				std::unique_ptr<IDataParameter> Int16Parameter = InsertCommand->CreateParameter();
 				Int16Parameter->SetValue(23);
-				InsertCommand->GetParameters()->Add(*Int16Parameter.get());
+				InsertCommand->GetParameters().Add(*Int16Parameter.get());
 
 				std::unique_ptr<IDataParameter> Int16NullParameter = InsertCommand->CreateParameter();
-				Int16NullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*Int16NullParameter.get());
+				Int16NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*Int16NullParameter.get());
 
 				// float (smallmoney)
 				std::unique_ptr<IDataParameter> SmallmoneyParameter = InsertCommand->CreateParameter();
 				SmallmoneyParameter->SetValue(75.45f);
-				InsertCommand->GetParameters()->Add(*SmallmoneyParameter.get());
+				InsertCommand->GetParameters().Add(*SmallmoneyParameter.get());
 
 				std::unique_ptr<IDataParameter> SmallmoneyNullParameter = InsertCommand->CreateParameter();
-				SmallmoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*SmallmoneyNullParameter.get());
+				SmallmoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*SmallmoneyNullParameter.get());
 
 				// sql_variant
 
@@ -466,21 +468,21 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				/*
 				std::unique_ptr<IDataParameter> TextParameter = InsertCommand->CreateParameter();
 				TextParameter->SetValue('s');
-				InsertCommand->GetParameters()->Add(TextParameter.get());
+				InsertCommand->GetParameters().Add(TextParameter.get());
 
 				std::unique_ptr<IDataParameter> TextNullParameter = InsertCommand->CreateParameter();
 				TextNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(TextNullParameter.get());
+				InsertCommand->GetParameters().Add(TextNullParameter.get());
 				*/
 				// text (option 2)
 				/*
 				std::unique_ptr<IDataParameter> TextStringParameter = InsertCommand->CreateParameter();
 				TextStringParameter->SetValue(&std::string("s - mssql will trim automatically"));
-				InsertCommand->GetParameters()->Add(TextStringParameter.get());
+				InsertCommand->GetParameters().Add(TextStringParameter.get());
 
 				std::unique_ptr<IDataParameter> TextStringNullParameter = InsertCommand->CreateParameter();
 				TextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(TextStringNullParameter.get());
+				InsertCommand->GetParameters().Add(TextStringNullParameter.get());
 				*/
 				// ntext (option 3)
 				Elysium::Core::IO::MemoryStream TextStringStream;
@@ -489,45 +491,45 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				std::unique_ptr<IDataParameter> StreamedTextStringParameter = InsertCommand->CreateParameter();
 				StreamedTextStringParameter->SetValue(&TextStringStream);
-				InsertCommand->GetParameters()->Add(*StreamedTextStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedTextStringParameter.get());
 
 				std::unique_ptr<IDataParameter> StreamedTextStringNullParameter = InsertCommand->CreateParameter();
-				StreamedTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*StreamedTextStringNullParameter.get());
+				StreamedTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*StreamedTextStringNullParameter.get());
 
 				// time
 				std::unique_ptr<IDataParameter> TimeParameter = InsertCommand->CreateParameter();
-				TimeParameter->SetValue(&TimeSpan(13, 37, 27));
-				InsertCommand->GetParameters()->Add(*TimeParameter.get());
+				TimeParameter->SetValue(TimeSpan(13, 37, 27));
+				InsertCommand->GetParameters().Add(*TimeParameter.get());
 
 				std::unique_ptr<IDataParameter> TimeNullParameter = InsertCommand->CreateParameter();
-				TimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*TimeNullParameter.get());
+				TimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*TimeNullParameter.get());
 				/*
 				// timestamp - this datatype equals a 'rowversion' and doesn't contain DateTime-information as the name might imply
 				std::unique_ptr<IDataParameter> RowVersionParameter = InsertCommand->CreateParameter();
 				RowVersionParameter->SetValue((__int64)345345345);
-				InsertCommand->GetParameters()->Add(RowVersionParameter.get());
+				InsertCommand->GetParameters().Add(RowVersionParameter.get());
 				*/
 				// BYTE (tinyint)
 				std::unique_ptr<IDataParameter> TinyIntParameter = InsertCommand->CreateParameter();
 				TinyIntParameter->SetValue((unsigned short)17);
-				InsertCommand->GetParameters()->Add(*TinyIntParameter.get());
+				InsertCommand->GetParameters().Add(*TinyIntParameter.get());
 
 				std::unique_ptr<IDataParameter> TinyIntNullParameter = InsertCommand->CreateParameter();
-				TinyIntNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*TinyIntNullParameter.get());
+				TinyIntNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*TinyIntNullParameter.get());
 
 				// GUID (uniqueidentifier)
 				std::unique_ptr<IDataParameter> GuidParameter = InsertCommand->CreateParameter();
-				GuidParameter->SetValue(&Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70"));
-				InsertCommand->GetParameters()->Add(*GuidParameter.get());
+				GuidParameter->SetValue(Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70"));
+				InsertCommand->GetParameters().Add(*GuidParameter.get());
 
 				//Assert::AreEqual("ae019609-99e0-4ef5-85bb-ad90dc302e70", Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70").ToString().c_str());
 
 				std::unique_ptr<IDataParameter> GuidNullParameter = InsertCommand->CreateParameter();
-				GuidNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*GuidNullParameter.get());
+				GuidNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*GuidNullParameter.get());
 
 				// varbinary
 
@@ -535,32 +537,32 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				// xml
 				std::unique_ptr<IDataParameter> XmlParameter = InsertCommand->CreateParameter();
-				XmlParameter->SetValue(&std::string("<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>"));
+				XmlParameter->SetValue(String(u8"<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>"));
 				//XmlParameter->SetDbType(DbType::Xml);
-				InsertCommand->GetParameters()->Add(*XmlParameter.get());
+				InsertCommand->GetParameters().Add(*XmlParameter.get());
 
 				std::unique_ptr<IDataParameter> XmlNullParameter = InsertCommand->CreateParameter();
-				XmlNullParameter->SetValue(Elysium::Core::Data::DBNull::Value());
-				InsertCommand->GetParameters()->Add(*XmlNullParameter.get());
+				XmlNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
+				InsertCommand->GetParameters().Add(*XmlNullParameter.get());
 
 				PerformDataInsertionTest(InsertCommand.get());
 
 				// perform R test
 				std::unique_ptr<IDbCommand> SelectCommand = _Connection.CreateCommand();
-				SelectCommand->SetCommandText("SELECT [bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geographyNotNull].Lat As Latitude, [geographyNotNull].Long As Longitude, [geographyNotNull].M As Magnitude, [geographyNotNull].Z As Depth, [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [hierarchyidNotNull].ToString() AS HierarchyPath, [hierarchyidNotNull].GetLevel() AS HierarchyLevel, [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull] FROM AllDataTypes");
+				SelectCommand->SetCommandText(u8"SELECT [bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geographyNotNull].Lat As Latitude, [geographyNotNull].Long As Longitude, [geographyNotNull].M As Magnitude, [geographyNotNull].Z As Depth, [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [hierarchyidNotNull].ToString() AS HierarchyPath, [hierarchyidNotNull].GetLevel() AS HierarchyLevel, [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull] FROM AllDataTypes");
 				TestReader(SelectCommand);
 
 				// perform U test
 				std::unique_ptr<IDbCommand> UpdateCommand = _Connection.CreateCommand();
-				UpdateCommand->SetCommandText("UPDATE AllDataTypes SET [bigintNull] = ?");
+				UpdateCommand->SetCommandText(u8"UPDATE AllDataTypes SET [bigintNull] = ?");
 				std::unique_ptr<IDataParameter> UpdateParameter = UpdateCommand->CreateParameter();
 				UpdateParameter->SetValue((__int64)123);
-				UpdateCommand->GetParameters()->Add(*UpdateParameter.get());
+				UpdateCommand->GetParameters().Add(*UpdateParameter.get());
 				UpdateCommand->ExecuteNonQuery();
 
 				// perform D test
 				std::unique_ptr<IDbCommand> DeleteCommand = _Connection.CreateCommand();
-				DeleteCommand->SetCommandText("DELETE FROM AllDataTypes");
+				DeleteCommand->SetCommandText(u8"DELETE FROM AllDataTypes");
 				DeleteCommand->ExecuteNonQuery();
 
 				_Connection.Close();
@@ -581,42 +583,37 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			// oledb doesn't support named parameters. therefore just do nothing here.
 		}
 private:
-	SqlNativeConnection _Connection;
+	SqlNativeConnection _Connection = SqlNativeConnection();
 
 	static void TestReader(const std::unique_ptr<IDbCommand>& Command)
 	{
-		std::unique_ptr<IDataReader> Reader = Command->ExecuteReader();
+		std::unique_ptr<IDataReader> IReader = Command->ExecuteReader();
+		DbDataReader* Reader = (DbDataReader*)IReader.get();
 
 		// test a few reader methods before actually starting to read
 		{
 			//Assert::AreSame(10L, Reader->GetRecordsAffected());
+			const String ColumnDataTypeName = Reader->GetDataTypeName(0);
+			AssertExtended::AreEqual(u8"DBTYPE_BOOL", &ColumnDataTypeName[0]);
 
-			std::wstring ColumnDataTypeName;
-			std::wstring ColumnName;
-			unsigned __int64 ColumnOrdinal;
+			const String ColumnName = Reader->GetName(0);
+			AssertExtended::AreEqual(u8"bigintNotNull", &ColumnName[0]);
 
-			Reader->GetDataTypeName(5, &ColumnDataTypeName);
-			Assert::AreEqual(L"DBTYPE_BOOL", ColumnDataTypeName.data());
-
-			Reader->GetName(0, &ColumnName);
-			Assert::AreEqual(L"bigintNotNull", ColumnName.data());
-
-			Reader->GetOrdinal(L"binaryNull", &ColumnOrdinal);
+			const uint64_t ColumnOrdinal = Reader->GetOrdinal(String(u8"binaryNull"));
 			Assert::AreEqual(3ULL, ColumnOrdinal);
 		}
 
 		__int64 AvailableBytes;
 		int64_t BigIntValue;
-		std::vector<BYTE> BytesValue(1);
+		List<byte> BytesValue = List<byte>(1);
 		bool BitValue;
-		std::string CharValues = std::string(1, '\0');
+		String CharValues = String(1);
 		DateTime DatetimeValue = DateTime(0);
 		DateTimeOffset DateTimeOffsetValue = DateTimeOffset(DatetimeValue);
 		TimeSpan TimeSpanValue = TimeSpan(0);
 		Decimal DecimalValue;
 		float FloatValue;
 		double DoubleValue;
-		std::wstring WCharValues = std::wstring(1, '\0');
 		int16_t Int16Value;
 		int IntValue;
 		byte GuidData[16];
@@ -624,39 +621,39 @@ private:
 		while (Reader->Read())
 		{
 			// bigint
-			Reader->GetInt64(0, &BigIntValue);
+			BigIntValue = Reader->GetInt64(0);
 			AssertExtended::AreEqual(9223372036854775807, BigIntValue);
 			Assert::IsFalse(Reader->IsDBNull(0));
 			Assert::IsTrue(Reader->IsDBNull(1));
 
 			// binary
-			Reader->GetByte(2, BytesValue.data());
-			Assert::AreEqual((BYTE)'v', BytesValue[0]);
-			AvailableBytes = Reader->GetBytes(2, 0, nullptr, 0, 1);
-			BytesValue.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetBytes(2, 0, BytesValue.data(), 0, 1);
-			Assert::AreEqual((BYTE)'v', BytesValue.data()[0]);
+			BytesValue[0] = Reader->GetByte(2);
+			Assert::AreEqual((byte)'v', BytesValue[0]);
+			AvailableBytes = Reader->GetBytes(2, 0, nullptr, 1);
+			BytesValue = List<byte>(AvailableBytes);
+			AvailableBytes = Reader->GetBytes(2, 0, &BytesValue[0], 1);
+			Assert::AreEqual((byte)'v', BytesValue[0]);
 			Assert::IsFalse(Reader->IsDBNull(2));
 			Assert::IsTrue(Reader->IsDBNull(3));
 
 			// bit
-			Reader->GetBoolean(4, &BitValue);
+			BitValue = Reader->GetBoolean(4);
 			Assert::AreEqual(true, BitValue);
 			Assert::IsFalse(Reader->IsDBNull(4));
 			Assert::IsTrue(Reader->IsDBNull(5));
 
 			// char
-			Reader->GetChar(6, CharValues.data());
-			Assert::AreEqual('a', CharValues.data()[0]);
-			AvailableBytes = Reader->GetChars(6, 0, nullptr, 0, 0);
-			CharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetChars(6, 0, CharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual('a', CharValues.data()[0]);
+			CharValues[0] = Reader->GetChar(6);
+			Assert::AreEqual(u8'a', CharValues[0]);
+			AvailableBytes = Reader->GetChars(6, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(6, 0, &CharValues[0], (size_t)AvailableBytes);
+			Assert::AreEqual(u8'a', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(6));
 			Assert::IsTrue(Reader->IsDBNull(7));
 
 			// date
-			Reader->GetDateTime(8, &DatetimeValue);
+			DatetimeValue = Reader->GetDateTime(8);
 			DatetimeValue.GetDay(&IntValue);
 			Assert::AreEqual(18, IntValue);
 			DatetimeValue.GetMonth(&IntValue);
@@ -667,7 +664,7 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(9));
 
 			// datetime2
-			Reader->GetDateTime(10, &DatetimeValue);
+			DatetimeValue = Reader->GetDateTime(10);
 			DatetimeValue.GetDay(&IntValue);
 			Assert::AreEqual(18, IntValue);
 			DatetimeValue.GetMonth(&IntValue);
@@ -684,7 +681,7 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(11));
 
 			// datetime
-			Reader->GetDateTime(12, &DatetimeValue);
+			DatetimeValue = Reader->GetDateTime(12);
 			DatetimeValue.GetDay(&IntValue);
 			Assert::AreEqual(18, IntValue);
 			DatetimeValue.GetMonth(&IntValue);
@@ -701,7 +698,7 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(13));
 
 			// datetimeoffset
-			Reader->GetDateTimeOffset(14, &DateTimeOffsetValue);
+			DateTimeOffsetValue = Reader->GetDateTimeOffset(14);
 			DateTimeOffsetValue.GetDateTime().GetDay(&IntValue);
 			Assert::AreEqual(10, IntValue);
 			DateTimeOffsetValue.GetDateTime().GetMonth(&IntValue);
@@ -721,14 +718,14 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(15));
 
 			// decimal
-			Reader->GetDecimal(16, &DecimalValue);
+			DecimalValue = Reader->GetDecimal(16);
 			AssertExtended::AreEqual((__int64)1, DecimalValue.GetHighPart());
 			AssertExtended::AreEqual((__int64)0, DecimalValue.GetLowPart());
 			Assert::IsFalse(Reader->IsDBNull(16));
 			Assert::IsTrue(Reader->IsDBNull(17));
 
 			// float
-			Reader->GetFloat(18, &FloatValue);
+			FloatValue = Reader->GetFloat(18);
 			Assert::AreEqual(0.27f, FloatValue);
 			/*
 			Reader->GetDouble(18, &DoubleValue);
@@ -738,111 +735,111 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(19));
 
 			// geography
-			AvailableBytes = Reader->GetBytes(20, 0, nullptr, 0, 0);
-			BytesValue.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetBytes(20, 0, BytesValue.data(), 0, BytesValue.capacity());
+			AvailableBytes = Reader->GetBytes(20, 0, nullptr, 0);
+			BytesValue = List<byte>(AvailableBytes);
+			AvailableBytes = Reader->GetBytes(20, 0, &BytesValue[0], BytesValue.GetCapacity());
 			// ToDo: test somehow or create specific type?
 			Assert::IsFalse(Reader->IsDBNull(20));
 			Assert::IsTrue(Reader->IsDBNull(21));
-			Reader->GetFloat(22, &FloatValue);	// Latitude
+			FloatValue = Reader->GetFloat(22);	// Latitude
 			Assert::AreEqual(47.651f, FloatValue);
-			Reader->GetDouble(22, &DoubleValue);	// Latitude
+			DoubleValue = Reader->GetDouble(22);	// Latitude
 			Assert::AreEqual(47.651, DoubleValue);
-			Reader->GetDouble(23, &DoubleValue);	// Longitude
+			DoubleValue = Reader->GetDouble(23);	// Longitude
 			Assert::AreEqual(-122.349, DoubleValue);
-			Reader->GetDouble(24, &DoubleValue);	// Magnitude
+			DoubleValue = Reader->GetDouble(24);	// Magnitude
 			Assert::AreEqual(0.0, DoubleValue);
-			Reader->GetDouble(25, &DoubleValue);	// Depth
+			DoubleValue = Reader->GetDouble(25);	// Depth
 			Assert::AreEqual(0.0, DoubleValue);
 
 			// geometry
-			AvailableBytes = Reader->GetBytes(26, 0, nullptr, 0, 0);
-			BytesValue.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetBytes(26, 0, BytesValue.data(), 0, BytesValue.capacity());
-			AvailableBytes = Reader->GetChars(26, 0, nullptr, 0, 0);
-			CharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetChars(26, 0, CharValues.data(), 0, CharValues.capacity());
+			AvailableBytes = Reader->GetBytes(26, 0, nullptr, 0);
+			BytesValue = List<byte>(AvailableBytes);
+			AvailableBytes = Reader->GetBytes(26, 0, &BytesValue[0], BytesValue.GetCapacity());
+			AvailableBytes = Reader->GetChars(26, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(26, 0, &CharValues[0], CharValues.GetLength());
 			// ToDo: test somehow or create specific type?
 			Assert::IsFalse(Reader->IsDBNull(26));
 			Assert::IsTrue(Reader->IsDBNull(27));
 
 			// hierarchyid
-			AvailableBytes = Reader->GetBytes(28, 0, nullptr, 0, 0);	// ToDo: why do we get zero bytes?
+			AvailableBytes = Reader->GetBytes(28, 0, nullptr, 0);	// ToDo: why do we get zero bytes?
 			//BytesValue.resize(AvailableBytes);
 			//AvailableBytes = Reader->GetBytes(28, 0, BytesValue.data(), 0, 2048);
 			Assert::IsFalse(Reader->IsDBNull(28));
 			Assert::IsTrue(Reader->IsDBNull(29));
-			AvailableBytes = Reader->GetWChars(30, 0, nullptr, 0, 0);	// HierarchyPath
-			WCharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetWChars(30, 0, WCharValues.data(), 0, (size_t)AvailableBytes);	// HierarchyPath
-			Assert::AreEqual(L'/', WCharValues[0]);
-			Reader->GetInt16(31, &Int16Value);	// HierarchyLevel
+			AvailableBytes = Reader->GetChars(30, 0, nullptr, 0);	// HierarchyPath
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(30, 0, &CharValues[0], AvailableBytes);	// HierarchyPath
+			Assert::AreEqual(u8'/', CharValues[0]);
+			Int16Value = Reader->GetInt16(31);	// HierarchyLevel
 			Assert::AreEqual((int16_t)0, Int16Value);
 
 			// image
-			AvailableBytes = Reader->GetBytes(32, 0, nullptr, 0, 0);
-			BytesValue.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetBytes(32, 0, BytesValue.data(), 0, (size_t)AvailableBytes);
+			AvailableBytes = Reader->GetBytes(32, 0, nullptr, 0);
+			BytesValue = List<byte>(AvailableBytes);
+			AvailableBytes = Reader->GetBytes(32, 0, &BytesValue[0], (size_t)AvailableBytes);
 			Assert::IsFalse(Reader->IsDBNull(32));
 			Assert::IsTrue(Reader->IsDBNull(33));
 
 			// int
-			Reader->GetInt32(34, &IntValue);
+			IntValue = Reader->GetInt32(34);
 			Assert::AreEqual(23, IntValue);
 			Assert::IsFalse(Reader->IsDBNull(34));
 			Assert::IsTrue(Reader->IsDBNull(35));
 
 			// money
-			Reader->GetDouble(36, &DoubleValue);
+			DoubleValue = Reader->GetDouble(36);
 			Assert::AreEqual(37.56, DoubleValue);
-			Reader->GetFloat(36, &FloatValue);
+			FloatValue = Reader->GetFloat(36);
 			Assert::AreEqual(37.56f, FloatValue);
 			Assert::IsFalse(Reader->IsDBNull(36));
 			Assert::IsTrue(Reader->IsDBNull(37));
 
 			// nchar
-			Reader->GetWChar(38, WCharValues.data());
-			Assert::AreEqual(L'n', WCharValues.data()[0]);
-			AvailableBytes = Reader->GetWChars(38, 0, nullptr, 0, 0);
-			WCharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetWChars(38, 0, WCharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual(L'n', WCharValues.data()[0]);
+			CharValues = Reader->GetChar(38);
+			Assert::AreEqual(u8'n', CharValues[0]);
+			AvailableBytes = Reader->GetChars(38, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(38, 0, &CharValues[0], AvailableBytes);
+			Assert::AreEqual(u8'n', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(38));
 			Assert::IsTrue(Reader->IsDBNull(39));
 
 			// ntext
-			AvailableBytes = Reader->GetWChars(40, 0, nullptr, 0, 0);
-			WCharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetWChars(40, 0, WCharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual(L't', WCharValues.data()[0]);
+			AvailableBytes = Reader->GetChars(40, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(40, 0, &CharValues[0], AvailableBytes);
+			Assert::AreEqual(u8't', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(40));
 			Assert::IsTrue(Reader->IsDBNull(41));
 
 			// numeric
-			Reader->GetDecimal(42, &DecimalValue);
+			DecimalValue = Reader->GetDecimal(42);
 			AssertExtended::AreEqual((__int64)99, DecimalValue.GetHighPart());
 			AssertExtended::AreEqual((__int64)0, DecimalValue.GetLowPart());
 			Assert::IsFalse(Reader->IsDBNull(42));
 			Assert::IsTrue(Reader->IsDBNull(43));
 
 			// nvarchar
-			AvailableBytes = Reader->GetWChars(44, 0, nullptr, 0, 0);
-			WCharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetWChars(44, 0, WCharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual(L'n', WCharValues.data()[0]);
+			AvailableBytes = Reader->GetChars(44, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(44, 0, &CharValues[0], AvailableBytes);
+			Assert::AreEqual(u8'n', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(44));
 			Assert::IsTrue(Reader->IsDBNull(45));
 
 			// real
-			Reader->GetFloat(46, &FloatValue);
+			FloatValue = Reader->GetFloat(46);
 			Assert::AreEqual(23.559999465942383f, FloatValue);
-			Reader->GetDouble(46, &DoubleValue);
+			DoubleValue = Reader->GetDouble(46);
 			Assert::AreEqual(23.559999465942383, DoubleValue);
 			Assert::IsFalse(Reader->IsDBNull(46));
 			Assert::IsTrue(Reader->IsDBNull(47));
 
 			// smalldatetime
-			Reader->GetDateTime(48, &DatetimeValue);
+			DatetimeValue = Reader->GetDateTime(48);
 			DatetimeValue.GetDay(&IntValue);
 			Assert::AreEqual(10, IntValue);
 			DatetimeValue.GetMonth(&IntValue);
@@ -859,49 +856,49 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(49));
 
 			// smallint
-			Reader->GetInt16(50, &Int16Value);
+			Int16Value = Reader->GetInt16(50);
 			Assert::AreEqual((short)23, Int16Value);
 			Assert::IsFalse(Reader->IsDBNull(50));
 			Assert::IsTrue(Reader->IsDBNull(51));
 
 			// smallmoney
-			Reader->GetFloat(52, &FloatValue);
+			FloatValue = Reader->GetFloat(52);
 			Assert::AreEqual(75.45f, FloatValue);
-			Reader->GetDouble(52, &DoubleValue);
+			DoubleValue = Reader->GetDouble(52);
 			Assert::AreEqual(75.45, DoubleValue);
 			Assert::IsFalse(Reader->IsDBNull(52));
 			Assert::IsTrue(Reader->IsDBNull(53));
 
 			// sql_variant
-			AvailableBytes = Reader->GetBytes(54, 0, nullptr, 0, 0);	// ToDo: why do we get zero bytes?
+			AvailableBytes = Reader->GetBytes(54, 0, nullptr, 0);	// ToDo: why do we get zero bytes?
 			//BytesValue.resize(AvailableBytes);
 			//AvailableBytes = Reader->GetBytes(54, 0, BytesValue.data(), 0, AvailableBytes); // ToDo: test somehow or create specific type?
 			Assert::IsFalse(Reader->IsDBNull(54));
 			Assert::IsTrue(Reader->IsDBNull(55));
 
 			// sysname
-			AvailableBytes = Reader->GetWChars(56, 0, nullptr, 0, 0);
-			WCharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetWChars(56, 0, WCharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual(L's', WCharValues.data()[0]);
+			AvailableBytes = Reader->GetChars(56, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(56, 0, &CharValues[0], AvailableBytes);
+			Assert::AreEqual(u8's', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(56));
 			Assert::IsTrue(Reader->IsDBNull(57));
 
 			// text
-			AvailableBytes = Reader->GetChars(58, 0, nullptr, 0, 0);
-			CharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetChars(58, 0, CharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual('s', CharValues.data()[0]);
+			AvailableBytes = Reader->GetChars(58, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(58, 0, &CharValues[0], AvailableBytes);
+			Assert::AreEqual(u8's', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(58));
 			Assert::IsTrue(Reader->IsDBNull(59));
 
 			// time
-			Reader->GetTimeSpan(60, &TimeSpanValue);
+			TimeSpanValue = Reader->GetTimeSpan(60);
 			Assert::AreEqual(13, TimeSpanValue.GetHours());
 			Assert::AreEqual(37, TimeSpanValue.GetMinutes());
 			Assert::AreEqual(27, TimeSpanValue.GetSeconds());
 
-			Reader->GetDateTime(60, &DatetimeValue);
+			DatetimeValue = Reader->GetDateTime(60);
 			DatetimeValue.GetDay(&IntValue);
 			Assert::AreEqual(1, IntValue);
 			DatetimeValue.GetMonth(&IntValue);
@@ -918,41 +915,41 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(61));
 
 			// timestamp - this datatype equals a 'rowversion' and doesn't contain DateTime-information as the name might imply
-			Reader->GetInt64(62, &BigIntValue);
+			BigIntValue = Reader->GetInt64(62);
 			//Assert::AreEqual(-3384736594945638400, BigIntValue);	// ToDo: different value for each row each time
 			Assert::IsFalse(Reader->IsDBNull(62));
 
 			// tinyint
-			Reader->GetInt16(63, &Int16Value);
+			Int16Value = Reader->GetInt16(63);
 			Assert::AreEqual((short)17, Int16Value);
 			Assert::IsFalse(Reader->IsDBNull(63));
 			Assert::IsTrue(Reader->IsDBNull(64));
 
 			// GUID (uniqueidentifier)
-			Reader->GetGuid(65, &GUIDValue);
+			GUIDValue = Reader->GetGuid(65);
 			//Assert::AreEqual("ae019609-99e0-4ef5-85bb-ad90dc302e70", GUIDValue.ToString().c_str());
 			Assert::IsFalse(Reader->IsDBNull(65));
 			Assert::IsTrue(Reader->IsDBNull(66));
 
 			// varbinary
-			AvailableBytes = Reader->GetBytes(67, 0, nullptr, 0, 0);	// ToDo: why do we get zero bytes? (same as sql_variant)
+			AvailableBytes = Reader->GetBytes(67, 0, nullptr, 0);	// ToDo: why do we get zero bytes? (same as sql_variant)
 			//BytesValue.resize(AvailableBytes);
 			//AvailableBytes = Reader->GetBytes(54, 0, BytesValue.data(), 0, AvailableBytes); // ToDo: test somehow or create specific type?
 			Assert::IsFalse(Reader->IsDBNull(67));
 			Assert::IsTrue(Reader->IsDBNull(68));
 
 			// vchar 
-			AvailableBytes = Reader->GetChars(69, 0, nullptr, 0, 0);
-			CharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetChars(69, 0, CharValues.data(), 0, (size_t)AvailableBytes);
-			Assert::AreEqual('v', CharValues.data()[0]);
+			AvailableBytes = Reader->GetChars(69, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(69, 0, &CharValues[0], AvailableBytes);
+			Assert::AreEqual(u8'v', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(69));
 			Assert::IsTrue(Reader->IsDBNull(70));
 
 			// xml
-			AvailableBytes = Reader->GetWChars(71, 0, nullptr, 0, 0);
-			WCharValues.resize((unsigned int)AvailableBytes);
-			AvailableBytes = Reader->GetWChars(71, 0, WCharValues.data(), 0, (size_t)AvailableBytes);
+			AvailableBytes = Reader->GetChars(71, 0, nullptr, 0);
+			CharValues = String(AvailableBytes);
+			AvailableBytes = Reader->GetChars(71, 0, &CharValues[0], AvailableBytes);
 			//Assert::AreEqual(L"<root\>", WCharValues.data());	// ToDo: encoding-problematic?
 			Assert::IsFalse(Reader->IsDBNull(71));
 			Assert::IsTrue(Reader->IsDBNull(72));

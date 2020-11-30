@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_NET_API
 #include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING

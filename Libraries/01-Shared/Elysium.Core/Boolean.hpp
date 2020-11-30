@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -12,9 +12,21 @@ Copyright (C) 2017 waYne (CAM)
 #pragma once
 #endif
 
-namespace Elysium::Core::Boolean
+namespace Elysium::Core
 {
-	constexpr const char* TrueLiteral = u8"True";
-	constexpr const char* FalseLiteral = u8"False";
+	class ELYSIUM_CORE_API Boolean final
+	{
+	public:
+		Boolean() = delete;
+		Boolean(const Boolean& Right) = delete;
+		Boolean(Boolean&& Right) noexcept = delete;
+		~Boolean() = delete;
+
+		Boolean& operator=(const Boolean& Source) = delete;
+		Boolean& operator=(Boolean&& Right) noexcept = delete;
+
+		static constexpr const char8_t* TrueString = u8"True";
+		static constexpr const char8_t* FalseString = u8"False";
+	};
 }
 #endif

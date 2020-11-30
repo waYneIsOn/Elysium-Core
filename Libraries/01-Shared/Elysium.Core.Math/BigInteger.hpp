@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 Code translated and edited from original implementation:
 https://referencesource.microsoft.com/#System.Numerics/System/Numerics/BigInteger.cs

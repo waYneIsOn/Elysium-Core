@@ -10,6 +10,8 @@
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::String & HostNameOrAddress)
 {
+	throw 1;
+	/*
 	addrinfo ServerInfo = {}, *Addresses;
 	if (GetAddrInfoA(&HostNameOrAddress[0], NULL, &ServerInfo, &Addresses) != 0)
 	{	// ToDo: throw a specific exception
@@ -42,6 +44,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>
 	}
 
 	return Result;
+	*/
 }
 
 const Elysium::Core::String Elysium::Core::Net::Dns::GetHostName()

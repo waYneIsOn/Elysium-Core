@@ -7,7 +7,7 @@
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException()
 	: Elysium::Core::SystemException(u8"AuthenticationException")
 { }
-Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(const char * Message)
+Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(const char8_t * Message)
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(String && Message)

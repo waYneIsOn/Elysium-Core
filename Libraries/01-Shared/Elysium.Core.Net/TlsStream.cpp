@@ -29,7 +29,9 @@ Elysium::Core::Net::Security::TlsStream::TlsStream(IO::Stream & InnerStream, con
 	_AuthenticationOptions(AuthenticationOptions),
 	_LocalRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
 	_SessionId(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
-	_RemoteRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32))
+	_RemoteRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
+	_ServerSelectedCipherSuite(),
+	_ServerSelectedCompressionMethod()
 { }
 Elysium::Core::Net::Security::TlsStream::~TlsStream()
 { }

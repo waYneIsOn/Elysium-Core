@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,7 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		InvalidCastException();
-		InvalidCastException(const char* Message);
+		InvalidCastException(const char8_t* Message);
 		InvalidCastException(String&& Message);
 		virtual ~InvalidCastException();
 	};

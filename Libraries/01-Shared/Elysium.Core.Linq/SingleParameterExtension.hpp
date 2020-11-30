@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -25,7 +25,7 @@ namespace Elysium::Core::Linq
 		ParameterType Value;
 
 		template<class ContainerType>
-		friend auto operator>>(ContainerType & Container, SingleParameterExtension & Input)
+		friend auto operator>>(ContainerType & Container, SingleParameterExtension && Input)
 		{
 			return LinqContainerType()(Container, Input.Value);
 		}

@@ -21,16 +21,16 @@ Elysium::Core::Text::StringBuilder::StringBuilder()
 { }
 Elysium::Core::Text::StringBuilder::StringBuilder(const size_t Capacity)
 	: _Capacity(Capacity <= INT_MAX ? Capacity : INT_MAX),
-	_Data((char*)malloc(sizeof(char) * _Capacity)),
+	_Data((char8_t*)malloc(sizeof(char8_t) * _Capacity)),
 	_Length(0)
 { }
 Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Source)
 	: _Capacity(Source._Capacity),
-	_Data(new char[_Capacity]),
+	_Data(new char8_t[_Capacity]),
 	//_Data((char16_t*)malloc(sizeof(char16_t) * _Capacity)),
 	_Length(Source._Length)
 {
-	memcpy(_Data, Source._Data, sizeof(char) * _Capacity);
+	memcpy(_Data, Source._Data, sizeof(char8_t) * _Capacity);
 }
 Elysium::Core::Text::StringBuilder::~StringBuilder()
 {
@@ -61,7 +61,7 @@ void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Va
 	memcpy(&_Data[_Length], &Value[0], sizeof(char) * ValueLength);
 	_Length += ValueLength;
 }
-void Elysium::Core::Text::StringBuilder::Append(const char Value)
+void Elysium::Core::Text::StringBuilder::Append(const char8_t Value)
 {
 	Resize(_Length + 1);
 
@@ -69,7 +69,7 @@ void Elysium::Core::Text::StringBuilder::Append(const char Value)
 	memcpy(&_Data[_Length], &Value, sizeof(char));
 	_Length++;
 }
-void Elysium::Core::Text::StringBuilder::Append(const char * Value, const size_t Length)
+void Elysium::Core::Text::StringBuilder::Append(const char8_t * Value, const size_t Length)
 {
 	// resize if required
 	Resize(_Length + Length);
@@ -82,20 +82,20 @@ void Elysium::Core::Text::StringBuilder::Clear()
 {
 	_Length = 0;
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char Value) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value) const
 {
-	const char* CharPointer = std::char_traits<char>::find(_Data, _Length, Value);
+	const char8_t* CharPointer = std::char_traits<char8_t>::find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<const char>(-1) : CharPointer - _Data;
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char Value, const size_t StartIndex) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value, const size_t StartIndex) const
 {
-	const char* CharPointer = std::char_traits<char>::find(&_Data[StartIndex], _Length - StartIndex, Value);
+	const char8_t* CharPointer = std::char_traits<char8_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char * Value) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 {
 	size_t Index = 0;
-	size_t SizeOfValue = std::char_traits<char>::length(Value);
+	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
 	while (true)
 	{
 		size_t CurrentIndex = IndexOf(Value[0], Index);
@@ -127,10 +127,10 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char * Value) const
 		Index++;
 	}
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char * Value, const size_t StartIndex) const
+size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const size_t StartIndex) const
 {
 	size_t Index = StartIndex;
-	size_t SizeOfValue = std::char_traits<char>::length(Value);
+	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
 	while (true)
 	{
 		size_t CurrentIndex = IndexOf(Value[0], Index);
@@ -165,7 +165,7 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char * Value, const siz
 void Elysium::Core::Text::StringBuilder::Remove(const size_t StartIndex, const size_t Length)
 {
 	// copy data and set _Length accordingly
-	memcpy(&_Data[StartIndex], &_Data[Length], sizeof(char16_t) * Length);
+	memcpy(&_Data[StartIndex], &_Data[Length], sizeof(char8_t) * Length);
 	_Length -= Length;
 }
 
@@ -203,12 +203,12 @@ void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)
 		}
 
 		// store a pointer to old data before allocating new data
-		char* OldData = _Data;
-		_Data = (char*)malloc(sizeof(char) * ActualCapacity);
+		char8_t* OldData = _Data;
+		_Data = (char8_t*)malloc(sizeof(char8_t) * ActualCapacity);
 		_Capacity = ActualCapacity;
 
 		// copy all old elements to _Data
-		memcpy(&_Data[0], &OldData[0], sizeof(char) * _Length);
+		memcpy(&_Data[0], &OldData[0], sizeof(char8_t) * _Length);
 
 		// delete old data
 		delete[] OldData;

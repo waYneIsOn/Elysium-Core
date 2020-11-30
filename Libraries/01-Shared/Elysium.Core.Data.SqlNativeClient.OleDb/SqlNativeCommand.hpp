@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
 #include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBCOMMAND
@@ -49,20 +53,22 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	public:
 		~SqlNativeCommand();
 
-		virtual const SqlNativeConnection* GetConnection() const override;
+		virtual const SqlNativeConnection& GetConnection() const override;
 		virtual const SqlNativeTransaction* GetTransaction() const override;
-		virtual SqlNativeParameterCollection* GetParameters() const override;
+		virtual SqlNativeParameterCollection& GetParameters() const override;
 
 		virtual std::unique_ptr<IDataParameter> CreateParameter() override;
 		virtual size_t ExecuteNonQuery() override;
 		virtual std::unique_ptr<IDataReader> ExecuteReader() override;
 		virtual void Prepare() override;
 	private:
-		SqlNativeCommand(SqlNativeConnection* Connection, IDBCreateCommand* NativeCommandFactory);
+		SqlNativeCommand(SqlNativeConnection& Connection, IDBCreateCommand* NativeCommandFactory);
 		SqlNativeCommand(SqlNativeTransaction* Transaction, IDBCreateCommand* NativeCommandFactory);
 
 		IDBCreateCommand* _NativeCommandFactory;
 		SqlNativeParameterCollection _Parameters = SqlNativeParameterCollection();
+
+		const Text::Encoding& _Utf16 = Text::Encoding::UTF16BE();
 
 		void PrepareParameters(ICommandText* NativeCommandText, DBPARAMS* CommandParameters, std::vector<ISequentialStream*>* Streams, std::vector<byte>* ParameterDataBuffer);
 	};

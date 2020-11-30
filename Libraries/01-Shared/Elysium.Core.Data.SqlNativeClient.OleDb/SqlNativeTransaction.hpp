@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -36,7 +36,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual void Commit() override;
 		virtual void Rollback() override;
 	private:
-		SqlNativeTransaction(SqlNativeConnection* Connection, IsolationLevel IsolationLevel, IDBCreateCommand* NativeCommandFactory, ITransactionLocal* NativeTransaction, unsigned long TransactionLevel);
+		SqlNativeTransaction(SqlNativeConnection& Connection, IsolationLevel IsolationLevel, IDBCreateCommand* NativeCommandFactory, ITransactionLocal* NativeTransaction, unsigned long TransactionLevel);
 
 		IDBCreateCommand* _NativeCommandFactory;
 		ITransactionLocal* _NativeTransaction;

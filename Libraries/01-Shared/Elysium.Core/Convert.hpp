@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -62,25 +62,25 @@ namespace Elysium::Core
 		static const String ToString(const float Value, const int32_t FromBase);
 		static const String ToString(const double Value, const int32_t FromBase);
 
-		static const WideString ToWideString(const String& Value);
+		//static const WideString ToWideString(const String& Value);
 
 		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
 		static String ToBase64String(const Elysium::Core::byte* Bytes, const Elysium::Core::uint32_t Length);
 
-		static int32_t ToInt32(const char* Value, const int32_t FromBase);
+		static int32_t ToInt32(const char8_t* Value, const int32_t FromBase);
 		static int32_t ToInt32(const Elysium::Core::String& Value, const int32_t FromBase);
 		static int32_t ToInt32(const Elysium::Core::StringView& Value, const int32_t FromBase);
 
-		static uint16_t ToUInt16(const char* Value, const int32_t FromBase);
+		static uint16_t ToUInt16(const char8_t* Value, const int32_t FromBase);
 
-		static uint8_t ToUInt8(const char* Value, const int32_t FromBase);
+		static uint8_t ToUInt8(const char8_t* Value, const int32_t FromBase);
 
-		static float ToSingle(const char* Value);
+		static float ToSingle(const char8_t* Value);
 		static float ToSingle(const Elysium::Core::String& Value);
 	private:
 		static const String _Base64Chars;
 
-		static bool IsBase64(const char16_t Char);
+		static bool IsBase64(const char8_t Char);
 	};
 }
 #endif

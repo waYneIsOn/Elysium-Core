@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		OverflowException();
-		OverflowException(const char* Message);
-		OverflowException(String&& Message);
+		OverflowException(const char8_t* Message);
+		OverflowException(Elysium::Core::String&& Message);
 		virtual ~OverflowException();
 	};
 }

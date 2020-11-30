@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -37,7 +37,7 @@ namespace Elysium::Core::Data
 		/// </summary>
 		virtual ~IDbTransaction() {}
 
-		virtual const IDbConnection* GetConnection() const = 0;
+		virtual const IDbConnection& GetConnection() const = 0;
 		virtual const IsolationLevel GetIsolationLevel() const = 0;
 
 		virtual std::unique_ptr<IDbCommand> CreateCommand() = 0;

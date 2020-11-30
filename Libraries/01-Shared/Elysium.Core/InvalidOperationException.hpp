@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,7 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		InvalidOperationException();
-		InvalidOperationException(const char* Message);
+		InvalidOperationException(const char8_t* Message);
 		InvalidOperationException(String&& Message);
 		virtual ~InvalidOperationException();
 	};

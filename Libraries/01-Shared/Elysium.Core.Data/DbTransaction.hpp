@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -34,12 +34,12 @@ namespace Elysium::Core::Data::Common
 		/// </summary>
 		virtual ~DbTransaction() {}
 
-		virtual const IDbConnection* GetConnection() const override;
+		virtual const IDbConnection& GetConnection() const override;
 		virtual const IsolationLevel GetIsolationLevel() const override;
 	protected:
-		DbTransaction(IDbConnection* Connection, IsolationLevel _IsolationLevel);
+		DbTransaction(IDbConnection& Connection, IsolationLevel _IsolationLevel);
 
-		const IDbConnection* _Connection;
+		const IDbConnection& _Connection;
 		IsolationLevel _IsolationLevel;
 	};
 }

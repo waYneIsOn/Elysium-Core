@@ -4,70 +4,78 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Data::DbType Elysium::Core::Data::Common::DbParameter::GetDbType() const
+const Elysium::Core::Data::DbType Elysium::Core::Data::Common::DbParameter::GetDbType() const
 {
 	return _DbType;
 }
-Elysium::Core::Data::ParameterDirection Elysium::Core::Data::Common::DbParameter::GetDirection() const
+
+const Elysium::Core::Data::ParameterDirection Elysium::Core::Data::Common::DbParameter::GetDirection() const
 {
 	return _Direction;
 }
-bool Elysium::Core::Data::Common::DbParameter::GetIsNullable() const
+
+const bool Elysium::Core::Data::Common::DbParameter::GetIsNullable() const
 {
 	return _IsNullable;
 }
-std::string Elysium::Core::Data::Common::DbParameter::GetParameterName() const
+
+const Elysium::Core::String Elysium::Core::Data::Common::DbParameter::GetParameterName() const
 {
 	return _ParameterName;
 }
-std::string Elysium::Core::Data::Common::DbParameter::GetSourceColumn() const
+
+const Elysium::Core::String Elysium::Core::Data::Common::DbParameter::GetSourceColumn() const
 {
 	return _SourceColumn;
 }
-Elysium::Core::Data::DataRowVersion Elysium::Core::Data::Common::DbParameter::GetSourceVersion() const
+
+const Elysium::Core::Data::DataRowVersion Elysium::Core::Data::Common::DbParameter::GetSourceVersion() const
 {
 	return _SourceVersion;
 }
+
 const Elysium::Core::byte * Elysium::Core::Data::Common::DbParameter::GetValue() const
 {
 	return _Data.data();
 }
-size_t Elysium::Core::Data::Common::DbParameter::GetSize() const
+
+const size_t Elysium::Core::Data::Common::DbParameter::GetSize() const
 {
 	return _Data.size();
 }
-bool Elysium::Core::Data::Common::DbParameter::GetIsDBNull() const
+
+const bool Elysium::Core::Data::Common::DbParameter::GetIsDBNull() const
 {
 	return (_DBNullPointer != nullptr);
 }
 
-void Elysium::Core::Data::Common::DbParameter::SetDbType(DbType Type)
+void Elysium::Core::Data::Common::DbParameter::SetDbType(const DbType Type)
 {
 	_DbType = Type;
 }
-void Elysium::Core::Data::Common::DbParameter::SetDirection(ParameterDirection Direction)
+void Elysium::Core::Data::Common::DbParameter::SetDirection(const ParameterDirection Direction)
 {
 	_Direction = Direction;
 }
-void Elysium::Core::Data::Common::DbParameter::SetIsNullable(bool IsNullable)
+void Elysium::Core::Data::Common::DbParameter::SetIsNullable(const bool IsNullable)
 {
 	_IsNullable = IsNullable;
 }
-void Elysium::Core::Data::Common::DbParameter::SetParameterName(std::string ParameterName)
+void Elysium::Core::Data::Common::DbParameter::SetParameterName(const Elysium::Core::String & ParameterName)
 {
 	_ParameterName = ParameterName;
 }
-void Elysium::Core::Data::Common::DbParameter::SetSourceColumn(std::string SourceColumn)
+void Elysium::Core::Data::Common::DbParameter::SetSourceColumn(const Elysium::Core::String& SourceColumn)
 {
 	_SourceColumn = SourceColumn;
 }
-void Elysium::Core::Data::Common::DbParameter::SetSourceVersion(DataRowVersion Version)
+void Elysium::Core::Data::Common::DbParameter::SetSourceVersion(const DataRowVersion Version)
 {
 	_SourceVersion = Version;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const DBNull * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const DBNull & Value)
 {
-	_DBNullPointer = Value;
+	_DBNullPointer = &Value;
 	_DbType = DbType::Boolean;
 }
 void Elysium::Core::Data::Common::DbParameter::SetValue(const bool Value)
@@ -86,15 +94,15 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const byte Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const byte * Value, const size_t BufferOffset, const size_t Length)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const byte * Value, const size_t Length)
 {
 	size_t Size = sizeof(byte) * Length;
 	_DbType = DbType::Byte;
 	_Data.resize(Size);
-	memcpy(&_Data[0], &Value[BufferOffset], Size);
+	memcpy(&_Data[0], &Value[0], Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const char Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const char8_t Value)
 {
 	size_t Size = sizeof(char);
 	_DbType = DbType::AnsiString;
@@ -102,48 +110,48 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const char Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const char * Value, const size_t BufferOffset, const size_t Length)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const char8_t * Value, const size_t Length)
 {
 	size_t Size = sizeof(char) * Length;
 	_DbType = DbType::AnsiString;
 	_Data.resize(Size);
-	memcpy(&_Data[0], &Value[BufferOffset], Size);
+	memcpy(&_Data[0], &Value[0], Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const std::string * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::String & Value)
 {
-	SetValue(Value->c_str(), 0, Value->size());
+	SetValue(&Value[0], Value.GetLength());
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const DateTime * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const DateTime & Value)
 {
 	size_t Size = sizeof(DateTime);
 	_DbType = DbType::DateTime;
 	_Data.resize(Size);
-	memcpy(&_Data[0], Value, Size);
+	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const DateTimeOffset * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const DateTimeOffset & Value)
 {
 	size_t Size = sizeof(DateTimeOffset);
 	_DbType = DbType::DateTimeOffset;
 	_Data.resize(Size);
-	memcpy(&_Data[0], Value, Size);
+	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const TimeSpan * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const TimeSpan & Value)
 {
 	size_t Size = sizeof(TimeSpan);
 	_DbType = DbType::Time;
 	_Data.resize(Size);
-	memcpy(&_Data[0], Value, Size);
+	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const Decimal * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Decimal & Value)
 {
 	size_t Size = sizeof(Elysium::Core::Decimal);
 	_DbType = DbType::Decimal;
 	_Data.resize(Size);
-	memcpy(&_Data[0], Value, Size);
+	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
 void Elysium::Core::Data::Common::DbParameter::SetValue(const double Value)
@@ -162,15 +170,15 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const float Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const Guid * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Guid& Value)
 {
 	size_t Size = sizeof(Guid);
 	_DbType = DbType::Guid;
 	_Data.resize(Size);
-	memcpy(&_Data[0], Value, Size);
+	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const __int16 Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::int16_t Value)
 {
 	size_t Size = sizeof(__int16);
 	_DbType = DbType::Int16;
@@ -178,7 +186,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const __int16 Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const __int32 Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::int32_t Value)
 {
 	size_t Size = sizeof(__int32);
 	_DbType = DbType::Int32;
@@ -186,7 +194,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const __int32 Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const __int64 Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::int64_t Value)
 {
 	size_t Size = sizeof(__int64);
 	_DbType = DbType::Int64;
@@ -194,7 +202,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const __int64 Value)
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const unsigned __int16 Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::uint16_t Value)
 {
 	size_t Size = sizeof(unsigned __int16);
 	_DbType = DbType::UInt16;
@@ -202,7 +210,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const unsigned __int16 V
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const unsigned __int32 Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::uint32_t Value)
 {
 	size_t Size = sizeof(unsigned __int32);
 	_DbType = DbType::UInt32;
@@ -210,7 +218,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const unsigned __int32 V
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const unsigned __int64 Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::uint64_t Value)
 {
 	size_t Size = sizeof(unsigned __int64);
 	_DbType = DbType::UInt64;
@@ -218,27 +226,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const unsigned __int64 V
 	memcpy(&_Data[0], &Value, Size);
 	_DBNullPointer = nullptr;
 }
-void Elysium::Core::Data::Common::DbParameter::SetValue(const wchar_t Value)
-{
-	size_t Size = sizeof(wchar_t);
-	_DbType = DbType::String;
-	_Data.resize(Size);
-	memcpy(&_Data[0], &Value, Size);
-	_DBNullPointer = nullptr;
-}
-void Elysium::Core::Data::Common::DbParameter::SetValue(const wchar_t * Value, const size_t BufferOffset, const size_t Length)
-{
-	size_t Size = sizeof(wchar_t) * Length;
-	_DbType = DbType::String;
-	_Data.resize(Size);
-	memcpy(&_Data[0], &Value[BufferOffset], Size);
-	_DBNullPointer = nullptr;
-}
-void Elysium::Core::Data::Common::DbParameter::SetValue(const std::wstring * Value)
-{
-	SetValue(Value->c_str(), 0, Value->size());
-}
-void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::IO::Stream * Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::IO::Stream & Value)
 {
 	size_t Size = sizeof(void*);
 	_DbType = DbType::Binary;
@@ -249,6 +237,5 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::IO:
 
 Elysium::Core::Data::Common::DbParameter::DbParameter(const DbCommand* Command)
 	: Elysium::Core::Data::IDataParameter(),
-	_Command(Command)
-{
-}
+	_Command(Command), _DbType(DbType::Binary), _SourceVersion(), _DBNullPointer(nullptr)
+{ }

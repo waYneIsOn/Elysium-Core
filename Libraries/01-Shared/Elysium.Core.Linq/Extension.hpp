@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -43,6 +43,7 @@ namespace Elysium::Core::Linq
 		{
 			return *this;
 		}
+
 		const Extension<LinqExpressionType>& operator()() const
 		{
 			return *this;
@@ -54,6 +55,7 @@ namespace Elysium::Core::Linq
 		{
 			return SingleParameterExtension<LinqExpressionType, ParameterType>(Parameter1);
 		}
+
 		template<class ParameterType>
 		auto operator()(ParameterType && Parameter1) const
 		{

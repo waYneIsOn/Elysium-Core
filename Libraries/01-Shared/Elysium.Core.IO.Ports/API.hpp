@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (c) waYne (CAM). All rights reserved.
+Copyright (c) waYne (CAM). All rights reserved.. All rights reserved.
 
 ===========================================================================
 */

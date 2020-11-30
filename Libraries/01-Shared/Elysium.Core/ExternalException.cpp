@@ -12,6 +12,10 @@
 #include <type_traits>
 #endif
 
+#ifndef _XSTRING_
+#include <xstring>	// std::char_traits
+#endif
+
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(0x80004005L)
 { }

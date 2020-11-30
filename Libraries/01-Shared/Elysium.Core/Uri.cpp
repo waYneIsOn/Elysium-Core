@@ -41,7 +41,7 @@ const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(u8"urn");
 const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(u8"ws");
 
 Elysium::Core::Uri::Uri(const String& UriString)
-	: _OriginalString(String(UriString)), _AbsoluteUri(_OriginalString), _Port(-1)
+	: _OriginalString(UriString), _AbsoluteUri(_OriginalString), _Port(-1)
 {
 	Parse();
 }

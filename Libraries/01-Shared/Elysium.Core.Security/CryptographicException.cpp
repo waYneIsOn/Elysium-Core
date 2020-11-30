@@ -7,7 +7,7 @@
 Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException()
 	: Elysium::Core::SystemException(u8"CryptographicException")
 { }
-Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(const char * Message)
+Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(const char8_t* Message)
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(String && Message)

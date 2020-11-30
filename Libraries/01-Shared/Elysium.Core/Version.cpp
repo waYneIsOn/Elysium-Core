@@ -21,13 +21,13 @@ using namespace Elysium::Core::Collections::Template;
 Elysium::Core::Version::Version()
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
 { }
-Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor)
+Elysium::Core::Version::Version(const Elysium::Core::uint32_t & Major, const Elysium::Core::uint32_t & Minor)
 	: _Major(Major), _Minor(Minor), _Build(0), _Revision(0)
 { }
-Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor, const uint32_t & Build)
+Elysium::Core::Version::Version(const Elysium::Core::uint32_t & Major, const Elysium::Core::uint32_t & Minor, const Elysium::Core::uint32_t & Build)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(0)
 { }
-Elysium::Core::Version::Version(const uint32_t & Major, const uint32_t & Minor, const uint32_t & Build, const uint32_t & Revision)
+Elysium::Core::Version::Version(const Elysium::Core::uint32_t & Major, const Elysium::Core::uint32_t & Minor, const Elysium::Core::uint32_t & Build, const Elysium::Core::uint32_t & Revision)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Revision)
 { }
 Elysium::Core::Version::Version(const Version & Source)
@@ -88,13 +88,13 @@ bool Elysium::Core::Version::operator>=(const Version & Other) const
 {
 	return Compare(Other) >= 0;
 }
-
-Elysium::Core::IO::Stream & Elysium::Core::operator<<(Elysium::Core::IO::Stream & Target, const Version & Version)
+/*
+Elysium::Core::IO::Stream & Elysium::Core::operator<<(Elysium::Core::IO::Stream & Target, const Elysium::Core::Version & Version)
 {
 	Target << Version._Major << Version._Minor << Version._Build << Version._Revision;
 	return Target;
 }
-Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream & Source, const Version & Version)
+Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream & Source, const Elysium::Core::Version & Version)
 {
 	Source >> Version._Major;
 	Source >> Version._Minor;
@@ -102,7 +102,7 @@ Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream 
 	Source >> Version._Revision;
 	return Source;
 }
-
+*/
 const Elysium::Core::uint32_t Elysium::Core::Version::GetMajor() const
 {
 	return _Major;
@@ -150,7 +150,7 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const StringView & Input)
 	return ParsedVersion;
 }
 
-Elysium::Core::uint32_t Elysium::Core::Version::Compare(const Version & Other) const
+const Elysium::Core::uint32_t Elysium::Core::Version::Compare(const Version & Other) const
 {
 	if (this != &Other)
 	{

@@ -8,6 +8,10 @@
 #include "CryptographicException.hpp"
 #endif
 
+#ifndef _XSTRING_
+#include <xstring>	// std::char_traits
+#endif
+
 Elysium::Core::Security::Cryptography::Oid::Oid(const Oid & Source)
 	: _NativeOid(Source._NativeOid)
 { }

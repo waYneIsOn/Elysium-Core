@@ -88,12 +88,6 @@
       <Filter>Globalization</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringViewBase.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringBase.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp" />
@@ -179,5 +173,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Char.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
   </ItemGroup>
 </Project>

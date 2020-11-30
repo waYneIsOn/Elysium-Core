@@ -7,7 +7,7 @@
 Elysium::Core::ArgumentException::ArgumentException()
 	: Elysium::Core::SystemException(u8"ArgumentException")
 { }
-Elysium::Core::ArgumentException::ArgumentException(const char * Message)
+Elysium::Core::ArgumentException::ArgumentException(const char8_t* Message)
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::ArgumentException::ArgumentException(String && Message)

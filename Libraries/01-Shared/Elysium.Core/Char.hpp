@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -15,24 +15,13 @@ Copyright (C) 2017 waYne (CAM)
 #ifndef ELYSIUM_CORE_API
 #include "API.hpp"
 #endif
-
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
-#endif
-
+/*
 #ifndef ELYSIUM_CORE_GLOBALIZATION_UNICODECATEGORY
 #include "UnicodeCategory.hpp"
 #endif
-
+*/
 namespace Elysium::Core
 {
-	namespace Collections::Template
-	{
-		template <typename T>
-		class StringBase;
-	}
-	using String = Collections::Template::StringBase<char>;
-
 	class ELYSIUM_CORE_API Char final
 	{
 	public:
@@ -44,8 +33,9 @@ namespace Elysium::Core
 		Char& operator=(const Char& Source) = delete;
 		Char& operator=(Char&& Right) noexcept = delete;
 
-		static const unsigned char MaxValue;
-		static const unsigned char MinValue;
+		//static constexpr const char8_t MaxValue = 0xFF;
+
+		static constexpr const char8_t MinValue = 0x00;
 
 		//static const double GetNumericValue(const char8_t Value);
 		//static const double GetNumericValue(const char8_t* Value);

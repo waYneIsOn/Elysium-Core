@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -30,9 +30,9 @@ namespace Elysium::Core
 	{
 	public:
 		Version();
-		Version(const uint32_t& Major, const uint32_t& Minor);
-		Version(const uint32_t& Major, const uint32_t& Minor, const uint32_t& Build);
-		Version(const uint32_t& Major, const uint32_t& Minor, const uint32_t& Build, const uint32_t& Revision);
+		Version(const Elysium::Core::uint32_t& Major, const Elysium::Core::uint32_t& Minor);
+		Version(const Elysium::Core::uint32_t& Major, const Elysium::Core::uint32_t& Minor, const Elysium::Core::uint32_t& Build);
+		Version(const Elysium::Core::uint32_t& Major, const Elysium::Core::uint32_t& Minor, const Elysium::Core::uint32_t& Build, const Elysium::Core::uint32_t& Revision);
 		Version(const Version& Source);
 		Version(Version&& Right) noexcept;
 		~Version();
@@ -46,24 +46,24 @@ namespace Elysium::Core
 		bool operator>(const Version& Other) const;
 		bool operator<=(const Version& Other) const;
 		bool operator>=(const Version& Other) const;
-
-		friend Elysium::Core::IO::Stream& operator<<(Elysium::Core::IO::Stream& Target, const Version& Version);
-		friend Elysium::Core::IO::Stream& operator>>(Elysium::Core::IO::Stream& Source, const Version& Version);
-
-		const uint32_t GetMajor() const;
-		const uint32_t GetMinor() const;
-		const uint32_t GetBuild() const;
-		const uint32_t GetRevision() const;
+		/*
+		friend Elysium::Core::IO::Stream& operator<<(Elysium::Core::IO::Stream& Target, const Elysium::Core::Version& Version);
+		friend Elysium::Core::IO::Stream& operator>>(Elysium::Core::IO::Stream& Source, const Elysium::Core::Version& Version);
+		*/
+		const Elysium::Core::uint32_t GetMajor() const;
+		const Elysium::Core::uint32_t GetMinor() const;
+		const Elysium::Core::uint32_t GetBuild() const;
+		const Elysium::Core::uint32_t GetRevision() const;
 
 		static void Parse(const StringView& Input, Version& Result);
 		static Version Parse(const StringView& Input);
 	private:
-		uint32_t _Major;
-		uint32_t _Minor;
-		uint32_t _Build;
-		uint32_t _Revision;
+		Elysium::Core::uint32_t _Major;
+		Elysium::Core::uint32_t _Minor;
+		Elysium::Core::uint32_t _Build;
+		Elysium::Core::uint32_t _Revision;
 
-		uint32_t Compare(const Version& Other) const;
+		const Elysium::Core::uint32_t Compare(const Version& Other) const;
 	};
 }
 #endif

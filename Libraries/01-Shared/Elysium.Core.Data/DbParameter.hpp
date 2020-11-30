@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -36,46 +36,44 @@ namespace Elysium::Core::Data::Common
 		/// </summary>
 		virtual ~DbParameter() {}
 
-		virtual DbType GetDbType() const override;
-		virtual ParameterDirection GetDirection() const override;
-		virtual bool GetIsNullable() const override;
-		virtual std::string GetParameterName() const override;
-		virtual std::string GetSourceColumn() const override;
-		virtual DataRowVersion GetSourceVersion() const override;
+		virtual const DbType GetDbType() const override;
+		virtual const ParameterDirection GetDirection() const override;
+		virtual const bool GetIsNullable() const override;
+		virtual const Elysium::Core::String GetParameterName() const override;
+		virtual const Elysium::Core::String GetSourceColumn() const override;
+		virtual const DataRowVersion GetSourceVersion() const override;
 		virtual const byte* GetValue() const override;
-		virtual size_t GetSize() const override;
-		virtual bool GetIsDBNull() const override;
+		virtual const size_t GetSize() const override;
+		virtual const bool GetIsDBNull() const override;
 
-		virtual void SetDbType(DbType Type) override;
-		virtual void SetDirection(ParameterDirection Direction) override;
-		virtual void SetIsNullable(bool IsNullable) override;
-		virtual void SetParameterName(std::string ParameterName) override;
-		virtual void SetSourceColumn(std::string SourceColumn) override;
+		virtual void SetDbType(const DbType Type) override;
+		virtual void SetDirection(const ParameterDirection Direction) override;
+		virtual void SetIsNullable(const bool IsNullable) override;
+		virtual void SetParameterName(const Elysium::Core::String& ParameterName) override;
+		virtual void SetSourceColumn(const Elysium::Core::String& SourceColumn) override;
 		virtual void SetSourceVersion(DataRowVersion Version) override;
-		virtual void SetValue(const DBNull* Value) override;
+
+		virtual void SetValue(const DBNull& Value) override;
 		virtual void SetValue(const bool Value) override;
 		virtual void SetValue(const byte Value) override;
-		virtual void SetValue(const byte* Value, const size_t BufferOffset, const  size_t Length) override;
-		virtual void SetValue(const char Value) override;
-		virtual void SetValue(const char* Value, const size_t BufferOffset, const size_t Length) override;
-		virtual void SetValue(const std::string* Value) override;
-		virtual void SetValue(const DateTime* Value) override;
-		virtual void SetValue(const DateTimeOffset* Value) override;
-		virtual void SetValue(const TimeSpan* Value) override;
-		virtual void SetValue(const Decimal* Value) override;
+		virtual void SetValue(const byte* Value, const  size_t Length) override;
+		virtual void SetValue(const char8_t Value) override;
+		virtual void SetValue(const char8_t* Value, const size_t Length) override;
+		virtual void SetValue(const Elysium::Core::String& Value) override;
+		virtual void SetValue(const DateTime& Value) override;
+		virtual void SetValue(const DateTimeOffset& Value) override;
+		virtual void SetValue(const TimeSpan& Value) override;
+		virtual void SetValue(const Decimal& Value) override;
 		virtual void SetValue(const double Value) override;
 		virtual void SetValue(const float Value) override;
-		virtual void SetValue(const Guid* Value) override;
-		virtual void SetValue(const __int16 Value) override;
-		virtual void SetValue(const __int32 Value) override;
-		virtual void SetValue(const __int64 Value) override;
-		virtual void SetValue(const unsigned __int16 Value) override;
-		virtual void SetValue(const unsigned __int32 Value) override;
-		virtual void SetValue(const unsigned __int64 Value) override;
-		virtual void SetValue(const wchar_t Value) override;
-		virtual void SetValue(const wchar_t* Value, const size_t BufferOffset, const size_t Length) override;
-		virtual void SetValue(const std::wstring* Value) override;
-		virtual void SetValue(const Elysium::Core::IO::Stream* Value) override;
+		virtual void SetValue(const Guid& Value) override;
+		virtual void SetValue(const Elysium::Core::int16_t Value) override;
+		virtual void SetValue(const Elysium::Core::int32_t Value) override;
+		virtual void SetValue(const Elysium::Core::int64_t Value) override;
+		virtual void SetValue(const Elysium::Core::uint16_t Value) override;
+		virtual void SetValue(const Elysium::Core::uint32_t Value) override;
+		virtual void SetValue(const Elysium::Core::uint64_t Value) override;
+		virtual void SetValue(const Elysium::Core::IO::Stream& Value) override;
 	protected:
 		DbParameter(const DbCommand* Command);
 
@@ -84,11 +82,11 @@ namespace Elysium::Core::Data::Common
 		DbType _DbType;
 		ParameterDirection _Direction = ParameterDirection::Input;
 		bool _IsNullable = true;
-		std::string _ParameterName;
-		std::string _SourceColumn;
+		Elysium::Core::String _ParameterName;
+		Elysium::Core::String _SourceColumn;
 		DataRowVersion _SourceVersion;
 		std::vector<byte> _Data;
-		const DBNull* _DBNullPointer = nullptr;
+		const DBNull* _DBNullPointer;
 	};
 }
 #endif

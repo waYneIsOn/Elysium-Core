@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -26,7 +26,7 @@ namespace Elysium::Core::Security::Cryptography
 	{
 	public:
 		CryptographicException();
-		CryptographicException(const char* Message);
+		CryptographicException(const char8_t* Message);
 		CryptographicException(String&& Message);
 		virtual ~CryptographicException();
 	};

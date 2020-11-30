@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		IndexOutOfRangeException();
-		IndexOutOfRangeException(const char* Message);
-		IndexOutOfRangeException(String&& Message);
+		IndexOutOfRangeException(const char8_t* Message);
+		IndexOutOfRangeException(Elysium::Core::String&& Message);
 		virtual ~IndexOutOfRangeException();
 	};
 }

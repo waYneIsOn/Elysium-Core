@@ -81,7 +81,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 		NumberOfNetworkInterfaces = 0;
 		while (CurrentAdapterAddress)
 		{
-			NetworkInterfaces[NumberOfNetworkInterfaces]._Id = CurrentAdapterAddress->AdapterName;
+			// ToDo: wchar_t -> char8_t
+			//NetworkInterfaces[NumberOfNetworkInterfaces]._Id = CurrentAdapterAddress->AdapterName;
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Type = static_cast<NetworkInterfaceType>(CurrentAdapterAddress->IfType);
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Status = static_cast<OperationalStatus>(CurrentAdapterAddress->OperStatus);
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Speed = CurrentAdapterAddress->ReceiveLinkSpeed;
@@ -92,8 +93,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 			NetworkInterfaces[NumberOfNetworkInterfaces]._IPv6LoopbackInterfaceIndex = CurrentAdapterAddress->Ipv6IfIndex;
 
 			// ToDo: just interpreting wchar_t as char is obviously bs
-			NetworkInterfaces[NumberOfNetworkInterfaces]._Name = (char*)CurrentAdapterAddress->FriendlyName;
-			NetworkInterfaces[NumberOfNetworkInterfaces]._Description = (char*)CurrentAdapterAddress->Description;
+			//NetworkInterfaces[NumberOfNetworkInterfaces]._Name = (char*)CurrentAdapterAddress->FriendlyName;
+			//NetworkInterfaces[NumberOfNetworkInterfaces]._Description = (char*)CurrentAdapterAddress->Description;
 
 			//CurrentAdapterAddress->PhysicalAddress
 			//CurrentAdapterAddress->PhysicalAddressLength

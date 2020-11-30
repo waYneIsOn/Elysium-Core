@@ -36,23 +36,26 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::~SqlNativeCommand
 	}
 }
 
-const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection * Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::GetConnection() const
+const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::GetConnection() const
 {
-	return (const SqlNativeConnection*)_Connection;
+	return (const SqlNativeConnection&)_Connection;
 }
+
 const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction * Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::GetTransaction() const
 {
 	return (const SqlNativeTransaction*)_Transaction;
 }
-Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeParameterCollection * Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::GetParameters() const
+
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeParameterCollection & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::GetParameters() const
 {
-	return (SqlNativeParameterCollection*)&_Parameters;
+	return (SqlNativeParameterCollection&)_Parameters;
 }
 
 std::unique_ptr<Elysium::Core::Data::IDataParameter> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::CreateParameter()
 {
 	return std::unique_ptr<IDataParameter>(new SqlNativeParameter(this));
 }
+
 size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNonQuery()
 {
 	HRESULT HResult;
@@ -65,7 +68,8 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	}
 
 	// set the command text
-	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, &Elysium::Core::Convert::ToWideString(_Text)[0])))
+	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(_Text, 0, _Text.GetLength());
+	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, (wchar_t*)&Bytes[0])))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeCommandText);
 		NativeCommandText->Release();
@@ -108,6 +112,7 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 
 	return RowsAffected;
 }
+
 std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteReader()
 {
 	HRESULT HResult;
@@ -120,8 +125,8 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	}
 
 	// set the command text
-	const wchar_t* Test = &Elysium::Core::Convert::ToWideString(_Text)[0];
-	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, &Elysium::Core::Convert::ToWideString(_Text)[0])))
+	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(_Text, 0, _Text.GetLength());
+	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, (wchar_t*)&Bytes[0])))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeCommandText);
 		NativeCommandText->Release();
@@ -206,6 +211,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 
 	return Reader;
 }
+
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::Prepare()
 {
 	HRESULT HResult;
@@ -227,16 +233,14 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::Prepare()
 	NativeCommandPrepare->Release();
 }
 
-Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::SqlNativeCommand(SqlNativeConnection * Connection, IDBCreateCommand* NativeCommandFactory)
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::SqlNativeCommand(SqlNativeConnection & Connection, IDBCreateCommand* NativeCommandFactory)
 	: Elysium::Core::Data::Common::DbCommand(Connection),
 	_NativeCommandFactory(NativeCommandFactory)
-{
-}
+{ }
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::SqlNativeCommand(SqlNativeTransaction * Transaction, IDBCreateCommand* NativeCommandFactory)
 	: Elysium::Core::Data::Common::DbCommand(Transaction),
 	_NativeCommandFactory(NativeCommandFactory)
-{
-}
+{ }
 
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParameters(ICommandText* NativeCommandText, DBPARAMS * CommandParameters, std::vector<ISequentialStream*>* Streams, std::vector<byte>* ParameterDataBuffer)
 {
@@ -353,7 +357,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 					const BYTE* Value = _Parameters[i].GetValue();
 					Elysium::Core::IO::Stream* SourceStream;
 					memcpy(&SourceStream, &Value[0], sizeof(Elysium::Core::IO::Stream*));	// need to memcpy, not just cast since the bytes are stored in reverse order
-					if (SourceStream != nullptr && (void*)SourceStream != Elysium::Core::Data::DBNull::Value())
+					if (SourceStream != nullptr && (void*)SourceStream != &Elysium::Core::Data::DBNull::Value)
 					{
 						SqlNativeSequentialStream* CurrentStream = new SqlNativeSequentialStream();
 						CurrentStream->AddRef();	// very important or the object will be deleted too early

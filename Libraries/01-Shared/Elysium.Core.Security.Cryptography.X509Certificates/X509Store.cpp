@@ -49,7 +49,7 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 		throw NotImplementedException(u8"Unhandled StoreLocation");
 	}
 
-	WideString StoreName;
+	const wchar_t* StoreName;
 	switch (_StoreName)
 	{
 	case StoreName::AddressBook:

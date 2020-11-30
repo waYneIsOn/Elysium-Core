@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -46,8 +46,8 @@ namespace Elysium::Core::IO
 		virtual void Write(const bool Value);
 		virtual void Write(const byte Value);
 		virtual void Write(const byte* Value, const size_t Count) = 0;
-		virtual void Write(const char Value);
-		virtual void Write(const char* Value, const size_t Count);
+		virtual void Write(const char8_t Value);
+		virtual void Write(const char8_t* Value, const size_t Count);
 		virtual void Write(const float& Value);
 		virtual void Write(const double& Value);
 		virtual void Write(const Decimal& Value);
@@ -62,8 +62,8 @@ namespace Elysium::Core::IO
 		virtual void WriteLine(const bool Value);
 		virtual void WriteLine(const byte Value);
 		virtual void WriteLine(const byte* Value, const size_t Count);
-		virtual void WriteLine(const char& Value);
-		virtual void WriteLine(const char* Value, const size_t Count);
+		virtual void WriteLine(const char8_t& Value);
+		virtual void WriteLine(const char8_t* Value, const size_t Count);
 		virtual void WriteLine(const float& Value);
 		virtual void WriteLine(const double& Value);
 		virtual void WriteLine(const Decimal& Value);

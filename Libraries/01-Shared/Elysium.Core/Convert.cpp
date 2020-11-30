@@ -99,7 +99,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value,
 	std::string StringValue = std::to_string(Value);
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
-
+/*
 const Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
 {
 	int Length = MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, NULL, 0);
@@ -111,7 +111,7 @@ const Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const Strin
 	
 	return Result;
 }
-
+*/
 Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const String & Base64String)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
@@ -266,7 +266,7 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core
 	return Elysium::Core::Text::Encoding::Default().GetString(&Result[0], Result.GetCount());
 }
 
-Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const char * Value, const int32_t FromBase)
+Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const char8_t * Value, const int32_t FromBase)
 {	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
 	int16_t Sign = 1;
 	int32_t i = 0;
@@ -358,7 +358,7 @@ Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Stri
 	return Base * Sign;
 }
 
-Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char * Value, const int32_t FromBase)
+Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t * Value, const int32_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;
@@ -389,7 +389,7 @@ Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char * Value, con
 	return Base * Sign;
 }
 
-uint8_t Elysium::Core::Convert::ToUInt8(const char * Value, const int32_t FromBase)
+uint8_t Elysium::Core::Convert::ToUInt8(const char8_t * Value, const int32_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;
@@ -420,7 +420,7 @@ uint8_t Elysium::Core::Convert::ToUInt8(const char * Value, const int32_t FromBa
 	return Base * Sign;
 }
 
-float Elysium::Core::Convert::ToSingle(const char * Value)
+float Elysium::Core::Convert::ToSingle(const char8_t * Value)
 {
 	return ToSingle(String(Value));
 }
@@ -456,7 +456,7 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 	return std::stof(ByteString);
 }
 
-bool Elysium::Core::Convert::IsBase64(const char16_t Char)
+bool Elysium::Core::Convert::IsBase64(const char8_t Char)
 {
 	return (isalnum(Char) || (Char == u8'+') || (Char == u8'/'));
 }

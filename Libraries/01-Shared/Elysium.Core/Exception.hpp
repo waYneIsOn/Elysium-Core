@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -16,23 +16,18 @@ Copyright (C) 2017 waYne (CAM)
 #include "API.hpp"
 #endif
 
-//#pragma warning(disable : 4275)
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
 
 namespace Elysium::Core
 {
-	namespace Collections::Template
-	{
-		template <typename T>
-		class StringBase;
-	}
-	using String = Collections::Template::StringBase<char>;
-
 	class ELYSIUM_CORE_API Exception
 	{
 	public:
 		// constructors & destructor
 		Exception();
-		Exception(const char* Message);
+		Exception(const char8_t* Message);
 		Exception(Elysium::Core::String&& Message);
 		virtual ~Exception();
 
@@ -40,9 +35,9 @@ namespace Elysium::Core
 		const Exception* GetInnerException() const;
 
 		// methods
-		const String& GetExceptionMessage() const;
+		const Elysium::Core::String& GetExceptionMessage() const;
 	private:
-		String* _Message;
+		Elysium::Core::String _Message;
 		Exception* _InnerException;
 	};
 }

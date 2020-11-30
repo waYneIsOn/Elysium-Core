@@ -1,13 +1,13 @@
 #include "NotSupportedException.hpp"
 
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
 #endif
 
 Elysium::Core::NotSupportedException::NotSupportedException()
 	: Elysium::Core::Exception(u8"NotSupportedException")
 { }
-Elysium::Core::NotSupportedException::NotSupportedException(const char * Message)
+Elysium::Core::NotSupportedException::NotSupportedException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::NotSupportedException::NotSupportedException(String && Message)

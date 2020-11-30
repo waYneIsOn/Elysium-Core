@@ -46,17 +46,17 @@ void Elysium::Core::IO::TextWriter::Flush()
 
 void Elysium::Core::IO::TextWriter::Write(const bool Value)
 {
-	Write(Value == true ? Elysium::Core::Boolean::TrueLiteral : Elysium::Core::Boolean::FalseLiteral);
+	Write(Value == true ? Elysium::Core::Boolean::TrueString : Elysium::Core::Boolean::FalseString);
 }
 void Elysium::Core::IO::TextWriter::Write(const byte Value)
 {
 	Write(&Value, 1);
 }
-void Elysium::Core::IO::TextWriter::Write(const char Value)
+void Elysium::Core::IO::TextWriter::Write(const char8_t Value)
 {
 	Write(static_cast<const byte>(Value));
 }
-void Elysium::Core::IO::TextWriter::Write(const char * Value, const size_t Count)
+void Elysium::Core::IO::TextWriter::Write(const char8_t * Value, const size_t Count)
 {
 	Elysium::Core::Collections::Template::Array<byte> Bytes = GetEncoding().GetBytes(Value, 0, Count);
 	Write(&Bytes[0], Bytes.GetLength());
@@ -101,7 +101,7 @@ void Elysium::Core::IO::TextWriter::Write(const uint64_t & Value)
 }
 void Elysium::Core::IO::TextWriter::Write(const String & Value)
 {
-	Write(&Value.GetCharArray()[0], Value.GetLength());
+	Write(&Value[0], Value.GetLength());
 }
 
 void Elysium::Core::IO::TextWriter::WriteLine(const bool Value)
@@ -119,12 +119,12 @@ void Elysium::Core::IO::TextWriter::WriteLine(const byte * Value, const size_t C
 	Write(Value, Count);
 	WriteLine();
 }
-void Elysium::Core::IO::TextWriter::WriteLine(const char & Value)
+void Elysium::Core::IO::TextWriter::WriteLine(const char8_t& Value)
 {
 	Write(Value);
 	WriteLine();
 }
-void Elysium::Core::IO::TextWriter::WriteLine(const char * Value, const size_t Count)
+void Elysium::Core::IO::TextWriter::WriteLine(const char8_t* Value, const size_t Count)
 {
 	Write(&Value[0], Count);
 	WriteLine();

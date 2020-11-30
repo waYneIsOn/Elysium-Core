@@ -8,6 +8,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
+#endif
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core
@@ -18,7 +22,7 @@ namespace UnitTests::Core
 		TEST_METHOD(Constructors)
 		{
 			Elysium::Core::String NullString1 = Elysium::Core::String();
-			Assert::IsNull(NullString1.GetCharArray());
+			Assert::IsNull(&NullString1[0]);
 			Assert::AreEqual((size_t)0, NullString1.GetLength());
 			Assert::IsTrue(Elysium::Core::String::IsNull(NullString1));
 			Assert::IsFalse(Elysium::Core::String::IsEmpty(NullString1));
@@ -28,14 +32,14 @@ namespace UnitTests::Core
 			Assert::AreEqual((size_t)5, LString.GetLength());
 			
 			Elysium::Core::String EmptyString(u8"");
-			Assert::IsNull(EmptyString.GetCharArray());
+			Assert::IsNull(&EmptyString[0]);
 			Assert::AreEqual((size_t)0, EmptyString.GetLength());
 			Assert::IsTrue(Elysium::Core::String::IsNull(EmptyString));
 			Assert::IsFalse(Elysium::Core::String::IsEmpty(EmptyString));
 			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(EmptyString));
 			
 			Elysium::Core::String String1 = Elysium::Core::String(u8"text");
-			Assert::AreEqual(u8"text", String1.GetCharArray());
+			AssertExtended::AreEqual(u8"text", &String1[0]);
 			Assert::AreEqual((size_t)4, String1.GetLength());
 			Assert::AreEqual(u8't', String1[0]);
 			Assert::AreEqual(u8'e', String1[1]);
@@ -43,7 +47,7 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8't', String1[3]);
 			
 			Elysium::Core::String String2 = u8"different";
-			Assert::AreEqual(u8"different", String2.GetCharArray());
+			AssertExtended::AreEqual(u8"different", &String2[0]);
 			Assert::AreEqual((size_t)9, String2.GetLength());
 			Assert::AreEqual(u8'd', String2[0]);
 			Assert::AreEqual(u8'i', String2[1]);
@@ -56,21 +60,21 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8't', String2[8]);
 			
 			Elysium::Core::String String3(&u8"random"[2], 3);
-			Assert::AreEqual(u8"ndo", String3.GetCharArray());
+			AssertExtended::AreEqual(u8"ndo", &String3[0]);
 			Assert::AreEqual((size_t)3, String3.GetLength());
 			Assert::AreEqual(u8'n', String3[0]);
 			Assert::AreEqual(u8'd', String3[1]);
 			Assert::AreEqual(u8'o', String3[2]);
 			
 			Elysium::Core::String NullString2(nullptr);
-			Assert::IsNull(NullString2.GetCharArray());
+			Assert::IsNull(&NullString2[0]);
 			Assert::AreEqual((size_t)0, NullString2.GetLength());
 			Assert::IsTrue(Elysium::Core::String::IsNull(NullString2));
 			Assert::IsFalse(Elysium::Core::String::IsEmpty(NullString2));
 			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(NullString2));
 			
 			Elysium::Core::String CopiedString(String1);
-			Assert::AreEqual(u8"text", CopiedString.GetCharArray());
+			AssertExtended::AreEqual(u8"text", &CopiedString[0]);
 			Assert::AreEqual((size_t)4, CopiedString.GetLength());
 			Assert::AreEqual(u8't', CopiedString[0]);
 			Assert::AreEqual(u8'e', CopiedString[1]);
@@ -78,13 +82,13 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8't', CopiedString[3]);
 			
 			Elysium::Core::String MovedString = std::move(String1);
-			Assert::AreEqual(u8"text", MovedString.GetCharArray());
+			AssertExtended::AreEqual(u8"text", &MovedString[0]);
 			Assert::AreEqual((size_t)4, MovedString.GetLength());
 			Assert::AreEqual(u8't', MovedString[0]);
 			Assert::AreEqual(u8'e', MovedString[1]);
 			Assert::AreEqual(u8'x', MovedString[2]);
 			Assert::AreEqual(u8't', MovedString[3]);
-			Assert::IsNull(String1.GetCharArray());
+			Assert::IsNull(&String1[0]);
 			Assert::AreEqual((size_t)0, String1.GetLength());
 			Assert::IsTrue(Elysium::Core::String::IsNull(String1));
 			Assert::IsFalse(Elysium::Core::String::IsEmpty(String1));
@@ -95,15 +99,15 @@ namespace UnitTests::Core
 			Elysium::Core::String Source = u8"some text";
 			Elysium::Core::String Copy = Source;
 
-			Assert::AreEqual(u8"some text", Source.GetCharArray());
+			AssertExtended::AreEqual(u8"some text", &Source[0]);
 			Assert::AreEqual((size_t)9, Source.GetLength());
-			Assert::AreEqual(u8"some text", Copy.GetCharArray());
+			AssertExtended::AreEqual(u8"some text", &Copy[0]);
 			Assert::AreEqual((size_t)9, Copy.GetLength());
 
 			Elysium::Core::String Move = std::move(Source);
-			Assert::IsNull(Source.GetCharArray());
+			Assert::IsNull(&Source[0]);
 			Assert::AreEqual((size_t)0, Source.GetLength());
-			Assert::AreEqual(u8"some text", Move.GetCharArray());
+			AssertExtended::AreEqual(u8"some text", &Move[0]);
 			Assert::AreEqual((size_t)9, Move.GetLength());
 		}
 		TEST_METHOD(GetEnumerator)
@@ -147,38 +151,38 @@ namespace UnitTests::Core
 			Source.Split(u8"\r\n", Lines);
 
 			Assert::AreEqual((size_t)16, Lines.GetCount());
-			Assert::AreEqual(u8'H', Lines[0][0]);
-			Assert::AreEqual(u8"HTTP/1.1 200 OK", Lines[0].GetCharArray());
-			Assert::AreEqual(u8"Date: Fri, 29 Nov 2019 12:49:19 GMT", Lines[1].GetCharArray());
-			Assert::AreEqual(u8"Content-Type: text/html; charset=UTF-8", Lines[2].GetCharArray());
-			Assert::AreEqual(u8"Transfer-Encoding: chunked", Lines[3].GetCharArray());
-			Assert::AreEqual(u8"Connection: keep-alive", Lines[4].GetCharArray());
-			Assert::AreEqual(u8"Set-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly", Lines[5].GetCharArray());
-			Assert::AreEqual(u8"X-Powered-By: Express", Lines[6].GetCharArray());
-			Assert::AreEqual(u8"Vary: Origin, Accept-Encoding", Lines[7].GetCharArray());
-			Assert::AreEqual(u8"Access-Control-Allow-Credentials: true", Lines[8].GetCharArray());
-			Assert::AreEqual(u8"Cache-Control: public, max-age=14400", Lines[9].GetCharArray());
-			Assert::AreEqual(u8"Last-Modified: Mon, 05 Aug 2019 03:07:14 GMT", Lines[10].GetCharArray());
-			Assert::AreEqual(u8"Via: 1.1 vegur", Lines[11].GetCharArray());
-			Assert::AreEqual(u8"CF-Cache-Status: HIT", Lines[12].GetCharArray());
-			Assert::AreEqual(u8"Age: 6201", Lines[13].GetCharArray());
-			Assert::AreEqual(u8"Server: cloudflare", Lines[14].GetCharArray());
-			Assert::AreEqual(u8"CF-RAY: 53d4b3737b75f3fb-LHR", Lines[15].GetCharArray());
+			AssertExtended::AreEqual(u8'H', &Lines[0][0]);
+			AssertExtended::AreEqual(u8"HTTP/1.1 200 OK", &Lines[0][0]);
+			AssertExtended::AreEqual(u8"Date: Fri, 29 Nov 2019 12:49:19 GMT", &Lines[1][0]);
+			AssertExtended::AreEqual(u8"Content-Type: text/html; charset=UTF-8", &Lines[2][0]);
+			AssertExtended::AreEqual(u8"Transfer-Encoding: chunked", &Lines[3][0]);
+			AssertExtended::AreEqual(u8"Connection: keep-alive", &Lines[4][0]);
+			AssertExtended::AreEqual(u8"Set-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly", &Lines[5][0]);
+			AssertExtended::AreEqual(u8"X-Powered-By: Express", &Lines[6][0]);
+			AssertExtended::AreEqual(u8"Vary: Origin, Accept-Encoding", &Lines[7][0]);
+			AssertExtended::AreEqual(u8"Access-Control-Allow-Credentials: true", &Lines[8][0]);
+			AssertExtended::AreEqual(u8"Cache-Control: public, max-age=14400", &Lines[9][0]);
+			AssertExtended::AreEqual(u8"Last-Modified: Mon, 05 Aug 2019 03:07:14 GMT", &Lines[10][0]);
+			AssertExtended::AreEqual(u8"Via: 1.1 vegur", &Lines[11][0]);
+			AssertExtended::AreEqual(u8"CF-Cache-Status: HIT", &Lines[12][0]);
+			AssertExtended::AreEqual(u8"Age: 6201", &Lines[13][0]);
+			AssertExtended::AreEqual(u8"Server: cloudflare", &Lines[14][0]);
+			AssertExtended::AreEqual(u8"CF-RAY: 53d4b3737b75f3fb-LHR", &Lines[15][0]);
 		}
 		TEST_METHOD(Substring)
 		{
 			Elysium::Core::String Source = Elysium::Core::String(u8"this is a string containing some text");
-			Assert::AreEqual(u8"this is a string containing some text", Source.GetCharArray());
+			AssertExtended::AreEqual(u8"this is a string containing some text", &Source[0]);
 			Elysium::Core::String Substring1;
 			Elysium::Core::String Substring2;
 			
 			Substring1 = Source.Substring(5);
 			Assert::AreEqual((size_t)32, Substring1.GetLength());
-			Assert::AreEqual(u8"is a string containing some text", Substring1.GetCharArray());
+			AssertExtended::AreEqual(u8"is a string containing some text", &Substring1[0]);
 			
 			Substring2 = Source.Substring(8, 19);
 			Assert::AreEqual((size_t)19, Substring2.GetLength());
-			Assert::AreEqual(u8"a string containing", Substring2.GetCharArray());
+			AssertExtended::AreEqual(u8"a string containing", &Substring2[0]);
 		}
 	};
 }

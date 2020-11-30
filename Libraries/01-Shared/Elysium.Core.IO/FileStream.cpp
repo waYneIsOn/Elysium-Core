@@ -27,7 +27,10 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 {
 	int ModeFlag = std::ios::binary;
 	int ProtectionFlag = 0;
-	
+
+	// ToDo: char8_t -> wchar_t/char
+	throw 1;
+	/*
 	// ToDo: this is just for testing!!!
 	if (Mode == FileMode::Create)
 	{
@@ -37,7 +40,7 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 	{
 		_NativeStream.open(&Path[0], std::ios::binary | std::ios::in);
 	}
-
+	*/
 	if (!_NativeStream.good())
 	{
 		throw FileNotFoundException();

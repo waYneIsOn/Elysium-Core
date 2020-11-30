@@ -7,10 +7,10 @@
 Elysium::Core::OverflowException::OverflowException()
 	: Elysium::Core::ArithmeticException(u8"OverflowException")
 { }
-Elysium::Core::OverflowException::OverflowException(const char * Message)
+Elysium::Core::OverflowException::OverflowException(const char8_t* Message)
 	: Elysium::Core::ArithmeticException(Message)
 { }
-Elysium::Core::OverflowException::OverflowException(String && Message)
+Elysium::Core::OverflowException::OverflowException(Elysium::Core::String&& Message)
 	: Elysium::Core::ArithmeticException(std::move(Message))
 { }
 Elysium::Core::OverflowException::~OverflowException()

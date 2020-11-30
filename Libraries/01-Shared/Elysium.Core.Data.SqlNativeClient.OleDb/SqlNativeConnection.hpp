@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -14,6 +14,10 @@ Copyright (C) 2017 waYne (CAM)
 
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
 #include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_COMMON_DBCONNECTION
@@ -55,6 +59,8 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	private:
 		IDBInitialize* _NativeDataSource = nullptr;
 		IDBCreateSession* _NativeSession = nullptr;
+
+		const Text::Encoding& _Utf16 = Text::Encoding::UTF16BE();
 
 		SqlNativeTransaction* _ActiveTransaction = nullptr;
 	};

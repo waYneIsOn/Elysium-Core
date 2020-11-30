@@ -49,7 +49,7 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 	}
 	else
 	{
-		throw InvalidOperationException(String("The name of this computer cannot be obtained."));
+		throw InvalidOperationException(u8"The name of this computer cannot be obtained.");
 	}
 }
 const Elysium::Core::String & Elysium::Core::Environment::NewLine()
@@ -87,7 +87,7 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 	}
 	else
 	{
-		throw InvalidOperationException("This property was unable to obtain the system version.");
+		throw InvalidOperationException(u8"This property was unable to obtain the system version.");
 	}
 }
 const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
@@ -109,7 +109,7 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 	}
 	else
 	{
-		throw InvalidOperationException("This property was unable to obtain the user name.");
+		throw InvalidOperationException(u8"This property was unable to obtain the user name.");
 	}
 }
 const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
@@ -123,7 +123,7 @@ const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 	}
 	else
 	{
-		throw InvalidOperationException("This property was unable to obtain the system directory.");
+		throw InvalidOperationException(u8"This property was unable to obtain the system directory.");
 	}
 }
 

@@ -7,10 +7,10 @@
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException()
 	: Elysium::Core::ArgumentException(u8"ArgumentNullException")
 { }
-Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char * Message)
+Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char8_t* Message)
 	: Elysium::Core::ArgumentException(Message)
 { }
-Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(String && Message)
+Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(Elysium::Core::String&& Message)
 	: Elysium::Core::ArgumentException(std::move(Message))
 { }
 Elysium::Core::ArgumentOutOfRangeException::~ArgumentOutOfRangeException()

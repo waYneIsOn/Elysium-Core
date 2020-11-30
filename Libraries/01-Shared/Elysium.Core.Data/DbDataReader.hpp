@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -30,12 +30,35 @@ namespace Elysium::Core::Data::Common
 		/// </summary>
 		virtual ~DbDataReader() {}
 
-		virtual size_t GetDepth() const override;
-		virtual size_t GetFieldCount() const override;
+		virtual const size_t GetDepth() const override;
+		virtual const size_t GetFieldCount() const;
 
-		virtual size_t GetRecordsAffected() const override;
+		virtual const size_t GetRecordsAffected() const override;
+
+		virtual const bool GetBoolean(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::byte GetByte(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::uint64_t GetBytes(const Elysium::Core::uint32_t Index, const size_t FieldOffset, byte* Value, const size_t Length) = 0;
+		virtual const char8_t GetChar(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::uint64_t GetChars(const Elysium::Core::uint32_t Index, const size_t FieldOffset, char8_t* Value, const size_t Length) = 0;
+		virtual const Elysium::Core::DateTime GetDateTime(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::DateTimeOffset GetDateTimeOffset(const Elysium::Core::uint32_t Index) = 0;	// ToDo: think about whether we actually want that method for every reader (some dmbs do not support this type)
+		virtual const Elysium::Core::Decimal GetDecimal(const Elysium::Core::uint32_t Index) = 0;
+		virtual const double GetDouble(const Elysium::Core::uint32_t Index) = 0;
+		virtual const float GetFloat(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::Guid GetGuid(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::int16_t GetInt16(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::int32_t GetInt32(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::int64_t GetInt64(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::String GetString(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::TimeSpan GetTimeSpan(const Elysium::Core::uint32_t Index) = 0;
+
+		virtual const Elysium::Core::String GetDataTypeName(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::String GetName(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::uint64_t GetOrdinal(const Elysium::Core::String& Name) = 0;
+
+		virtual const bool IsDBNull(const Elysium::Core::uint32_t Index) = 0;
 	protected:
-		DbDataReader(size_t NumberOfRows, size_t FieldCount, size_t RecordsAffected);
+		DbDataReader(const size_t NumberOfRows, const size_t FieldCount, const size_t RecordsAffected);
 		DbDataReader();
 
 		size_t _NumberOfRows;

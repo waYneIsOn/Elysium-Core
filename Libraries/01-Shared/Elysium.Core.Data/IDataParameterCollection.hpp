@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -25,9 +25,6 @@ namespace Elysium::Core::Data
 	class ELYSIUM_CORE_DATA_API IDataParameterCollection : public Collections::IList<IDataParameter>
 	{
 	public:
-		/// <summary>
-		/// Destroy the object using the virtual destructor
-		/// </summary>
 		virtual ~IDataParameterCollection() {}
 	protected:
 		IDataParameterCollection() {}

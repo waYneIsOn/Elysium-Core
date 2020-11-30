@@ -18,7 +18,7 @@
 
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::~SqlNativeTransaction()
 {
-	((SqlNativeConnection*)_Connection)->_ActiveTransaction = nullptr;
+	((SqlNativeConnection&)_Connection)._ActiveTransaction = nullptr;
 }
 
 std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::CreateCommand()
@@ -65,7 +65,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::Rollback
 	_NativeCommandFactory = nullptr;
 }
 
-Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::SqlNativeTransaction(SqlNativeConnection * Connection, IsolationLevel IsolationLevel, IDBCreateCommand * NativeCommandFactory, ITransactionLocal * NativeTransaction, unsigned long TransactionLevel)
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::SqlNativeTransaction(SqlNativeConnection & Connection, IsolationLevel IsolationLevel, IDBCreateCommand * NativeCommandFactory, ITransactionLocal * NativeTransaction, unsigned long TransactionLevel)
 	: Elysium::Core::Data::Common::DbTransaction(Connection, IsolationLevel),
 	_NativeCommandFactory(NativeCommandFactory),
 	_NativeTransaction(NativeTransaction),

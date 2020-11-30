@@ -7,7 +7,7 @@
 Elysium::Core::AggregateException::AggregateException()
 	: Elysium::Core::Exception(u8"AggregateException")
 { }
-Elysium::Core::AggregateException::AggregateException(const char * Message)
+Elysium::Core::AggregateException::AggregateException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
 Elysium::Core::AggregateException::AggregateException(String && Message)

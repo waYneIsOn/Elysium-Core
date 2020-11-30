@@ -15,5 +15,5 @@ void Elysium::Core::IO::StringWriter::Write(const byte * Value, const size_t Len
 }
 void Elysium::Core::IO::StringWriter::Write(const String & Value)
 {
-	_StringBuilder.Append(Value.GetCharArray());
+	_StringBuilder.Append(&Value[0]);
 }

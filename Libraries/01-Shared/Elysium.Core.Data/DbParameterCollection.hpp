@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -20,16 +20,11 @@ Copyright (C) 2017 waYne (CAM)
 #include <vector>
 #endif
 
-#pragma warning(disable : 4251)
-
 namespace Elysium::Core::Data::Common
 {
 	class ELYSIUM_CORE_DATA_API DbParameterCollection : public IDataParameterCollection
 	{
 	public:
-		/// <summary>
-		/// Destroy the object using the virtual destructor
-		/// </summary>
 		virtual ~DbParameterCollection() {}
 
 		virtual const size_t GetCount() const override;
@@ -39,11 +34,11 @@ namespace Elysium::Core::Data::Common
 		virtual void Clear() override;
 		virtual bool Contains(const IDataParameter& Item) const override;
 		virtual const size_t IndexOf(const IDataParameter& Item) const override;
-		virtual void Insert(size_t Index, const IDataParameter& Item) override;
+		virtual void Insert(const size_t Index, const IDataParameter& Item) override;
 		virtual bool Remove(const IDataParameter& Item) override;
-		virtual void RemoveAt(size_t Index) override;
+		virtual void RemoveAt(const size_t Index) override;
 
-		virtual IDataParameter& operator[](size_t Index) const override;
+		virtual IDataParameter& operator[](const size_t Index) const override;
 	protected:
 		DbParameterCollection();
 	private:

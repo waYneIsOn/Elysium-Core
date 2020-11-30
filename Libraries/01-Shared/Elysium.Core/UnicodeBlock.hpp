@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -19,7 +19,7 @@ Copyright (C) 2017 waYne (CAM)
 namespace Elysium::Core::Globalization
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class UnicodeBlock : uint32_t
+	enum class UnicodeBlock : Elysium::Core::uint32_t
 #elif defined(__ANDROID__)
 	enum class UnicodeBlock
 #else

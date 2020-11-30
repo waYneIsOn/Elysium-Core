@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -26,7 +26,7 @@ namespace Elysium::Core::IO
 	{
 	public:
 		IOException();
-		IOException(const char* Message);
+		IOException(const char8_t* Message);
 		IOException(String&& Message);
 		virtual ~IOException();
 	};

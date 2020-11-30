@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentNullException();
-		ArgumentNullException(const char* Message);
-		ArgumentNullException(String&& Message);
+		ArgumentNullException(const char8_t* Message);
+		ArgumentNullException(Elysium::Core::String&& Message);
 		virtual ~ArgumentNullException();
 	};
 }

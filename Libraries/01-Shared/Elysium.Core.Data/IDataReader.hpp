@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -40,54 +40,21 @@ Copyright (C) 2017 waYne (CAM)
 #include "../Elysium.Core/Decimal.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Data
 {
-	namespace Core
+	class ELYSIUM_CORE_DATA_API IDataReader
 	{
-		namespace Data
-		{
-			class ELYSIUM_CORE_DATA_API IDataReader
-			{
-			public:
-				/// <summary>
-				/// Destroy the object using the virtual destructor
-				/// </summary>
-				virtual ~IDataReader() {}
+	public:
+		virtual ~IDataReader() {}
 
-				virtual size_t GetDepth() const = 0;
-				virtual size_t GetFieldCount() const = 0;
+		virtual const size_t GetDepth() const = 0;
+		virtual const bool GetIsClosed() const = 0;
+		virtual const size_t GetRecordsAffected() const = 0;
 
-				virtual size_t GetRecordsAffected() const = 0;
-
-				virtual bool Read() = 0;
-				virtual void Close() = 0;
-
-				virtual void GetBoolean(unsigned int Index, bool* Value) = 0;
-				virtual void GetByte(unsigned int Index, byte* Value) = 0;
-				virtual __int64 GetBytes(unsigned int Index, size_t FieldOffset, byte* Value, size_t BufferOffset, size_t Length) = 0;
-				virtual void GetChar(unsigned int Index, char* Value) = 0;
-				virtual __int64 GetChars(unsigned int Index, size_t FieldOffset, char* Value, size_t BufferOffset, size_t Length) = 0;
-				virtual void GetDateTime(uint32_t Index, DateTime* Value) = 0;
-				virtual void GetDateTimeOffset(uint32_t Index, DateTimeOffset* Value) = 0;	// ToDo: think about whether we actually want that method for every reader (some dmbs do not support this type)
-				virtual void GetDecimal(uint32_t Index, Decimal* Value) = 0;
-				virtual void GetDouble(uint32_t Index, double* Value) = 0;
-				virtual void GetFloat(uint32_t Index, float* Value) = 0;
-				virtual void GetGuid(uint32_t Index, Guid* Value) = 0;
-				virtual void GetInt16(uint32_t Index, int16_t* Value) = 0;
-				virtual void GetInt32(uint32_t Index, int32_t* Value) = 0;
-				virtual void GetInt64(uint32_t Index, int64_t* Value) = 0;
-				virtual void GetString(uint32_t Index, std::string* Value) = 0;
-				virtual void GetTimeSpan(uint32_t Index, TimeSpan* Value) = 0;
-				virtual void GetWChar(unsigned int Index, wchar_t* Value) = 0;
-				virtual __int64 GetWChars(unsigned int Index, size_t FieldOffset, wchar_t* Value, size_t BufferOffset, size_t Length) = 0;
-
-				virtual void GetDataTypeName(uint32_t Index, std::wstring* Value) = 0;
-				virtual void GetName(uint32_t Index, std::wstring* Value) = 0;
-				virtual void GetOrdinal(wchar_t* Name, unsigned __int64* Value) = 0;
-
-				virtual bool IsDBNull(uint32_t Index) = 0;
-			};
-		}
-	}
+		virtual void Close() = 0;
+		//virtual const Elysium::Core::Data::DataTable GetSchemaTable() = 0;
+		virtual const bool NextResult() = 0;
+		virtual const bool Read() = 0;
+	};
 }
 #endif

@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,7 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		AggregateException();
-		AggregateException(const char* Message);
+		AggregateException(const char8_t* Message);
 		AggregateException(String&& Message);
 		virtual ~AggregateException();
 	};

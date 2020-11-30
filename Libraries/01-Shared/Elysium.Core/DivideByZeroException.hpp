@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -22,8 +22,8 @@ namespace Elysium::Core
 	{
 	public:
 		DivideByZeroException();
-		DivideByZeroException(const char* Message);
-		DivideByZeroException(String&& Message);
+		DivideByZeroException(const char8_t* Message);
+		DivideByZeroException(Elysium::Core::String&& Message);
 		virtual ~DivideByZeroException();
 	};
 }

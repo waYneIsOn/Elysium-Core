@@ -104,12 +104,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		}
 
 		// initialize the properties and populate their values
+		Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(_ConnectionString, 0, _ConnectionString.GetLength());
 		const ULONG ConnectionPropertiesCount = 1;
 		DBPROP ConnectionProperties[ConnectionPropertiesCount];
 		VariantInit(&ConnectionProperties[0].vValue);
 		ConnectionProperties[0].dwPropertyID = DBPROP_INIT_PROVIDERSTRING;
 		ConnectionProperties[0].vValue.vt = VT_BSTR;
-		ConnectionProperties[0].vValue.bstrVal = SysAllocString(&Elysium::Core::Convert::ToWideString(_ConnectionString)[0]);
+		ConnectionProperties[0].vValue.bstrVal = SysAllocString((wchar_t*)&Bytes[0]);
 		ConnectionProperties[0].dwOptions = DBPROPOPTIONS_REQUIRED;
 		ConnectionProperties[0].colid = DB_NULLID;
 
@@ -199,7 +200,7 @@ std::unique_ptr<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNat
 		throw SqlNativeException(HResult, NativeTransaction);
 	}
 
-	SqlNativeTransaction* Transaction = new SqlNativeTransaction(this, IsolationLevel, NativeCommandFactory, NativeTransaction, TransactionLevel);
+	SqlNativeTransaction* Transaction = new SqlNativeTransaction(*this, IsolationLevel, NativeCommandFactory, NativeTransaction, TransactionLevel);
 	_ActiveTransaction = Transaction;
 
 	return std::unique_ptr<SqlNativeTransaction>(Transaction);
@@ -213,7 +214,7 @@ std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeC
 		throw SqlNativeException(HResult, _NativeSession);
 	}
 
-	return std::unique_ptr<SqlNativeCommand>(new SqlNativeCommand(this, CommandFactory));
+	return std::unique_ptr<SqlNativeCommand>(new SqlNativeCommand(*this, CommandFactory));
 }
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDatabase(const Elysium::Core::String & DatabaseName)
 {
@@ -226,12 +227,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 		throw SqlNativeException(HResult, _NativeDataSource);
 	}
 	// initialize the properties and populate their values
+	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(DatabaseName, 0, DatabaseName.GetLength());
 	const ULONG ConnectionPropertiesCount = 1;
 	DBPROP ConnectionProperties[ConnectionPropertiesCount];
 	VariantInit(&ConnectionProperties[0].vValue);
 	ConnectionProperties[0].dwPropertyID = DBPROP_CURRENTCATALOG;
 	ConnectionProperties[0].vValue.vt = VT_BSTR;
-	ConnectionProperties[0].vValue.bstrVal = SysAllocString(&Elysium::Core::Convert::ToWideString(DatabaseName)[0]);
+	ConnectionProperties[0].vValue.bstrVal = SysAllocString((wchar_t*)&Bytes[0]);
 	ConnectionProperties[0].dwOptions = DBPROPOPTIONS_REQUIRED;
 	ConnectionProperties[0].colid = DB_NULLID;
 	ConnectionProperties[0].dwStatus = DBPROPSTATUS_OK;

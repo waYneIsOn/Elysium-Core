@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -21,11 +21,11 @@ namespace Elysium::Core::Linq
 	struct ELYSIUM_CORE_LINQ_API ContainsContainer
 	{
 		template<class ContainerType, class ItemType>
-		bool operator()(ContainerType & Container, ItemType & Item);
+		bool operator()(ContainerType & Container, ItemType && Item);
 	};
 
 	template<class ContainerType, class ItemType>
-	inline bool ContainsContainer::operator()(ContainerType & Container, ItemType & Item)
+	inline bool ContainsContainer::operator()(ContainerType & Container, ItemType && Item)
 	{
 		for (auto Element : Container)
 		{

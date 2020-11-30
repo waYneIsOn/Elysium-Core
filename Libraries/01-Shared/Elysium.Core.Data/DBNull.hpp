@@ -1,7 +1,7 @@
 /*
 ===========================================================================
 
-Copyright (C) 2017 waYne (CAM)
+Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
@@ -21,14 +21,16 @@ namespace Elysium::Core::Data
 	class ELYSIUM_CORE_DATA_API DBNull final
 	{
 	public:
+		DBNull(const DBNull& Source) = delete;
+		DBNull(DBNull&& Right) noexcept = delete;
 		~DBNull();
 
-		static const DBNull* Value();
+		DBNull& operator=(const DBNull& Source) = delete;
+		DBNull& operator=(DBNull&& Right) noexcept = delete;
+
+		static const DBNull Value;
 	private:
 		DBNull();
-		DBNull(const DBNull& Source);
-
-		static const DBNull _Value;
 	};
 }
 #endif
