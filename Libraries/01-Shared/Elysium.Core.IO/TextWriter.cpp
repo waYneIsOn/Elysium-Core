@@ -58,7 +58,7 @@ void Elysium::Core::IO::TextWriter::Write(const char8_t Value)
 }
 void Elysium::Core::IO::TextWriter::Write(const char8_t * Value, const size_t Count)
 {
-	Elysium::Core::Collections::Template::Array<byte> Bytes = GetEncoding().GetBytes(Value, 0, Count);
+	Elysium::Core::Collections::Template::Array<byte> Bytes = GetEncoding().GetBytes(Value, Count);
 	Write(&Bytes[0], Bytes.GetLength());
 }
 void Elysium::Core::IO::TextWriter::Write(const float & Value)

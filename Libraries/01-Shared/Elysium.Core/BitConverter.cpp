@@ -1,11 +1,8 @@
 #include "BitConverter.hpp"
 
-#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__) || defined(__CYGWIN__)
-#define LITTLEENDIAN 1
-#else
-#error "unsupported os"
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
 #endif
-
 
 Elysium::Core::BitConverter::~BitConverter()
 { }

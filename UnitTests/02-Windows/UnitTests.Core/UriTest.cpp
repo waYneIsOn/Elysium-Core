@@ -175,7 +175,7 @@ namespace UnitTests::Core
 		}
 	private:
 		// fields
-		Uri _TestUriEmpty = Uri(String());
+		//Uri _TestUriEmpty = Uri(String());
 		Uri _TestUriHttp = Uri(u8"http://www.google.com");
 		Uri _TestUriHttps = Uri(u8"https://www.google.com:447/someFold/subfol/bla?xyz=123&jkhsdf=8ndsf#fragmentstuff");
 		Uri _TestUriFtp = Uri(u8"ftp://username:password@www.google.com/xomeFold/subfol/bla?xyz=123&jkhsdf=8ndsf#");

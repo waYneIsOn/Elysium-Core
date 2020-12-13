@@ -42,27 +42,27 @@ namespace Elysium::Core::IO::Compression
 		// properties - getter
 		const Stream& GetBaseStream() const;
 
-		virtual bool GetCanRead() const override;
-		virtual bool GetCanSeek() const override;
-		virtual bool GetCanTimeout() const override;
-		virtual bool GetCanWrite() const override;
+		virtual const bool GetCanRead() const override;
+		virtual const bool GetCanSeek() const override;
+		virtual const bool GetCanTimeout() const override;
+		virtual const bool GetCanWrite() const override;
 
-		virtual const size_t GetLength() override;
-		virtual const int64_t GetPosition() override;
-		virtual const int GetReadTimeout() const override;
-		virtual const int GetWriteTimeout() const override;
+		virtual const size_t GetLength() const override;
+		virtual const Elysium::Core::int64_t GetPosition() const override;
+		virtual const Elysium::Core::int32_t GetReadTimeout() const override;
+		virtual const Elysium::Core::int32_t GetWriteTimeout() const override;
 
 		// properties - setter
-		virtual void SetLength(size_t Value) override;
-		virtual void SetPosition(int64_t Position) override;
+		virtual void SetLength(const size_t Value) override;
+		virtual void SetPosition(const Elysium::Core::int64_t Position) override;
 
 		// methods
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual void Seek(const int64_t Offset, const SeekOrigin Origin) override;
-		virtual size_t Read(byte* Buffer, const size_t Count) override;
+		virtual void Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
+		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
-		virtual void Write(const byte* Buffer, const size_t Count) override;
+		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
 	private:
 		Stream& _BaseStream;
 		CompressionMode _CompressionMode;

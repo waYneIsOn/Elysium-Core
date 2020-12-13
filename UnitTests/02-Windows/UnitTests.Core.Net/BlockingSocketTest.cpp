@@ -185,7 +185,7 @@ namespace UnitTests::Core::Net::Sockets
 			
 			Elysium::Core::String HelpMessage = Elysium::Core::String(u8"HELP\r\n");
 			const Encoding& UTF8Encoding = Encoding::UTF8();
-			Array<byte> Bytes = UTF8Encoding.GetBytes(HelpMessage, 0, HelpMessage.GetLength());
+			Array<byte> Bytes = UTF8Encoding.GetBytes(&HelpMessage[0], HelpMessage.GetLength());
 			const IAsyncResult* SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
 			SendResult->GetAsyncWaitHandle().WaitOne();

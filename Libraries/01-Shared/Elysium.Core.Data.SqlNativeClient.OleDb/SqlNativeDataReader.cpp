@@ -421,6 +421,10 @@ const double Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::G
 		{	// money (8 byte)
 			return static_cast<double>(*static_cast<__int64*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]))) / 10000.0;
 		}
+		else
+		{	// ToDo
+			throw 1;
+		}
 	case DBTYPE_NUMERIC:
 	{	// decimal - ToDo
 		throw 1;
@@ -456,6 +460,10 @@ const float Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::Ge
 		else if (_IndexBindingMap[Index]->cbMaxLen == 8)
 		{	// money (8 byte)
 			return static_cast<float>(static_cast<double>(*static_cast<__int64*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]))) / 10000.0);
+		}
+		else
+		{	// ToDo
+			throw 1;
 		}
 	default:
 		throw InvalidCastException();

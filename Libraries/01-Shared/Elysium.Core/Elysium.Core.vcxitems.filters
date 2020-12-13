@@ -123,6 +123,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeBlock.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

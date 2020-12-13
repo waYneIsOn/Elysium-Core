@@ -451,7 +451,7 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 		}
 	}
 	*/
-	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(Value, 0, Value.GetLength());
+	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(&Value[0], Value.GetLength());
 	std::string ByteString((char*)&Bytes[0]);
 	return std::stof(ByteString);
 }

@@ -36,7 +36,7 @@ namespace Elysium::Core::Reflection::Emit
 		FieldBuilder DefineField(const String& FieldName, const Type& Type, const FieldAttributes& Attributes);
 	private:
 		TypeBuilder();
-
+		
 		Assembly* _Assembly;
 	};
 

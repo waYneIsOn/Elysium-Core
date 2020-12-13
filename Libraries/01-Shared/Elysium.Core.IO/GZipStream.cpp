@@ -50,60 +50,68 @@ const Elysium::Core::IO::Stream & Elysium::Core::IO::Compression::GZipStream::Ge
 	return _BaseStream;
 }
 
-bool Elysium::Core::IO::Compression::GZipStream::GetCanRead() const
+const bool Elysium::Core::IO::Compression::GZipStream::GetCanRead() const
 {
 	return _CompressionMode == CompressionMode::Decompress && _BaseStream.GetCanRead();
 }
-bool Elysium::Core::IO::Compression::GZipStream::GetCanSeek() const
+
+const bool Elysium::Core::IO::Compression::GZipStream::GetCanSeek() const
 {
 	return false;
 }
-bool Elysium::Core::IO::Compression::GZipStream::GetCanTimeout() const
+
+const bool Elysium::Core::IO::Compression::GZipStream::GetCanTimeout() const
 {
 	return false;
 }
-bool Elysium::Core::IO::Compression::GZipStream::GetCanWrite() const
+
+const bool Elysium::Core::IO::Compression::GZipStream::GetCanWrite() const
 {
 	return _CompressionMode == CompressionMode::Compress && _BaseStream.GetCanWrite();
 }
 
-const size_t Elysium::Core::IO::Compression::GZipStream::GetLength()
+const size_t Elysium::Core::IO::Compression::GZipStream::GetLength() const
 {	// ToDo: message
 	throw NotSupportedException();
 }
-const int64_t Elysium::Core::IO::Compression::GZipStream::GetPosition()
+
+const Elysium::Core::int64_t Elysium::Core::IO::Compression::GZipStream::GetPosition() const
 {	// ToDo: message
 	throw NotSupportedException();
 }
-const int Elysium::Core::IO::Compression::GZipStream::GetReadTimeout() const
-{
-	return 0;
-}
-const int Elysium::Core::IO::Compression::GZipStream::GetWriteTimeout() const
+
+const Elysium::Core::int32_t Elysium::Core::IO::Compression::GZipStream::GetReadTimeout() const
 {
 	return 0;
 }
 
-void Elysium::Core::IO::Compression::GZipStream::SetLength(size_t Value)
+const Elysium::Core::int32_t Elysium::Core::IO::Compression::GZipStream::GetWriteTimeout() const
+{
+	return 0;
+}
+
+void Elysium::Core::IO::Compression::GZipStream::SetLength(const size_t Value)
 {	// ToDo: message
 	throw NotSupportedException();
 }
-void Elysium::Core::IO::Compression::GZipStream::SetPosition(int64_t Position)
+
+void Elysium::Core::IO::Compression::GZipStream::SetPosition(const Elysium::Core::int64_t Position)
 {	// ToDo: message
 	throw NotSupportedException();
 }
 
 void Elysium::Core::IO::Compression::GZipStream::Close()
-{
-}
+{ }
+
 void Elysium::Core::IO::Compression::GZipStream::Flush()
-{
-}
-void Elysium::Core::IO::Compression::GZipStream::Seek(const int64_t Offset, const SeekOrigin Origin)
+{ }
+
+void Elysium::Core::IO::Compression::GZipStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {	// ToDo: message
 	throw NotSupportedException();
 }
-size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const size_t Count)
+
+const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
 {
 	if (_CompressionMode != CompressionMode::Decompress)
 	{
@@ -211,11 +219,13 @@ size_t Elysium::Core::IO::Compression::GZipStream::Read(byte * Buffer, const siz
 	// use the deflate stream to read the compressed blocks
 	return _DeflateStream.Read(Buffer, Count);
 }
+
 Elysium::Core::byte Elysium::Core::IO::Compression::GZipStream::ReadByte()
 {
 	return _DeflateStream.ReadByte();
 }
-void Elysium::Core::IO::Compression::GZipStream::Write(const byte * Buffer, const size_t Count)
+
+void Elysium::Core::IO::Compression::GZipStream::Write(const Elysium::Core::byte * Buffer, const size_t Count)
 {
 	if (_CompressionMode != CompressionMode::Compress)
 	{	// ToDo: message

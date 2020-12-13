@@ -8,6 +8,10 @@
 #include "FileNotFoundException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "ArgumentOutOfRangeException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "NotSupportedException.hpp"
 #endif
@@ -23,27 +27,18 @@ Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mo
 	: FileStream(Path, Mode, Access, FileShare::None)
 { }
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share)
-	: Elysium::Core::IO::Stream(), _Path(Path)
+	: FileStream(Path, Mode, Access, Share, DefaultBufferSize, FileOptions::None)
+{ }
+Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
+	: Elysium::Core::IO::Stream(),
+	_Path(Path), _FileHandle(CreateFile((const wchar_t*)&_WindowsEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(wchar_t))[0],
+		static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share), 
+		nullptr, // default security
+		static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options), nullptr))
 {
-	int ModeFlag = std::ios::binary;
-	int ProtectionFlag = 0;
-
-	// ToDo: char8_t -> wchar_t/char
-	throw 1;
-	/*
-	// ToDo: this is just for testing!!!
-	if (Mode == FileMode::Create)
-	{
-		_NativeStream.open(&Path[0], std::ios::binary | std::ios::out | std::ios::in | std::ios::trunc);
-	}
-	else
-	{
-		_NativeStream.open(&Path[0], std::ios::binary | std::ios::in);
-	}
-	*/
-	if (!_NativeStream.good())
-	{
-		throw FileNotFoundException();
+	if (_FileHandle == INVALID_HANDLE_VALUE)
+	{	// ToDo: check values to throw specific exceptions
+		throw NotImplementedException();
 	}
 }
 Elysium::Core::IO::FileStream::~FileStream()
@@ -51,52 +46,65 @@ Elysium::Core::IO::FileStream::~FileStream()
 	Close();
 }
 
-bool Elysium::Core::IO::FileStream::GetCanRead() const
+const bool Elysium::Core::IO::FileStream::GetCanRead() const
 {
 	throw NotImplementedException();
 	//return _Access | FileAccess::Read || _Access | FileAccess::ReadWrite;
 }
-bool Elysium::Core::IO::FileStream::GetCanSeek() const
-{
-	throw NotImplementedException();
-}
-bool Elysium::Core::IO::FileStream::GetCanTimeout() const
-{
-	throw NotImplementedException();
-}
-bool Elysium::Core::IO::FileStream::GetCanWrite() const
+
+const bool Elysium::Core::IO::FileStream::GetCanSeek() const
 {
 	throw NotImplementedException();
 }
 
-const size_t Elysium::Core::IO::FileStream::GetLength()
-{	// ToDo: if the stream position is of the end of the file, this doesn't work!!
-	size_t OriginalPosition = _NativeStream.tellg();
-	_NativeStream.seekg(0, std::ios::end);
-	size_t FileLength = _NativeStream.tellg();
-	_NativeStream.seekg(OriginalPosition, std::ios::beg);
-
-	return FileLength;
-}
-const int64_t Elysium::Core::IO::FileStream::GetPosition()
-{
-	return _NativeStream.tellg();
-}
-const int Elysium::Core::IO::FileStream::GetReadTimeout() const
-{
-	throw NotImplementedException();
-}
-const int Elysium::Core::IO::FileStream::GetWriteTimeout() const
+const bool Elysium::Core::IO::FileStream::GetCanTimeout() const
 {
 	throw NotImplementedException();
 }
 
-void Elysium::Core::IO::FileStream::SetLength(size_t Value)
+const bool Elysium::Core::IO::FileStream::GetCanWrite() const
 {
 	throw NotImplementedException();
 }
-void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
+
+const size_t Elysium::Core::IO::FileStream::GetLength() const
 {
+	LARGE_INTEGER Size;
+	if (!GetFileSizeEx(_FileHandle, &Size))
+	{	// ToDo: throw according exception
+		throw 1;
+	}
+
+	// ToDo: return the correct value
+	//return Size.QuadPart;
+	throw 1;
+}
+
+const Elysium::Core::int64_t Elysium::Core::IO::FileStream::GetPosition() const
+{
+	//return _NativeStream.tellg();
+	throw NotImplementedException();
+}
+
+const Elysium::Core::int32_t Elysium::Core::IO::FileStream::GetReadTimeout() const
+{
+	throw NotImplementedException();
+}
+
+const Elysium::Core::int32_t Elysium::Core::IO::FileStream::GetWriteTimeout() const
+{
+	throw NotImplementedException();
+}
+
+void Elysium::Core::IO::FileStream::SetLength(const size_t Value)
+{
+	throw NotImplementedException();
+}
+
+void Elysium::Core::IO::FileStream::SetPosition(const Elysium::Core::int64_t Position)
+{
+	throw NotImplementedException();
+	/*
 	if (Position >= GetLength())
 	{	// ToDo: throw specific exception
 		throw Exception(u8"Position >= FileSize");
@@ -104,51 +112,86 @@ void Elysium::Core::IO::FileStream::SetPosition(int64_t Position)
 
 	_NativeStream.clear();	// required call (resets internal error state flags)
 	_NativeStream.seekg((std::streampos)Position, std::ios::beg);
+	*/
 }
-void Elysium::Core::IO::FileStream::SetReadTimeout(int Value)
+
+void Elysium::Core::IO::FileStream::SetReadTimeout(const Elysium::Core::int32_t Value)
 {
 	throw NotImplementedException();
 }
-void Elysium::Core::IO::FileStream::SetWriteTimeout(int Value)
+
+void Elysium::Core::IO::FileStream::SetWriteTimeout(const Elysium::Core::int32_t Value)
 {
 	throw NotImplementedException();
 }
 
 void Elysium::Core::IO::FileStream::Close()
 {
-	_NativeStream.close();
+	if (_FileHandle == INVALID_HANDLE_VALUE)
+	{
+		return;
+	}
+	
+	if (!CloseHandle(_FileHandle))
+	{	// ToDo: throw specific exception
+		throw NotImplementedException();
+	}
+
+	_FileHandle = INVALID_HANDLE_VALUE;
 }
+
 void Elysium::Core::IO::FileStream::Flush()
 {
-	_NativeStream.flush();
+	Flush(true);
 }
-void Elysium::Core::IO::FileStream::Seek(const int64_t Offset, const SeekOrigin Origin)
+
+void Elysium::Core::IO::FileStream::Flush(const bool FlushToDisk)
+{
+	if (!FlushFileBuffers(_FileHandle))
+	{	// ToDo: throw specific exception
+		throw NotImplementedException();
+	}
+}
+
+void Elysium::Core::IO::FileStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
 	throw NotImplementedException();
 }
-size_t Elysium::Core::IO::FileStream::Read(byte * Buffer, const size_t Count)
-{
-	if (!_NativeStream.is_open())
-	{
-		throw NotSupportedException();
-	}
 
+const size_t Elysium::Core::IO::FileStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
+{
+	throw NotImplementedException();
+	/*
 	char* CastBuffer = (char*)&Buffer[0];
 	_NativeStream.read(CastBuffer, (std::streamsize)Count);
 	std::streamsize BytesRead = _NativeStream.gcount();
 
 	return (size_t)BytesRead;
+	*/
 }
+
 Elysium::Core::byte Elysium::Core::IO::FileStream::ReadByte()
 {
+	throw NotImplementedException();
+	/*
 	byte Buffer;
 	char* CastBuffer = (char*)&Buffer;
 	_NativeStream.read(CastBuffer, 1);
 
 	return static_cast<int32_t>(Buffer);
+	*/
 }
-void Elysium::Core::IO::FileStream::Write(const byte * Buffer, const size_t Count)
+
+void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
 {
+	if (_FileHandle == INVALID_HANDLE_VALUE)
+	{	// ToDo: check values to throw specific exceptions
+		throw NotImplementedException();
+	}
+
+
+	throw NotImplementedException();
+	/*
 	if (!_NativeStream.is_open())
 	{
 		throw NotSupportedException();
@@ -157,4 +200,5 @@ void Elysium::Core::IO::FileStream::Write(const byte * Buffer, const size_t Coun
 	// ToDo: this simple cast doesn't seem right!
 	const char* CastBuffer = (const char*)&Buffer[0];
 	_NativeStream.write(CastBuffer, Count);
+	*/
 }

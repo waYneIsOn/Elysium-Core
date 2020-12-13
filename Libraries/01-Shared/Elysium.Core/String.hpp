@@ -58,7 +58,7 @@ namespace Elysium::Core
 		bool operator<=(const String Other) const;
 		bool operator>=(const String& Other) const;
 
-		char8_t& operator[](size_t Index) const;
+		char8_t& operator[](const size_t Index) const;
 
 		const size_t GetLength() const throw();
 		

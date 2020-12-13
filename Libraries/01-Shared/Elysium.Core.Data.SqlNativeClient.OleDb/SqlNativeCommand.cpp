@@ -68,7 +68,7 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	}
 
 	// set the command text
-	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(_Text, 0, _Text.GetLength());
+	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(&_Text[0], _Text.GetLength());
 	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, (wchar_t*)&Bytes[0])))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeCommandText);
@@ -125,7 +125,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	}
 
 	// set the command text
-	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(_Text, 0, _Text.GetLength());
+	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(&_Text[0], _Text.GetLength());
 	if (FAILED(HResult = NativeCommandText->SetCommandText(DBGUID_DBSQL, (wchar_t*)&Bytes[0])))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeCommandText);

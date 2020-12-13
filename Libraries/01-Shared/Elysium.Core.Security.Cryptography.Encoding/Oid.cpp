@@ -32,7 +32,7 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const Elysium::Core::String & OidValue, const OidGroup Group)
 {
 	// ToDo: convert utf-8 char to char* correctly!
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Text::Encoding::Default().GetBytes(OidValue, 0, OidValue.GetLength());
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Text::Encoding::Default().GetBytes(&OidValue[0], OidValue.GetLength());
 	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>(&Bytes[0]), (uint32_t)Group);
 	if (NativeOid == nullptr)
 	{

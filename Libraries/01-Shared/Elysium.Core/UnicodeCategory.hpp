@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

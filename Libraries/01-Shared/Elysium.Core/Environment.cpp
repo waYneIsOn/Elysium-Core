@@ -1,5 +1,9 @@
 #include "Environment.hpp"
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -17,14 +21,14 @@
 #include <thread>
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r\n");
-#elif defined(UNIX)	// ToDo
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
-#elif defined(PREOSX_MAC)	// ToDo
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
+#elif defined(ELYSIUM_CORE_OS_MAC)
 const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r");
-#elif defined(__ANDROID__)	// ToDo
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
 #else
 #error "unsupported os"
 #endif

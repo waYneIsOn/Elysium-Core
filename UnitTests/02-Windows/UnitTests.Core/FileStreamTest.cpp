@@ -21,10 +21,6 @@ namespace UnitTests::Core
 	TEST_CLASS(FileStreamTests)
 	{
 	public:
-		TEST_METHOD(Constructors)
-		{
-		}
-
 		TEST_METHOD(WriteReadCopyTo)
 		{
 			// write into a filestream
@@ -34,8 +30,8 @@ namespace UnitTests::Core
 
 			// use the same stream to read from the file (in a single command)
 			InputOutputStream.SetPosition(0);
-			byte DataToRead[9];
-			size_t BytesRead = InputOutputStream.Read(&DataToRead[0], 9);
+			byte DataToRead[30];
+			size_t BytesRead = InputOutputStream.Read(&DataToRead[0], 30);
 			Assert::AreEqual((size_t)9, BytesRead);
 			InputOutputStream.Close();
 

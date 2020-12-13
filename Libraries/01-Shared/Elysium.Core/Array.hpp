@@ -36,11 +36,11 @@ namespace Elysium::Core::Collections::Template
 	class Array final
 	{
 	public:
-		Array(const size_t Length);
+		Array(const size_t Length, const bool PerformMemoryClear = false);
 		Array(const T* Begin, const size_t Length);
 		Array(const std::initializer_list<T> InitializerList);
 		Array(const Array<T>& Source);
-		Array(Array<T>&& Right);
+		Array(Array<T>&& Right) noexcept;
 		~Array();
 
 		Array<T>& operator=(const Array<T>& Source);
@@ -62,9 +62,14 @@ namespace Elysium::Core::Collections::Template
 	};
 
 	template<class T>
-	inline Array<T>::Array(const size_t Length)
+	inline Array<T>::Array(const size_t Length, const bool PerformMemoryClear)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
-	{ }
+	{
+		if (PerformMemoryClear && _Data != nullptr)
+		{
+			memset(_Data, 0x00, _Length);
+		}
+	}
 	template<class T>
 	inline Array<T>::Array(const T * Begin, const size_t Length)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
@@ -95,7 +100,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline Array<T>::Array(Array<T>&& Right)
+	inline Array<T>::Array(Array<T>&& Right) noexcept
 		: _Length(0), _Data(nullptr)
 	{
 		*this = std::move(Right);

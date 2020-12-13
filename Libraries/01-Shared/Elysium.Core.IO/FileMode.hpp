@@ -12,14 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::IO
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class FileMode : uint32_t
+	enum class FileMode : Elysium::Core::uint32_t
 #elif defined(__ANDROID__)
 	enum class FileMode
 #else

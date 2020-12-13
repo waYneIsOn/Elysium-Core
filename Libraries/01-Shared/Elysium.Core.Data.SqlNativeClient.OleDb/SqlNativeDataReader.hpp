@@ -83,7 +83,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		size_t _NumberOfBuffers;
 		std::vector<std::vector<DBBINDING>> _NativeDatabaseBindings;
 		std::vector<std::vector<DBBINDSTATUS>> _NativeDatabaseBindStatus;
-		std::map<int, DBBINDING*> _IndexBindingMap;
+		std::map<size_t, DBBINDING*> _IndexBindingMap;
 		std::map<int, int> _IndexBufferMap;
 
 		DBROWOFFSET _RowsetByteLength = 0;

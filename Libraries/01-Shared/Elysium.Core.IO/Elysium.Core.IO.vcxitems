@@ -22,6 +22,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />

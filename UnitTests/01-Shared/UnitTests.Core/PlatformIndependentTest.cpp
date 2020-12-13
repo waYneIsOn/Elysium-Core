@@ -14,6 +14,8 @@ namespace UnitTests
 		TEST_METHOD(TypeComparison)
 		{
 			Assert::AreEqual(sizeof(int), sizeof(long));
+			Assert::AreEqual(static_cast<size_t>(1), sizeof(char8_t));
+			Assert::AreEqual(static_cast<size_t>(2), sizeof(wchar_t));	// ToDo: 4-byte wchar_t is something I will need to deal with at some point
 		}
 	};
 }

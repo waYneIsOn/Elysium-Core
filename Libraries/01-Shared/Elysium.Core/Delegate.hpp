@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "API.hpp"
-#endif
-
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -138,7 +134,6 @@ namespace Elysium::Core
 	template<class ReturnType, class ...Args>
 	inline Delegate<ReturnType, Args...>::Delegate()
 		: _Target(nullptr), _Method(nullptr)
-	{
-	}
+	{ }
 }
 #endif

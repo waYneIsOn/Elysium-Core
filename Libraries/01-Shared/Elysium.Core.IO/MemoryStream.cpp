@@ -36,46 +36,52 @@ Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array
 Elysium::Core::IO::MemoryStream::~MemoryStream()
 { }
 
-bool Elysium::Core::IO::MemoryStream::GetCanRead() const
-{
-	return true;
-}
-bool Elysium::Core::IO::MemoryStream::GetCanSeek() const
-{
-	return true;
-}
-bool Elysium::Core::IO::MemoryStream::GetCanTimeout() const
-{
-	return Elysium::Core::IO::Stream::GetCanTimeout();
-}
-bool Elysium::Core::IO::MemoryStream::GetCanWrite() const
+const bool Elysium::Core::IO::MemoryStream::GetCanRead() const
 {
 	return true;
 }
 
-const size_t Elysium::Core::IO::MemoryStream::GetLength()
+const bool Elysium::Core::IO::MemoryStream::GetCanSeek() const
+{
+	return true;
+}
+
+const bool Elysium::Core::IO::MemoryStream::GetCanTimeout() const
+{
+	return Elysium::Core::IO::Stream::GetCanTimeout();
+}
+
+const bool Elysium::Core::IO::MemoryStream::GetCanWrite() const
+{
+	return true;
+}
+
+const size_t Elysium::Core::IO::MemoryStream::GetLength() const
 {
 	return _Buffer.GetCount();
 }
-const Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition()
+
+const Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition() const
 {
 	return _CurrentPosition;
 }
-const int Elysium::Core::IO::MemoryStream::GetReadTimeout() const
+
+const Elysium::Core::int32_t Elysium::Core::IO::MemoryStream::GetReadTimeout() const
 {
 	return Elysium::Core::IO::Stream::GetReadTimeout();
 }
-const int Elysium::Core::IO::MemoryStream::GetWriteTimeout() const
+
+const Elysium::Core::int32_t Elysium::Core::IO::MemoryStream::GetWriteTimeout() const
 {
 	return Elysium::Core::IO::Stream::GetWriteTimeout();
 }
 
-size_t Elysium::Core::IO::MemoryStream::GetCapacity() const
+const size_t Elysium::Core::IO::MemoryStream::GetCapacity() const
 {
 	return _Buffer.GetCapacity();
 }
 
-void Elysium::Core::IO::MemoryStream::SetLength(size_t Value)
+void Elysium::Core::IO::MemoryStream::SetLength(const size_t Value)
 {
 	/*
 	if (Value > _Buffer.capacity())
@@ -85,7 +91,7 @@ void Elysium::Core::IO::MemoryStream::SetLength(size_t Value)
 	*/
 	throw NotImplementedException();
 }
-void Elysium::Core::IO::MemoryStream::SetPosition(int64_t Position)
+void Elysium::Core::IO::MemoryStream::SetPosition(const Elysium::Core::int64_t Position)
 {
 	if (!GetCanSeek())
 	{
@@ -95,7 +101,7 @@ void Elysium::Core::IO::MemoryStream::SetPosition(int64_t Position)
 	_CurrentPosition = (size_t)Position;
 }
 
-void Elysium::Core::IO::MemoryStream::SetCapacity(size_t Capacity)
+void Elysium::Core::IO::MemoryStream::SetCapacity(const size_t Capacity)
 {
 	if (Capacity > UINT_MAX)
 	{
@@ -106,19 +112,20 @@ void Elysium::Core::IO::MemoryStream::SetCapacity(size_t Capacity)
 }
 
 void Elysium::Core::IO::MemoryStream::Close()
-{
-}
+{ }
+
 void Elysium::Core::IO::MemoryStream::Flush()
-{
-}
-void Elysium::Core::IO::MemoryStream::Seek(const int64_t Offset, const SeekOrigin Origin)
+{ }
+
+void Elysium::Core::IO::MemoryStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
 	if (!GetCanSeek())
 	{
 		throw NotSupportedException();
 	}
 }
-size_t Elysium::Core::IO::MemoryStream::Read(byte * Buffer, const size_t Count)
+
+const size_t Elysium::Core::IO::MemoryStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
 {
 	if (!GetCanRead())
 	{
@@ -153,6 +160,7 @@ size_t Elysium::Core::IO::MemoryStream::Read(byte * Buffer, const size_t Count)
 
 	return BytesToRead;
 }
+
 Elysium::Core::byte Elysium::Core::IO::MemoryStream::ReadByte()
 {
 	if (_CurrentPosition >= _Buffer.GetCount())
@@ -162,7 +170,8 @@ Elysium::Core::byte Elysium::Core::IO::MemoryStream::ReadByte()
 
 	return static_cast<int32_t>(_Buffer[_CurrentPosition++]);
 }
-void Elysium::Core::IO::MemoryStream::Write(const byte * Buffer, const size_t Count)
+
+void Elysium::Core::IO::MemoryStream::Write(const Elysium::Core::byte * Buffer, const size_t Count)
 {
 	if (!GetCanWrite())
 	{

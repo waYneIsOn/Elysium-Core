@@ -57,6 +57,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndOfStreamException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileOptions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

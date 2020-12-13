@@ -1,5 +1,9 @@
 #include "Dns.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef _WS2TCPIP_H_
 #include <Ws2tcpip.h>	// InetPton
 #endif
@@ -10,16 +14,17 @@
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::String & HostNameOrAddress)
 {
-	throw 1;
-	/*
-	addrinfo ServerInfo = {}, *Addresses;
-	if (GetAddrInfoA(&HostNameOrAddress[0], NULL, &ServerInfo, &Addresses) != 0)
+	const Text::Encoding& Utf16Encoding = Text::Encoding::UTF16BE();
+	Collections::Template::Array<Elysium::Core::byte> Bytes = Utf16Encoding.GetBytes(&HostNameOrAddress[0], HostNameOrAddress.GetLength());
+
+	addrinfoW ServerInfo = {}, *Addresses;
+	if (GetAddrInfo((wchar_t*)&Bytes[0], NULL, &ServerInfo, &Addresses) != 0)
 	{	// ToDo: throw a specific exception
 		throw Exception(u8"couldn't get ip from host.\r\n");
 	}
 
 	Elysium::Core::int32_t Count = 0;
-	for (addrinfo* Item = Addresses; Item != NULL; Item = Item->ai_next)
+	for (addrinfoW* Item = Addresses; Item != NULL; Item = Item->ai_next)
 	{
 		Count++;
 	}
@@ -44,7 +49,6 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>
 	}
 
 	return Result;
-	*/
 }
 
 const Elysium::Core::String Elysium::Core::Net::Dns::GetHostName()

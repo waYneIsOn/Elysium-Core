@@ -20,7 +20,9 @@ const Elysium::Core::String Elysium::Core::String::Empty = Elysium::Core::String
 
 Elysium::Core::String::String()
 	: _Length(0), _Data(nullptr)
-{ }
+{
+	//*this = Elysium::Core::String::Empty;
+}
 
 Elysium::Core::String::String(const size_t Length)
 	: _Length(Length), _Data(new char8_t[_Length + 1])
@@ -182,7 +184,7 @@ bool Elysium::Core::String::operator>=(const String& Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) >= 0;
 }
 
-char8_t& Elysium::Core::String::operator[](size_t Index) const
+char8_t& Elysium::Core::String::operator[](const size_t Index) const
 {
 	if (Index >= _Length)
 	{

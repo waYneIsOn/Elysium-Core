@@ -49,12 +49,12 @@ namespace Elysium::Core::Net::Security
 		TlsStream& operator=(const TlsStream& Source) = delete;
 		TlsStream& operator=(TlsStream&& Right) noexcept = delete;
 
-		virtual bool GetCanRead() const override;
-		virtual bool GetCanSeek() const override;
-		virtual bool GetCanTimeout() const;
-		virtual bool GetCanWrite() const override;
+		virtual const bool GetCanRead() const override;
+		virtual const bool GetCanSeek() const override;
+		virtual const bool GetCanTimeout() const override;
+		virtual const bool GetCanWrite() const override;
 
-		virtual const size_t GetLength() override;
+		virtual const size_t GetLength() const override;
 
 		virtual const bool GetIsAuthenticated() const override;
 		virtual const bool GetIsEncrypted() const override;
@@ -62,15 +62,15 @@ namespace Elysium::Core::Net::Security
 		virtual const bool GetIsServer() const override;
 		virtual const bool GetIsSigned() const override;
 
-		virtual void SetLength(size_t Value) override;
-		virtual void SetPosition(int64_t Position) override;
+		virtual void SetLength(const size_t Value) override;
+		virtual void SetPosition(const Elysium::Core::int64_t Position) override;
 
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual void Seek(const int64_t Offset, const IO::SeekOrigin Origin) override;
-		virtual size_t Read(byte* Buffer, const size_t Count) override;
+		virtual void Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin) override;
+		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
-		virtual void Write(const byte* Buffer, const size_t Count) override;
+		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
 
 		void AuthenticateAsClient(const String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
 		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);

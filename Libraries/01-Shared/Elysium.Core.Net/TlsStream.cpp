@@ -36,24 +36,27 @@ Elysium::Core::Net::Security::TlsStream::TlsStream(IO::Stream & InnerStream, con
 Elysium::Core::Net::Security::TlsStream::~TlsStream()
 { }
 
-bool Elysium::Core::Net::Security::TlsStream::GetCanRead() const
+const bool Elysium::Core::Net::Security::TlsStream::GetCanRead() const
 {
 	return _InnerStream.GetCanRead();
 }
-bool Elysium::Core::Net::Security::TlsStream::GetCanSeek() const
+
+const bool Elysium::Core::Net::Security::TlsStream::GetCanSeek() const
 {
 	return _InnerStream.GetCanSeek();
 }
-bool Elysium::Core::Net::Security::TlsStream::GetCanTimeout() const
+
+const bool Elysium::Core::Net::Security::TlsStream::GetCanTimeout() const
 {
 	return _InnerStream.GetCanTimeout();
 }
-bool Elysium::Core::Net::Security::TlsStream::GetCanWrite() const
+
+const bool Elysium::Core::Net::Security::TlsStream::GetCanWrite() const
 {
 	return _InnerStream.GetCanWrite();
 }
 
-const size_t Elysium::Core::Net::Security::TlsStream::GetLength()
+const size_t Elysium::Core::Net::Security::TlsStream::GetLength()  const
 {
 	return _InnerStream.GetLength();
 }
@@ -79,11 +82,12 @@ const bool Elysium::Core::Net::Security::TlsStream::GetIsSigned() const
 	return false;
 }
 
-void Elysium::Core::Net::Security::TlsStream::SetLength(size_t Value)
+void Elysium::Core::Net::Security::TlsStream::SetLength(const size_t Value)
 {
 	_InnerStream.SetLength(Value);
 }
-void Elysium::Core::Net::Security::TlsStream::SetPosition(int64_t Position)
+
+void Elysium::Core::Net::Security::TlsStream::SetPosition(const Elysium::Core::int64_t Position)
 {
 	_InnerStream.SetPosition(Position);
 }
@@ -92,23 +96,28 @@ void Elysium::Core::Net::Security::TlsStream::Close()
 {
 	_InnerStream.Close();
 }
+
 void Elysium::Core::Net::Security::TlsStream::Flush()
 {
 	_InnerStream.Flush();
 }
-void Elysium::Core::Net::Security::TlsStream::Seek(const int64_t Offset, const IO::SeekOrigin Origin)
+
+void Elysium::Core::Net::Security::TlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
 {
 	_InnerStream.Seek(Offset, Origin);
 }
-size_t Elysium::Core::Net::Security::TlsStream::Read(byte * Buffer, const size_t Count)
+
+const size_t Elysium::Core::Net::Security::TlsStream::Read(Elysium::Core::byte* Buffer, const size_t Count)
 {
 	return _InnerStream.Read(Buffer, Count);
 }
+
 Elysium::Core::byte Elysium::Core::Net::Security::TlsStream::ReadByte()
 {
 	return _InnerStream.ReadByte();
 }
-void Elysium::Core::Net::Security::TlsStream::Write(const byte * Buffer, const size_t Count)
+
+void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
 {
 	_InnerStream.Write(Buffer, Count);
 }

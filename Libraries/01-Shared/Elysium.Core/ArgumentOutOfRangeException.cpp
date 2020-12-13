@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException()
-	: Elysium::Core::ArgumentException(u8"ArgumentNullException")
+	: Elysium::Core::ArgumentException(u8"ArgumentOutOfRangeException")
 { }
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char8_t* Message)
 	: Elysium::Core::ArgumentException(Message)

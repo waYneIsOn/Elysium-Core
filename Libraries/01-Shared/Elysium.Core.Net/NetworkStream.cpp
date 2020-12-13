@@ -22,36 +22,42 @@ Elysium::Core::Net::Sockets::NetworkStream::~NetworkStream()
 	Close();
 }
 
-bool Elysium::Core::Net::Sockets::NetworkStream::GetCanRead() const
-{
-	throw NotImplementedException();
-}
-bool Elysium::Core::Net::Sockets::NetworkStream::GetCanSeek() const
-{
-	throw NotImplementedException();
-}
-bool Elysium::Core::Net::Sockets::NetworkStream::GetCanTimeout() const
-{
-	throw NotImplementedException();
-}
-bool Elysium::Core::Net::Sockets::NetworkStream::GetCanWrite() const
+const bool Elysium::Core::Net::Sockets::NetworkStream::GetCanRead() const
 {
 	throw NotImplementedException();
 }
 
-const size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength()
+const bool Elysium::Core::Net::Sockets::NetworkStream::GetCanSeek() const
 {
 	throw NotImplementedException();
 }
-const __int64 Elysium::Core::Net::Sockets::NetworkStream::GetPosition()
+
+const bool Elysium::Core::Net::Sockets::NetworkStream::GetCanTimeout() const
 {
 	throw NotImplementedException();
 }
-const int Elysium::Core::Net::Sockets::NetworkStream::GetReadTimeout() const
+
+const bool Elysium::Core::Net::Sockets::NetworkStream::GetCanWrite() const
 {
 	throw NotImplementedException();
 }
-const int Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
+
+const size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength() const
+{
+	throw NotImplementedException();
+}
+
+const Elysium::Core::int64_t Elysium::Core::Net::Sockets::NetworkStream::GetPosition() const
+{
+	throw NotImplementedException();
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::NetworkStream::GetReadTimeout() const
+{
+	throw NotImplementedException();
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
 {
 	throw NotImplementedException();
 }
@@ -61,19 +67,22 @@ const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::Network
 	return _Socket;
 }
 
-void Elysium::Core::Net::Sockets::NetworkStream::SetLength(size_t Value)
+void Elysium::Core::Net::Sockets::NetworkStream::SetLength(const size_t Value)
 {
 	throw NotImplementedException();
 }
-void Elysium::Core::Net::Sockets::NetworkStream::SetPosition(__int64 Position)
+
+void Elysium::Core::Net::Sockets::NetworkStream::SetPosition(const Elysium::Core::int64_t  Position)
 {
 	throw NotImplementedException();
 }
-void Elysium::Core::Net::Sockets::NetworkStream::SetReadTimeout(int Value)
+
+void Elysium::Core::Net::Sockets::NetworkStream::SetReadTimeout(const Elysium::Core::int32_t Value)
 {
 	throw NotImplementedException();
 }
-void Elysium::Core::Net::Sockets::NetworkStream::SetWriteTimeout(int Value)
+
+void Elysium::Core::Net::Sockets::NetworkStream::SetWriteTimeout(const Elysium::Core::int32_t Value)
 {
 	throw NotImplementedException();
 }
@@ -85,18 +94,20 @@ void Elysium::Core::Net::Sockets::NetworkStream::Close()
 		_Socket.Close();
 	}
 }
+
 void Elysium::Core::Net::Sockets::NetworkStream::Flush()
-{
-	// do nothing
-}
+{ }
+
 void Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin)
 {
 	throw NotImplementedException();
 }
-size_t Elysium::Core::Net::Sockets::NetworkStream::Read(byte * Buffer, const size_t Count)
+
+const size_t Elysium::Core::Net::Sockets::NetworkStream::Read(Elysium::Core::byte* Buffer, const size_t Count)
 {
 	return _Socket.Receive(&Buffer[0], Count);
 }
+
 Elysium::Core::byte Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
 {
 	byte Buffer;
@@ -104,7 +115,8 @@ Elysium::Core::byte Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
 
 	return static_cast<int32_t>(Buffer);
 }
-void Elysium::Core::Net::Sockets::NetworkStream::Write(const byte * Buffer, const size_t Count)
+
+void Elysium::Core::Net::Sockets::NetworkStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
 {
 	size_t BytesSent = _Socket.Send(&Buffer[0], Count);
 }

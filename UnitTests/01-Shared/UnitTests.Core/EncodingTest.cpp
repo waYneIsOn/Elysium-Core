@@ -24,6 +24,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/StreamReader.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_STREAMWRITER
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/StreamWriter.hpp"
+#endif
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Text
@@ -56,7 +60,7 @@ namespace UnitTests::Core::Text
 					Input[i] = static_cast<char>(i);
 				}
 
-				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = ASCIIEncoding.GetBytes(Input, 0, Input.GetLength());
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = ASCIIEncoding.GetBytes(&Input[0], Input.GetLength());
 				for (size_t i = 0; i < 128; ++i)
 				{
 					Assert::AreEqual((int)Bytes[i], (int)i);
@@ -106,7 +110,7 @@ namespace UnitTests::Core::Text
 					Assert::AreEqual(static_cast<const char8_t>(0xA4), Input[11]);
 					Assert::AreEqual(static_cast<const char8_t>(0xB9), Input[12]);
 
-					Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = UTF8Encoding.GetBytes(Input, 0, Input.GetLength());
+					Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = UTF8Encoding.GetBytes(&Input[0], Input.GetLength());
 					Assert::AreEqual(static_cast<size_t>(Input.GetLength()), Bytes.GetLength());
 					for (size_t i = 0; i < Bytes.GetLength(); ++i)
 					{
@@ -127,33 +131,107 @@ namespace UnitTests::Core::Text
 			}
 		}
 
-		TEST_METHOD(FileStreamUtf8)
+		TEST_METHOD(Utf8_FileStream)
 		{
+			Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf8.txt", Elysium::Core::IO::FileMode::Create,
+				Elysium::Core::IO::FileAccess::ReadWrite);
+			WriteTo(SourceStream, Elysium::Core::Text::Encoding::UTF8());
+
+			Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF8());
+		}
+
+		TEST_METHOD(Utf16BE_Bytes)
+		{
+			const Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF16BE();
+
+			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(
+				{
+					0x00, 0x74,	// would be 1 byte utf-8
+					0x07, 0xFF, // would be 2 byte utf-8
+					//0x04, 0xDF, // would be 2 byte utf-8
+					0x60, 0x45,	// would be 3 byte utf-8
+					//0xFF, 0xFF,	// would be 3 byte utf-8
+					0xD8, 0x03, 0xDE, 0x6D,	// would be 4 byte utf-8
+				});
+
+			Elysium::Core::String ResultingString = Encoding.GetString(&Bytes[0], Bytes.GetLength());
+			Assert::AreEqual(Bytes.GetLength(), ResultingString.GetLength());
+
+			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
+			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
+			for (size_t i = 0; i < Bytes.GetLength(); i++)
 			{
-				Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf8.txt", Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
-				Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF8());
+				Assert::AreEqual(Bytes[i], ResultingBytes[i]);
 			}
 		}
 
-		TEST_METHOD(FileStreamUtf16)
+		TEST_METHOD(Utf16LE_Bytes)
 		{
-			{
-				Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf16LE.txt", Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
-				Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF16LE());
-			}
+			const Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF16LE();
 
+			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(
+				{
+					0x74, 0x00,	// would be 1 byte utf-8
+					0xFF, 0x07, // would be 2 byte utf-8
+					//0xDF, 0x04, // would be 2 byte utf-8
+					0x45, 0x60,	// would be 3 byte utf-8
+					//0xFF, 0xFF,	// would be 3 byte utf-8
+					0x03, 0xD8, 0x6D, 0xDE,	// would be 4 byte utf-8
+				});
+
+			Elysium::Core::String ResultingString = Encoding.GetString(&Bytes[0], Bytes.GetLength());
+			Assert::AreEqual(Bytes.GetLength(), ResultingString.GetLength());
+
+			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
+			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
+			for (size_t i = 0; i < Bytes.GetLength(); i++)
 			{
-				Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf16BE.txt", Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
-				Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF16BE());
+				byte Expected = Bytes[i];
+				byte Actual = ResultingBytes[i];
+
+				Assert::AreEqual(Bytes[i], ResultingBytes[i]);
 			}
 		}
 
-		TEST_METHOD(FileStreamUtf32)
+		TEST_METHOD(Utf16BE_FileStream)
 		{
-			{
-				Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf32.txt", Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
-				Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF32());
-			}
+			Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf16BE.txt", Elysium::Core::IO::FileMode::Create, 
+				Elysium::Core::IO::FileAccess::ReadWrite);
+			WriteTo(SourceStream, Elysium::Core::Text::Encoding::UTF16BE());
+
+			Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF16LE());
+
+		}
+
+		TEST_METHOD(Utf16LE_FileStream)
+		{
+			Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf16LE.txt", Elysium::Core::IO::FileMode::Create,
+				Elysium::Core::IO::FileAccess::ReadWrite);
+			WriteTo(SourceStream, Elysium::Core::Text::Encoding::UTF16LE());
+
+			Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF16BE());
+
+		}
+
+		TEST_METHOD(Utf32_FileStream)
+		{
+			Elysium::Core::IO::FileStream SourceStream = Elysium::Core::IO::FileStream(u8"Utf32.txt", Elysium::Core::IO::FileMode::Create,
+				Elysium::Core::IO::FileAccess::ReadWrite);
+			WriteTo(SourceStream, Elysium::Core::Text::Encoding::UTF32());
+
+			Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(SourceStream, Elysium::Core::Text::Encoding::UTF32());
+		}
+	private:
+		Elysium::Core::String _Content = u8"abc";
+
+		void WriteTo(Elysium::Core::IO::FileStream& TargetStream, const Elysium::Core::Text::Encoding& Encoding)
+		{
+			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Encoding.GetBytes(&_Content[0], _Content.GetLength());
+
+			Elysium::Core::IO::StreamWriter Writer = Elysium::Core::IO::StreamWriter(TargetStream);
+			Writer.Write(&Bytes[0], Bytes.GetLength());
+			Writer.Flush();
+			Writer.Close();
 		}
 	};
 }

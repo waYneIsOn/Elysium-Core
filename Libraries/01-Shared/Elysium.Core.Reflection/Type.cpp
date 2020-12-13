@@ -5,8 +5,7 @@
 #endif
 
 Elysium::Core::Reflection::Type::~Type()
-{
-}
+{ }
 
 const bool Elysium::Core::Reflection::Type::GetIsArray() const
 {

@@ -26,9 +26,9 @@ const Elysium::Core::String Elysium::Core::Text::UTF8Encoding::GetEncodingName()
 	return EncodingName;
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(const Elysium::Core::String & Input, const size_t CharIndex, const size_t CharCount) const
+const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const
 {
-	return CharCount;
+	return CharCount + AdditionalCount;
 
 	/*
 	// UTF-16 BE
@@ -82,10 +82,10 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(co
 	*/
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF8Encoding::GetBytes(const Elysium::Core::String & Input, const size_t CharIndex, const size_t CharCount) const
+Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF8Encoding::GetBytes(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const
 {
-	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharIndex, CharCount);
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize);
+	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharCount);
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize, AdditionalCount > 0 ? true : false);
 	for (size_t i = 0; i < CharCount; ++i)
 	{
 		Result[i] = static_cast<Elysium::Core::byte>(Input[i]);

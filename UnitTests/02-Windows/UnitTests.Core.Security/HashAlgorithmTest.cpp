@@ -32,7 +32,7 @@ namespace UnitTests::Core::Security::Cryptography
 			const Encoding& UsedEncoding = Encoding::ASCII();
 			MD4 Algorithm = MD4();
 
-			Array<byte> Bytes2 = UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength());
+			Array<byte> Bytes2 = UsedEncoding.GetBytes(&_Value2[0], _Value2.GetLength());
 
 			//Array<byte> HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
 			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);
@@ -43,7 +43,7 @@ namespace UnitTests::Core::Security::Cryptography
 			const Encoding& UsedEncoding = Encoding::ASCII();
 			MD5 Algorithm = MD5();
 
-			Array<byte> Bytes2 = UsedEncoding.GetBytes(_Value2, 0, _Value2.GetLength());
+			Array<byte> Bytes2 = UsedEncoding.GetBytes(&_Value2[0], _Value2.GetLength());
 
 			//Array<byte> HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
 			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);

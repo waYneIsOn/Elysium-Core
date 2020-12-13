@@ -20,11 +20,12 @@
 #include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
 #endif
 
-bool Elysium::Core::IO::Stream::GetCanTimeout() const
+const bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
 } 
-const Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition()
+
+const Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition() const
 {
 	if (!GetCanSeek())
 	{
@@ -33,20 +34,23 @@ const Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition()
 
 	return 0;
 }
-const int Elysium::Core::IO::Stream::GetReadTimeout() const
-{
-	throw InvalidOperationException();
-}
-const int Elysium::Core::IO::Stream::GetWriteTimeout() const
+
+const Elysium::Core::int32_t Elysium::Core::IO::Stream::GetReadTimeout() const
 {
 	throw InvalidOperationException();
 }
 
-void Elysium::Core::IO::Stream::SetReadTimeout(int Value)
+const Elysium::Core::int32_t Elysium::Core::IO::Stream::GetWriteTimeout() const
 {
 	throw InvalidOperationException();
 }
-void Elysium::Core::IO::Stream::SetWriteTimeout(int Value)
+
+void Elysium::Core::IO::Stream::SetReadTimeout(const Elysium::Core::int32_t Value)
+{
+	throw InvalidOperationException();
+}
+
+void Elysium::Core::IO::Stream::SetWriteTimeout(const Elysium::Core::int32_t Value)
 {
 	throw InvalidOperationException();
 }
@@ -56,6 +60,7 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination)
 	const size_t BufferSize = 4096;
 	CopyTo(Destination, BufferSize);
 }
+
 void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t BufferSize)
 {
 	if (&Destination == this)
@@ -75,7 +80,8 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t Buffer
 		Destination.Write(&Buffer[0], BytesRead);
 	}
 }
-void Elysium::Core::IO::Stream::WriteByte(byte Value)
+
+void Elysium::Core::IO::Stream::WriteByte(const Elysium::Core::byte Value)
 {
 	Write(&Value, 1);
 }
@@ -85,6 +91,7 @@ Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const byte & V
 	Write(&Value, sizeof(Value));
 	return (*this);
 }
+
 Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const unsigned int & Value)
 {
 	byte* Bytes = (byte*)&Value;

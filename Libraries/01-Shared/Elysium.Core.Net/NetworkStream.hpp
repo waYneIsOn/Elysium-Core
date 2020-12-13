@@ -34,31 +34,31 @@ namespace Elysium::Core::Net::Sockets
 		virtual ~NetworkStream();
 
 		// properties - getter
-		virtual bool GetCanRead() const override;
-		virtual bool GetCanSeek() const override;
-		virtual bool GetCanTimeout() const override;
-		virtual bool GetCanWrite() const override;
+		virtual const bool GetCanRead() const override;
+		virtual const bool GetCanSeek() const override;
+		virtual const bool GetCanTimeout() const override;
+		virtual const bool GetCanWrite() const override;
 
-		virtual const size_t GetLength()  override;
-		virtual const __int64 GetPosition() override;
-		virtual const int GetReadTimeout() const override;
-		virtual const int GetWriteTimeout() const override;
+		virtual const size_t GetLength() const override;
+		virtual const Elysium::Core::int64_t GetPosition() const override;
+		virtual const Elysium::Core::int32_t GetReadTimeout() const override;
+		virtual const Elysium::Core::int32_t GetWriteTimeout() const override;
 
 		virtual const Socket& GetSocket() const;
 
 		// properties - setter
-		virtual void SetLength(size_t Value) override;
-		virtual void SetPosition(__int64 Position) override;
-		virtual void SetReadTimeout(int Value) override;
-		virtual void SetWriteTimeout(int Value) override;
+		virtual void SetLength(const size_t Value) override;
+		virtual void SetPosition(const Elysium::Core::int64_t  Position) override;
+		virtual void SetReadTimeout(const Elysium::Core::int32_t Value) override;
+		virtual void SetWriteTimeout(const Elysium::Core::int32_t Value) override;
 
 		// methods
 		virtual void Close()  override;
 		virtual void Flush() override;
 		virtual void Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin) override;
-		virtual size_t Read(byte* Buffer, const size_t Count) override;
+		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
-		virtual void Write(const byte* Buffer, const size_t Count) override;
+		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
 	private:
 		// fields
 		Socket& _Socket;

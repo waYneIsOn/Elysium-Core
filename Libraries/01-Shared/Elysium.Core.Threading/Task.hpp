@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/IAsyncResult.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "../Elysium.Core/Delegate.hpp"
+#ifndef ELYSIUM_CORE_ACTION
+#include "../Elysium.Core/Action.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
@@ -54,10 +54,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Threading::Tasks
 {
+	/*
+	template class ELYSIUM_CORE_API Elysium::Core::Delegate<void>;
+	template struct ELYSIUM_CORE_API std::atomic<TaskStatus>;
+	template struct ELYSIUM_CORE_API std::atomic<AggregateException*>;
+	*/
 	class ELYSIUM_CORE_API Task final : public IAsyncResult
 	{
 	public:
-		Task(const Delegate<void> Action);
+		Task(const Elysium::Core::Delegate<void>& Action);
 		Task(const Task& Source) = delete;
 		Task(Task&& Right) noexcept = delete;
 		virtual ~Task();
@@ -86,7 +91,7 @@ namespace Elysium::Core::Threading::Tasks
 		static Elysium::Core::int32_t _TaskIdCounter;
 
 		const ELYSIUM_TASK_HANDLE _Handle;
-		const Delegate<void> _Action;
+		const Elysium::Core::Delegate<void> _Action;
 		const Elysium::Core::int32_t _Id;
 		const TaskCreationOptions _CreationOptions;
 		const AutoResetEvent _WaitEvent;

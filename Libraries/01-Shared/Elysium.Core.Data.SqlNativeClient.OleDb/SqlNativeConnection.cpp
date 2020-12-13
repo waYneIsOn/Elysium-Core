@@ -104,7 +104,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		}
 
 		// initialize the properties and populate their values
-		Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(_ConnectionString, 0, _ConnectionString.GetLength());
+		Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(&_ConnectionString[0], _ConnectionString.GetLength());
 		const ULONG ConnectionPropertiesCount = 1;
 		DBPROP ConnectionProperties[ConnectionPropertiesCount];
 		VariantInit(&ConnectionProperties[0].vValue);
@@ -227,7 +227,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 		throw SqlNativeException(HResult, _NativeDataSource);
 	}
 	// initialize the properties and populate their values
-	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(DatabaseName, 0, DatabaseName.GetLength());
+	Collections::Template::Array<byte> Bytes = _Utf16.GetBytes(&DatabaseName[0], DatabaseName.GetLength());
 	const ULONG ConnectionPropertiesCount = 1;
 	DBPROP ConnectionProperties[ConnectionPropertiesCount];
 	VariantInit(&ConnectionProperties[0].vValue);

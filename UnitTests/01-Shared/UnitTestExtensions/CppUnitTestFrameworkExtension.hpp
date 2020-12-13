@@ -23,48 +23,28 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_UTF16ENCODING
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Text/UTF16Encoding.hpp"
+#endif
+
 namespace Microsoft
 {
 	namespace VisualStudio
 	{
 		namespace CppUnitTestFramework
 		{
-			
-			// User should provide a specialization of below ToString() template to use equality asserts in test code.
-			// std::wstring ToString(const Q& q) is used for converting type Q in  user readable std::wstring value. 
-			// Converted value is emitted in Assert failure message. Specialization for basic types has been provided below.
-			template <> 
-			static std::wstring ToString(const char8_t& q) 
-			{
-				return L"Bla";
-				//static_assert(false, "Test writer must define specialization of ToString<const Q& q> for your class "__FUNCSIG__".");
-			}
-			
 			class AssertExtended
 			{
 			public:
 				static void AreEqual(const Elysium::Core::String& Expected, const Elysium::Core::String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
 				{
-					Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
+					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
 					
 					for (size_t i = 0; i < Expected.GetLength(); ++i)
 					{
-						char8_t e = Expected[i];
-						char8_t a = Actual[i];
-
-						//AreEqual(Expected[i], Actual[i]);
+						//Assert::IsTrue(static_cast<int32_t>(Expected[i]) == static_cast<int32_t>(Actual[i]));
+						Assert::AreEqual(Expected[i], Actual[i]);
 					}
-
-					// ToDo:
-					Assert::Fail();
-				}
-
-				static void AreEqual(const char8_t Expected, const char8_t Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
-				{
-					// ToDo:
-					Assert::Fail();
-
-					//Assert::AreEqual((char)Expected, (char)Actual);
 				}
 
 				static void AreEqual(const unsigned short Expected, const unsigned short Actual)
@@ -81,7 +61,30 @@ namespace Microsoft
 				{
 					Assert::IsTrue(Expected == Actual);
 				}
+			
+				inline static Elysium::Core::Text::UTF16Encoding Utf16Encoding = Elysium::Core::Text::UTF16Encoding();
 			};
+
+			template <>
+			static std::wstring ToString(const char8_t& q)
+			{
+				// ToDo: this is obviously incorrect!
+				return std::wstring(&reinterpret_cast<const wchar_t&>(q), 1);
+				/*
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = AssertExtended::Utf16Encoding.GetBytes(q, 0, 1);
+
+				return std::wstring((wchar_t*)&Bytes[0], Bytes.GetLength());
+				*/
+			}
+			/*
+			template <>
+			static std::wstring ToString(const Elysium::Core::String& q)
+			{
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = AssertExtended::Utf16Encoding.GetBytes(q, 0, q.GetLength());
+
+				return std::wstring((wchar_t*)&Bytes[0], Bytes.GetLength());
+			}
+			*/
 		}
 	}
 }
