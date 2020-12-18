@@ -48,15 +48,15 @@ namespace Elysium::Core::IO
 		virtual const bool GetCanWrite() const override;
 
 		virtual const size_t GetLength() const override;
-		virtual const Elysium::Core::int64_t GetPosition() const override;
-		virtual const Elysium::Core::int32_t GetReadTimeout() const override;
-		virtual const Elysium::Core::int32_t GetWriteTimeout() const override;
+		virtual const Elysium::Core::uint64_t GetPosition() const override;
+		virtual const Elysium::Core::uint32_t GetReadTimeout() const override;
+		virtual const Elysium::Core::uint32_t GetWriteTimeout() const override;
 
 		virtual const size_t GetCapacity() const;
 
 		// properties - setter
 		virtual void SetLength(const size_t Value) override;
-		virtual void SetPosition(const Elysium::Core::int64_t Position) override;
+		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
 
 		virtual void SetCapacity(const size_t Capacity);
 

@@ -14,7 +14,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_CORE_OS_ANDROID
 #elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))
 #define ELYSIUM_CORE_OS_LINUX
-#elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
+#elif defined(_MAC) || defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
 #define ELYSIUM_CORE_OS_MAC
 #else
 #error "unsupported os"

@@ -16,7 +16,7 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core
+namespace UnitTests::Core::IO
 {
 	TEST_CLASS(FileStreamTests)
 	{

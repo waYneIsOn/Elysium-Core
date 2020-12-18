@@ -25,25 +25,33 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API StreamReader : public TextReader
 	{
 	public:
-		StreamReader(Stream& InputStream, const Text::Encoding& Encoding, const bool DetectEncodingFromByteOrderMarks = true, const Elysium::Core::int32_t MinimumBufferSize = -1, const bool LeaveOpen = false);
-		~StreamReader();
+		StreamReader(Stream& InputStream, const Elysium::Core::Text::Encoding& Encoding, const bool DetectEncodingFromByteOrderMarks = true, const Elysium::Core::int32_t MinimumBufferSize = -1, const bool LeaveOpen = false);
+		StreamReader(const StreamReader& Source) = delete;
+		StreamReader(StreamReader&& Right) noexcept = delete;
+		virtual ~StreamReader();
+
+		StreamReader& operator=(const StreamReader& Other) = delete;
+		StreamReader& operator=(StreamReader&& Right) noexcept = delete;
 
 		virtual void Close() override;
 
-		virtual const int32_t Peek() override;
+		virtual const Elysium::Core::int32_t Peek() override;
 
-		virtual const int32_t Read() override;
+		virtual const Elysium::Core::int32_t Read() override;
 
-		virtual String ReadLine() override;
+		virtual const Elysium::Core::int32_t Read(char8_t* Buffer, const Elysium::Core::int32_t Count) override;
 
-		virtual String ReadToEnd() override;
+		virtual Elysium::Core::String ReadLine() override;
+
+		virtual Elysium::Core::String ReadToEnd() override;
 	private:
-		size_t _Position;
 		Stream& _InputStream;
-		const Text::Encoding& _Encoding;
+		const Elysium::Core::Text::Encoding& _Encoding;
 		const bool _LeaveOpen;
 
-		//Elysium::Core::Collections::Template::List<Elysium::Core::byte> _Buffer;
+		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
+		Elysium::Core::uint64_t _BufferPosition;
 	};
 }
 #endif

@@ -13,7 +13,7 @@
 #endif
 
 #ifndef _XSTRING_
-#include <xstring>	// std::char_traits
+#include <xstring>
 #endif
 
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
@@ -40,6 +40,6 @@ Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException
 	_com_error COMError = _com_error(ErrorCode);
 	const wchar_t* ErrorMessageW = COMError.ErrorMessage();
 
-	const Elysium::Core::Text::Encoding& Utf16BeEncoding = Elysium::Core::Text::Encoding::UTF16BE();
-	return Utf16BeEncoding.GetString((const byte*)&ErrorMessageW[0], std::char_traits<wchar_t>::length(ErrorMessageW));
+	const Elysium::Core::Text::Encoding& WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], std::char_traits<wchar_t>::length(ErrorMessageW));
 }

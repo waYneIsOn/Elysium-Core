@@ -36,27 +36,28 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API Stream
 	{
 	public:
-		// destructor
-		virtual ~Stream() {}
+		Stream(const Stream& Source) = delete;
+		Stream(Stream&& Right) noexcept = delete;
+		virtual ~Stream();
 
-		// properties - getter
+		Stream& operator=(const Stream& Source) = delete;
+		Stream& operator=(Stream&& Right) noexcept = delete;
+
 		virtual const bool GetCanRead() const = 0;
 		virtual const bool GetCanSeek() const = 0;
 		virtual const bool GetCanTimeout() const;
 		virtual const bool GetCanWrite() const = 0;
 
 		virtual const size_t GetLength() const = 0;
-		virtual const Elysium::Core::int64_t GetPosition() const;
-		virtual const Elysium::Core::int32_t GetReadTimeout() const;
-		virtual const Elysium::Core::int32_t GetWriteTimeout() const;
+		virtual const Elysium::Core::uint64_t GetPosition() const;
+		virtual const Elysium::Core::uint32_t GetReadTimeout() const;
+		virtual const Elysium::Core::uint32_t GetWriteTimeout() const;
 
-		// properties - setter
 		virtual void SetLength(const size_t Value) = 0;
-		virtual void SetPosition(const Elysium::Core::int64_t Position) = 0;
-		virtual void SetReadTimeout(const Elysium::Core::int32_t Value);
-		virtual void SetWriteTimeout(const Elysium::Core::int32_t Value);
+		virtual void SetPosition(const Elysium::Core::uint64_t Position) = 0;
+		virtual void SetReadTimeout(const Elysium::Core::uint32_t Value);
+		virtual void SetWriteTimeout(const Elysium::Core::uint32_t Value);
 
-		// methods
 		virtual void CopyTo(Stream& Destination);
 		virtual void CopyTo(Stream& Destination, const size_t BufferSize);
 		virtual void Close() = 0;
@@ -67,13 +68,11 @@ namespace Elysium::Core::IO
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) = 0;
 		virtual void WriteByte(const Elysium::Core::byte Value);
 
-		// stream extraction and insertion
 		Elysium::Core::IO::Stream& operator<<(const byte& Value);
 		Elysium::Core::IO::Stream& operator<<(const unsigned int& Value);
 
 		Elysium::Core::IO::Stream& operator>>(const unsigned int Value);
 	protected:
-		// constructors
 		Stream();
 	};
 }

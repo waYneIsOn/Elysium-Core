@@ -37,19 +37,23 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API TextReader
 	{
 	public:
+		TextReader(const TextReader& Source) = delete;
+		TextReader(TextReader&& Right) noexcept = delete;
 		virtual ~TextReader();
+
+		TextReader& operator=(const TextReader& Other) = delete;
+		TextReader& operator=(TextReader&& Right) noexcept = delete;
 
 		virtual void Close();
 
-		virtual const int32_t Peek();
+		virtual const Elysium::Core::int32_t Peek();
 		
-		virtual const int32_t Read();
-		//virtual int Read(array<char>& Buffer, int Index, int Count);
-		//virtual int Read(String& Buffer, int Index, int Count);
+		virtual const Elysium::Core::int32_t Read();
+		virtual const Elysium::Core::int32_t Read(char8_t* Buffer, const Elysium::Core::int32_t Count);
 
-		virtual String ReadLine() = 0;
+		virtual Elysium::Core::String ReadLine() = 0;
 
-		virtual String ReadToEnd() = 0;
+		virtual Elysium::Core::String ReadToEnd() = 0;
 	protected:
 		TextReader();
 	};

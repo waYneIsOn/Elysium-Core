@@ -315,7 +315,8 @@ Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Stri
 	}
 
 	// check for valid input
-	while (Value[i] >= u8'0' && Value[i] <= u8'9')
+	const size_t Length = Value.GetLength();
+	while (i < Length && Value[i] >= u8'0' && Value[i] <= u8'9')
 	{
 		// handle overflow cases
 		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
@@ -346,7 +347,8 @@ Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Stri
 	}
 
 	// check for valid input
-	while (Value[i] >= u8'0' && Value[i] <= u8'9')
+	const size_t Length = Value.GetLength();
+	while (i < Length && Value[i] >= u8'0' && Value[i] <= u8'9')
 	{
 		// handle overflow cases
 		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))

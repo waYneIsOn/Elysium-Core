@@ -63,7 +63,7 @@ namespace Elysium::Core::Net::Security
 		virtual const bool GetIsSigned() const override;
 
 		virtual void SetLength(const size_t Value) override;
-		virtual void SetPosition(const Elysium::Core::int64_t Position) override;
+		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
 
 		virtual void Close() override;
 		virtual void Flush() override;

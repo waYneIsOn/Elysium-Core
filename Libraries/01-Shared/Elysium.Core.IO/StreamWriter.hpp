@@ -26,16 +26,24 @@ namespace Elysium::Core::IO
 	{
 	public:
 		StreamWriter(Stream& OutputStream);
-		~StreamWriter();
+		StreamWriter(Stream& OutputStream, const Elysium::Core::Text::Encoding& Encoding);
+		StreamWriter(const StreamWriter& Source) = delete;
+		StreamWriter(StreamWriter&& Right) noexcept = delete;
+		virtual ~StreamWriter();
+
+		StreamWriter& operator=(const StreamWriter& Other) = delete;
+		StreamWriter& operator=(StreamWriter&& Right) noexcept = delete;
 
 		virtual const Text::Encoding& GetEncoding() override;
 
 		virtual void Close() override;
+
 		virtual void Flush() override;
 
 		virtual void Write(const byte* Value, const size_t Length) override;
 	private:
 		Stream& _OutputStream;
+		const Elysium::Core::Text::Encoding& _Encoding;
 	};
 }
 #endif

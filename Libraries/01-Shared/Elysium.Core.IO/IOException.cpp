@@ -5,13 +5,13 @@
 #endif
 
 Elysium::Core::IO::IOException::IOException()
-	: Elysium::Core::Exception(u8"IOException")
+	: Elysium::Core::SystemException(u8"IOException")
 { }
 Elysium::Core::IO::IOException::IOException(const char8_t* Message)
-	: Elysium::Core::Exception(Message)
+	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::IO::IOException::IOException(String && Message)
-	: Elysium::Core::Exception(std::move(Message))
+	: Elysium::Core::SystemException(std::move(Message))
 { }
 Elysium::Core::IO::IOException::~IOException()
 { }

@@ -40,7 +40,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
+
+#ifdef ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
 #include <Windows.h>
 #endif
@@ -57,13 +61,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Text/UTF16Encoding.hpp"
 #endif
 
-#elif defined(__ANDROID__)
-
 #else
 #error "undefined os"
 #endif
-
-#pragma warning(disable : 4251)	// disable warning about str::string and std::fstream
 
 namespace Elysium::Core::IO
 {
@@ -81,24 +81,21 @@ namespace Elysium::Core::IO
 		FileStream& operator=(const FileStream& Source) = delete;
 		FileStream& operator=(FileStream&& Right) noexcept = delete;
 
-		// properties - getter
 		virtual const bool GetCanRead() const override;
 		virtual const bool GetCanSeek() const override;
 		virtual const bool GetCanTimeout() const override;
 		virtual const bool GetCanWrite() const override;
 
 		virtual const size_t GetLength() const override;
-		virtual const Elysium::Core::int64_t GetPosition() const override;
-		virtual const Elysium::Core::int32_t GetReadTimeout() const override;
-		virtual const Elysium::Core::int32_t GetWriteTimeout() const override;
+		virtual const Elysium::Core::uint64_t GetPosition() const override;
+		virtual const Elysium::Core::uint32_t GetReadTimeout() const override;
+		virtual const Elysium::Core::uint32_t GetWriteTimeout() const override;
 
-		// properties - setter
 		virtual void SetLength(const size_t Value) override;
-		virtual void SetPosition(const Elysium::Core::int64_t Position) override;
-		virtual void SetReadTimeout(const Elysium::Core::int32_t Value) override;
-		virtual void SetWriteTimeout(const Elysium::Core::int32_t Value) override;
+		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
+		virtual void SetReadTimeout(const Elysium::Core::uint32_t Value) override;
+		virtual void SetWriteTimeout(const Elysium::Core::uint32_t Value) override;
 
-		// methods
 		virtual void Close() override;
 		virtual void Flush() override;
 		virtual void Flush(const bool FlushToDisk);
@@ -109,15 +106,15 @@ namespace Elysium::Core::IO
 	private:
 		const String _Path;
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-		const Elysium::Core::Text::UTF16Encoding _WindowsEncoding = Elysium::Core::Text::UTF16Encoding();
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		HANDLE _FileHandle;
-#elif defined(__ANDROID__)
-
 #else
-
+#error "unsupported os"
 #endif
+
+		Elysium::Core::uint64_t _Position = 0;
 
 		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
 	};

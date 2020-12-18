@@ -47,17 +47,17 @@ const size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength() const
 	throw NotImplementedException();
 }
 
-const Elysium::Core::int64_t Elysium::Core::Net::Sockets::NetworkStream::GetPosition() const
+const Elysium::Core::uint64_t Elysium::Core::Net::Sockets::NetworkStream::GetPosition() const
 {
 	throw NotImplementedException();
 }
 
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::NetworkStream::GetReadTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::Net::Sockets::NetworkStream::GetReadTimeout() const
 {
 	throw NotImplementedException();
 }
 
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::Net::Sockets::NetworkStream::GetWriteTimeout() const
 {
 	throw NotImplementedException();
 }
@@ -72,17 +72,17 @@ void Elysium::Core::Net::Sockets::NetworkStream::SetLength(const size_t Value)
 	throw NotImplementedException();
 }
 
-void Elysium::Core::Net::Sockets::NetworkStream::SetPosition(const Elysium::Core::int64_t  Position)
+void Elysium::Core::Net::Sockets::NetworkStream::SetPosition(const Elysium::Core::uint64_t  Position)
 {
 	throw NotImplementedException();
 }
 
-void Elysium::Core::Net::Sockets::NetworkStream::SetReadTimeout(const Elysium::Core::int32_t Value)
+void Elysium::Core::Net::Sockets::NetworkStream::SetReadTimeout(const Elysium::Core::uint32_t Value)
 {
 	throw NotImplementedException();
 }
 
-void Elysium::Core::Net::Sockets::NetworkStream::SetWriteTimeout(const Elysium::Core::int32_t Value)
+void Elysium::Core::Net::Sockets::NetworkStream::SetWriteTimeout(const Elysium::Core::uint32_t Value)
 {
 	throw NotImplementedException();
 }

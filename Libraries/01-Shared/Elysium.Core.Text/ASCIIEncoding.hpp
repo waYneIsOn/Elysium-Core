@@ -34,7 +34,10 @@ namespace Elysium::Core::Text
 		ASCIIEncoding& operator=(ASCIIEncoding&& Right) noexcept = delete;
 
 		virtual const bool GetIsSingleByte() const override;
+
 		virtual const Elysium::Core::String GetEncodingName() const override;
+
+		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetPreamble() const override;
 
 		virtual const Elysium::Core::uint32_t GetByteCount(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount = 0) const override;
 

@@ -20,12 +20,15 @@
 #include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
 #endif
 
+Elysium::Core::IO::Stream::~Stream()
+{ }
+
 const bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
 } 
 
-const Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition() const
+const Elysium::Core::uint64_t Elysium::Core::IO::Stream::GetPosition() const
 {
 	if (!GetCanSeek())
 	{
@@ -35,22 +38,22 @@ const Elysium::Core::int64_t Elysium::Core::IO::Stream::GetPosition() const
 	return 0;
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::Stream::GetReadTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::Stream::GetReadTimeout() const
 {
 	throw InvalidOperationException();
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::Stream::GetWriteTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::Stream::GetWriteTimeout() const
 {
 	throw InvalidOperationException();
 }
 
-void Elysium::Core::IO::Stream::SetReadTimeout(const Elysium::Core::int32_t Value)
+void Elysium::Core::IO::Stream::SetReadTimeout(const Elysium::Core::uint32_t Value)
 {
 	throw InvalidOperationException();
 }
 
-void Elysium::Core::IO::Stream::SetWriteTimeout(const Elysium::Core::int32_t Value)
+void Elysium::Core::IO::Stream::SetWriteTimeout(const Elysium::Core::uint32_t Value)
 {
 	throw InvalidOperationException();
 }

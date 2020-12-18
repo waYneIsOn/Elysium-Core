@@ -18,24 +18,29 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionMode CompressionMode)
+Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionMode CompressionMode)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false)
 { }
-Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionMode CompressionMode, bool LeaveOpen)
+Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen)
 { }
-Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionLevel CompressionLevel)
+Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false)
 { }
-Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, CompressionLevel CompressionLevel, bool LeaveOpen)
+Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen)
 { }
 Elysium::Core::IO::Compression::DeflateStream::~DeflateStream()
-{ }
+{
+	if (!_LeaveOpen)
+	{
+		_BaseStream.Close();
+	}
+}
 
 const Elysium::Core::IO::Stream & Elysium::Core::IO::Compression::DeflateStream::GetBaseStream() const
 {
@@ -67,17 +72,17 @@ const size_t Elysium::Core::IO::Compression::DeflateStream::GetLength() const
 	throw NotSupportedException();
 }
 
-const Elysium::Core::int64_t Elysium::Core::IO::Compression::DeflateStream::GetPosition() const
+const Elysium::Core::uint64_t Elysium::Core::IO::Compression::DeflateStream::GetPosition() const
 {	// ToDo: message
 	throw NotSupportedException();
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::Compression::DeflateStream::GetReadTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::Compression::DeflateStream::GetReadTimeout() const
 {
 	return 0;
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::Compression::DeflateStream::GetWriteTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::Compression::DeflateStream::GetWriteTimeout() const
 {
 	return 0;
 }
@@ -87,7 +92,7 @@ void Elysium::Core::IO::Compression::DeflateStream::SetLength(const size_t Value
 	throw NotSupportedException();
 }
 
-void Elysium::Core::IO::Compression::DeflateStream::SetPosition(const int64_t Position)
+void Elysium::Core::IO::Compression::DeflateStream::SetPosition(const Elysium::Core::uint64_t Position)
 {	// ToDo: message
 	throw NotSupportedException();
 }

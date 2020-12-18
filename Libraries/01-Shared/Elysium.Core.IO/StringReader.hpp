@@ -26,17 +26,22 @@ namespace Elysium::Core::IO
 	{
 	public:
 		StringReader(const String& Input);
-		~StringReader();
+		StringReader(const StringReader& Source) = delete;
+		StringReader(StringReader&& Right) noexcept = delete;
+		virtual ~StringReader();
 
-		virtual const int32_t Peek() override;
+		StringReader& operator=(const StringReader& Other) = delete;
+		StringReader& operator=(StringReader&& Right) noexcept = delete;
 
-		virtual const int32_t Read() override;
+		virtual const Elysium::Core::int32_t Peek() override;
 
-		virtual String ReadLine() override;
+		virtual const Elysium::Core::int32_t Read() override;
 
-		virtual String ReadToEnd() override;
+		virtual Elysium::Core::String ReadLine() override;
+
+		virtual Elysium::Core::String ReadToEnd() override;
 	private:
-		size_t _Position;
+		Elysium::Core::uint64_t _Position = 0;
 		StringView _Input;
 	};
 }

@@ -653,15 +653,15 @@ namespace UnitTests::Core
 				Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)IntArray.GetNodeType());
 
 				JsonElement& IntArrayValue1 = static_cast<JsonElement&>(IntArray.GetChild(0));
-				Assert::IsNull(&IntArrayValue1.GetName()[0]);
+				Assert::AreEqual(static_cast<size_t>(0), IntArrayValue1.GetName().GetLength());
 				Assert::AreEqual(1, IntArrayValue1.GetValueAsInt32());
 
 				JsonElement& IntArrayValue2 = static_cast<JsonElement&>(IntArray.GetChild(1));
-				Assert::IsNull(&IntArrayValue2.GetName()[0]);
+				Assert::AreEqual(static_cast<size_t>(0), IntArrayValue2.GetName().GetLength());
 				Assert::AreEqual(2, IntArrayValue2.GetValueAsInt32());
 
 				JsonElement& IntArrayValue3 = static_cast<JsonElement&>(IntArray.GetChild(2));
-				Assert::IsNull(&IntArrayValue3.GetName()[0]);
+				Assert::AreEqual(static_cast<size_t>(0), IntArrayValue3.GetName().GetLength());
 				Assert::AreEqual(3, IntArrayValue3.GetValueAsInt32());
 
 				JsonArray& ObjectArray = static_cast<JsonArray&>(RootNode.GetChild(10));
@@ -840,15 +840,15 @@ namespace UnitTests::Core
 			Assert::AreEqual((uint32_t)JsonNodeType::Array, (uint32_t)IntArray.GetNodeType());
 
 			JsonElement& IntArrayValue1 = static_cast<JsonElement&>(IntArray.GetChild(0));
-			Assert::IsNull(&IntArrayValue1.GetName()[0]);
+			Assert::AreEqual(static_cast<size_t>(0), IntArrayValue1.GetName().GetLength());
 			Assert::AreEqual(-1, IntArrayValue1.GetValueAsInt32());
 
 			JsonElement& IntArrayValue2 = static_cast<JsonElement&>(IntArray.GetChild(1));
-			Assert::IsNull(&IntArrayValue2.GetName()[0]);
+			Assert::AreEqual(static_cast<size_t>(0), IntArrayValue2.GetName().GetLength());
 			Assert::AreEqual(-2, IntArrayValue2.GetValueAsInt32());
 
 			JsonElement& IntArrayValue3 = static_cast<JsonElement&>(IntArray.GetChild(2));
-			Assert::IsNull(&IntArrayValue3.GetName()[0]);
+			Assert::AreEqual(static_cast<size_t>(0), IntArrayValue3.GetName().GetLength());
 			Assert::AreEqual(-3, IntArrayValue3.GetValueAsInt32());
 
 			JsonArray& ObjectArray = static_cast<JsonArray&>(RootNode.GetChild(10));

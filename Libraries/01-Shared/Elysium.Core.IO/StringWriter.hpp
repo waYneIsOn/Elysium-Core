@@ -26,7 +26,12 @@ namespace Elysium::Core::IO
 	{
 	public:
 		StringWriter(Elysium::Core::Text::StringBuilder& StringBuilder);
-		~StringWriter();
+		StringWriter(const StringWriter& Source) = delete;
+		StringWriter(StringWriter&& Right) noexcept = delete;
+		virtual ~StringWriter();
+
+		StringWriter& operator=(const StringWriter& Other) = delete;
+		StringWriter& operator=(StringWriter&& Right) noexcept = delete;
 
 		virtual void Write(const byte* Value, const size_t Length) override;
 		virtual void Write(const String& Value) override;

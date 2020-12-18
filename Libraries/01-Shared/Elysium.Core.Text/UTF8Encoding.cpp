@@ -4,14 +4,12 @@
 #include "../Elysium.Core/ArgumentException.hpp"
 #endif
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte >Elysium::Core::Text::UTF8Encoding::_BOM = Collections::Template::Array<Elysium::Core::byte>({ 0xEF, 0xBB, 0xBF});
-
 Elysium::Core::Text::UTF8Encoding::UTF8Encoding()
 	: Elysium::Core::Text::UTF8Encoding(false, false)
 { }
-Elysium::Core::Text::UTF8Encoding::UTF8Encoding(bool EncoderShouldEmitUTF8Identifier, bool ThrowOnInvalidBytes)
+Elysium::Core::Text::UTF8Encoding::UTF8Encoding(const bool EncoderShouldEmitIdentifier, const bool ThrowOnInvalidBytes)
 	: Elysium::Core::Text::Encoding(65001),	// WinNls.h -> CP_UTF8
-	_EncoderShouldEmitUTF8Identifier(EncoderShouldEmitUTF8Identifier), _ThrowOnInvalidBytes(ThrowOnInvalidBytes)
+	_EncoderShouldEmitIdentifier(EncoderShouldEmitIdentifier), _ThrowOnInvalidBytes(ThrowOnInvalidBytes)
 { }
 Elysium::Core::Text::UTF8Encoding::~UTF8Encoding()
 { }
@@ -24,6 +22,18 @@ const Elysium::Core::String Elysium::Core::Text::UTF8Encoding::GetEncodingName()
 {
 	static Elysium::Core::String EncodingName = Elysium::Core::String(u8"Unicode (UTF-8)");
 	return EncodingName;
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF8Encoding::GetPreamble() const
+{
+	if (_EncoderShouldEmitIdentifier)
+	{
+		return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xEF, 0xBB, 0xBF });
+	}
+	else
+	{
+		return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+	}
 }
 
 const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const

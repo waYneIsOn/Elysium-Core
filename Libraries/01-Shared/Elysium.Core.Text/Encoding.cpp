@@ -16,6 +16,10 @@
 #include "UTF16Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_UTF32ENCODING
+#include "UTF32Encoding.hpp"
+#endif
+
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
@@ -32,9 +36,11 @@
 #endif
 
 const Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::Encoding::_ASCII = ASCIIEncoding();
-const Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::Encoding::_UTF8 = UTF8Encoding(false, true);
-const Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16BE = UTF16Encoding(true, false, true);
-const Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16LE = UTF16Encoding(false, false, true);
+const Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::Encoding::_UTF8 = UTF8Encoding(true, true);
+const Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16BE = UTF16Encoding(true, true, true);
+const Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16LE = UTF16Encoding(false, true, true);
+const Elysium::Core::Text::UTF32Encoding Elysium::Core::Text::Encoding::_UTF32BE = UTF32Encoding(true, true, true);
+const Elysium::Core::Text::UTF32Encoding Elysium::Core::Text::Encoding::_UTF32LE = UTF32Encoding(false, true, true);
 
 Elysium::Core::Text::Encoding::~Encoding()
 { }
@@ -68,9 +74,13 @@ const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF16LE()
 {
 	return _UTF16LE;
 }
-const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32BE()
 {
-	throw NotImplementedException(u8"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32()");
+	return _UTF32BE;
+}
+const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32LE()
+{
+	return _UTF32LE;
 }
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::Encoding::Convert(const Encoding & SourceEncoding, const Encoding & TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const size_t Index, const size_t Count)
@@ -79,7 +89,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 	throw 1;
 }
 
-const int Elysium::Core::Text::Encoding::GetCodePage() const
+const Elysium::Core::uint32_t Elysium::Core::Text::Encoding::GetCodePage() const
 {
 	return _CodePage;
 }
@@ -88,21 +98,6 @@ Elysium::Core::Text::Encoding::Encoding()
 	: Elysium::Core::Text::Encoding(0)
 { }
 
-Elysium::Core::Text::Encoding::Encoding(int CodePage)
+Elysium::Core::Text::Encoding::Encoding(const Elysium::Core::uint32_t CodePage)
 	: _CodePage(CodePage)
-{
-	/*
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	CPINFOEX Info;
-	if (GetCPInfoEx(_CodePage, 0, &Info))
-	{
-		//_EncodingName = Info.CodePageName;
-		_IsSingleByte = Info.MaxCharSize == 1;
-	}
-#elif defined(__ANDROID__)
-	// ToDo: get encoding info
-#else
-#error "undefined os"
-#endif
-	*/
-}
+{ }

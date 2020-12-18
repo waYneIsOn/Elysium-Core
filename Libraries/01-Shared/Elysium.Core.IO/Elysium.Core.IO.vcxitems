@@ -30,6 +30,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionAlgorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StreamReader.hpp" />
@@ -49,6 +51,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OSCompressionStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamWriter.cpp" />

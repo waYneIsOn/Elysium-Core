@@ -23,6 +23,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EndOfStreamException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OSCompressionStream.cpp">
+      <Filter>Compression</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -58,6 +61,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndOfStreamException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileOptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionStream.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionAlgorithm.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

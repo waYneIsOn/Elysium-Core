@@ -25,8 +25,10 @@ namespace Elysium::Core
 		SystemException(const char8_t* Message);
 		SystemException(Elysium::Core::String&& Message);
 		virtual ~SystemException();
+
+		const Elysium::Core::int32_t GetErrorCode() const;
 	private:
-		const unsigned long _HResult;
+		const Elysium::Core::int32_t _ErrorCode;
 	};
 }
 #endif

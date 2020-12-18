@@ -6,7 +6,7 @@
 
 Elysium::Core::IO::StringReader::StringReader(const String & Input)
 	: Elysium::Core::IO::TextReader(),
-	_Position(0), _Input(Input)
+	_Input(Input)
 { }
 Elysium::Core::IO::StringReader::~StringReader()
 { }

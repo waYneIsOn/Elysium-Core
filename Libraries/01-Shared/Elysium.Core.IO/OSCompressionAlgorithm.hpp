@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_SEEKORIGIN
-#define ELYSIUM_CORE_IO_SEEKORIGIN
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
+#define ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,19 +16,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::IO
+namespace Elysium::Core::IO::Compression
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SeekOrigin : Elysium::Core::uint32_t
+	enum class OSCompressionAlgorithm : Elysium::Core::uint32_t
 #elif defined(__ANDROID__)
-	enum class SeekOrigin
+	enum class OSCompressionAlgorithm
 #else
 #error "undefined os"
 #endif
 	{
-		Begin = 0,
-		Current = 1,
-		End = 2
+		MSZIP = 2,
+		XPRESS = 3,
+		XPRESS_HUFF = 4,
+		LZMS = 5,
 	};
 }
 #endif

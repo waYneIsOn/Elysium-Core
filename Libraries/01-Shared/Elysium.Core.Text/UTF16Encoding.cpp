@@ -15,9 +15,9 @@
 Elysium::Core::Text::UTF16Encoding::UTF16Encoding()
 	: Elysium::Core::Text::UTF16Encoding(false, false, false)
 { }
-Elysium::Core::Text::UTF16Encoding::UTF16Encoding(bool BigEndian, bool EncoderShouldEmitUTF8Identifier, bool ThrowOnInvalidBytes)
-	: Elysium::Core::Text::Encoding(BigEndian ? 1200 : 1201),
-	_BigEndian(BigEndian), _EncoderShouldEmitUTF8Identifier(EncoderShouldEmitUTF8Identifier), _ThrowOnInvalidBytes(ThrowOnInvalidBytes)
+Elysium::Core::Text::UTF16Encoding::UTF16Encoding(const bool BigEndian, const bool EncoderShouldEmitIdentifier, const bool ThrowOnInvalidBytes)
+	: Elysium::Core::Text::Encoding(BigEndian ? 1201 : 1200),
+	_BigEndian(BigEndian), _EncoderShouldEmitIdentifier(EncoderShouldEmitIdentifier), _ThrowOnInvalidBytes(ThrowOnInvalidBytes)
 { }
 Elysium::Core::Text::UTF16Encoding::~UTF16Encoding()
 { }
@@ -38,6 +38,25 @@ const Elysium::Core::String Elysium::Core::Text::UTF16Encoding::GetEncodingName(
 	{
 		static Elysium::Core::String EncodingName = Elysium::Core::String(u8"Unicode (UTF-16 Little-Endian)");
 		return EncodingName;
+	}
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF16Encoding::GetPreamble() const
+{
+	if (_EncoderShouldEmitIdentifier)
+	{
+		if (_BigEndian)
+		{
+			return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFE, 0xFF });
+		}
+		else
+		{
+			return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFF, 0xFE });
+		}
+	}
+	else
+	{
+		return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
 	}
 }
 
@@ -242,7 +261,7 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF16Encoding::GetCharCount(c
 		return 0;
 	}
 
-	if (ByteCount % 2 != 0)
+	if (ByteCount % sizeof(char16_t) != 0)
 	{	// ToDo
 		throw 1;
 	}

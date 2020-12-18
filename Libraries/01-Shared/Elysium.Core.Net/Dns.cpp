@@ -14,11 +14,11 @@
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::String & HostNameOrAddress)
 {
-	const Text::Encoding& Utf16Encoding = Text::Encoding::UTF16BE();
-	Collections::Template::Array<Elysium::Core::byte> Bytes = Utf16Encoding.GetBytes(&HostNameOrAddress[0], HostNameOrAddress.GetLength());
+	const Text::Encoding& WindowsEncoding = Text::Encoding::UTF16LE();
+	Collections::Template::Array<Elysium::Core::byte> Bytes = WindowsEncoding.GetBytes(&HostNameOrAddress[0], HostNameOrAddress.GetLength(), sizeof(char16_t));
 
 	addrinfoW ServerInfo = {}, *Addresses;
-	if (GetAddrInfo((wchar_t*)&Bytes[0], NULL, &ServerInfo, &Addresses) != 0)
+	if (GetAddrInfo((const wchar_t*)&Bytes[0], NULL, &ServerInfo, &Addresses) != 0)
 	{	// ToDo: throw a specific exception
 		throw Exception(u8"couldn't get ip from host.\r\n");
 	}

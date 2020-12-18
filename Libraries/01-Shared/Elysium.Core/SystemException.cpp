@@ -11,15 +11,20 @@
 
 Elysium::Core::SystemException::SystemException()
 	: Elysium::Core::Exception(u8"SystemException"),
-	_HResult(GetLastError())
+	_ErrorCode(GetLastError())
 { }
 Elysium::Core::SystemException::SystemException(const char8_t* Message)
 	: Elysium::Core::Exception(Message),
-	_HResult(GetLastError())
+	_ErrorCode(GetLastError())
 { }
 Elysium::Core::SystemException::SystemException(String && Message)
 	: Elysium::Core::Exception(std::move(Message)),
-	_HResult(GetLastError())
+	_ErrorCode(GetLastError())
 { }
 Elysium::Core::SystemException::~SystemException()
 { }
+
+const Elysium::Core::int32_t Elysium::Core::SystemException::GetErrorCode() const
+{
+	return _ErrorCode;
+}

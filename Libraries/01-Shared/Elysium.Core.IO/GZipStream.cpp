@@ -18,32 +18,37 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionMode CompressionMode)
+Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionMode CompressionMode)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false),
 	_DeflateStream(_BaseStream, CompressionMode)
 { }
-Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionMode CompressionMode, bool LeaveOpen)
+Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen),
 	_DeflateStream(_BaseStream, CompressionMode, LeaveOpen)
 { }
-Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionLevel CompressionLevel)
+Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false),
 	_DeflateStream(_BaseStream, CompressionLevel)
 { }
-Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, CompressionLevel CompressionLevel, bool LeaveOpen)
+Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen),
 	_DeflateStream(_BaseStream, CompressionLevel, LeaveOpen)
 { }
 Elysium::Core::IO::Compression::GZipStream::~GZipStream()
-{ }
+{
+	if (!_LeaveOpen)
+	{
+		_BaseStream.Close();
+	}
+}
 
 const Elysium::Core::IO::Stream & Elysium::Core::IO::Compression::GZipStream::GetBaseStream() const
 {
@@ -75,17 +80,17 @@ const size_t Elysium::Core::IO::Compression::GZipStream::GetLength() const
 	throw NotSupportedException();
 }
 
-const Elysium::Core::int64_t Elysium::Core::IO::Compression::GZipStream::GetPosition() const
+const Elysium::Core::uint64_t Elysium::Core::IO::Compression::GZipStream::GetPosition() const
 {	// ToDo: message
 	throw NotSupportedException();
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::Compression::GZipStream::GetReadTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::Compression::GZipStream::GetReadTimeout() const
 {
 	return 0;
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::Compression::GZipStream::GetWriteTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::Compression::GZipStream::GetWriteTimeout() const
 {
 	return 0;
 }
@@ -95,7 +100,7 @@ void Elysium::Core::IO::Compression::GZipStream::SetLength(const size_t Value)
 	throw NotSupportedException();
 }
 
-void Elysium::Core::IO::Compression::GZipStream::SetPosition(const Elysium::Core::int64_t Position)
+void Elysium::Core::IO::Compression::GZipStream::SetPosition(const Elysium::Core::uint64_t Position)
 {	// ToDo: message
 	throw NotSupportedException();
 }

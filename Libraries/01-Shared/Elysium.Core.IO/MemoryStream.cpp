@@ -61,17 +61,17 @@ const size_t Elysium::Core::IO::MemoryStream::GetLength() const
 	return _Buffer.GetCount();
 }
 
-const Elysium::Core::int64_t Elysium::Core::IO::MemoryStream::GetPosition() const
+const Elysium::Core::uint64_t Elysium::Core::IO::MemoryStream::GetPosition() const
 {
 	return _CurrentPosition;
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::MemoryStream::GetReadTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::MemoryStream::GetReadTimeout() const
 {
 	return Elysium::Core::IO::Stream::GetReadTimeout();
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::MemoryStream::GetWriteTimeout() const
+const Elysium::Core::uint32_t Elysium::Core::IO::MemoryStream::GetWriteTimeout() const
 {
 	return Elysium::Core::IO::Stream::GetWriteTimeout();
 }
@@ -91,7 +91,7 @@ void Elysium::Core::IO::MemoryStream::SetLength(const size_t Value)
 	*/
 	throw NotImplementedException();
 }
-void Elysium::Core::IO::MemoryStream::SetPosition(const Elysium::Core::int64_t Position)
+void Elysium::Core::IO::MemoryStream::SetPosition(const Elysium::Core::uint64_t Position)
 {
 	if (!GetCanSeek())
 	{

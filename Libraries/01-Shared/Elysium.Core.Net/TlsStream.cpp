@@ -87,7 +87,7 @@ void Elysium::Core::Net::Security::TlsStream::SetLength(const size_t Value)
 	_InnerStream.SetLength(Value);
 }
 
-void Elysium::Core::Net::Security::TlsStream::SetPosition(const Elysium::Core::int64_t Position)
+void Elysium::Core::Net::Security::TlsStream::SetPosition(const Elysium::Core::uint64_t Position)
 {
 	_InnerStream.SetPosition(Position);
 }

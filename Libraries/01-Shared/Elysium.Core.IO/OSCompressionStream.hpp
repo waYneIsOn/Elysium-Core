@@ -5,11 +5,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_DEFLATESTREAM
-#define ELYSIUM_CORE_IO_COMPRESSION_DEFLATESTREAM
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONSTREAM
+#define ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONSTREAM
 
 #ifdef _MSC_VER
 #pragma once
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM
@@ -24,24 +32,35 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CompressionMode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
+#include "OSCompressionAlgorithm.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#ifndef _WINDOWS_
+#include <Windows.h>
+#endif
+
+#include <compressapi.h>
+#else
+#error "unsupported os"
+#endif
+
 namespace Elysium::Core::IO::Compression
 {
-	class ELYSIUM_CORE_API DeflateStream : public Stream
+	class ELYSIUM_CORE_API OSCompressionStream : public Stream
 	{
 	public:
-		DeflateStream(Stream& BaseStream, const CompressionMode CompressionMode);
-		DeflateStream(Stream& BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen);
-		DeflateStream(Stream& BaseStream, const CompressionLevel CompressionLevel);
-		DeflateStream(Stream& BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen);
-		DeflateStream(const DeflateStream& Source) = delete;
-		DeflateStream(DeflateStream&& Right) noexcept = delete;
-		virtual ~DeflateStream();
+		OSCompressionStream(Stream& BaseStream, const OSCompressionAlgorithm Algorithm, const CompressionMode CompressionMode, const bool LeaveOpen);
+		OSCompressionStream(const OSCompressionStream& Source) = delete;
+		OSCompressionStream(OSCompressionStream&& Right) noexcept = delete;
+		virtual ~OSCompressionStream();
 
-		DeflateStream& operator=(const DeflateStream& Source) = delete;
-		DeflateStream& operator=(DeflateStream&& Right) noexcept = delete;
+		OSCompressionStream& operator=(const OSCompressionStream& Source) = delete;
+		OSCompressionStream& operator=(OSCompressionStream&& Right) noexcept = delete;
 
 		const Stream& GetBaseStream() const;
-
+		
 		virtual const bool GetCanRead() const override;
 		virtual const bool GetCanSeek() const override;
 		virtual const bool GetCanTimeout() const override;
@@ -63,12 +82,18 @@ namespace Elysium::Core::IO::Compression
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
 	private:
 		Stream& _BaseStream;
-		const CompressionMode _CompressionMode;
-		const CompressionLevel _CompressionLevel;
 		const bool _LeaveOpen;
 
-		const static size_t _BufferSize = 8192;
-		byte _Buffer[8192];
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+		COMPRESSOR_HANDLE _Handle;
+		COMPRESS_ALLOCATION_ROUTINES _AllocationRoutines;
+#else
+#error "unsupported os"
+#endif
+		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 1 * 1024 * 1024;
+
+		static void* AllocateBuffer(void* Context, size_t Size);
+		static void FreeBuffer(void* Context, void* Memory);
 	};
 }
 #endif

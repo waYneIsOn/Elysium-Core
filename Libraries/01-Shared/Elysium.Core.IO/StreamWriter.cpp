@@ -1,13 +1,14 @@
 #include "StreamWriter.hpp"
 
 Elysium::Core::IO::StreamWriter::StreamWriter(Stream & OutputStream)
+	: Elysium::Core::IO::StreamWriter::StreamWriter(OutputStream, Elysium::Core::Text::Encoding::UTF8())
+{ }
+Elysium::Core::IO::StreamWriter::StreamWriter(Stream & OutputStream, const Elysium::Core::Text::Encoding & Encoding)
 	: Elysium::Core::IO::TextWriter(),
-	_OutputStream(OutputStream)
-{
-}
+	_OutputStream(OutputStream), _Encoding(Encoding)
+{ }
 Elysium::Core::IO::StreamWriter::~StreamWriter()
-{
-}
+{ }
 
 const Elysium::Core::Text::Encoding & Elysium::Core::IO::StreamWriter::GetEncoding()
 {
@@ -25,5 +26,15 @@ void Elysium::Core::IO::StreamWriter::Flush()
 
 void Elysium::Core::IO::StreamWriter::Write(const byte * Value, const size_t Length)
 {
+	if (_OutputStream.GetPosition() == 0)
+	{
+		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> BOM = _Encoding.GetPreamble();
+		const size_t BOMLength = BOM.GetLength();
+		if (BOMLength > 0)
+		{
+			_OutputStream.Write(&BOM[0], BOM.GetLength());
+		}
+	}
+
 	_OutputStream.Write(&Value[0], Length);
 }

@@ -16,13 +16,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "../Elysium.Core/SystemException.hpp"
 #endif
 
 namespace Elysium::Core::IO
 {
-	class ELYSIUM_CORE_API IOException : public Exception
+	class ELYSIUM_CORE_API IOException : public SystemException
 	{
 	public:
 		IOException();
