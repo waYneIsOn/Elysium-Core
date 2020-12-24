@@ -18,6 +18,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CipherAlgorithmType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Crc32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExchangeAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithmType.hpp" />
@@ -28,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Crc32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp" />
   </ItemGroup>

@@ -21,6 +21,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp">
       <Filter>Authentication</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Crc32.cpp">
+      <Filter>Cryptography</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp">
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp">
       <Filter>Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Crc32.hpp">
+      <Filter>Cryptography</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
