@@ -1,5 +1,5 @@
 #include "OSCompressionStream.hpp"
-
+/*
 #ifndef ELYSIUM_CORE_IO_IOEXCEPTION
 #include "IOException.hpp"
 #endif
@@ -30,7 +30,7 @@ Elysium::Core::IO::Compression::OSCompressionStream::OSCompressionStream(Stream&
 		{
 			throw IOException();
 		}
-		*/
+		*-/
 	}
 	else
 	{
@@ -50,7 +50,7 @@ Elysium::Core::IO::Compression::OSCompressionStream::OSCompressionStream(Stream&
 		{
 			throw IOException();
 		}
-		*/
+		*-/
 	}
 }
 Elysium::Core::IO::Compression::OSCompressionStream::~OSCompressionStream()
@@ -158,7 +158,7 @@ const size_t Elysium::Core::IO::Compression::OSCompressionStream::Read(Elysium::
 	}
 
 	return RequiredBufferSize;
-	*/
+	*-/
 }
 
 Elysium::Core::byte Elysium::Core::IO::Compression::OSCompressionStream::ReadByte()
@@ -177,20 +177,20 @@ void Elysium::Core::IO::Compression::OSCompressionStream::Write(const Elysium::C
 		}
 	}
 
-	// Get max. possible size for compressed data for given input data
+	// Get max. possible size for compressed data for given input data.
 	size_t OutputDataSize = (Count % DefaultBufferSize == 0) ? 0 : 1;
 	OutputDataSize += Count / DefaultBufferSize;
-	OutputDataSize = OutputDataSize * (2 * sizeof(ULONG) + CompressedBlockSize) + sizeof(ULONG);
+	OutputDataSize = OutputDataSize * (2 * sizeof(unsigned long) + CompressedBlockSize) + sizeof(unsigned long);
 
-	PBYTE OutputData = (PBYTE)malloc(OutputDataSize);
+	Elysium::Core::byte* OutputData = (Elysium::Core::byte*)malloc(OutputDataSize);
 	if (OutputData == nullptr)
 	{	// ToDo
 		throw 1;
 	}
 
-	// Write uncompressed size to beginning of the buffer
-	*((ULONG UNALIGNED*) * OutputData) = Count;
-	size_t OutputSoFar = sizeof(ULONG);
+	// Write uncompressed size to beginning of the buffer.
+	*((unsigned long UNALIGNED*) * OutputData) = Count;
+	size_t OutputSoFar = sizeof(unsigned long);
 
 	// Compress data block by block.
 	DWORD ProcessedSoFar = 0;
@@ -225,7 +225,7 @@ void Elysium::Core::IO::Compression::OSCompressionStream::Write(const Elysium::C
 
 		TotalBytesToCompress -= BytesToCompress;
 	} while (TotalBytesToCompress > 0);
-	*/
+	*-/
 }
 
 void * Elysium::Core::IO::Compression::OSCompressionStream::AllocateBuffer(void* Context, size_t Size)
@@ -240,3 +240,4 @@ void Elysium::Core::IO::Compression::OSCompressionStream::FreeBuffer(void* Conte
 		free(Memory);
 	}
 }
+*/

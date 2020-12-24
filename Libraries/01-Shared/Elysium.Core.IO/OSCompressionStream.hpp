@@ -48,6 +48,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO::Compression
 {
+	/*
 	class ELYSIUM_CORE_API OSCompressionStream : public Stream
 	{
 	public:
@@ -95,5 +96,6 @@ namespace Elysium::Core::IO::Compression
 		static void* AllocateBuffer(void* Context, size_t Size);
 		static void FreeBuffer(void* Context, void* Memory);
 	};
+	*/
 }
 #endif

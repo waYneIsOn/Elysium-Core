@@ -19,6 +19,7 @@ namespace UnitTests::Core::IO::Compression
 	TEST_CLASS(OSCompressionStreamTests)
 	{
 	public:
+		/*
 		TEST_METHOD(CompressAndDecompress)
 		{
 			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Data = { 0x00, 0x27, 0x45, 0x00, 0x27, 0x45, 0x00, 0x27, 0x45, };
@@ -32,15 +33,14 @@ namespace UnitTests::Core::IO::Compression
 			}
 
 			{
-				/*
 				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(Data.GetLength());
 
 				BaseStream.SetPosition(0);
 
 				OSCompressionStream DecompressionStream = OSCompressionStream(BaseStream, OSCompressionAlgorithm::LZMS, CompressionMode::Decompress, true);
 				const size_t BytesRead = DecompressionStream.Read(&Buffer[0], Buffer.GetLength());
-				*/
 			}
 		}
+		*/
 	};
 }

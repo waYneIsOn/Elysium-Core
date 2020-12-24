@@ -14,6 +14,10 @@
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.Drawing/Debug
+/Libraries/02-Windows/Elysium.Core.Drawing/Debugbin
+/Libraries/02-Windows/Elysium.Core.Drawing/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.Html/Debug
 /Libraries/02-Windows/Elysium.Core.Html/Debugbin
 /Libraries/02-Windows/Elysium.Core.Html/Releasebin
