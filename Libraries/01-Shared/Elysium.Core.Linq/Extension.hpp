@@ -65,15 +65,15 @@ namespace Elysium::Core::Linq
 
 	// the following operator allows to chain together containers and extensions
 	template<class ContainerType, class LinqExpressionType>
-	auto operator>>(ContainerType & Container, const Extension<LinqExpressionType>)
+	auto operator>>(const ContainerType & Container, const Extension<LinqExpressionType>&)
 	{
 		return LinqExpressionType()(Container);
 	};
 
 	// create instances of Extension for each struct so they can be used in a extension-like manner
-	Extension<AnyContainer> Any = {};
-	Extension<ContainsContainer> Contains = {};
-	Extension<CountContainer> Count = {};
-	Extension<WhereContainer> Where = {};
+	const Extension<const AnyContainer> Any = {};
+	const Extension<const ContainsContainer> Contains = {};
+	const Extension<const CountContainer> Count = {};
+	const Extension<const WhereContainer> Where = {};
 }
 #endif

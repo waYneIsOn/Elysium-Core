@@ -18,14 +18,14 @@ namespace Elysium::Core::Linq
 	template<class LinqContainerType, class ParameterType>
 	struct SingleParameterExtension
 	{
-		SingleParameterExtension(ParameterType Value)
+		SingleParameterExtension(const ParameterType Value)
 			: Value(Value)
 		{ }
 
-		ParameterType Value;
+		const ParameterType Value;
 
 		template<class ContainerType>
-		friend auto operator>>(ContainerType & Container, SingleParameterExtension && Input)
+		friend auto operator>>(const ContainerType& Container, const SingleParameterExtension& Input)
 		{
 			return LinqContainerType()(Container, Input.Value);
 		}

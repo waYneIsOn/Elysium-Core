@@ -29,13 +29,13 @@ namespace Elysium::Core::Linq
 	struct ELYSIUM_CORE_LINQ_API AnyContainer
 	{
 		template<class ContainerType>
-		bool operator()(ContainerType& Container);
+		const bool operator()(const ContainerType& Container) const;
 	};
 
 	template<class ContainerType>
-	inline bool AnyContainer::operator()(ContainerType & Container)
+	inline const  bool AnyContainer::operator()(const ContainerType & Container) const
 	{
-		for (auto Element : Container)
+		for (const auto Element : Container)
 		{
 			return true;
 		}
@@ -43,13 +43,13 @@ namespace Elysium::Core::Linq
 	}
 
 	template<>
-	inline bool AnyContainer::operator()<Elysium::Core::Collections::Template::Array<int>>(Elysium::Core::Collections::Template::Array<int>& Container)
+	inline const bool AnyContainer::operator()<Elysium::Core::Collections::Template::Array<int>>(const Elysium::Core::Collections::Template::Array<int>& Container) const
 	{
 		return Container.GetLength() > 0;
 	}
 
 	template<>
-	inline bool AnyContainer::operator()<const Elysium::Core::Collections::Template::Array<int>>(const Elysium::Core::Collections::Template::Array<int>& Container)
+	inline const bool AnyContainer::operator()<const Elysium::Core::Collections::Template::Array<int>>(const Elysium::Core::Collections::Template::Array<int>& Container) const
 	{
 		return Container.GetLength() > 0;
 	}

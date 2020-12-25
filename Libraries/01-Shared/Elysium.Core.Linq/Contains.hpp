@@ -21,13 +21,13 @@ namespace Elysium::Core::Linq
 	struct ELYSIUM_CORE_LINQ_API ContainsContainer
 	{
 		template<class ContainerType, class ItemType>
-		bool operator()(ContainerType & Container, ItemType && Item);
+		const bool operator()(const ContainerType& Container, const ItemType& Item) const;
 	};
 
 	template<class ContainerType, class ItemType>
-	inline bool ContainsContainer::operator()(ContainerType & Container, ItemType && Item)
+	inline const bool ContainsContainer::operator()(const ContainerType & Container, const ItemType & Item) const
 	{
-		for (auto Element : Container)
+		for (const auto Element : Container)
 		{
 			if (Element == Item)
 			{

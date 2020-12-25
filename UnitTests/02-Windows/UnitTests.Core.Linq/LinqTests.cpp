@@ -28,6 +28,20 @@ namespace UnitTestsCoreLinq
 	TEST_CLASS(LinqTest)
 	{
 	public:
+		TEST_METHOD(Combined)
+		{
+			std::vector<int> PopulatedVector = { 1, 2, 3 };
+
+			const size_t WhereCountResult = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count();
+			Assert::AreEqual((const size_t)2, WhereCountResult);
+
+			const bool WhereContainsResult = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Contains(23);
+			Assert::AreEqual(false, WhereContainsResult);
+
+			const std::vector<int> WhereWhereResult = PopulatedVector >> Where([](const int x) -> bool { return x > 1; }) >> Where([](const int x) -> bool { return x < 3; });
+			Assert::AreEqual((size_t)1, WhereWhereResult.size());
+		}
+
 		TEST_METHOD(Core_Linq_Any)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
@@ -51,7 +65,6 @@ namespace UnitTestsCoreLinq
 		TEST_METHOD(Core_Linq_Contains)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
-
 			Assert::IsTrue(PopulatedVector >> Contains(2));
 			Assert::IsFalse(PopulatedVector >> Contains(4));
 
@@ -79,18 +92,11 @@ namespace UnitTestsCoreLinq
 		TEST_METHOD(Core_Linq_Where)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
-			std::vector<int> Result = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; });
+			std::vector<int> Result = PopulatedVector >> Where([](const int x) -> bool { return x > 1; });
 
 			Assert::AreEqual((size_t)2, Result.size());
 			Assert::AreEqual(2, Result[0]);
 			Assert::AreEqual(3, Result[1]);
-		}
-
-		TEST_METHOD(Combined)
-		{
-			std::vector<int> PopulatedVector = { 1, 2, 3 };
-			//Assert::AreEqual((size_t)2, PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count());
-			Assert::Fail();
 		}
 	};
 }
