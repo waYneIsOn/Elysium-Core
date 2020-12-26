@@ -51,7 +51,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Net::Security
 {
-	TEST_CLASS(SslStreamTests)
+	TEST_CLASS(TlsStreamTests)
 	{
 	public:
 		TEST_METHOD(Https)
@@ -90,7 +90,7 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Net::Security::TlsPolicyErrors> UserCertificateValidationCallback =
 				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
-				const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&SslStreamTests::ValidateServerCertificate>();
+				const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&TlsStreamTests::ValidateServerCertificate>();
 
 			Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
@@ -99,7 +99,7 @@ namespace UnitTests::Core::Net::Security
 				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
-				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&SslStreamTests::SelectLocalCertificate>();
+				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&TlsStreamTests::SelectLocalCertificate>();
 
 			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 

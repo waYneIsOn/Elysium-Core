@@ -41,5 +41,5 @@ Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException
 	const wchar_t* ErrorMessageW = COMError.ErrorMessage();
 
 	const Elysium::Core::Text::Encoding& WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
-	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], std::char_traits<wchar_t>::length(ErrorMessageW));
+	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], std::char_traits<wchar_t>::length(ErrorMessageW) * sizeof(wchar_t));
 }
