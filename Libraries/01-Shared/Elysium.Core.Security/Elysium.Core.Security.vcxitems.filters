@@ -10,6 +10,9 @@
     <Filter Include="Authentication">
       <UniqueIdentifier>{6cb5ec38-e660-47ad-9e10-57fd3af3e6aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Cryptography\Checksum">
+      <UniqueIdentifier>{2f7a0b5a-f6e8-463e-80e1-6310724c959c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp">
@@ -21,8 +24,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp">
       <Filter>Authentication</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Adler32.cpp">
+      <Filter>Cryptography\Checksum</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Crc32.cpp">
-      <Filter>Cryptography</Filter>
+      <Filter>Cryptography\Checksum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,8 +60,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp">
       <Filter>Authentication</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Adler32.hpp">
+      <Filter>Cryptography\Checksum</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Crc32.hpp">
-      <Filter>Cryptography</Filter>
+      <Filter>Cryptography\Checksum</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

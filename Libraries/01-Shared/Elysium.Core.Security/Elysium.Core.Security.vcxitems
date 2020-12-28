@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Adler32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CipherAlgorithmType.hpp" />
@@ -28,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsProtocols.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Adler32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Crc32.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp" />

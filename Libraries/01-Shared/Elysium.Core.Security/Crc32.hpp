@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRC32
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRC32
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CHECKSUM_CRC32
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CHECKSUM_CRC32
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography
+namespace Elysium::Core::Security::Cryptography::Checksum
 {
 	class ELYSIUM_CORE_SECURITY_API Crc32 final
 	{
