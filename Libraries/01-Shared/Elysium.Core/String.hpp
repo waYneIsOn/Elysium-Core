@@ -88,6 +88,9 @@ namespace Elysium::Core
 
 		//String ToLower();
 		//String ToUpper();
+
+		//String UnsafeSubstring(const size_t StartIndex) const;
+		//String UnsafeSubstring(const size_t StartIndex, const size_t Length) const;
 		
 		static const String Empty;
 		

@@ -1,5 +1,9 @@
 #include "Convert.hpp"
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -27,9 +31,17 @@
 #error "undefined os"
 #endif
 
+#ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
+#include "ArgumentNullException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "NotImplementedException.hpp"
+#endif
+
 const Elysium::Core::String Elysium::Core::Convert::_Base64Chars = u8"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(const int16_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int16_t Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo
 	char Buffer[7];
 	if (errno_t ErrorNumber = _itoa_s(Value, Buffer, 7, FromBase) != 0)
@@ -39,7 +51,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const int16_t Value
 
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const int32_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int32_t Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	char Buffer[33];
 	if (errno_t ErrorNumber = _itoa_s(Value, Buffer, 33, FromBase) != 0)
@@ -49,7 +61,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const int32_t Value
 	
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const int64_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int64_t Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo
 	char Buffer[33];
 	if (errno_t ErrorNumber = _i64toa_s(Value, Buffer, 33, FromBase) != 0)
@@ -59,7 +71,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const int64_t Value
 
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const uint16_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint16_t Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo
 	char Buffer[7];
 	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 7, FromBase) != 0)
@@ -69,7 +81,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const uint16_t Valu
 
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const uint32_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint32_t Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo
 	char Buffer[33];
 	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 33, FromBase) != 0)
@@ -79,7 +91,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const uint32_t Valu
 
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const uint64_t Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint64_t Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	char Buffer[33];
 	if(errno_t ErrorNumber = _ui64toa_s(Value, Buffer, 33, FromBase) != 0)
@@ -89,30 +101,18 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const uint64_t Valu
 
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	std::string StringValue = std::to_string(Value);
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
-const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const int32_t FromBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const Elysium::Core::int32_t FromBase)
 {	// ToDo: Encoding::Unicode()
 	std::string StringValue = std::to_string(Value);
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
-/*
-const Elysium::Core::WideString Elysium::Core::Convert::ToWideString(const String & Value)
-{
-	int Length = MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, NULL, 0);
-	wchar_t* WideChars = new wchar_t[Length];
-	MultiByteToWideChar(CP_UTF8, 0, &Value[0], -1, WideChars, Length);
 
-	WideString Result = WideString(WideChars);
-	delete[] WideChars;
-	
-	return Result;
-}
-*/
-Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const String & Base64String)
+Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const Elysium::Core::String & Base64String)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
 	base64.cpp and base64.h
@@ -266,101 +266,30 @@ Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core
 	return Elysium::Core::Text::Encoding::Default().GetString(&Result[0], Result.GetCount());
 }
 
-Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const char8_t * Value, const int32_t FromBase)
-{	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
-	int16_t Sign = 1;
-	int32_t i = 0;
-	int32_t Base = 0;
-	
-	// eat all whitespaces
-	while (Value[i] == u8' ')
+Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const char8_t* Value, const size_t Length, const Elysium::Core::int32_t FromBase)
+{
+	switch (FromBase)
 	{
-		i++;
+	case 10:
+		return ToInt32FromDec(Value, Length);
+	case 16:
+		return ToInt32FromHex(Value, Length);
+	default:
+		throw NotImplementedException();
 	}
-
-	// sign
-	if (Value[i] == u8'-' || Value[i] == u8'+')
-	{
-		Sign = 1 - 2 * (Value[i++] == u8'-');
-	}
-
-	// check for valid input
-	while (Value[i] >= u8'0' && Value[i] <= u8'9')
-	{
-		// handle overflow cases
-		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
-		{
-			return Sign == 1 ? INT_MAX : INT_MIN;
-		}
-		Base = 10 * Base + (Value[i++] - u8'0');
-	}
-	return Base * Sign;
-}
-Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::String & Value, const int32_t FromBase)
-{	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
-	int16_t Sign = 1;
-	int32_t i = 0;
-	int32_t Base = 0;
-
-	// eat leading whitespaces
-	while (Value[i] == u8' ')
-	{
-		i++;
-	}
-
-	// sign
-	if (Value[i] == u8'-' || Value[i] == u8'+')
-	{
-		Sign = 1 - 2 * (Value[i++] == u8'-');
-	}
-
-	// check for valid input
-	const size_t Length = Value.GetLength();
-	while (i < Length && Value[i] >= u8'0' && Value[i] <= u8'9')
-	{
-		// handle overflow cases
-		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
-		{
-			return Sign == 1 ? INT_MAX : INT_MIN;
-		}
-		Base = 10 * Base + (Value[i++] - u8'0');
-	}
-	return Base * Sign;
 }
 
-Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::StringView & Value, const int32_t FromBase)
-{	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
-	int16_t Sign = 1;
-	int32_t i = 0;
-	int32_t Base = 0;
-
-	// eat leading whitespaces
-	while (Value[i] == u8' ')
-	{
-		i++;
-	}
-
-	// sign
-	if (Value[i] == u8'-' || Value[i] == u8'+')
-	{
-		Sign = 1 - 2 * (Value[i++] == u8'-');
-	}
-
-	// check for valid input
-	const size_t Length = Value.GetLength();
-	while (i < Length && Value[i] >= u8'0' && Value[i] <= u8'9')
-	{
-		// handle overflow cases
-		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
-		{
-			return Sign == 1 ? INT_MAX : INT_MIN;
-		}
-		Base = 10 * Base + (Value[i++] - u8'0');
-	}
-	return Base * Sign;
+Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::String & Value, const Elysium::Core::int32_t FromBase)
+{
+	return ToInt32(&Value[0], Value.GetLength(), FromBase);
 }
 
-Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t * Value, const int32_t FromBase)
+Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::StringView & Value, const Elysium::Core::int32_t FromBase)
+{
+	return ToInt32(&Value[0], Value.GetLength(), FromBase);
+}
+
+Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t * Value, const Elysium::Core::int32_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;
@@ -391,7 +320,7 @@ Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t * Value, 
 	return Base * Sign;
 }
 
-uint8_t Elysium::Core::Convert::ToUInt8(const char8_t * Value, const int32_t FromBase)
+uint8_t Elysium::Core::Convert::ToUInt8(const char8_t * Value, const Elysium::Core::int32_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;
@@ -456,6 +385,95 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Text::Encoding::Default().GetBytes(&Value[0], Value.GetLength());
 	std::string ByteString((char*)&Bytes[0]);
 	return std::stof(ByteString);
+}
+
+const Elysium::Core::int32_t Elysium::Core::Convert::ToInt32FromDec(const char8_t* Value, const size_t Length)
+{
+	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
+	int16_t Sign = 1;
+	int32_t i = 0;
+	int32_t Base = 0;
+
+	// eat all whitespaces
+	while (Value[i] == u8' ')
+	{
+		i++;
+	}
+
+	// sign
+	if (Value[i] == u8'-' || Value[i] == u8'+')
+	{
+		Sign = 1 - 2 * (Value[i++] == u8'-');
+	}
+
+	// check for valid input
+	while (Value[i] >= u8'0' && Value[i] <= u8'9')
+	{
+		// handle overflow cases
+		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))
+		{
+			return Sign == 1 ? INT_MAX : INT_MIN;
+		}
+		Base = 10 * Base + (Value[i++] - u8'0');
+	}
+	return Base * Sign;
+}
+
+const Elysium::Core::int32_t Elysium::Core::Convert::ToInt32FromHex(const char8_t* Value, const size_t Length)
+{
+	Elysium::Core::int32_t Result = 0;
+
+	for (size_t i = 0; i < Length; i++)
+	{
+
+	}
+
+	return Result;
+}
+
+const Elysium::Core::uint32_t Elysium::Core::Convert::ToUInt32FromHex(const char8_t* Value, const size_t Length)
+{
+	if (Length == 0)
+	{
+		return 0;
+	}
+	if (Value == nullptr)
+	{
+		throw ArgumentNullException(u8"Value");
+	}
+
+	// use Elysium::Core::UInt32 to check for overflow-errors etc. 
+	Elysium::Core::UInt32 Result = 0;
+	Elysium::Core::uint8_t CurrentValue;
+
+	for (size_t i = 0; i < Length; i++)
+	{
+		char8_t CurrentChar = Value[i];
+		if (CurrentChar >= u8'0' && CurrentChar <= u8'9')
+		{
+			CurrentValue = (CurrentChar - u8'0');
+		}
+		else if (CurrentChar >= u8'A' && CurrentChar <= u8'F')
+		{
+			CurrentValue = 10 + (CurrentChar - u8'A');
+		}
+		else if (CurrentChar >= u8'a' && CurrentChar <= u8'f')
+		{
+			CurrentValue = 10 + (CurrentChar - u8'a');
+		}
+		else
+		{
+			break;
+		}
+
+		// multiply by 16
+		Result <<= 4;
+
+		// add current value
+		Result |= CurrentValue;
+	}
+
+	return static_cast<const Elysium::Core::uint32_t>(Result);
 }
 
 bool Elysium::Core::Convert::IsBase64(const char8_t Char)

@@ -12,14 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Security::Authentication
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class HashAlgorithmType : uint16_t
+	enum class HashAlgorithmType : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
 	enum class HashAlgorithmType
 #else

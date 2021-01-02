@@ -126,6 +126,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -177,5 +178,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Char.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
   </ItemGroup>
 </Project>

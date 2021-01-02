@@ -128,19 +128,19 @@ void Elysium::Core::Version::Parse(const StringView & Input, Version & Result)
 	const size_t NumberCount = Numbers.GetCount();
 	if (NumberCount > 0)
 	{
-		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[0][0], 10);
+		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[0][0], Numbers[0].GetLength(), 10);
 	}
 	if (NumberCount > 1)
 	{
-		Result._Minor = Elysium::Core::Convert::ToInt32(&Numbers[1][0], 10);
+		Result._Minor = Elysium::Core::Convert::ToInt32(&Numbers[1][0], Numbers[1].GetLength(), 10);
 	}
 	if (NumberCount > 2)
 	{
-		Result._Build = Elysium::Core::Convert::ToInt32(&Numbers[2][0], 10);
+		Result._Build = Elysium::Core::Convert::ToInt32(&Numbers[2][0], Numbers[2].GetLength(), 10);
 	}
 	if (NumberCount > 3)
 	{
-		Result._Revision = Elysium::Core::Convert::ToInt32(&Numbers[3][0], 10);
+		Result._Revision = Elysium::Core::Convert::ToInt32(&Numbers[3][0], Numbers[3].GetLength(), 10);
 	}
 }
 Elysium::Core::Version Elysium::Core::Version::Parse(const StringView & Input)
