@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
-#define ELYSIUM_CORE_IO_MEMORYSTREAM
+#ifndef ELYSIUM_CORE_IO_READONLYSTREAM
+#define ELYSIUM_CORE_IO_READONLYSTREAM
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,28 +16,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Stream.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_COLLECTIONS_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
-#endif
-
 namespace Elysium::Core::IO
 {
-	class ELYSIUM_CORE_API MemoryStream : public Stream
+	class ELYSIUM_CORE_API ReadOnlyStream : public Stream
 	{
 	public:
-		MemoryStream();
-		MemoryStream(const size_t Capacity);
-		MemoryStream(const byte* Data, size_t Length);
-		MemoryStream(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length);
-		virtual ~MemoryStream();
+		ReadOnlyStream(Stream& BaseStream, const Elysium::Core::uint64_t Start, const Elysium::Core::uint64_t End);
+		ReadOnlyStream(const ReadOnlyStream& Source) = delete;
+		ReadOnlyStream(ReadOnlyStream&& Right) noexcept = delete;
+		virtual ~ReadOnlyStream();
+
+		ReadOnlyStream& operator=(const ReadOnlyStream& Source) = delete;
+		ReadOnlyStream& operator=(ReadOnlyStream&& Right) noexcept = delete;
 
 		virtual const bool GetCanRead() const override;
 		virtual const bool GetCanSeek() const override;
@@ -49,12 +39,8 @@ namespace Elysium::Core::IO
 		virtual const Elysium::Core::uint32_t GetReadTimeout() const override;
 		virtual const Elysium::Core::uint32_t GetWriteTimeout() const override;
 
-		virtual const size_t GetCapacity() const;
-
 		virtual void SetLength(const size_t Value) override;
 		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
-
-		virtual void SetCapacity(const size_t Capacity);
 
 		virtual void Close() override;
 		virtual void Flush() override;
@@ -63,8 +49,11 @@ namespace Elysium::Core::IO
 		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
 	private:
-		size_t _CurrentPosition = 0;
-		Collections::Template::List<byte> _Buffer;
+		Stream& _BaseStream;
+		const Elysium::Core::uint64_t _Start;
+		const Elysium::Core::uint64_t _End;
+
+		Elysium::Core::uint64_t _Position;
 	};
 }
 #endif

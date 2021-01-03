@@ -26,6 +26,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OSCompressionStream.cpp">
       <Filter>Compression</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchive.cpp">
+      <Filter>Compression</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveEntry.cpp">
+      <Filter>Compression</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ReadOnlyStream.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -67,6 +75,26 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionAlgorithm.hpp">
       <Filter>Compression</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipArchive.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipArchiveMode.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipArchiveEntry.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BinaryReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.hpp">
+      <Filter>Compression\Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MadeByPlatform.hpp">
+      <Filter>Compression\Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VersionNeeded.hpp">
+      <Filter>Compression\Zip</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReadOnlyStream.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">
@@ -78,5 +106,13 @@
     <Filter Include="Compression\Huffman">
       <UniqueIdentifier>{cdaf52eb-528c-4aa5-a2a6-dbc625d271a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Compression\Zip">
+      <UniqueIdentifier>{6c00c19e-6c25-4d11-9049-9b429213f359}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)CompressionMethod.hpp">
+      <Filter>Compression\Zip</Filter>
+    </None>
   </ItemGroup>
 </Project>

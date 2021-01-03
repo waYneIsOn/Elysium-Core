@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
-#define ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_VERSIONNEEDED
+#define ELYSIUM_CORE_IO_COMPRESSION_ZIP_VERSIONNEEDED
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,22 +16,29 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::IO::Compression
+namespace Elysium::Core::IO::Compression::Zip
 {
-/*
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class OSCompressionAlgorithm : Elysium::Core::uint32_t
+	enum class VersionNeeded : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
-	enum class OSCompressionAlgorithm
+	enum class VersionNeeded
 #else
 #error "undefined os"
 #endif
 	{
-		MSZIP = 2,
-		XPRESS = 3,
-		XPRESS_HUFF = 4,
-		LZMS = 5,
+		Default = 10,
+		VolumeLabel = 11,
+		Folder = 20,
+		Deflate64 = 21,
+		PKWAREDclImplode = 25,
+		PatchDataSet = 27,
+		Zip64Extension = 45,
+		BZIP2 = 46,
+		DES = 50,
+		AES = 51,
+		NonOAEP = 61,
+		CentralDirectory = 62,
+		LZMA = 63
 	};
-*/
 }
 #endif

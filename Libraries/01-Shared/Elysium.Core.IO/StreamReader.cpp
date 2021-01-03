@@ -1,7 +1,7 @@
 #include "StreamReader.hpp"
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
@@ -51,7 +51,7 @@ const Elysium::Core::int32_t Elysium::Core::IO::StreamReader::Read(char8_t* Buff
 		}
 	}
 
-	const size_t BytesRead = _InputStream.Read(&_Buffer[0], Count);
+	const size_t BytesRead = _InputStream.Read(&_Buffer[0], _Buffer.GetLength());
 
 	/*
 	Elysium::Core::Collections::Template::List<Elysium::Core::byte> LocalBuffer = Elysium::Core::Collections::Template::List<Elysium::Core::byte>(Count);
@@ -66,10 +66,14 @@ const Elysium::Core::int32_t Elysium::Core::IO::StreamReader::Read(char8_t* Buff
 
 Elysium::Core::String Elysium::Core::IO::StreamReader::ReadLine()
 {
+	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder();
+
 	throw NotImplementedException();
 }
 
 Elysium::Core::String Elysium::Core::IO::StreamReader::ReadToEnd()
 {
+	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder();
+
 	throw NotImplementedException();
 }
