@@ -1,7 +1,5 @@
 #include "GZipStream.hpp"
 
-#include <ostream>
-
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotSupportedException.hpp"
 #endif
@@ -20,25 +18,25 @@
 
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionMode CompressionMode)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _UncompressedSize(0),
+	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false),
 	_DeflateStream(_BaseStream, CompressionMode)
 { }
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _UncompressedSize(0),
+	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen),
 	_DeflateStream(_BaseStream, CompressionMode, LeaveOpen)
 { }
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _UncompressedSize(0),
+	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false),
 	_DeflateStream(_BaseStream, CompressionLevel)
 { }
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _UncompressedSize(0),
+	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen),
 	_DeflateStream(_BaseStream, CompressionLevel, LeaveOpen)
 { }
@@ -111,7 +109,7 @@ void Elysium::Core::IO::Compression::GZipStream::Close()
 void Elysium::Core::IO::Compression::GZipStream::Flush()
 { }
 
-void Elysium::Core::IO::Compression::GZipStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const size_t Elysium::Core::IO::Compression::GZipStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {	// ToDo: message
 	throw NotSupportedException();
 }
@@ -120,7 +118,7 @@ const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byt
 {
 	if (_CompressionMode != CompressionMode::Decompress)
 	{
-		throw InvalidOperationException(u8"Compression mode is not set to decompress");
+		throw InvalidOperationException(u8"Compression mode is not set to decompress.");
 	}
 
 	// read header and footer if it hasn't been done so far
@@ -130,16 +128,26 @@ const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byt
 		_BaseStream.SetPosition(0);
 
 		// make sure, we're actually working with gzip-compressed data (check of ID1 and ID2)
-		BytesRead = _BaseStream.Read(_Buffer, 10);
-		if (BytesRead != 10 || _Buffer[0] != 0x1F || _Buffer[1] != 0x8B)
+		BytesRead = _BaseStream.Read(&_Buffer[0], _Buffer.GetLength());
+		if (BytesRead < _DefaultHeaderSize || _Buffer[0] != 0x1F || _Buffer[1] != 0x8B)
 		{
-			throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data");
+			throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data.");
 		}
 
 		// check CM (compression method)
-		if (_Buffer[2] != 0x08)
+		//		0 - None -> copy the bytes
+		//		1 - Compressed
+		//		2 - Packed
+		//		3 - LZH
+		//		4 - Reserved
+		//		5 - Reserved
+		//		6 - Reserved
+		//		7 - Reserved
+		//		8 - Deflate
+		const Elysium::Core::uint8_t CM = _Buffer[2];
+		if (CM != 0x00 && CM != 0x08)
 		{
-			throw InvalidDataException(u8"This implementation only supports DEFLATE compressed data");
+			throw InvalidDataException(u8"This implementation only supports DEFLATE compressed data.");
 		}
 
 		// FLG (file flags)
@@ -151,14 +159,13 @@ const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byt
 		//      bit 5   reserved
 		//      bit 6   reserved
 		//      bit 7   reserved
-		byte FLG = _Buffer[3];
+		const Elysium::Core::uint8_t FLG = _Buffer[3];
 
 		// MTIME (32-bit timestamp)
-		int32_t ModificationDate;
-		memcpy(&ModificationDate, &_Buffer[4], sizeof(int32_t));
+		const Elysium::Core::uint32_t ModificationDate = *(Elysium::Core::uint32_t*)(&Buffer[4]);
 
 		// XFL (compression flags)
-		byte XFL = _Buffer[8];
+		const Elysium::Core::uint8_t XFL = _Buffer[8];
 
 		// operating system id
 		//		0 - FAT filesystem(MS - DOS, OS / 2, NT / Win32)
@@ -176,49 +183,62 @@ const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byt
 		//		12 - QDOS
 		//		13 - Acorn RISCOS
 		//		255 - unknown
-		byte OS = _Buffer[9];
+		const Elysium::Core::uint8_t OS = _Buffer[9];
 
-		// check FLGs 3rd bit to see whether the header has an optional part
-		if(FLG & (1 << 2))
+		// optional data
+		if ((FLG >> 6) & 0x01)
 		{
-			BytesRead = _BaseStream.Read(_Buffer, 4);
+			BytesRead = _BaseStream.Read(&_Buffer[0], 4);
 			if (BytesRead != 4)
 			{
-				throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data");
+				throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data.");
 			}
 
-			// SI1 and SI2
-			byte SubId1 = _Buffer[0];
-			byte SubId2 = _Buffer[1];
+			// SubfieldId
+			Elysium::Core::uint16_t SubfieldId = *(Elysium::Core::uint16_t*)(&Buffer[0]);
 
 			// XLEN
-			int16_t XLEN;
-			memcpy(&XLEN, &_Buffer[2], sizeof(int16_t));
+			Elysium::Core::uint16_t ExtraLength = *(Elysium::Core::uint16_t*)(&Buffer[2]);
 
-			// subfield data
-			// ToDo: read and process the subfield data (do-while until XLEN has been reached)
+			// Subfield data length
+			_OptionalHeaderSize += 4 + ExtraLength;
 
-			_HeaderSize += 4 + XLEN;
+			// ToDo: FLG.FNAME set
+			if (FLG)
+			{
+
+			}
+
+			// ToDo: FLG.FCOMMENT set
+			if (FLG)
+			{
+
+			}
+
+			// ToDo: FLG.FHCRC set
+			if (FLG)
+			{
+
+			}
 		}
 
 		// read the gzip footer
 		// ToDo: there could be bytes after the gzip footer -> find a better solution than just reading from the end of the stream
-		_BaseStream.SetPosition(_BaseStream.GetLength() - 8);
-		BytesRead = _BaseStream.Read(&_Buffer[11], 8);
-		if (BytesRead != 8)
+		_BaseStream.SetPosition(_BaseStream.GetLength() - _DefaultFooterSize);
+		BytesRead = _BaseStream.Read(&_Buffer[11], _DefaultFooterSize);
+		if (BytesRead != _DefaultFooterSize)
 		{
-			throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data");
+			throw InvalidDataException(u8"BaseStream does not contain gzip-compressed data.");
 		}
 
 		// cyclic redundancy check
 		// ToDo: perform a check -> https://tools.ietf.org/html/rfc1952#section-8
-		memcpy(&_CRC32, &_Buffer[11], sizeof(int32_t));
+		_CRC32 = *(Elysium::Core::uint32_t*)(&Buffer[11]);
 
-		// (original, uncompressed) input size
-		memcpy(&_UncompressedSize, &_Buffer[15], sizeof(int32_t));
+		// (original uncompressed) input size
+		_UncompressedSize = *(Elysium::Core::uint32_t*)(&Buffer[15]);
 
 		_HasReadHeaderAndFooter = true;
-		_BaseStream.SetPosition(_HeaderSize);
 	}
 
 	// use the deflate stream to read the compressed blocks

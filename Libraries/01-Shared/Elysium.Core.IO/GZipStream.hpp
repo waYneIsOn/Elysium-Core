@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "Stream.hpp"
 #endif
@@ -30,7 +34,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO::Compression
 {
-	class ELYSIUM_CORE_API GZipStream : public Stream
+	// https://tools.ietf.org/html/rfc1952
+	class ELYSIUM_CORE_API GZipStream final : public Stream
 	{
 	public:
 		GZipStream(Stream& BaseStream, const CompressionMode CompressionMode);
@@ -61,7 +66,7 @@ namespace Elysium::Core::IO::Compression
 
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual void Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
+		virtual const size_t Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
 		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
@@ -71,15 +76,18 @@ namespace Elysium::Core::IO::Compression
 		const CompressionLevel _CompressionLevel;
 		const bool _LeaveOpen;
 
-		const static size_t _BufferSize = 8192;
-		byte _Buffer[8192];
+		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
 
 		bool _HasReadHeaderAndFooter = false;
-		int32_t _HeaderSize = 10;
-		int32_t _CRC32;
-		int32_t _UncompressedSize;
+		Elysium::Core::uint32_t _OptionalHeaderSize = 0;
+		Elysium::Core::uint32_t _CRC32 = 0;
+		Elysium::Core::uint32_t _UncompressedSize = 0;
 
 		DeflateStream _DeflateStream;
+
+		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		static constexpr const Elysium::Core::int32_t _DefaultHeaderSize = 10;
+		static constexpr const Elysium::Core::int32_t _DefaultFooterSize = 8;
 	};
 }
 #endif

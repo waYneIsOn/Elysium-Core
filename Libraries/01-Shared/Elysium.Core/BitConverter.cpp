@@ -93,9 +93,12 @@ const Elysium::Core::int32_t Elysium::Core::BitConverter::ToInt32(const byte * V
 const Elysium::Core::int64_t Elysium::Core::BitConverter::ToInt64(const byte * Value)
 {
 #if defined LITTLEENDIAN
-	return int64_t(Value[0] << 56 | Value[1] << 48 | Value[2] << 40 | Value[3] << 32 | Value[4] << 24 | Value[5] << 16 | Value[6] << 8 | Value[7]);
+	Elysium::Core::int32_t Low = uint32_t(Value[0] << 24 | Value[1] << 16 | Value[2] << 8 | Value[3]);
+	Elysium::Core::int32_t High = uint32_t(Value[4] << 24 | Value[5] << 16 | Value[6] << 8 | Value[7]);
+
+	return static_cast<Elysium::Core::int64_t>(High) << 32 | Low;
 #else
-	return int64_t(Value[0] | Value[1] << 8 | Value[2] << 16 | Value[3] << 24 | Value[4] << 32 | Value[5] << 40 | Value[6] << 48 | Value[7] << 56);
+	throw 1;
 #endif
 }
 const Elysium::Core::uint16_t Elysium::Core::BitConverter::ToUInt16(const byte * Value)
@@ -125,9 +128,12 @@ const Elysium::Core::uint32_t Elysium::Core::BitConverter::ToUInt32(const byte *
 const Elysium::Core::uint64_t Elysium::Core::BitConverter::ToUInt64(const byte * Value)
 {
 #if defined LITTLEENDIAN
-	return uint64_t(Value[0] << 56 | Value[1] << 48 | Value[2] << 40 | Value[3] << 32 | Value[4] << 24 | Value[5] << 16 | Value[6] << 8 | Value[7]);
+	Elysium::Core::uint32_t Low = uint32_t(Value[0] << 24 | Value[1] << 16 | Value[2] << 8 | Value[3]);
+	Elysium::Core::uint32_t High = uint32_t(Value[4] << 24 | Value[5] << 16 | Value[6] << 8 | Value[7]);
+
+	return static_cast<Elysium::Core::uint64_t>(High) << 32 | Low;
 #else
-	return uint64_t(Value[0] | Value[1] << 8 |	Value[2] << 16 | Value[3] << 24 | Value[4] << 32 | Value[5] << 40 | Value[6] << 48 | Value[7] << 56);
+	throw 1;
 #endif
 }
 

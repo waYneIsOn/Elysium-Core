@@ -52,8 +52,8 @@ namespace Elysium::Core
 		static const int64_t MinMilliseconds = -922337203685477; // 9223372036854775808 / TicksPerMillisecond * -1;
 		static const int64_t MaxMilliseconds = 922337203685477; // 9223372036854775807 / TicksPerMillisecond;
 
-		static const int DaysToMonth365[13];
-		static const int DaysToMonth366[13];
+		inline static const int DaysToMonth365[13] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365 };
+		inline static const int DaysToMonth366[13] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335, 366 };
 
 		// ...
 		static const int64_t MinSeconds = -922337203685; // 9223372036854775808 / TicksPerSecond * -1;

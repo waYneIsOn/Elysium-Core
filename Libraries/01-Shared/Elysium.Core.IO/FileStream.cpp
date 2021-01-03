@@ -108,17 +108,7 @@ void Elysium::Core::IO::FileStream::SetLength(const size_t Value)
 
 void Elysium::Core::IO::FileStream::SetPosition(const Elysium::Core::uint64_t Position)
 {
-	LARGE_INTEGER InternalPosition = LARGE_INTEGER();
-	InternalPosition.QuadPart = Position;
-
-	LARGE_INTEGER NewPosition;
-
-	if (!SetFilePointerEx(_FileHandle, InternalPosition, &NewPosition, FILE_BEGIN))
-	{
-		throw IOException();
-	}
-
-	_Position = NewPosition.QuadPart;
+	Seek(Position, SeekOrigin::Begin);
 }
 
 void Elysium::Core::IO::FileStream::SetReadTimeout(const Elysium::Core::uint32_t Value)
@@ -160,9 +150,21 @@ void Elysium::Core::IO::FileStream::Flush(const bool FlushToDisk)
 	}
 }
 
-void Elysium::Core::IO::FileStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const size_t Elysium::Core::IO::FileStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
-	throw NotImplementedException();
+	LARGE_INTEGER InternalPosition = LARGE_INTEGER();
+	InternalPosition.QuadPart = Offset;
+
+	LARGE_INTEGER NewPosition;
+
+	if (!SetFilePointerEx(_FileHandle, InternalPosition, &NewPosition, static_cast<unsigned long>(Origin)))
+	{
+		throw IOException();
+	}
+
+	_Position = NewPosition.QuadPart;
+
+	return _Position;
 }
 
 const size_t Elysium::Core::IO::FileStream::Read(Elysium::Core::byte * Buffer, const size_t Count)

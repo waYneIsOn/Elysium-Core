@@ -67,7 +67,7 @@ namespace Elysium::Core::Net::Security
 
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual void Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin) override;
+		virtual const size_t Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin) override;
 		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;

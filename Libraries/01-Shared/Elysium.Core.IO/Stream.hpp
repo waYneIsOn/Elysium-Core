@@ -62,7 +62,7 @@ namespace Elysium::Core::IO
 		virtual void CopyTo(Stream& Destination, const size_t BufferSize);
 		virtual void Close() = 0;
 		virtual void Flush() = 0;
-		virtual void Seek(const int64_t Offset, const SeekOrigin Origin) = 0;
+		virtual const size_t Seek(const int64_t Offset, const SeekOrigin Origin) = 0;
 		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) = 0;
 		virtual Elysium::Core::byte ReadByte() = 0;
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) = 0;

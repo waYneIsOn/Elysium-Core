@@ -22,36 +22,29 @@
 
 Elysium::Core::DateTime::DateTime(int64_t Ticks)
 	: Elysium::Core::DateTime::DateTime(Ticks, DateTimeKind::Unspecified)
-{
-}
+{ }
 Elysium::Core::DateTime::DateTime(int64_t Ticks, DateTimeKind Kind)
 	: _Ticks(Ticks), _Kind(Kind)
-{
-}
+{ }
 Elysium::Core::DateTime::DateTime(int Year, int Month, int Day)
 	: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day))
-{
-}
+{ }
 Elysium::Core::DateTime::DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second)
 	: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second))
-{
-}
+{ }
 Elysium::Core::DateTime::DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second, int Millisecond)
 	: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second) + Millisecond * DateTimeUtility::TicksPerMillisecond)
-{
-}
+{ }
 Elysium::Core::DateTime::DateTime(const DateTime & Source)
 	: _Ticks(Source._Ticks), _Kind(Source._Kind)
-{
-}
+{ }
 Elysium::Core::DateTime::DateTime(DateTime && Right) noexcept
 	: Elysium::Core::DateTime::DateTime(0, DateTimeKind::Unspecified)
 {
 	*this = std::move(Right);
 }
 Elysium::Core::DateTime::~DateTime()
-{
-}
+{ }
 
 Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(const DateTime & Source)
 {

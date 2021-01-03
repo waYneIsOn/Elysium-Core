@@ -117,12 +117,14 @@ void Elysium::Core::IO::MemoryStream::Close()
 void Elysium::Core::IO::MemoryStream::Flush()
 { }
 
-void Elysium::Core::IO::MemoryStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const size_t Elysium::Core::IO::MemoryStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
 	if (!GetCanSeek())
 	{
 		throw NotSupportedException();
 	}
+
+	throw NotImplementedException();
 }
 
 const size_t Elysium::Core::IO::MemoryStream::Read(Elysium::Core::byte * Buffer, const size_t Count)

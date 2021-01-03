@@ -20,19 +20,19 @@
 
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionMode CompressionMode)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false)
+	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false)
 { }
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen)
+	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen)
 { }
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false)
+	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false)
 { }
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen)
+	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen)
 { }
 Elysium::Core::IO::Compression::DeflateStream::~DeflateStream()
 {
@@ -68,12 +68,12 @@ const bool Elysium::Core::IO::Compression::DeflateStream::GetCanWrite() const
 }
 
 const size_t Elysium::Core::IO::Compression::DeflateStream::GetLength() const
-{	// ToDo: message
+{	// ToDo
 	throw NotSupportedException();
 }
 
 const Elysium::Core::uint64_t Elysium::Core::IO::Compression::DeflateStream::GetPosition() const
-{	// ToDo: message
+{	// ToDo
 	throw NotSupportedException();
 }
 
@@ -88,23 +88,27 @@ const Elysium::Core::uint32_t Elysium::Core::IO::Compression::DeflateStream::Get
 }
 
 void Elysium::Core::IO::Compression::DeflateStream::SetLength(const size_t Value)
-{	// ToDo: message
+{	// ToDo
 	throw NotSupportedException();
 }
 
 void Elysium::Core::IO::Compression::DeflateStream::SetPosition(const Elysium::Core::uint64_t Position)
-{	// ToDo: message
+{	// ToDo
 	throw NotSupportedException();
 }
 
 void Elysium::Core::IO::Compression::DeflateStream::Close()
-{ }
+{ 	// ToDo
+	throw NotSupportedException();
+}
 
 void Elysium::Core::IO::Compression::DeflateStream::Flush()
-{ }
+{ 	// ToDo
+	throw NotSupportedException();
+}
 
-void Elysium::Core::IO::Compression::DeflateStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
-{	// ToDo: message
+const size_t Elysium::Core::IO::Compression::DeflateStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+{	// ToDo
 	throw NotSupportedException();
 }
 
@@ -119,18 +123,34 @@ const size_t Elysium::Core::IO::Compression::DeflateStream::Read(Elysium::Core::
 
 	size_t BytesRead;
 	bool IsLastBlock;	// BFINAL
+	Elysium::Core::uint16_t EncodingMethod;
+
 	bool EncodingMethod1;	// BTYPE part 1
 	bool EncodingMethod2;	// BTYPE part 2
 
-
-	BytesRead = _BaseStream.Read(&_Buffer[Index], _BufferSize);
+	BytesRead = _BaseStream.Read(&_Buffer[Index], DefaultBufferSize);
 
 	do
 	{
-		IsLastBlock = _Buffer[Index] & (1 << 0);
-		EncodingMethod1 = _Buffer[Index] & (1 << 1);
-		EncodingMethod2 = _Buffer[Index] & (1 << 2);
+		byte Test = _Buffer[Index] >> 7;
 
+		IsLastBlock = _Buffer[Index] >> 7;
+		EncodingMethod = (_Buffer[Index] >> 5) & 0x02;
+
+		switch (EncodingMethod)
+		{
+		case 0:	// a stored (aka raw or literal) section, between 0 and 65.535 bytes in length
+			break;
+		case 1:	// a static huffman compressed block, using pre-agreed huffman tree defined in the RFC
+			break;
+		case 2:	// a compressed block complete with the huffman table supplied
+			break;
+		case 3:	// reserved - don't use
+			throw InvalidDataException(u8"Reserved encoding method.");
+		default:
+			throw InvalidDataException(u8"Unknown encoding method.");
+		}
+		/*
 		if (!EncodingMethod1 && !EncodingMethod2)
 		{	// 00 - uncompressed block
 			Index += 1;
@@ -169,6 +189,7 @@ const size_t Elysium::Core::IO::Compression::DeflateStream::Read(Elysium::Core::
 		{	// 11
 			throw InvalidOperationException(u8"EncodingMethod 11 is reserved and musn't be used");
 		}
+		*/
 	} while (!IsLastBlock);
 
 	return -1;

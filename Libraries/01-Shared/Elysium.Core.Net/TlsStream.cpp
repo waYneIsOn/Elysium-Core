@@ -102,9 +102,9 @@ void Elysium::Core::Net::Security::TlsStream::Flush()
 	_InnerStream.Flush();
 }
 
-void Elysium::Core::Net::Security::TlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
+const size_t Elysium::Core::Net::Security::TlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
 {
-	_InnerStream.Seek(Offset, Origin);
+	return _InnerStream.Seek(Offset, Origin);
 }
 
 const size_t Elysium::Core::Net::Security::TlsStream::Read(Elysium::Core::byte* Buffer, const size_t Count)

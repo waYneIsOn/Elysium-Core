@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "Stream.hpp"
 #endif
@@ -26,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO::Compression
 {
-	class ELYSIUM_CORE_API DeflateStream : public Stream
+	class ELYSIUM_CORE_API DeflateStream final : public Stream
 	{
 	public:
 		DeflateStream(Stream& BaseStream, const CompressionMode CompressionMode);
@@ -57,7 +61,7 @@ namespace Elysium::Core::IO::Compression
 
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual void Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
+		virtual const size_t Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
 		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
@@ -67,8 +71,8 @@ namespace Elysium::Core::IO::Compression
 		const CompressionLevel _CompressionLevel;
 		const bool _LeaveOpen;
 
-		const static size_t _BufferSize = 8192;
-		byte _Buffer[8192];
+		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
 	};
 }
 #endif

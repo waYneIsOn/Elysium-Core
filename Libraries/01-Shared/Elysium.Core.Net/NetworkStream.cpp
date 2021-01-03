@@ -98,7 +98,7 @@ void Elysium::Core::Net::Sockets::NetworkStream::Close()
 void Elysium::Core::Net::Sockets::NetworkStream::Flush()
 { }
 
-void Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin)
+const size_t Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin)
 {
 	throw NotImplementedException();
 }
