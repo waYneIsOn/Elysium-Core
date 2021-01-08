@@ -287,8 +287,23 @@ const size_t Elysium::Core::String::IndexOf(const String& Value, const size_t St
 	return IndexOf(Value._Data[StartIndex]);
 }
 
+const size_t Elysium::Core::String::LastIndexOf(const char8_t Value) const
+{
+	char8_t* CharPointer = nullptr;
+	for (size_t i = _Length; i > 0; i--)
+	{
+		if (_Data[i - 1] == Value)
+		{
+			CharPointer = &_Data[i - 1];
+			break;
+		}
+	}
+	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
+}
+
 const size_t Elysium::Core::String::LastIndexOf(const char8_t* Value) const
-{	// ToDo
+{
+	// ToDo
 	return size_t(-1);
 }
 

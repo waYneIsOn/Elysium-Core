@@ -67,7 +67,8 @@ namespace Elysium::Core
 		const size_t IndexOf(const char8_t* Value) const;
 		const size_t IndexOf(const char8_t* Value, const size_t StartIndex) const;
 		const size_t IndexOf(const String& Value, const size_t StartIndex) const;
-		
+
+		const size_t LastIndexOf(const char8_t Value) const;
 		const size_t LastIndexOf(const char8_t* Value) const;
 		const size_t LastIndexOf(const char8_t* Value, const size_t StartIndex) const;
 		const size_t LastIndexOf(const String& Value, const size_t StartIndex) const;
