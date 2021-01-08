@@ -2,6 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Array.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/DeflateStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/ZipArchive.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
@@ -35,7 +36,7 @@ namespace UnitTests::Core::IO::Compression
 
 			ZipArchive Archive = ZipArchive(MinimalisticArchive, ZipArchiveMode::Read, false, Encoding::UTF8());
 			const Elysium::Core::Collections::Template::List<ZipArchiveEntry> Entries = Archive.GetEntries();
-			Assert::AreEqual((size_t)5, Entries.GetCount());
+			Assert::AreEqual((size_t)6, Entries.GetCount());
 
 			ZipArchiveEntry& Entry1 = Entries[0];
 			const String& FullName1 = Entry1.GetFullName();
@@ -56,18 +57,41 @@ namespace UnitTests::Core::IO::Compression
 			ZipArchiveEntry& Entry5 = Entries[4];
 			const String& FullName5 = Entry5.GetFullName();
 			AssertExtended::AreEqual(u8"UT/Compression/Zip/dok2.txt", &FullName5[0]);
-			
-			ReadOnlyStream Entry5DataStream = Entry5.Open();
-			FileStream TargetStream = FileStream(u8"dok2.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::None);
-			Entry5DataStream.CopyTo(TargetStream);
-			Assert::AreEqual(static_cast<size_t>(21), TargetStream.GetLength());
 
+			ZipArchiveEntry& Entry6 = Entries[5];
+			const String& FullName6 = Entry6.GetFullName();
+			AssertExtended::AreEqual(u8"UT/Compression/Zip/Lorem ipsum.txt", &FullName6[0]);
+			/*
+			ReadOnlyStream Entry5Stream = Entry5.Open();
+			FileStream Entry5File = FileStream(Entry5.GetName(), FileMode::Create, FileAccess::Write, FileShare::None);
+			Entry5Stream.CopyTo(Entry5File);
+			*/
+			ReadOnlyStream Entry6Stream = Entry6.Open();
+			DeflateStream DecStream = DeflateStream(Entry6Stream, CompressionMode::Decompress, true);
+			FileStream Entry6File = FileStream(Entry6.GetName(), FileMode::Create, FileAccess::Write, FileShare::None);
+			DecStream.CopyTo(Entry6File);
+			
+
+
+			/*
+			size_t BytesRead = Entry6Stream.Read(&Buffer[0], Buffer.GetLength());
+			Assert::AreEqual(Entry6Stream.GetLength(), BytesRead);
+			*/
+
+			/*
+			FileStream TargetStream = FileStream(u8"Lorem ipsum decompressed.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::None);
+			Entry6Stream.CopyTo(TargetStream);
+			Assert::AreEqual(static_cast<size_t>(10323), TargetStream.GetLength());
+			
 			Array<byte> Buffer = Array<byte>(TargetStream.GetLength());
 			TargetStream.SetPosition(0);
 			size_t BytesRead = TargetStream.Read(&Buffer[0], Buffer.GetLength());
+			Assert::AreEqual(TargetStream.GetLength(), BytesRead);
 
-			String Data = Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());
-			AssertExtended::AreEqual(u8"some other utf-8 text", &Data[0]);
+			String Content = Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());
+			//AssertExtended::AreEqual(u8"some other utf-8 text", &Content[0]);
+			*/
+			int sdgf = 45;
 		}
 
 		TEST_METHOD(ReadMultiFileArchive)

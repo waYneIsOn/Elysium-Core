@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_VERSIONNEEDED
-#define ELYSIUM_CORE_IO_COMPRESSION_ZIP_VERSIONNEEDED
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPVERSIONNEEDED
+#define ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPVERSIONNEEDED
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,9 +19,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::IO::Compression::Zip
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class VersionNeeded : Elysium::Core::uint16_t
+	enum class ZipVersionNeeded : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
-	enum class VersionNeeded
+	enum class ZipVersionNeeded
 #else
 #error "undefined os"
 #endif

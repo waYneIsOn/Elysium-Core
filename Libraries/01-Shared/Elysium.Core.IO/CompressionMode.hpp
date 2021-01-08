@@ -19,7 +19,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::IO::Compression
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class CompressionMode : Elysium::Core::uint32_t
+	enum class CompressionMode : Elysium::Core::uint8_t
 #elif defined(__ANDROID__)
 	enum class CompressionMode
 #else

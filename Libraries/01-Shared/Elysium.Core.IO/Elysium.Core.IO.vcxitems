@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DeflateEncodingMethod.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndOfStreamException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileMode.hpp" />
@@ -27,12 +28,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionAlgorithm.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OSCompressionStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ReadOnlyStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
@@ -45,9 +45,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ZipArchive.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ZipArchiveEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ZipArchiveMode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MadeByPlatform.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)VersionNeeded.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipBitFlag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipMadeByPlatform.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ZipVersionNeeded.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReader.cpp" />
@@ -56,11 +56,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OSCompressionStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReadOnlyStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReader.cpp" />
@@ -73,6 +73,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)CompressionMethod.hpp" />
+    <None Include="$(MSBuildThisFileDirectory)ZipCompressionMethod.hpp" />
   </ItemGroup>
 </Project>

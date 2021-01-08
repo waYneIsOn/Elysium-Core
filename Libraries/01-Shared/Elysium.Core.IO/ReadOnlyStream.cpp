@@ -66,9 +66,7 @@ void Elysium::Core::IO::ReadOnlyStream::Close()
 }
 
 void Elysium::Core::IO::ReadOnlyStream::Flush()
-{
-	throw InvalidOperationException();
-}
+{ }
 
 const size_t Elysium::Core::IO::ReadOnlyStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {

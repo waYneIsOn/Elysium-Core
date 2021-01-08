@@ -8,20 +8,20 @@
 #include "ZipArchive.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_BITFLAG
-#include "BitFlag.hpp"
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPBITFLAG
+#include "ZipBitFlag.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_COMPRESSIONMETHOD
-#include "CompressionMethod.hpp"
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPCOMPRESSIONMETHOD
+#include "ZipCompressionMethod.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_MADEBYPLATFORM
-#include "MadeByPlatform.hpp"
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPMADEBYPLATFORM
+#include "ZipMadeByPlatform.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_VERSIONNEEDED
-#include "VersionNeeded.hpp"
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPVERSIONNEEDED
+#include "ZipVersionNeeded.hpp"
 #endif
 
 #ifndef _TYPE_TRAITS_
@@ -64,7 +64,7 @@ Elysium::Core::IO::Compression::ZipArchiveEntry& Elysium::Core::IO::Compression:
 	{
 		_Archive = Right._Archive;
 		_Reader = Right._Reader;
-        _FileName = Right._FileName;
+        _FileName = std::move(Right._FileName);
         _RelativeOffsetToFileEntry = Right._RelativeOffsetToFileEntry;
         _RelativeOffsetToCompressedData = Right._RelativeOffsetToCompressedData;
         _CompressedSize = Right._CompressedSize;
@@ -72,6 +72,7 @@ Elysium::Core::IO::Compression::ZipArchiveEntry& Elysium::Core::IO::Compression:
 		Right._Archive = nullptr;
         Right._Reader = nullptr;
         Right._FileName = Elysium::Core::String();
+        Right._FileName = Elysium::Core::StringView();
         Right._RelativeOffsetToFileEntry = 0;
         Right._RelativeOffsetToCompressedData = 0;
         Right._CompressedSize = 0;
@@ -87,6 +88,19 @@ const Elysium::Core::IO::Compression::ZipArchive* Elysium::Core::IO::Compression
 const Elysium::Core::String & Elysium::Core::IO::Compression::ZipArchiveEntry::GetFullName() const
 {
     return _FileName;
+}
+
+const Elysium::Core::StringView Elysium::Core::IO::Compression::ZipArchiveEntry::GetName() const
+{
+    const size_t LastIndexOfSlash = _FileName.LastIndexOf(u8'/');
+    if (LastIndexOfSlash == -1)
+    {
+        return Elysium::Core::StringView(_FileName);
+    }
+    else
+    {
+        return Elysium::Core::StringView(_FileName, LastIndexOfSlash + 1, _FileName.GetLength() - LastIndexOfSlash - 1);
+    }
 }
 
 Elysium::Core::IO::ReadOnlyStream Elysium::Core::IO::Compression::ZipArchiveEntry::Open()
@@ -132,10 +146,10 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
         throw InvalidDataException(u8"Central directory signature incorrect.");
     }
 
-    const Zip::MadeByPlatform VersionMadeBy = static_cast<Zip::MadeByPlatform>(_Reader->ReadUInt16());
-    const Zip::VersionNeeded VersionNeededToExtract = static_cast<Zip::VersionNeeded>(_Reader->ReadUInt16());
-    const Zip::BitFlag GeneralPurposeBitFlag = static_cast<Zip::BitFlag>(_Reader->ReadUInt16());
-    const Zip::CompressionMethod CompressionMethod = static_cast<Zip::CompressionMethod>(_Reader->ReadUInt16());
+    const Zip::ZipMadeByPlatform VersionMadeBy = static_cast<Zip::ZipMadeByPlatform>(_Reader->ReadUInt16());
+    const Zip::ZipVersionNeeded VersionNeededToExtract = static_cast<Zip::ZipVersionNeeded>(_Reader->ReadUInt16());
+    const Zip::ZipBitFlag GeneralPurposeBitFlag = static_cast<Zip::ZipBitFlag>(_Reader->ReadUInt16());
+    const Zip::ZipCompressionMethod CompressionMethod = static_cast<Zip::ZipCompressionMethod>(_Reader->ReadUInt16());
     const Elysium::Core::uint16_t FileLastModificationTime = _Reader->ReadUInt16();
     const Elysium::Core::uint16_t FileLastModificationDate = _Reader->ReadUInt16();
     const Elysium::Core::uint32_t CRC32Uncompressed = _Reader->ReadUInt32();
@@ -163,7 +177,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
         const Elysium::Core::String FileComment = _Archive->GetEntryNameEncoding().GetString(&FileCommentBytes[0], FileCommentLength);
     }
 
-    if ((GeneralPurposeBitFlag & Zip::BitFlag::DataDescriptor) == Zip::BitFlag::DataDescriptor)
+    if ((GeneralPurposeBitFlag & Zip::ZipBitFlag::DataDescriptor) == Zip::ZipBitFlag::DataDescriptor)
     {
         ReadDataDescriptor();
     }
@@ -197,9 +211,9 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
         throw InvalidDataException(u8"Local file header signature incorrect.");
     }
 
-    const Zip::VersionNeeded VersionNeededToExtract = static_cast<Zip::VersionNeeded>(_Reader->ReadUInt16());
-    const Zip::BitFlag GeneralPurposeBitFlag = static_cast<Zip::BitFlag>(_Reader->ReadUInt16());
-    const Zip::CompressionMethod CompressionMethod = static_cast<Zip::CompressionMethod>(_Reader->ReadUInt16());
+    const Zip::ZipVersionNeeded VersionNeededToExtract = static_cast<Zip::ZipVersionNeeded>(_Reader->ReadUInt16());
+    const Zip::ZipBitFlag GeneralPurposeBitFlag = static_cast<Zip::ZipBitFlag>(_Reader->ReadUInt16());
+    const Zip::ZipCompressionMethod CompressionMethod = static_cast<Zip::ZipCompressionMethod>(_Reader->ReadUInt16());
     const Elysium::Core::uint16_t FileLastModificationTime = _Reader->ReadUInt16();
     const Elysium::Core::uint16_t FileLastModificationDate = _Reader->ReadUInt16();
     const Elysium::Core::uint32_t CRC32Uncompressed = _Reader->ReadUInt32();
@@ -217,10 +231,9 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
     }
 
     _RelativeOffsetToCompressedData = BaseStream.GetPosition();
-
     BaseStream.Seek(CompressedSize, SeekOrigin::Current);
 
-    if ((GeneralPurposeBitFlag & Zip::BitFlag::DataDescriptor) == Zip::BitFlag::DataDescriptor)
+    if ((GeneralPurposeBitFlag & Zip::ZipBitFlag::DataDescriptor) == Zip::ZipBitFlag::DataDescriptor)
     {
         ReadDataDescriptor();
     }

@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_BINARYREADER
 #include "BinaryReader.hpp"
 #endif
@@ -47,6 +51,7 @@ namespace Elysium::Core::IO::Compression
 
 		const Elysium::Core::IO::Compression::ZipArchive* GetArchive() const;
 		const Elysium::Core::String& GetFullName() const;
+		const Elysium::Core::StringView GetName() const;
 
 		Elysium::Core::IO::ReadOnlyStream Open();
 	private:

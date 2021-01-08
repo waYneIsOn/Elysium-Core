@@ -17,7 +17,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CharTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OidTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OSCompressionStreamTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformIndependentTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)X509Test.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.cpp" />

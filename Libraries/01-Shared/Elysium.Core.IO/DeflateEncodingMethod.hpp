@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
-#define ELYSIUM_CORE_IO_COMPRESSION_OSCOMPRESSIONALGORITHM
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_DEFLATE_DEFLATEENCODINGMETHOD
+#define ELYSIUM_CORE_IO_COMPRESSION_DEFLATE_DEFLATEENCODINGMETHOD
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,22 +16,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::IO::Compression
+namespace Elysium::Core::IO::Compression::Deflate
 {
-/*
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class OSCompressionAlgorithm : Elysium::Core::uint32_t
+	enum class DeflateEncodingMethod : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
-	enum class OSCompressionAlgorithm
+	enum class DeflateEncodingMethod
 #else
 #error "undefined os"
 #endif
 	{
-		MSZIP = 2,
-		XPRESS = 3,
-		XPRESS_HUFF = 4,
-		LZMS = 5,
+		Store = 0,
+		Static = 1,
+		Dynamic = 2,
+		Reserved = 3
 	};
-*/
 }
 #endif

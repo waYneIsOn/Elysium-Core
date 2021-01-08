@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_BITFLAG
-#define ELYSIUM_CORE_IO_COMPRESSION_ZIP_BITFLAG
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPBITFLAG
+#define ELYSIUM_CORE_IO_COMPRESSION_ZIP_ZIPBITFLAG
 
 #ifdef _MSC_VER
 #pragma once
@@ -107,9 +107,9 @@ namespace Elysium::Core::IO::Compression::Zip
     Bit 15: Reserved by PKWARE.
     */
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class BitFlag : Elysium::Core::uint16_t
+	enum class ZipBitFlag : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
-	enum class BitFlag
+	enum class ZipBitFlag
 #else
 #error "undefined os"
 #endif
@@ -121,13 +121,13 @@ namespace Elysium::Core::IO::Compression::Zip
 		UnicodeFileName = 2048,
 	};
 
-	inline BitFlag operator|(const BitFlag Left, const BitFlag Right)
+	inline ZipBitFlag operator|(const ZipBitFlag Left, const ZipBitFlag Right)
 	{
-		return static_cast<BitFlag>(static_cast<Elysium::Core::uint16_t>(Left) | static_cast<Elysium::Core::uint16_t>(Right));
+		return static_cast<ZipBitFlag>(static_cast<Elysium::Core::uint16_t>(Left) | static_cast<Elysium::Core::uint16_t>(Right));
 	}
-	inline BitFlag operator&(const BitFlag Left, const BitFlag Right)
+	inline ZipBitFlag operator&(const ZipBitFlag Left, const ZipBitFlag Right)
 	{
-		return static_cast<BitFlag>(static_cast<Elysium::Core::uint16_t>(Left) & static_cast<Elysium::Core::uint16_t>(Right));
+		return static_cast<ZipBitFlag>(static_cast<Elysium::Core::uint16_t>(Left) & static_cast<Elysium::Core::uint16_t>(Right));
 	}
 }
 #endif
