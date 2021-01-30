@@ -47,12 +47,12 @@ namespace Elysium::Core
 		Guid& operator=(const Guid& Source);
 		Guid& operator=(Guid&& Right) noexcept;
 
-		bool operator==(const Guid& Other);
-		bool operator!=(const Guid& Other);
-		bool operator<(const Guid& Other);
-		bool operator>(const Guid& Other);
-		bool operator<=(const Guid& Other);
-		bool operator>=(const Guid& Other);
+		const bool operator==(const Guid& Other);
+		const bool operator!=(const Guid& Other);
+		const bool operator<(const Guid& Other);
+		const bool operator>(const Guid& Other);
+		const bool operator<=(const Guid& Other);
+		const bool operator>=(const Guid& Other);
 
 		static const Guid& Empty();
 		static Guid NewGuid();

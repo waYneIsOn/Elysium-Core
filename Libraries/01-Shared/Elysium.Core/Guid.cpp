@@ -60,27 +60,27 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 	return *this;
 }
 
-bool Elysium::Core::Guid::operator==(const Guid & Other)
+const bool Elysium::Core::Guid::operator==(const Guid & Other)
 {
 	return _Data == Other._Data;
 }
-bool Elysium::Core::Guid::operator!=(const Guid & Other)
+const bool Elysium::Core::Guid::operator!=(const Guid & Other)
 {
 	return _Data != Other._Data;
 }
-bool Elysium::Core::Guid::operator<(const Guid & Other)
+const bool Elysium::Core::Guid::operator<(const Guid & Other)
 {
 	return _Data < Other._Data;
 }
-bool Elysium::Core::Guid::operator>(const Guid & Other)
+const bool Elysium::Core::Guid::operator>(const Guid & Other)
 {
 	return _Data > Other._Data;
 }
-bool Elysium::Core::Guid::operator<=(const Guid & Other)
+const bool Elysium::Core::Guid::operator<=(const Guid & Other)
 {
 	return _Data <= Other._Data;
 }
-bool Elysium::Core::Guid::operator>=(const Guid & Other)
+const bool Elysium::Core::Guid::operator>=(const Guid & Other)
 {
 	return _Data >= Other._Data;
 }

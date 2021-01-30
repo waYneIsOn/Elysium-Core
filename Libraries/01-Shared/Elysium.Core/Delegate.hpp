@@ -42,6 +42,9 @@ namespace Elysium::Core
 		Delegate& operator=(const Delegate& Source);
 		Delegate& operator=(Delegate&& Right) noexcept;
 
+		const bool operator==(const Delegate& Other);
+		const bool operator!=(const Delegate& Other);
+
 		ReturnType operator()(Args... Parameters) const;
 
 		template <ReturnType(*ActualMethod)(Args...)>
@@ -96,6 +99,18 @@ namespace Elysium::Core
 			Right._Method = nullptr;
 		}
 		return *this;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline const bool Delegate<ReturnType, Args...>::operator==(const Delegate& Other)
+	{
+		return _Target == Other._Target && _Method == Other._Method;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline const bool Delegate<ReturnType, Args...>::operator!=(const Delegate& Other)
+	{
+		return _Target != Other._Target || _Method != Other._Method;
 	}
 
 	template<class ReturnType, class ...Args>
