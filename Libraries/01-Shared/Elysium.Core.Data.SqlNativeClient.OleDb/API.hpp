@@ -11,16 +11,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifdef ELYSIUMCOREDATASQLNATIVECLIENT_EXPORTS
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API __declspec(dllexport)
 #else
 #define ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API __declspec(dllimport)
 #endif
-#elif defined(__ANDROID__)
-#define EXPORT
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+
+#elif defined(ELYSIUM_CORE_OS_MAC)
+
 #else
-#error "undefined os"
+#error "unsupported os"
 #endif
 
 #endif

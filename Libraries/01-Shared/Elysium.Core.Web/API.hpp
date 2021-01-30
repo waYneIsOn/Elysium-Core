@@ -11,17 +11,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__)
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifdef ELYSIUMCOREWEB_EXPORTS
 #define ELYSIUM_CORE_WEB_API __declspec(dllexport)
 #else
 #define ELYSIUM_CORE_WEB_API __declspec(dllimport)
 #endif
-#elif defined(__ANDROID__)
-#define ELYSIUM_CORE_WEB_API
-#elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 
-#elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+
+#elif defined(ELYSIUM_CORE_OS_MAC)
 
 #else
 #error "unsupported os"
