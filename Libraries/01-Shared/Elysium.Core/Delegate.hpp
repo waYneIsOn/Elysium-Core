@@ -23,9 +23,16 @@ namespace Elysium::Core
 		class Thread;
 	}
 
+	namespace Collections::Template
+	{
+		template <typename T>
+		class List;
+	}
+
 	template <class ReturnType, class ...Args>
 	class Delegate final
 	{
+		friend class Collections::Template::List<Delegate<ReturnType, Args...>>;
 		friend class Threading::Thread;
 	public:
 		Delegate(const Delegate& Source);

@@ -44,6 +44,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp" />
@@ -107,6 +109,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

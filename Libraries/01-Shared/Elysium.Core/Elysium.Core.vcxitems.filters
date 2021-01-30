@@ -127,6 +127,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -179,5 +181,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Char.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
   </ItemGroup>
 </Project>
