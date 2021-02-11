@@ -20,12 +20,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MathHelper.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Matrix3x3Template.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Matrix4x4Template.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Point.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionDouble.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionSingle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionTemplate.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleDouble.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleSingle.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleTemplate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Double.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Single.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Template.hpp" />
@@ -39,10 +38,10 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MathHelper.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Point.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionDouble.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionSingle.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleDouble.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleSingle.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Double.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Single.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Double.cpp" />

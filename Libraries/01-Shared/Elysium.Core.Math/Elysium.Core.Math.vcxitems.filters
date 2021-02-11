@@ -34,14 +34,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Double.cpp">
       <Filter>Numerics</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleSingle.cpp">
-      <Filter>Geometry</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)RectangleDouble.cpp">
-      <Filter>Geometry</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp">
       <Filter>Numerics</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Point.cpp">
+      <Filter>Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,17 +89,14 @@
       <Filter>Numerics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleDouble.hpp">
-      <Filter>Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleSingle.hpp">
-      <Filter>Geometry</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RectangleTemplate.hpp">
-      <Filter>Geometry</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)BigInteger.hpp">
       <Filter>Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Point.hpp">
+      <Filter>Geometry</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
