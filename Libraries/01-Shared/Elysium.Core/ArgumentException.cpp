@@ -15,4 +15,3 @@ Elysium::Core::ArgumentException::ArgumentException(String && Message)
 { }
 Elysium::Core::ArgumentException::~ArgumentException()
 { }
-

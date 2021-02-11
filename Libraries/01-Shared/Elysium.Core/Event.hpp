@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_EVENTARGS
-#include "EventArgs.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_DELEGATE
 #include "Delegate.hpp"
 #endif
@@ -45,7 +41,7 @@ namespace Elysium::Core
 		const Event& operator+=(const Delegate<ReturnType, Args...>& Handler);
 		const Event& operator-=(const Delegate<ReturnType, Args...>& Handler);
 
-		void operator()(void* Sender, const EventArgs& EventArgs);
+		ReturnType operator()(const Args... EventArgs);
 	private:
 		Collections::Template::List<Delegate<ReturnType, Args...>> _HandlerList;
 	};
@@ -74,12 +70,15 @@ namespace Elysium::Core
 	}
 
 	template<class ReturnType, class ...Args>
-	inline void Event<ReturnType, Args...>::operator()(void* Sender, const EventArgs& EventArgs)
+	inline ReturnType Event<ReturnType, Args...>::operator()(const Args ...EventArgs)
 	{
 		for (size_t i = 0; i < _HandlerList.GetCount(); i++)
 		{
-			_HandlerList[i](Sender, EventArgs);
+			_HandlerList[i](EventArgs...);
 		}
+
+		// ToDo
+		return ReturnType();
 	}
 }
 #endif
