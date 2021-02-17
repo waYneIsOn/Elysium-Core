@@ -57,6 +57,7 @@ namespace Elysium::Core::Collections::Template
 		List<T>& operator=(const List<T>& Source);
 		List<T>& operator=(List<T>&& Right) noexcept;
 		T& operator[](size_t Index) const;
+		//const T& operator[](size_t Index) const;
 
 		// properties - getter
 		const size_t GetCapacity() const;

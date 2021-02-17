@@ -19,7 +19,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class DateTimeKind : uint32_t
+	enum class DateTimeKind : Elysium::Core::uint32_t
 #elif defined(__ANDROID__)
 	enum class DateTimeKind
 #else
