@@ -400,10 +400,10 @@ void Elysium::Core::Net::Security::TlsStream::ReadServerKeyExchange()
 
 
 
-		const Collections::Template::Array<byte> PublicKeyBytes = Collections::Template::Array<byte>(LengthOfPublicKey);
+		Collections::Template::Array<byte> PublicKeyBytes = Collections::Template::Array<byte>(LengthOfPublicKey);
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[8], &PublicKeyBytes[0], LengthOfPublicKey);
 
-		const Collections::Template::Array<byte> SignatureBytes = Collections::Template::Array<byte>(LengthOfSignature);
+		Collections::Template::Array<byte> SignatureBytes = Collections::Template::Array<byte>(LengthOfSignature);
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[9 + LengthOfPublicKey], &SignatureBytes[0], LengthOfSignature);
 
 

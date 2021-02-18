@@ -56,8 +56,8 @@ namespace Elysium::Core::Collections::Template
 		// operators
 		List<T>& operator=(const List<T>& Source);
 		List<T>& operator=(List<T>&& Right) noexcept;
-		T& operator[](size_t Index) const;
-		//const T& operator[](size_t Index) const;
+		T& operator[](size_t Index);
+		const T& operator[](size_t Index) const;
 
 		// properties - getter
 		const size_t GetCapacity() const;
@@ -174,7 +174,18 @@ namespace Elysium::Core::Collections::Template
 		return *this;
 	}
 	template<class T>
-	inline T & List<T>::operator[](size_t Index) const
+	inline T & List<T>::operator[](size_t Index)
+	{
+		if (Index >= _Count)
+		{
+			throw IndexOutOfRangeException();
+		}
+
+		return _Data[Index];
+	}
+
+	template<typename T>
+	inline const T& List<T>::operator[](size_t Index) const
 	{
 		if (Index >= _Count)
 		{

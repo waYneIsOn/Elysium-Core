@@ -76,7 +76,7 @@ namespace Elysium::Core::IO::Compression
 		const CompressionLevel _CompressionLevel;
 		const bool _LeaveOpen;
 
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
 
 		bool _HasReadHeaderAndFooter = false;
 		Elysium::Core::uint32_t _OptionalHeaderSize = 0;

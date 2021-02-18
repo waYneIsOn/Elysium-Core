@@ -45,7 +45,8 @@ namespace Elysium::Core::Collections::Template
 
 		Array<T>& operator=(const Array<T>& Source);
 		Array<T>& operator=(Array<T>&& Right) noexcept;
-		T& operator[](size_t Index) const;
+		T& operator[](size_t Index);
+		const T& operator[](size_t Index) const;
 
 		const size_t GetLength() const;
 
@@ -129,6 +130,7 @@ namespace Elysium::Core::Collections::Template
 		}
 		return *this;
 	}
+
 	template<class T>
 	inline Array<T>& Array<T>::operator=(Array<T>&& Right) noexcept
 	{
@@ -142,8 +144,9 @@ namespace Elysium::Core::Collections::Template
 		}
 		return *this;
 	}
+
 	template<class T>
-	inline T & Array<T>::operator[](size_t Index) const
+	inline T & Array<T>::operator[](size_t Index)
 	{
 		if (Index >= _Length)
 		{
@@ -152,6 +155,18 @@ namespace Elysium::Core::Collections::Template
 
 		return _Data[Index];
 	}
+
+	template<class T>
+	inline const T& Array<T>::operator[](size_t Index) const
+	{
+		if (Index >= _Length)
+		{
+			throw IndexOutOfRangeException();
+		}
+
+		return _Data[Index];
+	}
+
 	template<class T>
 	inline const size_t Array<T>::GetLength() const
 	{

@@ -221,16 +221,23 @@ const size_t Elysium::Core::IO::Compression::DeflateStream::Read(Elysium::Core::
                 These code lengths are interpreted as 3-bit integers (0-7); as above, a code length of 0 means the corresponding symbol 
 				(literal/length or distance code length) is not used.
 			*/
-			Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t> CodeLengthsCodeLengths =
-				Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t>(19);
-			CodeLengthsCodeLengths[16] = GetBits(3);
-			CodeLengthsCodeLengths[17] = GetBits(3);
-			CodeLengthsCodeLengths[18] = GetBits(3);
-			CodeLengthsCodeLengths[0] = GetBits(3);
+			Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t> CodeLengthsLengths =
+				Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t>(19, true);
+			CodeLengthsLengths[16] = GetBits(3);
+			CodeLengthsLengths[17] = GetBits(3);
+			CodeLengthsLengths[18] = GetBits(3);
+			CodeLengthsLengths[0] = GetBits(3);
 			for (Elysium::Core::uint8_t i = 0; i < HCLEN - 4; i ++)
 			{
 				Elysium::Core::uint8_t ActualIndex = (i % 2 == 0) ? (8 + i / 2) : (7 - i / 2);
-				CodeLengthsCodeLengths[ActualIndex] = GetBits(3);
+				CodeLengthsLengths[ActualIndex] = GetBits(3);
+			}
+
+			for (Elysium::Core::uint8_t i = 0; i < CodeLengthsLengths.GetLength(); i++)
+			{
+				Elysium::Core::uint8_t Value = CodeLengthsLengths[i];
+
+				int asldkjf = 45;
 			}
 
 			/*

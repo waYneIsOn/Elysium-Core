@@ -35,7 +35,7 @@ namespace UnitTests::Core::IO::Compression
 			FileStream MinimalisticArchive = FileStream(u8"UT.zip", FileMode::Open, FileAccess::Read, FileShare::None);
 
 			ZipArchive Archive = ZipArchive(MinimalisticArchive, ZipArchiveMode::Read, false, Encoding::UTF8());
-			const Elysium::Core::Collections::Template::List<ZipArchiveEntry> Entries = Archive.GetEntries();
+			Elysium::Core::Collections::Template::List<ZipArchiveEntry> Entries = Archive.GetEntries();
 			Assert::AreEqual((size_t)6, Entries.GetCount());
 
 			ZipArchiveEntry& Entry1 = Entries[0];
