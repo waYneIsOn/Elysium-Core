@@ -10,16 +10,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "Array.hpp"
-#endif
-
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif
 
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
+#endif
+
+#ifndef _XUTILITY_
+#include <xutility>
 #endif
 
 #ifndef __midl
@@ -43,8 +43,12 @@ constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
 namespace Elysium::Core::Collections::Template
 {
 	template <typename T>
+	class Array;
+
+	template <typename T>
 	class List final
 	{
+		friend class Array<T>;
 	public:
 		List();
 		List(const size_t Capacity);
