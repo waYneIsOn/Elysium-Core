@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IndexOutOfRangeException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "List.hpp"
-#endif
-
 constexpr const size_t ARRAY_MAX = static_cast<size_t>(-1);
 
 namespace Elysium::Core::Collections::Template
@@ -45,13 +41,10 @@ namespace Elysium::Core::Collections::Template
 		Array(const std::initializer_list<T> InitializerList);
 		Array(const Array<T>& Source);
 		Array(Array<T>&& Right) noexcept;
-		Array(List<T>&& Right) noexcept;
 		~Array();
 
 		Array<T>& operator=(const Array<T>& Source);
 		Array<T>& operator=(Array<T>&& Right) noexcept;
-		Array<T>& operator=(List<T>&& Right) noexcept;
-
 		T& operator[](size_t Index);
 		const T& operator[](size_t Index) const;
 
@@ -114,12 +107,6 @@ namespace Elysium::Core::Collections::Template
 		*this = std::move(Right);
 	}
 	template<class T>
-	inline Array<T>::Array(List<T>&& Right) noexcept
-		: _Length(0), _Data(nullptr)
-	{
-		*this = std::move(Right);
-	}
-	template<class T>
 	inline Array<T>::~Array()
 	{
 		if (_Data != nullptr)
@@ -153,21 +140,6 @@ namespace Elysium::Core::Collections::Template
 			_Data = Right._Data;
 
 			Right._Length = 0;
-			Right._Data = nullptr;
-		}
-		return *this;
-	}
-
-	template<class T>
-	inline Array<T>& Array<T>::operator=(List<T>&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-			_Length = Right._Capacity;
-			_Data = Right._Data;
-
-			Right._Count = 0;
-			Right._Capacity = 0;
 			Right._Data = nullptr;
 		}
 		return *this;
