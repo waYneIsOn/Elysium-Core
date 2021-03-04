@@ -10,16 +10,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "Array.hpp"
-#endif
-
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif
 
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
+#endif
+
+#ifndef _XUTILITY_
+#include <xutility>
 #endif
 
 #ifndef __midl
@@ -43,8 +43,12 @@ constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
 namespace Elysium::Core::Collections::Template
 {
 	template <typename T>
+	class Array;
+
+	template <typename T>
 	class List final
 	{
+		friend class Array<T>;
 	public:
 		List();
 		List(const size_t Capacity);
@@ -101,7 +105,7 @@ namespace Elysium::Core::Collections::Template
 		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{ }
 	template<class T>
-	inline List<T>::List(const std::initializer_list<T> & InitializerList)
+	inline List<T>::List(const std::initializer_list<T>& InitializerList)
 		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
 		size_t Index = 0;
@@ -174,7 +178,7 @@ namespace Elysium::Core::Collections::Template
 		return *this;
 	}
 	template<class T>
-	inline T & List<T>::operator[](size_t Index)
+	inline T& List<T>::operator[](size_t Index)
 	{
 		if (Index >= _Count)
 		{
@@ -218,7 +222,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline void List<T>::Add(const T & Item)
+	inline void List<T>::Add(const T& Item)
 	{
 		// resize if required
 		Resize(_Count + 1);
@@ -228,7 +232,7 @@ namespace Elysium::Core::Collections::Template
 		_Count++;
 	}
 	template<typename T>
-	inline void List<T>::Add(T && Item)
+	inline void List<T>::Add(T&& Item)
 	{
 		// resize if required
 		Resize(_Count + 1);
@@ -252,7 +256,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline void List<T>::AddRange(const T * Collection, size_t Count)
+	inline void List<T>::AddRange(const T* Collection, size_t Count)
 	{
 		// resize if required
 		Resize(_Count + Count);
@@ -270,7 +274,7 @@ namespace Elysium::Core::Collections::Template
 		_Count = 0;
 	}
 	template<class T>
-	inline bool List<T>::Contains(const T & Item) const
+	inline bool List<T>::Contains(const T& Item) const
 	{
 		for (size_t i = 0; i < _Count; i++)
 		{
@@ -282,7 +286,7 @@ namespace Elysium::Core::Collections::Template
 		return false;
 	}
 	template<class T>
-	inline const size_t List<T>::IndexOf(const T & Item) const
+	inline const size_t List<T>::IndexOf(const T& Item) const
 	{
 		for (size_t i = 0; i < _Count; i++)
 		{
@@ -294,7 +298,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<typename T>
-	inline const size_t List<T>::IndexOf(const T & Item, size_t Index) const
+	inline const size_t List<T>::IndexOf(const T& Item, size_t Index) const
 	{
 		for (size_t i = Index; i < _Count; i++)
 		{
@@ -306,7 +310,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<class T>
-	inline void List<T>::Insert(size_t Index, const T & Item)
+	inline void List<T>::Insert(size_t Index, const T& Item)
 	{
 		if (Index > _Count)
 		{
@@ -321,7 +325,7 @@ namespace Elysium::Core::Collections::Template
 		_Count++;
 	}
 	template<typename T>
-	inline const size_t List<T>::LastIndexOf(const T & Item) const
+	inline const size_t List<T>::LastIndexOf(const T& Item) const
 	{
 		for (size_t i = _Count; i > 0; i--)
 		{
@@ -333,7 +337,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<typename T>
-	inline const size_t List<T>::LastIndexOf(const T & Item, size_t Index) const
+	inline const size_t List<T>::LastIndexOf(const T& Item, size_t Index) const
 	{
 		for (size_t i = _Count; i > Index; i--)
 		{
@@ -345,7 +349,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<class T>
-	inline bool List<T>::Remove(const T & Item)
+	inline bool List<T>::Remove(const T& Item)
 	{
 		for (size_t i = 0; i < _Count; i++)
 		{
