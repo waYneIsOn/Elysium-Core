@@ -46,7 +46,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		const bool Build(const X509Certificate& Certificate);
 		void Reset();
 	private:
-		X509ChainPolicy _ChainPolicy = X509ChainPolicy();
+		X509ChainPolicy _ChainPolicy;
 	};
 }
 #endif

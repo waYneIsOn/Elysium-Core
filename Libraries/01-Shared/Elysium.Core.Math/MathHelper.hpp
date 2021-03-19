@@ -22,6 +22,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Math
 {
+	Elysium::Core::int16_t Absolute(const Elysium::Core::int16_t Value);
+	Elysium::Core::int32_t Absolute(const Elysium::Core::int32_t Value);
+	Elysium::Core::int64_t Absolute(const Elysium::Core::int64_t Value);
+
 	class ELYSIUM_CORE_MATH_API MathHelper
 	{
 	public:

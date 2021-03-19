@@ -34,12 +34,12 @@ namespace Elysium::Core::Reflection
 	{
 		friend class Elysium::Core::Collections::Template::List<Elysium::Core::Reflection::Assembly>;
 	public:
-		Assembly(const Assembly& Source);
-		Assembly(Assembly&& Right) noexcept;
+		Assembly(const Assembly& Source) = delete;
+		Assembly(Assembly&& Right) noexcept = delete;
 		virtual ~Assembly();
 
-		Assembly& operator=(const Assembly& Source);
-		Assembly& operator=(Assembly&& Right) noexcept;
+		Assembly& operator=(const Assembly& Source) = delete;
+		Assembly& operator=(Assembly&& Right) noexcept = delete;
 
 		bool operator==(const Assembly& Other) const;
 		bool operator!=(const Assembly& Other) const;
@@ -57,7 +57,6 @@ namespace Elysium::Core::Reflection
 		//static std::map<Elysium::Core::Reflection::AssemblyName, Elysium::Core::Reflection::Assembly> _Bla;
 	protected:
 		Assembly();
-
 	private:
 		AssemblyName _AssemblyName;
 	};

@@ -9,6 +9,7 @@
 #endif
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::X509Chain()
+	: _ChainPolicy()
 { }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::~X509Chain()
 { }
@@ -61,6 +62,8 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 	{
 		throw CryptographicException(u8"Certificate chain creation failed.");
 	}
+
+	//CertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, &ChainContext, 
 
 	switch (ChainContext->TrustStatus.dwErrorStatus)
 	{

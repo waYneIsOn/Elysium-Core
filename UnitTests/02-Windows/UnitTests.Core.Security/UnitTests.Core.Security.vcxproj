@@ -182,6 +182,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HashAlgorithmTest.cpp" />
+    <ClCompile Include="OidTests.cpp" />
+    <ClCompile Include="X509Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">

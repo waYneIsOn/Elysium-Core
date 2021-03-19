@@ -1,11 +1,10 @@
 #include "X509CertificateCollection.hpp"
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::X509CertificateCollection()
-{
-}
+	: _Certificates()
+{ }
 Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::~X509CertificateCollection()
-{
-}
+{ }
 
 const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::operator[](size_t Index) const
 {

@@ -82,7 +82,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 	}
 
 	// get the size of the certificate
-	unsigned long ByteLength;
+	unsigned long ByteLength = 0;
 	if (CertSerializeCertificateStoreElement(_CertificateContext, 0, nullptr, &ByteLength))
 	{
 		// serialize the certificate context's encoded certificate and its properties.

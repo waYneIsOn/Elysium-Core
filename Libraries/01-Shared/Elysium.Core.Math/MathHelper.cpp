@@ -1,8 +1,29 @@
 #include "MathHelper.hpp"
 
-#ifndef _INC_LIMITS
+#ifndef _LIMITS_
 #include <limits>
 #endif
+
+Elysium::Core::int16_t Elysium::Core::Math::Absolute(const Elysium::Core::int16_t Value)
+{
+	// http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
+	const Elysium::Core::int16_t Mask = (Value >> sizeof(Elysium::Core::int16_t)) * CHAR_BIT - 1;
+	return (Value + Mask) ^ Mask;
+}
+
+Elysium::Core::int32_t Elysium::Core::Math::Absolute(const Elysium::Core::int32_t Value)
+{
+	// http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
+	const Elysium::Core::int32_t Mask = (Value >> sizeof(Elysium::Core::int32_t)) * CHAR_BIT - 1;
+	return (Value + Mask) ^ Mask;
+}
+
+Elysium::Core::int64_t Elysium::Core::Math::Absolute(const Elysium::Core::int64_t Value)
+{
+	// http://www.graphics.stanford.edu/~seander/bithacks.html#IntegerAbs
+	const Elysium::Core::int64_t Mask = (Value >> sizeof(Elysium::Core::int64_t)) * CHAR_BIT - 1;
+	return (Value + Mask) ^ Mask;
+}
 
 int Elysium::Core::Math::MathHelper::Absolute(const int Value)
 {

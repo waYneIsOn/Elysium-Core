@@ -44,7 +44,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		void Add(X509Certificate&& Item);
 		void Clear();
 	private:
-		Collections::Template::List<X509Certificate> _Certificates = { };
+		Collections::Template::List<X509Certificate> _Certificates;
 	};
 }
 #endif

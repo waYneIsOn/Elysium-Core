@@ -20,8 +20,7 @@ Elysium::Core::Security::Cryptography::Oid::~Oid()
 
 Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromFriendlyName(const Elysium::Core::String & FriendlyName, const OidGroup Group)
 {
-	// ToDo: convert wchar_t* to char* correctly!
-	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&FriendlyName[0]), (uint32_t)Group);
+	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&Text::Encoding::UTF16LE().GetBytes(&FriendlyName[0], FriendlyName.GetLength(), sizeof(char16_t))[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
 	{
 		throw CryptographicException();
@@ -31,9 +30,7 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 }
 Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const Elysium::Core::String & OidValue, const OidGroup Group)
 {
-	// ToDo: convert utf-8 char to char* correctly!
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Text::Encoding::Default().GetBytes(&OidValue[0], OidValue.GetLength());
-	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>(&Bytes[0]), (uint32_t)Group);
+	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>(&OidValue[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
 	{
 		throw CryptographicException();
@@ -44,25 +41,11 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 
 const Elysium::Core::String Elysium::Core::Security::Cryptography::Oid::GetFriendlyName() const
 {
-	// ToDo: convert wchar_t* to char16_t* correctly!
-	const wchar_t* WideString = _NativeOid->pwszName;
-	size_t WideStringLength = std::char_traits<wchar_t>::length(WideString);
-
-	size_t CharStringLength = WideStringLength + 1;
-	char* CharString = new char[CharStringLength];
-	size_t NumberOfCharsConverted;
-	size_t CharLength = wcstombs_s(&NumberOfCharsConverted, CharString, CharStringLength, WideString, WideStringLength);
-
-	Elysium::Core::String Result = Text::Encoding::Default().GetString((const byte*)&CharString[0], CharStringLength);
-	delete[] CharString;
-
-	return Result;
+	return Text::Encoding::UTF16LE().GetString((const Elysium::Core::byte*)_NativeOid->pwszName, std::char_traits<wchar_t>::length(_NativeOid->pwszName) * sizeof(wchar_t));
 }
 const Elysium::Core::String Elysium::Core::Security::Cryptography::Oid::GetValue() const
 {
-	// ToDo: convert char* to char16_t* correctly!
-	const char* CharString = _NativeOid->pszOID;
-	return Text::Encoding::Default().GetString((const byte*)CharString, std::char_traits<char>::length(CharString));
+	return Text::Encoding::ASCII().GetString((const Elysium::Core::byte*)_NativeOid->pszOID, std::char_traits<char>::length(_NativeOid->pszOID) * sizeof(char));
 }
 
 Elysium::Core::Security::Cryptography::Oid::Oid(const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER NativeOid)

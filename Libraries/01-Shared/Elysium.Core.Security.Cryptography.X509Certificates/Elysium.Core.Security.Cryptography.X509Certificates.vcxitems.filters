@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Certificate.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Chain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509ChainPolicy.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ChainPolicy.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509ContentType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509KeyStorageFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationFlag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Rfc">
+      <UniqueIdentifier>{4046c082-2d09-4e74-9581-646f35bb4e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rfc\8399">
+      <UniqueIdentifier>{2f3f29ec-e1fc-4532-8c7b-98f415c387c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Rfc\5280">
+      <UniqueIdentifier>{8f2d0249-abc5-484e-87c3-dae89dafff70}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

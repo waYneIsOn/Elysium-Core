@@ -39,6 +39,6 @@ const Elysium::Core::DateTime Elysium::Core::Security::Cryptography::X509Certifi
 }
 
 void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::Reset()
-{
-
+{	// ToDo:
+	throw 1;
 }

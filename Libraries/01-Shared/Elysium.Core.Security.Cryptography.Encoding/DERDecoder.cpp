@@ -246,7 +246,8 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		OidBuilder.Append(Convert::ToString(Value, 10));
 	}
 
-	return Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier(Asn1Identifier, Elysium::Core::Security::Cryptography::Oid::FromOidValue(OidBuilder.ToString(), Elysium::Core::Security::Cryptography::OidGroup::All));
+	return Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier(Asn1Identifier, 
+		Elysium::Core::Security::Cryptography::Oid::FromOidValue(OidBuilder.ToString(), Elysium::Core::Security::Cryptography::OidGroup::All));
 }
 
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
