@@ -56,10 +56,12 @@ namespace Elysium::Core::Globalization
 		const Elysium::Core::String GetEnglishName() const;
 		const Elysium::Core::String GetName() const;
 		const Elysium::Core::int32_t& GetLCID() const;
-		const NumberFormatInfo GetNumberFormatInfo() const;
+		NumberFormatInfo GetNumberFormatInfo() const;
 	private:
 		Elysium::Core::int32_t _LCID;
 		bool _UseUserOverride;
+
+		static Elysium::Core::int32_t GetLocaleIdFromName(const Elysium::Core::String& Name);
 	};
 }
 #endif

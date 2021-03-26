@@ -56,7 +56,7 @@ namespace Elysium::Core::Globalization
 		const Elysium::Core::int32_t GetNumberDecimalDigits() const;
 		const String GetNumberDecimalSeparator() const;
 		const String GetNumberGroupSeparator() const;
-		const int GetPercentDecimalDigits() const;
+		const Elysium::Core::int32_t GetPercentDecimalDigits() const;
 		const String GetPercentDecimalSeparator() const;
 		const String GetPercentGroupSeparator() const;
 		const Elysium::Core::int32_t GetPercentNegativePattern() const;

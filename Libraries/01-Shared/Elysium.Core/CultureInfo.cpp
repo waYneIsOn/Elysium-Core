@@ -37,10 +37,8 @@ Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int3
 	: _LCID(Culture), _UseUserOverride(UseUserOverride)
 { }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::String Name, const bool UseUserOverride)
-	: _LCID(0), _UseUserOverride(UseUserOverride)
-{
-	throw 1;
-}
+	: _LCID(GetLocaleIdFromName(Name)), _UseUserOverride(UseUserOverride)
+{ }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(const CultureInfo & Source)
 	: _LCID(Source._LCID), _UseUserOverride(Source._UseUserOverride)
 { }
@@ -126,7 +124,20 @@ const Elysium::Core::int32_t & Elysium::Core::Globalization::CultureInfo::GetLCI
 	return _LCID;
 }
 
-const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::CultureInfo::GetNumberFormatInfo() const
+Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::CultureInfo::GetNumberFormatInfo() const
 {
 	return Elysium::Core::Globalization::NumberFormatInfo(_LCID, false);
+}
+
+Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFromName(const Elysium::Core::String& Name)
+{
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(char16_t));
+	Elysium::Core::int32_t LCID = LocaleNameToLCID((LPCWSTR)&Bytes[0], 0);
+	if (LCID == 0)
+	{
+		throw SystemException();
+	}
+
+	return LCID;
 }
