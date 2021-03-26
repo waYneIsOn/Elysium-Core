@@ -16,17 +16,36 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_NET_SECURITY_BULKENCRYPTIONALGORITHM
+#include "BulkEncryptionAlgorithm.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SECURITY_KEYEXCHANGEALGORITHM
+#include "KeyExchangeAlgorithm.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_SECURITY_MESSAGEAUTHENTICATIONCODEALGORITHM
+#include "MessageAuthenticationCodeAlgorithm.hpp"
+#endif
+
 namespace Elysium::Core::Net::Security
 {
+	/// <summary>
+	/// ...
+	/// 
+	/// https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4
+	/// </summary>
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class TlsCipherSuite : uint16_t
+	enum class TlsCipherSuite : Elysium::Core::uint16_t
 #elif defined(__ANDROID__)
 	enum class TlsCipherSuite
 #else
 #error "undefined os"
 #endif
 	{
-		TLS_NULL_WITH_NULL_NULL = 0,
+		TLS_NULL_WITH_NULL_NULL = (Elysium::Core::uint8_t)KeyExchangeAlgorithm::Null |
+			(Elysium::Core::uint8_t)BulkEncryptionAlgorithm::Null | (Elysium::Core::uint8_t)MessageAuthenticationCodeAlgorithm::Null,
+
 		TLS_RSA_WITH_NULL_MD5 = 1,
 		TLS_RSA_WITH_NULL_SHA = 2,
 		TLS_RSA_EXPORT_WITH_RC4_40_MD5 = 3,
@@ -37,23 +56,27 @@ namespace Elysium::Core::Net::Security
 		TLS_RSA_EXPORT_WITH_DES40_CBC_SHA = 8,
 		TLS_RSA_WITH_DES_CBC_SHA = 9,
 		TLS_RSA_WITH_3DES_EDE_CBC_SHA = 10,
+
 		TLS_DH_DSS_EXPORT_WITH_DES40_CBC_SHA = 11,
 		TLS_DH_DSS_WITH_DES_CBC_SHA = 12,
 		TLS_DH_DSS_WITH_3DES_EDE_CBC_SHA = 13,
 		TLS_DH_RSA_EXPORT_WITH_DES40_CBC_SHA = 14,
 		TLS_DH_RSA_WITH_DES_CBC_SHA = 15,
 		TLS_DH_RSA_WITH_3DES_EDE_CBC_SHA = 16,
+
 		TLS_DHE_DSS_EXPORT_WITH_DES40_CBC_SHA = 17,
 		TLS_DHE_DSS_WITH_DES_CBC_SHA = 18,
 		TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA = 19,
 		TLS_DHE_RSA_EXPORT_WITH_DES40_CBC_SHA = 20,
 		TLS_DHE_RSA_WITH_DES_CBC_SHA = 21,
 		TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA = 22,
+
 		TLS_DH_anon_EXPORT_WITH_RC4_40_MD5 = 23,
 		TLS_DH_anon_WITH_RC4_128_MD5 = 24,
 		TLS_DH_anon_EXPORT_WITH_DES40_CBC_SHA = 25,
 		TLS_DH_anon_WITH_DES_CBC_SHA = 26,
 		TLS_DH_anon_WITH_3DES_EDE_CBC_SHA = 27,
+
 		TLS_KRB5_WITH_DES_CBC_SHA = 28,
 		TLS_KRB5_WITH_3DES_EDE_CBC_SHA = 29,
 		TLS_KRB5_WITH_RC4_128_SHA = 30,
@@ -68,10 +91,14 @@ namespace Elysium::Core::Net::Security
 		TLS_KRB5_EXPORT_WITH_DES_CBC_40_MD5 = 39,
 		TLS_KRB5_EXPORT_WITH_RC2_CBC_40_MD5 = 40,
 		TLS_KRB5_EXPORT_WITH_RC4_40_MD5 = 41,
+
 		TLS_PSK_WITH_NULL_SHA = 42,
+
 		TLS_DHE_PSK_WITH_NULL_SHA = 43,
+
 		TLS_RSA_PSK_WITH_NULL_SHA = 44,
 		TLS_RSA_WITH_AES_128_CBC_SHA = 45,
+
 		TLS_DH_DSS_WITH_AES_128_CBC_SHA = 46,
 		TLS_DH_RSA_WITH_AES_128_CBC_SHA = 47,
 		TLS_DHE_DSS_WITH_AES_128_CBC_SHA = 48,

@@ -118,5 +118,9 @@ Elysium::Core::byte Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
 
 void Elysium::Core::Net::Sockets::NetworkStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
 {
-	size_t BytesSent = _Socket.Send(&Buffer[0], Count);
+	size_t TotalBytesSent = 0;
+	while (TotalBytesSent < Count)
+	{
+		TotalBytesSent += _Socket.Send(&Buffer[TotalBytesSent], Count - TotalBytesSent);
+	}
 }

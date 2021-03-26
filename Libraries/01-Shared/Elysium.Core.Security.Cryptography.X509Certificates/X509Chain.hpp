@@ -41,6 +41,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		X509Chain& operator=(const X509Chain& Source) = delete;
 		X509Chain& operator=(X509Chain&& Right) noexcept = delete;
 
+		X509ChainPolicy& GetChainPolicy();
 		const X509ChainPolicy& GetChainPolicy() const;
 
 		const bool Build(const X509Certificate& Certificate);

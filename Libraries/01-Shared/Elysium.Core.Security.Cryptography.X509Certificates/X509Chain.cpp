@@ -14,6 +14,11 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::X509Chain()
 Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::~X509Chain()
 { }
 
+Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy & Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::GetChainPolicy()
+{
+	return _ChainPolicy;
+}
+
 const Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy & Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::GetChainPolicy() const
 {
 	return _ChainPolicy;

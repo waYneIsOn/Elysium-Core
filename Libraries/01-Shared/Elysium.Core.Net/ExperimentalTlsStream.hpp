@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_SECURITY_TLSSTREAM
-#define ELYSIUM_CORE_NET_SECURITY_TLSSTREAM
+#ifndef ELYSIUM_CORE_NET_SECURITY_EXPERIMENTALTLSSTREAM
+#define ELYSIUM_CORE_NET_SECURITY_EXPERIMENTALTLSSTREAM
 
 #ifdef _MSC_VER
 #pragma once
@@ -36,34 +36,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "TlsCipherSuite.hpp"
 #endif
 
-
-
-
-
-#define SECURITY_WIN32
-#include <security.h>
-
-#ifndef __SSPI_H__
-#include <sspi.h>
-#endif
-
-
-
-
-
-
 namespace Elysium::Core::Net::Security
 {
-	class ELYSIUM_CORE_NET_API TlsStream final : public AuthenticatedStream
+	class ELYSIUM_CORE_NET_API ExperimentalTlsStream final : public AuthenticatedStream
 	{
 	public:
-		TlsStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions & AuthenticationOptions);
-		TlsStream(const TlsStream& Source) = delete;
-		TlsStream(TlsStream&& Right) noexcept = delete;
-		virtual ~TlsStream();
+		ExperimentalTlsStream(IO::Stream& InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions& AuthenticationOptions);
+		ExperimentalTlsStream(const ExperimentalTlsStream& Source) = delete;
+		ExperimentalTlsStream(ExperimentalTlsStream&& Right) noexcept = delete;
+		virtual ~ExperimentalTlsStream();
 
-		TlsStream& operator=(const TlsStream& Source) = delete;
-		TlsStream& operator=(TlsStream&& Right) noexcept = delete;
+		ExperimentalTlsStream& operator=(const ExperimentalTlsStream& Source) = delete;
+		ExperimentalTlsStream& operator=(ExperimentalTlsStream&& Right) noexcept = delete;
 
 		virtual const bool GetCanRead() const override;
 		virtual const bool GetCanSeek() const override;
@@ -93,23 +77,17 @@ namespace Elysium::Core::Net::Security
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 
-		Elysium::Core::Collections::Template::List<Elysium::Core::byte> _ExtraBuffer;
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _InBuffer;
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _OutBuffer;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _LocalRandom;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _SessionId;
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _RemoteRandom;
+		TlsCipherSuite _ServerSelectedCipherSuite;
+		uint8_t _ServerSelectedCompressionMethod;
 
-		Elysium::Core::String _TargetHost;
-		Elysium::Core::Security::Authentication::TlsProtocols _TlsProtocols;
-		CredHandle _CredentialHandle;
-		_SecHandle _Context;
-		SecPkgContext_StreamSizes _Sizes;
-
-		void PerformClientHandshake();
-		void ClientHandshakeLoop(const bool Read);
-		void GetServersCertificate();
-		void GetStreamEncryptionProperties();
-
-		//void CreateCredentials();
-		//void GetNewClientCredentials();
+		void WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols);
+		void ReadServerHello();
+		void ReadServerCertificates();
+		void ReadServerKeyExchange();
+		void ReadServerHelloDone();
 	};
 }
 #endif

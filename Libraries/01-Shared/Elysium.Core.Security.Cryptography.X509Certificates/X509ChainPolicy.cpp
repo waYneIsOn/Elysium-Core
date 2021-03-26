@@ -38,6 +38,16 @@ const Elysium::Core::DateTime Elysium::Core::Security::Cryptography::X509Certifi
 	return _VerificationTime;
 }
 
+void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::SetRevocationFlag(const X509RevocationFlag Value)
+{
+	_RevocationFlag = Value;
+}
+
+void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::SetRevocationMode(const X509RevocationMode Value)
+{
+	_RevocationMode = Value;
+}
+
 void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::Reset()
 {	// ToDo:
 	throw 1;

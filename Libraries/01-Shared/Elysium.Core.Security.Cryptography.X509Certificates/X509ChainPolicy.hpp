@@ -66,6 +66,9 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		const X509VerificationFlags GetVerificationFlags() const;
 		const DateTime GetVerificationTime() const;
 
+		void SetRevocationFlag(const X509RevocationFlag Value);
+		void SetRevocationMode(const X509RevocationMode Value);
+
 		void Reset();
 	private:
 		OidCollection _ApplicationPolicy = OidCollection();

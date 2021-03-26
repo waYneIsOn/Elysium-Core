@@ -30,9 +30,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp">
       <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)TlsStream.cpp">
-      <Filter>Security</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.cpp">
       <Filter>Security</Filter>
     </ClCompile>
@@ -48,6 +45,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.cpp">
       <Filter>Sockets</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TlsStream.cpp">
+      <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.cpp">
+      <Filter>Security</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -92,9 +95,6 @@
       <Filter>Security</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsExtensionType.hpp">
-      <Filter>Security</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp">
       <Filter>Security</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.hpp">
@@ -157,6 +157,21 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.hpp">
       <Filter>Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyExchangeAlgorithm.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BulkEncryptionAlgorithm.hpp">
+      <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MessageAuthenticationCodeAlgorithm.hpp">
+      <Filter>Security</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

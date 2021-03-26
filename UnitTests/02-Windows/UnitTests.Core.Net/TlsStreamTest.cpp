@@ -1,44 +1,16 @@
 #include "CppUnitTest.h"
 
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKET
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/Socket.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SOCKETS_NETWORKSTREAM
-#include "../../..//Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SECURITY_TLSSTREAM
-#include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SECURITY_TLSPOLICYERRORS
-#include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsPolicyErrors.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_DERENCODER
-#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DEREncoder.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_IPENDPOINT
-#include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SOCKETS_NETWORKSTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_TLSPROTOCOLS
-#include "../../../Libraries/01-Shared/Elysium.Core.Security/TlsProtocols.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
-#endif
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsPolicyErrors.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security/AuthenticationException.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DEREncoder.hpp"
+//#include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
+//#include "../../../Libraries/01-Shared/Elysium.Core.Security/TlsProtocols.hpp"
+//#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
@@ -82,9 +54,6 @@ namespace UnitTests::Core::Net::Security
 				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 				});
 
-			// UserCertificateValidationCallback
-			// UserCertificateSelectionCallback
-
 			Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
 				const Elysium::Core::Net::Security::TlsPolicyErrors> UserCertificateValidationCallback =
@@ -102,26 +71,32 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&TlsStreamTests::SelectLocalCertificate>();
 
 			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
-
+			
 			TlsStream Stream = TlsStream(InnerStream, false, ClientAuthenticationOptions);
 			try
-			{ 
+			{
+				//Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls10);
+				//Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls11);
 				Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
+				//Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls13);
+				
+				String RequestMessage = String(u8"GET /index.html HTTP/1.1\r\nHost: www.ulfheim.net\r\n\r\n");
+				Stream.Write((byte*)&RequestMessage[0], RequestMessage.GetLength());
+				
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
+					Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32000);
+				size_t BytesReceived = Stream.Read(&Buffer[0], Buffer.GetLength());
+				String ResponseMessage = String((char8_t*)&Buffer[0], BytesReceived);
 			}
-			/*
 			catch (const AuthenticationException& ex)
 			{
-				TcpSocket.Disconnect(true);
+				const Elysium::Core::int32_t ErrorCode = ex.GetErrorCode();
 				Assert::Fail();
 			}
-			*/
 			catch (const Exception& ex)
 			{
-				TcpSocket.Disconnect(true);
 				Assert::Fail();
 			}
-			
-			TcpSocket.Disconnect(true);
 		}
 	private:
 		static const bool ValidateServerCertificate(const void* Sender, const X509Certificate& Certificate, const X509Chain& Chain, const TlsPolicyErrors PolicyErrors)
@@ -131,7 +106,16 @@ namespace UnitTests::Core::Net::Security
 				return true;
 			}
 
-			return false;
+			if (static_cast<Elysium::Core::uint32_t>(PolicyErrors & Elysium::Core::Net::Security::TlsPolicyErrors::RemoteCertificateChainErrors) != 0)
+			{
+				// ToDo: iterate certificate Chain.ChainStatus
+
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Collections::Template::Array<String>& AcceptableIssuers)
