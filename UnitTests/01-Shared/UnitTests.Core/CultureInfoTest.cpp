@@ -51,10 +51,28 @@ namespace UnitTests::Core::Globalization
 			AssertExtended::AreEqual(String(u8"+"), NumberFormat.GetPositiveSign());
 		}
 
-		TEST_METHOD(CheckCultureByName)
+		TEST_METHOD(CheckCultureGermanAustria)
 		{
 			// check culture
-			const CultureInfo Culture = CultureInfo(u8"de-AT", true);
+			const CultureInfo NamedCulture = CultureInfo(u8"de-AT", true);
+			const CultureInfo NumberedCulture = CultureInfo(3079, true);
+
+			CheckCultureGermanAustria(NamedCulture);
+			CheckCultureGermanAustria(NumberedCulture);
+
+			// change decimal seperator to X (and back again)
+			NumberFormatInfo NumberFormat = NamedCulture.GetNumberFormatInfo();
+
+			String OriginalCurrencyDecimalSeparator = NumberFormat.GetCurrencyDecimalSeparator();
+			NumberFormat.SetCurrencyDecimalSeparator(String(u8"X"));
+			AssertExtended::AreEqual(String(u8"X"), NumberFormat.GetCurrencyDecimalSeparator());
+
+			NumberFormat.SetCurrencyDecimalSeparator(OriginalCurrencyDecimalSeparator);
+			AssertExtended::AreEqual(String(u8","), NumberFormat.GetCurrencyDecimalSeparator());
+		}
+	private:
+		static void CheckCultureGermanAustria(const CultureInfo& Culture)
+		{
 			Assert::AreEqual(3079, Culture.GetLCID());
 			AssertExtended::AreEqual(String(u8"de-AT"), Culture.GetName());
 
@@ -63,10 +81,6 @@ namespace UnitTests::Core::Globalization
 
 			// check numberformatinfo
 			NumberFormatInfo NumberFormat = Culture.GetNumberFormatInfo();
-			NumberFormat.SetCurrencyDecimalSeparator(String(u8"X"));
-			AssertExtended::AreEqual(String(u8"X"), NumberFormat.GetCurrencyDecimalSeparator());
-
-			NumberFormat.SetCurrencyDecimalSeparator(String(u8","));
 			AssertExtended::AreEqual(String(u8","), NumberFormat.GetCurrencyDecimalSeparator());
 		}
 	};
