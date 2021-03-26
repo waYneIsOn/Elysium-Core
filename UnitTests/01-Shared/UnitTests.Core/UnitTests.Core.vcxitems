@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CharTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfoTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformIndependentTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.cpp" />

@@ -16,11 +16,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
+#endif
+
 namespace Elysium::Core::Globalization
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class UnicodeCategory : Elysium::Core::uint8_t
-#elif defined(__ANDROID__)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	enum class UnicodeCategory : Elysium::Core::uint32_t
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 	enum class UnicodeCategory
 #else
 #error "undefined os"

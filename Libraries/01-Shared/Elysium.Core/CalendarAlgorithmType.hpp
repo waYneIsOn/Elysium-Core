@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
-#define ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
+#ifndef ELYSIUM_CORE_GLOBALIZATION_CALENDARALGORITHMTYPE
+#define ELYSIUM_CORE_GLOBALIZATION_CALENDARALGORITHMTYPE
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,16 +23,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Globalization
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class DigitShapes : Elysium::Core::uint32_t
+	enum class CalendarAlgorithmType : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class DigitShapes
+	enum class CalendarAlgorithmType
 #else
 #error "undefined os"
 #endif
 	{
-		Context = 0,
-		None = 1,
-		NativeNational = 2
+		Unknown = 0,
+
+		SolarCalendar = 1,
+
+		LunarCalendar = 2,
+
+		LunisolarCalendar = 3,
 	};
 }
 #endif

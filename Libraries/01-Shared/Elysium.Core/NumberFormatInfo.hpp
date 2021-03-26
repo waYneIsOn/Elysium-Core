@@ -34,36 +34,37 @@ namespace Elysium::Core::Globalization
 	{
 	public:
 		NumberFormatInfo();
-		NumberFormatInfo(const NumberFormatInfo& Source) = delete;
-		NumberFormatInfo(NumberFormatInfo&& Right) noexcept = delete;
+		NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly);
+		NumberFormatInfo(const NumberFormatInfo& Source);
+		NumberFormatInfo(NumberFormatInfo&& Right) noexcept;
 		~NumberFormatInfo();
 
-		NumberFormatInfo& operator=(const NumberFormatInfo& Source) = delete;
-		NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept = delete;
+		NumberFormatInfo& operator=(const NumberFormatInfo& Source);
+		NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept;
 
 		const Elysium::Core::int32_t GetCurrencyDecimalDigits() const;
-		const String& GetCurrencyDecimalSeparator() const;
-		const String& GetCurrencyGroupSeparator() const;
+		const String GetCurrencyDecimalSeparator() const;
+		const String GetCurrencyGroupSeparator() const;
 		const Elysium::Core::int32_t GetCurrencyNegativePattern() const;
 		const Elysium::Core::int32_t GetCurrencyPositivePattern() const;
-		const String& GetCurrencySymbol() const;
+		const String GetCurrencySymbol() const;
 		const DigitShapes GetDigitSubstitution() const;
 		const bool GetIsReadOnly() const;
-		const String& GetNaNSymbol() const;
-		const String& GetNegativeInfinitySymbol() const;
-		const String& GetNegativeSign() const;
+		const String GetNaNSymbol() const;
+		const String GetNegativeInfinitySymbol() const;
+		const String GetNegativeSign() const;
 		const Elysium::Core::int32_t GetNumberDecimalDigits() const;
-		const String& GetNumberDecimalSeparator() const;
-		const String& GetNumberGroupSeparator() const;
+		const String GetNumberDecimalSeparator() const;
+		const String GetNumberGroupSeparator() const;
 		const int GetPercentDecimalDigits() const;
-		const String& GetPercentDecimalSeparator() const;
-		const String& GetPercentGroupSeparator() const;
+		const String GetPercentDecimalSeparator() const;
+		const String GetPercentGroupSeparator() const;
 		const Elysium::Core::int32_t GetPercentNegativePattern() const;
 		const Elysium::Core::int32_t GetPercentPositivePattern() const;
-		const String& GetPercentSymbol() const;
-		const String& GetPerMilleSymbol() const;
-		const String& GetPositiveInfinitySymbol() const;
-		const String& GetPositiveSign() const;
+		const String GetPercentSymbol() const;
+		const String GetPerMilleSymbol() const;
+		const String GetPositiveInfinitySymbol() const;
+		const String GetPositiveSign() const;
 
 		void SetCurrencyDecimalDigits(const Elysium::Core::int32_t Value);
 		void SetCurrencyDecimalSeparator(const String& Value);
@@ -89,8 +90,12 @@ namespace Elysium::Core::Globalization
 		void SetPositiveSign(const String& Value);
 
 		//static const NumberFormatInfo& GetCurrentInfo();
-		static const NumberFormatInfo& GetInvariantInfo();
+		//static const NumberFormatInfo& GetInvariantInfo();
 	private:
+		Elysium::Core::int32_t _LCID;
+		bool _IsReadOnly;
+
+		/*
 		Elysium::Core::int32_t _CurrencyDecimalDigits;
 		String _CurrencyDecimalSeparator;
 		String _CurrencyGroupSeparator;
@@ -121,6 +126,7 @@ namespace Elysium::Core::Globalization
 		String _PositiveSign;
 
 		static NumberFormatInfo _InvariantInfo;
+		*/
 	};
 }
 #endif

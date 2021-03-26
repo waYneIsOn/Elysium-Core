@@ -1,6 +1,18 @@
 #include "CultureInfo.hpp"
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "SystemException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
@@ -9,33 +21,31 @@
 #ifndef _WINNLS_
 #include <WinNls.h>
 #endif
+#else
+#error "undefined os"
 #endif
 
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#ifndef _XSTRING_
+#include <xstring>	// std::char_traits
 #endif
 
-Elysium::Core::Globalization::CultureInfo::CultureInfo()
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	: Elysium::Core::Globalization::CultureInfo::CultureInfo(GetSystemDefaultLCID())
-	// ToDo: use GetUserDefaultLCID instead?
-#elif defined(__ANDROID__)
-	: Elysium::Core::Globalization::CultureInfo::CultureInfo(0)
-	// ToDo: how to get the current locale id on android? getDefaultLocale()?
-#endif
+Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int32_t Culture, const bool UseUserOverride)
+	: _LCID(Culture), _UseUserOverride(UseUserOverride)
 { }
-Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int32_t Culture)
-	: _LCID(Culture)
-{ }
+Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::String Name, const bool UseUserOverride)
+	: _LCID(0), _UseUserOverride(UseUserOverride)
+{
+	throw 1;
+}
 Elysium::Core::Globalization::CultureInfo::CultureInfo(const CultureInfo & Source)
-	: _LCID(Source._LCID)
+	: _LCID(Source._LCID), _UseUserOverride(Source._UseUserOverride)
 { }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(CultureInfo && Right) noexcept
-	: _LCID(0)
+	: _LCID(0), _UseUserOverride()
 {
 	*this = std::move(Right);
 }
@@ -47,6 +57,7 @@ Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::Cultur
 	if (this != &Source)
 	{
 		_LCID = Source._LCID;
+		_UseUserOverride = Source._UseUserOverride;
 	}
 	return *this;
 }
@@ -54,34 +65,68 @@ Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::Cultur
 {
 	if (this != &Right)
 	{
-		_LCID = Right._LCID;
-
-		Right._LCID = 0;
+		_LCID = std::move(Right._LCID);
+		_UseUserOverride = std::move(Right._UseUserOverride);
 	}
 	return *this;
 }
 
-void Elysium::Core::Globalization::CultureInfo::GetName(String * Output) const
+const Elysium::Core::Globalization::CultureInfo Elysium::Core::Globalization::CultureInfo::GetInvariantCulture()
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	// ToDo: char/wchar_t -> char8_t
-	throw 1;
-	/*
-	*Output = String(LOCALE_NAME_MAX_LENGTH);
-	if (LCIDToLocaleName((LCID)_LCID, (LPWSTR)Output->GetCharArray(), LOCALE_NAME_MAX_LENGTH, 0) == 0)
+	return CultureInfo(LOCALE_INVARIANT, false);
+}
+
+const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDisplayName() const
+{
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
+	if (GetLocaleInfo((LCID)_LCID, LOCALE_SNATIVEDISPLAYNAME, (LPWSTR)&Value[0], LOCALE_NAME_MAX_LENGTH) == 0)
 	{
-		unsigned long LastError = GetLastError();
-		// ToDo: throw specific exception
-		throw Exception(u8"couldn't get locale name from locale id");
+		throw SystemException();
 	}
-	*/
-#elif defined(__ANDROID__)
-	// ToDo: ...
+
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
 #else
 #error "undefined os"
 #endif
 }
-const Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLCID() const
+
+const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglishName() const
+{
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
+	if (GetLocaleInfo((LCID)_LCID, LOCALE_SENGLISHDISPLAYNAME, (LPWSTR)&Value[0], LOCALE_NAME_MAX_LENGTH) == 0)
+	{
+		throw SystemException();
+	}
+
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+#else
+#error "undefined os"
+#endif
+}
+
+const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetName() const
+{
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
+	if (LCIDToLocaleName((LCID)_LCID, (LPWSTR)&Value[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
+	{
+		throw SystemException();
+	}
+
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+#else
+#error "undefined os"
+#endif
+}
+
+const Elysium::Core::int32_t & Elysium::Core::Globalization::CultureInfo::GetLCID() const
 {
 	return _LCID;
+}
+
+const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::CultureInfo::GetNumberFormatInfo() const
+{
+	return Elysium::Core::Globalization::NumberFormatInfo(_LCID, false);
 }

@@ -129,6 +129,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CalendarAlgorithmType.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

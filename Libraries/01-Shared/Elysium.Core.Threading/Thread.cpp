@@ -17,11 +17,11 @@
 #endif
 
 Elysium::Core::Threading::Thread::Thread(const Delegate<void>& ThreadStart)
-	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo()),
+	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo::GetInvariantCulture()),
 	_Parameters(ThreadParameters(ThreadStart))
 { }
 Elysium::Core::Threading::Thread::Thread(const Delegate<void, void*>& ParameterizedThreadStart)
-	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo()),
+	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo::GetInvariantCulture()),
 	_Parameters(ThreadParameters(ParameterizedThreadStart))
 { }
 Elysium::Core::Threading::Thread::~Thread()

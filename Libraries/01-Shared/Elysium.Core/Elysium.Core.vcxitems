@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CalendarAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />

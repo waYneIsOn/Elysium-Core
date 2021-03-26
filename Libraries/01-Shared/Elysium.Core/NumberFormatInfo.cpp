@@ -1,112 +1,212 @@
 #include "NumberFormatInfo.hpp"
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "InvalidOperationException.hpp"
 #endif
 
-Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::_InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo();
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "SystemException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
+#include <Windows.h>
+#endif
+
+#ifndef _WINNLS_
+#include <WinNls.h>
+#endif
+#else
+#error "undefined os"
+#endif
+
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
+#ifndef _XSTRING_
+#include <xstring>	// std::char_traits
+#endif
 
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
-	: _CurrencyDecimalDigits(2), _CurrencyDecimalSeparator(u8"."), _CurrencyGroupSeparator(u8","), _CurrencyNegativePattern(0),
-	_CurrencyPositivePattern(0), _CurrencySymbol(u8"¤"), _DigitSubstitution(DigitShapes::None), _IsReadOnly(false), _NaNSymbol(u8"NaN"),
-	_NegativeInfinitySymbol(u8"-Infinity"), _NegativeSign(u8"-"), _NumberDecimalDigits(2), _NumberDecimalSeparator(u8"."), _NumberGroupSeparator(u8","),
-	_PercentDecimalDigits(2), _PercentDecimalSeparator(u8"."), _PercentGroupSeparator(u8","),_PercentNegativePattern(0),
-	_PercentPositivePattern(0), _PercentSymbol(u8"%"), _PerMilleSymbol(u8"‰"), _PositiveInfinitySymbol(u8"Infinity"), _PositiveSign(u8"+")
+	: NumberFormatInfo(LOCALE_INVARIANT, false)
 { }
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly)
+	: _LCID(Culture), _IsReadOnly(ReadOnly)
+{ }
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const NumberFormatInfo & Source)
+	: _LCID(Source._LCID), _IsReadOnly(Source._IsReadOnly)
+{ }
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(NumberFormatInfo&& Right) noexcept
+	: _LCID(LOCALE_INVARIANT), _IsReadOnly(false)
+{
+	*this = std::move(Right);
+}
 Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
 { }
 
+Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::NumberFormatInfo::operator=(const NumberFormatInfo & Source)
+{
+	if (this != &Source)
+	{
+		_LCID = Source._LCID;
+		_IsReadOnly = Source._IsReadOnly;
+	}
+	return *this;
+}
+
+Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::NumberFormatInfo::operator=(NumberFormatInfo&& Right) noexcept
+{
+	if (this != &Right)
+	{
+		_LCID = std::move(Right._LCID);
+		_IsReadOnly = std::move(Right._IsReadOnly);
+	}
+	return *this;
+}
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalDigits() const
 {
-	return _CurrencyDecimalDigits;
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	Elysium::Core::int32_t Value = 48;
+	if (GetLocaleInfo((LCID)_LCID, LOCALE_ICURRDIGITS, (LPWSTR)&Value, sizeof(Value) / sizeof(wchar_t)) == 0)
+	{
+		throw SystemException();
+	}
+	
+	return Value - 48;
+#else
+#error "undefined os"
+#endif
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalSeparator() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalSeparator() const
 {
-	return _CurrencyDecimalSeparator;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyGroupSeparator() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyGroupSeparator() const
 {
-	return _CurrencyGroupSeparator;
+	throw 1;
 }
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyNegativePattern() const
 {
-	return _CurrencyNegativePattern;
+	throw 1;
 }
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyPositivePattern() const
 {
-	return _CurrencyPositivePattern;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetCurrencySymbol() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetCurrencySymbol() const
 {
-	return _CurrencySymbol;
+	throw 1;
 }
+
 const Elysium::Core::Globalization::DigitShapes Elysium::Core::Globalization::NumberFormatInfo::GetDigitSubstitution() const
 {
-	return _DigitSubstitution;
+	throw 1;
 }
+
 const bool Elysium::Core::Globalization::NumberFormatInfo::GetIsReadOnly() const
 {
 	return _IsReadOnly;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetNaNSymbol() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetNaNSymbol() const
 {
-	return _NaNSymbol;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetNegativeInfinitySymbol() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetNegativeInfinitySymbol() const
 {
-	return _NegativeInfinitySymbol;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetNegativeSign() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetNegativeSign() const
 {
-	return _NegativeSign;
+	throw 1;
 }
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalDigits() const
 {
-	return _NumberDecimalDigits;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalSeparator() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalSeparator() const
 {
-	return _NumberDecimalSeparator;
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
+	if (GetLocaleInfo((LCID)_LCID, LOCALE_SDECIMAL, (LPWSTR)&Value[0], LOCALE_NAME_MAX_LENGTH) == 0)
+	{
+		throw SystemException();
+	}
+
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+#else
+#error "undefined os"
+#endif
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetNumberGroupSeparator() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetNumberGroupSeparator() const
 {
-	return _NumberGroupSeparator;
+	throw 1;
 }
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentDecimalDigits() const
 {
-	return _PercentDecimalDigits;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetPercentDecimalSeparator() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPercentDecimalSeparator() const
 {
-	return _PercentDecimalSeparator;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetPercentGroupSeparator() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPercentGroupSeparator() const
 {
-	return _PercentGroupSeparator;
+	throw 1;
 }
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentNegativePattern() const
 {
-	return _PercentNegativePattern;
+	throw 1;
 }
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentPositivePattern() const
 {
-	return _PercentPositivePattern;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetPercentSymbol() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPercentSymbol() const
 {
-	return _PercentSymbol;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetPerMilleSymbol() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPerMilleSymbol() const
 {
-	return _PerMilleSymbol;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetPositiveInfinitySymbol() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPositiveInfinitySymbol() const
 {
-	return _PositiveInfinitySymbol;
+	throw 1;
 }
-const Elysium::Core::String & Elysium::Core::Globalization::NumberFormatInfo::GetPositiveSign() const
+
+const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPositiveSign() const
 {
-	return _PositiveSign;
+	throw 1;
 }
 
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(const Elysium::Core::int32_t Value)
@@ -115,15 +215,16 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(co
 	{
 		throw InvalidOperationException();
 	}
-	_CurrencyDecimalDigits = Value;
+	//_CurrencyDecimalDigits = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalSeparator(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_CurrencyDecimalSeparator = Value;
+	//_CurrencyDecimalSeparator = Value;
 }
 
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyGroupSeparator(const String & Value)
@@ -132,162 +233,176 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyGroupSeparator(c
 	{
 		throw InvalidOperationException();
 	}
-	_CurrencyGroupSeparator = Value;
+	//_CurrencyGroupSeparator = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyNegativePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_CurrencyNegativePattern = Value;
+	//_CurrencyNegativePattern = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyPositivePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_CurrencyPositivePattern = Value;
+	//_CurrencyPositivePattern = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencySymbol(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_CurrencySymbol = Value;
+	//_CurrencySymbol = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetDigitSubstitution(const DigitShapes Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_DigitSubstitution = Value;
+	//_DigitSubstitution = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetNaNSymbol(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_NaNSymbol = Value;
+	//_NaNSymbol = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetNegativeInfinitySymbol(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_NegativeInfinitySymbol = Value;
+	//_NegativeInfinitySymbol = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetNegativeSign(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_NegativeSign = Value;
+	//_NegativeSign = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetNumberDecimalDigits(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_NumberDecimalDigits = Value;
+	//_NumberDecimalDigits = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetNumberDecimalSeparator(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_NumberDecimalSeparator = Value;
+	//_NumberDecimalSeparator = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetNumberGroupSeparator(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_NumberGroupSeparator = Value;
+	//_NumberGroupSeparator = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPercentDecimalDigits(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PercentDecimalDigits = Value;
+	//_PercentDecimalDigits = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPercentDecimalSeparator(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PercentDecimalSeparator = Value;
+	//_PercentDecimalSeparator = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPercentGroupSeparator(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PercentGroupSeparator = Value;
+	//_PercentGroupSeparator = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPercentNegativePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PercentNegativePattern = Value;
+	//_PercentNegativePattern = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPercentPositivePattern(const Elysium::Core::int32_t Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PercentPositivePattern = Value;
+	//_PercentPositivePattern = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPercentSymbol(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PercentSymbol = Value;
+	//_PercentSymbol = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPerMilleSymbol(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PerMilleSymbol = Value;
+	//_PerMilleSymbol = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPositiveInfinitySymbol(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PositiveInfinitySymbol = Value;
+	//_PositiveInfinitySymbol = Value;
 }
+
 void Elysium::Core::Globalization::NumberFormatInfo::SetPositiveSign(const String & Value)
 {
 	if (_IsReadOnly)
 	{
 		throw InvalidOperationException();
 	}
-	_PositiveSign = Value;
-}
-
-const Elysium::Core::Globalization::NumberFormatInfo & Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo()
-{
-	return _InvariantInfo;
+	//_PositiveSign = Value;
 }
