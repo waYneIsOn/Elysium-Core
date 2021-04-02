@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
-#define ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
+#ifndef ELYSIUM_CORE_GLOBALIZATION_CALENDARWEEKRULE
+#define ELYSIUM_CORE_GLOBALIZATION_CALENDARWEEKRULE
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,18 +23,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Globalization
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class DigitShapes : Elysium::Core::uint32_t
+	enum class CalendarWeekRule : Elysium::Core::uint32_t
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class DigitShapes
+	enum class CalendarWeekRule
 #else
 #error "undefined os"
 #endif
 	{
-		Context = 0,
+		FirstDay = 0,
 
-		None = 1,
+		FirstFullWeek = 1,
 
-		NativeNational = 2
+		FirstFourDayWeek = 2,
 	};
 }
 #endif

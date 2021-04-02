@@ -3,6 +3,7 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/CultureInfo.hpp"
 
 using namespace Elysium::Core;
+using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Globalization;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,6 +12,37 @@ namespace UnitTests::Core::Globalization
 	TEST_CLASS(CultureInfoTest)
 	{
 	public:
+		TEST_METHOD(GetSpecificCultures)
+		{
+			Array<CultureInfo> NeutralCultures = CultureInfo::GetCultures(CultureTypes::NeutralCultures);
+			Array<CultureInfo> SpecificCultures = CultureInfo::GetCultures(CultureTypes::SpecificCultures);
+			Array<CultureInfo> InstalledCultures = CultureInfo::GetCultures(CultureTypes::InstalledCultures);
+			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
+			Assert::AreNotSame((size_t)0, AllCultures.GetLength());
+
+			for (size_t i = 0; i < AllCultures.GetLength(); i++)
+			{
+				const String Name = AllCultures[i].GetName();
+				if (Name == u8"aa")
+				{
+					int lkdfjg = 45;
+				}
+
+				if (Name.GetLength() == 0)
+				{
+					Logger::WriteMessage("\r\n");
+				}
+				else
+				{
+					Array<byte> Bytes = Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
+					Logger::WriteMessage((wchar_t*)&Bytes[0]);
+					Logger::WriteMessage("\r\n");
+				}
+			}
+
+			int sdlkjf = 34;
+		}
+
 		TEST_METHOD(CheckInvariantCulture)
 		{
 			// check culture
@@ -57,18 +89,27 @@ namespace UnitTests::Core::Globalization
 			const CultureInfo NamedCulture = CultureInfo(u8"de-AT", true);
 			const CultureInfo NumberedCulture = CultureInfo(3079, true);
 
+			Assert::AreEqual(NumberedCulture.GetLCID(), NamedCulture.GetLCID());
+
 			CheckCultureGermanAustria(NamedCulture);
 			CheckCultureGermanAustria(NumberedCulture);
 
-			// change decimal seperator to X (and back again)
+			// change some values (and back again)
 			NumberFormatInfo NumberFormat = NamedCulture.GetNumberFormatInfo();
-
+			int32_t OriginalCurrencyDecimalDigits = NumberFormat.GetCurrencyDecimalDigits();
 			String OriginalCurrencyDecimalSeparator = NumberFormat.GetCurrencyDecimalSeparator();
+
+			NumberFormat.SetCurrencyDecimalDigits(OriginalCurrencyDecimalDigits + 1);
+			Assert::AreEqual(OriginalCurrencyDecimalDigits + 1, NumberFormat.GetCurrencyDecimalDigits());
+
+			NumberFormat.SetCurrencyDecimalDigits(OriginalCurrencyDecimalDigits);
+			Assert::AreEqual(OriginalCurrencyDecimalDigits, NumberFormat.GetCurrencyDecimalDigits());
+
 			NumberFormat.SetCurrencyDecimalSeparator(String(u8"X"));
 			AssertExtended::AreEqual(String(u8"X"), NumberFormat.GetCurrencyDecimalSeparator());
 
 			NumberFormat.SetCurrencyDecimalSeparator(OriginalCurrencyDecimalSeparator);
-			AssertExtended::AreEqual(String(u8","), NumberFormat.GetCurrencyDecimalSeparator());
+			AssertExtended::AreEqual(OriginalCurrencyDecimalSeparator, NumberFormat.GetCurrencyDecimalSeparator());
 		}
 	private:
 		static void CheckCultureGermanAustria(const CultureInfo& Culture)

@@ -1,5 +1,9 @@
 #include "NumberFormatInfo.hpp"
 
+#ifndef ELYSIUM_CORE_CONVERT
+#include "Convert.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "System.hpp"
 #endif
@@ -385,13 +389,17 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(co
 	{
 		throw InvalidOperationException();
 	}
-	/*
-	if (SetLocaleInfo((LCID)_LCID, LOCALE_ICURRDIGITS, L"") == 0)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	Elysium::Core::String ValueAsString = Elysium::Core::Convert::ToString(Value, 10);
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&ValueAsString[0], ValueAsString.GetLength(), sizeof(char16_t));
+	if (SetLocaleInfo((LCID)_LCID, LOCALE_ICURRDIGITS, (LPCWSTR)&Bytes[0]) == 0)
 	{
 		throw SystemException();
 	}
-	*/
-	throw 1;
+#else
+#error "undefined os"
+#endif
 }
 
 void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalSeparator(const String & Value)
@@ -418,6 +426,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyGroupSeparator(c
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -427,6 +436,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyNegativePattern(
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -436,6 +446,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyPositivePattern(
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -445,6 +456,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencySymbol(const Str
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -454,6 +466,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetDigitSubstitution(const 
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -463,6 +476,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNaNSymbol(const String &
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -472,6 +486,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNegativeInfinitySymbol(c
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -481,6 +496,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNegativeSign(const Strin
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -490,6 +506,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNumberDecimalDigits(cons
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -499,6 +516,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNumberDecimalSeparator(c
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -508,6 +526,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetNumberGroupSeparator(con
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -517,6 +536,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentDecimalDigits(con
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -526,6 +546,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentDecimalSeparator(
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -535,6 +556,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentGroupSeparator(co
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -544,6 +566,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentNegativePattern(c
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -553,6 +576,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentPositivePattern(c
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -562,6 +586,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPercentSymbol(const Stri
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -571,6 +596,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPerMilleSymbol(const Str
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -580,6 +606,7 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPositiveInfinitySymbol(c
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }
 
@@ -589,5 +616,6 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetPositiveSign(const Strin
 	{
 		throw InvalidOperationException();
 	}
+	// ToDo:
 	throw 1;
 }

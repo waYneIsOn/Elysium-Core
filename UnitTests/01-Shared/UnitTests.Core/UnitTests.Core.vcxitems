@@ -20,6 +20,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformIndependentTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfoTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveTest.cpp" />
   </ItemGroup>
   <ItemGroup>

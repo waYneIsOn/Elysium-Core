@@ -33,6 +33,16 @@
 #include <xstring>	// std::char_traits
 #endif
 
+Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> Elysium::Core::Globalization::CultureInfo::_LocaleIds =
+	Elysium::Core::Collections::Template::List<Elysium::Core::int32_t>();
+
+Elysium::Core::Globalization::CultureInfo::CultureInfo()
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	: _LCID(LOCALE_INVARIANT), _UseUserOverride(false)
+#else
+#error "undefined os"
+#endif
+{ }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int32_t Culture, const bool UseUserOverride)
 	: _LCID(Culture), _UseUserOverride(UseUserOverride)
 { }
@@ -71,7 +81,34 @@ Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::Cultur
 
 const Elysium::Core::Globalization::CultureInfo Elysium::Core::Globalization::CultureInfo::GetInvariantCulture()
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	return CultureInfo(LOCALE_INVARIANT, false);
+#else
+#error "undefined os"
+#endif
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Globalization::CultureInfo> Elysium::Core::Globalization::CultureInfo::GetCultures(const CultureTypes& Types)
+{
+	_LocaleIds.Clear();
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	// ToDo: convert Types to second parameter correctly! (example: LOCALE_ALL = 0)
+	if (EnumSystemLocalesEx(EnumerateLocalesExCallback, static_cast<unsigned long>(Types), 0, nullptr) == 0)
+	{
+		throw SystemException();
+	}
+#else
+#error "undefined os"
+#endif
+
+	Elysium::Core::Collections::Template::Array<CultureInfo> CultureInfos = Elysium::Core::Collections::Template::Array<CultureInfo>(_LocaleIds.GetCount());
+	for (size_t i = 0; i < CultureInfos.GetLength(); i++)
+	{
+		CultureInfos[i]._LCID = _LocaleIds[i];
+	}
+
+	return CultureInfos;
 }
 
 const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDisplayName() const
@@ -131,6 +168,7 @@ Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::Cul
 
 Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFromName(const Elysium::Core::String& Name)
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
 		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(char16_t));
 	Elysium::Core::int32_t LCID = LocaleNameToLCID((LPCWSTR)&Bytes[0], 0);
@@ -140,4 +178,22 @@ Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFro
 	}
 
 	return LCID;
+#else
+#error "undefined os"
+#endif
+}
+
+Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::EnumerateLocalesExCallback(wchar_t* Name, unsigned long Flags, Elysium::Core::int64_t Parameters)
+{
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	Elysium::Core::int32_t LCID = LocaleNameToLCID(Name, 0);
+	if (LCID == 0)
+	{
+		throw SystemException();
+	}
+	_LocaleIds.Add(LCID);
+#else
+#error "undefined os"
+#endif
+	return 1;
 }
