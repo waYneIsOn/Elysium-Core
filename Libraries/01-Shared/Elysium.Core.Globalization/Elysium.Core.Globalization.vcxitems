@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{b3021f5d-6bba-449c-9742-38d64fc3854e}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CalendarAlgorithmType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CalendarWeekRule.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeBlock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
+  </ItemGroup>
+</Project>

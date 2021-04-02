@@ -4,12 +4,6 @@
     <Filter Include="Collections">
       <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Diagnostics">
-      <UniqueIdentifier>{2814adba-fd8f-451c-a12c-1a6883b5742b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Globalization">
-      <UniqueIdentifier>{23c826fa-de84-4c8e-8b91-dc02b3c18f21}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Runtime">
       <UniqueIdentifier>{d2fe92a0-e635-42f6-8730-da964314a787}</UniqueIdentifier>
     </Filter>
@@ -58,12 +52,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ExternalException.hpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
@@ -72,7 +60,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ReflectAssembly.cpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
@@ -80,12 +67,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
       <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp">
-      <Filter>Globalization</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
@@ -117,12 +98,6 @@
       <Filter>Collections\Template</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeBlock.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
@@ -130,18 +105,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CalendarAlgorithmType.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CalendarWeekRule.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -150,12 +113,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp">
-      <Filter>Globalization</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp">
-      <Filter>Globalization</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
@@ -178,9 +135,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp">
-      <Filter>Globalization</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
@@ -195,8 +149,5 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)StringView.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfo.cpp">
-      <Filter>Globalization</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

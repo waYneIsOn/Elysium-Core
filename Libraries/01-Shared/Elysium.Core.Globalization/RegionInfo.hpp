@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_API
-#include "API.hpp"
+#include "../Elysium.Core/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
