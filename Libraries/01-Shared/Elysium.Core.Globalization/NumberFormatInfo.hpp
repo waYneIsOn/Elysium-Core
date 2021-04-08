@@ -17,15 +17,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_DIGITSHAPES
 #include "DigitShapes.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

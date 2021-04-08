@@ -1,11 +1,11 @@
 #include "CultureInfo.hpp"
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
+#include "../Elysium.Core/System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "SystemException.hpp"
+#include "../Elysium.Core/SystemException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING

@@ -25,7 +25,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_NUMBERFORMATINFO
-#include "NumberFormatInfo.hpp"
+#include "../Elysium.Core.Globalization/NumberFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST

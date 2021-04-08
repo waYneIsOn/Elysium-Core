@@ -17,15 +17,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "Array.hpp"
+#include "../Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#include "../Elysium.Core/String.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

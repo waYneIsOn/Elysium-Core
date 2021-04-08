@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_UNICODECATEGORY
-#include "UnicodeCategory.hpp"
+#include "../Elysium.Core.Globalization/UnicodeCategory.hpp"
 #endif
 
 namespace Elysium::Core

@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/CultureInfo.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Globalization/CultureInfo.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;

@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/RegionInfo.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Globalization/RegionInfo.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;

@@ -33,7 +33,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
-#include "../Elysium.Core/CultureInfo.hpp"
+#include "../Elysium.Core.Globalization/CultureInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM

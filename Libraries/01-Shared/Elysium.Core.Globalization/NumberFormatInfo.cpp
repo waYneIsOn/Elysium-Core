@@ -1,19 +1,19 @@
 #include "NumberFormatInfo.hpp"
 
 #ifndef ELYSIUM_CORE_CONVERT
-#include "Convert.hpp"
+#include "../Elysium.Core/Convert.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
+#include "../Elysium.Core/System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
+#include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "SystemException.hpp"
+#include "../Elysium.Core/SystemException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING

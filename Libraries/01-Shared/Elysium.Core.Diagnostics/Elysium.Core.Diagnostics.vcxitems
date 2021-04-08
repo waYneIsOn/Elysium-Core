@@ -15,8 +15,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ProcessStartInfo.cpp" />
   </ItemGroup>
 </Project>
