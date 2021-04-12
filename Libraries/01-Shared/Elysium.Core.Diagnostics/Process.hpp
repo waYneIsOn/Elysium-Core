@@ -49,6 +49,20 @@ namespace Elysium::Core::Diagnostics
 		Process& operator=(const Process& Source) = delete;
 		Process& operator=(Process&& Right) noexcept = delete;
 
+		const bool GetHasExited() const;
+		const Elysium::Core::uint32_t GetId() const;
+
+		const bool Start(const ProcessStartInfo& StartInfo);
+		void Close();
+		const bool CloseMainWindow();
+		void Kill(const bool EntireProcessTree);
+		void Refresh();
+		void WaitForExit();
+		void WaitForExit(const Elysium::Core::int32_t Milliseconds);
+	public:
+		static void EnterDebugMode();
+		static void LeaveDebugMode();
+
 		static Process GetCurrentProcess();
 
 		static const Elysium::Core::Collections::Template::Array<Process> GetProcesses();
@@ -58,19 +72,6 @@ namespace Elysium::Core::Diagnostics
 
 		static const Elysium::Core::Collections::Template::Array<Process> GetProcessesByName(const Elysium::Core::String& ProcessName);
 		static const Elysium::Core::Collections::Template::Array<Process> GetProcessesByName(const Elysium::Core::String& ProcessName, const Elysium::Core::String& MachineName);
-
-		const bool GetHasExited() const;
-		const Elysium::Core::uint32_t GetId() const;
-		Elysium::Core::Diagnostics::ProcessStartInfo& GetStartInfo();
-		const Elysium::Core::Diagnostics::ProcessStartInfo& GetStartInfo() const;
-
-		const bool Start();
-		void Close();
-		const bool CloseMainWindow();
-		void Kill(const bool EntireProcessTree);
-		void Refresh();
-		void WaitForExit();
-		void WaitForExit(const Elysium::Core::int32_t Milliseconds);
 	private:
 		Elysium::Core::String _MachineName;
 		bool _IsRemoteMachine;
@@ -80,7 +81,8 @@ namespace Elysium::Core::Diagnostics
 		bool _HasThreadId;
 		void* _ProcessHandle;
 		void* _ThreadHandle;
-		ProcessStartInfo _StartInfo;
+
+		static inline Elysium::Core::String _LocalMachineName = Elysium::Core::String(u8".");
 
 		Process(const Elysium::Core::String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId);
 	};

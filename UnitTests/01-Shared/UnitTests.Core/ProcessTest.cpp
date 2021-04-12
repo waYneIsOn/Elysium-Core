@@ -12,47 +12,48 @@ namespace UnitTests::Core::Diagnostics
 	TEST_CLASS(ProcessTest)
 	{
 	public:
-		TEST_METHOD(CheckCurrentProcess)
+		TEST_METHOD(GetLocalProcessCurrent)
 		{
-			//Process CurrentProcess = Process::GetCurrentProcess();
-			//const Elysium::Core::uint32_t CurrentProcessId = CurrentProcess.GetId();
-			
-			Process Process = Process::GetProcessById(19068);
-			const Elysium::Core::uint32_t Id = Process.GetId();
+			Process CurrentProcess = Process::GetCurrentProcess();
+			const Elysium::Core::uint32_t CurrentProcessId = CurrentProcess.GetId();
 
-			int lkjsdf = 35;
-			Assert::Fail();
+			Assert::AreNotEqual((Elysium::Core::uint32_t)0, CurrentProcessId);
 		}
 
-		TEST_METHOD(StartAndCloseNotepad)
+		TEST_METHOD(GetLocalProcesses)
 		{
-			Process Notepad = Process();
-			Notepad.GetStartInfo().SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
-			Notepad.GetStartInfo().SetWindowStyle(ProcessWindowStyle::Maximized);
-			Notepad.Start();
-			Notepad.CloseMainWindow();
-			Notepad.Close();
-			if (!Notepad.GetHasExited())
+			Array<Process> Processes = Process::GetProcesses();
+			if (Processes.GetLength() == 0)
 			{
 				Assert::Fail();
 			}
 		}
 
+		TEST_METHOD(GetLocalProcessesByName)
+		{
+			Array<Process> Processes = Process::GetProcessesByName(u8"explorer.exe");
+			if (Processes.GetLength() == 0)
+			{
+				Assert::Fail();
+			}
+
+			Process& VSPRocess = Processes[0];
+
+			int slkjsdf = 45;
+		}
+
 		TEST_METHOD(StartAndKillNotepad)
 		{
+			ProcessStartInfo StartInfo = ProcessStartInfo();
+			StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
+
 			Process Notepad = Process();
-			Notepad.GetStartInfo().SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
-			Notepad.Start();
+			Notepad.Start(StartInfo);
 			Notepad.Kill(false);
 			if (!Notepad.GetHasExited())
 			{
 				Assert::Fail();
 			}
-		}
-
-		TEST_METHOD(StartAndKillProgramDependantOnUserSettings)
-		{
-			Assert::Fail();
 		}
 	};
 }

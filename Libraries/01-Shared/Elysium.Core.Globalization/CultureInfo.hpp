@@ -78,11 +78,7 @@ namespace Elysium::Core::Globalization
 		Elysium::Core::int32_t _LCID;
 		bool _UseUserOverride;
 
-		static Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> _LocaleIds;
-
 		static Elysium::Core::int32_t GetLocaleIdFromName(const Elysium::Core::String& Name);
-
-		static Elysium::Core::int32_t EnumerateLocalesExCallback(wchar_t* Name, unsigned long Flags, Elysium::Core::int64_t Parameters);
 	};
 }
 #endif

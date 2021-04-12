@@ -8,6 +8,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_SYSTEM
 #define ELYSIUM_CORE_DIAGNOSTICS_SYSTEM
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 

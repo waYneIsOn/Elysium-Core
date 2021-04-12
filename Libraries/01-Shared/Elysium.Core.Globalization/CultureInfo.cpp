@@ -12,6 +12,10 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_GLOBALIZATION_INTERNAL_LOCALEFINDER
+#include "LocaleFinder.hpp"
+#endif
+
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
@@ -32,9 +36,6 @@
 #ifndef _XSTRING_
 #include <xstring>	// std::char_traits
 #endif
-
-Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> Elysium::Core::Globalization::CultureInfo::_LocaleIds =
-	Elysium::Core::Collections::Template::List<Elysium::Core::int32_t>();
 
 Elysium::Core::Globalization::CultureInfo::CultureInfo()
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -90,22 +91,11 @@ const Elysium::Core::Globalization::CultureInfo Elysium::Core::Globalization::Cu
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Globalization::CultureInfo> Elysium::Core::Globalization::CultureInfo::GetCultures(const CultureTypes& Types)
 {
-	_LocaleIds.Clear();
-
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	// ToDo: convert Types to second parameter correctly! (example: LOCALE_ALL = 0)
-	if (EnumSystemLocalesEx(EnumerateLocalesExCallback, static_cast<unsigned long>(Types), 0, nullptr) == 0)
-	{
-		throw SystemException();
-	}
-#else
-#error "undefined os"
-#endif
-
-	Elysium::Core::Collections::Template::Array<CultureInfo> CultureInfos = Elysium::Core::Collections::Template::Array<CultureInfo>(_LocaleIds.GetCount());
+	const Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> LCIDs = Internal::LocaleFinder::GetSystemLocaleIds(Types);
+	Elysium::Core::Collections::Template::Array<CultureInfo> CultureInfos = Elysium::Core::Collections::Template::Array<CultureInfo>(LCIDs.GetCount());
 	for (size_t i = 0; i < CultureInfos.GetLength(); i++)
 	{
-		CultureInfos[i]._LCID = _LocaleIds[i];
+		CultureInfos[i]._LCID = LCIDs[i];
 	}
 
 	return CultureInfos;
@@ -181,19 +171,4 @@ Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFro
 #else
 #error "undefined os"
 #endif
-}
-
-Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::EnumerateLocalesExCallback(wchar_t* Name, unsigned long Flags, Elysium::Core::int64_t Parameters)
-{
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	Elysium::Core::int32_t LCID = LocaleNameToLCID(Name, 0);
-	if (LCID == 0)
-	{
-		throw SystemException();
-	}
-	_LocaleIds.Add(LCID);
-#else
-#error "undefined os"
-#endif
-	return 1;
 }

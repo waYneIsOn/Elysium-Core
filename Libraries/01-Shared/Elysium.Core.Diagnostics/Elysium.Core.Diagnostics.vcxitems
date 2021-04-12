@@ -18,9 +18,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WindowFinder.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProcessStartInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WindowFinder.cpp" />
   </ItemGroup>
 </Project>

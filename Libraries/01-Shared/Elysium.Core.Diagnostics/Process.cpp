@@ -12,90 +12,48 @@
 #include "../Elysium.Core/SystemException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_INTERNAL_WINDOWFINDER
+#include "WindowFinder.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#ifndef _TYPE_TRAITS_
+#include <type_traits>
+#endif
+
+#ifndef _XSTRING_
+#include <xstring>	// std::char_traits
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+
+#ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
+#include <Windows.h>
+#endif
+
+#ifndef _INC_TOOLHELP32
+#include <tlhelp32.h>
+#endif
+#else
+#error "undefined os"
+#endif
+
 Elysium::Core::Diagnostics::Process::Process()
-	: _MachineName(u8"."), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false), _ProcessHandle(nullptr), 
-	_ThreadHandle(nullptr), _StartInfo()
+	: _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false), 
+	_ProcessHandle(nullptr), _ThreadHandle(nullptr)
 { }
 Elysium::Core::Diagnostics::Process::~Process()
 {
-	if (_ProcessHandle != nullptr)
-	{
-		CloseHandle(_ProcessHandle);
-		_ProcessHandle = nullptr;
-	}
-	if (_ThreadHandle != nullptr)
-	{
-		CloseHandle(_ThreadHandle);
-		_ProcessHandle = nullptr;
-	}
-}
-
-Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetCurrentProcess()
-{
-	ELYSIUM_CORE_DIAGNOSTICS_PROCESSHANDLE ProcessHandle = ELYSIUM_CORE_DIAGNOSTICS_GETCURRENTPROCESS;
-	if (ProcessHandle == nullptr)
-	{
-		// ToDo:
-		throw 1;
-	}
-
-	// ToDo:
-	throw 1;
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses()
-{
-	return GetProcesses(u8".");
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses(const Elysium::Core::String& MachineName)
-{
-	// ToDo:
-	throw 1;
-}
-
-Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetProcessById(const Elysium::Core::uint32_t ProcessId)
-{
-	ELYSIUM_CORE_DIAGNOSTICS_PROCESSHANDLE ProcessHandle = ELYSIUM_CORE_DIAGNOSTICS_GETPROCESSBYID(READ_CONTROL | PROCESS_QUERY_INFORMATION, true, ProcessId);
-	if (ProcessHandle == nullptr)
-	{
-		throw ArgumentException(u8"The process specified by the ProcessId parameter is not running. The identifier might be expired.");
-	}
-	/*
-	if ()
-	{
-		throw InvalidOperationException(u8"The process was not started by this object.");
-	}
-	*/
-	/*
-	MEMORY_PRIORITY_INFORMATION MemoryPriorityInformation = MEMORY_PRIORITY_INFORMATION();
-	if (!GetProcessInformation(ProcessHandle, PROCESS_INFORMATION_CLASS::ProcessMemoryPriority, &MemoryPriorityInformation, sizeof(MEMORY_PRIORITY_INFORMATION)))
-	{
-		throw 1;
-	}
-	*/
-	// ToDo:
-	throw 1;
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::String& ProcessName)
-{
-	return GetProcessesByName(ProcessName, u8".");
-}
-
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::String& ProcessName, const Elysium::Core::String& MachineName)
-{
-	// ToDo:
-	throw 1;
+	Close();
 }
 
 const bool Elysium::Core::Diagnostics::Process::GetHasExited() const
 {
-	unsigned long ExitCode = -1;
+	unsigned long ExitCode;
 	if (!GetExitCodeProcess(_ProcessHandle, &ExitCode))
 	{
 		throw Elysium::Core::SystemException();
@@ -114,19 +72,9 @@ const Elysium::Core::uint32_t Elysium::Core::Diagnostics::Process::GetId() const
 	return _ProcessId;
 }
 
-Elysium::Core::Diagnostics::ProcessStartInfo& Elysium::Core::Diagnostics::Process::GetStartInfo()
+const bool Elysium::Core::Diagnostics::Process::Start(const ProcessStartInfo& StartInfo)
 {
-	return _StartInfo;
-}
-
-const Elysium::Core::Diagnostics::ProcessStartInfo& Elysium::Core::Diagnostics::Process::GetStartInfo() const
-{
-	return _StartInfo;
-}
-
-const bool Elysium::Core::Diagnostics::Process::Start()
-{
-	const Elysium::Core::String& FileName = _StartInfo.GetFileName();
+	const Elysium::Core::String& FileName = StartInfo.GetFileName();
 
 	STARTUPINFO StartupInfo = STARTUPINFO();
 	//ZeroMemory(&StartupInfo, sizeof(STARTUPINFO));
@@ -160,13 +108,29 @@ const bool Elysium::Core::Diagnostics::Process::Start()
 
 void Elysium::Core::Diagnostics::Process::Close()
 {
-	ExitProcess(0);
+	if (_ThreadHandle != nullptr)
+	{
+		CloseHandle(_ThreadHandle);
+		_ProcessHandle = nullptr;
+	}
+	if (_ProcessHandle != nullptr)
+	{
+		CloseHandle(_ProcessHandle);
+		_ProcessHandle = nullptr;
+	}
 }
 
 const bool Elysium::Core::Diagnostics::Process::CloseMainWindow()
 {
-	//return CloseWindow(nullptr);
-	throw 1;
+	const void* MainWindowHandle = Internal::WindowFinder::GetMainWindowHandle(_ProcessId);
+	if (MainWindowHandle == nullptr)
+	{	// no main window found, ergo there is nothing to do, so simply return true
+		return true;
+	}
+	else
+	{
+		return CloseWindow((HWND)MainWindowHandle) == 1;
+	}
 }
 
 void Elysium::Core::Diagnostics::Process::Kill(const bool EntireProcessTree)
@@ -193,7 +157,156 @@ void Elysium::Core::Diagnostics::Process::WaitForExit(const Elysium::Core::int32
 	WaitForSingleObject(_ProcessHandle, Milliseconds);
 }
 
+void Elysium::Core::Diagnostics::Process::EnterDebugMode()
+{
+	//EnableDebugPriv();
+	throw 1;
+}
+
+void Elysium::Core::Diagnostics::Process::LeaveDebugMode()
+{
+	//LeaveDebugPriv();
+	throw 1;
+}
+
+Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetCurrentProcess()
+{
+	return Process(_LocalMachineName, false, GetCurrentProcessId());
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses()
+{
+	return GetProcesses(_LocalMachineName);
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses(const Elysium::Core::String& MachineName)
+{
+	HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (SnapshotHandle == INVALID_HANDLE_VALUE)
+	{
+		throw Elysium::Core::SystemException();
+	}
+
+	// ...
+	PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
+	ProcessEntry.dwSize = sizeof(PROCESSENTRY32);
+	if (!Process32First(SnapshotHandle, &ProcessEntry))
+	{
+		CloseHandle(SnapshotHandle);
+		throw Elysium::Core::SystemException();
+	}
+
+	size_t i = 0;
+	do
+	{
+		i++;
+	} while (Process32Next(SnapshotHandle, &ProcessEntry));
+
+	// ...
+	Elysium::Core::Collections::Template::Array<Process> Processes = Elysium::Core::Collections::Template::Array<Process>(i);
+	if (!Process32First(SnapshotHandle, &ProcessEntry))
+	{
+		CloseHandle(SnapshotHandle);
+		throw Elysium::Core::SystemException();
+	}
+
+	i = 0;
+	do
+	{
+		Processes[i]._ProcessId = ProcessEntry.th32ProcessID;
+		i++;
+	} while (Process32Next(SnapshotHandle, &ProcessEntry));
+	CloseHandle(SnapshotHandle);
+
+	return Processes;
+}
+
+Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetProcessById(const Elysium::Core::uint32_t ProcessId)
+{
+	ELYSIUM_CORE_DIAGNOSTICS_PROCESSHANDLE ProcessHandle = ELYSIUM_CORE_DIAGNOSTICS_GETPROCESSBYID(READ_CONTROL | PROCESS_QUERY_INFORMATION, true, ProcessId);
+	if (ProcessHandle == nullptr)
+	{
+		throw ArgumentException(u8"The process specified by the ProcessId parameter is not running. The identifier might be expired.");
+	}
+	/*
+	if ()
+	{
+		throw InvalidOperationException(u8"The process was not started by this object.");
+	}
+	*/
+	/*
+	MEMORY_PRIORITY_INFORMATION MemoryPriorityInformation = MEMORY_PRIORITY_INFORMATION();
+	if (!GetProcessInformation(ProcessHandle, PROCESS_INFORMATION_CLASS::ProcessMemoryPriority, &MemoryPriorityInformation, sizeof(MEMORY_PRIORITY_INFORMATION)))
+	{
+		throw 1;
+	}
+	*/
+	// ToDo:
+	throw 1;
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::String& ProcessName)
+{
+	return GetProcessesByName(ProcessName, _LocalMachineName);
+}
+
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::String& ProcessName, const Elysium::Core::String& MachineName)
+{
+	if (Elysium::Core::String::IsNullOrEmtpy(ProcessName))
+	{
+		throw Elysium::Core::ArgumentException(u8"ProcessName");
+	}
+
+	HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	if (SnapshotHandle == INVALID_HANDLE_VALUE)
+	{
+		throw Elysium::Core::SystemException();
+	}
+
+	// ...
+	PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
+	ProcessEntry.dwSize = sizeof(PROCESSENTRY32);
+	if (!Process32First(SnapshotHandle, &ProcessEntry))
+	{
+		CloseHandle(SnapshotHandle);
+		throw Elysium::Core::SystemException();
+	}
+
+	size_t i = 0;
+	do
+	{
+		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], std::char_traits<wchar_t>::length(&ProcessEntry.szExeFile[0]) * sizeof(wchar_t));
+		if (CurrentProcessName == ProcessName)
+		{
+			i++;
+		}
+	} while (Process32Next(SnapshotHandle, &ProcessEntry));
+
+	// ...
+	Elysium::Core::Collections::Template::Array<Process> Processes = Elysium::Core::Collections::Template::Array<Process>(i);
+	if (!Process32First(SnapshotHandle, &ProcessEntry))
+	{
+		CloseHandle(SnapshotHandle);
+		throw Elysium::Core::SystemException();
+	}
+
+	i = 0;
+	do
+	{
+		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], std::char_traits<wchar_t>::length(&ProcessEntry.szExeFile[0]) * sizeof(wchar_t));
+		if (CurrentProcessName == ProcessName)
+		{
+			Processes[i]._ProcessId = ProcessEntry.th32ProcessID;
+			i++;
+		}
+	} while (Process32Next(SnapshotHandle, &ProcessEntry));
+	CloseHandle(SnapshotHandle);
+
+	return Processes;
+}
+
+
 Elysium::Core::Diagnostics::Process::Process(const Elysium::Core::String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId)
 	: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(0), _HasThreadId(false),
-	_ProcessHandle(nullptr),_ThreadHandle(nullptr), _StartInfo()
+	_ProcessHandle(nullptr),_ThreadHandle(nullptr)
 { }

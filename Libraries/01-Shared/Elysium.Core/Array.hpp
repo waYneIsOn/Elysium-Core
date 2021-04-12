@@ -161,15 +161,13 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline Array<T>& Array<T>::operator=(List<T>&& Right) noexcept
 	{
-		if (this != &Right)
-		{
-			_Length = Right._Capacity;
-			_Data = Right._Data;
+		_Length = Right._Capacity;
+		_Data = Right._Data;
 
-			Right._Count = 0;
-			Right._Capacity = 0;
-			Right._Data = nullptr;
-		}
+		Right._Count = 0;
+		Right._Capacity = 0;
+		Right._Data = nullptr;
+		
 		return *this;
 	}
 
