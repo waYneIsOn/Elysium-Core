@@ -27,7 +27,7 @@ Elysium::Core::String::String()
 Elysium::Core::String::String(const size_t Length)
 	: _Length(Length), _Data(new char8_t[_Length + 1])
 {
-	_Data[_Length] = _NullTerminationChar;
+	std::memset(_Data, 0, _Length + 1);
 }
 
 Elysium::Core::String::String(const char8_t* Value)

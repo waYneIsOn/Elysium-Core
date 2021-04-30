@@ -78,6 +78,11 @@ Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::Nu
 	return *this;
 }
 
+const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo()
+{
+	return NumberFormatInfo();
+}
+
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetCurrencyDecimalDigits() const
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
