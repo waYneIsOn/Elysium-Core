@@ -53,34 +53,34 @@ namespace Elysium::Core
 		Convert& operator=(const Convert& Source) = delete;
 		Convert& operator=(Convert&& Right) noexcept = delete;
 
-		static const Elysium::Core::String ToString(Elysium::Core::int16_t Value, const Elysium::Core::int32_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
-		static const Elysium::Core::String ToString(Elysium::Core::int16_t Value, const Elysium::Core::int32_t FromBase);
+		static const Elysium::Core::String ToString(Elysium::Core::int16_t Value, const Elysium::Core::uint32_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+		static const Elysium::Core::String ToString(Elysium::Core::int16_t Value, const Elysium::Core::uint32_t ToBase);
 		static const Elysium::Core::String ToString(Elysium::Core::int16_t Value);
 
-		static const Elysium::Core::String ToString(const Elysium::Core::int32_t Value, const Elysium::Core::int32_t FromBase);
-		static const Elysium::Core::String ToString(const Elysium::Core::int64_t Value, const Elysium::Core::int32_t FromBase);
-		static const Elysium::Core::String ToString(const Elysium::Core::uint16_t Value, const Elysium::Core::int32_t FromBase);
-		static const Elysium::Core::String ToString(const Elysium::Core::uint32_t Value, const Elysium::Core::int32_t FromBase);
-		static const Elysium::Core::String ToString(const Elysium::Core::uint64_t Value, const Elysium::Core::int32_t FromBase);
+		static const Elysium::Core::String ToString(const Elysium::Core::int32_t Value, const Elysium::Core::uint32_t ToBase);
+		static const Elysium::Core::String ToString(const Elysium::Core::int64_t Value, const Elysium::Core::uint32_t ToBase);
+		static const Elysium::Core::String ToString(const Elysium::Core::uint16_t Value, const Elysium::Core::uint32_t ToBase);
+		static const Elysium::Core::String ToString(const Elysium::Core::uint32_t Value, const Elysium::Core::uint32_t ToBase);
+		static const Elysium::Core::String ToString(const Elysium::Core::uint64_t Value, const Elysium::Core::uint32_t ToBase);
 		
-		static const Elysium::Core::String ToString(const float Value, const Elysium::Core::int32_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
-		static const Elysium::Core::String ToString(const float Value, const Elysium::Core::int32_t FromBase);
+		static const Elysium::Core::String ToString(const float Value, const Elysium::Core::uint32_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+		static const Elysium::Core::String ToString(const float Value, const Elysium::Core::uint32_t ToBase);
 		static const Elysium::Core::String ToString(const float Value);
 
-		static const Elysium::Core::String ToString(const double Value, const Elysium::Core::int32_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
-		static const Elysium::Core::String ToString(const double Value, const Elysium::Core::int32_t FromBase);
+		static const Elysium::Core::String ToString(const double Value, const Elysium::Core::uint32_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+		static const Elysium::Core::String ToString(const double Value, const Elysium::Core::uint32_t ToBase);
 		static const Elysium::Core::String ToString(const double Value);
 
 		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
 		static Elysium::Core::String ToBase64String(const Elysium::Core::byte* Bytes, const Elysium::Core::uint32_t Length);
 
-		static Elysium::Core::int32_t ToInt32(const char8_t* Value, const size_t Length, const Elysium::Core::int32_t FromBase);
-		static Elysium::Core::int32_t ToInt32(const Elysium::Core::String& Value, const Elysium::Core::int32_t FromBase);
-		static Elysium::Core::int32_t ToInt32(const Elysium::Core::StringView& Value, const Elysium::Core::int32_t FromBase);
+		static Elysium::Core::int32_t ToInt32(const char8_t* Value, const size_t Length, const Elysium::Core::uint32_t FromBase);
+		static Elysium::Core::int32_t ToInt32(const Elysium::Core::String& Value, const Elysium::Core::uint32_t FromBase);
+		static Elysium::Core::int32_t ToInt32(const Elysium::Core::StringView& Value, const Elysium::Core::uint32_t FromBase);
 
-		static Elysium::Core::uint16_t ToUInt16(const char8_t* Value, const Elysium::Core::int32_t FromBase);
+		static Elysium::Core::uint16_t ToUInt16(const char8_t* Value, const Elysium::Core::uint32_t FromBase);
 
-		static Elysium::Core::uint8_t ToUInt8(const char8_t* Value, const Elysium::Core::int32_t FromBase);
+		static Elysium::Core::uint8_t ToUInt8(const char8_t* Value, const Elysium::Core::uint32_t FromBase);
 
 		static float ToSingle(const char8_t* Value);
 		static float ToSingle(const Elysium::Core::String& Value);

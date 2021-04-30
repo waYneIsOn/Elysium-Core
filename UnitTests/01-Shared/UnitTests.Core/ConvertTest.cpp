@@ -23,23 +23,29 @@ namespace UnitTests::Core
 
 		TEST_METHOD(ZeroToString)
 		{
-			Elysium::Core::int16_t I16 = 0;
-			AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(I16));
+			for (Elysium::Core::int32_t i = 0; i < NumberOfBases; i++)
+			{
+				Elysium::Core::int16_t I16 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(I16, Bases[i]));
 
-			Elysium::Core::int32_t I32 = 0;
-			AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(I32, 10));
+				Elysium::Core::int32_t I32 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(I32, Bases[i]));
 
-			Elysium::Core::int64_t I64 = 0;
-			AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(I64, 10));
+				Elysium::Core::int64_t I64 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(I64, Bases[i]));
 
-			Elysium::Core::uint16_t UI16 = 0;
-			AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI16, 10));
+				Elysium::Core::uint16_t UI16 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI16, Bases[i]));
 
-			Elysium::Core::uint32_t UI32 = 0;
-			AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI32, 10));
+				Elysium::Core::uint32_t UI32 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI32, Bases[i]));
 
-			Elysium::Core::uint64_t UI64 = 0;
-			AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI64, 10));
+				Elysium::Core::uint64_t UI64 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI64, Bases[i]));
+			}
 		}
+	private:
+		inline static const Elysium::Core::uint32_t NumberOfBases = 4;
+		inline static const Elysium::Core::uint32_t Bases[NumberOfBases] = { 2, 8, 10, 16 };
 	};
 }
