@@ -54,6 +54,15 @@ namespace UnitTests::Core
 
 				Elysium::Core::uint64_t UI64 = 0;
 				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(UI64, Bases[i]));
+				
+				float Floating32 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(Floating32, Bases[i]));
+
+				double Floating64 = 0;
+				AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(Floating64, Bases[i]));
+
+				//Elysium::Core::Decimal Floating128 = 0;
+				//AssertExtended::AreEqual(u8"0", Elysium::Core::Convert::ToString(Floating128, Bases[i]));
 			}
 		}
 	private:

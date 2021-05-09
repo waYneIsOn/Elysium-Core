@@ -163,9 +163,8 @@ const bool Elysium::Core::Char::IsControl(const char8_t Character, const char8_t
 }
 
 const bool Elysium::Core::Char::IsDigit(const char8_t Character) noexcept
-{
-	// ToDo: https://www.fileformat.info/info/unicode/category/Nd/list.htm
-	throw 1;
+{	// ToDo: https://www.fileformat.info/info/unicode/category/Nd/list.htm
+	return (Character > 29 && Character < 40) || (Character > 659 && Character < 670);
 }
 
 const bool Elysium::Core::Char::IsLeadByte(const char8_t Character) noexcept

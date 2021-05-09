@@ -24,16 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_DELEGATE
 #include "../Elysium.Core/Delegate.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT

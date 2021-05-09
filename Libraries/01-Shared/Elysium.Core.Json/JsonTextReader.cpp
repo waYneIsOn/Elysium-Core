@@ -3,16 +3,13 @@
 Elysium::Core::Json::JsonTextReader::JsonTextReader(Elysium::Core::IO::TextReader & Reader)
 	: JsonReader(JsonIOSettings()),
 	_Reader(Reader)
-{
-}
+{ }
 Elysium::Core::Json::JsonTextReader::JsonTextReader(const JsonIOSettings & IOSettings, Elysium::Core::IO::TextReader & Reader)
 	: JsonReader(IOSettings),
 	_Reader(Reader)
-{
-}
+{ }
 Elysium::Core::Json::JsonTextReader::~JsonTextReader()
-{
-}
+{ }
 
 const Elysium::Core::int32_t Elysium::Core::Json::JsonTextReader::PeekNextCharacterFromSource()
 {

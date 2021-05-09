@@ -38,8 +38,8 @@ namespace Elysium::Core
 	{
 		friend class Collections::Template::List<Guid>;
 	public:
-		Guid(const byte B[16]);
-		Guid(const uint32_t A, const uint16_t B, const uint16_t C, const byte* D[8]);
+		Guid(const Elysium::Core::byte B[16]);
+		Guid(const Elysium::Core::uint32_t A, const Elysium::Core::uint16_t B, const Elysium::Core::uint16_t C, const Elysium::Core::byte* D[8]);
 		Guid(const Guid& Source);
 		Guid(Guid&& Right) noexcept;
 		~Guid();
@@ -56,7 +56,7 @@ namespace Elysium::Core
 
 		static const Guid& Empty();
 		static Guid NewGuid();
-		static Guid Parse(const char* Input);
+		static Guid Parse(const char8_t* Input);
 
 		const byte* ToByteArray() const;
 		String ToString() const;
@@ -67,14 +67,14 @@ namespace Elysium::Core
 
 		static Guid _EmptyGuid;
 
-		static void ParseN(const char* Input, byte* Data);
-		static void ParseD(const char* Input, byte* Data);
-		static void ParseB(const char* Input, byte* Data);
-		static void ParseP(const char* Input, byte* Data);
-		static void ParseX(const char* Input, byte* Data);
+		static void ParseN(const char8_t* Input, Elysium::Core::byte* Data);
+		static void ParseD(const char8_t* Input, Elysium::Core::byte* Data);
+		static void ParseB(const char8_t* Input, Elysium::Core::byte* Data);
+		static void ParseP(const char8_t* Input, Elysium::Core::byte* Data);
+		static void ParseX(const char8_t* Input, Elysium::Core::byte* Data);
 
-		static char HexDigitToChar(char Input);
-		static void ByteToHexDigit(byte Input, char* Chars);
+		static Elysium::Core::uint8_t HexDigitToChar(char8_t Input);
+		static void ByteToHexDigit(Elysium::Core::byte Input, char8_t* Chars);
 	};
 }
 #endif

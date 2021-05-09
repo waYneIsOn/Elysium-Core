@@ -12,6 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#include <cassert>
+
 namespace Elysium::Core
 {
 	typedef char int8_t;
@@ -23,5 +25,53 @@ namespace Elysium::Core
 	typedef unsigned short uint16_t;
 	typedef unsigned int uint32_t;
 	typedef unsigned long long uint64_t;
+
+	constexpr Elysium::Core::int8_t operator "" _i8(const unsigned long long Value)
+	{
+		// ToDo: assert
+		return static_cast<Elysium::Core::int8_t>(Value);
+	}
+
+	constexpr Elysium::Core::int16_t operator "" _i16(const unsigned long long Value)
+	{
+		// ToDo: assert
+		return static_cast<Elysium::Core::int16_t>(Value);
+	}
+
+	constexpr Elysium::Core::int32_t operator "" _i32(const unsigned long long Value)
+	{
+		// ToDo: assert
+		return static_cast<Elysium::Core::int32_t>(Value);
+	}
+
+	constexpr Elysium::Core::int64_t operator "" _i64(const unsigned long long Value)
+	{
+		// ToDo: assert
+		return static_cast<Elysium::Core::int64_t>(Value);
+	}
+
+	constexpr Elysium::Core::uint8_t operator "" _ui8(const unsigned long long Value)
+	{
+		assert(Value >= 0 && Value <= 255);
+		return static_cast<Elysium::Core::uint8_t>(Value);
+	}
+
+	constexpr Elysium::Core::uint16_t operator "" _ui16(const unsigned long long Value)
+	{
+		assert(Value >= 0 && Value <= 65535);
+		return static_cast<Elysium::Core::uint16_t>(Value);
+	}
+
+	constexpr Elysium::Core::uint32_t operator "" _ui32(const unsigned long long Value)
+	{
+		assert(Value >= 0 && Value <= 4294967295);
+		return static_cast<Elysium::Core::uint32_t>(Value);
+	}
+
+	constexpr Elysium::Core::uint64_t operator "" _ui64(const unsigned long long Value)
+	{
+		assert(Value >= 0 && Value <= 18446744073709551615);
+		return static_cast<Elysium::Core::uint64_t>(Value);
+	}
 }
 #endif

@@ -62,7 +62,9 @@ namespace Elysium::Core::Json
 
 		String _Name;
 		JsonNodeType _Type;
+#pragma warning(disable : 4251)	// _Value doesn't get exposed directly so I can simply ignore the warning
 		std::variant<bool, int32_t, float, double, String, void*> _Value;
+#pragma warning(default : 4251)
 	};
 }
 #endif

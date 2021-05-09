@@ -12,24 +12,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_API
-#include "../Elysium.Core.Security/API.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "../Elysium.Core.IO/Stream.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
 #pragma warning( disable : 4251 )

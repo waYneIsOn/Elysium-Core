@@ -26,6 +26,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />

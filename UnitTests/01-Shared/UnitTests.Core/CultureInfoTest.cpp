@@ -19,7 +19,7 @@ namespace UnitTests::Core::Globalization
 			Array<CultureInfo> InstalledCultures = CultureInfo::GetCultures(CultureTypes::InstalledCultures);
 			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
 			Assert::AreNotSame((size_t)0, AllCultures.GetLength());
-
+			
 			for (size_t i = 0; i < AllCultures.GetLength(); i++)
 			{
 				const String Name = AllCultures[i].GetName();
@@ -35,14 +35,14 @@ namespace UnitTests::Core::Globalization
 				else
 				{
 					Array<byte> Bytes = Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
-					Logger::WriteMessage((wchar_t*)&Bytes[0]);
+					//Logger::WriteMessage((wchar_t*)&Bytes[0]);
 					Logger::WriteMessage("\r\n");
 				}
 			}
-
+			
 			int sdlkjf = 34;
 		}
-
+		
 		TEST_METHOD(CheckInvariantCulture)
 		{
 			// check culture

@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
@@ -40,8 +36,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LISTOFBYTE
+#include "../Elysium.Core/ListOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_ENDPOINT

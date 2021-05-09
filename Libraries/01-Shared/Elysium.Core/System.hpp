@@ -20,6 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "unsupported os"
 #endif
 
+#if defined(_WIN64)
+#define ELYSIUM_CORE_BITNESS 64
+#elif defined(_WIN32)||  defined(__WIN32__)
+#define ELYSIUM_CORE_BITNESS 32
+#else
+#error "unsupported os"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #define LITTLEENDIAN 1
 #else

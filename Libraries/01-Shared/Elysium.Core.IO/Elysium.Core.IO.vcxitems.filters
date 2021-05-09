@@ -95,6 +95,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateEncodingMethod.hpp">
       <Filter>Compression\Deflate</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfZipArchiveEntry.hpp">
+      <Filter>Compression</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

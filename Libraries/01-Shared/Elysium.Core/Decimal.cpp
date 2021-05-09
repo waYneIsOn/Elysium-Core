@@ -66,6 +66,36 @@ Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right) noe
 	return *this;
 }
 
+const bool Elysium::Core::Decimal::operator==(const Elysium::Core::Decimal& Other) const
+{
+	return false;
+}
+
+const bool Elysium::Core::Decimal::operator!=(const Elysium::Core::Decimal& Other) const
+{
+	return false;
+}
+
+const bool Elysium::Core::Decimal::operator<(const Elysium::Core::Decimal& Other) const
+{
+	return false;
+}
+
+const bool Elysium::Core::Decimal::operator>(const Elysium::Core::Decimal& Other) const
+{
+	return false;
+}
+
+const bool Elysium::Core::Decimal::operator<=(const Elysium::Core::Decimal& Other) const
+{
+	return false;
+}
+
+const bool Elysium::Core::Decimal::operator>=(const Elysium::Core::Decimal& Other) const
+{
+	return false;
+}
+
 const Elysium::Core::int64_t Elysium::Core::Decimal::GetHighPart() const
 {
 #ifdef BIGENDIAN

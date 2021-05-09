@@ -14,15 +14,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
-#include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography

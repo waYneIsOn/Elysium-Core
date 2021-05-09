@@ -49,6 +49,9 @@ namespace Elysium::Core::IO::Compression
 		ZipArchiveEntry& operator=(const ZipArchiveEntry& Source);
 		ZipArchiveEntry& operator=(ZipArchiveEntry&& Right) noexcept;
 
+		const bool operator==(const ZipArchiveEntry& Other);
+		const bool operator!=(const ZipArchiveEntry& Other);
+
 		const Elysium::Core::IO::Compression::ZipArchive* GetArchive() const;
 		const Elysium::Core::String& GetFullName() const;
 		const Elysium::Core::StringView GetName() const;

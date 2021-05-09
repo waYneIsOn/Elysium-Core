@@ -89,14 +89,14 @@ void Elysium::Core::Threading::Thread::Join()
 
 void Elysium::Core::Threading::Thread::Sleep(const TimeSpan & Timeout)
 {
-	ELYSIUM_THREAD_SLEEP(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond, false);
+	ELYSIUM_THREAD_SLEEP(static_cast<unsigned long>(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond), false);
 }
 
 Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void>& ThreadStart)
-	: _Target(ThreadStart._Target), _Method(ThreadStart._Method), _ParamaterizedMethod(nullptr)
+	: _Target(ThreadStart._Target), _Method(ThreadStart._Method), _FurtherParameter(nullptr), _ParamaterizedMethod(nullptr)
 { }
 Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void, void*>& ParameterizedThreadStart)
-	: _Target(ParameterizedThreadStart._Target), _Method(nullptr), _ParamaterizedMethod(ParameterizedThreadStart._Method)
+	: _Target(ParameterizedThreadStart._Target), _Method(nullptr), _FurtherParameter(nullptr), _ParamaterizedMethod(ParameterizedThreadStart._Method)
 { }
 Elysium::Core::Threading::Thread::ThreadParameters::~ThreadParameters()
 { }

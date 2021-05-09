@@ -110,9 +110,12 @@ namespace Elysium::Core::Collections::Template
 	{
 		size_t Index = 0;
 		const T* Iterator = InitializerList.begin();
-		for (; Iterator != InitializerList.end(); ++Iterator)
+		const T* LastElement = InitializerList.end();
+		for (;  Iterator != nullptr && Iterator != LastElement; ++Iterator)
 		{
+#pragma warning(disable : 6011)	// _Data won't be nullptr if InitializerList contains elements
 			_Data[Index++] = *Iterator;
+#pragma warning(default : 6011)
 		}
 	}
 	template<class T>
@@ -121,7 +124,9 @@ namespace Elysium::Core::Collections::Template
 	{
 		for (size_t i = 0; i < _Count; i++)
 		{
+#pragma warning(disable : 6011)	// _Data won't be nullptr if Source contains elements
 			_Data[i] = Source._Data[i];
+#pragma warning(default : 6011)
 		}
 	}
 	template<typename T>
@@ -251,7 +256,7 @@ namespace Elysium::Core::Collections::Template
 		// use the copy operator to copy all elements and increment the internal element counter
 		for (size_t i = 0; i < CollectionCount; i++)
 		{
-			_Data[_Count] = T(Collection(i));
+			_Data[_Count] = Collection[i];
 			_Count++;
 		}
 	}

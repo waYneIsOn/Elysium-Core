@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
@@ -34,11 +34,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Text
 {
-	class ASCIIEncoding;
-	class UTF7Encoding;
-	class UTF8Encoding;
-	class UTF16Encoding;
-	class UTF32Encoding;
+	class ELYSIUM_CORE_API ASCIIEncoding;
+	class ELYSIUM_CORE_API UTF7Encoding;
+	class ELYSIUM_CORE_API UTF8Encoding;
+	class ELYSIUM_CORE_API UTF16Encoding;
+	class ELYSIUM_CORE_API UTF32Encoding;
 
 	class ELYSIUM_CORE_API Encoding
 	{

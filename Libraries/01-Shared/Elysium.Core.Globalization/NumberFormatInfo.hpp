@@ -42,6 +42,7 @@ namespace Elysium::Core::Globalization
 		NumberFormatInfo& operator=(const NumberFormatInfo& Source);
 		NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept;
 
+		static const NumberFormatInfo GetCurrentInfo();
 		static const NumberFormatInfo GetInvariantInfo();
 
 		const Elysium::Core::int32_t GetCurrencyDecimalDigits() const;

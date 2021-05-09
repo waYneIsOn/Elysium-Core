@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_TEXTREADER
 #include "TextReader.hpp"
 #endif

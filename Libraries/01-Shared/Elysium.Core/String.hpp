@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Char.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	/*
@@ -60,6 +64,7 @@ namespace Elysium::Core
 
 		char8_t& operator[](const size_t Index) const;
 
+		const Elysium::Core::int32_t GetHashCode() const;
 		const size_t GetLength() const throw();
 		
 		const size_t IndexOf(const char8_t Value) const;

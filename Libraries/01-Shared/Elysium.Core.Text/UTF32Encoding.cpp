@@ -91,8 +91,6 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharCount, AdditionalCount);
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize, AdditionalCount > 0 ? true : false);
 	
-	Elysium::Core::uint32_t CodePoint;
-	Elysium::Core::byte* CodePointBytes;
 	size_t TargetIndex = 0;
 	if (_BigEndian)
 	{	// 0x00 would be first byte

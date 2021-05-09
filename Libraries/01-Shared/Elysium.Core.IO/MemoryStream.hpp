@@ -16,12 +16,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_BYTE
+#include "../Elysium.Core/Byte.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 #include "../Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_LIST
 #include "../Elysium.Core/List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LISTOFBYTE
+#include "../Elysium.Core/ListOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER

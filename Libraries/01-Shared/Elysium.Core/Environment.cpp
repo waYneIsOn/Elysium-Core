@@ -4,21 +4,21 @@
 #include "System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
+#include "InvalidOperationException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
+#ifndef _THREAD_
+#include <thread>
 #endif
 
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
-#endif
-
-#ifndef _THREAD_
-#include <thread>
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -35,7 +35,11 @@ const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Ely
 
 constexpr const bool Elysium::Core::Environment::Is64BitProcess()
 {
-#ifdef _WIN64 || __x86_64__ || __ppc64__
+#if ELYSIUM_CORE_BITNESS == 32
+	// as 32-bit processes can run on 64-bit, we need to check at runtime
+	BOOL f64 = FALSE;
+	return IsWow64Process(GetCurrentProcess(), &f64) && f64;
+#elif ELYSIUM_CORE_BITNESS == 64
 	return true;
 #else
 	return false;

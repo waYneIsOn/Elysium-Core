@@ -61,7 +61,7 @@ namespace Elysium::Core::Collections::Template
 
 		static void Copy(const T* Source, T* Destination, const size_t Length);
 
-		static void Move(const T* Source, T* Destination, const size_t Length);
+		static void Move(T* Source, T* Destination, const size_t Length);
 
 		static void Reverse(Array<T>& Array);
 	private:
@@ -93,9 +93,12 @@ namespace Elysium::Core::Collections::Template
 	{
 		size_t Index = 0;
 		const T* Iterator = InitializerList.begin();
-		for (; Iterator != InitializerList.end(); ++Iterator)
+		const T* LastElement = InitializerList.end();
+		for (; Iterator != LastElement; ++Iterator)
 		{
+#pragma warning(disable : 6011)	// _Data won't be nullptr if InitializerList contains elements
 			_Data[Index++] = *Iterator;
+#pragma warning(default : 6011)
 		}
 	}
 	template<class T>
@@ -214,7 +217,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline void Array<T>::Move(const T* Source, T* Destination, const size_t Length)
+	inline void Array<T>::Move(T* Source, T* Destination, const size_t Length)
 	{
 		for (size_t i = 0; i < Length; i++)
 		{

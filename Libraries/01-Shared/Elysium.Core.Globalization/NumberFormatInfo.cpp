@@ -78,6 +78,11 @@ Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::Nu
 	return *this;
 }
 
+const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::GetCurrentInfo()
+{
+	return NumberFormatInfo(LOCALE_CUSTOM_DEFAULT, true);
+}
+
 const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo()
 {
 	return NumberFormatInfo();

@@ -51,4 +51,5 @@ bool Elysium::Core::Reflection::Type::operator>=(const Type & Other) const
 }
 
 Elysium::Core::Reflection::Type::Type()
+	: _HashCode(0), _IsArray(false), _IsEnum(false), _IsClass(false)
 { }

@@ -105,6 +105,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

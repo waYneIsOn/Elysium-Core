@@ -193,6 +193,17 @@ char8_t& Elysium::Core::String::operator[](const size_t Index) const
 	return _Data[Index];
 }
 
+const Elysium::Core::int32_t Elysium::Core::String::GetHashCode() const
+{	// ToDo: not sure this is correct!
+	Elysium::Core::int32_t Result = 0;
+	for (size_t i = 0; i < _Length; i++)
+	{
+		Result += _Data[i];
+	}
+
+	return Result;
+}
+
 const size_t Elysium::Core::String::GetLength() const throw()
 {
 	return _Length;

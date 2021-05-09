@@ -1,5 +1,9 @@
 #include "JsonWriter.hpp"
 
+#ifndef ELYSIUM_CORE_BOOLEAN
+#include "../Elysium.Core/Boolean.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_CONVERT
 #include "../Elysium.Core/Convert.hpp"
 #endif
@@ -132,7 +136,7 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
 void Elysium::Core::Json::JsonWriter::WriteValue(const bool & Value)
 {
 	PrepareWritingValue();
-	WriteString(Value ? u8"true" : u8"false");
+	WriteString(Value ? Elysium::Core::Boolean::TrueString : Elysium::Core::Boolean::FalseString);
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const int & Value)
 {

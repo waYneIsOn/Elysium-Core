@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_BINARYREADER
 #include "BinaryReader.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_GZIPSTREAM_LISTOFZIPARCHIVEENTRY
+#include "ListOfZipArchiveEntry.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIPARCHIVEENTRY

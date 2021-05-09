@@ -522,7 +522,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				// GUID (uniqueidentifier)
 				std::unique_ptr<IDataParameter> GuidParameter = InsertCommand->CreateParameter();
-				GuidParameter->SetValue(Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70"));
+				GuidParameter->SetValue(Guid::Parse(u8"ae019609-99e0-4ef5-85bb-ad90dc302e70"));
 				InsertCommand->GetParameters().Add(*GuidParameter.get());
 
 				//Assert::AreEqual("ae019609-99e0-4ef5-85bb-ad90dc302e70", Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70").ToString().c_str());

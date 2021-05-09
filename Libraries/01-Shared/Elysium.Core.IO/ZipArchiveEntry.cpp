@@ -80,6 +80,16 @@ Elysium::Core::IO::Compression::ZipArchiveEntry& Elysium::Core::IO::Compression:
 	return *this;
 }
 
+const bool Elysium::Core::IO::Compression::ZipArchiveEntry::operator==(const ZipArchiveEntry& Other)
+{   // ToDo:
+    throw 1;
+}
+
+const bool Elysium::Core::IO::Compression::ZipArchiveEntry::operator!=(const ZipArchiveEntry& Other)
+{   // ToDo:
+    throw 1;
+}
+
 const Elysium::Core::IO::Compression::ZipArchive* Elysium::Core::IO::Compression::ZipArchiveEntry::GetArchive() const
 {
     return _Archive;
