@@ -240,7 +240,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
         ReadExtraField(ExtraFieldLength);
     }
 
-    _RelativeOffsetToCompressedData = BaseStream.GetPosition();
+    _RelativeOffsetToCompressedData = static_cast<Elysium::Core::uint32_t>(BaseStream.GetPosition());
     BaseStream.Seek(CompressedSize, SeekOrigin::Current);
 
     if ((GeneralPurposeBitFlag & Zip::ZipBitFlag::DataDescriptor) == Zip::ZipBitFlag::DataDescriptor)

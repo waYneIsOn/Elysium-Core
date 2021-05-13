@@ -27,6 +27,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
@@ -51,10 +54,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Float.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
@@ -62,6 +62,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />

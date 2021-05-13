@@ -80,10 +80,10 @@ void Elysium::Core::Json::JsonElement::WriteTo(JsonWriter & Writer) const
 	switch (_Type)
 	{
 	case JsonNodeType::String:
-		Writer.WriteValue(std::get<String>(_Value));
+		Writer.WriteValue(std::get<Elysium::Core::String>(_Value));
 		break;
 	case JsonNodeType::Integer:
-		Writer.WriteValue(std::get<int32_t>(_Value));
+		Writer.WriteValue(std::get<Elysium::Core::int32_t>(_Value));
 		break;
 	case JsonNodeType::Float:
 		Writer.WriteValue(std::get<float>(_Value));

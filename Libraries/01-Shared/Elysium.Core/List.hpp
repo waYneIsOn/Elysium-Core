@@ -164,18 +164,15 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (this != &Right)
 		{
-			// release currently held objects
 			if (_Data != nullptr)
 			{
-				delete _Data;
+				delete[] _Data;
 			}
 
-			// grab Right's objects
 			_Data = Right._Data;
 			_Capacity = Right._Capacity;
 			_Count = Right._Count;
 
-			// release Right's objects
 			Right._Data = nullptr;
 			Right._Count = 0;
 			Right._Capacity = 0;

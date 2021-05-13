@@ -719,8 +719,8 @@ private:
 
 			// decimal
 			DecimalValue = Reader->GetDecimal(16);
-			AssertExtended::AreEqual((__int64)1, DecimalValue.GetHighPart());
-			AssertExtended::AreEqual((__int64)0, DecimalValue.GetLowPart());
+			AssertExtended::AreEqual(1LL, DecimalValue.GetHighPart());
+			AssertExtended::AreEqual(0ULL, DecimalValue.GetLowPart());
 			Assert::IsFalse(Reader->IsDBNull(16));
 			Assert::IsTrue(Reader->IsDBNull(17));
 
@@ -817,8 +817,8 @@ private:
 
 			// numeric
 			DecimalValue = Reader->GetDecimal(42);
-			AssertExtended::AreEqual((__int64)99, DecimalValue.GetHighPart());
-			AssertExtended::AreEqual((__int64)0, DecimalValue.GetLowPart());
+			AssertExtended::AreEqual(99LL, DecimalValue.GetHighPart());
+			AssertExtended::AreEqual(0ULL, DecimalValue.GetLowPart());
 			Assert::IsFalse(Reader->IsDBNull(42));
 			Assert::IsTrue(Reader->IsDBNull(43));
 

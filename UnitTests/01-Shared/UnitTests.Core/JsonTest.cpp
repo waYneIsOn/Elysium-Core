@@ -50,7 +50,7 @@ using namespace Elysium::Core::IO;
 using namespace Elysium::Core::Json;
 using namespace Elysium::Core::Text;
 
-namespace UnitTests::Core
+namespace UnitTests::Core::Json
 {
 	TEST_CLASS(JsonTests)
 	{

@@ -30,7 +30,7 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 }
 Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const Elysium::Core::String & OidValue, const OidGroup Group)
 {
-	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>(&OidValue[0]), (Elysium::Core::uint32_t)Group);
+	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>((char8_t*)&OidValue[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
 	{
 		throw CryptographicException();

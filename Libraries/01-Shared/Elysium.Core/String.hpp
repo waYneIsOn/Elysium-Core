@@ -43,29 +43,30 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API String final
 	{
 	public:
-		String();
-		String(const size_t Length);
-		String(const char8_t* Value);
-		String(const char8_t* Value, const size_t Length);
-		String(const String& Source);
-		String(String&& Right) noexcept;
-		~String();
+		constexpr String();
+		constexpr String(const size_t Length);
+		constexpr String(const char8_t* Value);
+		constexpr String(const char8_t* Value, const size_t Length);
+		constexpr String(const String& Source);
+		constexpr String(String&& Right) noexcept;
+		constexpr ~String();
 
-		String& operator=(const char8_t* Value);
-		String& operator=(const String& Source);
-		String& operator=(String&& Right) noexcept;
+		constexpr String& operator=(const char8_t* Value);
+		constexpr String& operator=(const String& Source);
+		constexpr String& operator=(String&& Right) noexcept;
 
-		bool operator==(const String& Other) const;
-		bool operator!=(const String& Other) const;
-		bool operator<(const String& Other) const;
-		bool operator>(const String& Other) const;
-		bool operator<=(const String Other) const;
-		bool operator>=(const String& Other) const;
+		const bool operator==(const String& Other) const;
+		const bool operator!=(const String& Other) const;
+		const bool operator<(const String& Other) const;
+		const bool operator>(const String& Other) const;
+		const bool operator<=(const String Other) const;
+		const bool operator>=(const String& Other) const;
 
-		char8_t& operator[](const size_t Index) const;
+		char8_t& operator[](const size_t Index);
+		const char8_t& operator[](const size_t Index) const;
 
 		const Elysium::Core::int32_t GetHashCode() const;
-		const size_t GetLength() const throw();
+		const size_t GetLength() const;
 		
 		const size_t IndexOf(const char8_t Value) const;
 		const size_t IndexOf(const char8_t Value, const size_t StartIndex) const;

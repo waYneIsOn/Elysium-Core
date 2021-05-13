@@ -54,7 +54,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 
 const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetByteCount(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount) const
 {
-	Elysium::Core::uint32_t Result = AdditionalCount;
+	Elysium::Core::uint32_t Result = static_cast<Elysium::Core::uint32_t>(AdditionalCount);
 
 	for (size_t i = 0; i < CharCount; ++i)
 	{

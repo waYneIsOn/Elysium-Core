@@ -1,9 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-
-#ifndef ELYSIUM_CORE_DECIMAL
 #include "../../../Libraries/01-Shared/Elysium.Core/Decimal.hpp"
-#endif
 
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -15,9 +12,9 @@ namespace UnitTests::Core
 	public:
 		TEST_METHOD(Constructors)
 		{
-			Elysium::Core::Decimal FromFloat(3.14154564564564567458757686574867867586758675867876f);
-			AssertExtended::AreEqual(3LL, FromFloat.GetHighPart());
-			AssertExtended::AreEqual(14154LL, FromFloat.GetLowPart());
+			Elysium::Core::Decimal Float128 = 3.14154564564564567458757686574867867586758675867876_M;
+			AssertExtended::AreEqual(3LL, Float128.GetHighPart());
+			AssertExtended::AreEqual(14154ULL, Float128.GetLowPart());
 		}
 	};
 }

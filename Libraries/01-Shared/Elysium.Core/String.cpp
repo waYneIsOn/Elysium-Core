@@ -1,5 +1,17 @@
 #include "String.hpp"
 
+#ifndef ELYSIUM_CORE_MEMORY
+#include "Memory.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_OBJECT
+#include "Object.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "List.hpp"
+#endif
+
 #ifndef _TYPE_TRAITS_
 #include <type_traits>
 #endif
@@ -8,63 +20,57 @@
 #include <xstring>	// std::char_traits
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
 
 const Elysium::Core::String Elysium::Core::String::Empty = Elysium::Core::String();
 
-Elysium::Core::String::String()
+constexpr Elysium::Core::String::String()
 	: _Length(0), _Data(nullptr)
-{
-	//*this = Elysium::Core::String::Empty;
-}
+{ }
 
-Elysium::Core::String::String(const size_t Length)
+constexpr Elysium::Core::String::String(const size_t Length)
 	: _Length(Length), _Data(new char8_t[_Length + 1])
 {
-	std::memset(_Data, 0, _Length + 1);
+	Elysium::Core::Memory<char8_t>::Set(_Data, 0, _Length + 1);
 }
 
-Elysium::Core::String::String(const char8_t* Value)
+constexpr Elysium::Core::String::String(const char8_t* Value)
 	: _Length(Value == nullptr ? 0 : std::char_traits<char8_t>::length(Value)), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
 	{
-		memcpy(_Data, Value, (_Length + 1) * sizeof(char8_t));
+		Elysium::Core::Memory<char8_t>::Copy(_Data, Value, _Length + 1);
 	}
 }
 
-Elysium::Core::String::String(const char8_t* Value, const size_t Length)
+constexpr Elysium::Core::String::String(const char8_t* Value, const size_t Length)
 	: _Length(Value == nullptr ? 0 : Length), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
 	{
-		memcpy(_Data, Value, _Length * sizeof(char8_t));
+		Elysium::Core::Memory<char8_t>::Copy(_Data, Value, _Length);
 		_Data[_Length] = _NullTerminationChar;
 	}
 }
 
-Elysium::Core::String::String(const String& Source)
+constexpr Elysium::Core::String::String(const String& Source)
 	: _Length(Source._Length), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
 	{
-		memcpy(_Data, Source._Data, (_Length + 1) * sizeof(char8_t));
+		Elysium::Core::Memory<char8_t>::Copy(_Data, Source._Data, _Length + 1);
 	}
 }
 
-Elysium::Core::String::String(String&& Right) noexcept
+constexpr Elysium::Core::String::String(String&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Object::Move<String>(Right);
 }
 
-Elysium::Core::String::~String()
+constexpr Elysium::Core::String::~String()
 {
 	if (_Data != nullptr)
 	{
@@ -73,7 +79,7 @@ Elysium::Core::String::~String()
 	}
 }
 
-Elysium::Core::String& Elysium::Core::String::operator=(const char8_t* Value)
+constexpr Elysium::Core::String& Elysium::Core::String::operator=(const char8_t* Value)
 {
 	if (_Data != nullptr)
 	{
@@ -89,7 +95,7 @@ Elysium::Core::String& Elysium::Core::String::operator=(const char8_t* Value)
 	return *this;
 }
 
-Elysium::Core::String& Elysium::Core::String::operator=(const String& Source)
+constexpr Elysium::Core::String& Elysium::Core::String::operator=(const String& Source)
 {
 	if (this != &Source)
 	{
@@ -108,7 +114,7 @@ Elysium::Core::String& Elysium::Core::String::operator=(const String& Source)
 	return *this;
 }
 
-Elysium::Core::String& Elysium::Core::String::operator=(String&& Right) noexcept
+constexpr Elysium::Core::String& Elysium::Core::String::operator=(String&& Right) noexcept
 {
 	if (this != &Right)
 	{
@@ -126,7 +132,7 @@ Elysium::Core::String& Elysium::Core::String::operator=(String&& Right) noexcept
 	return *this;
 }
 
-bool Elysium::Core::String::operator==(const String& Other) const
+const bool Elysium::Core::String::operator==(const String& Other) const
 {
 	if (this == &Other)
 	{
@@ -139,7 +145,7 @@ bool Elysium::Core::String::operator==(const String& Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) == 0;
 }
 
-bool Elysium::Core::String::operator!=(const String& Other) const
+const bool Elysium::Core::String::operator!=(const String& Other) const
 {
 	if (this == &Other)
 	{
@@ -148,7 +154,7 @@ bool Elysium::Core::String::operator!=(const String& Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) != 0;
 }
 
-bool Elysium::Core::String::operator<(const String& Other) const
+const bool Elysium::Core::String::operator<(const String& Other) const
 {
 	if (this == &Other)
 	{
@@ -157,7 +163,7 @@ bool Elysium::Core::String::operator<(const String& Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) < 0;
 }
 
-bool Elysium::Core::String::operator>(const String& Other) const
+const bool Elysium::Core::String::operator>(const String& Other) const
 {
 	if (this == &Other)
 	{
@@ -166,7 +172,7 @@ bool Elysium::Core::String::operator>(const String& Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) > 0;
 }
 
-bool Elysium::Core::String::operator<=(const String Other) const
+const bool Elysium::Core::String::operator<=(const String Other) const
 {
 	if (this == &Other)
 	{
@@ -175,7 +181,7 @@ bool Elysium::Core::String::operator<=(const String Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) <= 0;
 }
 
-bool Elysium::Core::String::operator>=(const String& Other) const
+const bool Elysium::Core::String::operator>=(const String& Other) const
 {
 	if (this == &Other)
 	{
@@ -184,7 +190,16 @@ bool Elysium::Core::String::operator>=(const String& Other) const
 	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) >= 0;
 }
 
-char8_t& Elysium::Core::String::operator[](const size_t Index) const
+char8_t& Elysium::Core::String::operator[](const size_t Index)
+{
+	if (Index >= _Length)
+	{
+		throw IndexOutOfRangeException();
+	}
+	return _Data[Index];
+}
+
+const char8_t& Elysium::Core::String::operator[](const size_t Index) const
 {
 	if (Index >= _Length)
 	{
@@ -204,7 +219,7 @@ const Elysium::Core::int32_t Elysium::Core::String::GetHashCode() const
 	return Result;
 }
 
-const size_t Elysium::Core::String::GetLength() const throw()
+const size_t Elysium::Core::String::GetLength() const
 {
 	return _Length;
 }

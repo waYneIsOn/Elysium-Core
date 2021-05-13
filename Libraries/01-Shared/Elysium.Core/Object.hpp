@@ -48,16 +48,22 @@ namespace Elysium::Core
 
 		Object& operator=(const Object& Source) = delete;
 		Object& operator=(Object&& Right) noexcept = delete;
-		/*
+		
 		template <class T>
 		static constexpr T&& Move(T& Value) noexcept;
-		*/
+		
 		template <class T>
 		static const Elysium::Core::int32_t GetHashCode(const T Value);
 
 		template <class T>
 		static const Elysium::Core::String ToString(const T Value);
 	};
+
+	template<class T>
+	inline constexpr T&& Object::Move(T& Value) noexcept
+	{
+		return static_cast<T&&>(Value);
+	}
 
 	template<>
 	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::int8_t>(const Elysium::Core::int8_t Value)

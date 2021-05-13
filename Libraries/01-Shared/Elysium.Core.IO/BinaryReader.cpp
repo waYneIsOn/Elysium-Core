@@ -26,7 +26,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 	Elysium::Core::uint32_t BytesRead = 0;
 	do
 	{
-		BytesRead += _BaseStream.Read(&Data[BytesRead], Count);
+		BytesRead += static_cast<Elysium::Core::uint32_t>(_BaseStream.Read(&Data[BytesRead], Count));
 	} while (BytesRead < Count);
 
 	return Data;

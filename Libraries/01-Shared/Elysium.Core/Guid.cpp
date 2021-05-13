@@ -1,11 +1,7 @@
 #include "Guid.hpp"
 
-#ifndef __midl
-#include <cstring>
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>	// std::char_traits
+#ifndef ELYSIUM_CORE_OBJECT
+#include "Object.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
@@ -16,28 +12,34 @@
 #include "NotImplementedException.hpp"
 #endif
 
+#ifndef __midl
+#include <cstring>
+#endif
+
+#ifndef _XSTRING_
+#include <xstring>	// std::char_traits
+#endif
+
 Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid();
 
 Elysium::Core::Guid::Guid(const Elysium::Core::byte B[16])
-	: _Data()
-{
-	std::memset(_Data, 0, 16);
-}
+	: _Data(0)
+{ }
 Elysium::Core::Guid::Guid(const Elysium::Core::uint32_t A, const Elysium::Core::uint16_t B, const Elysium::Core::uint16_t C, const Elysium::Core::byte* D[8])
-	: _Data()
+	: _Data(0)
 {
-	memcpy(&_Data[0], &A, sizeof(Elysium::Core::uint32_t));
-	memcpy(&_Data[4], &B, sizeof(Elysium::Core::uint16_t));
-	memcpy(&_Data[6], &C, sizeof(Elysium::Core::uint16_t));
-	memcpy(&_Data[8], D[0], sizeof(Elysium::Core::byte) * 8);
+	Elysium::Core::byte* Data = (Elysium::Core::byte*)&_Data;
+
+	memcpy(&Data[0], &A, sizeof(Elysium::Core::uint32_t));
+	memcpy(&Data[4], &B, sizeof(Elysium::Core::uint16_t));
+	memcpy(&Data[6], &C, sizeof(Elysium::Core::uint16_t));
+	memcpy(&Data[8], D[0], sizeof(Elysium::Core::byte) * 8);
 }
 Elysium::Core::Guid::Guid(const Guid & Source)
-	: _Data()
-{
-	memcpy(&_Data[0], &Source._Data[0], sizeof(Elysium::Core::byte) * 16);
-}
+	: _Data(Source._Data)
+{ }
 Elysium::Core::Guid::Guid(Guid && Right) noexcept
-	: _Data()
+	: _Data(0)
 {
 	*this = std::move(Right);
 }
@@ -48,7 +50,7 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(const Guid & Source)
 {
 	if (this != &Source)
 	{
-		memcpy(_Data, Source._Data, sizeof(Elysium::Core::byte) * 16);
+		_Data = Source._Data;
 	}
 
 	return *this;
@@ -57,8 +59,9 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 {
 	if (this != &Right)
 	{
-		memmove(_Data, Right._Data, 16);
-		memset(Right._Data, 0, 16);
+		_Data = Elysium::Core::Object::Move(Right._Data);
+
+		Right._Data = 0;
 	}
 
 	return *this;
@@ -66,7 +69,6 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 
 const bool Elysium::Core::Guid::operator==(const Guid & Other)
 {
-	//return std::equal(std::begin(_Data), std::end(_Data), std::begin(Other._Data));
 	return _Data == Other._Data;
 }
 const bool Elysium::Core::Guid::operator!=(const Guid & Other)
@@ -141,7 +143,7 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char8_t* Input)
 
 const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 {
-	return &_Data[0];
+	return (Elysium::Core::byte*)&_Data;
 }
 Elysium::Core::String Elysium::Core::Guid::ToString() const
 {
@@ -168,9 +170,8 @@ Elysium::Core::String Elysium::Core::Guid::ToString() const
 }
 
 Elysium::Core::Guid::Guid()
-{
-	memset(&_Data[0], 0x00, sizeof(byte) * 16);
-}
+	: _Data(0)
+{ }
 
 void Elysium::Core::Guid::ParseN(const char8_t* Input, Elysium::Core::byte * Data)
 {	// 00000000000000000000000000000000

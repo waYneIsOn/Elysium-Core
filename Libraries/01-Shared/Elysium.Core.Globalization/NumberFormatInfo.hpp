@@ -33,14 +33,14 @@ namespace Elysium::Core::Globalization
 	class ELYSIUM_CORE_API NumberFormatInfo final
 	{
 	public:
-		NumberFormatInfo();
-		NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly);
-		NumberFormatInfo(const NumberFormatInfo& Source);
-		NumberFormatInfo(NumberFormatInfo&& Right) noexcept;
-		~NumberFormatInfo();
+		constexpr NumberFormatInfo();
+		constexpr NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly);
+		constexpr NumberFormatInfo(const NumberFormatInfo& Source);
+		constexpr NumberFormatInfo(NumberFormatInfo&& Right) noexcept;
+		constexpr ~NumberFormatInfo();
 
-		NumberFormatInfo& operator=(const NumberFormatInfo& Source);
-		NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept;
+		constexpr NumberFormatInfo& operator=(const NumberFormatInfo& Source);
+		constexpr NumberFormatInfo& operator=(NumberFormatInfo&& Right) noexcept;
 
 		static const NumberFormatInfo GetCurrentInfo();
 		static const NumberFormatInfo GetInvariantInfo();

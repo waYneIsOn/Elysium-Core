@@ -61,7 +61,8 @@ namespace Elysium::Core
 		const byte* ToByteArray() const;
 		String ToString() const;
 	private:
-		byte _Data[16];
+		//byte _Data[16];
+		Elysium::Core::uint64_t _Data;
 
 		Guid();
 

@@ -111,6 +111,15 @@ namespace UnitTests::Core::Globalization
 			NumberFormat.SetCurrencyDecimalSeparator(OriginalCurrencyDecimalSeparator);
 			AssertExtended::AreEqual(OriginalCurrencyDecimalSeparator, NumberFormat.GetCurrencyDecimalSeparator());
 		}
+
+		TEST_METHOD(GetBiggestValues)
+		{
+			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
+			for (size_t i = 0; i < AllCultures.GetLength(); i++)
+			{
+
+			}
+		}
 	private:
 		static void CheckCultureGermanAustria(const CultureInfo& Culture)
 		{

@@ -20,15 +20,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp">
-      <Filter>Collections</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp">
-      <Filter>Collections</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
@@ -110,6 +101,16 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp">
       <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp">
+      <Filter>Collections</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -38,18 +38,19 @@ namespace Elysium::Core
 		StringView& operator=(const StringView& Source);
 		StringView& operator=(StringView&& Right) noexcept;
 
-		char8_t& operator[](size_t Index) const;
+		char8_t& operator[](size_t Index);
+		const char8_t& operator[](size_t Index) const;
 
 		operator Elysium::Core::String() const;
 
-		bool operator==(const StringView& Other) const;
-		bool operator!=(const StringView& Other) const;
-		bool operator<(const StringView& Other) const;
-		bool operator>(const StringView& Other) const;
-		bool operator<=(const StringView& Other) const;
-		bool operator>=(const StringView& Other) const;
+		const bool operator==(const StringView& Other) const;
+		const bool operator!=(const StringView& Other) const;
+		const bool operator<(const StringView& Other) const;
+		const bool operator>(const StringView& Other) const;
+		const bool operator<=(const StringView& Other) const;
+		const bool operator>=(const StringView& Other) const;
 
-		bool operator==(const String& Other) const;
+		const bool operator==(const String& Other) const;
 
 		const size_t GetLength() const;
 

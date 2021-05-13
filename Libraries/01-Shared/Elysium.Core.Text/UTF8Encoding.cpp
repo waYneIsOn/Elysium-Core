@@ -38,7 +38,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 
 const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const
 {
-	return CharCount + AdditionalCount;
+	return static_cast<Elysium::Core::uint32_t>(CharCount + AdditionalCount);
 
 	/*
 	// UTF-16 BE
@@ -142,7 +142,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 
 const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetCharCount(const Elysium::Core::byte * Bytes, const size_t ByteCount) const
 {
-	return ByteCount;
+	return static_cast<Elysium::Core::uint32_t>(ByteCount);
 	/*
 	// UTF-16 BE
 	Elysium::Core::uint32_t RequiredCharacters = ByteCount;

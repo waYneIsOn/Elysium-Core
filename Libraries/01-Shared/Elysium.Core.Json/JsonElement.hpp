@@ -60,10 +60,10 @@ namespace Elysium::Core::Json
 		JsonElement(const String& Name, const bool Value);
 		JsonElement(const String& Name);
 
-		String _Name;
+		Elysium::Core::String _Name;
 		JsonNodeType _Type;
 #pragma warning(disable : 4251)	// _Value doesn't get exposed directly so I can simply ignore the warning
-		std::variant<bool, int32_t, float, double, String, void*> _Value;
+		std::variant<bool, Elysium::Core::int32_t, float, double, Elysium::Core::String, void*> _Value;
 #pragma warning(default : 4251)
 	};
 }

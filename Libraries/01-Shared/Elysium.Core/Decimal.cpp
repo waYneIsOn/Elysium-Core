@@ -8,107 +8,91 @@
 #include <type_traits>
 #endif
 
-Elysium::Core::Decimal::Decimal()
-	: _Data()
+constexpr Elysium::Core::Decimal::Decimal()
+	: _HighPart(0), _LowPart(0)
 { }
-Elysium::Core::Decimal::Decimal(const float & Value)
-	: _Data()
-{
-	int64_t HighPart = (int64_t)Value;
-	int64_t LowPart = int64_t(static_cast<double>(Value) * 100000) % 100000;
-
-	memcpy(&_Data[0], &HighPart, sizeof(int64_t));
-	memcpy(&_Data[8], &LowPart, sizeof(int64_t));
-}
-Elysium::Core::Decimal::Decimal(const double & Value)
-	: _Data()
-{
-	int64_t HighPart = (int64_t)Value;
-	int64_t LowPart = int64_t(Value * 100000) % 100000;
-
-	memcpy(&_Data[0], &HighPart, sizeof(int64_t));
-	memcpy(&_Data[8], &LowPart, sizeof(int64_t));
-}
-Elysium::Core::Decimal::Decimal(const int64_t & HighPart, const int64_t & LowPart)
-	: _Data()
-{
-	memcpy(&_Data[0], &HighPart, sizeof(int64_t));
-	memcpy(&_Data[8], &LowPart, sizeof(int64_t));
-}
-Elysium::Core::Decimal::Decimal(const Decimal & Source)
-	: _Data()
-{
-	memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
-}
-Elysium::Core::Decimal::Decimal(Decimal && Right) noexcept
-	: _Data()
+constexpr Elysium::Core::Decimal::Decimal(const float Value)
+	: _HighPart(static_cast<Elysium::Core::int64_t>(Value)), _LowPart(static_cast<Elysium::Core::int64_t>(static_cast<double>(Value) * 100000) % 100000)
+{ }
+constexpr Elysium::Core::Decimal::Decimal(const double Value)
+	: _HighPart(static_cast<Elysium::Core::int64_t>(Value)), _LowPart(static_cast<Elysium::Core::int64_t>(Value * 100000) % 100000)
+{ }
+constexpr Elysium::Core::Decimal::Decimal(const long double Value)
+	: _HighPart(static_cast<Elysium::Core::int64_t>(Value)), _LowPart(static_cast<Elysium::Core::int64_t>(Value * 100000) % 100000)
+{ }
+constexpr Elysium::Core::Decimal::Decimal(const Elysium::Core::int64_t HighPart, const Elysium::Core::uint64_t LowPart)
+	: _HighPart(HighPart), _LowPart(LowPart)
+{ }
+constexpr Elysium::Core::Decimal::Decimal(const Decimal & Source)
+	: _HighPart(Source._HighPart), _LowPart(Source._LowPart)
+{ }
+constexpr Elysium::Core::Decimal::Decimal(Decimal && Right) noexcept
+	: _HighPart(0), _LowPart(0)
 {
 	*this = std::move(Right);
 }
-Elysium::Core::Decimal::~Decimal()
+constexpr Elysium::Core::Decimal::~Decimal()
 { }
 
-Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(const Decimal & Source)
+constexpr Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(const Decimal & Source)
 {
 	if (this != &Source)
 	{
-		memcpy(&_Data[0], &Source._Data[0], sizeof(byte) * 16);
+		_HighPart = Source._HighPart;
+		_LowPart = Source._LowPart;
 	}
 	return *this;
 }
-Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right) noexcept
+
+constexpr Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right) noexcept
 {
 	if (this != &Right)
 	{
-		memmove(_Data, Right._Data, sizeof(byte) * 16);
-		memset(Right._Data, 0, sizeof(byte) * 16);
+		_HighPart = std::move(Right._HighPart);
+		_LowPart = std::move(Right._LowPart);
+
+		Right._HighPart = 0;
+		Right._LowPart = 0;
 }
 	return *this;
 }
 
-const bool Elysium::Core::Decimal::operator==(const Elysium::Core::Decimal& Other) const
+constexpr const bool Elysium::Core::Decimal::operator==(const Elysium::Core::Decimal& Other) const
 {
-	return false;
+	return _HighPart == Other._HighPart && _LowPart == Other._LowPart;
 }
 
-const bool Elysium::Core::Decimal::operator!=(const Elysium::Core::Decimal& Other) const
+constexpr const bool Elysium::Core::Decimal::operator!=(const Elysium::Core::Decimal& Other) const
 {
-	return false;
+	return _HighPart != Other._HighPart || _LowPart != Other._LowPart;
 }
 
-const bool Elysium::Core::Decimal::operator<(const Elysium::Core::Decimal& Other) const
+constexpr const bool Elysium::Core::Decimal::operator<(const Elysium::Core::Decimal& Other) const
 {
-	return false;
+	return _HighPart <= Other._HighPart && _LowPart < Other._LowPart;
 }
 
-const bool Elysium::Core::Decimal::operator>(const Elysium::Core::Decimal& Other) const
+constexpr const bool Elysium::Core::Decimal::operator>(const Elysium::Core::Decimal& Other) const
 {
-	return false;
+	return _HighPart >= Other._HighPart && _LowPart > Other._LowPart;
 }
 
-const bool Elysium::Core::Decimal::operator<=(const Elysium::Core::Decimal& Other) const
+constexpr const bool Elysium::Core::Decimal::operator<=(const Elysium::Core::Decimal& Other) const
 {
-	return false;
+	return _HighPart <= Other._HighPart && _LowPart <= Other._LowPart;
 }
 
-const bool Elysium::Core::Decimal::operator>=(const Elysium::Core::Decimal& Other) const
+constexpr const bool Elysium::Core::Decimal::operator>=(const Elysium::Core::Decimal& Other) const
 {
-	return false;
+	return _HighPart >= Other._HighPart && _LowPart >= Other._LowPart;
 }
 
-const Elysium::Core::int64_t Elysium::Core::Decimal::GetHighPart() const
+constexpr const Elysium::Core::int64_t& Elysium::Core::Decimal::GetHighPart() const
 {
-#ifdef BIGENDIAN
-	return *(int64_t*)&_Data[8];
-#else
-	return *(int64_t*)&_Data[0];
-#endif
+	return _HighPart;
 }
-const Elysium::Core::int64_t Elysium::Core::Decimal::GetLowPart() const
+
+constexpr const Elysium::Core::uint64_t& Elysium::Core::Decimal::GetLowPart() const
 {
-#ifdef BIGENDIAN
-	return *(int64_t*)&_Data[0];
-#else
-	return *(int64_t*)&_Data[8];
-#endif
+	return _LowPart;
 }

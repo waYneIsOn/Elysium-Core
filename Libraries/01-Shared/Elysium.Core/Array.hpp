@@ -137,6 +137,11 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (this != &Source)
 		{
+			if (_Data != nullptr)
+			{
+				delete[] _Data;
+			}
+
 			_Length = Source._Length;
 			_Data = _Length == 0 ? nullptr : new T[_Length];
 			for (size_t i = 0; i < _Length; i++)
@@ -152,6 +157,11 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (this != &Right)
 		{
+			if (_Data != nullptr)
+			{
+				delete[] _Data;
+			}
+
 			_Length = Right._Length;
 			_Data = Right._Data;
 
@@ -164,6 +174,11 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline Array<T>& Array<T>::operator=(List<T>&& Right) noexcept
 	{
+		if (_Data != nullptr)
+		{
+			delete[] _Data;
+		}
+
 		_Length = Right._Capacity;
 		_Data = Right._Data;
 

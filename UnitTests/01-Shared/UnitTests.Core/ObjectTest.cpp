@@ -34,6 +34,8 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(u8"28", Object::ToString(28_ui16));
 			AssertExtended::AreEqual(u8"28", Object::ToString(28_ui32));
 			AssertExtended::AreEqual(u8"28", Object::ToString(28_ui64));
+			AssertExtended::AreEqual(u8"", Object::ToString(24.38f));
+			AssertExtended::AreEqual(u8"", Object::ToString(24.38));
 			AssertExtended::AreEqual(u8"hello", Object::ToString(Elysium::Core::String(u8"hello")));
 		}
 	};

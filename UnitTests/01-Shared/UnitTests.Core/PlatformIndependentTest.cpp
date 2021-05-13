@@ -17,6 +17,9 @@ namespace UnitTests
 			Assert::AreEqual(static_cast<size_t>(1), sizeof(char8_t));
 			Assert::AreEqual(static_cast<size_t>(2), sizeof(char16_t));
 			Assert::AreEqual(static_cast<size_t>(4), sizeof(char32_t));
+			Assert::AreEqual(static_cast<size_t>(4), sizeof(float));
+			Assert::AreEqual(static_cast<size_t>(8), sizeof(double));
+			Assert::AreEqual(static_cast<size_t>(8), sizeof(long double));
 		}
 	};
 }

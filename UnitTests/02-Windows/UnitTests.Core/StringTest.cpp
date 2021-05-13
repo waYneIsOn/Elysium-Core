@@ -94,6 +94,7 @@ namespace UnitTests::Core
 			Assert::IsFalse(Elysium::Core::String::IsEmpty(String1));
 			Assert::IsTrue(Elysium::Core::String::IsNullOrEmtpy(String1));
 		}
+
 		TEST_METHOD(Operators)
 		{
 			Elysium::Core::String Source = u8"some text";
@@ -110,24 +111,7 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(u8"some text", &Move[0]);
 			Assert::AreEqual((size_t)9, Move.GetLength());
 		}
-		TEST_METHOD(GetEnumerator)
-		{
-			Elysium::Core::String String1 = Elysium::Core::String(u8"text");
-			/*
-			Elysium::Core::CharEnumerator Enumerator = String1.GetEnumerator();
 
-			int Count = 0;
-			while (Enumerator.MoveNext())
-			{
-				Count++;
-			}
-
-			int x = 324;
-
-			Assert::AreEqual(4, Count);
-			*/
-			Assert::Fail();
-		}
 		TEST_METHOD(IndexOf)
 		{
 			Elysium::Core::String SomeString = u8"different";
@@ -143,6 +127,7 @@ namespace UnitTests::Core
 			Assert::AreEqual((size_t)3, SomeString.IndexOf(u8"fe"));
 			Assert::AreEqual((size_t)7, SomeString.IndexOf(u8"nt"));
 		}
+
 		TEST_METHOD(Split)
 		{
 			Elysium::Core::String Source = Elysium::Core::String(u8"HTTP/1.1 200 OK\r\nDate: Fri, 29 Nov 2019 12:49:19 GMT\r\nContent-Type: text/html; charset=UTF-8\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nSet-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly\r\nX-Powered-By: Express\r\nVary: Origin, Accept-Encoding\r\nAccess-Control-Allow-Credentials: true\r\nCache-Control: public, max-age=14400\r\nLast-Modified: Mon, 05 Aug 2019 03:07:14 GMT\r\nVia: 1.1 vegur\r\nCF-Cache-Status: HIT\r\nAge: 6201\r\nServer: cloudflare\r\nCF-RAY: 53d4b3737b75f3fb-LHR");
@@ -169,6 +154,7 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(u8"Server: cloudflare", &Lines[14][0]);
 			AssertExtended::AreEqual(u8"CF-RAY: 53d4b3737b75f3fb-LHR", &Lines[15][0]);
 		}
+
 		TEST_METHOD(Substring)
 		{
 			Elysium::Core::String Source = Elysium::Core::String(u8"this is a string containing some text");
