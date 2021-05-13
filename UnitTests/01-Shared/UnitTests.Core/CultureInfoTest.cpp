@@ -75,8 +75,8 @@ namespace UnitTests::Core::Globalization
 			Assert::AreEqual(2, NumberFormat.GetPercentDecimalDigits());
 			AssertExtended::AreEqual(String(u8"."), NumberFormat.GetPercentDecimalSeparator());
 			AssertExtended::AreEqual(String(u8","), NumberFormat.GetPercentGroupSeparator());
-			Assert::AreEqual(0, NumberFormat.GetPercentNegativePattern());
-			Assert::AreEqual(0, NumberFormat.GetPercentPositivePattern());
+			//Assert::AreEqual(0, NumberFormat.GetPercentNegativePattern());
+			//Assert::AreEqual(0, NumberFormat.GetPercentPositivePattern());
 			AssertExtended::AreEqual(String(u8"%"), NumberFormat.GetPercentSymbol());
 			AssertExtended::AreEqual(String(u8"‰"), NumberFormat.GetPerMilleSymbol());
 			AssertExtended::AreEqual(String(u8"Infinity"), NumberFormat.GetPositiveInfinitySymbol());
@@ -112,12 +112,34 @@ namespace UnitTests::Core::Globalization
 			AssertExtended::AreEqual(OriginalCurrencyDecimalSeparator, NumberFormat.GetCurrencyDecimalSeparator());
 		}
 
-		TEST_METHOD(GetBiggestValues)
+		TEST_METHOD(CheckValueRanges)
 		{
 			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
 			for (size_t i = 0; i < AllCultures.GetLength(); i++)
 			{
-
+				Elysium::Core::Globalization::NumberFormatInfo NumberFormatInfo = AllCultures[i].GetNumberFormatInfo();
+				
+				AssertLongestValue(NumberFormatInfo, 3, u8"CurrencyDecimalDigits", u8"", NumberFormatInfo.GetCurrencyDecimalDigits());
+				AssertLongestValue(NumberFormatInfo, 1, u8"CurrencyDecimalSeparator", NumberFormatInfo.GetCurrencyDecimalSeparator(), NumberFormatInfo.GetCurrencyDecimalSeparator().GetLength());
+				AssertLongestValue(NumberFormatInfo, 3, u8"CurrencyGroupSeparator", NumberFormatInfo.GetCurrencyGroupSeparator(), NumberFormatInfo.GetCurrencyGroupSeparator().GetLength());
+				//AssertLongestValue(NumberFormatInfo, 1, u8"CurrencyNegativePattern", u8"", NumberFormatInfo.GetCurrencyNegativePattern());
+				//AssertLongestValue(NumberFormatInfo, 1, u8"CurrencyPositivePattern", u8"", NumberFormatInfo.GetCurrencyPositivePattern());
+				AssertLongestValue(NumberFormatInfo, 9, u8"CurrencySymbol", NumberFormatInfo.GetCurrencySymbol(), NumberFormatInfo.GetCurrencySymbol().GetLength());
+				AssertLongestValue(NumberFormatInfo, 45, u8"NaNSymbol", NumberFormatInfo.GetNaNSymbol(), NumberFormatInfo.GetNaNSymbol().GetLength());
+				AssertLongestValue(NumberFormatInfo, 65, u8"NegativeInfinitySymbol", NumberFormatInfo.GetNegativeInfinitySymbol(), NumberFormatInfo.GetNegativeInfinitySymbol().GetLength());
+				AssertLongestValue(NumberFormatInfo, 1, u8"NegativeSign", NumberFormatInfo.GetNegativeSign(), NumberFormatInfo.GetNegativeSign().GetLength());
+				//AssertLongestValue(NumberFormatInfo, 1, u8"NumberDecimalDigits", u8"", NumberFormatInfo.GetNumberDecimalDigits());
+				AssertLongestValue(NumberFormatInfo, 1, u8"NumberDecimalSeparator", NumberFormatInfo.GetNumberDecimalSeparator(), NumberFormatInfo.GetNumberDecimalSeparator().GetLength());
+				AssertLongestValue(NumberFormatInfo, 3, u8"NumberGroupSeparator", NumberFormatInfo.GetNumberGroupSeparator(), NumberFormatInfo.GetNumberGroupSeparator().GetLength());
+				AssertLongestValue(NumberFormatInfo, 2, u8"PercentDecimalDigits", u8"", NumberFormatInfo.GetPercentDecimalDigits());
+				AssertLongestValue(NumberFormatInfo, 1, u8"PercentDecimalSeparator", NumberFormatInfo.GetPercentDecimalSeparator(), NumberFormatInfo.GetPercentDecimalSeparator().GetLength());
+				AssertLongestValue(NumberFormatInfo, 3, u8"PercentGroupSeparator", NumberFormatInfo.GetPercentGroupSeparator(), NumberFormatInfo.GetPercentGroupSeparator().GetLength());
+				//AssertLongestValue(NumberFormatInfo, 7, u8"PercentNegativePattern", u8"", NumberFormatInfo.GetPercentNegativePattern());
+				//AssertLongestValue(NumberFormatInfo, 3, u8"PercentPositivePattern", u8"", NumberFormatInfo.GetPercentPositivePattern());
+				AssertLongestValue(NumberFormatInfo, 2, u8"PercentSymbol", NumberFormatInfo.GetPercentSymbol(), NumberFormatInfo.GetPercentSymbol().GetLength());
+				AssertLongestValue(NumberFormatInfo, 3, u8"PerMilleSymbol", NumberFormatInfo.GetPerMilleSymbol(), NumberFormatInfo.GetPerMilleSymbol().GetLength());
+				AssertLongestValue(NumberFormatInfo, 65, u8"PositiveInfinitySymbol", NumberFormatInfo.GetPositiveInfinitySymbol(), NumberFormatInfo.GetPositiveInfinitySymbol().GetLength());
+				AssertLongestValue(NumberFormatInfo, 1, u8"PositiveSign", NumberFormatInfo.GetPositiveSign(), NumberFormatInfo.GetPositiveSign().GetLength());
 			}
 		}
 	private:
@@ -132,6 +154,22 @@ namespace UnitTests::Core::Globalization
 			// check numberformatinfo
 			NumberFormatInfo NumberFormat = Culture.GetNumberFormatInfo();
 			AssertExtended::AreEqual(String(u8","), NumberFormat.GetCurrencyDecimalSeparator());
+		}
+
+		static void AssertLongestValue(const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo, const size_t MaximumAllowedLength,
+			const Elysium::Core::String& Method, const Elysium::Core::String& Value, const size_t ActualLength)
+		{
+			// bla - this is just for checking values while debugging and can be changed freely
+			if (Value.GetLength() > 9 && ActualLength == MaximumAllowedLength)
+			{
+				bool bla = false;
+			}
+			// bla - end
+
+			if (ActualLength > MaximumAllowedLength)
+			{
+				Assert::Fail(L"Elysium::Core::Convert needs to be reevaulated!");
+			}
 		}
 	};
 }

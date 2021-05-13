@@ -305,7 +305,10 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentNegativePattern() const
 {
+	throw 1;
+	/*
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
+	// 122 - ERROR_INSUFFICIENT_BUFFER
 	Elysium::Core::int32_t Value = 48;
 	if (GetLocaleInfo((LCID)_LCID, LOCALE_INEGATIVEPERCENT, (LPWSTR)&Value, sizeof(Value) / sizeof(wchar_t)) == 0)
 	{
@@ -316,10 +319,13 @@ const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::Get
 #else
 #error "undefined os"
 #endif
+	*/
 }
 
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetPercentPositivePattern() const
 {
+	throw 1;
+	/*
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	Elysium::Core::int32_t Value = 48;
 	if (GetLocaleInfo((LCID)_LCID, LOCALE_IPOSITIVEPERCENT, (LPWSTR)&Value, sizeof(Value) / sizeof(wchar_t)) == 0)
@@ -331,6 +337,7 @@ const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::Get
 #else
 #error "undefined os"
 #endif
+	*/
 }
 
 const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetPercentSymbol() const
