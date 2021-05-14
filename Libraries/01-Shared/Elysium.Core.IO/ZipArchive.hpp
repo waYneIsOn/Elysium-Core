@@ -66,10 +66,10 @@ namespace Elysium::Core::IO::Compression
 		Elysium::Core::uint32_t _OffsetToCentralDirectory = 0;
 		Elysium::Core::Collections::Template::List<ZipArchiveEntry> _Entries;
 
-		static constexpr const Elysium::Core::uint8_t _SizeOfBlockEndOfCentralDirectoryWithSignature = 22;
+		static const Elysium::Core::uint8_t _SizeOfBlockEndOfCentralDirectoryWithSignature = 22;
 
-		static constexpr const Elysium::Core::uint32_t _SignatureEntry = 0x04034B50;
-		static constexpr const Elysium::Core::uint32_t _SignatureEndOfCentralDirectory = 0x06054B50;
+		static const Elysium::Core::uint32_t _SignatureEntry = 0x04034B50;
+		static const Elysium::Core::uint32_t _SignatureEndOfCentralDirectory = 0x06054B50;
 
 		Elysium::Core::IO::Stream& GetStream();
 		const Elysium::Core::Text::Encoding& GetEntryNameEncoding() const;

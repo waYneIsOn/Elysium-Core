@@ -116,7 +116,7 @@ namespace Elysium::Core::IO
 
 		Elysium::Core::uint64_t _Position = 0;
 
-		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
 	};
 }
 #endif

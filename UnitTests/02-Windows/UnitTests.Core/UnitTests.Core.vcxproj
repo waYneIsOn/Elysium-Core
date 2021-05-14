@@ -174,7 +174,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ByteClass.cpp" />
     <ClCompile Include="DateTimeTest.cpp" />
     <ClCompile Include="DecimalTest.cpp" />
     <ClCompile Include="DelegateTest.cpp" />

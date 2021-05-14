@@ -12,7 +12,7 @@ namespace UnitTests::Core
 	public:
 		TEST_METHOD(Constructors)
 		{
-			Elysium::Core::Decimal Float128 = 3.14154564564564567458757686574867867586758675867876_M;
+			Elysium::Core::Decimal Float128 = 3.14154564564564567458757686574867867586758675867876;
 			AssertExtended::AreEqual(3LL, Float128.GetHighPart());
 			AssertExtended::AreEqual(14154ULL, Float128.GetLowPart());
 		}

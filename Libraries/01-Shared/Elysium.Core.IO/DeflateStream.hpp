@@ -71,11 +71,11 @@ namespace Elysium::Core::IO::Compression
 		const CompressionLevel _CompressionLevel;
 		const bool _LeaveOpen;
 
-		static constexpr const Elysium::Core::uint16_t DefaultBufferSize = 4096;
+		static const Elysium::Core::uint16_t DefaultBufferSize = 4096;
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
 
-		static constexpr const Elysium::Core::uint32_t DefaultByteIndex = 0;
-		static constexpr const Elysium::Core::uint32_t DefaultBitIndex = 7;
+		static const Elysium::Core::uint32_t DefaultByteIndex = 0;
+		static const Elysium::Core::uint32_t DefaultBitIndex = 7;
 		size_t _BytesAvailable = 0;
 		size_t _CurrentByteIndex = DefaultByteIndex;
 		Elysium::Core::uint8_t _CurrentBitIndex = DefaultBitIndex;

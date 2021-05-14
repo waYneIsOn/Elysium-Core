@@ -112,6 +112,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp">
       <Filter>Collections</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

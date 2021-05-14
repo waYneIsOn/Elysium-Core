@@ -52,7 +52,7 @@ namespace UnitTests::Core
 			for (size_t CodePoint = 128; CodePoint < 2048; CodePoint++)
 			{
 				Elysium::Core::byte* LeadByte = (Elysium::Core::byte*)&CodePoint;
-				Elysium::Core::byte* TrailByte = &LeadByte[1];;
+				Elysium::Core::byte* TrailByte = &LeadByte[1];
 
 				char8_t Lead = 0xC0 | (*TrailByte << 2) | (*LeadByte >> 6);
 				char8_t Trail = 0x80 | (*LeadByte & 0x3F);

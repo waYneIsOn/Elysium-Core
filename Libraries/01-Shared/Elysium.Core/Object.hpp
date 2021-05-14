@@ -179,12 +179,6 @@ namespace Elysium::Core
 		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
-	template<>
-	inline const Elysium::Core::String Object::ToString<Elysium::Core::String>(const Elysium::Core::String Value)
-	{
-		return Value;
-	}
-
 	template <class T>
 	inline const Elysium::Core::String Object::ToString(const T Value)
 	{

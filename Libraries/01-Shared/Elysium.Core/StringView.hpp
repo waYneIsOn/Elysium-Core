@@ -70,8 +70,6 @@ namespace Elysium::Core
 	private:
 		size_t _Length;
 		char8_t* _Data;
-
-		static constexpr const char8_t _NullTerminationChar = u8'\0';
 	};
 }
 #endif

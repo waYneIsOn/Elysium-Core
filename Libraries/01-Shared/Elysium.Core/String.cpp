@@ -26,17 +26,17 @@
 
 const Elysium::Core::String Elysium::Core::String::Empty = Elysium::Core::String();
 
-constexpr Elysium::Core::String::String()
+Elysium::Core::String::String()
 	: _Length(0), _Data(nullptr)
 { }
 
-constexpr Elysium::Core::String::String(const size_t Length)
+Elysium::Core::String::String(const size_t Length)
 	: _Length(Length), _Data(new char8_t[_Length + 1])
 {
 	Elysium::Core::Memory<char8_t>::Set(_Data, 0, _Length + 1);
 }
 
-constexpr Elysium::Core::String::String(const char8_t* Value)
+Elysium::Core::String::String(const char8_t* Value)
 	: _Length(Value == nullptr ? 0 : std::char_traits<char8_t>::length(Value)), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
@@ -45,17 +45,17 @@ constexpr Elysium::Core::String::String(const char8_t* Value)
 	}
 }
 
-constexpr Elysium::Core::String::String(const char8_t* Value, const size_t Length)
+Elysium::Core::String::String(const char8_t* Value, const size_t Length)
 	: _Length(Value == nullptr ? 0 : Length), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
 	{
 		Elysium::Core::Memory<char8_t>::Copy(_Data, Value, _Length);
-		_Data[_Length] = _NullTerminationChar;
+		_Data[_Length] = NullTerminationChar;
 	}
 }
 
-constexpr Elysium::Core::String::String(const String& Source)
+Elysium::Core::String::String(const String& Source)
 	: _Length(Source._Length), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
@@ -64,13 +64,13 @@ constexpr Elysium::Core::String::String(const String& Source)
 	}
 }
 
-constexpr Elysium::Core::String::String(String&& Right) noexcept
+Elysium::Core::String::String(String&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
 	*this = Elysium::Core::Object::Move<String>(Right);
 }
 
-constexpr Elysium::Core::String::~String()
+Elysium::Core::String::~String()
 {
 	if (_Data != nullptr)
 	{
@@ -79,7 +79,7 @@ constexpr Elysium::Core::String::~String()
 	}
 }
 
-constexpr Elysium::Core::String& Elysium::Core::String::operator=(const char8_t* Value)
+Elysium::Core::String& Elysium::Core::String::operator=(const char8_t* Value)
 {
 	if (_Data != nullptr)
 	{
@@ -95,7 +95,7 @@ constexpr Elysium::Core::String& Elysium::Core::String::operator=(const char8_t*
 	return *this;
 }
 
-constexpr Elysium::Core::String& Elysium::Core::String::operator=(const String& Source)
+Elysium::Core::String& Elysium::Core::String::operator=(const String& Source)
 {
 	if (this != &Source)
 	{
@@ -114,7 +114,7 @@ constexpr Elysium::Core::String& Elysium::Core::String::operator=(const String& 
 	return *this;
 }
 
-constexpr Elysium::Core::String& Elysium::Core::String::operator=(String&& Right) noexcept
+Elysium::Core::String& Elysium::Core::String::operator=(String&& Right) noexcept
 {
 	if (this != &Right)
 	{

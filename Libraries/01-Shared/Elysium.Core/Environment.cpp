@@ -33,7 +33,7 @@ const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Ely
 #error "unsupported os"
 #endif
 
-constexpr const bool Elysium::Core::Environment::Is64BitProcess()
+const bool Elysium::Core::Environment::Is64BitProcess()
 {
 #if ELYSIUM_CORE_BITNESS == 32
 	// as 32-bit processes can run on 64-bit, we need to check at runtime

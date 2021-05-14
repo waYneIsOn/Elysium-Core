@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPAN
+#include "Span.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "Primitives.hpp"
 #endif
@@ -26,28 +30,43 @@ namespace Elysium::Core
 	class Memory final
 	{
 	public:
-		constexpr Memory();
-		constexpr Memory(const Memory& Source) = delete;
-		constexpr Memory(Memory&& Right) noexcept = delete;
-		constexpr ~Memory();
+		Memory(const T& StartElement, const Elysium::Core::uint64_t Length);
+		Memory(const Memory& Source) = delete;
+		Memory(Memory&& Right) noexcept = delete;
+		~Memory();
 
-		constexpr Memory& operator=(const Memory& Source) = delete;
-		constexpr Memory& operator=(Memory&& Right) noexcept = delete;
+		Memory& operator=(const Memory& Source) = delete;
+		Memory& operator=(Memory&& Right) noexcept = delete;
 
-		static constexpr void* Copy(void* Destination, const void* Source, size_t Length);
-		static constexpr void* Move(void* Destination, const void* Source, size_t Length);
-		static constexpr void* Set(void* Start, const Elysium::Core::uint8_t Value, size_t Length);
+		const Elysium::Core::uint64_t GetLength() const;
+
+		const bool GetIsEmpty() const;
+
+		Span<T> GetSpan();
+
+		const Span<T> GetSpan() const;
+
+		Memory<T> Slice(const Elysium::Core::uint64_t Start, const Elysium::Core::uint64_t Length);
+
+		static void* Copy(void* Destination, const void* Source, size_t Length);
+		static void* Move(void* Destination, const void* Source, size_t Length);
+		static void* Set(void* Start, const Elysium::Core::uint8_t Value, size_t Length);
 	private:
 		size_t _Length;
 		T* _Data;
 	};
 
 	template<typename T>
-	inline constexpr Memory<T>::Memory()
-		: _Length(0), _Data(nullptr)
-	{ }
+	inline Memory<T>::Memory(const T& StartElement, const Elysium::Core::uint64_t Length)
+		: _Length(Length), _Data(Length == 0 ? nullptr : new T[_Length])
+	{
+		if (_Data != nullptr)
+		{
+			Elysium::Core::Memory<char8_t>::Copy(_Data, &StartElement, _Length * sizeof(T));
+		}
+	}
 	template<typename T>
-	inline constexpr Memory<T>::~Memory()
+	inline Memory<T>::~Memory()
 	{
 		if (_Data != nullptr)
 		{
@@ -57,7 +76,38 @@ namespace Elysium::Core
 	}
 
 	template<typename T>
-	inline constexpr void* Memory<T>::Copy(void* Destination, const void* Source, size_t Length)
+	inline const Elysium::Core::uint64_t Memory<T>::GetLength() const
+	{
+		return _Length;
+	}
+
+	template<typename T>
+	inline const bool Memory<T>::GetIsEmpty() const
+	{
+		return _Length == 0;
+	}
+
+	template<typename T>
+	inline Span<T> Memory<T>::GetSpan()
+	{
+		return Span<T>(*_Data, _Length);
+	}
+
+	template<typename T>
+	inline const Span<T> Memory<T>::GetSpan() const
+	{
+		return Span<T>(*_Data, _Length);
+	}
+
+	template<typename T>
+	inline Memory<T> Memory<T>::Slice(const Elysium::Core::uint64_t Start, const Elysium::Core::uint64_t Length)
+	{
+		// ToDo: check start & length
+		return Memory(_Data[Start], Length);
+	}
+
+	template<typename T>
+	inline void* Memory<T>::Copy(void* Destination, const void* Source, size_t Length)
 	{
 		Elysium::Core::byte* DestinationAddress = (Elysium::Core::byte*)Destination;
 		Elysium::Core::byte* SourceAddress = (Elysium::Core::byte*)Source;
@@ -69,7 +119,7 @@ namespace Elysium::Core
 	}
 
 	template<typename T>
-	inline constexpr void* Memory<T>::Move(void* Destination, const void* Source, size_t Length)
+	inline void* Memory<T>::Move(void* Destination, const void* Source, size_t Length)
 	{
 		Elysium::Core::byte* DestinationAddress = (Elysium::Core::byte*)Destination;
 		Elysium::Core::byte* SourceAddress = (Elysium::Core::byte*)Source;
@@ -92,7 +142,7 @@ namespace Elysium::Core
 	}
 
 	template<typename T>
-	inline constexpr void* Memory<T>::Set(void* Start, const Elysium::Core::uint8_t Value, size_t Length)
+	inline void* Memory<T>::Set(void* Start, const Elysium::Core::uint8_t Value, size_t Length)
 	{
 		Elysium::Core::byte* Address = (Elysium::Core::byte*)Start;
 		while (Length-- > 0)

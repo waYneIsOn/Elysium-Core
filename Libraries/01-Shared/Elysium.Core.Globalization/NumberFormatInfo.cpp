@@ -41,24 +41,24 @@
 #include <xstring>	// std::char_traits
 #endif
 
-constexpr Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
 	: NumberFormatInfo(LOCALE_INVARIANT, false)
 { }
-constexpr Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly)
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly)
 	: _LCID(Culture), _IsReadOnly(ReadOnly)
 { }
-constexpr Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const NumberFormatInfo & Source)
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const NumberFormatInfo & Source)
 	: _LCID(Source._LCID), _IsReadOnly(Source._IsReadOnly)
 { }
-constexpr Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(NumberFormatInfo&& Right) noexcept
+Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(NumberFormatInfo&& Right) noexcept
 	: _LCID(LOCALE_INVARIANT), _IsReadOnly(false)
 {
 	*this = std::move(Right);
 }
-constexpr Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
+Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
 { }
 
-constexpr Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::NumberFormatInfo::operator=(const NumberFormatInfo & Source)
+Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::NumberFormatInfo::operator=(const NumberFormatInfo & Source)
 {
 	if (this != &Source)
 	{
@@ -68,7 +68,7 @@ constexpr Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globali
 	return *this;
 }
 
-constexpr Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::NumberFormatInfo::operator=(NumberFormatInfo&& Right) noexcept
+Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::NumberFormatInfo::operator=(NumberFormatInfo&& Right) noexcept
 {
 	if (this != &Right)
 	{

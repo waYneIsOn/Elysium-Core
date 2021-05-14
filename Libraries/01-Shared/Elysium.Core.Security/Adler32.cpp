@@ -4,7 +4,7 @@
 #include "../Elysium.Core/ArgumentNullException.hpp"
 #endif
 
-constexpr const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::Checksum::Adler32::CalculateBytewise(const Elysium::Core::byte* Data, const size_t Length)
+const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::Checksum::Adler32::CalculateBytewise(const Elysium::Core::byte* Data, const size_t Length)
 {
 	if (Data == nullptr)
 	{

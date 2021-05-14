@@ -20,6 +20,8 @@ namespace UnitTests
 			Assert::AreEqual(static_cast<size_t>(4), sizeof(float));
 			Assert::AreEqual(static_cast<size_t>(8), sizeof(double));
 			Assert::AreEqual(static_cast<size_t>(8), sizeof(long double));
+			Assert::AreEqual(static_cast<size_t>(1), sizeof(Elysium::Core::byte));
+			Assert::AreEqual(static_cast<size_t>(1), sizeof(Elysium::Core::sbyte));
 		}
 	};
 }

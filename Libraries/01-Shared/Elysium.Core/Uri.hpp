@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "StringView.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
 #endif
 
 namespace Elysium::Core
@@ -45,7 +45,6 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Uri final
 	{
 	public:
-		// constructors & destructors
 		Uri(const String& UriString);
 		Uri(const Uri& BaseUri, const String& RelativeUri);
 		Uri(const Uri& Source);
@@ -55,7 +54,6 @@ namespace Elysium::Core
 		Uri& operator=(const Uri& Source);
 		Uri& operator=(Uri&& Right) noexcept;
 
-		// fields
 		static const String SchemeDelimiter;
 
 		static const String UriSchemeFile;
@@ -76,21 +74,17 @@ namespace Elysium::Core
 		static const String UriSchemeUrn;
 		static const String UriSchemeWebSocket;
 
-		// properties - getter
 		const StringView& GetAbsoluteUri() const;
 		const StringView& GetSchema() const;
 		const StringView& GetAuthority() const;
 		const StringView& GetUserInfo() const;
 		const StringView& GetHost() const;
-		const int32_t& GetPort() const;
+		const Elysium::Core::int32_t& GetPort() const;
 		const StringView& GetPathAndQuery() const;
 		const StringView& GetPath() const;
 		const StringView& GetQuery() const;
 		const StringView& GetFragment() const;
-	protected:
-		void Parse();
 	private:
-		// fields
 		String _OriginalString;
 
 		StringView _AbsoluteUri;
@@ -98,11 +92,13 @@ namespace Elysium::Core
 		StringView _AuthorityView;
 		StringView _UserInfoView;
 		StringView _HostView;
-		int32_t _Port = -1;
+		Elysium::Core::int32_t _Port = -1;
 		StringView _PathAndQueryView;
 		StringView _PathView;
 		StringView _QueryView;
 		StringView _FragmentView;
+
+		void Parse();
 
 		const String CreateUri(const Uri& BaseUri, const String& RelativeUri, bool Escape);
 	};

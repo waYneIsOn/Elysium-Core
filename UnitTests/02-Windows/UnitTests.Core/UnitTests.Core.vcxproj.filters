@@ -57,9 +57,6 @@
     <ClCompile Include="QueueTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ByteClass.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="NumericTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

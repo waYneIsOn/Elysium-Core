@@ -73,9 +73,9 @@ namespace Elysium::Core::IO::Compression
 		void ReadExtraField(const Elysium::Core::uint16_t ExtraFieldLength);
 		void ReadDataDescriptor();
 
-		static constexpr const Elysium::Core::uint32_t _SignatureCentralDirectoryEntry = 0x02014B50;
-		static constexpr const Elysium::Core::uint32_t _SignatureLocalFileHeader = 0x04034B50;
-		static constexpr const Elysium::Core::uint32_t _SignatureOptionalDataDescriptor = 0x08074b50;
+		static const Elysium::Core::uint32_t _SignatureCentralDirectoryEntry = 0x02014B50;
+		static const Elysium::Core::uint32_t _SignatureLocalFileHeader = 0x04034B50;
+		static const Elysium::Core::uint32_t _SignatureOptionalDataDescriptor = 0x08074b50;
 	};
 }
 #endif

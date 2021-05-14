@@ -1,8 +1,5 @@
 #include "CppUnitTest.h"
-
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "CppUnitTestFrameworkExtension.hpp"
-#endif
 
 #ifndef ELYSIUM_CORE_STRING
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
@@ -19,6 +16,7 @@ namespace UnitTests::Core
 	TEST_CLASS(StringTests)
 	{
 	public:
+
 		TEST_METHOD(Constructors)
 		{
 			Elysium::Core::String NullString1 = Elysium::Core::String();

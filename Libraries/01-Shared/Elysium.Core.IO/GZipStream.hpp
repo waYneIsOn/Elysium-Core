@@ -85,9 +85,9 @@ namespace Elysium::Core::IO::Compression
 
 		DeflateStream _DeflateStream;
 
-		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
-		static constexpr const Elysium::Core::int32_t _DefaultHeaderSize = 10;
-		static constexpr const Elysium::Core::int32_t _DefaultFooterSize = 8;
+		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		static const Elysium::Core::int32_t _DefaultHeaderSize = 10;
+		static const Elysium::Core::int32_t _DefaultFooterSize = 8;
 	};
 }
 #endif

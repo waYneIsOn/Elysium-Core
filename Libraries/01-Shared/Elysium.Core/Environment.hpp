@@ -41,7 +41,7 @@ namespace Elysium::Core
 		Environment& operator=(const Environment& Source) = delete;
 		Environment& operator=(Environment&& Right) noexcept = delete;
 
-		static constexpr const bool Is64BitProcess();
+		static const bool Is64BitProcess();
 		static const Elysium::Core::String MachineName();
 		static const Elysium::Core::String& NewLine();
 		static const OperatingSystem OSVersion();

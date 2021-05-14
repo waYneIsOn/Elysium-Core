@@ -53,7 +53,7 @@ namespace Elysium::Core::IO
 		const Elysium::Core::Text::Encoding& _Encoding;
 		const bool _LeaveOpen;
 
-		static constexpr const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
 		Elysium::Core::uint64_t _BufferPosition;
 	};
