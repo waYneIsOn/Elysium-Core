@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AppDomain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Assembly.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AssemblyName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldAttributes.hpp" />
@@ -23,6 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeAttributes.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AppDomain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Assembly.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AssemblyName.cpp" />
   </ItemGroup>

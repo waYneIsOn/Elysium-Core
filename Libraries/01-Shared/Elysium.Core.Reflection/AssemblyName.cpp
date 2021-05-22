@@ -8,6 +8,7 @@ Elysium::Core::Reflection::AssemblyName::AssemblyName(const String & AssemblyNam
 	: _Name(AssemblyName), _CodeBase(CodeBase), _Version(AssemblyVersion)
 { }
 Elysium::Core::Reflection::AssemblyName::AssemblyName(const AssemblyName & Source)
+	: _Name(Source._Name), _CodeBase(Source._CodeBase), _Version(Source._Version)
 { }
  Elysium::Core::Reflection::AssemblyName::AssemblyName(AssemblyName && Right) noexcept
 {

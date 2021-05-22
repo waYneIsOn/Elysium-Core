@@ -6,7 +6,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core
+namespace UnitTests::Core::Reflection
 {
 	class SimpleClass
 	{

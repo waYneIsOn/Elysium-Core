@@ -18,7 +18,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfoTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MemoryLayoutTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformIndependentTest.cpp" />

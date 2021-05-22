@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
@@ -47,34 +47,10 @@ namespace Elysium::Core::Reflection
 		bool operator>(const Assembly& Other) const;
 		bool operator<=(const Assembly& Other) const;
 		bool operator>=(const Assembly& Other) const;
-				
-		//static const Assembly& GetEntryAssembly();
-		//static Assembly& GetExecutingAssembly();
-
-		//const AssemblyName& FullName() const;
+		
+		const Elysium::Core::String& GetFullName() const;
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;
 	};
-
-	inline const static Assembly ReflectedAssembly = Assembly(AssemblyName(u8"Elysium::Core", u8"Codebase", Version(0, 1)));
-
-	inline const static Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = { &ReflectedAssembly };
-	/*
-	class RegisteredAssemblies final
-	{
-	public:
-		RegisteredAssemblies() = delete;
-		RegisteredAssemblies(const RegisteredAssemblies& Source) = delete;
-		RegisteredAssemblies(RegisteredAssemblies&& Right) noexcept = delete;
-		~RegisteredAssemblies() = delete;
-
-		RegisteredAssemblies& operator=(const RegisteredAssemblies& Source) = delete;
-		RegisteredAssemblies& operator=(RegisteredAssemblies&& Right) noexcept = delete;
-
-		inline const static Assembly ReflectedAssembly = Assembly(AssemblyName(u8"Elysium::Core", u8"Codebase", Version(0, 1)));
-
-		inline const static Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = { &ReflectedAssembly };
-	};
-	*/
 }
 #endif

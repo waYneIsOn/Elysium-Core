@@ -45,6 +45,7 @@ namespace Elysium::Core::Collections::Template
 		Array(const std::initializer_list<T> InitializerList);
 		Array(const Array<T>& Source);
 		Array(Array<T>&& Right) noexcept;
+		Array(const List<T>& Source);
 		Array(List<T>&& Right) noexcept;
 		~Array();
 
@@ -115,6 +116,15 @@ namespace Elysium::Core::Collections::Template
 		: _Length(0), _Data(nullptr)
 	{
 		*this = std::move(Right);
+	}
+	template<class T>
+	inline Array<T>::Array(const List<T>& Source)
+		: _Length(Source._Count), _Data(Source._Count == 0 ? nullptr : new T[_Length])
+	{
+		for (size_t i = 0; i < _Length; i++)
+		{
+			_Data[i] = Source._Data[i];
+		}
 	}
 	template<class T>
 	inline Array<T>::Array(List<T>&& Right) noexcept

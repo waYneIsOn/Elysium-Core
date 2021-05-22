@@ -78,6 +78,10 @@
 /UnitTests/02-Windows/UnitTests.Core.Security/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Security/Releasebin
 
+/UnitTests/02-Windows/UnitTests.Core.Reflection/Debug
+/UnitTests/02-Windows/UnitTests.Core.Reflection/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.Reflection/Releasebin
+
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM/Debug
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM64/Debug
 /TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/Debugbin

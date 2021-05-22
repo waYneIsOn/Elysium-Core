@@ -1,9 +1,12 @@
 #include "Assembly.hpp"
 
+#ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
+#include "AppDomain.hpp"
+#endif
+
 Elysium::Core::Reflection::Assembly::Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName)
 	: _AssemblyName(AssemblyName)
 { }
-
 Elysium::Core::Reflection::Assembly::~Assembly()
 { }
 
@@ -31,14 +34,8 @@ bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly & Other) con
 {
 	return _AssemblyName >= Other._AssemblyName;
 }
-/*
-const Elysium::Core::Reflection::Assembly & Elysium::Core::Reflection::Assembly::GetEntryAssembly()
-{
-	throw 1;
-	TCHAR Location[MAX_PATH + 1];
-	GetModuleFileName(nullptr, Location, MAX_PATH);
 
-	Assembly Bla = Assembly();
-	return Bla;
+const Elysium::Core::String& Elysium::Core::Reflection::Assembly::GetFullName() const
+{
+	return _AssemblyName.GetName();
 }
-*/
