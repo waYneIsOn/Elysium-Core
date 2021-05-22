@@ -29,7 +29,6 @@ namespace Elysium::Core::Reflection
 	class ELYSIUM_CORE_API AssemblyName final
 	{
 	public:
-		AssemblyName();
 		AssemblyName(const String& AssemblyName, const String& CodeBase, const Version& AssemblyVersion);
 		AssemblyName(const AssemblyName& Source);
 		AssemblyName(AssemblyName&& Right) noexcept;

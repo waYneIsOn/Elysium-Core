@@ -18,10 +18,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
-	class BuildInUriParser : public UriParser
+	class BuildInUriParser : public Elysium::Core::UriParser
 	{
 	public:
 		BuildInUriParser(String Scheme, int Port, UriSyntaxFlags RequiredComponents);
+		BuildInUriParser(const BuildInUriParser& Source) = delete;
+		BuildInUriParser(BuildInUriParser&& Right) noexcept = delete;
+		virtual ~BuildInUriParser();
+
+		BuildInUriParser& operator=(const BuildInUriParser& Source) = delete;
+		BuildInUriParser& operator=(BuildInUriParser&& Right) noexcept = delete;
 	};
 }
 #endif

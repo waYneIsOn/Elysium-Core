@@ -12,15 +12,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
 #endif
 
 namespace Elysium::Core
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class UriComponents : uint32_t
-#elif defined(__ANDROID__)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	enum class UriComponents : Elysium::Core::uint32_t
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 	enum class UriComponents
 #else
 #error "undefined os"
@@ -47,13 +51,13 @@ namespace Elysium::Core
 		PathAndQuery = Path | Query,
 	};
 
-	inline UriComponents operator|(UriComponents lhs, UriComponents rhs)
+	inline UriComponents operator|(const UriComponents Left, const UriComponents Right)
 	{
-		return static_cast<UriComponents>(static_cast<int>(lhs) | static_cast<int>(rhs));
+		return static_cast<UriComponents>(static_cast<Elysium::Core::uint32_t>(Left) | static_cast<Elysium::Core::uint32_t>(Right));
 	}
-	inline UriComponents operator&(UriComponents lhs, UriComponents rhs)
+	inline UriComponents operator&(const UriComponents Left, const UriComponents Right)
 	{
-		return static_cast<UriComponents>(static_cast<int>(lhs) & static_cast<int>(rhs));
+		return static_cast<UriComponents>(static_cast<Elysium::Core::uint32_t>(Left) & static_cast<Elysium::Core::uint32_t>(Right));
 	}
 }
 #endif

@@ -23,8 +23,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Collections::Template
 {
 	template <class TKey, class TValue>
-	class Dictionary
+	class Dictionary final
 	{
+	public:
+		class KeyCollection
+		{ };
+
+		class ValueCollection
+		{ };
 	private:
 		struct Entry
 		{
@@ -41,9 +47,13 @@ namespace Elysium::Core::Collections::Template
 
 		Dictionary<TKey, TValue>& operator=(const Dictionary<TKey, TValue>& Source) = delete;
 		Dictionary<TKey, TValue>& operator=(Dictionary<TKey, TValue>&& Right) noexcept = delete;
+
+		//const Elysium::Core::int32_t GetCount() const;
+
+
 	private:
 		//Elysium::Core::Collections::Template::Array<Elysium::Core::int32_t> _Buckets;
-		//Elysium::Core::Collections::Template::Array<Elysium::Core::Collections::Template::Dictionary::Entry> _Entries;
+		//Elysium::Core::Collections::Template::Array<Elysium::Core::Collections::Template::Dictionary<TKey, TValue>::Entry> _Entries;
 	};
 
 	template<class TKey, class TValue>

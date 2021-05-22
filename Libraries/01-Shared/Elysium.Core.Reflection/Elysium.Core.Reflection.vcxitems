@@ -16,36 +16,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Assembly.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)AssemblyBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AssemblyName.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ConstructorInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldAttributes.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FieldBuilder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FieldInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Macros.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemberInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MethodBase.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MethodInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ModuleBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessorArchitecture.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ReflectElysiumCore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeAttributes.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TypeBuilder.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Assembly.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)AssemblyBuilder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AssemblyName.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ConstructorInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FieldBuilder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FieldInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MemberInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MethodBase.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MethodInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Module.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ModuleBuilder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Type.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TypeBuilder.cpp" />
   </ItemGroup>
 </Project>

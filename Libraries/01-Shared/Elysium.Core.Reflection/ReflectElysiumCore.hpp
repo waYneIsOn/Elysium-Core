@@ -5,25 +5,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_REFLECTION_METHODINFO
-#define ELYSIUM_CORE_REFLECCTION_METHODINFO
+#ifndef ELYSIUM_CORE_REFLECTION_REFLECT_ELYSIUM_CORE
+#define ELYSIUM_CORE_REFLECTION_REFLECT_ELYSIUM_CORE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_METHODBASE
-#include "MethodBase.hpp"
+#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
+#include "Assembly.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
 {
-	class ELYSIUM_CORE_API MethodInfo : public MethodBase
-	{
-	public:
-		virtual ~MethodInfo();
-	protected:
-		MethodInfo();
-	};
+	//const static Assembly ReflectedAssembly = Assembly(AssemblyName(u8"Elysium::Core", u8"Codebase", Version(0, 1)));
 }
 #endif

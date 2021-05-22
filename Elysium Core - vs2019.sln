@@ -149,6 +149,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Diagnostics", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Globalization", "Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems", "{B3021F5D-6BBA-449C-9742-38D64FC3854E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Reflection", "UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems", "{5DDBD666-D500-47D8-864F-950DCB77657A}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{0a65e452-28ea-4cb0-9691-ed819ef56d96}*SharedItemsImports = 9
@@ -172,6 +174,7 @@ Global
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4557bf60-87a8-49d3-8abc-8642129f5a91}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{5a9d7191-9b6a-4c60-bdd1-8791ee028e0d}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{5ddbd666-d500-47d8-864f-950dcb77657a}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
@@ -563,6 +566,7 @@ Global
 		{8ED0C3E4-F5B9-4E85-A3E7-682A12521E93} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{B0C1C740-4D18-4393-AB24-C7C93A3BDE64} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{B3021F5D-6BBA-449C-9742-38D64FC3854E} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{5DDBD666-D500-47D8-864F-950DCB77657A} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

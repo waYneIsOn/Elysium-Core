@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_TYPE
-#include "../Elysium.Core.Reflection/Type.hpp"
-#endif
-
 namespace Elysium::Core::Json
 {
 	class ELYSIUM_CORE_JSON_API JsonSerializer final

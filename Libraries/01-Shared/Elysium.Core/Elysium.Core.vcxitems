@@ -22,6 +22,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedList.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedListNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
@@ -30,6 +32,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
@@ -82,8 +86,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
   </ItemGroup>
@@ -124,7 +128,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UriParserTable.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
   </ItemGroup>
 </Project>

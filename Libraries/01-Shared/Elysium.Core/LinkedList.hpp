@@ -10,40 +10,59 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LINKEDLISTNODE
+#include "LinkedListNode.hpp"
+#endif
+
 namespace Elysium::Core::Collections::Template
 {
 	template <typename T>
 	class LinkedList final
 	{
 	public:
-		LinkedList(const T& Value);
+		LinkedList();
 		LinkedList(const List<T>& Right) = delete;
 		LinkedList(List<T>&& Right) noexcept = delete;
 		~LinkedList();
 
 		LinkedList<T>& operator=(const LinkedList<T>& Source) = delete;
 		LinkedList<T>& operator=(LinkedList<T>&& Right) noexcept = delete;
+		/*
+		const Elysium::Core::int64_t GetCount() const;
+		
+		const LinkedListNode<T>* GetFirst() const;
 
-		const T& GetValue() const;
-		//const LinkedList<T>* GetNext() const;
+		const LinkedListNode<T>* GetLast() const;
+		*/
 	private:
-		T _Value;
-		LinkedList* _Next;
+		LinkedListNode<T>* _First;
 	};
 
 	template<typename T>
-	inline LinkedList<T>::LinkedList(const T & Value)
-		: _Value(Value), _Next(nullptr)
+	inline LinkedList<T>::LinkedList()
+		: _First(nullptr)
 	{ }
 
 	template<typename T>
 	inline LinkedList<T>::~LinkedList()
 	{ }
-
+	/*
 	template<typename T>
-	inline const T & LinkedList<T>::GetValue() const
+	inline const Elysium::Core::int64_t LinkedList<T>::GetCount() const
 	{
-		return _Value;
+		Elysium::Core::int64_t Result = 0;
+		LinkedListNode<T>* Next =
+		while ()
+		{
+
+		}
+
+		return Result;
 	}
+	*/
 }
 #endif

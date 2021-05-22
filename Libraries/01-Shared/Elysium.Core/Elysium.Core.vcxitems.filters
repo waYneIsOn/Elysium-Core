@@ -34,7 +34,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriParserTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp">
@@ -113,6 +112,17 @@
       <Filter>Collections</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedList.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedListNode.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
+      <Filter>Collections\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -129,7 +139,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UriParserTable.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp">

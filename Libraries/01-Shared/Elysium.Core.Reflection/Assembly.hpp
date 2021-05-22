@@ -20,23 +20,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
-#include "AssemblyName.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
+#include "AssemblyName.hpp"
+#endif
+
 namespace Elysium::Core::Reflection
 {
-	class ELYSIUM_CORE_API Assembly
+	class ELYSIUM_CORE_API Assembly final
 	{
-		friend class Elysium::Core::Collections::Template::List<Elysium::Core::Reflection::Assembly>;
 	public:
+		Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName);
 		Assembly(const Assembly& Source) = delete;
 		Assembly(Assembly&& Right) noexcept = delete;
-		virtual ~Assembly();
+		~Assembly();
 
 		Assembly& operator=(const Assembly& Source) = delete;
 		Assembly& operator=(Assembly&& Right) noexcept = delete;
@@ -48,17 +48,33 @@ namespace Elysium::Core::Reflection
 		bool operator<=(const Assembly& Other) const;
 		bool operator>=(const Assembly& Other) const;
 				
-		static Assembly& GetEntryAssembly();
+		//static const Assembly& GetEntryAssembly();
 		//static Assembly& GetExecutingAssembly();
 
 		//const AssemblyName& FullName() const;
-
-		//static Elysium::Core::Collections::Generic::List<Elysium::Core::Reflection::Assembly> _RegisteredAssemblies;
-		//static std::map<Elysium::Core::Reflection::AssemblyName, Elysium::Core::Reflection::Assembly> _Bla;
-	protected:
-		Assembly();
 	private:
-		AssemblyName _AssemblyName;
+		Elysium::Core::Reflection::AssemblyName _AssemblyName;
 	};
+
+	inline const static Assembly ReflectedAssembly = Assembly(AssemblyName(u8"Elysium::Core", u8"Codebase", Version(0, 1)));
+
+	inline const static Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = { &ReflectedAssembly };
+	/*
+	class RegisteredAssemblies final
+	{
+	public:
+		RegisteredAssemblies() = delete;
+		RegisteredAssemblies(const RegisteredAssemblies& Source) = delete;
+		RegisteredAssemblies(RegisteredAssemblies&& Right) noexcept = delete;
+		~RegisteredAssemblies() = delete;
+
+		RegisteredAssemblies& operator=(const RegisteredAssemblies& Source) = delete;
+		RegisteredAssemblies& operator=(RegisteredAssemblies&& Right) noexcept = delete;
+
+		inline const static Assembly ReflectedAssembly = Assembly(AssemblyName(u8"Elysium::Core", u8"Codebase", Version(0, 1)));
+
+		inline const static Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = { &ReflectedAssembly };
+	};
+	*/
 }
 #endif

@@ -28,6 +28,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StringView.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_URIKIND
+#include "UriKind.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_URIPARSER
+#include "UriParser.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	/*
@@ -45,8 +53,8 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Uri final
 	{
 	public:
-		Uri(const String& UriString);
-		Uri(const Uri& BaseUri, const String& RelativeUri);
+		Uri(const Elysium::Core::String& UriString);
+		Uri(Elysium::Core::String&& UriString);
 		Uri(const Uri& Source);
 		Uri(Uri&& Right) noexcept;
 		~Uri();
@@ -54,53 +62,53 @@ namespace Elysium::Core
 		Uri& operator=(const Uri& Source);
 		Uri& operator=(Uri&& Right) noexcept;
 
-		static const String SchemeDelimiter;
+		static const Elysium::Core::String SchemeDelimiter;
 
-		static const String UriSchemeFile;
-		static const String UriSchemeFtp;
-		static const String UriSchemeGopher;
-		static const String UriSchemeHttp;
-		static const String UriSchemeHttps;
-		static const String UriSchemeIrc;
-		static const String UriSchemeLdap;
-		static const String UriSchemeMailto;
-		static const String UriSchemeNetPipe;
-		static const String UriSchemeNetTcp;
-		static const String UriSchemeNews;
-		static const String UriSchemeNntp;
-		static const String UriSchemeSecureWebSocket;
-		static const String UriSchemeTel;
-		static const String UriSchemeTelNet;
-		static const String UriSchemeUrn;
-		static const String UriSchemeWebSocket;
+		static const Elysium::Core::String UriSchemeFile;
+		static const Elysium::Core::String UriSchemeFtp;
+		static const Elysium::Core::String UriSchemeGopher;
+		static const Elysium::Core::String UriSchemeHttp;
+		static const Elysium::Core::String UriSchemeHttps;
+		static const Elysium::Core::String UriSchemeIrc;
+		static const Elysium::Core::String UriSchemeLdap;
+		static const Elysium::Core::String UriSchemeMailto;
+		static const Elysium::Core::String UriSchemeNetPipe;
+		static const Elysium::Core::String UriSchemeNetTcp;
+		static const Elysium::Core::String UriSchemeNews;
+		static const Elysium::Core::String UriSchemeNntp;
+		static const Elysium::Core::String UriSchemeSecureWebSocket;
+		static const Elysium::Core::String UriSchemeTel;
+		static const Elysium::Core::String UriSchemeTelNet;
+		static const Elysium::Core::String UriSchemeUrn;
+		static const Elysium::Core::String UriSchemeWebSocket;
 
-		const StringView& GetAbsoluteUri() const;
-		const StringView& GetSchema() const;
-		const StringView& GetAuthority() const;
-		const StringView& GetUserInfo() const;
-		const StringView& GetHost() const;
-		const Elysium::Core::int32_t& GetPort() const;
-		const StringView& GetPathAndQuery() const;
-		const StringView& GetPath() const;
-		const StringView& GetQuery() const;
-		const StringView& GetFragment() const;
+		const Elysium::Core::StringView& GetAbsoluteUri() const;
+		const Elysium::Core::StringView& GetSchema() const;
+		const Elysium::Core::StringView& GetAuthority() const;
+		const Elysium::Core::StringView& GetUserInfo() const;
+		const Elysium::Core::StringView& GetHost() const;
+		const Elysium::Core::uint32_t& GetPort() const;
+		const Elysium::Core::StringView& GetPathAndQuery() const;
+		const Elysium::Core::StringView& GetPath() const;
+		const Elysium::Core::StringView& GetQuery() const;
+		const Elysium::Core::StringView& GetFragment() const;
 	private:
-		String _OriginalString;
+		Elysium::Core::String _OriginalString;
+		Elysium::Core::StringView _SchemeView;
+		Elysium::Core::UriParser& _Parser;
 
-		StringView _AbsoluteUri;
-		StringView _SchemeView;
-		StringView _AuthorityView;
-		StringView _UserInfoView;
-		StringView _HostView;
-		Elysium::Core::int32_t _Port = -1;
-		StringView _PathAndQueryView;
-		StringView _PathView;
-		StringView _QueryView;
-		StringView _FragmentView;
+		Elysium::Core::StringView _AbsoluteUri;
+		Elysium::Core::StringView _AuthorityView;
+		Elysium::Core::StringView _UserInfoView;
+		Elysium::Core::StringView _HostView;
+		Elysium::Core::uint32_t _Port;
+		Elysium::Core::StringView _PathAndQueryView;
+		Elysium::Core::StringView _PathView;
+		Elysium::Core::StringView _QueryView;
+		Elysium::Core::StringView _FragmentView;
 
-		void Parse();
-
-		const String CreateUri(const Uri& BaseUri, const String& RelativeUri, bool Escape);
+		Elysium::Core::StringView ParseScheme();
+		Elysium::Core::UriParser& GetParser();
 	};
 }
 #endif

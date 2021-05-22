@@ -1,59 +1,48 @@
 #include "UriParser.hpp"
 
-#ifndef ELYSIUM_CORE_URIPARSERTABLE
-#include "UriParserTable.hpp"
-#endif
+const Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::_DummySyntaxFlags =
+Elysium::Core::UriSyntaxFlags::MayHaveUserInfo |
+Elysium::Core::UriSyntaxFlags::MayHavePort |
+Elysium::Core::UriSyntaxFlags::MayHavePath |
+Elysium::Core::UriSyntaxFlags::MayHaveQuery |
+Elysium::Core::UriSyntaxFlags::MayHaveFragment;
 
-#ifndef _ALGORITHM_
-#include <algorithm>
-#endif
+const Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::_HttpSyntaxFlags =
+Elysium::Core::UriSyntaxFlags::MustHaveAuthority |
+Elysium::Core::UriSyntaxFlags::MayHaveUserInfo |
+Elysium::Core::UriSyntaxFlags::MayHavePort |
+Elysium::Core::UriSyntaxFlags::MayHavePath |
+Elysium::Core::UriSyntaxFlags::MayHaveQuery |
+Elysium::Core::UriSyntaxFlags::MayHaveFragment |
+Elysium::Core::UriSyntaxFlags::AllowUncHost |
+Elysium::Core::UriSyntaxFlags::AllowAnInternetHost |
+Elysium::Core::UriSyntaxFlags::PathIsRooted |
+Elysium::Core::UriSyntaxFlags::ConvertPathSlashes |
+Elysium::Core::UriSyntaxFlags::CompressPath |
+Elysium::Core::UriSyntaxFlags::CanonicalizeAsFilePath |
+Elysium::Core::UriSyntaxFlags::None |
+Elysium::Core::UriSyntaxFlags::AllowIdn |
+Elysium::Core::UriSyntaxFlags::AllowIriParsing;
 
-#ifndef _STRING_
-#include <string>
-#endif
-
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
-#endif
-
-Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::DummySyntaxFlags =
-UriSyntaxFlags::MayHaveUserInfo |
-UriSyntaxFlags::MayHavePort |
-UriSyntaxFlags::MayHavePath |
-UriSyntaxFlags::MayHaveQuery |
-UriSyntaxFlags::MayHaveFragment;
-
-Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::HttpSyntaxFlags =
-UriSyntaxFlags::MustHaveAuthority |
-UriSyntaxFlags::MayHaveUserInfo |
-UriSyntaxFlags::MayHavePort |
-UriSyntaxFlags::MayHavePath |
-UriSyntaxFlags::MayHaveQuery |
-UriSyntaxFlags::MayHaveFragment |
-UriSyntaxFlags::AllowUncHost |
-UriSyntaxFlags::AllowAnInternetHost |
-UriSyntaxFlags::PathIsRooted |
-UriSyntaxFlags::ConvertPathSlashes |
-UriSyntaxFlags::CompressPath |
-UriSyntaxFlags::CanonicalizeAsFilePath |
-UriSyntaxFlags::None |
-UriSyntaxFlags::AllowIdn |
-UriSyntaxFlags::AllowIriParsing;
-
-//Elysium::Core::UriParserTable Elysium::Core::UriParser::_ParserTable = Elysium::Core::UriParserTable();
+Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser> Elysium::Core::UriParser::_RegisteredParser =
+	Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser>();
 
 Elysium::Core::UriParser::~UriParser()
+{ }
+
+const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::String& SchemeName)
 {
+	return IsKnownScheme(Elysium::Core::StringView(SchemeName));
 }
 
-Elysium::Core::UriParser::UriParser(const String& Scheme, int Port, UriSyntaxFlags RequiredComponents)
-	: _Scheme(Scheme), _Port(Port), _RequiredComponents(RequiredComponents)
+const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::StringView& SchemeName)
 {
+	throw 1;
 }
 
-void Elysium::Core::UriParser::Register(UriParser & UriParser, const String & SchemeName, int DefaultPort)
+void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriParser, const Elysium::Core::String & SchemeName, const Elysium::Core::uint16_t DefaultPort)
 {
-	throw NotImplementedException();
+	throw 1;
 	/*
 	if (UriParser == nullptr)
 	{
@@ -66,7 +55,7 @@ void Elysium::Core::UriParser::Register(UriParser & UriParser, const String & Sc
 	*/
 }
 
-void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const String & Source, StringView & Output)
+Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String & Source)
 {
 	// URI = scheme:[//authority]path[?query][#fragment]
 	// authority = [userinfo@]host[:port]
@@ -75,7 +64,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 
 	if (String::IsNullOrEmtpy(Source))
 	{
-		return;
+		return StringView();
 	}
 
 	switch (Component)
@@ -83,8 +72,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	case Elysium::Core::UriComponents::Scheme:
 	{
 		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
-		Output = StringView(Source, IndexOfSchemeDelimiterEnd);
-		break;
+		return StringView(Source, IndexOfSchemeDelimiterEnd);
 	}
 	/*
 	case Elysium::Core::UriComponents::UserInfo:
@@ -130,8 +118,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 			IndexOfHostEnd = IndexOfPortDelimiter + IndexOfHostStart + 1;
 		}
 		
-		Output = StringView(Source, IndexOfHostStart, IndexOfHostEnd - IndexOfHostStart);
-		break;
+		return StringView(Source, IndexOfHostStart, IndexOfHostEnd - IndexOfHostStart);
 	}
 	/*
 	case Elysium::Core::UriComponents::Port:
@@ -165,8 +152,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 	*/
 	case Elysium::Core::UriComponents::AbsoluteUri:
 	{
-		Output = StringView(Source);
-		break;
+		return StringView(Source);
 	}
 	/*
 	case Elysium::Core::UriComponents::HostAndPort:
@@ -227,7 +213,7 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 		if (IndexOfAuthorityDelimiterStart != static_cast<size_t>(-1))
 		{
 			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
-			if (IndexOfPathDelimiterStart == std::wstring::npos)
+			if (IndexOfPathDelimiterStart == static_cast<size_t>(-1))
 			{	// Uri doesn't contain a path
 				break;
 			}
@@ -246,17 +232,19 @@ void Elysium::Core::UriParser::ParseComponent(UriComponents Component, const Str
 		if (IndexOfFragmentDelimiterStart == static_cast<size_t>(-1))
 		{
 			size_t OriginalUriLength = Source.GetLength();
-			Output = StringView(Source, IndexOfPathDelimiterStart + 1, OriginalUriLength - IndexOfPathDelimiterStart - 1);
+			return StringView(Source, IndexOfPathDelimiterStart + 1, OriginalUriLength - IndexOfPathDelimiterStart - 1);
 		}
 		else
 		{
-			Output = StringView(Source, IndexOfPathDelimiterStart + 1, IndexOfFragmentDelimiterStart - IndexOfPathDelimiterStart - 1);
+			return StringView(Source, IndexOfPathDelimiterStart + 1, IndexOfFragmentDelimiterStart - IndexOfPathDelimiterStart - 1);
 		}
-		break;
 	}
 	default:
-		// ToDo:
-		//throw NotImplementedException(("unknown component " + std::to_wstring((int)Component)).c_str());
-		throw NotImplementedException(u8"unknown component ");
+		// ToDo: throw specific exception
+		throw 1;
 	}
 }
+
+Elysium::Core::UriParser::UriParser(const Elysium::Core::String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents)
+	: _Scheme(Scheme), _Port(Port), _RequiredComponents(RequiredComponents)
+{ }
