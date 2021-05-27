@@ -98,7 +98,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 		{
 			if (Input[i] >> 7 == 0x00)
 			{	// 0-xxx xxxx											07 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = Input[i];
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;
@@ -112,7 +112,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 			}
 			else if (Input[i] >> 5 == 0x06)
 			{	// 110-x xxyy	10-yy yyyy								11 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = (Input[i] >> 2) & 0x07;
 				Result[TargetIndex++] = ((Input[i] & 0x03) << 6) | (Input[++i] & 0x3F);
 				Result[TargetIndex++] = 0x00;
@@ -128,7 +128,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 			}
 			else if (Input[i] >> 4 == 0x0E)
 			{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = (((Input[i] & 0x0F) << 4) | ((Input[i + 1] >> 2) & 0x0F));
 				Result[TargetIndex++] = ((Input[i + 1] & 0x03) << 6) | Input[i + 2] & 0x3F;
 				Result[TargetIndex++] = 0x00;
@@ -145,7 +145,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 			}
 			else if (Input[i] >> 3 == 0x1E)
 			{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = (((Input[i] & 0x07) << 2) | ((Input[i + 1] >> 4) & 0x03));
 				Result[TargetIndex++] = (((Input[i + 1] & 0x0F) << 4) | ((Input[i + 2] >> 2) & 0x0F));
 				Result[TargetIndex++] = ((Input[i + 2] & 0x03) << 6) | (Input[i + 3] & 0x3F);
@@ -173,7 +173,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 		{
 			if (Input[i] >> 7 == 0x00)
 			{	// 0-xxx xxxx											07 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;
@@ -189,7 +189,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 			}
 			else if (Input[i] >> 5 == 0x06)
 			{	// 110-x xxxx	10-xx xyyy								11 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = ((Input[i] & 0x03) << 6) | (Input[i + 1] & 0x3F);
 				Result[TargetIndex++] = (Input[i] >> 2) & 0x07;
 				Result[TargetIndex++] = 0x00;
@@ -208,7 +208,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 			}
 			else if (Input[i] >> 4 == 0x0E)
 			{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;
@@ -227,7 +227,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 			}
 			else if (Input[i] >> 3 == 0x1E)
 			{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;
 				Result[TargetIndex++] = 0x00;

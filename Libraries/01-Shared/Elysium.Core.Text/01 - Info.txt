@@ -2,6 +2,6 @@ Code Pages
 https://docs.microsoft.com/en-us/windows/desktop/intl/code-page-identifiers
 
 ToDo:
-- encodings obviously need to make use of the following preprocessor directives: #if defined LITTLEENDIAN
+- encodings obviously need to make use of the following preprocessor directives: #if defined ELYSIUM_CORE_LITTLEENDIAN
 - security checks
 - ...

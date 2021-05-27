@@ -29,7 +29,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-#define LITTLEENDIAN 1
+#define ELYSIUM_CORE_LITTLEENDIAN 1
 #else
 #error "unsupported os"
 #endif

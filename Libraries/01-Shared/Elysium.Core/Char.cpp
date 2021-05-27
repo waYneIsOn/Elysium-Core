@@ -26,7 +26,7 @@ const Elysium::Core::String Elysium::Core::Char::ConvertFromUtf32(const Elysium:
 	{
 		Elysium::Core::byte Bytes[1];
 		Elysium::Core::byte* CodePointBytes = (Elysium::Core::byte*)&CodePoint;
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		Bytes[0] = CodePointBytes[0];
 #else
 		Bytes[0] = CodePointBytes[3];
@@ -37,7 +37,7 @@ const Elysium::Core::String Elysium::Core::Char::ConvertFromUtf32(const Elysium:
 	{
 		Elysium::Core::byte Bytes[2];
 		Elysium::Core::byte* CodePointBytes = (Elysium::Core::byte*)&CodePoint;
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		Bytes[0] = 0xC0 | (CodePointBytes[1] << 2) | (CodePointBytes[0] >> 6);
 		Bytes[1] = 0x80 | (CodePointBytes[0] & 0x3F);
 #else
@@ -49,7 +49,7 @@ const Elysium::Core::String Elysium::Core::Char::ConvertFromUtf32(const Elysium:
 	{
 		Elysium::Core::byte Bytes[3];
 		Elysium::Core::byte* CodePointBytes = (Elysium::Core::byte*)&CodePoint;
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		Bytes[0] = 0xE0 | (CodePointBytes[1] >> 4);
 		Bytes[1] = 0x80 | ((CodePointBytes[1] & 0x0F) << 2) | (CodePointBytes[0] >> 6);
 		Bytes[2] = 0x80 | (CodePointBytes[0] & 0x3F);
@@ -62,7 +62,7 @@ const Elysium::Core::String Elysium::Core::Char::ConvertFromUtf32(const Elysium:
 	{
 		Elysium::Core::byte Bytes[4];
 		Elysium::Core::byte* CodePointBytes = (Elysium::Core::byte*)&CodePoint;
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		Bytes[0] = 0xF0 | ((CodePointBytes[2] & 0x1F) >> 2);
 		Bytes[1] = 0x80 | ((CodePointBytes[2] & 0x03) << 4) | (CodePointBytes[1] >> 4);
 		Bytes[2] = 0x80 | ((CodePointBytes[1] & 0x0F) << 2) | (CodePointBytes[0] >> 6);
@@ -88,7 +88,7 @@ const Elysium::Core::uint32_t Elysium::Core::Char::ConvertToUtf32(const char8_t*
 	Elysium::Core::uint32_t CodePoint = 0;
 	if (Input[0] >> 7 == 0x00)
 	{	// 0-xxx xxxx											07 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		CodePoint = Input[0];
 #else
 		throw 1;
@@ -96,7 +96,7 @@ const Elysium::Core::uint32_t Elysium::Core::Char::ConvertToUtf32(const char8_t*
 	}
 	else if (Input[0] >> 5 == 0x06)
 	{	// 110-x xxyy	10-yy yyyy								11 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		CodePoint = (((Input[0] >> 2) & 0x07) << 8) |
 			(((Input[0] & 0x03) << 6) & (Input[1] & 0x3F));
 #else
@@ -105,7 +105,7 @@ const Elysium::Core::uint32_t Elysium::Core::Char::ConvertToUtf32(const char8_t*
 	}
 	else if (Input[0] >> 4 == 0x0E)
 	{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		CodePoint = ((((Input[0] & 0x0F) << 4) | ((Input[1] >> 2) & 0x0F)) << 8) |
 			(((Input[1] & 0x03) << 6) | Input[2] & 0x3F);
 #else
@@ -114,7 +114,7 @@ const Elysium::Core::uint32_t Elysium::Core::Char::ConvertToUtf32(const char8_t*
 	}
 	else if (Input[0] >> 3 == 0x1E)
 	{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		CodePoint = ((((Input[0] & 0x07) << 2) | ((Input[1] >> 4) & 0x03)) << 16) |
 			((((Input[1] & 0x0F) << 4) | ((Input[2] >> 2) & 0x0F)) << 8) |
 			(((Input[2] & 0x03) << 6) | (Input[3] & 0x3F));
@@ -148,7 +148,7 @@ const bool Elysium::Core::Char::IsControl(const char8_t Character, const char8_t
 	}
 	else if ((Character & 0xC0) == 0xC0)
 	{
-#if defined LITTLEENDIAN
+#if defined ELYSIUM_CORE_LITTLEENDIAN
 		Elysium::Core::uint16_t CodePoint = (((Character >> 2) & 0x07) << 8) | (((Character & 0x03) << 6) | (FollowUpCharacter & 0x3F));
 #else
 		Elysium::Core::uint16_t CodePoint = (((FollowUpCharacter >> 2) & 0x07) << 8) | (((FollowUpCharacter & 0x03) << 6) | (Character & 0x3F));
