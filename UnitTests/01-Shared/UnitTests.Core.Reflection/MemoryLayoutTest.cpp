@@ -45,6 +45,8 @@ namespace UnitTests::Core::Reflection
 	public:
 		TEST_METHOD(SimpleClassTest)
 		{
+			//void* TypeAddress = &SimpleClass;
+
 			SimpleClass Instance = SimpleClass();
 			void* InstanceAddress = &Instance;
 

@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_DICTIONARY
+#include "../Elysium.Core/Dictionary.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
 #endif
@@ -38,21 +42,28 @@ namespace Elysium::Core::Reflection
 	{
 		friend class Assembly;
 	public:
-		AppDomain() = delete;
+		AppDomain();
 		AppDomain(const AppDomain& Source) = delete;
 		AppDomain(AppDomain&& Right) noexcept = delete;
-		~AppDomain() = delete;
+		~AppDomain();
 
 		AppDomain& operator=(const AppDomain& Source) = delete;
 		AppDomain& operator=(AppDomain&& Right) noexcept = delete;
 
-		static void Add(const Elysium::Core::Reflection::Assembly& Assembly);
+		static AppDomain& GetCurrentDomain();
 
-		static const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Assembly*> GetAssemblies();
+		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Assembly*> GetAssemblies() const;
 	private:
-		inline const static Assembly ReflectedAssembly = Assembly(AssemblyName(u8"Elysium::Core", u8"Codebase", Version(0, 1)));
+		Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = Elysium::Core::Collections::Template::List<const Assembly*>();
+		//Elysium::Core::Collections::Template::Dictionary<const Module*, const Assembly*> _ModuleAssemblyMap
+		//Elysium::Core::Collections::Template::Dictionary<const Type*, const Module*> _TypeModuleTable
+		//Elysium::Core::Collections::Template::Dictionary<const Elysium::Core::uint64_t*, const Type*> _TypeIdTypeTable
 
-		inline static Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = { &ReflectedAssembly };
+		void Add(const Elysium::Core::Reflection::Assembly& Assembly);
+		void Remove(const Elysium::Core::Reflection::Assembly& Assembly);
 	};
+
+	// ToDo: "hide"
+	inline static Elysium::Core::Reflection::AppDomain _CurrentDomain = Elysium::Core::Reflection::AppDomain();
 }
 #endif

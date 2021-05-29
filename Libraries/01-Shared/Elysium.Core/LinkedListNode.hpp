@@ -20,26 +20,33 @@ namespace Elysium::Core::Collections::Template
 	{
 		friend class LinkedList<T>;
 	public:
-		LinkedListNode(const T& Value);
-		LinkedListNode(const List<T>& Right) = delete;
-		LinkedListNode(List<T>&& Right) noexcept = delete;
+		LinkedListNode(const T Value);
+		LinkedListNode(const LinkedListNode<T>& Right) = delete;
+		LinkedListNode(LinkedListNode<T>&& Right) noexcept = delete;
 		~LinkedListNode();
 
 		LinkedListNode<T>& operator=(const LinkedList<T>& Source) = delete;
 		LinkedListNode<T>& operator=(LinkedList<T>&& Right) noexcept = delete;
+
+		const T GetValue() const;
 	private:
-		T _Value;
+		const T _Value;
 		LinkedListNode<T>* _Next;
-		LinkedList<T>* _LinkedList;
 	};
 
 	template<typename T>
-	inline LinkedListNode<T>::LinkedListNode(const T& Value)
-		: _Value(Value), _Next(nullptr), _LinkedList(nullptr)
+	inline LinkedListNode<T>::LinkedListNode(const T Value)
+		: _Value(Value), _Next(nullptr)
 	{ }
 
 	template<typename T>
 	inline LinkedListNode<T>::~LinkedListNode()
 	{ }
+
+	template<typename T>
+	inline const T LinkedListNode<T>::GetValue() const
+	{
+		return _Value;
+	}
 }
 #endif

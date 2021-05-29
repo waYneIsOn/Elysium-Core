@@ -60,8 +60,9 @@ namespace Elysium::Core::Collections::Template
 		// operators
 		List<T>& operator=(const List<T>& Source);
 		List<T>& operator=(List<T>&& Right) noexcept;
-		T& operator[](size_t Index);
-		const T& operator[](size_t Index) const;
+
+		T& operator[](const size_t Index);
+		const T& operator[](const size_t Index) const;
 
 		// properties - getter
 		const size_t GetCapacity() const;
@@ -92,8 +93,8 @@ namespace Elysium::Core::Collections::Template
 		size_t _Count;
 		T* _Data;
 
-		void Resize(size_t DesiredMinimumSize);
-		void Resize(size_t DesiredMinimumSize, size_t InsertionIndex);
+		void Resize(const size_t DesiredMinimumSize);
+		void Resize(const size_t DesiredMinimumSize, const size_t InsertionIndex);
 	};
 
 	template<class T>
@@ -180,7 +181,7 @@ namespace Elysium::Core::Collections::Template
 		return *this;
 	}
 	template<class T>
-	inline T& List<T>::operator[](size_t Index)
+	inline T& List<T>::operator[](const size_t Index)
 	{
 		if (Index >= _Count)
 		{
@@ -191,7 +192,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline const T& List<T>::operator[](size_t Index) const
+	inline const T& List<T>::operator[](const size_t Index) const
 	{
 		if (Index >= _Count)
 		{
@@ -407,7 +408,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline void List<T>::Resize(size_t DesiredMinimumSize)
+	inline void List<T>::Resize(const size_t DesiredMinimumSize)
 	{
 		if (DesiredMinimumSize < _Count)
 		{
@@ -420,11 +421,14 @@ namespace Elysium::Core::Collections::Template
 
 		if (DesiredMinimumSize > _Capacity)
 		{
-			// define actual capacity
-			size_t ActualCapacity = _Capacity * 2 + 1;
+			size_t ActualCapacity = _Capacity * 2;
+			if (ActualCapacity == 0)
+			{
+				ActualCapacity = 1;
+			}
 			while (ActualCapacity < DesiredMinimumSize)
 			{
-				ActualCapacity = ActualCapacity * 2 + 1;
+				ActualCapacity *= 2;
 			}
 			if (ActualCapacity > LIST_MAX)
 			{
@@ -447,7 +451,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline void List<T>::Resize(size_t DesiredMinimumSize, size_t InsertionIndex)
+	inline void List<T>::Resize(const size_t DesiredMinimumSize, const size_t InsertionIndex)
 	{
 		if (DesiredMinimumSize < _Count)
 		{
@@ -460,11 +464,14 @@ namespace Elysium::Core::Collections::Template
 
 		if (DesiredMinimumSize > _Capacity)
 		{
-			// define actual capacity
-			size_t ActualCapacity = _Capacity * 2 + 1;
+			size_t ActualCapacity = _Capacity * 2;
+			if (ActualCapacity == 0)
+			{
+				ActualCapacity = 1;
+			}
 			while (ActualCapacity < DesiredMinimumSize)
 			{
-				ActualCapacity = ActualCapacity * 2 + 1;
+				ActualCapacity *= 2;
 			}
 			if (ActualCapacity > LIST_MAX)
 			{

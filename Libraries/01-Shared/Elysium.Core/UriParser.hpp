@@ -72,7 +72,7 @@ namespace Elysium::Core
 		static const Elysium::Core::UriSyntaxFlags _DummySyntaxFlags;
 		static const Elysium::Core::UriSyntaxFlags _HttpSyntaxFlags;
 
-		static Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser> _RegisteredParser;
+		//static Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser> _RegisteredParser;
 		
 		Elysium::Core::String _Scheme;
 		Elysium::Core::uint32_t _Port;

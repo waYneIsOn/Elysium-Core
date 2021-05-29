@@ -31,38 +31,135 @@ namespace Elysium::Core::Collections::Template
 
 		LinkedList<T>& operator=(const LinkedList<T>& Source) = delete;
 		LinkedList<T>& operator=(LinkedList<T>&& Right) noexcept = delete;
-		/*
-		const Elysium::Core::int64_t GetCount() const;
+		
+		const Elysium::Core::uint64_t GetCount() const;
 		
 		const LinkedListNode<T>* GetFirst() const;
 
 		const LinkedListNode<T>* GetLast() const;
-		*/
+		
+		//void AddAfter(const T Value);
+		//void AddBefore(const T Value);
+		//void AddFirst(const T Value);
+		
+		void AddLast(const T Value);
+
+		void Clear();
+
+		//const bool Contains(const LinkedListNode<T>* Value) const;
+		//const bool Contains(const T Value) const;
+
+		const LinkedListNode<T>* FindLast() const;
+
+		//void Remove(const LinkedListNode<T>* Value);
+		//void Remove(const T Value);
+
+		void RemoveFirst();
+
+		//void RemoveLast();
 	private:
 		LinkedListNode<T>* _First;
+		LinkedListNode<T>* _Last;
+
+		//LinkedListNode<T>* FindSecondToLast();
 	};
 
 	template<typename T>
 	inline LinkedList<T>::LinkedList()
-		: _First(nullptr)
+		: _First(nullptr), _Last(nullptr)
 	{ }
 
 	template<typename T>
 	inline LinkedList<T>::~LinkedList()
-	{ }
-	/*
-	template<typename T>
-	inline const Elysium::Core::int64_t LinkedList<T>::GetCount() const
 	{
-		Elysium::Core::int64_t Result = 0;
-		LinkedListNode<T>* Next =
-		while ()
+		Clear();
+	}
+	
+	template<typename T>
+	inline const Elysium::Core::uint64_t LinkedList<T>::GetCount() const
+	{
+		Elysium::Core::uint64_t Result = 0;
+		LinkedListNode<T>* Current = _First;
+		while (Current != nullptr)
 		{
-
-		}
-
+			Result++;
+			Current = Current->_Next;
+		};
+		
 		return Result;
 	}
-	*/
+
+	template<typename T>
+	inline const LinkedListNode<T>* LinkedList<T>::GetFirst() const
+	{
+		return _First;
+	}
+
+	template<typename T>
+	inline const LinkedListNode<T>* LinkedList<T>::GetLast() const
+	{
+		return _Last;
+	}
+
+	template<typename T>
+	inline void LinkedList<T>::AddLast(const T Value)
+	{
+		LinkedListNode<T>* New = new LinkedListNode<T>(Value);
+		if (_Last == nullptr)
+		{
+			_First = New;
+		}
+		else
+		{
+			_Last->_Next = New;
+		}
+		_Last = New;
+	}
+
+	template<typename T>
+	inline void LinkedList<T>::Clear()
+	{
+		LinkedListNode<T>* Previous = _First;
+		LinkedListNode<T>* Current = _First;
+		while (Previous != nullptr)
+		{
+			Current = Current->_Next;
+
+			delete Previous;
+			Previous = Current;
+		};
+
+		_First = nullptr;
+		_Last = nullptr;
+	}
+
+	template<typename T>
+	inline const LinkedListNode<T>* LinkedList<T>::FindLast() const
+	{
+		LinkedListNode<T>* Current = _First;
+		while (Current != nullptr)
+		{
+			if (Current->_Next == nullptr)
+			{
+				break;
+			}
+			Current = Current->_Next;
+		};
+
+		return Current;
+	}
+
+	template<typename T>
+	inline void LinkedList<T>::RemoveFirst()
+	{
+		if (_First == nullptr)
+		{
+			return;
+		}
+
+		LinkedListNode<T>* Next = _First->_Next;
+		delete _First;
+		_First = Next;
+	}
 }
 #endif

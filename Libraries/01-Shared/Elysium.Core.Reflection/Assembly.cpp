@@ -6,9 +6,13 @@
 
 Elysium::Core::Reflection::Assembly::Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName)
 	: _AssemblyName(AssemblyName)
-{ }
+{
+	AppDomain::GetCurrentDomain().Add(*this);
+}
 Elysium::Core::Reflection::Assembly::~Assembly()
-{ }
+{
+	AppDomain::GetCurrentDomain().Remove(*this);
+}
 
 bool Elysium::Core::Reflection::Assembly::operator==(const Assembly & Other) const
 {
@@ -38,4 +42,19 @@ bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly & Other) con
 const Elysium::Core::String& Elysium::Core::Reflection::Assembly::GetFullName() const
 {
 	return _AssemblyName.GetName();
+}
+
+const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> Elysium::Core::Reflection::Assembly::GetModules() const
+{
+	return Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*>(_Modules);
+}
+
+void Elysium::Core::Reflection::Assembly::Add(const Elysium::Core::Reflection::Module& Module)
+{
+	_Modules.Add(&Module);
+}
+
+void Elysium::Core::Reflection::Assembly::Remove(const Elysium::Core::Reflection::Module& Module)
+{
+	_Modules.Remove(&Module);
 }

@@ -24,14 +24,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "../Elysium.Core/List.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
 #include "AssemblyName.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_REFLECTION_MODULE
+#include "Module.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
 {
 	class ELYSIUM_CORE_API Assembly final
 	{
+		friend class Module;
 	public:
 		Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName);
 		Assembly(const Assembly& Source) = delete;
@@ -49,8 +58,15 @@ namespace Elysium::Core::Reflection
 		bool operator>=(const Assembly& Other) const;
 		
 		const Elysium::Core::String& GetFullName() const;
+
+		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> GetModules() const;
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;
+
+		Elysium::Core::Collections::Template::List<const Module*> _Modules = Elysium::Core::Collections::Template::List<const Module*>();
+
+		void Add(const Elysium::Core::Reflection::Module& Module);
+		void Remove(const Elysium::Core::Reflection::Module& Module);
 	};
 }
 #endif

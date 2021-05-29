@@ -23,10 +23,10 @@ Elysium::Core::UriSyntaxFlags::CanonicalizeAsFilePath |
 Elysium::Core::UriSyntaxFlags::None |
 Elysium::Core::UriSyntaxFlags::AllowIdn |
 Elysium::Core::UriSyntaxFlags::AllowIriParsing;
-
+/*
 Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser> Elysium::Core::UriParser::_RegisteredParser =
 	Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser>();
-
+*/
 Elysium::Core::UriParser::~UriParser()
 { }
 

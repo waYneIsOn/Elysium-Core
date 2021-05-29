@@ -36,6 +36,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Globalization/NumberFormatInfo.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
+#include "../Elysium.Core.Reflection/AppDomain.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_REFLECTION_TYPE
+#include "../Elysium.Core.Reflection/Type.hpp"
+#endif
+
+#ifndef _TYPEINFO_
+#include <typeinfo>
+#endif
+
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API Object final
@@ -54,6 +66,12 @@ namespace Elysium::Core
 		
 		template <class T>
 		static const Elysium::Core::int32_t GetHashCode(const T Value);
+
+		template <class T>
+		static const Elysium::Core::Reflection::Type& GetType();
+
+		template <class T>
+		static const Elysium::Core::Reflection::Type& GetType(const T Value);
 
 		template <class T>
 		static const Elysium::Core::String ToString(const T Value);
@@ -117,6 +135,26 @@ namespace Elysium::Core
 	inline const Elysium::Core::int32_t Object::GetHashCode(const T Value)
 	{
 		return Value.GetHashCode();
+	}
+
+	template<class T>
+	inline const Elysium::Core::Reflection::Type& Object::GetType()
+	{
+		const size_t TypeId = typeid(T).hash_code();
+
+		// ToDo: lookup TypeId in AppDomain
+		//Elysium::Core::Reflection::AppDomain::GetCurrentDomain().
+		throw 1;
+	}
+
+	template<class T>
+	inline const Elysium::Core::Reflection::Type& Object::GetType(const T Value)
+	{	
+		const size_t TypeId = typeid(Value).hash_code();
+
+		// ToDo: lookup TypeId in AppDomain
+		//Elysium::Core::Reflection::AppDomain::GetCurrentDomain().
+		throw 1;
 	}
 
 	template<>

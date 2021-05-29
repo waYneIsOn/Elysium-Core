@@ -4,6 +4,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Assembly.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AssemblyName.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AppDomain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Module.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Type.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Assembly.hpp" />
@@ -11,8 +13,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeAttributes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldAttributes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessorArchitecture.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ReflectElysiumCore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AppDomain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Emit">

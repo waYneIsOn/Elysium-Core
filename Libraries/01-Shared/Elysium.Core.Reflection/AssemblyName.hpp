@@ -29,13 +29,13 @@ namespace Elysium::Core::Reflection
 	class ELYSIUM_CORE_API AssemblyName final
 	{
 	public:
-		AssemblyName(const String& AssemblyName, const String& CodeBase, const Version& AssemblyVersion);
+		AssemblyName(const String& AssemblyName, const Version& AssemblyVersion);
 		AssemblyName(const AssemblyName& Source);
-		AssemblyName(AssemblyName&& Right) noexcept;
+		AssemblyName(AssemblyName&& Right) noexcept = delete;
 		~AssemblyName();
 
 		AssemblyName& operator=(const AssemblyName& Source);
-		AssemblyName& operator=(AssemblyName&& Right) noexcept;
+		AssemblyName& operator=(AssemblyName&& Right) noexcept = delete;
 
 		bool operator==(const AssemblyName& Other) const;
 		bool operator!=(const AssemblyName& Other) const;
@@ -44,16 +44,14 @@ namespace Elysium::Core::Reflection
 		bool operator<=(const AssemblyName& Other) const;
 		bool operator>=(const AssemblyName& Other) const;
 
-		const String& GetCodeBase() const;
-		const String& GetName() const;
-		const Version& GetVersion() const;
+		const Elysium::Core::String& GetName() const;
+		const Elysium::Core::Version& GetVersion() const;
 		/*
 		const CultureInfo& GetCultureInfo() const;
 		const String& GetFullName() const;
 		*/
 	private:
 		String _Name;
-		String _CodeBase;	// Location (Folder)
 		Version _Version;
 	};
 }
