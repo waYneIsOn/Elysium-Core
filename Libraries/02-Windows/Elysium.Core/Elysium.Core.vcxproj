@@ -64,6 +64,7 @@
     <Import Project="..\..\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\Elysium.Core.Diagnostics\Elysium.Core.Diagnostics.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems" Label="Shared" />
+    <Import Project="..\..\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
