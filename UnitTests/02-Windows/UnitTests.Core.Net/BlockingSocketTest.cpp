@@ -173,13 +173,13 @@ namespace UnitTests::Core::Net::Sockets
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 
 			const IAsyncResult* ConnectResult = AsyncClient.BeginConnect(RemoteEndPoint,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ConnectCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ConnectCallback>(*this), nullptr);
 			ConnectResult->GetAsyncWaitHandle().WaitOne();
 			delete ConnectResult;
 			
 			Elysium::Core::byte ReceiveBuffer[256];
 			const IAsyncResult* ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
 			delete ReceiveResult;
 			
@@ -187,18 +187,18 @@ namespace UnitTests::Core::Net::Sockets
 			const Encoding& UTF8Encoding = Encoding::UTF8();
 			Array<byte> Bytes = UTF8Encoding.GetBytes(&HelpMessage[0], HelpMessage.GetLength());
 			const IAsyncResult* SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
 			SendResult->GetAsyncWaitHandle().WaitOne();
 			delete SendResult;
 			
 			ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
 			delete ReceiveResult;
 			
 			//AsyncClient.Shutdown(SocketShutdown::Both);
 			const IAsyncResult* DisconnectResult = AsyncClient.BeginDisconnect(true,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::DisconnectCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::DisconnectCallback>(*this), nullptr);
 			DisconnectResult->GetAsyncWaitHandle().WaitOne();
 			delete DisconnectResult;
 		}
@@ -211,7 +211,7 @@ namespace UnitTests::Core::Net::Sockets
 
 			Elysium::Core::byte ReceiveBuffer[256];
 			const IAsyncResult* ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 
 			AsyncClient.Shutdown(SocketShutdown::Both);
 			AsyncClient.Disconnect(false);
@@ -229,7 +229,7 @@ namespace UnitTests::Core::Net::Sockets
 			//AsyncServer.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::AcceptConnection, 1);
 
 			const AcceptAsyncResult* AcceptResult = AsyncServer.BeginAccept(
-				Delegate<void, const Elysium::Core::IAsyncResult*>::CreateDelegate<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
 			
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(LocalEndPoint);

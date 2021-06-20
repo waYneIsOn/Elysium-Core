@@ -61,7 +61,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::ZeroParameterThreadStart>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::ZeroParameterThreadStart>(*this));
 			T.Start();
 			T.Join();
 			Assert::AreEqual(25, _CalculatedValue);
@@ -71,7 +71,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Thread T = Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::SingleParameterThreadStart>(*this));
+			Thread T = Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::SingleParameterThreadStart>(*this));
 			int Value = 6;
 			T.Start(static_cast<void*>(&Value));
 			T.Join();
@@ -82,7 +82,7 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(LongRunningJoin)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::LongRunning>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::LongRunning>(*this));
 			T.Start();
 			T.Join();
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
@@ -98,16 +98,16 @@ namespace UnitTests::Core::Threading
 
 			Thread IncrementTs[NumberOfThreads] =
 			{
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::IncrementInterlocked>(*this))
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::IncrementInterlocked>(*this))
 			};
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
@@ -121,16 +121,16 @@ namespace UnitTests::Core::Threading
 
 			Thread DecrementTs[NumberOfThreads] =
 			{
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
-				Thread(Delegate<void, void*>::CreateDelegate<ThreadTests, &ThreadTests::DecrementInterlocked>(*this))
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this)),
+				Thread(Delegate<void, void*>::Bind<ThreadTests, &ThreadTests::DecrementInterlocked>(*this))
 			};
 			for (uint16_t i = 0; i < NumberOfThreads; i++)
 			{
@@ -146,7 +146,7 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(MutexLock)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunMutex>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunMutex>(*this));
 			T.Start();
 
 			// sleep for a bit just to make sure T has locked the mutex
@@ -161,7 +161,7 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(MutexWaitOne)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunMutex>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunMutex>(*this));
 			T.Start();
 
 			// sleep for a bit just to make sure T has locked the mutex
@@ -178,7 +178,7 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(CriticalSectionTest)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunCriticalSection>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunCriticalSection>(*this));
 			T.Start();
 
 			// sleep for a bit just to make sure T has entered the critical section
@@ -195,7 +195,7 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(AutoResetEventWaitOne)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunAutoResetEvent>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunAutoResetEvent>(*this));
 			T.Start();
 
 			_AutoResetEvent.WaitOne();
@@ -209,7 +209,7 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(ManualResetEventWaitOne)
 		{
 			DateTime Start = DateTime::Now();
-			Thread T = Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunManualResetEvent>(*this));
+			Thread T = Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunManualResetEvent>(*this));
 			T.Start();
 
 			_ManualResetEvent.WaitOne();
@@ -226,9 +226,9 @@ namespace UnitTests::Core::Threading
 			
 			Thread Ts[NumberOfThreads] = 
 			{
-				Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunSemaphore>(*this)),
-				Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunSemaphore>(*this)),
-				Thread(Delegate<void>::CreateDelegate<ThreadTests, &ThreadTests::RunSemaphore>(*this))
+				Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunSemaphore>(*this)),
+				Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunSemaphore>(*this)),
+				Thread(Delegate<void>::Bind<ThreadTests, &ThreadTests::RunSemaphore>(*this))
 			};
 			DateTime Start = DateTime::Now();
 			for (uint16_t i = 0; i < NumberOfThreads; i++)

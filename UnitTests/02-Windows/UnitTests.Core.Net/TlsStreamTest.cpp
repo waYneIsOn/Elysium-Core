@@ -59,7 +59,7 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Net::Security::TlsPolicyErrors> UserCertificateValidationCallback =
 				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
-				const Elysium::Core::Net::Security::TlsPolicyErrors>::CreateDelegate<&TlsStreamTests::ValidateServerCertificate>();
+				const Elysium::Core::Net::Security::TlsPolicyErrors>::Bind<&TlsStreamTests::ValidateServerCertificate>();
 
 			Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
@@ -68,7 +68,7 @@ namespace UnitTests::Core::Net::Security
 				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
-				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::CreateDelegate<&TlsStreamTests::SelectLocalCertificate>();
+				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
 
 			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 			

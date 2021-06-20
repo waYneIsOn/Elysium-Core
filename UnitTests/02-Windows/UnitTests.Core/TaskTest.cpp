@@ -50,7 +50,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
+			Task SimpleTask = Task(Delegate<void>::Bind<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(25, _CalculatedValue);
@@ -61,7 +61,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::Cancel>(*this));
+			Task SimpleTask = Task(Delegate<void>::Bind<TaskTests, &TaskTests::Cancel>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(123, _CalculatedValue);
@@ -72,7 +72,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ThrowException>(*this));
+			Task SimpleTask = Task(Delegate<void>::Bind<TaskTests, &TaskTests::ThrowException>(*this));
 			SimpleTask.RunSynchronously();
 
 			Assert::AreEqual(3, _CalculatedValue);
@@ -84,7 +84,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 			
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
+			Task SimpleTask = Task(Delegate<void>::Bind<TaskTests, &TaskTests::ZeroParameterThreadStart>(*this));
 			SimpleTask.Start();
 			SimpleTask.Wait();
 
@@ -96,7 +96,7 @@ namespace UnitTests::Core::Threading
 		{
 			_WorkerThreadId = std::this_thread::get_id();
 			
-			Task SimpleTask = Task(Delegate<void>::CreateDelegate<TaskTests, &TaskTests::LongRunning>(*this));
+			Task SimpleTask = Task(Delegate<void>::Bind<TaskTests, &TaskTests::LongRunning>(*this));
 			DateTime Start = DateTime::Now();
 			SimpleTask.Start();
 			SimpleTask.Wait();
