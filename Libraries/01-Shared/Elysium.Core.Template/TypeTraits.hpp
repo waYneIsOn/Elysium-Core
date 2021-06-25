@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IntegralConstant.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_ISANYOF
+#include "IsAnyOf.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_ISFUNDAMENTAL
 #include "IsFundamental.hpp"
 #endif
@@ -34,6 +38,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ISREFERENCE
 #include "IsReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISSAME
+#include "IsSame.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISVOID
+#include "IsVoid.hpp"
 #endif
 
 #endif

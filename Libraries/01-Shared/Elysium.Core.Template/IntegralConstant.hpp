@@ -22,12 +22,12 @@ namespace Elysium::Core::Template
 
 		static constexpr const T Value = _Value;
 
-		constexpr operator ValueType() const noexcept
+		constexpr operator const ValueType() const noexcept
 		{
 			return Value;
 		}
 
-		constexpr ValueType operator()() const noexcept
+		constexpr const ValueType operator()() const noexcept
 		{
 			return Value;
 		}

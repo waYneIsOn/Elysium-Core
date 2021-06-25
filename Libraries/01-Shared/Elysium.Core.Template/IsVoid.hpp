@@ -5,9 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-
-#ifndef ELYSIUM_CORE_TEMPLATE_ISNULLPOINTER
-#define ELYSIUM_CORE_TEMPLATE_ISNULLPOINTER
+#ifndef ELYSIUM_CORE_TEMPLATE_ISVOID
+#define ELYSIUM_CORE_TEMPLATE_ISVOID
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,10 +23,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template
 {
 	template <class T>
-	inline constexpr bool IsNullPointerValue = IsSame<T, nullptr_t>::Value;
+	inline constexpr bool IsVoidValue = IsSame<T, void>::Value;
 
 	template <class T>
-	struct IsNullPointer : public IntegralConstant<bool, IsNullPointerValue<T>>
+	struct IsVoid : public IntegralConstant<bool, IsVoidValue<T>>
 	{ };
 }
 #endif
+

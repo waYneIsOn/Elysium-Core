@@ -17,10 +17,13 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFundamental.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsNullPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsReference.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsSame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
   </ItemGroup>
 </Project>
