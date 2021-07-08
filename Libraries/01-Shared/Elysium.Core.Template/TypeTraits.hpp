@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Conditional.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DISJUNCTION
+#include "Disjunction.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
@@ -24,8 +28,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsAnyOf.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_ISARITHMETIC
+#include "IsArithemtic.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISCONSTANT
+#include "IsConstant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISFLOATINGPOINT
+#include "IsFloatingPoint.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_ISFUNDAMENTAL
 #include "IsFundamental.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISINTEGRAL
+#include "IsIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ISNULLPOINTER
@@ -46,6 +66,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ISVOID
 #include "IsVoid.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISVOLATILE
+#include "IsVolatile.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_REMOVECONSTVOLATILE
+#include "RemoveConstVolatile.hpp"
 #endif
 
 #endif

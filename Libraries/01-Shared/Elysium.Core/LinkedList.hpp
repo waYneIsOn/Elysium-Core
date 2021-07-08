@@ -18,11 +18,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "LinkedListNode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
+#endif
+
 namespace Elysium::Core::Collections::Template
 {
 	template <typename T>
 	class LinkedList final
 	{
+		using ParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsFundamental<T>::Value || Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
 	public:
 		LinkedList();
 		LinkedList(const List<T>& Right) = delete;
@@ -42,17 +47,17 @@ namespace Elysium::Core::Collections::Template
 		//void AddBefore(const T Value);
 		//void AddFirst(const T Value);
 		
-		void AddLast(const T Value);
+		void AddLast(const ParameterType Value);
 
 		void Clear();
 
 		//const bool Contains(const LinkedListNode<T>* Value) const;
-		//const bool Contains(const T Value) const;
+		//const bool Contains(const ParameterType Value) const;
 
 		const LinkedListNode<T>* FindLast() const;
 
 		//void Remove(const LinkedListNode<T>* Value);
-		//void Remove(const T Value);
+		//void Remove(const ParameterType Value);
 
 		void RemoveFirst();
 
@@ -102,7 +107,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline void LinkedList<T>::AddLast(const T Value)
+	inline void LinkedList<T>::AddLast(const ParameterType Value)
 	{
 		LinkedListNode<T>* New = new LinkedListNode<T>(Value);
 		if (_Last == nullptr)

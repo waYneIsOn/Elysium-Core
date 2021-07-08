@@ -13,6 +13,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DISJUNCTION
+#include "Disjunction.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
@@ -23,12 +27,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template
 {
-	template <class, class...>
-	inline constexpr bool IsAnyOfValue = false;
-
-	template <class T, class... TFurther>
-	struct IsAnyOf : public IntegralConstant<bool, IsAnyOfValue<T, TFurther>>
-	{ };
+	template <class T, class... Other>
+	inline constexpr bool IsAnyOfValue = DisjunctionValue<IsSame<T, Other>...>;
 	/*
 	template <class T, class... TFurther>
 	struct IsAnyOf : public IntegralConstant<bool, IsAnyOfValue<T, bool, char, char8_t, char16_t, char32_t, int, long, long long, short, signed char,

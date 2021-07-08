@@ -21,10 +21,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsSame.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_REMOVECONSTVOLATILE
+#include "RemoveConstVolatile.hpp"
+#endif
+
+#ifndef _INC_STDDEF
+#define __cplusplus
+#include <stddef.h>
+#endif
+
 namespace Elysium::Core::Template
 {
 	template <class T>
-	inline constexpr bool IsNullPointerValue = IsSame<T, nullptr_t>::Value;
+	inline constexpr bool IsNullPointerValue = IsSameValue<RemoveConstVolatileType<T>, std::nullptr_t>;
 
 	template <class T>
 	struct IsNullPointer : public IntegralConstant<bool, IsNullPointerValue<T>>

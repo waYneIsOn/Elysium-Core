@@ -16,14 +16,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsArithemtic.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsConstant.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsFloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFundamental.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsNullPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
   </ItemGroup>
 </Project>
