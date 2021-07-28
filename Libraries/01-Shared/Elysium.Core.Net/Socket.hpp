@@ -119,7 +119,7 @@ namespace Elysium::Core::Net::Sockets
 	public:
 		Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
 		Socket(const Socket& Source) = delete;
-		Socket(Socket&& Right);
+		Socket(Socket&& Right) noexcept;
 		~Socket();
 
 		Socket& operator=(const Socket& Source) = delete;
@@ -155,8 +155,8 @@ namespace Elysium::Core::Net::Sockets
 		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
 		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const size_t OptionInValueLength, Elysium::Core::byte * OptionOutValue, const size_t OptionOutValueLength);
 
-		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
-		static void Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
+		static void Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
+		static void Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
 
 		const bool Poll(const Elysium::Core::int32_t MicroSeconds, const SelectMode Mode);
 		const bool Poll(const Elysium::Core::TimeSpan Duration, const SelectMode Mode);

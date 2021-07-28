@@ -50,7 +50,7 @@ Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketT
 	_CompletionPortHandle = CreateThreadpoolIo((HANDLE)_WinSocketHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment);
 	RetrieveFunctions();
 }
-Elysium::Core::Net::Sockets::Socket::Socket(Socket && Right)
+Elysium::Core::Net::Sockets::Socket::Socket(Socket && Right) noexcept
 {
 	*this = std::move(Right);
 }
@@ -290,7 +290,7 @@ const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(cons
 	}
 }
 
-void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds)
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds)
 {
 	fd_set ReadSet = fd_set();
 	fd_set WriteSet = fd_set();
@@ -363,7 +363,7 @@ void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Tem
 	}
 }
 
-void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<const Socket*>* CheckRead, Elysium::Core::Collections::Template::List<const Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<const Socket*>* CheckError, const Elysium::Core::TimeSpan Duration)
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration)
 {
 	return Select(CheckRead, CheckWrite, CheckError, Duration.GetTotalMilliseconds() * 1000);
 }
@@ -430,6 +430,8 @@ void Elysium::Core::Net::Sockets::Socket::Disconnect(const bool ReuseSocket)
 {
 	//WSARecvDisconnect()
 	//WSASendDisconnect()
+
+	Shutdown(SocketShutdown::Both);
 	_IsConnected = false;
 }
 
