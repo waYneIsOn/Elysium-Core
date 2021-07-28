@@ -18,19 +18,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template
 {
-    template <bool _Test, class _Ty1, class _Ty2>
+    template <bool Condition, class TrueType, class FalseType>
     struct Conditional
     {
-        using Type = _Ty1;
+        using Type = TrueType;
     };
 
-    template <class _Ty1, class _Ty2>
-    struct Conditional<false, _Ty1, _Ty2>
+    template <class TrueType, class FalseType>
+    struct Conditional<false, TrueType, FalseType>
     {
-        using Type = _Ty2;
+        using Type = FalseType;
     };
 
-    template <bool _Test, class _Ty1, class _Ty2>
-    using ConditionalType = typename Conditional<_Test, _Ty1, _Ty2>::Type;
+    template <bool Condition, class TrueType, class FalseType>
+    using ConditionalType = typename Conditional<Condition, TrueType, FalseType>::Type;
 }
 #endif

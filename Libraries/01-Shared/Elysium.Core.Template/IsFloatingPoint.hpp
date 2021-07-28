@@ -21,9 +21,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveConstVolatile.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DECIMAL
-#include "../Elysium.Core/Decimal.hpp"
-#endif
+namespace Elysium::Core
+{
+    class Decimal;
+}
 
 namespace Elysium::Core::Template
 {
