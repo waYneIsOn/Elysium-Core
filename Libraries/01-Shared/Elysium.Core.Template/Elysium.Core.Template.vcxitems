@@ -37,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
   </ItemGroup>
 </Project>

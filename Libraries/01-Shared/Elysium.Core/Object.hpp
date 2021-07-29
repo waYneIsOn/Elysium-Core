@@ -44,6 +44,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Reflection/Type.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_REMOVEREFERENCE
+#include "../Elysium.Core.Template/RemoveReference.hpp"
+#endif
+
 #ifndef _TYPEINFO_
 #include <typeinfo>
 #endif
@@ -62,7 +66,7 @@ namespace Elysium::Core
 		Object& operator=(Object&& Right) noexcept = delete;
 		
 		template <class T>
-		static constexpr T&& Move(T& Value) noexcept;
+		static constexpr Elysium::Core::Template::RemoveReferenceType<T>&& Move(T&& Value) noexcept;
 		
 		template <class T>
 		static const Elysium::Core::int32_t GetHashCode(const T Value);
@@ -78,9 +82,9 @@ namespace Elysium::Core
 	};
 
 	template<class T>
-	inline constexpr T&& Object::Move(T& Value) noexcept
+	inline constexpr Elysium::Core::Template::RemoveReferenceType<T>&& Object::Move(T&& Value) noexcept
 	{
-		return static_cast<T&&>(Value);
+		return static_cast<Elysium::Core::Template::RemoveReferenceType<T>&&>(Value);
 	}
 
 	template<>

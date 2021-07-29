@@ -67,7 +67,7 @@ Elysium::Core::String::String(const String& Source)
 Elysium::Core::String::String(String&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
-	*this = Elysium::Core::Object::Move<String>(Right);
+	*this = Elysium::Core::Object::Move(Right);
 }
 
 Elysium::Core::String::~String()

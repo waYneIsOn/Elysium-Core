@@ -100,4 +100,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveConstVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_REMOVEREFERENCE
+#include "RemoveReference.hpp"
+#endif
+
 #endif

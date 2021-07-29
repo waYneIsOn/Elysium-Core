@@ -55,11 +55,22 @@ namespace UnitTests::Core::Template
 
 		TEST_METHOD(IsFunction)
 		{
+			TypeTraitTest Instance = TypeTraitTest();
+
 			Assert::IsFalse(Elysium::Core::Template::IsFunction<char>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsFunction<UnitTests::Core::Template::TypeTraitTest>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsFunction<decltype(&UnitTests::Core::Template::TypeTraitTest::IsFunction)>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsFunction<decltype(&UnitTests::Core::Template::TypeTraitTest::StaticMethod)>::Value);
-			Assert::IsTrue(Elysium::Core::Template::IsFunction<decltype(SomeFunction)>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsFunction<decltype(&UnitTests::Core::Template::TypeTraitTest::OtherStaticMethod)>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsFunction<decltype(&UnitTests::Core::Template::TypeTraitTest::InstanceMethod)>::Value);
+			//Assert::IsFalse(Elysium::Core::Template::IsFunction<decltype(&Instance.InstanceMethod)>::Value);
+
+			//Assert::IsFalse(Elysium::Core::Template::IsFunction<decltype(UnitTests::Core::Template::TypeTraitTest::IsFunction)>::Value);
+			Assert::IsTrue(Elysium::Core::Template::IsFunction<decltype(UnitTests::Core::Template::TypeTraitTest::StaticMethod)>::Value);
+			Assert::IsTrue(Elysium::Core::Template::IsFunction<decltype(UnitTests::Core::Template::TypeTraitTest::OtherStaticMethod)>::Value);
+			//Assert::IsTrue(Elysium::Core::Template::IsFunction<decltype(UnitTests::Core::Template::TypeTraitTest::InstanceMethod)>::Value);
+
+			Assert::IsTrue(Elysium::Core::Template::IsFunction<decltype(UnitTests::Core::Template::SomeFunction)>::Value);
 		}
 
 		TEST_METHOD(IsNullPointer)
@@ -120,6 +131,14 @@ namespace UnitTests::Core::Template
 		}
 
 		static void StaticMethod()
+		{ }
+
+		static int OtherStaticMethod()
+		{
+			return 0;
+		}
+
+		void InstanceMethod()
 		{ }
 	};
 }
