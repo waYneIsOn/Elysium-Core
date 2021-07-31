@@ -32,7 +32,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-namespace Elysium::Core::IO::Compression
+namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_API BinaryReader
 	{
@@ -47,6 +47,7 @@ namespace Elysium::Core::IO::Compression
 
 		virtual Elysium::Core::IO::Stream& GetBaseStream() const;
 
+		virtual const Elysium::Core::byte ReadByte();
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ReadBytes(const Elysium::Core::uint32_t Count);
 		virtual const Elysium::Core::uint16_t ReadUInt16();
 		virtual const Elysium::Core::uint32_t ReadUInt32();
