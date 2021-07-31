@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISCLASS
-#define ELYSIUM_CORE_TEMPLATE_ISCLASS
+#ifndef ELYSIUM_CORE_TEMPLATE_ISUNION
+#define ELYSIUM_CORE_TEMPLATE_ISUNION
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,10 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template
 {
 	template <class T>
-	struct IsClass : IntegralConstant<bool, __is_class(T)>
+	struct IsUnion : IntegralConstant<bool, __is_union(T)>
 	{ };
 
 	template <class T>
-	inline constexpr bool IsClassValue = IsClass<T>::Value;
+	inline constexpr bool IsUnionValue = IsUnion<T>::Value;
 }
 #endif

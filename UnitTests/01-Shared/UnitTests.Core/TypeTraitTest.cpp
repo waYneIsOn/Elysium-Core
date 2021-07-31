@@ -11,6 +11,20 @@ namespace UnitTests::Core::Template
 {
 	void SomeFunction() { }
 
+	enum class EnumerationClass
+	{
+		Unknown = -1,
+		A = 0,
+		B = 1,
+	};
+
+	enum Colour 
+	{
+		Red,
+		Green,
+		Blue
+	};
+
 	TEST_CLASS(TypeTraitTest)
 	{
 	public:
@@ -39,18 +53,21 @@ namespace UnitTests::Core::Template
 			Assert::IsTrue(Elysium::Core::Template::IsArray<char[2]>::Value);
 			Assert::IsTrue(Elysium::Core::Template::IsArray<Elysium::Core::Collections::Template::Array<char>>::Value);
 		}
-
+		
 		TEST_METHOD(IsClass)
 		{
-			//Assert::IsFalse(Elysium::Core::Template::IsClass<char>::Value);
-			/*
-			constexpr bool bla1 = std::is_class<char>::value;
-			constexpr bool bla2 = Elysium::Core::Template::IsClassValue<char>;
+			Assert::IsFalse(Elysium::Core::Template::IsClass<char>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsClass<EnumerationClass>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsClass<Colour>::Value);
+			Assert::IsTrue(Elysium::Core::Template::IsClass<TypeTraitTest>::Value);			
+		}
 
-			constexpr bool bla3 = std::is_class<TypeTraitTest>::value;
-			constexpr bool bla4 = Elysium::Core::Template::IsClassValue<TypeTraitTest>;
-			*/
-			Assert::Fail();
+		TEST_METHOD(IsEnumeration)
+		{
+			Assert::IsFalse(Elysium::Core::Template::IsEnumeration<char>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsEnumeration<TypeTraitTest>::Value);
+			Assert::IsTrue(Elysium::Core::Template::IsEnumeration<EnumerationClass>::Value);
+			Assert::IsTrue(Elysium::Core::Template::IsEnumeration<Colour>::Value);
 		}
 
 		TEST_METHOD(IsFunction)

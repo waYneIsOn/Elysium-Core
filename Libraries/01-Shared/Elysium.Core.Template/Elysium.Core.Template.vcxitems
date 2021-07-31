@@ -26,6 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsClass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConstant.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFunction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFundamental.hpp" />
@@ -34,10 +35,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsUnion.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
   </ItemGroup>
 </Project>
