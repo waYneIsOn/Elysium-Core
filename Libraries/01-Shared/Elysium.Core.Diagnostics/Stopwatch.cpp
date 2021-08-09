@@ -11,12 +11,12 @@ Elysium::Core::Diagnostics::Stopwatch::~Stopwatch()
 
 Elysium::Core::TimeSpan Elysium::Core::Diagnostics::Stopwatch::GetElapsed()
 {
-	return TimeSpan(_Elapsed);
+	return TimeSpan(GetElapsedDateTimeTicks());
 }
 
 const Elysium::Core::TimeSpan Elysium::Core::Diagnostics::Stopwatch::GetElapsed() const
 {
-	return TimeSpan(_Elapsed);
+	return TimeSpan(GetElapsedDateTimeTicks());
 }
 
 const bool Elysium::Core::Diagnostics::Stopwatch::GetIsRunning() const
@@ -56,7 +56,7 @@ void Elysium::Core::Diagnostics::Stopwatch::Reset()
 	_IsRunning = false;
 }
 
-Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetTimestamp()
+const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetTimestamp()
 {
 	if (IsHighResolution)
 	{
@@ -67,5 +67,32 @@ Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetTimestamp()
 	else
 	{
 		return DateTime::UtcNow().GetTicks();
+	}
+}
+
+const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetRawElapsedTicks() const
+{
+	Elysium::Core::int64_t TimeElapsed = _Elapsed;
+	if (_IsRunning)
+	{
+		const Elysium::Core::int64_t CurrentTimeStamp = GetTimestamp();
+		const Elysium::Core::int64_t ElapsedUntilNow = CurrentTimeStamp - _StartTimeStamp;
+		TimeElapsed -= ElapsedUntilNow;
+	}
+	return TimeElapsed;
+}
+
+const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetElapsedDateTimeTicks() const
+{
+	const Elysium::Core::int64_t RawTicks = GetRawElapsedTicks();
+	if (IsHighResolution)
+	{
+		double RawTicksAsDouble = RawTicks;
+		RawTicksAsDouble *= TickFrequency;
+		return static_cast<Elysium::Core::int64_t>(RawTicksAsDouble);
+	}
+	else
+	{
+		return RawTicks;
 	}
 }

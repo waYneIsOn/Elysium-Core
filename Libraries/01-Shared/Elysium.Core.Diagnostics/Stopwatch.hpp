@@ -64,7 +64,10 @@ namespace Elysium::Core::Diagnostics
 		Elysium::Core::int64_t _StartTimeStamp = 0;
 		bool _IsRunning = false;
 
-		static Elysium::Core::int64_t GetTimestamp();
+		static const Elysium::Core::int64_t GetTimestamp();
+
+		const Elysium::Core::int64_t GetRawElapsedTicks() const;
+		const Elysium::Core::int64_t GetElapsedDateTimeTicks() const;
 	};
 }
 #endif
