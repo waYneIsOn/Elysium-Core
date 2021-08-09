@@ -654,62 +654,62 @@ private:
 
 			// date
 			DatetimeValue = Reader->GetDateTime(8);
-			DatetimeValue.GetDay(&IntValue);
+			IntValue = DatetimeValue.GetDay();
 			Assert::AreEqual(18, IntValue);
-			DatetimeValue.GetMonth(&IntValue);
+			IntValue = DatetimeValue.GetMonth();
 			Assert::AreEqual(6, IntValue);
-			DatetimeValue.GetYear(&IntValue);
+			IntValue = DatetimeValue.GetYear();
 			Assert::AreEqual(2012, IntValue);
 			Assert::IsFalse(Reader->IsDBNull(8));
 			Assert::IsTrue(Reader->IsDBNull(9));
 
 			// datetime2
 			DatetimeValue = Reader->GetDateTime(10);
-			DatetimeValue.GetDay(&IntValue);
+			IntValue = DatetimeValue.GetDay();
 			Assert::AreEqual(18, IntValue);
-			DatetimeValue.GetMonth(&IntValue);
+			IntValue = DatetimeValue.GetMonth();
 			Assert::AreEqual(6, IntValue);
-			DatetimeValue.GetYear(&IntValue);
+			IntValue = DatetimeValue.GetYear();
 			Assert::AreEqual(2012, IntValue);
-			DatetimeValue.GetHour(&IntValue);
+			IntValue = DatetimeValue.GetHour();
 			Assert::AreEqual(22, IntValue);
-			DatetimeValue.GetMinute(&IntValue);
+			IntValue = DatetimeValue.GetMinute();
 			Assert::AreEqual(34, IntValue);
-			DatetimeValue.GetSecond(&IntValue);
+			IntValue = DatetimeValue.GetSecond();
 			Assert::AreEqual(9, IntValue);
 			Assert::IsFalse(Reader->IsDBNull(10));
 			Assert::IsTrue(Reader->IsDBNull(11));
 
 			// datetime
 			DatetimeValue = Reader->GetDateTime(12);
-			DatetimeValue.GetDay(&IntValue);
+			IntValue = DatetimeValue.GetDay();
 			Assert::AreEqual(18, IntValue);
-			DatetimeValue.GetMonth(&IntValue);
+			IntValue = DatetimeValue.GetMonth();
 			Assert::AreEqual(6, IntValue);
-			DatetimeValue.GetYear(&IntValue);
+			IntValue = DatetimeValue.GetYear();
 			Assert::AreEqual(2012, IntValue);
-			DatetimeValue.GetHour(&IntValue);
+			IntValue = DatetimeValue.GetHour();
 			Assert::AreEqual(22, IntValue);
-			DatetimeValue.GetMinute(&IntValue);
+			IntValue = DatetimeValue.GetMinute();
 			Assert::AreEqual(34, IntValue);
-			DatetimeValue.GetSecond(&IntValue);
+			IntValue = DatetimeValue.GetSecond();
 			Assert::AreEqual(9, IntValue);
 			Assert::IsFalse(Reader->IsDBNull(12));
 			Assert::IsTrue(Reader->IsDBNull(13));
 
 			// datetimeoffset
 			DateTimeOffsetValue = Reader->GetDateTimeOffset(14);
-			DateTimeOffsetValue.GetDateTime().GetDay(&IntValue);
+			IntValue = DateTimeOffsetValue.GetDateTime().GetDay();
 			Assert::AreEqual(10, IntValue);
-			DateTimeOffsetValue.GetDateTime().GetMonth(&IntValue);
+			IntValue = DateTimeOffsetValue.GetDateTime().GetMonth();
 			Assert::AreEqual(12, IntValue);
-			DateTimeOffsetValue.GetDateTime().GetYear(&IntValue);
+			IntValue = DateTimeOffsetValue.GetDateTime().GetYear();
 			Assert::AreEqual(2025, IntValue);
-			DateTimeOffsetValue.GetDateTime().GetHour(&IntValue);
+			IntValue = DateTimeOffsetValue.GetDateTime().GetHour();
 			Assert::AreEqual(12, IntValue);
-			DateTimeOffsetValue.GetDateTime().GetMinute(&IntValue);
+			IntValue = DateTimeOffsetValue.GetDateTime().GetMinute();
 			Assert::AreEqual(32, IntValue);
-			DateTimeOffsetValue.GetDateTime().GetSecond(&IntValue);
+			IntValue = DateTimeOffsetValue.GetDateTime().GetSecond();
 			Assert::AreEqual(10, IntValue);
 			Assert::AreEqual(1, DateTimeOffsetValue.GetOffset().GetHours());
 			Assert::AreEqual(0, DateTimeOffsetValue.GetOffset().GetMinutes());
@@ -840,17 +840,17 @@ private:
 
 			// smalldatetime
 			DatetimeValue = Reader->GetDateTime(48);
-			DatetimeValue.GetDay(&IntValue);
+			IntValue = DatetimeValue.GetDay();
 			Assert::AreEqual(10, IntValue);
-			DatetimeValue.GetMonth(&IntValue);
+			IntValue = DatetimeValue.GetMonth();
 			Assert::AreEqual(2, IntValue);
-			DatetimeValue.GetYear(&IntValue);
+			IntValue = DatetimeValue.GetYear();
 			Assert::AreEqual(2010, IntValue);
-			DatetimeValue.GetHour(&IntValue);
+			IntValue = DatetimeValue.GetHour();
 			Assert::AreEqual(12, IntValue);
-			DatetimeValue.GetMinute(&IntValue);
+			IntValue = DatetimeValue.GetMinute();
 			Assert::AreEqual(30, IntValue);
-			DatetimeValue.GetSecond(&IntValue);
+			IntValue = DatetimeValue.GetSecond();
 			Assert::AreEqual(0, IntValue);
 			Assert::IsFalse(Reader->IsDBNull(48));
 			Assert::IsTrue(Reader->IsDBNull(49));
@@ -899,17 +899,17 @@ private:
 			Assert::AreEqual(27, TimeSpanValue.GetSeconds());
 
 			DatetimeValue = Reader->GetDateTime(60);
-			DatetimeValue.GetDay(&IntValue);
+			IntValue = DatetimeValue.GetDay();
 			Assert::AreEqual(1, IntValue);
-			DatetimeValue.GetMonth(&IntValue);
+			IntValue = DatetimeValue.GetMonth();
 			Assert::AreEqual(1, IntValue);
-			DatetimeValue.GetYear(&IntValue);
+			IntValue = DatetimeValue.GetYear();
 			Assert::AreEqual(1, IntValue);
-			DatetimeValue.GetHour(&IntValue);
+			IntValue = DatetimeValue.GetHour();
 			Assert::AreEqual(13, IntValue);
-			DatetimeValue.GetMinute(&IntValue);
+			IntValue = DatetimeValue.GetMinute();
 			Assert::AreEqual(37, IntValue);
-			DatetimeValue.GetSecond(&IntValue);
+			IntValue = DatetimeValue.GetSecond();
 			Assert::AreEqual(27, IntValue);
 			Assert::IsFalse(Reader->IsDBNull(60));
 			Assert::IsTrue(Reader->IsDBNull(61));

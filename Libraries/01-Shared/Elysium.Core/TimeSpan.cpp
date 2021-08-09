@@ -8,17 +8,17 @@
 #include "DateTimeUtility.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_OBJECT
+#include "Object.hpp"
 #endif
 
-Elysium::Core::TimeSpan::TimeSpan(int64_t Ticks)
+Elysium::Core::TimeSpan::TimeSpan(Elysium::Core::int64_t Ticks)
 	: _Ticks(Ticks)
 { }
-Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds)
+Elysium::Core::TimeSpan::TimeSpan(Elysium::Core::int32_t Hours, Elysium::Core::int32_t Minutes, Elysium::Core::int32_t Seconds)
 	: _Ticks((TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds)).GetTicks())
 { }
-Elysium::Core::TimeSpan::TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds)
+Elysium::Core::TimeSpan::TimeSpan(Elysium::Core::int32_t Hours, Elysium::Core::int32_t Minutes, Elysium::Core::int32_t Seconds, Elysium::Core::int32_t Milliseconds)
 	: _Ticks((TimeSpan::FromHours(Hours) + TimeSpan::FromMinutes(Minutes) + TimeSpan::FromSeconds(Seconds) + TimeSpan::FromTicks(Milliseconds)).GetTicks())
 { }
 Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
@@ -27,7 +27,7 @@ Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right) noexcept
 	: _Ticks(0)
 {
-	*this = std::move(Right);
+	*this = Object::Move(Right);
 }
 Elysium::Core::TimeSpan::~TimeSpan()
 { }
@@ -36,7 +36,7 @@ Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(const TimeSpan & So
 {
 	if (this != &Source)
 	{
-		_Ticks = int64_t(Source._Ticks);
+		_Ticks = Elysium::Core::int64_t(Source._Ticks);
 	}
 	return *this;
 }
@@ -44,7 +44,7 @@ Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = std::move(Right._Ticks);
+		_Ticks = Object::Move(Right._Ticks);
 	}
 	return *this;
 }
@@ -85,117 +85,63 @@ Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromSeconds(double Value)
 {
 	return Interval(Value, DateTimeUtility::MillisecondsPerSecond);
 }
-Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromTicks(int64_t Value)
+Elysium::Core::TimeSpan Elysium::Core::TimeSpan::FromTicks(Elysium::Core::int64_t Value)
 {
 	return TimeSpan(Value);
 }
 
-Elysium::Core::int64_t Elysium::Core::TimeSpan::GetTicks() const
+const Elysium::Core::int64_t Elysium::Core::TimeSpan::GetTicks() const
 {
 	return _Ticks;
 }
 
-void Elysium::Core::TimeSpan::GetDays(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::TimeSpan::GetDays() const
 {
-	*Value = (int)(_Ticks / DateTimeUtility::TicksPerDay);
+	return static_cast<Elysium::Core::int32_t>(_Ticks / DateTimeUtility::TicksPerDay);
 }
-void Elysium::Core::TimeSpan::GetHours(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::TimeSpan::GetHours() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerHour) % 24);
+	return static_cast<Elysium::Core::int32_t>((_Ticks / DateTimeUtility::TicksPerHour) % 24);
 }
-void Elysium::Core::TimeSpan::GetMinutes(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::TimeSpan::GetMinutes() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerMinute) % 60);
+	return static_cast<Elysium::Core::int32_t>((_Ticks / DateTimeUtility::TicksPerMinute) % 60);
 }
-void Elysium::Core::TimeSpan::GetSeconds(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::TimeSpan::GetSeconds() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerSecond) % 60);
+	return static_cast<Elysium::Core::int32_t>((_Ticks / DateTimeUtility::TicksPerSecond) % 60);
 }
-void Elysium::Core::TimeSpan::GetMilliseconds(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::TimeSpan::GetMilliseconds() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerMillisecond) % 1000);
-}
-
-void Elysium::Core::TimeSpan::GetTotalDays(double * Value) const
-{
-	*Value = _Ticks * DateTimeUtility::DaysPerTick;
-}
-void Elysium::Core::TimeSpan::GetTotalHours(double * Value) const
-{
-	*Value = _Ticks * DateTimeUtility::HoursPerTick;
-}
-void Elysium::Core::TimeSpan::GetTotalMinutes(double * Value) const
-{
-	*Value = _Ticks * DateTimeUtility::MinutesPerTick;
-}
-void Elysium::Core::TimeSpan::GetTotalSeconds(double * Value) const
-{
-	*Value = _Ticks * DateTimeUtility::SecondsPerTick;
-}
-void Elysium::Core::TimeSpan::GetTotalMilliseconds(double * Value) const
-{
-	double IntermediateValue = _Ticks * DateTimeUtility::MillisecondsPerTick;
-	if (IntermediateValue > DateTimeUtility::MaxMilliseconds)
-	{
-		*Value = DateTimeUtility::MaxMilliseconds;
-	}
-	else if (IntermediateValue < DateTimeUtility::MinMilliseconds)
-	{
-		*Value = DateTimeUtility::MinMilliseconds;
-	}
-	else
-	{
-		*Value = IntermediateValue;
-	}
+	return static_cast<Elysium::Core::int32_t>((_Ticks / DateTimeUtility::TicksPerMillisecond) % 1000);
 }
 
-int Elysium::Core::TimeSpan::GetDays() const
-{
-	return (int)(_Ticks / DateTimeUtility::TicksPerDay);
-}
-int Elysium::Core::TimeSpan::GetHours() const
-{
-	return (int)((_Ticks / DateTimeUtility::TicksPerHour) % 24);
-}
-int Elysium::Core::TimeSpan::GetMinutes() const
-{
-	return (int)((_Ticks / DateTimeUtility::TicksPerMinute) % 60);
-}
-int Elysium::Core::TimeSpan::GetSeconds() const
-{
-	return (int)((_Ticks / DateTimeUtility::TicksPerSecond) % 60);
-}
-int Elysium::Core::TimeSpan::GetMilliseconds() const
-{
-	return (int)((_Ticks / DateTimeUtility::TicksPerMillisecond) % 1000);
-}
-
-double Elysium::Core::TimeSpan::GetTotalDays() const
+const double Elysium::Core::TimeSpan::GetTotalDays() const
 {
 	return _Ticks * DateTimeUtility::DaysPerTick;
 }
-double Elysium::Core::TimeSpan::GetTotalHours() const
+const double Elysium::Core::TimeSpan::GetTotalHours() const
 {
 	return _Ticks * DateTimeUtility::HoursPerTick;
 }
-double Elysium::Core::TimeSpan::GetTotalMinutes() const
+const double Elysium::Core::TimeSpan::GetTotalMinutes() const
 {
 	return _Ticks * DateTimeUtility::MinutesPerTick;
 }
-double Elysium::Core::TimeSpan::GetTotalSeconds() const
+const double Elysium::Core::TimeSpan::GetTotalSeconds() const
 {
 	return _Ticks * DateTimeUtility::SecondsPerTick;
 }
-double Elysium::Core::TimeSpan::GetTotalMilliseconds() const
+const double Elysium::Core::TimeSpan::GetTotalMilliseconds() const
 {
-	double IntermediateValue = (double)_Ticks * DateTimeUtility::MillisecondsPerTick;
+	double IntermediateValue = static_cast<double>(_Ticks * DateTimeUtility::MillisecondsPerTick);
 	if (IntermediateValue > DateTimeUtility::MaxMilliseconds)
 	{
-		return (double)DateTimeUtility::MaxMilliseconds;
+		return static_cast<double>(DateTimeUtility::MaxMilliseconds);
 	}
 	else if (IntermediateValue < DateTimeUtility::MinMilliseconds)
 	{
-		return (double)DateTimeUtility::MinMilliseconds;
+		return static_cast<double>(DateTimeUtility::MinMilliseconds);
 	}
 	else
 	{
@@ -203,10 +149,10 @@ double Elysium::Core::TimeSpan::GetTotalMilliseconds() const
 	}
 }
 
-Elysium::Core::TimeSpan Elysium::Core::TimeSpan::Interval(double Value, int Scale)
+Elysium::Core::TimeSpan Elysium::Core::TimeSpan::Interval(double Value, Elysium::Core::int32_t Scale)
 {
 	double IntermediateValue = Value * Scale;
 	double Milliseconds = IntermediateValue + (Value >= 0 ? 0.5 : -0.5);
 
-	return TimeSpan((int64_t)Milliseconds * DateTimeUtility::TicksPerMillisecond);
+	return TimeSpan(static_cast<Elysium::Core::int64_t>(Milliseconds) * DateTimeUtility::TicksPerMillisecond);
 }

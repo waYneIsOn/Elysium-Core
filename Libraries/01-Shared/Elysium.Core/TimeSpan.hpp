@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core
@@ -25,9 +25,9 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API TimeSpan
 	{
 	public:
-		TimeSpan(int64_t Ticks);
-		TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds);
-		TimeSpan(int32_t Hours, int32_t Minutes, int32_t Seconds, int32_t Milliseconds);
+		TimeSpan(Elysium::Core::int64_t Ticks);
+		TimeSpan(Elysium::Core::int32_t Hours, Elysium::Core::int32_t Minutes, Elysium::Core::int32_t Seconds);
+		TimeSpan(Elysium::Core::int32_t Hours, Elysium::Core::int32_t Minutes, Elysium::Core::int32_t Seconds, Elysium::Core::int32_t Milliseconds);
 		TimeSpan(const TimeSpan& Source);
 		TimeSpan(TimeSpan&& Right) noexcept;
 		~TimeSpan();
@@ -46,37 +46,25 @@ namespace Elysium::Core
 		static TimeSpan FromHours(double Value);
 		static TimeSpan FromMinutes(double Value);
 		static TimeSpan FromSeconds(double Value);
-		static TimeSpan FromTicks(int64_t Value);
+		static TimeSpan FromTicks(Elysium::Core::int64_t Value);
 
-		int64_t GetTicks() const;
+		const Elysium::Core::int64_t GetTicks() const;
 
-		void GetDays(int* Value) const;
-		void GetHours(int* Value) const;
-		void GetMinutes(int* Value) const;
-		void GetSeconds(int* Value) const;
-		void GetMilliseconds(int* Value) const;
+		const Elysium::Core::int32_t GetDays() const;
+		const Elysium::Core::int32_t GetHours() const;
+		const Elysium::Core::int32_t GetMinutes() const;
+		const Elysium::Core::int32_t GetSeconds() const;
+		const Elysium::Core::int32_t GetMilliseconds() const;
 
-		void GetTotalDays(double* Value) const;
-		void GetTotalHours(double* Value) const;
-		void GetTotalMinutes(double* Value) const;
-		void GetTotalSeconds(double* Value) const;
-		void GetTotalMilliseconds(double* Value) const;
-
-		int GetDays() const;
-		int GetHours() const;
-		int GetMinutes() const;
-		int GetSeconds() const;
-		int GetMilliseconds() const;
-
-		double GetTotalDays() const;
-		double GetTotalHours() const;
-		double GetTotalMinutes() const;
-		double GetTotalSeconds() const;
-		double GetTotalMilliseconds() const;
+		const double GetTotalDays() const;
+		const double GetTotalHours() const;
+		const double GetTotalMinutes() const;
+		const double GetTotalSeconds() const;
+		const double GetTotalMilliseconds() const;
 	private:
-		int64_t _Ticks;
+		Elysium::Core::int64_t _Ticks;
 
-		static TimeSpan Interval(double Value, int Scale);
+		static TimeSpan Interval(double Value, Elysium::Core::int32_t Scale);
 	};
 }
 #endif

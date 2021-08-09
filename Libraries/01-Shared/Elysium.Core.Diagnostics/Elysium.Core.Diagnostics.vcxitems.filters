@@ -6,6 +6,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)WindowFinder.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
@@ -15,6 +16,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WindowFinder.hpp">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Stopwatch.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Internal">

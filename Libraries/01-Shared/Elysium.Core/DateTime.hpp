@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_DATETIMEKIND
 #include "DateTimeKind.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATEPART
 #include "DatePart.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TIMESPAN
@@ -37,11 +37,11 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API DateTime
 	{
 	public:
-		DateTime(int64_t Ticks);
-		DateTime(int64_t Ticks, DateTimeKind Kind);
-		DateTime(int Year, int Month, int Day);
-		DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second);
-		DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second, int Millisecond);
+		DateTime(Elysium::Core::int64_t Ticks);
+		DateTime(Elysium::Core::int64_t Ticks, Elysium::Core::DateTimeKind Kind);
+		DateTime(Elysium::Core::int32_t Year, Elysium::Core::int32_t Month, Elysium::Core::int32_t Day);
+		DateTime(Elysium::Core::int32_t Year, Elysium::Core::int32_t Month, Elysium::Core::int32_t Day, Elysium::Core::int32_t Hour, Elysium::Core::int32_t Minute, Elysium::Core::int32_t Second);
+		DateTime(Elysium::Core::int32_t Year, Elysium::Core::int32_t Month, Elysium::Core::int32_t Day, Elysium::Core::int32_t Hour, Elysium::Core::int32_t Minute, Elysium::Core::int32_t Second, Elysium::Core::int32_t Millisecond);
 		DateTime(const DateTime& Source);
 		DateTime(DateTime&& Right) noexcept;
 		~DateTime();
@@ -58,40 +58,32 @@ namespace Elysium::Core
 		static DateTime Today();
 		static DateTime UtcNow();
 
-		DateTimeKind const GetKind() const;
-		int64_t const GetTicks() const;
+		const Elysium::Core::DateTimeKind GetKind() const;
+		const Elysium::Core::int64_t GetTicks() const;
 
-		//void GetDate(DateTime* Value) const;
-		void GetDay(int* Value) const;
-		//void GetDayOfWeek(DayOfWeek* Value) const;
-		//void GetDayOfYear(int* Value) const;
-		void GetHour(int* Value) const;
-		void GetMillisecond(int* Value) const;
-		void GetMinute(int* Value) const;
-		void GetMonth(int* Value) const;
-		void GetSecond(int* Value) const;
-		//void GetTimeOfDay(TimeSpan* Value) const;
-		void GetYear(int* Value) const;
+		//DateTime GetDate();
+		const Elysium::Core::int32_t GetDay() const;
+		//DayOfWeek GetDayOfWeek();
+		//Elysium::Core::int32_t GetDayOfYear();
+		const Elysium::Core::int32_t GetHour() const;
+		const Elysium::Core::int32_t GetMillisecond() const;
+		const Elysium::Core::int32_t GetMinute() const;
+		const Elysium::Core::int32_t GetMonth() const;
+		const Elysium::Core::int32_t GetSecond() const;
+		//TimeSpan GetTimeOfDay();
+		const Elysium::Core::int32_t GetYear() const;
 
-		const int GetDay() const;
-		const int GetHour() const;
-		const int GetMillisecond() const;
-		const int GetMinute() const;
-		const int GetMonth() const;
-		const int GetSecond() const;
-		const int GetYear() const;
-
-		static bool IsLeapYear(int Year);
+		static const bool IsLeapYear(const Elysium::Core::int32_t Year);
 	private:
-		int64_t _Ticks;
-		DateTimeKind _Kind;
+		Elysium::Core::int64_t _Ticks;
+		Elysium::Core::DateTimeKind _Kind;
 
 		// ...
-		static int64_t DateToTicks(int Year, int Month, int Day);
-		static int64_t TimeToTicks(int Hour, int Minute, int Second);
+		static Elysium::Core::int64_t DateToTicks(const Elysium::Core::int32_t Year, const Elysium::Core::int32_t Month, const Elysium::Core::int32_t Day);
+		static Elysium::Core::int64_t TimeToTicks(const Elysium::Core::int32_t Hour, const Elysium::Core::int32_t Minute, const Elysium::Core::int32_t Second);
 
 		// ...
-		int GetDatePart(DatePart Part) const;
+		const Elysium::Core::int32_t GetDatePart(const Elysium::Core::DatePart Part) const;
 	};
 }
 #endif

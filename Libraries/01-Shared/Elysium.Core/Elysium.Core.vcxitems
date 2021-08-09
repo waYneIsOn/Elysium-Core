@@ -105,7 +105,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />

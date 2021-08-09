@@ -132,7 +132,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />

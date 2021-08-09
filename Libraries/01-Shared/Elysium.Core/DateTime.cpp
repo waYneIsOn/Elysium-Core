@@ -1,38 +1,38 @@
 #include "DateTime.hpp"
 
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "ArgumentOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATETIMEUTILITY
 #include "DateTimeUtility.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "NotImplementedException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_OBJECT
+#include "Object.hpp"
 #endif
 
 #ifndef _CHRONO_
 #include <chrono>
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
-#include "ArgumentOutOfRangeException.hpp"
-#endif
-
-Elysium::Core::DateTime::DateTime(int64_t Ticks)
+Elysium::Core::DateTime::DateTime(Elysium::Core::int64_t Ticks)
 	: Elysium::Core::DateTime::DateTime(Ticks, DateTimeKind::Unspecified)
 { }
-Elysium::Core::DateTime::DateTime(int64_t Ticks, DateTimeKind Kind)
+Elysium::Core::DateTime::DateTime(Elysium::Core::int64_t Ticks, DateTimeKind Kind)
 	: _Ticks(Ticks), _Kind(Kind)
 { }
-Elysium::Core::DateTime::DateTime(int Year, int Month, int Day)
+Elysium::Core::DateTime::DateTime(Elysium::Core::int32_t Year, Elysium::Core::int32_t Month, Elysium::Core::int32_t Day)
 	: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day))
 { }
-Elysium::Core::DateTime::DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second)
+Elysium::Core::DateTime::DateTime(Elysium::Core::int32_t Year, Elysium::Core::int32_t Month, Elysium::Core::int32_t Day, Elysium::Core::int32_t Hour, Elysium::Core::int32_t Minute, Elysium::Core::int32_t Second)
 	: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second))
 { }
-Elysium::Core::DateTime::DateTime(int Year, int Month, int Day, int Hour, int Minute, int Second, int Millisecond)
+Elysium::Core::DateTime::DateTime(Elysium::Core::int32_t Year, Elysium::Core::int32_t Month, Elysium::Core::int32_t Day, Elysium::Core::int32_t Hour, Elysium::Core::int32_t Minute, Elysium::Core::int32_t Second, Elysium::Core::int32_t Millisecond)
 	: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second) + Millisecond * DateTimeUtility::TicksPerMillisecond)
 { }
 Elysium::Core::DateTime::DateTime(const DateTime & Source)
@@ -41,7 +41,7 @@ Elysium::Core::DateTime::DateTime(const DateTime & Source)
 Elysium::Core::DateTime::DateTime(DateTime && Right) noexcept
 	: Elysium::Core::DateTime::DateTime(0, DateTimeKind::Unspecified)
 {
-	*this = std::move(Right);
+	*this = Object::Move(Right);
 }
 Elysium::Core::DateTime::~DateTime()
 { }
@@ -59,8 +59,8 @@ Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = std::move(Right._Ticks);
-		_Kind = std::move(Right._Kind);
+		_Ticks = Object::Move(Right._Ticks);
+		_Kind = Object::Move(Right._Kind);
 
 		Right._Ticks = 0;
 		Right._Kind = DateTimeKind::Unspecified;
@@ -97,93 +97,48 @@ Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow()
 {
-	//return DateTime(std::chrono::utc_clock::now().time_since_epoch().count(), DateTimeKind::Utc);
-	throw NotImplementedException(u8"Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow");
+	return DateTime(std::chrono::utc_clock::now().time_since_epoch().count(), DateTimeKind::Utc);
 }
 
-Elysium::Core::DateTimeKind const Elysium::Core::DateTime::GetKind() const
+const Elysium::Core::DateTimeKind Elysium::Core::DateTime::GetKind() const
 {
 	return _Kind;
 }
-int64_t const Elysium::Core::DateTime::GetTicks() const
+const Elysium::Core::int64_t Elysium::Core::DateTime::GetTicks() const
 {
 	return _Ticks;
 }
 
-void Elysium::Core::DateTime::GetDay(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetDay() const
 {
-	*Value = GetDatePart(DatePart::Day);
+	return GetDatePart(DatePart::Day);
 }
-void Elysium::Core::DateTime::GetHour(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetHour() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerHour) % 24);
+	return ((_Ticks / DateTimeUtility::TicksPerHour) % 24);
 }
-void Elysium::Core::DateTime::GetMillisecond(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetMillisecond() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerMillisecond) % 1000);
+	return ((_Ticks / DateTimeUtility::TicksPerMillisecond) % 1000);
 }
-void Elysium::Core::DateTime::GetMinute(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetMinute() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerMinute) % 60);
+	return ((_Ticks / DateTimeUtility::TicksPerMinute) % 60);
 }
-void Elysium::Core::DateTime::GetMonth(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetMonth() const
 {
-	*Value = GetDatePart(DatePart::Month);
+	return GetDatePart(DatePart::Month);
 }
-void Elysium::Core::DateTime::GetSecond(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetSecond() const
 {
-	*Value = (int)((_Ticks / DateTimeUtility::TicksPerSecond) % 60);
+	return ((_Ticks / DateTimeUtility::TicksPerSecond) % 60);
 }
-void Elysium::Core::DateTime::GetYear(int * Value) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetYear() const
 {
-
-	*Value = GetDatePart(DatePart::Year);
-}
-
-const int Elysium::Core::DateTime::GetDay() const
-{
-	int Value;
-	GetDay(&Value);
-	return Value;
-}
-const int Elysium::Core::DateTime::GetHour() const
-{
-	int Value;
-	GetHour(&Value);
-	return Value;
-}
-const int Elysium::Core::DateTime::GetMillisecond() const
-{
-	int Value;
-	GetMillisecond(&Value);
-	return Value;
-}
-const int Elysium::Core::DateTime::GetMinute() const
-{
-	int Value;
-	GetMinute(&Value);
-	return Value;
-}
-const int Elysium::Core::DateTime::GetMonth() const
-{
-	int Value;
-	GetMonth(&Value);
-	return Value;
-}
-const int Elysium::Core::DateTime::GetSecond() const
-{
-	int Value;
-	GetSecond(&Value);
-	return Value;
-}
-const int Elysium::Core::DateTime::GetYear() const
-{
-	int Value;
-	GetYear(&Value);
-	return Value;
+	return GetDatePart(DatePart::Year);
 }
 
-bool Elysium::Core::DateTime::IsLeapYear(int Year)
+const bool Elysium::Core::DateTime::IsLeapYear(const Elysium::Core::int32_t Year)
 {
 	if (Year >= 1 && Year <= 9999)
 	{
@@ -195,7 +150,7 @@ bool Elysium::Core::DateTime::IsLeapYear(int Year)
 	}
 }
 
-int64_t Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
+int64_t Elysium::Core::DateTime::DateToTicks(const Elysium::Core::int32_t Year, const Elysium::Core::int32_t Month, const Elysium::Core::int32_t Day)
 {
 	if (Year >= 1 && Year <= 9999 && Month >= 1 && Month <= 12)
 	{
@@ -209,7 +164,7 @@ int64_t Elysium::Core::DateTime::DateToTicks(int Year, int Month, int Day)
 	}
 	throw ArgumentOutOfRangeException();
 }
-int64_t Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
+int64_t Elysium::Core::DateTime::TimeToTicks(const Elysium::Core::int32_t Hour, const Elysium::Core::int32_t Minute, const Elysium::Core::int32_t Second)
 {
 	if (Hour >= 0 && Hour <= 24 && Minute >= 0 && Minute < 60 && Second >= 0 && Second < 60)
 	{
@@ -223,20 +178,20 @@ int64_t Elysium::Core::DateTime::TimeToTicks(int Hour, int Minute, int Second)
 	throw ArgumentOutOfRangeException();
 }
 
-int Elysium::Core::DateTime::GetDatePart(DatePart Part) const
+const Elysium::Core::int32_t Elysium::Core::DateTime::GetDatePart(const Elysium::Core::DatePart Part) const
 {
-	int DaysSince_01_01_0001 = (int)(_Ticks / DateTimeUtility::TicksPerDay);
-	int Year400 = DaysSince_01_01_0001 / DateTimeUtility::DaysPer400Years;
+	Elysium::Core::int32_t DaysSince_01_01_0001 = static_cast<Elysium::Core::int32_t>(_Ticks / DateTimeUtility::TicksPerDay);
+	Elysium::Core::int32_t Year400 = DaysSince_01_01_0001 / DateTimeUtility::DaysPer400Years;
 	DaysSince_01_01_0001 -= Year400 * DateTimeUtility::DaysPer400Years;
-	int Year100 = Year400 / DateTimeUtility::DaysPer100Years;
+	Elysium::Core::int32_t Year100 = Year400 / DateTimeUtility::DaysPer100Years;
 	if (Year100 == 4)
 	{
 		Year100 = 3;
 	}
 	DaysSince_01_01_0001 -= Year100 * DateTimeUtility::DaysPer100Years;
-	int Year4 = DaysSince_01_01_0001 / DateTimeUtility::DaysPer4Years;
+	Elysium::Core::int32_t Year4 = DaysSince_01_01_0001 / DateTimeUtility::DaysPer4Years;
 	DaysSince_01_01_0001 -= Year4 * DateTimeUtility::DaysPer4Years;
-	int Year1 = DaysSince_01_01_0001 / DateTimeUtility::DaysPerYear;
+	Elysium::Core::int32_t Year1 = DaysSince_01_01_0001 / DateTimeUtility::DaysPerYear;
 	if (Year1 == 4)
 	{
 		Year1 = 3;
@@ -252,9 +207,9 @@ int Elysium::Core::DateTime::GetDatePart(DatePart Part) const
 		return DaysSince_01_01_0001 + 1;
 	}
 
-	bool IsLeapYear = Year1 == 3 && (Year4 != 24 || Year100 == 3);
-	const int* Days = IsLeapYear ? DateTimeUtility::DaysToMonth366 : DateTimeUtility::DaysToMonth365;
-	int Month = (DaysSince_01_01_0001 >> 5) + 1;
+	const bool IsLeapYear = Year1 == 3 && (Year4 != 24 || Year100 == 3);
+	const Elysium::Core::int32_t* Days = IsLeapYear ? DateTimeUtility::DaysToMonth366 : DateTimeUtility::DaysToMonth365;
+	Elysium::Core::int32_t Month = (DaysSince_01_01_0001 >> 5) + 1;
 	while (DaysSince_01_01_0001 >= Days[Month])
 	{
 		Month++;
