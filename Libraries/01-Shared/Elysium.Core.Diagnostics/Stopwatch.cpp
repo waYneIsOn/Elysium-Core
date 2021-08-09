@@ -4,17 +4,44 @@
 #include "../Elysium.Core/DateTime.hpp"
 #endif
 
+const bool Elysium::Core::Diagnostics::Stopwatch::SetupGetIsHighResolution()
+{
+	LARGE_INTEGER Timestamp;
+	return QueryPerformanceFrequency(&Timestamp) != 0;
+}
+
+const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::SetupGetFrequency()
+{
+	LARGE_INTEGER Timestamp;
+	if (QueryPerformanceFrequency(&Timestamp) == 0)
+	{
+		return TicksPerSecond;
+	}
+	else
+	{
+		return Timestamp.QuadPart;
+	}
+}
+
+const double Elysium::Core::Diagnostics::Stopwatch::SetupGetTickFrequency()
+{
+	LARGE_INTEGER Timestamp;
+	if (QueryPerformanceFrequency(&Timestamp) == 0)
+	{
+		return 1.0f;
+	}
+	else
+	{
+		return TicksPerSecond / Timestamp.QuadPart;
+	}
+}
+
 Elysium::Core::Diagnostics::Stopwatch::Stopwatch()
 { }
 Elysium::Core::Diagnostics::Stopwatch::~Stopwatch()
 { }
 
-Elysium::Core::TimeSpan Elysium::Core::Diagnostics::Stopwatch::GetElapsed()
-{
-	return TimeSpan(GetElapsedDateTimeTicks());
-}
-
-const Elysium::Core::TimeSpan Elysium::Core::Diagnostics::Stopwatch::GetElapsed() const
+Elysium::Core::TimeSpan Elysium::Core::Diagnostics::Stopwatch::GetElapsed() const
 {
 	return TimeSpan(GetElapsedDateTimeTicks());
 }
@@ -60,9 +87,9 @@ const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetTimestamp
 {
 	if (IsHighResolution)
 	{
-		Elysium::Core::int64_t Timestamp = 0;
-		QueryPerformanceCounter((LARGE_INTEGER*)&Timestamp);
-		return Timestamp;
+		LARGE_INTEGER Timestamp;
+		QueryPerformanceCounter(&Timestamp);
+		return Timestamp.QuadPart;
 	}
 	else
 	{
@@ -77,7 +104,7 @@ const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetRawElapse
 	{
 		const Elysium::Core::int64_t CurrentTimeStamp = GetTimestamp();
 		const Elysium::Core::int64_t ElapsedUntilNow = CurrentTimeStamp - _StartTimeStamp;
-		TimeElapsed -= ElapsedUntilNow;
+		TimeElapsed += ElapsedUntilNow;
 	}
 	return TimeElapsed;
 }

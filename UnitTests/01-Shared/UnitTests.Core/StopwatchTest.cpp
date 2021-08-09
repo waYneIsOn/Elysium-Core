@@ -1,10 +1,12 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Diagnostics/Stopwatch.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Diagnostics;
+using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Diagnostics
@@ -19,10 +21,16 @@ namespace UnitTests::Core::Diagnostics
 
 			Stopwatch Watch = Stopwatch();
 			Watch.Start();
+
+			Thread::Sleep(TimeSpan::FromSeconds(1));
+			const Elysium::Core::TimeSpan ElapsedTimeWhileRunning = Watch.GetElapsed();
+			Assert::IsTrue(ElapsedTimeWhileRunning.GetTotalMilliseconds() > 1000);
+
+			Thread::Sleep(TimeSpan::FromSeconds(1));
 			Watch.Stop();
 
-			const Elysium::Core::TimeSpan ElapsedTime = Watch.GetElapsed();
-			const Elysium::Core::int32_t ElapsedSeconds = ElapsedTime.GetSeconds();
+			const Elysium::Core::TimeSpan ElapsedTimeAfterStop = Watch.GetElapsed();
+			Assert::IsTrue(ElapsedTimeAfterStop.GetTotalMilliseconds() > 2000);
 		}
 
 	};
