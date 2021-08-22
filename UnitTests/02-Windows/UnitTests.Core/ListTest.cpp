@@ -37,6 +37,7 @@ namespace UnitTests::Core::Collections::Template
 			Assert::AreNotEqual(&Value4, &TestList[3]);
 			Assert::AreNotEqual(&Value1, &TestList[4]);
 		}
+
 		TEST_METHOD(Pointer)
 		{
 			int Value1 = 1;
@@ -46,7 +47,6 @@ namespace UnitTests::Core::Collections::Template
 
 			List<int*> TestList = { &Value1, &Value2, &Value3, &Value4, &Value1, nullptr };
 			TestList.Add(&Value4);
-
 			Assert::AreEqual((size_t)7, TestList.GetCount());
 
 			Assert::AreEqual(&Value1, TestList[0]);

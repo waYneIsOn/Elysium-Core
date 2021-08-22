@@ -38,10 +38,11 @@ namespace UnitTests::Core::Template
 
 		TEST_METHOD(IsAnyOf)
 		{
+			Assert::IsFalse(Elysium::Core::Template::IsAnyOfValue<char, unsigned char, bool&, uint8_t, int32_t, char*, int64_t>);
+
 			Assert::IsTrue(Elysium::Core::Template::IsAnyOfValue<int64_t, unsigned char, bool&, uint8_t, int32_t, char*, int64_t>);
 			Assert::IsTrue(Elysium::Core::Template::IsAnyOfValue<char*, unsigned char, bool&, uint8_t, int32_t, char*, int64_t>);
 			Assert::IsTrue(Elysium::Core::Template::IsAnyOfValue<bool&, unsigned char, bool&, uint8_t, int32_t, char*, int64_t>);
-			Assert::IsFalse(Elysium::Core::Template::IsAnyOfValue<char, unsigned char, bool&, uint8_t, int32_t, char*, int64_t>);
 		}
 
 		TEST_METHOD(IsArray)
@@ -49,6 +50,10 @@ namespace UnitTests::Core::Template
 			Assert::IsFalse(Elysium::Core::Template::IsArray<char>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsArray<char*>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsArray<char&>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsArray<EnumerationClass>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsArray<Colour>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsArray<TypeTraitTest>::Value);
+
 			Assert::IsTrue(Elysium::Core::Template::IsArray<char[]>::Value);
 			Assert::IsTrue(Elysium::Core::Template::IsArray<char[2]>::Value);
 			Assert::IsTrue(Elysium::Core::Template::IsArray<Elysium::Core::Collections::Template::Array<char>>::Value);
@@ -57,15 +62,21 @@ namespace UnitTests::Core::Template
 		TEST_METHOD(IsClass)
 		{
 			Assert::IsFalse(Elysium::Core::Template::IsClass<char>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsClass<char*>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsClass<char&>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsClass<EnumerationClass>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsClass<Colour>::Value);
-			Assert::IsTrue(Elysium::Core::Template::IsClass<TypeTraitTest>::Value);			
+
+			Assert::IsTrue(Elysium::Core::Template::IsClass<TypeTraitTest>::Value);
 		}
 
 		TEST_METHOD(IsEnumeration)
 		{
 			Assert::IsFalse(Elysium::Core::Template::IsEnumeration<char>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsEnumeration<char*>::Value);
+			Assert::IsFalse(Elysium::Core::Template::IsEnumeration<char&>::Value);
 			Assert::IsFalse(Elysium::Core::Template::IsEnumeration<TypeTraitTest>::Value);
+
 			Assert::IsTrue(Elysium::Core::Template::IsEnumeration<EnumerationClass>::Value);
 			Assert::IsTrue(Elysium::Core::Template::IsEnumeration<Colour>::Value);
 		}
@@ -96,6 +107,7 @@ namespace UnitTests::Core::Template
 			Assert::IsFalse(Elysium::Core::Template::IsNullPointer<Elysium::Core::uint8_t*>());
 			Assert::IsFalse(Elysium::Core::Template::IsNullPointer<Elysium::Core::uint8_t&>());
 			Assert::IsFalse(Elysium::Core::Template::IsNullPointer<Elysium::Core::uint8_t&&>());
+
 			Assert::IsTrue(Elysium::Core::Template::IsNullPointer<std::nullptr_t>());
 			Assert::IsTrue(Elysium::Core::Template::IsNullPointer<const std::nullptr_t>());
 		}
@@ -105,6 +117,7 @@ namespace UnitTests::Core::Template
 			Assert::IsFalse(Elysium::Core::Template::IsPointer<Elysium::Core::uint8_t>());
 			Assert::IsFalse(Elysium::Core::Template::IsPointer<Elysium::Core::uint8_t&>());
 			Assert::IsFalse(Elysium::Core::Template::IsPointer<Elysium::Core::uint8_t&&>());
+
 			Assert::IsTrue(Elysium::Core::Template::IsPointer<Elysium::Core::uint8_t*>());
 			Assert::IsTrue(Elysium::Core::Template::IsPointer<const Elysium::Core::uint8_t*>());
 			Assert::IsTrue(Elysium::Core::Template::IsPointer<volatile Elysium::Core::uint8_t*>());
@@ -121,6 +134,7 @@ namespace UnitTests::Core::Template
 			Assert::IsFalse(Elysium::Core::Template::IsReference<const Elysium::Core::uint8_t*>());
 			Assert::IsFalse(Elysium::Core::Template::IsReference<volatile Elysium::Core::uint8_t*>());
 			Assert::IsFalse(Elysium::Core::Template::IsReference<const volatile Elysium::Core::uint8_t*>());
+
 			Assert::IsTrue(Elysium::Core::Template::IsReference<Elysium::Core::uint8_t&>());
 			Assert::IsTrue(Elysium::Core::Template::IsReference<const Elysium::Core::uint8_t&>());
 			Assert::IsTrue(Elysium::Core::Template::IsReference<volatile Elysium::Core::uint8_t&>());
@@ -134,6 +148,7 @@ namespace UnitTests::Core::Template
 		TEST_METHOD(IsSame)
 		{
 			Assert::IsFalse(Elysium::Core::Template::IsSame<Elysium::Core::uint8_t, char>());
+
 			Assert::IsTrue(Elysium::Core::Template::IsSame<Elysium::Core::uint8_t, unsigned char>());
 			Assert::IsTrue(Elysium::Core::Template::IsSame<void, void>());
 		}
@@ -144,6 +159,7 @@ namespace UnitTests::Core::Template
 			Assert::IsFalse(Elysium::Core::Template::IsVoid<Elysium::Core::uint8_t*>());
 			Assert::IsFalse(Elysium::Core::Template::IsVoid<Elysium::Core::uint8_t&>());
 			Assert::IsFalse(Elysium::Core::Template::IsVoid<Elysium::Core::uint8_t&&>());
+
 			Assert::IsTrue(Elysium::Core::Template::IsVoid<void>());
 		}
 

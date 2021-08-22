@@ -54,7 +54,7 @@ namespace Elysium::Core::Reflection
 
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Assembly*> GetAssemblies() const;
 	private:
-		Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies = Elysium::Core::Collections::Template::List<const Assembly*>();
+		Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies;
 		//Elysium::Core::Collections::Template::Dictionary<const Module*, const Assembly*> _ModuleAssemblyMap
 		//Elysium::Core::Collections::Template::Dictionary<const Type*, const Module*> _TypeModuleTable
 		//Elysium::Core::Collections::Template::Dictionary<const Elysium::Core::uint64_t*, const Type*> _TypeIdTypeTable

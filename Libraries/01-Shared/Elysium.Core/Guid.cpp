@@ -1,15 +1,15 @@
 #include "Guid.hpp"
 
-#ifndef ELYSIUM_CORE_OBJECT
-#include "Object.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
 #include "ArgumentNullException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "NotImplementedException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 #ifndef __midl
@@ -59,7 +59,7 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 {
 	if (this != &Right)
 	{
-		_Data = Elysium::Core::Object::Move(Right._Data);
+		_Data = Elysium::Core::Template::Move(Right._Data);
 
 		Right._Data = 0;
 	}

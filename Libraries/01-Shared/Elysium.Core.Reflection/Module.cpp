@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::Reflection::Module::Module(const Assembly& Assembly, const String& Name)
-	: _Assembly(Assembly), _Name(Name)
+	: _Assembly(Assembly), _Name(Name), _Types()
 {
 	((Elysium::Core::Reflection::Assembly&)_Assembly).Add(*this);
 }

@@ -8,8 +8,8 @@
 #include "DateTimeUtility.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_OBJECT
-#include "Object.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 Elysium::Core::TimeSpan::TimeSpan(Elysium::Core::int64_t Ticks)
@@ -27,7 +27,7 @@ Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right) noexcept
 	: _Ticks(0)
 {
-	*this = Object::Move(Right);
+	*this = Elysium::Core::Template::Move(Right);
 }
 Elysium::Core::TimeSpan::~TimeSpan()
 { }
@@ -44,7 +44,7 @@ Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = Object::Move(Right._Ticks);
+		_Ticks = Elysium::Core::Template::Move(Right._Ticks);
 	}
 	return *this;
 }

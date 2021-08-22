@@ -104,6 +104,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "Move.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_REMOVECONST
 #include "RemoveConst.hpp"
 #endif

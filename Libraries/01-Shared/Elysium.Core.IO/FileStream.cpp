@@ -175,7 +175,7 @@ const size_t Elysium::Core::IO::FileStream::Read(Elysium::Core::byte * Buffer, c
 	}
 
 	Elysium::Core::uint32_t BytesRead = 0;
-	if (!ReadFile(_FileHandle, Buffer, Count, (unsigned long*)&BytesRead, nullptr))
+	if (!ReadFile(_FileHandle, Buffer, static_cast<DWORD>(Count), (unsigned long*)&BytesRead, nullptr))
 	{
 		throw IOException();
 	}
@@ -203,7 +203,7 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 	Elysium::Core::uint32_t BytesWritten = 0;
 	do
 	{
-		if (!WriteFile(_FileHandle, &Buffer[TotalBytesWritten], Count - TotalBytesWritten, (unsigned long*)&BytesWritten, nullptr))
+		if (!WriteFile(_FileHandle, &Buffer[TotalBytesWritten], static_cast<DWORD>(Count - TotalBytesWritten), (unsigned long*)&BytesWritten, nullptr))
 		{
 			throw IOException();
 		}

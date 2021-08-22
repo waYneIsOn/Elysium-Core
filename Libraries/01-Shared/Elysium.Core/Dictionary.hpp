@@ -100,6 +100,7 @@ namespace Elysium::Core::Collections::Template
 	template<class TKey, class TValue>
 	inline void Dictionary<TKey, TValue>::Insert(const TKey Key, const TValue Value, const bool Add)
 	{
+
 	}
 
 	template<class TKey, class TValue>

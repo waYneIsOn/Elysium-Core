@@ -56,14 +56,14 @@ namespace Elysium::Core::Reflection
 		bool operator>(const Assembly& Other) const;
 		bool operator<=(const Assembly& Other) const;
 		bool operator>=(const Assembly& Other) const;
-		
+
 		const Elysium::Core::String& GetFullName() const;
 
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> GetModules() const;
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;
 
-		Elysium::Core::Collections::Template::List<const Module*> _Modules = Elysium::Core::Collections::Template::List<const Module*>();
+		Elysium::Core::Collections::Template::List<const Module*> _Modules;
 
 		void Add(const Elysium::Core::Reflection::Module& Module);
 		void Remove(const Elysium::Core::Reflection::Module& Module);

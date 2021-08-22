@@ -4,12 +4,12 @@
 #include "Memory.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_OBJECT
-#include "Object.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 #ifndef _TYPE_TRAITS_
@@ -67,7 +67,7 @@ Elysium::Core::String::String(const String& Source)
 Elysium::Core::String::String(String&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
-	*this = Elysium::Core::Object::Move(Right);
+	*this = Elysium::Core::Template::Move(Right);
 }
 
 Elysium::Core::String::~String()

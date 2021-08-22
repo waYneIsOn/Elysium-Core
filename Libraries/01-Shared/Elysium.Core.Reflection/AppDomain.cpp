@@ -1,6 +1,7 @@
 #include "AppDomain.hpp"
 
 Elysium::Core::Reflection::AppDomain::AppDomain()
+	: _RegisteredAssemblies()
 { }
 Elysium::Core::Reflection::AppDomain::~AppDomain()
 { }

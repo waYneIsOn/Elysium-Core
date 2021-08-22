@@ -14,16 +14,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <initializer_list>
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef _XUTILITY_
-#include <xutility>
+#include <xutility>	// std::reverse
 #endif
 
 #ifndef __midl
 #include <vcruntime_string.h>
+#endif
+
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "ArgumentOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
@@ -34,8 +34,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OutOfMemoryException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
-#include "ArgumentOutOfRangeException.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
@@ -57,22 +57,18 @@ namespace Elysium::Core::Collections::Template
 		List(List<T>&& Right) noexcept;
 		~List();
 
-		// operators
 		List<T>& operator=(const List<T>& Source);
 		List<T>& operator=(List<T>&& Right) noexcept;
 
 		T& operator[](const size_t Index);
 		const T& operator[](const size_t Index) const;
 
-		// properties - getter
 		const size_t GetCapacity() const;
 		const size_t GetCount() const;
 		const bool GetIsReadOnly() const;
 
-		// properties - setter
-		void SetCapacity(size_t Value);
+		void SetCapacity(const size_t Value);
 
-		// methods
 		void Add(const T& Item);
 		void Add(T&& Item);
 		void AddRange(const List<T>& Collection);
@@ -80,13 +76,13 @@ namespace Elysium::Core::Collections::Template
 		void Clear();
 		bool Contains(const T& Item) const;
 		const size_t IndexOf(const T& Item) const;
-		const size_t IndexOf(const T& Item, size_t Index) const;
-		void Insert(size_t Index, const T& Item);
+		const size_t IndexOf(const T& Item, const size_t Index) const;
+		void Insert(const size_t Index, const T& Item);
 		const size_t LastIndexOf(const T& Item) const;
-		const size_t LastIndexOf(const T& Item, size_t Index) const;
+		const size_t LastIndexOf(const T& Item, const size_t Index) const;
 		bool Remove(const T& Item);
-		void RemoveAt(size_t Index);
-		void RemoveRange(size_t Index, size_t Count);
+		void RemoveAt(const size_t Index);
+		void RemoveRange(const size_t Index, const size_t Count);
 		void Reverse();
 	private:
 		size_t _Capacity;
@@ -134,7 +130,7 @@ namespace Elysium::Core::Collections::Template
 	inline List<T>::List(List<T>&& Right) noexcept
 		: _Capacity(0), _Count(0), _Data(nullptr)
 	{
-		*this = std::move(Right);
+		*this = Elysium::Core::Template::Move(Right);
 	}
 	template<class T>
 	inline List<T>::~List()
@@ -219,7 +215,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline void List<T>::SetCapacity(size_t Value)
+	inline void List<T>::SetCapacity(const size_t Value)
 	{
 		Resize(Value);
 	}
@@ -301,7 +297,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<typename T>
-	inline const size_t List<T>::IndexOf(const T& Item, size_t Index) const
+	inline const size_t List<T>::IndexOf(const T& Item, const size_t Index) const
 	{
 		for (size_t i = Index; i < _Count; i++)
 		{
@@ -313,7 +309,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<class T>
-	inline void List<T>::Insert(size_t Index, const T& Item)
+	inline void List<T>::Insert(const size_t Index, const T& Item)
 	{
 		if (Index > _Count)
 		{
@@ -365,7 +361,7 @@ namespace Elysium::Core::Collections::Template
 		return false;
 	}
 	template<class T>
-	inline void List<T>::RemoveAt(size_t Index)
+	inline void List<T>::RemoveAt(const size_t Index)
 	{
 		if (Index >= _Count)
 		{
@@ -384,7 +380,7 @@ namespace Elysium::Core::Collections::Template
 		_Count--;
 	}
 	template<typename T>
-	inline void List<T>::RemoveRange(size_t Index, size_t Count)
+	inline void List<T>::RemoveRange(const size_t Index, const size_t Count)
 	{
 		if (_Count < Index || Index + Count > _Count)
 		{

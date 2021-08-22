@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::Reflection::Assembly::Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName)
-	: _AssemblyName(AssemblyName)
+	: _AssemblyName(AssemblyName), _Modules()
 {
 	AppDomain::GetCurrentDomain().Add(*this);
 }
@@ -14,27 +14,27 @@ Elysium::Core::Reflection::Assembly::~Assembly()
 	AppDomain::GetCurrentDomain().Remove(*this);
 }
 
-bool Elysium::Core::Reflection::Assembly::operator==(const Assembly & Other) const
+bool Elysium::Core::Reflection::Assembly::operator==(const Assembly& Other) const
 {
 	return _AssemblyName == Other._AssemblyName;
 }
-bool Elysium::Core::Reflection::Assembly::operator!=(const Assembly & Other) const
+bool Elysium::Core::Reflection::Assembly::operator!=(const Assembly& Other) const
 {
 	return _AssemblyName != Other._AssemblyName;
 }
-bool Elysium::Core::Reflection::Assembly::operator<(const Assembly & Other) const
+bool Elysium::Core::Reflection::Assembly::operator<(const Assembly& Other) const
 {
 	return _AssemblyName < Other._AssemblyName;
 }
-bool Elysium::Core::Reflection::Assembly::operator>(const Assembly & Other) const
+bool Elysium::Core::Reflection::Assembly::operator>(const Assembly& Other) const
 {
 	return _AssemblyName > Other._AssemblyName;
 }
-bool Elysium::Core::Reflection::Assembly::operator<=(const Assembly & Other) const
+bool Elysium::Core::Reflection::Assembly::operator<=(const Assembly& Other) const
 {
 	return _AssemblyName <= Other._AssemblyName;
 }
-bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly & Other) const
+bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly& Other) const
 {
 	return _AssemblyName >= Other._AssemblyName;
 }

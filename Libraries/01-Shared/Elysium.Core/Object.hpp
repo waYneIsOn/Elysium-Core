@@ -66,9 +66,6 @@ namespace Elysium::Core
 		Object& operator=(Object&& Right) noexcept = delete;
 		
 		template <class T>
-		static constexpr Elysium::Core::Template::RemoveReferenceType<T>&& Move(T&& Value) noexcept;
-		
-		template <class T>
 		static const Elysium::Core::int32_t GetHashCode(const T Value);
 
 		template <class T>
@@ -80,12 +77,6 @@ namespace Elysium::Core
 		template <class T>
 		static const Elysium::Core::String ToString(const T Value);
 	};
-
-	template<class T>
-	inline constexpr Elysium::Core::Template::RemoveReferenceType<T>&& Object::Move(T&& Value) noexcept
-	{
-		return static_cast<Elysium::Core::Template::RemoveReferenceType<T>&&>(Value);
-	}
 
 	template<>
 	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::int8_t>(const Elysium::Core::int8_t Value)

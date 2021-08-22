@@ -20,6 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
+#include "../Elysium.Core/Array.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "../Elysium.Core/List.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_REFLECTION_TYPE
 #include "Type.hpp"
 #endif
@@ -49,7 +57,7 @@ namespace Elysium::Core::Reflection
 		const Assembly& _Assembly;
 		const String _Name;
 
-		Elysium::Core::Collections::Template::List<const Type*> _Types = Elysium::Core::Collections::Template::List<const Type*>();
+		Elysium::Core::Collections::Template::List<const Type*> _Types;
 
 		void Add(const Elysium::Core::Reflection::Type& Type);
 		void Remove(const Elysium::Core::Reflection::Type& Type);

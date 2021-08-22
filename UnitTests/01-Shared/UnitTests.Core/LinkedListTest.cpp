@@ -41,7 +41,7 @@ namespace UnitTests::Core::Collections::Template
 			Assert::AreEqual(0_ui64, PointerLinkedList.GetCount());
 		}
 
-		TEST_METHOD(Value)
+		TEST_METHOD(FundamentalValue)
 		{
 			const Elysium::Core::uint8_t Size = 5;
 
@@ -66,6 +66,11 @@ namespace UnitTests::Core::Collections::Template
 			
 			ValueLinkedList.Clear();
 			Assert::AreEqual(0_ui64, ValueLinkedList.GetCount());
+		}
+
+		TEST_METHOD(Value)
+		{
+			Assert::Fail();
 		}
 	};
 }

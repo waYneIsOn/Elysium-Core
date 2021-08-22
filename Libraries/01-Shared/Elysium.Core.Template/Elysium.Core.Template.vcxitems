@@ -18,7 +18,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
@@ -38,6 +40,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnion.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NonConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp" />

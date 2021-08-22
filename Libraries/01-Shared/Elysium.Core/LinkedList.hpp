@@ -27,7 +27,9 @@ namespace Elysium::Core::Collections::Template
 	template <typename T>
 	class LinkedList final
 	{
-		using ParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsFundamental<T>::Value || Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
+		using InputParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
+		using ReturnType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsPointer<T>::Value, T,
+			typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsFundamental<T>::Value, T, T&>::Type>::Type;
 	public:
 		LinkedList();
 		LinkedList(const List<T>& Right) = delete;
@@ -47,7 +49,7 @@ namespace Elysium::Core::Collections::Template
 		//void AddBefore(const T Value);
 		//void AddFirst(const T Value);
 		
-		void AddLast(const ParameterType Value);
+		void AddLast(const InputParameterType Value);
 
 		void Clear();
 
@@ -107,7 +109,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline void LinkedList<T>::AddLast(const ParameterType Value)
+	inline void LinkedList<T>::AddLast(const InputParameterType Value)
 	{
 		LinkedListNode<T>* New = new LinkedListNode<T>(Value);
 		if (_Last == nullptr)

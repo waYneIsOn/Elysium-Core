@@ -44,7 +44,7 @@ namespace UnitTests::Core::Collections::Template
 			// add a fifth value to force a collision as well as a resize
 			//FileExtensionProgramMap.Add(u8"tys", u8"collision.exe");
 
-			const String Value = FileExtensionProgramMap[u8"txt"];
+			const String& Value = FileExtensionProgramMap[u8"txt"];
 
 			AssertExtended::AreEqual(u8"notepad.exe", FileExtensionProgramMap[u8"txt"]);
 		}

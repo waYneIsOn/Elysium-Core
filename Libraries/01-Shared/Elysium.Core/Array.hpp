@@ -16,12 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <initializer_list>
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef _XUTILITY_
-#include <xutility>
+#include <xutility>	// std::reverse
 #endif
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
@@ -30,6 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 constexpr const size_t ARRAY_MAX = static_cast<size_t>(-1);
@@ -115,7 +115,7 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(Array<T>&& Right) noexcept
 		: _Length(0), _Data(nullptr)
 	{
-		*this = std::move(Right);
+		*this = Elysium::Core::Template::Move(Right);
 	}
 	template<class T>
 	inline Array<T>::Array(const List<T>& Source)

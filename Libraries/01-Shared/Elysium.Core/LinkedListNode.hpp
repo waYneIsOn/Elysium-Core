@@ -22,10 +22,10 @@ namespace Elysium::Core::Collections::Template
 	template <typename T>
 	class LinkedListNode final
 	{
-		using ParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsFundamental<T>::Value || Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
+		using InputParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
 		friend class LinkedList<T>;
 	public:
-		LinkedListNode(const ParameterType Value);
+		LinkedListNode(const InputParameterType Value);
 		LinkedListNode(const LinkedListNode<T>& Right) = delete;
 		LinkedListNode(LinkedListNode<T>&& Right) noexcept = delete;
 		~LinkedListNode();
@@ -35,12 +35,12 @@ namespace Elysium::Core::Collections::Template
 
 		const T GetValue() const;
 	private:
-		const ParameterType _Value;
+		const T _Value;
 		LinkedListNode<T>* _Next;
 	};
 
 	template<typename T>
-	inline LinkedListNode<T>::LinkedListNode(const ParameterType Value)
+	inline LinkedListNode<T>::LinkedListNode(const InputParameterType Value)
 		: _Value(Value), _Next(nullptr)
 	{ }
 
