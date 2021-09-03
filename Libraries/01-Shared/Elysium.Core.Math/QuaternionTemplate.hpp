@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR3TEMPLATE
-#include "Vector3Template.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR3
+#include "Vector3.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX3X3TEMPLATE
@@ -57,7 +57,7 @@ namespace Elysium::Core::Math::Numerics
 		// static methods
 		static void Add(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
 		static void Concatenate(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
-		static void CreateFromAxisAngle(Vector3Template<T>* Axis, T Angle, QuaternionTemplate& Result);
+		static void CreateFromAxisAngle(Vector3<T>* Axis, T Angle, QuaternionTemplate& Result);
 		static void CreateFromRotationMatrix(Matrix3x3Template<T>* Matrix, QuaternionTemplate& Result);
 		static void CreateFromRotationMatrix(Matrix4x4Template<T>* Matrix, QuaternionTemplate& Result);
 		static void CreateFromYawPitchRoll(T Yaw, T Pitch, T Roll, QuaternionTemplate& Result);
@@ -125,7 +125,7 @@ namespace Elysium::Core::Math::Numerics
 		Multiply(Value2, Value1, Result);
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::CreateFromAxisAngle(Vector3Template<T> * Axis, T Angle, QuaternionTemplate & Result)
+	inline void QuaternionTemplate<T>::CreateFromAxisAngle(Vector3<T> * Axis, T Angle, QuaternionTemplate & Result)
 	{
 		Angle *= 0.5f;
 		T SinusAngle = (T)sin(Angle);
@@ -221,9 +221,9 @@ namespace Elysium::Core::Math::Numerics
 	template<typename T>
 	inline void QuaternionTemplate<T>::CreateFromYawPitchRoll(T Yaw, T Pitch, T Roll, QuaternionTemplate& Result)
 	{
-		Vector3Template<T> YawAxis = Vector3Template<T>((T)0, (T)1, (T)0);		// up
-		Vector3Template<T> PitchAxis = Vector3Template<T>((T)1, (T)0, (T)0);	// right
-		Vector3Template<T> RollAxis = Vector3Template<T>((T)0, (T)0, (T)1);		// backward
+		Vector3<T> YawAxis = Vector3<T>((T)0, (T)1, (T)0);		// up
+		Vector3<T> PitchAxis = Vector3<T>((T)1, (T)0, (T)0);	// right
+		Vector3<T> RollAxis = Vector3<T>((T)0, (T)0, (T)1);		// backward
 
 		QuaternionTemplate<T> YawQuaternion = QuaternionTemplate<T>((T)0, (T)0, (T)0, (T)0);
 		QuaternionTemplate<T> PitchQuaternion = QuaternionTemplate<T>((T)0, (T)0, (T)0, (T)0);

@@ -91,7 +91,7 @@ namespace Elysium::Core::Math::Numerics
 	template<typename T>
 	inline Vector4<T> Vector4<T>::Zero()
 	{
-		return Vector4Template<T>(static_cast<T>(0));
+		return Vector4<T>(static_cast<T>(0));
 	}
 
 	template<typename T>

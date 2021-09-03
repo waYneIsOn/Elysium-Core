@@ -87,7 +87,7 @@ namespace Elysium::Core::Math::Numerics
 	template<class T>
 	inline Vector2<T> Vector2<T>::Zero()
 	{
-		return Vector2Template<T>(static_cast<T>(0));
+		return Vector2<T>(static_cast<T>(0));
 	}
 
 	template<class T>
