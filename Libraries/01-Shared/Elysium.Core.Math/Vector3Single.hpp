@@ -16,12 +16,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR3TEMPLATE
-#include "Vector3Template.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR3
+#include "Vector3.hpp"
 #endif
 
-namespace Elysium::Core::Math::Numerics
-{
-#define Vector3Single Vector3Template<float>
-}
+template class ELYSIUM_CORE_MATH_API Elysium::Core::Math::Numerics::Vector3<float>;
 #endif

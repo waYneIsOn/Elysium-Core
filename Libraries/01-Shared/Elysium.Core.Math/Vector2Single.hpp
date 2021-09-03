@@ -16,12 +16,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR2TEMPLATE
-#include "Vector2Template.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR2
+#include "Vector2.hpp"
 #endif
 
-namespace Elysium::Core::Math::Numerics
-{
-#define Vector2Single Vector2Template<float>
-}
+template class ELYSIUM_CORE_MATH_API Elysium::Core::Math::Numerics::Vector2<float>;
 #endif

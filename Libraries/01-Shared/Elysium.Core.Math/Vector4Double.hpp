@@ -16,16 +16,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR4TEMPLATE
-#include "Vector4Template.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR4
+#include "Vector4.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR4SINGLE
-#include "Vector4Single.hpp"
-#endif
-
-namespace Elysium::Core::Math::Numerics
-{
-#define Vector4Double Vector4Template<double>
-}
+template class ELYSIUM_CORE_MATH_API Elysium::Core::Math::Numerics::Vector4<double>;
 #endif

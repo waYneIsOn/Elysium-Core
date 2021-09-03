@@ -27,13 +27,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Rectangle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Double.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Single.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Template.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Double.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Single.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Template.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Double.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Single.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Template.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp" />

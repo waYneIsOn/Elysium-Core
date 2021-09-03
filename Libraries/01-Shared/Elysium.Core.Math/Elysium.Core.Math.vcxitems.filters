@@ -37,13 +37,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionTemplate.hpp">
       <Filter>Numerics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2Template.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector2.hpp">
       <Filter>Numerics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3Template.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector3.hpp">
       <Filter>Numerics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4Template.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector4.hpp">
       <Filter>Numerics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)QuaternionSingle.hpp">
