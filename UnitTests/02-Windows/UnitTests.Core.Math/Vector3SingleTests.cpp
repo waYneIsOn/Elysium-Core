@@ -1,22 +1,23 @@
 #include "CppUnitTest.h"
-
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR3SINGLE
+#include "../../../Libraries/01-Shared/Elysium.Core.Math/Vector3Double.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Math/Vector3Single.hpp"
-#endif
-
-#include <string>
 
 using namespace Elysium::Core::Math::Numerics;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestNumerics
+namespace UnitTest::Core::Math::Numerics
 {
-	TEST_CLASS(UnitTestNumericsVector3Single)
+	TEST_CLASS(Vector3Tests)
 	{
 	public:
+		TEST_METHOD(Size)
+		{
+			Assert::AreEqual(sizeof(float) * 3, sizeof(Vector3Single));
+			Assert::AreEqual(sizeof(double) * 3, sizeof(Vector3Double));
+		}
+
 		TEST_METHOD(Vector3Single_Add)
 		{
-			// test 1
 			Vector3Single Result = Vector3Single::One();
 
 			Vector3Single::Add(&Result, &Result, Result);
@@ -24,7 +25,6 @@ namespace UnitTestNumerics
 			Assert::AreEqual(Result.Y, 2.0f);
 			Assert::AreEqual(Result.Z, 2.0f);
 
-			// test 2
 			Vector3Single Vec1 = Vector3Single::UnitX();
 			Vector3Single Vec2 = Vector3Single::UnitZ();
 

@@ -20,38 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Vector3Template.hpp"
 #endif
 
-namespace Elysium
+namespace Elysium::Core::Math::Numerics
 {
-	namespace Core
-	{
-		namespace Math
-		{
-			namespace Numerics
-			{
-				class ELYSIUM_CORE_MATH_API Vector3Single : public Vector3Template<float>
-				{
-				public:
-					// constructors & destructor
-					Vector3Single();
-					Vector3Single(float Value);
-					Vector3Single(float ValueX, float ValueY, float ValueZ);
-					~Vector3Single();
-
-					// static constructors
-					static Vector3Single Backward();
-					static Vector3Single Down();
-					static Vector3Single Forward();
-					static Vector3Single Left();
-					static Vector3Single One();
-					static Vector3Single Right();
-					static Vector3Single UnitX();
-					static Vector3Single UnitY();
-					static Vector3Single UnitZ();
-					static Vector3Single Up();
-					static Vector3Single Zero();
-				};
-			}
-		}
-	}
+#define Vector3Single Vector3Template<float>
 }
 #endif

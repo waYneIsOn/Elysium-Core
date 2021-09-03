@@ -1,19 +1,21 @@
 #include "CppUnitTest.h"
-
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_VECTOR2SINGLE
+#include "../../../Libraries/01-Shared/Elysium.Core.Math/Vector2Double.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Math/Vector2Single.hpp"
-#endif
-
-#include <string>
 
 using namespace Elysium::Core::Math::Numerics;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTestsMath
+namespace UnitTest::Core::Math::Numerics
 {
-	TEST_CLASS(UnitTestNumericsVector2Single)
+	TEST_CLASS(Vector2Tests)
 	{
 	public:
+		TEST_METHOD(Size)
+		{
+			Assert::AreEqual(sizeof(float) * 2, sizeof(Vector2Single));
+			Assert::AreEqual(sizeof(double) * 2, sizeof(Vector2Double));
+		}
+
 		TEST_METHOD(Vector2Single_Add)
 		{
 			// test 1

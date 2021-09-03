@@ -42,11 +42,5 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionDouble.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionSingle.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Double.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Single.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Double.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Single.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Double.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Single.cpp" />
   </ItemGroup>
 </Project>

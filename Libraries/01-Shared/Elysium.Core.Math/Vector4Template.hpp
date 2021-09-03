@@ -23,27 +23,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Math::Numerics
 {
 	template <typename T>
-	class Vector4Template
+	class Vector4Template final
 	{
 	public:
-		// constructors & destructor
 		Vector4Template();
 		Vector4Template(T Value);
 		Vector4Template(T ValueX, T ValueY, T ValueZ, T ValueW);
-		virtual ~Vector4Template();
+		~Vector4Template();
 
-		// fields
+		static Vector4Template<T> Zero();
+		static Vector4Template<T> One();
+
+		static Vector4Template<T> UnitX();
+		static Vector4Template<T> UnitY();
+		static Vector4Template<T> UnitZ();
+		static Vector4Template<T> UnitW();
+
 		T X;
 		T Y;
 		T Z;
 		T W;
 
-		// methods
 		T GetLength();
 		T GetLengthSquared();
 		void Normalize();
 
-		// static methods
 		static void Add(Vector4Template* Value1, Vector4Template* Value2, Vector4Template& Result);
 		static void Barycentric(Vector4Template* Value1, Vector4Template* Value2, Vector4Template* Value3, T Amount1, T Amount2, Vector4Template& Result);
 		static void CatmullRom(Vector4Template* Value1, Vector4Template* Value2, Vector4Template* Value3, Vector4Template* Value4, T Amount, Vector4Template& Result);
@@ -70,21 +74,53 @@ namespace Elysium::Core::Math::Numerics
 	template<class T>
 	inline Vector4Template<T>::Vector4Template()
 		: X(0), Y(0), Z(0), W(0)
-	{
-	}
+	{ }
 	template<class T>
 	inline Vector4Template<T>::Vector4Template(T Value)
 		: X(Value), Y(Value), Z(Value), W(Value)
-	{
-	}
+	{ }
 	template<class T>
 	inline Vector4Template<T>::Vector4Template(T ValueX, T ValueY, T ValueZ, T ValueW)
 		: X(ValueX), Y(ValueY), Z(ValueZ), W(ValueW)
-	{
-	}
+	{ }
 	template<class T>
 	inline Vector4Template<T>::~Vector4Template()
+	{ }
+
+	template<typename T>
+	inline Vector4Template<T> Vector4Template<T>::Zero()
 	{
+		return Vector4Template<T>(static_cast<T>(0));
+	}
+
+	template<typename T>
+	inline Vector4Template<T> Vector4Template<T>::One()
+	{
+		return Vector4Template<T>(static_cast<T>(1));
+	}
+
+	template<typename T>
+	inline Vector4Template<T> Vector4Template<T>::UnitX()
+	{
+		return Vector4Template<T>(static_cast<T>(1), static_cast<T>(0), static_cast<T>(0), static_cast<T>(0));
+	}
+
+	template<typename T>
+	inline Vector4Template<T> Vector4Template<T>::UnitY()
+	{
+		return Vector4Template<T>(static_cast<T>(0), static_cast<T>(1), static_cast<T>(0), static_cast<T>(0));
+	}
+
+	template<typename T>
+	inline Vector4Template<T> Vector4Template<T>::UnitZ()
+	{
+		return Vector4Template<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(1), static_cast<T>(0));
+	}
+
+	template<typename T>
+	inline Vector4Template<T> Vector4Template<T>::UnitW()
+	{
+		return Vector4Template<T>(static_cast<T>(0), static_cast<T>(0), static_cast<T>(0), static_cast<T>(1));
 	}
 
 	template<class T>

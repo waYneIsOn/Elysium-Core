@@ -16,24 +16,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)QuaternionSingle.cpp">
       <Filter>Numerics</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Double.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector2Single.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Single.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector3Double.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Single.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Vector4Double.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp">
       <Filter>Numerics</Filter>
     </ClCompile>
