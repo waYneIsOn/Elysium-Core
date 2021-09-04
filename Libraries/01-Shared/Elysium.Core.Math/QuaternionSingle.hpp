@@ -16,21 +16,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONTEMPLATE
-#include "QuaternionTemplate.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNION
+#include "Quaternion.hpp"
 #endif
 
-namespace Elysium::Core::Math::Numerics
-{
-	class ELYSIUM_CORE_MATH_API QuaternionSingle : public QuaternionTemplate<float>
-	{
-	public:
-		// constructors & destructor
-		QuaternionSingle(float ValueX, float ValueY, float ValueZ, float ValueW);
-		~QuaternionSingle();
-
-		// static constructors
-		static QuaternionSingle Identity();
-	};
-}
+template class ELYSIUM_CORE_MATH_API Elysium::Core::Math::Numerics::Quaternion<float>;
 #endif

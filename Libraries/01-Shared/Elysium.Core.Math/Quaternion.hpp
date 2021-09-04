@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONTEMPLATE
-#define ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONTEMPLATE
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNION
+#define ELYSIUM_CORE_MATH_NUMERICS_QUATERNION
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,67 +24,105 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Vector3.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX3X3TEMPLATE
-#include "Matrix3x3Template.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX3X3
+#include "Matrix3x3.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4TEMPLATE
-#include "Matrix4x4Template.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4
+#include "Matrix4x4.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 namespace Elysium::Core::Math::Numerics
 {
 	template <typename T>
-	class QuaternionTemplate
+	class Quaternion final
 	{
 	public:
-		// constructors & destructor
-		QuaternionTemplate(T ValueX, T ValueY, T ValueZ, T ValueW);
-		virtual ~QuaternionTemplate();
+		Quaternion(const T ValueX, const T ValueY, const T ValueZ, const T ValueW);
+		Quaternion(const Quaternion& Source);
+		Quaternion(Quaternion&& Right) noexcept;
+		~Quaternion();
 
-		// fields
+		Quaternion<T>& operator=(const Quaternion& Source);
+		Quaternion<T>& operator=(Quaternion&& Right) noexcept;
+
 		T X;
 		T Y;
 		T Z;
 		T W;
 
-		// methods
 		void Conjugate();
 		T GetLength();
 		T GetLengthSquared();
 		void Normalize();
 
-		// static methods
-		static void Add(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
-		static void Concatenate(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
-		static void CreateFromAxisAngle(Vector3<T>* Axis, T Angle, QuaternionTemplate& Result);
-		static void CreateFromRotationMatrix(Matrix3x3Template<T>* Matrix, QuaternionTemplate& Result);
-		static void CreateFromRotationMatrix(Matrix4x4Template<T>* Matrix, QuaternionTemplate& Result);
-		static void CreateFromYawPitchRoll(T Yaw, T Pitch, T Roll, QuaternionTemplate& Result);
-		static void Divide(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
-		static void Divide(QuaternionTemplate* Value, T Divisor, QuaternionTemplate& Result);
-		static void Dot(QuaternionTemplate* Value1, QuaternionTemplate* Value2, T& Result);
-		static void Inverse(QuaternionTemplate* Value, QuaternionTemplate& Result);
-		static void Lerp(QuaternionTemplate* Value1, QuaternionTemplate* Value2, T Amount, QuaternionTemplate& Result);
-		static void Multiply(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
-		static void Multiply(QuaternionTemplate* Value, T Multiplier, QuaternionTemplate& Result);
-		static void Negate(QuaternionTemplate* Value, QuaternionTemplate& Result);
-		static void Slerp(QuaternionTemplate* Value1, QuaternionTemplate* Value2, T Amount, QuaternionTemplate& Result);
-		static void Subtract(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result);
+		static void Add(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result);
+		static void Concatenate(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result);
+		static void CreateFromAxisAngle(Vector3<T>* Axis, T Angle, Quaternion<T>& Result);
+		static void CreateFromRotationMatrix(Matrix3x3<T>* Matrix, Quaternion<T>& Result);
+		static void CreateFromRotationMatrix(Matrix4x4<T>* Matrix, Quaternion<T>& Result);
+		static void CreateFromYawPitchRoll(T Yaw, T Pitch, T Roll, Quaternion<T>& Result);
+		static void Divide(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result);
+		static void Divide(Quaternion<T>* Value, T Divisor, Quaternion<T>& Result);
+		static void Dot(Quaternion<T>* Value1, Quaternion<T>* Value2, T& Result);
+		static void Inverse(Quaternion<T>* Value, Quaternion<T>& Result);
+		static void Lerp(Quaternion<T>* Value1, Quaternion<T>* Value2, T Amount, Quaternion<T>& Result);
+		static void Multiply(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result);
+		static void Multiply(Quaternion<T>* Value, T Multiplier, Quaternion<T>& Result);
+		static void Negate(Quaternion<T>* Value, Quaternion<T>& Result);
+		static void Slerp(Quaternion<T>* Value1, Quaternion<T>* Value2, T Amount, Quaternion<T>& Result);
+		static void Subtract(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result);
 	};
 
 	template<typename T>
-	inline QuaternionTemplate<T>::QuaternionTemplate(T ValueX, T ValueY, T ValueZ, T ValueW)
+	inline Quaternion<T>::Quaternion(const T ValueX, const T ValueY, const T ValueZ, const T ValueW)
 		: X(ValueX), Y(ValueY), Z(ValueZ), W(ValueW)
+	{ }
+	template<typename T>
+	inline Quaternion<T>::Quaternion(const Quaternion& Source)
+		: X(Source.X), Y(Source.Y), Z(Source.Z), W(Source.W)
+	{ }
+	template<typename T>
+	inline Quaternion<T>::Quaternion(Quaternion&& Right) noexcept
 	{
+		*this = Elysium::Core::Template::Move(Right);
 	}
 	template<typename T>
-	inline QuaternionTemplate<T>::~QuaternionTemplate()
+	inline Quaternion<T>::~Quaternion()
+	{ }
+
+	template<typename T>
+	inline Quaternion<T>& Quaternion<T>::operator=(const Quaternion& Source)
 	{
+		if (this != &Source)
+		{
+			X = Source.X;
+			Y = Source.Y;
+			Z = Source.Z;
+			W = Source.W;
+		}
+		return *this;
 	}
 
 	template<typename T>
-	inline void QuaternionTemplate<T>::Conjugate()
+	inline Quaternion<T>& Quaternion<T>::operator=(Quaternion&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			X = Elysium::Core::Template::Move(Right.X);
+			Y = Elysium::Core::Template::Move(Right.Y);
+			Z = Elysium::Core::Template::Move(Right.Z);
+			W = Elysium::Core::Template::Move(Right.W);
+		}
+		return *this;
+	}
+
+	template<typename T>
+	inline void Quaternion<T>::Conjugate()
 	{
 		X = -X;
 		Y = -Y;
@@ -92,17 +130,17 @@ namespace Elysium::Core::Math::Numerics
 		// no W on purpose!
 	}
 	template<typename T>
-	inline T QuaternionTemplate<T>::GetLength()
+	inline T Quaternion<T>::GetLength()
 	{
 		return (T)sqrt(X * X + Y * Y + Z * Z + W * W);
 	}
 	template<typename T>
-	inline T QuaternionTemplate<T>::GetLengthSquared()
+	inline T Quaternion<T>::GetLengthSquared()
 	{
 		return (T)(X * X + Y * Y + Z * Z + W * W);
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Normalize()
+	inline void Quaternion<T>::Normalize()
 	{
 		T Factor = (T)1.0 / GetLength();
 		X *= Factor;
@@ -112,7 +150,7 @@ namespace Elysium::Core::Math::Numerics
 	}
 
 	template<typename T>
-	inline void QuaternionTemplate<T>::Add(QuaternionTemplate * Value1, QuaternionTemplate * Value2, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Add(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result)
 	{
 		Result.X = Value1->X + Value2->X;
 		Result.Y = Value1->Y + Value2->Y;
@@ -120,12 +158,12 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = Value1->W + Value2->W;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Concatenate(QuaternionTemplate * Value1, QuaternionTemplate * Value2, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Concatenate(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result)
 	{
 		Multiply(Value2, Value1, Result);
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::CreateFromAxisAngle(Vector3<T> * Axis, T Angle, QuaternionTemplate & Result)
+	inline void Quaternion<T>::CreateFromAxisAngle(Vector3<T> * Axis, T Angle, Quaternion<T>& Result)
 	{
 		Angle *= 0.5f;
 		T SinusAngle = (T)sin(Angle);
@@ -137,7 +175,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = CosinusAngle;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::CreateFromRotationMatrix(Matrix3x3Template<T> * Matrix, QuaternionTemplate & Result)
+	inline void Quaternion<T>::CreateFromRotationMatrix(Matrix3x3<T> * Matrix, Quaternion<T>& Result)
 	{
 		T Trace = Matrix->M11 + Matrix->M22 + Matrix->M33;	// trace = sum of the leading diagonal terms
 		if (Trace > (T)0)
@@ -178,7 +216,7 @@ namespace Elysium::Core::Math::Numerics
 		}
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::CreateFromRotationMatrix(Matrix4x4Template<T>* Matrix, QuaternionTemplate & Result)
+	inline void Quaternion<T>::CreateFromRotationMatrix(Matrix4x4<T>* Matrix, Quaternion<T>& Result)
 	{
 		T Trace = Matrix->M11 + Matrix->M22 + Matrix->M33;	// trace = sum of the leading diagonal terms
 		if (Trace > (T)0)
@@ -219,15 +257,15 @@ namespace Elysium::Core::Math::Numerics
 		}
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::CreateFromYawPitchRoll(T Yaw, T Pitch, T Roll, QuaternionTemplate& Result)
+	inline void Quaternion<T>::CreateFromYawPitchRoll(T Yaw, T Pitch, T Roll, Quaternion<T>& Result)
 	{
 		Vector3<T> YawAxis = Vector3<T>((T)0, (T)1, (T)0);		// up
 		Vector3<T> PitchAxis = Vector3<T>((T)1, (T)0, (T)0);	// right
 		Vector3<T> RollAxis = Vector3<T>((T)0, (T)0, (T)1);		// backward
 
-		QuaternionTemplate<T> YawQuaternion = QuaternionTemplate<T>((T)0, (T)0, (T)0, (T)0);
-		QuaternionTemplate<T> PitchQuaternion = QuaternionTemplate<T>((T)0, (T)0, (T)0, (T)0);
-		QuaternionTemplate<T> RollQuaternion = QuaternionTemplate<T>((T)0, (T)0, (T)0, (T)0);
+		Quaternion<T> YawQuaternion = Quaternion<T>((T)0, (T)0, (T)0, (T)0);
+		Quaternion<T> PitchQuaternion = Quaternion<T>((T)0, (T)0, (T)0, (T)0);
+		Quaternion<T> RollQuaternion = Quaternion<T>((T)0, (T)0, (T)0, (T)0);
 
 		CreateFromAxisAngle(&YawAxis, Yaw, YawQuaternion);
 		CreateFromAxisAngle(&PitchAxis, Pitch, PitchQuaternion);
@@ -237,14 +275,14 @@ namespace Elysium::Core::Math::Numerics
 		Multiply(&Result, &RollQuaternion, Result);
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Divide(QuaternionTemplate* Value1, QuaternionTemplate* Value2, QuaternionTemplate& Result)
+	inline void Quaternion<T>::Divide(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result)
 	{
-		QuaternionTemplate<T> Factor = QuaternionTemplate<T>((T)0, (T)0, (T)0, (T)0);
+		Quaternion<T> Factor = Quaternion<T>((T)0, (T)0, (T)0, (T)0);
 		Inverse(Value2, Factor);
 		Multiply(Value1, &Factor, Result);
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Divide(QuaternionTemplate * Value, T Divisor, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Divide(Quaternion<T>* Value, T Divisor, Quaternion<T>& Result)
 	{
 		Divisor = (T)1 / Divisor;
 		Result.X = Value->X * Divisor;
@@ -253,12 +291,12 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = Value->W * Divisor;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Dot(QuaternionTemplate * Value1, QuaternionTemplate * Value2, T & Result)
+	inline void Quaternion<T>::Dot(Quaternion<T>* Value1, Quaternion<T>* Value2, T & Result)
 	{
 		Result = (Value1->X * Value2->X + Value1->Y * Value2->Y + Value1->Z * Value2->Z + Value1->W * Value2->W);
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Inverse(QuaternionTemplate * Value, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Inverse(Quaternion<T>* Value, Quaternion<T>& Result)
 	{
 		T InverseLength = (T)1 / Value->GetLengthSquared();
 
@@ -268,7 +306,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = -Value->W * InverseLength;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Lerp(QuaternionTemplate * Value1, QuaternionTemplate * Value2, T Amount, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Lerp(Quaternion<T>* Value1, Quaternion<T>* Value2, T Amount, Quaternion<T>& Result)
 	{
 		T DotProduct;
 		Dot(Value1, Value2, DotProduct);
@@ -285,7 +323,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.Normalize();
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Multiply(QuaternionTemplate * Value1, QuaternionTemplate * Value2, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Multiply(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result)
 	{
 		Result.X = Value1->W * Value2->X + Value1->X * Value2->W + Value1->Y * Value2->Z - Value1->Z * Value2->Y;
 		Result.Y = Value1->W * Value2->Y - Value1->X * Value2->Z + Value1->Y * Value2->W + Value1->Z * Value2->X;
@@ -293,7 +331,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = Value1->W * Value2->W - Value1->X * Value2->X - Value1->Y * Value2->Y + Value1->Z * Value2->Z;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Multiply(QuaternionTemplate * Value, T Multiplier, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Multiply(Quaternion<T>* Value, T Multiplier, Quaternion<T>& Result)
 	{
 		Result.X = Value->X * Multiplier;
 		Result.Y = Value->Y * Multiplier;
@@ -301,7 +339,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = Value->W * Multiplier;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Negate(QuaternionTemplate * Value, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Negate(Quaternion<T>* Value, Quaternion<T>& Result)
 	{
 		Result.X = -Value->X;
 		Result.Y = -Value->Y;
@@ -309,7 +347,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = -Value->W;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Slerp(QuaternionTemplate * Value1, QuaternionTemplate * Value2, T Amount, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Slerp(Quaternion<T>* Value1, Quaternion<T>* Value2, T Amount, Quaternion<T>& Result)
 	{
 		T CosinusAlpha;
 		Dot(Value1, Value2, CosinusAlpha);
@@ -326,7 +364,7 @@ namespace Elysium::Core::Math::Numerics
 		Result.W = Value1->W * Amount1 + Value2->W * Amount2;
 	}
 	template<typename T>
-	inline void QuaternionTemplate<T>::Subtract(QuaternionTemplate * Value1, QuaternionTemplate * Value2, QuaternionTemplate & Result)
+	inline void Quaternion<T>::Subtract(Quaternion<T>* Value1, Quaternion<T>* Value2, Quaternion<T>& Result)
 	{
 		Result.X = Value1->X - Value2->X;
 		Result.Y = Value1->Y - Value2->Y;

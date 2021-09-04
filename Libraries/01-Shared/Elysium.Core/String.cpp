@@ -12,10 +12,6 @@
 #include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef _XSTRING_
 #include <xstring>	// std::char_traits
 #endif

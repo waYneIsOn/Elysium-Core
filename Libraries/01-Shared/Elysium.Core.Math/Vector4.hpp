@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 namespace Elysium::Core::Math::Numerics
 {
 	template <typename T>
@@ -29,7 +33,12 @@ namespace Elysium::Core::Math::Numerics
 		Vector4();
 		Vector4(T Value);
 		Vector4(T ValueX, T ValueY, T ValueZ, T ValueW);
+		Vector4(const Vector4& Source);
+		Vector4(Vector4&& Right) noexcept;
 		~Vector4();
+
+		Vector4<T>& operator=(const Vector4& Source);
+		Vector4<T>& operator=(Vector4&& Right) noexcept;
 
 		static Vector4<T> Zero();
 		static Vector4<T> One();
@@ -84,9 +93,44 @@ namespace Elysium::Core::Math::Numerics
 	inline Vector4<T>::Vector4(T ValueX, T ValueY, T ValueZ, T ValueW)
 		: X(ValueX), Y(ValueY), Z(ValueZ), W(ValueW)
 	{ }
+	template<typename T>
+	inline Vector4<T>::Vector4(const Vector4 & Source)
+		: X(Source.X), Y(Source.Y), Z(Source.Z), W(Source.W)
+	{ }
+	template<typename T>
+	inline Vector4<T>::Vector4(Vector4&& Right) noexcept
+	{
+		*this = Elysium::Core::Template::Move(Right);
+	}
 	template<class T>
 	inline Vector4<T>::~Vector4()
 	{ }
+
+	template<typename T>
+	inline Vector4<T>& Vector4<T>::operator=(const Vector4 & Source)
+	{
+		if (this != &Source)
+		{
+			X = Source.X;
+			Y = Source.Y;
+			Z = Source.Z;
+			W = Source.W;
+		}
+		return *this;
+	}
+
+	template<typename T>
+	inline Vector4<T>& Vector4<T>::operator=(Vector4&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			X = Elysium::Core::Template::Move(Right.X);
+			Y = Elysium::Core::Template::Move(Right.Y);
+			Z = Elysium::Core::Template::Move(Right.Z);
+			W = Elysium::Core::Template::Move(Right.W);
+		}
+		return *this;
+	}
 
 	template<typename T>
 	inline Vector4<T> Vector4<T>::Zero()

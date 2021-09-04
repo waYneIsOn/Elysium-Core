@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 namespace Elysium::Core::Math::Numerics
 {
 	template <class T>
@@ -29,7 +33,12 @@ namespace Elysium::Core::Math::Numerics
 		Vector3();
 		Vector3(T Value);
 		Vector3(T ValueX, T ValueY, T ValueZ);
+		Vector3(const Vector3& Source);
+		Vector3(Vector3&& Right) noexcept;
 		~Vector3();
+
+		Vector3<T>& operator=(const Vector3& Source);
+		Vector3<T>& operator=(Vector3&& Right) noexcept;
 
 		static Vector3<T> Zero();
 		static Vector3<T> One();
@@ -90,8 +99,41 @@ namespace Elysium::Core::Math::Numerics
 		: X(ValueX), Y(ValueY), Z(ValueZ)
 	{ }
 	template<class T>
+	inline Vector3<T>::Vector3(const Vector3 & Source)
+		: X(Source.X), Y(Source.Y), Z(Source.Z)
+	{ }
+	template<class T>
+	inline Vector3<T>::Vector3(Vector3&& Right) noexcept
+	{
+		*this = Elysium::Core::Template::Move(Right);
+	}
+	template<class T>
 	inline Vector3<T>::~Vector3()
 	{ }
+
+	template<class T>
+	inline Vector3<T>& Vector3<T>::operator=(const Vector3 & Source)
+	{
+		if (this != &Source)
+		{
+			X = Source.X;
+			Y = Source.Y;
+			Z = Source.Z;
+		}
+		return *this;
+	}
+
+	template<class T>
+	inline Vector3<T>& Vector3<T>::operator=(Vector3&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			X = Elysium::Core::Template::Move(Right.X);
+			Y = Elysium::Core::Template::Move(Right.Y);
+			Z = Elysium::Core::Template::Move(Right.Z);
+		}
+		return *this;
+	}
 
 	template<class T>
 	inline Vector3<T> Vector3<T>::Zero()

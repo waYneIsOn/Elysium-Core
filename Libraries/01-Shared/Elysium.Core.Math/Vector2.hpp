@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 namespace Elysium::Core::Math::Numerics
 {
 	template <class T>
@@ -29,7 +33,12 @@ namespace Elysium::Core::Math::Numerics
 		Vector2();
 		Vector2(T Value);
 		Vector2(T ValueX, T ValueY);
+		Vector2(const Vector2& Source);
+		Vector2(Vector2&& Right) noexcept;
 		~Vector2();
+
+		Vector2<T>& operator=(const Vector2& Source);
+		Vector2<T>& operator=(Vector2&& Right) noexcept;
 
 		static Vector2<T> Zero();
 		static Vector2<T> One();
@@ -81,8 +90,39 @@ namespace Elysium::Core::Math::Numerics
 		: X(ValueX), Y(ValueY)
 	{ }
 	template<class T>
+	inline Vector2<T>::Vector2(const Vector2 & Source)
+		: X(Source.X), Y(Source.Y)
+	{ }
+	template<class T>
+	inline Vector2<T>::Vector2(Vector2&& Right) noexcept
+	{
+		*this = Elysium::Core::Template::Move(Right);
+	}
+	template<class T>
 	inline Vector2<T>::~Vector2()
 	{ }
+
+	template<class T>
+	inline Vector2<T>& Vector2<T>::operator=(const Vector2 & Source)
+	{
+		if (this != &Source)
+		{
+			X = Source.X;
+			Y = Source.Y;
+		}
+		return *this;
+	}
+
+	template<class T>
+	inline Vector2<T>& Vector2<T>::operator=(Vector2&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			X = Elysium::Core::Template::Move(Right.X);
+			Y = Elysium::Core::Template::Move(Right.Y);
+		}
+		return *this;
+	}
 
 	template<class T>
 	inline Vector2<T> Vector2<T>::Zero()

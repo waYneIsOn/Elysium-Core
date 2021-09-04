@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONDOUBLE
-#define ELYSIUM_CORE_MATH_NUMERICS_QUATERNIONDOUBLE
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4DOUBLE
+#define ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4DOUBLE
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,9 +16,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MATH_NUMERICS_QUATERNION
-#include "Quaternion.hpp"
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_MATRIX4X4
+#include "Matrix4x4.hpp"
 #endif
 
-template class ELYSIUM_CORE_MATH_API Elysium::Core::Math::Numerics::Quaternion<double>;
+template class ELYSIUM_CORE_MATH_API Elysium::Core::Math::Numerics::Matrix4x4<double>;
 #endif
