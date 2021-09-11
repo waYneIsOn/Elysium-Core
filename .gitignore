@@ -62,6 +62,10 @@
 /UnitTests/02-Windows/UnitTests.Core.Data/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Data/Releasebin
 
+/UnitTests/02-Windows/UnitTests.Core.IO/Debug
+/UnitTests/02-Windows/UnitTests.Core.IO/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.IO/Releasebin
+
 /UnitTests/02-Windows/UnitTests.Core.Linq/Debug
 /UnitTests/02-Windows/UnitTests.Core.Linq/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Linq/Releasebin

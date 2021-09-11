@@ -46,7 +46,8 @@ namespace Elysium::Core::IO::Compression
 	{
 		friend class ZipArchiveEntry;
 	public:
-		ZipArchive(Elysium::Core::IO::Stream& Stream, const Elysium::Core::IO::Compression::ZipArchiveMode Mode, const bool LeaveOpen, const Elysium::Core::Text::Encoding& EntryNameEncoding);
+		ZipArchive(Elysium::Core::IO::Stream& Stream, const Elysium::Core::IO::Compression::ZipArchiveMode Mode, const bool LeaveOpen, 
+			Elysium::Core::Text::Encoding& EntryNameEncoding);
 		ZipArchive(const ZipArchive& Source) = delete;
 		ZipArchive(ZipArchive&& Right) noexcept = delete;
 		~ZipArchive();

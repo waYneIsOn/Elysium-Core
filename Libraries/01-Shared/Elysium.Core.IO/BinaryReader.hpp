@@ -37,7 +37,7 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API BinaryReader
 	{
 	public:
-		BinaryReader(Stream& BaseStream, const Elysium::Core::Text::Encoding& Encoding, const bool LeaveOpen);
+		BinaryReader(Stream& InputStream, Elysium::Core::Text::Encoding& Encoding, const bool LeaveOpen = false);
 		BinaryReader(const BinaryReader& Source) = delete;
 		BinaryReader(BinaryReader&& Right) noexcept = delete;
 		~BinaryReader();
@@ -47,16 +47,28 @@ namespace Elysium::Core::IO
 
 		virtual Elysium::Core::IO::Stream& GetBaseStream() const;
 
+		virtual void Close();
+		virtual const bool ReadBoolean();
 		virtual const Elysium::Core::byte ReadByte();
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ReadBytes(const Elysium::Core::uint32_t Count);
+		virtual const size_t ReadBytes(Elysium::Core::byte* Buffer, const size_t Count);
+		virtual const double ReadDouble();
+		virtual const Elysium::Core::int16_t ReadInt16();
+		virtual const Elysium::Core::int32_t ReadInt32();
+		virtual const Elysium::Core::int64_t ReadInt64();
+		virtual const float ReadSingle();
 		virtual const Elysium::Core::uint16_t ReadUInt16();
 		virtual const Elysium::Core::uint32_t ReadUInt32();
+		virtual const Elysium::Core::uint64_t ReadUInt64();
 	private:
-		Stream& _BaseStream;
-		const Elysium::Core::Text::Encoding& _Encoding;
+		static const Elysium::Core::uint32_t DefaultBufferSize = 16;
+
+		Stream& _InputStream;
+		Elysium::Core::Text::Encoding& _Encoding;
 		const bool _LeaveOpen;
 
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
+	protected:
+		void FillBuffer(const size_t Count);
 	};
 }
 #endif

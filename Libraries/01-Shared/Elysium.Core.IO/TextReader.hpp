@@ -40,22 +40,22 @@ namespace Elysium::Core::IO
 		TextReader(const TextReader& Source) = delete;
 		TextReader(TextReader&& Right) noexcept = delete;
 		virtual ~TextReader();
-
+	protected:
+		TextReader();
+	public:
 		TextReader& operator=(const TextReader& Other) = delete;
 		TextReader& operator=(TextReader&& Right) noexcept = delete;
 
 		virtual void Close();
 
-		virtual const Elysium::Core::int32_t Peek();
+		virtual const Elysium::Core::uint8_t Peek();
 		
-		virtual const Elysium::Core::int32_t Read();
+		virtual const Elysium::Core::uint8_t Read();
 		virtual const Elysium::Core::int32_t Read(char8_t* Buffer, const Elysium::Core::int32_t Count);
 
 		virtual Elysium::Core::String ReadLine() = 0;
 
 		virtual Elysium::Core::String ReadToEnd() = 0;
-	protected:
-		TextReader();
 	};
 }
 #endif

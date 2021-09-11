@@ -8,7 +8,7 @@
 #include "InvalidDataException.hpp"
 #endif
 
-Elysium::Core::IO::Compression::ZipArchive::ZipArchive(Elysium::Core::IO::Stream& Stream, const Elysium::Core::IO::Compression::ZipArchiveMode Mode, const bool LeaveOpen, const Elysium::Core::Text::Encoding& EntryNameEncoding)
+Elysium::Core::IO::Compression::ZipArchive::ZipArchive(Elysium::Core::IO::Stream& Stream, const Elysium::Core::IO::Compression::ZipArchiveMode Mode, const bool LeaveOpen, Elysium::Core::Text::Encoding& EntryNameEncoding)
     : _Stream(Stream), _Mode(Mode), _Encoding(EntryNameEncoding), _Reader(Stream, EntryNameEncoding, LeaveOpen),
     _Entries()
 {
@@ -92,7 +92,13 @@ void Elysium::Core::IO::Compression::ZipArchive::ReadEndOfCentralDirectory()
 
     if (CommentLength > 0)
     {
-        const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> CommentBytes = _Reader.ReadBytes(CommentLength);
-        const Elysium::Core::String Comment = _Encoding.GetString(&CommentBytes[0], CommentLength);
+        Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = 
+            Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(CommentLength);
+        const size_t BytesRead = _Reader.ReadBytes(&Buffer[0], CommentLength);
+        if (BytesRead != CommentLength)
+        {   // ToDo
+            throw 1;
+        }
+        const Elysium::Core::String Comment = _Encoding.GetString(&Buffer[0], CommentLength);
     }
 }

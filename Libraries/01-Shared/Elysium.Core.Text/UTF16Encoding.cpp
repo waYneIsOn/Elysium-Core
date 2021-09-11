@@ -27,7 +27,7 @@ const bool Elysium::Core::Text::UTF16Encoding::GetIsSingleByte() const
 	return false;
 }
 
-const Elysium::Core::String Elysium::Core::Text::UTF16Encoding::GetEncodingName() const
+const Elysium::Core::String& Elysium::Core::Text::UTF16Encoding::GetEncodingName() const
 {
 	if (_BigEndian)
 	{
@@ -41,22 +41,28 @@ const Elysium::Core::String Elysium::Core::Text::UTF16Encoding::GetEncodingName(
 	}
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF16Encoding::GetPreamble() const
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Text::UTF16Encoding::GetPreamble() const
 {
 	if (_EncoderShouldEmitIdentifier)
 	{
 		if (_BigEndian)
 		{
-			return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFE, 0xFF });
+			static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble = 
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFE, 0xFF });
+			return Preamble;
 		}
 		else
 		{
-			return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFF, 0xFE });
+			static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFF, 0xFE });
+			return Preamble;
 		}
 	}
 	else
 	{
-		return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+		static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
+			Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+		return Preamble;
 	}
 }
 

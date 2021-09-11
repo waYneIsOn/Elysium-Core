@@ -10,15 +10,17 @@ const bool Elysium::Core::Text::ASCIIEncoding::GetIsSingleByte() const
 {
 	return true;
 }
-const Elysium::Core::String Elysium::Core::Text::ASCIIEncoding::GetEncodingName() const
+const Elysium::Core::String& Elysium::Core::Text::ASCIIEncoding::GetEncodingName() const
 {
 	static Elysium::Core::String EncodingName = Elysium::Core::String(u8"US-ASCII");
 	return EncodingName;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::ASCIIEncoding::GetPreamble() const
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Text::ASCIIEncoding::GetPreamble() const
 {
-	return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+	static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+	return Preamble;
 }
 
 const Elysium::Core::uint32_t Elysium::Core::Text::ASCIIEncoding::GetByteCount(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const

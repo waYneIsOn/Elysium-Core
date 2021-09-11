@@ -33,9 +33,9 @@ namespace Elysium::Core::IO
 		StringReader& operator=(const StringReader& Other) = delete;
 		StringReader& operator=(StringReader&& Right) noexcept = delete;
 
-		virtual const Elysium::Core::int32_t Peek() override;
+		virtual const Elysium::Core::uint8_t Peek() override;
 
-		virtual const Elysium::Core::int32_t Read() override;
+		virtual const Elysium::Core::uint8_t Read() override;
 
 		virtual Elysium::Core::String ReadLine() override;
 

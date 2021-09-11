@@ -173,8 +173,14 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
     const Elysium::Core::uint32_t ExternalFileAttributes = _Reader->ReadUInt32();
     _RelativeOffsetToFileEntry = _Reader->ReadUInt32();
 
-    const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileNameBytes = _Reader->ReadBytes(FileNameLength);
-    _FileName = _Archive->GetEntryNameEncoding().GetString(&FileNameBytes[0], FileNameLength);
+    Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileNameBuffer =
+        Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileNameLength);
+    const size_t FileNameBytesRead = _Reader->ReadBytes(&FileNameBuffer[0], FileNameLength);
+    if (FileNameBytesRead != FileNameLength)
+    {   // ToDo
+        throw 1;
+    }
+    _FileName = _Archive->GetEntryNameEncoding().GetString(&FileNameBuffer[0], FileNameLength);
 
     if (ExtraFieldLength > 0)
     {
@@ -183,8 +189,14 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
 
     if (FileCommentLength > 0)
     {
-        const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileCommentBytes = _Reader->ReadBytes(FileCommentLength);
-        const Elysium::Core::String FileComment = _Archive->GetEntryNameEncoding().GetString(&FileCommentBytes[0], FileCommentLength);
+        Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileCommentBuffer =
+            Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileCommentLength);
+        const size_t FileCommentBytesRead = _Reader->ReadBytes(&FileCommentBuffer[0], FileCommentLength);
+        if (FileCommentBytesRead != FileCommentLength)
+        {   // ToDo
+            throw 1;
+        }
+        const Elysium::Core::String FileComment = _Archive->GetEntryNameEncoding().GetString(&FileCommentBuffer[0], FileCommentLength);
     }
 
     if ((GeneralPurposeBitFlag & Zip::ZipBitFlag::DataDescriptor) == Zip::ZipBitFlag::DataDescriptor)
@@ -232,8 +244,14 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
     const Elysium::Core::uint16_t FileNameLength = _Reader->ReadUInt16();
     const Elysium::Core::uint16_t ExtraFieldLength = _Reader->ReadUInt16();
 
-    const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileNameBytes = _Reader->ReadBytes(FileNameLength);
-    const Elysium::Core::String FileName = _Archive->GetEntryNameEncoding().GetString(&FileNameBytes[0], FileNameLength);
+    Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
+        Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileNameLength);
+    const size_t BytesRead = _Reader->ReadBytes(&Buffer[0], FileNameLength);
+    if (BytesRead != FileNameLength)
+    {   // ToDo
+        throw 1;
+    }
+    const Elysium::Core::String FileName = _Archive->GetEntryNameEncoding().GetString(&Buffer[0], FileNameLength);
 
     if (ExtraFieldLength > 0)
     {

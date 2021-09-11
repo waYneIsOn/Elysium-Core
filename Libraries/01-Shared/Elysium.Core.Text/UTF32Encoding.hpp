@@ -32,9 +32,9 @@ namespace Elysium::Core::Text
 
 		virtual const bool GetIsSingleByte() const override;
 
-		virtual const Elysium::Core::String GetEncodingName() const override;
+		virtual const Elysium::Core::String& GetEncodingName() const override;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetPreamble() const override;
+		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetPreamble() const override;
 
 		virtual const Elysium::Core::uint32_t GetByteCount(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount) const override;
 

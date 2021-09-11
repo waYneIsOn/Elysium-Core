@@ -49,17 +49,20 @@ namespace Elysium::Core::Text
 
 		Encoding& operator=(const Encoding& Source) = delete;
 		Encoding& operator=(Encoding&& Right) noexcept = delete;
-
+	protected:
+		Encoding();
+		Encoding(const Elysium::Core::uint32_t CodePage);
+	public:
 		//static void GetEncoding(int CodePage, Encoding* Output);
 
-		static const Encoding& Default();
-		static const Encoding& ASCII();
-		static const Encoding& UTF7();
-		static const Encoding& UTF8();
-		static const Encoding& UTF16BE();
-		static const Encoding& UTF16LE();
-		static const Encoding& UTF32BE();
-		static const Encoding& UTF32LE();
+		static Encoding& Default();
+		static Encoding& ASCII();
+		static Encoding& UTF7();
+		static Encoding& UTF8();
+		static Encoding& UTF16BE();
+		static Encoding& UTF16LE();
+		static Encoding& UTF32BE();
+		static Encoding& UTF32LE();
 
 		static const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Convert(const Encoding& SourceEncoding, const Encoding& TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const size_t Index, const size_t Count);
 				
@@ -67,9 +70,9 @@ namespace Elysium::Core::Text
 
 		virtual const Elysium::Core::uint32_t GetCodePage() const;
 
-		virtual const Elysium::Core::String GetEncodingName() const = 0;
+		virtual const Elysium::Core::String& GetEncodingName() const = 0;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetPreamble() const = 0;
+		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetPreamble() const = 0;
 
 		//virtual Elysium::Core::uint32_t GetMaxByteCount(Elysium::Core::uint32_t charCount) = 0;
 
@@ -80,18 +83,15 @@ namespace Elysium::Core::Text
 		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const size_t ByteCount) const = 0;
 
 		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const size_t ByteCount) const = 0;
-	protected:
-		Encoding();
-		Encoding(const Elysium::Core::uint32_t CodePage);
 	private:
 		const Elysium::Core::uint32_t _CodePage;
 
-		static const ASCIIEncoding _ASCII;
-		static const UTF8Encoding _UTF8;
-		static const UTF16Encoding _UTF16BE;
-		static const UTF16Encoding _UTF16LE;
-		static const UTF32Encoding _UTF32BE;
-		static const UTF32Encoding _UTF32LE;
+		static ASCIIEncoding _ASCII;
+		static UTF8Encoding _UTF8;
+		static UTF16Encoding _UTF16BE;
+		static UTF16Encoding _UTF16LE;
+		static UTF32Encoding _UTF32BE;
+		static UTF32Encoding _UTF32LE;
 	};
 }
 #endif
