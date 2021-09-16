@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <limits>
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef ELYSIUM_CORE_OVERFLOWEXCEPTION
 #include "OverflowException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DIVIDEBYZEROEXCEPTION
 #include "DivideByZeroException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 namespace Elysium::Core
@@ -146,7 +146,7 @@ namespace Elysium::Core
 	inline Numeric<T, Enabled>::Numeric(Numeric && Right) noexcept
 		: _Value(0)
 	{
-		*this = std::move(Right);
+		*this = Elysium::Core::Template::Move(Right);
 	}
 
 	template<class T, typename Enabled>
@@ -177,7 +177,7 @@ namespace Elysium::Core
 	{
 		if (this != &Right)
 		{
-			_Value = std::move(Right._Value);
+			_Value = Elysium::Core::Template::Move(Right._Value);
 		}
 
 		return *this;
@@ -198,7 +198,7 @@ namespace Elysium::Core
 	template<class T, typename Enabled>
 	inline constexpr const bool Numeric<T, Enabled>::GetIsSigned() noexcept
 	{
-		return std::is_signed<T>();
+		return Elysium::Core::Template::IsSigned<T>();
 	}
 
 	template<class T, typename Enabled>

@@ -93,6 +93,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NonConstant.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsSigned.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnableIf.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -100,6 +107,9 @@
     </Filter>
     <Filter Include="Concepts">
       <UniqueIdentifier>{e97c061a-570e-4bc2-ac17-3349309a0182}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{097b8687-8fcc-4ac5-a92b-a72f635d7ca7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

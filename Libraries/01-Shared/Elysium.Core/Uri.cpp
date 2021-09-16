@@ -8,6 +8,10 @@
 #include "BuildInUriParser.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
 #include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
@@ -44,7 +48,7 @@ Elysium::Core::Uri::Uri(const Uri & Source)
 Elysium::Core::Uri::Uri(Uri && Right) noexcept
 	: _OriginalString(), _SchemeView(), _Parser(GetParser())
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Move(Right);
 }
 Elysium::Core::Uri::~Uri()
 { }
@@ -73,7 +77,7 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right) noexcept
 {
 	if (this != &Right)
 	{
-		_OriginalString = std::move(Right._OriginalString);
+		_OriginalString = Elysium::Core::Template::Move(Right._OriginalString);
 		/*
 		_AbsoluteUri = std::move(Right._AbsoluteUri);
 		_SchemeView = std::move(Right._SchemeView);

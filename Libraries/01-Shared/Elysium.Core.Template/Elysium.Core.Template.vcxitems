@@ -18,10 +18,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnableIf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsArithemtic.hpp" />
@@ -37,6 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsSigned.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnion.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />

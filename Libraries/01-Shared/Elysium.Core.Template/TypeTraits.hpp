@@ -92,6 +92,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsSame.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_ISSIGNED
+#include "IsSigned.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_ISUNION
 #include "IsUnion.hpp"
 #endif
