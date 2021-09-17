@@ -70,7 +70,7 @@ namespace UnitTests::Core::IO::Compression
 			DeflateStream DecStream = DeflateStream(Entry6Stream, CompressionMode::Decompress, true);
 			FileStream Entry6File = FileStream(Entry6.GetName(), FileMode::Create, FileAccess::Write, FileShare::None);
 			DecStream.CopyTo(Entry6File);
-			
+
 
 
 			/*
@@ -82,7 +82,7 @@ namespace UnitTests::Core::IO::Compression
 			FileStream TargetStream = FileStream(u8"Lorem ipsum decompressed.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::None);
 			Entry6Stream.CopyTo(TargetStream);
 			Assert::AreEqual(static_cast<size_t>(10323), TargetStream.GetLength());
-			
+
 			Array<byte> Buffer = Array<byte>(TargetStream.GetLength());
 			TargetStream.SetPosition(0);
 			size_t BytesRead = TargetStream.Read(&Buffer[0], Buffer.GetLength());

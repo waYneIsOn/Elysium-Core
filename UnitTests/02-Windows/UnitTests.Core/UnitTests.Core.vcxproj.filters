@@ -39,9 +39,6 @@
     <ClCompile Include="StringTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="GZipStreamTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="EnvironmentTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

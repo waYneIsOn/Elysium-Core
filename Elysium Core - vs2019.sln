@@ -159,6 +159,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.IO", "UnitTe
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.IO", "UnitTests\02-Windows\UnitTests.Core.IO\UnitTests.Core.IO.vcxproj", "{C930BB14-45FB-4CE8-81D1-59AB83126FD5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Template", "UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems", "{21AD6D88-6952-4B3B-B7C6-64A2644A2881}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{0a65e452-28ea-4cb0-9691-ed819ef56d96}*SharedItemsImports = 9
@@ -166,11 +168,13 @@ Global
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{10f92d9c-832e-4ddd-b353-f3d89548cce6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{1ae389e0-479e-43d0-9299-77821b53db54}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{21ad6d88-6952-4b3b-b7c6-64a2644a2881}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{275d07c1-a1bf-46db-9b7f-3c135aa74ee3}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{2e31205a-3fcd-45b6-a9a1-329204ceb079}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{328bc640-06c0-47c1-8091-fe3b2c191222}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{32cecf97-4ffe-4e20-abc3-0093563ae62f}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Diagnostics\Elysium.Core.Diagnostics.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
@@ -609,6 +613,7 @@ Global
 		{7101EFB4-615B-4D59-9334-2A2694CA6E1D} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{F52A3C96-76E1-45A4-A93C-C997DC583E91} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 		{C930BB14-45FB-4CE8-81D1-59AB83126FD5} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
+		{21AD6D88-6952-4B3B-B7C6-64A2644A2881} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

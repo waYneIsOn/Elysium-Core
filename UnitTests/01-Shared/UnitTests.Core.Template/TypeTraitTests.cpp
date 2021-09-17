@@ -18,7 +18,7 @@ namespace UnitTests::Core::Template
 		B = 1,
 	};
 
-	enum Colour 
+	enum Colour
 	{
 		Red,
 		Green,
@@ -58,7 +58,7 @@ namespace UnitTests::Core::Template
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<char[2]>::Value);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<Elysium::Core::Collections::Template::Array<char>>::Value);
 		}
-		
+
 		TEST_METHOD(IsClass)
 		{
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsClass<char>::Value);

@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVEREFERENCE
-#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVEREFERENCE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVERPOINTER
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVERPOINTER
 
 #ifdef _MSC_VER
 #pragma once
@@ -15,24 +15,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    struct RemoveReference
+    struct RemovePointer
     {
         using Type = T;
     };
 
     template <class T>
-    struct RemoveReference<T&>
+    struct RemovePointer<T*>
     {
         using Type = T;
     };
 
     template <class T>
-    struct RemoveReference<T&&>
+    struct RemovePointer<T**>
     {
         using Type = T;
     };
-    
+
     template <class T>
-    using RemoveReferenceType = typename RemoveReference<T>::Type;
+    using RemovePointerType = typename RemovePointer<T>::Type;
 }
 #endif

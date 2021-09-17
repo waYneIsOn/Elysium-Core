@@ -12,18 +12,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_POINTER
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #include "Pointer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SWAP
+#ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_GREATER
+#include "Greater.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVERPOINTER
+#include "RemovePointer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_SWAP
 #include "Swap.hpp"
 #endif
 
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
-	template <Concepts::Pointer T>
-	constexpr void BubbleSort(const T First, const size_t Count)
+	template <Concepts::Pointer T, class Compare>
+	constexpr void BubbleSort(const T First, const size_t Count, const Compare Comparer)
 	{
 		if (First == nullptr || Count < 2)
 		{
@@ -35,16 +43,28 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		{
 			for (size_t j = 0; j < ReducedCount; j++)
 			{
+				if (Comparer.operator()(First[j], First[j + 1]))
+				{
+					Utility::Swap(First[j], First[j + 1]);
+				}
+				/*
 				if (First[j] > First[j + 1])
 				{
 					Utility::Swap(First[j], First[j + 1]);
 				}
+				*/
 			}
 		}
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void BubbleSort(const T First, const T Last)
+	constexpr void BubbleSort(const T First, const size_t Count)
+	{
+		BubbleSort<T>(First, Count, Operators::Greater<TypeTraits::RemovePointerType<T>>());
+	}
+
+	template <Concepts::Pointer T, class Compare>
+	constexpr void BubbleSort(const T First, const T Last, const Compare Comparer)
 	{
 		if (First == nullptr || Last == nullptr)
 		{
@@ -58,6 +78,12 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		// ToDo: need to make use of size of T or implement it directly using pointer
 		const size_t Count = Last - First + 1;
 		BubbleSort(First, Count);
+	}
+
+	template <Concepts::Pointer T>
+	constexpr void BubbleSort(const T First, const T Last)
+	{
+		BubbleSort<T>(First, Last, Operators::Greater<TypeTraits::RemovePointerType<T>>());
 	}
 }
 #endif

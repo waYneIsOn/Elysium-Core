@@ -5,7 +5,7 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Utility.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Template;
+using namespace Elysium::Core::Template::Utility;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template
@@ -18,7 +18,7 @@ namespace UnitTests::Core::Template
 			byte Left = 0;
 			byte Right = 255;
 
-			Utility::Swap(Left, Right);
+			Swap(Left, Right);
 
 			Assert::AreEqual(static_cast<byte>(255), Left);
 			Assert::AreEqual(static_cast<byte>(0), Right);

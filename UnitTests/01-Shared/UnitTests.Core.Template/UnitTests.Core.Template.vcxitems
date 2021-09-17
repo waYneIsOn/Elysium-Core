@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{f52a3c96-76e1-45a4-a93c-c997dc583e91}</ItemsProjectGuid>
+    <ItemsProjectGuid>{21ad6d88-6952-4b3b-b7c6-64a2644a2881}</ItemsProjectGuid>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -14,13 +14,9 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReaderTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GZipStreamTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTreeTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StreamReaderTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveTest.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="$(MSBuildThisFileDirectory)TestFiles\Lorem Ipsum.txt" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TypeTraitTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UtilityTests.cpp" />
   </ItemGroup>
 </Project>

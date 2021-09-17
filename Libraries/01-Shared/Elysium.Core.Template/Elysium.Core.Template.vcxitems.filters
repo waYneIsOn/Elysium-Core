@@ -129,6 +129,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Collections.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemovePointer.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -148,6 +161,12 @@
     </Filter>
     <Filter Include="Algorithms\Sorting">
       <UniqueIdentifier>{eacc65ef-1634-41fe-9233-4c59511d8bfb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collections">
+      <UniqueIdentifier>{8feb6bb1-3f35-4d13-b134-004db939ef9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Operators">
+      <UniqueIdentifier>{8be4f5b7-9086-48ca-81ea-b97b32097005}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

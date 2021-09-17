@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISPOINTER
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISPOINTER
 #include "IsPointer.hpp"
 #endif
 

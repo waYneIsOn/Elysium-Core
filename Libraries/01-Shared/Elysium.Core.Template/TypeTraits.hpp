@@ -140,6 +140,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveConstVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVERPOINTER
+#include "RemovePointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVEREFERENCE
 #include "RemoveReference.hpp"
 #endif

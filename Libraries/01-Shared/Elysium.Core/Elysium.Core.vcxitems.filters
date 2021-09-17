@@ -61,7 +61,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>
