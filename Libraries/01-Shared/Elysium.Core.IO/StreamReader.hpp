@@ -53,7 +53,7 @@ namespace Elysium::Core::IO
 
 		virtual Elysium::Core::String ReadToEnd() override;
 	private:
-		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
+		static const size_t DefaultBufferSize = 4096;
 
 		Stream& _InputStream;
 		Elysium::Core::Text::Encoding& _Encoding;

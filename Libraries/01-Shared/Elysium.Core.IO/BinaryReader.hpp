@@ -60,7 +60,7 @@ namespace Elysium::Core::IO
 		virtual const Elysium::Core::uint32_t ReadUInt32();
 		virtual const Elysium::Core::uint64_t ReadUInt64();
 	private:
-		static const Elysium::Core::uint32_t DefaultBufferSize = 16;
+		static const size_t DefaultBufferSize = 16;
 
 		Stream& _InputStream;
 		Elysium::Core::Text::Encoding& _Encoding;
