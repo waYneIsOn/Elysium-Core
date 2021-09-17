@@ -58,6 +58,13 @@ namespace Elysium::Core
 		bool operator<=(const Numeric& Other) const;
 		bool operator>=(const Numeric& Other) const;
 
+		bool operator==(const T Other) const;
+		bool operator!=(const T Other) const;
+		bool operator<(const T Other) const;
+		bool operator>(const T Other) const;
+		bool operator<=(const T Other) const;
+		bool operator>=(const T Other) const;
+
 		Numeric& operator++();
 		Numeric operator++(int);
 
@@ -241,6 +248,42 @@ namespace Elysium::Core
 	inline bool Numeric<T, Enabled>::operator>=(const Numeric & Other) const
 	{
 		return _Value >= Other._Value;
+	}
+
+	template<class T, typename Enabled>
+	inline bool Numeric<T, Enabled>::operator==(const T Other) const
+	{
+		return _Value == Other;
+	}
+
+	template<class T, typename Enabled>
+	inline bool Numeric<T, Enabled>::operator!=(const T Other) const
+	{
+		return _Value != Other;
+	}
+
+	template<class T, typename Enabled>
+	inline bool Numeric<T, Enabled>::operator<(const T Other) const
+	{
+		return _Value < Other;
+	}
+
+	template<class T, typename Enabled>
+	inline bool Numeric<T, Enabled>::operator>(const T Other) const
+	{
+		return _Value > Other;
+	}
+
+	template<class T, typename Enabled>
+	inline bool Numeric<T, Enabled>::operator<=(const T Other) const
+	{
+		return _Value <= Other;
+	}
+
+	template<class T, typename Enabled>
+	inline bool Numeric<T, Enabled>::operator>=(const T Other) const
+	{
+		return _Value >= Other;
 	}
 
 	template<class T, typename Enabled>
