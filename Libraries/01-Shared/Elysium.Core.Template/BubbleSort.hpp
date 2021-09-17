@@ -47,12 +47,6 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 				{
 					Utility::Swap(First[j], First[j + 1]);
 				}
-				/*
-				if (First[j] > First[j + 1])
-				{
-					Utility::Swap(First[j], First[j + 1]);
-				}
-				*/
 			}
 		}
 	}

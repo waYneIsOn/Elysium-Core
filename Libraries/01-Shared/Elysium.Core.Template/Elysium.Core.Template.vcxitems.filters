@@ -142,6 +142,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RemovePointer.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

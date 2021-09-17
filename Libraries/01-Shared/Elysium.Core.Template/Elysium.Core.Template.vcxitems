@@ -55,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NonConstant.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp" />
