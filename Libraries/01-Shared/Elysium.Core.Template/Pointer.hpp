@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_POINTER
-#define ELYSIUM_CORE_TEMPLATE_POINTER
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,9 +17,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsPointer.hpp"
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept Pointer = IsPointer<T>::Value;
+	concept Pointer = TypeTraits::IsPointer<T>::Value;
 }
 #endif

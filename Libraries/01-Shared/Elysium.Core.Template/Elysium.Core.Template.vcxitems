@@ -21,7 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AddReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddRightValueReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Common.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />

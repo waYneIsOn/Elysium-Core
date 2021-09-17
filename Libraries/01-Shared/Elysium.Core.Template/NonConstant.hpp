@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NONCONSTANT
-#define ELYSIUM_CORE_TEMPLATE_NONCONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,9 +17,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsConstant.hpp"
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept NonConstant = !IsConstant<T>::Value;
+	concept NonConstant = !TypeTraits::IsConstant<T>::Value;
 }
 #endif

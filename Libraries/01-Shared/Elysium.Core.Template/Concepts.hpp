@@ -12,15 +12,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CONSTANT
 #include "Constant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NONCONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_POINTER
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #include "Pointer.hpp"
 #endif
 

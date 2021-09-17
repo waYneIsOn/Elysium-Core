@@ -27,7 +27,7 @@ Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right) noexcept
 	: _Ticks(0)
 {
-	*this = Elysium::Core::Template::Move(Right);
+	*this = Elysium::Core::Template::TypeTraits::Move(Right);
 }
 Elysium::Core::TimeSpan::~TimeSpan()
 { }
@@ -44,7 +44,7 @@ Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = Elysium::Core::Template::Move(Right._Ticks);
+		_Ticks = Elysium::Core::Template::TypeTraits::Move(Right._Ticks);
 	}
 	return *this;
 }

@@ -130,7 +130,7 @@ namespace Elysium::Core::Collections::Template
 	inline List<T>::List(List<T>&& Right) noexcept
 		: _Capacity(0), _Count(0), _Data(nullptr)
 	{
-		*this = Elysium::Core::Template::Move(Right);
+		*this = Elysium::Core::Template::TypeTraits::Move(Right);
 	}
 	template<class T>
 	inline List<T>::~List()

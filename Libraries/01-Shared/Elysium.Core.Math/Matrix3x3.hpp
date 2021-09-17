@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 namespace Elysium::Core::Math::Numerics
@@ -66,7 +66,7 @@ namespace Elysium::Core::Math::Numerics
 	template<typename T>
 	inline Matrix3x3<T>::Matrix3x3(Matrix3x3&& Right) noexcept
 	{
-		*this = Elysium::Core::Template::Move(Right);
+		*this = Elysium::Core::Template::TypeTraits::Move(Right);
 	}
 	template<class T>
 	inline Matrix3x3<T>::~Matrix3x3()
@@ -94,15 +94,15 @@ namespace Elysium::Core::Math::Numerics
 	{
 		if (this != &Right)
 		{
-			M11 = Elysium::Core::Template::Move(Right.M11);
-			M12 = Elysium::Core::Template::Move(Right.M12);
-			M13 = Elysium::Core::Template::Move(Right.M13);
-			M21 = Elysium::Core::Template::Move(Right.M21);
-			M22 = Elysium::Core::Template::Move(Right.M22);
-			M23 = Elysium::Core::Template::Move(Right.M23);
-			M31 = Elysium::Core::Template::Move(Right.M31);
-			M32 = Elysium::Core::Template::Move(Right.M32);
-			M33 = Elysium::Core::Template::Move(Right.M33);
+			M11 = Elysium::Core::Template::TypeTraits::Move(Right.M11);
+			M12 = Elysium::Core::Template::TypeTraits::Move(Right.M12);
+			M13 = Elysium::Core::Template::TypeTraits::Move(Right.M13);
+			M21 = Elysium::Core::Template::TypeTraits::Move(Right.M21);
+			M22 = Elysium::Core::Template::TypeTraits::Move(Right.M22);
+			M23 = Elysium::Core::Template::TypeTraits::Move(Right.M23);
+			M31 = Elysium::Core::Template::TypeTraits::Move(Right.M31);
+			M32 = Elysium::Core::Template::TypeTraits::Move(Right.M32);
+			M33 = Elysium::Core::Template::TypeTraits::Move(Right.M33);
 		}
 		return *this;
 	}

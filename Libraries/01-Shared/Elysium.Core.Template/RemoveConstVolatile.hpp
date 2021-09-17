@@ -6,14 +6,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_REMOVECONSTVOLATILE
-#define ELYSIUM_CORE_TEMPLATE_REMOVECONSTVOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T>
 	struct RemoveConstVolatile

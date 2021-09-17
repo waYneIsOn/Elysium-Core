@@ -6,14 +6,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISCONSTANT
-#define ELYSIUM_CORE_TEMPLATE_ISCONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-namespace Elysium::Core::Template
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
+#include "IntegralConstant.hpp"
+#endif
+
+namespace Elysium::Core::Template::TypeTraits
 {
 	template <class>
 	inline constexpr bool IsConstantValue = false;

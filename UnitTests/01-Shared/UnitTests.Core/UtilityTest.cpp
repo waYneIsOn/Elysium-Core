@@ -18,7 +18,7 @@ namespace UnitTests::Core::Template
 			byte Left = 0;
 			byte Right = 255;
 
-			Swap(Left, Right);
+			Utility::Swap(Left, Right);
 
 			Assert::AreEqual(static_cast<byte>(255), Left);
 			Assert::AreEqual(static_cast<byte>(0), Right);

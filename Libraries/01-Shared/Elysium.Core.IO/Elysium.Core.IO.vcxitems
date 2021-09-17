@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
@@ -58,6 +59,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTable.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTree.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />

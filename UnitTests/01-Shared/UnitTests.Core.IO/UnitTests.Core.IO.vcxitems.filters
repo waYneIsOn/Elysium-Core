@@ -13,5 +13,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReaderTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReaderTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTreeTests.cpp" />
   </ItemGroup>
 </Project>

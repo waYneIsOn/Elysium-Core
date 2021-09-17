@@ -2,10 +2,11 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Algorithm.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Algorithms.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template;
+using namespace Elysium::Core::Template::Algorithms::Sorting;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template

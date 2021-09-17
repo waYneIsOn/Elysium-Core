@@ -34,6 +34,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp">
       <Filter>Compression\HuffmanCoding</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTable.cpp">
+      <Filter>Compression\HuffmanCoding</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfZipArchiveEntry.hpp">
       <Filter>Compression</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTable.hpp">
+      <Filter>Compression\HuffmanCoding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

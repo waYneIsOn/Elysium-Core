@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Collections::Template
 {
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	class Mallocator final
 	{
 	public:
@@ -39,14 +39,14 @@ namespace Elysium::Core::Collections::Template
 		void Deallocate(const T* First, const size_t Count);
 	};
 
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Mallocator<T>::Mallocator() noexcept
 	{ }
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Mallocator<T>::~Mallocator()
 	{ }
 
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline constexpr T* Mallocator<T>::Allocate(const size_t Count)
 	{
 		if (Count == 0)
@@ -67,7 +67,7 @@ namespace Elysium::Core::Collections::Template
 		return static_cast<T*>(Result);
 	}
 
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline void Mallocator<T>::Deallocate(const T* First, const size_t Count)
 	{
 		free(First);

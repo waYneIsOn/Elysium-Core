@@ -8,16 +8,16 @@
 #include "List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
+#include "IndexOutOfRangeException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
 #include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 #ifndef _XSTRING_
 #include <xstring>	// std::char_traits
-#endif
-
-#ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-#include "IndexOutOfRangeException.hpp"
 #endif
 
 const Elysium::Core::String Elysium::Core::String::Empty = Elysium::Core::String();
@@ -63,7 +63,7 @@ Elysium::Core::String::String(const String& Source)
 Elysium::Core::String::String(String&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
-	*this = Elysium::Core::Template::Move(Right);
+	*this = Elysium::Core::Template::TypeTraits::Move(Right);
 }
 
 Elysium::Core::String::~String()

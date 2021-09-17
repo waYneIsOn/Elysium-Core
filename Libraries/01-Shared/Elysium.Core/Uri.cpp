@@ -48,7 +48,7 @@ Elysium::Core::Uri::Uri(const Uri & Source)
 Elysium::Core::Uri::Uri(Uri && Right) noexcept
 	: _OriginalString(), _SchemeView(), _Parser(GetParser())
 {
-	*this = Elysium::Core::Template::Move(Right);
+	*this = Elysium::Core::Template::TypeTraits::Move(Right);
 }
 Elysium::Core::Uri::~Uri()
 { }
@@ -77,7 +77,7 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right) noexcept
 {
 	if (this != &Right)
 	{
-		_OriginalString = Elysium::Core::Template::Move(Right._OriginalString);
+		_OriginalString = Elysium::Core::Template::TypeTraits::Move(Right._OriginalString);
 		/*
 		_AbsoluteUri = std::move(Right._AbsoluteUri);
 		_SchemeView = std::move(Right._SchemeView);

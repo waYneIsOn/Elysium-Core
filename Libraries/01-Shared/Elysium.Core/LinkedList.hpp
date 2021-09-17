@@ -27,9 +27,9 @@ namespace Elysium::Core::Collections::Template
 	template <typename T>
 	class LinkedList final
 	{
-		using InputParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
-		using ReturnType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsPointer<T>::Value, T,
-			typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsFundamental<T>::Value, T, T&>::Type>::Type;
+		using InputParameterType = typename Elysium::Core::Template::TypeTraits::Conditional<Elysium::Core::Template::TypeTraits::IsPointer<T>::Value, T, T&>::Type;
+		using ReturnType = typename Elysium::Core::Template::TypeTraits::Conditional<Elysium::Core::Template::TypeTraits::IsPointer<T>::Value, T,
+			typename Elysium::Core::Template::TypeTraits::Conditional<Elysium::Core::Template::TypeTraits::IsFundamental<T>::Value, T, T&>::Type>::Type;
 	public:
 		LinkedList();
 		LinkedList(const List<T>& Right) = delete;

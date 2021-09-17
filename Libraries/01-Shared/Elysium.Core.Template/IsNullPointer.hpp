@@ -6,22 +6,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISNULLPOINTER
-#define ELYSIUM_CORE_TEMPLATE_ISNULLPOINTER
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNULLPOINTER
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNULLPOINTER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_INTEGRALCONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISSAME
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
 #include "IsSame.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_REMOVECONSTVOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
 #include "RemoveConstVolatile.hpp"
 #endif
 
@@ -30,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <stddef.h>
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T>
 	inline constexpr bool IsNullPointerValue = IsSameValue<RemoveConstVolatileType<T>, std::nullptr_t>;

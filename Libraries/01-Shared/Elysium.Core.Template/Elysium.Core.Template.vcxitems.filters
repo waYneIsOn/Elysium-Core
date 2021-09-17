@@ -101,9 +101,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Common.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp">
-      <Filter>Algorithm\Sorting</Filter>
+      <Filter>Algorithms\Sorting</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Swap.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -140,14 +140,14 @@
     <Filter Include="Common">
       <UniqueIdentifier>{097b8687-8fcc-4ac5-a92b-a72f635d7ca7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Algorithm">
-      <UniqueIdentifier>{d6cc6f4d-5d99-4f67-ae7b-da2e486bf3d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Algorithm\Sorting">
-      <UniqueIdentifier>{eacc65ef-1634-41fe-9233-4c59511d8bfb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{9b2e4b55-f45b-40a5-a953-10a99a81fdab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algorithms">
+      <UniqueIdentifier>{d6cc6f4d-5d99-4f67-ae7b-da2e486bf3d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algorithms\Sorting">
+      <UniqueIdentifier>{eacc65ef-1634-41fe-9233-4c59511d8bfb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

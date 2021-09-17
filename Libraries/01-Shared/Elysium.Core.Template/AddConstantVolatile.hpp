@@ -5,27 +5,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-
-#ifndef ELYSIUM_CORE_TEMPLATE_ADDCONSTANTVOLATILE
-#define ELYSIUM_CORE_TEMPLATE_ADDCONSTANTVOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDCONSTANTVOLATILE
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDCONSTANTVOLATILE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONDITIONAL
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CONDITIONAL
 #include "Conditional.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISCONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
 #include "IsConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISVOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISVOLATILE
 #include "IsVolatile.hpp"
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
     struct AddConstantVolatile

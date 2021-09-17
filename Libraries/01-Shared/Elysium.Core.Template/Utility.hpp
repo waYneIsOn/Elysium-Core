@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SWAP
+#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_SWAP
 #include "Swap.hpp"
 #endif
 

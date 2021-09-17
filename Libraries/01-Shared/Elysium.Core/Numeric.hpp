@@ -153,7 +153,7 @@ namespace Elysium::Core
 	inline Numeric<T, Enabled>::Numeric(Numeric && Right) noexcept
 		: _Value(0)
 	{
-		*this = Elysium::Core::Template::Move(Right);
+		*this = Elysium::Core::Template::TypeTraits::Move(Right);
 	}
 
 	template<class T, typename Enabled>
@@ -184,7 +184,7 @@ namespace Elysium::Core
 	{
 		if (this != &Right)
 		{
-			_Value = Elysium::Core::Template::Move(Right._Value);
+			_Value = Elysium::Core::Template::TypeTraits::Move(Right._Value);
 		}
 
 		return *this;
@@ -205,7 +205,7 @@ namespace Elysium::Core
 	template<class T, typename Enabled>
 	inline constexpr const bool Numeric<T, Enabled>::GetIsSigned() noexcept
 	{
-		return Elysium::Core::Template::IsSigned<T>();
+		return Elysium::Core::Template::TypeTraits::IsSigned<T>();
 	}
 
 	template<class T, typename Enabled>

@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ENABLEIF
+#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
 #include "EnableIf.hpp"
 #endif
 

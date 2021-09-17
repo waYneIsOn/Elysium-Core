@@ -5,19 +5,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-
-#ifndef ELYSIUM_CORE_TEMPLATE_ADDREFERENCE
-#define ELYSIUM_CORE_TEMPLATE_ADDREFERENCE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDREFERENCE
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDREFERENCE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_VOIDTYPE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOIDTYPE
 #include "VoidType.hpp"
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::TypeTraits
 {
     template <class T, class = void>
     struct AddReference

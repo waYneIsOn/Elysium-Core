@@ -31,7 +31,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core
 {
 	template<class T>
-	class Numeric<T, Elysium::Core::Template::EnableIf<Elysium::Core::Template::IsIntegralValue<T>, T>>
+	class Numeric<T, Elysium::Core::Template::Common::EnableIf<Elysium::Core::Template::TypeTraits::IsIntegralValue<T>, T>>
 	{ };
 
 	typedef Numeric<Elysium::Core::int8_t> Int8;

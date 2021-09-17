@@ -22,7 +22,7 @@ namespace Elysium::Core::Collections::Template
 	template <typename T>
 	class LinkedListNode final
 	{
-		using InputParameterType = typename Elysium::Core::Template::Conditional<Elysium::Core::Template::IsPointer<T>::Value, T, T&>::Type;
+		using InputParameterType = typename Elysium::Core::Template::TypeTraits::Conditional<Elysium::Core::Template::TypeTraits::IsPointer<T>::Value, T, T&>::Type;
 		friend class LinkedList<T>;
 	public:
 		LinkedListNode(const InputParameterType Value);

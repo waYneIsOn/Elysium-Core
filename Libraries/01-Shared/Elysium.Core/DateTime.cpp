@@ -41,7 +41,7 @@ Elysium::Core::DateTime::DateTime(const DateTime & Source)
 Elysium::Core::DateTime::DateTime(DateTime && Right) noexcept
 	: Elysium::Core::DateTime::DateTime(0, DateTimeKind::Unspecified)
 {
-	*this = Elysium::Core::Template::Move(Right);
+	*this = Elysium::Core::Template::TypeTraits::Move(Right);
 }
 Elysium::Core::DateTime::~DateTime()
 { }
@@ -59,8 +59,8 @@ Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = Elysium::Core::Template::Move(Right._Ticks);
-		_Kind = Elysium::Core::Template::Move(Right._Kind);
+		_Ticks = Elysium::Core::Template::TypeTraits::Move(Right._Ticks);
+		_Kind = Elysium::Core::Template::TypeTraits::Move(Right._Kind);
 
 		Right._Ticks = 0;
 		Right._Kind = DateTimeKind::Unspecified;

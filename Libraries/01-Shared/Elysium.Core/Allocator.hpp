@@ -19,7 +19,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Collections::Template
 {
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	class Allocator final
 	{
 	public:
@@ -37,14 +37,14 @@ namespace Elysium::Core::Collections::Template
 
 	};
 
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Allocator<T>::Allocator() noexcept
 	{ }
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Allocator<T>::~Allocator()
 	{ }
 
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline constexpr T* Allocator<T>::Allocate(const size_t Count)
 	{
 		if (Count == 0)
@@ -55,7 +55,7 @@ namespace Elysium::Core::Collections::Template
 		throw 1;
 	}
 
-	template<Elysium::Core::Template::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline void Allocator<T>::Deallocate(const T* First, const size_t Count)
 	{
 		throw 1;

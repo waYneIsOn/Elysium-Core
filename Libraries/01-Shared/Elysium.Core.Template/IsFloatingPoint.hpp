@@ -6,18 +6,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISFLOATINGPOINT
-#define ELYSIUM_CORE_TEMPLATE_ISFLOATINGPOINT
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISANYOF
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
+#include "IntegralConstant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISANYOF
 #include "IsAnyOf.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_REMOVECONSTVOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
 #include "RemoveConstVolatile.hpp"
 #endif
 
@@ -26,7 +30,7 @@ namespace Elysium::Core
     class Decimal;
 }
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
     inline constexpr bool IsFloatingPointValue = IsAnyOfValue<RemoveConstVolatile<T>::Type, float, double, long double, Elysium::Core::Decimal>;

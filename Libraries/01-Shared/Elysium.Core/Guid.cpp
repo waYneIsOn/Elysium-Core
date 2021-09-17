@@ -59,7 +59,7 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 {
 	if (this != &Right)
 	{
-		_Data = Elysium::Core::Template::Move(Right._Data);
+		_Data = Elysium::Core::Template::TypeTraits::Move(Right._Data);
 
 		Right._Data = 0;
 	}

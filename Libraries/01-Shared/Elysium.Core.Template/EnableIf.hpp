@@ -5,14 +5,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_ENABLEIF
-#define ELYSIUM_CORE_TEMPLATE_ENABLEIF
+#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
+#define ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-namespace Elysium::Core::Template
+namespace Elysium::Core::Template::Common
 {
 	template <bool Condition, class T = void>
 	struct EnableIf

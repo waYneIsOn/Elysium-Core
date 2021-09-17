@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
 namespace Elysium::Core::Math::Numerics
@@ -105,7 +105,7 @@ namespace Elysium::Core::Math::Numerics
 	template<class T>
 	inline Vector3<T>::Vector3(Vector3&& Right) noexcept
 	{
-		*this = Elysium::Core::Template::Move(Right);
+		*this = Elysium::Core::Template::TypeTraits::Move(Right);
 	}
 	template<class T>
 	inline Vector3<T>::~Vector3()
@@ -128,9 +128,9 @@ namespace Elysium::Core::Math::Numerics
 	{
 		if (this != &Right)
 		{
-			X = Elysium::Core::Template::Move(Right.X);
-			Y = Elysium::Core::Template::Move(Right.Y);
-			Z = Elysium::Core::Template::Move(Right.Z);
+			X = Elysium::Core::Template::TypeTraits::Move(Right.X);
+			Y = Elysium::Core::Template::TypeTraits::Move(Right.Y);
+			Z = Elysium::Core::Template::TypeTraits::Move(Right.Z);
 		}
 		return *this;
 	}
