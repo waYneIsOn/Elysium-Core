@@ -20,6 +20,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AddConstantVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_ADDLEFTVALUEREFERENCE
+#include "AddLeftValueReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ADDREFERENCE
+#include "AddReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ADDRIGHTVALUEREFERENCE
+#include "AddRightValueReference.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_VOLATILE
 #include "AddVolatile.hpp"
 #endif
@@ -76,6 +88,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsIntegral.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_ISMOVEASSIGNABLE
+#include "IsMoveAssignable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ISMOVECONSTRUCTIBLE
+#include "IsMoveConstructible.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_ISNULLPOINTER
 #include "IsNullPointer.hpp"
 #endif
@@ -126,6 +146,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_REMOVEVOLATILE
 #include "RemoveVolatile.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_VOIDTYPE
+#include "VoidType.hpp"
 #endif
 
 #endif

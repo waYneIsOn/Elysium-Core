@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionsTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfoTest.cpp" />
@@ -30,6 +31,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProcessTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfoTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)UtilityTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveTest.cpp" />
   </ItemGroup>
   <ItemGroup>

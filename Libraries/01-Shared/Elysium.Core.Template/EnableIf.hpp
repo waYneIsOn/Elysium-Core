@@ -28,4 +28,3 @@ namespace Elysium::Core::Template
 	using EnableIfType = typename EnableIf<Condition, T>::Type;
 }
 #endif
-

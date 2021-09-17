@@ -17,7 +17,12 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddLeftValueReference.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddReference.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddRightValueReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Common.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
@@ -35,6 +40,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFunction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsFundamental.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsIntegral.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveAssignable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveConstructible.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsNullPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsReference.hpp" />
@@ -45,10 +52,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NonConstant.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Swap.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VoidType.hpp" />
   </ItemGroup>
 </Project>

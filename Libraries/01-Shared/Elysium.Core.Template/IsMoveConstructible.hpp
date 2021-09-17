@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ISVOLATILE
-#define ELYSIUM_CORE_TEMPLATE_ISVOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_ISMOVECONSTRUCTIBLE
+#define ELYSIUM_CORE_TEMPLATE_ISMOVECONSTRUCTIBLE
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,14 +19,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template
 {
-	template <class>
-	inline constexpr bool IsVolatileValue = false;
+    template <class T>
+    struct IsMoveConstructible : IntegralConstant<bool, __is_constructible(T, T)>
+    { };
 
-	template <class T>
-	inline constexpr bool IsVolatileValue<volatile T> = true;
-
-	template <class T>
-	struct IsVolatile : public IntegralConstant<bool, IsVolatileValue<T>>
-	{ };
+    template <class T>
+    inline constexpr bool IsMoveConstructibleValue = __is_constructible(T, T);
 }
 #endif
