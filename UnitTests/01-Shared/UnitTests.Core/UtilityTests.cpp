@@ -10,7 +10,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template
 {
-	TEST_CLASS(UtilityTest)
+	TEST_CLASS(UtilityTests)
 	{
 	public:
 		TEST_METHOD(TestSwap)

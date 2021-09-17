@@ -11,7 +11,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template
 {
-	TEST_CLASS(SortingAlgorithmTest)
+	TEST_CLASS(SortingAlgorithmTests)
 	{
 	public:
 		TEST_METHOD(TestBubbleSort)
