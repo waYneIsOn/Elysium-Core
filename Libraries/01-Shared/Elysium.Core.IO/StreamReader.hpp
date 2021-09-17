@@ -43,9 +43,9 @@ namespace Elysium::Core::IO
 
 		virtual void Close() override;
 
-		virtual const Elysium::Core::uint8_t Peek() override;
+		virtual const Elysium::Core::uint32_t Peek() override;
 
-		virtual const Elysium::Core::uint8_t Read() override;
+		virtual const Elysium::Core::uint32_t Read() override;
 
 		virtual const Elysium::Core::int32_t Read(char8_t* Buffer, const Elysium::Core::int32_t Count) override;
 

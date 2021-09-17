@@ -27,7 +27,7 @@ void Elysium::Core::IO::StreamReader::Close()
 	_InputStream.Close();
 }
 
-const Elysium::Core::uint8_t Elysium::Core::IO::StreamReader::Peek()
+const Elysium::Core::uint32_t Elysium::Core::IO::StreamReader::Peek()
 {	// ToDo: can we actually peek?
 	Elysium::Core::byte Result = _InputStream.ReadByte();
 	_InputStream.SetPosition(_InputStream.GetPosition() - 1);
@@ -35,7 +35,7 @@ const Elysium::Core::uint8_t Elysium::Core::IO::StreamReader::Peek()
 	return Result;
 }
 
-const Elysium::Core::uint8_t Elysium::Core::IO::StreamReader::Read()
+const Elysium::Core::uint32_t Elysium::Core::IO::StreamReader::Read()
 {
 	if (_BufferReadingPosition == 0)
 	{

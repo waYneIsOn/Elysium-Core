@@ -48,9 +48,9 @@ namespace Elysium::Core::IO
 
 		virtual void Close();
 
-		virtual const Elysium::Core::uint8_t Peek();
+		virtual const Elysium::Core::uint32_t Peek();
 		
-		virtual const Elysium::Core::uint8_t Read();
+		virtual const Elysium::Core::uint32_t Read();
 		virtual const Elysium::Core::int32_t Read(char8_t* Buffer, const Elysium::Core::int32_t Count);
 
 		virtual Elysium::Core::String ReadLine() = 0;

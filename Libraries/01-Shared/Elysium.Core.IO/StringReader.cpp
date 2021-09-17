@@ -11,12 +11,12 @@ Elysium::Core::IO::StringReader::StringReader(const String & Input)
 Elysium::Core::IO::StringReader::~StringReader()
 { }
 
-const Elysium::Core::uint8_t Elysium::Core::IO::StringReader::Peek()
+const Elysium::Core::uint32_t Elysium::Core::IO::StringReader::Peek()
 {
 	return _Position < _Input.GetLength() ? _Input[_Position] : -1;
 }
 
-const Elysium::Core::uint8_t Elysium::Core::IO::StringReader::Read()
+const Elysium::Core::uint32_t Elysium::Core::IO::StringReader::Read()
 {
 	return _Position < _Input.GetLength() ? _Input[_Position++] : -1;
 }
