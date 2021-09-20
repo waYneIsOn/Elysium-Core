@@ -2,15 +2,15 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Utility.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Functional.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Template::Utility;
+using namespace Elysium::Core::Template::Functional;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template
 {
-	TEST_CLASS(UtilityTests)
+	TEST_CLASS(FunctionalTests)
 	{
 	public:
 		TEST_METHOD(TestSwap)

@@ -5,7 +5,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #define ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 
@@ -20,6 +19,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept Pointer = TypeTraits::IsPointer<T>::Value;
+	concept Pointer = TypeTraits::IsPointerValue<T>;
 }
 #endif

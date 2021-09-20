@@ -122,12 +122,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Allocator.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Mallocator.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />

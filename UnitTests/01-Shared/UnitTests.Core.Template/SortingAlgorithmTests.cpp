@@ -3,6 +3,8 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Algorithms.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Greater.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Less.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Tuple.hpp"
 
 using namespace Elysium::Core;
@@ -10,8 +12,6 @@ using namespace Elysium::Core::Template;
 using namespace Elysium::Core::Template::Algorithms::Sorting;
 using namespace Elysium::Core::Template::Collections;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
-#include <algorithm>
 
 namespace UnitTests::Core::Template
 {
@@ -38,23 +38,25 @@ namespace UnitTests::Core::Template
 	public:
 		TEST_METHOD(BubbleSortBytes)
 		{
-			byte UnsortedData[3];
+			byte UnsortedData[4];
 
 			// test function with signature "const T First, const size_t Count"
-			std::memcpy(&UnsortedData[0], &_UnsortedData[0], 3);
-			BubbleSort(&UnsortedData[0], 3);
+			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
+			BubbleSort(&UnsortedData[0], 4);
 
 			Assert::AreEqual(static_cast<byte>(1), UnsortedData[0]);
-			Assert::AreEqual(static_cast<byte>(2), UnsortedData[1]);
-			Assert::AreEqual(static_cast<byte>(3), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[3]);
 			
 			// test function with signature "const T First, const T Last"
-			std::memcpy(&UnsortedData[0], &_UnsortedData[0], 3);
-			BubbleSort(&UnsortedData[0], &UnsortedData[2]);
+			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
+			BubbleSort(&UnsortedData[0], &UnsortedData[3]);
 
 			Assert::AreEqual(static_cast<byte>(1), UnsortedData[0]);
-			Assert::AreEqual(static_cast<byte>(2), UnsortedData[1]);
-			Assert::AreEqual(static_cast<byte>(3), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[3]);
 		}
 
 		TEST_METHOD(BubbleSortTuple)
@@ -76,13 +78,36 @@ namespace UnitTests::Core::Template
 
 			// sort by item2 descending
 			Tuple2Item2Less<Tuple, int, int> Comparer2 = Tuple2Item2Less<Tuple, int, int>();
-			BubbleSort(&UnsortedData[0], 3, Comparer2);
+			BubbleSort(&UnsortedData[0], &UnsortedData[2], Comparer2);
 
 			Assert::AreEqual(67, UnsortedData[0].GetItem2());
 			Assert::AreEqual(9, UnsortedData[1].GetItem2());
 			Assert::AreEqual(5, UnsortedData[2].GetItem2());
 		}
+
+		TEST_METHOD(QuickSortBytes)
+		{
+			byte UnsortedData[4];
+
+			// test function with signature "const T First, const size_t Count"
+			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
+			QuickSort(&UnsortedData[0], 4);
+
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[0]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[3]);
+
+			// test function with signature "const T First, const T Last"
+			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
+			QuickSort(&UnsortedData[0], &UnsortedData[3]);
+
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[0]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[3]);
+		}
 	private:
-		byte _UnsortedData[3] = { 3, 1, 2 };
+		byte _UnsortedBytes[4] = { 3, 1, 2, 1 };
 	};
 }

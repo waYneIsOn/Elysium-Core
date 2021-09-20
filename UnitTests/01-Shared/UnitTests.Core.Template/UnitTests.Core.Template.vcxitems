@@ -14,9 +14,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)HeapArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeTraitTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UtilityTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FunctionalTests.cpp" />
   </ItemGroup>
 </Project>

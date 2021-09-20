@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_MALLOCATOR
-#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_MALLOCATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_DEFAULTALLOCATOR
+#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_DEFAULTALLOCATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,50 +19,48 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Collections
 {
 	template<Concepts::NonConstant T>
-	class MAllocator final
+	class DefaultAllocator final
 	{
-	private:
-		static const size_t ElementSize = sizeof(T);
 	public:
-		MAllocator() noexcept;
-		MAllocator(const MAllocator<T>& Source) = delete;
-		MAllocator(MAllocator<T>&& Right) noexcept = delete;
-		~MAllocator();
+		DefaultAllocator() noexcept;
+		DefaultAllocator(const DefaultAllocator<T>& Source) = delete;
+		DefaultAllocator(DefaultAllocator<T>&& Right) noexcept = delete;
+		~DefaultAllocator();
 
-		MAllocator<T>& operator=(const MAllocator<T>& Source) = delete;
-		MAllocator<T>& operator=(MAllocator<T>&& Right) noexcept = delete;
+		DefaultAllocator<T>& operator=(const DefaultAllocator<T>& Source) = delete;
+		DefaultAllocator<T>& operator=(DefaultAllocator<T>&& Right) noexcept = delete;
 
 		constexpr T* Allocate(const size_t Length);
 		void Deallocate(T* First, const size_t Length);
 	};
 
 	template<Concepts::NonConstant T>
-	inline MAllocator<T>::MAllocator() noexcept
+	inline DefaultAllocator<T>::DefaultAllocator() noexcept
 	{ }
 	template<Concepts::NonConstant T>
-	inline MAllocator<T>::~MAllocator()
+	inline DefaultAllocator<T>::~DefaultAllocator()
 	{ }
 
 	template<Concepts::NonConstant T>
-	inline constexpr T* MAllocator<T>::Allocate(const size_t Length)
+	inline constexpr T* DefaultAllocator<T>::Allocate(const size_t Length)
 	{
 		if (Length == 0)
 		{
 			return nullptr;
 		}
 
-		return (T*)malloc(Length * ElementSize);
+		return new T[Length];
 	}
 
 	template<Concepts::NonConstant T>
-	inline void MAllocator<T>::Deallocate(T* First, const size_t Length)
+	inline void DefaultAllocator<T>::Deallocate(T* First, const size_t Length)
 	{
 		if (First == nullptr)
 		{
 			return;
 		}
 
-		free(First);
+		delete[] First;
 		First = nullptr;
 	}
 }

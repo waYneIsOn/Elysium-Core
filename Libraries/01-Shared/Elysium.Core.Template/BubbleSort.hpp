@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Pointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
+#include "Swap.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_GREATER
 #include "Greater.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVERPOINTER
 #include "RemovePointer.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_SWAP
-#include "Swap.hpp"
 #endif
 
 namespace Elysium::Core::Template::Algorithms::Sorting
@@ -45,16 +45,10 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 			{
 				if (Comparer.operator()(First[j], First[j + 1]))
 				{
-					Utility::Swap(First[j], First[j + 1]);
+					Functional::Swap(First[j], First[j + 1]);
 				}
 			}
 		}
-	}
-
-	template <Concepts::Pointer T>
-	constexpr void BubbleSort(const T First, const size_t Count)
-	{
-		BubbleSort<T>(First, Count, Operators::Greater<TypeTraits::RemovePointerType<T>>());
 	}
 
 	template <Concepts::Pointer T, class Compare>
@@ -68,10 +62,31 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		{
 			return;
 		}
-
+		/*
+		T CurrentOuter = First;
+		T CurrentInner = First;
+		while (CurrentOuter != Last)
+		{
+			while (CurrentInner != First)
+			{
+				if (Comparer.operator()(CurrentOuter, CurrentInner))
+				{
+					Utility::Swap(CurrentOuter, CurrentInner);
+				}
+				CurrentInner++;
+			}
+			CurrentOuter++;
+		}
+		*/
 		// ToDo: need to make use of size of T or implement it directly using pointer
 		const size_t Count = Last - First + 1;
-		BubbleSort(First, Count);
+		BubbleSort(First, Count, Comparer);
+	}
+
+	template <Concepts::Pointer T>
+	constexpr void BubbleSort(const T First, const size_t Count)
+	{
+		BubbleSort<T>(First, Count, Operators::Greater<TypeTraits::RemovePointerType<T>>());
 	}
 
 	template <Concepts::Pointer T>
