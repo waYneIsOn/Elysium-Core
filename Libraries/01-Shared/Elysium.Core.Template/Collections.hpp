@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_BACKWARDITERATOR
+#include "BackwardIterator.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_FIXEDSIZEHEAPARRAY
 #include "FixedSizeHeapArray.hpp"
 #endif
@@ -24,8 +28,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_REVERSEITERATOR
-#include "ReverseIterrator.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_INITIALIZERLIST
+#include "InitializerList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_LIST
+#include "List.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_TUPLE

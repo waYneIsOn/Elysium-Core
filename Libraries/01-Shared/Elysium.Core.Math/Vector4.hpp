@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 namespace Elysium::Core::Math::Numerics
@@ -100,7 +100,7 @@ namespace Elysium::Core::Math::Numerics
 	template<typename T>
 	inline Vector4<T>::Vector4(Vector4&& Right) noexcept
 	{
-		*this = Elysium::Core::Template::TypeTraits::Move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	template<class T>
 	inline Vector4<T>::~Vector4()
@@ -124,10 +124,10 @@ namespace Elysium::Core::Math::Numerics
 	{
 		if (this != &Right)
 		{
-			X = Elysium::Core::Template::TypeTraits::Move(Right.X);
-			Y = Elysium::Core::Template::TypeTraits::Move(Right.Y);
-			Z = Elysium::Core::Template::TypeTraits::Move(Right.Z);
-			W = Elysium::Core::Template::TypeTraits::Move(Right.W);
+			X = Elysium::Core::Template::Functional::Move(Right.X);
+			Y = Elysium::Core::Template::Functional::Move(Right.Y);
+			Z = Elysium::Core::Template::Functional::Move(Right.Z);
+			W = Elysium::Core::Template::Functional::Move(Right.W);
 		}
 		return *this;
 	}

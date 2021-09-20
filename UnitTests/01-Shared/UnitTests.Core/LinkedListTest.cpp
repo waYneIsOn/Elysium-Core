@@ -17,7 +17,7 @@ namespace UnitTests::Core::Collections::Template
 			const Elysium::Core::uint8_t Size = 5;
 
 			LinkedList<Elysium::Core::uint8_t*> PointerLinkedList = LinkedList<Elysium::Core::uint8_t*>();
-			Assert::AreEqual(0_ui64, PointerLinkedList.GetCount());
+			Assert::AreEqual(0ui64, PointerLinkedList.GetCount());
 			Assert::IsNull(PointerLinkedList.GetFirst());
 			Assert::IsNull(PointerLinkedList.GetLast());
 
@@ -29,16 +29,16 @@ namespace UnitTests::Core::Collections::Template
 			}
 			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(Size), PointerLinkedList.GetCount());
 
-			Assert::AreEqual(0_ui8, *PointerLinkedList.GetFirst()->GetValue());
-			Assert::AreEqual(4_ui8, *PointerLinkedList.GetLast()->GetValue());
+			Assert::AreEqual(0ui8, *PointerLinkedList.GetFirst()->GetValue());
+			Assert::AreEqual(4ui8, *PointerLinkedList.GetLast()->GetValue());
 			
 			PointerLinkedList.RemoveFirst();
 			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(Size - 1), PointerLinkedList.GetCount());
-			Assert::AreEqual(1_ui8, *PointerLinkedList.GetFirst()->GetValue());
+			Assert::AreEqual(1ui8, *PointerLinkedList.GetFirst()->GetValue());
 			Assert::AreEqual(*PointerLinkedList.FindLast()->GetValue(), *PointerLinkedList.GetLast()->GetValue());
 			
 			PointerLinkedList.Clear();
-			Assert::AreEqual(0_ui64, PointerLinkedList.GetCount());
+			Assert::AreEqual(0ui64, PointerLinkedList.GetCount());
 		}
 
 		TEST_METHOD(FundamentalValue)
@@ -56,12 +56,12 @@ namespace UnitTests::Core::Collections::Template
 			}
 			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(Size), ValueLinkedList.GetCount());
 
-			Assert::AreEqual(0_ui8, ValueLinkedList.GetFirst()->GetValue());
-			Assert::AreEqual(4_ui8, ValueLinkedList.GetLast()->GetValue());
+			Assert::AreEqual(0ui8, ValueLinkedList.GetFirst()->GetValue());
+			Assert::AreEqual(4ui8, ValueLinkedList.GetLast()->GetValue());
 			
 			ValueLinkedList.RemoveFirst();
 			Assert::AreEqual(static_cast<Elysium::Core::uint64_t>(Size - 1), ValueLinkedList.GetCount());
-			Assert::AreEqual(1_ui8, ValueLinkedList.GetFirst()->GetValue());
+			Assert::AreEqual(1ui8, ValueLinkedList.GetFirst()->GetValue());
 			Assert::AreEqual(ValueLinkedList.FindLast()->GetValue(), ValueLinkedList.GetLast()->GetValue());
 			
 			ValueLinkedList.Clear();

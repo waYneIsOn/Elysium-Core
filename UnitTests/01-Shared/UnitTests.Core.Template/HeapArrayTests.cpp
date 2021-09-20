@@ -3,11 +3,13 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/FixedSizeHeapArray.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Mallocator.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::Collections;
+using namespace Elysium::Core::Template::Functional;
 using namespace Elysium::Core::Template::TypeTraits;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -21,6 +23,27 @@ namespace UnitTests::Core::Template
 			// Default constructor without elements
 			FixedSizeHeapArray<uint32_t, 0> EmptyInstance;
 			Assert::AreEqual(0ULL, EmptyInstance.GetLength());
+
+			// InitializerList (smaller than array)
+			FixedSizeHeapArray<uint32_t, 3> InitializerListSmallerInstance = { 1, 2 };
+			Assert::AreEqual(3ULL, InitializerListSmallerInstance.GetLength());
+			Assert::AreEqual(1ui32, InitializerListSmallerInstance[0]);
+			Assert::AreEqual(2ui32, InitializerListSmallerInstance[1]);
+			Assert::AreEqual(3452816845ui32, InitializerListSmallerInstance[2]);
+
+			// InitializerList (larger than array)
+			FixedSizeHeapArray<uint32_t, 3> InitializerListLargerInstance = { 1, 2, 3, 4 };
+			Assert::AreEqual(3ULL, InitializerListLargerInstance.GetLength());
+			Assert::AreEqual(1ui32, InitializerListLargerInstance[0]);
+			Assert::AreEqual(2ui32, InitializerListLargerInstance[1]);
+			Assert::AreEqual(3ui32, InitializerListLargerInstance[2]);
+
+			// InitializerList (same size)
+			FixedSizeHeapArray<uint32_t, 3> InitializerListInstance = { 1, 2, 4 };
+			Assert::AreEqual(3ULL, InitializerListInstance.GetLength());
+			Assert::AreEqual(1ui32, InitializerListInstance[0]);
+			Assert::AreEqual(2ui32, InitializerListInstance[1]);
+			Assert::AreEqual(4ui32, InitializerListInstance[2]);
 
 			// Default constructor with elements (and memset)
 			FixedSizeHeapArray<uint32_t, 5> Instance = FixedSizeHeapArray<uint32_t, 5>(true);

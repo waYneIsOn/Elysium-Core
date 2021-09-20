@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MoveAssignableAndConstructible.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_MOVE
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
 
@@ -108,7 +108,7 @@ namespace Elysium::Core::Template::Collections
 	inline Tuple<T1, T2>::Tuple(Tuple<T1, T2>&& Right) noexcept
 		: _Item1(), _Item2()
 	{
-		*this = TypeTraits::Move(Right);
+		*this = Functional::Move(Right);
 	}
 	template<Concepts::MoveAssignableAndConstructible T1, Concepts::MoveAssignableAndConstructible T2>
 	inline Tuple<T1, T2>::~Tuple()
@@ -119,8 +119,8 @@ namespace Elysium::Core::Template::Collections
 	{
 		if (this != &Right)
 		{
-			_Item1 = TypeTraits::Move(Right._Item1);
-			_Item2 = TypeTraits::Move(Right._Item2);
+			_Item1 = Functional::Move(Right._Item1);
+			_Item2 = Functional::Move(Right._Item2);
 		}
 		return *this;
 	}

@@ -18,6 +18,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "LinkedListNode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
 #include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif

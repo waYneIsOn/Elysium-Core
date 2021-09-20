@@ -13,16 +13,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
+#include "RemoveConstVolatile.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
 #include "IsSame.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
-#include "RemoveConstVolatile.hpp"
 #endif
 
 #ifndef _INC_STDDEF
@@ -33,7 +33,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T>
-	inline constexpr bool IsNullPointerValue = IsSameValue<RemoveConstVolatileType<T>, std::nullptr_t>;
+	inline constexpr bool IsNullPointerValue = IsSameValue<Functional::RemoveConstVolatileType<T>, std::nullptr_t>;
 
 	template <class T>
 	struct IsNullPointer : public IntegralConstant<bool, IsNullPointerValue<T>>

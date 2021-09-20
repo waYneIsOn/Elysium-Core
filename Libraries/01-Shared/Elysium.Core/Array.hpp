@@ -115,7 +115,7 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(Array<T>&& Right) noexcept
 		: _Length(0), _Data(nullptr)
 	{
-		*this = Elysium::Core::Template::TypeTraits::Move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	template<class T>
 	inline Array<T>::Array(const List<T>& Source)

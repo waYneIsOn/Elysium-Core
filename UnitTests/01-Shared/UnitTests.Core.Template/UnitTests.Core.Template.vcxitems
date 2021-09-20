@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)HeapArrayTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeTraitTests.cpp" />

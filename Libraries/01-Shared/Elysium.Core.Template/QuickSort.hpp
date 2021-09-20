@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Pointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
+#include "RemovePointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
 #include "Swap.hpp"
 #endif
@@ -94,13 +98,13 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	template <Concepts::Pointer T>
 	constexpr void QuickSort(const T First, const size_t Count)
 	{
-		QuickSort<T>(First, Count, Operators::Greater<TypeTraits::RemovePointerType<T>>());
+		QuickSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 	}
 
 	template <Concepts::Pointer T>
 	constexpr void QuickSort(const T First, const T Last)
 	{
-		QuickSort<T>(First, Last, Operators::Greater<TypeTraits::RemovePointerType<T>>());
+		QuickSort<T>(First, Last, Operators::Greater<Functional::RemovePointerType<T>>());
 	}
 }
 #endif

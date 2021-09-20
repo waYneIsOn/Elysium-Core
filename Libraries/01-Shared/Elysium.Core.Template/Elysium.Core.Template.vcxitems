@@ -37,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeHeapArray.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsArithemtic.hpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignable.hpp" />

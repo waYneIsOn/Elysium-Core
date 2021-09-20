@@ -12,8 +12,8 @@
 #include "NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 #ifndef _CHRONO_
@@ -41,7 +41,7 @@ Elysium::Core::DateTime::DateTime(const DateTime & Source)
 Elysium::Core::DateTime::DateTime(DateTime && Right) noexcept
 	: Elysium::Core::DateTime::DateTime(0, DateTimeKind::Unspecified)
 {
-	*this = Elysium::Core::Template::TypeTraits::Move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::DateTime::~DateTime()
 { }
@@ -59,8 +59,8 @@ Elysium::Core::DateTime & Elysium::Core::DateTime::operator=(DateTime && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = Elysium::Core::Template::TypeTraits::Move(Right._Ticks);
-		_Kind = Elysium::Core::Template::TypeTraits::Move(Right._Kind);
+		_Ticks = Elysium::Core::Template::Functional::Move(Right._Ticks);
+		_Kind = Elysium::Core::Template::Functional::Move(Right._Kind);
 
 		Right._Ticks = 0;
 		Right._Kind = DateTimeKind::Unspecified;

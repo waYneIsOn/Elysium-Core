@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_DEFAULTALLOCATOR
-#include "DefaultAllocator.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_MOVE
-#include "Move.hpp"
+#ifndef _XUTILITY_
+#include <xutility>	// std::reverse
 #endif
 
 namespace Elysium::Core::Template::Collections
@@ -32,15 +32,15 @@ namespace Elysium::Core::Template::Collections
 	private:
 		static const size_t ElementSize = sizeof(T);
 	public:
+		static const size_t MaximumSize = static_cast<size_t>(-1);
 
-	public:
 		static void Clear(T* First, const size_t Length) noexcept;
 
 		static void Copy(const T* Source, T* Destination, const size_t Length);
 
 		static void Move(T* Source, T* Destination, const size_t Length) noexcept;
 
-		//static void Reverse(T* First, const size_t Length);
+		static void Reverse(T* First, const size_t Length);
 	};
 
 	template<class T>
@@ -51,13 +51,8 @@ namespace Elysium::Core::Template::Collections
 			return;
 		}
 
+		// ToDo: custom implementation (os-functionality or iterate byte by byte/element by element?)
 		std::memset(First, 0x00, Length * ElementSize);
-		/*
-		while (Length--)
-		{
-			*First[Length] = 0x00;
-		}
-		*/
 	}
 
 	template<class T>
@@ -84,8 +79,20 @@ namespace Elysium::Core::Template::Collections
 
 		for (size_t i = 0; i < Length; i++)
 		{
-			Destination[i] = TypeTraits::Move(Source[i]);
+			Destination[i] = Functional::Move(Source[i]);
 		}
+	}
+
+	template<class T>
+	inline void Array<T>::Reverse(T* First, const size_t Length)
+	{
+		if (First == nullptr || Length < 2)
+		{
+			return;
+		}
+
+		// ToDo: custom implementation
+		std::reverse(First, &First[Length - 1]);
 	}
 }
 #endif

@@ -128,30 +128,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsVolatile.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_MOVE
-#include "Move.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONST
-#include "RemoveConst.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
-#include "RemoveConstVolatile.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVERPOINTER
-#include "RemovePointer.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVEREFERENCE
-#include "RemoveReference.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVEVOLATILE
-#include "RemoveVolatile.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOIDTYPE
 #include "VoidType.hpp"
 #endif

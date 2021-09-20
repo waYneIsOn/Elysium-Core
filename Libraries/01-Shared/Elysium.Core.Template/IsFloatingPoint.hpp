@@ -13,16 +13,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
+#include "RemoveConstVolatile.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISANYOF
 #include "IsAnyOf.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
-#include "RemoveConstVolatile.hpp"
 #endif
 
 namespace Elysium::Core
@@ -33,7 +33,7 @@ namespace Elysium::Core
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<RemoveConstVolatile<T>::Type, float, double, long double, Elysium::Core::Decimal>;
+    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, float, double, long double, Elysium::Core::Decimal>;
 
     template <class T>
     struct IsFloatingPoint : IntegralConstant<bool, IsFloatingPointValue<T>>

@@ -8,8 +8,8 @@
 #include "DateTimeUtility.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::TimeSpan::TimeSpan(Elysium::Core::int64_t Ticks)
@@ -27,7 +27,7 @@ Elysium::Core::TimeSpan::TimeSpan(const TimeSpan & Source)
 Elysium::Core::TimeSpan::TimeSpan(TimeSpan && Right) noexcept
 	: _Ticks(0)
 {
-	*this = Elysium::Core::Template::TypeTraits::Move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::TimeSpan::~TimeSpan()
 { }
@@ -44,7 +44,7 @@ Elysium::Core::TimeSpan & Elysium::Core::TimeSpan::operator=(TimeSpan && Right) 
 {
 	if (this != &Right)
 	{
-		_Ticks = Elysium::Core::Template::TypeTraits::Move(Right._Ticks);
+		_Ticks = Elysium::Core::Template::Functional::Move(Right._Ticks);
 	}
 	return *this;
 }

@@ -16,19 +16,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_DEFAULTALLOCATOR
-#include "DefaultAllocator.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_BACKWARDITERATOR
 #include "BackwardIterator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_DEFAULTALLOCATOR
+#include "DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_FORWARDITERATOR
 #include "ForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_MOVE
+#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_INITIALIZERLIST
+#include "InitializerList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
 
@@ -63,6 +67,12 @@ namespace Elysium::Core::Template::Collections
 		/// </summary>
 		/// <param name="PerformMemoryClear"></param>
 		FixedSizeHeapArray(const bool PerformMemoryClear = false);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="InitializerList"></param>
+		FixedSizeHeapArray(const InitializerList<T>& InitializerList);
 
 		/// <summary>
 		/// Copies given array.
@@ -114,7 +124,7 @@ namespace Elysium::Core::Template::Collections
 		/// Gets the total number of elements.
 		/// </summary>
 		/// <returns></returns>
-		const size_t GetLength() const noexcept;
+		constexpr const size_t GetLength() const noexcept;
 
 		/// <summary>
 		/// Returns a forward-iterator pointing towards the first element.
@@ -178,6 +188,15 @@ namespace Elysium::Core::Template::Collections
 	}
 
 	template<class T, size_t Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray(const InitializerList<T>& InitializerList)
+		: _Data(_Allocator.Allocate(Length))
+	{
+		const size_t CopyLength = Length < InitializerList.size() ? Length : InitializerList.size();
+
+		Array<T>::Copy(InitializerList.begin(), _Data, CopyLength);
+	}
+
+	template<class T, size_t Length, class Allocator>
 	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray(const FixedSizeHeapArray& Source)
 		: _Data(_Allocator.Allocate(Length))
 	{
@@ -188,7 +207,7 @@ namespace Elysium::Core::Template::Collections
 	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray(FixedSizeHeapArray&& Right) noexcept
 		: _Data(nullptr)
 	{
-		*this = TypeTraits::Move(Right);
+		*this = Functional::Move(Right);
 	}
 	
 	template<class T, size_t Length, class Allocator>
@@ -258,7 +277,7 @@ namespace Elysium::Core::Template::Collections
 	}
 
 	template<class T, size_t Length, class Allocator>
-	inline const size_t FixedSizeHeapArray<T, Length, Allocator>::GetLength() const noexcept
+	inline constexpr const size_t FixedSizeHeapArray<T, Length, Allocator>::GetLength() const noexcept
 	{
 		return Length;
 	}

@@ -12,8 +12,8 @@
 #include "IndexOutOfRangeException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 #ifndef _XSTRING_
@@ -63,7 +63,7 @@ Elysium::Core::String::String(const String& Source)
 Elysium::Core::String::String(String&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
-	*this = Elysium::Core::Template::TypeTraits::Move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 
 Elysium::Core::String::~String()

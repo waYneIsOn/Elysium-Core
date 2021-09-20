@@ -70,21 +70,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveVolatile.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp">
@@ -135,9 +120,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp">
       <Filter>Operators</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemovePointer.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)QuickSort.hpp">
       <Filter>Algorithms\Sorting</Filter>
@@ -178,6 +160,30 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Swap.hpp">
       <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemovePointer.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
+      <Filter>Collections</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

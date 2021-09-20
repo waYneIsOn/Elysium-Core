@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
+#include "RemovePointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #include "Pointer.hpp"
 #endif
@@ -37,13 +41,13 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	template <Concepts::Pointer T>
 	constexpr void BlockSort(const T First, const size_t Count)
 	{
-		BlockSort<T>(First, Count, Operators::Greater<TypeTraits::RemovePointerType<T>>());
+		BlockSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 	}
 
 	template <Concepts::Pointer T>
 	constexpr void BlockSort(const T First, const T Last)
 	{
-		BlockSort<T>(First, Last, Operators::Greater<TypeTraits::RemovePointerType<T>>());
+		BlockSort<T>(First, Last, Operators::Greater<Functional::RemovePointerType<T>>());
 	}
 }
 #endif

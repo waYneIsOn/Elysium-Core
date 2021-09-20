@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MathHelper.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 namespace Elysium::Core::Math::Numerics
@@ -77,7 +77,7 @@ namespace Elysium::Core::Math::Numerics
 	template<typename T>
 	inline Matrix4x4<T>::Matrix4x4(Matrix4x4&& Right) noexcept
 	{
-		*this = Elysium::Core::Template::TypeTraits::Move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	template<class T>
 	inline Matrix4x4<T>::~Matrix4x4()
@@ -112,22 +112,22 @@ namespace Elysium::Core::Math::Numerics
 	{
 		if (this != &Right)
 		{
-			M11 = Elysium::Core::Template::TypeTraits::Move(Right.M11);
-			M12 = Elysium::Core::Template::TypeTraits::Move(Right.M12);
-			M13 = Elysium::Core::Template::TypeTraits::Move(Right.M13);
-			M14 = Elysium::Core::Template::TypeTraits::Move(Right.M14);
-			M21 = Elysium::Core::Template::TypeTraits::Move(Right.M21);
-			M22 = Elysium::Core::Template::TypeTraits::Move(Right.M22);
-			M23 = Elysium::Core::Template::TypeTraits::Move(Right.M23);
-			M24 = Elysium::Core::Template::TypeTraits::Move(Right.M24);
-			M31 = Elysium::Core::Template::TypeTraits::Move(Right.M31);
-			M32 = Elysium::Core::Template::TypeTraits::Move(Right.M32);
-			M33 = Elysium::Core::Template::TypeTraits::Move(Right.M33);
-			M34 = Elysium::Core::Template::TypeTraits::Move(Right.M34);
-			M41 = Elysium::Core::Template::TypeTraits::Move(Right.M41);
-			M42 = Elysium::Core::Template::TypeTraits::Move(Right.M42);
-			M43 = Elysium::Core::Template::TypeTraits::Move(Right.M43);
-			M44 = Elysium::Core::Template::TypeTraits::Move(Right.M44);
+			M11 = Elysium::Core::Template::Functional::Move(Right.M11);
+			M12 = Elysium::Core::Template::Functional::Move(Right.M12);
+			M13 = Elysium::Core::Template::Functional::Move(Right.M13);
+			M14 = Elysium::Core::Template::Functional::Move(Right.M14);
+			M21 = Elysium::Core::Template::Functional::Move(Right.M21);
+			M22 = Elysium::Core::Template::Functional::Move(Right.M22);
+			M23 = Elysium::Core::Template::Functional::Move(Right.M23);
+			M24 = Elysium::Core::Template::Functional::Move(Right.M24);
+			M31 = Elysium::Core::Template::Functional::Move(Right.M31);
+			M32 = Elysium::Core::Template::Functional::Move(Right.M32);
+			M33 = Elysium::Core::Template::Functional::Move(Right.M33);
+			M34 = Elysium::Core::Template::Functional::Move(Right.M34);
+			M41 = Elysium::Core::Template::Functional::Move(Right.M41);
+			M42 = Elysium::Core::Template::Functional::Move(Right.M42);
+			M43 = Elysium::Core::Template::Functional::Move(Right.M43);
+			M44 = Elysium::Core::Template::Functional::Move(Right.M44);
 		}
 		return *this;
 	}

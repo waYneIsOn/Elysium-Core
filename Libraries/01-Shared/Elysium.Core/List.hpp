@@ -34,8 +34,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OutOfMemoryException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
@@ -130,7 +130,7 @@ namespace Elysium::Core::Collections::Template
 	inline List<T>::List(List<T>&& Right) noexcept
 		: _Capacity(0), _Count(0), _Data(nullptr)
 	{
-		*this = Elysium::Core::Template::TypeTraits::Move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	template<class T>
 	inline List<T>::~List()

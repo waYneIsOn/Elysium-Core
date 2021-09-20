@@ -8,8 +8,8 @@
 #include "NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 #ifndef __midl
@@ -59,7 +59,7 @@ Elysium::Core::Guid & Elysium::Core::Guid::operator=(Guid && Right) noexcept
 {
 	if (this != &Right)
 	{
-		_Data = Elysium::Core::Template::TypeTraits::Move(Right._Data);
+		_Data = Elysium::Core::Template::Functional::Move(Right._Data);
 
 		Right._Data = 0;
 	}

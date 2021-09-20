@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DivideByZeroException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
 #include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
@@ -153,7 +157,7 @@ namespace Elysium::Core
 	inline Numeric<T, Enabled>::Numeric(Numeric && Right) noexcept
 		: _Value(0)
 	{
-		*this = Elysium::Core::Template::TypeTraits::Move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
 	template<class T, typename Enabled>
@@ -184,7 +188,7 @@ namespace Elysium::Core
 	{
 		if (this != &Right)
 		{
-			_Value = Elysium::Core::Template::TypeTraits::Move(Right._Value);
+			_Value = Elysium::Core::Template::Functional::Move(Right._Value);
 		}
 
 		return *this;

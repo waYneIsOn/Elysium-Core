@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
+#include "RemoveConstVolatile.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
@@ -24,16 +28,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsIntegral.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_REMOVECONSTVOLATILE
-#include "RemoveConstVolatile.hpp"
-#endif
-
 namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T, bool = IsIntegralValue<T>>
 	struct IsSignedHelper
 	{
-		using PlainT = RemoveConstVolatileType<T>;
+		using PlainT = Functional::RemoveConstVolatileType<T>;
 
 		static constexpr bool Signed = static_cast<PlainT>(-1) < static_cast<PlainT>(0);
 	};

@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 namespace Elysium::Core
@@ -74,7 +74,7 @@ namespace Elysium::Core
 	inline Delegate<ReturnType, Args...>::Delegate(Delegate && Right) noexcept
 		: _Target(nullptr), _Method(nullptr)
 	{
-		*this = Elysium::Core::Template::TypeTraits::Move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
 	template<class ReturnType, class ...Args>
@@ -97,8 +97,8 @@ namespace Elysium::Core
 	{
 		if (this != &Right)
 		{
-			_Target = Elysium::Core::Template::TypeTraits::Move(Right._Target);
-			_Method = Elysium::Core::Template::TypeTraits::Move(Right._Method);
+			_Target = Elysium::Core::Template::Functional::Move(Right._Target);
+			_Method = Elysium::Core::Template::Functional::Move(Right._Method);
 
 			Right._Target = nullptr;
 			Right._Method = nullptr;
