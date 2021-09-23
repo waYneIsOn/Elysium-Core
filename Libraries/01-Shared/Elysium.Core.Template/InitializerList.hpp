@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_INITIALIZERLIST
-#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_INITIALIZERLIST
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#define ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <initializer_list>
 #endif
 
-namespace Elysium::Core::Template::Collections
+namespace Elysium::Core::Template::Container
 {
 	// afaik I can neither implement a custom InitializerList, nor use an implicit cast operator
 	

@@ -8,12 +8,12 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::Template::Functional;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Template
+namespace UnitTests::Core::Template::Functional
 {
 	TEST_CLASS(FunctionalTests)
 	{
 	public:
-		TEST_METHOD(TestSwap)
+		TEST_METHOD(SwapBytes)
 		{
 			byte Left = 0;
 			byte Right = 255;
@@ -22,6 +22,17 @@ namespace UnitTests::Core::Template
 
 			Assert::AreEqual(static_cast<byte>(255), Left);
 			Assert::AreEqual(static_cast<byte>(0), Right);
+		}
+
+		TEST_METHOD(SwapInteger)
+		{
+			int32_t Left = -1;
+			int32_t Right = 45356;
+
+			Swap(Left, Right);
+
+			Assert::AreEqual(-1, Right);
+			Assert::AreEqual(45356, Left);
 		}
 	};
 }

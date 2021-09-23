@@ -22,8 +22,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedList.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedListNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />

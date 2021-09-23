@@ -110,9 +110,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Collections.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp">
       <Filter>Operators</Filter>
@@ -137,22 +137,22 @@
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeHeapArray.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ForwardIterator.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)BackwardIterator.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
       <Filter>Functional</Filter>
@@ -179,11 +179,44 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
-      <Filter>Collections</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp">
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HeapArray.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Map.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp">
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -202,14 +235,14 @@
     <Filter Include="Algorithms\Sorting">
       <UniqueIdentifier>{eacc65ef-1634-41fe-9233-4c59511d8bfb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collections">
-      <UniqueIdentifier>{8feb6bb1-3f35-4d13-b134-004db939ef9f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Operators">
       <UniqueIdentifier>{8be4f5b7-9086-48ca-81ea-b97b32097005}</UniqueIdentifier>
     </Filter>
     <Filter Include="Functional">
       <UniqueIdentifier>{3d4100da-2d5c-4219-8fd2-67030d54eb15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{8feb6bb1-3f35-4d13-b134-004db939ef9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -10,10 +10,10 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template;
 using namespace Elysium::Core::Template::Algorithms::Sorting;
-using namespace Elysium::Core::Template::Collections;
+using namespace Elysium::Core::Template::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Template
+namespace UnitTests::Core::Template::Algorithms
 {
 	template<template <class, class> class T, class T1, class T2>
 	struct Tuple2Item1Greater

@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_BACKWARDITERATOR
-#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_BACKWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_BACKWARDITERATOR
+#define ELYSIUM_CORE_TEMPLATE_CONTAINER_BACKWARDITERATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,22 +16,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-namespace Elysium::Core::Template::Collections
+namespace Elysium::Core::Template::Container
 {
 	template <class Collection>
-	class BackwardIterator
+	class BackwardIterator final
 	{
 	public:
-		using CollectionValue = typename Collection::Value;
 		using CollectionPointer = typename Collection::Pointer;
 		using CollectionReference = typename Collection::Reference;
-		using ConstCollectionReference = typename Collection::ConstReference;
 	public:
 		BackwardIterator() noexcept;
 		BackwardIterator(CollectionPointer Current) noexcept;
 		BackwardIterator(const BackwardIterator& Source) noexcept;
 		BackwardIterator(BackwardIterator&& Right) noexcept = delete;
-		virtual ~BackwardIterator() noexcept;
+		~BackwardIterator() noexcept;
 
 		BackwardIterator<Collection>& operator=(const BackwardIterator& Source) noexcept = delete;
 		BackwardIterator<Collection>& operator=(BackwardIterator&& Right) noexcept = delete;
@@ -46,8 +44,6 @@ namespace Elysium::Core::Template::Collections
 		BackwardIterator<Collection>& operator--();
 
 		CollectionReference operator*();
-
-		ConstCollectionReference operator*() const;
 	private:
 		CollectionPointer _Current;
 	};
@@ -114,14 +110,9 @@ namespace Elysium::Core::Template::Collections
 
 		return *this;
 	}
-	template<class Collection>
-	inline BackwardIterator<Collection>::CollectionReference BackwardIterator<Collection>::operator*()
-	{
-		return *_Current;
-	}
 
 	template<class Collection>
-	inline BackwardIterator<Collection>::ConstCollectionReference BackwardIterator<Collection>::operator*() const
+	inline BackwardIterator<Collection>::CollectionReference BackwardIterator<Collection>::operator*()
 	{
 		return *_Current;
 	}

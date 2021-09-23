@@ -111,12 +111,6 @@
       <Filter>Collections</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedList.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionalLinkedListNode.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>

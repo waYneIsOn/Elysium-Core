@@ -3,10 +3,10 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/InitializerList.hpp"
 
-using namespace Elysium::Core::Template::Collections;
+using namespace Elysium::Core::Template::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Template
+namespace UnitTests::Core::Template::Container
 {
 	TEST_CLASS(InitializerListTests)
 	{

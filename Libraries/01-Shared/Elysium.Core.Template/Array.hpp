@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_ARRAY
-#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_ARRAY
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
+#define ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <xutility>	// std::reverse
 #endif
 
-namespace Elysium::Core::Template::Collections
+namespace Elysium::Core::Template::Container
 {
 	/// <summary>
 	/// 
@@ -29,70 +29,66 @@ namespace Elysium::Core::Template::Collections
 	template <class T>
 	class Array final
 	{
-	private:
-		static const size_t ElementSize = sizeof(T);
 	public:
-		static const size_t MaximumSize = static_cast<size_t>(-1);
+		static void Clear(T* First, const size_t NumberOfElements) noexcept;
 
-		static void Clear(T* First, const size_t Length) noexcept;
+		static void Copy(const T* Source, T* Destination, const size_t NumberOfElements);
 
-		static void Copy(const T* Source, T* Destination, const size_t Length);
+		static void Move(T* Source, T* Destination, const size_t NumberOfElements) noexcept;
 
-		static void Move(T* Source, T* Destination, const size_t Length) noexcept;
-
-		static void Reverse(T* First, const size_t Length);
+		static void Reverse(T* First, const size_t NumberOfElements);
 	};
 
 	template<class T>
-	inline void Array<T>::Clear(T* First, const size_t Length) noexcept
+	inline void Array<T>::Clear(T* First, const size_t NumberOfElements) noexcept
 	{
-		if (First == nullptr || Length == 0)
+		if (First == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
 		// ToDo: custom implementation (os-functionality or iterate byte by byte/element by element?)
-		std::memset(First, 0x00, Length * ElementSize);
+		std::memset(First, 0x00, sizeof(T) * NumberOfElements);
 	}
 
 	template<class T>
-	inline void Array<T>::Copy(const T* Source, T* Destination, const size_t Length)
+	inline void Array<T>::Copy(const T* Source, T* Destination, const size_t NumberOfElements)
 	{
-		if (Source == nullptr || Destination == nullptr || Length == 0)
+		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (size_t i = 0; i < Length; i++)
+		for (size_t i = 0; i < NumberOfElements; i++)
 		{
 			Destination[i] = Source[i];
 		}
 	}
 
 	template<class T>
-	inline void Array<T>::Move(T* Source, T* Destination, const size_t Length) noexcept
+	inline void Array<T>::Move(T* Source, T* Destination, const size_t NumberOfElements) noexcept
 	{
-		if (Source == nullptr || Destination == nullptr || Length == 0)
+		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (size_t i = 0; i < Length; i++)
+		for (size_t i = 0; i < NumberOfElements; i++)
 		{
 			Destination[i] = Functional::Move(Source[i]);
 		}
 	}
 
 	template<class T>
-	inline void Array<T>::Reverse(T* First, const size_t Length)
+	inline void Array<T>::Reverse(T* First, const size_t NumberOfElements)
 	{
-		if (First == nullptr || Length < 2)
+		if (First == nullptr || NumberOfElements < 2)
 		{
 			return;
 		}
 
 		// ToDo: custom implementation
-		std::reverse(First, &First[Length - 1]);
+		std::reverse(First, &First[NumberOfElements - 1]);
 	}
 }
 #endif

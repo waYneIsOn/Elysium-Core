@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_TUPLE
-#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_TUPLE
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
+#define ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-namespace Elysium::Core::Template::Collections
+namespace Elysium::Core::Template::Container
 {
 	/// <summary>
 	/// 

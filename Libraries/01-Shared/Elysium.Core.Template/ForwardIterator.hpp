@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_FORWARDITERATOR
-#define ELYSIUM_CORE_TEMPLATE_COLLECTIONS_FORWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FORWARDITERATOR
+#define ELYSIUM_CORE_TEMPLATE_CONTAINER_FORWARDITERATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,22 +16,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-namespace Elysium::Core::Template::Collections
+namespace Elysium::Core::Template::Container
 {
 	template <class Collection>
-	class ForwardIterator
+	class ForwardIterator final
 	{
 	public:
-		using CollectionValue = typename Collection::Value;
 		using CollectionPointer = typename Collection::Pointer;
 		using CollectionReference = typename Collection::Reference;
-		using ConstCollectionReference = typename Collection::ConstReference;
 	public:
 		ForwardIterator() noexcept;
 		ForwardIterator(CollectionPointer Current) noexcept;
 		ForwardIterator(const ForwardIterator&Source) noexcept;
 		ForwardIterator(ForwardIterator && Right) noexcept = delete;
-		virtual ~ForwardIterator() noexcept;
+		~ForwardIterator() noexcept;
 
 		ForwardIterator<Collection>& operator=(const ForwardIterator& Source) noexcept = delete;
 		ForwardIterator<Collection>& operator=(ForwardIterator&& Right) noexcept = delete;
@@ -46,8 +44,6 @@ namespace Elysium::Core::Template::Collections
 		ForwardIterator<Collection>& operator++();
 
 		CollectionReference operator*();
-
-		ConstCollectionReference operator*() const;
 	private:
 		CollectionPointer _Current;
 	};
@@ -114,14 +110,9 @@ namespace Elysium::Core::Template::Collections
 
 		return *this;
 	}
-	template<class Collection>
-	inline ForwardIterator<Collection>::CollectionReference ForwardIterator<Collection>::operator*()
-	{
-		return *_Current;
-	}
 
 	template<class Collection>
-	inline ForwardIterator<Collection>::ConstCollectionReference ForwardIterator<Collection>::operator*() const
+	inline ForwardIterator<Collection>::CollectionReference ForwardIterator<Collection>::operator*()
 	{
 		return *_Current;
 	}
