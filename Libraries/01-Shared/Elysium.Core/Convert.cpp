@@ -540,7 +540,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 		{
 			for (i = 0; i < 4; i++)
 			{
-				Array4[i] = _Base64Chars.IndexOf(Array4[i]);
+				Array4[i] = static_cast<Elysium::Core::byte>(_Base64Chars.IndexOf(Array4[i]));
 			}
 
 			Array3[0] = (Array4[0] << 2) + ((Array4[1] & 0x30) >> 4);
@@ -556,7 +556,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 	{
 		for (j = 0; j < i; j++)
 		{
-			Array4[j] = _Base64Chars.IndexOf(Array4[j]);
+			Array4[j] = static_cast<Elysium::Core::byte>(_Base64Chars.IndexOf(Array4[j]));
 		}
 
 		Array3[0] = (Array4[0] << 2) + ((Array4[1] & 0x30) >> 4);

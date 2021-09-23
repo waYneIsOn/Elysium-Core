@@ -46,7 +46,7 @@ const Elysium::Core::uint32_t Elysium::Core::IO::StreamReader::Read()
 	//return _InputStream.ReadByte();
 }
 
-const Elysium::Core::int32_t Elysium::Core::IO::StreamReader::Read(char8_t* Buffer, const Elysium::Core::int32_t Count)
+const size_t Elysium::Core::IO::StreamReader::Read(char8_t* Buffer, const size_t Count)
 {
 	const size_t InternalBufferSize = _Buffer.GetLength();
 	if (Count > InternalBufferSize)

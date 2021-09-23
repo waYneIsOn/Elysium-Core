@@ -32,7 +32,7 @@ const double Elysium::Core::Diagnostics::Stopwatch::SetupGetTickFrequency()
 	}
 	else
 	{
-		return TicksPerSecond / Timestamp.QuadPart;
+		return static_cast<double>(TicksPerSecond / Timestamp.QuadPart);
 	}
 }
 
@@ -114,7 +114,7 @@ const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::GetElapsedDa
 	const Elysium::Core::int64_t RawTicks = GetRawElapsedTicks();
 	if (IsHighResolution)
 	{
-		double RawTicksAsDouble = RawTicks;
+		double RawTicksAsDouble = static_cast<double>(RawTicks);
 		RawTicksAsDouble *= TickFrequency;
 		return static_cast<Elysium::Core::int64_t>(RawTicksAsDouble);
 	}

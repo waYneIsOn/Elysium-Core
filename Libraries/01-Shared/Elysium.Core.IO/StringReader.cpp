@@ -21,6 +21,12 @@ const Elysium::Core::uint32_t Elysium::Core::IO::StringReader::Read()
 	return _Position < _Input.GetLength() ? _Input[_Position++] : -1;
 }
 
+const size_t Elysium::Core::IO::StringReader::Read(char8_t* Buffer, const size_t Count)
+{
+	// ToDo:
+	throw 1;
+}
+
 Elysium::Core::String Elysium::Core::IO::StringReader::ReadLine()
 {
 	if (_Position == _Input.GetLength())
