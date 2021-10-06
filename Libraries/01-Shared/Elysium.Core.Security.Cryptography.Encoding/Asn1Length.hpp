@@ -12,32 +12,75 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_API
-#include "../Elysium.Core.Security/API.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "../Elysium.Core.Security/API.hpp"
+#endif
+
 namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	class ELYSIUM_CORE_SECURITY_API Asn1Length final
 	{
 	public:
-		Asn1Length(const int32_t Length, const int32_t EncodedLength);
-		Asn1Length(const Asn1Length& Source) = delete;
-		Asn1Length(Asn1Length&& Right) noexcept = delete;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Length"></param>
+		/// <param name="EncodedLength"></param>
+		Asn1Length(const Elysium::Core::uint32_t Length, const Elysium::Core::uint32_t EncodedLength);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Source"></param>
+		Asn1Length(const Asn1Length& Source);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Right"></param>
+		/// <returns></returns>
+		Asn1Length(Asn1Length&& Right) noexcept;
+
+		/// <summary>
+		/// Destroys this instance.
+		/// </summary>
 		~Asn1Length();
 
-		Asn1Length& operator=(const Asn1Length& Source) = delete;
-		Asn1Length& operator=(Asn1Length&& Right) noexcept = delete;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Source"></param>
+		/// <returns></returns>
+		Asn1Length& operator=(const Asn1Length& Source);
 
-		const int32_t GetLength() const;
-		const int32_t GetEncodedLength() const;
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Right"></param>
+		/// <returns></returns>
+		Asn1Length& operator=(Asn1Length&& Right) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		const Elysium::Core::uint32_t GetLength() const;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		const Elysium::Core::uint32_t GetEncodedLength() const;
 	private:
-		const int32_t _Length;
-		const int32_t _EncodedLength;
+		Elysium::Core::uint32_t _Length;
+		Elysium::Core::uint32_t _EncodedLength;
 	};
 }
 #endif

@@ -1,43 +1,19 @@
 #include "CppUnitTest.h"
-
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_STRING
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Convert.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509STORE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAIN
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_FILESTREAM
+#include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_DERDECODER
-#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
-#include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/InvalidDataException.hpp"
-#endif
-
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security/CryptographicException.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
+;
+using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::IO;
+using namespace Elysium::Core::Security::Cryptography;
 using namespace Elysium::Core::Security::Cryptography::Encoding::Asn1;
 using namespace Elysium::Core::Security::Cryptography::X509Certificates;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -60,6 +36,7 @@ namespace UnitTests::Core::Security::Cryptography
 				const X509Certificate& Certificate = RootCurrentUserStore.GetCertificates()[i];
 			}
 		}
+
 		TEST_METHOD(BuildCertificateChain)
 		{
 			X509Store RootCurrentUserStore = X509Store(StoreName::Root, StoreLocation::CurrentUser);
@@ -223,188 +200,41 @@ namespace UnitTests::Core::Security::Cryptography
 
 		TEST_METHOD(ReadCertificateUsingDERDecoder)
 		{
-			int32_t Count = 0;
+			// https://tools.ietf.org/html/rfc5280
+
+			Elysium::Core::int32_t Count = 0;
 
 			DERDecoder Decoder = DERDecoder();
-			for (uint32_t StoreNameInt = (uint32_t)StoreName::AddressBook; StoreNameInt != (uint32_t)StoreName::TrustedPublisher; StoreNameInt++)
+			for (Elysium::Core::uint32_t StoreNameInt = (Elysium::Core::uint32_t)StoreName::AddressBook; StoreNameInt <= (Elysium::Core::uint32_t)StoreName::TrustedPublisher; StoreNameInt++)
 			{
-				for (uint8_t StoreLocationInt = (uint8_t)StoreLocation::CurrentUser; StoreLocationInt != (uint8_t)StoreLocation::LocalMachine; StoreLocationInt++)
+				Logger::WriteMessage("-- StoreName: ");
+				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(StoreNameInt)[0]);
+				Logger::WriteMessage(" --\r\n");
+
+				for (Elysium::Core::uint8_t StoreLocationInt = (Elysium::Core::uint8_t)StoreLocation::CurrentUser; StoreLocationInt != (Elysium::Core::uint8_t)StoreLocation::LocalMachine; StoreLocationInt++)
 				{
+					Logger::WriteMessage("-- StoreLocation: ");
+					Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(StoreLocationInt)[0]);
+					Logger::WriteMessage(" --\r\n");
+
 					X509Store CurrentStore = X509Store(static_cast<StoreName>(StoreNameInt), static_cast<StoreLocation>(StoreLocationInt));
 					CurrentStore.Open(OpenFlags::ReadOnly);
 
 					for (size_t i = 0; i < CurrentStore.GetCertificates().GetCount(); i++)
 					{
-						if (Count == 26 || Count == 39 || Count == 42 || Count == 70)
-						{	// these certificates seem to have missing issuer (which they obviously don't) since we're reading validity right after the certificate's signature?!
-							Count++;
-							continue;
-						}
-
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
 						const Array<byte> RawData = Certificate.GetRawCertData();
 						MemoryStream InputStream = MemoryStream(RawData, 0, RawData.GetLength());
 
-						/*
-						https://tools.ietf.org/html/rfc5280
+						Logger::WriteMessage("X509Certificate #");
+						Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(Count)[0]);
+						Logger::WriteMessage(":\r\n");
 
-						Certificate  ::=  SEQUENCE  {
-							tbsCertificate       TBSCertificate,
-							signatureAlgorithm   AlgorithmIdentifier,
-							signatureValue       BIT STRING  }
+						Asn1Identifier Identifier = Asn1Identifier(Asn1TagClass::Universal, false, Asn1UniversalTag::EndOfContent, 0);
+						Asn1Length Length = Asn1Length(0, 0);
+						ReadCertificate(Decoder, InputStream, Identifier, Length);
 
-						TBSCertificate  ::=  SEQUENCE  {
-							version         [0]  EXPLICIT Version DEFAULT v1,
-							serialNumber         CertificateSerialNumber,
-							signature            AlgorithmIdentifier,
-							issuer               Name,
-							validity             Validity,
-							subject              Name,
-							subjectPublicKeyInfo SubjectPublicKeyInfo,
-							issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
-												 -- If present, version MUST be v2 or v3
-							subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
-												 -- If present, version MUST be v2 or v3
-							extensions      [3]  EXPLICIT Extensions OPTIONAL
-												 -- If present, version MUST be v3
-							}
-
-						Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
-
-						AlgorithmIdentifier  ::=  SEQUENCE  {
-							algorithm               OBJECT IDENTIFIER,
-							parameters              ANY DEFINED BY algorithm OPTIONAL  }
-
-						Validity ::= SEQUENCE {
-							notBefore      Time,
-							notAfter       Time }
-
-						SubjectPublicKeyInfo  ::=  SEQUENCE  {
-							algorithm            AlgorithmIdentifier,
-							subjectPublicKey     BIT STRING  }
-
-						Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
-
-						Extension  ::=  SEQUENCE  {
-							extnID      OBJECT IDENTIFIER,
-							critical    BOOLEAN DEFAULT FALSE,
-							extnValue   OCTET STRING
-										-- contains the DER encoding of an ASN.1 value
-										-- corresponding to the extension type identified
-										-- by extnID
-							}
-						*/
-
-						Asn1Identifier CertificateSequence = Decoder.DecodeIdentifier(InputStream);
-						if (CertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
-						{
-							throw InvalidDataException(u8"CertificateSequence");
-						}
-						Asn1Length CertificateLength = Decoder.DecodeLength(InputStream);
-
-						Asn1Identifier TbsCertificateSequence = Decoder.DecodeIdentifier(InputStream);
-						if (TbsCertificateSequence.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
-						{
-							throw InvalidDataException(u8"TbsCertificateSequence");
-						}
-						Asn1Length TbsCertificateLength = Decoder.DecodeLength(InputStream);
-
-						Asn1Identifier ExplicitlyTaggedVersionIdentifier = Decoder.DecodeIdentifier(InputStream);
-						Asn1Length ExplicitlyTaggedVersionLength = Decoder.DecodeLength(InputStream);
-						if (ExplicitlyTaggedVersionIdentifier.GetTagClass() != Asn1TagClass::Context || ExplicitlyTaggedVersionIdentifier.GetIsConstructed() == false)
-						{
-							Asn1Integer Version = Decoder.DecodeInteger(ExplicitlyTaggedVersionIdentifier, ExplicitlyTaggedVersionLength, InputStream);
-
-							// signature
-							ReadAlgorithmIdentifier(Decoder, InputStream, Count);
-						}
-						else
-						{
-							Asn1Identifier VersionIdentifier = Decoder.DecodeIdentifier(InputStream);
-							if (VersionIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Integer))
-							{
-								throw InvalidDataException(u8"VersionIdentifier");
-							}
-							Asn1Length VersionLength = Decoder.DecodeLength(InputStream);
-							Asn1Integer Version = Decoder.DecodeInteger(VersionIdentifier, VersionLength, InputStream);
-
-							Asn1Identifier SerialNumberIdentifier = Decoder.DecodeIdentifier(InputStream);
-							Asn1Length SerialNumberLength = Decoder.DecodeLength(InputStream);
-							Asn1Integer SerialNumber = Decoder.DecodeInteger(SerialNumberIdentifier, SerialNumberLength, InputStream);
-
-							// signature
-							ReadAlgorithmIdentifier(Decoder, InputStream, Count);
-						}
-
-						// issuer
-						ReadName(Decoder, InputStream, Count);
-
-						// validity
-						Asn1Identifier ValiditySequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-						if (ValiditySequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
-						{
-							throw InvalidDataException(u8"ValiditySequenceIdentifier");
-						}
-						Asn1Length ValiditySequenceLength = Decoder.DecodeLength(InputStream);
-
-						Asn1Identifier ValidityNotBeforeIdentifier = Decoder.DecodeIdentifier(InputStream);
-						if (ValidityNotBeforeIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTCTime))
-						{
-							throw InvalidDataException(u8"ValidityNotBeforeIdentifier");
-						}
-						Asn1Length ValidityNotBeforeLength = Decoder.DecodeLength(InputStream);
-						InputStream.SetPosition(InputStream.GetPosition() + ValidityNotBeforeLength.GetLength());	// ToDo
-
-						Asn1Identifier ValidityNotAfterIdentifier = Decoder.DecodeIdentifier(InputStream);
-						if (ValidityNotAfterIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTCTime))
-						{
-							throw InvalidDataException(u8"ValidityNotAfterIdentifier");
-						}
-						Asn1Length ValidityNotAfterLength = Decoder.DecodeLength(InputStream);
-						InputStream.SetPosition(InputStream.GetPosition() + ValidityNotAfterLength.GetLength());	// ToDo
-
-						// subject
-						ReadName(Decoder, InputStream, Count);
-
-						// subjectPublicKeyInfo
-						Asn1Identifier SubjectPublicKeySequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-						Asn1Length SubjectPublicKeySequenceLength = Decoder.DecodeLength(InputStream);
-
-						ReadAlgorithmIdentifier(Decoder, InputStream, Count);
-
-						// issuerUniqueID
-						Asn1Identifier IssuerUniqueIDIdentifier = Decoder.DecodeIdentifier(InputStream);
-						Asn1Length IssuerUniqueIDLength = Decoder.DecodeLength(InputStream);
-						Asn1Integer IssuerUniqueID = Decoder.DecodeInteger(IssuerUniqueIDIdentifier, IssuerUniqueIDLength, InputStream);
-
-						// subjectUniqueID
-						Asn1Identifier SubjectUniqueIDIdentifier = Decoder.DecodeIdentifier(InputStream);
-						Asn1Length SubjectUniqueIDLength = Decoder.DecodeLength(InputStream);
-						Asn1Integer SubjectUniqueID = Decoder.DecodeInteger(SubjectUniqueIDIdentifier, SubjectUniqueIDLength, InputStream);
-
-						// extensions
-						Asn1Identifier ExtensionSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-						Asn1Length ExtensionSequenceLength = Decoder.DecodeLength(InputStream);
-
-						int64_t CurrentPosition = InputStream.GetPosition();
-						while (InputStream.GetPosition() < CurrentPosition + ExtensionSequenceLength.GetLength())
-						{
-							Asn1Identifier ExtensionOidIdentifier = Decoder.DecodeIdentifier(InputStream);
-							Asn1Length ExtensionOidLength = Decoder.DecodeLength(InputStream);
-							if (ExtensionOidIdentifier.GetTagNumber() == static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::EndOfContent))
-							{
-								break;
-							}
-							Asn1ObjectIdentifier ExtensionOid = Decoder.DecodeObjectIdentifier(ExtensionOidIdentifier, ExtensionOidLength, InputStream);
-
-							Asn1Identifier ExtensionCriticalIdentifier = Decoder.DecodeIdentifier(InputStream);
-							Asn1Length ExtensionCriticalLength = Decoder.DecodeLength(InputStream);
-							Asn1Boolean ExtensionCritical = Decoder.DecodeBoolean(ExtensionCriticalIdentifier, ExtensionCriticalLength, InputStream);
-
-							Asn1Identifier ExtensionValueIdentifier = Decoder.DecodeIdentifier(InputStream);
-							Asn1Length ExtensionValueLength = Decoder.DecodeLength(InputStream);
-							Asn1String ExtensionValue = Decoder.DecodeString(ExtensionValueIdentifier, ExtensionValueLength, InputStream);
-						}
+						Logger::WriteMessage("\r\n");
 
 						Count++;
 					}
@@ -413,64 +243,222 @@ namespace UnitTests::Core::Security::Cryptography
 		}
 
 	private:
-		void ReadAlgorithmIdentifier(Elysium::Core::Security::Cryptography::Encoding::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream& InputStream, int32_t Count)
+		void ReadCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			Certificate  ::=  SEQUENCE  {
+				tbsCertificate       TBSCertificate,
+				signatureAlgorithm   AlgorithmIdentifier,
+				signatureValue       BIT STRING  }
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: CertificateSequence\r\n");
+				throw InvalidDataException(u8"CertificateSequence");
+			}
+
+			ReadTbsCertificate(Decoder, InputStream, Identifier, Length);
+			ReadSignatureAlgorithm(Decoder, InputStream, Identifier, Length);
+			ReadSignatureValue(Decoder, InputStream, Identifier, Length);
+
+
+			if (InputStream.GetPosition() != InputStream.GetLength())
+			{
+				Logger::WriteMessage("Error: Certificate still contains data\r\n");
+				throw InvalidDataException(u8"Certificate still contains data");
+			}
+		}
+
+		void ReadTbsCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			TBSCertificate  ::=  SEQUENCE  {
+				version         [0]  EXPLICIT Version DEFAULT v1,
+				serialNumber         CertificateSerialNumber,
+				signature            AlgorithmIdentifier,
+				issuer               Name,
+				validity             Validity,
+				subject              Name,
+				subjectPublicKeyInfo SubjectPublicKeyInfo,
+				issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
+									 -- If present, version MUST be v2 or v3
+				subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
+									 -- If present, version MUST be v2 or v3
+				extensions      [3]  EXPLICIT Extensions OPTIONAL
+									 -- If present, version MUST be v3
+				}
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: TbsCertificateSequence\r\n");
+				throw InvalidDataException(u8"TbsCertificateSequence");
+			}
+
+			ReadVersion(Decoder, InputStream, Identifier, Length);
+			ReadSerialNumber(Decoder, InputStream, Identifier, Length);
+			ReadSignature(Decoder, InputStream, Identifier, Length);
+			ReadIssuer(Decoder, InputStream, Identifier, Length);
+			ReadValidity(Decoder, InputStream, Identifier, Length);
+			ReadSubject(Decoder, InputStream, Identifier, Length);
+			ReadSubjectPublicKeyInfo(Decoder, InputStream, Identifier, Length);
+			ReadIssuerUniqueID(Decoder, InputStream, Identifier, Length);
+			ReadSubjectUniqueID(Decoder, InputStream, Identifier, Length);
+			ReadExtensions(Decoder, InputStream, Identifier, Length);
+		}
+
+		void ReadVersion(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+			*/
+			const size_t PositionBeforeHeader = InputStream.GetPosition();
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Integer)
+			{	// version NOT explicitly defined ergo the next field would be a certificate's serial number
+				Logger::WriteMessage("Version: V1\r\n");
+				InputStream.SetPosition(PositionBeforeHeader);
+			}
+			else if (Identifier.GetTagClass() == Asn1TagClass::Context && Identifier.GetIsConstructed())
+			{	// version explicitly defined
+				Logger::WriteMessage("Version: V");
+				Asn1Integer Version = Decoder.DecodeInteger(Identifier, Length, InputStream);
+
+				// ToDo: simply adding 2 obviously isn't correct
+				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(Version.GetValue().GetSign() + 2)[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{
+				Logger::WriteMessage("Error: Version\r\n");
+				throw InvalidDataException(u8"Version");
+			}
+		}
+
+		void ReadSerialNumber(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			CertificateSerialNumber  ::=  INTEGER
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
+			{
+				Logger::WriteMessage("Error: CertificateSerialNumber\r\n");
+				throw InvalidDataException(u8"CertificateSerialNumber");
+			}
+
+			Logger::WriteMessage("SerialNumber: ");
+			Asn1Integer SerialNumber = Decoder.DecodeInteger(Identifier, Length, InputStream);
+			Logger::WriteMessage("\r\n");
+		}
+
+		void ReadSignature(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			AlgorithmIdentifier  ::=  SEQUENCE  {
 				algorithm               OBJECT IDENTIFIER,
 				parameters              ANY DEFINED BY algorithm OPTIONAL  }
 			*/
-			const int64_t CurrentPosition = InputStream.GetPosition();
-			Asn1Identifier AlgorithmSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-			if (AlgorithmSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
 			{
-				throw InvalidDataException(u8"AlgorithmSequenceIdentifier");
+				Logger::WriteMessage("Error: SignatureSequence\r\n");
+				throw InvalidDataException(u8"SignatureSequence");
 			}
-			Asn1Length AlgorithmSequenceLength = Decoder.DecodeLength(InputStream);
 
-			Asn1Identifier AlgorithmIdentifier = Decoder.DecodeIdentifier(InputStream);
-			if (AlgorithmIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::ObjectIdentifier))
+			Logger::WriteMessage("Signature:\r\n");
+			ReadObjectIdentifier(Decoder, InputStream, Identifier, Length);
+
+			// depending on the algorithm used, different paramaters (or none) can occurre:
+			// https://datatracker.ietf.org/doc/html/rfc4055
+			// https://datatracker.ietf.org/doc/html/rfc3279
+			// https://datatracker.ietf.org/doc/html/rfc4491
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			Logger::WriteMessage("SignatureParameters:\r\n");
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Null)
 			{
-				throw InvalidDataException(u8"AlgorithmIdentifier");
+				Logger::WriteMessage("\tnull\r\n");
 			}
-			Asn1Length AlgorithmLength = Decoder.DecodeLength(InputStream);
-			// ToDo: don't skip but actually read the value
-			InputStream.SetPosition(InputStream.GetPosition() + AlgorithmLength.GetLength());
-			//Asn1ObjectIdentifier AlgorithmIdentifier = Decoder.DecodeObjectIdentifier(AlgorithmIdentifier, AlgorithmLength, InputStream);
-
-			Asn1Identifier ParameterSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-			Asn1Length ParameterSequenceLength = Decoder.DecodeLength(InputStream);
-			if (ParameterSequenceIdentifier.GetTagNumber() == static_cast<int32_t>(Asn1UniversalTag::Sequence))
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
 			{
-				const int64_t CurrentPositionParameter = InputStream.GetPosition();
-				while (InputStream.GetPosition() < CurrentPositionParameter + ParameterSequenceLength.GetLength())
+				const size_t CurrentPositionParameters = InputStream.GetPosition();
+				const size_t ParametersLength = Length.GetLength();
+				while (InputStream.GetPosition() < CurrentPositionParameters + ParametersLength)
 				{
-					Asn1Identifier ParameterSetIdentifier = Decoder.DecodeIdentifier(InputStream);
-					if (ParameterSetIdentifier.GetTagNumber() != static_cast<int32_t>(Asn1UniversalTag::Set))
+					ReadHeader(Decoder, InputStream, Identifier, Length);
+					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
 					{
-						throw InvalidDataException(u8"ParameterSetIdentifier");
+						ReadHeader(Decoder, InputStream, Identifier, Length);
+						if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+						{
+							Logger::WriteMessage("Error: SignatureParametersSetSequence\r\n");
+							throw InvalidDataException(u8"SignatureParametersSetSequence");
+						}
+
+						ReadSignatureAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
 					}
-					Asn1Length ParameterSetLength = Decoder.DecodeLength(InputStream);
+					else
+					{
+						Logger::WriteMessage("Error: SignatureParametersSet\r\n");
+						throw InvalidDataException(u8"SignatureParametersSet");
+					}
+				}
+				Logger::WriteMessage("\r\n");
 
-					Asn1Identifier ParameterIdentifier = Decoder.DecodeIdentifier(InputStream);	// 16 - Sequence
-					Asn1Length ParameterLength = Decoder.DecodeLength(InputStream);
-
-					Asn1Identifier ParameterOidIdentifier = Decoder.DecodeIdentifier(InputStream);
-					Asn1Length ParameterOidLength = Decoder.DecodeLength(InputStream);
-					Asn1ObjectIdentifier ParameterOid = Decoder.DecodeObjectIdentifier(ParameterOidIdentifier, ParameterOidLength, InputStream);
-
-					Asn1Identifier ParameterNameIdentifier = Decoder.DecodeIdentifier(InputStream);
-					Asn1Length ParameterNameLength = Decoder.DecodeLength(InputStream);
-					Asn1String ParameterName = Decoder.DecodeString(ParameterNameIdentifier, ParameterNameLength, InputStream);
+				if (InputStream.GetPosition() != CurrentPositionParameters + ParametersLength)
+				{
+					Logger::WriteMessage("Error: SignatureParametersLength\r\n");
+					throw InvalidDataException(u8"SignatureParametersLength");
 				}
 			}
-			else if (ParameterSequenceIdentifier.GetTagNumber() != static_cast<int32_t>(Asn1UniversalTag::Null))
+			else
 			{
-				throw InvalidDataException(u8"ParameterSequenceIdentifier");
+				Logger::WriteMessage("Error: SignatureParameters\r\n");
+				throw InvalidDataException(u8"SignatureParameters");
 			}
 		}
 
-		void ReadName(Elysium::Core::Security::Cryptography::Encoding::Asn1::IAsn1Decoder& Decoder, Elysium::Core::IO::Stream& InputStream, int32_t Count)
+		void ReadSignatureAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			{
+				Logger::WriteMessage("Error: SignatureArgumentType\r\n");
+				throw InvalidDataException(u8"SignatureArgumentType");
+			}
+			try
+			{
+				Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+				const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+				Logger::WriteMessage("\t");
+				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
+				Logger::WriteMessage(": ");
+			}
+			catch (CryptographicException)
+			{
+				Logger::WriteMessage("\t0.0.0.0 - UNKNOWN: ");
+
+			}
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
+			{
+				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{
+				Logger::WriteMessage("Error: SignatureArgumentValue\r\n");
+				throw InvalidDataException(u8"SignatureArgumentValue");
+			}
+		}
+
+		void ReadIssuer(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			Name ::= CHOICE { -- only one possibility for now --
@@ -489,51 +477,573 @@ namespace UnitTests::Core::Security::Cryptography
 
 			AttributeValue ::= ANY -- DEFINED BY AttributeType
 			*/
-			Asn1Identifier NameSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-			if (NameSequenceIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+			const size_t InitialPosition = InputStream.GetPosition();
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
 			{
-				throw InvalidDataException(u8"NameSequenceIdentifier");
+				Logger::WriteMessage("Error: IssuerSequence\r\n");
+				throw InvalidDataException(u8"IssuerSequence");
 			}
-			Asn1Length NameSequenceLength = Decoder.DecodeLength(InputStream);
 
-			int64_t CurrentPosition = InputStream.GetPosition();
-			while (InputStream.GetPosition() < CurrentPosition + NameSequenceLength.GetLength())
+			Logger::WriteMessage("Issuer:\r\n");
+			const size_t CurrentPositionIssuer = InputStream.GetPosition();
+			const size_t IssuerLength = Length.GetLength();
+			while (InputStream.GetPosition() < CurrentPositionIssuer + IssuerLength)
 			{
-				Asn1Identifier RDNSequenceIdentifier = Decoder.DecodeIdentifier(InputStream);
-				if (RDNSequenceIdentifier.GetTagNumber() == static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Set))
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
 				{
-					Asn1Length RDNSequenceIdentifierLength = Decoder.DecodeLength(InputStream);
-
-					Asn1Identifier RelativeDistinguishedNameIdentifier = Decoder.DecodeIdentifier(InputStream);
-					if (RelativeDistinguishedNameIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::Sequence))
+					ReadHeader(Decoder, InputStream, Identifier, Length);
+					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
 					{
-						throw InvalidDataException(u8"RelativeDistinguishedNameIdentifier");
-					}
-					Asn1Length RelativeDistinguishedNameLength = Decoder.DecodeLength(InputStream);
+						const size_t CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
+						const size_t AttributeTypeAndValueLength = Length.GetLength();
+						while (InputStream.GetPosition() < CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
+						{
+							ReadIssuerAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
+						}
 
-					Asn1Identifier AttributeTypeIdentifier = Decoder.DecodeIdentifier(InputStream);
-					if (AttributeTypeIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::ObjectIdentifier))
-					{
-						throw InvalidDataException(u8"AttributeTypeIdentifier");
+						if (InputStream.GetPosition() != CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
+						{
+							Logger::WriteMessage("Error: IssuerSequenceSetSequenceLength\r\n");
+							throw InvalidDataException(u8"IssuerSequenceSetSequenceLength");
+						}
 					}
-					Asn1Length AttributeTypeLength = Decoder.DecodeLength(InputStream);
-					InputStream.SetPosition(InputStream.GetPosition() + AttributeTypeLength.GetLength());	// ToDo
+					else
+					{
+						Logger::WriteMessage("Error: IssuerSequenceSetSequence\r\n");
+						throw InvalidDataException(u8"IssuerSequenceSetSequence");
+					}
+				}
+				else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+				{
+					const size_t CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
+					const size_t AttributeTypeAndValueLength = Length.GetLength();
+					while (InputStream.GetPosition() < CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
+					{
+						ReadIssuerAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
+					}
 
-					Asn1Identifier AttributeValueIdentifier = Decoder.DecodeIdentifier(InputStream);
-					if (AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::UTF8String) &&
-						AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::PrintableString) &&
-						AttributeValueIdentifier.GetTagNumber() != static_cast<const Elysium::Core::int32_t>(Asn1UniversalTag::IA5String))
+					if (InputStream.GetPosition() != CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
 					{
-						throw InvalidDataException(u8"AttributeValueIdentifier");
+						Logger::WriteMessage("Error: IssuerSequenceSequenceLength\r\n");
+						throw InvalidDataException(u8"IssuerSequenceSequenceLength");
 					}
-					Asn1Length AttributeValueLength = Decoder.DecodeLength(InputStream);
-					Asn1String AttributeValue = Decoder.DecodeString(AttributeValueIdentifier, AttributeValueLength, InputStream);
+				}
+				else if(Identifier.GetUniversalTag() == Asn1UniversalTag::UTCTime)
+				{	// no issuer > we've already landed on validity > reset position and return
+					InputStream.SetPosition(InitialPosition);
+					Logger::WriteMessage("\tnone\r\n");
+					return;
 				}
 				else
 				{
-					throw InvalidDataException(u8"RDNSequenceIdentifier");
+					Logger::WriteMessage("Error: IssuerSequenceSet\r\n");
+					throw InvalidDataException(u8"IssuerSequenceSet");
 				}
 			}
+
+			if (InputStream.GetPosition() != CurrentPositionIssuer + IssuerLength)
+			{
+				Logger::WriteMessage("Error: IssuerSequenceLength\r\n");
+				throw InvalidDataException(u8"IssuerSequenceLength");
+			}
+		}
+
+		void ReadIssuerAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			{
+				Logger::WriteMessage("Error: IssuerArgumentType\r\n");
+				throw InvalidDataException(u8"IssuerArgumentType");
+			}
+			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+			const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+			Logger::WriteMessage("\t");
+			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
+			Logger::WriteMessage(" - ");
+			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
+			Logger::WriteMessage(": ");
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
+			{
+				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const String& PrintableStringValue = PrintableString.GetValue();
+				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::IA5String)
+			{
+				Asn1String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&IA5String.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::UTF8String)
+			{
+				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&Utf8String.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{
+				Logger::WriteMessage("Error: IssuerArgumentValue\r\n");
+				throw InvalidDataException(u8"IssuerArgumentValue");
+			}
+		}
+
+		void ReadValidity(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			Validity ::= SEQUENCE {
+				notBefore      Time,
+				notAfter       Time }
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: ValiditySequence\r\n");
+				throw InvalidDataException(u8"ValiditySequence");
+			}
+			Logger::WriteMessage("Validity:\r\n");
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime)
+			{
+				Logger::WriteMessage("Error: ValidityNotBefore\r\n");
+				throw InvalidDataException(u8"ValidityNotBefore");
+			}
+			Asn1DateTime ValidityNotBefore = Decoder.DecodeDateTime(Identifier, Length, InputStream);
+			const Elysium::Core::DateTime& ValidityNotBeforeValue = ValidityNotBefore.GetValue();
+			Logger::WriteMessage("\tNotBefore: ");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetYear())[0]);
+			Logger::WriteMessage("-");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetMonth())[0]);
+			Logger::WriteMessage("-");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetDay())[0]);
+			Logger::WriteMessage(" ");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetHour())[0]);
+			Logger::WriteMessage(":");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetMinute())[0]);
+			Logger::WriteMessage(":");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetSecond())[0]);
+			Logger::WriteMessage(" UTC\r\n");
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime)
+			{
+				Logger::WriteMessage("Error: ValidityNotAfter\r\n");
+				throw InvalidDataException(u8"ValidityNotAfter");
+			}
+			Asn1DateTime ValidityNotAfter = Decoder.DecodeDateTime(Identifier, Length, InputStream);
+			const Elysium::Core::DateTime& ValidityNotAfterValue = ValidityNotAfter.GetValue();
+			Logger::WriteMessage("\tNotAfter: ");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetYear())[0]);
+			Logger::WriteMessage("-");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetMonth())[0]);
+			Logger::WriteMessage("-");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetDay())[0]);
+			Logger::WriteMessage(" ");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetHour())[0]);
+			Logger::WriteMessage(":");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetMinute())[0]);
+			Logger::WriteMessage(":");
+			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetSecond())[0]);
+			Logger::WriteMessage(" UTC\r\n");
+		}
+
+		void ReadSubject(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			Name ::= CHOICE { -- only one possibility for now --
+				rdnSequence  RDNSequence }
+
+			RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+
+			RelativeDistinguishedName ::=
+				SET SIZE (1..MAX) OF AttributeTypeAndValue
+
+			AttributeTypeAndValue ::= SEQUENCE {
+				type     AttributeType,
+				value    AttributeValue }
+
+			AttributeType ::= OBJECT IDENTIFIER
+
+			AttributeValue ::= ANY -- DEFINED BY AttributeType
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: SubjectSequence\r\n");
+				throw InvalidDataException(u8"SubjectSequence");
+			}
+			Logger::WriteMessage("Subject:\r\n");
+
+			const size_t CurrentPositionSubject = InputStream.GetPosition();
+			const size_t SubjectLength = Length.GetLength();
+			while (InputStream.GetPosition() < CurrentPositionSubject + SubjectLength)
+			{
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
+				{
+					ReadHeader(Decoder, InputStream, Identifier, Length);
+					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+					{
+						const size_t CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
+						const size_t AttributeTypeAndValueLength = Length.GetLength();
+						while (InputStream.GetPosition() < CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
+						{
+							ReadSubjectAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
+						}
+
+						if (InputStream.GetPosition() != CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
+						{
+							Logger::WriteMessage("Error: SubjectSequenceSetSequenceLength\r\n");
+							throw InvalidDataException(u8"SubjectSequenceSetSequenceLength");
+						}
+					}
+					else
+					{
+						Logger::WriteMessage("Error: SubjectSequenceSetSequence\r\n");
+						throw InvalidDataException(u8"SubjectSequenceSetSequence");
+					}
+				}
+				else
+				{
+					Logger::WriteMessage("Error: SubjectSequenceSet\r\n");
+					throw InvalidDataException(u8"SubjectSequenceSet");
+				}
+			}
+
+			if (InputStream.GetPosition() != CurrentPositionSubject + SubjectLength)
+			{
+				Logger::WriteMessage("Error: SubjectSequenceLength\r\n");
+				throw InvalidDataException(u8"SubjectSequenceLength");
+			}
+		}
+
+		void ReadSubjectAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			{
+				Logger::WriteMessage("Error: SubjectArgumentType\r\n");
+				throw InvalidDataException(u8"SubjectArgumentType");
+			}
+			try
+			{
+				Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+				const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+				Logger::WriteMessage("\t");
+				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
+				Logger::WriteMessage(": ");
+			}
+			catch (CryptographicException)
+			{
+				Logger::WriteMessage("\t0.0.0.0 - UNKNOWN: ");
+
+			}
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
+			{
+				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::IA5String)
+			{
+				Asn1String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&IA5String.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::UTF8String)
+			{
+				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&Utf8String.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{
+				Logger::WriteMessage("Error: SubjectArgumentValue\r\n");
+				throw InvalidDataException(u8"SubjectArgumentValue");
+			}
+		}
+
+		void ReadSubjectPublicKeyInfo(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			SubjectPublicKeyInfo  ::=  SEQUENCE  {
+				algorithm            AlgorithmIdentifier,
+				subjectPublicKey     BIT STRING  }
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequence\r\n");
+				throw InvalidDataException(u8"SubjectPublicKeyInfoSequence");
+			}
+			Logger::WriteMessage("SubjectPublicKeyInfo:\r\n");
+
+			const size_t CurrentPositionSubjectPublicKeyInfo = InputStream.GetPosition();
+			const size_t SubjectPublicKeyInfoLength = Length.GetLength();
+			while (InputStream.GetPosition() < CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
+			{
+				ReadSubjectPublicKeyInfoAlgorithm(Decoder, InputStream, Identifier, Length);
+
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+				{
+					Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceSequenceBitString\r\n");
+					throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequenceBitString");
+				}
+				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+				Logger::WriteMessage("\tPublicKey:\r\n\t\tLength: ");
+				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(BitString.GetData().GetLength())[0]);
+				Logger::WriteMessage("\r\n\t\tValue: ");
+				//Logger::WriteMessage((char*)&BitString.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+
+			if (InputStream.GetPosition() != CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
+			{
+				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceLength\r\n");
+				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceLength");
+			}
+		}
+
+		void ReadSubjectPublicKeyInfoAlgorithm(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			AlgorithmIdentifier  ::=  SEQUENCE  {
+				algorithm               OBJECT IDENTIFIER,
+				parameters              ANY DEFINED BY algorithm OPTIONAL  }
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceSequence\r\n");
+				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequence");
+			}
+
+			ReadObjectIdentifier(Decoder, InputStream, Identifier, Length);
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			Logger::WriteMessage("\tParameters:\r\n");
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Null)
+			{
+				Logger::WriteMessage("\t\tnull\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::ObjectIdentifier)
+			{
+				Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+				const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+
+				Logger::WriteMessage("\t\t");
+				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{
+				Logger::WriteMessage("Error: SubjectPublicKeyInfoAlgorithmParameters\r\n");
+				throw InvalidDataException(u8"SubjectPublicKeyInfoAlgorithmParameters");
+			}
+		}
+
+		void ReadIssuerUniqueID(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
+									-- If present, version MUST be v2 or v3
+
+			UniqueIdentifier  ::=  BIT STRING
+			*/
+			const size_t InitialPosition = InputStream.GetPosition();
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
+			{
+				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+				Logger::WriteMessage("IssuerUniqueID:\r\n");
+				Logger::WriteMessage("\tLength: ");
+				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(BitString.GetData().GetLength())[0]);
+				Logger::WriteMessage("\r\n\tValue: ");
+				//Logger::WriteMessage((char*)&BitString.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{	// optional > reset position
+				InputStream.SetPosition(InitialPosition);
+			}
+		}
+
+		void ReadSubjectUniqueID(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
+									-- If present, version MUST be v2 or v3
+
+			UniqueIdentifier  ::=  BIT STRING
+			*/
+			const size_t InitialPosition = InputStream.GetPosition();
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
+			{
+				Logger::WriteMessage("SubjectUniqueID: ");
+				Asn1String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Logger::WriteMessage((char*)&BitString.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else
+			{	// optional > reset position
+				InputStream.SetPosition(InitialPosition);
+			}
+		}
+
+		void ReadExtensions(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			extensions      [3]  EXPLICIT Extensions OPTIONAL
+									-- If present, version MUST be v3
+
+			Extensions  ::=  SEQUENCE SIZE (1..MAX) OF Extension
+
+			Extension  ::=  SEQUENCE  {
+				extnID      OBJECT IDENTIFIER,
+				critical    BOOLEAN DEFAULT FALSE,
+				extnValue   OCTET STRING
+							-- contains the DER encoding of an ASN.1 value
+							-- corresponding to the extension type identified
+							-- by extnID
+				}
+			*/
+			const size_t InitialPosition = InputStream.GetPosition();
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: Extensions\r\n");
+				throw InvalidDataException(u8"Extensions");
+			}
+			Logger::WriteMessage("Extensions:\r\n");
+
+			const size_t CurrentPositionExtension = InputStream.GetPosition();
+			const size_t ExtensionLength = Length.GetLength();
+			while (InputStream.GetPosition() < CurrentPositionExtension + ExtensionLength)
+			{
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+				{
+					Logger::WriteMessage("Error: ExtensionOid\r\n");
+					throw InvalidDataException(u8"ExtensionOid");
+				}
+				Asn1ObjectIdentifier Oid = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+
+				const size_t CurrentPositionBooleanExtension = InputStream.GetPosition();
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Boolean)
+				{
+					Asn1Boolean Boolean = Decoder.DecodeBoolean(Identifier, Length, InputStream);
+
+					ReadHeader(Decoder, InputStream, Identifier, Length);
+					if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
+					{
+						Asn1String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
+					}
+					else
+					{
+						Logger::WriteMessage("Error: ExtensionOctetString\r\n");
+						throw InvalidDataException(u8"ExtensionOctetString");
+					}
+
+					Logger::WriteMessage("\tbla\r\n");
+				}
+				else
+				{	// optional > reset position
+					InputStream.SetPosition(InitialPosition);
+					return;
+				}
+			}
+
+			if (InputStream.GetPosition() != CurrentPositionExtension + ExtensionLength)
+			{
+				Logger::WriteMessage("Error: ExtensionLength\r\n");
+				throw InvalidDataException(u8"ExtensionLength");
+			}
+		}
+
+		void ReadSignatureAlgorithm(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			/*
+			AlgorithmIdentifier  ::=  SEQUENCE  {
+				algorithm               OBJECT IDENTIFIER,
+				parameters              ANY DEFINED BY algorithm OPTIONAL  }
+			*/
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
+				Logger::WriteMessage("Error: SignatureAlgorithmSequence\r\n");
+				throw InvalidDataException(u8"SignatureAlgorithmSequence");
+			}
+			Logger::WriteMessage("SignatureAlgorithm:\r\n");
+
+			const size_t CurrentPositionSignatureAlgorithm = InputStream.GetPosition();
+			const size_t SignatureAlgorithmLength = Length.GetLength();
+			while (InputStream.GetPosition() < CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
+			{
+				InputStream.ReadByte();
+			}
+
+			if (InputStream.GetPosition() != CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
+			{
+				Logger::WriteMessage("Error: SignatureAlgorithmLength\r\n");
+				throw InvalidDataException(u8"SignatureAlgorithmLength");
+			}
+		}
+
+		void ReadSignatureValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+			{
+				Logger::WriteMessage("Error: SignatureValue\r\n");
+				throw InvalidDataException(u8"SignatureValue");
+			}
+			Asn1ByteArray Signature = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+
+			Logger::WriteMessage("SignatureValue: ");
+			//Logger::WriteMessage((char*)&Signature.GetValue()[0]);
+			Logger::WriteMessage("\r\n");
+		}
+
+
+
+
+		void ReadHeader(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			Identifier = Decoder.DecodeIdentifier(InputStream);
+			Length = Decoder.DecodeLength(InputStream);
+		}
+
+		void ReadObjectIdentifier(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		{
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			{
+				Logger::WriteMessage("Error: OID\r\n");
+				throw InvalidDataException(u8"OID");
+			}
+			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+			const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+
+			Logger::WriteMessage("\tOID: ");
+			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
+			Logger::WriteMessage(" - ");
+			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
+			Logger::WriteMessage("\r\n");
 		}
 	};
 }

@@ -43,15 +43,20 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API String final
 	{
 	public:
+		using Character = char8_t;
+		using ConstCharacter = const char8_t;
+		using CharacterPointer = char8_t*;
+		using ConstCharacterPointer = const char8_t*;
+	public:
 		String();
 		String(const size_t Length);
-		String(const char8_t* Value);
-		String(const char8_t* Value, const size_t Length);
+		String(ConstCharacterPointer Value);
+		String(ConstCharacterPointer Value, const size_t Length);
 		String(const String& Source);
 		String(String&& Right) noexcept;
 		~String();
 
-		String& operator=(const char8_t* Value);
+		String& operator=(ConstCharacterPointer Value);
 		String& operator=(const String& Source);
 		String& operator=(String&& Right) noexcept;
 
@@ -68,25 +73,25 @@ namespace Elysium::Core
 		const Elysium::Core::int32_t GetHashCode() const;
 		const size_t GetLength() const;
 		
-		const size_t IndexOf(const char8_t Value) const;
-		const size_t IndexOf(const char8_t Value, const size_t StartIndex) const;
-		const size_t IndexOf(const char8_t* Value) const;
-		const size_t IndexOf(const char8_t* Value, const size_t StartIndex) const;
+		const size_t IndexOf(ConstCharacter Value) const;
+		const size_t IndexOf(ConstCharacter Value, const size_t StartIndex) const;
+		const size_t IndexOf(ConstCharacterPointer Value) const;
+		const size_t IndexOf(ConstCharacterPointer Value, const size_t StartIndex) const;
 		const size_t IndexOf(const String& Value, const size_t StartIndex) const;
 
-		const size_t LastIndexOf(const char8_t Value) const;
-		const size_t LastIndexOf(const char8_t* Value) const;
-		const size_t LastIndexOf(const char8_t* Value, const size_t StartIndex) const;
+		const size_t LastIndexOf(ConstCharacter Value) const;
+		const size_t LastIndexOf(ConstCharacterPointer Value) const;
+		const size_t LastIndexOf(ConstCharacterPointer Value, const size_t StartIndex) const;
 		const size_t LastIndexOf(const String& Value, const size_t StartIndex) const;
 
 		//List<String> Split(const char8_t Delimiter) const;
 
-		void Split(const char8_t Delimiter, Collections::Template::List<String>& Target) const;
-		void Split(const char8_t* Delimiter, Collections::Template::List<String>& Target) const;
+		void Split(ConstCharacter Delimiter, Collections::Template::List<String>& Target) const;
+		void Split(ConstCharacterPointer Delimiter, Collections::Template::List<String>& Target) const;
 
-		const bool StartsWith(const char8_t* Value) const;
+		const bool StartsWith(ConstCharacterPointer Value) const;
 
-		const bool EndsWith(const char8_t* Value) const;
+		const bool EndsWith(ConstCharacterPointer Value) const;
 
 		//Collections::Template::String Replace(const char8_t OldCharacter, const char8_t NewCharacter);
 
@@ -107,7 +112,7 @@ namespace Elysium::Core
 		static const bool IsNullOrEmtpy(const String& Value);
 	private:
 		size_t _Length;
-		char8_t* _Data;
+		CharacterPointer _Data;
 	};
 }
 #endif

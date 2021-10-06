@@ -108,9 +108,9 @@ namespace Elysium::Core
 		static Elysium::Core::int32_t ToInt32(const Elysium::Core::String& Value, const Elysium::Core::uint8_t FromBase);
 		static Elysium::Core::int32_t ToInt32(const Elysium::Core::StringView& Value, const Elysium::Core::uint8_t FromBase);
 
-		static Elysium::Core::uint16_t ToUInt16(const char8_t* Value, const Elysium::Core::uint8_t FromBase);
-
 		static Elysium::Core::uint8_t ToUInt8(const char8_t* Value, const Elysium::Core::uint8_t FromBase);
+
+		static Elysium::Core::uint16_t ToUInt16(const char8_t* Value, const Elysium::Core::uint8_t FromBase);
 
 		static float ToSingle(const char8_t* Value);
 		static float ToSingle(const Elysium::Core::String& Value);

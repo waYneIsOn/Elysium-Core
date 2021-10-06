@@ -23,7 +23,7 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&Text::Encoding::UTF16LE().GetBytes(&FriendlyName[0], FriendlyName.GetLength(), sizeof(char16_t))[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
 	{
-		throw CryptographicException();
+		throw CryptographicException(u8"The OID was not found.");
 	}
 
 	return Oid(NativeOid);
@@ -33,7 +33,7 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>((char8_t*)&OidValue[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
 	{
-		throw CryptographicException();
+		throw CryptographicException(u8"The friendly name for the OID value was not found.");
 	}
 
 	return Oid(NativeOid);

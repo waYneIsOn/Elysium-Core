@@ -32,7 +32,7 @@ Elysium::Core::String::String(const size_t Length)
 	Elysium::Core::Memory<char8_t>::Set(_Data, 0, _Length + 1);
 }
 
-Elysium::Core::String::String(const char8_t* Value)
+Elysium::Core::String::String(ConstCharacterPointer Value)
 	: _Length(Value == nullptr ? 0 : std::char_traits<char8_t>::length(Value)), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
@@ -41,7 +41,7 @@ Elysium::Core::String::String(const char8_t* Value)
 	}
 }
 
-Elysium::Core::String::String(const char8_t* Value, const size_t Length)
+Elysium::Core::String::String(ConstCharacterPointer Value, const size_t Length)
 	: _Length(Value == nullptr ? 0 : Length), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
@@ -75,7 +75,7 @@ Elysium::Core::String::~String()
 	}
 }
 
-Elysium::Core::String& Elysium::Core::String::operator=(const char8_t* Value)
+Elysium::Core::String& Elysium::Core::String::operator=(ConstCharacterPointer Value)
 {
 	if (_Data != nullptr)
 	{
@@ -220,19 +220,19 @@ const size_t Elysium::Core::String::GetLength() const
 	return _Length;
 }
 
-const size_t Elysium::Core::String::IndexOf(const char8_t Value) const
+const size_t Elysium::Core::String::IndexOf(ConstCharacter Value) const
 {
 	const char8_t* CharPointer = std::char_traits<char8_t>::find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
 }
 
-const size_t Elysium::Core::String::IndexOf(const char8_t Value, const size_t StartIndex) const
+const size_t Elysium::Core::String::IndexOf(ConstCharacter Value, const size_t StartIndex) const
 {
 	const char8_t* CharPointer = std::char_traits<char8_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 }
 
-const size_t Elysium::Core::String::IndexOf(const char8_t* Value) const
+const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
 {
 	size_t Index = 0;
 	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
@@ -268,7 +268,7 @@ const size_t Elysium::Core::String::IndexOf(const char8_t* Value) const
 	}
 }
 
-const size_t Elysium::Core::String::IndexOf(const char8_t* Value, const size_t StartIndex) const
+const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value, const size_t StartIndex) const
 {
 	size_t Index = StartIndex;
 	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
@@ -309,7 +309,7 @@ const size_t Elysium::Core::String::IndexOf(const String& Value, const size_t St
 	return IndexOf(Value._Data[StartIndex]);
 }
 
-const size_t Elysium::Core::String::LastIndexOf(const char8_t Value) const
+const size_t Elysium::Core::String::LastIndexOf(ConstCharacter Value) const
 {
 	char8_t* CharPointer = nullptr;
 	for (size_t i = _Length; i > 0; i--)
@@ -323,13 +323,13 @@ const size_t Elysium::Core::String::LastIndexOf(const char8_t Value) const
 	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
 }
 
-const size_t Elysium::Core::String::LastIndexOf(const char8_t* Value) const
+const size_t Elysium::Core::String::LastIndexOf(ConstCharacterPointer Value) const
 {
 	// ToDo
 	return size_t(-1);
 }
 
-const size_t Elysium::Core::String::LastIndexOf(const char8_t* Value, const size_t StartIndex) const
+const size_t Elysium::Core::String::LastIndexOf(ConstCharacterPointer Value, const size_t StartIndex) const
 {	// ToDo
 	return size_t(-1);
 }
@@ -339,7 +339,7 @@ const size_t Elysium::Core::String::LastIndexOf(const String& Value, const size_
 	return size_t(-1);
 }
 
-void Elysium::Core::String::Split(const char8_t Delimiter, Collections::Template::List<String>& Target) const
+void Elysium::Core::String::Split(ConstCharacter Delimiter, Collections::Template::List<String>& Target) const
 {
 	size_t StartIndex = 0;
 	size_t Length = 0;
@@ -360,7 +360,7 @@ void Elysium::Core::String::Split(const char8_t Delimiter, Collections::Template
 	}
 }
 
-void Elysium::Core::String::Split(const char8_t* Delimiter, Collections::Template::List<String>& Target) const
+void Elysium::Core::String::Split(ConstCharacterPointer Delimiter, Collections::Template::List<String>& Target) const
 {
 	size_t DelimiterLength = std::char_traits<char8_t>::length(Delimiter);
 	size_t StartIndex = 0;
@@ -382,7 +382,7 @@ void Elysium::Core::String::Split(const char8_t* Delimiter, Collections::Templat
 	}
 }
 
-const bool Elysium::Core::String::StartsWith(const char8_t* Value) const
+const bool Elysium::Core::String::StartsWith(ConstCharacterPointer Value) const
 {
 	size_t ValueLength = std::char_traits<char8_t>::length(Value);
 	for (size_t i = 0; i < ValueLength; i++)
@@ -395,12 +395,12 @@ const bool Elysium::Core::String::StartsWith(const char8_t* Value) const
 	return true;
 }
 
-const bool Elysium::Core::String::EndsWith(const char8_t* Value) const
+const bool Elysium::Core::String::EndsWith(ConstCharacterPointer Value) const
 {
 	size_t ValueLength = std::char_traits<char8_t>::length(Value);
 	for (size_t i = _Length - ValueLength; i < _Length; i++)
 	{
-		if (_Data[i] != Value[i])
+		if (_Data[i] != Value[_Length - 1 - i])
 		{
 			return false;
 		}

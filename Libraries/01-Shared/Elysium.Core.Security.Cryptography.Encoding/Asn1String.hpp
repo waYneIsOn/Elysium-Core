@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
@@ -20,16 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Asn1Object.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
-#endif
-
 namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API Asn1String final : public Asn1Object
 	{
 	public:
-		Asn1String(const Asn1Identifier& Identifier, const String& Value);
+		Asn1String(const Asn1Identifier& Identifier, Elysium::Core::String&& Value);
 		Asn1String(const Asn1String& Source) = delete;
 		Asn1String(Asn1String&& Right) noexcept = delete;
 		virtual ~Asn1String();
@@ -37,9 +37,9 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 		Asn1String& operator=(const Asn1String& Source) = delete;
 		Asn1String& operator=(Asn1String&& Right) noexcept = delete;
 
-		const String& GetValue() const;
+		const Elysium::Core::String& GetValue() const;
 	private:
-		const String _Value;
+		Elysium::Core::String _Value;
 	};
 }
 #endif

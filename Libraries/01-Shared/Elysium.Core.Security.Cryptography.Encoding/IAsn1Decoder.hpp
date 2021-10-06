@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_API
-#include "../Elysium.Core.Security/API.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 #include "../Elysium.Core/Array.hpp"
 #endif
@@ -24,20 +20,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1IDENTIFIER
-#include "Asn1Identifier.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1LENGTH
-#include "Asn1Length.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "../Elysium.Core.Security/API.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1BOOLEAN
 #include "Asn1Boolean.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1BYTEARRAY
+#include "Asn1ByteArray.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1DATETIME
+#include "Asn1DateTime.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1IDENTIFIER
+#include "Asn1Identifier.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1INTEGER
 #include "Asn1Integer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1LENGTH
+#include "Asn1Length.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1OBJECTIDENTIFIER
@@ -63,6 +71,10 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 		virtual Asn1Length DecodeLength(const byte* Data, const size_t Length) = 0;
 		virtual Asn1Length DecodeLength(IO::Stream& InputStream) = 0;
 
+		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length) = 0;
+		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length) = 0;
+		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
+
 		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length) = 0;
 		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length) = 0;
 		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
@@ -78,6 +90,10 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length) = 0;
 		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length) = 0;
 		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
+
+		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length) = 0;
+		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length) = 0;
+		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 	};
 }
 #endif

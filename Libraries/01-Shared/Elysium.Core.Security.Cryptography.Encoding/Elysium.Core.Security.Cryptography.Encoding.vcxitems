@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ByteArray.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Integer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp" />
@@ -25,6 +26,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Tag.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DERDecoder.cpp" />
@@ -35,11 +37,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OidNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OidRepository.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XERDecoder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ByteArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp" />
@@ -51,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Tag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1DateTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp" />
@@ -64,6 +70,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidRepository.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp" />
   </ItemGroup>

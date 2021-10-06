@@ -37,7 +37,7 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 		Asn1Integer& operator=(const Asn1Integer& Source) = delete;
 		Asn1Integer& operator=(Asn1Integer&& Right) noexcept = delete;
 
-		const Math::Numerics::BigInteger GetValue() const;
+		const Math::Numerics::BigInteger& GetValue() const;
 	private:
 		const Math::Numerics::BigInteger _Value;
 	};

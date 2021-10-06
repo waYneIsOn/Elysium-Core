@@ -68,6 +68,14 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OidRepository.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)OidNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1DateTime.cpp">
+      <Filter>Asn1</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ByteArray.cpp">
+      <Filter>Asn1</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp">
@@ -145,5 +153,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidRepository.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OidNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1DateTime.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ByteArray.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

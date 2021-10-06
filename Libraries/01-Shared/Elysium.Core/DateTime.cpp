@@ -154,11 +154,11 @@ int64_t Elysium::Core::DateTime::DateToTicks(const Elysium::Core::int32_t Year, 
 {
 	if (Year >= 1 && Year <= 9999 && Month >= 1 && Month <= 12)
 	{
-		const int* Days = IsLeapYear(Year) ? DateTimeUtility::DaysToMonth366 : DateTimeUtility::DaysToMonth365;
+		const Elysium::Core::int32_t* Days = IsLeapYear(Year) ? DateTimeUtility::DaysToMonth366 : DateTimeUtility::DaysToMonth365;
 		if (Day >= 1 && Day <= Days[Month] - Days[Month - 1])
 		{
-			int LastYear = Year - 1;
-			int DayTicks = LastYear * 365 + LastYear / 4 - LastYear / 100 + LastYear / 400 + Days[Month - 1] + Day - 1;
+			const Elysium::Core::int32_t LastYear = Year - 1;
+			const Elysium::Core::int32_t DayTicks = LastYear * 365 + LastYear / 4 - LastYear / 100 + LastYear / 400 + Days[Month - 1] + Day - 1;
 			return DayTicks * DateTimeUtility::TicksPerDay;
 		}
 	}
@@ -183,7 +183,7 @@ const Elysium::Core::int32_t Elysium::Core::DateTime::GetDatePart(const Elysium:
 	Elysium::Core::int32_t DaysSince_01_01_0001 = static_cast<Elysium::Core::int32_t>(_Ticks / DateTimeUtility::TicksPerDay);
 	Elysium::Core::int32_t Year400 = DaysSince_01_01_0001 / DateTimeUtility::DaysPer400Years;
 	DaysSince_01_01_0001 -= Year400 * DateTimeUtility::DaysPer400Years;
-	Elysium::Core::int32_t Year100 = Year400 / DateTimeUtility::DaysPer100Years;
+	Elysium::Core::int32_t Year100 = DaysSince_01_01_0001 / DateTimeUtility::DaysPer100Years;
 	if (Year100 == 4)
 	{
 		Year100 = 3;

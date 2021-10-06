@@ -673,7 +673,7 @@ Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Stri
 	return ToInt32(&Value[0], Value.GetLength(), FromBase);
 }
 
-Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t * Value, const Elysium::Core::uint8_t FromBase)
+Elysium::Core::uint8_t Elysium::Core::Convert::ToUInt8(const char8_t * Value, const Elysium::Core::uint8_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;
@@ -704,7 +704,7 @@ Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t * Value, 
 	return Base * Sign;
 }
 
-uint8_t Elysium::Core::Convert::ToUInt8(const char8_t * Value, const Elysium::Core::uint8_t FromBase)
+Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t* Value, const Elysium::Core::uint8_t FromBase)
 {
 	Elysium::Core::int16_t Sign = 1;
 	Elysium::Core::uint16_t i = 0;
@@ -773,7 +773,7 @@ float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 
 const Elysium::Core::int32_t Elysium::Core::Convert::ToInt32FromBase10(const char8_t* Value, const size_t Length)
 {
-	// https://www.geeksforgeeks.org/write-your-own-atoi/ - this function only works for base10 atm
+	// https://www.geeksforgeeks.org/write-your-own-atoi/
 	int16_t Sign = 1;
 	int32_t i = 0;
 	int32_t Base = 0;
@@ -791,7 +791,7 @@ const Elysium::Core::int32_t Elysium::Core::Convert::ToInt32FromBase10(const cha
 	}
 
 	// check for valid input
-	while (Value[i] >= u8'0' && Value[i] <= u8'9')
+	while (Value[i] >= u8'0' && Value[i] <= u8'9' && i < Length)
 	{
 		// handle overflow cases
 		if (Base > INT_MAX / 10 || (Base == INT_MAX / 10 && Value[i] - u8'0' > 7))

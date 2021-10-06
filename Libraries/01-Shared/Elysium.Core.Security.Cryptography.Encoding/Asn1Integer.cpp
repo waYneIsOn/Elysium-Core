@@ -7,7 +7,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer::Asn1Integer(
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer::~Asn1Integer()
 { }
 
-const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer::GetValue() const
+const Elysium::Core::Math::Numerics::BigInteger& Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer::GetValue() const
 {
 	return _Value;
 }

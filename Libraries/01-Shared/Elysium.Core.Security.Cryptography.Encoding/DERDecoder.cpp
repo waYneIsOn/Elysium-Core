@@ -1,19 +1,15 @@
 #include "DERDecoder.hpp"
 
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
-#include "../Elysium.Core.IO/MemoryStream.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
-#include "../Elysium.Core.Text/StringBuilder.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_CONVERT
 #include "../Elysium.Core/Convert.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
+#include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_ENDOFSTREAMEXCEPTION
@@ -24,8 +20,20 @@
 #include "../Elysium.Core.IO/InvalidDataException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "../Elysium.Core/NotImplementedException.hpp"
+#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
+#include "../Elysium.Core.IO/MemoryStream.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DERDecoder()
@@ -37,11 +45,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::C
 {
 	return DecodeIdentifier(&Data[Offset], Length);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifier(const byte * Data, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeIdentifier(InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifier(IO::Stream & InputStream)
 {
 	int32_t EncodedLength = 0;
@@ -67,11 +77,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core:
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeLength(InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeLength(const byte * Data, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeLength(InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeLength(IO::Stream & InputStream)
 {
 	int32_t EncodedLength = 0;
@@ -109,16 +121,44 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core:
 	return Asn1Length(Length, EncodedLength);
 }
 
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+{
+	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
+	return DecodeByteArray(Asn1Identifier, Asn1Length, InputStream);
+}
+
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length)
+{
+	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
+	return DecodeByteArray(Asn1Identifier, Asn1Length, InputStream);
+}
+
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream)
+{
+	const size_t Length = Asn1Length.GetLength();
+	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
+	size_t TotalBytesRead = 0;
+	do
+	{
+		const size_t BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
+		TotalBytesRead += BytesRead;
+	} while (TotalBytesRead != Length);
+
+	return Asn1ByteArray(Asn1Identifier, Elysium::Core::Template::Functional::Move(Bytes));
+}
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeBoolean(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeBoolean(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
 {
 	bool Value = false;
@@ -146,11 +186,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeInteger(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeInteger(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeInteger(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeInteger(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
 {
 	if (Asn1Length.GetLength() == 0)
@@ -160,20 +202,16 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core
 	}
 	else
 	{
-		int32_t FirstByteValue = InputStream.ReadByte();
+		Elysium::Core::int32_t FirstByteValue = InputStream.ReadByte();
 		if (FirstByteValue < 0)
 		{
 			throw IO::EndOfStreamException();
 		}
 
-		Math::Numerics::BigInteger Value = Math::Numerics::BigInteger(0);
-		if ((FirstByteValue & 0x80) != 0)
-		{
-			Value = Math::Numerics::BigInteger(-1);
-		}
+		Math::Numerics::BigInteger Value = (FirstByteValue & 0x80) != 0 ? Math::Numerics::BigInteger(-1) : Math::Numerics::BigInteger(0);
 		Value = (Value << 8) | FirstByteValue;
 		
-		int32_t CurrentByteValue;
+		Elysium::Core::int32_t CurrentByteValue;
 		for (int i = 1; i < Asn1Length.GetLength(); i++)
 		{
 			CurrentByteValue = InputStream.ReadByte();
@@ -188,11 +226,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeObjectIdentifier(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeObjectIdentifier(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
 {
 	const size_t OidLength = Asn1Length.GetLength();
@@ -255,12 +295,99 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeString(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeString(Asn1Identifier, Asn1Length, InputStream);
 }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
+{
+	const Elysium::Core::uint32_t Length = Asn1Length.GetLength();
+	if (Length == 0)
+	{
+		return Asn1String(Asn1Identifier, Elysium::Core::Template::Functional::Move(u8""));
+	}
+
+	switch (Asn1Identifier.GetUniversalTag())
+	{
+	case Asn1UniversalTag::IA5String:
+		// International Alphabet 5 (International ASCII)
+		[[fallthrough]];
+	case Asn1UniversalTag::PrintableString:
+		// Upper and lower case letters, digits, space, apostrophe, left/right parenthesis, plus sign, comma, hyphen, full stop, solidus, colon, 
+		// equal sign and question mark.
+		[[fallthrough]];
+	case Asn1UniversalTag::UTF8String:
+	{	// ...
+		Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
+		size_t TotalBytesRead = 0;
+		do
+		{
+			const size_t BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
+			TotalBytesRead += BytesRead;
+		} while (TotalBytesRead != Length);
+		return Asn1String(Asn1Identifier, Elysium::Core::Template::Functional::Move(Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length)));
+	}
+	case Asn1UniversalTag::BitString:
+		[[fallthrough]];
+	case Asn1UniversalTag::OctetString:
+		throw Elysium::Core::InvalidOperationException(u8"Asn1 datatype can be interpreted in multiple ways. Please make use of DecodeByteArray(...) instead.");
+	case Asn1UniversalTag::NumericString:
+	{	// 0 - 9 and whitespace
+		throw 1;
+	}
+	case Asn1UniversalTag::TeletexString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::VideotexString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::GraphicString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::VisibleString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::GeneralString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::UniversalString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::CharacterString:
+	{
+		throw 1;
+	}
+	case Asn1UniversalTag::BmpString:
+	{
+		throw 1;
+	}
+	default:
+		throw NotImplementedException(u8"Unhandled Asn1UniversalTag for string.");
+	}
+}
+
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+{
+	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
+	return DecodeDateTime(Asn1Identifier, Asn1Length, InputStream);
+}
+
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length)
+{
+	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
+	return DecodeDateTime(Asn1Identifier, Asn1Length, InputStream);
+}
+
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream)
 {
 	const int32_t Length = Asn1Length.GetLength();
 	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
@@ -268,22 +395,63 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 	{
 		Bytes[i] = InputStream.ReadByte();
 	}
-	/*
-	switch (Asn1Identifier.GetTagNumber())
+	
+	switch (Asn1Identifier.GetUniversalTag())
 	{
-		case static_cast<int32_t>(Asn1UniversalTag::BitString):
-			throw NotImplementedException();
+		case Asn1UniversalTag::UTCTime:
+		{
+			const Elysium::Core::String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
+			if (Value.EndsWith(u8"Z"))
+			{	// "YYMMDDhhmm[ss]Z
+				const Elysium::Core::int32_t Year = 1900 + Elysium::Core::Convert::ToInt32(&Value[0], 2, 10);
+				const Elysium::Core::int32_t Month = Elysium::Core::Convert::ToInt32(&Value[2], 2, 10);
+				const Elysium::Core::int32_t Day = Elysium::Core::Convert::ToInt32(&Value[4], 2, 10);
+				switch (Value.GetLength())
+				{
+				case 11:
+					return Asn1DateTime(Asn1Identifier, DateTime(
+						Year > 1950 ? Year : Year + 100,
+						Elysium::Core::Convert::ToInt32(&Value[2], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[4], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[6], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[8], 2, 10),
+						0
+					));
+				case 13:
+					return Asn1DateTime(Asn1Identifier, DateTime(
+						Year > 1950 ? Year : Year + 100,
+						Elysium::Core::Convert::ToInt32(&Value[2], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[4], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[6], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[8], 2, 10),
+						Elysium::Core::Convert::ToInt32(&Value[10], 2, 10)
+					));
+				default:
+					// ToDo: while this shouldn't ever happen, throw a specific exception as data is invalid
+					throw 1;
+				}
+			}
+			else
+			{	// "YYMMDDhhmm[ss](+|-)hhmm"
+				// ToDo:
+				throw 1;
+			}
+		}
+		case Asn1UniversalTag::GeneralizedTime:
+		{
+			/*
+			* local time:					YYYYMMDDHH[MM[SS[.fff]]]
+			* UTC time:						YYYYMMDDHH[MM[SS[.fff]]]Z
+			* difference local/utc time:	YYYYMMDDHH[MM[SS[.fff]]]+-HHMM
+			*/
+			throw 1;
+		}
 		default:
 			throw NotImplementedException();
 	}
-	
-	throw NotImplementedException();
-	*/
-	const Elysium::Core::String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
-	return Asn1String(Asn1Identifier, Value);
 }
 
-size_t Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifierTagNumber(IO::Stream & InputStream, int32_t EncodedLength)
+const size_t Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifierTagNumber(IO::Stream & InputStream, Elysium::Core::int32_t EncodedLength)
 {
 	size_t TagNumber = 0;
 	while (true)
