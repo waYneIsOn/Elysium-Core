@@ -24,31 +24,72 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OidGroup.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
-#include "../Elysium.Core.Security/System.hpp"
-#endif
-
 namespace Elysium::Core::Security::Cryptography
 {
+	/// <summary>
+	/// Represents a cryptographic object identifier.
+	/// This class cannot be inherited.
+	/// </summary>
 	class ELYSIUM_CORE_SECURITY_API Oid final
 	{
 	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		Oid();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Oid(Elysium::Core::String&& Value, Elysium::Core::String&& FriendlyName);
+
+		/// <summary>
+		/// 
+		/// </summary>
 		Oid(const Oid& Source);
-		Oid(Oid&& Right) noexcept = delete;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Oid(Oid&& Right) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		~Oid();
 
+		/// <summary>
+		/// 
+		/// </summary>
+		Oid& operator=(const Oid& Source);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		Oid& operator=(Oid&& Right) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
 		static Oid FromFriendlyName(const Elysium::Core::String& FriendlyName, const OidGroup Group);
+
+		/// <summary>
+		/// 
+		/// </summary>
 		static Oid FromOidValue(const Elysium::Core::String& OidValue, const OidGroup Group);
 
-		Oid& operator=(const Oid& Source) = delete;
-		Oid& operator=(Oid&& Right) noexcept = delete;
+		/// <summary>
+		/// 
+		/// </summary>
+		const Elysium::Core::String& GetValue() const;
 
-		const Elysium::Core::String GetFriendlyName() const;
-		const Elysium::Core::String GetValue() const;
+		/// <summary>
+		/// 
+		/// </summary>
+		const Elysium::Core::String& GetFriendlyName() const;
 	private:
-		Oid(const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER NativeOid);
-
-		const ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER _NativeOid = nullptr;
+		Elysium::Core::String _Value;
+		Elysium::Core::String _FriendlyName;
 	};
 }
 #endif
