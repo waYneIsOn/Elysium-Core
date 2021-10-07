@@ -1,7 +1,7 @@
 #include "DbException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Data::Common::DbException::DbException()

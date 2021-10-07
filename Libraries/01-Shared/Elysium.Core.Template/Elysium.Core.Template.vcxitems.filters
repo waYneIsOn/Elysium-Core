@@ -218,6 +218,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp">
       <Filter>Container</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -243,6 +247,9 @@
     </Filter>
     <Filter Include="Container">
       <UniqueIdentifier>{8feb6bb1-3f35-4d13-b134-004db939ef9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text">
+      <UniqueIdentifier>{6554ee3b-a49f-415f-9693-8084a3d5af67}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

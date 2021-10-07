@@ -1,15 +1,11 @@
 #include "Task.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_EXCEPTION
+#include "../Elysium.Core/Exception.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_INTERLOCKED
 #include "Interlocked.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "../Elysium.Core/Exception.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_TASKS_OPERATIONCANCELEDEXCEPTION

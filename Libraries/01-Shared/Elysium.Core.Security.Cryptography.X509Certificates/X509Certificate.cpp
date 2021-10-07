@@ -1,19 +1,19 @@
 #include "X509Certificate.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_FILESTREAM
 #include "../Elysium.Core.IO/FileStream.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #include "CryptographicException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext)
@@ -24,7 +24,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Ce
 { }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(X509Certificate && Right) noexcept
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::~X509Certificate()
 {
@@ -48,7 +48,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysi
 {
 	if (this != &Right)
 	{
-		_CertificateContext = Right._CertificateContext;
+		_CertificateContext = Elysium::Core::Template::Functional::Move(Right._CertificateContext);
 
 		Right._CertificateContext = nullptr;
 	}

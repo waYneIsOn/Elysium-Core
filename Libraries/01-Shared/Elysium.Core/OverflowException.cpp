@@ -1,7 +1,7 @@
 #include "OverflowException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::OverflowException::OverflowException()
@@ -11,7 +11,7 @@ Elysium::Core::OverflowException::OverflowException(const char8_t* Message)
 	: Elysium::Core::ArithmeticException(Message)
 { }
 Elysium::Core::OverflowException::OverflowException(Elysium::Core::String&& Message)
-	: Elysium::Core::ArithmeticException(std::move(Message))
+	: Elysium::Core::ArithmeticException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::OverflowException::~OverflowException()
 { }

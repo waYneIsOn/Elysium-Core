@@ -1,7 +1,7 @@
 #include "Point.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Math::Geometry::Point::Point()
@@ -16,7 +16,7 @@ Elysium::Core::Math::Geometry::Point::Point(const Point& Source)
 Elysium::Core::Math::Geometry::Point::Point(Point&& Right) noexcept
 	: X(0), Y(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Math::Geometry::Point::~Point()
 { }
@@ -35,11 +35,8 @@ Elysium::Core::Math::Geometry::Point& Elysium::Core::Math::Geometry::Point::oper
 {
 	if (this != &Right)
 	{
-		X = Right.X;
-		Y = Right.Y;
-
-		Right.X = 0;
-		Right.Y = 0;
+		X = Elysium::Core::Template::Functional::Move(Right.X);
+		Y = Elysium::Core::Template::Functional::Move(Right.Y);
 	}
 	return *this;
 }

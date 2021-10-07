@@ -67,9 +67,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Dictionary.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
@@ -83,9 +80,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
@@ -111,9 +105,6 @@
       <Filter>Collections</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
   </ItemGroup>

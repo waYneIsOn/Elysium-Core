@@ -1,5 +1,13 @@
 #include "RegionInfo.hpp"
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -17,14 +25,6 @@
 #error "undefined os"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>	// std::char_traits
-#endif
-
 Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::int32_t Culture)
 	: _LCID(Culture)
 { }
@@ -37,7 +37,7 @@ Elysium::Core::Globalization::RegionInfo::RegionInfo(const RegionInfo& Source)
 Elysium::Core::Globalization::RegionInfo::RegionInfo(RegionInfo&& Right) noexcept
 	: _LCID(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Globalization::RegionInfo::~RegionInfo()
 { }
@@ -55,7 +55,7 @@ Elysium::Core::Globalization::RegionInfo& Elysium::Core::Globalization::RegionIn
 {
 	if (this != &Right)
 	{
-		_LCID = std::move(Right._LCID);
+		_LCID = Elysium::Core::Template::Functional::Move(Right._LCID);
 	}
 	return *this;
 }
@@ -69,7 +69,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetDisplay
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -84,7 +84,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetEnglish
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -114,7 +114,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetNativeN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -129,7 +129,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetThreeLe
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -144,7 +144,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetTwoLett
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif

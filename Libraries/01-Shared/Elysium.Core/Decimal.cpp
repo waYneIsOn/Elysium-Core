@@ -1,11 +1,11 @@
 #include "Decimal.hpp"
 
-#ifndef __midl
-#include <cstring>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef __midl
+#include <cstring>
 #endif
 
 Elysium::Core::Decimal::Decimal()
@@ -29,7 +29,7 @@ Elysium::Core::Decimal::Decimal(const Decimal & Source)
 Elysium::Core::Decimal::Decimal(Decimal && Right) noexcept
 	: _HighPart(0), _LowPart(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Decimal::~Decimal()
 { }
@@ -48,8 +48,8 @@ Elysium::Core::Decimal & Elysium::Core::Decimal::operator=(Decimal && Right) noe
 {
 	if (this != &Right)
 	{
-		_HighPart = std::move(Right._HighPart);
-		_LowPart = std::move(Right._LowPart);
+		_HighPart = Elysium::Core::Template::Functional::Move(Right._HighPart);
+		_LowPart = Elysium::Core::Template::Functional::Move(Right._LowPart);
 
 		Right._HighPart = 0;
 		Right._LowPart = 0;

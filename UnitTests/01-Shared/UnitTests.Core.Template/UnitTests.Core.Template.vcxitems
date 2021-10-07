@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AllocatorTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FixedSizeHeapArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HeapArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />

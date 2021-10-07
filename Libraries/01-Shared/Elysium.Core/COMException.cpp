@@ -1,7 +1,7 @@
 #include "COMException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)

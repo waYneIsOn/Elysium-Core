@@ -12,12 +12,12 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>	// std::char_traits
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::Oid::Oid()
@@ -71,9 +71,9 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 
 	return Oid(
 		Elysium::Core::Template::Functional::Move(Text::Encoding::ASCII().GetString((const Elysium::Core::byte*)NativeOid->pszOID,
-			std::char_traits<char>::length(NativeOid->pszOID) * sizeof(char))),
+			Elysium::Core::Template::Text::CharacterTraits<char>::GetByteLength(NativeOid->pszOID))),
 		Elysium::Core::Template::Functional::Move(Text::Encoding::UTF16LE().GetString((const Elysium::Core::byte*)NativeOid->pwszName,
-			std::char_traits<wchar_t>::length(NativeOid->pwszName) * sizeof(wchar_t)))
+			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(NativeOid->pwszName)))
 	);
 }
 
@@ -87,9 +87,9 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 
 	return Oid(
 		Elysium::Core::Template::Functional::Move(Text::Encoding::ASCII().GetString((const Elysium::Core::byte*)NativeOid->pszOID,
-			std::char_traits<char>::length(NativeOid->pszOID) * sizeof(char))),
+			Elysium::Core::Template::Text::CharacterTraits<char>::GetByteLength(NativeOid->pszOID))),
 		Elysium::Core::Template::Functional::Move(Text::Encoding::UTF16LE().GetString((const Elysium::Core::byte*)NativeOid->pwszName,
-			std::char_traits<wchar_t>::length(NativeOid->pwszName) * sizeof(wchar_t)))
+			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(NativeOid->pwszName)))
 	);
 }
 

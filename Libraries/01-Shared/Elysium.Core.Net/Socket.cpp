@@ -1,39 +1,39 @@
 #include "Socket.hpp"
 
-#ifndef ELYSIUM_CORE_NET_FORMATCONVERTER
-#include "FormatConverter.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
-#include "SocketException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_DNSENDPOINT
-#include "DnsEndPoint.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_IPENDPOINT
-#include "IPEndPoint.hpp"
+#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
+#include "../Elysium.Core/ArgumentException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_BITCONVERTER
 #include "../Elysium.Core/BitConverter.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_THREADPOOL
-#include "../Elysium.Core.Threading/ThreadPool.hpp"
+#ifndef ELYSIUM_CORE_NET_DNSENDPOINT
+#include "DnsEndPoint.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "../Elysium.Core/ArgumentException.hpp"
+#ifndef ELYSIUM_CORE_NET_FORMATCONVERTER
+#include "FormatConverter.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_NET_IPENDPOINT
+#include "IPEndPoint.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
 #include "../Elysium.Core/NotSupportedException.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
+#include "SocketException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_THREADPOOL
+#include "../Elysium.Core.Threading/ThreadPool.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
@@ -52,7 +52,7 @@ Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketT
 }
 Elysium::Core::Net::Sockets::Socket::Socket(Socket && Right) noexcept
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Net::Sockets::Socket::~Socket()
 {
@@ -77,10 +77,10 @@ Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::Socket::opera
 {
 	if (this != &Right)
 	{
-		_WinSocketHandle = std::move(Right._WinSocketHandle);
-		_CompletionPortHandle = std::move(Right._CompletionPortHandle);
-		ConnectEx = std::move(Right.ConnectEx);
-		DisconnectEx = std::move(Right.DisconnectEx);
+		_WinSocketHandle = Elysium::Core::Template::Functional::Move(Right._WinSocketHandle);
+		_CompletionPortHandle = Elysium::Core::Template::Functional::Move(Right._CompletionPortHandle);
+		ConnectEx = Elysium::Core::Template::Functional::Move(Right.ConnectEx);
+		DisconnectEx = Elysium::Core::Template::Functional::Move(Right.DisconnectEx);
 
 		Right._WinSocketHandle = INVALID_SOCKET;
 		Right._CompletionPortHandle = 0;

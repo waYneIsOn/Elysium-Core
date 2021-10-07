@@ -4,10 +4,6 @@
 #include "Socket.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 Elysium::Core::Net::Sockets::SendReceiveAsyncResult::~SendReceiveAsyncResult()
 { }
 

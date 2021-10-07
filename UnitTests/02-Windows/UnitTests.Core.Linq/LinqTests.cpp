@@ -16,10 +16,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Linq/Extension.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 using namespace Elysium::Core::Linq;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

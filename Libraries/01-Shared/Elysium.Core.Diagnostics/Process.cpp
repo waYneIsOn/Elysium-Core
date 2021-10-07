@@ -8,24 +8,24 @@
 #include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "../Elysium.Core/SystemException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_INTERNAL_WINDOWFINDER
 #include "WindowFinder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>	// std::char_traits
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "../Elysium.Core/SystemException.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -275,7 +275,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	size_t i = 0;
 	do
 	{
-		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], std::char_traits<wchar_t>::length(&ProcessEntry.szExeFile[0]) * sizeof(wchar_t));
+		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(&ProcessEntry.szExeFile[0]));
 		if (CurrentProcessName == ProcessName)
 		{
 			i++;
@@ -293,7 +293,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	i = 0;
 	do
 	{
-		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], std::char_traits<wchar_t>::length(&ProcessEntry.szExeFile[0]) * sizeof(wchar_t));
+		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(&ProcessEntry.szExeFile[0]));
 		if (CurrentProcessName == ProcessName)
 		{
 			Processes[i]._ProcessId = ProcessEntry.th32ProcessID;

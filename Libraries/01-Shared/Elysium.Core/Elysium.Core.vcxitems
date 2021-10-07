@@ -31,7 +31,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
@@ -62,7 +61,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
@@ -74,7 +72,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />

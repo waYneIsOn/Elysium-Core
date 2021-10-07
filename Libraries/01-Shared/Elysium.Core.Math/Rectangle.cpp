@@ -1,7 +1,7 @@
 #include "Rectangle.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Math::Geometry::Rectangle::Rectangle()
@@ -16,7 +16,7 @@ Elysium::Core::Math::Geometry::Rectangle::Rectangle(const Rectangle & Source)
 Elysium::Core::Math::Geometry::Rectangle::Rectangle(Rectangle&& Right) noexcept
 	: X(0), Y(0), Width(0), Height(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Math::Geometry::Rectangle::~Rectangle()
 { }
@@ -37,15 +37,10 @@ Elysium::Core::Math::Geometry::Rectangle& Elysium::Core::Math::Geometry::Rectang
 {
 	if (this != &Right)
 	{
-		X = Right.X;
-		Y = Right.Y;
-		Width = Right.Width;
-		Height = Right.Height;
-
-		Right.X = 0;
-		Right.Y = 0;
-		Right.Width = 0;
-		Right.Height = 0;
+		X = Elysium::Core::Template::Functional::Move(Right.X);
+		Y = Elysium::Core::Template::Functional::Move(Right.Y);
+		Width = Elysium::Core::Template::Functional::Move(Right.Width);
+		Height = Elysium::Core::Template::Functional::Move(Right.Height);
 	}
 	return *this;
 }

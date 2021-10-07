@@ -1,9 +1,5 @@
 #include "StringView.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef _XSTRING_
 #include <xstring>	// std::char_traits
 #endif
@@ -14,6 +10,10 @@
 
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::StringView::StringView()
@@ -47,7 +47,7 @@ Elysium::Core::StringView::StringView(const StringView& Source)
 Elysium::Core::StringView::StringView(StringView&& Right) noexcept
 	: _Length(0), _Data(nullptr)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 
 Elysium::Core::StringView::~StringView()
@@ -67,8 +67,8 @@ Elysium::Core::StringView& Elysium::Core::StringView::operator=(StringView&& Rig
 {
 	if (this != &Right)
 	{
-		_Length = Right._Length;
-		_Data = Right._Data;
+		_Length = Elysium::Core::Template::Functional::Move(Right._Length);
+		_Data = Elysium::Core::Template::Functional::Move(Right._Data);
 
 		Right._Length = 0;
 		Right._Data = nullptr;

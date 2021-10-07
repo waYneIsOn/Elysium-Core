@@ -12,7 +12,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template::Container
 {
-	TEST_CLASS(VectorTests)
+	TEST_CLASS(VectorUInt32Tests)
 	{
 	public:
 		TEST_METHOD(Constructors)
@@ -43,17 +43,190 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(0ULL, MovedInstance.GetSize());
 		}
 
-		TEST_METHOD(Iterations)
+		TEST_METHOD(IterationsThroughEmpty)
 		{
-			// iterate using index/operator
+			Vector<uint32_t> Instance = Vector<uint32_t>(0);
+			Iterations(Instance);
+		}
+
+		TEST_METHOD(IterationsThroughPopulated)
+		{
 			Vector<uint32_t> Instance = { 0, 1, 2, 3, 4 };
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			Iterations(Instance);
+		}
+
+		TEST_METHOD(Accessing)
+		{
+			Vector<uint32_t> Instance = { 1, 2, 3 };
+			const uint32_t& Value0 = Instance[0];
+			const uint32_t& Value1 = Instance[1];
+			const uint32_t& Value2 = Instance[2];
+			const uint32_t& Value3 = Instance[3];
+
+			uint32_t& At0 = Instance.GetAt(0);
+			uint32_t& At1 = Instance.GetAt(1);
+			uint32_t& At2 = Instance.GetAt(2);
+			try
 			{
-				uint32_t& Element = Instance[i];
-				Assert::AreEqual(static_cast<uint32_t>(i), Element);
+				uint32_t& At3 = Instance.GetAt(3);
+				Assert::Fail();
 			}
+			catch (IndexOutOfRangeException&)
+			{ }
+		}
+
+		TEST_METHOD(Modifiers)
+		{
+			Vector<uint32_t> Instance = Vector<uint32_t>(1);
+			Assert::AreEqual(static_cast<size_t>(0), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(1), Instance.GetCapacity());
+			Assert::IsTrue(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PushBack(25);
+			Assert::AreEqual(static_cast<size_t>(1), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(1), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.Reserve(4);
+			Assert::AreEqual(static_cast<size_t>(1), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PushBack(25);
+			Assert::AreEqual(static_cast<size_t>(2), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PushBack(25);
+			Assert::AreEqual(static_cast<size_t>(3), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PushBack(25);
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PushBack(25);
+			Assert::AreEqual(static_cast<size_t>(5), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PopBack();
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.ShrinkToFit();
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.PushBack(25);
+			Instance.PushBack(25);
+			Instance.PushBack(25);
+			Assert::AreEqual(static_cast<size_t>(7), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.ShrinkToFit();
+			Assert::AreEqual(static_cast<size_t>(7), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(7), Instance.GetCapacity());
+			Assert::IsFalse(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.Clear();
+			Assert::AreEqual(static_cast<size_t>(0), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(7), Instance.GetCapacity());
+			Assert::IsTrue(Instance.GetIsEmpty());
+			Assert::IsNotNull(Instance.GetData());
+
+			Instance.ShrinkToFit();
+			Assert::AreEqual(static_cast<size_t>(0), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(0), Instance.GetCapacity());
+			Assert::IsTrue(Instance.GetIsEmpty());
+			Assert::IsNull(Instance.GetData());
+
+			Vector<uint32_t> SomeOtherInstance = { 3, 4, 5 };
+			Instance.PushBackRange(&SomeOtherInstance[0], 3);
+			Assert::AreEqual(static_cast<size_t>(3), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(3_ui32, Instance[0]);
+			Assert::AreEqual(4_ui32, Instance[1]);
+			Assert::AreEqual(5_ui32, Instance[2]);
+
+			Instance.PushBackRange(SomeOtherInstance, 1, 2);
+			Assert::AreEqual(static_cast<size_t>(5), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(3_ui32, Instance[0]);
+			Assert::AreEqual(4_ui32, Instance[1]);
+			Assert::AreEqual(5_ui32, Instance[2]);
+			Assert::AreEqual(4_ui32, Instance[3]);
+			Assert::AreEqual(5_ui32, Instance[4]);
+
+			// ToDo: need to check this block with another T to make sure the item really gets moved
+			Instance.PopBack();
+			Instance.PopBack();
+			Instance.MoveBack(Move(SomeOtherInstance.GetAt(0)));
+			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(3_ui32, Instance[0]);
+			Assert::AreEqual(4_ui32, Instance[1]);
+			Assert::AreEqual(5_ui32, Instance[2]);
+			Assert::AreEqual(3_ui32, Instance[3]);
+			Assert::AreEqual(3_ui32, SomeOtherInstance[0]);
+			Assert::AreEqual(4_ui32, SomeOtherInstance[1]);
+			Assert::AreEqual(5_ui32, SomeOtherInstance[2]);
+
+			Instance.Assign(27, 5);
+			Assert::AreEqual(static_cast<size_t>(9), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(16), Instance.GetCapacity());
+			Assert::AreEqual(3_ui32, Instance[0]);
+			Assert::AreEqual(4_ui32, Instance[1]);
+			Assert::AreEqual(5_ui32, Instance[2]);
+			Assert::AreEqual(3_ui32, Instance[3]);
+			Assert::AreEqual(27_ui32, Instance[4]);
+			Assert::AreEqual(27_ui32, Instance[5]);
+			Assert::AreEqual(27_ui32, Instance[6]);
+			Assert::AreEqual(27_ui32, Instance[7]);
+			Assert::AreEqual(27_ui32, Instance[8]);
+
+			Instance.Insert(33, 6);
+			Assert::AreEqual(static_cast<size_t>(10), Instance.GetSize());
+			Assert::AreEqual(static_cast<size_t>(16), Instance.GetCapacity());
+			Assert::AreEqual(3_ui32, Instance[0]);
+			Assert::AreEqual(4_ui32, Instance[1]);
+			Assert::AreEqual(5_ui32, Instance[2]);
+			Assert::AreEqual(3_ui32, Instance[3]);
+			Assert::AreEqual(27_ui32, Instance[4]);
+			Assert::AreEqual(33_ui32, Instance[5]);
+			Assert::AreEqual(27_ui32, Instance[6]);
+			Assert::AreEqual(27_ui32, Instance[7]);
+			Assert::AreEqual(27_ui32, Instance[8]);
+			Assert::AreEqual(27_ui32, Instance[9]);
+		}
+	private:
+		void Iterations(Vector<uint32_t>& Instance)
+		{
 			const size_t Length = Instance.GetSize();
 			const Vector<uint32_t>& ConstInstance = Instance;
+
+			// iterate using index/operator
+			for (size_t i = 0; i < Instance.GetSize(); i++)
+			{
+				const uint32_t& Element = Instance[i];
+				Assert::AreEqual(static_cast<uint32_t>(i), Element);
+			}
 
 			// iterate using index/method
 			for (size_t i = 0; i < Instance.GetSize(); i++)
@@ -68,9 +241,9 @@ namespace UnitTests::Core::Template::Container
 			{
 				uint32_t& Element = *Iterator;
 				Assert::AreEqual(i++, Element);
-				Element = Length - i;
+				Element = static_cast<uint32_t>(Length) - i;
 			}
-			Assert::AreEqual(5_ui32, i);
+			Assert::AreEqual(static_cast<uint32_t>(Length), i);
 
 			// iterate using ConstForwardIterator-class
 			i = 0;
@@ -79,7 +252,7 @@ namespace UnitTests::Core::Template::Container
 				const uint32_t& Element = *Iterator;
 				Assert::AreEqual(static_cast<uint32_t>(Length) - ++i, Element);
 			}
-			Assert::AreEqual(5_ui32, i);
+			Assert::AreEqual(static_cast<uint32_t>(Length), i);
 
 			// iterate using BackwardIterator-class
 			for (Vector<uint32_t>::ReverseIterator Iterator = Instance.GetReverseBegin(); Iterator != Instance.GetReverseEnd(); --Iterator)

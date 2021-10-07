@@ -1,11 +1,11 @@
 #include "BigInteger.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef ELYSIUM_CORE_MATH_MATHHELPER
 #include "MathHelper.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_bnMinInt = Elysium::Core::Math::Numerics::BigInteger(-1, Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t>({ _uMaskHighBit }));
@@ -322,7 +322,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const BigInteger & Source)
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(BigInteger && Right) noexcept
 	: _Sign(0), _Bits(Collections::Template::Array<Elysium::Core::uint32_t>(0))
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Math::Numerics::BigInteger::~BigInteger()
 { }
@@ -340,8 +340,8 @@ Elysium::Core::Math::Numerics::BigInteger & Elysium::Core::Math::Numerics::BigIn
 {
 	if (this != &Right)
 	{
-		_Sign = std::move(Right._Sign);
-		_Bits = std::move(Right._Bits);
+		_Sign = Elysium::Core::Template::Functional::Move(Right._Sign);
+		_Bits = Elysium::Core::Template::Functional::Move(Right._Bits);
 	}
 	return *this;
 }

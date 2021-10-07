@@ -1,7 +1,7 @@
 #include "CryptographicException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException()
@@ -11,7 +11,7 @@ Elysium::Core::Security::Cryptography::CryptographicException::CryptographicExce
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(String && Message)
-	: Elysium::Core::SystemException(std::move(Message))
+	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::Security::Cryptography::CryptographicException::~CryptographicException()
 { }

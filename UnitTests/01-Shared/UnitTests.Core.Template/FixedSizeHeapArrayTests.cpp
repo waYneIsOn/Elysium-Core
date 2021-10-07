@@ -2,6 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/IndexOutOfRangeException.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/FixedSizeHeapArray.hpp"
@@ -47,11 +48,11 @@ namespace UnitTests::Core::Template::Container
 
 			// Default constructor with elements
 			FixedSizeHeapArray<uint32_t, 5> Instance = FixedSizeHeapArray<uint32_t, 5>();
-			Instance[0] = 10;
-			Instance[1] = 11;
-			Instance[2] = 12;
-			Instance[3] = 13;
-			Instance[4] = 14;
+			Instance.GetAt(0) = 10;
+			Instance.GetAt(1) = 11;
+			Instance.GetAt(2) = 12;
+			Instance.GetAt(3) = 13;
+			Instance.GetAt(4) = 14;
 			Assert::AreEqual(5ULL, Instance.GetSize());
 			Assert::AreEqual(10_ui32, Instance[0]);
 			Assert::AreEqual(11_ui32, Instance[1]);
@@ -86,9 +87,9 @@ namespace UnitTests::Core::Template::Container
 			
 			// Default constructor using MAllocator
 			FixedSizeHeapArray<uint32_t, 3, MAllocator<uint32_t>> MAllocInstance = FixedSizeHeapArray<uint32_t, 3, MAllocator<uint32_t>>();
-			MAllocInstance[0] = 10;
-			MAllocInstance[1] = 11;
-			MAllocInstance[2] = 12;
+			MAllocInstance.GetAt(0) = 10;
+			MAllocInstance.GetAt(1) = 11;
+			MAllocInstance.GetAt(2) = 12;
 			Assert::AreEqual(3ULL, MAllocInstance.GetSize());
 			Assert::AreEqual(10_ui32, MovedInstance[0]);
 			Assert::AreEqual(11_ui32, MovedInstance[1]);
@@ -114,15 +115,22 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(0_ui32, CopiedMAllocInstance[2]);
 		}
 
-		TEST_METHOD(Iterations)
+		TEST_METHOD(IterationsThroughEmpty)
+		{
+			FixedSizeHeapArray<uint32_t, 0> Instance;
+			Iterations<0>(Instance);
+		}
+
+		TEST_METHOD(IterationsThroughPopulated)
 		{
 			const size_t Length = 5;
-
-			// iterate using index/operator
 			FixedSizeHeapArray<uint32_t, Length> Instance = { 0, 1, 2, 3, 4 };
+			Iterations<Length>(Instance);
+			/*
+			// iterate using index/operator
 			for (size_t i = 0; i < Instance.GetSize(); i++)
 			{
-				uint32_t& Element = Instance[i];
+				const uint32_t& Element = Instance[i];
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);
 			}
 			const FixedSizeHeapArray<uint32_t, Length>& ConstInstance = Instance;
@@ -169,7 +177,7 @@ namespace UnitTests::Core::Template::Container
 				Assert::AreEqual(static_cast<uint32_t>(Length - i--), Element);
 			}
 			Assert::AreEqual(0_ui32, i);
-			
+			*/
 			/*
 			// iterate using range-based-for-loop
 			for (const uint32_t& Element : Instance)
@@ -178,6 +186,98 @@ namespace UnitTests::Core::Template::Container
 				i++;
 			}
 			
+			// iterate using foreach and lambda
+			i = 0;
+			foreach(Instance.GetFirst(), Instance.GetLast(),
+				[](const uint32_t& Element)
+			{
+				// ...
+			});
+			*/
+		}
+
+		TEST_METHOD(Accessing)
+		{
+			FixedSizeHeapArray<uint32_t, 3> Instance = { 1, 2, 3 };
+			const uint32_t& Value0 = Instance[0];
+			const uint32_t& Value1 = Instance[1];
+			const uint32_t& Value2 = Instance[2];
+			const uint32_t& Value3 = Instance[3];
+
+			uint32_t& At0 = Instance.GetAt(0);
+			uint32_t& At1 = Instance.GetAt(1);
+			uint32_t& At2 = Instance.GetAt(2);
+			try
+			{
+				uint32_t& At3 = Instance.GetAt(3);
+				Assert::Fail();
+			}
+			catch (IndexOutOfRangeException&)
+			{ }
+		}
+	private:
+		template<const size_t Size>
+		void Iterations(FixedSizeHeapArray<uint32_t, Size>& Instance)
+		{
+			// iterate using index/operator
+			for (size_t i = 0; i < Instance.GetSize(); i++)
+			{
+				const uint32_t& Element = Instance[i];
+				Assert::AreEqual(static_cast<uint32_t>(i), Element);
+			}
+			const FixedSizeHeapArray<uint32_t, Size>& ConstInstance = Instance;
+
+			// iterate using index/method
+			for (size_t i = 0; i < Instance.GetSize(); i++)
+			{
+				uint32_t& Element = Instance.GetAt(i);
+				Assert::AreEqual(static_cast<uint32_t>(i), Element);
+			}
+			
+			// iterate using ForwardIterator-class
+			uint32_t i = 0;
+			for (auto Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				uint32_t& Element = *Iterator;
+				Assert::AreEqual(i++, Element);
+				Element = Size - i;
+			}
+			Assert::AreEqual(static_cast<uint32_t>(Size), i);
+			
+			// iterate using ConstForwardIterator-class
+			i = 0;
+			for (auto Iterator = ConstInstance.GetBegin(); Iterator != ConstInstance.GetEnd(); ++Iterator)
+			{
+				const uint32_t& Element = *Iterator;
+				Assert::AreEqual(static_cast<uint32_t>(Size) - ++i, Element);
+			}
+			Assert::AreEqual(static_cast<uint32_t>(Size), i);
+
+			// iterate using BackwardIterator-class
+			for (auto Iterator = Instance.GetReverseBegin(); Iterator != Instance.GetReverseEnd(); --Iterator)
+			{
+				uint32_t& Element = *Iterator;
+				Assert::AreEqual(static_cast<uint32_t>(Size - i--), Element);
+			}
+			Assert::AreEqual(0_ui32, i);
+
+			// iterate using ConstBackwardIterator-class
+			i = static_cast<uint32_t>(Size);
+			for (auto Iterator = ConstInstance.GetReverseBegin(); Iterator != ConstInstance.GetReverseEnd(); --Iterator)
+			{
+				const uint32_t& Element = *Iterator;
+				Assert::AreEqual(static_cast<uint32_t>(Size - i--), Element);
+			}
+			Assert::AreEqual(0_ui32, i);
+			
+			/*
+			// iterate using range-based-for-loop
+			for (const uint32_t& Element : Instance)
+			{
+				Assert::AreEqual(i, Instance[i]);
+				i++;
+			}
+
 			// iterate using foreach and lambda
 			i = 0;
 			foreach(Instance.GetFirst(), Instance.GetLast(),

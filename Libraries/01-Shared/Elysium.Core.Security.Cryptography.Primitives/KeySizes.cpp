@@ -1,7 +1,7 @@
 #include "KeySizes.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::KeySizes::KeySizes(Elysium::Core::uint32_t MinimumSize, Elysium::Core::uint32_t MaximumSize, Elysium::Core::uint32_t SkipSize)
@@ -13,7 +13,7 @@ Elysium::Core::Security::Cryptography::KeySizes::KeySizes(const KeySizes & Sourc
 Elysium::Core::Security::Cryptography::KeySizes::KeySizes(KeySizes && Right) noexcept
 	: _MinimumSize(0), _MaximumSize(0), _SkipSize(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Security::Cryptography::KeySizes::~KeySizes()
 { }
@@ -32,9 +32,9 @@ Elysium::Core::Security::Cryptography::KeySizes & Elysium::Core::Security::Crypt
 {
 	if (this != &Right)
 	{
-		_MinimumSize = std::move(Right._MinimumSize);
-		_MaximumSize = std::move(Right._MaximumSize);
-		_SkipSize = std::move(Right._SkipSize);
+		_MinimumSize = Elysium::Core::Template::Functional::Move(Right._MinimumSize);
+		_MaximumSize = Elysium::Core::Template::Functional::Move(Right._MaximumSize);
+		_SkipSize = Elysium::Core::Template::Functional::Move(Right._SkipSize);
 	}
 	return *this;
 }

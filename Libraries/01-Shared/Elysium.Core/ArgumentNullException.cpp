@@ -1,7 +1,7 @@
 #include "ArgumentNullException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::ArgumentNullException::ArgumentNullException()
@@ -11,7 +11,7 @@ Elysium::Core::ArgumentNullException::ArgumentNullException(const char8_t* Messa
 	: Elysium::Core::ArgumentException(Message)
 { }
 Elysium::Core::ArgumentNullException::ArgumentNullException(Elysium::Core::String && Message)
-	: Elysium::Core::ArgumentException(std::move(Message))
+	: Elysium::Core::ArgumentException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::ArgumentNullException::~ArgumentNullException()
 { }

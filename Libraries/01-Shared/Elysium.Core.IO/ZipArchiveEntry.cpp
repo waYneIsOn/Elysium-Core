@@ -24,8 +24,8 @@
 #include "ZipVersionNeeded.hpp"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry(ZipArchive * Archive, BinaryReader * Reader)
@@ -39,7 +39,7 @@ Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry(const ZipArchiv
 Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry(ZipArchiveEntry&& Right) noexcept
 	: _Archive(nullptr), _Reader(nullptr), _FileName()
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::IO::Compression::ZipArchiveEntry::~ZipArchiveEntry()
 { }
@@ -64,7 +64,7 @@ Elysium::Core::IO::Compression::ZipArchiveEntry& Elysium::Core::IO::Compression:
 	{
 		_Archive = Right._Archive;
 		_Reader = Right._Reader;
-        _FileName = std::move(Right._FileName);
+        _FileName = Elysium::Core::Template::Functional::Move(Right._FileName);
         _RelativeOffsetToFileEntry = Right._RelativeOffsetToFileEntry;
         _RelativeOffsetToCompressedData = Right._RelativeOffsetToCompressedData;
         _CompressedSize = Right._CompressedSize;

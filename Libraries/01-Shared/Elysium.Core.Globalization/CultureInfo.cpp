@@ -1,15 +1,23 @@
 #include "CultureInfo.hpp"
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "../Elysium.Core/System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
 #include "../Elysium.Core/SystemException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_INTERNAL_LOCALEFINDER
@@ -29,13 +37,6 @@
 #error "undefined os"
 #endif
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>	// std::char_traits
-#endif
 
 Elysium::Core::Globalization::CultureInfo::CultureInfo()
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -56,7 +57,7 @@ Elysium::Core::Globalization::CultureInfo::CultureInfo(const CultureInfo & Sourc
 Elysium::Core::Globalization::CultureInfo::CultureInfo(CultureInfo && Right) noexcept
 	: _LCID(0), _UseUserOverride()
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Globalization::CultureInfo::~CultureInfo()
 { }
@@ -74,8 +75,8 @@ Elysium::Core::Globalization::CultureInfo & Elysium::Core::Globalization::Cultur
 {
 	if (this != &Right)
 	{
-		_LCID = std::move(Right._LCID);
-		_UseUserOverride = std::move(Right._UseUserOverride);
+		_LCID = Elysium::Core::Template::Functional::Move(Right._LCID);
+		_UseUserOverride = Elysium::Core::Template::Functional::Move(Right._UseUserOverride);
 	}
 	return *this;
 }
@@ -110,7 +111,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDispla
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -125,7 +126,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglis
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -140,7 +141,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetName()
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, std::char_traits<wchar_t>::length(Value) * sizeof(wchar_t));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif

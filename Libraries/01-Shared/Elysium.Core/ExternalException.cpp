@@ -4,23 +4,23 @@
 #include "String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
-#endif
-
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>
 #endif
 
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(0x80004005L)
 { }
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const Elysium::Core::int32_t ErrorCode)
-	: Elysium::Core::Exception(std::move(GetErrorMessage(ErrorCode))), _ErrorCode(ErrorCode)
+	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(GetErrorMessage(ErrorCode))), _ErrorCode(ErrorCode)
 { }
 Elysium::Core::Runtime::InteropServices::ExternalException::~ExternalException()
 { }
@@ -41,5 +41,5 @@ Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException
 	const wchar_t* ErrorMessageW = COMError.ErrorMessage();
 
 	const Elysium::Core::Text::Encoding& WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
-	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], std::char_traits<wchar_t>::length(ErrorMessageW) * sizeof(wchar_t));
+	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(ErrorMessageW));
 }

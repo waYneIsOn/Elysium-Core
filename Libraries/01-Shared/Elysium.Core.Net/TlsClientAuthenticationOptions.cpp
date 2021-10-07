@@ -1,9 +1,5 @@
 #include "TlsClientAuthenticationOptions.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 Elysium::Core::Net::Security::TlsClientAuthenticationOptions::TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Collections::Template::Array<TlsCipherSuite>& AllowedCipherSuites)
 	: _AllowRenegotiation(AllowRenegotiation), _AllowedCipherSuites(AllowedCipherSuites), 
 	_UserCertificateValidationCallback(Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>::Bind<&Elysium::Core::Net::Security::TlsClientAuthenticationOptions::ValidateServerCertificate>()), 

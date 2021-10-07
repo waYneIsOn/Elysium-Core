@@ -1,7 +1,7 @@
 #include "EndOfStreamException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::IO::EndOfStreamException::EndOfStreamException()
@@ -11,7 +11,7 @@ Elysium::Core::IO::EndOfStreamException::EndOfStreamException(const char8_t* Mes
 	: Elysium::Core::IO::IOException(Message)
 { }
 Elysium::Core::IO::EndOfStreamException::EndOfStreamException(String && Message)
-	: Elysium::Core::IO::IOException(std::move(Message))
+	: Elysium::Core::IO::IOException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::IO::EndOfStreamException::~EndOfStreamException()
 { }

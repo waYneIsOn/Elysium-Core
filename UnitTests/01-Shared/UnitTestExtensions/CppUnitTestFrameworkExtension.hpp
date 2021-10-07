@@ -7,10 +7,6 @@
 #include <CppUnitTestAssert.h>
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
-#endif
-
 #ifndef _UCHAR
 #include <uchar.h>
 #endif

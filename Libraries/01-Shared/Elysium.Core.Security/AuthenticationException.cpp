@@ -1,7 +1,7 @@
 #include "AuthenticationException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException()
@@ -11,7 +11,7 @@ Elysium::Core::Security::Authentication::AuthenticationException::Authentication
 	: Elysium::Core::SystemException(Message)
 { }
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(String && Message)
-	: Elysium::Core::SystemException(std::move(Message))
+	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::Security::Authentication::AuthenticationException::~AuthenticationException()
 { }

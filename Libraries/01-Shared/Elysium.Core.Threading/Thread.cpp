@@ -1,9 +1,5 @@
 #include "Thread.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
-#endif
-
 #ifndef ELYSIUM_CORE_DATETIMEUTILITY
 #include "../Elysium.Core/DateTimeUtility.hpp"
 #endif

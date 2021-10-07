@@ -1,7 +1,7 @@
 #include "DateTimeOffset.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::DateTimeOffset::DateTimeOffset(const DateTime DateTime)
@@ -16,7 +16,7 @@ Elysium::Core::DateTimeOffset::DateTimeOffset(const DateTimeOffset & Source)
 Elysium::Core::DateTimeOffset::DateTimeOffset(DateTimeOffset && Right) noexcept
 	: _DateTime(0), _Offset(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::DateTimeOffset::~DateTimeOffset()
 { }
@@ -34,8 +34,8 @@ Elysium::Core::DateTimeOffset & Elysium::Core::DateTimeOffset::operator=(DateTim
 {
 	if (this != &Right)
 	{
-		_DateTime = std::move(Right._DateTime);
-		_Offset = std::move(Right._Offset);
+		_DateTime = Elysium::Core::Template::Functional::Move(Right._DateTime);
+		_Offset = Elysium::Core::Template::Functional::Move(Right._Offset);
 	}
 	return *this;
 }

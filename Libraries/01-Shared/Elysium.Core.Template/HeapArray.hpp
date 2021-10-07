@@ -74,8 +74,6 @@ namespace Elysium::Core::Template::Container
 
 		using ReverseIterator = BackwardIterator<HeapArray<T, Allocator>>;
 		using ConstReverseIterator = ConstBackwardIterator<HeapArray<T, Allocator>>;
-	private:
-		inline static Allocator _Allocator = Allocator();
 	public:
 		HeapArray(const size_t Length);
 		HeapArray(const InitializerList<T>& InitializerList);
@@ -111,7 +109,9 @@ namespace Elysium::Core::Template::Container
 		ReverseIterator GetReverseEnd();
 		ConstReverseIterator GetReverseEnd() const;
 	private:
-		size_t _Length;
+		inline static Allocator _Allocator = Allocator();
+	private:
+		size_t _Size;
 		Pointer _Data;
 	};
 }

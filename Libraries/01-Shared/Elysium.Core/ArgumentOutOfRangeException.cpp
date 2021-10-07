@@ -1,7 +1,7 @@
 #include "ArgumentOutOfRangeException.hpp"
 
-#ifndef _TYPE_TRAITS_
-#include <type_traits>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException()
@@ -11,7 +11,7 @@ Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const ch
 	: Elysium::Core::ArgumentException(Message)
 { }
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(Elysium::Core::String&& Message)
-	: Elysium::Core::ArgumentException(std::move(Message))
+	: Elysium::Core::ArgumentException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::ArgumentOutOfRangeException::~ArgumentOutOfRangeException()
 { }

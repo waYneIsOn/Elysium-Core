@@ -11,13 +11,12 @@
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
 
 #ifndef __midl
 #include <cstring>
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>	// std::char_traits
 #endif
 
 Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid();
@@ -41,7 +40,7 @@ Elysium::Core::Guid::Guid(const Guid & Source)
 Elysium::Core::Guid::Guid(Guid && Right) noexcept
 	: _Data(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Guid::~Guid()
 { }
@@ -109,7 +108,7 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char8_t* Input)
 	}
 
 	byte Data[16];
-	size_t Length = std::char_traits<char8_t>::length(Input);
+	size_t Length = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Input);
 	switch (Length)
 	{
 	case 32:
