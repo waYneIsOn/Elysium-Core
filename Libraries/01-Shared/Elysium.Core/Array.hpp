@@ -130,7 +130,7 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(List<T>&& Right) noexcept
 		: _Length(0), _Data(nullptr)
 	{
-		*this = std::move(Right);
+		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	template<class T>
 	inline Array<T>::~Array()
@@ -246,7 +246,7 @@ namespace Elysium::Core::Collections::Template
 	{
 		for (size_t i = 0; i < Length; i++)
 		{
-			Destination[i] = std::move(Source[i]);
+			Destination[i] = Elysium::Core::Template::Functional::Move(Source[i]);
 		}
 	}
 

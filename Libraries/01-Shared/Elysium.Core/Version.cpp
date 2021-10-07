@@ -36,7 +36,7 @@ Elysium::Core::Version::Version(const Version & Source)
 Elysium::Core::Version::Version(Version && Right) noexcept
 	: _Major(0), _Minor(0), _Build(0), _Revision(0)
 {
-	*this = std::move(Right);
+	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 Elysium::Core::Version::~Version()
 { }
@@ -56,10 +56,10 @@ Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noe
 {
 	if (this != &Right)
 	{
-		_Major = std::move(Right._Major);
-		_Minor = std::move(Right._Minor);
-		_Build = std::move(Right._Build);
-		_Revision = std::move(Right._Revision);
+		_Major = Elysium::Core::Template::Functional::Move(Right._Major);
+		_Minor = Elysium::Core::Template::Functional::Move(Right._Minor);
+		_Build = Elysium::Core::Template::Functional::Move(Right._Build);
+		_Revision = Elysium::Core::Template::Functional::Move(Right._Revision);
 	}
 	return *this;
 }

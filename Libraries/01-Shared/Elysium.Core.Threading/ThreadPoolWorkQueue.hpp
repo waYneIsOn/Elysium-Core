@@ -32,10 +32,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AutoResetEvent.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_QUEUE
-#include "../Elysium.Core/Queue.hpp"
-#endif
-
 namespace Elysium::Core::Threading
 {
 	/*

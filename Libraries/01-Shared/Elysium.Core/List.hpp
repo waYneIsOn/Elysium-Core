@@ -237,7 +237,7 @@ namespace Elysium::Core::Collections::Template
 		Resize(_Count + 1);
 
 		// move the element and increment the internal element counter
-		_Data[_Count] = std::move(Item);
+		_Data[_Count] = Elysium::Core::Template::Functional::Move(Item);
 		_Count++;
 	}
 	template<class T>
@@ -374,7 +374,7 @@ namespace Elysium::Core::Collections::Template
 		// move all old elements right of InsertionIndex to _Data using the copy constructor
 		for (size_t i = Index; i < _Count; i++)
 		{
-			_Data[i] = std::move(_Data[i + 1]);
+			_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
 		}
 		*/
 		_Count--;
@@ -392,7 +392,7 @@ namespace Elysium::Core::Collections::Template
 		/*
 		for (size_t i = Index; i < Index + Count; i++)
 		{
-			_Data[i] = std::move(_Data[i + 1]);
+			_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
 		}
 		*/
 		_Count -= Count;
@@ -439,7 +439,7 @@ namespace Elysium::Core::Collections::Template
 			// move all old elements to _Data
 			for (size_t i = 0; i < _Count; i++)
 			{
-				_Data[i] = std::move(OldData[i]);
+				_Data[i] = Elysium::Core::Template::Functional::Move(OldData[i]);
 			}
 
 			// delete old data
@@ -482,13 +482,13 @@ namespace Elysium::Core::Collections::Template
 			// move all old elements left of InsertionIndex to _Data
 			for (size_t i = 0; i < InsertionIndex; i++)
 			{
-				_Data[i] = std::move(OldData[i]);
+				_Data[i] = Elysium::Core::Template::Functional::Move(OldData[i]);
 			}
 
 			// move all old elements right of InsertionIndex to _Data
 			for (size_t i = _Count - 1; i >= InsertionIndex; i--)
 			{
-				_Data[i + 1] = std::move(OldData[i]);
+				_Data[i + 1] = Elysium::Core::Template::Functional::Move(OldData[i]);
 			}
 
 			// delete old data
@@ -502,7 +502,7 @@ namespace Elysium::Core::Collections::Template
 			// move all old elements right of InsertionIndex to _Data
 			for (size_t i = _Count - 1; i >= InsertionIndex; i--)
 			{
-				_Data[i + 1] = std::move(_Data[i]);
+				_Data[i + 1] = Elysium::Core::Template::Functional::Move(_Data[i]);
 			}
 			*/
 		}

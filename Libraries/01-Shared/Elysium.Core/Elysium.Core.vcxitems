@@ -32,7 +32,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Char.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
@@ -93,7 +92,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ArithmeticException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Char.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />

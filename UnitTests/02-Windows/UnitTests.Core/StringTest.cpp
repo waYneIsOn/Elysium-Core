@@ -79,7 +79,7 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8'x', CopiedString[2]);
 			Assert::AreEqual(u8't', CopiedString[3]);
 			
-			Elysium::Core::String MovedString = std::move(String1);
+			Elysium::Core::String MovedString = Elysium::Core::Template::Functional::Move(String1);
 			AssertExtended::AreEqual(u8"text", &MovedString[0]);
 			Assert::AreEqual((size_t)4, MovedString.GetLength());
 			Assert::AreEqual(u8't', MovedString[0]);
@@ -103,7 +103,7 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(u8"some text", &Copy[0]);
 			Assert::AreEqual((size_t)9, Copy.GetLength());
 
-			Elysium::Core::String Move = std::move(Source);
+			Elysium::Core::String Move = Elysium::Core::Template::Functional::Move(Source);
 			//Assert::IsNull(&Source[0]);
 			Assert::AreEqual((size_t)0, Source.GetLength());
 			AssertExtended::AreEqual(u8"some text", &Move[0]);

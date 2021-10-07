@@ -222,6 +222,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp">
       <Filter>Text</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringTraits.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp">
+      <Filter>Numeric</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -250,6 +268,9 @@
     </Filter>
     <Filter Include="Text">
       <UniqueIdentifier>{6554ee3b-a49f-415f-9693-8084a3d5af67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Numeric">
+      <UniqueIdentifier>{9f8d6296-84f8-45a6-a54f-97acf17fcbbf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

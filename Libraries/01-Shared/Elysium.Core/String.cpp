@@ -16,12 +16,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "../Elysium.Core.Template/CharacterTraits.hpp"
-#endif
-
-#ifndef _XSTRING_
-#include <xstring>
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
+#include "../Elysium.Core.Template/StringTraits.hpp"
 #endif
 
 const Elysium::Core::String Elysium::Core::String::Empty = Elysium::Core::String();
@@ -37,7 +33,7 @@ Elysium::Core::String::String(const size_t Length)
 }
 
 Elysium::Core::String::String(ConstCharacterPointer Value)
-	: _Length(Value == nullptr ? 0 : Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value)), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
+	: _Length(Value == nullptr ? 0 : Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value)), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
 	{
@@ -86,7 +82,7 @@ Elysium::Core::String& Elysium::Core::String::operator=(ConstCharacterPointer Va
 		delete[] _Data;
 	}
 
-	_Length = Value == nullptr ? 0 : Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
+	_Length = Value == nullptr ? 0 : Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	_Data = _Length == 0 ? nullptr : new char8_t[_Length + 1];
 	if (_Data != nullptr)
 	{
@@ -142,7 +138,7 @@ const bool Elysium::Core::String::operator==(const String& Other) const
 	{
 		return false;
 	}
-	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) == 0;
+	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) == 0;
 }
 
 const bool Elysium::Core::String::operator!=(const String& Other) const
@@ -151,7 +147,7 @@ const bool Elysium::Core::String::operator!=(const String& Other) const
 	{
 		return false;
 	}
-	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) != 0;
+	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) != 0;
 }
 
 const bool Elysium::Core::String::operator<(const String& Other) const
@@ -160,7 +156,7 @@ const bool Elysium::Core::String::operator<(const String& Other) const
 	{
 		return false;
 	}
-	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) < 0;
+	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) < 0;
 }
 
 const bool Elysium::Core::String::operator>(const String& Other) const
@@ -169,7 +165,7 @@ const bool Elysium::Core::String::operator>(const String& Other) const
 	{
 		return false;
 	}
-	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) > 0;
+	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) > 0;
 }
 
 const bool Elysium::Core::String::operator<=(const String Other) const
@@ -178,7 +174,7 @@ const bool Elysium::Core::String::operator<=(const String Other) const
 	{
 		return true;
 	}
-	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) <= 0;
+	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) <= 0;
 }
 
 const bool Elysium::Core::String::operator>=(const String& Other) const
@@ -187,7 +183,7 @@ const bool Elysium::Core::String::operator>=(const String& Other) const
 	{
 		return true;
 	}
-	return std::char_traits<char8_t>::compare(_Data, Other._Data, Other._Length) >= 0;
+	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) >= 0;
 }
 
 char8_t& Elysium::Core::String::operator[](const size_t Index)
@@ -226,20 +222,20 @@ const size_t Elysium::Core::String::GetLength() const
 
 const size_t Elysium::Core::String::IndexOf(ConstCharacter Value) const
 {
-	const char8_t* CharPointer = std::char_traits<char8_t>::find(_Data, _Length, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
 }
 
 const size_t Elysium::Core::String::IndexOf(ConstCharacter Value, const size_t StartIndex) const
 {
-	const char8_t* CharPointer = std::char_traits<char8_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
 }
 
 const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
 {
 	size_t Index = 0;
-	size_t SizeOfValue = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
+	size_t SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		size_t CurrentIndex = IndexOf(Value[0], Index);
@@ -275,7 +271,7 @@ const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
 const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value, const size_t StartIndex) const
 {
 	size_t Index = StartIndex;
-	size_t SizeOfValue = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
+	size_t SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		size_t CurrentIndex = IndexOf(Value[0], Index);
@@ -366,7 +362,7 @@ void Elysium::Core::String::Split(ConstCharacter Delimiter, Collections::Templat
 
 void Elysium::Core::String::Split(ConstCharacterPointer Delimiter, Collections::Template::List<String>& Target) const
 {
-	size_t DelimiterLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Delimiter);
+	size_t DelimiterLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Delimiter);
 	size_t StartIndex = 0;
 	size_t Length = 0;
 
@@ -388,7 +384,7 @@ void Elysium::Core::String::Split(ConstCharacterPointer Delimiter, Collections::
 
 const bool Elysium::Core::String::StartsWith(ConstCharacterPointer Value) const
 {
-	size_t ValueLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
+	size_t ValueLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	for (size_t i = 0; i < ValueLength; i++)
 	{
 		if (_Data[i] != Value[i])
@@ -401,7 +397,7 @@ const bool Elysium::Core::String::StartsWith(ConstCharacterPointer Value) const
 
 const bool Elysium::Core::String::EndsWith(ConstCharacterPointer Value) const
 {
-	size_t ValueLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
+	size_t ValueLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	for (size_t i = _Length - ValueLength; i < _Length; i++)
 	{
 		if (_Data[i] != Value[_Length - 1 - i])

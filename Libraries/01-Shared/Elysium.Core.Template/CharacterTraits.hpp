@@ -12,146 +12,161 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
+#include "Character.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
+#include "Integer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
+#include "NumericLimits.hpp"
+#endif
+
 namespace Elysium::Core::Template::Text
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	template <class Character, class Integer>
-	struct CharacterTraitsUtility
+	template <Concepts::Character C, Concepts::Integer I>
+	struct CharacterTraitsBase
 	{
 	public:
-		using ConstCharacter = const Character;
-		using ConstPointer = const Character*;
+		using ConstCharacter = const C;
+		using ConstPointer = const C*;
+		using ConstReference = const C&;
+
+		using ConstInteger = const I;
 	public:
 		/// <summary>
 		/// Returns the number of bytes required to represent a single character.
 		/// </summary>
-		static constexpr const unsigned char SizePerCharacter = sizeof(Character);
+		static constexpr const size_t ByteLength = sizeof(C);
 
 		/// <summary>
 		/// Returns '\0' as specified character-type.
 		/// </summary>
-		static constexpr ConstCharacter NullTerminationCharacter = Character();
+		static constexpr ConstCharacter NullTerminationCharacter = C();
+
+		/// <summary>
+		/// Returns the smallest value as specified character-type.
+		/// </summary>
+		static constexpr ConstCharacter MinValue = Elysium::Core::Template::Numeric::NumericLimits<I>::Minimum;
+
+		/// <summary>
+		/// Returns the largest value as specified character-type.
+		/// </summary>
+		static constexpr ConstCharacter MaxValue = Elysium::Core::Template::Numeric::NumericLimits<I>::Maximum;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="First"></param>
+		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const bool GetIsNull(ConstPointer First);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <returns></returns>
-		static constexpr const bool GetIsEmpty(ConstPointer First);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <returns></returns>
-		static constexpr const bool GetIsNullOrEmpty(ConstPointer First);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <returns></returns>
-		static constexpr const size_t GetLength(ConstPointer First);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <returns></returns>
-		static constexpr const size_t GetByteLength(ConstPointer First);
+		static constexpr const bool IsControl(ConstCharacter Value) noexcept;
 	};
 
-	template<class CharacterType, class IntegerType>
-	inline constexpr const bool CharacterTraitsUtility<CharacterType, IntegerType>::GetIsNull(ConstPointer First)
-	{
-		return First == nullptr;
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsControl(ConstCharacter Value) noexcept
+	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
+		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
 
-	template<class CharacterType, class IntegerType>
-	inline constexpr const bool CharacterTraitsUtility<CharacterType, IntegerType>::GetIsEmpty(ConstPointer First)
-	{
-		if (First == nullptr)
-		{
-			return false;
-		}
-
-		return *First == NullTerminationCharacter;
-	}
-
-	template<class CharacterType, class IntegerType>
-	inline constexpr const bool CharacterTraitsUtility<CharacterType, IntegerType>::GetIsNullOrEmpty(ConstPointer First)
-	{
-		if (First == nullptr)
-		{
-			return true;
-		}
-
-		return *First == NullTerminationCharacter;
-	}
-
-	template<class CharacterType, class IntegerType>
-	inline constexpr const size_t CharacterTraitsUtility<CharacterType, IntegerType>::GetLength(ConstPointer First)
-	{
-		if (First == nullptr)
-		{
-			return 0;
-		}
-
-		size_t Length = 0;
-		while (*First != NullTerminationCharacter)
-		{
-			Length++;
-			First++;
-		}
-
-		return Length;
-	}
-
-	template<class Character, class Integer>
-	inline constexpr const size_t CharacterTraitsUtility<Character, Integer>::GetByteLength(ConstPointer First)
-	{
-		return GetLength(First) * SizePerCharacter;
-	}
-
-	template <class CharacterType>
+	template <Concepts::Character C>
 	struct CharacterTraits
 	{ };
 
 	template <>
-	struct CharacterTraits<char> : public CharacterTraitsUtility<char, unsigned char>
-	{ };
+	struct CharacterTraits<char> : public CharacterTraitsBase<char, unsigned char>
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr unsigned int ConvertToUtf32(ConstCharacter Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsDigit(ConstCharacter Value) noexcept;
+
+		//static constexpr const bool IsLetter(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsLetterOrDigit(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsLower(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsNumber(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsPunctuation(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsSeperator(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsSymbol(ConstCharacter Value) noexcept;
+		//static constexpr const bool IsUpper(ConstCharacter Value) noexcept;
+
+		//static constexpr C ToLower(ConstCharacter Value) noexcept;
+		//static constexpr C ToLowerInvariant(ConstCharacter Value) noexcept;
+		//static constexpr C ToUpper(ConstCharacter Value) noexcept;
+		//static constexpr C ToUpperInvariant(ConstCharacter Value) noexcept;
+	};
+
+	inline constexpr unsigned int CharacterTraits<char>::ConvertToUtf32(ConstCharacter Value) noexcept
+	{
+		return Value;
+	}
+
+	inline constexpr const bool CharacterTraits<char>::IsDigit(ConstCharacter Value) noexcept
+	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
+		return (Value > 29 && Value < 40);
+	}
 
 	template <>
-	struct CharacterTraits<signed char> : public CharacterTraitsUtility<signed char, signed char>
-	{ };
+	struct CharacterTraits<signed char> : public CharacterTraitsBase<signed char, signed char>
+	{
+		//static constexpr unsigned int ConvertToUtf32(ConstCharacter Value) noexcept;
+	};
 
 	template <>
-	struct CharacterTraits<unsigned char> : public CharacterTraitsUtility<unsigned char, unsigned char>
-	{ };
+	struct CharacterTraits<unsigned char> : public CharacterTraitsBase<unsigned char, unsigned char>
+	{
+		//static constexpr unsigned int ConvertToUtf32(ConstCharacter Value) noexcept;
+	};
 
 	template <>
-	struct CharacterTraits<wchar_t> : public CharacterTraitsUtility<wchar_t, unsigned short>
-	{ };
+	struct CharacterTraits<wchar_t> : public CharacterTraitsBase<wchar_t, unsigned short>
+	{
+		//static constexpr unsigned int ConvertToUtf32(ConstCharacter HighSurrogate, ConstCharacter LowSurrogate);
+		
+		//static constexpr const bool IsHighSurrogate(ConstCharacter Value) noexcept;
+
+		//static constexpr const bool IsLowSurrogate(ConstCharacter Value) noexcept;
+	};
 
 	template <>
-	struct CharacterTraits<char8_t> : public CharacterTraitsUtility<char8_t, unsigned char>
-	{ };
+	struct CharacterTraits<char8_t> : public CharacterTraitsBase<char8_t, unsigned char>
+	{ 
+	public:
+		//static constexpr unsigned int ConvertToUtf32(ConstCharacter LeadByte, ConstCharacter TrailByte1, ConstCharacter TrailByte2, ConstCharacter TrailByte3);
+		
+		//static constexpr const bool IsLeadByte(ConstCharacter Value) noexcept;
+		
+		//static constexpr const bool IsTrailByte(ConstCharacter Value) noexcept;
+	};
 
 	template <>
-	struct CharacterTraits<char16_t> : public CharacterTraitsUtility<char16_t, unsigned short>
-	{ };
+	struct CharacterTraits<char16_t> : public CharacterTraitsBase<char16_t, unsigned short>
+	{
+	public:
+		//static constexpr unsigned int ConvertToUtf32(ConstCharacter HighSurrogate, ConstCharacter LowSurrogate);
+		// 
+		//static constexpr const bool IsHighSurrogate(ConstCharacter Value) noexcept;
+
+		//static constexpr const bool IsLowSurrogate(ConstCharacter Value) noexcept;
+	};
 
 	template <>
-	struct CharacterTraits<char32_t> : public CharacterTraitsUtility<char32_t, unsigned int>
-	{ };
+	struct CharacterTraits<char32_t> : public CharacterTraitsBase<char32_t, unsigned int>
+	{
+		//static constexpr unsigned int ConvertToUtf32(ConstCharacter Value) noexcept;
+	};
 }
 #endif

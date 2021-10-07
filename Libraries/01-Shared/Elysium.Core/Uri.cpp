@@ -79,16 +79,16 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right) noexcept
 	{
 		_OriginalString = Elysium::Core::Template::Functional::Move(Right._OriginalString);
 		/*
-		_AbsoluteUri = std::move(Right._AbsoluteUri);
-		_SchemeView = std::move(Right._SchemeView);
-		_AuthorityView = std::move(Right._AuthorityView);
-		_UserInfoView = std::move(Right._UserInfoView);
-		_HostView = std::move(Right._HostView);
-		_Port = std::move(Right._Port);
-		_PathAndQueryView = std::move(Right._PathAndQueryView);
-		_PathView = std::move(Right._PathView);
-		_QueryView = std::move(Right._QueryView);
-		_FragmentView = std::move(Right._FragmentView);
+		_AbsoluteUri = Elysium::Core::Template::Functional::Move(Right._AbsoluteUri);
+		_SchemeView = Elysium::Core::Template::Functional::Move(Right._SchemeView);
+		_AuthorityView = Elysium::Core::Template::Functional::Move(Right._AuthorityView);
+		_UserInfoView = Elysium::Core::Template::Functional::Move(Right._UserInfoView);
+		_HostView = Elysium::Core::Template::Functional::Move(Right._HostView);
+		_Port = Elysium::Core::Template::Functional::Move(Right._Port);
+		_PathAndQueryView = Elysium::Core::Template::Functional::Move(Right._PathAndQueryView);
+		_PathView = Elysium::Core::Template::Functional::Move(Right._PathView);
+		_QueryView = Elysium::Core::Template::Functional::Move(Right._QueryView);
+		_FragmentView = Elysium::Core::Template::Functional::Move(Right._FragmentView);
 		*/
 	}
 	return *this;

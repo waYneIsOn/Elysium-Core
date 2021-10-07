@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CHAR
-#include "Char.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "Primitives.hpp"
 #endif

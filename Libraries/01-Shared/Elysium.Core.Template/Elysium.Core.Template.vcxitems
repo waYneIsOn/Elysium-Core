@@ -24,6 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />
@@ -36,6 +37,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Map.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp" />
@@ -70,9 +74,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp" />

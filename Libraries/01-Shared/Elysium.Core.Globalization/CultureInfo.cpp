@@ -4,8 +4,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
+#include "../Elysium.Core.Template/StringTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
@@ -111,7 +111,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDispla
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -126,7 +126,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglis
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif
@@ -141,7 +141,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetName()
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
 #else
 #error "undefined os"
 #endif

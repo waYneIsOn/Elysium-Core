@@ -12,8 +12,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
+#include "Character.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CONSTANT
 #include "Constant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
+#include "Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT

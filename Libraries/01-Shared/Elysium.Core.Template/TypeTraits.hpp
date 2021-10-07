@@ -60,6 +60,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsArithemtic.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCHARACTER
+#include "IsCharacter.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCLASS
 #include "IsClass.hpp"
 #endif
@@ -82,6 +86,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFUNDAMENTAL
 #include "IsFundamental.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGER
+#include "IsInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGRAL

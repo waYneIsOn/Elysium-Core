@@ -306,7 +306,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 		do
 		{
 			const uint32_t CertificateLength = BitConverter::ToUInt24(&ContentBuffer[CertificateBytesRead + 7]);
-			ServerCertificates.Add(std::move(Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(&ContentBuffer[CertificateBytesRead + 10], CertificateLength)));
+			ServerCertificates.Add(Elysium::Core::Template::Functional::Move(Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(&ContentBuffer[CertificateBytesRead + 10], CertificateLength)));
 			CertificateBytesRead += CertificateLength + 3;
 		} while (CertificateBytesRead < CertificatesLength);
 

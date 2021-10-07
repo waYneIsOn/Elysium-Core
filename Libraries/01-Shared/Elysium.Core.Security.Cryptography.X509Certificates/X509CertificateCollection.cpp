@@ -18,7 +18,7 @@ const size_t Elysium::Core::Security::Cryptography::X509Certificates::X509Certif
 
 void Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::Add(X509Certificate && Item)
 {
-	_Certificates.Add(std::move(Item));
+	_Certificates.Add(Elysium::Core::Template::Functional::Move(Item));
 }
 void Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::Clear()
 {
