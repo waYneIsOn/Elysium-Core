@@ -37,12 +37,17 @@ namespace Elysium::Core::Template::Numeric
 		/// <summary>
 		/// 
 		/// </summary>
-		static constexpr ConstValue Minimum = Elysium::Core::Template::TypeTraits::IsSignedValue<T> ? ((2 << (ByteLength * 7)) / 2) * -1 : 0;
+		static constexpr const bool IsSigned = Elysium::Core::Template::TypeTraits::IsSignedValue<T>;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		static constexpr ConstValue Maximum = Elysium::Core::Template::TypeTraits::IsSignedValue<T> ? ((2 << (ByteLength * 7)) / 2) - 1 : -1;
+		static constexpr ConstValue Minimum = IsSigned ? ((2 << (ByteLength * 7)) / 2) * -1 : 0;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr ConstValue Maximum = IsSigned ? ((2 << (ByteLength * 7)) / 2) - 1 : -1;
 	};
 }
 #endif

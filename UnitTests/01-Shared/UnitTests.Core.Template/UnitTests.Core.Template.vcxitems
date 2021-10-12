@@ -19,6 +19,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FixedSizeHeapArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HeapArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StringTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VectorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />

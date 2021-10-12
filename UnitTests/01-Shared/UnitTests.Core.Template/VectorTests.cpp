@@ -237,7 +237,7 @@ namespace UnitTests::Core::Template::Container
 
 			// iterate using ForwardIterator-class
 			uint32_t i = 0;
-			for (Vector<uint32_t>::Iterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (Vector<uint32_t>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				uint32_t& Element = *Iterator;
 				Assert::AreEqual(i++, Element);

@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_CONSTBACKWARDITERATOR
-#define ELYSIUM_CORE_TEMPLATE_CONTAINER_CONSTBACKWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
+#define ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-namespace Elysium::Core::Template::Container
+namespace Elysium::Core::Template::Iterator
 {
 	template <class Collection>
 	class ConstBackwardIterator final

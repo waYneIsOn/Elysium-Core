@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_MALLOCATOR
-#define ELYSIUM_CORE_TEMPLATE_CONTAINER_MALLOCATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MALLOCATOR
+#define ELYSIUM_CORE_TEMPLATE_MEMORY_MALLOCATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
-namespace Elysium::Core::Template::Container
+namespace Elysium::Core::Template::Memory
 {
 	/// <summary>
 	/// 
@@ -36,13 +36,13 @@ namespace Elysium::Core::Template::Container
 		/// 
 		/// </summary>
 		/// <param name="Source"></param>
-		MAllocator(const MAllocator<T>& Source) = delete;
+		MAllocator(const MAllocator& Source) = delete;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Right"></param>
-		MAllocator(MAllocator<T>&& Right) noexcept = delete;
+		MAllocator(MAllocator&& Right) noexcept = delete;
 
 		/// <summary>
 		/// Destroys this instance.
@@ -54,14 +54,14 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Source"></param>
 		/// <returns></returns>
-		MAllocator<T>& operator=(const MAllocator<T>& Source) = delete;
+		MAllocator<T>& operator=(const MAllocator& Source) = delete;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Right"></param>
 		/// <returns></returns>
-		MAllocator<T>& operator=(MAllocator<T>&& Right) noexcept = delete;
+		MAllocator<T>& operator=(MAllocator&& Right) noexcept = delete;
 
 		/// <summary>
 		/// Allocates the exact amount of memory required for given number of elements using malloc(...).

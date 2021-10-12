@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DEFAULTALLOCATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "DefaultAllocator.hpp"
 #endif
 
@@ -27,7 +27,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="Allocator"></typeparam>
-	template <class T, class Allocator = DefaultAllocator<T>>
+	template <class T, class Allocator = Memory::DefaultAllocator<T>>
 	class DoubleBuffer final
 	{
 	public:

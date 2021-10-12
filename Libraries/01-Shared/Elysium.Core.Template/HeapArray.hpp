@@ -24,28 +24,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_BACKWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "InitializerList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
 #include "BackwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_CONSTBACKWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
 #include "ConstBackwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_CONSTFORWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
 #include "ConstForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DEFAULTALLOCATOR
-#include "DefaultAllocator.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FORWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
 #include "ForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
-#include "InitializerList.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
+#include "DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
@@ -59,7 +59,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="Allocator"></typeparam>
-	template <Concepts::NonConstant T, class Allocator = DefaultAllocator<T>>
+	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
 	class HeapArray final
 	{
 	public:
@@ -69,11 +69,11 @@ namespace Elysium::Core::Template::Container
 		using Reference = T&;
 		using ConstReference = const T&;
 
-		using Iterator = ForwardIterator<HeapArray<T, Allocator>>;
-		using ConstIterator = ConstForwardIterator<HeapArray<T, Allocator>>;
+		using FIterator = Iterator::ForwardIterator<HeapArray<T, Allocator>>;
+		using ConstIterator = Iterator::ConstForwardIterator<HeapArray<T, Allocator>>;
 
-		using ReverseIterator = BackwardIterator<HeapArray<T, Allocator>>;
-		using ConstReverseIterator = ConstBackwardIterator<HeapArray<T, Allocator>>;
+		using ReverseIterator = Iterator::BackwardIterator<HeapArray<T, Allocator>>;
+		using ConstReverseIterator = Iterator::ConstBackwardIterator<HeapArray<T, Allocator>>;
 	public:
 		HeapArray(const size_t Length);
 		HeapArray(const InitializerList<T>& InitializerList);
@@ -97,10 +97,10 @@ namespace Elysium::Core::Template::Container
 
 		ConstReference GetAt(const size_t Index) const;
 
-		Iterator GetBegin();
+		FIterator GetBegin();
 		ConstIterator GetBegin() const;
 
-		Iterator GetEnd();
+		FIterator GetEnd();
 		ConstIterator GetEnd() const;
 
 		ReverseIterator GetReverseBegin();

@@ -139,19 +139,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeHeapArray.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ForwardIterator.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackwardIterator.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
@@ -183,12 +171,6 @@
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)HeapArray.hpp">
@@ -240,6 +222,54 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterCategory.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BackwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Locale.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UniquePointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SharedPointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WeakPointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -271,6 +301,15 @@
     </Filter>
     <Filter Include="Numeric">
       <UniqueIdentifier>{9f8d6296-84f8-45a6-a54f-97acf17fcbbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Globalization">
+      <UniqueIdentifier>{5ea0eb76-5520-4536-83ef-149a8bfcc7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{71e9c72c-e3c3-4b57-af9f-168bb86fb441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Iterator">
+      <UniqueIdentifier>{de3998af-211d-4a15-a130-921be7d2f2a2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

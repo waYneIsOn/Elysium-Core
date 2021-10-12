@@ -24,28 +24,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_BACKWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "InitializerList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
 #include "BackwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_CONSTBACKWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
 #include "ConstBackwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_CONSTFORWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
 #include "ConstForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DEFAULTALLOCATOR
-#include "DefaultAllocator.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FORWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
 #include "ForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
-#include "InitializerList.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
+#include "DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
@@ -59,7 +59,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="Allocator"></typeparam>
-	template <Concepts::NonConstant T, class Allocator = DefaultAllocator<T>>
+	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
 	class Vector final
 	{
 	public:
@@ -71,11 +71,11 @@ namespace Elysium::Core::Template::Container
 		using ConstReference = const T&;
 		using RValueReference = T&&;
 
-		using Iterator = ForwardIterator<Vector<T, Allocator>>;
-		using ConstIterator = ConstForwardIterator<Vector<T, Allocator>>;
+		using FIterator = Iterator::ForwardIterator<Vector<T, Allocator>>;
+		using ConstIterator = Iterator::ConstForwardIterator<Vector<T, Allocator>>;
 
-		using ReverseIterator = BackwardIterator<Vector<T, Allocator>>;
-		using ConstReverseIterator = ConstBackwardIterator<Vector<T, Allocator>>;
+		using ReverseIterator = Iterator::BackwardIterator<Vector<T, Allocator>>;
+		using ConstReverseIterator = Iterator::ConstBackwardIterator<Vector<T, Allocator>>;
 	public:
 		/// <summary>
 		/// Creates a new instance.
@@ -180,7 +180,7 @@ namespace Elysium::Core::Template::Container
 		/// Returns a forward-iterator pointing towards the first element.
 		/// </summary>
 		/// <returns></returns>
-		Iterator GetBegin();
+		FIterator GetBegin();
 
 		/// <summary>
 		/// Returns a const forward-iterator pointing towards the first element.
@@ -192,7 +192,7 @@ namespace Elysium::Core::Template::Container
 		/// Returns a forward-iterator pointing towards the last element.
 		/// </summary>
 		/// <returns></returns>
-		Iterator GetEnd();
+		FIterator GetEnd();
 
 		/// <summary>
 		/// Returns a const forward-iterator pointing towards the last element.
@@ -428,9 +428,9 @@ namespace Elysium::Core::Template::Container
 	}
 	
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Iterator Vector<T, Allocator>::GetBegin()
+	inline Vector<T, Allocator>::FIterator Vector<T, Allocator>::GetBegin()
 	{
-		return Iterator(&_Data[0]);
+		return FIterator(&_Data[0]);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
@@ -440,9 +440,9 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Iterator Vector<T, Allocator>::GetEnd()
+	inline Vector<T, Allocator>::FIterator Vector<T, Allocator>::GetEnd()
 	{
-		return Iterator(&_Data[_Size]);
+		return FIterator(&_Data[_Size]);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>

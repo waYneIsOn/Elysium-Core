@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DEFAULTALLOCATOR
-#define ELYSIUM_CORE_TEMPLATE_CONTAINER_DEFAULTALLOCATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
+#define ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
-namespace Elysium::Core::Template::Container
+namespace Elysium::Core::Template::Memory
 {
 	/// <summary>
 	/// 
@@ -36,13 +36,13 @@ namespace Elysium::Core::Template::Container
 		/// 
 		/// </summary>
 		/// <param name="Source"></param>
-		DefaultAllocator(const DefaultAllocator<T>& Source) = delete;
+		DefaultAllocator(const DefaultAllocator& Source) = delete;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Right"></param>
-		DefaultAllocator(DefaultAllocator<T>&& Right) noexcept = delete;
+		DefaultAllocator(DefaultAllocator&& Right) noexcept = delete;
 
 		/// <summary>
 		/// Destroys this instance.
@@ -54,14 +54,14 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Source"></param>
 		/// <returns></returns>
-		DefaultAllocator<T>& operator=(const DefaultAllocator<T>& Source) = delete;
+		DefaultAllocator<T>& operator=(const DefaultAllocator& Source) = delete;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Right"></param>
 		/// <returns></returns>
-		DefaultAllocator<T>& operator=(DefaultAllocator<T>&& Right) noexcept = delete;
+		DefaultAllocator<T>& operator=(DefaultAllocator&& Right) noexcept = delete;
 
 		/// <summary>
 		/// Allocates the exact amount of memory required for given number of elements using operator new[].

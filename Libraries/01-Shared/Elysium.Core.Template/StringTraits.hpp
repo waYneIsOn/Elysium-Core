@@ -77,8 +77,8 @@ namespace Elysium::Core::Template::Text
 		/// 
 		/// </summary>
 		/// <param name="First"></param>
-		/// <param name="Length"></param>
 		/// <param name="Count"></param>
+		/// <param name="Length"></param>
 		/// <returns></returns>
 		static constexpr ConstPointer Find(ConstPointer First, const size_t Count, ConstCharacter Value) noexcept;
 	};
@@ -122,7 +122,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character Character>
 	inline constexpr const size_t StringTraitsBase<Character>::GetByteLength(ConstPointer First) noexcept
 	{
-		return GetLength(First) * Elysium::Core::Template::Text::CharacterTraits<Character>::ByteLength;
+		return GetLength(First) * Elysium::Core::Template::Text::CharacterTraits<Character>::MinimumByteLength;
 	}
 
 	template<Concepts::Character Character>

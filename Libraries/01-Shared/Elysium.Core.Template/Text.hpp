@@ -16,8 +16,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CharacterTraits.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGBUILDER
+#include "StringBuilder.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
 #include "StringTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGVIEW
+#include "StringView.hpp"
 #endif
 
 #endif

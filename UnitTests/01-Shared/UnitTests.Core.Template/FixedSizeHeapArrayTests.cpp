@@ -11,6 +11,7 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Core::Template::Functional;
+using namespace Elysium::Core::Template::Memory;
 using namespace Elysium::Core::Template::TypeTraits;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
