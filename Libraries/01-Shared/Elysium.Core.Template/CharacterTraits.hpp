@@ -202,6 +202,11 @@ namespace Elysium::Core::Template::Text
 		return (Value > 0x2F && Value < 0x3A);
 	}
 
+	inline constexpr const bool CharacterTraits<char>::IsUpper(ConstCharacter Value) noexcept
+	{
+		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
+	}
+
 	inline constexpr const bool CharacterTraits<char>::IsWhitespace(ConstCharacter Value) noexcept
 	{
 		return Value == 0x20;

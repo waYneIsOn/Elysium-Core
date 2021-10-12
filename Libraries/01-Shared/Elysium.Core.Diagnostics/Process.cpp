@@ -305,7 +305,6 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	return Processes;
 }
 
-
 Elysium::Core::Diagnostics::Process::Process(const Elysium::Core::String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId)
 	: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(0), _HasThreadId(false),
 	_ProcessHandle(nullptr),_ThreadHandle(nullptr)

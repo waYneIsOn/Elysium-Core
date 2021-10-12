@@ -43,6 +43,8 @@ namespace Elysium::Core
 		using ConstCharacter = const char8_t;
 		using CharacterPointer = char8_t*;
 		using ConstCharacterPointer = const char8_t*;
+		using CharacterReference = char8_t&;
+		using ConstCharacterReference = const char8_t&;
 	public:
 		String();
 		String(const size_t Length);
@@ -63,8 +65,8 @@ namespace Elysium::Core
 		const bool operator<=(const String Other) const;
 		const bool operator>=(const String& Other) const;
 
-		char8_t& operator[](const size_t Index);
-		const char8_t& operator[](const size_t Index) const;
+		CharacterReference operator[](const size_t Index);
+		ConstCharacterReference operator[](const size_t Index) const;
 
 		const Elysium::Core::int32_t GetHashCode() const;
 		const size_t GetLength() const;
@@ -101,7 +103,7 @@ namespace Elysium::Core
 		//String UnsafeSubstring(const size_t StartIndex, const size_t Length) const;
 		
 		static const String Empty;
-		static const char8_t NullTerminationChar = u8'\0';
+		static const Character NullTerminationChar = u8'\0';
 		
 		static const bool IsNull(const String& Value);
 		static const bool IsEmpty(const String& Value);

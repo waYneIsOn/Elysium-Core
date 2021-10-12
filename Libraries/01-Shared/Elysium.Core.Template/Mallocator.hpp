@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
+#ifndef _INC_CRTDBG
+#include <cstdlib>
+#endif
+
 namespace Elysium::Core::Template::Memory
 {
 	/// <summary>
@@ -95,7 +99,7 @@ namespace Elysium::Core::Template::Memory
 			return nullptr;
 		}
 
-		return static_cast<T*>(malloc(ElementSize * NumberOfElements));
+		return static_cast<T*>(std::malloc(ElementSize * NumberOfElements));
 	}
 
 	template<Concepts::NonConstant T>
@@ -110,7 +114,7 @@ namespace Elysium::Core::Template::Memory
 		{
 			First[i].~T();
 		}
-		free(First);
+		std::free(First);
 		First = nullptr;
 	}
 }

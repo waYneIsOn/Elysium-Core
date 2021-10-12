@@ -17,9 +17,9 @@ namespace UnitTests::Core::Template::Text
 		{
 			Elysium::Core::Template::Text::String CharArray = "";
 			Elysium::Core::Template::Text::WideString WCharArray = L"";
-			Elysium::Core::Template::Text::Utf8String CharArray = u8"";
-			Elysium::Core::Template::Text::Utf16String CharArray = u"";
-			Elysium::Core::Template::Text::Utf32String CharArray = U"";
+			Elysium::Core::Template::Text::Utf8String Utf8CharArray = u8"";
+			Elysium::Core::Template::Text::Utf16String Utf16CharArray = u"";
+			Elysium::Core::Template::Text::Utf32String Utf32CharArray = U"";
 		}
 	};
 }

@@ -186,7 +186,7 @@ const bool Elysium::Core::String::operator>=(const String& Other) const
 	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) >= 0;
 }
 
-char8_t& Elysium::Core::String::operator[](const size_t Index)
+Elysium::Core::String::CharacterReference Elysium::Core::String::operator[](const size_t Index)
 {
 	if (Index >= _Length)
 	{
@@ -195,7 +195,7 @@ char8_t& Elysium::Core::String::operator[](const size_t Index)
 	return _Data[Index];
 }
 
-const char8_t& Elysium::Core::String::operator[](const size_t Index) const
+Elysium::Core::String::ConstCharacterReference Elysium::Core::String::operator[](const size_t Index) const
 {
 	if (Index >= _Length)
 	{

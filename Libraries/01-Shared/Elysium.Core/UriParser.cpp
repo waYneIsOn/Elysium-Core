@@ -215,7 +215,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
 			if (IndexOfPathDelimiterStart == static_cast<size_t>(-1))
 			{	// Uri doesn't contain a path
-				break;
+				return StringView();
 			}
 			else
 			{
@@ -225,7 +225,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 
 		if (IndexOfPathDelimiterStart == static_cast<size_t>(-1))
 		{	// Uri doesn't contain a path
-			break;
+			return StringView();
 		}
 
 		size_t IndexOfFragmentDelimiterStart = Source.IndexOf(u8'#');

@@ -19,6 +19,8 @@ namespace Elysium::Core::Template::Memory
 	{
 	public:
 		using Pointer = T*;
+	private:
+		//UniquePointer(Pointer Data);
 	public:
 		UniquePointer(const UniquePointer& Source) = delete;
 		UniquePointer(UniquePointer&& Right) noexcept = delete;

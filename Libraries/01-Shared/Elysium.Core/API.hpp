@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_CORE_API __declspec(dllimport)
 #endif
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-
+#define ELYSIUM_CORE_API
 #elif defined(ELYSIUM_CORE_OS_LINUX)
 
 #elif defined(ELYSIUM_CORE_OS_MAC)

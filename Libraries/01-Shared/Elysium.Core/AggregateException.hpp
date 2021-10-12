@@ -22,7 +22,7 @@ namespace Elysium::Core
 	{
 	public:
 		AggregateException();
-		AggregateException(const char8_t* Message);
+		AggregateException(Elysium::Core::String::ConstCharacterPointer Message);
 		AggregateException(String&& Message);
 		virtual ~AggregateException();
 	};

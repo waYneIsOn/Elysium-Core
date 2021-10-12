@@ -7,7 +7,7 @@
 Elysium::Core::Exception::Exception()
 	: Elysium::Core::Exception::Exception(u8"Exception")
 { }
-Elysium::Core::Exception::Exception(const char8_t* Message)
+Elysium::Core::Exception::Exception(Elysium::Core::String::ConstCharacterPointer Message)
 	: Elysium::Core::Exception::Exception(Elysium::Core::String(Message))
 { }
 Elysium::Core::Exception::Exception(Elysium::Core::String && Message)

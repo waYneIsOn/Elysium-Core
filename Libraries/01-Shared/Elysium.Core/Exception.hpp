@@ -27,7 +27,7 @@ namespace Elysium::Core
 	public:
 		// constructors & destructor
 		Exception();
-		Exception(const char8_t* Message);
+		Exception(Elysium::Core::String::ConstCharacterPointer Message);
 		Exception(Elysium::Core::String&& Message);
 		virtual ~Exception();
 

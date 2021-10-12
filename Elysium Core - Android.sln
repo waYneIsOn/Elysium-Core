@@ -1,0 +1,237 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - libraries", "01 - libraries", "{E1BE999E-098C-4E1C-AA12-CD2F62312AD8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - unit tests", "10 - unit tests", "{78F0BA9C-9BC7-4779-9573-4AAFE2353DA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{8C483853-54B5-40FB-B14B-28383747B06B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core", "Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems", "{FF6B7D0C-4C97-415A-B5B6-D0C21E6B50CF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data", "Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems", "{EE7A43C1-C408-4688-920F-5878C6E6A7C7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.SqlNativeClient.OleDb", "Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems", "{8BBDEA16-0960-479D-941D-FE662E7740E8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Math", "Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems", "{F612B617-2B63-4644-852F-642827A6BA4F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Net", "Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems", "{D1DFDE03-A987-4EE3-9FE9-007FD7E8648E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{97564E04-FC7D-40C1-9185-E888F66E24CB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{E2CCACEB-2B46-4926-ACA2-88C237E81B26}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO", "Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems", "{328BC640-06C0-47C1-8091-FE3B2C191222}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Threading", "Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems", "{2E31205A-3FCD-45B6-A9A1-329204CEB079}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.SqlNativeClient.ODBC", "Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems", "{DDA554CE-E73B-4FCB-9DA0-EC45214C84DF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - samples", "20 - samples", "{85AB4BBD-CEB5-4CD9-AEE8-AB25EA6DB9B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{9CBE2BD0-070D-455D-BEDA-BBE0A6FF7B3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{8818ED88-71DE-4741-A59C-386C1D429A82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "11 - test applications", "11 - test applications", "{C66483A0-240C-4223-945E-E3AFD745C569}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Shared", "01 - Shared", "{A8DBA0A4-46D7-46D9-BA66-A8C3200C33EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Android", "04 - Android", "{CFE7925C-6FEA-4DCA-9E5B-0000F9275956}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core", "UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems", "{1C9D9572-A652-4285-8A6B-25E83EF859C5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.AdoClient", "Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems", "{6A52F036-6569-4DB6-BAD5-D50FF58F39EE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTestExtensions", "UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems", "{275D07C1-A1BF-46DB-9B7F-3C135AA74EE3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.ServiceProcess", "Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems", "{B29C5CF1-D637-47AA-AAE6-CBB9028BA3D3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Text", "Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems", "{4557BF60-87A8-49D3-8ABC-8642129F5A91}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core", "Libraries\04-Android\Elysium.Core\Elysium.Core.vcxproj", "{67B560E3-8508-4638-93A4-2AE53416733C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EmpyAndroidApp", "EmpyAndroidApp", "{749F75B7-4584-493D-AAB4-55AD5C577A89}"
+EndProject
+Project("{39E2626F-3545-4960-A6E8-258AD8476CE5}") = "EmpyAndroidApp.Packaging", "TestApplications\04-Android\EmpyAndroidApp\EmpyAndroidApp.Packaging\EmpyAndroidApp.Packaging.androidproj", "{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmpyAndroidApp.NativeActivity", "TestApplications\04-Android\EmpyAndroidApp\EmpyAndroidApp.NativeActivity\EmpyAndroidApp.NativeActivity.vcxproj", "{43162C04-0D95-4C46-B62B-4B36D1B229B6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Reflection", "Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems", "{5A9D7191-9B6A-4C60-BDD1-8791EE028E0D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Linq", "Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems", "{A4B705A1-60E7-4BB9-BA2A-A012FAF826FD}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Json", "Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems", "{A8EC7CEA-4204-4384-A93B-CB59901202B3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems", "{B7B28110-F6FA-4554-B115-BAE4337DEBC2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Xml", "Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems", "{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Html", "Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems", "{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Web", "Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems", "{B8FD36BF-ECB1-433F-A981-47834D8A65AB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Primitives", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems", "{0A65E452-28EA-4CB0-9691-ED819EF56D96}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Algorithms", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems", "{96932FCB-7D28-4130-90F2-9CC5216C7540}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.X509Certificates", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems", "{0BD00C32-9322-44BC-BDE1-9C6F8C1818DA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Encoding", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems", "{72C118AA-B5CD-484F-AE38-5ED19CE85580}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Pkcs", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Pkcs\Elysium.Core.Security.Cryptography.Pkcs.vcxitems", "{B24D2A65-DD25-4F56-8CA1-6068EAA0C9E5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Text.RegularExpressions", "Libraries\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems", "{81BC69AC-724D-4A7F-AE92-08B66D25D0BF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.TdsClient", "Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems", "{74FBB0FC-33B2-4419-9C86-5F7511EEA181}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO.Ports", "Libraries\01-Shared\Elysium.Core.IO.Ports\Elysium.Core.IO.Ports.vcxitems", "{ABBE2C07-62A6-4498-A409-FAD7482B59D2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Drawing", "Libraries\01-Shared\Elysium.Core.Drawing\Elysium.Core.Drawing.vcxitems", "{7669CB16-51A8-4FA1-8D54-36AFF69A2754}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Diagnostics", "Libraries\01-Shared\Elysium.Core.Diagnostics\Elysium.Core.Diagnostics.vcxitems", "{B0C1C740-4D18-4393-AB24-C7C93A3BDE64}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Globalization", "Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems", "{B3021F5D-6BBA-449C-9742-38D64FC3854E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Reflection", "UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems", "{5DDBD666-D500-47D8-864F-950DCB77657A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Template", "Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems", "{7101EFB4-615B-4D59-9334-2A2694CA6E1D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.IO", "UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems", "{F52A3C96-76E1-45A4-A93C-C997DC583E91}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Template", "UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems", "{21AD6D88-6952-4B3B-B7C6-64A2644A2881}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{0a65e452-28ea-4cb0-9691-ed819ef56d96}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems*{0bd00c32-9322-44bc-bde1-9c6f8c1818da}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{21ad6d88-6952-4b3b-b7c6-64a2644a2881}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{275d07c1-a1bf-46db-9b7f-3c135aa74ee3}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{2e31205a-3fcd-45b6-a9a1-329204ceb079}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{328bc640-06c0-47c1-8091-fe3b2c191222}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4557bf60-87a8-49d3-8abc-8642129f5a91}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{5a9d7191-9b6a-4c60-bdd1-8791ee028e0d}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{5ddbd666-d500-47d8-864f-950dcb77657a}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems*{6a52f036-6569-4db6-bad5-d50ff58f39ee}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems*{7101efb4-615b-4d59-9334-2a2694ca6e1d}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{72c118aa-b5cd-484f-ae38-5ed19ce85580}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems*{74fbb0fc-33b2-4419-9c86-5f7511eea181}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Drawing\Elysium.Core.Drawing.vcxitems*{7669cb16-51a8-4fa1-8d54-36aff69a2754}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems*{81bc69ac-724d-4a7f-ae92-08b66d25d0bf}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{8bbdea16-0960-479d-941d-fe662e7740e8}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems*{96932fcb-7d28-4130-90f2-9cc5216c7540}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems*{98e6f0e2-d2c3-46ad-aaff-e6ae02ec11e7}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{a4b705a1-60e7-4bb9-ba2a-a012faf826fd}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{a8ec7cea-4204-4384-a93b-cb59901202b3}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.IO.Ports\Elysium.Core.IO.Ports.vcxitems*{abbe2c07-62a6-4498-a409-fad7482b59d2}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Diagnostics\Elysium.Core.Diagnostics.vcxitems*{b0c1c740-4d18-4393-ab24-c7c93a3bde64}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Pkcs\Elysium.Core.Security.Cryptography.Pkcs.vcxitems*{b24d2a65-dd25-4f56-8ca1-6068eaa0c9e5}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{b29c5cf1-d637-47aa-aae6-cbb9028ba3d3}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems*{b3021f5d-6bba-449c-9742-38d64fc3854e}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{b7b28110-f6fa-4554-b115-bae4337debc2}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems*{b8fd36bf-ecb1-433f-a981-47834d8a65ab}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{dda554ce-e73b-4fcb-9da0-ec45214c84df}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems*{e02b4f08-16e6-45ba-aa47-72d24d6ebd2e}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{ee7a43c1-c408-4688-920f-5878c6e6a7c7}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems*{f52a3c96-76e1-45a4-a93c-c997dc583e91}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems*{f612b617-2b63-4644-852f-642827a6ba4f}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{ff6b7d0c-4c97-415a-b5b6-d0c21e6b50cf}*SharedItemsImports = 9
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Debug|ARM.Build.0 = Debug|ARM
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Debug|ARM64.Build.0 = Debug|ARM64
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Release|ARM.ActiveCfg = Release|ARM
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Release|ARM.Build.0 = Release|ARM
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Release|ARM64.ActiveCfg = Release|ARM64
+		{67B560E3-8508-4638-93A4-2AE53416733C}.Release|ARM64.Build.0 = Release|ARM64
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Debug|ARM.ActiveCfg = Debug|ARM
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Debug|ARM.Build.0 = Debug|ARM
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Debug|ARM.Deploy.0 = Debug|ARM
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Debug|ARM64.Build.0 = Debug|ARM64
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Release|ARM.ActiveCfg = Release|ARM
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Release|ARM.Build.0 = Release|ARM
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Release|ARM.Deploy.0 = Release|ARM
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Release|ARM64.ActiveCfg = Release|ARM64
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Release|ARM64.Build.0 = Release|ARM64
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9}.Release|ARM64.Deploy.0 = Release|ARM64
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Debug|ARM.Build.0 = Debug|ARM
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Debug|ARM64.Build.0 = Debug|ARM64
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Release|ARM.ActiveCfg = Release|ARM
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Release|ARM.Build.0 = Release|ARM
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Release|ARM64.ActiveCfg = Release|ARM64
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6}.Release|ARM64.Build.0 = Release|ARM64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8C483853-54B5-40FB-B14B-28383747B06B} = {E1BE999E-098C-4E1C-AA12-CD2F62312AD8}
+		{FF6B7D0C-4C97-415A-B5B6-D0C21E6B50CF} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{EE7A43C1-C408-4688-920F-5878C6E6A7C7} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{8BBDEA16-0960-479D-941D-FE662E7740E8} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{F612B617-2B63-4644-852F-642827A6BA4F} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{D1DFDE03-A987-4EE3-9FE9-007FD7E8648E} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{97564E04-FC7D-40C1-9185-E888F66E24CB} = {E1BE999E-098C-4E1C-AA12-CD2F62312AD8}
+		{3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F} = {78F0BA9C-9BC7-4779-9573-4AAFE2353DA9}
+		{E2CCACEB-2B46-4926-ACA2-88C237E81B26} = {78F0BA9C-9BC7-4779-9573-4AAFE2353DA9}
+		{328BC640-06C0-47C1-8091-FE3B2C191222} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{2E31205A-3FCD-45B6-A9A1-329204CEB079} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{DDA554CE-E73B-4FCB-9DA0-EC45214C84DF} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{9CBE2BD0-070D-455D-BEDA-BBE0A6FF7B3A} = {85AB4BBD-CEB5-4CD9-AEE8-AB25EA6DB9B7}
+		{8818ED88-71DE-4741-A59C-386C1D429A82} = {85AB4BBD-CEB5-4CD9-AEE8-AB25EA6DB9B7}
+		{A8DBA0A4-46D7-46D9-BA66-A8C3200C33EB} = {C66483A0-240C-4223-945E-E3AFD745C569}
+		{CFE7925C-6FEA-4DCA-9E5B-0000F9275956} = {C66483A0-240C-4223-945E-E3AFD745C569}
+		{1C9D9572-A652-4285-8A6B-25E83EF859C5} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{6A52F036-6569-4DB6-BAD5-D50FF58F39EE} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{275D07C1-A1BF-46DB-9B7F-3C135AA74EE3} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{B29C5CF1-D637-47AA-AAE6-CBB9028BA3D3} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{4557BF60-87A8-49D3-8ABC-8642129F5A91} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{67B560E3-8508-4638-93A4-2AE53416733C} = {97564E04-FC7D-40C1-9185-E888F66E24CB}
+		{749F75B7-4584-493D-AAB4-55AD5C577A89} = {CFE7925C-6FEA-4DCA-9E5B-0000F9275956}
+		{E6CF4B26-BFA5-4951-8A38-88B70984BEC9} = {749F75B7-4584-493D-AAB4-55AD5C577A89}
+		{43162C04-0D95-4C46-B62B-4B36D1B229B6} = {749F75B7-4584-493D-AAB4-55AD5C577A89}
+		{5A9D7191-9B6A-4C60-BDD1-8791EE028E0D} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{A4B705A1-60E7-4BB9-BA2A-A012FAF826FD} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{A8EC7CEA-4204-4384-A93B-CB59901202B3} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B7B28110-F6FA-4554-B115-BAE4337DEBC2} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B8FD36BF-ECB1-433F-A981-47834D8A65AB} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{0A65E452-28EA-4CB0-9691-ED819EF56D96} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{96932FCB-7D28-4130-90F2-9CC5216C7540} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{0BD00C32-9322-44BC-BDE1-9C6F8C1818DA} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{72C118AA-B5CD-484F-AE38-5ED19CE85580} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B24D2A65-DD25-4F56-8CA1-6068EAA0C9E5} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{81BC69AC-724D-4A7F-AE92-08B66D25D0BF} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{74FBB0FC-33B2-4419-9C86-5F7511EEA181} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{ABBE2C07-62A6-4498-A409-FAD7482B59D2} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{7669CB16-51A8-4FA1-8D54-36AFF69A2754} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B0C1C740-4D18-4393-AB24-C7C93A3BDE64} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B3021F5D-6BBA-449C-9742-38D64FC3854E} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{5DDBD666-D500-47D8-864F-950DCB77657A} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{7101EFB4-615B-4D59-9334-2A2694CA6E1D} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{F52A3C96-76E1-45A4-A93C-C997DC583E91} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{21AD6D88-6952-4B3B-B7C6-64A2644A2881} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}
+	EndGlobalSection
+EndGlobal
