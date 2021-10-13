@@ -1,23 +1,21 @@
-/*
+ï»¿/*
 * Copyright (C) 2010 Das Android Open Source-Projekt
  *
  * Lizenziert unter der Apache-Lizenz, Version 2.0 (der "Lizenz");
-* Sie dürfen diese Datei nur gemäß den Bedingungen der Lizenz verwenden.
- * Sie können eine Kopie der Lizenz unter
+* Sie dÃ¼rfen diese Datei nur gemÃ¤ÃŸ den Bedingungen der Lizenz verwenden.
+ * Sie kÃ¶nnen eine Kopie der Lizenz unter
 *
 *      http://www.apache.org/licenses/LICENSE-2.0 erhalten
 *
 * Sofern nicht durch geltendes Recht oder durch schriftliche Zustimmung anders festgelegt, wird
  * die unter der Lizenz vertriebene Software "WIE BESEHEN",
- * OHNE GARANTIEN ODER BEDINGUNGEN GLEICH WELCHER ART, seien sie ausdrücklich oder konkludent, zur Verfügung gestellt.
- * Die unter der Lizenz geltenden Berechtigungen und Einschränkungen finden Sie
-* in der Lizenz für die bestimmte Sprache.
+ * OHNE GARANTIEN ODER BEDINGUNGEN GLEICH WELCHER ART, seien sie ausdrÃ¼cklich oder konkludent, zur VerfÃ¼gung gestellt.
+ * Die unter der Lizenz geltenden Berechtigungen und EinschrÃ¤nkungen finden Sie
+* in der Lizenz fÃ¼r die bestimmte Sprache.
 * 
 */
 
-#ifndef _INC_CRTDBG
-#include <cstdlib>
-#endif
+#include <malloc.h>
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "AndroidProject1.NativeActivity", __VA_ARGS__))
 #define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "AndroidProject1.NativeActivity", __VA_ARGS__))
@@ -32,7 +30,7 @@ struct saved_state {
 };
 
 /**
-* Freigegebener Status für unsere App.
+* Freigegebener Status fÃ¼r unsere App.
 */
 struct engine {
 	struct android_app* app;
@@ -51,14 +49,14 @@ struct engine {
 };
 
 /**
-* Initialisieren eines EGL-Kontexts für die aktuelle Anzeige.
+* Initialisieren eines EGL-Kontexts fÃ¼r die aktuelle Anzeige.
 */
 static int engine_init_display(struct engine* engine) {
 	// OpenGL-ES und -EGL initialisieren
 
 	/*
-	* Geben Sie hier die Attribute der gewünschten Konfiguration an.
-	* Unten wählen wir eine EGLConfig mit mindestens 8 Bits pro
+	* Geben Sie hier die Attribute der gewÃ¼nschten Konfiguration an.
+	* Unten wÃ¤hlen wir eine EGLConfig mit mindestens 8 Bits pro
 	* Farbkomponente aus, die mit den Fenstern auf dem Bildschirm kompatibel ist
 	*/
 	const EGLint attribs[] = {
@@ -78,14 +76,14 @@ static int engine_init_display(struct engine* engine) {
 
 	eglInitialize(display, 0, 0);
 
-	/* Hier wählt die Anwendung die Konfiguration, die sie wünscht. In diesem
+	/* Hier wÃ¤hlt die Anwendung die Konfiguration, die sie wÃ¼nscht. In diesem
 	* Beispiel haben wir einen stark vereinfachten Auswahlprozess, in dem wir die 
-	* erste EGLConfig auswählen, die unseren Kriterien entspricht. */
+	* erste EGLConfig auswÃ¤hlen, die unseren Kriterien entspricht. */
 	eglChooseConfig(display, attribs, &config, 1, &numConfigs);
 
 	/* "EGL_NATIVE_VISUAL_ID" ist ein Attribut der "EGLConfig", dessen
 	* Akzeptierung durch "ANativeWindow_setBuffersGeometry()" garantiert ist.
-	* Sobald wir eine "EGLConfig" ausgewählt haben, können wir die ANativeWindow-Puffer
+	* Sobald wir eine "EGLConfig" ausgewÃ¤hlt haben, kÃ¶nnen wir die ANativeWindow-Puffer
 	* gefahrlos mithilfe von  "EGL_NATIVE_VISUAL_ID" entsprechend neu konfigurieren. */
 	eglGetConfigAttrib(display, config, EGL_NATIVE_VISUAL_ID, &format);
 
@@ -127,7 +125,7 @@ static void engine_draw_frame(struct engine* engine) {
 		return;
 	}
 
-	// Einfach den Bildschirm mit einer Farbe füllen.
+	// Einfach den Bildschirm mit einer Farbe fÃ¼llen.
 	glClearColor(((float)engine->state.x) / engine->width, engine->state.angle,
 		((float)engine->state.y) / engine->height, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -156,7 +154,7 @@ static void engine_term_display(struct engine* engine) {
 }
 
 /**
-* Das nächste Eingabeereignis verarbeiten.
+* Das nÃ¤chste Eingabeereignis verarbeiten.
 */
 static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
 	struct engine* engine = (struct engine*)app->userData;
@@ -169,7 +167,7 @@ static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) 
 }
 
 /**
-* Den nächsten Hauptbefehl verarbeiten.
+* Den nÃ¤chsten Hauptbefehl verarbeiten.
 */
 static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 	struct engine* engine = (struct engine*)app->userData;
@@ -192,18 +190,18 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 		engine_term_display(engine);
 		break;
 	case APP_CMD_GAINED_FOCUS:
-		// Wenn unsere App den Fokus erhält, beginnen wir mit der Überwachung des Beschleunigungsmessers.
+		// Wenn unsere App den Fokus erhÃ¤lt, beginnen wir mit der Ãœberwachung des Beschleunigungsmessers.
 		if (engine->accelerometerSensor != NULL) {
 			ASensorEventQueue_enableSensor(engine->sensorEventQueue,
 				engine->accelerometerSensor);
-			// Wir möchten 60 Ereignisse pro Sekunde empfangen.
+			// Wir mÃ¶chten 60 Ereignisse pro Sekunde (in Mikrosekunden) empfangen.
 			ASensorEventQueue_setEventRate(engine->sensorEventQueue,
 				engine->accelerometerSensor, (1000L / 60) * 1000);
 		}
 		break;
 	case APP_CMD_LOST_FOCUS:
-		// Wenn unsere App den Fokus verliert, beenden wir die Überwachung des Beschleunigungsmessers.
-		// Das dient dazu, die Batterie zu schonen, während die App nicht verwendet wird.
+		// Wenn unsere App den Fokus verliert, beenden wir die Ãœberwachung des Beschleunigungsmessers.
+		// Das dient dazu, die Batterie zu schonen, wÃ¤hrend die App nicht verwendet wird.
 		if (engine->accelerometerSensor != NULL) {
 			ASensorEventQueue_disableSensor(engine->sensorEventQueue,
 				engine->accelerometerSensor);
@@ -217,8 +215,8 @@ static void engine_handle_cmd(struct android_app* app, int32_t cmd) {
 
 /**
 * Dies ist der Haupteinsprungspunkt einer systemeigenen Anwendung, die 
-* android_native_app_glue verwendet. Sie wird im eigenen Thread ausgeführt, mit ihrer eigenen
-* Ereignisschleife zum Empfangen von Eingabeereignissen und Ausführen anderer Dinge.
+* android_native_app_glue verwendet. Sie wird im eigenen Thread ausgefÃ¼hrt, mit ihrer eigenen
+* Ereignisschleife zum Empfangen von Eingabeereignissen und AusfÃ¼hren anderer Dinge.
 */
 void android_main(struct android_app* state) {
 	struct engine engine;
@@ -229,7 +227,7 @@ void android_main(struct android_app* state) {
 	state->onInputEvent = engine_handle_input;
 	engine.app = state;
 
-	// Auf Überwachung des Beschleunigungsmessers vorbereiten
+	// Auf Ãœberwachung des Beschleunigungsmessers vorbereiten
 	engine.sensorManager = ASensorManager_getInstance();
 	engine.accelerometerSensor = ASensorManager_getDefaultSensor(engine.sensorManager,
 		ASENSOR_TYPE_ACCELEROMETER);
@@ -252,8 +250,8 @@ void android_main(struct android_app* state) {
 		struct android_poll_source* source;
 
 		// Wenn wir nicht animieren, blockieren wir das Warten auf Ereignisse dauerhaft.
-		// Wenn wir animieren, wird die Schleife ausgeführt, bis alle Ereignisse gelesen wurden, dann fahren
-		// wir fort, das nächste Bild der Animation zu zeichnen.
+		// Wenn wir animieren, wird die Schleife ausgefÃ¼hrt, bis alle Ereignisse gelesen wurden, dann fahren
+		// wir fort, das nÃ¤chste Bild der Animation zu zeichnen.
 		while ((ident = ALooper_pollAll(engine.animating ? 0 : -1, NULL, &events,
 			(void**)&source)) >= 0) {
 
@@ -275,7 +273,7 @@ void android_main(struct android_app* state) {
 				}
 			}
 
-			// Überprüfen, ob wir beenden.
+			// ÃœberprÃ¼fen, ob wir beenden.
 			if (state->destroyRequested != 0) {
 				engine_term_display(&engine);
 				return;
@@ -283,7 +281,7 @@ void android_main(struct android_app* state) {
 		}
 
 		if (engine.animating) {
-			// Fertig mit Ereignissen, nächstes Animationsbild zeichnen.
+			// Fertig mit Ereignissen, nÃ¤chstes Animationsbild zeichnen.
 			engine.state.angle += .01f;
 			if (engine.state.angle > 1) {
 				engine.state.angle = 0;

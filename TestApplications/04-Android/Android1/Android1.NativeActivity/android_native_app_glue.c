@@ -1,28 +1,35 @@
-/*
+ï»¿/*
  * Copyright (C) 2010 Das Android Open Source-Projekt
  *
  * Lizenziert unter der Apache-Lizenz, Version 2.0 ("Lizenz");
- * Sie dürfen diese Datei nur gemäß den Lizenzbedingungen verwenden.
+ * Sie dÃ¼rfen diese Datei nur gemÃ¤ÃŸ den Lizenzbedingungen verwenden.
  * Eine Kopie der Lizenz erhalten Sie unter:
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Sofern nicht durch geltendes Recht anders festgelegt oder schriftlich vereinbart, wird
  * die unter der Lizenz vertriebene Software WIE BESEHEN,
- * OHNE GARANTIEN ODER BEDINGUNGEN GLEICH WELCHER ART, seien sie ausdrücklich oder konkludent, zur Verfügung gestellt.
- * Die unter der Lizenz geltenden Berechtigungen und Einschränkungen entnehmen Sie
+ * OHNE GARANTIEN ODER BEDINGUNGEN GLEICH WELCHER ART, seien sie ausdrÃ¼cklich oder konkludent, zur VerfÃ¼gung gestellt.
+ * Die unter der Lizenz geltenden Berechtigungen und EinschrÃ¤nkungen entnehmen Sie
  * der Lizenz in der jeweiligen Sprache.
  *
  */
 
-#ifndef _INC_CRTDBG
-#include <cstdlib>
-#endif
+#include <jni.h>
+
+#include <errno.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/resource.h>
+
+#include "android_native_app_glue.h"
+#include <android/log.h>
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "threaded_app", __VA_ARGS__))
 #define LOGE(...) ((void)__android_log_print(ANDROID_LOG_ERROR, "threaded_app", __VA_ARGS__))
 
-/* Aktivieren Sie für Debugbuilds immer die Debugablaufverfolgungen in dieser Bibliothek */
+/* Aktivieren Sie fÃ¼r Debugbuilds immer die Debugablaufverfolgungen in dieser Bibliothek */
 #ifndef NDEBUG
 #  define LOGV(...)  ((void)__android_log_print(ANDROID_LOG_VERBOSE, "threaded_app", __VA_ARGS__))
 #else
@@ -171,7 +178,7 @@ static void android_app_destroy(struct android_app* android_app) {
     android_app->destroyed = 1;
     pthread_cond_broadcast(&android_app->cond);
     pthread_mutex_unlock(&android_app->mutex);
-    // Das android_app-Objekt kann nach diesem Vorgang nicht berührt werden.
+    // Das android_app-Objekt kann nach diesem Vorgang nicht berÃ¼hrt werden.
 }
 
 static void process_input(struct android_app* app, struct android_poll_source* source) {
@@ -226,7 +233,7 @@ static void* android_app_entry(void* param) {
 }
 
 // --------------------------------------------------------------------
-// Interaktion mit nativer Aktivität (vom Hauptthread aufgerufen)
+// Interaktion mit nativer AktivitÃ¤t (vom Hauptthread aufgerufen)
 // --------------------------------------------------------------------
 
 static struct android_app* android_app_create(ANativeActivity* activity,

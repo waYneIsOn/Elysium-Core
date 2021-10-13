@@ -6,6 +6,10 @@
 /Libraries/02-Windows/Elysium.Core/Debugbin
 /Libraries/02-Windows/Elysium.Core/Releasebin
 
+/Libraries/04-Android/Elysium.Core/Debugbin
+/Libraries/04-Android/Elysium.Core/Debugbin
+/Libraries/04-Android/Elysium.Core/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.Data/Debug
 /Libraries/02-Windows/Elysium.Core.Data/Debugbin
 /Libraries/02-Windows/Elysium.Core.Data/Releasebin
@@ -50,10 +54,6 @@
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin
 
-/Libraries/04-Android/Elysium.Core/Debugbin
-/Libraries/04-Android/Elysium.Core/Debugbin
-/Libraries/04-Android/Elysium.Core/Releasebin
-
 /UnitTests/02-Windows/UnitTests.Core/Debug
 /UnitTests/02-Windows/UnitTests.Core/Debugbin
 /UnitTests/02-Windows/UnitTests.Core/Releasebin
@@ -86,10 +86,10 @@
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Releasebin
 
-/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM/Debug
-/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/ARM64/Debug
-/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.NativeActivity/Debugbin
+/TestApplications/04-Android/Android1/Android1.NativeActivity/ARM/Debug
+/TestApplications/04-Android/Android1/Android1.NativeActivity/ARM64/Debug
+/TestApplications/04-Android/Android1/Android1.NativeActivity/Debugbin
 
-/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/ARM/Debug
-/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/ARM64/Debug
-/TestApplications/04-Android/EmpyAndroidApp/EmpyAndroidApp.Packaging/Debugbin
+/TestApplications/04-Android/Android1/Android1.Packaging/ARM/Debug
+/TestApplications/04-Android/Android1/Android1.Packaging/ARM64/Debug
+/TestApplications/04-Android/Android1/Android1.Packaging/Debugbin

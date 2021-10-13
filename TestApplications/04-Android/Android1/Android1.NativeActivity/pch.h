@@ -1,10 +1,10 @@
-//
+ï»¿//
 // pch.h
-// Header für Standardsystem-Includedateien.
+// Header fÃ¼r Standardsystem-Includedateien.
 //
 // Wird vom Buildsystem zum Generieren des vorkompilierten Headers verwendet. Beachten Sie, dass
 // "pch.cpp" nicht erforderlich ist und "pch.h" automatisch in alle CPP-Dateien,
-// die zum Projekt gehören, aufgenommen wird.
+// die zum Projekt gehÃ¶ren, aufgenommen wird.
 //
 
 #include <jni.h>
