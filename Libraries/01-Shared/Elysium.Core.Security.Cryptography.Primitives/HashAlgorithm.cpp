@@ -11,7 +11,7 @@
 Elysium::Core::Security::Cryptography::HashAlgorithm::~HashAlgorithm()
 { }
 
-const size_t Elysium::Core::Security::Cryptography::HashAlgorithm::GetHashSize() const
+const Elysium::Core::size Elysium::Core::Security::Cryptography::HashAlgorithm::GetHashSize() const
 {
 	return _HashValue.GetLength();
 }
@@ -23,7 +23,7 @@ const bool Elysium::Core::Security::Cryptography::HashAlgorithm::GetCanReuseTran
 Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::IO::Stream & InputStream)
 {
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(4096);
-	size_t BytesRead = 0;
+	Elysium::Core::size BytesRead = 0;
 	do
 	{
 		BytesRead = InputStream.Read(&Buffer[0], 4096);
@@ -40,7 +40,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 
 	return Temporary;
 }
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::byte* Buffer, const size_t Length)
+Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length)
 {
 	HashCore(&Buffer[0], Length);
 	_HashValue = HashFinal();

@@ -57,7 +57,7 @@ const bool Elysium::Core::Net::Security::TlsStream::GetCanWrite() const
 	return _InnerStream.GetCanWrite();
 }
 
-const size_t Elysium::Core::Net::Security::TlsStream::GetLength()  const
+const Elysium::Core::size Elysium::Core::Net::Security::TlsStream::GetLength()  const
 {
 	return _InnerStream.GetLength();
 }
@@ -83,7 +83,7 @@ const bool Elysium::Core::Net::Security::TlsStream::GetIsSigned() const
 	return false;
 }
 
-void Elysium::Core::Net::Security::TlsStream::SetLength(const size_t Value)
+void Elysium::Core::Net::Security::TlsStream::SetLength(const Elysium::Core::size Value)
 {
 	_InnerStream.SetLength(Value);
 }
@@ -103,12 +103,12 @@ void Elysium::Core::Net::Security::TlsStream::Flush()
 	_InnerStream.Flush();
 }
 
-const size_t Elysium::Core::Net::Security::TlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::Net::Security::TlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
 {
 	return _InnerStream.Seek(Offset, Origin);
 }
 
-const size_t Elysium::Core::Net::Security::TlsStream::Read(Elysium::Core::byte* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::Net::Security::TlsStream::Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	// prepare secure buffers (as far as possible)
 	SecBuffer SecureBuffers[4];
@@ -196,7 +196,7 @@ Elysium::Core::byte Elysium::Core::Net::Security::TlsStream::ReadByte()
 	throw 1;
 }
 
-void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
+void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	// prepare secure buffers (as far as possible)
 	SecBuffer SecureBuffers[4];
@@ -221,9 +221,9 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 	SecureBuffersDescriptor.pBuffers = SecureBuffers;
 
 	// loop until all data has been sent
-	const size_t AvailableSize = _OutBuffer.GetLength() - _Sizes.cbHeader - _Sizes.cbTrailer;
-	size_t TotalBytesSent = 0;
-	size_t CurrentMessageSize = 0;
+	const Elysium::Core::size AvailableSize = _OutBuffer.GetLength() - _Sizes.cbHeader - _Sizes.cbTrailer;
+	Elysium::Core::size TotalBytesSent = 0;
+	Elysium::Core::size CurrentMessageSize = 0;
 	while (TotalBytesSent < Count)
 	{
 		CurrentMessageSize = (Count - TotalBytesSent < _Sizes.cbMaximumMessage) ? Count - TotalBytesSent : _Sizes.cbMaximumMessage;
@@ -243,7 +243,7 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 			throw Elysium::Core::Security::Authentication::AuthenticationException();
 		}
 
-		_InnerStream.Write((const Elysium::Core::byte*)SecureBuffers[0].pvBuffer, (size_t)SecureBuffers[0].cbBuffer + SecureBuffers[1].cbBuffer + 
+		_InnerStream.Write((const Elysium::Core::byte*)SecureBuffers[0].pvBuffer, (Elysium::Core::size)SecureBuffers[0].cbBuffer + SecureBuffers[1].cbBuffer + 
 			SecureBuffers[2].cbBuffer + SecureBuffers[3].cbBuffer);
 		TotalBytesSent += CurrentMessageSize;
 	}
@@ -375,14 +375,14 @@ void Elysium::Core::Net::Security::TlsStream::ClientHandshakeLoop(const bool Rea
 
 	// Loop until the handshake is finished or an error occurs.
 	SECURITY_STATUS Status = SEC_I_CONTINUE_NEEDED;
-	size_t TotalBytesRead = 0;
+	Elysium::Core::size TotalBytesRead = 0;
 	while (Status == SEC_I_CONTINUE_NEEDED || Status == SEC_E_INCOMPLETE_MESSAGE || Status == SEC_I_INCOMPLETE_CREDENTIALS)
 	{
 		if (TotalBytesRead == 0 || Status == SEC_E_INCOMPLETE_MESSAGE)
 		{
 			if (ShouldRead)
 			{
-				const size_t BytesRead = _InnerStream.Read(&_InBuffer[TotalBytesRead], _InBuffer.GetLength() - TotalBytesRead);
+				const Elysium::Core::size BytesRead = _InnerStream.Read(&_InBuffer[TotalBytesRead], _InBuffer.GetLength() - TotalBytesRead);
 				if (BytesRead == 0)
 				{
 					throw Elysium::Core::Security::Authentication::AuthenticationException();
@@ -498,7 +498,7 @@ void Elysium::Core::Net::Security::TlsStream::ClientHandshakeLoop(const bool Rea
 		// Copy any leftover data from the "extra" buffer, and go around again.
 		if (InBuffers[1].BufferType == SECBUFFER_EXTRA)
 		{
-			std::memmove(&_InBuffer[0], &_InBuffer[0] + (TotalBytesRead - InBuffers[1].cbBuffer), InBuffers[1].cbBuffer);
+			memmove(&_InBuffer[0], &_InBuffer[0] + (TotalBytesRead - InBuffers[1].cbBuffer), InBuffers[1].cbBuffer);
 			TotalBytesRead = InBuffers[1].cbBuffer;
 		}
 		else
@@ -550,7 +550,7 @@ void Elysium::Core::Net::Security::TlsStream::GetStreamEncryptionProperties()
 	{
 		throw Elysium::Core::NotImplementedException(u8"Unhandled number of SecurityBuffers.");
 	}
-	if ((size_t)_Sizes.cbHeader + _Sizes.cbTrailer > _OutBuffer.GetLength())
+	if ((Elysium::Core::size)_Sizes.cbHeader + _Sizes.cbTrailer > _OutBuffer.GetLength())
 	{
 		throw Elysium::Core::NotImplementedException(u8"Unhandled header- and trailer-size.");
 	}

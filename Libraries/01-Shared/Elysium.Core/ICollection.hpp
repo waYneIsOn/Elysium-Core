@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_IENUMERABLE
 #include "IEnumerable.hpp"
 #endif
@@ -28,7 +32,7 @@ namespace Elysium::Core::Collections
 		/// </summary>
 		virtual ~ICollection() {}
 
-		virtual const size_t GetCount() const = 0;
+		virtual const Elysium::Core::size GetCount() const = 0;
 		virtual const bool GetIsReadOnly() const = 0;
 
 		virtual void Add(const T& Item) = 0;

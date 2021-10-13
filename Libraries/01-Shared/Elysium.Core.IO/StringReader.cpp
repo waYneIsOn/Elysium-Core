@@ -21,7 +21,7 @@ const Elysium::Core::uint32_t Elysium::Core::IO::StringReader::Read()
 	return _Position < _Input.GetLength() ? _Input[_Position++] : -1;
 }
 
-const size_t Elysium::Core::IO::StringReader::Read(char8_t* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::StringReader::Read(char8_t* Buffer, const Elysium::Core::size Count)
 {
 	// ToDo:
 	throw 1;
@@ -34,16 +34,16 @@ Elysium::Core::String Elysium::Core::IO::StringReader::ReadLine()
 		return String();
 	}
 
-	size_t IndexOfNewLine = _Input.IndexOf(Elysium::Core::Environment::NewLine(), _Position);
+	Elysium::Core::size IndexOfNewLine = _Input.IndexOf(Elysium::Core::Environment::NewLine(), _Position);
 	if (IndexOfNewLine == -1)
 	{
-		size_t Position = _Position;
+		Elysium::Core::size Position = _Position;
 		_Position = _Input.GetLength();
 		return String(&_Input[Position]);
 	}
 	else
 	{
-		size_t Position = _Position;
+		Elysium::Core::size Position = _Position;
 		_Position += IndexOfNewLine + Elysium::Core::Environment::NewLine().GetLength();
 		return String(&_Input[Position], IndexOfNewLine);
 	}

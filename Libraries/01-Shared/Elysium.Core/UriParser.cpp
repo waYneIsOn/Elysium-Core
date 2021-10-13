@@ -71,7 +71,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 	{
 	case Elysium::Core::UriComponents::Scheme:
 	{
-		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
+		Elysium::Core::size IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
 		return StringView(Source, IndexOfSchemeDelimiterEnd);
 	}
 	/*
@@ -83,37 +83,37 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 	case Elysium::Core::UriComponents::Host:
 	{
 		// calculate the start index
-		size_t OriginalUriLength = Source.GetLength();
-		size_t IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
-		size_t IndexOfHostStart = IndexOfSchemeDelimiterEnd + 1;
+		Elysium::Core::size OriginalUriLength = Source.GetLength();
+		Elysium::Core::size IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
+		Elysium::Core::size IndexOfHostStart = IndexOfSchemeDelimiterEnd + 1;
 
-		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u8"//");
-		size_t IndexOfPathDelimiterStart = Source.IndexOf(u8'/');
-		if (IndexOfAuthorityDelimiterStart != static_cast<size_t>(-1))
+		Elysium::Core::size IndexOfAuthorityDelimiterStart = Source.IndexOf(u8"//");
+		Elysium::Core::size IndexOfPathDelimiterStart = Source.IndexOf(u8'/');
+		if (IndexOfAuthorityDelimiterStart != static_cast<Elysium::Core::size>(-1))
 		{
 			IndexOfHostStart = IndexOfAuthorityDelimiterStart + 2;
 			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
-			if (IndexOfPathDelimiterStart != static_cast<size_t>(-1))
+			if (IndexOfPathDelimiterStart != static_cast<Elysium::Core::size>(-1))
 			{
 				IndexOfPathDelimiterStart += IndexOfAuthorityDelimiterStart + 3;
 			}
 		}
 
-		size_t IndexOfHostDelimiterStart = Source.IndexOf(u8'@');
-		if (IndexOfHostDelimiterStart != static_cast<size_t>(-1))
+		Elysium::Core::size IndexOfHostDelimiterStart = Source.IndexOf(u8'@');
+		if (IndexOfHostDelimiterStart != static_cast<Elysium::Core::size>(-1))
 		{
 			IndexOfHostStart = IndexOfHostDelimiterStart + 1;
 		}
 
 		// calculate the end index
-		size_t IndexOfHostEnd = IndexOfPathDelimiterStart;
-		if (IndexOfPathDelimiterStart == static_cast<size_t>(-1))
+		Elysium::Core::size IndexOfHostEnd = IndexOfPathDelimiterStart;
+		if (IndexOfPathDelimiterStart == static_cast<Elysium::Core::size>(-1))
 		{
 			IndexOfHostEnd = OriginalUriLength;
 		}
 
-		size_t IndexOfPortDelimiter = Source.IndexOf(u8':', IndexOfHostStart + 1);
-		if (IndexOfPortDelimiter != static_cast<size_t>(-1))
+		Elysium::Core::size IndexOfPortDelimiter = Source.IndexOf(u8':', IndexOfHostStart + 1);
+		if (IndexOfPortDelimiter != static_cast<Elysium::Core::size>(-1))
 		{
 			IndexOfHostEnd = IndexOfPortDelimiter + IndexOfHostStart + 1;
 		}
@@ -163,22 +163,22 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 	/*
 	case Elysium::Core::UriComponents::StrongAuthority:
 	{
-		size_t OriginalUriLength = Source->GetLength();
+		Elysium::Core::size OriginalUriLength = Source->GetLength();
 
 		// get the first "://" to determine where the scheme ends
-		size_t IndexOfSchemeDelimiterStart = Source->IndexOf(L"://");
-		size_t SchemeDelimiterLength = 3;
+		Elysium::Core::size IndexOfSchemeDelimiterStart = Source->IndexOf(L"://");
+		Elysium::Core::size SchemeDelimiterLength = 3;
 
 		// if we don't have the scheme delimiter start, just look up ":" as the scheme delimiter
-		if (IndexOfSchemeDelimiterStart == static_cast<size_t>(-1))
+		if (IndexOfSchemeDelimiterStart == static_cast<Elysium::Core::size>(-1))
 		{
 			IndexOfSchemeDelimiterStart = Source->IndexOf(L':');
 			SchemeDelimiterLength = 1;
 		}
-		const size_t IndexOfSchemeDelimiterEnd = IndexOfSchemeDelimiterStart + SchemeDelimiterLength;
+		const Elysium::Core::size IndexOfSchemeDelimiterEnd = IndexOfSchemeDelimiterStart + SchemeDelimiterLength;
 
-		size_t RelativeIndexOfAuthorityDelimiterStart = Source->IndexOf(L'/', IndexOfSchemeDelimiterEnd);
-		size_t RelativeIndexOfAuthorityDelimiterEnd = RelativeIndexOfAuthorityDelimiterStart + 1;
+		Elysium::Core::size RelativeIndexOfAuthorityDelimiterStart = Source->IndexOf(L'/', IndexOfSchemeDelimiterEnd);
+		Elysium::Core::size RelativeIndexOfAuthorityDelimiterEnd = RelativeIndexOfAuthorityDelimiterStart + 1;
 		if (RelativeIndexOfAuthorityDelimiterStart == std::string::npos)
 		{
 			RelativeIndexOfAuthorityDelimiterEnd = OriginalUriLength - IndexOfSchemeDelimiterEnd;
@@ -208,12 +208,12 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 	*/
 	case Elysium::Core::UriComponents::PathAndQuery:
 	{
-		size_t IndexOfAuthorityDelimiterStart = Source.IndexOf(u8"//");
-		size_t IndexOfPathDelimiterStart = Source.IndexOf(u8'/');
-		if (IndexOfAuthorityDelimiterStart != static_cast<size_t>(-1))
+		Elysium::Core::size IndexOfAuthorityDelimiterStart = Source.IndexOf(u8"//");
+		Elysium::Core::size IndexOfPathDelimiterStart = Source.IndexOf(u8'/');
+		if (IndexOfAuthorityDelimiterStart != static_cast<Elysium::Core::size>(-1))
 		{
 			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
-			if (IndexOfPathDelimiterStart == static_cast<size_t>(-1))
+			if (IndexOfPathDelimiterStart == static_cast<Elysium::Core::size>(-1))
 			{	// Uri doesn't contain a path
 				return StringView();
 			}
@@ -223,15 +223,15 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 			}
 		}
 
-		if (IndexOfPathDelimiterStart == static_cast<size_t>(-1))
+		if (IndexOfPathDelimiterStart == static_cast<Elysium::Core::size>(-1))
 		{	// Uri doesn't contain a path
 			return StringView();
 		}
 
-		size_t IndexOfFragmentDelimiterStart = Source.IndexOf(u8'#');
-		if (IndexOfFragmentDelimiterStart == static_cast<size_t>(-1))
+		Elysium::Core::size IndexOfFragmentDelimiterStart = Source.IndexOf(u8'#');
+		if (IndexOfFragmentDelimiterStart == static_cast<Elysium::Core::size>(-1))
 		{
-			size_t OriginalUriLength = Source.GetLength();
+			Elysium::Core::size OriginalUriLength = Source.GetLength();
 			return StringView(Source, IndexOfPathDelimiterStart + 1, OriginalUriLength - IndexOfPathDelimiterStart - 1);
 		}
 		else

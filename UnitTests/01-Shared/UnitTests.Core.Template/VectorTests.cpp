@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
 
@@ -78,96 +78,96 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(Modifiers)
 		{
 			Vector<uint32_t> Instance = Vector<uint32_t>(1);
-			Assert::AreEqual(static_cast<size_t>(0), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(1), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), Instance.GetCapacity());
 			Assert::IsTrue(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PushBack(25);
-			Assert::AreEqual(static_cast<size_t>(1), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(1), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.Reserve(4);
-			Assert::AreEqual(static_cast<size_t>(1), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PushBack(25);
-			Assert::AreEqual(static_cast<size_t>(2), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PushBack(25);
-			Assert::AreEqual(static_cast<size_t>(3), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PushBack(25);
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PushBack(25);
-			Assert::AreEqual(static_cast<size_t>(5), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(5), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PopBack();
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.ShrinkToFit();
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.PushBack(25);
 			Instance.PushBack(25);
 			Instance.PushBack(25);
-			Assert::AreEqual(static_cast<size_t>(7), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(7), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.ShrinkToFit();
-			Assert::AreEqual(static_cast<size_t>(7), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(7), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(7), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(7), Instance.GetCapacity());
 			Assert::IsFalse(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.Clear();
-			Assert::AreEqual(static_cast<size_t>(0), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(7), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(7), Instance.GetCapacity());
 			Assert::IsTrue(Instance.GetIsEmpty());
 			Assert::IsNotNull(Instance.GetData());
 
 			Instance.ShrinkToFit();
-			Assert::AreEqual(static_cast<size_t>(0), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(0), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), Instance.GetCapacity());
 			Assert::IsTrue(Instance.GetIsEmpty());
 			Assert::IsNull(Instance.GetData());
 
 			Vector<uint32_t> SomeOtherInstance = { 3, 4, 5 };
 			Instance.PushBackRange(&SomeOtherInstance[0], 3);
-			Assert::AreEqual(static_cast<size_t>(3), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
 
 			Instance.PushBackRange(SomeOtherInstance, 1, 2);
-			Assert::AreEqual(static_cast<size_t>(5), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(5), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
@@ -178,8 +178,8 @@ namespace UnitTests::Core::Template::Container
 			Instance.PopBack();
 			Instance.PopBack();
 			Instance.MoveBack(Move(SomeOtherInstance.GetAt(0)));
-			Assert::AreEqual(static_cast<size_t>(4), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(8), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
@@ -189,8 +189,8 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(5_ui32, SomeOtherInstance[2]);
 
 			Instance.Assign(27, 5);
-			Assert::AreEqual(static_cast<size_t>(9), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(16), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(9), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(16), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
@@ -202,8 +202,8 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(27_ui32, Instance[8]);
 
 			Instance.Insert(33, 6);
-			Assert::AreEqual(static_cast<size_t>(10), Instance.GetSize());
-			Assert::AreEqual(static_cast<size_t>(16), Instance.GetCapacity());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(10), Instance.GetSize());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(16), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
@@ -218,18 +218,18 @@ namespace UnitTests::Core::Template::Container
 	private:
 		void Iterations(Vector<uint32_t>& Instance)
 		{
-			const size_t Length = Instance.GetSize();
+			const Elysium::Core::size Length = Instance.GetSize();
 			const Vector<uint32_t>& ConstInstance = Instance;
 
 			// iterate using index/operator
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
 			{
 				const uint32_t& Element = Instance[i];
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);
 			}
 
 			// iterate using index/method
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
 			{
 				uint32_t& Element = Instance.GetAt(i);
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);

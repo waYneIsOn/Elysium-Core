@@ -37,7 +37,7 @@ namespace Elysium::Core::Security::Cryptography::Checksum
 		Adler32& operator=(const Adler32& Other) = delete;
 		Adler32& operator=(Adler32&& Right) noexcept = delete;
 
-		static const Elysium::Core::uint32_t CalculateBytewise(const Elysium::Core::byte* Data, const size_t Length);
+		static const Elysium::Core::uint32_t CalculateBytewise(const Elysium::Core::byte* Data, const Elysium::Core::size Length);
 	private:
 		static const Elysium::Core::uint32_t _Modulo = 65521;
 	};

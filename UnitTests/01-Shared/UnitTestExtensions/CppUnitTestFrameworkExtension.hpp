@@ -36,7 +36,7 @@ namespace Microsoft
 				{
 					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
 					
-					for (size_t i = 0; i < Expected.GetLength(); ++i)
+					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
 						//Assert::IsTrue(static_cast<int32_t>(Expected[i]) == static_cast<int32_t>(Actual[i]));
 						Assert::AreEqual(Expected[i], Actual[i]);

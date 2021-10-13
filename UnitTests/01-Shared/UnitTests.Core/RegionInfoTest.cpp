@@ -17,7 +17,7 @@ namespace UnitTests::Core::Globalization
 			const RegionInfo InvariantRegion = RegionInfo(127);
 			AssertExtended::AreEqual(String(u8"Invariant Country"), InvariantRegion.GetEnglishName());
 			AssertExtended::AreEqual(String(u8"Invariant Country"), InvariantRegion.GetNativeName());
-			Assert::AreEqual((size_t)0, InvariantRegion.GetThreeLetterISORegionName().GetLength());
+			Assert::AreEqual((Elysium::Core::size)0, InvariantRegion.GetThreeLetterISORegionName().GetLength());
 			AssertExtended::AreEqual(String(u8"IV"), InvariantRegion.GetTwoLetterISORegionName());
 			Assert::IsTrue(InvariantRegion.GetIsMetric());
 		}

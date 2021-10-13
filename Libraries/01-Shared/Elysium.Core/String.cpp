@@ -26,7 +26,7 @@ Elysium::Core::String::String()
 	: _Length(0), _Data(nullptr)
 { }
 
-Elysium::Core::String::String(const size_t Length)
+Elysium::Core::String::String(const Elysium::Core::size Length)
 	: _Length(Length), _Data(new char8_t[_Length + 1])
 {
 	Elysium::Core::Memory<char8_t>::Set(_Data, 0, _Length + 1);
@@ -41,7 +41,7 @@ Elysium::Core::String::String(ConstCharacterPointer Value)
 	}
 }
 
-Elysium::Core::String::String(ConstCharacterPointer Value, const size_t Length)
+Elysium::Core::String::String(ConstCharacterPointer Value, const Elysium::Core::size Length)
 	: _Length(Value == nullptr ? 0 : Length), _Data(_Length == 0 ? nullptr : new char8_t[_Length + 1])
 {
 	if (_Data != nullptr)
@@ -186,7 +186,7 @@ const bool Elysium::Core::String::operator>=(const String& Other) const
 	return Elysium::Core::Template::Text::StringTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) >= 0;
 }
 
-Elysium::Core::String::CharacterReference Elysium::Core::String::operator[](const size_t Index)
+Elysium::Core::String::CharacterReference Elysium::Core::String::operator[](const Elysium::Core::size Index)
 {
 	if (Index >= _Length)
 	{
@@ -195,7 +195,7 @@ Elysium::Core::String::CharacterReference Elysium::Core::String::operator[](cons
 	return _Data[Index];
 }
 
-Elysium::Core::String::ConstCharacterReference Elysium::Core::String::operator[](const size_t Index) const
+Elysium::Core::String::ConstCharacterReference Elysium::Core::String::operator[](const Elysium::Core::size Index) const
 {
 	if (Index >= _Length)
 	{
@@ -207,7 +207,7 @@ Elysium::Core::String::ConstCharacterReference Elysium::Core::String::operator[]
 const Elysium::Core::int32_t Elysium::Core::String::GetHashCode() const
 {	// ToDo: not sure this is correct!
 	Elysium::Core::int32_t Result = 0;
-	for (size_t i = 0; i < _Length; i++)
+	for (Elysium::Core::size i = 0; i < _Length; i++)
 	{
 		Result += _Data[i];
 	}
@@ -215,31 +215,31 @@ const Elysium::Core::int32_t Elysium::Core::String::GetHashCode() const
 	return Result;
 }
 
-const size_t Elysium::Core::String::GetLength() const
+const Elysium::Core::size Elysium::Core::String::GetLength() const
 {
 	return _Length;
 }
 
-const size_t Elysium::Core::String::IndexOf(ConstCharacter Value) const
+const Elysium::Core::size Elysium::Core::String::IndexOf(ConstCharacter Value) const
 {
 	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(_Data, _Length, Value);
-	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
+	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - _Data;
 }
 
-const size_t Elysium::Core::String::IndexOf(ConstCharacter Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::String::IndexOf(ConstCharacter Value, const Elysium::Core::size StartIndex) const
 {
 	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
-	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
+	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
 
-const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
+const Elysium::Core::size Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
 {
-	size_t Index = 0;
-	size_t SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	Elysium::Core::size Index = 0;
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
-		size_t CurrentIndex = IndexOf(Value[0], Index);
-		if (CurrentIndex == static_cast<size_t>(-1))
+		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<Elysium::Core::size>(-1))
 		{
 			return CurrentIndex;
 		}
@@ -247,7 +247,7 @@ const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
 		Index += CurrentIndex;
 		if (Index + SizeOfValue > _Length)
 		{
-			return static_cast<size_t>(-1);
+			return static_cast<Elysium::Core::size>(-1);
 		}
 
 		bool Found = true;
@@ -268,14 +268,14 @@ const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value) const
 	}
 }
 
-const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::String::IndexOf(ConstCharacterPointer Value, const Elysium::Core::size StartIndex) const
 {
-	size_t Index = StartIndex;
-	size_t SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	Elysium::Core::size Index = StartIndex;
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
-		size_t CurrentIndex = IndexOf(Value[0], Index);
-		if (CurrentIndex == static_cast<size_t>(-1))
+		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<Elysium::Core::size>(-1))
 		{
 			return CurrentIndex;
 		}
@@ -283,7 +283,7 @@ const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value, const s
 		Index += CurrentIndex;
 		if (Index + SizeOfValue > _Length)
 		{
-			return static_cast<size_t>(-1);
+			return static_cast<Elysium::Core::size>(-1);
 		}
 
 		bool Found = true;
@@ -304,15 +304,15 @@ const size_t Elysium::Core::String::IndexOf(ConstCharacterPointer Value, const s
 	}
 }
 
-const size_t Elysium::Core::String::IndexOf(const String& Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::String::IndexOf(const String& Value, const Elysium::Core::size StartIndex) const
 {
 	return IndexOf(Value._Data[StartIndex]);
 }
 
-const size_t Elysium::Core::String::LastIndexOf(ConstCharacter Value) const
+const Elysium::Core::size Elysium::Core::String::LastIndexOf(ConstCharacter Value) const
 {
 	char8_t* CharPointer = nullptr;
-	for (size_t i = _Length; i > 0; i--)
+	for (Elysium::Core::size i = _Length; i > 0; i--)
 	{
 		if (_Data[i - 1] == Value)
 		{
@@ -320,34 +320,34 @@ const size_t Elysium::Core::String::LastIndexOf(ConstCharacter Value) const
 			break;
 		}
 	}
-	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
+	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - _Data;
 }
 
-const size_t Elysium::Core::String::LastIndexOf(ConstCharacterPointer Value) const
+const Elysium::Core::size Elysium::Core::String::LastIndexOf(ConstCharacterPointer Value) const
 {
 	// ToDo
-	return size_t(-1);
+	return Elysium::Core::size(-1);
 }
 
-const size_t Elysium::Core::String::LastIndexOf(ConstCharacterPointer Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::String::LastIndexOf(ConstCharacterPointer Value, const Elysium::Core::size StartIndex) const
 {	// ToDo
-	return size_t(-1);
+	return Elysium::Core::size(-1);
 }
 
-const size_t Elysium::Core::String::LastIndexOf(const String& Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::String::LastIndexOf(const String& Value, const Elysium::Core::size StartIndex) const
 {	// ToDo
-	return size_t(-1);
+	return Elysium::Core::size(-1);
 }
 
 void Elysium::Core::String::Split(ConstCharacter Delimiter, Collections::Template::List<String>& Target) const
 {
-	size_t StartIndex = 0;
-	size_t Length = 0;
+	Elysium::Core::size StartIndex = 0;
+	Elysium::Core::size Length = 0;
 
 	while (true)
 	{
 		Length = IndexOf(Delimiter, StartIndex);
-		if (Length == static_cast<size_t>(-1))
+		if (Length == static_cast<Elysium::Core::size>(-1))
 		{
 			if (_Length - StartIndex > 0)
 			{
@@ -362,14 +362,14 @@ void Elysium::Core::String::Split(ConstCharacter Delimiter, Collections::Templat
 
 void Elysium::Core::String::Split(ConstCharacterPointer Delimiter, Collections::Template::List<String>& Target) const
 {
-	size_t DelimiterLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Delimiter);
-	size_t StartIndex = 0;
-	size_t Length = 0;
+	Elysium::Core::size DelimiterLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Delimiter);
+	Elysium::Core::size StartIndex = 0;
+	Elysium::Core::size Length = 0;
 
 	while (true)
 	{
 		Length = IndexOf(Delimiter, StartIndex);
-		if (Length == static_cast<size_t>(-1))
+		if (Length == static_cast<Elysium::Core::size>(-1))
 		{
 			if (_Length - StartIndex > 0)
 			{
@@ -384,8 +384,8 @@ void Elysium::Core::String::Split(ConstCharacterPointer Delimiter, Collections::
 
 const bool Elysium::Core::String::StartsWith(ConstCharacterPointer Value) const
 {
-	size_t ValueLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
-	for (size_t i = 0; i < ValueLength; i++)
+	Elysium::Core::size ValueLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	for (Elysium::Core::size i = 0; i < ValueLength; i++)
 	{
 		if (_Data[i] != Value[i])
 		{
@@ -397,8 +397,8 @@ const bool Elysium::Core::String::StartsWith(ConstCharacterPointer Value) const
 
 const bool Elysium::Core::String::EndsWith(ConstCharacterPointer Value) const
 {
-	size_t ValueLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
-	for (size_t i = _Length - ValueLength; i < _Length; i++)
+	Elysium::Core::size ValueLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	for (Elysium::Core::size i = _Length - ValueLength; i < _Length; i++)
 	{
 		if (_Data[i] != Value[_Length - 1 - i])
 		{
@@ -408,12 +408,12 @@ const bool Elysium::Core::String::EndsWith(ConstCharacterPointer Value) const
 	return true;
 }
 
-Elysium::Core::String Elysium::Core::String::Substring(const size_t StartIndex) const
+Elysium::Core::String Elysium::Core::String::Substring(const Elysium::Core::size StartIndex) const
 {
 	return String(&_Data[StartIndex], _Length - StartIndex);
 }
 
-Elysium::Core::String Elysium::Core::String::Substring(const size_t StartIndex, const size_t Length) const
+Elysium::Core::String Elysium::Core::String::Substring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const
 {
 	return String(&_Data[StartIndex], Length);
 }

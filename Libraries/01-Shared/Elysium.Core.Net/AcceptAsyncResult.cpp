@@ -33,7 +33,7 @@ Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::AcceptAsyncRe
 	return *_Socket;
 }
 
-Elysium::Core::Net::Sockets::AcceptAsyncResult::AcceptAsyncResult(Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * AsyncState, const size_t BufferSize) 
+Elysium::Core::Net::Sockets::AcceptAsyncResult::AcceptAsyncResult(Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * AsyncState, const Elysium::Core::size BufferSize) 
 	: Elysium::Core::IAsyncResult(),
 	_OperationDoneEvent(false), _Socket(Socket), _Callback(Callback), _AsyncState(AsyncState), _Addresses()
 { }

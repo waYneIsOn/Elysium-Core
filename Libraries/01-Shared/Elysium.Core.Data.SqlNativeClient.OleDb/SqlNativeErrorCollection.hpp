@@ -40,9 +40,9 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		SqlNativeErrorCollection(IUnknown* ErrorObject);
 		~SqlNativeErrorCollection();
 
-		const SqlNativeError& operator [] (size_t i) const;
+		const SqlNativeError& operator [] (Elysium::Core::size i) const;
 
-		virtual const size_t GetCount() const override;
+		virtual const Elysium::Core::size GetCount() const override;
 		virtual const bool GetIsReadOnly() const override;
 
 		virtual void Add(const SqlNativeError& Item) override;

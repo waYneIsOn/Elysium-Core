@@ -26,33 +26,33 @@ namespace Elysium::Core::Text
 	{
 	public:
 		StringBuilder();
-		StringBuilder(const size_t Capacity);
+		StringBuilder(const Elysium::Core::size Capacity);
 		StringBuilder(const StringBuilder& Source);
 		~StringBuilder();
 
-		const size_t GetCapacity() const;
-		virtual const size_t GetLength() const;
+		const Elysium::Core::size GetCapacity() const;
+		virtual const Elysium::Core::size GetLength() const;
 
-		void SetLength(const size_t Value);
+		void SetLength(const Elysium::Core::size Value);
 
 		void Append(const Elysium::Core::String& Value);
 		void Append(const char8_t Value);
-		void Append(const char8_t* Value, const size_t Length);
+		void Append(const char8_t* Value, const Elysium::Core::size Length);
 		void Clear();
-		size_t IndexOf(const char8_t Value) const;
-		size_t IndexOf(const char8_t Value, const size_t StartIndex) const;
-		size_t IndexOf(const char8_t* Value) const;
-		size_t IndexOf(const char8_t* Value, const size_t StartIndex) const;
-		void Remove(const size_t StartIndex, const size_t Length);
+		Elysium::Core::size IndexOf(const char8_t Value) const;
+		Elysium::Core::size IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const;
+		Elysium::Core::size IndexOf(const char8_t* Value) const;
+		Elysium::Core::size IndexOf(const char8_t* Value, const Elysium::Core::size StartIndex) const;
+		void Remove(const Elysium::Core::size StartIndex, const Elysium::Core::size Length);
 
 		Elysium::Core::String ToString();
-		Elysium::Core::String ToString(const size_t Length);
+		Elysium::Core::String ToString(const Elysium::Core::size Length);
 	private:
-		size_t _Capacity;
+		Elysium::Core::size _Capacity;
 		char8_t* _Data;
-		size_t _Length;
+		Elysium::Core::size _Length;
 
-		void Resize(size_t DesiredMinimumSize);
+		void Resize(Elysium::Core::size DesiredMinimumSize);
 	};
 }
 #endif

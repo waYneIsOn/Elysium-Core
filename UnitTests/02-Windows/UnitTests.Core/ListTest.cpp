@@ -47,7 +47,7 @@ namespace UnitTests::Core::Collections::Template
 
 			List<int*> TestList = { &Value1, &Value2, &Value3, &Value4, &Value1, nullptr };
 			TestList.Add(&Value4);
-			Assert::AreEqual((size_t)7, TestList.GetCount());
+			Assert::AreEqual((Elysium::Core::size)7, TestList.GetCount());
 
 			Assert::AreEqual(&Value1, TestList[0]);
 			Assert::AreEqual(&Value2, TestList[1]);

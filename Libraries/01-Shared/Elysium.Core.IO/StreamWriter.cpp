@@ -24,12 +24,12 @@ void Elysium::Core::IO::StreamWriter::Flush()
 	_OutputStream.Flush();
 }
 
-void Elysium::Core::IO::StreamWriter::Write(const byte * Value, const size_t Length)
+void Elysium::Core::IO::StreamWriter::Write(const byte * Value, const Elysium::Core::size Length)
 {
 	if (_OutputStream.GetPosition() == 0)
 	{
 		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> BOM = _Encoding.GetPreamble();
-		const size_t BOMLength = BOM.GetLength();
+		const Elysium::Core::size BOMLength = BOM.GetLength();
 		if (BOMLength > 0)
 		{
 			_OutputStream.Write(&BOM[0], BOM.GetLength());

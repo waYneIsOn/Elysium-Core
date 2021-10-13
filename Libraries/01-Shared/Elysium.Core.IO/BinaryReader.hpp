@@ -50,7 +50,7 @@ namespace Elysium::Core::IO
 		virtual void Close();
 		virtual const bool ReadBoolean();
 		virtual const Elysium::Core::byte ReadByte();
-		virtual const size_t ReadBytes(Elysium::Core::byte* Buffer, const size_t Count);
+		virtual const Elysium::Core::size ReadBytes(Elysium::Core::byte* Buffer, const Elysium::Core::size Count);
 		virtual const double ReadDouble();
 		virtual const Elysium::Core::int16_t ReadInt16();
 		virtual const Elysium::Core::int32_t ReadInt32();
@@ -60,7 +60,7 @@ namespace Elysium::Core::IO
 		virtual const Elysium::Core::uint32_t ReadUInt32();
 		virtual const Elysium::Core::uint64_t ReadUInt64();
 	private:
-		static const size_t DefaultBufferSize = 16;
+		static const Elysium::Core::size DefaultBufferSize = 16;
 
 		Stream& _InputStream;
 		Elysium::Core::Text::Encoding& _Encoding;
@@ -68,7 +68,7 @@ namespace Elysium::Core::IO
 
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
 	protected:
-		void FillBuffer(const size_t Count);
+		void FillBuffer(const Elysium::Core::size Count);
 	};
 }
 #endif

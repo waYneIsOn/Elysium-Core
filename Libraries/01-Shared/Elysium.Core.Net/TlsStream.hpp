@@ -70,7 +70,7 @@ namespace Elysium::Core::Net::Security
 		virtual const bool GetCanTimeout() const override;
 		virtual const bool GetCanWrite() const override;
 
-		virtual const size_t GetLength() const override;
+		virtual const Elysium::Core::size GetLength() const override;
 
 		virtual const bool GetIsAuthenticated() const override;
 		virtual const bool GetIsEncrypted() const override;
@@ -78,15 +78,15 @@ namespace Elysium::Core::Net::Security
 		virtual const bool GetIsServer() const override;
 		virtual const bool GetIsSigned() const override;
 
-		virtual void SetLength(const size_t Value) override;
+		virtual void SetLength(const Elysium::Core::size Value) override;
 		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
 
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual const size_t Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin) override;
-		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
+		virtual const Elysium::Core::size Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin) override;
+		virtual const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
-		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
+		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 
 		void AuthenticateAsClient(const Elysium::Core::String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
 		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);

@@ -1,10 +1,19 @@
 #include "Elysium_Core.h"
+/*
+#include <jni.h>
+#include <errno.h>
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Elysium_Core", __VA_ARGS__))
-#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Elysium_Core", __VA_ARGS__))
+#include <string.h>
+#include <unistd.h>
+#include <sys/resource.h>
 
-extern "C" {
-	/* Diese triviale Funktion gibt den Plattform-ABI zurück, für die diese native dynamische Bibliothek kompiliert wurde.*/
+#include <android/log.h>
+*/
+//#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "Elysium_Core", __VA_ARGS__))
+//#define LOGW(...) ((void)__android_log_print(ANDROID_LOG_WARN, "Elysium_Core", __VA_ARGS__))
+
+extern "C" 
+{
 	const char * Elysium_Core::getPlatformABI()
 	{
 	#if defined(__arm__)
@@ -22,8 +31,10 @@ extern "C" {
 	#else
 		#define ABI "unknown"
 	#endif
-		LOGI("This dynamic shared library is compiled with ABI: %s", ABI);
-		return "This native library is compiled with ABI: %s" ABI ".";
+		//LOGI("This dynamic shared library is compiled with ABI: %s", ABI);
+		//return "This native library is compiled with ABI: %s" ABI ".";
+
+		return "bla";
 	}
 
 	void Elysium_Core()

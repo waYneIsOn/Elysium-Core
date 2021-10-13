@@ -26,12 +26,12 @@ namespace UnitTests::Core::Security::Cryptography
 		TEST_METHOD(OpenStoreRootCurrentUser)
 		{
 			X509Store RootCurrentUserStore = X509Store(StoreName::Root, StoreLocation::CurrentUser);
-			Assert::AreEqual(static_cast<size_t>(0), RootCurrentUserStore.GetCertificates().GetCount());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetCount());
 
 			RootCurrentUserStore.Open(OpenFlags::ReadOnly);
-			Assert::AreNotEqual(static_cast<size_t>(0), RootCurrentUserStore.GetCertificates().GetCount());
+			Assert::AreNotEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetCount());
 
-			for (size_t i = 0; i < RootCurrentUserStore.GetCertificates().GetCount(); i++)
+			for (Elysium::Core::size i = 0; i < RootCurrentUserStore.GetCertificates().GetCount(); i++)
 			{
 				const X509Certificate& Certificate = RootCurrentUserStore.GetCertificates()[i];
 			}
@@ -220,7 +220,7 @@ namespace UnitTests::Core::Security::Cryptography
 					X509Store CurrentStore = X509Store(static_cast<StoreName>(StoreNameInt), static_cast<StoreLocation>(StoreLocationInt));
 					CurrentStore.Open(OpenFlags::ReadOnly);
 
-					for (size_t i = 0; i < CurrentStore.GetCertificates().GetCount(); i++)
+					for (Elysium::Core::size i = 0; i < CurrentStore.GetCertificates().GetCount(); i++)
 					{
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
 						const Array<byte> RawData = Certificate.GetRawCertData();
@@ -312,7 +312,7 @@ namespace UnitTests::Core::Security::Cryptography
 			/*
 			Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
 			*/
-			const size_t PositionBeforeHeader = InputStream.GetPosition();
+			const Elysium::Core::size PositionBeforeHeader = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Integer)
 			{	// version NOT explicitly defined ergo the next field would be a certificate's serial number
@@ -395,8 +395,8 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
 			{
-				const size_t CurrentPositionParameters = InputStream.GetPosition();
-				const size_t ParametersLength = Length.GetLength();
+				const Elysium::Core::size CurrentPositionParameters = InputStream.GetPosition();
+				const Elysium::Core::size ParametersLength = Length.GetLength();
 				while (InputStream.GetPosition() < CurrentPositionParameters + ParametersLength)
 				{
 					ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -489,7 +489,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 			AttributeValue ::= ANY -- DEFINED BY AttributeType
 			*/
-			const size_t InitialPosition = InputStream.GetPosition();
+			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
 			{
@@ -498,8 +498,8 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 
 			Logger::WriteMessage("Issuer:\r\n");
-			const size_t CurrentPositionIssuer = InputStream.GetPosition();
-			const size_t IssuerLength = Length.GetLength();
+			const Elysium::Core::size CurrentPositionIssuer = InputStream.GetPosition();
+			const Elysium::Core::size IssuerLength = Length.GetLength();
 			while (InputStream.GetPosition() < CurrentPositionIssuer + IssuerLength)
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -508,8 +508,8 @@ namespace UnitTests::Core::Security::Cryptography
 					ReadHeader(Decoder, InputStream, Identifier, Length);
 					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
 					{
-						const size_t CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
-						const size_t AttributeTypeAndValueLength = Length.GetLength();
+						const Elysium::Core::size CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
+						const Elysium::Core::size AttributeTypeAndValueLength = Length.GetLength();
 						while (InputStream.GetPosition() < CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
 						{
 							ReadIssuerAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
@@ -529,8 +529,8 @@ namespace UnitTests::Core::Security::Cryptography
 				}
 				else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
 				{
-					const size_t CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
-					const size_t AttributeTypeAndValueLength = Length.GetLength();
+					const Elysium::Core::size CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
+					const Elysium::Core::size AttributeTypeAndValueLength = Length.GetLength();
 					while (InputStream.GetPosition() < CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
 					{
 						ReadIssuerAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
@@ -692,8 +692,8 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			Logger::WriteMessage("Subject:\r\n");
 
-			const size_t CurrentPositionSubject = InputStream.GetPosition();
-			const size_t SubjectLength = Length.GetLength();
+			const Elysium::Core::size CurrentPositionSubject = InputStream.GetPosition();
+			const Elysium::Core::size SubjectLength = Length.GetLength();
 			while (InputStream.GetPosition() < CurrentPositionSubject + SubjectLength)
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -702,8 +702,8 @@ namespace UnitTests::Core::Security::Cryptography
 					ReadHeader(Decoder, InputStream, Identifier, Length);
 					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
 					{
-						const size_t CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
-						const size_t AttributeTypeAndValueLength = Length.GetLength();
+						const Elysium::Core::size CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
+						const Elysium::Core::size AttributeTypeAndValueLength = Length.GetLength();
 						while (InputStream.GetPosition() < CurrentPositionAttributeTypeAndValue + AttributeTypeAndValueLength)
 						{
 							ReadSubjectAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
@@ -800,8 +800,8 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			Logger::WriteMessage("SubjectPublicKeyInfo:\r\n");
 
-			const size_t CurrentPositionSubjectPublicKeyInfo = InputStream.GetPosition();
-			const size_t SubjectPublicKeyInfoLength = Length.GetLength();
+			const Elysium::Core::size CurrentPositionSubjectPublicKeyInfo = InputStream.GetPosition();
+			const Elysium::Core::size SubjectPublicKeyInfoLength = Length.GetLength();
 			while (InputStream.GetPosition() < CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
 			{
 				const Oid SignatureHashAlgorithm = ReadSubjectPublicKeyInfoAlgorithm(Decoder, InputStream, Identifier, Length);
@@ -818,7 +818,7 @@ namespace UnitTests::Core::Security::Cryptography
 				{	// 1.2.840.113549.1.1.1 - RSA
 					const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data = BitString.GetData();
 
-					size_t Index = 0;
+					Elysium::Core::size Index = 0;
 					const Elysium::Core::uint8_t NumberOfUnusedBits = Data[Index++];
 					Asn1Identifier PublicKeySequenceIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
 					Index += PublicKeySequenceIdentifier.GetEncodedLength();
@@ -863,7 +863,7 @@ namespace UnitTests::Core::Security::Cryptography
 				{	// 1.2.840.10045.2.1 - ECC
 					const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data = BitString.GetData();
 
-					size_t Index = 0;
+					Elysium::Core::size Index = 0;
 					Asn1Identifier EndOfContentIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
 					Index += EndOfContentIdentifier.GetEncodedLength();
 					if (EndOfContentIdentifier.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
@@ -921,8 +921,8 @@ namespace UnitTests::Core::Security::Cryptography
 				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequence");
 			}
 
-			const size_t CurrentPositionSubjectPublicKeyInfoSequenceSequence = InputStream.GetPosition();
-			const size_t SubjectPublicKeyInfoSequenceSequenceLength = Length.GetLength();
+			const Elysium::Core::size CurrentPositionSubjectPublicKeyInfoSequenceSequence = InputStream.GetPosition();
+			const Elysium::Core::size SubjectPublicKeyInfoSequenceSequenceLength = Length.GetLength();
 
 			// algorithm
 			ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -981,7 +981,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 			UniqueIdentifier  ::=  BIT STRING
 			*/
-			const size_t InitialPosition = InputStream.GetPosition();
+			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
@@ -1007,7 +1007,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 			UniqueIdentifier  ::=  BIT STRING
 			*/
-			const size_t InitialPosition = InputStream.GetPosition();
+			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
@@ -1039,7 +1039,7 @@ namespace UnitTests::Core::Security::Cryptography
 							-- by extnID
 				}
 			*/
-			const size_t InitialPosition = InputStream.GetPosition();
+			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
 			{
@@ -1048,8 +1048,8 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			Logger::WriteMessage("Extensions:\r\n");
 
-			const size_t CurrentPositionExtension = InputStream.GetPosition();
-			const size_t ExtensionLength = Length.GetLength();
+			const Elysium::Core::size CurrentPositionExtension = InputStream.GetPosition();
+			const Elysium::Core::size ExtensionLength = Length.GetLength();
 			while (InputStream.GetPosition() < CurrentPositionExtension + ExtensionLength)
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -1060,7 +1060,7 @@ namespace UnitTests::Core::Security::Cryptography
 				}
 				Asn1ObjectIdentifier Oid = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
 
-				const size_t CurrentPositionBooleanExtension = InputStream.GetPosition();
+				const Elysium::Core::size CurrentPositionBooleanExtension = InputStream.GetPosition();
 				ReadHeader(Decoder, InputStream, Identifier, Length);
 				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Boolean)
 				{
@@ -1108,8 +1108,8 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			Logger::WriteMessage("SignatureAlgorithm:\r\n");
 
-			const size_t CurrentPositionSignatureAlgorithm = InputStream.GetPosition();
-			const size_t SignatureAlgorithmLength = Length.GetLength();
+			const Elysium::Core::size CurrentPositionSignatureAlgorithm = InputStream.GetPosition();
+			const Elysium::Core::size SignatureAlgorithmLength = Length.GetLength();
 			while (InputStream.GetPosition() < CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
 			{
 				InputStream.ReadByte();

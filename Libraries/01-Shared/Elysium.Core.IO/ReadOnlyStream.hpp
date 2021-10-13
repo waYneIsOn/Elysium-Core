@@ -34,20 +34,20 @@ namespace Elysium::Core::IO
 		virtual const bool GetCanTimeout() const override;
 		virtual const bool GetCanWrite() const override;
 
-		virtual const size_t GetLength() const override;
+		virtual const Elysium::Core::size GetLength() const override;
 		virtual const Elysium::Core::uint64_t GetPosition() const override;
 		virtual const Elysium::Core::uint32_t GetReadTimeout() const override;
 		virtual const Elysium::Core::uint32_t GetWriteTimeout() const override;
 
-		virtual void SetLength(const size_t Value) override;
+		virtual void SetLength(const Elysium::Core::size Value) override;
 		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
 
 		virtual void Close() override;
 		virtual void Flush() override;
-		virtual const size_t Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
-		virtual const size_t Read(Elysium::Core::byte* Buffer, const size_t Count) override;
+		virtual const Elysium::Core::size Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin) override;
+		virtual const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
-		virtual void Write(const Elysium::Core::byte* Buffer, const size_t Count) override;
+		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 	private:
 		Stream& _BaseStream;
 		const Elysium::Core::uint64_t _Start;

@@ -94,7 +94,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Globalization::
 {
 	const Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> LCIDs = Internal::LocaleFinder::GetSystemLocaleIds(Types);
 	Elysium::Core::Collections::Template::Array<CultureInfo> CultureInfos = Elysium::Core::Collections::Template::Array<CultureInfo>(LCIDs.GetCount());
-	for (size_t i = 0; i < CultureInfos.GetLength(); i++)
+	for (Elysium::Core::size i = 0; i < CultureInfos.GetLength(); i++)
 	{
 		CultureInfos[i]._LCID = LCIDs[i];
 	}

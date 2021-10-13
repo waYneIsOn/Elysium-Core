@@ -43,7 +43,7 @@ namespace Elysium::Core::Data::Common
 		virtual const Elysium::Core::String GetSourceColumn() const override;
 		virtual const DataRowVersion GetSourceVersion() const override;
 		virtual const byte* GetValue() const override;
-		virtual const size_t GetSize() const override;
+		virtual const Elysium::Core::size GetSize() const override;
 		virtual const bool GetIsDBNull() const override;
 
 		virtual void SetDbType(const DbType Type) override;
@@ -56,9 +56,9 @@ namespace Elysium::Core::Data::Common
 		virtual void SetValue(const DBNull& Value) override;
 		virtual void SetValue(const bool Value) override;
 		virtual void SetValue(const byte Value) override;
-		virtual void SetValue(const byte* Value, const  size_t Length) override;
+		virtual void SetValue(const byte* Value, const  Elysium::Core::size Length) override;
 		virtual void SetValue(const char8_t Value) override;
-		virtual void SetValue(const char8_t* Value, const size_t Length) override;
+		virtual void SetValue(const char8_t* Value, const Elysium::Core::size Length) override;
 		virtual void SetValue(const Elysium::Core::String& Value) override;
 		virtual void SetValue(const DateTime& Value) override;
 		virtual void SetValue(const DateTimeOffset& Value) override;

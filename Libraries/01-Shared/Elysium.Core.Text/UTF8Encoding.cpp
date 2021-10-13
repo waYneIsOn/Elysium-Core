@@ -40,7 +40,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium:
 	}
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const
+const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(const char8_t * Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
 {
 	return static_cast<Elysium::Core::uint32_t>(CharCount + AdditionalCount);
 
@@ -48,7 +48,7 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(co
 	// UTF-16 BE
 	Elysium::Core::uint32_t RequiredBytes = 0;
 	byte LeadByte;
-	for (size_t i = 0; i < CharCount; ++i)
+	for (Elysium::Core::size i = 0; i < CharCount; ++i)
 	{
 		LeadByte = Input[i];
 		if (LeadByte >> 7 == 0x00)
@@ -96,11 +96,11 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(co
 	*/
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF8Encoding::GetBytes(const char8_t * Input, const size_t CharCount, const size_t AdditionalCount) const
+Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF8Encoding::GetBytes(const char8_t * Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
 {
 	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharCount);
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize, AdditionalCount > 0 ? true : false);
-	for (size_t i = 0; i < CharCount; ++i)
+	for (Elysium::Core::size i = 0; i < CharCount; ++i)
 	{
 		Result[i] = static_cast<Elysium::Core::byte>(Input[i]);
 	}
@@ -109,10 +109,10 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 
 	/*
 	// UTF-16 BE
-	size_t ByteIndex = 0;
+	Elysium::Core::size ByteIndex = 0;
 	unsigned char LeadByte;
 	// no need to perform any checks here, since validation has already been done in GetByteCount(...) (if _ThrowOnInvalidBytes was enabled)
-	for (size_t i = 0; i < CharCount; ++i)
+	for (Elysium::Core::size i = 0; i < CharCount; ++i)
 	{
 		LeadByte = Input[i];
 		if (LeadByte >> 7 == 0x00)			// 0 - 127
@@ -144,14 +144,14 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 	*/
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetCharCount(const Elysium::Core::byte * Bytes, const size_t ByteCount) const
+const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetCharCount(const Elysium::Core::byte * Bytes, const Elysium::Core::size ByteCount) const
 {
 	return static_cast<Elysium::Core::uint32_t>(ByteCount);
 	/*
 	// UTF-16 BE
 	Elysium::Core::uint32_t RequiredCharacters = ByteCount;
 	Elysium::Core::byte FirstByte;
-	for (size_t i = 0; i < ByteCount; ++i)
+	for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 	{
 		FirstByte = Bytes[i];
 		if (FirstByte > 0x7F)
@@ -185,18 +185,18 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetCharCount(co
 	*/
 }
 
-Elysium::Core::String Elysium::Core::Text::UTF8Encoding::GetString(const Elysium::Core::byte * Bytes, const size_t ByteCount) const
+Elysium::Core::String Elysium::Core::Text::UTF8Encoding::GetString(const Elysium::Core::byte * Bytes, const Elysium::Core::size ByteCount) const
 {
 	Elysium::Core::uint32_t RequiredCharacters = GetCharCount(Bytes, ByteCount);
 	Elysium::Core::String Result = Elysium::Core::String(RequiredCharacters);
-	for (size_t i = 0; i < ByteCount; ++i)
+	for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 	{
 		Result[i] = static_cast<char>(Bytes[i]);
 	}
 	return Result;
 	/*
 	Elysium::Core::uint32_t IntegerRepresentation;
-	for (size_t i = 0; i < ByteCount; ++i)
+	for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 	{
 		IntegerRepresentation = Bytes[i];
 

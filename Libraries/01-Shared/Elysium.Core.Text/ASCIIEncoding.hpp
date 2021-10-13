@@ -39,13 +39,13 @@ namespace Elysium::Core::Text
 
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetPreamble() const override;
 
-		virtual const Elysium::Core::uint32_t GetByteCount(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount = 0) const override;
+		virtual const Elysium::Core::uint32_t GetByteCount(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const override;
 
-		virtual Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetBytes(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount = 0) const override;
+		virtual Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const override;
 
-		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const size_t ByteCount) const override;
+		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const override;
 
-		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const size_t ByteCount) const override;
+		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const override;
 	};
 }
 #endif

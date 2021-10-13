@@ -142,7 +142,7 @@ const Elysium::Core::byte Elysium::Core::Data::SqlNativeClient::OleDb::SqlNative
 	}
 }
 
-const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetBytes(const Elysium::Core::uint32_t Index, const size_t FieldOffset, byte * Value, const size_t Length)
+const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetBytes(const Elysium::Core::uint32_t Index, const Elysium::Core::size FieldOffset, byte * Value, const Elysium::Core::size Length)
 {
 	if (Index > _FieldCount)
 	{
@@ -253,7 +253,7 @@ const char8_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::
 	}
 }
 
-const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetChars(const Elysium::Core::uint32_t Index, const size_t FieldOffset, char8_t * Value, const size_t Length)
+const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetChars(const Elysium::Core::uint32_t Index, const Elysium::Core::size FieldOffset, char8_t * Value, const Elysium::Core::size Length)
 {
 	if (Index > _FieldCount)
 	{
@@ -564,7 +564,7 @@ const Elysium::Core::String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNati
 		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetString");
 	case DBTYPE_STR:
 	{
-		size_t ResultLength = strlen((char*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue]);
+		Elysium::Core::size ResultLength = strlen((char*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue]);
 		return Elysium::Core::String((char8_t*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue], ResultLength);
 		//Value->assign(&_RowDataBuffer[_IndexBindingMap[Index]->obValue], &_RowDataBuffer[_IndexBindingMap[Index]->obValue] + ResultLength);
 		//break;
@@ -704,7 +704,7 @@ const bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::IsD
 	return (DBSTATUSENUM)((BYTE*)_RowDataBuffer)[_IndexBindingMap[Index]->obStatus] == DBSTATUS_S_ISNULL;
 }
 
-Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataReader(IRowset* NativeRowset, const size_t RowsAffected, const size_t FieldCount,
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataReader(IRowset* NativeRowset, const Elysium::Core::size RowsAffected, const Elysium::Core::size FieldCount,
 	const DBCOLUMNINFO* ColumnInfo, const wchar_t* ColumnNames)
 	: Elysium::Core::Data::Common::DbDataReader(0, FieldCount, RowsAffected),
 	_NativeRowset(NativeRowset), _ColumnInfo(ColumnInfo), _ColumnNames(ColumnNames)
@@ -712,7 +712,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 	HRESULT HResult;
 
 	// get the number of blob-fields
-	size_t NumberOfBlobFields = 0;
+	Elysium::Core::size NumberOfBlobFields = 0;
 	for (unsigned long i = 0; i < _FieldCount; i++)
 	{
 		if (_ColumnInfo[i].ulColumnSize > MSSQL_BLOB_SIZE || _ColumnInfo[i].wType == DBTYPE_IUNKNOWN)
@@ -748,7 +748,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 
 	// create the non-blob columns binding
 	unsigned long ColumnIndex = 0;
-	for (size_t i = 0; i < _FieldCount; i++)
+	for (Elysium::Core::size i = 0; i < _FieldCount; i++)
 	{
 		if (_ColumnInfo[i].ulColumnSize <= MSSQL_BLOB_SIZE && _ColumnInfo[i].wType != DBTYPE_IUNKNOWN)
 		{
@@ -782,7 +782,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::SqlNativeDataR
 
 	// create the blob columns binding
 	_NumberOfNonBlobFields == 0 ? ColumnIndex = 0 : ColumnIndex = 1;	// start at one because index zero points to the non-blob columns
-	for (size_t i = 0; i < _FieldCount; i++)
+	for (Elysium::Core::size i = 0; i < _FieldCount; i++)
 	{
 		if (_ColumnInfo[i].ulColumnSize > MSSQL_BLOB_SIZE || _ColumnInfo[i].wType == DBTYPE_IUNKNOWN)
 		{

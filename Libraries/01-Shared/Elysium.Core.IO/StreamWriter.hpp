@@ -40,7 +40,7 @@ namespace Elysium::Core::IO
 
 		virtual void Flush() override;
 
-		virtual void Write(const byte* Value, const size_t Length) override;
+		virtual void Write(const byte* Value, const Elysium::Core::size Length) override;
 	private:
 		Stream& _OutputStream;
 		const Elysium::Core::Text::Encoding& _Encoding;

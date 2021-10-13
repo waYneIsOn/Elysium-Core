@@ -67,28 +67,28 @@ namespace UnitTests::Core::Text
 			// ASCII
 			{
 				Elysium::Core::String Input = Elysium::Core::String(256);
-				for (size_t i = 0; i < Input.GetLength(); ++i)
+				for (Elysium::Core::size i = 0; i < Input.GetLength(); ++i)
 				{
 					Input[i] = static_cast<char>(i);
 				}
 
 				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = ASCIIEncoding.GetBytes(&Input[0], Input.GetLength());
-				for (size_t i = 0; i < 128; ++i)
+				for (Elysium::Core::size i = 0; i < 128; ++i)
 				{
 					Assert::AreEqual((int)Bytes[i], (int)i);
 				}
-				for (size_t i = 128; i < 256; ++i)
+				for (Elysium::Core::size i = 128; i < 256; ++i)
 				{
 					Assert::AreEqual((int)Bytes[i], 0x3F);
 				}
 
 				Elysium::Core::String Output = ASCIIEncoding.GetString(&Bytes[0], Bytes.GetLength());
 				Assert::AreEqual(Input.GetLength(), Output.GetLength());
-				for (size_t i = 0; i < 128; ++i)
+				for (Elysium::Core::size i = 0; i < 128; ++i)
 				{
 					Assert::AreEqual(Input[i], Output[i]);
 				}
-				for (size_t i = 128; i < 256; ++i)
+				for (Elysium::Core::size i = 128; i < 256; ++i)
 				{
 					Assert::AreEqual(static_cast<char8_t>(0x3F), Output[i]);
 				}
@@ -102,7 +102,7 @@ namespace UnitTests::Core::Text
 
 				// UTF-8
 				{
-					Assert::AreEqual(static_cast<size_t>(13), Input.GetLength());
+					Assert::AreEqual(static_cast<Elysium::Core::size>(13), Input.GetLength());
 
 					Assert::AreEqual(static_cast<const char8_t>(0x24), Input[0]);
 
@@ -123,8 +123,8 @@ namespace UnitTests::Core::Text
 					Assert::AreEqual(static_cast<const char8_t>(0xB9), Input[12]);
 
 					Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = UTF8Encoding.GetBytes(&Input[0], Input.GetLength());
-					Assert::AreEqual(static_cast<size_t>(Input.GetLength()), Bytes.GetLength());
-					for (size_t i = 0; i < Bytes.GetLength(); ++i)
+					Assert::AreEqual(static_cast<Elysium::Core::size>(Input.GetLength()), Bytes.GetLength());
+					for (Elysium::Core::size i = 0; i < Bytes.GetLength(); ++i)
 					{
 						Assert::AreEqual(static_cast<Elysium::Core::byte>(Input[i]), Bytes[i]);
 					}
@@ -161,7 +161,7 @@ namespace UnitTests::Core::Text
 
 			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
 			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
-			for (size_t i = 0; i < Bytes.GetLength(); i++)
+			for (Elysium::Core::size i = 0; i < Bytes.GetLength(); i++)
 			{
 				Assert::AreEqual(Bytes[i], ResultingBytes[i]);
 			}
@@ -186,7 +186,7 @@ namespace UnitTests::Core::Text
 
 			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
 			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
-			for (size_t i = 0; i < Bytes.GetLength(); i++)
+			for (Elysium::Core::size i = 0; i < Bytes.GetLength(); i++)
 			{
 				byte Expected = Bytes[i];
 				byte Actual = ResultingBytes[i];

@@ -47,9 +47,9 @@ namespace Elysium::Core::Data
 	public:
 		virtual ~IDataReader() {}
 
-		virtual const size_t GetDepth() const = 0;
+		virtual const Elysium::Core::size GetDepth() const = 0;
 		virtual const bool GetIsClosed() const = 0;
-		virtual const size_t GetRecordsAffected() const = 0;
+		virtual const Elysium::Core::size GetRecordsAffected() const = 0;
 
 		virtual void Close() = 0;
 		//virtual const Elysium::Core::Data::DataTable GetSchemaTable() = 0;

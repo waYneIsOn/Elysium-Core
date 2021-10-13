@@ -1,6 +1,6 @@
 #include "DbParameterCollection.hpp"
 
-const size_t Elysium::Core::Data::Common::DbParameterCollection::GetCount() const
+const Elysium::Core::size Elysium::Core::Data::Common::DbParameterCollection::GetCount() const
 {
 	return _InternalVector.size();
 }
@@ -21,22 +21,22 @@ bool Elysium::Core::Data::Common::DbParameterCollection::Contains(const IDataPar
 {
 	return false;
 }
-const size_t Elysium::Core::Data::Common::DbParameterCollection::IndexOf(const IDataParameter & Item) const
+const Elysium::Core::size Elysium::Core::Data::Common::DbParameterCollection::IndexOf(const IDataParameter & Item) const
 {
 	return 0;
 }
-void Elysium::Core::Data::Common::DbParameterCollection::Insert(size_t Index, const IDataParameter & Item)
+void Elysium::Core::Data::Common::DbParameterCollection::Insert(Elysium::Core::size Index, const IDataParameter & Item)
 {
 }
 bool Elysium::Core::Data::Common::DbParameterCollection::Remove(const IDataParameter & Item)
 {
 	return false;
 }
-void Elysium::Core::Data::Common::DbParameterCollection::RemoveAt(size_t Index)
+void Elysium::Core::Data::Common::DbParameterCollection::RemoveAt(Elysium::Core::size Index)
 {
 }
 
-Elysium::Core::Data::IDataParameter & Elysium::Core::Data::Common::DbParameterCollection::operator[](size_t Index) const
+Elysium::Core::Data::IDataParameter & Elysium::Core::Data::Common::DbParameterCollection::operator[](Elysium::Core::size Index) const
 {
 	return *(Elysium::Core::Data::IDataParameter*)_InternalVector.at(Index);
 }

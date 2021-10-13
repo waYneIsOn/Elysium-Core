@@ -15,7 +15,7 @@ namespace UnitTests::Core::IO
 	public:
 		TEST_METHOD(ReadUsingBufferLargerThanInternal)
 		{
-			const size_t BufferSize = 8192;
+			const Elysium::Core::size BufferSize = 8192;
 			byte Buffer[BufferSize];
 
 			ReadSomeFile(&Buffer[0], BufferSize);
@@ -23,22 +23,22 @@ namespace UnitTests::Core::IO
 
 		TEST_METHOD(ReadUsingBufferSmallerThanInternal)
 		{
-			const size_t BufferSize = 2048;
+			const Elysium::Core::size BufferSize = 2048;
 			byte Buffer[BufferSize];
 
 			ReadSomeFile(&Buffer[0], BufferSize);
 		}
 	private:
-		void ReadSomeFile(byte* Buffer, const size_t Count)
+		void ReadSomeFile(byte* Buffer, const Elysium::Core::size Count)
 		{
 			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None);
 			StreamReader Reader = StreamReader(SourceStream, Encoding::UTF8(), false, -1, true);
 
-			const size_t TotalBytesToRead = SourceStream.GetLength();
-			size_t TotalBytesRead = 0;
+			const Elysium::Core::size TotalBytesToRead = SourceStream.GetLength();
+			Elysium::Core::size TotalBytesRead = 0;
 			do
 			{
-				const size_t BytesRead = Reader.Read((char8_t*)Buffer, Count);
+				const Elysium::Core::size BytesRead = Reader.Read((char8_t*)Buffer, Count);
 				if (BytesRead == 0)
 				{	// this shouldn't happen in the middle of reading a filestream
 					break;

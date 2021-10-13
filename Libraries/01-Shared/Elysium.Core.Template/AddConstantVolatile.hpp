@@ -29,13 +29,13 @@ namespace Elysium::Core::Template::TypeTraits
     template <class T>
     struct AddConstantVolatile
     {
-        using Type = Conditional<IsConstant<T>::Value,
-            Conditional<IsVolatile<T>::Value, T, volatile T>,
-            Conditional<IsVolatile<T>::Value, const T, const volatile T>
-        >::Type;
+        using Type = Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsConstant<T>::Value,
+            Elysium::Core::Template::TypeTraits::Conditional<Elysium::Core::Template::TypeTraits::IsVolatile<T>::Value, T, volatile T>,
+            Elysium::Core::Template::TypeTraits::Conditional<Elysium::Core::Template::TypeTraits::IsVolatile<T>::Value, const T, const volatile T>
+        >;
     };
 
     template <class T>
-    using AddConstantVolatileType = typename AddConstantVolatile<T>::Type;
+    using AddConstantVolatileType = typename Elysium::Core::Template::TypeTraits::AddConstantVolatile<T>::Type;
 }
 #endif

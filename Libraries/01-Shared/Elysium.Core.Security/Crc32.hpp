@@ -37,7 +37,7 @@ namespace Elysium::Core::Security::Cryptography::Checksum
 		Crc32& operator=(const Crc32& Other) = delete;
 		Crc32& operator=(Crc32&& Right) noexcept = delete;
 
-		static const Elysium::Core::uint32_t CalculateBytewise(const Elysium::Core::byte* Data, const size_t Length);
+		static const Elysium::Core::uint32_t CalculateBytewise(const Elysium::Core::byte* Data, const Elysium::Core::size Length);
 	private:
 		// Todd K. Moon, "Error Correction Coding. Mathematical Methods and Algorithms", Wiley, 2005, ISBN 0-471-64800-0
 		inline static const Elysium::Core::uint32_t _LookupTable[] =

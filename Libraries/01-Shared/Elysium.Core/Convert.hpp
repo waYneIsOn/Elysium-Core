@@ -104,7 +104,7 @@ namespace Elysium::Core
 		static Elysium::Core::Collections::Template::List<Elysium::Core::byte> FromBase64String(const String& Base64String);
 		static Elysium::Core::String ToBase64String(const Elysium::Core::byte* Bytes, const Elysium::Core::uint32_t Length);
 
-		static Elysium::Core::int32_t ToInt32(const char8_t* Value, const size_t Length, const Elysium::Core::uint8_t FromBase);
+		static Elysium::Core::int32_t ToInt32(const char8_t* Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase);
 		static Elysium::Core::int32_t ToInt32(const Elysium::Core::String& Value, const Elysium::Core::uint8_t FromBase);
 		static Elysium::Core::int32_t ToInt32(const Elysium::Core::StringView& Value, const Elysium::Core::uint8_t FromBase);
 
@@ -115,12 +115,12 @@ namespace Elysium::Core
 		static float ToSingle(const char8_t* Value);
 		static float ToSingle(const Elysium::Core::String& Value);
 	private:
-		static const String _Base64Chars;
+		inline static const String _Base64Chars = u8"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-		static const Elysium::Core::int32_t ToInt32FromBase10(const char8_t* Value, const size_t Length);
-		static const Elysium::Core::int32_t ToInt32FromBase16(const char8_t* Value, const size_t Length);
+		static const Elysium::Core::int32_t ToInt32FromBase10(const char8_t* Value, const Elysium::Core::size Length);
+		static const Elysium::Core::int32_t ToInt32FromBase16(const char8_t* Value, const Elysium::Core::size Length);
 
-		static const Elysium::Core::uint32_t ToUInt32FromBase10(const char8_t* Value, const size_t Length);
+		static const Elysium::Core::uint32_t ToUInt32FromBase10(const char8_t* Value, const Elysium::Core::size Length);
 
 		static bool IsBase64(const char8_t Char);
 	};

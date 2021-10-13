@@ -101,7 +101,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(Collections::Template::Arr
 			DangerousMakeTwosComplement(Value);	// mutates Value
 
 			// pack _bits to remove any wasted space after the twos complement
-			size_t Length = Value.GetLength();
+			Elysium::Core::size Length = Value.GetLength();
 			while (Length > 0 && Value[Length - 1] == 0) 
 			{
 				Length--;
@@ -487,7 +487,7 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	Elysium::Core::uint32_t xExtend = _Sign < 0 ? Elysium::Core::UInt32::GetMaxValue() : 0;
 	Elysium::Core::uint32_t yExtend = Right._Sign < 0 ? Elysium::Core::UInt32::GetMaxValue() : 0;
 
-	for (size_t i = 0; i < z.GetLength(); i++)
+	for (Elysium::Core::size i = 0; i < z.GetLength(); i++)
 	{
 		Elysium::Core::uint32_t xu = i < x.GetLength() ? x[i] : xExtend;
 		Elysium::Core::uint32_t yu = i < y.GetLength() ? y[i] : yExtend;

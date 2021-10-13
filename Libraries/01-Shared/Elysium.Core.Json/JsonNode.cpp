@@ -6,7 +6,7 @@
 
 Elysium::Core::Json::JsonNode::~JsonNode()
 {
-	for (size_t i = 0; i < _Children.GetCount(); i++)
+	for (Elysium::Core::size i = 0; i < _Children.GetCount(); i++)
 	{
 		delete _Children.operator[](i);
 	}
@@ -23,12 +23,12 @@ const Elysium::Core::Json::JsonNode * Elysium::Core::Json::JsonNode::GetParentNo
 	return _ParentNode;
 }
 
-const size_t Elysium::Core::Json::JsonNode::GetChildCount()
+const Elysium::Core::size Elysium::Core::Json::JsonNode::GetChildCount()
 {
 	return _Children.GetCount();
 }
 
-Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonNode::GetChild(size_t Index)
+Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonNode::GetChild(Elysium::Core::size Index)
 {
 	if (Index > _Children.GetCount())
 	{

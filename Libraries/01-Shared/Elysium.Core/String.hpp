@@ -17,15 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "System.hpp"
-#endif
-
-#if defined(ELYSIUM_CORE_OS_ANDROID)
-#define char8_t char	// ToDo: remove as soon as it's possible to make use of c++ on android through vs
 #endif
 
 namespace Elysium::Core
@@ -55,9 +51,9 @@ namespace Elysium::Core
 		using ConstCharacterReference = const char8_t&;
 	public:
 		String();
-		String(const size_t Length);
+		String(const Elysium::Core::size Length);
 		String(ConstCharacterPointer Value);
-		String(ConstCharacterPointer Value, const size_t Length);
+		String(ConstCharacterPointer Value, const Elysium::Core::size Length);
 		String(const String& Source);
 		String(String&& Right) noexcept;
 		~String();
@@ -73,22 +69,22 @@ namespace Elysium::Core
 		const bool operator<=(const String Other) const;
 		const bool operator>=(const String& Other) const;
 
-		CharacterReference operator[](const size_t Index);
-		ConstCharacterReference operator[](const size_t Index) const;
+		CharacterReference operator[](const Elysium::Core::size Index);
+		ConstCharacterReference operator[](const Elysium::Core::size Index) const;
 
 		const Elysium::Core::int32_t GetHashCode() const;
-		const size_t GetLength() const;
+		const Elysium::Core::size GetLength() const;
 		
-		const size_t IndexOf(ConstCharacter Value) const;
-		const size_t IndexOf(ConstCharacter Value, const size_t StartIndex) const;
-		const size_t IndexOf(ConstCharacterPointer Value) const;
-		const size_t IndexOf(ConstCharacterPointer Value, const size_t StartIndex) const;
-		const size_t IndexOf(const String& Value, const size_t StartIndex) const;
+		const Elysium::Core::size IndexOf(ConstCharacter Value) const;
+		const Elysium::Core::size IndexOf(ConstCharacter Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size IndexOf(ConstCharacterPointer Value) const;
+		const Elysium::Core::size IndexOf(ConstCharacterPointer Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size IndexOf(const String& Value, const Elysium::Core::size StartIndex) const;
 
-		const size_t LastIndexOf(ConstCharacter Value) const;
-		const size_t LastIndexOf(ConstCharacterPointer Value) const;
-		const size_t LastIndexOf(ConstCharacterPointer Value, const size_t StartIndex) const;
-		const size_t LastIndexOf(const String& Value, const size_t StartIndex) const;
+		const Elysium::Core::size LastIndexOf(ConstCharacter Value) const;
+		const Elysium::Core::size LastIndexOf(ConstCharacterPointer Value) const;
+		const Elysium::Core::size LastIndexOf(ConstCharacterPointer Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size LastIndexOf(const String& Value, const Elysium::Core::size StartIndex) const;
 
 		//List<String> Split(const char8_t Delimiter) const;
 
@@ -101,14 +97,14 @@ namespace Elysium::Core
 
 		//Collections::Template::String Replace(const char8_t OldCharacter, const char8_t NewCharacter);
 
-		String Substring(const size_t StartIndex) const;
-		String Substring(const size_t StartIndex, const size_t Length) const;
+		String Substring(const Elysium::Core::size StartIndex) const;
+		String Substring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
 
 		//String ToLower();
 		//String ToUpper();
 
-		//String UnsafeSubstring(const size_t StartIndex) const;
-		//String UnsafeSubstring(const size_t StartIndex, const size_t Length) const;
+		//String UnsafeSubstring(const Elysium::Core::size StartIndex) const;
+		//String UnsafeSubstring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
 		
 		static const String Empty;
 		static const Character NullTerminationChar = u8'\0';
@@ -117,7 +113,7 @@ namespace Elysium::Core
 		static const bool IsEmpty(const String& Value);
 		static const bool IsNullOrEmtpy(const String& Value);
 	private:
-		size_t _Length;
+		Elysium::Core::size _Length;
 		CharacterPointer _Data;
 	};
 }

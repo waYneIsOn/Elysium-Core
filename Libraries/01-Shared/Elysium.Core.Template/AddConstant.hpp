@@ -25,7 +25,7 @@ namespace Elysium::Core::Template::TypeTraits
     template <class T>
     struct AddConstant
     {
-        using Type = Conditional<IsConstant<T>::Value, T, const T>::Type;
+        using Type = Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsConstant<T>::Value, T, const T>;
     };
 
     template <class T>

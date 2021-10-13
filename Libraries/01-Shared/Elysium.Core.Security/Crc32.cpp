@@ -4,7 +4,7 @@
 #include "../Elysium.Core/ArgumentNullException.hpp"
 #endif
 
-const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::Checksum::Crc32::CalculateBytewise(const Elysium::Core::byte* Data, const size_t Length)
+const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::Checksum::Crc32::CalculateBytewise(const Elysium::Core::byte* Data, const Elysium::Core::size Length)
 {
 	if (Data == nullptr)
 	{
@@ -19,7 +19,7 @@ const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::Checksum::C
 	// Todd K. Moon, "Error Correction Coding. Mathematical Methods and Algorithms", Wiley, 2005, ISBN 0-471-64800-0
 	Elysium::Core::uint32_t Checksum = 0xFFFFFFFF;
 	Elysium::Core::uint32_t LookupTableIndex;
-	for (size_t i = 0; i < Length; ++i)
+	for (Elysium::Core::size i = 0; i < Length; ++i)
 	{
 		LookupTableIndex = (Data[i] ^ Checksum) & 0xFF;
 		Checksum = (Checksum >> 8) ^ _LookupTable[LookupTableIndex];

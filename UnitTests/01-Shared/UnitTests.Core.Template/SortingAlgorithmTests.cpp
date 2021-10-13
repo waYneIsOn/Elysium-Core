@@ -40,7 +40,7 @@ namespace UnitTests::Core::Template::Algorithms
 		{
 			byte UnsortedData[4];
 
-			// test function with signature "const T First, const size_t Count"
+			// test function with signature "const T First, const Elysium::Core::size Count"
 			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
 			BubbleSort(&UnsortedData[0], 4);
 
@@ -89,7 +89,7 @@ namespace UnitTests::Core::Template::Algorithms
 		{
 			byte UnsortedData[4];
 
-			// test function with signature "const T First, const size_t Count"
+			// test function with signature "const T First, const Elysium::Core::size Count"
 			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
 			QuickSort(&UnsortedData[0], 4);
 

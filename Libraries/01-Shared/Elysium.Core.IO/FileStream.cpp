@@ -75,7 +75,7 @@ const bool Elysium::Core::IO::FileStream::GetCanWrite() const
 	throw NotImplementedException();
 }
 
-const size_t Elysium::Core::IO::FileStream::GetLength() const
+const Elysium::Core::size Elysium::Core::IO::FileStream::GetLength() const
 {
 	LARGE_INTEGER Size;
 	if (!GetFileSizeEx(_FileHandle, &Size))
@@ -101,7 +101,7 @@ const Elysium::Core::uint32_t Elysium::Core::IO::FileStream::GetWriteTimeout() c
 	throw NotImplementedException();
 }
 
-void Elysium::Core::IO::FileStream::SetLength(const size_t Value)
+void Elysium::Core::IO::FileStream::SetLength(const Elysium::Core::size Value)
 {
 	throw NotImplementedException();
 }
@@ -150,7 +150,7 @@ void Elysium::Core::IO::FileStream::Flush(const bool FlushToDisk)
 	}
 }
 
-const size_t Elysium::Core::IO::FileStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::IO::FileStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
 	LARGE_INTEGER InternalPosition = LARGE_INTEGER();
 	InternalPosition.QuadPart = Offset;
@@ -167,7 +167,7 @@ const size_t Elysium::Core::IO::FileStream::Seek(const Elysium::Core::int64_t Of
 	return _Position;
 }
 
-const size_t Elysium::Core::IO::FileStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::FileStream::Read(Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (Buffer == nullptr)
 	{
@@ -192,7 +192,7 @@ Elysium::Core::byte Elysium::Core::IO::FileStream::ReadByte()
 	return Result;
 }
 
-void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
+void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	if (Buffer == nullptr)
 	{

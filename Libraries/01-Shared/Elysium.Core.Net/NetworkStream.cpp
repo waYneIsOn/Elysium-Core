@@ -42,7 +42,7 @@ const bool Elysium::Core::Net::Sockets::NetworkStream::GetCanWrite() const
 	throw NotImplementedException();
 }
 
-const size_t Elysium::Core::Net::Sockets::NetworkStream::GetLength() const
+const Elysium::Core::size Elysium::Core::Net::Sockets::NetworkStream::GetLength() const
 {
 	throw NotImplementedException();
 }
@@ -67,7 +67,7 @@ const Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::Network
 	return _Socket;
 }
 
-void Elysium::Core::Net::Sockets::NetworkStream::SetLength(const size_t Value)
+void Elysium::Core::Net::Sockets::NetworkStream::SetLength(const Elysium::Core::size Value)
 {
 	throw NotImplementedException();
 }
@@ -98,12 +98,12 @@ void Elysium::Core::Net::Sockets::NetworkStream::Close()
 void Elysium::Core::Net::Sockets::NetworkStream::Flush()
 { }
 
-const size_t Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::Net::Sockets::NetworkStream::Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin)
 {
 	throw NotImplementedException();
 }
 
-const size_t Elysium::Core::Net::Sockets::NetworkStream::Read(Elysium::Core::byte* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::Net::Sockets::NetworkStream::Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	return _Socket.Receive(&Buffer[0], Count);
 }
@@ -111,14 +111,14 @@ const size_t Elysium::Core::Net::Sockets::NetworkStream::Read(Elysium::Core::byt
 Elysium::Core::byte Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
 {
 	byte Buffer;
-	size_t BytesRead = _Socket.Receive(&Buffer, 1);
+	Elysium::Core::size BytesRead = _Socket.Receive(&Buffer, 1);
 
 	return static_cast<int32_t>(Buffer);
 }
 
-void Elysium::Core::Net::Sockets::NetworkStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
+void Elysium::Core::Net::Sockets::NetworkStream::Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
-	size_t TotalBytesSent = 0;
+	Elysium::Core::size TotalBytesSent = 0;
 	while (TotalBytesSent < Count)
 	{
 		TotalBytesSent += _Socket.Send(&Buffer[TotalBytesSent], Count - TotalBytesSent);

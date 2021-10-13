@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
 #include "API.hpp"
 #endif
@@ -39,7 +43,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual int Seek(unsigned long Position);
 		virtual int Clear();
 		virtual int CompareData(void* Buffer);
-		virtual size_t Length();
+		virtual Elysium::Core::size Length();
 
 		virtual operator void* const();
 
@@ -59,7 +63,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	private:
 		unsigned long _ReferenceCounter = 0;
 		std::vector<BYTE> _Buffer;
-		size_t _CurrentPosition = 0;
+		Elysium::Core::size _CurrentPosition = 0;
 	};
 }
 #endif

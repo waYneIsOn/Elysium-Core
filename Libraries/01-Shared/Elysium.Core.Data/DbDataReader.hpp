@@ -30,16 +30,16 @@ namespace Elysium::Core::Data::Common
 		/// </summary>
 		virtual ~DbDataReader() {}
 
-		virtual const size_t GetDepth() const override;
-		virtual const size_t GetFieldCount() const;
+		virtual const Elysium::Core::size GetDepth() const override;
+		virtual const Elysium::Core::size GetFieldCount() const;
 
-		virtual const size_t GetRecordsAffected() const override;
+		virtual const Elysium::Core::size GetRecordsAffected() const override;
 
 		virtual const bool GetBoolean(const Elysium::Core::uint32_t Index) = 0;
 		virtual const Elysium::Core::byte GetByte(const Elysium::Core::uint32_t Index) = 0;
-		virtual const Elysium::Core::uint64_t GetBytes(const Elysium::Core::uint32_t Index, const size_t FieldOffset, byte* Value, const size_t Length) = 0;
+		virtual const Elysium::Core::uint64_t GetBytes(const Elysium::Core::uint32_t Index, const Elysium::Core::size FieldOffset, byte* Value, const Elysium::Core::size Length) = 0;
 		virtual const char8_t GetChar(const Elysium::Core::uint32_t Index) = 0;
-		virtual const Elysium::Core::uint64_t GetChars(const Elysium::Core::uint32_t Index, const size_t FieldOffset, char8_t* Value, const size_t Length) = 0;
+		virtual const Elysium::Core::uint64_t GetChars(const Elysium::Core::uint32_t Index, const Elysium::Core::size FieldOffset, char8_t* Value, const Elysium::Core::size Length) = 0;
 		virtual const Elysium::Core::DateTime GetDateTime(const Elysium::Core::uint32_t Index) = 0;
 		virtual const Elysium::Core::DateTimeOffset GetDateTimeOffset(const Elysium::Core::uint32_t Index) = 0;	// ToDo: think about whether we actually want that method for every reader (some dmbs do not support this type)
 		virtual const Elysium::Core::Decimal GetDecimal(const Elysium::Core::uint32_t Index) = 0;
@@ -58,12 +58,12 @@ namespace Elysium::Core::Data::Common
 
 		virtual const bool IsDBNull(const Elysium::Core::uint32_t Index) = 0;
 	protected:
-		DbDataReader(const size_t NumberOfRows, const size_t FieldCount, const size_t RecordsAffected);
+		DbDataReader(const Elysium::Core::size NumberOfRows, const Elysium::Core::size FieldCount, const Elysium::Core::size RecordsAffected);
 		DbDataReader();
 
-		size_t _NumberOfRows;
-		size_t _FieldCount;
-		size_t _RecordsAffected;
+		Elysium::Core::size _NumberOfRows;
+		Elysium::Core::size _FieldCount;
+		Elysium::Core::size _RecordsAffected;
 	};
 }
 #endif

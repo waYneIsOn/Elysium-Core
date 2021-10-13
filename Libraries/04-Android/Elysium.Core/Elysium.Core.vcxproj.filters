@@ -5,6 +5,5 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Elysium_Core.h" />
-    <ClInclude Include="pch.h" />
   </ItemGroup>
 </Project>

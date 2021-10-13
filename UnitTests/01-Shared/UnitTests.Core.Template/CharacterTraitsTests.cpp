@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/CharacterTraits.hpp"
 
 using namespace Elysium::Core;
@@ -15,21 +15,21 @@ namespace UnitTests::Core::Template::Text
 	public:
 		TEST_METHOD(StaticFields)
 		{
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<char>::MinimumByteLength);
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<signed char>::MinimumByteLength);
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<unsigned char>::MinimumByteLength);
-			Assert::AreEqual(static_cast<size_t>(2), CharacterTraits<wchar_t>::MinimumByteLength);
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<char8_t>::MinimumByteLength);
-			Assert::AreEqual(static_cast<size_t>(2), CharacterTraits<char16_t>::MinimumByteLength);
-			Assert::AreEqual(static_cast<size_t>(4), CharacterTraits<char32_t>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<char>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<signed char>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<unsigned char>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), CharacterTraits<wchar_t>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<char8_t>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), CharacterTraits<char16_t>::MinimumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), CharacterTraits<char32_t>::MinimumByteLength);
 
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<char>::MaximumByteLength);
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<signed char>::MaximumByteLength);
-			Assert::AreEqual(static_cast<size_t>(1), CharacterTraits<unsigned char>::MaximumByteLength);
-			Assert::AreEqual(static_cast<size_t>(4), CharacterTraits<wchar_t>::MaximumByteLength);
-			Assert::AreEqual(static_cast<size_t>(4), CharacterTraits<char8_t>::MaximumByteLength);
-			Assert::AreEqual(static_cast<size_t>(4), CharacterTraits<char16_t>::MaximumByteLength);
-			Assert::AreEqual(static_cast<size_t>(4), CharacterTraits<char32_t>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<char>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<signed char>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), CharacterTraits<unsigned char>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), CharacterTraits<wchar_t>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), CharacterTraits<char8_t>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), CharacterTraits<char16_t>::MaximumByteLength);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), CharacterTraits<char32_t>::MaximumByteLength);
 
 			Assert::AreEqual('\0', CharacterTraits<char>::NullTerminationCharacter);
 			Assert::AreEqual(static_cast<signed char>('\0'), CharacterTraits<signed char>::NullTerminationCharacter);
@@ -58,16 +58,16 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlChar)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char>::IsControl(i));
 			}
 			Assert::IsTrue(CharacterTraits<char>::IsControl(0x7F));
-			for (size_t i = 0x80; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0x80; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char>::IsControl(i));
 			}
@@ -75,16 +75,16 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlSignedChar)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<signed char>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<signed char>::IsControl(i));
 			}
 			Assert::IsTrue(CharacterTraits<char>::IsControl(0x7F));
-			for (size_t i = 0x80; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0x80; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<signed char>::IsControl(i));
 			}
@@ -92,19 +92,19 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlUnsignedChar)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<unsigned char>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<unsigned char>::IsControl(i));
 			}
-			for (size_t i = 0x7F; i < 0xA0; i++)
+			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
 				Assert::IsTrue(CharacterTraits<unsigned char>::IsControl(i));
 			}
-			for (size_t i = 0xA0; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<unsigned char>::IsControl(i));
 			}
@@ -112,19 +112,19 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlWideChar)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<wchar_t>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<wchar_t>::IsControl(i));
 			}
-			for (size_t i = 0x7F; i < 0xA0; i++)
+			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
 				Assert::IsTrue(CharacterTraits<wchar_t>::IsControl(i));
 			}
-			for (size_t i = 0xA0; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<wchar_t>::IsControl(i));
 			}
@@ -132,19 +132,19 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlUtf8Char)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char8_t>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char8_t>::IsControl(i));
 			}
-			for (size_t i = 0x7F; i < 0xA0; i++)
+			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char8_t>::IsControl(i));
 			}
-			for (size_t i = 0xA0; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char8_t>::IsControl(i));
 			}
@@ -152,19 +152,19 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlUtf16Char)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char16_t>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char16_t>::IsControl(i));
 			}
-			for (size_t i = 0x7F; i < 0xA0; i++)
+			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char16_t>::IsControl(i));
 			}
-			for (size_t i = 0xA0; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char16_t>::IsControl(i));
 			}
@@ -172,19 +172,19 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlUtf32Char)
 		{
-			for (size_t i = 0; i < 0x20; i++)
+			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char32_t>::IsControl(i));
 			}
-			for (size_t i = 0x20; i < 0x7F; i++)
+			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char32_t>::IsControl(i));
 			}
-			for (size_t i = 0x7F; i < 0xA0; i++)
+			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char32_t>::IsControl(i));
 			}
-			for (size_t i = 0xA0; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char32_t>::IsControl(i));
 			}
@@ -192,15 +192,15 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsDigitChar)
 		{
-			for (size_t i = 0x00; i < 0x30; i++)
+			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char>::IsDigit(i));
 			}
-			for (size_t i = 0x30; i < 0x3A; i++)
+			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char>::IsDigit(i));
 			}
-			for (size_t i = 0x3A; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char>::IsDigit(i));
 			}
@@ -208,15 +208,15 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsDigitSignedChar)
 		{
-			for (size_t i = 0x00; i < 0x30; i++)
+			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
 				Assert::IsFalse(CharacterTraits<signed char>::IsDigit(i));
 			}
-			for (size_t i = 0x30; i < 0x3A; i++)
+			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
 				Assert::IsTrue(CharacterTraits<signed char>::IsDigit(i));
 			}
-			for (size_t i = 0x3A; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<signed char>::IsDigit(i));
 			}
@@ -224,15 +224,15 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsDigitUnsignedChar)
 		{
-			for (size_t i = 0x00; i < 0x30; i++)
+			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
 				Assert::IsFalse(CharacterTraits<unsigned char>::IsDigit(i));
 			}
-			for (size_t i = 0x30; i < 0x3A; i++)
+			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
 				Assert::IsTrue(CharacterTraits<unsigned char>::IsDigit(i));
 			}
-			for (size_t i = 0x3A; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<unsigned char>::IsDigit(i));
 			}
@@ -255,15 +255,15 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsDigitUtf32Char)
 		{
-			for (size_t i = 0x00; i < 0x30; i++)
+			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(i));
 			}
-			for (size_t i = 0x30; i < 0x3A; i++)
+			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char32_t>::IsDigit(i));
 			}
-			for (size_t i = 0x3A; i <= 0xFF; i++)
+			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
 				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(i));
 			}

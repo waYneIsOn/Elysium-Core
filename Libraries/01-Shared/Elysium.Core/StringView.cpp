@@ -24,7 +24,7 @@ Elysium::Core::StringView::StringView(char8_t* Input)
 	: _Length(std::char_traits<char8_t>::length(Input)), _Data(Input)
 { }
 
-Elysium::Core::StringView::StringView(char8_t* Input, size_t Length)
+Elysium::Core::StringView::StringView(char8_t* Input, Elysium::Core::size Length)
 	: _Length(Length), _Data(Input)
 { }
 
@@ -32,11 +32,11 @@ Elysium::Core::StringView::StringView(const String& Input)
 	: _Length(Input.GetLength()), _Data((char8_t*)&Input[0])
 { }
 
-Elysium::Core::StringView::StringView(const String& Input, size_t Length)
+Elysium::Core::StringView::StringView(const String& Input, Elysium::Core::size Length)
 	: _Length(Length), _Data((char8_t*)&Input[0])
 { }
 
-Elysium::Core::StringView::StringView(const String& Input, size_t Offset, size_t Length)
+Elysium::Core::StringView::StringView(const String& Input, Elysium::Core::size Offset, Elysium::Core::size Length)
 	: _Length(Length), _Data((char8_t*)&Input[Offset])
 { }
 
@@ -76,7 +76,7 @@ Elysium::Core::StringView& Elysium::Core::StringView::operator=(StringView&& Rig
 	return *this;
 }
 
-char8_t& Elysium::Core::StringView::operator[](size_t Index)
+char8_t& Elysium::Core::StringView::operator[](Elysium::Core::size Index)
 {
 	if (Index >= _Length)
 	{
@@ -85,7 +85,7 @@ char8_t& Elysium::Core::StringView::operator[](size_t Index)
 	return _Data[Index];
 }
 
-const char8_t& Elysium::Core::StringView::operator[](size_t Index) const
+const char8_t& Elysium::Core::StringView::operator[](Elysium::Core::size Index) const
 {
 	if (Index >= _Length)
 	{
@@ -158,7 +158,7 @@ const bool Elysium::Core::StringView::operator==(const String& Other) const
 		return false;
 	}
 
-	for (size_t i = 0; i < _Length; i++)
+	for (Elysium::Core::size i = 0; i < _Length; i++)
 	{
 		if (_Data[i] != Other[i])
 		{
@@ -169,31 +169,31 @@ const bool Elysium::Core::StringView::operator==(const String& Other) const
 	return true;
 }
 
-const size_t Elysium::Core::StringView::GetLength() const
+const Elysium::Core::size Elysium::Core::StringView::GetLength() const
 {
 	return _Length;
 }
 
-const size_t Elysium::Core::StringView::IndexOf(const char8_t Value) const
+const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t Value) const
 {
 	const char8_t* CharPointer = std::char_traits<char8_t>::find(_Data, _Length, Value);
-	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - _Data;
+	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - _Data;
 }
 
-const size_t Elysium::Core::StringView::IndexOf(const char8_t Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const
 {
 	const char8_t* CharPointer = std::char_traits<char8_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
-	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
+	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
 
-const size_t Elysium::Core::StringView::IndexOf(const char8_t* Value) const
+const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t* Value) const
 {
-	size_t Index = 0;
-	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
+	Elysium::Core::size Index = 0;
+	Elysium::Core::size SizeOfValue = std::char_traits<char8_t>::length(Value);
 	while (true)
 	{
-		size_t CurrentIndex = IndexOf(Value[0], Index);
-		if (CurrentIndex == static_cast<size_t>(-1))
+		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<Elysium::Core::size>(-1))
 		{
 			return CurrentIndex;
 		}
@@ -201,7 +201,7 @@ const size_t Elysium::Core::StringView::IndexOf(const char8_t* Value) const
 		Index += CurrentIndex;
 		if (Index + SizeOfValue > _Length)
 		{
-			return static_cast<size_t>(-1);
+			return static_cast<Elysium::Core::size>(-1);
 		}
 
 		bool Found = true;
@@ -222,14 +222,14 @@ const size_t Elysium::Core::StringView::IndexOf(const char8_t* Value) const
 	}
 }
 
-const size_t Elysium::Core::StringView::IndexOf(const char8_t* Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t* Value, const Elysium::Core::size StartIndex) const
 {
-	size_t Index = StartIndex;
-	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
+	Elysium::Core::size Index = StartIndex;
+	Elysium::Core::size SizeOfValue = std::char_traits<char8_t>::length(Value);
 	while (true)
 	{
-		size_t CurrentIndex = IndexOf(Value[0], Index);
-		if (CurrentIndex == static_cast<size_t>(-1))
+		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<Elysium::Core::size>(-1))
 		{
 			return CurrentIndex;
 		}
@@ -237,7 +237,7 @@ const size_t Elysium::Core::StringView::IndexOf(const char8_t* Value, const size
 		Index += CurrentIndex;
 		if (Index + SizeOfValue > _Length)
 		{
-			return static_cast<size_t>(-1);
+			return static_cast<Elysium::Core::size>(-1);
 		}
 
 		bool Found = true;
@@ -258,25 +258,25 @@ const size_t Elysium::Core::StringView::IndexOf(const char8_t* Value, const size
 	}
 }
 
-const size_t Elysium::Core::StringView::IndexOf(const String& Value, const size_t StartIndex) const
+const Elysium::Core::size Elysium::Core::StringView::IndexOf(const String& Value, const Elysium::Core::size StartIndex) const
 {
 	return IndexOf(Value[StartIndex]);
 }
 
-const size_t Elysium::Core::StringView::LastIndexOf(const char8_t* Value) const
+const Elysium::Core::size Elysium::Core::StringView::LastIndexOf(const char8_t* Value) const
 {	// ToDo
 	throw 1;
 }
 
 void Elysium::Core::StringView::Split(const char8_t Delimiter, Collections::Template::List<StringView>& Views) const
 {
-	size_t StartIndex = 0;
-	size_t Length = 0;
+	Elysium::Core::size StartIndex = 0;
+	Elysium::Core::size Length = 0;
 
 	while (true)
 	{
 		Length = IndexOf(Delimiter, StartIndex);
-		if (Length == static_cast<size_t>(-1))
+		if (Length == static_cast<Elysium::Core::size>(-1))
 		{
 			if (_Length - StartIndex > 0)
 			{
@@ -291,14 +291,14 @@ void Elysium::Core::StringView::Split(const char8_t Delimiter, Collections::Temp
 
 void Elysium::Core::StringView::Split(const char8_t* Delimiter, Collections::Template::List<StringView>& Views) const
 {
-	size_t DelimiterLength = std::char_traits<char8_t>::length(Delimiter);
-	size_t StartIndex = 0;
-	size_t Length = 0;
+	Elysium::Core::size DelimiterLength = std::char_traits<char8_t>::length(Delimiter);
+	Elysium::Core::size StartIndex = 0;
+	Elysium::Core::size Length = 0;
 
 	while (true)
 	{
 		Length = IndexOf(Delimiter, StartIndex);
-		if (Length == static_cast<size_t>(-1))
+		if (Length == static_cast<Elysium::Core::size>(-1))
 		{
 			if (_Length - StartIndex > 0)
 			{
@@ -311,12 +311,12 @@ void Elysium::Core::StringView::Split(const char8_t* Delimiter, Collections::Tem
 	}
 }
 
-Elysium::Core::StringView Elysium::Core::StringView::Substringview(const size_t StartIndex) const
+Elysium::Core::StringView Elysium::Core::StringView::Substringview(const Elysium::Core::size StartIndex) const
 {
 	return StringView(&_Data[StartIndex], _Length - StartIndex);
 }
 
-Elysium::Core::StringView Elysium::Core::StringView::Substringview(const size_t StartIndex, const size_t Length) const
+Elysium::Core::StringView Elysium::Core::StringView::Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const
 {
 	return StringView(&_Data[StartIndex], Length);
 }

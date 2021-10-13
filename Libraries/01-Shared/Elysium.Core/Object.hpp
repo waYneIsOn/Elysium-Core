@@ -135,7 +135,7 @@ namespace Elysium::Core
 	template<class T>
 	inline const Elysium::Core::Reflection::Type& Object::GetType()
 	{
-		const size_t TypeId = typeid(T).hash_code();
+		const Elysium::Core::size TypeId = typeid(T).hash_code();
 
 		// ToDo: lookup TypeId in AppDomain
 		//Elysium::Core::Reflection::AppDomain::GetCurrentDomain().
@@ -145,7 +145,7 @@ namespace Elysium::Core
 	template<class T>
 	inline const Elysium::Core::Reflection::Type& Object::GetType(const T Value)
 	{	
-		const size_t TypeId = typeid(Value).hash_code();
+		const Elysium::Core::size TypeId = typeid(Value).hash_code();
 
 		// ToDo: lookup TypeId in AppDomain
 		//Elysium::Core::Reflection::AppDomain::GetCurrentDomain().

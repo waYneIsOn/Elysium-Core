@@ -47,13 +47,13 @@ namespace Elysium::Core::IO
 
 		virtual const Elysium::Core::uint32_t Read() override;
 
-		virtual const size_t Read(char8_t* Buffer, const size_t Count) override;
+		virtual const Elysium::Core::size Read(char8_t* Buffer, const Elysium::Core::size Count) override;
 
 		virtual Elysium::Core::String ReadLine() override;
 
 		virtual Elysium::Core::String ReadToEnd() override;
 	private:
-		static const size_t DefaultBufferSize = 4096;
+		static const Elysium::Core::size DefaultBufferSize = 4096;
 
 		Stream& _InputStream;
 		Elysium::Core::Text::Encoding& _Encoding;
@@ -64,7 +64,7 @@ namespace Elysium::Core::IO
 		Elysium::Core::uint64_t _BufferWritingPosition;
 		Elysium::Core::uint64_t _BufferReadingPosition;
 
-		void FillBuffer(const size_t Count);
+		void FillBuffer(const Elysium::Core::size Count);
 
 		/// <summary>
 		/// Read the first few bytes to detect BOMs.

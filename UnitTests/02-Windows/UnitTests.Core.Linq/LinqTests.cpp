@@ -28,14 +28,14 @@ namespace UnitTestsCoreLinq
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
 
-			const size_t WhereCountResult = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count();
-			Assert::AreEqual((const size_t)2, WhereCountResult);
+			const Elysium::Core::size WhereCountResult = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Count();
+			Assert::AreEqual((const Elysium::Core::size)2, WhereCountResult);
 
 			const bool WhereContainsResult = PopulatedVector >> Where([](const int& x) -> bool { return x > 1; }) >> Contains(23);
 			Assert::AreEqual(false, WhereContainsResult);
 
 			const std::vector<int> WhereWhereResult = PopulatedVector >> Where([](const int x) -> bool { return x > 1; }) >> Where([](const int x) -> bool { return x < 3; });
-			Assert::AreEqual((size_t)1, WhereWhereResult.size());
+			Assert::AreEqual((Elysium::Core::size)1, WhereWhereResult.size());
 		}
 
 		TEST_METHOD(Core_Linq_Any)
@@ -76,13 +76,13 @@ namespace UnitTestsCoreLinq
 		TEST_METHOD(Core_Linq_Count)
 		{
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
-			Assert::AreEqual((size_t)3, PopulatedVector >> Count());
+			Assert::AreEqual((Elysium::Core::size)3, PopulatedVector >> Count());
 
 			int PopulatedArray[] = { 3, 2, 1 };
-			Assert::AreEqual((size_t)3, PopulatedArray >> Count());
+			Assert::AreEqual((Elysium::Core::size)3, PopulatedArray >> Count());
 
 			std::vector<int> EmptyVector = std::vector<int>();
-			Assert::AreEqual((size_t)0, EmptyVector >> Count());
+			Assert::AreEqual((Elysium::Core::size)0, EmptyVector >> Count());
 		}
 
 		TEST_METHOD(Core_Linq_Where)
@@ -90,7 +90,7 @@ namespace UnitTestsCoreLinq
 			std::vector<int> PopulatedVector = { 1, 2, 3 };
 			std::vector<int> Result = PopulatedVector >> Where([](const int x) -> bool { return x > 1; });
 
-			Assert::AreEqual((size_t)2, Result.size());
+			Assert::AreEqual((Elysium::Core::size)2, Result.size());
 			Assert::AreEqual(2, Result[0]);
 			Assert::AreEqual(3, Result[1]);
 		}

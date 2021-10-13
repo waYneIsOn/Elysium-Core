@@ -31,21 +31,21 @@ namespace UnitTests::Core::IO
 			// use the same stream to read from the file (in a single command)
 			InputOutputStream.SetPosition(0);
 			byte DataToRead[30];
-			size_t BytesRead = InputOutputStream.Read(&DataToRead[0], 30);
-			Assert::AreEqual((size_t)9, BytesRead);
+			Elysium::Core::size BytesRead = InputOutputStream.Read(&DataToRead[0], 30);
+			Assert::AreEqual((Elysium::Core::size)9, BytesRead);
 			InputOutputStream.Close();
 
 			// check the written data by using another stream (reading multiple times)
 			memset(&DataToRead[0], 0x00, 9);
 			FileStream OutputStream = FileStream(u8"FS1.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
 			BytesRead = OutputStream.Read(&DataToRead[0], 4);
-			Assert::AreEqual((size_t)4, BytesRead);
+			Assert::AreEqual((Elysium::Core::size)4, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[4], 4);
-			Assert::AreEqual((size_t)4, BytesRead);
+			Assert::AreEqual((Elysium::Core::size)4, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[8], 1);
-			Assert::AreEqual((size_t)1, BytesRead);
+			Assert::AreEqual((Elysium::Core::size)1, BytesRead);
 			BytesRead = OutputStream.Read(&DataToRead[10], 20);
-			Assert::AreEqual((size_t)0, BytesRead);
+			Assert::AreEqual((Elysium::Core::size)0, BytesRead);
 			Assert::AreEqual((byte)'s', DataToRead[0]);
 			Assert::AreEqual((byte)'o', DataToRead[1]);
 			Assert::AreEqual((byte)'m', DataToRead[2]);
@@ -60,13 +60,13 @@ namespace UnitTests::Core::IO
 			OutputStream.SetPosition(0);
 			MemoryStream DestinationStream = MemoryStream();
 			OutputStream.CopyTo(DestinationStream);
-			Assert::AreEqual((size_t)9, DestinationStream.GetLength());
+			Assert::AreEqual((Elysium::Core::size)9, DestinationStream.GetLength());
 
 			// read from memory stream to make sure all bytes were written correctly
 			memset(&DataToRead[0], 0x00, 9);
 			DestinationStream.SetPosition(0);
 			BytesRead = DestinationStream.Read(&DataToRead[0], 9);
-			Assert::AreEqual((size_t)9, BytesRead);
+			Assert::AreEqual((Elysium::Core::size)9, BytesRead);
 			Assert::AreEqual((byte)'s', DataToRead[0]);
 			Assert::AreEqual((byte)'o', DataToRead[1]);
 			Assert::AreEqual((byte)'m', DataToRead[2]);

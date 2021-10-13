@@ -32,7 +32,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Reverse.hpp"
 #endif
 
-constexpr const size_t ARRAY_MAX = static_cast<size_t>(-1);
+constexpr const Elysium::Core::size ARRAY_MAX = static_cast<Elysium::Core::size>(-1);
 
 namespace Elysium::Core::Collections::Template
 {
@@ -40,8 +40,8 @@ namespace Elysium::Core::Collections::Template
 	class Array final
 	{
 	public:
-		Array(const size_t Length, const bool PerformMemoryClear = false);
-		Array(const T* Begin, const size_t Length);
+		Array(const Elysium::Core::size Length, const bool PerformMemoryClear = false);
+		Array(const T* Begin, const Elysium::Core::size Length);
 		Array(const Elysium::Core::Template::Container::InitializerList<T> InitializerList);
 		Array(const Array<T>& Source);
 		Array(Array<T>&& Right) noexcept;
@@ -53,25 +53,25 @@ namespace Elysium::Core::Collections::Template
 		Array<T>& operator=(Array<T>&& Right) noexcept;
 		Array<T>& operator=(List<T>&& Right) noexcept;
 
-		T& operator[](const size_t Index);
-		const T& operator[](const size_t Index) const;
+		T& operator[](const Elysium::Core::size Index);
+		const T& operator[](const Elysium::Core::size Index) const;
 
-		const size_t GetLength() const;
+		const Elysium::Core::size GetLength() const;
 
-		static void Clear(T* Array, const size_t Length);
+		static void Clear(T* Array, const Elysium::Core::size Length);
 
-		static void Copy(const T* Source, T* Destination, const size_t Length);
+		static void Copy(const T* Source, T* Destination, const Elysium::Core::size Length);
 
-		static void Move(T* Source, T* Destination, const size_t Length);
+		static void Move(T* Source, T* Destination, const Elysium::Core::size Length);
 
 		static void Reverse(Array<T>& Array);
 	private:
-		size_t _Length;
+		Elysium::Core::size _Length;
 		T* _Data;
 	};
 
 	template<class T>
-	inline Array<T>::Array(const size_t Length, const bool PerformMemoryClear)
+	inline Array<T>::Array(const Elysium::Core::size Length, const bool PerformMemoryClear)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
 		if (PerformMemoryClear && _Data != nullptr)
@@ -80,10 +80,10 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline Array<T>::Array(const T* Begin, const size_t Length)
+	inline Array<T>::Array(const T* Begin, const Elysium::Core::size Length)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
-		for (size_t i = 0; i < _Length; i++)
+		for (Elysium::Core::size i = 0; i < _Length; i++)
 		{
 			_Data[i] = Begin[i];
 		}
@@ -92,7 +92,7 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(const Elysium::Core::Template::Container::InitializerList<T> InitializerList)
 		: _Length(InitializerList.size()), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
-		size_t Index = 0;
+		Elysium::Core::size Index = 0;
 		const T* Iterator = InitializerList.begin();
 		const T* LastElement = InitializerList.end();
 		for (; Iterator != LastElement; ++Iterator)
@@ -106,7 +106,7 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(const Array<T>& Source)
 		: _Length(Source._Length), _Data(Source._Length == 0 ? nullptr : new T[_Length])
 	{
-		for (size_t i = 0; i < _Length; i++)
+		for (Elysium::Core::size i = 0; i < _Length; i++)
 		{
 			_Data[i] = Source._Data[i];
 		}
@@ -121,7 +121,7 @@ namespace Elysium::Core::Collections::Template
 	inline Array<T>::Array(const List<T>& Source)
 		: _Length(Source._Count), _Data(Source._Count == 0 ? nullptr : new T[_Length])
 	{
-		for (size_t i = 0; i < _Length; i++)
+		for (Elysium::Core::size i = 0; i < _Length; i++)
 		{
 			_Data[i] = Source._Data[i];
 		}
@@ -154,7 +154,7 @@ namespace Elysium::Core::Collections::Template
 
 			_Length = Source._Length;
 			_Data = _Length == 0 ? nullptr : new T[_Length];
-			for (size_t i = 0; i < _Length; i++)
+			for (Elysium::Core::size i = 0; i < _Length; i++)
 			{
 				_Data[i] = Source._Data[i];
 			}
@@ -200,7 +200,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline T& Array<T>::operator[](const size_t Index)
+	inline T& Array<T>::operator[](const Elysium::Core::size Index)
 	{
 		if (Index >= _Length)
 		{
@@ -211,7 +211,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline const T& Array<T>::operator[](const size_t Index) const
+	inline const T& Array<T>::operator[](const Elysium::Core::size Index) const
 	{
 		if (Index >= _Length)
 		{
@@ -222,29 +222,29 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline const size_t Array<T>::GetLength() const
+	inline const Elysium::Core::size Array<T>::GetLength() const
 	{
 		return _Length;
 	}
 
 	template<class T>
-	inline void Array<T>::Clear(T* Array, const size_t Length)
+	inline void Array<T>::Clear(T* Array, const Elysium::Core::size Length)
 	{
-		std::memset(Array, 0, Length);
+		memset(Array, 0, Length);
 	}
 
 	template<class T>
-	inline void Array<T>::Copy(const T* Source, T* Destination, const size_t Length)
+	inline void Array<T>::Copy(const T* Source, T* Destination, const Elysium::Core::size Length)
 	{
-		for (size_t i = 0; i < Length; i++)
+		for (Elysium::Core::size i = 0; i < Length; i++)
 		{
 			Destination[i] = Source[i];
 		}
 	}
 	template<class T>
-	inline void Array<T>::Move(T* Source, T* Destination, const size_t Length)
+	inline void Array<T>::Move(T* Source, T* Destination, const Elysium::Core::size Length)
 	{
-		for (size_t i = 0; i < Length; i++)
+		for (Elysium::Core::size i = 0; i < Length; i++)
 		{
 			Destination[i] = Elysium::Core::Template::Functional::Move(Source[i]);
 		}

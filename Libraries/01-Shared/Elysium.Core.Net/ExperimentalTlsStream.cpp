@@ -56,7 +56,7 @@ const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetCanWrite() co
 	return _InnerStream.GetCanWrite();
 }
 
-const size_t Elysium::Core::Net::Security::ExperimentalTlsStream::GetLength()  const
+const Elysium::Core::size Elysium::Core::Net::Security::ExperimentalTlsStream::GetLength()  const
 {
 	return _InnerStream.GetLength();
 }
@@ -82,7 +82,7 @@ const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetIsSigned() co
 	return false;
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::SetLength(const size_t Value)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::SetLength(const Elysium::Core::size Value)
 {
 	_InnerStream.SetLength(Value);
 }
@@ -102,12 +102,12 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::Flush()
 	_InnerStream.Flush();
 }
 
-const size_t Elysium::Core::Net::Security::ExperimentalTlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::Net::Security::ExperimentalTlsStream::Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin)
 {
 	return _InnerStream.Seek(Offset, Origin);
 }
 
-const size_t Elysium::Core::Net::Security::ExperimentalTlsStream::Read(Elysium::Core::byte* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::Net::Security::ExperimentalTlsStream::Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	return _InnerStream.Read(Buffer, Count);
 }
@@ -117,7 +117,7 @@ Elysium::Core::byte Elysium::Core::Net::Security::ExperimentalTlsStream::ReadByt
 	return _InnerStream.ReadByte();
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	_InnerStream.Write(Buffer, Count);
 }
@@ -139,7 +139,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 {
 	// pre-calculate message size
 	const Collections::Template::Array<TlsCipherSuite>& CipherSuites = _AuthenticationOptions.GetAllowedCipherSuites();
-	const size_t NumberOfCipherSuites = CipherSuites.GetLength();
+	const Elysium::Core::size NumberOfCipherSuites = CipherSuites.GetLength();
 	
 	uint16_t HandshakeSize = 0;
 	HandshakeSize += 2;	// client version
@@ -188,7 +188,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 	_InnerStream.WriteByte(static_cast<byte>(_SessionId.GetLength()));
 	_InnerStream.Write(&_SessionId[0], _SessionId.GetLength());
 	_InnerStream.Write(&CipherSuitesLength[0], CipherSuitesLength.GetLength());
-	for (size_t i = 0; i < NumberOfCipherSuites; i++)
+	for (Elysium::Core::size i = 0; i < NumberOfCipherSuites; i++)
 	{
 		Collections::Template::Array<byte> CipherSuite = BitConverter::GetBytes(static_cast<uint16_t>(CipherSuites[i]));
 		if (BitConverter::GetIsLittleEndian())
@@ -211,11 +211,11 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
 	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
-	const size_t RecordBufferLength = RecordBuffer.GetLength();
-	size_t TotalBytesRead = 0;
+	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
@@ -228,7 +228,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 	TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
@@ -266,11 +266,11 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
 	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
-	const size_t RecordBufferLength = RecordBuffer.GetLength();
-	size_t TotalBytesRead = 0;
+	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
@@ -283,7 +283,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 	TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
@@ -302,7 +302,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 		const uint32_t CertificatesLength = BitConverter::ToUInt24(&ContentBuffer[4]);
 
 		Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection ServerCertificates = Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection();
-		size_t CertificateBytesRead = 0;
+		Elysium::Core::size CertificateBytesRead = 0;
 		do
 		{
 			const uint32_t CertificateLength = BitConverter::ToUInt24(&ContentBuffer[CertificateBytesRead + 7]);
@@ -314,7 +314,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 
 		/*
 		const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate* ServerCertificate;
-		const size_t NumberOfServerCertificates = ServerCertificates.GetCount();
+		const Elysium::Core::size NumberOfServerCertificates = ServerCertificates.GetCount();
 		switch (NumberOfServerCertificates)
 		{
 		case 0:
@@ -348,11 +348,11 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
 	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
-	const size_t RecordBufferLength = RecordBuffer.GetLength();
-	size_t TotalBytesRead = 0;
+	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
@@ -365,7 +365,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 	TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
@@ -425,11 +425,11 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
 	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
-	const size_t RecordBufferLength = RecordBuffer.GetLength();
-	size_t TotalBytesRead = 0;
+	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&RecordBuffer[TotalBytesRead], RecordBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
@@ -442,7 +442,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 	TotalBytesRead = 0;
 	do
 	{
-		size_t BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
+		Elysium::Core::size BytesRead = _InnerStream.Read(&ContentBuffer[TotalBytesRead], ContentBuffer.GetLength() - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 

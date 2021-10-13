@@ -39,7 +39,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				{
 					std::unique_ptr<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
 					DropDatabaseCommand->SetCommandText(u8"DROP DATABASE IF EXISTS Test");
-					size_t Result = DropDatabaseCommand->ExecuteNonQuery();
+					Elysium::Core::size Result = DropDatabaseCommand->ExecuteNonQuery();
 				}
 				catch (SqlNativeException&)
 				{
@@ -49,7 +49,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				// create test database
 				std::unique_ptr<IDbCommand> CreateDatabaseCommand = Connection.CreateCommand();
 				CreateDatabaseCommand->SetCommandText(u8"If(db_id(N'Test') IS NULL) CREATE DATABASE Test ON (NAME = Test_dat, FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.MSSQLSERVER\\MSSQL\\DATA\\Test.mdf', SIZE = 10, MAXSIZE = 500, FILEGROWTH = 5) LOG ON (NAME = Test_log, FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.MSSQLSERVER\\MSSQL\\DATA\\Test.ldf', SIZE = 5MB, MAXSIZE = 250MB, FILEGROWTH = 5MB)");
-				size_t Result = CreateDatabaseCommand->ExecuteNonQuery();
+				Elysium::Core::size Result = CreateDatabaseCommand->ExecuteNonQuery();
 
 				// create the test table that we will be using
 				std::unique_ptr<IDbCommand> CreateTableCommand = Connection.CreateCommand();
@@ -76,7 +76,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				// delete test database
 				std::unique_ptr<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
 				DropDatabaseCommand->SetCommandText(u8"DROP DATABASE IF EXISTS Test");
-				size_t Result = DropDatabaseCommand->ExecuteNonQuery();
+				Elysium::Core::size Result = DropDatabaseCommand->ExecuteNonQuery();
 
 				Connection.Close();
 			}
@@ -647,7 +647,7 @@ private:
 			Assert::AreEqual(u8'a', CharValues[0]);
 			AvailableBytes = Reader->GetChars(6, 0, nullptr, 0);
 			CharValues = String(AvailableBytes);
-			AvailableBytes = Reader->GetChars(6, 0, &CharValues[0], (size_t)AvailableBytes);
+			AvailableBytes = Reader->GetChars(6, 0, &CharValues[0], (Elysium::Core::size)AvailableBytes);
 			Assert::AreEqual(u8'a', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(6));
 			Assert::IsTrue(Reader->IsDBNull(7));
@@ -779,7 +779,7 @@ private:
 			// image
 			AvailableBytes = Reader->GetBytes(32, 0, nullptr, 0);
 			BytesValue = List<byte>(AvailableBytes);
-			AvailableBytes = Reader->GetBytes(32, 0, &BytesValue[0], (size_t)AvailableBytes);
+			AvailableBytes = Reader->GetBytes(32, 0, &BytesValue[0], (Elysium::Core::size)AvailableBytes);
 			Assert::IsFalse(Reader->IsDBNull(32));
 			Assert::IsTrue(Reader->IsDBNull(33));
 

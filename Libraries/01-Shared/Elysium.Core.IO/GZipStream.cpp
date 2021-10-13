@@ -73,7 +73,7 @@ const bool Elysium::Core::IO::Compression::GZipStream::GetCanWrite() const
 	return _CompressionMode == CompressionMode::Compress && _BaseStream.GetCanWrite();
 }
 
-const size_t Elysium::Core::IO::Compression::GZipStream::GetLength() const
+const Elysium::Core::size Elysium::Core::IO::Compression::GZipStream::GetLength() const
 {	// ToDo: message
 	throw NotSupportedException();
 }
@@ -93,7 +93,7 @@ const Elysium::Core::uint32_t Elysium::Core::IO::Compression::GZipStream::GetWri
 	return 0;
 }
 
-void Elysium::Core::IO::Compression::GZipStream::SetLength(const size_t Value)
+void Elysium::Core::IO::Compression::GZipStream::SetLength(const Elysium::Core::size Value)
 {	// ToDo: message
 	throw NotSupportedException();
 }
@@ -109,12 +109,12 @@ void Elysium::Core::IO::Compression::GZipStream::Close()
 void Elysium::Core::IO::Compression::GZipStream::Flush()
 { }
 
-const size_t Elysium::Core::IO::Compression::GZipStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::IO::Compression::GZipStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {	// ToDo: message
 	throw NotSupportedException();
 }
 
-const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (_CompressionMode != CompressionMode::Decompress)
 	{
@@ -124,7 +124,7 @@ const size_t Elysium::Core::IO::Compression::GZipStream::Read(Elysium::Core::byt
 	// read header and footer if it hasn't been done so far
 	if (!_HasReadHeaderAndFooter)
 	{
-		size_t BytesRead;
+		Elysium::Core::size BytesRead;
 		_BaseStream.SetPosition(0);
 
 		// make sure, we're actually working with gzip-compressed data (check of ID1 and ID2)
@@ -250,7 +250,7 @@ Elysium::Core::byte Elysium::Core::IO::Compression::GZipStream::ReadByte()
 	return _DeflateStream.ReadByte();
 }
 
-void Elysium::Core::IO::Compression::GZipStream::Write(const Elysium::Core::byte * Buffer, const size_t Count)
+void Elysium::Core::IO::Compression::GZipStream::Write(const Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (_CompressionMode != CompressionMode::Compress)
 	{	// ToDo: message

@@ -54,7 +54,7 @@ Elysium::Core::Text::Encoding::Encoding(const Elysium::Core::uint32_t CodePage)
 /*
 void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 {
-	throw NotImplementedException(u8"size_t Elysium::Core::Text::Encoding::GetBytes(String & Input, size_t CharIndex, size_t CharCount, byte * Output)");
+	throw NotImplementedException(u8"Elysium::Core::size Elysium::Core::Text::Encoding::GetBytes(String & Input, Elysium::Core::size CharIndex, Elysium::Core::size CharCount, byte * Output)");
 }
 */
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Default()
@@ -90,7 +90,7 @@ Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32LE()
 	return _UTF32LE;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::Encoding::Convert(const Encoding & SourceEncoding, const Encoding & TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const size_t Index, const size_t Count)
+const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::Encoding::Convert(const Encoding & SourceEncoding, const Encoding & TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count)
 {
 	// ToDo
 	throw 1;

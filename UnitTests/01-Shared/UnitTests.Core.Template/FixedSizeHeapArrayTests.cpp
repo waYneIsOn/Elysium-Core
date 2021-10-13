@@ -3,7 +3,7 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/IndexOutOfRangeException.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/FixedSizeHeapArray.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Mallocator.hpp"
@@ -124,12 +124,12 @@ namespace UnitTests::Core::Template::Container
 
 		TEST_METHOD(IterationsThroughPopulated)
 		{
-			const size_t Length = 5;
+			const Elysium::Core::size Length = 5;
 			FixedSizeHeapArray<uint32_t, Length> Instance = { 0, 1, 2, 3, 4 };
 			Iterations<Length>(Instance);
 			/*
 			// iterate using index/operator
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
 			{
 				const uint32_t& Element = Instance[i];
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);
@@ -137,7 +137,7 @@ namespace UnitTests::Core::Template::Container
 			const FixedSizeHeapArray<uint32_t, Length>& ConstInstance = Instance;
 
 			// iterate using index/method
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
 			{
 				uint32_t& Element = Instance.GetAt(i);
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);
@@ -217,11 +217,11 @@ namespace UnitTests::Core::Template::Container
 			{ }
 		}
 	private:
-		template<const size_t Size>
+		template<const Elysium::Core::size Size>
 		void Iterations(FixedSizeHeapArray<uint32_t, Size>& Instance)
 		{
 			// iterate using index/operator
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
 			{
 				const uint32_t& Element = Instance[i];
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);
@@ -229,7 +229,7 @@ namespace UnitTests::Core::Template::Container
 			const FixedSizeHeapArray<uint32_t, Size>& ConstInstance = Instance;
 
 			// iterate using index/method
-			for (size_t i = 0; i < Instance.GetSize(); i++)
+			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
 			{
 				uint32_t& Element = Instance.GetAt(i);
 				Assert::AreEqual(static_cast<uint32_t>(i), Element);

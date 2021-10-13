@@ -78,7 +78,7 @@ namespace UnitTests::Core::Net::Sockets
 			try
 			{
 				byte Buffer[32];
-				const size_t BytesReceived = ClientSocket.Receive(&Buffer[0], 32);
+				const Elysium::Core::size BytesReceived = ClientSocket.Receive(&Buffer[0], 32);
 
 				Assert::Fail();
 			}

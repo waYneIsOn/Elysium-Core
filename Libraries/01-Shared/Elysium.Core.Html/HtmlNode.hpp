@@ -39,9 +39,9 @@ namespace Elysium::Core::Html
 		virtual const HtmlNodeType GetNodeType() const = 0;
 		virtual const HtmlNode* GetParentNode() const;
 
-		virtual const size_t GetChildCount();
+		virtual const Elysium::Core::size GetChildCount();
 
-		virtual HtmlNode& GetChild(size_t Index);
+		virtual HtmlNode& GetChild(Elysium::Core::size Index);
 		virtual void RemoveChild(HtmlNode& Node);
 
 		//virtual void WriteTo(HtmlWriter& Writer) const = 0;

@@ -196,7 +196,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 		throw Elysium::Core::SystemException();
 	}
 
-	size_t i = 0;
+	Elysium::Core::size i = 0;
 	do
 	{
 		i++;
@@ -272,7 +272,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 		throw Elysium::Core::SystemException();
 	}
 
-	size_t i = 0;
+	Elysium::Core::size i = 0;
 	do
 	{
 		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(&ProcessEntry.szExeFile[0]));

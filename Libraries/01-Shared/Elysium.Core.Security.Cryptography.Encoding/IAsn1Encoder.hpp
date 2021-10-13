@@ -39,19 +39,19 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 		virtual void Encode(const Asn1Length& Length, Elysium::Core::IO::Stream& TargetStream) = 0;
 
 		/*
-		virtual Asn1Length DecodeLength(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1Length DecodeLength(const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length) = 0;
 		virtual Asn1Length DecodeLength(IO::Stream& InputStream) = 0;
 
-		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length) = 0;
 		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length) = 0;
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length) = 0;
 		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length) = 0;
+		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length) = 0;
 		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 		*/
 	};

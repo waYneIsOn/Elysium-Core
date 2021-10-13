@@ -48,8 +48,8 @@ const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const E
 {
 	// ToDo: IPv6, long etc.
 
-	size_t StartIndexIpPart = 0;
-	size_t EndIndexIpPart = Value.IndexOf('.', StartIndexIpPart);
+	Elysium::Core::size StartIndexIpPart = 0;
+	Elysium::Core::size EndIndexIpPart = Value.IndexOf('.', StartIndexIpPart);
 	const Elysium::Core::uint8_t IpPart1 = Elysium::Core::Convert::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
 
 	StartIndexIpPart = EndIndexIpPart + 1;

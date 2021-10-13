@@ -27,7 +27,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Concepts::Pointer T, class Compare>
-	constexpr void BlockSort(const T First, const size_t Count, const Compare Comparer)
+	constexpr void BlockSort(const T First, const Elysium::Core::size Count, const Compare Comparer)
 	{
 		throw 1;
 	}
@@ -39,7 +39,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void BlockSort(const T First, const size_t Count)
+	constexpr void BlockSort(const T First, const Elysium::Core::size Count)
 	{
 		BlockSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 	}

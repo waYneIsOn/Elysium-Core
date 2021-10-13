@@ -41,7 +41,7 @@ namespace Elysium::Core::Net
 		SocketAddress& operator=(SocketAddress&& Right) noexcept = delete;
 
 		const Elysium::Core::Net::Sockets::AddressFamily GetFamily() const;
-		const Elysium::Core::byte& operator[](size_t Index) const;
+		const Elysium::Core::byte& operator[](Elysium::Core::size Index) const;
 		const Elysium::Core::uint8_t GetSize() const;
 	private:
 		SocketAddress(const IPAddress& Address);

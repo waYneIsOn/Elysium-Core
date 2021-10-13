@@ -69,7 +69,7 @@ const bool Elysium::Core::IO::Compression::DeflateStream::GetCanWrite() const
 	return _CompressionMode == CompressionMode::Compress && _BaseStream.GetCanWrite();
 }
 
-const size_t Elysium::Core::IO::Compression::DeflateStream::GetLength() const
+const Elysium::Core::size Elysium::Core::IO::Compression::DeflateStream::GetLength() const
 {	// ToDo
 	throw NotSupportedException();
 }
@@ -89,7 +89,7 @@ const Elysium::Core::uint32_t Elysium::Core::IO::Compression::DeflateStream::Get
 	return 0;
 }
 
-void Elysium::Core::IO::Compression::DeflateStream::SetLength(const size_t Value)
+void Elysium::Core::IO::Compression::DeflateStream::SetLength(const Elysium::Core::size Value)
 {	// ToDo
 	throw NotSupportedException();
 }
@@ -109,12 +109,12 @@ void Elysium::Core::IO::Compression::DeflateStream::Flush()
 	throw NotSupportedException();
 }
 
-const size_t Elysium::Core::IO::Compression::DeflateStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::IO::Compression::DeflateStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {	// ToDo
 	throw NotSupportedException();
 }
 
-const size_t Elysium::Core::IO::Compression::DeflateStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::Compression::DeflateStream::Read(Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (_CompressionMode != CompressionMode::Decompress)
 	{	// ToDo: message
@@ -291,7 +291,7 @@ Elysium::Core::byte Elysium::Core::IO::Compression::DeflateStream::ReadByte()
 	throw NotImplementedException();
 }
 
-void Elysium::Core::IO::Compression::DeflateStream::Write(const Elysium::Core::byte * Buffer, const size_t Count)
+void Elysium::Core::IO::Compression::DeflateStream::Write(const Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (_CompressionMode != CompressionMode::Compress)
 	{	// ToDo: message

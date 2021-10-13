@@ -62,7 +62,7 @@ namespace Elysium::Core::Collections::Template
 
 		void Insert(const TKey Key, const TValue Value, const bool Add);
 
-		void Resize(const size_t DesiredMinimumSize);
+		void Resize(const Elysium::Core::size DesiredMinimumSize);
 	};
 
 	template<class TKey, class TValue>
@@ -104,7 +104,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class TKey, class TValue>
-	inline void Dictionary<TKey, TValue>::Resize(const size_t DesiredMinimumSize)
+	inline void Dictionary<TKey, TValue>::Resize(const Elysium::Core::size DesiredMinimumSize)
 	{
 	}
 }

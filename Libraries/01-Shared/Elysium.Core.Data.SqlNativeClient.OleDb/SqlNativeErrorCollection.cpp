@@ -149,12 +149,12 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::~SqlNativ
 {
 }
 
-const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::operator[](size_t i) const
+const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::operator[](Elysium::Core::size i) const
 {
 	return _Errors.at(i);
 }
 
-const size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::GetCount() const
+const Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::GetCount() const
 {
 	return _Errors.size();
 }

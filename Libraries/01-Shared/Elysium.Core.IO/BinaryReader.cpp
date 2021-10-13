@@ -43,7 +43,7 @@ const Elysium::Core::byte Elysium::Core::IO::BinaryReader::ReadByte()
 	return _Buffer[0];
 }
 
-const size_t Elysium::Core::IO::BinaryReader::ReadBytes(Elysium::Core::byte* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::BinaryReader::ReadBytes(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	if (Buffer == nullptr)
 	{
@@ -55,10 +55,10 @@ const size_t Elysium::Core::IO::BinaryReader::ReadBytes(Elysium::Core::byte* Buf
 		return 0;
 	}
 
-	size_t TotalBytesRead = 0;
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		const size_t BytesRead = _InputStream.Read(&Buffer[TotalBytesRead], Count - TotalBytesRead);
+		const Elysium::Core::size BytesRead = _InputStream.Read(&Buffer[TotalBytesRead], Count - TotalBytesRead);
 		if (BytesRead == 0)
 		{
 			break;
@@ -129,7 +129,7 @@ const Elysium::Core::uint64_t Elysium::Core::IO::BinaryReader::ReadUInt64()
 	return static_cast<Elysium::Core::uint64_t>(High) << 32 | Low;
 }
 
-void Elysium::Core::IO::BinaryReader::FillBuffer(const size_t Count)
+void Elysium::Core::IO::BinaryReader::FillBuffer(const Elysium::Core::size Count)
 {
 	if (Count > _Buffer.GetLength())
 	{
@@ -143,10 +143,10 @@ void Elysium::Core::IO::BinaryReader::FillBuffer(const size_t Count)
 		return;
 	}
 
-	size_t TotalBytesRead = 0;
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		const size_t BytesRead = _InputStream.Read(&_Buffer[TotalBytesRead], Count - TotalBytesRead);
+		const Elysium::Core::size BytesRead = _InputStream.Read(&_Buffer[TotalBytesRead], Count - TotalBytesRead);
 		if (BytesRead == 0)
 		{
 			break;

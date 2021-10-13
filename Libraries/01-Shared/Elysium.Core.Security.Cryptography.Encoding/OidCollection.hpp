@@ -33,8 +33,8 @@ namespace Elysium::Core::Security::Cryptography
 		OidCollection& operator=(const OidCollection& Source) = delete;
 		OidCollection& operator=(OidCollection&& Right) noexcept = delete;
 	private:
-		size_t _Capacity;
-		size_t _Count;
+		Elysium::Core::size _Capacity;
+		Elysium::Core::size _Count;
 		Oid* _Data;
 	};
 }

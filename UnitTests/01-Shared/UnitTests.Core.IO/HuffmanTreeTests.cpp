@@ -254,7 +254,7 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 			};
 
 			String Input = u8">This is some< test הצ?`ßהצü.";
-			for (size_t i = 0; i < Input.GetLength(); i++)
+			for (Elysium::Core::size i = 0; i < Input.GetLength(); i++)
 			{
 				Elysium::Core::byte CurrentByte = Input[i];
 				SymbolFrequencies[CurrentByte].GetItem2()++;
@@ -263,8 +263,8 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 			TupleSymbolFrequencyComparer<Tuple, char8_t, int32_t> Comparer = TupleSymbolFrequencyComparer<Tuple, char8_t, int32_t>();
 			BubbleSort(&SymbolFrequencies[0], 255, Comparer);
 
-			size_t FirstSymbolWithFrequency = -1;
-			for (size_t i = 0; i < 255; i++)
+			Elysium::Core::size FirstSymbolWithFrequency = -1;
+			for (Elysium::Core::size i = 0; i < 255; i++)
 			{
 				if (SymbolFrequencies[i].GetItem2() > 0)
 				{

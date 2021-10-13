@@ -273,6 +273,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

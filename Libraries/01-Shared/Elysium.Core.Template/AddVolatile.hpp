@@ -25,7 +25,7 @@ namespace Elysium::Core::Template::TypeTraits
     template <class T>
     struct AddVolatile
     {
-        using Type = Conditional<IsVolatile<T>::Value, T, volatile T>::Type;
+        using Type = Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsVolatile<T>::Value, T, volatile T>;
     };
 
     template <class T>

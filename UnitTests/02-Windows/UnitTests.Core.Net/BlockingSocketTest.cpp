@@ -68,7 +68,7 @@ namespace UnitTests::Core::Net::Sockets
 			CheckRead[0] = &HttpClientSocket;
 			CheckRead[1] = &FtpClientSocket;
 			Socket::Select(&CheckRead, nullptr, nullptr, 1000000);
-			Assert::AreEqual((size_t)1, CheckRead.GetCount());
+			Assert::AreEqual((Elysium::Core::size)1, CheckRead.GetCount());
 			Assert::AreEqual((const void*)&FtpClientSocket, (const void*)CheckRead[0]);
 
 			HttpClientSocket.Shutdown(SocketShutdown::Both);
@@ -158,7 +158,7 @@ namespace UnitTests::Core::Net::Sockets
 			try
 			{
 				byte Buffer[32];
-				const size_t BytesReceived = ClientSocket.Receive(&Buffer[0], 32);
+				const Elysium::Core::size BytesReceived = ClientSocket.Receive(&Buffer[0], 32);
 
 				Assert::Fail();
 			}
@@ -268,7 +268,7 @@ namespace UnitTests::Core::Net::Sockets
 			Socket& Socket = AsyncResult->GetSocket();
 
 			SocketError ErrorCode = SocketError::Success;
-			const size_t BytesReceived = Socket.EndReceive(Result, ErrorCode);
+			const Elysium::Core::size BytesReceived = Socket.EndReceive(Result, ErrorCode);
 
 			// signal that all bytes have been retrieved
 			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
@@ -280,7 +280,7 @@ namespace UnitTests::Core::Net::Sockets
 			Socket& Socket = AsyncResult->GetSocket();
 
 			SocketError ErrorCode = SocketError::Success;
-			const size_t BytesSent = Socket.EndSend(Result, ErrorCode);
+			const Elysium::Core::size BytesSent = Socket.EndSend(Result, ErrorCode);
 
 			// signal that all bytes have been sent
 			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();

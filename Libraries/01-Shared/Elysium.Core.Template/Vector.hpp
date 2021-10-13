@@ -86,7 +86,7 @@ namespace Elysium::Core::Template::Container
 		/// 
 		/// </summary>
 		/// <param name="Capacity"></param>
-		Vector(const size_t Capacity);
+		Vector(const Elysium::Core::size Capacity);
 
 		/// <summary>
 		/// 
@@ -130,25 +130,25 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Index">The zero-based index of the element to get.</param>
 		/// <returns></returns>
-		ConstReference operator[](const size_t Index) const;
+		ConstReference operator[](const Elysium::Core::size Index) const;
 
 		/// <summary>
 		/// Gets the maximum size the internal data structure can hold.
 		/// </summary>
 		/// <returns></returns>
-		static constexpr const size_t GetMaximumSize();
+		static constexpr const Elysium::Core::size GetMaximumSize();
 
 		/// <summary>
 		/// Gets the total number of elements the internal data structure can hold without resizing.
 		/// </summary>
 		/// <returns></returns>
-		constexpr const size_t GetCapacity() const noexcept;
+		constexpr const Elysium::Core::size GetCapacity() const noexcept;
 
 		/// <summary>
 		/// Gets the number of elements contained in the list.
 		/// </summary>
 		/// <returns></returns>
-		constexpr const size_t GetSize() const noexcept;
+		constexpr const Elysium::Core::size GetSize() const noexcept;
 
 		/// <summary>
 		/// Gets the internal data structure.
@@ -167,14 +167,14 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Index"></param>
 		/// <returns></returns>
-		Reference GetAt(const size_t Index);
+		Reference GetAt(const Elysium::Core::size Index);
 
 		/// <summary>
 		/// Gets the element at the specified index while checking boundaries.
 		/// </summary>
 		/// <param name="Index"></param>
 		/// <returns></returns>
-		ConstReference GetAt(const size_t Index) const;
+		ConstReference GetAt(const Elysium::Core::size Index) const;
 
 		/// <summary>
 		/// Returns a forward-iterator pointing towards the first element.
@@ -229,7 +229,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <param name="Length"></param>
-		void Assign(ConstValue Value, const size_t Length);
+		void Assign(ConstValue Value, const Elysium::Core::size Length);
 
 		/// <summary>
 		/// Calls destructor for all contained items and sets size to zero. (Does not cause reallocation.)
@@ -241,7 +241,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <param name="Index"></param>
-		void Insert(ConstValue Value, const size_t Index);
+		void Insert(ConstValue Value, const Elysium::Core::size Index);
 
 		/// <summary>
 		/// 
@@ -261,14 +261,14 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Source"></param>
 		/// <param name="FirstIndex"></param>
 		/// <param name="Length"></param>
-		void PushBackRange(const Vector<T>& Source, const size_t FirstIndex, const size_t Length);
+		void PushBackRange(const Vector<T>& Source, const Elysium::Core::size FirstIndex, const Elysium::Core::size Length);
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="FirstItem"></param>
 		/// <param name="Length"></param>
-		void PushBackRange(ConstPointer FirstItem, const size_t Length);
+		void PushBackRange(ConstPointer FirstItem, const Elysium::Core::size Length);
 
 		/// <summary>
 		/// Removes last item. (Does not cause reallocation.)
@@ -279,7 +279,7 @@ namespace Elysium::Core::Template::Container
 		/// 
 		/// </summary>
 		/// <param name="DesiredCapacity"></param>
-		void Reserve(const size_t DesiredCapacity);
+		void Reserve(const Elysium::Core::size DesiredCapacity);
 
 		/// <summary>
 		/// 
@@ -288,11 +288,11 @@ namespace Elysium::Core::Template::Container
 	private:
 		inline static Allocator _Allocator = Allocator();
 	private:
-		size_t _Capacity;
-		size_t _Size;
+		Elysium::Core::size _Capacity;
+		Elysium::Core::size _Size;
 		Pointer _Data;
 	private:
-		const size_t CalculateCapacityGrowth(const size_t DesiredCapacity);
+		const Elysium::Core::size CalculateCapacityGrowth(const Elysium::Core::size DesiredCapacity);
 	};
 
 	template<Concepts::NonConstant T, class Allocator>
@@ -301,7 +301,7 @@ namespace Elysium::Core::Template::Container
 	{ }
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Vector(const size_t Capacity)
+	inline Vector<T, Allocator>::Vector(const Elysium::Core::size Capacity)
 		: _Capacity(Capacity), _Size(0), _Data(_Allocator.Allocate(_Capacity))
 	{ }
 
@@ -370,25 +370,25 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::ConstReference Vector<T, Allocator>::operator[](const size_t Index) const
+	inline Vector<T, Allocator>::ConstReference Vector<T, Allocator>::operator[](const Elysium::Core::size Index) const
 	{
 		return _Data[Index];
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline constexpr const size_t Vector<T, Allocator>::GetMaximumSize()
+	inline constexpr const Elysium::Core::size Vector<T, Allocator>::GetMaximumSize()
 	{
-		return static_cast<size_t>(-1) / sizeof(T);
+		return static_cast<Elysium::Core::size>(-1) / sizeof(T);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline constexpr const size_t Vector<T, Allocator>::GetCapacity() const noexcept
+	inline constexpr const Elysium::Core::size Vector<T, Allocator>::GetCapacity() const noexcept
 	{
 		return _Capacity;
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline constexpr const size_t Vector<T, Allocator>::GetSize() const noexcept
+	inline constexpr const Elysium::Core::size Vector<T, Allocator>::GetSize() const noexcept
 	{
 		return _Size;
 	}
@@ -406,7 +406,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Reference Vector<T, Allocator>::GetAt(const size_t Index)
+	inline Vector<T, Allocator>::Reference Vector<T, Allocator>::GetAt(const Elysium::Core::size Index)
 	{
 		if (Index >= _Size)
 		{
@@ -417,7 +417,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::ConstReference Vector<T, Allocator>::GetAt(const size_t Index) const
+	inline Vector<T, Allocator>::ConstReference Vector<T, Allocator>::GetAt(const Elysium::Core::size Index) const
 	{
 		if (Index >= _Size)
 		{
@@ -476,15 +476,15 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::Assign(ConstValue Value, const size_t Length)
+	inline void Vector<T, Allocator>::Assign(ConstValue Value, const Elysium::Core::size Length)
 	{
-		const size_t RequiredSize = _Size + Length;
+		const Elysium::Core::size RequiredSize = _Size + Length;
 		if (RequiredSize > _Capacity)
 		{
 			Reserve(CalculateCapacityGrowth(RequiredSize));
 		}
 
-		for (size_t i = 0; i < Length; i++)
+		for (Elysium::Core::size i = 0; i < Length; i++)
 		{
 			_Data[_Size++] = Value;
 		}
@@ -493,7 +493,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, class Allocator>
 	inline void Vector<T, Allocator>::Clear()
 	{
-		for (size_t i = 0; i < _Size; i++)
+		for (Elysium::Core::size i = 0; i < _Size; i++)
 		{
 			_Data[i].~T();
 		}
@@ -513,7 +513,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::Insert(ConstValue Value, const size_t Index)
+	inline void Vector<T, Allocator>::Insert(ConstValue Value, const Elysium::Core::size Index)
 	{
 		/*
 		if (_Size == _Capacity)
@@ -548,21 +548,21 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::PushBackRange(const Vector<T>& Source, const size_t FirstIndex, const size_t Length)
+	inline void Vector<T, Allocator>::PushBackRange(const Vector<T>& Source, const Elysium::Core::size FirstIndex, const Elysium::Core::size Length)
 	{
 		PushBackRange(&Source[FirstIndex], Length);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::PushBackRange(ConstPointer FirstItem, const size_t Length)
+	inline void Vector<T, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::size Length)
 	{
-		const size_t RequiredSize = _Size + Length;
+		const Elysium::Core::size RequiredSize = _Size + Length;
 		if (RequiredSize > _Capacity)
 		{
 			Reserve(CalculateCapacityGrowth(RequiredSize));
 		}
 
-		for (size_t i = 0; i < Length; i++)
+		for (Elysium::Core::size i = 0; i < Length; i++)
 		{
 			_Data[_Size++] = FirstItem[i];
 		}
@@ -578,7 +578,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::Reserve(const size_t DesiredCapacity)
+	inline void Vector<T, Allocator>::Reserve(const Elysium::Core::size DesiredCapacity)
 	{
 		if (DesiredCapacity > _Capacity)
 		{
@@ -613,9 +613,9 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline const size_t Vector<T, Allocator>::CalculateCapacityGrowth(const size_t DesiredCapacity)
+	inline const Elysium::Core::size Vector<T, Allocator>::CalculateCapacityGrowth(const Elysium::Core::size DesiredCapacity)
 	{
-		constexpr const size_t MaximumSize = GetMaximumSize();
+		constexpr const Elysium::Core::size MaximumSize = GetMaximumSize();
 		if (_Capacity == MaximumSize)
 		{
 			// ToDo: throw specific exception (no more memory can be allocated!)
@@ -623,7 +623,7 @@ namespace Elysium::Core::Template::Container
 		}
 
 		constexpr const double GrowthFactor = 2;	// ToDo: check whether a growth factor of 1.5 would be better
-		size_t NewCapacity = _Capacity == 0 ? 1 : _Capacity * GrowthFactor;
+		Elysium::Core::size NewCapacity = _Capacity == 0 ? 1 : _Capacity * GrowthFactor;
 		while (NewCapacity < DesiredCapacity)
 		{
 			NewCapacity *= GrowthFactor;

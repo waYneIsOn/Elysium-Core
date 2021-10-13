@@ -27,18 +27,18 @@ namespace Elysium::Core::Data::Common
 	public:
 		virtual ~DbParameterCollection() {}
 
-		virtual const size_t GetCount() const override;
+		virtual const Elysium::Core::size GetCount() const override;
 		virtual const bool GetIsReadOnly()const  override;
 
 		virtual void Add(const IDataParameter& Item) override;
 		virtual void Clear() override;
 		virtual bool Contains(const IDataParameter& Item) const override;
-		virtual const size_t IndexOf(const IDataParameter& Item) const override;
-		virtual void Insert(const size_t Index, const IDataParameter& Item) override;
+		virtual const Elysium::Core::size IndexOf(const IDataParameter& Item) const override;
+		virtual void Insert(const Elysium::Core::size Index, const IDataParameter& Item) override;
 		virtual bool Remove(const IDataParameter& Item) override;
-		virtual void RemoveAt(const size_t Index) override;
+		virtual void RemoveAt(const Elysium::Core::size Index) override;
 
-		virtual IDataParameter& operator[](const size_t Index) const override;
+		virtual IDataParameter& operator[](const Elysium::Core::size Index) const override;
 	protected:
 		DbParameterCollection();
 	private:

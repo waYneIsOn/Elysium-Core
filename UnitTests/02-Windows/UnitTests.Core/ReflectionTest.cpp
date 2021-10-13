@@ -17,7 +17,7 @@ namespace UnitTests::Core
 		{
 			/*
 			const Elysium::Core::Reflection::Assembly& CoreAssembly = Elysium::Core::Reflection::Assembly::_RegisteredAssemblies[0];
-			size_t bla = Elysium::Core::Reflection::Assembly::_RegisteredAssemblies.GetCount();
+			Elysium::Core::size bla = Elysium::Core::Reflection::Assembly::_RegisteredAssemblies.GetCount();
 			Assert::AreEqual(0, (int)bla);
 			*/
 		}

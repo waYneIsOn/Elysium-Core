@@ -46,15 +46,15 @@ const Elysium::Core::uint32_t Elysium::Core::IO::StreamReader::Read()
 	//return _InputStream.ReadByte();
 }
 
-const size_t Elysium::Core::IO::StreamReader::Read(char8_t* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::StreamReader::Read(char8_t* Buffer, const Elysium::Core::size Count)
 {
-	const size_t InternalBufferSize = _Buffer.GetLength();
+	const Elysium::Core::size InternalBufferSize = _Buffer.GetLength();
 	if (Count > InternalBufferSize)
 	{	// in this case it makes sense to read directly into user-provided-buffer (ToDo: performance tests!)
 		if (_BufferReadingPosition < _BufferWritingPosition)
 		{	// there still is buffered data available ergo return before working with stream
-			const size_t BytesCopyable = InternalBufferSize - _BufferReadingPosition;
-			std::memcpy(Buffer, &_Buffer[_BufferReadingPosition], BytesCopyable);
+			const Elysium::Core::size BytesCopyable = InternalBufferSize - _BufferReadingPosition;
+			memcpy(Buffer, &_Buffer[_BufferReadingPosition], BytesCopyable);
 			_BufferReadingPosition = 0;
 			return BytesCopyable;
 		}
@@ -69,8 +69,8 @@ const size_t Elysium::Core::IO::StreamReader::Read(char8_t* Buffer, const size_t
 			FillBuffer(InternalBufferSize);
 		}
 
-		const size_t BytesCopyable = InternalBufferSize - _BufferReadingPosition;
-		std::memcpy(Buffer, &_Buffer[_BufferReadingPosition], BytesCopyable);
+		const Elysium::Core::size BytesCopyable = InternalBufferSize - _BufferReadingPosition;
+		memcpy(Buffer, &_Buffer[_BufferReadingPosition], BytesCopyable);
 
 		_BufferReadingPosition += BytesCopyable;
 		if (_BufferReadingPosition >= InternalBufferSize)
@@ -96,12 +96,12 @@ Elysium::Core::String Elysium::Core::IO::StreamReader::ReadToEnd()
 	throw NotImplementedException();
 }
 
-void Elysium::Core::IO::StreamReader::FillBuffer(const size_t Count)
+void Elysium::Core::IO::StreamReader::FillBuffer(const Elysium::Core::size Count)
 {
 	_BufferWritingPosition = 0;
 	do
 	{
-		const size_t BytesRead = _InputStream.Read(&_Buffer[_BufferWritingPosition], Count - _BufferWritingPosition);
+		const Elysium::Core::size BytesRead = _InputStream.Read(&_Buffer[_BufferWritingPosition], Count - _BufferWritingPosition);
 		if (BytesRead == 0)
 		{
 			break;

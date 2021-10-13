@@ -227,7 +227,7 @@ void Elysium::Core::Json::JsonWriter::ValidateAndSet(JsonWriter::JsonWriterState
 
 void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
 {
-	const size_t ValueLength = Value.GetLength();
+	const Elysium::Core::size ValueLength = Value.GetLength();
 	for (int i = 0; i < ValueLength; i++)
 	{
 		switch (Value[i])

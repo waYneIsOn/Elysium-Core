@@ -53,11 +53,11 @@ namespace Elysium::Core::IO
 
 		virtual void Write(const byte Value);
 
-		virtual void Write(const byte* Value, const size_t Count) = 0;
+		virtual void Write(const byte* Value, const Elysium::Core::size Count) = 0;
 
 		virtual void Write(const char8_t Value);
 
-		virtual void Write(const char8_t* Value, const size_t Count);
+		virtual void Write(const char8_t* Value, const Elysium::Core::size Count);
 
 		virtual void Write(const float Value);
 
@@ -84,11 +84,11 @@ namespace Elysium::Core::IO
 
 		virtual void WriteLine(const byte Value);
 
-		virtual void WriteLine(const byte* Value, const size_t Count);
+		virtual void WriteLine(const byte* Value, const Elysium::Core::size Count);
 
 		virtual void WriteLine(const char8_t Value);
 
-		virtual void WriteLine(const char8_t* Value, const size_t Count);
+		virtual void WriteLine(const char8_t* Value, const Elysium::Core::size Count);
 
 		virtual void WriteLine(const float Value);
 

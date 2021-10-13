@@ -125,7 +125,7 @@ void Elysium::Core::Version::Parse(const StringView & Input, Version & Result)
 	List<StringView> Numbers;
 	Input.Split(u8'.', Numbers);
 
-	const size_t NumberCount = Numbers.GetCount();
+	const Elysium::Core::size NumberCount = Numbers.GetCount();
 	if (NumberCount > 0)
 	{
 		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[0][0], Numbers[0].GetLength(), 10);

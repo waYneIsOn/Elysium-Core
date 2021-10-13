@@ -35,7 +35,7 @@ Elysium::Core::Json::JsonVisitor::JsonVisitor()
 
 Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonVisitor::VisitArray(JsonArray & Node)
 {
-	for (size_t i = 0; i < Node.GetChildCount(); i++)
+	for (Elysium::Core::size i = 0; i < Node.GetChildCount(); i++)
 	{
 		Visit(Node.GetChild(i));
 	}
@@ -43,7 +43,7 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonVisitor::VisitArray(Js
 }
 Elysium::Core::Json::JsonDocument & Elysium::Core::Json::JsonVisitor::VisitDocument(JsonDocument & Node)
 {
-	for (size_t i = 0; i < Node.GetChildCount(); i++)
+	for (Elysium::Core::size i = 0; i < Node.GetChildCount(); i++)
 	{
 		Visit(Node.GetChild(i));
 	}
@@ -51,7 +51,7 @@ Elysium::Core::Json::JsonDocument & Elysium::Core::Json::JsonVisitor::VisitDocum
 }
 Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonVisitor::VisitElement(JsonElement & Node)
 {
-	for (size_t i = 0; i < Node.GetChildCount(); i++)
+	for (Elysium::Core::size i = 0; i < Node.GetChildCount(); i++)
 	{
 		Visit(Node.GetChild(i));
 	}
@@ -59,7 +59,7 @@ Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonVisitor::VisitElemen
 }
 Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonVisitor::VisitObject(JsonObject & Node)
 {
-	for (size_t i = 0; i < Node.GetChildCount(); i++)
+	for (Elysium::Core::size i = 0; i < Node.GetChildCount(); i++)
 	{
 		Visit(Node.GetChild(i));
 	}

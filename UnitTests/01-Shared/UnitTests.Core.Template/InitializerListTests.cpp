@@ -14,7 +14,7 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(Constructors)
 		{
 			InitializerList<int32_t> Instance = { 02, 03, 01, 02 };
-			Assert::AreEqual(static_cast<size_t>(4), Instance.size());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.size());
 		}
 	};
 }

@@ -52,9 +52,9 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 
 		virtual const bool GetBoolean(const Elysium::Core::uint32_t Index) override;
 		virtual const Elysium::Core::byte GetByte(const Elysium::Core::uint32_t Index) override;
-		virtual const Elysium::Core::uint64_t GetBytes(const Elysium::Core::uint32_t Index, const size_t FieldOffset, byte* Value, const size_t Length) override;
+		virtual const Elysium::Core::uint64_t GetBytes(const Elysium::Core::uint32_t Index, const Elysium::Core::size FieldOffset, byte* Value, const Elysium::Core::size Length) override;
 		virtual const char8_t GetChar(const Elysium::Core::uint32_t Index) override;
-		virtual const Elysium::Core::uint64_t GetChars(const Elysium::Core::uint32_t Index, const size_t FieldOffset, char8_t* Value, const size_t Length) override;
+		virtual const Elysium::Core::uint64_t GetChars(const Elysium::Core::uint32_t Index, const Elysium::Core::size FieldOffset, char8_t* Value, const Elysium::Core::size Length) override;
 		virtual const Elysium::Core::DateTime GetDateTime(const Elysium::Core::uint32_t Index) override;
 		virtual const Elysium::Core::DateTimeOffset GetDateTimeOffset(const Elysium::Core::uint32_t Index) override;
 		virtual const Elysium::Core::Decimal GetDecimal(const Elysium::Core::uint32_t Index) override;
@@ -73,17 +73,17 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 
 		virtual const bool IsDBNull(const uint32_t Index) override;
 	private:
-		SqlNativeDataReader(IRowset* NativeRowset, const size_t RowsAffected, const size_t FieldCount, const DBCOLUMNINFO* ColumnInfo, const wchar_t* ColumnNames);
+		SqlNativeDataReader(IRowset* NativeRowset, const Elysium::Core::size RowsAffected, const Elysium::Core::size FieldCount, const DBCOLUMNINFO* ColumnInfo, const wchar_t* ColumnNames);
 
 		IRowset* _NativeRowset;
 		const DBCOLUMNINFO* _ColumnInfo = nullptr;
 		const wchar_t* _ColumnNames = nullptr;
 
-		size_t _NumberOfNonBlobFields;
-		size_t _NumberOfBuffers;
+		Elysium::Core::size _NumberOfNonBlobFields;
+		Elysium::Core::size _NumberOfBuffers;
 		std::vector<std::vector<DBBINDING>> _NativeDatabaseBindings;
 		std::vector<std::vector<DBBINDSTATUS>> _NativeDatabaseBindStatus;
-		std::map<size_t, DBBINDING*> _IndexBindingMap;
+		std::map<Elysium::Core::size, DBBINDING*> _IndexBindingMap;
 		std::map<int, int> _IndexBufferMap;
 
 		DBROWOFFSET _RowsetByteLength = 0;

@@ -18,26 +18,26 @@ namespace UnitTests::Core::Reflection
 		{
 			const AppDomain& CurrentAppDomain = AppDomain::GetCurrentDomain();
 			const Array<const Assembly*> Assemblies = CurrentAppDomain.GetAssemblies();
-			for (size_t a = 0; a < Assemblies.GetLength(); a++)
+			for (Elysium::Core::size a = 0; a < Assemblies.GetLength(); a++)
 			{
 				const Assembly& CurrentAssembly = *Assemblies[a];
 				const String& AssemblyFullName = CurrentAssembly.GetFullName();
 
 				const Array<const Module*> Modules = CurrentAssembly.GetModules();
-				for (size_t m = 0; m < Modules.GetLength(); m++)
+				for (Elysium::Core::size m = 0; m < Modules.GetLength(); m++)
 				{
 					const Module& CurrentModule = *Modules[m];
 					const String& ModuleName = CurrentModule.GetName();
 
 					const Array<const Type*> Types = CurrentModule.GetTypes();
-					for (size_t t = 0; t < Types.GetLength(); t++)
+					for (Elysium::Core::size t = 0; t < Types.GetLength(); t++)
 					{
 						const Type& CurrentType = *Types[t];
 						const String& TypeName = CurrentType.GetName();
 					}
 				}
 			}
-			Assert::AreEqual(static_cast<size_t>(2), Assemblies.GetLength());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), Assemblies.GetLength());
 		}
 	};
 }

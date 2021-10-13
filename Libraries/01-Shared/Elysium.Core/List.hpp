@@ -35,10 +35,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef _INC_STDIO
-#include <cstring>	// std::memcpy
+#include <cstring>	// memcpy
 #endif
 
-constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
+constexpr const Elysium::Core::size LIST_MAX = static_cast<Elysium::Core::size>(-1);
 
 namespace Elysium::Core::Collections::Template
 {
@@ -51,7 +51,7 @@ namespace Elysium::Core::Collections::Template
 		friend class Array<T>;
 	public:
 		List();
-		List(const size_t Capacity);
+		List(const Elysium::Core::size Capacity);
 		List(const Elysium::Core::Template::Container::InitializerList<T>& InitializerList);
 		List(const List<T>& Source);
 		List(List<T>&& Right) noexcept;
@@ -60,37 +60,37 @@ namespace Elysium::Core::Collections::Template
 		List<T>& operator=(const List<T>& Source);
 		List<T>& operator=(List<T>&& Right) noexcept;
 
-		T& operator[](const size_t Index);
-		const T& operator[](const size_t Index) const;
+		T& operator[](const Elysium::Core::size Index);
+		const T& operator[](const Elysium::Core::size Index) const;
 
-		const size_t GetCapacity() const;
-		const size_t GetCount() const;
+		const Elysium::Core::size GetCapacity() const;
+		const Elysium::Core::size GetCount() const;
 		const bool GetIsReadOnly() const;
 
-		void SetCapacity(const size_t Value);
+		void SetCapacity(const Elysium::Core::size Value);
 
 		void Add(const T& Item);
 		void Add(T&& Item);
 		void AddRange(const List<T>& Collection);
-		void AddRange(const T* Collection, size_t Count);
+		void AddRange(const T* Collection, Elysium::Core::size Count);
 		void Clear();
 		bool Contains(const T& Item) const;
-		const size_t IndexOf(const T& Item) const;
-		const size_t IndexOf(const T& Item, const size_t Index) const;
-		void Insert(const size_t Index, const T& Item);
-		const size_t LastIndexOf(const T& Item) const;
-		const size_t LastIndexOf(const T& Item, const size_t Index) const;
+		const Elysium::Core::size IndexOf(const T& Item) const;
+		const Elysium::Core::size IndexOf(const T& Item, const Elysium::Core::size Index) const;
+		void Insert(const Elysium::Core::size Index, const T& Item);
+		const Elysium::Core::size LastIndexOf(const T& Item) const;
+		const Elysium::Core::size LastIndexOf(const T& Item, const Elysium::Core::size Index) const;
 		bool Remove(const T& Item);
-		void RemoveAt(const size_t Index);
-		void RemoveRange(const size_t Index, const size_t Count);
+		void RemoveAt(const Elysium::Core::size Index);
+		void RemoveRange(const Elysium::Core::size Index, const Elysium::Core::size Count);
 		void Reverse();
 	private:
-		size_t _Capacity;
-		size_t _Count;
+		Elysium::Core::size _Capacity;
+		Elysium::Core::size _Count;
 		T* _Data;
 
-		void Resize(const size_t DesiredMinimumSize);
-		void Resize(const size_t DesiredMinimumSize, const size_t InsertionIndex);
+		void Resize(const Elysium::Core::size DesiredMinimumSize);
+		void Resize(const Elysium::Core::size DesiredMinimumSize, const Elysium::Core::size InsertionIndex);
 	};
 
 	template<class T>
@@ -98,14 +98,14 @@ namespace Elysium::Core::Collections::Template
 		: _Capacity(0), _Count(0), _Data(nullptr)
 	{ }
 	template<class T>
-	inline List<T>::List(const size_t Capacity)
+	inline List<T>::List(const Elysium::Core::size Capacity)
 		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{ }
 	template<class T>
 	inline List<T>::List(const Elysium::Core::Template::Container::InitializerList<T>& InitializerList)
 		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
-		size_t Index = 0;
+		Elysium::Core::size Index = 0;
 		const T* Iterator = InitializerList.begin();
 		const T* LastElement = InitializerList.end();
 		for (;  Iterator != nullptr && Iterator != LastElement; ++Iterator)
@@ -119,7 +119,7 @@ namespace Elysium::Core::Collections::Template
 	inline List<T>::List(const List<T>& Source)
 		: _Capacity(Source._Capacity), _Count(Source._Count), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
-		for (size_t i = 0; i < _Count; i++)
+		for (Elysium::Core::size i = 0; i < _Count; i++)
 		{
 #pragma warning(disable : 6011)	// _Data won't be nullptr if Source contains elements
 			_Data[i] = Source._Data[i];
@@ -149,7 +149,7 @@ namespace Elysium::Core::Collections::Template
 		{
 			SetCapacity(Source._Capacity);
 			_Count = Source._Count;
-			for (size_t i = 0; i < _Count; i++)
+			for (Elysium::Core::size i = 0; i < _Count; i++)
 			{
 				_Data[i] = T(Source._Data[i]);
 			}
@@ -177,7 +177,7 @@ namespace Elysium::Core::Collections::Template
 		return *this;
 	}
 	template<class T>
-	inline T& List<T>::operator[](const size_t Index)
+	inline T& List<T>::operator[](const Elysium::Core::size Index)
 	{
 		if (Index >= _Count)
 		{
@@ -188,7 +188,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<typename T>
-	inline const T& List<T>::operator[](const size_t Index) const
+	inline const T& List<T>::operator[](const Elysium::Core::size Index) const
 	{
 		if (Index >= _Count)
 		{
@@ -199,12 +199,12 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline const size_t List<T>::GetCapacity() const
+	inline const Elysium::Core::size List<T>::GetCapacity() const
 	{
 		return _Capacity;
 	}
 	template<class T>
-	inline const size_t List<T>::GetCount() const
+	inline const Elysium::Core::size List<T>::GetCount() const
 	{
 		return _Count;
 	}
@@ -215,7 +215,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline void List<T>::SetCapacity(const size_t Value)
+	inline void List<T>::SetCapacity(const Elysium::Core::size Value)
 	{
 		Resize(Value);
 	}
@@ -244,24 +244,24 @@ namespace Elysium::Core::Collections::Template
 	inline void List<T>::AddRange(const List<T>& Collection)
 	{
 		// resize if required
-		size_t CollectionCount = Collection.GetCount();
+		Elysium::Core::size CollectionCount = Collection.GetCount();
 		Resize(_Count + CollectionCount);
 
 		// use the copy operator to copy all elements and increment the internal element counter
-		for (size_t i = 0; i < CollectionCount; i++)
+		for (Elysium::Core::size i = 0; i < CollectionCount; i++)
 		{
 			_Data[_Count] = Collection[i];
 			_Count++;
 		}
 	}
 	template<class T>
-	inline void List<T>::AddRange(const T* Collection, size_t Count)
+	inline void List<T>::AddRange(const T* Collection, Elysium::Core::size Count)
 	{
 		// resize if required
 		Resize(_Count + Count);
 
 		// use the copy operator to copy all elements and increment the internal element counter
-		for (size_t i = 0; i < Count; i++)
+		for (Elysium::Core::size i = 0; i < Count; i++)
 		{
 			_Data[_Count] = T(Collection[i]);
 			_Count++;
@@ -275,7 +275,7 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline bool List<T>::Contains(const T& Item) const
 	{
-		for (size_t i = 0; i < _Count; i++)
+		for (Elysium::Core::size i = 0; i < _Count; i++)
 		{
 			if (_Data[i] == Item)
 			{
@@ -285,9 +285,9 @@ namespace Elysium::Core::Collections::Template
 		return false;
 	}
 	template<class T>
-	inline const size_t List<T>::IndexOf(const T& Item) const
+	inline const Elysium::Core::size List<T>::IndexOf(const T& Item) const
 	{
-		for (size_t i = 0; i < _Count; i++)
+		for (Elysium::Core::size i = 0; i < _Count; i++)
 		{
 			if (_Data[i] == Item)
 			{
@@ -297,9 +297,9 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<typename T>
-	inline const size_t List<T>::IndexOf(const T& Item, const size_t Index) const
+	inline const Elysium::Core::size List<T>::IndexOf(const T& Item, const Elysium::Core::size Index) const
 	{
-		for (size_t i = Index; i < _Count; i++)
+		for (Elysium::Core::size i = Index; i < _Count; i++)
 		{
 			if (_Data[i] == Item)
 			{
@@ -309,7 +309,7 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<class T>
-	inline void List<T>::Insert(const size_t Index, const T& Item)
+	inline void List<T>::Insert(const Elysium::Core::size Index, const T& Item)
 	{
 		if (Index > _Count)
 		{
@@ -324,9 +324,9 @@ namespace Elysium::Core::Collections::Template
 		_Count++;
 	}
 	template<typename T>
-	inline const size_t List<T>::LastIndexOf(const T& Item) const
+	inline const Elysium::Core::size List<T>::LastIndexOf(const T& Item) const
 	{
-		for (size_t i = _Count; i > 0; i--)
+		for (Elysium::Core::size i = _Count; i > 0; i--)
 		{
 			if (_Data[i - 1] == Item)
 			{
@@ -336,9 +336,9 @@ namespace Elysium::Core::Collections::Template
 		return -1;
 	}
 	template<typename T>
-	inline const size_t List<T>::LastIndexOf(const T& Item, size_t Index) const
+	inline const Elysium::Core::size List<T>::LastIndexOf(const T& Item, Elysium::Core::size Index) const
 	{
-		for (size_t i = _Count; i > Index; i--)
+		for (Elysium::Core::size i = _Count; i > Index; i--)
 		{
 			if (_Data[i - 1] == Item)
 			{
@@ -350,7 +350,7 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline bool List<T>::Remove(const T& Item)
 	{
-		for (size_t i = 0; i < _Count; i++)
+		for (Elysium::Core::size i = 0; i < _Count; i++)
 		{
 			if (_Data[i] == Item)
 			{
@@ -361,7 +361,7 @@ namespace Elysium::Core::Collections::Template
 		return false;
 	}
 	template<class T>
-	inline void List<T>::RemoveAt(const size_t Index)
+	inline void List<T>::RemoveAt(const Elysium::Core::size Index)
 	{
 		if (Index >= _Count)
 		{
@@ -369,10 +369,10 @@ namespace Elysium::Core::Collections::Template
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-		std::memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_Count - Index));
+		memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_Count - Index));
 		/*
 		// move all old elements right of InsertionIndex to _Data using the copy constructor
-		for (size_t i = Index; i < _Count; i++)
+		for (Elysium::Core::size i = Index; i < _Count; i++)
 		{
 			_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
 		}
@@ -380,7 +380,7 @@ namespace Elysium::Core::Collections::Template
 		_Count--;
 	}
 	template<typename T>
-	inline void List<T>::RemoveRange(const size_t Index, const size_t Count)
+	inline void List<T>::RemoveRange(const Elysium::Core::size Index, const Elysium::Core::size Count)
 	{
 		if (_Count < Index || Index + Count > _Count)
 		{
@@ -388,9 +388,9 @@ namespace Elysium::Core::Collections::Template
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy
-		std::memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_Count - Index));
+		memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_Count - Index));
 		/*
-		for (size_t i = Index; i < Index + Count; i++)
+		for (Elysium::Core::size i = Index; i < Index + Count; i++)
 		{
 			_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
 		}
@@ -404,7 +404,7 @@ namespace Elysium::Core::Collections::Template
 	}
 
 	template<class T>
-	inline void List<T>::Resize(const size_t DesiredMinimumSize)
+	inline void List<T>::Resize(const Elysium::Core::size DesiredMinimumSize)
 	{
 		if (DesiredMinimumSize < _Count)
 		{
@@ -417,7 +417,7 @@ namespace Elysium::Core::Collections::Template
 
 		if (DesiredMinimumSize > _Capacity)
 		{
-			size_t ActualCapacity = _Capacity * 2;
+			Elysium::Core::size ActualCapacity = _Capacity * 2;
 			if (ActualCapacity == 0)
 			{
 				ActualCapacity = 1;
@@ -437,7 +437,7 @@ namespace Elysium::Core::Collections::Template
 			_Capacity = ActualCapacity;
 
 			// move all old elements to _Data
-			for (size_t i = 0; i < _Count; i++)
+			for (Elysium::Core::size i = 0; i < _Count; i++)
 			{
 				_Data[i] = Elysium::Core::Template::Functional::Move(OldData[i]);
 			}
@@ -447,7 +447,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline void List<T>::Resize(const size_t DesiredMinimumSize, const size_t InsertionIndex)
+	inline void List<T>::Resize(const Elysium::Core::size DesiredMinimumSize, const Elysium::Core::size InsertionIndex)
 	{
 		if (DesiredMinimumSize < _Count)
 		{
@@ -460,7 +460,7 @@ namespace Elysium::Core::Collections::Template
 
 		if (DesiredMinimumSize > _Capacity)
 		{
-			size_t ActualCapacity = _Capacity * 2;
+			Elysium::Core::size ActualCapacity = _Capacity * 2;
 			if (ActualCapacity == 0)
 			{
 				ActualCapacity = 1;
@@ -480,13 +480,13 @@ namespace Elysium::Core::Collections::Template
 			_Capacity = ActualCapacity;
 
 			// move all old elements left of InsertionIndex to _Data
-			for (size_t i = 0; i < InsertionIndex; i++)
+			for (Elysium::Core::size i = 0; i < InsertionIndex; i++)
 			{
 				_Data[i] = Elysium::Core::Template::Functional::Move(OldData[i]);
 			}
 
 			// move all old elements right of InsertionIndex to _Data
-			for (size_t i = _Count - 1; i >= InsertionIndex; i--)
+			for (Elysium::Core::size i = _Count - 1; i >= InsertionIndex; i--)
 			{
 				_Data[i + 1] = Elysium::Core::Template::Functional::Move(OldData[i]);
 			}
@@ -497,10 +497,10 @@ namespace Elysium::Core::Collections::Template
 		else
 		{
 			// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-			std::memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
+			memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
 			/*
 			// move all old elements right of InsertionIndex to _Data
-			for (size_t i = _Count - 1; i >= InsertionIndex; i--)
+			for (Elysium::Core::size i = _Count - 1; i >= InsertionIndex; i--)
 			{
 				_Data[i + 1] = Elysium::Core::Template::Functional::Move(_Data[i]);
 			}

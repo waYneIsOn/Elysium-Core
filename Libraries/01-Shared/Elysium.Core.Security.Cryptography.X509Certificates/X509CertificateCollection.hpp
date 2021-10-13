@@ -37,9 +37,9 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		X509CertificateCollection& operator=(const X509CertificateCollection& Source) = delete;
 		X509CertificateCollection& operator=(X509CertificateCollection&& Right) noexcept = delete;
 
-		const X509Certificate& operator[](size_t Index) const;
+		const X509Certificate& operator[](Elysium::Core::size Index) const;
 
-		const size_t GetCount() const;
+		const Elysium::Core::size GetCount() const;
 
 		void Add(X509Certificate&& Item);
 		void Clear();

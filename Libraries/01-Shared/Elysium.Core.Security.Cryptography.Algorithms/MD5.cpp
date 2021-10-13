@@ -39,7 +39,7 @@ void Elysium::Core::Security::Cryptography::MD5::Initialize()
 {
 }
 
-void Elysium::Core::Security::Cryptography::MD5::HashCore(Elysium::Core::byte * Array, const size_t Length)
+void Elysium::Core::Security::Cryptography::MD5::HashCore(Elysium::Core::byte * Array, const Elysium::Core::size Length)
 {
 }
 const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::MD5::HashFinal()

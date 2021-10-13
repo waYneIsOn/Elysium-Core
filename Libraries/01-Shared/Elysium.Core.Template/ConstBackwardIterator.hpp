@@ -103,7 +103,7 @@ namespace Elysium::Core::Template::Iterator
 		return _Current >= Other._Current;
 	}
 
-	template<class Collection>
+	template <class Collection>
 	inline ConstBackwardIterator<Collection>& ConstBackwardIterator<Collection>::operator--()
 	{
 		_Current--;
@@ -111,8 +111,8 @@ namespace Elysium::Core::Template::Iterator
 		return *this;
 	}
 
-	template<class Collection>
-	inline ConstBackwardIterator<Collection>::ConstCollectionReference ConstBackwardIterator<Collection>::operator*() const
+	template <class Collection>
+	inline typename ConstBackwardIterator<Collection>::ConstCollectionReference ConstBackwardIterator<Collection>::operator*() const
 	{
 		return *_Current;
 	}

@@ -28,12 +28,12 @@ namespace UnitTests::Core::IO
 			MemoryStream SourceStream = MemoryStream();
 			byte* DataToWrite = (byte*)"some data";
 			SourceStream.Write(&DataToWrite[1], 7);
-			Assert::AreEqual((size_t)7, SourceStream.GetLength());
+			Assert::AreEqual((Elysium::Core::size)7, SourceStream.GetLength());
 
 			// check the written data by reading it
 			byte DataToRead[7];
 			SourceStream.Read(&DataToRead[0], 7);
-			Assert::AreEqual((size_t)7, SourceStream.GetLength());
+			Assert::AreEqual((Elysium::Core::size)7, SourceStream.GetLength());
 			Assert::AreEqual((byte)'o', DataToRead[0]);
 			Assert::AreEqual((byte)'m', DataToRead[1]);
 			Assert::AreEqual((byte)'e', DataToRead[2]);
@@ -46,7 +46,7 @@ namespace UnitTests::Core::IO
 			SourceStream.SetPosition(0);
 			MemoryStream DestinationStream = MemoryStream();
 			SourceStream.CopyTo(DestinationStream);
-			Assert::AreEqual((size_t)7, DestinationStream.GetLength());
+			Assert::AreEqual((Elysium::Core::size)7, DestinationStream.GetLength());
 			/*
 			Assert::AreEqual((byte)'o', DataToRead[0]);
 			Assert::AreEqual((byte)'m', DataToRead[1]);

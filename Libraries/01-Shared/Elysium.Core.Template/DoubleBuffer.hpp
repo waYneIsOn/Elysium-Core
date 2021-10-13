@@ -37,7 +37,7 @@ namespace Elysium::Core::Template::Container
 		using Reference = T&;
 		using ConstReference = const T&;
 	private:
-		inline static const size_t BUFFERSIZE = 2;
+		inline static const Elysium::Core::size BUFFERSIZE = 2;
 		inline static Allocator _Allocator = Allocator();
 	public:
 		/// <summary>

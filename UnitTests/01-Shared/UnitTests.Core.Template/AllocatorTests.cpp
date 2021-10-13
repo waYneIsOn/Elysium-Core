@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/DefaultAllocator.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/MAllocator.hpp"
 
@@ -50,22 +50,22 @@ namespace UnitTests::Core::Template::Container
 		void AllocatorWithoutDefaultConstructor(Allocator& AllocatorInstance)
 		{
 			void* Value = nullptr;
-			const size_t InstanceLength = 3;
-			const size_t TotalLength = 5;
+			const Elysium::Core::size InstanceLength = 3;
+			const Elysium::Core::size TotalLength = 5;
 
 			MyClass* Instances = AllocatorInstance.Allocate(TotalLength);
 
-			for (size_t i = 0; i < InstanceLength; i++)
+			for (Elysium::Core::size i = 0; i < InstanceLength; i++)
 			{
 				Instances[i] = MyClass(Value);
 			}
 
-			for (size_t i = 0; i < InstanceLength; i++)
+			for (Elysium::Core::size i = 0; i < InstanceLength; i++)
 			{
 				MyClass& CurrentInstance = Instances[i];
 				Assert::AreEqual(Value, CurrentInstance._Value);
 			}
-			for (size_t i = InstanceLength; i < TotalLength; i++)
+			for (Elysium::Core::size i = InstanceLength; i < TotalLength; i++)
 			{
 				MyClass& CurrentInstance = Instances[i];
 				Assert::AreNotEqual(Value, CurrentInstance._Value);

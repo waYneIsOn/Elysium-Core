@@ -25,7 +25,7 @@ namespace Elysium::Core::Template::Memory
 	class DefaultAllocator final
 	{
 	private:
-		static const size_t ElementSize = sizeof(T);
+		static const Elysium::Core::size ElementSize = sizeof(T);
 	public:
 		/// <summary>
 		/// Creates a new instance.
@@ -69,14 +69,14 @@ namespace Elysium::Core::Template::Memory
 		/// </summary>
 		/// <param name="NumberOfElements"></param>
 		/// <returns></returns>
-		constexpr T* Allocate(const size_t NumberOfElements);
+		constexpr T* Allocate(const Elysium::Core::size NumberOfElements);
 
 		/// <summary>
 		/// Calls destructor for the first number of instantiated elements before cleaning up the previously allocated memory using operator delete[].
 		/// </summary>
 		/// <param name="First">Pointer to the starting element.</param>
 		/// <param name="NumberOfInstantiatedElements">Number of elements the destructors needs to be called for.</param>
-		void Deallocate(T* First, const size_t NumberOfInstantiatedElements);
+		void Deallocate(T* First, const Elysium::Core::size NumberOfInstantiatedElements);
 	};
 
 	template<Concepts::NonConstant T>
@@ -88,7 +88,7 @@ namespace Elysium::Core::Template::Memory
 	{ }
 
 	template<Concepts::NonConstant T>
-	inline constexpr T* DefaultAllocator<T>::Allocate(const size_t NumberOfElements)
+	inline constexpr T* DefaultAllocator<T>::Allocate(const Elysium::Core::size NumberOfElements)
 	{
 		if (NumberOfElements == 0)
 		{
@@ -99,14 +99,14 @@ namespace Elysium::Core::Template::Memory
 	}
 
 	template<Concepts::NonConstant T>
-	inline void DefaultAllocator<T>::Deallocate(T* First, const size_t NumberOfInstantiatedElements)
+	inline void DefaultAllocator<T>::Deallocate(T* First, const Elysium::Core::size NumberOfInstantiatedElements)
 	{
 		if (First == nullptr)
 		{
 			return;
 		}
 
-		for (size_t i = 0; i < NumberOfInstantiatedElements; i++)
+		for (Elysium::Core::size i = 0; i < NumberOfInstantiatedElements; i++)
 		{
 			First[i].~T();
 		}

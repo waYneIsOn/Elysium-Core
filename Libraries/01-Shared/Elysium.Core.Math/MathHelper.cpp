@@ -54,7 +54,7 @@ float Elysium::Core::Math::MathHelper::Max(const float Value1, const float Value
 {
 	return (Value1 > Value2) ? Value1 : Value2;
 }
-size_t Elysium::Core::Math::MathHelper::Max(const size_t Value1, const size_t Value2)
+Elysium::Core::size Elysium::Core::Math::MathHelper::Max(const Elysium::Core::size Value1, const Elysium::Core::size Value2)
 {
 	return (Value1 > Value2) ? Value1 : Value2;
 }
@@ -71,7 +71,7 @@ float Elysium::Core::Math::MathHelper::Min(const float Value1, const float Value
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }
-size_t Elysium::Core::Math::MathHelper::Min(const size_t Value1, const size_t Value2)
+Elysium::Core::size Elysium::Core::Math::MathHelper::Min(const Elysium::Core::size Value1, const Elysium::Core::size Value2)
 {
 	return (Value1 < Value2) ? Value1 : Value2;
 }

@@ -109,7 +109,7 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char8_t* Input)
 	}
 
 	byte Data[16];
-	size_t Length = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Input);
+	Elysium::Core::size Length = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Input);
 	switch (Length)
 	{
 	case 32:

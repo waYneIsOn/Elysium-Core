@@ -112,7 +112,7 @@ namespace Elysium::Core::Template::Iterator
 	}
 
 	template<class Collection>
-	inline ConstForwardIterator<Collection>::ConstCollectionReference ConstForwardIterator<Collection>::operator*() const
+	inline typename ConstForwardIterator<Collection>::ConstCollectionReference ConstForwardIterator<Collection>::operator*() const
 	{
 		return *_Current;
 	}

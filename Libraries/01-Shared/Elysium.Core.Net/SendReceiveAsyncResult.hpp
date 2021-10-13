@@ -74,7 +74,7 @@ namespace Elysium::Core::Net::Sockets
 		Elysium::Core::Net::Sockets::Socket& GetSocket() const;
 		const Elysium::Core::uint32_t& GetBytesTransferred() const;
 	private:
-		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const size_t BufferSize);
+		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const Elysium::Core::size BufferSize);
 
 		const void* _AsyncState;
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;

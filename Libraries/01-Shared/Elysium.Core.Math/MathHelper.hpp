@@ -51,12 +51,12 @@ namespace Elysium::Core::Math
 
 		static double Max(const double Value1, const double Value2);
 		static float Max(const float Value1, const float Value2);
-		static size_t Max(const size_t Value1, const size_t Value2);
+		static Elysium::Core::size Max(const Elysium::Core::size Value1, const Elysium::Core::size Value2);
 		static uint32_t Max(const uint32_t Value1, const uint32_t Value2);
 
 		static double Min(const double Value1, const  double Value2);
 		static float Min(const float Value1, const float Value2);
-		static size_t Min(const size_t Value1, const size_t Value2);
+		static Elysium::Core::size Min(const Elysium::Core::size Value1, const Elysium::Core::size Value2);
 		static uint32_t Min(const uint32_t Value1, const uint32_t Value2);
 
 		// static methods (algorithms)

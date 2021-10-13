@@ -81,7 +81,7 @@ namespace Elysium::Core::Data
 		virtual const Elysium::Core::String GetSourceColumn() const = 0;
 		virtual const DataRowVersion GetSourceVersion() const = 0;
 		virtual const byte* GetValue() const = 0;
-		virtual const size_t GetSize() const = 0;
+		virtual const Elysium::Core::size GetSize() const = 0;
 		virtual const bool GetIsDBNull() const = 0;
 
 		virtual void SetDbType(const DbType Type) = 0;
@@ -93,9 +93,9 @@ namespace Elysium::Core::Data
 		virtual void SetValue(const DBNull& Value) = 0;
 		virtual void SetValue(const bool Value) = 0;
 		virtual void SetValue(const byte Value) = 0;
-		virtual void SetValue(const byte* Value, const size_t Length) = 0;
+		virtual void SetValue(const byte* Value, const Elysium::Core::size Length) = 0;
 		virtual void SetValue(const char8_t Value) = 0;
-		virtual void SetValue(const char8_t* Value, const size_t Length) = 0;
+		virtual void SetValue(const char8_t* Value, const Elysium::Core::size Length) = 0;
 		virtual void SetValue(const Elysium::Core::String& Value) = 0;
 		virtual void SetValue(const DateTime& Value) = 0;
 		virtual void SetValue(const DateTimeOffset& Value) = 0;

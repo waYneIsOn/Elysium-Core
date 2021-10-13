@@ -58,11 +58,11 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium:
 	}
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetByteCount(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount) const
+const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetByteCount(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
 {
 	Elysium::Core::uint32_t Result = static_cast<Elysium::Core::uint32_t>(AdditionalCount);
 
-	for (size_t i = 0; i < CharCount; ++i)
+	for (Elysium::Core::size i = 0; i < CharCount; ++i)
 	{
 		if (Input[i] >> 7 == 0x00)
 		{	// 0-xxx xxxx											07 bit
@@ -92,15 +92,15 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetByteCount(c
 	return Result;
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF32Encoding::GetBytes(const char8_t* Input, const size_t CharCount, const size_t AdditionalCount) const
+Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF32Encoding::GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
 {
 	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharCount, AdditionalCount);
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize, AdditionalCount > 0 ? true : false);
 	
-	size_t TargetIndex = 0;
+	Elysium::Core::size TargetIndex = 0;
 	if (_BigEndian)
 	{	// 0x00 would be first byte
-		for (size_t i = 0; i < CharCount; ++i)
+		for (Elysium::Core::size i = 0; i < CharCount; ++i)
 		{
 			if (Input[i] >> 7 == 0x00)
 			{	// 0-xxx xxxx											07 bit
@@ -175,7 +175,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 	}
 	else
 	{
-		for (size_t i = 0; i < CharCount; ++i)
+		for (Elysium::Core::size i = 0; i < CharCount; ++i)
 		{
 			if (Input[i] >> 7 == 0x00)
 			{	// 0-xxx xxxx											07 bit
@@ -261,7 +261,7 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 	return Result;
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetCharCount(const Elysium::Core::byte* Bytes, const size_t ByteCount) const
+const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetCharCount(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const
 {
 	if (ByteCount == 0)
 	{
@@ -279,7 +279,7 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetCharCount(c
 
 	if (_BigEndian)
 	{	// 0x00 would be first byte
-		for (size_t i = 0; i < ByteCount; ++i)
+		for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 		{
 			CodePoint = Elysium::Core::uint32_t(Bytes[i] << 24 | Bytes[i + 1] << 16 | Bytes[i + 2] << 8 | Bytes[i + 3]);
 			if (CodePoint < 0x80)			// 0 - 127
@@ -309,7 +309,7 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetCharCount(c
 	}
 	else
 	{
-		for (size_t i = 0; i < ByteCount; ++i)
+		for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 		{
 			CodePoint = Elysium::Core::uint32_t(Bytes[i] | Bytes[i + 1] << 8 | Bytes[i + 2] << 16 | Bytes[i + 3] << 24);
 			if (CodePoint < 0x80)			// 0 - 127
@@ -341,7 +341,7 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetCharCount(c
 	return Result;
 }
 
-Elysium::Core::String Elysium::Core::Text::UTF32Encoding::GetString(const Elysium::Core::byte* Bytes, const size_t ByteCount) const
+Elysium::Core::String Elysium::Core::Text::UTF32Encoding::GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const
 {
 	const Elysium::Core::uint32_t RequiredSize = GetCharCount(Bytes, ByteCount);
 	Elysium::Core::String Result = Elysium::Core::String(RequiredSize);
@@ -350,7 +350,7 @@ Elysium::Core::String Elysium::Core::Text::UTF32Encoding::GetString(const Elysiu
 
 	if (_BigEndian)
 	{	// 0x00 would be first byte
-		for (size_t i = 0; i < ByteCount; ++i)
+		for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 		{
 			CodePoint = Elysium::Core::uint32_t(Bytes[i] << 24 | Bytes[i + 1] << 16 | Bytes[i + 2] << 8 | Bytes[i + 3]);
 			if (CodePoint < 0x80)			// 0 - 127
@@ -380,7 +380,7 @@ Elysium::Core::String Elysium::Core::Text::UTF32Encoding::GetString(const Elysiu
 	}
 	else
 	{
-		for (size_t i = 0; i < ByteCount; ++i)
+		for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 		{
 			CodePoint = Elysium::Core::uint32_t(Bytes[i] | Bytes[i + 1] << 8 | Bytes[i + 2] << 16 | Bytes[i + 3] << 24);
 			if (CodePoint < 0x80)			// 0 - 127

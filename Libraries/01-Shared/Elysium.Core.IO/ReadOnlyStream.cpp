@@ -30,7 +30,7 @@ const bool Elysium::Core::IO::ReadOnlyStream::GetCanWrite() const
 	return false;
 }
 
-const size_t Elysium::Core::IO::ReadOnlyStream::GetLength() const
+const Elysium::Core::size Elysium::Core::IO::ReadOnlyStream::GetLength() const
 {
 	return _End - _Start;
 }
@@ -50,7 +50,7 @@ const Elysium::Core::uint32_t Elysium::Core::IO::ReadOnlyStream::GetWriteTimeout
 	return _BaseStream.GetWriteTimeout();
 }
 
-void Elysium::Core::IO::ReadOnlyStream::SetLength(const size_t Value)
+void Elysium::Core::IO::ReadOnlyStream::SetLength(const Elysium::Core::size Value)
 {
 	throw InvalidOperationException();
 }
@@ -68,14 +68,14 @@ void Elysium::Core::IO::ReadOnlyStream::Close()
 void Elysium::Core::IO::ReadOnlyStream::Flush()
 { }
 
-const size_t Elysium::Core::IO::ReadOnlyStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::IO::ReadOnlyStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
 	throw InvalidOperationException();
 }
 
-const size_t Elysium::Core::IO::ReadOnlyStream::Read(Elysium::Core::byte* Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::ReadOnlyStream::Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
-	size_t SupervisedCount = Count;
+	Elysium::Core::size SupervisedCount = Count;
 
 	if (_BaseStream.GetPosition() != _Position)
 	{
@@ -86,7 +86,7 @@ const size_t Elysium::Core::IO::ReadOnlyStream::Read(Elysium::Core::byte* Buffer
 		SupervisedCount = _End - _Position;
 	}
 
-	const size_t BytesRead = _BaseStream.Read(Buffer, SupervisedCount);
+	const Elysium::Core::size BytesRead = _BaseStream.Read(Buffer, SupervisedCount);
 
 	_Position += BytesRead;
 
@@ -98,7 +98,7 @@ Elysium::Core::byte Elysium::Core::IO::ReadOnlyStream::ReadByte()
 	throw 1;
 }
 
-void Elysium::Core::IO::ReadOnlyStream::Write(const Elysium::Core::byte* Buffer, const size_t Count)
+void Elysium::Core::IO::ReadOnlyStream::Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 {
 	throw InvalidOperationException();
 }

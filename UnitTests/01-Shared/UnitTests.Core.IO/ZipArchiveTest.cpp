@@ -27,7 +27,7 @@ namespace UnitTests::Core::IO::Compression
 			MinimalisticArchive.SetPosition(0);
 
 			ZipArchive Archive = ZipArchive(MinimalisticArchive, ZipArchiveMode::Read, false, Encoding::UTF8());
-			Assert::AreEqual((size_t)0, Archive.GetEntries().GetCount());
+			Assert::AreEqual((Elysium::Core::size)0, Archive.GetEntries().GetCount());
 		}
 
 		TEST_METHOD(ReadArchive)
@@ -36,7 +36,7 @@ namespace UnitTests::Core::IO::Compression
 
 			ZipArchive Archive = ZipArchive(MinimalisticArchive, ZipArchiveMode::Read, false, Encoding::UTF8());
 			Elysium::Core::Collections::Template::List<ZipArchiveEntry> Entries = Archive.GetEntries();
-			Assert::AreEqual((size_t)6, Entries.GetCount());
+			Assert::AreEqual((Elysium::Core::size)6, Entries.GetCount());
 
 			ZipArchiveEntry& Entry1 = Entries[0];
 			const String& FullName1 = Entry1.GetFullName();
@@ -74,18 +74,18 @@ namespace UnitTests::Core::IO::Compression
 
 
 			/*
-			size_t BytesRead = Entry6Stream.Read(&Buffer[0], Buffer.GetLength());
+			Elysium::Core::size BytesRead = Entry6Stream.Read(&Buffer[0], Buffer.GetLength());
 			Assert::AreEqual(Entry6Stream.GetLength(), BytesRead);
 			*/
 
 			/*
 			FileStream TargetStream = FileStream(u8"Lorem ipsum decompressed.txt", FileMode::Create, FileAccess::ReadWrite, FileShare::None);
 			Entry6Stream.CopyTo(TargetStream);
-			Assert::AreEqual(static_cast<size_t>(10323), TargetStream.GetLength());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(10323), TargetStream.GetLength());
 
 			Array<byte> Buffer = Array<byte>(TargetStream.GetLength());
 			TargetStream.SetPosition(0);
-			size_t BytesRead = TargetStream.Read(&Buffer[0], Buffer.GetLength());
+			Elysium::Core::size BytesRead = TargetStream.Read(&Buffer[0], Buffer.GetLength());
 			Assert::AreEqual(TargetStream.GetLength(), BytesRead);
 
 			String Content = Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());

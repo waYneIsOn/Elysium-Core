@@ -81,6 +81,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UniquePointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp" />

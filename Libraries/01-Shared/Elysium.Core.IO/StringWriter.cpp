@@ -7,7 +7,7 @@ Elysium::Core::IO::StringWriter::StringWriter(Elysium::Core::Text::StringBuilder
 Elysium::Core::IO::StringWriter::~StringWriter()
 { }
 
-void Elysium::Core::IO::StringWriter::Write(const byte * Value, const size_t Length)
+void Elysium::Core::IO::StringWriter::Write(const byte * Value, const Elysium::Core::size Length)
 {
 	Write(GetEncoding().GetString(&Value[0], Length));
 }

@@ -26,7 +26,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef _INC_STDDEF
+#ifndef __cplusplus
 #define __cplusplus
+#endif
 #include <stddef.h>
 #endif
 

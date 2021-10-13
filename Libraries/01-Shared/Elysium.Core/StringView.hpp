@@ -27,10 +27,10 @@ namespace Elysium::Core
 	public:
 		StringView();
 		StringView(char8_t* Input);
-		StringView(char8_t* Input, size_t Length);
+		StringView(char8_t* Input, Elysium::Core::size Length);
 		StringView(const String& Input);
-		StringView(const String& Input, size_t Length);
-		StringView(const String& Input, size_t Offset, size_t Length);
+		StringView(const String& Input, Elysium::Core::size Length);
+		StringView(const String& Input, Elysium::Core::size Offset, Elysium::Core::size Length);
 		StringView(const StringView& Source);
 		StringView(StringView&& Right) noexcept;
 		~StringView();
@@ -38,8 +38,8 @@ namespace Elysium::Core
 		StringView& operator=(const StringView& Source);
 		StringView& operator=(StringView&& Right) noexcept;
 
-		char8_t& operator[](size_t Index);
-		const char8_t& operator[](size_t Index) const;
+		char8_t& operator[](Elysium::Core::size Index);
+		const char8_t& operator[](Elysium::Core::size Index) const;
 
 		operator Elysium::Core::String() const;
 
@@ -52,23 +52,23 @@ namespace Elysium::Core
 
 		const bool operator==(const String& Other) const;
 
-		const size_t GetLength() const;
+		const Elysium::Core::size GetLength() const;
 
-		const size_t IndexOf(const char8_t Value) const;
-		const size_t IndexOf(const char8_t Value, const size_t StartIndex) const;
-		const size_t IndexOf(const char8_t* Value) const;
-		const size_t IndexOf(const char8_t* Value, const size_t StartIndex) const;
-		const size_t IndexOf(const String& Value, const size_t StartIndex) const;
+		const Elysium::Core::size IndexOf(const char8_t Value) const;
+		const Elysium::Core::size IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size IndexOf(const char8_t* Value) const;
+		const Elysium::Core::size IndexOf(const char8_t* Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size IndexOf(const String& Value, const Elysium::Core::size StartIndex) const;
 
-		const size_t LastIndexOf(const char8_t* Value) const;
+		const Elysium::Core::size LastIndexOf(const char8_t* Value) const;
 
 		void Split(const char8_t Delimiter, Collections::Template::List<StringView>& Views) const;
 		void Split(const char8_t* Delimiter, Collections::Template::List<StringView>& Views) const;
 
-		StringView Substringview(const size_t StartIndex) const;
-		StringView Substringview(const size_t StartIndex, const size_t Length) const;
+		StringView Substringview(const Elysium::Core::size StartIndex) const;
+		StringView Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
 	private:
-		size_t _Length;
+		Elysium::Core::size _Length;
 		char8_t* _Data;
 	};
 }

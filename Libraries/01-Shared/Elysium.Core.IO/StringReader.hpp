@@ -37,7 +37,7 @@ namespace Elysium::Core::IO
 
 		virtual const Elysium::Core::uint32_t Read() override;
 
-		virtual const size_t Read(char8_t* Buffer, const size_t Count) override;
+		virtual const Elysium::Core::size Read(char8_t* Buffer, const Elysium::Core::size Count) override;
 
 		virtual Elysium::Core::String ReadLine() override;
 

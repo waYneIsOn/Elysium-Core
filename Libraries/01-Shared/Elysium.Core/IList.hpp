@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_ICOLLECTION
 #include "ICollection.hpp"
 #endif
@@ -28,11 +32,11 @@ namespace Elysium::Core::Collections
 		/// </summary>
 		virtual ~IList() {}
 
-		virtual T& operator[](const size_t Index) const = 0;
+		virtual T& operator[](const Elysium::Core::size Index) const = 0;
 
-		virtual const size_t IndexOf(const T& Item) const = 0;
-		virtual void Insert(const size_t Index, const T& Item) = 0;
-		virtual void RemoveAt(const size_t Index) = 0;
+		virtual const Elysium::Core::size IndexOf(const T& Item) const = 0;
+		virtual void Insert(const Elysium::Core::size Index, const T& Item) = 0;
+		virtual void RemoveAt(const Elysium::Core::size Index) = 0;
 	};
 }
 #endif

@@ -47,9 +47,9 @@ namespace Elysium::Core::Json
 		virtual const JsonNodeType GetNodeType() const = 0;
 		virtual const JsonNode* GetParentNode() const;
 		
-		virtual const size_t GetChildCount();
+		virtual const Elysium::Core::size GetChildCount();
 
-		virtual JsonNode& GetChild(size_t Index);
+		virtual JsonNode& GetChild(Elysium::Core::size Index);
 		virtual void RemoveChild(JsonNode& Node);
 
 		virtual void WriteTo(JsonWriter& Writer) const = 0;

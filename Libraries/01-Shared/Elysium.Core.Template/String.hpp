@@ -43,8 +43,8 @@ namespace Elysium::Core::Template::Text
 		inline static Allocator _Allocator = Allocator();
 	private:
 		/*
-		size_t _Capacity;
-		size_t _Size;
+		Elysium::Core::size _Capacity;
+		Elysium::Core::size _Size;
 		Pointer _Data;
 		*/
 	};

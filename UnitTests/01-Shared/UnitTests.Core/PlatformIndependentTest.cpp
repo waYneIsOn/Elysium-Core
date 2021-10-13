@@ -14,14 +14,14 @@ namespace UnitTests
 		TEST_METHOD(TypeComparison)
 		{
 			Assert::AreEqual(sizeof(int), sizeof(long));
-			Assert::AreEqual(static_cast<size_t>(1), sizeof(char8_t));
-			Assert::AreEqual(static_cast<size_t>(2), sizeof(char16_t));
-			Assert::AreEqual(static_cast<size_t>(4), sizeof(char32_t));
-			Assert::AreEqual(static_cast<size_t>(4), sizeof(float));
-			Assert::AreEqual(static_cast<size_t>(8), sizeof(double));
-			Assert::AreEqual(static_cast<size_t>(8), sizeof(long double));
-			Assert::AreEqual(static_cast<size_t>(1), sizeof(Elysium::Core::byte));
-			Assert::AreEqual(static_cast<size_t>(1), sizeof(Elysium::Core::sbyte));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), sizeof(char8_t));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), sizeof(char16_t));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), sizeof(char32_t));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), sizeof(float));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), sizeof(double));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), sizeof(long double));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), sizeof(Elysium::Core::byte));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(1), sizeof(Elysium::Core::sbyte));
 		}
 	};
 }

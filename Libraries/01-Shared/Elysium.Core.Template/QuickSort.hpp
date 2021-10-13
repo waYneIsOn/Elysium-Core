@@ -31,12 +31,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Concepts::Pointer T, class Compare>
-	constexpr const size_t QuickSortPartition(const T First, const size_t Low, const size_t High, const Compare Comparer)
+	constexpr const Elysium::Core::size QuickSortPartition(const T First, const Elysium::Core::size Low, const Elysium::Core::size High, const Compare Comparer)
 	{
 		const T Pivot = &First[High];
-		size_t PivotIndex = Low - 1;
+		Elysium::Core::size PivotIndex = Low - 1;
 
-		for (size_t i = Low; i < High; i++)
+		for (Elysium::Core::size i = Low; i < High; i++)
 		{
 			if (!Comparer.operator()(First[i], *Pivot))
 			//if (Comparer.operator()(*Pivot, First[i]))
@@ -51,7 +51,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	}
 
 	template <Concepts::Pointer T, class Compare>
-	constexpr void QuickSort(const T First, const size_t Low, const size_t High, const Compare Comparer)
+	constexpr void QuickSort(const T First, const Elysium::Core::size Low, const Elysium::Core::size High, const Compare Comparer)
 	{
 		if (First == nullptr)
 		{
@@ -60,7 +60,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 
 		if (Low < High)
 		{
-			const size_t PartitioningIndex = QuickSortPartition<T, Compare>(First, Low, High, Comparer);
+			const Elysium::Core::size PartitioningIndex = QuickSortPartition<T, Compare>(First, Low, High, Comparer);
 
 			QuickSort<T, Compare>(First, Low, PartitioningIndex - 1, Comparer);
 			QuickSort<T, Compare>(First, PartitioningIndex + 1, High, Comparer);
@@ -68,7 +68,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	}
 
 	template <Concepts::Pointer T, class Compare>
-	constexpr void QuickSort(const T First, const size_t Count, const Compare Comparer)
+	constexpr void QuickSort(const T First, const Elysium::Core::size Count, const Compare Comparer)
 	{
 		if (First == nullptr || Count < 2)
 		{
@@ -91,12 +91,12 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		}
 
 		// ToDo: need to make use of size of T or implement it directly using pointer
-		const size_t Count = Last - First + 1;
+		const Elysium::Core::size Count = Last - First + 1;
 		BubbleSort(First, Count, Comparer);
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void QuickSort(const T First, const size_t Count)
+	constexpr void QuickSort(const T First, const Elysium::Core::size Count)
 	{
 		QuickSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 	}

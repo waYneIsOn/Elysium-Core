@@ -7,7 +7,7 @@
 
 Elysium::Core::Html::HtmlNode::~HtmlNode()
 {
-	for (size_t i = 0; i < _Children.GetCount(); i++)
+	for (Elysium::Core::size i = 0; i < _Children.GetCount(); i++)
 	{
 		delete _Children.operator[](i);
 	}
@@ -24,12 +24,12 @@ const Elysium::Core::Html::HtmlNode * Elysium::Core::Html::HtmlNode::GetParentNo
 	return _ParentNode;
 }
 
-const size_t Elysium::Core::Html::HtmlNode::GetChildCount()
+const Elysium::Core::size Elysium::Core::Html::HtmlNode::GetChildCount()
 {
 	return _Children.GetCount();
 }
 
-Elysium::Core::Html::HtmlNode & Elysium::Core::Html::HtmlNode::GetChild(size_t Index)
+Elysium::Core::Html::HtmlNode & Elysium::Core::Html::HtmlNode::GetChild(Elysium::Core::size Index)
 {
 	if (Index > _Children.GetCount())
 	{

@@ -32,7 +32,7 @@ namespace Elysium::Core::Template::Numeric
 		/// <summary>
 		/// Returns the number of bytes required to represent this integer-type.
 		/// </summary>
-		static constexpr const size_t ByteLength = sizeof(T);
+		static constexpr const Elysium::Core::size ByteLength = sizeof(T);
 
 		/// <summary>
 		/// 

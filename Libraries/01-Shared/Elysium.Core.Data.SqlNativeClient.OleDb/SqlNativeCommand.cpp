@@ -56,7 +56,7 @@ std::unique_ptr<Elysium::Core::Data::IDataParameter> Elysium::Core::Data::SqlNat
 	return std::unique_ptr<IDataParameter>(new SqlNativeParameter(this));
 }
 
-size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNonQuery()
+Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNonQuery()
 {
 	HRESULT HResult;
 
@@ -87,7 +87,7 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	if (FAILED(HResult = NativeCommandText->Execute(NULL, IID_NULL, &CommandParameters, &RowsAffected, NULL)))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeCommandText);
-		for (size_t i = 0; i < ParameterStreams.size(); i++)
+		for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
 			if (CurrentParameterStream != nullptr)
@@ -100,7 +100,7 @@ size_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNon
 	}
 
 	// clean up
-	for (size_t i = 0; i < ParameterStreams.size(); i++)
+	for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
 	{
 		SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
 		if (CurrentParameterStream != nullptr)
@@ -145,7 +145,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	if (FAILED(HResult = NativeCommandText->Execute(NULL, IID_IRowset, &CommandParameters, &RowsAffected, (IUnknown**)&NativeRowset)))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeCommandText);
-		for (size_t i = 0; i < ParameterStreams.size(); i++)
+		for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
 			if (CurrentParameterStream != nullptr)
@@ -162,7 +162,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	if (FAILED(HResult = NativeRowset->QueryInterface(IID_IColumnsInfo, (void**)&NativeColumnsInfo)))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeRowset);
-		for (size_t i = 0; i < ParameterStreams.size(); i++)
+		for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
 			if (CurrentParameterStream != nullptr)
@@ -180,7 +180,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	if (FAILED(HResult = NativeColumnsInfo->GetColumnInfo(&FieldCount, &ColumnInfo, &ColumnNames)))
 	{
 		SqlNativeException Exception = SqlNativeException(HResult, NativeColumnsInfo);
-		for (size_t i = 0; i < ParameterStreams.size(); i++)
+		for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
 		{
 			SqlNativeSequentialStream* CurrentParameterStream = static_cast<SqlNativeSequentialStream*>(ParameterStreams[i]);
 			if (CurrentParameterStream != nullptr)
@@ -199,7 +199,7 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	std::unique_ptr<SqlNativeDataReader> Reader = std::unique_ptr<SqlNativeDataReader>(new SqlNativeDataReader(NativeRowset, RowsAffected, FieldCount, ColumnInfo, ColumnNames));
 
 	// clean up
-	for (size_t i = 0; i < ParameterStreams.size(); i++)
+	for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
 	{
 		ISequentialStream* CurrentParameterStream = ParameterStreams[i];
 		if (CurrentParameterStream != nullptr)
@@ -245,11 +245,11 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::SqlNativeCommand(
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParameters(ICommandText* NativeCommandText, DBPARAMS * CommandParameters, std::vector<ISequentialStream*>* Streams, std::vector<byte>* ParameterDataBuffer)
 {
 	HRESULT HResult;
-	size_t ParameterCount = _Parameters.GetCount();
+	Elysium::Core::size ParameterCount = _Parameters.GetCount();
 	if (ParameterCount > 0)
 	{
 		// get the number of blob-fields
-		size_t NumberOfBlobFields = 0;
+		Elysium::Core::size NumberOfBlobFields = 0;
 		for (unsigned long i = 0; i < ParameterCount; i++)
 		{
 			if (_Parameters[i].GetDbType() == DbType::Binary)
@@ -257,7 +257,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 				NumberOfBlobFields++;
 			}
 		}
-		size_t NumberOfNonBlobFields = ParameterCount - NumberOfBlobFields;
+		Elysium::Core::size NumberOfNonBlobFields = ParameterCount - NumberOfBlobFields;
 
 		// resize the stream-collection accordingly
 		Streams->resize(NumberOfBlobFields);
@@ -304,7 +304,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 		unsigned long StreamCounter = 0;
 		std::vector<DBBINDING> ParameterBindings = std::vector<DBBINDING>(ParameterCount);
 		std::vector<DBBINDSTATUS> ParameterBindingsStatus = std::vector<DBBINDSTATUS>(ParameterCount, DBACCESSOR_PARAMETERDATA);
-		for (size_t i = 0; i < ParameterCount; i++)
+		for (Elysium::Core::size i = 0; i < ParameterCount; i++)
 		{
 			ParameterBindings[i].iOrdinal = i + 1;
 			ParameterBindings[i].wType = FormatConverter::Translate(_Parameters[i].GetDbType());
@@ -363,7 +363,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 						CurrentStream->AddRef();	// very important or the object will be deleted too early
 						Streams->at(StreamCounter) = CurrentStream;
 
-						size_t BytesRead = 0;
+						Elysium::Core::size BytesRead = 0;
 						byte Buffer[4096];
 						SourceStream->SetPosition(0);
 						while ((BytesRead = SourceStream->Read(&Buffer[0], 4096)) > 0)

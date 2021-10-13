@@ -19,7 +19,7 @@
 Elysium::Core::Text::StringBuilder::StringBuilder()
 	: StringBuilder(16)
 { }
-Elysium::Core::Text::StringBuilder::StringBuilder(const size_t Capacity)
+Elysium::Core::Text::StringBuilder::StringBuilder(const Elysium::Core::size Capacity)
 	: _Capacity(Capacity <= INT_MAX ? Capacity : INT_MAX),
 	_Data((char8_t*)malloc(sizeof(char8_t) * _Capacity)),
 	_Length(0)
@@ -38,16 +38,16 @@ Elysium::Core::Text::StringBuilder::~StringBuilder()
 	}
 }
 
-const size_t Elysium::Core::Text::StringBuilder::GetCapacity() const
+const Elysium::Core::size Elysium::Core::Text::StringBuilder::GetCapacity() const
 {
 	return _Capacity;
 }
-const size_t Elysium::Core::Text::StringBuilder::GetLength() const
+const Elysium::Core::size Elysium::Core::Text::StringBuilder::GetLength() const
 {
 	return _Length;
 }
 
-void Elysium::Core::Text::StringBuilder::SetLength(const size_t Value)
+void Elysium::Core::Text::StringBuilder::SetLength(const Elysium::Core::size Value)
 {
 	_Length = Value;
 }
@@ -55,7 +55,7 @@ void Elysium::Core::Text::StringBuilder::SetLength(const size_t Value)
 void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Value)
 {
 	// resize if required
-	size_t ValueLength = Value.GetLength();
+	Elysium::Core::size ValueLength = Value.GetLength();
 	Resize(_Length + ValueLength);
 
 	// copy data and set _Length accordingly
@@ -70,7 +70,7 @@ void Elysium::Core::Text::StringBuilder::Append(const char8_t Value)
 	memcpy(&_Data[_Length], &Value, sizeof(char8_t));
 	_Length++;
 }
-void Elysium::Core::Text::StringBuilder::Append(const char8_t * Value, const size_t Length)
+void Elysium::Core::Text::StringBuilder::Append(const char8_t * Value, const Elysium::Core::size Length)
 {
 	// resize if required
 	Resize(_Length + Length);
@@ -83,24 +83,24 @@ void Elysium::Core::Text::StringBuilder::Clear()
 {
 	_Length = 0;
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value) const
+Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value) const
 {
 	const char8_t* CharPointer = std::char_traits<char8_t>::find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<const char8_t>(-1) : CharPointer - _Data;
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value, const size_t StartIndex) const
+Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const
 {
 	const char8_t* CharPointer = std::char_traits<char8_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
-	return CharPointer == nullptr ? static_cast<size_t>(-1) : CharPointer - &_Data[StartIndex];
+	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
+Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 {
-	size_t Index = 0;
-	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
+	Elysium::Core::size Index = 0;
+	Elysium::Core::size SizeOfValue = std::char_traits<char8_t>::length(Value);
 	while (true)
 	{
-		size_t CurrentIndex = IndexOf(Value[0], Index);
-		if (CurrentIndex == static_cast<size_t>(-1))
+		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<Elysium::Core::size>(-1))
 		{
 			return CurrentIndex;
 		}
@@ -108,7 +108,7 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 		Index += CurrentIndex;
 		if (Index + SizeOfValue > _Length)
 		{
-			return static_cast<size_t>(-1);
+			return static_cast<Elysium::Core::size>(-1);
 		}
 
 		bool Found = true;
@@ -128,14 +128,14 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 		Index++;
 	}
 }
-size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const size_t StartIndex) const
+Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const Elysium::Core::size StartIndex) const
 {
-	size_t Index = StartIndex;
-	size_t SizeOfValue = std::char_traits<char8_t>::length(Value);
+	Elysium::Core::size Index = StartIndex;
+	Elysium::Core::size SizeOfValue = std::char_traits<char8_t>::length(Value);
 	while (true)
 	{
-		size_t CurrentIndex = IndexOf(Value[0], Index);
-		if (CurrentIndex == static_cast<size_t>(-1))
+		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
+		if (CurrentIndex == static_cast<Elysium::Core::size>(-1))
 		{
 			return CurrentIndex;
 		}
@@ -143,7 +143,7 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const 
 		Index += CurrentIndex;
 		if (Index + SizeOfValue > _Length)
 		{
-			return static_cast<size_t>(-1);
+			return static_cast<Elysium::Core::size>(-1);
 		}
 
 		bool Found = true;
@@ -163,7 +163,7 @@ size_t Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const 
 		Index++;
 	}
 }
-void Elysium::Core::Text::StringBuilder::Remove(const size_t StartIndex, const size_t Length)
+void Elysium::Core::Text::StringBuilder::Remove(const Elysium::Core::size StartIndex, const Elysium::Core::size Length)
 {
 	// copy data and set _Length accordingly
 	memcpy(&_Data[StartIndex], &_Data[Length], sizeof(char8_t) * Length);
@@ -174,12 +174,12 @@ Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString()
 {
 	return String(_Data, _Length);
 }
-Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString(const size_t Length)
+Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString(const Elysium::Core::size Length)
 {
 	return String(_Data, Length);
 }
 
-void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)
+void Elysium::Core::Text::StringBuilder::Resize(Elysium::Core::size DesiredMinimumSize)
 {
 	if (DesiredMinimumSize < _Length)
 	{	// ToDo: throw a specific ArgumentOutOfRangeException
@@ -193,7 +193,7 @@ void Elysium::Core::Text::StringBuilder::Resize(size_t DesiredMinimumSize)
 	if (DesiredMinimumSize > _Capacity)
 	{
 		// define actual capacity&
-		size_t ActualCapacity = _Capacity * 2 + 1;
+		Elysium::Core::size ActualCapacity = _Capacity * 2 + 1;
 		while (ActualCapacity < DesiredMinimumSize)
 		{
 			ActualCapacity = ActualCapacity * 2 + 1;

@@ -19,18 +19,18 @@ namespace UnitTests::Core
 	public:
 		TEST_METHOD(Size)
 		{
-			Assert::AreEqual(static_cast<size_t>(2), sizeof(Elysium::Core::UInt16));
-			Assert::AreEqual(static_cast<size_t>(2), sizeof(Elysium::Core::Int16));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), sizeof(Elysium::Core::UInt16));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(2), sizeof(Elysium::Core::Int16));
 
-			Assert::AreEqual(static_cast<size_t>(4), sizeof(Elysium::Core::UInt32));
-			Assert::AreEqual(static_cast<size_t>(4), sizeof(Elysium::Core::Int32));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), sizeof(Elysium::Core::UInt32));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), sizeof(Elysium::Core::Int32));
 
-			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::UInt64));
-			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::Int64));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), sizeof(Elysium::Core::UInt64));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), sizeof(Elysium::Core::Int64));
 
-			Assert::AreEqual(static_cast<size_t>(4), sizeof(Elysium::Core::Single));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), sizeof(Elysium::Core::Single));
 
-			Assert::AreEqual(static_cast<size_t>(8), sizeof(Elysium::Core::Double));
+			Assert::AreEqual(static_cast<Elysium::Core::size>(8), sizeof(Elysium::Core::Double));
 		}
 
 		TEST_METHOD(StaticMethods)

@@ -6,12 +6,12 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollecti
 Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::~X509CertificateCollection()
 { }
 
-const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::operator[](size_t Index) const
+const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::operator[](Elysium::Core::size Index) const
 {
 	return _Certificates[Index];
 }
 
-const size_t Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::GetCount() const
+const Elysium::Core::size Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection::GetCount() const
 {
 	return _Certificates.GetCount();
 }

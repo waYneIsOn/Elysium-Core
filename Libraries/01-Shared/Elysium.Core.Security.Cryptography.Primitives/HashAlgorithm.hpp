@@ -38,11 +38,11 @@ namespace Elysium::Core::Security::Cryptography
 		HashAlgorithm& operator=(const HashAlgorithm& Source) = delete;
 		HashAlgorithm& operator=(HashAlgorithm&& Right) noexcept = delete;
 
-		virtual const size_t GetHashSize() const;
+		virtual const Elysium::Core::size GetHashSize() const;
 		virtual const bool GetCanReuseTransform() const;
 
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ComputeHash(Elysium::Core::IO::Stream& InputStream);
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ComputeHash(Elysium::Core::byte* Buffer, const size_t Length);
+		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length);
 
 		virtual void Initialize() = 0;
 	protected:
@@ -51,7 +51,7 @@ namespace Elysium::Core::Security::Cryptography
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _HashValue;
 		int32_t _State;
 
-		virtual void HashCore(Elysium::Core::byte* Array, const size_t Length) = 0;
+		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) = 0;
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() = 0;
 	};
 }

@@ -20,9 +20,9 @@ namespace UnitTests::Core::IO::Compression
 	public:
 		TEST_METHOD(Read)
 		{
-			const size_t BufferSize = 8192;
+			const Elysium::Core::size BufferSize = 8192;
 			byte Buffer[8192];
-			size_t BytesRead = 0;
+			Elysium::Core::size BytesRead = 0;
 
 			FileStream FS = FileStream(u8"test.lz77", FileMode::Open, FileAccess::Read, FileShare::None);
 			GZipStream DecompressionStream = GZipStream(FS, CompressionMode::Decompress);
@@ -30,7 +30,7 @@ namespace UnitTests::Core::IO::Compression
 			Assert::Fail();
 
 			/*
-			for (size_t i = 0; i < TotalBuffer.GetCount(); i++)
+			for (Elysium::Core::size i = 0; i < TotalBuffer.GetCount(); i++)
 			{
 				Logger::WriteMessage(std::to_string((int)TotalBuffer[i]).c_str());
 			}

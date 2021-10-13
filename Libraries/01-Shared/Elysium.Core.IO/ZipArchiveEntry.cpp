@@ -102,7 +102,7 @@ const Elysium::Core::String & Elysium::Core::IO::Compression::ZipArchiveEntry::G
 
 const Elysium::Core::StringView Elysium::Core::IO::Compression::ZipArchiveEntry::GetName() const
 {
-    const size_t LastIndexOfSlash = _FileName.LastIndexOf(u8'/');
+    const Elysium::Core::size LastIndexOfSlash = _FileName.LastIndexOf(u8'/');
     if (LastIndexOfSlash == -1)
     {
         return Elysium::Core::StringView(_FileName);
@@ -175,7 +175,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
 
     Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileNameBuffer =
         Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileNameLength);
-    const size_t FileNameBytesRead = _Reader->ReadBytes(&FileNameBuffer[0], FileNameLength);
+    const Elysium::Core::size FileNameBytesRead = _Reader->ReadBytes(&FileNameBuffer[0], FileNameLength);
     if (FileNameBytesRead != FileNameLength)
     {   // ToDo
         throw 1;
@@ -191,7 +191,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
     {
         Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileCommentBuffer =
             Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileCommentLength);
-        const size_t FileCommentBytesRead = _Reader->ReadBytes(&FileCommentBuffer[0], FileCommentLength);
+        const Elysium::Core::size FileCommentBytesRead = _Reader->ReadBytes(&FileCommentBuffer[0], FileCommentLength);
         if (FileCommentBytesRead != FileCommentLength)
         {   // ToDo
             throw 1;
@@ -246,7 +246,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
 
     Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
         Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileNameLength);
-    const size_t BytesRead = _Reader->ReadBytes(&Buffer[0], FileNameLength);
+    const Elysium::Core::size BytesRead = _Reader->ReadBytes(&Buffer[0], FileNameLength);
     if (BytesRead != FileNameLength)
     {   // ToDo
         throw 1;

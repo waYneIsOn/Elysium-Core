@@ -60,11 +60,11 @@ void Elysium::Core::IO::Stream::SetWriteTimeout(const Elysium::Core::uint32_t Va
 
 void Elysium::Core::IO::Stream::CopyTo(Stream & Destination)
 {
-	const size_t BufferSize = 4096;
+	const Elysium::Core::size BufferSize = 4096;
 	CopyTo(Destination, BufferSize);
 }
 
-void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t BufferSize)
+void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const Elysium::Core::size BufferSize)
 {
 	if (&Destination == this)
 	{
@@ -76,7 +76,7 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const size_t Buffer
 		throw ArgumentOutOfRangeException();
 	}
 
-	size_t BytesRead = 0;
+	Elysium::Core::size BytesRead = 0;
 	Elysium::Core::Collections::Template::List<byte> Buffer = Elysium::Core::Collections::Template::List<byte>(BufferSize);
 	while ((BytesRead = Read(&Buffer[0], BufferSize)) > 0)
 	{

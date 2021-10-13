@@ -75,7 +75,7 @@ namespace Elysium::Core::Template::Container
 		using ReverseIterator = Iterator::BackwardIterator<HeapArray<T, Allocator>>;
 		using ConstReverseIterator = Iterator::ConstBackwardIterator<HeapArray<T, Allocator>>;
 	public:
-		HeapArray(const size_t Length);
+		HeapArray(const Elysium::Core::size Length);
 		HeapArray(const InitializerList<T>& InitializerList);
 		HeapArray(const HeapArray& Source);
 		HeapArray(HeapArray&& Right) noexcept;
@@ -84,18 +84,18 @@ namespace Elysium::Core::Template::Container
 		HeapArray<T, Allocator>& operator=(const HeapArray& Source);
 		HeapArray<T, Allocator>& operator=(HeapArray&& Right) noexcept;
 
-		Reference operator[](const size_t Index);
-		ConstReference operator[](const size_t Index) const;
+		Reference operator[](const Elysium::Core::size Index);
+		ConstReference operator[](const Elysium::Core::size Index) const;
 
-		static constexpr const size_t GetMaximumSize();
+		static constexpr const Elysium::Core::size GetMaximumSize();
 
-		constexpr const size_t GetSize() const noexcept;
+		constexpr const Elysium::Core::size GetSize() const noexcept;
 
 		constexpr ConstPointer GetData() const noexcept;
 
-		Reference GetAt(const size_t Index);
+		Reference GetAt(const Elysium::Core::size Index);
 
-		ConstReference GetAt(const size_t Index) const;
+		ConstReference GetAt(const Elysium::Core::size Index) const;
 
 		FIterator GetBegin();
 		ConstIterator GetBegin() const;
@@ -111,7 +111,7 @@ namespace Elysium::Core::Template::Container
 	private:
 		inline static Allocator _Allocator = Allocator();
 	private:
-		size_t _Size;
+		Elysium::Core::size _Size;
 		Pointer _Data;
 	};
 }

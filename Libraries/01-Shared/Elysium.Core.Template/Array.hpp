@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-#ifndef _XUTILITY_
-#include <xutility>	// std::reverse
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
+#include "Reverse.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container
@@ -30,17 +30,17 @@ namespace Elysium::Core::Template::Container
 	class Array final
 	{
 	public:
-		static void Clear(T* First, const size_t NumberOfElements) noexcept;
+		static void Clear(T* First, const Elysium::Core::size NumberOfElements) noexcept;
 
-		static void Copy(const T* Source, T* Destination, const size_t NumberOfElements);
+		static void Copy(const T* Source, T* Destination, const Elysium::Core::size NumberOfElements);
 
-		static void Move(T* Source, T* Destination, const size_t NumberOfElements) noexcept;
+		static void Move(T* Source, T* Destination, const Elysium::Core::size NumberOfElements) noexcept;
 
-		static void Reverse(T* First, const size_t NumberOfElements);
+		static void Reverse(T* First, const Elysium::Core::size NumberOfElements);
 	};
 
 	template<class T>
-	inline void Array<T>::Clear(T* First, const size_t NumberOfElements) noexcept
+	inline void Array<T>::Clear(T* First, const Elysium::Core::size NumberOfElements) noexcept
 	{
 		if (First == nullptr || NumberOfElements == 0)
 		{
@@ -48,47 +48,46 @@ namespace Elysium::Core::Template::Container
 		}
 
 		// ToDo: custom implementation (os-functionality or iterate byte by byte/element by element?)
-		std::memset(First, 0x00, sizeof(T) * NumberOfElements);
+		memset(First, 0x00, sizeof(T) * NumberOfElements);
 	}
 
 	template<class T>
-	inline void Array<T>::Copy(const T* Source, T* Destination, const size_t NumberOfElements)
+	inline void Array<T>::Copy(const T* Source, T* Destination, const Elysium::Core::size NumberOfElements)
 	{
 		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (size_t i = 0; i < NumberOfElements; i++)
+		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
 		{
 			Destination[i] = Source[i];
 		}
 	}
 
 	template<class T>
-	inline void Array<T>::Move(T* Source, T* Destination, const size_t NumberOfElements) noexcept
+	inline void Array<T>::Move(T* Source, T* Destination, const Elysium::Core::size NumberOfElements) noexcept
 	{
 		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (size_t i = 0; i < NumberOfElements; i++)
+		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
 		{
 			Destination[i] = Functional::Move(Source[i]);
 		}
 	}
 
 	template<class T>
-	inline void Array<T>::Reverse(T* First, const size_t NumberOfElements)
+	inline void Array<T>::Reverse(T* First, const Elysium::Core::size NumberOfElements)
 	{
 		if (First == nullptr || NumberOfElements < 2)
 		{
 			return;
 		}
 
-		// ToDo: custom implementation
-		std::reverse(First, &First[NumberOfElements - 1]);
+		Elysium::Core::Template::Functional::Reverse(First, &First[NumberOfElements - 1]);
 	}
 }
 #endif

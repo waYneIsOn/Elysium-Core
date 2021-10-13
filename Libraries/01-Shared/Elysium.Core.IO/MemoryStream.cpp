@@ -17,17 +17,17 @@
 Elysium::Core::IO::MemoryStream::MemoryStream()
 	: Elysium::Core::IO::Stream()
 { }
-Elysium::Core::IO::MemoryStream::MemoryStream(const size_t Capacity)
+Elysium::Core::IO::MemoryStream::MemoryStream(const Elysium::Core::size Capacity)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(Collections::Template::List<byte>(Capacity))
 { }
-Elysium::Core::IO::MemoryStream::MemoryStream(const byte* Data, size_t Length)
+Elysium::Core::IO::MemoryStream::MemoryStream(const byte* Data, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(Collections::Template::List<byte>(Length))
 {
 	std::memcpy(&_Buffer[0], &Data[0], Length);
 }
-Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, size_t Offset, size_t Length)
+Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(Collections::Template::List<byte>(Length))
 { 
@@ -56,7 +56,7 @@ const bool Elysium::Core::IO::MemoryStream::GetCanWrite() const
 	return true;
 }
 
-const size_t Elysium::Core::IO::MemoryStream::GetLength() const
+const Elysium::Core::size Elysium::Core::IO::MemoryStream::GetLength() const
 {
 	return _Buffer.GetCount();
 }
@@ -76,12 +76,12 @@ const Elysium::Core::uint32_t Elysium::Core::IO::MemoryStream::GetWriteTimeout()
 	return Elysium::Core::IO::Stream::GetWriteTimeout();
 }
 
-const size_t Elysium::Core::IO::MemoryStream::GetCapacity() const
+const Elysium::Core::size Elysium::Core::IO::MemoryStream::GetCapacity() const
 {
 	return _Buffer.GetCapacity();
 }
 
-void Elysium::Core::IO::MemoryStream::SetLength(const size_t Value)
+void Elysium::Core::IO::MemoryStream::SetLength(const Elysium::Core::size Value)
 {
 	/*
 	if (Value > _Buffer.capacity())
@@ -98,10 +98,10 @@ void Elysium::Core::IO::MemoryStream::SetPosition(const Elysium::Core::uint64_t 
 		throw NotSupportedException();
 	}
 
-	_CurrentPosition = (size_t)Position;
+	_CurrentPosition = (Elysium::Core::size)Position;
 }
 
-void Elysium::Core::IO::MemoryStream::SetCapacity(const size_t Capacity)
+void Elysium::Core::IO::MemoryStream::SetCapacity(const Elysium::Core::size Capacity)
 {
 	if (Capacity > UINT_MAX)
 	{
@@ -117,7 +117,7 @@ void Elysium::Core::IO::MemoryStream::Close()
 void Elysium::Core::IO::MemoryStream::Flush()
 { }
 
-const size_t Elysium::Core::IO::MemoryStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
+const Elysium::Core::size Elysium::Core::IO::MemoryStream::Seek(const Elysium::Core::int64_t Offset, const SeekOrigin Origin)
 {
 	if (!GetCanSeek())
 	{
@@ -127,14 +127,14 @@ const size_t Elysium::Core::IO::MemoryStream::Seek(const Elysium::Core::int64_t 
 	throw NotImplementedException();
 }
 
-const size_t Elysium::Core::IO::MemoryStream::Read(Elysium::Core::byte * Buffer, const size_t Count)
+const Elysium::Core::size Elysium::Core::IO::MemoryStream::Read(Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (!GetCanRead())
 	{
 		throw NotSupportedException();
 	}
 
-	size_t BytesToRead = _Buffer.GetCount() - _CurrentPosition;
+	Elysium::Core::size BytesToRead = _Buffer.GetCount() - _CurrentPosition;
 	if (BytesToRead > Count)
 	{
 		BytesToRead = Count;
@@ -145,8 +145,8 @@ const size_t Elysium::Core::IO::MemoryStream::Read(Elysium::Core::byte * Buffer,
 	}
 	/*
 	if (BytesToRead <= 8)
-	{	// ToDo: is this actually faster with up to eight bytes? also this code obviously will need to be refactored because of ByteCount being size_t
-		size_t ByteCount = BytesToRead;
+	{	// ToDo: is this actually faster with up to eight bytes? also this code obviously will need to be refactored because of ByteCount being Elysium::Core::size
+		Elysium::Core::size ByteCount = BytesToRead;
 		while (--ByteCount >= 0)
 		{
 			Buffer[Offset + ByteCount] = _Buffer[_CurrentPosition + ByteCount];
@@ -173,7 +173,7 @@ Elysium::Core::byte Elysium::Core::IO::MemoryStream::ReadByte()
 	return static_cast<int32_t>(_Buffer[_CurrentPosition++]);
 }
 
-void Elysium::Core::IO::MemoryStream::Write(const Elysium::Core::byte * Buffer, const size_t Count)
+void Elysium::Core::IO::MemoryStream::Write(const Elysium::Core::byte * Buffer, const Elysium::Core::size Count)
 {
 	if (!GetCanWrite())
 	{

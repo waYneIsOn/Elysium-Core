@@ -33,7 +33,7 @@ namespace Elysium::Core::IO
 		StringWriter& operator=(const StringWriter& Other) = delete;
 		StringWriter& operator=(StringWriter&& Right) noexcept = delete;
 
-		virtual void Write(const byte* Value, const size_t Length) override;
+		virtual void Write(const byte* Value, const Elysium::Core::size Length) override;
 		virtual void Write(const String& Value) override;
 	private:
 		Elysium::Core::Text::StringBuilder& _StringBuilder;

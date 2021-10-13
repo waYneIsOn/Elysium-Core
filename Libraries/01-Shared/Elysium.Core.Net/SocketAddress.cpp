@@ -23,7 +23,7 @@ const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::SocketAddre
 {
 	return static_cast<Elysium::Core::Net::Sockets::AddressFamily>(_Data[0] | (_Data[1] << 8));
 }
-const Elysium::Core::byte & Elysium::Core::Net::SocketAddress::operator[](size_t Index) const
+const Elysium::Core::byte & Elysium::Core::Net::SocketAddress::operator[](Elysium::Core::size Index) const
 {
 	throw 1;
 }

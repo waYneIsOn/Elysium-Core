@@ -48,11 +48,11 @@ namespace Elysium::Core
 
 		Memory<T> Slice(const Elysium::Core::uint64_t Start, const Elysium::Core::uint64_t Length);
 
-		static void* Copy(void* Destination, const void* Source, size_t Length);
-		static void* Move(void* Destination, const void* Source, size_t Length);
-		static void* Set(void* Start, const Elysium::Core::uint8_t Value, size_t Length);
+		static void* Copy(void* Destination, const void* Source, Elysium::Core::size Length);
+		static void* Move(void* Destination, const void* Source, Elysium::Core::size Length);
+		static void* Set(void* Start, const Elysium::Core::uint8_t Value, Elysium::Core::size Length);
 	private:
-		size_t _Length;
+		Elysium::Core::size _Length;
 		T* _Data;
 	};
 
@@ -107,7 +107,7 @@ namespace Elysium::Core
 	}
 
 	template<typename T>
-	inline void* Memory<T>::Copy(void* Destination, const void* Source, size_t Length)
+	inline void* Memory<T>::Copy(void* Destination, const void* Source, Elysium::Core::size Length)
 	{
 		Elysium::Core::byte* DestinationAddress = (Elysium::Core::byte*)Destination;
 		Elysium::Core::byte* SourceAddress = (Elysium::Core::byte*)Source;
@@ -119,14 +119,14 @@ namespace Elysium::Core
 	}
 
 	template<typename T>
-	inline void* Memory<T>::Move(void* Destination, const void* Source, size_t Length)
+	inline void* Memory<T>::Move(void* Destination, const void* Source, Elysium::Core::size Length)
 	{
 		Elysium::Core::byte* DestinationAddress = (Elysium::Core::byte*)Destination;
 		Elysium::Core::byte* SourceAddress = (Elysium::Core::byte*)Source;
 
 		Elysium::Core::byte* Temporary = new Elysium::Core::byte[Length];
 
-		for (size_t i = 0; i < Length; i++)
+		for (Elysium::Core::size i = 0; i < Length; i++)
 		{
 			Temporary[i] = SourceAddress[i];
 		}
@@ -142,7 +142,7 @@ namespace Elysium::Core
 	}
 
 	template<typename T>
-	inline void* Memory<T>::Set(void* Start, const Elysium::Core::uint8_t Value, size_t Length)
+	inline void* Memory<T>::Set(void* Start, const Elysium::Core::uint8_t Value, Elysium::Core::size Length)
 	{
 		Elysium::Core::byte* Address = (Elysium::Core::byte*)Start;
 		while (Length-- > 0)

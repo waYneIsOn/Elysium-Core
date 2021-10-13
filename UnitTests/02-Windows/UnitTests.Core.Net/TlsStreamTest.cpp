@@ -85,7 +85,7 @@ namespace UnitTests::Core::Net::Security
 				
 				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
 					Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32000);
-				size_t BytesReceived = Stream.Read(&Buffer[0], Buffer.GetLength());
+				Elysium::Core::size BytesReceived = Stream.Read(&Buffer[0], Buffer.GetLength());
 				String ResponseMessage = String((char8_t*)&Buffer[0], BytesReceived);
 			}
 			catch (const AuthenticationException& ex)

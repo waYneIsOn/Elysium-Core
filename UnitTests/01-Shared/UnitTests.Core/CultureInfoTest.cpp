@@ -18,9 +18,9 @@ namespace UnitTests::Core::Globalization
 			Array<CultureInfo> SpecificCultures = CultureInfo::GetCultures(CultureTypes::SpecificCultures);
 			Array<CultureInfo> InstalledCultures = CultureInfo::GetCultures(CultureTypes::InstalledCultures);
 			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
-			Assert::AreNotSame((size_t)0, AllCultures.GetLength());
+			Assert::AreNotSame((Elysium::Core::size)0, AllCultures.GetLength());
 			
-			for (size_t i = 0; i < AllCultures.GetLength(); i++)
+			for (Elysium::Core::size i = 0; i < AllCultures.GetLength(); i++)
 			{
 				const String Name = AllCultures[i].GetName();
 				if (Name == u8"aa")
@@ -49,7 +49,7 @@ namespace UnitTests::Core::Globalization
 			const CultureInfo InvariantCulture = CultureInfo::GetInvariantCulture();
 			Assert::AreEqual(127, InvariantCulture.GetLCID());
 			AssertExtended::AreEqual(String(u8"Invariant Language (Invariant Country)"), InvariantCulture.GetEnglishName());
-			Assert::AreEqual((size_t)0, InvariantCulture.GetName().GetLength());
+			Assert::AreEqual((Elysium::Core::size)0, InvariantCulture.GetName().GetLength());
 
 			const String DisplayName = InvariantCulture.GetDisplayName();
 
@@ -115,7 +115,7 @@ namespace UnitTests::Core::Globalization
 		TEST_METHOD(CheckValueRanges)
 		{
 			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
-			for (size_t i = 0; i < AllCultures.GetLength(); i++)
+			for (Elysium::Core::size i = 0; i < AllCultures.GetLength(); i++)
 			{
 				Elysium::Core::Globalization::NumberFormatInfo NumberFormatInfo = AllCultures[i].GetNumberFormatInfo();
 				
@@ -156,8 +156,8 @@ namespace UnitTests::Core::Globalization
 			AssertExtended::AreEqual(String(u8","), NumberFormat.GetCurrencyDecimalSeparator());
 		}
 
-		static void AssertLongestValue(const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo, const size_t MaximumAllowedLength,
-			const Elysium::Core::String& Method, const Elysium::Core::String& Value, const size_t ActualLength)
+		static void AssertLongestValue(const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo, const Elysium::Core::size MaximumAllowedLength,
+			const Elysium::Core::String& Method, const Elysium::Core::String& Value, const Elysium::Core::size ActualLength)
 		{
 			// bla - this is just for checking values while debugging and can be changed freely
 			if (Value.GetLength() > 9 && ActualLength == MaximumAllowedLength)

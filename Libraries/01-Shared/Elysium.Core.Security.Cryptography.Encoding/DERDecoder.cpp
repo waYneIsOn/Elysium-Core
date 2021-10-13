@@ -41,12 +41,12 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DERDecoder()
 Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::~DERDecoder()
 { }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifier(const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifier(const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	return DecodeIdentifier(&Data[Offset], Length);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifier(const byte * Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifier(const byte * Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeIdentifier(InputStream);
@@ -72,13 +72,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier Elysium::C
 	return Asn1Identifier(TagClass, IsConstructed, TagNumber, EncodedLength);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeLength(const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeLength(const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeLength(InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeLength(const byte * Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeLength(const byte * Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeLength(InputStream);
@@ -121,13 +121,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core:
 	return Asn1Length(Length, EncodedLength);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeByteArray(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeByteArray(Asn1Identifier, Asn1Length, InputStream);
@@ -135,25 +135,25 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Co
 
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream)
 {
-	const size_t Length = Asn1Length.GetLength();
+	const Elysium::Core::size Length = Asn1Length.GetLength();
 	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
-	size_t TotalBytesRead = 0;
+	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{
-		const size_t BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
+		const Elysium::Core::size BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead != Length);
 
 	return Asn1ByteArray(Asn1Identifier, Elysium::Core::Template::Functional::Move(Bytes));
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeBoolean(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeBoolean(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeBoolean(Asn1Identifier, Asn1Length, InputStream);
@@ -166,10 +166,10 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core
 	{
 		// ToDo: can a DER-encoded boolean actually be represented using zero or more than one byte?
 		Collections::Template::Array<byte> Data = Collections::Template::Array<byte>(Asn1Length.GetLength());
-		size_t TotalBytesRead = 0;
+		Elysium::Core::size TotalBytesRead = 0;
 		while (TotalBytesRead < Data.GetLength())
 		{
-			size_t BytesRead = InputStream.Read(&Data[TotalBytesRead], Data.GetLength() - TotalBytesRead);
+			Elysium::Core::size BytesRead = InputStream.Read(&Data[TotalBytesRead], Data.GetLength() - TotalBytesRead);
 			if (BytesRead < 0)
 			{
 				throw IO::EndOfStreamException();
@@ -181,13 +181,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Boolean Elysium::Core
 	return Asn1Boolean(Asn1Identifier, Value);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeInteger(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeInteger(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeInteger(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeInteger(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeInteger(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeInteger(Asn1Identifier, Asn1Length, InputStream);
@@ -221,13 +221,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Integer Elysium::Core
 	}
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeObjectIdentifier(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeObjectIdentifier(Asn1Identifier, Asn1Length, InputStream);
@@ -235,7 +235,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
 {
-	const size_t OidLength = Asn1Length.GetLength();
+	const Elysium::Core::size OidLength = Asn1Length.GetLength();
 	if (OidLength < 2)
 	{	// two bytes equals three nodes
 		throw IO::InvalidDataException(u8"An Oid must contain at least three nodes.");
@@ -290,13 +290,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		Elysium::Core::Security::Cryptography::Oid::FromOidValue(OidBuilder.ToString(), Elysium::Core::Security::Cryptography::OidGroup::All));
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeString(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeString(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, const byte * Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeString(Asn1Identifier, Asn1Length, InputStream);
@@ -322,10 +322,10 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 	case Asn1UniversalTag::UTF8String:
 	{	// ...
 		Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
-		size_t TotalBytesRead = 0;
+		Elysium::Core::size TotalBytesRead = 0;
 		do
 		{
-			const size_t BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
+			const Elysium::Core::size BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
 			TotalBytesRead += BytesRead;
 		} while (TotalBytesRead != Length);
 		return Asn1String(Asn1Identifier, Elysium::Core::Template::Functional::Move(Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length)));
@@ -375,13 +375,13 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 	}
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const size_t Offset, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Offset, Length);
 	return DecodeDateTime(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const size_t Length)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length)
 {
 	IO::MemoryStream InputStream = IO::MemoryStream(Data, Length);
 	return DecodeDateTime(Asn1Identifier, Asn1Length, InputStream);
@@ -451,9 +451,9 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 	}
 }
 
-const size_t Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifierTagNumber(IO::Stream & InputStream, Elysium::Core::int32_t EncodedLength)
+const Elysium::Core::size Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeIdentifierTagNumber(IO::Stream & InputStream, Elysium::Core::int32_t EncodedLength)
 {
-	size_t TagNumber = 0;
+	Elysium::Core::size TagNumber = 0;
 	while (true)
 	{
 		int32_t CurrentByteValue = InputStream.ReadByte();

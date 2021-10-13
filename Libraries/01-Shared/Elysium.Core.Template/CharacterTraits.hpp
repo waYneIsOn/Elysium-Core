@@ -46,7 +46,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the minimum number of bytes required to represent a single character.
 		/// </summary>
-		static constexpr const size_t MinimumByteLength = sizeof(C);
+		static constexpr const Elysium::Core::size MinimumByteLength = sizeof(C);
 
 		/// <summary>
 		/// Returns '\0' as specified character-type.
@@ -81,7 +81,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = sizeof(char);
+		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(char);
 
 		//static constexpr const CharacterCategory GetCategory(ConstCharacter Value) noexcept;
 
@@ -232,7 +232,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = sizeof(signed char);
+		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(signed char);
 
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -365,7 +365,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = sizeof(unsigned char);
+		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(unsigned char);
 
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -497,7 +497,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = 4;
+		static constexpr const Elysium::Core::size MaximumByteLength = 4;
 
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -526,7 +526,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = 4;
+		static constexpr const Elysium::Core::size MaximumByteLength = 4;
 
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -607,7 +607,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = 4;
+		static constexpr const Elysium::Core::size MaximumByteLength = 4;
 		
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -635,7 +635,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const size_t MaximumByteLength = sizeof(char32_t);
+		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(char32_t);
 
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.

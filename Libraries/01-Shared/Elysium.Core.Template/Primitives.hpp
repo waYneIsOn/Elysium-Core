@@ -12,7 +12,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#include <cassert>
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
+#endif
 
 namespace Elysium::Core
 {
@@ -25,6 +27,14 @@ namespace Elysium::Core
 	typedef unsigned short uint16_t;
 	typedef unsigned int uint32_t;
 	typedef unsigned long long uint64_t;
+
+#if ELYSIUM_CORE_BITNESS == 32
+	typedef uint32_t size;
+#elif ELYSIUM_CORE_BITNESS == 64
+	typedef uint64_t size;
+#else
+#error "unsupported os"
+#endif
 
 	constexpr Elysium::Core::int8_t operator "" _i8(const unsigned long long Value)
 	{
@@ -52,25 +62,25 @@ namespace Elysium::Core
 
 	constexpr Elysium::Core::uint8_t operator "" _ui8(const unsigned long long Value)
 	{
-		assert(Value >= 0u && Value <= 255u);
+		//assert(Value >= 0u && Value <= 255u);
 		return static_cast<Elysium::Core::uint8_t>(Value);
 	}
 
 	constexpr Elysium::Core::uint16_t operator "" _ui16(const unsigned long long Value)
 	{
-		assert(Value >= 0u && Value <= 65535u);
+		//assert(Value >= 0u && Value <= 65535u);
 		return static_cast<Elysium::Core::uint16_t>(Value);
 	}
 
 	constexpr Elysium::Core::uint32_t operator "" _ui32(const unsigned long long Value)
 	{
-		assert(Value >= 0u && Value <= 4294967295u);
+		//assert(Value >= 0u && Value <= 4294967295u);
 		return static_cast<Elysium::Core::uint32_t>(Value);
 	}
 
 	constexpr Elysium::Core::uint64_t operator "" _ui64(const unsigned long long Value)
 	{
-		assert(Value >= 0u && Value <= 18446744073709551615u);
+		//assert(Value >= 0u && Value <= 18446744073709551615u);
 		return static_cast<Elysium::Core::uint64_t>(Value);
 	}
 }

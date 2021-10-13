@@ -72,7 +72,7 @@ namespace Elysium::Core
 	template<class ReturnType, class ...Args>
 	inline ReturnType Event<ReturnType, Args...>::operator()(const Args ...EventArgs)
 	{
-		for (size_t i = 0; i < _HandlerList.GetCount(); i++)
+		for (Elysium::Core::size i = 0; i < _HandlerList.GetCount(); i++)
 		{
 			_HandlerList[i](EventArgs...);
 		}
