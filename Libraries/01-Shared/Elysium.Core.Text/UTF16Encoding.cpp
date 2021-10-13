@@ -1,5 +1,9 @@
 #include "UTF16Encoding.hpp"
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "Integer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "../Elysium.Core/System.hpp"
 #endif

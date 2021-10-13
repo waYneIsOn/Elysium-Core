@@ -270,6 +270,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WeakPointer.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

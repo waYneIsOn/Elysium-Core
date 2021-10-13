@@ -52,25 +52,25 @@ namespace Elysium::Core
 
 	constexpr Elysium::Core::uint8_t operator "" _ui8(const unsigned long long Value)
 	{
-		assert(Value >= 0 && Value <= 255);
+		assert(Value >= 0u && Value <= 255u);
 		return static_cast<Elysium::Core::uint8_t>(Value);
 	}
 
 	constexpr Elysium::Core::uint16_t operator "" _ui16(const unsigned long long Value)
 	{
-		assert(Value >= 0 && Value <= 65535);
+		assert(Value >= 0u && Value <= 65535u);
 		return static_cast<Elysium::Core::uint16_t>(Value);
 	}
 
 	constexpr Elysium::Core::uint32_t operator "" _ui32(const unsigned long long Value)
 	{
-		assert(Value >= 0 && Value <= 4294967295);
+		assert(Value >= 0u && Value <= 4294967295u);
 		return static_cast<Elysium::Core::uint32_t>(Value);
 	}
 
 	constexpr Elysium::Core::uint64_t operator "" _ui64(const unsigned long long Value)
 	{
-		assert(Value >= 0 && Value <= 18446744073709551615);
+		assert(Value >= 0u && Value <= 18446744073709551615u);
 		return static_cast<Elysium::Core::uint64_t>(Value);
 	}
 }

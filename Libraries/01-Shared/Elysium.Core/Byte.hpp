@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core

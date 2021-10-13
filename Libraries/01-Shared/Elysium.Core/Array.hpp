@@ -12,14 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef _INITIALIZER_LIST_
-#include <initializer_list>
-#endif
-
-#ifndef _XUTILITY_
-#include <xutility>	// std::reverse
-#endif
-
 #ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
@@ -28,8 +20,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "../Elysium.Core.Template/InitializerList.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
 #include "../Elysium.Core.Template/TypeTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
+#include "../Elysium.Core.Template/Reverse.hpp"
 #endif
 
 constexpr const size_t ARRAY_MAX = static_cast<size_t>(-1);
@@ -42,7 +42,7 @@ namespace Elysium::Core::Collections::Template
 	public:
 		Array(const size_t Length, const bool PerformMemoryClear = false);
 		Array(const T* Begin, const size_t Length);
-		Array(const std::initializer_list<T> InitializerList);
+		Array(const Elysium::Core::Template::Container::InitializerList<T> InitializerList);
 		Array(const Array<T>& Source);
 		Array(Array<T>&& Right) noexcept;
 		Array(const List<T>& Source);
@@ -89,7 +89,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 	template<class T>
-	inline Array<T>::Array(const std::initializer_list<T> InitializerList)
+	inline Array<T>::Array(const Elysium::Core::Template::Container::InitializerList<T> InitializerList)
 		: _Length(InitializerList.size()), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
 		size_t Index = 0;
@@ -253,7 +253,7 @@ namespace Elysium::Core::Collections::Template
 	template<class T>
 	inline void Array<T>::Reverse(Array<T>& Array)
 	{
-		std::reverse(Array._Data, &Array._Data[Array.GetLength()]);
+		Elysium::Core::Template::Functional::Reverse(Array._Data, &Array._Data[Array.GetLength() - 1]);
 	}
 }
 #endif

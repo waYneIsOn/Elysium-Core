@@ -40,6 +40,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
+#include "Reverse.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
 #include "Swap.hpp"
 #endif

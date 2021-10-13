@@ -20,6 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_ANDROID)
+#define char8_t char	// ToDo: remove as soon as it's possible to make use of c++ on android through vs
+#endif
+
 namespace Elysium::Core
 {
 	/*

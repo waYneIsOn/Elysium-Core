@@ -10,18 +10,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef _INITIALIZER_LIST_
-#include <initializer_list>
-#endif
-
-#ifndef _XUTILITY_
-#include <xutility>	// std::reverse
-#endif
-
-#ifndef __midl
-#include <vcruntime_string.h>
-#endif
-
 #ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
 #include "ArgumentOutOfRangeException.hpp"
 #endif
@@ -34,8 +22,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OutOfMemoryException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "../Elysium.Core.Template/InitializerList.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
+#include "../Elysium.Core.Template/Reverse.hpp"
+#endif
+
+#ifndef _INC_STDIO
+#include <cstring>	// std::memcpy
 #endif
 
 constexpr const size_t LIST_MAX = static_cast<size_t>(-1);
@@ -52,7 +52,7 @@ namespace Elysium::Core::Collections::Template
 	public:
 		List();
 		List(const size_t Capacity);
-		List(const std::initializer_list<T>& InitializerList);
+		List(const Elysium::Core::Template::Container::InitializerList<T>& InitializerList);
 		List(const List<T>& Source);
 		List(List<T>&& Right) noexcept;
 		~List();
@@ -102,7 +102,7 @@ namespace Elysium::Core::Collections::Template
 		: _Capacity(Capacity <= LIST_MAX ? Capacity : LIST_MAX), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{ }
 	template<class T>
-	inline List<T>::List(const std::initializer_list<T>& InitializerList)
+	inline List<T>::List(const Elysium::Core::Template::Container::InitializerList<T>& InitializerList)
 		: _Capacity(InitializerList.size()), _Count(_Capacity), _Data(_Capacity == 0 ? nullptr : new T[_Capacity])
 	{
 		size_t Index = 0;
@@ -369,7 +369,7 @@ namespace Elysium::Core::Collections::Template
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-		memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_Count - Index));
+		std::memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T) * (_Count - Index));
 		/*
 		// move all old elements right of InsertionIndex to _Data using the copy constructor
 		for (size_t i = Index; i < _Count; i++)
@@ -388,7 +388,7 @@ namespace Elysium::Core::Collections::Template
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy
-		memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_Count - Index));
+		std::memcpy(&_Data[Index], &_Data[Index + Count], sizeof(T) * (_Count - Index));
 		/*
 		for (size_t i = Index; i < Index + Count; i++)
 		{
@@ -400,7 +400,7 @@ namespace Elysium::Core::Collections::Template
 	template<typename T>
 	inline void List<T>::Reverse()
 	{
-		std::reverse(&_Data[0], &_Data[_Count]);
+		Elysium::Core::Template::Functional::Reverse(&_Data[0], &_Data[_Count]);
 	}
 
 	template<class T>
@@ -497,7 +497,7 @@ namespace Elysium::Core::Collections::Template
 		else
 		{
 			// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-			memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
+			std::memcpy(&_Data[InsertionIndex + 1], &_Data[InsertionIndex], sizeof(T) * (_Count - InsertionIndex));
 			/*
 			// move all old elements right of InsertionIndex to _Data
 			for (size_t i = _Count - 1; i >= InsertionIndex; i--)

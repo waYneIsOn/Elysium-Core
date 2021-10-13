@@ -82,6 +82,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp" />
