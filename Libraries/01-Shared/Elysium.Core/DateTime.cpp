@@ -12,12 +12,12 @@
 #include "NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CHRONO
+#include "../Elysium.Core.Template/Chrono.hpp"
 #endif
 
-#ifndef _CHRONO_
-#include <chrono>
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
 #endif
 
 Elysium::Core::DateTime::DateTime(Elysium::Core::int64_t Ticks)
@@ -87,9 +87,11 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
-	// ToDo: UtcNow.ToLocalTime()
-	//return DateTime(std::chrono::high_resolution_clock::now().time_since_epoch().count() / 100, DateTimeKind::Local);
-	return DateTime(std::chrono::system_clock::now().time_since_epoch().count(), DateTimeKind::Local);
+	// ToDo: get tick-difference between utc and local time and add it
+	Elysium::Core::int64_t UtcTicks = Elysium::Core::Template::Chrono::SystemClock::GetNow().GetTimeSinceEpoch().GetCount() + 
+		DateTimeUtility::UnixFileTimeOffset;
+
+	return DateTime(UtcTicks, DateTimeKind::Local);
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 {
@@ -97,7 +99,8 @@ Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 }
 Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow()
 {
-	return DateTime(std::chrono::utc_clock::now().time_since_epoch().count(), DateTimeKind::Utc);
+	return DateTime(Elysium::Core::Template::Chrono::SystemClock::GetNow().GetTimeSinceEpoch().GetCount() + DateTimeUtility::UnixFileTimeOffset,
+		DateTimeKind::Utc);
 }
 
 const Elysium::Core::DateTimeKind Elysium::Core::DateTime::GetKind() const
@@ -150,7 +153,7 @@ const bool Elysium::Core::DateTime::IsLeapYear(const Elysium::Core::int32_t Year
 	}
 }
 
-int64_t Elysium::Core::DateTime::DateToTicks(const Elysium::Core::int32_t Year, const Elysium::Core::int32_t Month, const Elysium::Core::int32_t Day)
+Elysium::Core::int64_t Elysium::Core::DateTime::DateToTicks(const Elysium::Core::int32_t Year, const Elysium::Core::int32_t Month, const Elysium::Core::int32_t Day)
 {
 	if (Year >= 1 && Year <= 9999 && Month >= 1 && Month <= 12)
 	{
@@ -164,7 +167,7 @@ int64_t Elysium::Core::DateTime::DateToTicks(const Elysium::Core::int32_t Year, 
 	}
 	throw ArgumentOutOfRangeException();
 }
-int64_t Elysium::Core::DateTime::TimeToTicks(const Elysium::Core::int32_t Hour, const Elysium::Core::int32_t Minute, const Elysium::Core::int32_t Second)
+Elysium::Core::int64_t Elysium::Core::DateTime::TimeToTicks(const Elysium::Core::int32_t Hour, const Elysium::Core::int32_t Minute, const Elysium::Core::int32_t Second)
 {
 	if (Hour >= 0 && Hour <= 24 && Minute >= 0 && Minute < 60 && Second >= 0 && Second < 60)
 	{

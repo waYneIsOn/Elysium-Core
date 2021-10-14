@@ -12,23 +12,8 @@
 #include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
-#ifndef _INC_LIMITS
-#include <limits.h>
-#endif
-
 #ifndef _STRING_
 #include <string>
-#endif
-
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
-#endif
-#elif defined(__ANDROID__)
-#define EXPORT
-#else
-#error "undefined os"
 #endif
 
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
@@ -50,23 +35,74 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int8
 	{
 		return Elysium::Core::String(u8"0");
 	}
-	
-	// ToDo: Encoding::Unicode()
-	char Buffer[4];
-	if (errno_t ErrorNumber = _itoa_s(Value, Buffer, 4, ToBase) != 0)
-	{
-		throw 1;
-	}
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	if (Value < 0)
+	{
+		const Elysium::Core::String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::uint8_t NegativeSignLength = static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength());
+		Value *= -1;
+
+		RequiredNumberOfCharacters += NegativeSignLength + static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase))) + 1_ui8;
+		Index += NegativeSignLength;
+		Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+		for (Elysium::Core::size i = 0; i < NegativeSignLength; i++)
+		{
+			Result[i] = NegativeSign[i];
+		}
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + u8'0';
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + u8'A';
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
+	else
+	{
+		RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + u8'0';
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + u8'A';
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int8_t Value, const Elysium::Core::uint8_t ToBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int8_t Value, const Elysium::Core::uint8_t ToBase)
 {
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int8_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int8_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -144,12 +180,12 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int1
 	}
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int16_t Value, const Elysium::Core::uint8_t ToBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int16_t Value, const Elysium::Core::uint8_t ToBase)
 {
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int16_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int16_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -166,14 +202,65 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int3
 		return Elysium::Core::String(u8"0");
 	}
 
-	// ToDo: Encoding::Unicode()
-	char Buffer[33];
-	if (errno_t ErrorNumber = _itoa_s(Value, Buffer, 33, ToBase) != 0)
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	if (Value < 0)
 	{
-		throw 1;
-	}
+		const Elysium::Core::String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::uint8_t NegativeSignLength = static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength());
+		Value *= -1;
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+		RequiredNumberOfCharacters += NegativeSignLength + static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase))) + 1_ui8;
+		Index += NegativeSignLength;
+		Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+		for (Elysium::Core::size i = 0; i < NegativeSignLength; i++)
+		{
+			Result[i] = NegativeSign[i];
+		}
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + u8'0';
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + u8'A';
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
+	else
+	{
+		RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + u8'0';
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + u8'A';
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
 }
 
 const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int32_t Value, const Elysium::Core::uint8_t ToBase)
@@ -181,7 +268,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int32_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int32_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -198,14 +285,65 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int6
 		return Elysium::Core::String(u8"0");
 	}
 
-	// ToDo
-	char Buffer[33];
-	if (errno_t ErrorNumber = _i64toa_s(Value, Buffer, 33, ToBase) != 0)
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	if (Value < 0)
 	{
-		throw 1;
-	}
+		const Elysium::Core::String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::uint8_t NegativeSignLength = static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength());
+		Value *= -1;
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+		RequiredNumberOfCharacters += NegativeSignLength + static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase))) + 1_ui8;
+		Index += NegativeSignLength;
+		Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+		for (Elysium::Core::size i = 0; i < NegativeSignLength; i++)
+		{
+			Result[i] = NegativeSign[i];
+		}
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + u8'0';
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + u8'A';
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
+	else
+	{
+		RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + u8'0';
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + u8'A';
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
 }
 
 const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int64_t Value, const Elysium::Core::uint8_t ToBase)
@@ -213,7 +351,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::int64_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::int64_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -230,14 +368,29 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint
 		return Elysium::Core::String(u8"0");
 	}
 
-	// ToDo
-	char Buffer[3];
-	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 3, ToBase) != 0)
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+	Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+	while (Index < RequiredNumberOfCharacters)
 	{
-		throw 1;
+		Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+		Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+		if (NumericalValue < 10)
+		{
+			Result[Index++] = NumericalValue + u8'0';
+		}
+		else
+		{
+			Result[Index++] = NumericalValue - 10 + u8'A';
+		}
+
+		Value -= BaseValue * NumericalValue;
 	}
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+	return Result;
 }
 
 const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint8_t Value, const Elysium::Core::uint8_t ToBase)
@@ -245,7 +398,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint8_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint8_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -262,14 +415,29 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint
 		return Elysium::Core::String(u8"0");
 	}
 
-	// ToDo
-	char Buffer[7];
-	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 7, ToBase) != 0)
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+	Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+	while (Index < RequiredNumberOfCharacters)
 	{
-		throw 1;
+		Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+		Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+		if (NumericalValue < 10)
+		{
+			Result[Index++] = NumericalValue + u8'0';
+		}
+		else
+		{
+			Result[Index++] = NumericalValue - 10 + u8'A';
+		}
+
+		Value -= BaseValue * NumericalValue;
 	}
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+	return Result;
 }
 
 const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint16_t Value, const Elysium::Core::uint8_t ToBase)
@@ -277,7 +445,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint16_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint16_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -294,14 +462,29 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint
 		return Elysium::Core::String(u8"0");
 	}
 
-	// ToDo
-	char Buffer[33];
-	if (errno_t ErrorNumber = _ultoa_s(Value, Buffer, 33, ToBase) != 0)
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+	Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+	while (Index < RequiredNumberOfCharacters)
 	{
-		throw 1;
+		Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+		Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+		if (NumericalValue < 10)
+		{
+			Result[Index++] = NumericalValue + u8'0';
+		}
+		else
+		{
+			Result[Index++] = NumericalValue - 10 + u8'A';
+		}
+
+		Value -= BaseValue * NumericalValue;
 	}
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+	return Result;
 }
 
 const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase)
@@ -309,7 +492,7 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint32_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint32_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -326,14 +509,29 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint
 		return Elysium::Core::String(u8"0");
 	}
 
-	// ToDo: Encoding::Unicode()
-	char Buffer[33];
-	if (errno_t ErrorNumber = _ui64toa_s(Value, Buffer, 33, ToBase) != 0)
+	Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+	Elysium::Core::uint8_t Index = 0;
+	RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+	Elysium::Core::String Result = Elysium::Core::String(RequiredNumberOfCharacters);
+
+	while (Index < RequiredNumberOfCharacters)
 	{
-		throw 1;
+		Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+		Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+		if (NumericalValue < 10)
+		{
+			Result[Index++] = NumericalValue + u8'0';
+		}
+		else
+		{
+			Result[Index++] = NumericalValue - 10 + u8'A';
+		}
+
+		Value -= BaseValue * NumericalValue;
 	}
 
-	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)Buffer, strlen(Buffer));
+	return Result;
 }
 
 const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint64_t Value, const Elysium::Core::uint8_t ToBase)
@@ -341,12 +539,12 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::uint64_t Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::uint64_t Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(float Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 {
 	if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 	{
@@ -441,17 +639,17 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(float Value, const 
 	*/
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(float Value, const Elysium::Core::uint8_t ToBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const float Value, const Elysium::Core::uint8_t ToBase)
 {
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(float Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const float Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(double Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 {
 	if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 	{
@@ -468,28 +666,37 @@ const Elysium::Core::String Elysium::Core::Convert::ToString(double Value, const
 	return Elysium::Core::Text::Encoding::Default().GetString((const byte*)StringValue.c_str(), StringValue.length());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(double Value, const Elysium::Core::uint8_t ToBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value, const Elysium::Core::uint8_t ToBase)
 {
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(double Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const double Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::Decimal Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::Decimal Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 {
+	if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
+	{
+		throw Elysium::Core::ArgumentException(u8"ToBase");
+	}
+
+	if (Value == 0)
+	{
+		return Elysium::Core::String(u8"0");
+	}
 
 	throw 1;
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::Decimal Value, const Elysium::Core::uint8_t ToBase)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::Decimal Value, const Elysium::Core::uint8_t ToBase)
 {
 	return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-const Elysium::Core::String Elysium::Core::Convert::ToString(Elysium::Core::Decimal Value)
+const Elysium::Core::String Elysium::Core::Convert::ToString(const Elysium::Core::Decimal Value)
 {
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
@@ -568,6 +775,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 
 	return Result;
 }
+
 Elysium::Core::String Elysium::Core::Convert::ToBase64String(const Elysium::Core::byte * Bytes, const Elysium::Core::uint32_t Length)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
@@ -737,6 +945,7 @@ float Elysium::Core::Convert::ToSingle(const char8_t * Value)
 {
 	return ToSingle(String(Value));
 }
+
 float Elysium::Core::Convert::ToSingle(const Elysium::Core::String & Value)
 {	// https://referencesource.microsoft.com/#mscorlib/system/number.cs,04291cc3a0b10032
 	/*

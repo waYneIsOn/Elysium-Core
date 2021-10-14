@@ -4,9 +4,6 @@
 #include "System.hpp"
 #endif
 
-Elysium::Core::BitConverter::~BitConverter()
-{ }
-
 const bool Elysium::Core::BitConverter::GetIsLittleEndian()
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
@@ -136,6 +133,3 @@ const Elysium::Core::uint64_t Elysium::Core::BitConverter::ToUInt64(const Elysiu
 	throw 1;
 #endif
 }
-
-Elysium::Core::BitConverter::BitConverter()
-{ }

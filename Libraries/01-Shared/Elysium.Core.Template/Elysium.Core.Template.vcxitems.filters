@@ -255,9 +255,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp">
       <Filter>Text</Filter>
     </ClInclude>
@@ -275,6 +272,19 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemClock.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TimePoint.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
+      <Filter>Numeric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -315,6 +325,9 @@
     </Filter>
     <Filter Include="Iterator">
       <UniqueIdentifier>{de3998af-211d-4a15-a130-921be7d2f2a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chrono">
+      <UniqueIdentifier>{a6a5ce54-013c-46b2-a8ad-f6a5d0aa35ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

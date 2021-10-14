@@ -32,6 +32,7 @@ namespace Elysium::Core
 	typedef uint32_t size;
 #elif ELYSIUM_CORE_BITNESS == 64
 	typedef uint64_t size;
+	//typedef unsigned __int64 size;
 #else
 #error "unsupported os"
 #endif

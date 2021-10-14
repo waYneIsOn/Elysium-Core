@@ -31,28 +31,28 @@ namespace Elysium::Core
 
 		// number of 100 nanosecond ticks per time unit 
 		inline static constexpr const Elysium::Core::int64_t TicksPerMillisecond = 10000;
-		inline static constexpr const Elysium::Core::int64_t TicksPerSecond = 10000000;		// TicksPerMillisecond * 1000;
-		inline static constexpr const Elysium::Core::int64_t TicksPerMinute = 600000000;	// TicksPerSecond * 60;
-		inline static constexpr const Elysium::Core::int64_t TicksPerHour = 36000000000;	// TicksPerMinute * 60;
-		inline static constexpr const Elysium::Core::int64_t TicksPerDay = 864000000000;	// TicksPerHour * 24;
+		inline static constexpr const Elysium::Core::int64_t TicksPerSecond = TicksPerMillisecond * 1000;
+		inline static constexpr const Elysium::Core::int64_t TicksPerMinute = TicksPerSecond * 60;
+		inline static constexpr const Elysium::Core::int64_t TicksPerHour = TicksPerMinute * 60;
+		inline static constexpr const Elysium::Core::int64_t TicksPerDay = TicksPerHour * 24;
 
 		// number of milliseconds per time unit 
 		inline static constexpr const Elysium::Core::int32_t MillisecondsPerSecond = 1000;
-		inline static constexpr const Elysium::Core::int32_t MillisecondsPerMinute = 60000;
-		inline static constexpr const Elysium::Core::int32_t MillisecondsPerHour = 3600000;
-		inline static constexpr const Elysium::Core::int32_t MillisecondsPerDay = 86400000;
+		inline static constexpr const Elysium::Core::int32_t MillisecondsPerMinute = MillisecondsPerSecond * 60;
+		inline static constexpr const Elysium::Core::int32_t MillisecondsPerHour = MillisecondsPerMinute * 60;
+		inline static constexpr const Elysium::Core::int32_t MillisecondsPerDay = MillisecondsPerHour * 24;
 
 		// days in specific years
 		inline static constexpr const Elysium::Core::int32_t DaysPerYear = 365;
-		inline static constexpr const Elysium::Core::int32_t DaysPerLeapYear = 366;		// DaysPerYear + 1
-		inline static constexpr const Elysium::Core::int32_t DaysPer4Years = 1461;		// DaysPerYear * 4 + 1
-		inline static constexpr const Elysium::Core::int32_t DaysPer100Years = 36524;	// DaysPer4Years * 25 - 1
-		inline static constexpr const Elysium::Core::int32_t DaysPer400Years = 146097;	// DaysPer100Years * 4 + 1
+		inline static constexpr const Elysium::Core::int32_t DaysPerLeapYear = DaysPerYear + 1;
+		inline static constexpr const Elysium::Core::int32_t DaysPer4Years = DaysPerYear * 4 + 1;
+		inline static constexpr const Elysium::Core::int32_t DaysPer100Years = DaysPer4Years * 25 - 1;
+		inline static constexpr const Elysium::Core::int32_t DaysPer400Years = DaysPer100Years * 4 + 1;
 
 		// days from 01.01.0001 to 31.12.xxxx(x)
-		inline static constexpr const Elysium::Core::int32_t DaysTo1601 = 584388;	// DaysPer400Years * 4;
-		inline static constexpr const Elysium::Core::int32_t DaysTo1899 = 693593;	// DaysTo1601 + DaysPer100Years * 3 - 367;
-		inline static constexpr const Elysium::Core::int32_t DaysTo10000 = 3652059;	// DaysPer400Years * 25 - 366;
+		inline static constexpr const Elysium::Core::int32_t DaysTo1601 = DaysPer400Years * 4;
+		inline static constexpr const Elysium::Core::int32_t DaysTo1899 = DaysTo1601 + DaysPer100Years * 3 - 367;
+		inline static constexpr const Elysium::Core::int32_t DaysTo10000 = DaysPer400Years * 25 - 366;
 
 		// ...
 		inline static constexpr const Elysium::Core::int64_t MinTicks = 0;
@@ -73,6 +73,10 @@ namespace Elysium::Core
 		inline static constexpr const double MinutesPerTick = 1.0 / TicksPerMinute;
 		inline static constexpr const double SecondsPerTick = 1.0 / TicksPerSecond;
 		inline static constexpr const double MillisecondsPerTick = 1.0 / TicksPerMillisecond;
+
+		// ...
+		inline static constexpr const Elysium::Core::int32_t DaysTo1970 = DaysPer400Years * 4 + DaysPer100Years * 3 + DaysPer4Years * 17 + DaysPerYear;
+		inline static constexpr const Elysium::Core::int64_t UnixFileTimeOffset = DaysTo1970 * TicksPerDay;
 	};
 }
 #endif

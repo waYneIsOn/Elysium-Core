@@ -29,8 +29,14 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API BitConverter 
 	{
 	public:
-		~BitConverter();
+		BitConverter() = delete;
+		BitConverter(const BitConverter& Source) = delete;
+		BitConverter(BitConverter&& Right) noexcept = delete;
+		~BitConverter() = delete;
 
+		BitConverter& operator=(const BitConverter& Source) = delete;
+		BitConverter& operator=(BitConverter&& Right) noexcept = delete;
+	public:
 		static const bool GetIsLittleEndian();
 
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int16_t Value);
@@ -48,8 +54,6 @@ namespace Elysium::Core
 		static const Elysium::Core::uint32_t ToUInt24(const Elysium::Core::byte* Value);	// ToDo: return custom uint24_t-type?
 		static const Elysium::Core::uint32_t ToUInt32(const Elysium::Core::byte* Value);
 		static const Elysium::Core::uint64_t ToUInt64(const Elysium::Core::byte* Value);
-	private:
-		BitConverter();
 	};
 }
 #endif
