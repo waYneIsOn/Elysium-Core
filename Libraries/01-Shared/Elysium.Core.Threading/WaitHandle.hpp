@@ -45,16 +45,16 @@ namespace Elysium::Core::Threading
 		virtual const bool WaitOne() const;
 
 		// Blocks the current thread until the current instance receives a signal, using a TimeSpan to specify the time interval.
-		virtual const bool WaitOne(const TimeSpan& Timeout) const;
+		virtual const bool WaitOne(const Elysium::Core::TimeSpan& Timeout) const;
 
 		// Blocks the current thread until the current instance receives a signal, using a 32-bit signed integer to specify the time interval in milliseconds.
-		virtual const bool WaitOne(const int32_t MillisecondsTimeout) const;
+		virtual const bool WaitOne(const Elysium::Core::int32_t MillisecondsTimeout) const;
 
 		// Blocks the current thread until the current instance receives a signal, using a TimeSpan to specify the time interval and specifying whether to exit the synchronization domain before the wait.
-		virtual const bool WaitOne(const TimeSpan& Timeout, const bool ExitContext) const;
+		virtual const bool WaitOne(const Elysium::Core::TimeSpan& Timeout, const bool ExitContext) const;
 
 		// Blocks the current thread until the current instance receives a signal, using a 32-bit signed integer to specify the time interval and specifying whether to exit the synchronization domain before the wait.
-		virtual const bool WaitOne(const int32_t MillisecondsTimeout, const bool ExitContext) const;
+		virtual const bool WaitOne(const Elysium::Core::int32_t MillisecondsTimeout, const bool ExitContext) const;
 	protected:
 		WaitHandle(const ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE Handle);
 

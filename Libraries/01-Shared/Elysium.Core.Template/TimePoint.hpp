@@ -27,7 +27,7 @@ namespace Elysium::Core::Template::Chrono
     /// </summary>
     /// <typeparam name="Clock"></typeparam>
     /// <typeparam name="ClockDuration"></typeparam>
-    template <class Clock, class ClockDuration = Clock::Duration>
+    template <class Clock, class ClockDuration = typename Clock::Duration>
     class TimePoint
     {
 	public:

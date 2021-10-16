@@ -172,52 +172,52 @@ namespace Elysium::Core::Template::Text
 		static constexpr const bool IsHighAscii(ConstCharacter Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<char>::IsControl(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsControl(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return (Value >= 0x00 && Value < 0x20) || Value == 0x7F;
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsDigit(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsLetter(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsLetter(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return IsLower(Value) || IsUpper(Value);
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsLetterOrDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsLetterOrDigit(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return IsDigit(Value) || IsLetter(Value);
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsLower(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsLower(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x60 && Value < 0x7B);	// Latin small (lower case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsNumber(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsNumber(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsUpper(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsUpper(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsWhitespace(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsWhitespace(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return Value == 0x20;
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsAscii(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return (Value >= 0x00 && Value < 0x80);	// 0 - 127
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsHighAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsHighAscii(CharacterTraits<char>::ConstCharacter Value) noexcept
 	{
 		return Value < 0x00;	// -128 - -1
 	}
@@ -305,52 +305,52 @@ namespace Elysium::Core::Template::Text
 		static constexpr const bool IsHighAscii(ConstCharacter Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<signed char>::IsControl(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsControl(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return (Value >= 0x00 && Value < 0x20) || Value == 0x7F;
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsDigit(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsLetter(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsLetter(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return IsLower(Value) || IsUpper(Value);
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsLetterOrDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsLetterOrDigit(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return IsDigit(Value) || IsLetter(Value);
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsLower(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsLower(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x60 && Value < 0x7B);	// Latin small (lower case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsNumber(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsNumber(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsUpper(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsUpper(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsWhitespace(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsWhitespace(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return Value == 0x20;
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsAscii(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return (Value >= 0x00 && Value < 0x80);	// 0 - 127
 	}
 
-	inline constexpr const bool CharacterTraits<signed char>::IsHighAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<signed char>::IsHighAscii(CharacterTraits<signed char>::ConstCharacter Value) noexcept
 	{
 		return Value < 0x00;	// -128 - -1
 	}
@@ -438,52 +438,52 @@ namespace Elysium::Core::Template::Text
 		static constexpr const bool IsHighAscii(ConstCharacter Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsControl(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsControl(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsDigit(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsLetter(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsLetter(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return IsLower(Value) || IsUpper(Value);
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsLetterOrDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsLetterOrDigit(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return IsDigit(Value) || IsLetter(Value);
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsLower(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsLower(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x60 && Value < 0x7B);	// Latin small (lower case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsNumber(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsNumber(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsUpper(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsUpper(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsWhitespace(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsWhitespace(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return Value == 0x20;
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsAscii(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return Value < 0x80;	// 0 - 127
 	}
 
-	inline constexpr const bool CharacterTraits<unsigned char>::IsHighAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<unsigned char>::IsHighAscii(CharacterTraits<unsigned char>::ConstCharacter Value) noexcept
 	{
 		return Value > 0x7F;	// 128 - 255
 	}
@@ -511,7 +511,7 @@ namespace Elysium::Core::Template::Text
 		//static constexpr const bool IsLowSurrogate(ConstCharacter Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<wchar_t>::IsControl(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<wchar_t>::IsControl(CharacterTraits<wchar_t>::ConstCharacter Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
 		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
@@ -562,7 +562,7 @@ namespace Elysium::Core::Template::Text
 		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
 
-	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(CharacterTraits<char8_t>::ConstCharacter Value) noexcept
 	{	// In UTF-8 a leading byte will always look like this: 0xxx xxxx, 110x xxxx, 1110 xxxx or 1111 0xxx
 		/*
 		if ((Value >> 7) == 0x00)
@@ -587,12 +587,12 @@ namespace Elysium::Core::Template::Text
 		return (Value & 0x80) != 0x80;
 	}
 
-	inline constexpr const bool CharacterTraits<char8_t>::IsTrailByte(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char8_t>::IsTrailByte(CharacterTraits<char8_t>::ConstCharacter Value) noexcept
 	{	// In UTF-8 a trailing byte will always look like this: 10xx xxxx
 		return (Value & 0x80) == 0x80;
 	}
 
-	inline constexpr const bool CharacterTraits<char8_t>::IsAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char8_t>::IsAscii(CharacterTraits<char8_t>::ConstCharacter Value) noexcept
 	{
 		return Value < 0x80;	// 0 - 127 (utf-8 is ascii compliant regarding these values)
 	}
@@ -621,7 +621,7 @@ namespace Elysium::Core::Template::Text
 		//static constexpr const bool IsLowSurrogate(ConstCharacter Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<char16_t>::IsControl(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char16_t>::IsControl(CharacterTraits<char16_t>::ConstCharacter Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
 		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
@@ -673,17 +673,17 @@ namespace Elysium::Core::Template::Text
 		static constexpr const bool IsAscii(ConstCharacter Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<char32_t>::IsControl(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char32_t>::IsControl(CharacterTraits<char32_t>::ConstCharacter Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
 		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
 
-	inline constexpr const bool CharacterTraits<char32_t>::IsDigit(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char32_t>::IsDigit(CharacterTraits<char32_t>::ConstCharacter Value) noexcept
 	{
 		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
 	}
 	
-	inline constexpr const bool CharacterTraits<char32_t>::IsLetter(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char32_t>::IsLetter(CharacterTraits<char32_t>::ConstCharacter Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/LC/list.htm
 		// https://www.fileformat.info/info/unicode/category/Ll/list.htm
 		// https://www.fileformat.info/info/unicode/category/Lm/list.htm
@@ -693,7 +693,7 @@ namespace Elysium::Core::Template::Text
 		return false;
 	}
 
-	inline constexpr const bool CharacterTraits<char32_t>::IsNumber(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char32_t>::IsNumber(CharacterTraits<char32_t>::ConstCharacter Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
 		return
 			(Value > 0x2F && Value < 0x3A) ||			// Radix-10 digits
@@ -759,7 +759,7 @@ namespace Elysium::Core::Template::Text
 			(Value > 0x01FBEF && Value < 0x1FBFA);		// Segmented digits
 	}
 
-	inline constexpr const bool CharacterTraits<char32_t>::IsAscii(ConstCharacter Value) noexcept
+	inline constexpr const bool CharacterTraits<char32_t>::IsAscii(CharacterTraits<char32_t>::ConstCharacter Value) noexcept
 	{
 		return Value < 0x80;	// 0 - 127 (utf-32 is ascii compliant regarding these values)
 	}

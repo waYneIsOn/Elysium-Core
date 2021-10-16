@@ -19,13 +19,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class PlatformID : uint32_t
+	enum class PlatformID : Elysium::Core::int8_t
 #elif defined(__ANDROID__)
 	enum class PlatformID
 #else
 #error "undefined os"
 #endif
 	{
+		Unknown = -1,
+
 		/*
 		//Win32S = 0,
 		//Win32Windows = 1,

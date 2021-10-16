@@ -35,8 +35,6 @@ namespace Elysium::Core::Globalization
 
 		Calendar& operator=(const Calendar& Source) = delete;
 		Calendar& operator=(Calendar&& Right) noexcept = delete;
-
-		static void Test();
 	protected:
 		Calendar();
 	private:

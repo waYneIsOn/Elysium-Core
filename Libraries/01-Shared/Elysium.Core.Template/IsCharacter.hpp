@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsCharacterValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, char, signed char, unsigned char, wchar_t, char8_t, char16_t, char32_t>;
+    inline constexpr bool IsCharacterValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, char, signed char, unsigned char, wchar_t, char8_t, char16_t, char32_t>;
 
     template <class T>
     struct IsCharacter : IntegralConstant<bool, IsCharacterValue<T>>

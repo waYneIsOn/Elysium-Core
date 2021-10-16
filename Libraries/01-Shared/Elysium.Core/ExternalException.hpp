@@ -11,8 +11,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core.Template/System.hpp"
+#endif
 
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "Exception.hpp"
 #endif
@@ -27,20 +30,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Runtime::InteropServices
 {
-	// The base exception type for all COM interop exceptions and structured exception handling (SEH) exceptions.
+	/// <summary>
+	/// The base exception type for all COM interop exceptions and structured exception handling (SEH) exceptions.
+	/// </summary>
 	class ELYSIUM_CORE_API ExternalException : public Exception
 	{
 	public:
 		ExternalException();
+
 		ExternalException(const Elysium::Core::int32_t ErrorCode);
+
 		//ExternalException(const ExternalException& Source) = delete;
 		//ExternalException(ExternalException&& Right) noexcept = delete;
+
 		virtual ~ExternalException();
 
 		//ExternalException& operator=(const ExternalException& Source) = delete;
 		//ExternalException& operator=(ExternalException&& Right) noexcept = delete;
 
 		const Elysium::Core::int32_t GetErrorCode() const;
+
 		const HRESULT GetHResult() const;
 	protected:
 		const Elysium::Core::int32_t _ErrorCode;

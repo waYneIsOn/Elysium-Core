@@ -12,10 +12,6 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
 #include "../Elysium.Core/SystemException.hpp"
 #endif
@@ -24,26 +20,12 @@
 #include "LocaleFinder.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
+#ifndef ELYSIUM_CORE_GLOBALIZATION_SYSTEM
+#include "System.hpp"
 #endif
-
-#ifndef _WINNLS_
-#include <WinNls.h>
-#endif
-#else
-#error "undefined os"
-#endif
-
 
 Elysium::Core::Globalization::CultureInfo::CultureInfo()
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	: _LCID(LOCALE_INVARIANT), _UseUserOverride(false)
-#else
-#error "undefined os"
-#endif
+	: _LCID(ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT), _UseUserOverride(false)
 { }
 Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int32_t Culture, const bool UseUserOverride)
 	: _LCID(Culture), _UseUserOverride(UseUserOverride)
@@ -85,6 +67,8 @@ const Elysium::Core::Globalization::CultureInfo Elysium::Core::Globalization::Cu
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	return CultureInfo(LOCALE_INVARIANT, false);
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -112,6 +96,8 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDispla
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -127,6 +113,8 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglis
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -142,6 +130,8 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetName()
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -169,6 +159,8 @@ Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFro
 	}
 
 	return LCID;
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif

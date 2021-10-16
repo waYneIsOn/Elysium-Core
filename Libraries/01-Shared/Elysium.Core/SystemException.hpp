@@ -18,12 +18,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
+	/// <summary>
+	/// 
+	/// </summary>
 	class ELYSIUM_CORE_API SystemException : public Exception
 	{
 	public:
 		SystemException();
+
 		SystemException(const char8_t* Message);
+
 		SystemException(Elysium::Core::String&& Message);
+
 		virtual ~SystemException();
 
 		const Elysium::Core::int32_t GetErrorCode() const;

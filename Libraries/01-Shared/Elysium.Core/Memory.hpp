@@ -125,7 +125,6 @@ namespace Elysium::Core
 		Elysium::Core::byte* SourceAddress = (Elysium::Core::byte*)Source;
 
 		Elysium::Core::byte* Temporary = new Elysium::Core::byte[Length];
-
 		for (Elysium::Core::size i = 0; i < Length; i++)
 		{
 			Temporary[i] = SourceAddress[i];
@@ -133,7 +132,7 @@ namespace Elysium::Core
 
 		while (Length-- > 0)
 		{
-			*DestinationAddress++ = Temporary++;
+			*DestinationAddress++ = *Temporary++;
 		}
 
 		delete[] Temporary;

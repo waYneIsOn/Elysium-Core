@@ -33,6 +33,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef _WINNLS_
 #include <WinNls.h>
 #endif
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+
 #else
 #error "undefined os"
 #endif
@@ -52,7 +54,9 @@ namespace Elysium::Core::Globalization::Internal
 
 		static const Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> GetSystemLocaleIds(const CultureTypes& Types);
 	private:
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 		static Elysium::Core::int32_t EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter);
+#endif
 	};
 }
 #endif

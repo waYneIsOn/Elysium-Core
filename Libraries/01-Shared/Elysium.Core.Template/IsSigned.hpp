@@ -30,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::TypeTraits
 {
-	template <class T, bool = IsIntegralValue<T>>
+	template <class T, bool = Elysium::Core::Template::TypeTraits::IsIntegralValue<T>>
 	struct IsSignedHelper
 	{
 		using PlainT = Functional::RemoveConstVolatileType<T>;
@@ -45,7 +45,7 @@ namespace Elysium::Core::Template::TypeTraits
 	};
 
 	template <class T>
-	struct IsSigned : public IntegralConstant<bool, IsSignedHelper<T>::Signed>
+	struct IsSigned : public IntegralConstant<bool, Elysium::Core::Template::TypeTraits::IsSignedHelper<T>::Signed>
 	{ };
 	
 	template <class T>

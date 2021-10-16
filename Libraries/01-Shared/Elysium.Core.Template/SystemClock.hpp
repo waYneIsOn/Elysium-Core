@@ -34,7 +34,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <Windows.h>
 #endif
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-
+#ifndef _TIME_H_
+#include <time.h>
+#endif
 #else
 #error "unsupported os"
 #endif
@@ -70,7 +72,9 @@ namespace Elysium::Core::Template::Chrono
             __int64 UnixTicks = ((__int64)FileTimeNow.dwLowDateTime + ((__int64)(FileTimeNow.dwHighDateTime) << 32LL)) -
                 116444736000000000LL;   // as windows ticks start at 01.01.1601 we need to add this value to get to unix' 01.01.1970
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
-            
+            struct timespec now;
+            clock_gettime(CLOCK_MONOTONIC, &now);
+            __int64_t UnixTicks = now.tv_sec * 1000000000LL + now.tv_nsec;
 #else
 #error "unsupported os"
 #endif

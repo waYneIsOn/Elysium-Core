@@ -16,12 +16,12 @@
 #include <thread>
 #endif
 
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
 const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r\n");
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
@@ -48,6 +48,7 @@ const bool Elysium::Core::Environment::Is64BitProcess()
 
 const Elysium::Core::String Elysium::Core::Environment::MachineName()
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t MachineName[4096];	// TCHAR
 	unsigned long BufferCount = 4096;	// DWORD
 	if (GetComputerName(MachineName, &BufferCount))
@@ -59,13 +60,25 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 	{
 		throw InvalidOperationException(u8"The name of this computer cannot be obtained.");
 	}
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_MAC)
+	throw 1;
+#else
+#error "unsupported os"
+#endif
 }
+
 const Elysium::Core::String & Elysium::Core::Environment::NewLine()
 {
 	return _NewLineCharacters;
 }
+
 const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	// ToDos:
 	//		- use preprocessor for different os
 	//		- don't return fixed platform-id like PlatformID::WindowsDesktop (I'll just leave this in until I've decided on all values of PlatformID)
@@ -80,7 +93,7 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 #pragma warning (disable : 4996)	// disable deprecation warning
 	bool Result = GetVersionEx(pVersionInfo);
 #pragma warning (default : 4996)
-	if(Result)
+	if (Result)
 	{
 		if (VersionInfo.wProductType == VER_NT_WORKSTATION)
 		{	// desktop os
@@ -92,12 +105,22 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 		}
 
 		return OperatingSystem(PlatformID::WindowsDesktop, Version(VersionInfo.dwMajorVersion, VersionInfo.dwMinorVersion, VersionInfo.dwBuildNumber));
-	}
+}
 	else
 	{
 		throw InvalidOperationException(u8"This property was unable to obtain the system version.");
 	}
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_MAC)
+	throw 1;
+#else
+#error "unsupported os"
+#endif
 }
+
 const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
 {
 	/*
@@ -106,8 +129,10 @@ const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
 	*/
 	return std::thread::hardware_concurrency();
 }
+
 const Elysium::Core::String Elysium::Core::Environment::UserName()
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t UserName[4096];	// TCHAR
 	unsigned long BufferCount = 4096;	// DWORD
 	if (GetUserName(UserName, &BufferCount))
@@ -119,9 +144,20 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 	{
 		throw InvalidOperationException(u8"This property was unable to obtain the user name.");
 	}
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_MAC)
+	throw 1;
+#else
+#error "unsupported os"
+#endif
 }
+
 const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t SystemDirectory[4096];	// TCHAR
 	unsigned long BufferCount = 4096;	// DWORD
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
@@ -133,5 +169,13 @@ const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 	{
 		throw InvalidOperationException(u8"This property was unable to obtain the system directory.");
 	}
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_LINUX)
+	throw 1;
+#elif defined(ELYSIUM_CORE_OS_MAC)
+	throw 1;
+#else
+#error "unsupported os"
+#endif
 }
-

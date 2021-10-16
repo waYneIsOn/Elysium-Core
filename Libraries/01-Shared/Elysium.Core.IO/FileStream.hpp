@@ -44,7 +44,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#ifdef ELYSIUM_CORE_OS_WINDOWS
+#ifndef ELYSIUM_CORE_TEXT_UTF16ENCODING
+#include "../Elysium.Core.Text/UTF16Encoding.hpp"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef _WINDOWS_
 #include <Windows.h>
 #endif
@@ -56,10 +60,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef _APISETFILE_
 #include <fileapi.h>
 #endif
-
-#ifndef ELYSIUM_CORE_TEXT_UTF16ENCODING
-#include "../Elysium.Core.Text/UTF16Encoding.hpp"
-#endif
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 
 #else
 #error "undefined os"
@@ -107,13 +108,14 @@ namespace Elysium::Core::IO
 		const String _Path;
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+		inline static const Elysium::Core::Text::Encoding& _OperatingSystemEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		HANDLE _FileHandle;
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+		inline static const Elysium::Core::Text::Encoding& _OperatingSystemEncoding = Elysium::Core::Text::Encoding::UTF8();
 #else
 #error "unsupported os"
 #endif
-
 		Elysium::Core::uint64_t _Position = 0;
 
 		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;

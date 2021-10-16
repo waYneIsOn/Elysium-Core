@@ -43,7 +43,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #if defined(ELYSIUM_CORE_OS_WINDOWS) || defined(ELYSIUM_CORE_OS_ANDROID)
 #define ELYSIUM_CORE_LITTLEENDIAN 1
 #else
-#error "unsupported os regardin endian"
+#error "unsupported os regarding endian"
+#endif
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#define ELYSIUM_CORE_OS_HAS_API_GLOBALIZATION true
+#define ELYSIUM_CORE_OS_HAS_API_OID true
+#define ELYSIUM_CORE_OS_HAS_API_THREADING true
+#define ELYSIUM_CORE_OS_HAS_API_THREADPOOL true
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+
+#else
+#error "unsupported os"
 #endif
 
 #endif

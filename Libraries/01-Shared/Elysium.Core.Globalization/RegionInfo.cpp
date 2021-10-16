@@ -12,33 +12,28 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
-#endif
-
-#ifndef _WINNLS_
-#include <WinNls.h>
-#endif
-#else
-#error "undefined os"
+#ifndef ELYSIUM_CORE_GLOBALIZATION_SYSTEM
+#include "System.hpp"
 #endif
 
 Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::int32_t Culture)
 	: _LCID(Culture)
 { }
+
 Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::String Name)
 	: _LCID(GetLocaleIdFromName(Name))
 { }
+
 Elysium::Core::Globalization::RegionInfo::RegionInfo(const RegionInfo& Source)
 	: _LCID(Source._LCID)
 { }
+
 Elysium::Core::Globalization::RegionInfo::RegionInfo(RegionInfo&& Right) noexcept
 	: _LCID(0)
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Core::Globalization::RegionInfo::~RegionInfo()
 { }
 
@@ -70,6 +65,8 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetDisplay
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -85,6 +82,8 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetEnglish
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -100,6 +99,8 @@ const bool Elysium::Core::Globalization::RegionInfo::GetIsMetric() const
 	}
 
 	return (Value - 48) == 0;
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -115,6 +116,8 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetNativeN
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -130,6 +133,8 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetThreeLe
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -145,6 +150,8 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetTwoLett
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -162,6 +169,8 @@ Elysium::Core::int32_t Elysium::Core::Globalization::RegionInfo::GetLocaleIdFrom
 	}
 
 	return LCID;
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif

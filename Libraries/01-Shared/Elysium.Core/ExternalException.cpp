@@ -1,5 +1,6 @@
 #include "ExternalException.hpp"
 
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef ELYSIUM_CORE_STRING
 #include "String.hpp"
 #endif
@@ -19,9 +20,11 @@
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(0x80004005L)
 { }
+
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const Elysium::Core::int32_t ErrorCode)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(GetErrorMessage(ErrorCode))), _ErrorCode(ErrorCode)
 { }
+
 Elysium::Core::Runtime::InteropServices::ExternalException::~ExternalException()
 { }
 
@@ -43,3 +46,4 @@ Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException
 	const Elysium::Core::Text::Encoding& WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(ErrorMessageW));
 }
+#endif

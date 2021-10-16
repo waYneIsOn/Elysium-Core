@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsIntegralValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, bool, char, signed char, unsigned char, wchar_t,
+    inline constexpr bool IsIntegralValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, bool, char, signed char, unsigned char, wchar_t,
         char8_t, char16_t, char32_t, short, unsigned short, int, unsigned int, long, unsigned long, long long, unsigned long long>;
 
     template <class T>

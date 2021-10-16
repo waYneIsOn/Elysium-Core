@@ -1,9 +1,5 @@
 #include "StringBuilder.hpp"
 
-#ifndef _XSTRING_
-#include <xstring>
-#endif
-
 #ifndef __midl
 #include <cstring>
 #endif
@@ -16,12 +12,20 @@
 #include "../Elysium.Core/OutOfMemoryException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
+#include "../Elysium.Core.Template/NumericLimits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
+#include "../Elysium.Core.Template/StringTraits.hpp"
+#endif
+
 Elysium::Core::Text::StringBuilder::StringBuilder()
 	: StringBuilder(16)
 { }
 Elysium::Core::Text::StringBuilder::StringBuilder(const Elysium::Core::size Capacity)
-	: _Capacity(Capacity <= INT_MAX ? Capacity : INT_MAX),
-	_Data((char8_t*)malloc(sizeof(char8_t) * _Capacity)),
+	: _Capacity(Capacity <= Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum ? Capacity : Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum),
+	_Data(new char8_t[_Capacity]),
 	_Length(0)
 { }
 Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Source)
@@ -85,18 +89,18 @@ void Elysium::Core::Text::StringBuilder::Clear()
 }
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value) const
 {
-	const char8_t* CharPointer = std::char_traits<char8_t>::find(_Data, _Length, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<const char8_t>(-1) : CharPointer - _Data;
 }
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const
 {
-	const char8_t* CharPointer = std::char_traits<char8_t>::find(&_Data[StartIndex], _Length - StartIndex, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 {
 	Elysium::Core::size Index = 0;
-	Elysium::Core::size SizeOfValue = std::char_traits<char8_t>::length(Value);
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
@@ -131,7 +135,7 @@ Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * 
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const Elysium::Core::size StartIndex) const
 {
 	Elysium::Core::size Index = StartIndex;
-	Elysium::Core::size SizeOfValue = std::char_traits<char8_t>::length(Value);
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
@@ -185,7 +189,7 @@ void Elysium::Core::Text::StringBuilder::Resize(Elysium::Core::size DesiredMinim
 	{	// ToDo: throw a specific ArgumentOutOfRangeException
 		throw Exception(u8"ArgumentOutOfRangeException");
 	}
-	if (DesiredMinimumSize > INT_MAX)
+	if (DesiredMinimumSize > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum)
 	{
 		throw OutOfMemoryException();
 	}
@@ -198,14 +202,14 @@ void Elysium::Core::Text::StringBuilder::Resize(Elysium::Core::size DesiredMinim
 		{
 			ActualCapacity = ActualCapacity * 2 + 1;
 		}
-		if (ActualCapacity > INT_MAX)
+		if (ActualCapacity > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum)
 		{
-			ActualCapacity = INT_MAX;
+			ActualCapacity = Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum;
 		}
 
 		// store a pointer to old data before allocating new data
 		char8_t* OldData = _Data;
-		_Data = (char8_t*)malloc(sizeof(char8_t) * ActualCapacity);
+		_Data = new char8_t[ActualCapacity];
 		if (_Data == nullptr)
 		{	// ToDo: throw specific exception (OutOfMemoryException?)
 			throw 1;

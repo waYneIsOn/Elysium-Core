@@ -28,21 +28,12 @@
 #include "../Elysium.Core/SystemException.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
-#endif
-
-#ifndef _WINNLS_
-#include <WinNls.h>
-#endif
-#else
-#error "undefined os"
+#ifndef ELYSIUM_CORE_GLOBALIZATION_SYSTEM
+#include "System.hpp"
 #endif
 
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
-	: NumberFormatInfo(LOCALE_INVARIANT, false)
+	: NumberFormatInfo(ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT, false)
 { }
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly)
 	: _LCID(Culture), _IsReadOnly(ReadOnly)
@@ -51,7 +42,7 @@ Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const NumberFor
 	: _LCID(Source._LCID), _IsReadOnly(Source._IsReadOnly)
 { }
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(NumberFormatInfo&& Right) noexcept
-	: _LCID(LOCALE_INVARIANT), _IsReadOnly(false)
+	: _LCID(ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT), _IsReadOnly(false)
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
@@ -80,7 +71,7 @@ Elysium::Core::Globalization::NumberFormatInfo& Elysium::Core::Globalization::Nu
 
 const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::GetCurrentInfo()
 {
-	return NumberFormatInfo(LOCALE_CUSTOM_DEFAULT, true);
+	return NumberFormatInfo(ELYSIUM_CORE_GLOBALIZATION_LOCALE_CUSTOM_DEFAULT, true);
 }
 
 const Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo()
@@ -98,6 +89,8 @@ const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::Get
 	}
 	
 	return Value - 48;
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -113,6 +106,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetC
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -128,6 +123,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetC
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -153,6 +150,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetC
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -168,6 +167,8 @@ const Elysium::Core::Globalization::DigitShapes Elysium::Core::Globalization::Nu
 	}
 
 	return static_cast<Elysium::Core::Globalization::DigitShapes>(Value - 48);
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -188,6 +189,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -203,6 +206,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -218,6 +223,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -238,6 +245,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -253,6 +262,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -268,6 +279,8 @@ const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::Get
 	}
 
 	return Value - 48;
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -283,6 +296,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 }
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1; 
 #else
 #error "undefined os"
 #endif
@@ -298,6 +313,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -350,6 +367,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -365,6 +384,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -380,6 +401,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -395,6 +418,8 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 	}
 
 	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -414,6 +439,8 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(co
 	{
 		throw SystemException();
 	}
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -432,6 +459,8 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalSeparator
 	{
 		throw SystemException();
 	}
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif

@@ -132,7 +132,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr StringTraitsBase<Character>::ConstPointer StringTraitsBase<Character>::Find(ConstPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept
+	inline constexpr typename StringTraitsBase<Character>::ConstPointer StringTraitsBase<Character>::Find(ConstPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept
 	{
 		return __builtin_char_memchr(First, Value, Count);
 	}

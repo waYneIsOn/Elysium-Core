@@ -16,6 +16,8 @@ const Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> Elysium
 	// ToDo: convert Types to second parameter correctly! (example: LOCALE_ALL = 0)
 	while (EnumSystemLocalesEx(EnumerateSystemLocalesExCallback, static_cast<unsigned long>(Types), (LPARAM)&LCIDs, nullptr) == 0)
 	{ }
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
+	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -23,9 +25,9 @@ const Elysium::Core::Collections::Template::List<Elysium::Core::int32_t> Elysium
 	return LCIDs;
 }
 
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 Elysium::Core::int32_t Elysium::Core::Globalization::Internal::LocaleFinder::EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter)
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	Elysium::Core::Collections::Template::List<Elysium::Core::int32_t>* LCIDs = (Elysium::Core::Collections::Template::List<Elysium::Core::int32_t>*)Parameter;
 
 	Elysium::Core::int32_t LCID = LocaleNameToLCID(Name, 0);
@@ -35,8 +37,6 @@ Elysium::Core::int32_t Elysium::Core::Globalization::Internal::LocaleFinder::Enu
 	}
 
 	LCIDs->Add(LCID);
-#else
-#error "undefined os"
-#endif
 	return 1;
 }
+#endif

@@ -39,7 +39,7 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 { }
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
 	: Elysium::Core::IO::Stream(),
-	_Path(Path), _FileHandle(CreateFile((const wchar_t*)&_WindowsEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(char16_t))[0],
+	_Path(Path), _FileHandle(CreateFile((const wchar_t*)&_OperatingSystemEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(char16_t))[0],
 		static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share), 
 		nullptr, // default security
 		static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options), nullptr))
