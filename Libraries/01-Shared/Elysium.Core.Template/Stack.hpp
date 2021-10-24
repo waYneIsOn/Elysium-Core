@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#define ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
+#define ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
 
 #ifdef _MSC_VER
 #pragma once

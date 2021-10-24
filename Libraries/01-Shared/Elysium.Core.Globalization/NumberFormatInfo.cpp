@@ -21,7 +21,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#include "../Elysium.Core.Template/System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
@@ -35,17 +35,21 @@
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo()
 	: NumberFormatInfo(ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT, false)
 { }
+
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const Elysium::Core::int32_t Culture, const bool ReadOnly)
 	: _LCID(Culture), _IsReadOnly(ReadOnly)
 { }
+
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(const NumberFormatInfo & Source)
 	: _LCID(Source._LCID), _IsReadOnly(Source._IsReadOnly)
 { }
+
 Elysium::Core::Globalization::NumberFormatInfo::NumberFormatInfo(NumberFormatInfo&& Right) noexcept
 	: _LCID(ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT), _IsReadOnly(false)
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Core::Globalization::NumberFormatInfo::~NumberFormatInfo()
 { }
 

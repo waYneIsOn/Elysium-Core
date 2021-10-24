@@ -42,12 +42,12 @@ namespace Elysium::Core::Template::Numeric
 		/// <summary>
 		/// 
 		/// </summary>
-		static constexpr ConstValue Minimum = IsSigned ? ((2 << (ByteLength * 7)) / 2) * -1 : 0;
+		static constexpr ConstValue Minimum = IsSigned ? 1 << (ByteLength * 8 - 1) : 0;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		static constexpr ConstValue Maximum = IsSigned ? ((2 << (ByteLength * 7)) / 2) - 1 : -1;
+		static constexpr ConstValue Maximum = IsSigned ? ((1 << (ByteLength * 8 - 1)) + 1) * -1 : -1;
 	};
 }
 #endif

@@ -72,9 +72,10 @@ namespace UnitTests::Core::Template::Container
 				Assert::Fail();
 			}
 			catch (IndexOutOfRangeException&)
-			{ }
+			{
+			}
 		}
-
+		
 		TEST_METHOD(Modifiers)
 		{
 			Vector<uint32_t> Instance = Vector<uint32_t>(1);
@@ -177,7 +178,7 @@ namespace UnitTests::Core::Template::Container
 			// ToDo: need to check this block with another T to make sure the item really gets moved
 			Instance.PopBack();
 			Instance.PopBack();
-			Instance.MoveBack(Move(SomeOtherInstance.GetAt(0)));
+			Instance.PushBack(Move(SomeOtherInstance.GetAt(0)));
 			Assert::AreEqual(static_cast<Elysium::Core::size>(4), Instance.GetSize());
 			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);

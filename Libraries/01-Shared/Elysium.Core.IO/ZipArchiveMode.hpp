@@ -13,14 +13,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#include "../Elysium.Core.Template/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core.Template/System.hpp"
 #endif
 
 namespace Elysium::Core::IO::Compression
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 	enum class ZipArchiveMode : Elysium::Core::uint8_t
-#elif defined(__ANDROID__)
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 	enum class ZipArchiveMode
 #else
 #error "undefined os"

@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_ITEATOR_FORWARDITERATOR
-#define ELYSIUM_CORE_TEMPLATE_ITEATOR_FORWARDITERATOR
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
+#define ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
 
 #ifdef _MSC_VER
 #pragma once
@@ -22,15 +22,15 @@ namespace Elysium::Core::Template::Iterator
 	class ForwardIterator final
 	{
 	public:
-		using CollectionPointer = typename Collection::Pointer;
-		using CollectionReference = typename Collection::Reference;
+		using CollectionPointer = typename Collection::IteratorPointer;
+		using CollectionReference = typename Collection::IteratorReference;
 	public:
-		ForwardIterator() noexcept;
+		ForwardIterator() = delete;
 		ForwardIterator(CollectionPointer Current) noexcept;
-		ForwardIterator(const ForwardIterator&Source) noexcept;
+		ForwardIterator(const ForwardIterator&Source) = delete;
 		ForwardIterator(ForwardIterator && Right) noexcept = delete;
 		~ForwardIterator() noexcept;
-
+	public:
 		ForwardIterator<Collection>& operator=(const ForwardIterator& Source) noexcept = delete;
 		ForwardIterator<Collection>& operator=(ForwardIterator&& Right) noexcept = delete;
 
@@ -48,19 +48,9 @@ namespace Elysium::Core::Template::Iterator
 		CollectionPointer _Current;
 	};
 
-	template <class Collection>
-	inline ForwardIterator<Collection>::ForwardIterator() noexcept
-		: _Current(nullptr)
-	{ }
-
 	template<class Collection>
 	inline ForwardIterator<Collection>::ForwardIterator(CollectionPointer Current) noexcept
 		: _Current(Current)
-	{ }
-
-	template <class Collection>
-	inline ForwardIterator<Collection>::ForwardIterator(const ForwardIterator&Source) noexcept
-		: _Current(Source._Current)
 	{ }
 
 	template <class Collection>

@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/IndexOutOfRangeException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
 #endif
@@ -26,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "InitializerList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
@@ -48,10 +56,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
-#endif
-
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>
@@ -70,6 +74,10 @@ namespace Elysium::Core::Template::Container
 		using Reference = T&;
 		using ConstReference = const T&;
 		using RValueReference = T&&;
+
+		using IteratorPointer = T*;
+		using IteratorReference = T&;
+		using ConstIteratorReference = const T&;
 
 		using FIterator = Iterator::ForwardIterator<Vector<T, Allocator>>;
 		using ConstIterator = Iterator::ConstForwardIterator<Vector<T, Allocator>>;
@@ -244,16 +252,16 @@ namespace Elysium::Core::Template::Container
 		void Insert(ConstValue Value, const Elysium::Core::size Index);
 
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Item"></param>
-		void MoveBack(RValueReference Item);
-
-		/// <summary>
 		/// Adds given item to the end of the vector. (May cause reallocation.)
 		/// </summary>
 		/// <param name="Item"></param>
 		void PushBack(ConstReference Item);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Item"></param>
+		void PushBack(RValueReference Item);
 
 		/// <summary>
 		/// 
@@ -502,17 +510,6 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::MoveBack(RValueReference Item)
-	{
-		if (_Size == _Capacity)
-		{
-			Reserve(CalculateCapacityGrowth(_Capacity + 1));
-		}
-
-		_Data[_Size++] = Item;
-	}
-
-	template<Concepts::NonConstant T, class Allocator>
 	inline void Vector<T, Allocator>::Insert(ConstValue Value, const Elysium::Core::size Index)
 	{
 		/*
@@ -545,6 +542,17 @@ namespace Elysium::Core::Template::Container
 		}
 
 		_Data[_Size++] = Item;
+	}
+
+	template<Concepts::NonConstant T, class Allocator>
+	inline void Vector<T, Allocator>::PushBack(RValueReference Item)
+	{
+		if (_Size == _Capacity)
+		{
+			Reserve(CalculateCapacityGrowth(_Capacity + 1));
+		}
+
+		_Data[_Size++] = Functional::Move(Item);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>

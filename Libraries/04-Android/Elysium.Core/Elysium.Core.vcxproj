@@ -89,7 +89,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalOptions>-v -lm %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-v -lm </AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
@@ -102,7 +102,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalOptions>-v %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-v -lm </AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -115,7 +115,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalOptions>-v %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-v -lm </AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -128,7 +128,7 @@
     </ClCompile>
     <Link />
     <Link>
-      <AdditionalOptions>-v %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-v -lm </AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

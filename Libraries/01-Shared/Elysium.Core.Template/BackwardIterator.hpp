@@ -22,15 +22,15 @@ namespace Elysium::Core::Template::Iterator
 	class BackwardIterator final
 	{
 	public:
-		using CollectionPointer = typename Collection::Pointer;
-		using CollectionReference = typename Collection::Reference;
+		using CollectionPointer = typename Collection::IteratorPointer;
+		using CollectionReference = typename Collection::IteratorReference;
 	public:
-		BackwardIterator() noexcept;
+		BackwardIterator() = delete;
 		BackwardIterator(CollectionPointer Current) noexcept;
-		BackwardIterator(const BackwardIterator& Source) noexcept;
+		BackwardIterator(const BackwardIterator& Source) = delete;
 		BackwardIterator(BackwardIterator&& Right) noexcept = delete;
 		~BackwardIterator() noexcept;
-
+	public:
 		BackwardIterator<Collection>& operator=(const BackwardIterator& Source) noexcept = delete;
 		BackwardIterator<Collection>& operator=(BackwardIterator&& Right) noexcept = delete;
 
@@ -48,19 +48,9 @@ namespace Elysium::Core::Template::Iterator
 		CollectionPointer _Current;
 	};
 
-	template <class Collection>
-	inline BackwardIterator<Collection>::BackwardIterator() noexcept
-		: _Current(nullptr)
-	{ }
-
 	template<class Collection>
 	inline BackwardIterator<Collection>::BackwardIterator(BackwardIterator<Collection>::CollectionPointer Current) noexcept
 		: _Current(Current)
-	{ }
-
-	template <class Collection>
-	inline BackwardIterator<Collection>::BackwardIterator(const BackwardIterator<Collection>& Source) noexcept
-		: _Current(Source._Current)
 	{ }
 
 	template <class Collection>

@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#include "../Elysium.Core.Template/System.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics

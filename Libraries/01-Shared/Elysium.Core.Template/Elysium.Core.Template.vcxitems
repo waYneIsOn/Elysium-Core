@@ -41,10 +41,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Locale.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Map.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
@@ -81,10 +84,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedPointer.hpp" />

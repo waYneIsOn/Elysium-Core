@@ -17,7 +17,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionsTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfoTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DictionaryTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StopwatchTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryTest.cpp" />

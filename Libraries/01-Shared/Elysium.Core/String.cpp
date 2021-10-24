@@ -47,7 +47,7 @@ Elysium::Core::String::String(ConstCharacterPointer Value, const Elysium::Core::
 	if (_Data != nullptr)
 	{
 		Elysium::Core::Memory<char8_t>::Copy(_Data, Value, _Length);
-		_Data[_Length] = NullTerminationChar;
+		_Data[_Length] = Elysium::Core::Template::Text::CharacterTraits<Character>::NullTerminationCharacter;
 	}
 }
 
@@ -204,15 +204,22 @@ Elysium::Core::String::ConstCharacterReference Elysium::Core::String::operator[]
 	return _Data[Index];
 }
 
-const Elysium::Core::int32_t Elysium::Core::String::GetHashCode() const
-{	// ToDo: not sure this is correct!
-	Elysium::Core::int32_t Result = 0;
-	for (Elysium::Core::size i = 0; i < _Length; i++)
+const Elysium::Core::size Elysium::Core::String::GetHashCode() const
+{	// code below should work similar to std::hash<std::u8string>()(_Data);
+	Elysium::Core::size Hash = 14695981039346656037ULL;
+	if (_Length == 0)
 	{
-		Result += _Data[i];
+		return Hash;
+	}
+	CharacterPointer CurrentChar = &_Data[0];
+	while (*CurrentChar != Elysium::Core::Template::Text::CharacterTraits<Character>::NullTerminationCharacter)
+	{
+		Hash ^= static_cast<Elysium::Core::size>(*CurrentChar);
+		Hash *= 1099511628211ULL;
+		CurrentChar++;
 	}
 
-	return Result;
+	return Hash;
 }
 
 const Elysium::Core::size Elysium::Core::String::GetLength() const

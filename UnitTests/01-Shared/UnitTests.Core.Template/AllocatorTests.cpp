@@ -16,6 +16,7 @@ namespace UnitTests::Core::Template::Container
 	class MyClass
 	{
 	public:
+		MyClass() = delete;
 		MyClass(void* Value)
 			: _Value(Value)
 		{ }

@@ -5,7 +5,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#include "../Elysium.Core.Template/System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION

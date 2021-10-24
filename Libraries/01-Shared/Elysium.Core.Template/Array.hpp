@@ -36,7 +36,7 @@ namespace Elysium::Core::Template::Container
 
 		static void Move(T* Source, T* Destination, const Elysium::Core::size NumberOfElements) noexcept;
 
-		static void Reverse(T* First, const Elysium::Core::size NumberOfElements);
+		static void Reverse(T* First, const Elysium::Core::size NumberOfElements) noexcept;
 	};
 
 	template<class T>
@@ -80,7 +80,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class T>
-	inline void Array<T>::Reverse(T* First, const Elysium::Core::size NumberOfElements)
+	inline void Array<T>::Reverse(T* First, const Elysium::Core::size NumberOfElements) noexcept
 	{
 		if (First == nullptr || NumberOfElements < 2)
 		{

@@ -22,15 +22,15 @@ namespace Elysium::Core::Template::Iterator
 	class ConstBackwardIterator final
 	{
 	public:
-		using CollectionPointer = typename Collection::Pointer;
-		using ConstCollectionReference = typename Collection::ConstReference;
+		using CollectionPointer = typename Collection::IteratorPointer;
+		using ConstCollectionReference = typename Collection::ConstIteratorReference;
 	public:
-		ConstBackwardIterator() noexcept;
+		ConstBackwardIterator() = delete;
 		ConstBackwardIterator(CollectionPointer Current) noexcept;
-		ConstBackwardIterator(const ConstBackwardIterator& Source) noexcept;
+		ConstBackwardIterator(const ConstBackwardIterator& Source) = delete;
 		ConstBackwardIterator(ConstBackwardIterator&& Right) noexcept = delete;
 		~ConstBackwardIterator() noexcept;
-
+	public:
 		ConstBackwardIterator<Collection>& operator=(const ConstBackwardIterator& Source) noexcept = delete;
 		ConstBackwardIterator<Collection>& operator=(ConstBackwardIterator&& Right) noexcept = delete;
 
@@ -48,19 +48,9 @@ namespace Elysium::Core::Template::Iterator
 		CollectionPointer _Current;
 	};
 
-	template <class Collection>
-	inline ConstBackwardIterator<Collection>::ConstBackwardIterator() noexcept
-		: _Current(nullptr)
-	{ }
-
 	template<class Collection>
 	inline ConstBackwardIterator<Collection>::ConstBackwardIterator(CollectionPointer Current) noexcept
 		: _Current(Current)
-	{ }
-
-	template <class Collection>
-	inline ConstBackwardIterator<Collection>::ConstBackwardIterator(const ConstBackwardIterator& Source) noexcept
-		: _Current(Source._Current)
 	{ }
 
 	template <class Collection>

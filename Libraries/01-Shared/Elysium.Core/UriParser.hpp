@@ -36,10 +36,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "UriSyntaxFlags.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_DICTIONARY
-#include "Dictionary.hpp"
-#endif
-
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API Uri;

@@ -69,6 +69,10 @@ namespace Elysium::Core::Template::Container
 		using Reference = T&;
 		using ConstReference = const T&;
 
+		using IteratorPointer = T*;
+		using IteratorReference = T&;
+		using ConstIteratorReference = const T&;
+
 		using FIterator = Iterator::ForwardIterator<FixedSizeHeapArray<T, Size, Allocator>>;
 		using ConstIterator = Iterator::ConstForwardIterator<FixedSizeHeapArray<T, Size, Allocator>>;
 

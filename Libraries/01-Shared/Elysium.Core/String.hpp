@@ -68,7 +68,7 @@ namespace Elysium::Core
 		CharacterReference operator[](const Elysium::Core::size Index);
 		ConstCharacterReference operator[](const Elysium::Core::size Index) const;
 
-		const Elysium::Core::int32_t GetHashCode() const;
+		const Elysium::Core::size GetHashCode() const;
 		const Elysium::Core::size GetLength() const;
 		
 		const Elysium::Core::size IndexOf(ConstCharacter Value) const;
@@ -103,8 +103,7 @@ namespace Elysium::Core
 		//String UnsafeSubstring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
 		
 		static const String Empty;
-		static const Character NullTerminationChar = u8'\0';
-		
+
 		static const bool IsNull(const String& Value);
 		static const bool IsEmpty(const String& Value);
 		static const bool IsNullOrEmtpy(const String& Value);

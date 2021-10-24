@@ -20,7 +20,7 @@ Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::int32_
 	: _LCID(Culture)
 { }
 
-Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::String Name)
+Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::String& Name)
 	: _LCID(GetLocaleIdFromName(Name))
 { }
 

@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
 #endif
@@ -95,7 +99,10 @@ namespace Elysium::Core::Template::Memory
 			return nullptr;
 		}
 
-		return static_cast<T*>(operator new[](ElementSize * NumberOfElements));
+		void* Data = operator new[](ElementSize * NumberOfElements);
+		memset(Data, 0x00, ElementSize * NumberOfElements);
+		
+		return static_cast<T*>(Data);
 	}
 
 	template<Concepts::NonConstant T>

@@ -28,6 +28,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HeapArray.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_LINKEDLIST
+#include "LinkedList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_LINKEDLISTNODE
+#include "LinkedListNode.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "InitializerList.hpp"
 #endif

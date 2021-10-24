@@ -8,6 +8,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleFinder.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleRepository.cpp">
+      <Filter>Internal\Fallback</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleInfo.cpp">
+      <Filter>Internal\Fallback</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Calendar.hpp" />
@@ -23,10 +29,20 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleFinder.hpp">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LocaleRepository.hpp">
+      <Filter>Internal\Fallback</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LocaleInfo.hpp">
+      <Filter>Internal\Fallback</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Internal">
       <UniqueIdentifier>{3778e41b-c3c7-4d7f-9aa2-7cd598d4aa57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal\Fallback">
+      <UniqueIdentifier>{f62cc4f4-b727-403e-8d57-9c5750fa86cd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -42,7 +42,7 @@ namespace Elysium::Core::Globalization
 		/// 
 		/// </summary>
 		/// <param name="Name"></param>
-		RegionInfo(const Elysium::Core::String Name);
+		RegionInfo(const Elysium::Core::String& Name);
 
 		/// <summary>
 		/// 

@@ -17,6 +17,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Calendar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleFinder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleRepository.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumberFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfo.cpp" />
   </ItemGroup>
@@ -28,6 +30,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleFinder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LocaleInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LocaleRepository.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />

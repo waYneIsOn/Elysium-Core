@@ -89,7 +89,9 @@
 /TestApplications/04-Android/Android1/Android1.NativeActivity/ARM/Debug
 /TestApplications/04-Android/Android1/Android1.NativeActivity/ARM64/Debug
 /TestApplications/04-Android/Android1/Android1.NativeActivity/Debugbin
+/TestApplications/04-Android/Android1/Android1.NativeActivity/ReleaseBin
 
 /TestApplications/04-Android/Android1/Android1.Packaging/ARM/Debug
 /TestApplications/04-Android/Android1/Android1.Packaging/ARM64/Debug
 /TestApplications/04-Android/Android1/Android1.Packaging/Debugbin
+/TestApplications/04-Android/Android1/Android1.Packaging/ReleaseBin

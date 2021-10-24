@@ -61,12 +61,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Dictionary.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
@@ -104,6 +98,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemSpecific.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -145,5 +140,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SystemSpecific.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #include "UTF32Encoding.hpp"
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#include "../Elysium.Core.Template/System.hpp"
 #endif
 
 Elysium::Core::Text::UTF32Encoding::UTF32Encoding()

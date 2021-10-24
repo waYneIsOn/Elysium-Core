@@ -42,7 +42,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Dictionary.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Enum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Environment.hpp" />
@@ -59,7 +58,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
@@ -120,5 +118,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />
   </ItemGroup>
 </Project>

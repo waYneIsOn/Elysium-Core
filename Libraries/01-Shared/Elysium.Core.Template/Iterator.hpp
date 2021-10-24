@@ -28,4 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ForwardIterator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_LINKEDLISTFORWARDITERATOR
+#include "LinkedListForwardIterator.hpp"
+#endif
+
 #endif

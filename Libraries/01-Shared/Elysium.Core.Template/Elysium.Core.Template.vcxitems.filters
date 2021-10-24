@@ -285,6 +285,22 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashTable.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp">
+      <Filter>Numeric</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

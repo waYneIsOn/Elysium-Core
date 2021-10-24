@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
 #endif

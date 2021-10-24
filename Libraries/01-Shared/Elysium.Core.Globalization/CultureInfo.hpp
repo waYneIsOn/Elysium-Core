@@ -29,7 +29,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -58,7 +58,7 @@ namespace Elysium::Core::Globalization
 	public:
 		CultureInfo();
 		CultureInfo(const Elysium::Core::int32_t Culture, const bool UseUserOverride);
-		CultureInfo(const Elysium::Core::String Name, const bool UseUserOverride);
+		CultureInfo(const Elysium::Core::String& Name, const bool UseUserOverride);
 		CultureInfo(const CultureInfo& Source);
 		CultureInfo(CultureInfo&& Right) noexcept;
 		virtual ~CultureInfo();
