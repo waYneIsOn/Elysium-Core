@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddLeftValueReference.hpp" />
@@ -30,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BlockSort.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp" />
@@ -42,6 +44,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HashTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashTableForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp" />
@@ -95,6 +98,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringTraits.hpp" />

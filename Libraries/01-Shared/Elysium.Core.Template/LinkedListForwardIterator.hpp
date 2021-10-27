@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
-#endif
-
 namespace Elysium::Core::Template::Iterator
 {
 	template <class Collection>
@@ -34,12 +30,7 @@ namespace Elysium::Core::Template::Iterator
 		LinkedListForwardIterator<Collection>& operator=(const LinkedListForwardIterator& Source) noexcept = delete;
 		LinkedListForwardIterator<Collection>& operator=(LinkedListForwardIterator&& Right) noexcept = delete;
 
-		const bool operator==(const LinkedListForwardIterator& Other) const;
 		const bool operator!=(const LinkedListForwardIterator& Other) const;
-		const bool operator<(const LinkedListForwardIterator& Other) const;
-		const bool operator>(const LinkedListForwardIterator& Other) const;
-		const bool operator<=(const LinkedListForwardIterator& Other) const;
-		const bool operator>=(const LinkedListForwardIterator& Other) const;
 
 		LinkedListForwardIterator<Collection>& operator++();
 
@@ -58,39 +49,9 @@ namespace Elysium::Core::Template::Iterator
 	{ }
 
 	template <class Collection>
-	const bool LinkedListForwardIterator<Collection>::operator==(const LinkedListForwardIterator& Other) const
-	{
-		return _Current == Other._Current;
-	}
-
-	template <class Collection>
 	const bool LinkedListForwardIterator<Collection>::operator!=(const LinkedListForwardIterator& Other) const
 	{
-		return _Current != Other._Current;
-	}
-
-	template <class Collection>
-	const bool LinkedListForwardIterator<Collection>::operator<(const LinkedListForwardIterator& Other) const
-	{
-		return _Current < Other._Current;
-	}
-
-	template <class Collection>
-	const bool LinkedListForwardIterator<Collection>::operator>(const LinkedListForwardIterator& Other) const
-	{
-		return _Current > Other._Current;
-	}
-
-	template <class Collection>
-	const bool LinkedListForwardIterator<Collection>::operator<=(const LinkedListForwardIterator& Other) const
-	{
-		return _Current <= Other._Current;
-	}
-
-	template <class Collection>
-	const bool LinkedListForwardIterator<Collection>::operator>=(const LinkedListForwardIterator& Other) const
-	{
-		return _Current >= Other._Current;
+		return _Current != nullptr && _Current <= Other._Current;
 	}
 
 	template<class Collection>

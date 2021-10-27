@@ -62,6 +62,7 @@ namespace Elysium::Core::Template::Container
 	template <Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator = Memory::DefaultAllocator<T>>
 	class FixedSizeHeapArray final
 	{
+		static_assert(Size > 0, "Size must be a positive number.");
 	public:
 		using Value = T;
 		using Pointer = T*;
@@ -275,7 +276,7 @@ namespace Elysium::Core::Template::Container
 			_Data = Right._Data;
 
 			Right._Data = _Allocator.Allocate(Size);
-			Array<T>::Clear(Right._Data, Size);
+			memset(&Right._Data[0], 0x00, sizeof(T) * Size);
 		}
 		return *this;
 	}
@@ -341,13 +342,13 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
 	inline typename FixedSizeHeapArray<T, Size, Allocator>::FIterator FixedSizeHeapArray<T, Size, Allocator>::GetEnd()
 	{
-		return FIterator(&_Data[Size]);
+		return FIterator(&_Data[Size - 1]);
 	}
 	
 	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
 	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstIterator FixedSizeHeapArray<T, Size, Allocator>::GetEnd() const
 	{
-		return ConstIterator(&_Data[Size]);
+		return ConstIterator(&_Data[Size - 1]);
 	}
 	
 	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
@@ -365,13 +366,13 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
 	inline typename FixedSizeHeapArray<T, Size, Allocator>::ReverseIterator FixedSizeHeapArray<T, Size, Allocator>::GetReverseEnd()
 	{
-		return ReverseIterator(&_Data[-1]);
+		return ReverseIterator(&_Data[0]);
 	}
 	
 	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
 	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstReverseIterator FixedSizeHeapArray<T, Size, Allocator>::GetReverseEnd() const
 	{
-		return ConstReverseIterator(&_Data[-1]);
+		return ConstReverseIterator(&_Data[0]);
 	}
 }
 #endif

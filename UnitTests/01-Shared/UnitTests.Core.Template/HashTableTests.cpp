@@ -25,7 +25,62 @@ namespace UnitTests::Core::Template::Container
 
 		TEST_METHOD(ValuePointer)
 		{
-			Assert::Fail();
+			String Wordpad = u8"wordpad.exe";
+			String Paint = u8"paint.exe";
+			String Notepad = u8"notepad.exe";
+			String Notepadpp = u8"notepad++.exe";
+
+			HashTable<String, String*> Instance =
+			{
+				{ u8"rtf", &Wordpad },
+				{ u8"bmp", &Paint },
+				{ u8"dib", &Paint },
+			};
+
+			Elysium::Core::size i = 0;
+			for (HashTable<String, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String, String*>>* Node = *Iterator;
+				KeyValuePair<String, String*>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), i);
+			Logger::WriteMessage("\r\n");
+
+			// ...
+			Instance.Set(u8"txt", &Notepad);
+			i = 0;
+			for (HashTable<String, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String, String*>>* Node = *Iterator;
+				KeyValuePair<String, String*>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), i);
+			Logger::WriteMessage("\r\n");
+
+			// ...
+			Instance.Set(u8"txt", &Notepadpp);
+			i = 0;
+			for (HashTable<String, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String, String*>>* Node = *Iterator;
+				KeyValuePair<String, String*>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), i);
 		}
 		
 		TEST_METHOD(ValueValue)
@@ -34,6 +89,20 @@ namespace UnitTests::Core::Template::Container
 			Instance.Add(u8"rtf", u8"wordpad.exe");
 			Instance.Add(u8"bmp", u8"paint.exe");
 			Instance.Add(u8"dib", u8"paint.exe");
+
+			Elysium::Core::size i = 0;
+			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
+				KeyValuePair<String, String>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), i);
+			Logger::WriteMessage("\r\n");
 			
 			// add another key/value to cause collision and an ArgumentException
 			try
@@ -44,38 +113,38 @@ namespace UnitTests::Core::Template::Container
 			catch(ArgumentException&)
 			{ }
 
-			// perform the same operation but add the item through operator NOT causing an ArgumentException (while still causing a collision)
-			//Instance[u8"txt"] = u8"notepad.exe";
-			/*
+			// perform the same operation but add the item through Set(...) NOT causing an ArgumentException (while still causing a collision)
+			Instance.Set(u8"txt", u8"notepad.exe");
+
+			i = 0;
 			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedList<HashTableEntry<String, String>>& Bucket = *Iterator;
-				LinkedListNode<HashTableEntry<String, String>>* Node = Bucket.GetHead();
-
-				if (Node == nullptr)
-				{
-					Logger::WriteMessage(". - .\r\n");
-				}
-				else
-				{
-					HashTableEntry<String, String>& Item = Node->GetItem();
-					Logger::WriteMessage((char*)&Item.Key[0]);
-					Logger::WriteMessage(" - ");
-					Logger::WriteMessage((char*)&Item.Value[0]);
-					Logger::WriteMessage("\r\n");
-
-					LinkedListNode<HashTableEntry<String, String>>* NextNode = Node->GetNext();
-					if (NextNode != nullptr)
-					{
-						HashTableEntry<String, String>& NextItem = NextNode->GetItem();
-						Logger::WriteMessage((char*)&NextItem.Key[0]);
-						Logger::WriteMessage(" - ");
-						Logger::WriteMessage((char*)&NextItem.Value[0]);
-						Logger::WriteMessage("\r\n");
-					}
-				}
+				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
+				KeyValuePair<String, String>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+				i++;
 			}
-			*/
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), i);
+			Logger::WriteMessage("\r\n");
+			
+			// update/change a value associated with an already inserted key
+			Instance.Set(u8"txt", u8"notepad++.exe");
+
+			i = 0;
+			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
+				KeyValuePair<String, String>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(4), i);
 		}
 	};
 }

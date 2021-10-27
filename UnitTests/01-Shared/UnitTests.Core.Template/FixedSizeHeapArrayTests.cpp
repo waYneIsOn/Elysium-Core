@@ -22,16 +22,12 @@ namespace UnitTests::Core::Template::Container
 	public:
 		TEST_METHOD(Constructors)
 		{
-			// Default constructor without elements
-			FixedSizeHeapArray<uint32_t, 0> EmptyInstance;
-			Assert::AreEqual(0ULL, EmptyInstance.GetSize());
-
 			// InitializerList (smaller than Instance)
 			FixedSizeHeapArray<uint32_t, 3> InitializerListSmallerInstance = { 1, 2 };
 			Assert::AreEqual(3ULL, InitializerListSmallerInstance.GetSize());
 			Assert::AreEqual(1ui32, InitializerListSmallerInstance[0]);
 			Assert::AreEqual(2ui32, InitializerListSmallerInstance[1]);
-			Assert::AreEqual(3452816845ui32, InitializerListSmallerInstance[2]);
+			Assert::AreEqual(0ui32, InitializerListSmallerInstance[2]);
 
 			// InitializerList (larger than Instance)
 			FixedSizeHeapArray<uint32_t, 3> InitializerListLargerInstance = { 1, 2, 3, 4 };
@@ -115,88 +111,7 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(0_ui32, CopiedMAllocInstance[1]);
 			Assert::AreEqual(0_ui32, CopiedMAllocInstance[2]);
 		}
-
-		TEST_METHOD(IterationsThroughEmpty)
-		{
-			FixedSizeHeapArray<uint32_t, 0> Instance;
-			Iterations<0>(Instance);
-		}
-
-		TEST_METHOD(IterationsThroughPopulated)
-		{
-			const Elysium::Core::size Length = 5;
-			FixedSizeHeapArray<uint32_t, Length> Instance = { 0, 1, 2, 3, 4 };
-			Iterations<Length>(Instance);
-			/*
-			// iterate using index/operator
-			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
-			{
-				const uint32_t& Element = Instance[i];
-				Assert::AreEqual(static_cast<uint32_t>(i), Element);
-			}
-			const FixedSizeHeapArray<uint32_t, Length>& ConstInstance = Instance;
-
-			// iterate using index/method
-			for (Elysium::Core::size i = 0; i < Instance.GetSize(); i++)
-			{
-				uint32_t& Element = Instance.GetAt(i);
-				Assert::AreEqual(static_cast<uint32_t>(i), Element);
-			}
-
-			// iterate using ForwardIterator-class
-			uint32_t i = 0;
-			for (FixedSizeHeapArray<uint32_t, Length>::Iterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
-			{
-				uint32_t& Element = *Iterator;
-				Assert::AreEqual(i++, Element);
-				Element = Length - i;
-			}
-			Assert::AreEqual(5_ui32, i);
-			
-			// iterate using ConstForwardIterator-class
-			i = 0;
-			for (FixedSizeHeapArray<uint32_t, Length>::ConstIterator Iterator = ConstInstance.GetBegin(); Iterator != ConstInstance.GetEnd(); ++Iterator)
-			{
-				const uint32_t& Element = *Iterator;
-				Assert::AreEqual(static_cast<uint32_t>(Length) - ++i, Element);
-			}
-			Assert::AreEqual(5_ui32, i);
-			
-			// iterate using BackwardIterator-class
-			for (FixedSizeHeapArray<uint32_t, Length>::ReverseIterator Iterator = Instance.GetReverseBegin(); Iterator != Instance.GetReverseEnd(); --Iterator)
-			{
-				uint32_t& Element = *Iterator;
-				Assert::AreEqual(static_cast<uint32_t>(Length - i--), Element);
-			}
-			Assert::AreEqual(0_ui32, i);
-			
-			// iterate using ConstBackwardIterator-class
-			i = static_cast<uint32_t>(Length);
-			for (FixedSizeHeapArray<uint32_t, Length>::ConstReverseIterator Iterator = ConstInstance.GetReverseBegin(); Iterator != ConstInstance.GetReverseEnd(); --Iterator)
-			{
-				const uint32_t& Element = *Iterator;
-				Assert::AreEqual(static_cast<uint32_t>(Length - i--), Element);
-			}
-			Assert::AreEqual(0_ui32, i);
-			*/
-			/*
-			// iterate using range-based-for-loop
-			for (const uint32_t& Element : Instance)
-			{
-				Assert::AreEqual(i, Instance[i]);
-				i++;
-			}
-			
-			// iterate using foreach and lambda
-			i = 0;
-			foreach(Instance.GetFirst(), Instance.GetLast(),
-				[](const uint32_t& Element)
-			{
-				// ...
-			});
-			*/
-		}
-
+		
 		TEST_METHOD(Accessing)
 		{
 			FixedSizeHeapArray<uint32_t, 3> Instance = { 1, 2, 3 };

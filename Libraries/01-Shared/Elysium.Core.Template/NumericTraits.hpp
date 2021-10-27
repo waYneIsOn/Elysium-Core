@@ -29,8 +29,16 @@ namespace Elysium::Core::Template::Numeric
 		using Value = T;
 		using ConstValue = const T;
 	public:
+		static constexpr const bool IsPositive(ConstValue Value);
+
 		static constexpr const bool IsPrimeNumber(ConstValue Value);
 	};
+
+	template<class T>
+	inline constexpr const bool NumericTraits<T>::IsPositive(ConstValue Value)
+	{
+		return Value > 0;
+	}
 
 	template<class T>
 	inline constexpr const bool NumericTraits<T>::IsPrimeNumber(ConstValue Input)

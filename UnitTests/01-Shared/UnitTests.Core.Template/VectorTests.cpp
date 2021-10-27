@@ -19,7 +19,7 @@ namespace UnitTests::Core::Template::Container
 		{
 			// Default constructor without elements
 			Vector<uint32_t> EmptyInstance;
-			Assert::AreEqual(0ULL, EmptyInstance.GetCapacity());
+			Assert::AreEqual(1ULL, EmptyInstance.GetCapacity());
 			Assert::AreEqual(0ULL, EmptyInstance.GetSize());
 
 			// InitializerList
@@ -45,8 +45,11 @@ namespace UnitTests::Core::Template::Container
 
 		TEST_METHOD(IterationsThroughEmpty)
 		{
-			Vector<uint32_t> Instance = Vector<uint32_t>(0);
-			Iterations(Instance);
+			Vector<uint32_t> EmptyInstance = Vector<uint32_t>(0);
+			Iterations(EmptyInstance);
+
+			Vector<uint32_t> EmptyInstanceThroughInitializerList = Vector<uint32_t>({});
+			Iterations(EmptyInstanceThroughInitializerList);
 		}
 
 		TEST_METHOD(IterationsThroughPopulated)
@@ -214,7 +217,7 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(27_ui32, Instance[6]);
 			Assert::AreEqual(27_ui32, Instance[7]);
 			Assert::AreEqual(27_ui32, Instance[8]);
-			Assert::AreEqual(27_ui32, Instance[9]);
+			Assert::AreEqual(27_ui32, Instance[9]); 
 		}
 	private:
 		void Iterations(Vector<uint32_t>& Instance)

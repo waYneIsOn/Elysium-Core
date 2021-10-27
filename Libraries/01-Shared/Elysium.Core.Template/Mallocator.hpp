@@ -103,7 +103,10 @@ namespace Elysium::Core::Template::Memory
 			return nullptr;
 		}
 
-		return static_cast<T*>(std::malloc(ElementSize * NumberOfElements));
+		void* Data = operator new[](ElementSize* NumberOfElements);
+		memset(Data, 0x00, ElementSize * NumberOfElements);
+
+		return static_cast<T*>(Data);
 	}
 
 	template<Concepts::NonConstant T>

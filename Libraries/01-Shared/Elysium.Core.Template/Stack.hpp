@@ -5,6 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
+/*
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
 #define ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
 
@@ -30,7 +31,6 @@ namespace Elysium::Core::Template::Container
 		using ConstReference = const T&;
 		using RValueReference = T&&;
 	public:
-		/*
 		Stack();
 		Stack(const Stack& Source);
 		Stack(Stack&& Right) noexcept;
@@ -49,9 +49,9 @@ namespace Elysium::Core::Template::Container
 		void Push(RValueReference Item);
 
 		void Pop();
-		*/
 	private:
 
 	};
 }
 #endif
+*/

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
-#endif
-
 namespace Elysium::Core::Template::Iterator
 {
 	template <class Collection>
@@ -34,12 +30,7 @@ namespace Elysium::Core::Template::Iterator
 		ForwardIterator<Collection>& operator=(const ForwardIterator& Source) noexcept = delete;
 		ForwardIterator<Collection>& operator=(ForwardIterator&& Right) noexcept = delete;
 
-		const bool operator==(const ForwardIterator& Other) const;
 		const bool operator!=(const ForwardIterator& Other) const;
-		const bool operator<(const ForwardIterator& Other) const;
-		const bool operator>(const ForwardIterator& Other) const;
-		const bool operator<=(const ForwardIterator& Other) const;
-		const bool operator>=(const ForwardIterator& Other) const;
 
 		ForwardIterator<Collection>& operator++();
 
@@ -58,39 +49,9 @@ namespace Elysium::Core::Template::Iterator
 	{ }
 
 	template <class Collection>
-	const bool ForwardIterator<Collection>::operator==(const ForwardIterator & Other) const
-	{
-		return _Current == Other._Current;
-	}
-
-	template <class Collection>
 	const bool ForwardIterator<Collection>::operator!=(const ForwardIterator& Other) const
 	{
-		return _Current != Other._Current;
-	}
-
-	template <class Collection>
-	const bool ForwardIterator<Collection>::operator<(const ForwardIterator& Other) const
-	{
-		return _Current < Other._Current;
-	}
-
-	template <class Collection>
-	const bool ForwardIterator<Collection>::operator>(const ForwardIterator& Other) const
-	{
-		return _Current > Other._Current;
-	}
-
-	template <class Collection>
-	const bool ForwardIterator<Collection>::operator<=(const ForwardIterator& Other) const
-	{
 		return _Current <= Other._Current;
-	}
-
-	template <class Collection>
-	const bool ForwardIterator<Collection>::operator>=(const ForwardIterator& Other) const
-	{
-		return _Current >= Other._Current;
 	}
 
 	template<class Collection>

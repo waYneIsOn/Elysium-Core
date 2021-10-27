@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "InitializerList.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_KEYVALUEPAIR
 #include "KeyValuePair.hpp"
 #endif
@@ -36,20 +40,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
-#include "BackwardIterator.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
-#include "ConstBackwardIterator.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
-#include "ConstForwardIterator.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
-#include "ForwardIterator.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_HASHTABLEFORWARDITERATOR
+#include "HashTableForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
@@ -70,28 +62,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Container
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <typeparam name="TKey"></typeparam>
-	/// <typeparam name="TValue"></typeparam>
-	template <class TKey, class TValue>
-	struct HashTableEntry final
-	{
-		Elysium::Core::size HashCode = 0;
-		TKey Key;
-		TValue Value;
-	};
-
 	template <class TKey, class TValue, class KeyCompare = Operators::Less<TKey>, 
-		class Allocator = Memory::DefaultAllocator<LinkedList<HashTableEntry<TKey, TValue>>>>
+		class Allocator = Memory::DefaultAllocator<LinkedList<KeyValuePair<TKey, TValue>>>>
 	class HashTable final
 	{
+		friend class Iterator::HashTableForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 	public:
-		using Entry = HashTableEntry<TKey, TValue>;
+		using Entry = KeyValuePair<TKey, TValue>;
 		using Bucket = LinkedList<Entry>;
+
+		using BucketPointer = Bucket*;
+		using BucketReference = Bucket&;
+		using ConstBucketReference = const Bucket&;
+		using BucketNodePointer = LinkedListNode<Entry>*;
+
+		using FIterator = Iterator::HashTableForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 		/*
-		using FIterator = Iterator::ForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 		using ConstIterator = Iterator::ConstForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 
 		using ReverseIterator = Iterator::BackwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
@@ -99,6 +85,8 @@ namespace Elysium::Core::Template::Container
 		*/
 	public:
 		HashTable();
+
+		HashTable(const InitializerList<Entry>& List);
 
 		HashTable(const Elysium::Core::size Length);
 
@@ -112,14 +100,19 @@ namespace Elysium::Core::Template::Container
 
 		HashTable<TKey, TValue, KeyCompare, Allocator>& operator=(HashTable&& Right) noexcept;
 
-		//ConstReference operator[](const Elysium::Core::size Index) const;
+		//HashTable<TKey, TValue, KeyCompare, Allocator>::Entry& operator[](const TKey& Key);
+
+		//const HashTable<TKey, TValue, KeyCompare, Allocator>::Entry& operator[](const TKey& Key) const;
 	public:
+		void Set(const TKey& Key, const TValue& Value);
+
+		void Add(const TKey& Key, const TValue& Value);
+	public:
+		HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator GetBegin();
+
+		HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator GetEnd();
 		/*
-		FIterator GetBegin();
-
 		ConstIterator GetBegin() const;
-
-		FIterator GetEnd();
 
 		ConstIterator GetEnd() const;
 
@@ -131,12 +124,12 @@ namespace Elysium::Core::Template::Container
 
 		ConstReverseIterator GetReverseEnd() const;
 		*/
-	public:
-		void Add(const TKey& Key, const TValue& Value);
 	private:
 		inline static Allocator _Allocator = Allocator();
+		static const Elysium::Core::size CollisionThreshold = 10;
 	private:
 		Elysium::Core::size _Length;
+		Elysium::Core::size _CollisionCount;
 		Bucket* _Buckets;
 
 		/// <summary>
@@ -163,28 +156,45 @@ namespace Elysium::Core::Template::Container
 		/// <typeparam name="KeyCompare"></typeparam>
 		/// <typeparam name="Allocator"></typeparam>
 		void Resize();
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Bucket"></param>
+		/// <returns></returns>
+		HashTable<TKey, TValue, KeyCompare, Allocator>::Entry* FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key);
 	};
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable()
-		: _Length(3), _Buckets(_Allocator.Allocate(_Length))
+		: _Length(3), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
 	{ }
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable(const InitializerList<Entry>& List)
+		: _Length(List.size() < 3 ? 3 : CalculateLength(List.size())), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
+	{
+		for (const Entry* Iterator = List.begin(); Iterator != List.end(); ++Iterator)
+		{
+			Insert(Iterator->GetKey(), Iterator->GetValue(), false);
+		}
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable(const Elysium::Core::size Length)
-		: _Length(CalculateLength(Length)), _Buckets(_Allocator.Allocate(_Length))
+		: _Length(CalculateLength(Length)), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
 	{ }
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable(const HashTable& Source)
-		: _Length(Source._Length), _Buckets(_Allocator.Allocate(_Length))
+		: _Length(Source._Length), _CollisionCount(Source._CollisionCount), _Buckets(_Allocator.Allocate(_Length))
 	{
 		Array<HashTableEntry<TKey, TValue>>::Copy(Source._Buckets, _Buckets, _Length);
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable(HashTable&& Right) noexcept
-		: _Length(0), _Buckets(nullptr)
+		: _Length(0), _CollisionCount(0), _Buckets(nullptr)
 	{
 		*this = Functional::Move(Right);
 	}
@@ -216,9 +226,28 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Set(const TKey& Key, const TValue& Value)
+	{
+		Insert(Key, Value, false);
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Add(const TKey& Key, const TValue& Value)
 	{
 		Insert(Key, Value, true);
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator HashTable<TKey, TValue, KeyCompare, Allocator>::GetBegin()
+	{
+		return FIterator((Bucket*)&_Buckets[0], (BucketNodePointer)_Buckets[0].GetHead());
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator HashTable<TKey, TValue, KeyCompare, Allocator>::GetEnd()
+	{
+		BucketPointer OutOfBoundsBucket = &_Buckets[_Length];
+		return FIterator(OutOfBoundsBucket, (BucketNodePointer)OutOfBoundsBucket->GetHead());
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
@@ -268,20 +297,37 @@ namespace Elysium::Core::Template::Container
 	{
 		Elysium::Core::size HashCode = Key.GetHashCode();
 		Elysium::Core::size TargetBucketIndex = HashCode % _Length;
-		Bucket& TargetBucket = _Buckets[TargetBucketIndex];
+		BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
-		if (Add && Node != nullptr)
+		if (Node == nullptr)
 		{
-			throw Elysium::Core::ArgumentException(u8"An element with the same key already exists.");
+			Entry Item = Entry(Key, Value);
+			TargetBucket.PushBack(Functional::Move(Item));
 		}
+		else
+		{
+			if (Add)
+			{
+				throw Elysium::Core::ArgumentException(u8"An element with the same key already exists.");
+			}
 
-		Entry Item = Entry();
-		Item.HashCode = HashCode;
-		Item.Key = Key;
-		Item.Value = Value;
+			Entry* ExistingItem = FindEntry(Node, Key);
+			if (ExistingItem == nullptr)
+			{
+				TargetBucket.PushBack(Functional::Move(Entry(Key, Value)));
 
-		TargetBucket.PushBack(Functional::Move(Item));
+				_CollisionCount++;
+				if (_CollisionCount > CollisionThreshold)
+				{	// ToDo: implement resize!
+					//throw Elysium::Core::ArgumentException(u8"Resize is required.");
+				}
+			}
+			else
+			{
+				ExistingItem->GetValue() = Value;
+			}
+		}
 	}
 
 	template<class TKey, class TValue, class Allocator, class KeyCompare>
@@ -291,6 +337,22 @@ namespace Elysium::Core::Template::Container
 
 
 		bool bla = false;
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline HashTable<TKey, TValue, KeyCompare, Allocator>::Entry* HashTable<TKey, TValue, KeyCompare, Allocator>::FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key)
+	{
+		while (CurrentNode != nullptr)
+		{
+			HashTable<TKey, TValue, KeyCompare, Allocator>::Entry& Entry = CurrentNode->GetItem();
+			if (Entry.GetKey() == Key)
+			{
+				return &Entry;
+			}
+			CurrentNode = CurrentNode->GetNext();
+		}
+		
+		return nullptr;
 	}
 }
 #endif

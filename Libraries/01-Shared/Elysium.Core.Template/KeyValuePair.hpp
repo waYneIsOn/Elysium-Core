@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
@@ -27,67 +31,30 @@ namespace Elysium::Core::Template::Container
 	class KeyValuePair final
 	{
 	public:
-		/// <summary>
-		///
-		/// </summary>
-		KeyValuePair(TKey& Key, TValue& Value);
+		KeyValuePair(const TKey& Key, const TValue& Value);
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="Source"></param>
 		KeyValuePair(const KeyValuePair& Source);
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="Right"></param>
-		/// <returns></returns>
 		KeyValuePair(KeyValuePair&& Right) noexcept;
 
-		/// <summary>
-		/// Destroys this instance.
-		/// </summary>
 		~KeyValuePair();
-
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="Source"></param>
-		/// <returns></returns>
+	public:
 		KeyValuePair<TKey, TValue>& operator=(const KeyValuePair& Source);
 
-		/// <summary>
-		///
-		/// </summary>
-		/// <param name="Right"></param>
-		/// <returns></returns>
 		KeyValuePair<TKey, TValue>& operator=(KeyValuePair&& Right) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
+	public:
 		const TKey& GetKey() const;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const TValue& GetValue() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
 		TValue& GetValue();
+
+		const TValue& GetValue() const;
 	private:
-		TKey& _Key;
-		TValue& _Value;
+		TKey _Key;
+		TValue _Value;
 	};
 
 	template<class TKey, class TValue>
-	inline KeyValuePair<TKey, TValue>::KeyValuePair(TKey& Key, TValue& Value)
+	inline KeyValuePair<TKey, TValue>::KeyValuePair(const TKey& Key, const TValue& Value)
 		: _Key(Key), _Value(Value)
 	{ }
 
@@ -136,13 +103,13 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class TKey, class TValue>
-	inline const TValue& KeyValuePair<TKey, TValue>::GetValue() const
+	inline TValue& KeyValuePair<TKey, TValue>::GetValue()
 	{
 		return _Value;
 	}
 
 	template<class TKey, class TValue>
-	inline TValue& KeyValuePair<TKey, TValue>::GetValue()
+	inline const TValue& KeyValuePair<TKey, TValue>::GetValue() const
 	{
 		return _Value;
 	}

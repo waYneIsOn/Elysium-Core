@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
-#endif
-
 namespace Elysium::Core::Template::Iterator
 {
 	template <class Collection>
@@ -34,12 +30,7 @@ namespace Elysium::Core::Template::Iterator
 		BackwardIterator<Collection>& operator=(const BackwardIterator& Source) noexcept = delete;
 		BackwardIterator<Collection>& operator=(BackwardIterator&& Right) noexcept = delete;
 
-		const bool operator==(const BackwardIterator& Other) const;
 		const bool operator!=(const BackwardIterator& Other) const;
-		const bool operator<(const BackwardIterator& Other) const;
-		const bool operator>(const BackwardIterator& Other) const;
-		const bool operator<=(const BackwardIterator& Other) const;
-		const bool operator>=(const BackwardIterator& Other) const;
 
 		BackwardIterator<Collection>& operator--();
 
@@ -58,37 +49,7 @@ namespace Elysium::Core::Template::Iterator
 	{ }
 
 	template <class Collection>
-	const bool BackwardIterator<Collection>::operator==(const BackwardIterator<Collection>& Other) const
-	{
-		return _Current == Other._Current;
-	}
-
-	template <class Collection>
 	const bool BackwardIterator<Collection>::operator!=(const BackwardIterator<Collection>& Other) const
-	{
-		return _Current != Other._Current;
-	}
-
-	template <class Collection>
-	const bool BackwardIterator<Collection>::operator<(const BackwardIterator<Collection>& Other) const
-	{
-		return _Current < Other._Current;
-	}
-
-	template <class Collection>
-	const bool BackwardIterator<Collection>::operator>(const BackwardIterator<Collection>& Other) const
-	{
-		return _Current > Other._Current;
-	}
-
-	template <class Collection>
-	const bool BackwardIterator<Collection>::operator<=(const BackwardIterator<Collection>& Other) const
-	{
-		return _Current <= Other._Current;
-	}
-
-	template <class Collection>
-	const bool BackwardIterator<Collection>::operator>=(const BackwardIterator<Collection>& Other) const
 	{
 		return _Current >= Other._Current;
 	}

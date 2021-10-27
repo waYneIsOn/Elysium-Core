@@ -18,55 +18,80 @@ namespace UnitTests::Core::Template::Container
 			LinkedList<String> Instance = LinkedList<String>();
 			for (LinkedList<String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				Logger::WriteMessage((char*)&(*Iterator).GetItem()[0]);
-				Logger::WriteMessage("\r\n");
+				Assert::Fail();
 			}
 
-			Instance.PushBack(u8"0");
-			Instance.PushBack(u8"1");
-			Instance.PushBack(u8"2");
+			Instance.PushBack(u8"0\r\n");
+			Instance.PushBack(u8"1\r\n");
+			Instance.PushBack(u8"2\r\n");
 
 			LinkedListNode<String>* Head = Instance.GetHead();
 			LinkedListNode<String>* Tail = Instance.GetTail();
-			AssertExtended::AreEqual(u8"0", Head->GetItem());
-			AssertExtended::AreEqual(u8"1", Head->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"2", Head->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"2", Tail->GetItem());
+			AssertExtended::AreEqual(u8"0\r\n", Head->GetItem());
+			AssertExtended::AreEqual(u8"1\r\n", Head->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Head->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Tail->GetItem());
+			Assert::IsNull(Tail->GetNext());
 
-			Instance.PushFront(u8"-2");
+			Instance.PushFront(u8"-2\r\n");
 			Head = Instance.GetHead();
 			Tail = Instance.GetTail();
-			AssertExtended::AreEqual(u8"-2", Head->GetItem());
-			AssertExtended::AreEqual(u8"0", Head->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"1", Head->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"2", Head->GetNext()->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"2", Tail->GetItem());
+			AssertExtended::AreEqual(u8"-2\r\n", Head->GetItem());
+			AssertExtended::AreEqual(u8"0\r\n", Head->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"1\r\n", Head->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Head->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Tail->GetItem());
+			Assert::IsNull(Tail->GetNext());
 
-			Instance.PushAfter(u8"3", *Tail);
+			Instance.PushAfter(u8"3\r\n", *Tail);
 			Head = Instance.GetHead();
 			Tail = Instance.GetTail();
-			AssertExtended::AreEqual(u8"-2", Head->GetItem());
-			AssertExtended::AreEqual(u8"0", Head->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"1", Head->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"2", Head->GetNext()->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"3", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"3", Tail->GetItem());
+			AssertExtended::AreEqual(u8"-2\r\n", Head->GetItem());
+			AssertExtended::AreEqual(u8"0\r\n", Head->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"1\r\n", Head->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Head->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"3\r\n", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"3\r\n", Tail->GetItem());
+			Assert::IsNull(Tail->GetNext());
 
-			Instance.PushAfter(u8"-1", *Head);
+			Instance.PushAfter(u8"-1\r\n", *Head);
 			Head = Instance.GetHead();
 			Tail = Instance.GetTail();
-			AssertExtended::AreEqual(u8"-2", Head->GetItem());
-			AssertExtended::AreEqual(u8"-1", Head->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"0", Head->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"1", Head->GetNext()->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"2", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"3", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
-			AssertExtended::AreEqual(u8"3", Tail->GetItem());
+			AssertExtended::AreEqual(u8"-2\r\n", Head->GetItem());
+			AssertExtended::AreEqual(u8"-1\r\n", Head->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"0\r\n", Head->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"1\r\n", Head->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"3\r\n", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"3\r\n", Tail->GetItem());
+			Assert::IsNull(Tail->GetNext());
+
+			Instance.RemoveHead();
+			Head = Instance.GetHead();
+			Tail = Instance.GetTail();
+			AssertExtended::AreEqual(u8"-1\r\n", Head->GetItem());
+			AssertExtended::AreEqual(u8"0\r\n", Head->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"1\r\n", Head->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"2\r\n", Head->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"3\r\n", Head->GetNext()->GetNext()->GetNext()->GetNext()->GetItem());
+			AssertExtended::AreEqual(u8"3\r\n", Tail->GetItem());
+			Assert::IsNull(Tail->GetNext());
+
+			Assert::IsTrue(Instance.Contains(u8"0\r\n"));
+			Assert::IsFalse(Instance.Contains(u8"4\r\n"));
+
+			const LinkedList<String>& ConstInstance = Instance;
+			for (LinkedList<String>::ConstIterator Iterator = ConstInstance.GetBegin(); Iterator != ConstInstance.GetEnd(); ++Iterator)
+			{
+				const LinkedListNode<String>& Node = *Iterator;
+				Logger::WriteMessage((char*)&Node.GetItem()[0]);
+			}
+			Logger::WriteMessage("\r\n");
 			
+			Instance.Clear();
 			for (LinkedList<String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				Logger::WriteMessage((char*)&(*Iterator).GetItem()[0]);
-				Logger::WriteMessage("\r\n");
+				Assert::Fail();
 			}
 		}
 	};

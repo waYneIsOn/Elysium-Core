@@ -301,6 +301,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackArray.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashTableForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
-#endif
-
 namespace Elysium::Core::Template::Iterator
 {
 	template <class Collection>
@@ -34,12 +30,7 @@ namespace Elysium::Core::Template::Iterator
 		ConstBackwardIterator<Collection>& operator=(const ConstBackwardIterator& Source) noexcept = delete;
 		ConstBackwardIterator<Collection>& operator=(ConstBackwardIterator&& Right) noexcept = delete;
 
-		const bool operator==(const ConstBackwardIterator& Other) const;
 		const bool operator!=(const ConstBackwardIterator& Other) const;
-		const bool operator<(const ConstBackwardIterator& Other) const;
-		const bool operator>(const ConstBackwardIterator& Other) const;
-		const bool operator<=(const ConstBackwardIterator& Other) const;
-		const bool operator>=(const ConstBackwardIterator& Other) const;
 
 		ConstBackwardIterator<Collection>& operator--();
 
@@ -57,38 +48,8 @@ namespace Elysium::Core::Template::Iterator
 	inline ConstBackwardIterator<Collection>::~ConstBackwardIterator() noexcept
 	{ }
 
-	template <class Collection>
-	const bool ConstBackwardIterator<Collection>::operator==(const ConstBackwardIterator& Other) const
-	{
-		return _Current == Other._Current;
-	}
-
-	template <class Collection>
-	const bool ConstBackwardIterator<Collection>::operator!=(const ConstBackwardIterator& Other) const
-	{
-		return _Current != Other._Current;
-	}
-
-	template <class Collection>
-	const bool ConstBackwardIterator<Collection>::operator<(const ConstBackwardIterator& Other) const
-	{
-		return _Current < Other._Current;
-	}
-
-	template <class Collection>
-	const bool ConstBackwardIterator<Collection>::operator>(const ConstBackwardIterator& Other) const
-	{
-		return _Current > Other._Current;
-	}
-
-	template <class Collection>
-	const bool ConstBackwardIterator<Collection>::operator<=(const ConstBackwardIterator& Other) const
-	{
-		return _Current <= Other._Current;
-	}
-
-	template <class Collection>
-	const bool ConstBackwardIterator<Collection>::operator>=(const ConstBackwardIterator& Other) const
+	template<class Collection>
+	inline const bool ConstBackwardIterator<Collection>::operator!=(const ConstBackwardIterator& Other) const
 	{
 		return _Current >= Other._Current;
 	}

@@ -21,13 +21,7 @@ namespace UnitTests::Core::Template::Container
 			: _Value(Value)
 		{ }
 		~MyClass()
-		{
-			if (_Value != nullptr)
-			{
-				delete _Value;
-				_Value = nullptr;
-			}
-		}
+		{ }
 
 		void* _Value;
 	};
@@ -50,7 +44,7 @@ namespace UnitTests::Core::Template::Container
 		template <class Allocator>
 		void AllocatorWithoutDefaultConstructor(Allocator& AllocatorInstance)
 		{
-			void* Value = nullptr;
+			void* Value = (void*)0x01;
 			const Elysium::Core::size InstanceLength = 3;
 			const Elysium::Core::size TotalLength = 5;
 
