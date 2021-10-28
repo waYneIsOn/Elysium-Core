@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -31,9 +31,10 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 	{
 	public:
 		LocaleInfo() = delete;
+		LocaleInfo(Elysium::Core::int32_t&& Id, Elysium::Core::String&& Name);
 		LocaleInfo(const LocaleInfo& Source) = delete;
 		LocaleInfo(LocaleInfo&& Right) noexcept = delete;
-		~LocaleInfo() = delete;
+		~LocaleInfo();
 
 		LocaleInfo& operator=(const LocaleInfo& Source) = delete;
 		LocaleInfo& operator=(LocaleInfo&& Right) noexcept = delete;
@@ -43,7 +44,7 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 		Elysium::Core::String _Name;
 
 		// ToDo: all fields/properties of NumberFormatInfo
-		Elysium::Core::int32_t _CurrencyDecimalDigitsId;
+		//Elysium::Core::int32_t _CurrencyDecimalDigitsId;
 
 		// ToDo: all fields/properties of RegionInfo
 	};

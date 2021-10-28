@@ -12,8 +12,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#if defined ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -32,7 +33,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/HashTable.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 namespace Elysium::Core::Globalization::Internal::Fallback
 {
 	class LocaleRepository final
@@ -50,7 +54,14 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 
 		static const Elysium::Core::String GetNameFromId(const Elysium::Core::int32_t Name);
 	private:
-		//static const LocaleInfo _CultureInvariantInfo = LocaleInfo(127, u8"Invariant Language (Invariant Country)");
+		inline static const LocaleInfo _CultureInvariantInfo = LocaleInfo(Template::Functional::Move(127), 
+			Template::Functional::Move(u8"Invariant Language (Invariant Country)"));
+		/*
+		inline static const Template::Container::HashTable<Elysium::Core::size, LocaleInfo*> _IdInfoMap =
+		{
+			{ 127_ui64, &_CultureInvariantInfo }
+		};
+		*/
 	};
 }
 #endif

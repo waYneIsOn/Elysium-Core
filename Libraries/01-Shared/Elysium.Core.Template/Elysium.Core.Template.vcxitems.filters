@@ -270,8 +270,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemClock.hpp">
       <Filter>Chrono</Filter>

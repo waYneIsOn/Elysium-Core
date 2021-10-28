@@ -39,17 +39,25 @@ const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(u8"ws");
 Elysium::Core::Uri::Uri(const Elysium::Core::String& UriString)
 	: _OriginalString(UriString), _SchemeView(ParseScheme()),_Parser(GetParser())
 { }
+
+Elysium::Core::Uri::Uri(const Uri BaseUri, const Elysium::Core::String & RelativeUri)
+	: _OriginalString(CreateUri(BaseUri._OriginalString, RelativeUri)), _SchemeView(ParseScheme()), _Parser(GetParser())
+{ }
+
 Elysium::Core::Uri::Uri(Elysium::Core::String&& UriString)
 	: _OriginalString(UriString), _SchemeView(ParseScheme()), _Parser(GetParser())
 { }
+
 Elysium::Core::Uri::Uri(const Uri & Source)
 	: _OriginalString(Source._OriginalString), _SchemeView(ParseScheme()), _Parser(GetParser())
 { }
+
 Elysium::Core::Uri::Uri(Uri && Right) noexcept
 	: _OriginalString(), _SchemeView(), _Parser(GetParser())
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Core::Uri::~Uri()
 { }
 
@@ -73,6 +81,7 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
 	}
 	return *this;
 }
+
 Elysium::Core::Uri & Elysium::Core::Uri::operator=(Uri && Right) noexcept
 {
 	if (this != &Right)
@@ -98,41 +107,57 @@ const Elysium::Core::StringView & Elysium::Core::Uri::GetAbsoluteUri() const
 {
 	return _AbsoluteUri;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetSchema() const
 {
 	return _SchemeView;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetAuthority() const
 {
 	return _AuthorityView;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetUserInfo() const
 {
 	return _UserInfoView;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetHost() const
 {
 	return _HostView;
 }
+
 const Elysium::Core::uint32_t& Elysium::Core::Uri::GetPort() const
 {
 	return _Port;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetPathAndQuery() const
 {
 	return _PathAndQueryView;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetPath() const
 {
 	return _PathView;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetQuery() const
 {
 	return _QueryView;
 }
+
 const Elysium::Core::StringView & Elysium::Core::Uri::GetFragment() const
 {
 	return _FragmentView;
+}
+
+Elysium::Core::StringView Elysium::Core::Uri::ParseScheme()
+{
+
+
+	return Elysium::Core::StringView();
 }
 
 Elysium::Core::UriParser& Elysium::Core::Uri::GetParser()
@@ -147,9 +172,11 @@ Elysium::Core::UriParser& Elysium::Core::Uri::GetParser()
 	}
 }
 
-Elysium::Core::StringView Elysium::Core::Uri::ParseScheme()
-{
+const Elysium::Core::String Elysium::Core::Uri::CreateUri(const Uri& BaseUri, const Elysium::Core::String& RelativeUri)
+{	// ToDo: make this function work correctly in all cases! atm it just concatenates two strings!
+	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder(BaseUri._OriginalString.GetLength() + RelativeUri.GetLength());
+	Builder.Append(BaseUri._OriginalString);
+	Builder.Append(RelativeUri);
 
-
-	return Elysium::Core::StringView();
+	return Builder.ToString();
 }

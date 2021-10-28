@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
+#include "../Elysium.Core.Template/HashTable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
 #include "AssemblyName.hpp"
 #endif
@@ -43,22 +47,31 @@ namespace Elysium::Core::Reflection
 		friend class Module;
 	public:
 		Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName);
-		Assembly(const Assembly& Source) = delete;
-		Assembly(Assembly&& Right) noexcept = delete;
-		~Assembly();
 
+		Assembly(const Assembly& Source) = delete;
+
+		Assembly(Assembly&& Right) noexcept = delete;
+
+		~Assembly();
+	public:
 		Assembly& operator=(const Assembly& Source) = delete;
+
 		Assembly& operator=(Assembly&& Right) noexcept = delete;
 
 		bool operator==(const Assembly& Other) const;
+
 		bool operator!=(const Assembly& Other) const;
+
 		bool operator<(const Assembly& Other) const;
+
 		bool operator>(const Assembly& Other) const;
+
 		bool operator<=(const Assembly& Other) const;
+
 		bool operator>=(const Assembly& Other) const;
-
+	public:
 		const Elysium::Core::String& GetFullName() const;
-
+	public:
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> GetModules() const;
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;

@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/List.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
+#include "../Elysium.Core.Template/HashTable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
 #include "Assembly.hpp"
 #endif
@@ -39,16 +43,20 @@ namespace Elysium::Core::Reflection
 		friend class Assembly;
 	public:
 		AppDomain();
+
 		AppDomain(const AppDomain& Source) = delete;
+
 		AppDomain(AppDomain&& Right) noexcept = delete;
+
 		~AppDomain();
-
+	public:
 		AppDomain& operator=(const AppDomain& Source) = delete;
+
 		AppDomain& operator=(AppDomain&& Right) noexcept = delete;
-
-		static AppDomain& GetCurrentDomain();
-
+	public:
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Assembly*> GetAssemblies() const;
+	public:
+		static AppDomain& GetCurrentDomain();
 	private:
 		Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies;
 		//Elysium::Core::Collections::Template::Dictionary<const Module*, const Assembly*> _ModuleAssemblyMap
@@ -56,6 +64,7 @@ namespace Elysium::Core::Reflection
 		//Elysium::Core::Collections::Template::Dictionary<const Elysium::Core::uint64_t*, const Type*> _TypeIdTypeTable
 
 		void Add(const Elysium::Core::Reflection::Assembly& Assembly);
+
 		void Remove(const Elysium::Core::Reflection::Assembly& Assembly);
 	};
 

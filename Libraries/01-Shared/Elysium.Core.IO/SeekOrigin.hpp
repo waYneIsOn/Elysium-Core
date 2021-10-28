@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core.Template/System.hpp"
+#include "../Elysium.Core/System.hpp"
 #endif
 
 namespace Elysium::Core::IO

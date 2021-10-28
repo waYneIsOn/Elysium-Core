@@ -53,15 +53,24 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Uri final
 	{
 	public:
+		Uri() = delete;
+
 		Uri(const Elysium::Core::String& UriString);
+
+		Uri(const Uri BaseUri, const Elysium::Core::String& RelativeUri);
+
 		Uri(Elysium::Core::String&& UriString);
+
 		Uri(const Uri& Source);
+
 		Uri(Uri&& Right) noexcept;
+
 		~Uri();
-
+	public:
 		Uri& operator=(const Uri& Source);
-		Uri& operator=(Uri&& Right) noexcept;
 
+		Uri& operator=(Uri&& Right) noexcept;
+	public:
 		static const Elysium::Core::String SchemeDelimiter;
 
 		static const Elysium::Core::String UriSchemeFile;
@@ -81,7 +90,7 @@ namespace Elysium::Core
 		static const Elysium::Core::String UriSchemeTelNet;
 		static const Elysium::Core::String UriSchemeUrn;
 		static const Elysium::Core::String UriSchemeWebSocket;
-
+	public:
 		const Elysium::Core::StringView& GetAbsoluteUri() const;
 		const Elysium::Core::StringView& GetSchema() const;
 		const Elysium::Core::StringView& GetAuthority() const;
@@ -109,6 +118,8 @@ namespace Elysium::Core
 
 		Elysium::Core::StringView ParseScheme();
 		Elysium::Core::UriParser& GetParser();
+
+		const Elysium::Core::String CreateUri(const Uri& BaseUri, const Elysium::Core::String& RelativeUri);
 	};
 }
 #endif

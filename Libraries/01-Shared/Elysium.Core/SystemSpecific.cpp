@@ -1,7 +1,7 @@
 #include "SystemSpecific.hpp"
 
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core.Template/System.hpp"
+#include "../Elysium.Core/System.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)

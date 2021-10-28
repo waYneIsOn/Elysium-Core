@@ -22,18 +22,27 @@ namespace UnitTests::Core::Reflection
 			{
 				const Assembly& CurrentAssembly = *Assemblies[a];
 				const String& AssemblyFullName = CurrentAssembly.GetFullName();
+				Logger::WriteMessage("Assembly: ");
+				Logger::WriteMessage((char*)&AssemblyFullName[0]);
+				Logger::WriteMessage("\r\n");
 
 				const Array<const Module*> Modules = CurrentAssembly.GetModules();
 				for (Elysium::Core::size m = 0; m < Modules.GetLength(); m++)
 				{
 					const Module& CurrentModule = *Modules[m];
 					const String& ModuleName = CurrentModule.GetName();
+					Logger::WriteMessage("\tModule: ");
+					Logger::WriteMessage((char*)&ModuleName[0]);
+					Logger::WriteMessage("\r\n");
 
 					const Array<const Type*> Types = CurrentModule.GetTypes();
 					for (Elysium::Core::size t = 0; t < Types.GetLength(); t++)
 					{
 						const Type& CurrentType = *Types[t];
 						const String& TypeName = CurrentType.GetName();
+						Logger::WriteMessage("\t\tType: ");
+						Logger::WriteMessage((char*)&TypeName[0]);
+						Logger::WriteMessage("\r\n");
 					}
 				}
 			}
