@@ -6,7 +6,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 #ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
-#define ELYSIUM_CORE_THREADING_AUTORESETEVENT
+#define ELYSIUM_CORE_THREADING_MANUALRESETEVENT
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,11 +23,15 @@ namespace Elysium::Core::Threading
 	{
 	public:
 		ManualResetEvent(const bool InitialState);
-		ManualResetEvent(const ManualResetEvent& Source) = delete;
-		ManualResetEvent(ManualResetEvent&& Right) noexcept = delete;
-		virtual ~ManualResetEvent();
 
+		ManualResetEvent(const ManualResetEvent& Source) = delete;
+
+		ManualResetEvent(ManualResetEvent&& Right) noexcept = delete;
+
+		virtual ~ManualResetEvent();
+	public:
 		ManualResetEvent& operator=(const ManualResetEvent& Source) = delete;
+
 		ManualResetEvent& operator=(ManualResetEvent&& Right) noexcept = delete;
 	};
 }

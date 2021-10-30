@@ -1,23 +1,23 @@
 #include "Stream.hpp"
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
+#include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
-#include "../Elysium.Core/NotSupportedException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
-#include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
+#ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
+#include "../Elysium.Core/NotSupportedException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
+#include "../Elysium.Core/List.hpp"
 #endif
 
 Elysium::Core::IO::Stream::~Stream()

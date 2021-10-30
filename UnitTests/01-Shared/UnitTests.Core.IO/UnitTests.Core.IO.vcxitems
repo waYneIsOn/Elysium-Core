@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReaderTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTreeTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReaderTests.cpp" />

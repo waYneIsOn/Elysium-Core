@@ -36,15 +36,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
 #include "../Elysium.Core.Threading/ManualResetEvent.hpp"
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
 #endif
-#elif defined(__ANDROID__)
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 
 #else
 #error "undefined os"
@@ -57,36 +61,44 @@ namespace Elysium::Core::Net::Sockets
 	class ELYSIUM_CORE_NET_API SendReceiveAsyncResult final : public IAsyncResult
 	{
 		friend class Socket;
+	private:
+		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const Elysium::Core::size BufferSize);
 	public:
 		SendReceiveAsyncResult(const SendReceiveAsyncResult& Source) = delete;
+
 		SendReceiveAsyncResult(SendReceiveAsyncResult&& Right) noexcept = delete;
+
 		virtual ~SendReceiveAsyncResult();
-
+	public:
 		SendReceiveAsyncResult& operator=(const SendReceiveAsyncResult& Source) = delete;
-		SendReceiveAsyncResult& operator=(SendReceiveAsyncResult&& Right) noexcept = delete;
 
+		SendReceiveAsyncResult& operator=(SendReceiveAsyncResult&& Right) noexcept = delete;
+	public:
 		virtual const void* GetAsyncState() const override;
+
 		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const override;
+
 		virtual const bool GetCompletedSynchronously() const override;
+
 		virtual const bool GetIsCompleted() const override;
 
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
+
 		Elysium::Core::Net::Sockets::Socket& GetSocket() const;
+
 		const Elysium::Core::uint32_t& GetBytesTransferred() const;
 	private:
-		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket* Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const Elysium::Core::size BufferSize);
-
 		const void* _AsyncState;
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
 
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
-		Elysium::Core::Net::Sockets::Socket* _Socket;
+		Elysium::Core::Net::Sockets::Socket& _Socket;
 		Elysium::Core::uint32_t _BytesTransferred = 0;
 
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
 		WSABUF _WSABuffer;
 		WSAOVERLAPPED _Overlapped;
-#elif defined(__ANDROID__)
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 
 #else
 

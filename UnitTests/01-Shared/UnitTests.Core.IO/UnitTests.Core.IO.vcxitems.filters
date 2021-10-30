@@ -16,5 +16,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTreeTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStreamTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamTests.cpp" />
   </ItemGroup>
 </Project>

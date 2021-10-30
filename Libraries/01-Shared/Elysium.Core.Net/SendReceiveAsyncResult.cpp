@@ -4,6 +4,10 @@
 #include "Socket.hpp"
 #endif
 
+Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const Elysium::Core::size BufferSize)
+	: _OperationDoneEvent(false), _Socket(Socket), _Callback(Callback), _AsyncState(AsyncState)
+{ }
+
 Elysium::Core::Net::Sockets::SendReceiveAsyncResult::~SendReceiveAsyncResult()
 { }
 
@@ -34,15 +38,10 @@ const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Elysium
 
 Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetSocket() const
 {
-	return *_Socket;
+	return _Socket;
 }
 
 const Elysium::Core::uint32_t & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetBytesTransferred() const
 {
 	return _BytesTransferred;
 }
-
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket * Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> & Callback, const void * AsyncState, const Elysium::Core::size BufferSize)
-	: Elysium::Core::IAsyncResult(),
-	_OperationDoneEvent(false), _Socket(Socket), _Callback(Callback), _AsyncState(AsyncState)
-{ }

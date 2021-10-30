@@ -31,10 +31,10 @@ namespace Elysium::Core
 		SystemException(Elysium::Core::String&& Message);
 
 		virtual ~SystemException();
-
-		const Elysium::Core::int32_t GetErrorCode() const;
+	public:
+		const Elysium::Core::uint32_t GetErrorCode() const;
 	private:
-		const Elysium::Core::int32_t _ErrorCode;
+		const Elysium::Core::uint32_t _ErrorCode;
 	};
 }
 #endif

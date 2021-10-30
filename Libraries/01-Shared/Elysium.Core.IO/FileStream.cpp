@@ -1,13 +1,5 @@
 #include "FileStream.hpp"
 
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_FILENOTFOUNDEXCEPTION
-#include "FileNotFoundException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
 #include "../Elysium.Core/ArgumentNullException.hpp"
 #endif
@@ -24,31 +16,34 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_FILENOTFOUNDEXCEPTION
+#include "FileNotFoundException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_IOEXCEPTION
 #include "IOException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode)
 	: FileStream(Path, Mode, FileAccess::ReadWrite, FileShare::None)
 { }
+
 Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode, const FileAccess Access)
 	: FileStream(Path, Mode, Access, FileShare::None)
 { }
+
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share)
 	: FileStream(Path, Mode, Access, Share, DefaultBufferSize, FileOptions::None)
 { }
+
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
-	: Elysium::Core::IO::Stream(),
-	_Path(Path), _FileHandle(CreateFile((const wchar_t*)&_OperatingSystemEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(char16_t))[0],
-		static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share), 
-		nullptr, // default security
-		static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options), nullptr))
-{
-	if (_FileHandle == INVALID_HANDLE_VALUE)
-	{
-		throw IOException();
-	}
-}
+	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options))
+{ }
+
 Elysium::Core::IO::FileStream::~FileStream()
 {
 	Close();
@@ -212,3 +207,68 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 	} while (TotalBytesWritten != Count);
 
 }
+
+const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
+{
+	if (Buffer == nullptr)
+	{
+		throw ArgumentNullException(u8"Buffer");
+	}
+
+	static unsigned long AppendToEndOfFile = 0xFFFFFFFF;
+
+	FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State);
+	AsyncResult->_Overlapped.Offset = AppendToEndOfFile;
+	AsyncResult->_Overlapped.OffsetHigh = AppendToEndOfFile;
+
+	StartThreadpoolIo(AsyncResult->_CompletionPortHandle);
+	Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, &AsyncResult->_Overlapped);
+	//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+	if (!Result)
+	{
+		Elysium::Core::uint32_t ErrorCode = GetLastError();
+		if(ErrorCode != ERROR_IO_PENDING)
+		{
+			CancelThreadpoolIo(AsyncResult->_CompletionPortHandle);
+			delete AsyncResult;
+			throw IOException();
+		}
+	}
+
+	return AsyncResult;
+}
+
+void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
+{
+	/*
+	DWORD bytesTransferred;
+	unsigned __int64 key;
+	LPOVERLAPPED overlappedComp;
+
+	BOOL bSuccess = GetQueuedCompletionStatus(_CompletionPortHandle, &bytesTransferred, &key, &overlappedComp, (DWORD)-1);
+	*/
+	FileStreamAsyncResult* CastResult = (FileStreamAsyncResult*)AsyncResult;
+
+	//CastResult->_Overlapped
+
+	bool bla = false;
+	//return CastResult->_BytesTransferred;
+}
+
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+HANDLE Elysium::Core::IO::FileStream::CreateNativeFileHandle(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options)
+{
+	HANDLE NativeFileHandle = CreateFile((const wchar_t*)&_OperatingSystemEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(char16_t))[0],
+		static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share),
+		nullptr, // default security
+		static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options | FileOptions::Asynchronous), nullptr);
+	//CreateFile2()
+
+	if (NativeFileHandle == INVALID_HANDLE_VALUE)
+	{
+		throw IOException();
+	}
+
+	return NativeFileHandle;
+}
+#endif

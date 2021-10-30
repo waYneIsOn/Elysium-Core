@@ -26,6 +26,7 @@ Elysium::Core::Threading::Internal::OSThreadPool::OSThreadPool(const Elysium::Co
 	const bool SetMaxThreadsResult = SetMaxThreads(Maximum);
 	const bool SetMinThreadsResult = SetMinThreads(Minimum);
 }
+
 Elysium::Core::Threading::Internal::OSThreadPool::~OSThreadPool()
 {
 	ELYSIUM_THREADPOOL_CLEANUPGROUP_CLOSE_MEMBERS(_CleanupGroup, false, nullptr);

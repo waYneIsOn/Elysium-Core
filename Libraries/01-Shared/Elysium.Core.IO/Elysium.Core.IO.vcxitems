@@ -27,6 +27,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTable.hpp" />
@@ -57,6 +58,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EndOfStreamException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanNode.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTable.cpp" />

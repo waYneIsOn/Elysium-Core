@@ -10,6 +10,9 @@
     <Filter Include="NetworkInformation">
       <UniqueIdentifier>{7d5f5b51-9af7-441e-a87e-c2f60c02528a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sockets\Internal">
+      <UniqueIdentifier>{1b9ed3ed-a100-4a7f-b39c-6a889d9ea722}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
@@ -51,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.cpp">
       <Filter>Security</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinSocket.cpp">
+      <Filter>Sockets\Internal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MessageAuthenticationCodeAlgorithm.hpp">
       <Filter>Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WinSocket.hpp">
+      <Filter>Sockets\Internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

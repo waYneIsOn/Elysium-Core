@@ -60,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsCipherSuite.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsExtensionType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WinSocket.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.cpp" />
@@ -80,5 +81,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TlsStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinSocket.cpp" />
   </ItemGroup>
 </Project>

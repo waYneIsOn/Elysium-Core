@@ -32,13 +32,14 @@ namespace Elysium::Core::IO
 		DeleteOnClose =	67108864,
 		SequentialScan = 134217728,
 		RandomAccess = 268435456,
-		Asynchronous = 1073741824,
+		Asynchronous = 1073741824,	// FILE_FLAG_OVERLAPPED
 	};
 
 	inline FileOptions operator|(const FileOptions Left, const FileOptions Right)
 	{
 		return static_cast<FileOptions>(static_cast<Elysium::Core::uint32_t>(Left) | static_cast<Elysium::Core::uint32_t>(Right));
 	}
+
 	inline FileOptions operator&(const FileOptions Left, const FileOptions Right)
 	{
 		return static_cast<FileOptions>(static_cast<Elysium::Core::uint32_t>(Left) & static_cast<Elysium::Core::uint32_t>(Right));

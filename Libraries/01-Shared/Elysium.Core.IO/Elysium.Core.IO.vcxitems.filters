@@ -37,6 +37,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTable.cpp">
       <Filter>Compression\HuffmanCoding</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -104,6 +105,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTable.hpp">
       <Filter>Compression\HuffmanCoding</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">
@@ -117,6 +119,9 @@
     </Filter>
     <Filter Include="Compression\HuffmanCoding">
       <UniqueIdentifier>{cdaf52eb-528c-4aa5-a2a6-dbc625d271a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{bfabb72e-0a80-4a0f-8abb-3a379735c003}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

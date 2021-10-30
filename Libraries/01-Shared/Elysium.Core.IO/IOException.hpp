@@ -26,8 +26,11 @@ namespace Elysium::Core::IO
 	{
 	public:
 		IOException();
+
 		IOException(const char8_t* Message);
+
 		IOException(String&& Message);
+
 		virtual ~IOException();
 	};
 }

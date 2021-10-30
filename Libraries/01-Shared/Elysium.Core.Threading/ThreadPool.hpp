@@ -24,6 +24,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OSThreadPool.hpp"
 #endif
 
+namespace Elysium::Core::IO
+{
+	class FileStreamAsyncResult;
+}
+
 namespace Elysium::Core::Net::Sockets
 {
 	class Socket;
@@ -38,6 +43,7 @@ namespace Elysium::Core::Threading
 {
 	class ELYSIUM_CORE_API ThreadPool final
 	{
+		friend class Elysium::Core::IO::FileStreamAsyncResult;
 		friend class Elysium::Core::Net::Sockets::Socket;
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
