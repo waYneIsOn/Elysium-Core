@@ -82,6 +82,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WindowsErrorCode.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />

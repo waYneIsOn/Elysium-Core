@@ -148,18 +148,27 @@ namespace Elysium::Core::IO
 			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult) override;
+
+		virtual const Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
+
+		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult) override;
 	private:
 		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
 	private:
 		const String _Path;
 		Elysium::Core::uint64_t _Position = 0;
+		FileStreamAsyncResult* _AsyncReadWriteResult = nullptr;
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 		inline static const Elysium::Core::Text::Encoding& _OperatingSystemEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		HANDLE _FileHandle;
+		PTP_IO _CompletionPortHandle;
 
 		static HANDLE CreateNativeFileHandle(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options);
+
+		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 		inline static const Elysium::Core::Text::Encoding& _OperatingSystemEncoding = Elysium::Core::Text::Encoding::UTF8();
 #else

@@ -48,11 +48,6 @@ namespace Elysium::Core::IO
 		virtual const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 		virtual Elysium::Core::byte ReadByte() override;
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
-
-		virtual const Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
-
-		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult) override;
 	private:
 		Stream& _BaseStream;
 		const Elysium::Core::uint64_t _Start;

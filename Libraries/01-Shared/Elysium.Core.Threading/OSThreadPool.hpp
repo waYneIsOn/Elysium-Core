@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO
 {
-	class FileStreamAsyncResult;
+	class FileStream;
 }
 
 namespace Elysium::Core::Net::Sockets
@@ -43,7 +43,7 @@ namespace Elysium::Core::Threading::Internal
 {
 	class OSThreadPool final
 	{
-		friend class Elysium::Core::IO::FileStreamAsyncResult;
+		friend class Elysium::Core::IO::FileStream;
 		friend class Elysium::Core::Net::Sockets::Socket;
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:

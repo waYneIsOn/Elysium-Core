@@ -182,13 +182,3 @@ void Elysium::Core::IO::MemoryStream::Write(const Elysium::Core::byte * Buffer, 
 
 	_Buffer.AddRange(Buffer, Count);
 }
-
-const Elysium::Core::IAsyncResult* Elysium::Core::IO::MemoryStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
-{
-	throw 1;
-}
-
-void Elysium::Core::IO::MemoryStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
-{
-	throw 1;
-}

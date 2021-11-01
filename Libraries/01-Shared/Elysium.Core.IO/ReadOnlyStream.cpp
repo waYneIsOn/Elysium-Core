@@ -102,13 +102,3 @@ void Elysium::Core::IO::ReadOnlyStream::Write(const Elysium::Core::byte* Buffer,
 {
 	throw InvalidOperationException();
 }
-
-const Elysium::Core::IAsyncResult* Elysium::Core::IO::ReadOnlyStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
-{
-	throw 1;
-}
-
-void Elysium::Core::IO::ReadOnlyStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
-{
-	throw 1;
-}

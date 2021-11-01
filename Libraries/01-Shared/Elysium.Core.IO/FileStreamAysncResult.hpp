@@ -33,11 +33,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
+#ifndef ELYSIUM_CORE_INTERNAL_WINDOWSERRORCODE
+#include "../Elysium.Core/WindowsErrorCode.hpp"
+#endif
+
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
 #endif
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-
 #else
 #error "undefined os"
 #endif
@@ -73,21 +75,25 @@ namespace Elysium::Core::IO
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
 
 		Elysium::Core::IO::FileStream& GetFileStream() const;
+
+		const Elysium::Core::size GetBytesTransferred() const;
+
+		const Elysium::Core::uint16_t GetErrorCode() const;
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+		const Elysium::Core::Internal::WindowsErrorCode GetNamedErrorCode() const;
+#endif
 	private:
 		FileStream& _Stream;
 		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
 		const void* _AsyncState;
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
+		Elysium::Core::size _BytesTransferred;
+		Elysium::Core::uint16_t _ErrorCode;
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
-		PTP_IO _CompletionPortHandle;
 		OVERLAPPED _Overlapped;
-
-		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-
 #else
-
+#error "unsupported os"
 #endif
 	};
 }

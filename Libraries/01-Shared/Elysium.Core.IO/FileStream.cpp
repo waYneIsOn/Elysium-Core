@@ -24,6 +24,14 @@
 #include "IOException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_THREADPOOL
+#include "../Elysium.Core.Threading/ThreadPool.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
+#include "../Elysium.Core.Threading/OSThreadPool.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -41,11 +49,25 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 { }
 
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
-	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options))
-{ }
+	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options)),
+	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
+{
+	if (_CompletionPortHandle == nullptr)
+	{
+		throw IOException();
+	}
+}
 
 Elysium::Core::IO::FileStream::~FileStream()
 {
+	if (_CompletionPortHandle != nullptr)
+	{
+		CancelThreadpoolIo(_CompletionPortHandle);
+		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, false);
+		CloseThreadpoolIo(_CompletionPortHandle);
+
+		_CompletionPortHandle = nullptr;
+	}
 	Close();
 }
 
@@ -215,44 +237,85 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 		throw ArgumentNullException(u8"Buffer");
 	}
 
-	static unsigned long AppendToEndOfFile = 0xFFFFFFFF;
+	if (_AsyncReadWriteResult != nullptr)
+	{	// ToDo: throw specific exception (async operation already in progress)
+		throw 1;
+	}
 
-	FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State);
-	AsyncResult->_Overlapped.Offset = AppendToEndOfFile;
-	AsyncResult->_Overlapped.OffsetHigh = AppendToEndOfFile;
+	_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
+	_AsyncReadWriteResult->_Overlapped.Pointer = (void*)0xffffffffffffffff;	// append to end of file
 
-	StartThreadpoolIo(AsyncResult->_CompletionPortHandle);
-	Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, &AsyncResult->_Overlapped);
+	StartThreadpoolIo(_CompletionPortHandle);
+	Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
 	//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
 	if (!Result)
 	{
 		Elysium::Core::uint32_t ErrorCode = GetLastError();
 		if(ErrorCode != ERROR_IO_PENDING)
 		{
-			CancelThreadpoolIo(AsyncResult->_CompletionPortHandle);
-			delete AsyncResult;
+			CancelThreadpoolIo(_CompletionPortHandle);
+			delete _AsyncReadWriteResult;
 			throw IOException();
 		}
 	}
 
-	return AsyncResult;
+	return _AsyncReadWriteResult;
 }
 
 void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	/*
-	DWORD bytesTransferred;
-	unsigned __int64 key;
-	LPOVERLAPPED overlappedComp;
+	const FileStreamAsyncResult* CastResult = (const FileStreamAsyncResult*)AsyncResult;
+	FileStream& TargetStream = CastResult->GetFileStream();
+	delete TargetStream._AsyncReadWriteResult;
+	TargetStream._AsyncReadWriteResult = nullptr;
+}
 
-	BOOL bSuccess = GetQueuedCompletionStatus(_CompletionPortHandle, &bytesTransferred, &key, &overlappedComp, (DWORD)-1);
-	*/
-	FileStreamAsyncResult* CastResult = (FileStreamAsyncResult*)AsyncResult;
+const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
+{
+	if (Buffer == nullptr)
+	{
+		throw ArgumentNullException(u8"Buffer");
+	}
 
-	//CastResult->_Overlapped
+	if (_AsyncReadWriteResult != nullptr)
+	{	// ToDo: throw specific exception (async operation already in progress)
+		throw 1;
+	}
 
-	bool bla = false;
-	//return CastResult->_BytesTransferred;
+	_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
+	//_AsyncReadWriteResult->_Overlapped.Offset = 0;
+	//_AsyncReadWriteResult->_Overlapped.OffsetHigh = 0;
+	//_AsyncReadWriteResult->_Overlapped.Pointer = _Position;
+	_AsyncReadWriteResult->_Overlapped.Pointer = (void*)_Position;
+
+	StartThreadpoolIo(_CompletionPortHandle);
+	Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
+	//Elysium::Core::int32_t Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+	if (!Result)
+	{
+		Elysium::Core::uint32_t ErrorCode = GetLastError();
+		if (ErrorCode != ERROR_IO_PENDING)
+		{
+			CancelThreadpoolIo(_CompletionPortHandle);
+			delete _AsyncReadWriteResult;
+			throw IOException();
+		}
+	}
+
+	return _AsyncReadWriteResult;
+}
+
+const Elysium::Core::size Elysium::Core::IO::FileStream::EndRead(const Elysium::Core::IAsyncResult* AsyncResult)
+{
+	const FileStreamAsyncResult* CastResult = (const FileStreamAsyncResult*)AsyncResult;
+	const Elysium::Core::size BytesTransferred = CastResult->GetBytesTransferred();
+
+	FileStream& TargetStream = CastResult->GetFileStream();
+	TargetStream._Position += BytesTransferred;
+	delete TargetStream._AsyncReadWriteResult;
+	TargetStream._AsyncReadWriteResult = nullptr;
+
+	return BytesTransferred;
 }
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -270,5 +333,16 @@ HANDLE Elysium::Core::IO::FileStream::CreateNativeFileHandle(const String& Path,
 	}
 
 	return NativeFileHandle;
+}
+
+void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
+{
+	Elysium::Core::IO::FileStream* FileStream = (Elysium::Core::IO::FileStream*)Context;
+	Elysium::Core::IO::FileStreamAsyncResult* AsyncResult = FileStream->_AsyncReadWriteResult;
+	AsyncResult->_BytesTransferred = NumberOfBytesTransferred;
+	AsyncResult->_ErrorCode = IoResult;
+
+	const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = AsyncResult->GetCallback();
+	Callback(AsyncResult);
 }
 #endif

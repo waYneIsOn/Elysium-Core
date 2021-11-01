@@ -673,7 +673,7 @@ const Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginSe
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State, 8192);
 	AsyncResult->_WSABuffer.len = Size;
 	AsyncResult->_WSABuffer.buf = (char*)Buffer;
-	AsyncResult->_Overlapped.Pointer = AsyncResult;
+	AsyncResult->_Overlapped.Pointer = AsyncResult;	// ToDo: this is an internal value that MUSTN'T be set! take a look at FileStream and FileStreamAsyncResult on how to do it correctly!
 
 	StartThreadpoolIo(_CompletionPortHandle);
 	Elysium::Core::int32_t Result = WSASend(_WinSocketHandle, (LPWSABUF)&AsyncResult->_WSABuffer, 1, (LPDWORD)&AsyncResult->_BytesTransferred, 

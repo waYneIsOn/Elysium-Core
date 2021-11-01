@@ -13,6 +13,9 @@
     <Filter Include="Collections\Template">
       <UniqueIdentifier>{7c593d0f-f0df-43ad-8a33-8d9cfe30877c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{bf75a457-2bb3-4c9f-834f-d5826e2199fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
@@ -101,6 +104,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemSpecific.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WindowsErrorCode.hpp">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
