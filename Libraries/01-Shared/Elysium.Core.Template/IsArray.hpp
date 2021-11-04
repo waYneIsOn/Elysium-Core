@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COLLECTIONS_FIXEDSIZEHEAPARRAY
-#include "FixedSizeHeapArray.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
 #include "RemoveConstVolatile.hpp"
 #endif
@@ -27,12 +23,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
 #include "IsSame.hpp"
 #endif
-
-namespace Elysium::Core::Collections::Template
-{
-    template <class T>
-    class Array;
-}
 
 namespace Elysium::Core::Template::TypeTraits
 {
@@ -46,11 +36,8 @@ namespace Elysium::Core::Template::TypeTraits
     inline constexpr bool IsArrayValue<T[Size]> = true;
     /*
     template <template<class> class T, class Inner>
-    inline constexpr bool IsArrayValue<T<Inner>> = IsSameValue<Functional::RemoveConstVolatile<T<Inner>>::Type, Elysium::Core::Template::Collections::FixedSizeHeapArray<Inner>>();
-    */
-    template <template<class> class T, class Inner>
     inline constexpr bool IsArrayValue<T<Inner>> = IsSameValue<Functional::RemoveConstVolatile<T<Inner>>::Type, Elysium::Core::Collections::Template::Array<Inner>>;
-    
+    */
     template <class T>
     struct IsArray : IntegralConstant<bool, IsArrayValue<T>>
     { };
