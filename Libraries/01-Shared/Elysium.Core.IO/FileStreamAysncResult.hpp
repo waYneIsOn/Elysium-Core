@@ -79,7 +79,7 @@ namespace Elysium::Core::IO
 		const Elysium::Core::size GetBytesTransferred() const;
 
 		const Elysium::Core::uint16_t GetErrorCode() const;
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		const Elysium::Core::Internal::WindowsErrorCode GetNamedErrorCode() const;
 #endif
 	private:
@@ -90,7 +90,7 @@ namespace Elysium::Core::IO
 		Elysium::Core::size _BytesTransferred;
 		Elysium::Core::uint16_t _ErrorCode;
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS 
 		OVERLAPPED _Overlapped;
 #else
 #error "unsupported os"

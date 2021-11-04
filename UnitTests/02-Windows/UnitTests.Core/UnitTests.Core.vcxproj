@@ -64,6 +64,8 @@
     <Import Project="..\..\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems" Label="Shared" />
+    <Import Project="..\..\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems" Label="Shared" />
+    <Import Project="..\..\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -179,10 +181,8 @@
     <ClCompile Include="DecimalTest.cpp" />
     <ClCompile Include="DelegateTest.cpp" />
     <ClCompile Include="EnvironmentTest.cpp" />
-    <ClCompile Include="FileStreamTest.cpp" />
     <ClCompile Include="NumericTest.cpp" />
     <ClCompile Include="ListTest.cpp" />
-    <ClCompile Include="MemoryStreamTest.cpp" />
     <ClCompile Include="ReflectionTest.cpp" />
     <ClCompile Include="StringTest.cpp" />
     <ClCompile Include="TaskTest.cpp" />

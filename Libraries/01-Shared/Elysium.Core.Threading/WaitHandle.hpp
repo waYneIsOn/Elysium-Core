@@ -33,14 +33,19 @@ namespace Elysium::Core::Threading
 	// Encapsulates operating system-specific objects that wait for exclusive access to shared resources.
 	class ELYSIUM_CORE_API WaitHandle
 	{
+	protected:
+		WaitHandle(const ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE Handle);
 	public:
 		WaitHandle(const WaitHandle& Source) = delete;
+
 		WaitHandle(WaitHandle&& Right) noexcept = delete;
+
 		virtual ~WaitHandle();
-
+	public:
 		WaitHandle& operator=(const WaitHandle& Source) = delete;
-		WaitHandle& operator=(WaitHandle&& Right) noexcept = delete;
 
+		WaitHandle& operator=(WaitHandle&& Right) noexcept = delete;
+	public:
 		// Blocks the current thread until the current WaitHandle receives a signal.
 		virtual const bool WaitOne() const;
 
@@ -56,8 +61,6 @@ namespace Elysium::Core::Threading
 		// Blocks the current thread until the current instance receives a signal, using a 32-bit signed integer to specify the time interval and specifying whether to exit the synchronization domain before the wait.
 		virtual const bool WaitOne(const Elysium::Core::int32_t MillisecondsTimeout, const bool ExitContext) const;
 	protected:
-		WaitHandle(const ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE Handle);
-
 		const ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE _Handle;
 	};
 }

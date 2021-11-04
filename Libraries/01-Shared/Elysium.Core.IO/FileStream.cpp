@@ -37,7 +37,7 @@
 #endif
 
 Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode)
-	: FileStream(Path, Mode, FileAccess::ReadWrite, FileShare::None)
+	: FileStream(Path, Mode, FileAccess::Read | FileAccess::Write, FileShare::None)
 { }
 
 Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode, const FileAccess Access)
@@ -51,12 +51,7 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
 	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options)),
 	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
-{
-	if (_CompletionPortHandle == nullptr)
-	{
-		throw IOException();
-	}
-}
+{ }
 
 Elysium::Core::IO::FileStream::~FileStream()
 {
@@ -220,14 +215,13 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 	Elysium::Core::uint32_t BytesWritten = 0;
 	do
 	{
-		if (!WriteFile(_FileHandle, &Buffer[TotalBytesWritten], static_cast<DWORD>(Count - TotalBytesWritten), (unsigned long*)&BytesWritten, nullptr))
+		if (!WriteFile(_FileHandle, &Buffer[TotalBytesWritten], static_cast<unsigned long>(Count - TotalBytesWritten), (unsigned long*)&BytesWritten, nullptr))
 		{
 			throw IOException();
 		}
 		TotalBytesWritten += BytesWritten;
 		_Position += BytesWritten;
 	} while (TotalBytesWritten != Count);
-
 }
 
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
@@ -237,37 +231,41 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 		throw ArgumentNullException(u8"Buffer");
 	}
 
-	if (_AsyncReadWriteResult != nullptr)
-	{	// ToDo: throw specific exception (async operation already in progress)
-		throw 1;
+	if (_CompletionPortHandle == nullptr)
+	{	// the file wasn't opened in a way to support io completion ports
+		return Stream::BeginWrite(Buffer, Size, Callback, State);
 	}
-
-	_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
-	_AsyncReadWriteResult->_Overlapped.Pointer = (void*)0xffffffffffffffff;	// append to end of file
-
-	StartThreadpoolIo(_CompletionPortHandle);
-	Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
-	//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
-	if (!Result)
+	else
 	{
-		Elysium::Core::uint32_t ErrorCode = GetLastError();
-		if(ErrorCode != ERROR_IO_PENDING)
-		{
-			CancelThreadpoolIo(_CompletionPortHandle);
-			delete _AsyncReadWriteResult;
-			throw IOException();
-		}
-	}
+		_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
+		_AsyncReadWriteResult->_Overlapped.Offset = 0xFFFFFFFF;
+		_AsyncReadWriteResult->_Overlapped.OffsetHigh = 0xFFFFFFFF;
 
-	return _AsyncReadWriteResult;
+		StartThreadpoolIo(_CompletionPortHandle);
+		Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
+		//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+		if (!Result)
+		{
+			Elysium::Core::uint32_t ErrorCode = GetLastError();
+			if (ErrorCode != ERROR_IO_PENDING)
+			{
+				CancelThreadpoolIo(_CompletionPortHandle);
+				delete _AsyncReadWriteResult;
+				throw IOException();
+			}
+		}
+
+		return _AsyncReadWriteResult;
+	}
 }
 
 void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
 	const FileStreamAsyncResult* CastResult = (const FileStreamAsyncResult*)AsyncResult;
-	FileStream& TargetStream = CastResult->GetFileStream();
-	delete TargetStream._AsyncReadWriteResult;
-	TargetStream._AsyncReadWriteResult = nullptr;
+	if (CastResult->GetErrorCode() != NO_ERROR)
+	{
+		throw IOException(CastResult->GetErrorCode());
+	}
 }
 
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
@@ -277,54 +275,57 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(cons
 		throw ArgumentNullException(u8"Buffer");
 	}
 
-	if (_AsyncReadWriteResult != nullptr)
-	{	// ToDo: throw specific exception (async operation already in progress)
-		throw 1;
+	if (_CompletionPortHandle == nullptr)
+	{	// the file wasn't opened in a way to support io completion ports
+		return Stream::BeginWrite(Buffer, Size, Callback, State);
 	}
-
-	_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
-	//_AsyncReadWriteResult->_Overlapped.Offset = 0;
-	//_AsyncReadWriteResult->_Overlapped.OffsetHigh = 0;
-	//_AsyncReadWriteResult->_Overlapped.Pointer = _Position;
-	_AsyncReadWriteResult->_Overlapped.Pointer = (void*)_Position;
-
-	StartThreadpoolIo(_CompletionPortHandle);
-	Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
-	//Elysium::Core::int32_t Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
-	if (!Result)
+	else
 	{
-		Elysium::Core::uint32_t ErrorCode = GetLastError();
-		if (ErrorCode != ERROR_IO_PENDING)
-		{
-			CancelThreadpoolIo(_CompletionPortHandle);
-			delete _AsyncReadWriteResult;
-			throw IOException();
-		}
-	}
+		_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
+		_AsyncReadWriteResult->_Overlapped.Offset = static_cast<unsigned long>(_Position);
+		_AsyncReadWriteResult->_Overlapped.OffsetHigh = static_cast<unsigned long>(_Position >> 32);
 
-	return _AsyncReadWriteResult;
+		StartThreadpoolIo(_CompletionPortHandle);
+		Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
+		//Elysium::Core::int32_t Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+		if (!Result)
+		{
+			Elysium::Core::uint32_t ErrorCode = GetLastError();
+			if (ErrorCode != ERROR_IO_PENDING)
+			{
+				CancelThreadpoolIo(_CompletionPortHandle);
+				delete _AsyncReadWriteResult;
+				throw IOException();
+			}
+		}
+
+		return _AsyncReadWriteResult;
+	}
 }
 
 const Elysium::Core::size Elysium::Core::IO::FileStream::EndRead(const Elysium::Core::IAsyncResult* AsyncResult)
 {
 	const FileStreamAsyncResult* CastResult = (const FileStreamAsyncResult*)AsyncResult;
+	if (CastResult->GetErrorCode() != NO_ERROR)
+	{
+		throw IOException(CastResult->GetErrorCode());
+	}
+
 	const Elysium::Core::size BytesTransferred = CastResult->GetBytesTransferred();
 
 	FileStream& TargetStream = CastResult->GetFileStream();
 	TargetStream._Position += BytesTransferred;
-	delete TargetStream._AsyncReadWriteResult;
-	TargetStream._AsyncReadWriteResult = nullptr;
 
 	return BytesTransferred;
 }
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 HANDLE Elysium::Core::IO::FileStream::CreateNativeFileHandle(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options)
 {
 	HANDLE NativeFileHandle = CreateFile((const wchar_t*)&_OperatingSystemEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(char16_t))[0],
 		static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share),
 		nullptr, // default security
-		static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options | FileOptions::Asynchronous), nullptr);
+		static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options), nullptr);
 	//CreateFile2()
 
 	if (NativeFileHandle == INVALID_HANDLE_VALUE)

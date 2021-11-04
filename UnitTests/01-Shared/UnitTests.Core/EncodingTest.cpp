@@ -200,7 +200,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF8();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf8.txt", Elysium::Core::IO::FileMode::Create,
-				Elysium::Core::IO::FileAccess::ReadWrite);
+				Elysium::Core::IO::FileAccess::Read | Elysium::Core::IO::FileAccess::Write);
 			WriteTo(File, Encoding);
 			ReadFrom(File, Encoding);
 		}
@@ -210,7 +210,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF16BE();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf16BE.txt", Elysium::Core::IO::FileMode::Create,
-				Elysium::Core::IO::FileAccess::ReadWrite);
+				Elysium::Core::IO::FileAccess::Read | Elysium::Core::IO::FileAccess::Write);
 			WriteTo(File, Encoding);
 			ReadFrom(File, Encoding);
 		}
@@ -220,7 +220,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf16LE.txt", Elysium::Core::IO::FileMode::Create,
-				Elysium::Core::IO::FileAccess::ReadWrite);
+				Elysium::Core::IO::FileAccess::Read | Elysium::Core::IO::FileAccess::Write);
 			WriteTo(File, Encoding);
 			ReadFrom(File, Encoding);
 		}
@@ -230,7 +230,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF32BE();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf32BE.txt", Elysium::Core::IO::FileMode::Create,
-				Elysium::Core::IO::FileAccess::ReadWrite);
+				Elysium::Core::IO::FileAccess::Read | Elysium::Core::IO::FileAccess::Write);
 			WriteTo(File, Encoding);
 			ReadFrom(File, Encoding);
 		}
@@ -240,7 +240,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF32LE();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf32LE.txt", Elysium::Core::IO::FileMode::Create,
-				Elysium::Core::IO::FileAccess::ReadWrite);
+				Elysium::Core::IO::FileAccess::Read | Elysium::Core::IO::FileAccess::Write);
 			WriteTo(File, Encoding);
 			ReadFrom(File, Encoding);
 		}

@@ -16,10 +16,11 @@ Elysium::Core::int32_t Elysium::Core::Threading::Tasks::Task::_TaskIdCounter = 0
 
 Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Delegate<void>& Action)
 	: Elysium::Core::IAsyncResult(),
-	_Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::_WorkerPool._Environment)), _Action(Action), 
-	_Id(Interlocked::Increment(_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)), _Status(TaskStatus::Created), 
-	_Exception(nullptr)
+	_Action(Action),  _Id(Interlocked::Increment(_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)), 
+	_Status(TaskStatus::Created), _Exception(nullptr),
+	_Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::_WorkerPool._Environment))
 { }
+
 Elysium::Core::Threading::Tasks::Task::~Task()
 {
 	if (_Exception != nullptr)
@@ -37,14 +38,17 @@ const Elysium::Core::int32_t Elysium::Core::Threading::Tasks::Task::GetId() cons
 {
 	return _Id;
 }
+
 const Elysium::Core::Threading::Tasks::TaskCreationOptions Elysium::Core::Threading::Tasks::Task::GetCreationOptions() const
 {
 	return _CreationOptions;
 }
+
 const Elysium::Core::Threading::Tasks::TaskStatus Elysium::Core::Threading::Tasks::Task::GetStatus() const
 {
 	return _Status;
 }
+
 const Elysium::Core::AggregateException * Elysium::Core::Threading::Tasks::Task::GetException() const
 {
 	return _Exception;
@@ -106,11 +110,13 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 
 	_WaitEvent.Set();
 }
+
 void Elysium::Core::Threading::Tasks::Task::Start()
 {
 	_Status = TaskStatus::WaitingToRun;
 	ELYSIUM_TASK_SUBMIT(_Handle);
 }
+
 void Elysium::Core::Threading::Tasks::Task::Wait()
 {
 	ELYSIUM_TASK_AWAIT_CALLBACK(_Handle, false);

@@ -218,7 +218,7 @@ namespace UnitTests::Core::Net::Sockets
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
 			delete ReceiveResult;
 		}
-
+		
 		TEST_METHOD(AsyncAccept)
 		{
 			IPEndPoint LocalEndPoint = IPEndPoint(IPAddress::Parse(u8"127.0.0.1"), 80);
@@ -227,28 +227,25 @@ namespace UnitTests::Core::Net::Sockets
 			AsyncServer.Listen(100);
 			//AsyncServer.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::AcceptConnection, 1);
 
-			const AcceptAsyncResult* AcceptResult = AsyncServer.BeginAccept(
-				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
+			const Template::Memory::UniquePointer<AcceptAsyncResult> AcceptResult = AsyncServer.BeginAccept(
+				Delegate<void, const AcceptAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
 			
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(LocalEndPoint);
 
 			AcceptResult->GetAsyncWaitHandle().WaitOne();
-			delete AcceptResult;
 
 			//AsyncServer.Shutdown(SocketShutdown::Both);	// ToDo: this throws an exception as a listening socket will never get into a "connected-state"
 		}
 	private:
-		void AcceptCallback(const Elysium::Core::IAsyncResult* Result)
+		void AcceptCallback(const AcceptAsyncResult* Result)
 		{
-			const AcceptAsyncResult* AsyncResult = (const AcceptAsyncResult*)Result;
-			Socket& Socket = AsyncResult->GetSocket();
-
-			Elysium::Core::Net::Sockets::Socket Client = Socket.EndAccept(Result);
+			Socket& Socket = Result->GetSocket();
+			Socket.EndAccept(Result);
 
 			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
 		}
-
+		
 		void ConnectCallback(const Elysium::Core::IAsyncResult* Result)
 		{
 			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();

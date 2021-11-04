@@ -22,7 +22,7 @@ namespace UnitTests::Core::IO::Compression
 		TEST_METHOD(ReadMinimalisticArchive)
 		{
 			Array<byte> Bytes = { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-			FileStream MinimalisticArchive = FileStream(u8"MinimalisticArchive.zip", FileMode::Create, FileAccess::ReadWrite, FileShare::None);
+			FileStream MinimalisticArchive = FileStream(u8"MinimalisticArchive.zip", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::None);
 			MinimalisticArchive.Write(&Bytes[0], Bytes.GetLength());
 			MinimalisticArchive.SetPosition(0);
 

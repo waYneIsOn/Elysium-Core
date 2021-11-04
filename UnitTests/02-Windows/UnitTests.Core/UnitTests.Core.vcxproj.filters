@@ -18,13 +18,7 @@
     <ClCompile Include="DateTimeTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="FileStreamTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="ListTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoryStreamTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="TimeSpanTest.cpp">

@@ -96,6 +96,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SocketError.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
+#include "../Elysium.Core.Template/UniquePointer.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_NET_SOCKETS_INTERNAL_WINSOCKET
 #include "WinSocket.hpp"
@@ -210,11 +214,14 @@ namespace Elysium::Core::Net::Sockets
 		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const EndPoint& RemoteEndpoint);
 
 		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
-
-		const AcceptAsyncResult* BeginAccept(const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
-
-		Socket EndAccept(const Elysium::Core::IAsyncResult* Result);
 		
+		const Template::Memory::UniquePointer<AcceptAsyncResult> BeginAccept(const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* State);
+
+		const Socket EndAccept(const AcceptAsyncResult* Result);
+
+
+
+
 		const Elysium::Core::IAsyncResult* BeginConnect(const Elysium::Core::Net::EndPoint& RemoteEndPoint, 
 			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 

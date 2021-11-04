@@ -20,9 +20,36 @@
 #include "../Elysium.Core/List.hpp"
 #endif
 
-Elysium::Core::IO::Stream::~Stream()
+#ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
+#include "../Elysium.Core.Threading/Task.hpp"
+#endif
+
+Elysium::Core::IO::Stream::Stream()
 { }
 
+Elysium::Core::IO::Stream::~Stream()
+{ }
+/*
+Elysium::Core::IO::Stream& Elysium::Core::IO::Stream::operator<<(const Elysium::Core::byte Value)
+{
+	Write(&Value, sizeof(Elysium::Core::byte));
+	return (*this);
+}
+
+Elysium::Core::IO::Stream& Elysium::Core::IO::Stream::operator<<(const Elysium::Core::uint32_t Value)
+{
+	Elysium::Core::byte* Bytes = (Elysium::Core::byte*)&Value;
+	Write(Bytes, sizeof(Elysium::Core::uint32_t));
+	return (*this);
+}
+
+Elysium::Core::IO::Stream& Elysium::Core::IO::Stream::operator>>(const Elysium::Core::uint32_t Value)
+{
+	throw NotImplementedException();
+
+	return (*this);
+}
+*/
 const bool Elysium::Core::IO::Stream::GetCanTimeout() const
 {
 	return false;
@@ -60,7 +87,7 @@ void Elysium::Core::IO::Stream::SetWriteTimeout(const Elysium::Core::uint32_t Va
 
 void Elysium::Core::IO::Stream::CopyTo(Stream & Destination)
 {
-	const Elysium::Core::size BufferSize = 4096;
+	static const Elysium::Core::size BufferSize = 4096;
 	CopyTo(Destination, BufferSize);
 }
 
@@ -69,11 +96,6 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const Elysium::Core
 	if (&Destination == this)
 	{
 		throw InvalidOperationException(u8"cannot copy from a stream to the same one");
-	}
-
-	if (BufferSize > INT_MAX)
-	{
-		throw ArgumentOutOfRangeException();
 	}
 
 	Elysium::Core::size BytesRead = 0;
@@ -92,6 +114,19 @@ void Elysium::Core::IO::Stream::WriteByte(const Elysium::Core::byte Value)
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::Stream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
 {
 	throw 1;
+	/*
+	Elysium::Core::Threading::Tasks::Task WriteTask = Elysium::Core::Threading::Tasks::Task(
+		Delegate<void>::Bind<[]() -> void
+		{
+			
+		}>()
+	);
+
+	WriteTask.Start();
+	WriteTask.Wait();
+
+	return WriteTask;
+	*/
 }
 
 void Elysium::Core::IO::Stream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
@@ -108,26 +143,3 @@ const Elysium::Core::size Elysium::Core::IO::Stream::EndRead(const Elysium::Core
 {
 	throw 1;
 }
-
-Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const byte & Value)
-{
-	Write(&Value, sizeof(Value));
-	return (*this);
-}
-
-Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator<<(const unsigned int & Value)
-{
-	byte* Bytes = (byte*)&Value;
-	Write(Bytes, sizeof(unsigned int));
-	return (*this);
-}
-
-Elysium::Core::IO::Stream & Elysium::Core::IO::Stream::operator>>(const unsigned int Value)
-{
-	throw NotImplementedException();
-
-	return (*this);
-}
-
-Elysium::Core::IO::Stream::Stream()
-{ }

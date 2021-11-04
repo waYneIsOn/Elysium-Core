@@ -19,7 +19,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::IO
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class FileAccess : Elysium::Core::uint32_t
+	enum class FileAccess : Elysium::Core::uint8_t
 #elif defined(__ANDROID__)
 	enum class FileAccess
 #else
@@ -27,8 +27,18 @@ namespace Elysium::Core::IO
 #endif
 	{
 		Read = 1,
-		Write = 2,
-		ReadWrite = 3
+
+		Write = 2
 	};
+
+	inline FileAccess operator|(const FileAccess Left, const FileAccess Right)
+	{
+		return static_cast<FileAccess>(static_cast<Elysium::Core::uint8_t>(Left) | static_cast<Elysium::Core::uint8_t>(Right));
+	}
+
+	inline FileAccess operator&(const FileAccess Left, const FileAccess Right)
+	{
+		return static_cast<FileAccess>(static_cast<Elysium::Core::uint8_t>(Left) & static_cast<Elysium::Core::uint8_t>(Right));
+	}
 }
 #endif

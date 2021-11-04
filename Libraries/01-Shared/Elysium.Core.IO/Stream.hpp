@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/IAsyncResult.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_SEEKORIGIN
 #include "SeekOrigin.hpp"
 #endif
@@ -40,6 +44,8 @@ namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_API Stream
 	{
+	protected:
+		Stream();
 	public:
 		Stream(const Stream& Source) = delete;
 
@@ -50,6 +56,13 @@ namespace Elysium::Core::IO
 		Stream& operator=(const Stream& Source) = delete;
 
 		Stream& operator=(Stream&& Right) noexcept = delete;
+		/*
+		Stream& operator<<(const Elysium::Core::byte Value);
+
+		Stream& operator<<(const Elysium::Core::uint32_t Value);
+
+		Stream& operator>>(const Elysium::Core::uint32_t Value);
+		*/
 	public:
 		virtual const bool GetCanRead() const = 0;
 
@@ -102,14 +115,6 @@ namespace Elysium::Core::IO
 			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult);
-	public:
-		Elysium::Core::IO::Stream& operator<<(const byte& Value);
-
-		Elysium::Core::IO::Stream& operator<<(const unsigned int& Value);
-
-		Elysium::Core::IO::Stream& operator>>(const unsigned int Value);
-	protected:
-		Stream();
 	};
 }
 #endif

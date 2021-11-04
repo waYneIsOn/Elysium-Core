@@ -1,12 +1,7 @@
 #include "CppUnitTest.h"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "CppUnitTestFrameworkExtension.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_MEMORYSTREAM
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
-#endif
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;

@@ -160,7 +160,7 @@ namespace Elysium::Core::IO
 		Elysium::Core::uint64_t _Position = 0;
 		FileStreamAsyncResult* _AsyncReadWriteResult = nullptr;
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _OperatingSystemEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		HANDLE _FileHandle;

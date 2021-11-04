@@ -553,13 +553,34 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::SendTo(const Elys
 	return BytesSent;
 }
 
-const Elysium::Core::Net::Sockets::AcceptAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State)
+const Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* State)
 {
+	Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult> AsyncResult = Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult>
+	(
+		new AcceptAsyncResult(*this, Callback, State, 8192)
+	);
+	AsyncResult->_Overlapped.Pointer = AsyncResult.Get();
+	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
+		FormatConverter::Convert(GetProtocolType()), nullptr, 0, WSA_FLAG_OVERLAPPED);
+
+	StartThreadpoolIo(_CompletionPortHandle);
+	Elysium::Core::int32_t Result = AcceptEx(_WinSocketHandle, AsyncResult->_ClientSocket, (void*)&AsyncResult->_Addresses[0], 0, 44, 44, nullptr, &AsyncResult->_Overlapped);
+	if (Result == SOCKET_ERROR)
+	{
+		if (WSAGetLastError() != static_cast<Elysium::Core::int32_t>(SocketError::IOPending))
+		{
+			CancelThreadpoolIo(_CompletionPortHandle);
+			throw SocketException();
+		}
+	}
+
+	return AsyncResult;
+	/*
 	AcceptAsyncResult* AsyncResult = new AcceptAsyncResult(this, Callback, State, 8192);
 	AsyncResult->_Overlapped.Pointer = AsyncResult;
 	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
 		FormatConverter::Convert(GetProtocolType()), nullptr, 0, WSA_FLAG_OVERLAPPED);
-	
+
 	//SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ConditionalAccept, true);
 
 	StartThreadpoolIo(_CompletionPortHandle);
@@ -575,12 +596,12 @@ const Elysium::Core::Net::Sockets::AcceptAsyncResult * Elysium::Core::Net::Socke
 	}
 
 	return AsyncResult;
+	*/
 }
-Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const Elysium::Core::IAsyncResult * Result)
-{
-	AcceptAsyncResult* CastResult = (AcceptAsyncResult*)Result;
 
-	return Elysium::Core::Net::Sockets::Socket(CastResult->_ClientSocket);
+const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const AcceptAsyncResult* Result)
+{
+	return Elysium::Core::Net::Sockets::Socket(Result->_ClientSocket);
 }
 
 const Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginConnect(const Elysium::Core::Net::EndPoint & RemoteEndPoint, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State)
@@ -700,13 +721,7 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndSend(const Ely
 
 void Elysium::Core::Net::Sockets::Socket::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void * Context, void * Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
-	if (IoResult != NO_ERROR)
-	{
-		throw SocketException();
-	}
-	
 	//Elysium::Core::Net::Sockets::Socket* Socket = (Elysium::Core::Net::Sockets::Socket*)Context;
-	//CancelThreadpoolIo(Socket->_CompletionPortHandle);
 
 	Elysium::Core::IAsyncResult* AsyncResult = (Elysium::Core::IAsyncResult*)((LPOVERLAPPED)Overlapped)->Pointer;
 	if (AsyncResult != nullptr)
@@ -723,8 +738,10 @@ void Elysium::Core::Net::Sockets::Socket::IOCompletionPortCallback(PTP_CALLBACK_
 		AcceptAsyncResult* TriggeredAcceptAsyncResult = dynamic_cast<AcceptAsyncResult*>(AsyncResult);
 		if (TriggeredAcceptAsyncResult != nullptr)
 		{
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = TriggeredAcceptAsyncResult->GetCallback();
-			Callback(AsyncResult);
+			TriggeredAcceptAsyncResult->_ErrorCode = IoResult;
+
+			const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback = TriggeredAcceptAsyncResult->GetCallback();
+			Callback(TriggeredAcceptAsyncResult);
 		}
 	}
 }
