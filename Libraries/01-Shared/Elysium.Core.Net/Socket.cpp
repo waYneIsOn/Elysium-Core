@@ -71,7 +71,7 @@ Elysium::Core::Net::Sockets::Socket::~Socket()
 	if (_CompletionPortHandle != nullptr)
 	{
 		CancelThreadpoolIo(_CompletionPortHandle);
-		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, false);
+		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
 		CloseThreadpoolIo(_CompletionPortHandle);
 
 		_CompletionPortHandle = nullptr;
@@ -555,34 +555,11 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::SendTo(const Elys
 
 const Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* State)
 {
-	Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult> AsyncResult = Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult>
-	(
-		new AcceptAsyncResult(*this, Callback, State, 8192)
-	);
-	AsyncResult->_Overlapped.Pointer = AsyncResult.Get();
-	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
-		FormatConverter::Convert(GetProtocolType()), nullptr, 0, WSA_FLAG_OVERLAPPED);
-
-	StartThreadpoolIo(_CompletionPortHandle);
-	Elysium::Core::int32_t Result = AcceptEx(_WinSocketHandle, AsyncResult->_ClientSocket, (void*)&AsyncResult->_Addresses[0], 0, 44, 44, nullptr, &AsyncResult->_Overlapped);
-	if (Result == SOCKET_ERROR)
-	{
-		if (WSAGetLastError() != static_cast<Elysium::Core::int32_t>(SocketError::IOPending))
-		{
-			CancelThreadpoolIo(_CompletionPortHandle);
-			throw SocketException();
-		}
-	}
-
-	return AsyncResult;
-	/*
-	AcceptAsyncResult* AsyncResult = new AcceptAsyncResult(this, Callback, State, 8192);
+	AcceptAsyncResult* AsyncResult = new AcceptAsyncResult(*this, Callback, State, 8192);
 	AsyncResult->_Overlapped.Pointer = AsyncResult;
 	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
 		FormatConverter::Convert(GetProtocolType()), nullptr, 0, WSA_FLAG_OVERLAPPED);
 
-	//SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::ConditionalAccept, true);
-
 	StartThreadpoolIo(_CompletionPortHandle);
 	Elysium::Core::int32_t Result = AcceptEx(_WinSocketHandle, AsyncResult->_ClientSocket, (void*)&AsyncResult->_Addresses[0], 0, 44, 44, nullptr, &AsyncResult->_Overlapped);
 	if (Result == SOCKET_ERROR)
@@ -590,13 +567,11 @@ const Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets
 		if (WSAGetLastError() != static_cast<Elysium::Core::int32_t>(SocketError::IOPending))
 		{
 			CancelThreadpoolIo(_CompletionPortHandle);
-			delete AsyncResult;
 			throw SocketException();
 		}
 	}
 
-	return AsyncResult;
-	*/
+	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Net::Sockets::AcceptAsyncResult>(AsyncResult);
 }
 
 const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const AcceptAsyncResult* Result)

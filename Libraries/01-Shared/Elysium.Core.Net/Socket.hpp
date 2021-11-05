@@ -215,7 +215,7 @@ namespace Elysium::Core::Net::Sockets
 
 		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
 		
-		const Template::Memory::UniquePointer<AcceptAsyncResult> BeginAccept(const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* State);
+		const Elysium::Core::Template::Memory::UniquePointer<AcceptAsyncResult> BeginAccept(const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* State);
 
 		const Socket EndAccept(const AcceptAsyncResult* Result);
 
@@ -252,10 +252,6 @@ namespace Elysium::Core::Net::Sockets
 		LPFN_DISCONNECTEX DisconnectEx;
 
 		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
-#elif defined ELYSIUM_CORE_OS_ANDROID
-
-#else
-
 #endif
 		bool _IsConnected = false;
 		bool _IsClosed = false;
