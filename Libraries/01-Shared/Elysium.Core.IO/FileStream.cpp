@@ -55,12 +55,7 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
 	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options)),
 	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
-{
-	if (_CompletionPortHandle == nullptr)
-	{
-		throw IOException();
-	}
-}
+{ }
 
 Elysium::Core::IO::FileStream::~FileStream()
 {

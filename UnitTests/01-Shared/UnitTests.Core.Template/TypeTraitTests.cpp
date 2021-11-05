@@ -57,7 +57,7 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<char[]>::Value);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<char[2]>::Value);
 			//Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<Elysium::Core::Template::Collections::FixedSizeHeapArray<char, 3>>::Value);
-			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<Elysium::Core::Collections::Template::Array<char>>::Value);
+			//Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<Elysium::Core::Collections::Template::Array<char>>::Value);
 		}
 
 		TEST_METHOD(IsClass)

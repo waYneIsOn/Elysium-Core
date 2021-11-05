@@ -26,14 +26,19 @@ namespace Elysium::Core::Threading
 	{
 	public:
 		CriticalSection();
+
 		CriticalSection(const CriticalSection& Source) = delete;
+
 		CriticalSection(CriticalSection&& Right) noexcept = delete;
+
 		~CriticalSection();
-
+	public:
 		CriticalSection& operator=(const CriticalSection& Source) = delete;
-		CriticalSection& operator=(CriticalSection&& Right) noexcept = delete;
 
+		CriticalSection& operator=(CriticalSection&& Right) noexcept = delete;
+	public:
 		const bool Enter(const bool Blocking = true);
+
 		void Exit();
 	private:
 		ELYSIUM_CRITICAL_SECTION_HANDLE _Handle;

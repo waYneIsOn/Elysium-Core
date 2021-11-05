@@ -11,6 +11,7 @@ Elysium::Core::int32_t Elysium::Core::Threading::Interlocked::Add(int32_t & Loca
 	assert(sizeof(long) == sizeof(int32_t));
 	return ELYSIUM_INTERLOCKED_ADD(reinterpret_cast<long*>(&Location), Value);
 }
+
 Elysium::Core::int64_t Elysium::Core::Threading::Interlocked::Add(int64_t & Location, int64_t Value)
 {
 	assert(sizeof(__int64) == sizeof(int64_t));
@@ -22,6 +23,7 @@ Elysium::Core::int32_t Elysium::Core::Threading::Interlocked::Decrement(int32_t 
 	assert(sizeof(long) == sizeof(int32_t));
 	return ELYSIUM_INTERLOCKED_DECREMENT(reinterpret_cast<long*>(&Location));
 }
+
 Elysium::Core::int64_t Elysium::Core::Threading::Interlocked::Decrement(int64_t & Location)
 {
 	assert(sizeof(__int64) == sizeof(int64_t));
@@ -33,15 +35,9 @@ Elysium::Core::int32_t Elysium::Core::Threading::Interlocked::Increment(int32_t 
 	assert(sizeof(long) == sizeof(int32_t));
 	return ELYSIUM_INTERLOCKED_INCREMENT(reinterpret_cast<long*>(&Location));
 }
+
 Elysium::Core::int64_t Elysium::Core::Threading::Interlocked::Increment(int64_t & Location)
 {
 	assert(sizeof(__int64) == sizeof(int64_t));
 	return ELYSIUM_INTERLOCKED_INCREMENT64(&Location);
-}
-
-Elysium::Core::Threading::Interlocked::Interlocked()
-{
-}
-Elysium::Core::Threading::Interlocked::~Interlocked()
-{
 }

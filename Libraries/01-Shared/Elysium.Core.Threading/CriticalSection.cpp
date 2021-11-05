@@ -5,6 +5,7 @@ Elysium::Core::Threading::CriticalSection::CriticalSection()
 {
 	ELYSIUM_CRITICAL_SECTION_CREATE(&_Handle);
 }
+
 Elysium::Core::Threading::CriticalSection::~CriticalSection()
 {
 	ELYSIUM_CRITICAL_SECTION_DESTROY(&_Handle);
@@ -22,6 +23,7 @@ const bool Elysium::Core::Threading::CriticalSection::Enter(const bool Blocking)
 	}
 	return true;
 }
+
 void Elysium::Core::Threading::CriticalSection::Exit()
 {
 	ELYSIUM_CRITICAL_SECTION_LEAVE(&_Handle);

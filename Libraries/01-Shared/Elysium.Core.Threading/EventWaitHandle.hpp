@@ -25,15 +25,21 @@ namespace Elysium::Core::Threading
 	// Represents a thread synchronization event.
 	class ELYSIUM_CORE_API EventWaitHandle : public WaitHandle
 	{
+	protected:
+		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const String::Character* Name);
 	public:
 		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const String& Name);
+
 		EventWaitHandle(const EventWaitHandle& Source) = delete;
+
 		EventWaitHandle(EventWaitHandle&& Right) noexcept = delete;
+
 		virtual ~EventWaitHandle();
-
+	public:
 		EventWaitHandle& operator=(const EventWaitHandle& Source) = delete;
-		EventWaitHandle& operator=(EventWaitHandle&& Right) noexcept = delete;
 
+		EventWaitHandle& operator=(EventWaitHandle&& Right) noexcept = delete;
+	public:
 		// Sets the state of the event to signaled, allowing one or more waiting threads to proceed.
 		const bool Set() const;
 

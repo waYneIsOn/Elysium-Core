@@ -27,16 +27,23 @@ namespace Elysium::Core::Threading
 	{
 	public:
 		Mutex();
+
 		Mutex(const bool InitiallyOwned);
+
 		Mutex(const bool InitiallyOwned, const String& Name);
-		//Mutex(const bool InitiallyOwned, const WideString& Name, bool& CreatedNew);
+
+		//Mutex(const bool InitiallyOwned, const String& Name, bool& CreatedNew);
+
 		Mutex(const Mutex& Source) = delete;
+
 		Mutex(Mutex&& Right) noexcept = delete;
+
 		~Mutex();
-
+	public:
 		Mutex& operator=(const Mutex& Source) = delete;
-		Mutex& operator=(Mutex&& Right) noexcept = delete;
 
+		Mutex& operator=(Mutex&& Right) noexcept = delete;
+	public:
 		void Release();
 	};
 }

@@ -27,14 +27,22 @@ namespace Elysium::Core::Threading
 	{
 	public:
 		Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount);
+
+		Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const String& Name);
+
+		//Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const String& Name, bool& CreatedNew);
+
 		Semaphore(const Semaphore& Source) = delete;
+
 		Semaphore(Semaphore&& Right) noexcept = delete;
+
 		virtual ~Semaphore();
-
+	public:
 		Semaphore& operator=(const Semaphore& Source) = delete;
-		Semaphore& operator=(Semaphore&& Right) noexcept = delete;
 
-		const int32_t Release();
+		Semaphore& operator=(Semaphore&& Right) noexcept = delete;
+	public:
+		const Elysium::Core::int32_t Release();
 	};
 }
 #endif

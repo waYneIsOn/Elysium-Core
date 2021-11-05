@@ -21,7 +21,7 @@ namespace UnitTests::Core
 			Assert::AreEqual(228, Object::GetHashCode(228_ui16));
 			Assert::AreEqual(228, Object::GetHashCode(228_ui32));
 			Assert::AreEqual(228, Object::GetHashCode(228_ui64));
-			Assert::AreEqual(532, Object::GetHashCode(Elysium::Core::String(u8"hello")));
+			Assert::AreEqual(-2136294133, Object::GetHashCode(Elysium::Core::String(u8"hello")));
 		}
 
 		TEST_METHOD(ToStringTests)

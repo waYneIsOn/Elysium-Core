@@ -3,12 +3,15 @@
 Elysium::Core::Threading::Mutex::Mutex()
 	: WaitHandle(ELYSIUM_MUTEX_CREATE(nullptr, false, nullptr))
 { }
+
 Elysium::Core::Threading::Mutex::Mutex(const bool InitiallyOwned)
 	: WaitHandle(ELYSIUM_MUTEX_CREATE(nullptr, InitiallyOwned, nullptr))
 { }
+
 Elysium::Core::Threading::Mutex::Mutex(const bool InitiallyOwned, const String & Name)
-	: WaitHandle(ELYSIUM_MUTEX_CREATE(nullptr, InitiallyOwned, nullptr))	// ToDo: last parameter (char8_t -> wchar_t)
+	: WaitHandle(ELYSIUM_MUTEX_CREATE(nullptr, InitiallyOwned, nullptr)) // ToDo: last parameter (char8_t -> wchar_t)
 { }
+
 Elysium::Core::Threading::Mutex::~Mutex()
 { }
 

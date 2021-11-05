@@ -45,7 +45,7 @@ namespace UnitTests::Core::IO
 				}
 
 				TotalBytesRead += BytesRead;
-			} while (TotalBytesRead < TotalBytesToRead);
+			} while (TotalBytesRead != TotalBytesToRead);
 
 			Assert::AreEqual(TotalBytesToRead, TotalBytesRead);
 		}
