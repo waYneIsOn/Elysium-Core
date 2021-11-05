@@ -4,9 +4,21 @@
 #include "FileStream.hpp"
 #endif
 
-Elysium::Core::IO::FileStreamAsyncResult::FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState)
+#ifndef ELYSIUM_CORE_IO_IOEXCEPTION
+#include "IOException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_THREADPOOL
+#include "../Elysium.Core.Threading/ThreadPool.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
+#include "../Elysium.Core.Threading/OSThreadPool.hpp"
+#endif
+
+Elysium::Core::IO::FileStreamAsyncResult::FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const Elysium::Core::size Position)
 	: _Stream(Stream), _Callback(Callback), _AsyncState(AsyncState), _OperationDoneEvent(false), _BytesTransferred(0), _ErrorCode(0),
-	_Overlapped()
+	_WrappedOverlap(Position, this)
 { }
 
 Elysium::Core::IO::FileStreamAsyncResult::~FileStreamAsyncResult()

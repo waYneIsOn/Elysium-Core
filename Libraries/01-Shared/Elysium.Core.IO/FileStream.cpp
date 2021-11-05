@@ -16,6 +16,10 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INTERNAL_WRAPPEDOVERLAP
+#include "../Elysium.Core/WrappedOverlap.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_FILENOTFOUNDEXCEPTION
 #include "FileNotFoundException.hpp"
 #endif
@@ -51,14 +55,19 @@ Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mod
 Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
 	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options)),
 	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
-{ }
+{
+	if (_CompletionPortHandle == nullptr)
+	{
+		throw IOException();
+	}
+}
 
 Elysium::Core::IO::FileStream::~FileStream()
 {
 	if (_CompletionPortHandle != nullptr)
 	{
 		CancelThreadpoolIo(_CompletionPortHandle);
-		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, false);
+		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
 		CloseThreadpoolIo(_CompletionPortHandle);
 
 		_CompletionPortHandle = nullptr;
@@ -98,7 +107,7 @@ const Elysium::Core::size Elysium::Core::IO::FileStream::GetLength() const
 	return Size.QuadPart;
 }
 
-const Elysium::Core::uint64_t Elysium::Core::IO::FileStream::GetPosition() const
+const Elysium::Core::size Elysium::Core::IO::FileStream::GetPosition() const
 {
 	return _Position;
 }
@@ -230,19 +239,17 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 	{
 		throw ArgumentNullException(u8"Buffer");
 	}
-
+	
 	if (_CompletionPortHandle == nullptr)
 	{	// the file wasn't opened in a way to support io completion ports
 		return Stream::BeginWrite(Buffer, Size, Callback, State);
 	}
 	else
 	{
-		_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
-		_AsyncReadWriteResult->_Overlapped.Offset = 0xFFFFFFFF;
-		_AsyncReadWriteResult->_Overlapped.OffsetHigh = 0xFFFFFFFF;
+		FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State, 0xFFFFFFFFFFFFFFFF);
 
 		StartThreadpoolIo(_CompletionPortHandle);
-		Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
+		Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
 		//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
 		if (!Result)
 		{
@@ -250,12 +257,12 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 			if (ErrorCode != ERROR_IO_PENDING)
 			{
 				CancelThreadpoolIo(_CompletionPortHandle);
-				delete _AsyncReadWriteResult;
+				delete AsyncResult;
 				throw IOException();
 			}
 		}
 
-		return _AsyncReadWriteResult;
+		return AsyncResult;
 	}
 }
 
@@ -274,19 +281,17 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(cons
 	{
 		throw ArgumentNullException(u8"Buffer");
 	}
-
+	
 	if (_CompletionPortHandle == nullptr)
 	{	// the file wasn't opened in a way to support io completion ports
 		return Stream::BeginWrite(Buffer, Size, Callback, State);
 	}
 	else
 	{
-		_AsyncReadWriteResult = new FileStreamAsyncResult(*this, Callback, State);
-		_AsyncReadWriteResult->_Overlapped.Offset = static_cast<unsigned long>(_Position);
-		_AsyncReadWriteResult->_Overlapped.OffsetHigh = static_cast<unsigned long>(_Position >> 32);
+		FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State, _Position);
 
 		StartThreadpoolIo(_CompletionPortHandle);
-		Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], Size, 0, &_AsyncReadWriteResult->_Overlapped);
+		Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], Size, nullptr, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
 		//Elysium::Core::int32_t Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
 		if (!Result)
 		{
@@ -294,12 +299,12 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(cons
 			if (ErrorCode != ERROR_IO_PENDING)
 			{
 				CancelThreadpoolIo(_CompletionPortHandle);
-				delete _AsyncReadWriteResult;
+				delete AsyncResult;
 				throw IOException();
 			}
 		}
 
-		return _AsyncReadWriteResult;
+		return AsyncResult;
 	}
 }
 
@@ -336,14 +341,23 @@ HANDLE Elysium::Core::IO::FileStream::CreateNativeFileHandle(const String& Path,
 	return NativeFileHandle;
 }
 
-void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
+void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult,
+	ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
-	Elysium::Core::IO::FileStream* FileStream = (Elysium::Core::IO::FileStream*)Context;
-	Elysium::Core::IO::FileStreamAsyncResult* AsyncResult = FileStream->_AsyncReadWriteResult;
-	AsyncResult->_BytesTransferred = NumberOfBytesTransferred;
-	AsyncResult->_ErrorCode = IoResult;
+	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = (Elysium::Core::Internal::WrappedOverlap*)Overlapped;
+	Elysium::Core::IAsyncResult* AsyncResult = WrappedOverlap->_AsyncResult;
 
-	const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback = AsyncResult->GetCallback();
-	Callback(AsyncResult);
+	Elysium::Core::IO::FileStreamAsyncResult* AsyncFileStreamResult = dynamic_cast<Elysium::Core::IO::FileStreamAsyncResult*>(AsyncResult);
+	if (AsyncFileStreamResult != nullptr)
+	{
+		AsyncFileStreamResult->_BytesTransferred = NumberOfBytesTransferred;
+		AsyncFileStreamResult->_ErrorCode = IoResult;
+
+		((const Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle()).Set();
+
+		AsyncFileStreamResult->GetCallback()(AsyncFileStreamResult);
+
+		delete AsyncFileStreamResult;
+	}
 }
 #endif

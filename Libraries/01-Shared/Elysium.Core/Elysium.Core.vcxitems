@@ -83,6 +83,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WindowsErrorCode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WrappedOverlap.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
@@ -121,6 +122,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WrappedOverlap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />

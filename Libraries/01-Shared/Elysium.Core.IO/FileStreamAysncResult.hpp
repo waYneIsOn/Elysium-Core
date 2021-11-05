@@ -24,6 +24,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/IAsyncResult.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INTERNAL_WRAPPEDOVERLAP
+#include "../Elysium.Core/WrappedOverlap.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "../Elysium.Core/System.hpp"
 #endif
@@ -52,7 +60,8 @@ namespace Elysium::Core::IO
 	{
 		friend class FileStream;
 	private:
-		FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>&Callback, const void* AsyncState);
+		FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>&Callback, 
+			const void* AsyncState, const Elysium::Core::size Position);
 	public:
 		FileStreamAsyncResult(const FileStreamAsyncResult& Source) = delete;
 
@@ -90,11 +99,7 @@ namespace Elysium::Core::IO
 		Elysium::Core::size _BytesTransferred;
 		Elysium::Core::uint16_t _ErrorCode;
 
-#if defined ELYSIUM_CORE_OS_WINDOWS 
-		OVERLAPPED _Overlapped;
-#else
-#error "unsupported os"
-#endif
+		Elysium::Core::Internal::WrappedOverlap _WrappedOverlap;
 	};
 }
 #endif
