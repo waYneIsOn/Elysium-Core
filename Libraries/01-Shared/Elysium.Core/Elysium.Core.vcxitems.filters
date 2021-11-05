@@ -110,6 +110,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WrappedOverlap.hpp">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AsyncResult.hpp">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -153,6 +156,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemSpecific.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WrappedOverlap.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AsyncResult.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
   </ItemGroup>

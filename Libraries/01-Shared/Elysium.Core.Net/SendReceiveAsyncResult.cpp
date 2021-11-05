@@ -4,37 +4,13 @@
 #include "Socket.hpp"
 #endif
 
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState, const Elysium::Core::size BufferSize)
-	: _OperationDoneEvent(false), _Socket(Socket), _Callback(Callback), _AsyncState(AsyncState)
+Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState)
+	: Elysium::Core::Internal::AsyncResult(Callback, AsyncState, 0x00),
+	_Socket(Socket), _WSABuffer()
 { }
 
 Elysium::Core::Net::Sockets::SendReceiveAsyncResult::~SendReceiveAsyncResult()
 { }
-
-const void * Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetAsyncState() const
-{
-	return _AsyncState;
-}
-
-const Elysium::Core::Threading::WaitHandle & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetAsyncWaitHandle() const
-{
-	return _OperationDoneEvent;
-}
-
-const bool Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetCompletedSynchronously() const
-{
-	return false;
-}
-
-const bool Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetIsCompleted() const
-{
-	return false;
-}
-
-const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetCallback() const
-{
-	return _Callback;
-}
 
 Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::SendReceiveAsyncResult::GetSocket() const
 {

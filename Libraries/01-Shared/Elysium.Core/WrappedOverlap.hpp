@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IASYNCRESULT
 #include "IAsyncResult.hpp"
 #endif
@@ -31,7 +35,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #if defined ELYSIUM_CORE_OS_WINDOWS
 namespace Elysium::Core::Internal
 {
-	class WrappedOverlap final
+	class ELYSIUM_CORE_API WrappedOverlap final
 	{
 	public:
 		WrappedOverlap(const Elysium::Core::size Position, IAsyncResult* AsyncResult);

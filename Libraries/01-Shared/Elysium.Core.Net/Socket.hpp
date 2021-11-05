@@ -215,12 +215,9 @@ namespace Elysium::Core::Net::Sockets
 
 		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
 		
-		const Elysium::Core::Template::Memory::UniquePointer<AcceptAsyncResult> BeginAccept(const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* State);
+		const Elysium::Core::IAsyncResult* BeginAccept(const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
-		const Socket EndAccept(const AcceptAsyncResult* Result);
-
-
-
+		const Socket EndAccept(const Elysium::Core::IAsyncResult* Result);
 
 		const Elysium::Core::IAsyncResult* BeginConnect(const Elysium::Core::Net::EndPoint& RemoteEndPoint, 
 			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);

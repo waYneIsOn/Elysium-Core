@@ -182,6 +182,12 @@
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Net\Elysium.Core.Net.vcxproj">
       <Project>{d1232826-d63b-4395-b204-f43d442c207e}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Security\Elysium.Core.Security.vcxproj">
+      <Project>{fa0b07a3-7128-43a4-a62a-94f398ef37e4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">
+      <Project>{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

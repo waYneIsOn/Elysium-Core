@@ -356,8 +356,8 @@ void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTAN
 		((const Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle()).Set();
 
 		AsyncFileStreamResult->GetCallback()(AsyncFileStreamResult);
-
-		delete AsyncFileStreamResult;
 	}
+
+	delete AsyncResult;
 }
 #endif

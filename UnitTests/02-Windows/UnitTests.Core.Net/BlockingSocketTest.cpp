@@ -174,13 +174,11 @@ namespace UnitTests::Core::Net::Sockets
 			const IAsyncResult* ConnectResult = AsyncClient.BeginConnect(RemoteEndPoint,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ConnectCallback>(*this), nullptr);
 			ConnectResult->GetAsyncWaitHandle().WaitOne();
-			delete ConnectResult;
 			
 			Elysium::Core::byte ReceiveBuffer[256];
 			const IAsyncResult* ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
-			delete ReceiveResult;
 			
 			Elysium::Core::String HelpMessage = Elysium::Core::String(u8"HELP\r\n");
 			const Encoding& UTF8Encoding = Encoding::UTF8();
@@ -188,18 +186,15 @@ namespace UnitTests::Core::Net::Sockets
 			const IAsyncResult* SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
 			SendResult->GetAsyncWaitHandle().WaitOne();
-			delete SendResult;
 			
 			ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
-			delete ReceiveResult;
 			
 			//AsyncClient.Shutdown(SocketShutdown::Both);
 			const IAsyncResult* DisconnectResult = AsyncClient.BeginDisconnect(true,
 				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::DisconnectCallback>(*this), nullptr);
 			DisconnectResult->GetAsyncWaitHandle().WaitOne();
-			delete DisconnectResult;
 		}
 
 		TEST_METHOD(CloseWhileWaitingForAsyncReceive)
@@ -216,7 +211,6 @@ namespace UnitTests::Core::Net::Sockets
 			AsyncClient.Disconnect(false);
 
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
-			delete ReceiveResult;
 		}
 		
 		TEST_METHOD(AsyncAccept)
@@ -227,8 +221,8 @@ namespace UnitTests::Core::Net::Sockets
 			AsyncServer.Listen(100);
 			//AsyncServer.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::AcceptConnection, 1);
 
-			const Template::Memory::UniquePointer<AcceptAsyncResult> AcceptResult = AsyncServer.BeginAccept(
-				Delegate<void, const AcceptAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
+			const IAsyncResult* AcceptResult = AsyncServer.BeginAccept(
+				Delegate<void, const IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
 			
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(LocalEndPoint);
@@ -238,22 +232,22 @@ namespace UnitTests::Core::Net::Sockets
 			//AsyncServer.Shutdown(SocketShutdown::Both);	// ToDo: this throws an exception as a listening socket will never get into a "connected-state"
 		}
 	private:
-		void AcceptCallback(const AcceptAsyncResult* Result)
+		void AcceptCallback(const IAsyncResult* Result)
 		{
-			Socket& Socket = Result->GetSocket();
-			Socket.EndAccept(Result);
+			Elysium::Core::Net::Sockets::AcceptAsyncResult* AsyncAcceptResult = (Elysium::Core::Net::Sockets::AcceptAsyncResult*)Result;
 
-			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
+			Socket& Socket = AsyncAcceptResult->GetSocket();
+			Socket.EndAccept(Result);
 		}
 		
 		void ConnectCallback(const Elysium::Core::IAsyncResult* Result)
 		{
-			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
+
 		}
 
 		void DisconnectCallback(const Elysium::Core::IAsyncResult* Result)
 		{
-			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
+
 		}
 
 		void ReceiveCallback(const Elysium::Core::IAsyncResult* Result)
@@ -266,9 +260,6 @@ namespace UnitTests::Core::Net::Sockets
 
 			SocketError ErrorCode = SocketError::Success;
 			const Elysium::Core::size BytesReceived = Socket.EndReceive(Result, ErrorCode);
-
-			// signal that all bytes have been retrieved
-			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
 		}
 
 		void SendCallback(const Elysium::Core::IAsyncResult* Result)
@@ -278,9 +269,6 @@ namespace UnitTests::Core::Net::Sockets
 
 			SocketError ErrorCode = SocketError::Success;
 			const Elysium::Core::size BytesSent = Socket.EndSend(Result, ErrorCode);
-
-			// signal that all bytes have been sent
-			((const Elysium::Core::Threading::ManualResetEvent&)Result->GetAsyncWaitHandle()).Set();
 		}
 	};
 }

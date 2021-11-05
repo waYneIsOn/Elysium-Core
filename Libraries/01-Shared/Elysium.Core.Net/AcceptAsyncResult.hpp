@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Delegate.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IASYNCRESULT
-#include "../Elysium.Core/IAsyncResult.hpp"
+#ifndef ELYSIUM_CORE_INTERNAL_ASYNCRESULT
+#include "../Elysium.Core/AsyncResult.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primivites.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
@@ -32,28 +32,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
-#include "../Elysium.Core.Threading/ManualResetEvent.hpp"
-#endif
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
 #endif
-#else
-#error "undefined os"
 #endif
 
 namespace Elysium::Core::Net::Sockets
 {
 	class Socket;
 
-	class ELYSIUM_CORE_NET_API AcceptAsyncResult final : public IAsyncResult
+	class ELYSIUM_CORE_NET_API AcceptAsyncResult final : public Elysium::Core::Internal::AsyncResult
 	{
 		friend class Socket;
 	private:
 		AcceptAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, 
-			const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& Callback, const void* AsyncState,
+			const Elysium::Core::Delegate<void, const IAsyncResult*>& Callback, const void* AsyncState,
 			const Elysium::Core::size BufferSize);
 	public:
 		AcceptAsyncResult(const AcceptAsyncResult& Source) = delete;
@@ -66,28 +60,13 @@ namespace Elysium::Core::Net::Sockets
 
 		AcceptAsyncResult& operator=(AcceptAsyncResult&& Right) noexcept = delete;
 	public:
-		virtual const void* GetAsyncState() const override;
-
-		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const override;
-
-		virtual const bool GetCompletedSynchronously() const override;
-
-		virtual const bool GetIsCompleted() const override;
-
-		const Elysium::Core::Delegate<void, const AcceptAsyncResult*>& GetCallback() const;
-
 		Elysium::Core::Net::Sockets::Socket& GetSocket() const;
 	private:
 		Elysium::Core::Net::Sockets::Socket& _Socket;
-		const Elysium::Core::Delegate<void, const AcceptAsyncResult*> _Callback;
-		const void* _AsyncState;
-		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
-		Elysium::Core::uint16_t _ErrorCode;
 
 		const Elysium::Core::byte _Addresses[88];	// (sizeof(sockaddr_in6) + 16) * 2.... sizeof(sockaddr_in6) = 28
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		WSAOVERLAPPED _Overlapped;
 		SOCKET _ClientSocket;
 #else
 #error "unsupported os"
