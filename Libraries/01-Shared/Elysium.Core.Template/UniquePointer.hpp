@@ -33,17 +33,19 @@ namespace Elysium::Core::Template::Memory
 
 		UniquePointer(const UniquePointer& Source) = delete;
 
-		UniquePointer(UniquePointer&& Right) noexcept;
+		UniquePointer(UniquePointer&& Right) noexcept = delete;
 
 		~UniquePointer();
 	public:
 		UniquePointer<T>& operator=(const UniquePointer& Source) = delete;
 
-		UniquePointer<T>& operator=(UniquePointer&& Right) noexcept;
+		UniquePointer<T>& operator=(UniquePointer&& Right) noexcept = delete;
 
 		UniquePointer<T>::Pointer operator->() const noexcept;
 	public:
-		UniquePointer<T>::Pointer Get() const;
+		UniquePointer<T>::Pointer GetUnderlyingPointer() const noexcept;
+
+		UniquePointer<T>::Pointer Release() noexcept;
 	private:
 		Pointer _Data;
 	};
@@ -52,13 +54,6 @@ namespace Elysium::Core::Template::Memory
 	inline UniquePointer<T>::UniquePointer(Pointer Data)
 		: _Data(Data)
 	{ }
-
-	template<class T>
-	inline UniquePointer<T>::UniquePointer(UniquePointer && Right) noexcept
-		: _Data(nullptr)
-	{
-		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
 
 	template<class T>
 	inline UniquePointer<T>::~UniquePointer()
@@ -71,33 +66,24 @@ namespace Elysium::Core::Template::Memory
 	}
 
 	template<class T>
-	inline UniquePointer<T>& UniquePointer<T>::operator=(UniquePointer&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-			if (_Data != nullptr)
-			{
-				delete[] _Data;
-				_Data = nullptr;
-			}
-
-			_Data = Right._Data;
-
-			Right._Data = nullptr;
-		}
-		return *this;
-	}
-
-	template<class T>
 	inline UniquePointer<T>::Pointer UniquePointer<T>::operator->() const noexcept
 	{
 		return _Data;
 	}
 
 	template<class T>
-	inline UniquePointer<T>::Pointer UniquePointer<T>::Get() const
+	inline UniquePointer<T>::Pointer UniquePointer<T>::GetUnderlyingPointer() const noexcept
 	{
 		return _Data;
+	}
+
+	template<class T>
+	inline UniquePointer<T>::Pointer UniquePointer<T>::Release() noexcept
+	{
+		Pointer TemporaryData = _Data;
+		_Data = nullptr;
+
+		return TemporaryData;
 	}
 }
 #endif
