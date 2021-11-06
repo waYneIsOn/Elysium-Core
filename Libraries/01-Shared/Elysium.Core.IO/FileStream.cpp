@@ -61,7 +61,17 @@ Elysium::Core::IO::FileStream::~FileStream()
 {
 	if (_CompletionPortHandle != nullptr)
 	{
-		CancelThreadpoolIo(_CompletionPortHandle);
+
+		/*
+		* It is necessary to wait for any pending io callbacks here or I'm going to cause a memory leak!
+		* 
+		* Imagine a scenario where in a scope a FileStream gets created on the stack and BeginRead(...) gets called.
+		* As soon as the scope ends, the FileStream gets deleted and it's io completion port canceled (due to this very destructor).
+		* This means FileStream::IOCompletionPortCallback(...), where the IAsyncResult - created on the heap by BeginRead(...) -
+		* would be deleted, is NOT going to be called.
+		* Therefore it is also imperative I do not cancel any pending notifications.
+		*/
+		//CancelThreadpoolIo(_CompletionPortHandle);
 		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
 		CloseThreadpoolIo(_CompletionPortHandle);
 

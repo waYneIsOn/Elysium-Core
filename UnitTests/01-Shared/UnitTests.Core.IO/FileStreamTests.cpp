@@ -114,6 +114,14 @@ namespace UnitTests::Core::IO
 			// wait for completion
 			_CompletionSignal.WaitOne();
 		}
+
+		TEST_METHOD(MemoryLeakIfDestructorDoesntWaitOrCancels)
+		{
+			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
+				4096, FileOptions::Asynchronous);
+			const Elysium::Core::IAsyncResult* ReadResult = SourceStream.BeginRead(&_Buffer[0], _BufferLength,
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
+		}
 	private:
 		inline static ManualResetEvent _CompletionSignal = ManualResetEvent(false);
 		static const size _BufferLength = 255;
@@ -130,7 +138,7 @@ namespace UnitTests::Core::IO
 			if (_TotalBytesWritten < _BytesToRead)
 			{
 				const Elysium::Core::IAsyncResult* ReadResult = _SourceStream->BeginRead(&_Buffer[0], _BufferLength,
-					Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
+					Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::ReadWriteCallback>(*this), nullptr);
 				ReadResult->GetAsyncWaitHandle().WaitOne();
 			}
 			else
@@ -144,13 +152,20 @@ namespace UnitTests::Core::IO
 			const FileStreamAsyncResult* ReadResult = (const FileStreamAsyncResult*)Result;
 			FileStream& SourceStream = ReadResult->GetFileStream();
 			size BytesRead = SourceStream.EndRead(ReadResult);
+		}
+
+		void ReadWriteCallback(const Elysium::Core::IAsyncResult* Result)
+		{
+			const FileStreamAsyncResult* ReadResult = (const FileStreamAsyncResult*)Result;
+			FileStream& SourceStream = ReadResult->GetFileStream();
+			size BytesRead = SourceStream.EndRead(ReadResult);
 
 			const Elysium::Core::IAsyncResult* WriteResult = _TargetStream->BeginWrite(&_Buffer[0], BytesRead,
-				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::WriteCallback>(*this), nullptr);
+				Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::WriteReadCallback>(*this), nullptr);
 			WriteResult->GetAsyncWaitHandle().WaitOne();
 		}
 
-		void WriteCallback(const Elysium::Core::IAsyncResult* Result)
+		void WriteReadCallback(const Elysium::Core::IAsyncResult* Result)
 		{
 			const FileStreamAsyncResult* WriteResult = (const FileStreamAsyncResult*)Result;
 			FileStream& TargetStream = WriteResult->GetFileStream();

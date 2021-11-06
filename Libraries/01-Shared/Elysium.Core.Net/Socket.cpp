@@ -70,7 +70,20 @@ Elysium::Core::Net::Sockets::Socket::~Socket()
 {
 	if (_CompletionPortHandle != nullptr)
 	{
-		CancelThreadpoolIo(_CompletionPortHandle);
+		/*
+		* It is necessary to wait for any pending io callbacks here or I'm going to cause a memory leak!
+		*
+		* Imagine a scenario where in a scope a Socket gets created on the stack and BeginRead(...) gets called.
+		* As soon as the scope ends, the Socket gets deleted and it's io completion port canceled (due to this very destructor).
+		* This means Socket::IOCompletionPortCallback(...), where the IAsyncResult - created on the heap by BeginRead(...) -
+		* would be deleted, is NOT going to be called.
+		* Therefore it is also imperative I do not cancel any pending notifications.
+		* 
+		* ToDo: 
+		* While this MIGHT be fine for a FileStream, this behaviour might not be feasible for a Socket.
+		* Imagine a server with a single connected client waiting for it to send something and it doesn't!
+		*/
+		//CancelThreadpoolIo(_CompletionPortHandle);
 		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
 		CloseThreadpoolIo(_CompletionPortHandle);
 
