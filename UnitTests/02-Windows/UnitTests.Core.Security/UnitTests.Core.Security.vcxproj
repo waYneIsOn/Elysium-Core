@@ -183,6 +183,7 @@
   <ItemGroup>
     <ClCompile Include="HashAlgorithmTest.cpp" />
     <ClCompile Include="OidTests.cpp" />
+    <ClCompile Include="SymmetricAlgorithmTests.cpp" />
     <ClCompile Include="X509Test.cpp" />
   </ItemGroup>
   <ItemGroup>

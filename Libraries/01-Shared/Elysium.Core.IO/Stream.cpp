@@ -1,5 +1,9 @@
 #include "Stream.hpp"
 
+#ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
+#include "../Elysium.Core/ArgumentNullException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_ARGUMENTOUTOFRANGEEXCEPTION
 #include "../Elysium.Core/ArgumentOutOfRangeException.hpp"
 #endif
@@ -18,6 +22,14 @@
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../Elysium.Core/List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_INTERNAL_ASYNCRESULT
+#include "../Elysium.Core/AsyncResult.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_IOEXCEPTION
+#include "IOException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
@@ -113,25 +125,29 @@ void Elysium::Core::IO::Stream::WriteByte(const Elysium::Core::byte Value)
 
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::Stream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
 {
-	throw 1;
-	/*
-	Elysium::Core::Threading::Tasks::Task WriteTask = Elysium::Core::Threading::Tasks::Task(
+	if (Buffer == nullptr)
+	{
+		throw ArgumentNullException(u8"Buffer");
+	}
+
+	Elysium::Core::Threading::Tasks::Task* WriteTask = new Elysium::Core::Threading::Tasks::Task(
 		Delegate<void>::Bind<[]() -> void
 		{
-			
+			//_Stream.Write(Buffer, Size);
 		}>()
 	);
-
-	WriteTask.Start();
-	WriteTask.Wait();
+	WriteTask->Start();
 
 	return WriteTask;
-	*/
 }
 
 void Elysium::Core::IO::Stream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	throw 1;
+	const Elysium::Core::Internal::AsyncResult* CastResult = (const Elysium::Core::Internal::AsyncResult*)AsyncResult;
+	if (CastResult->GetErrorCode() != NO_ERROR)
+	{
+		throw IOException(CastResult->GetErrorCode());
+	}
 }
 
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::Stream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)

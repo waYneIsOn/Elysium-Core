@@ -16,37 +16,36 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
 {
 	class ELYSIUM_CORE_SECURITY_API KeySizes final
 	{
-		friend class Collections::Template::Array<KeySizes>;
 	public:
 		KeySizes(Elysium::Core::uint32_t MinimumSize, Elysium::Core::uint32_t MaximumSize, Elysium::Core::uint32_t SkipSize);
-		KeySizes(const KeySizes& Source);
-		KeySizes(KeySizes&& Right) noexcept;
+
+		KeySizes(const KeySizes& Source) = delete;
+
+		KeySizes(KeySizes&& Right) noexcept = delete;
+
 		~KeySizes();
+	public:
+		KeySizes& operator=(const KeySizes& Source) = delete;
 
-		KeySizes& operator=(const KeySizes& Source);
-		KeySizes& operator=(KeySizes&& Right) noexcept;
-
+		KeySizes& operator=(KeySizes&& Right) noexcept = delete;
+	public:
 		const Elysium::Core::uint32_t GetMinimumSize() const;
+
 		const Elysium::Core::uint32_t GetMaximumSize() const;
+
 		const Elysium::Core::uint32_t GetSkipSize() const;
 	private:
-		KeySizes();
-
-		Elysium::Core::uint32_t _MinimumSize;
-		Elysium::Core::uint32_t _MaximumSize;
-		Elysium::Core::uint32_t _SkipSize;
+		const Elysium::Core::uint32_t _MinimumSize;
+		const Elysium::Core::uint32_t _MaximumSize;
+		const Elysium::Core::uint32_t _SkipSize;
 	};
 }
 #endif

@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_TYPE
+#include "../Elysium.Core.Reflection/Type.hpp"
+#endif
+
 namespace Elysium::Core::Template::Memory
 {
 	class Activator final
@@ -45,7 +49,7 @@ namespace Elysium::Core::Template::Memory
 	template<class T, class ...Args>
 	inline T Activator::CreateInstance(Args... Arguments)
 	{
-		return T(Arguments);
+		return T(Arguments...);
 	}
 }
 #endif

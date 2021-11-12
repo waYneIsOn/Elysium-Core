@@ -38,7 +38,9 @@ const Elysium::Core::uint16_t Elysium::Core::Internal::AsyncResult::GetErrorCode
 	return _ErrorCode;
 }
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
 const Elysium::Core::Internal::WindowsErrorCode Elysium::Core::Internal::AsyncResult::GetNamedErrorCode() const
 {
 	return static_cast<Elysium::Core::Internal::WindowsErrorCode>(_ErrorCode);
 }
+#endif

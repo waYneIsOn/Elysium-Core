@@ -1,20 +1,9 @@
 #include "CppUnitTest.h"
 
-#ifndef ELYSIUM_CORE_STRING
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_MD4
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Algorithms/MD4.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_MD5
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Algorithms/MD5.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
-#endif
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;

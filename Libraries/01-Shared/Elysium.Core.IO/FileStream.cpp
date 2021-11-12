@@ -61,7 +61,6 @@ Elysium::Core::IO::FileStream::~FileStream()
 {
 	if (_CompletionPortHandle != nullptr)
 	{
-
 		/*
 		* It is necessary to wait for any pending io callbacks here or I'm going to cause a memory leak!
 		* 
@@ -240,17 +239,17 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
 {
-	if (Buffer == nullptr)
-	{
-		throw ArgumentNullException(u8"Buffer");
-	}
-	
 	if (_CompletionPortHandle == nullptr)
 	{	// the file wasn't opened in a way to support io completion ports
 		return Stream::BeginWrite(Buffer, Size, Callback, State);
 	}
 	else
 	{
+		if (Buffer == nullptr)
+		{
+			throw ArgumentNullException(u8"Buffer");
+		}
+
 		FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State, 0xFFFFFFFFFFFFFFFF);
 
 		StartThreadpoolIo(_CompletionPortHandle);
@@ -273,11 +272,18 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 
 void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	const FileStreamAsyncResult* CastResult = (const FileStreamAsyncResult*)AsyncResult;
+	const FileStreamAsyncResult* CastResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
+	if (CastResult != nullptr)
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
 	if (CastResult->GetErrorCode() != NO_ERROR)
 	{
 		throw IOException(CastResult->GetErrorCode());
 	}
+
+	CastResult->GetFileStream()._Position += CastResult->GetBytesTransferred();
 }
 
 const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
@@ -315,7 +321,12 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(cons
 
 const Elysium::Core::size Elysium::Core::IO::FileStream::EndRead(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	const FileStreamAsyncResult* CastResult = (const FileStreamAsyncResult*)AsyncResult;
+	const FileStreamAsyncResult* CastResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
+	if (CastResult == nullptr)
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
 	if (CastResult->GetErrorCode() != NO_ERROR)
 	{
 		throw IOException(CastResult->GetErrorCode());

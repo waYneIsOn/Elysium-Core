@@ -24,5 +24,8 @@
     <ClCompile Include="OidTests.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="SymmetricAlgorithmTests.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

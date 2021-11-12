@@ -1,12 +1,7 @@
 #include "CppUnitTest.h"
 
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
-#endif
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
 
 using namespace Elysium::Core::Security::Cryptography;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

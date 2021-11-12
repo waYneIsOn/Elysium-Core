@@ -66,7 +66,7 @@ const Elysium::Core::Threading::WaitHandle & Elysium::Core::Threading::Tasks::Ta
 
 const bool Elysium::Core::Threading::Tasks::Task::GetCompletedSynchronously() const
 {
-	return false;
+	throw 1;
 }
 
 const bool Elysium::Core::Threading::Tasks::Task::GetIsCompleted() const
@@ -131,4 +131,6 @@ void Elysium::Core::Threading::Tasks::Task::Callback(ELYSIUM_TASK_CALLBACK_INSTA
 {
 	Task* CurrentTask = (Task*)Context;
 	CurrentTask->RunSynchronously();
+
+	//((const Elysium::Core::Threading::AutoResetEvent&)CurrentTask->GetAsyncWaitHandle()).Set();
 }

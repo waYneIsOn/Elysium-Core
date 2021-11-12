@@ -26,13 +26,17 @@ namespace Elysium::Core::Security::Cryptography
 	{
 	public:
 		RandomNumberGenerator();
+
 		RandomNumberGenerator(const RandomNumberGenerator& Source) = delete;
+
 		RandomNumberGenerator(RandomNumberGenerator&& Right) noexcept = delete;
+
 		~RandomNumberGenerator();
-
+	public:
 		RandomNumberGenerator& operator=(const RandomNumberGenerator& Source) = delete;
-		RandomNumberGenerator& operator=(RandomNumberGenerator&& Right) noexcept = delete;
 
+		RandomNumberGenerator& operator=(RandomNumberGenerator&& Right) noexcept = delete;
+	public:
 		void GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
 	private:
 	};

@@ -1,26 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="Globals">
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{0a65e452-28ea-4cb0-9691-ed819ef56d96}</ItemsProjectGuid>
-    <ItemsRootNamespace>Elysium::Core::Security::Cryptography</ItemsRootNamespace>
-  </PropertyGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectCapability Include="SourceItemsFromImports" />
-  </ItemGroup>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AsymmetricAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DES.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)KeySizes.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SymmetricAlgorithm.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)WinCNG.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinCNG.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AsymmetricAlgorithm.hpp" />
@@ -30,6 +18,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeySizes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PaddingMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SymmetricAlgorithm.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)WinCNG.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WinCNG.hpp">
+      <Filter>Internal</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Internal">
+      <UniqueIdentifier>{5ac8b1d1-622d-4093-b9a8-95febe37cc82}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

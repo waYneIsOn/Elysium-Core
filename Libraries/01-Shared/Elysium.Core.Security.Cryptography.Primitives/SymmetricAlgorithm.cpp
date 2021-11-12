@@ -1,17 +1,24 @@
 #include "SymmetricAlgorithm.hpp"
 
+Elysium::Core::Security::Cryptography::SymmetricAlgorithm::SymmetricAlgorithm(const Elysium::Core::uint32_t BlockSize, const Elysium::Core::uint32_t KeySize, const Elysium::Core::uint32_t FeedbackSize, const CipherMode CipherMode, const PaddingMode PaddingMode)
+	: _BlockSize(BlockSize), _KeySize(KeySize), _FeedbackSize(FeedbackSize),
+	_CipherMode(CipherMode), _PadingMode(PaddingMode)
+{ }
+
 Elysium::Core::Security::Cryptography::SymmetricAlgorithm::~SymmetricAlgorithm()
 { }
 
-const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::SymmetricAlgorithm::GetKeySize() const
+const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::SymmetricAlgorithm::GetBlockSize() const
 {
-	return _KeySizeValue;
-}
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Security::Cryptography::KeySizes>& Elysium::Core::Security::Cryptography::SymmetricAlgorithm::GetLegalKeySizes() const
-{
-	return _LegalKeySizesValue;
+	return _BlockSize;
 }
 
-Elysium::Core::Security::Cryptography::SymmetricAlgorithm::SymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue)
-	: _KeySizeValue(KeySizeValue), _LegalKeySizesValue(LegalKeySizesValue)
-{ }
+const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::SymmetricAlgorithm::GetKeySize() const
+{
+	return _KeySize;
+}
+
+const Elysium::Core::uint32_t Elysium::Core::Security::Cryptography::SymmetricAlgorithm::GetFeedbackSize() const
+{
+	return _FeedbackSize;
+}
