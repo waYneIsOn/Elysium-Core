@@ -1,9 +1,11 @@
 #include "CppUnitTest.h"
 
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#endif
+#include <format>
 
+#include "../../../Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+
+using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests
@@ -23,5 +25,19 @@ namespace UnitTests
 			Assert::AreEqual(static_cast<Elysium::Core::size>(1), sizeof(Elysium::Core::byte));
 			Assert::AreEqual(static_cast<Elysium::Core::size>(1), sizeof(Elysium::Core::sbyte));
 		}
+		/*
+		TEST_METHOD(CauseStackOverflowThroughRecursion)
+		{
+			size Dummy = 0;
+			EndlessRecursion(&Dummy);
+		}
+	private:
+		void EndlessRecursion(size* Start)
+		{
+			size Dummy = 0;
+			Logger::WriteMessage(&std::format("size {0}\r\n", Start - &Dummy)[0]);
+			EndlessRecursion(Start);
+		}
+		*/
 	};
 }

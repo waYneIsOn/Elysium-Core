@@ -47,7 +47,7 @@ namespace Elysium::Core::Security::Cryptography
 		const virtual Elysium::Core::String GetKeyExchangeAlgorithm() const = 0;
 		const virtual Elysium::Core::uint32_t GetKeySize() const;
 		//const virtual Collections::Template::Array<KeySizes>& GetLegalKeySizes() const;
-		const virtual Elysium::Core::String GetSignatureAlgorithm () const = 0;
+		const virtual Elysium::Core::String GetSignatureAlgorithm() const = 0;
 
 		//void Clear();
 	protected:

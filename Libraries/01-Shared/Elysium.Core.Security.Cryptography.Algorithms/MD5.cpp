@@ -29,11 +29,10 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysi
 
 Elysium::Core::Security::Cryptography::MD5::MD5()
 	: Elysium::Core::Security::Cryptography::HashAlgorithm::HashAlgorithm(128)
-{
-}
+{ }
+
 Elysium::Core::Security::Cryptography::MD5::~MD5()
-{
-}
+{ }
 
 void Elysium::Core::Security::Cryptography::MD5::Initialize()
 {
@@ -42,6 +41,7 @@ void Elysium::Core::Security::Cryptography::MD5::Initialize()
 void Elysium::Core::Security::Cryptography::MD5::HashCore(Elysium::Core::byte * Array, const Elysium::Core::size Length)
 {
 }
+
 const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::MD5::HashFinal()
 {
 	return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(5);

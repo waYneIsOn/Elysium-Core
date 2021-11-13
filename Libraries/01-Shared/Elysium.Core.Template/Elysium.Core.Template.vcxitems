@@ -87,6 +87,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp" />

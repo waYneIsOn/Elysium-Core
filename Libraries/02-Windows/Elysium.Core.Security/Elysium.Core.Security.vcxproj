@@ -58,7 +58,6 @@
   <ImportGroup Label="Shared">
     <Import Project="..\..\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems" Label="Shared" />
-    <Import Project="..\..\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems" Label="Shared" />
     <Import Project="..\..\01-Shared\Elysium.Core.Security.Cryptography.Pkcs\Elysium.Core.Security.Cryptography.Pkcs.vcxitems" Label="Shared" />

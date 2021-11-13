@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICGORITHM
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICGORITHM
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICALGORITHM
+#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICALGORITHM
 
 #ifdef _MSC_VER
 #pragma once
@@ -60,19 +60,23 @@ namespace Elysium::Core::Security::Cryptography
 
 		const virtual Elysium::Core::uint32_t GetFeedbackSize() const;
 
+		const virtual CipherMode GetCipherMode() const;
+
+		const virtual PaddingMode GetPaddingMode() const;
+
 		//const virtual Elysium::Core::String GetKeyExchangeAlgorithm() const = 0;
 
 		//const virtual Collections::Template::Array<KeySizes>& GetLegalKeySizes() const;
 
 		//const virtual Elysium::Core::String GetSignatureAlgorithm() const = 0;
 	public:
-
-	private:
+		//virtual Elysium::Core::size Encrypt(const Elysium::Core::byte* Input, const Elysium::Core::Size Length) = 0;
+	protected:
 		Elysium::Core::uint32_t _BlockSize;
 		Elysium::Core::uint32_t _KeySize;
 		Elysium::Core::uint32_t _FeedbackSize;
 		CipherMode _CipherMode;
-		PaddingMode _PadingMode;
+		PaddingMode _PaddingMode;
 		//Collections::Template::Array<KeySizes> _LegalKeySizesValue;
 	};
 }

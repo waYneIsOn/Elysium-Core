@@ -311,6 +311,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryPool.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

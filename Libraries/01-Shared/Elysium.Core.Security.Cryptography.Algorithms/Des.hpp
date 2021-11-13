@@ -20,28 +20,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "KeySizes.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICGORITHM
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYMMETRICALGORITHM
 #include "SymmetricAlgorithm.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_SECURITY_API DES final : public SymmetricAlgorithm
+	class ELYSIUM_CORE_SECURITY_API Des final : public SymmetricAlgorithm
 	{
 	public:
-		DES();
+		Des();
 
-		DES(const DES& Source) = delete;
+		Des(const Des& Source) = delete;
 
-		DES(DES&& Right) noexcept = delete;
+		Des(Des&& Right) noexcept = delete;
 
-		virtual ~DES();
+		virtual ~Des();
 	public:
-		DES& operator=(const DES& Source) = delete;
+		Des& operator=(const Des& Source) = delete;
 
-		DES& operator=(DES&& Right) noexcept = delete;
-	public:
-		void Test();
+		Des& operator=(Des&& Right) noexcept = delete;
 	private:
 		inline static KeySizes _LegalBlockSizes[] = { KeySizes(64, 64, 0) };
 		inline static KeySizes _LegalKeySizes[] = { KeySizes(64, 64, 0) };

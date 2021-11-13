@@ -17,6 +17,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stopwatch.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WindowFinder.hpp" />
@@ -24,6 +26,8 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProcessStartInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StackFrame.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StackTrace.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WindowFinder.cpp" />
   </ItemGroup>

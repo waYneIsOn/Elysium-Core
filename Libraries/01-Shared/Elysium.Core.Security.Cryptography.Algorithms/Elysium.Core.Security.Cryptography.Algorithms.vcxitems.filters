@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MD4.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MD5.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DesCng.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SymmetricAlgorithmCng.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AsymmetricAlgorithm.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)KeySizes.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CryptoStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Des.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)HashAlgorithm.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SymmetricAlgorithm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MD4.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MD5.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RandomNumberGenerator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DesCng.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SymmetricAlgorithmCng.hpp">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AsymmetricAlgorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CipherMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CryptoStreamMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PaddingMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)KeySizes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CryptoStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Des.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SymmetricAlgorithm.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Windows">
+      <UniqueIdentifier>{0316f527-f405-46fe-a944-a8a56ff3adec}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

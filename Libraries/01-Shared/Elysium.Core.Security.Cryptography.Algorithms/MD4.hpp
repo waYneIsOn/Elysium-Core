@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_HASHALGORITHM
-#include "../Elysium.Core.Security.Cryptography.Primitives/HashAlgorithm.hpp"
+#include "HashAlgorithm.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
@@ -26,16 +26,21 @@ namespace Elysium::Core::Security::Cryptography
 	{
 	public:
 		MD4();
+
 		MD4(const MD4& Source) = delete;
+
 		MD4(MD4&& Right) noexcept = delete;
+
 		~MD4();
-
+	public:
 		MD4& operator=(const MD4& Source) = delete;
-		MD4& operator=(MD4&& Right) noexcept = delete;
 
+		MD4& operator=(MD4&& Right) noexcept = delete;
+	public:
 		virtual void Initialize() override;
 	private:
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) override;
+
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() override;
 	};
 }
