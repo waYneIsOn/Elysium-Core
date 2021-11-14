@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "Move.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #include "Pointer.hpp"
 #endif
@@ -33,13 +37,13 @@ namespace Elysium::Core::Template::Memory
 
 		UniquePointer(const UniquePointer& Source) = delete;
 
-		UniquePointer(UniquePointer&& Right) noexcept = delete;
+		UniquePointer(UniquePointer&& Right) noexcept;
 
 		~UniquePointer();
 	public:
 		UniquePointer<T>& operator=(const UniquePointer& Source) = delete;
 
-		UniquePointer<T>& operator=(UniquePointer&& Right) noexcept = delete;
+		UniquePointer<T>& operator=(UniquePointer&& Right) noexcept;
 
 		UniquePointer<T>::Pointer operator->() const noexcept;
 	public:
@@ -56,6 +60,12 @@ namespace Elysium::Core::Template::Memory
 	{ }
 
 	template<class T>
+	inline UniquePointer<T>::UniquePointer(UniquePointer&& Right) noexcept
+	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+
+	template<class T>
 	inline UniquePointer<T>::~UniquePointer()
 	{
 		if (_Data != nullptr)
@@ -63,6 +73,24 @@ namespace Elysium::Core::Template::Memory
 			delete _Data;
 			_Data = nullptr;
 		}
+	}
+
+	template<class T>
+	inline UniquePointer<T>& UniquePointer<T>::operator=(UniquePointer<T>&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			if (_Data != nullptr)
+			{
+				delete _Data;
+				_Data = nullptr;
+			}
+
+			_Data = Elysium::Core::Template::Functional::Move(Right._Data);
+
+			Right._Data = nullptr;
+		}
+		return *this;
 	}
 
 	template<class T>

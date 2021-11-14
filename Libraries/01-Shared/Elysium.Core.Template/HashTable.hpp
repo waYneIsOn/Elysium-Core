@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "ArgumentException.hpp"
+#include "../Elysium.Core/ArgumentException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
@@ -107,6 +107,8 @@ namespace Elysium::Core::Template::Container
 		void Set(const TKey& Key, const TValue& Value);
 
 		void Add(const TKey& Key, const TValue& Value);
+
+		void Clear();
 	public:
 		HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator GetBegin();
 
@@ -238,16 +240,48 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Clear()
+	{
+		for (Elysium::Core::size i = 0; i < _Length; i++)
+		{
+			_Buckets[i].Clear();
+		}
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator HashTable<TKey, TValue, KeyCompare, Allocator>::GetBegin()
 	{
-		return FIterator((Bucket*)&_Buckets[0], (BucketNodePointer)_Buckets[0].GetHead());
+		BucketPointer FirstPopulatedBucket = nullptr;
+		for (Elysium::Core::size i = 0; i < _Length; i++)
+		{
+			if (_Buckets[i].GetHead() != nullptr)
+			{
+				FirstPopulatedBucket = &_Buckets[i];
+				break;
+			}
+		}
+		BucketNodePointer FirstPopulatedBucketHead = FirstPopulatedBucket == nullptr ? nullptr : FirstPopulatedBucket->GetHead();
+
+		return FIterator(FirstPopulatedBucket, FirstPopulatedBucketHead);
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator HashTable<TKey, TValue, KeyCompare, Allocator>::GetEnd()
 	{
 		BucketPointer OutOfBoundsBucket = &_Buckets[_Length];
-		return FIterator(OutOfBoundsBucket, (BucketNodePointer)OutOfBoundsBucket->GetHead());
+		BucketPointer FirstPopulatedBucket = nullptr;
+		for (Elysium::Core::size i = 0; i < _Length; i++)
+		{
+			if (_Buckets[i].GetHead() != nullptr)
+			{
+				FirstPopulatedBucket = &_Buckets[i];
+				break;
+			}
+		}
+		BucketPointer EndBucket = FirstPopulatedBucket == nullptr ? nullptr : OutOfBoundsBucket;
+		BucketNodePointer EndBucketHead = EndBucket == nullptr ? nullptr : OutOfBoundsBucket->GetHead();
+
+		return FIterator(EndBucket, EndBucketHead);
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>

@@ -86,6 +86,10 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(ValueValue)
 		{
 			HashTable<String, String> Instance = HashTable<String, String>();
+			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				Assert::Fail();
+			}
 			Instance.Add(u8"rtf", u8"wordpad.exe");
 			Instance.Add(u8"bmp", u8"paint.exe");
 			Instance.Add(u8"dib", u8"paint.exe");
@@ -145,6 +149,33 @@ namespace UnitTests::Core::Template::Container
 				i++;
 			}
 			Assert::AreEqual(static_cast<Elysium::Core::size>(4), i);
+			Logger::WriteMessage("\r\n");
+
+			// ...
+			Instance.Clear();
+			i = 0;
+			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				Assert::Fail();
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), i);
+
+			Instance.Add(u8"123", u8"123.exe");
+			Instance.Add(u8"456", u8"456.exe");
+			Instance.Set(u8"789", u8"789.exe");
+			i = 0;
+			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
+				KeyValuePair<String, String>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), i);
+			Logger::WriteMessage("\r\n");
 		}
 	};
 }

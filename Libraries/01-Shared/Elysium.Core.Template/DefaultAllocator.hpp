@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
+#ifndef _CSTRING_
+#include <cstring>	// memset
+#endif
+
 namespace Elysium::Core::Template::Memory
 {
 	/// <summary>
