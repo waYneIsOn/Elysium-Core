@@ -37,7 +37,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				// make sure the test database doesn't exist
 				try
 				{
-					std::unique_ptr<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
+					Template::Memory::UniquePointer<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
 					DropDatabaseCommand->SetCommandText(u8"DROP DATABASE IF EXISTS Test");
 					Elysium::Core::size Result = DropDatabaseCommand->ExecuteNonQuery();
 				}
@@ -47,12 +47,12 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				}
 
 				// create test database
-				std::unique_ptr<IDbCommand> CreateDatabaseCommand = Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> CreateDatabaseCommand = Connection.CreateCommand();
 				CreateDatabaseCommand->SetCommandText(u8"If(db_id(N'Test') IS NULL) CREATE DATABASE Test ON (NAME = Test_dat, FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.MSSQLSERVER\\MSSQL\\DATA\\Test.mdf', SIZE = 10, MAXSIZE = 500, FILEGROWTH = 5) LOG ON (NAME = Test_log, FILENAME = 'C:\\Program Files\\Microsoft SQL Server\\MSSQL14.MSSQLSERVER\\MSSQL\\DATA\\Test.ldf', SIZE = 5MB, MAXSIZE = 250MB, FILEGROWTH = 5MB)");
 				Elysium::Core::size Result = CreateDatabaseCommand->ExecuteNonQuery();
 
 				// create the test table that we will be using
-				std::unique_ptr<IDbCommand> CreateTableCommand = Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> CreateTableCommand = Connection.CreateCommand();
 				CreateTableCommand->SetCommandText(u8"USE Test; CREATE TABLE AllDataTypes ([bigintNotNull][bigint] NOT NULL, [bigintNull][bigint] NULL, [binaryNotNull][binary] NOT NULL, [binaryNull][binary] NULL, [bitNotNull][bit] NOT NULL, [bitNull][bit] NULL, [charNotNull][char] NOT NULL, [charNull][char] NULL, [dateNotNull][date] NOT NULL, [dateNull][date] NULL, [datetime2NotNull][datetime2] NOT NULL, [datetime2Null][datetime2] NULL, [datetimeNotNull][datetime] NOT NULL, [datetimeNull][datetime] NULL, [datetimeoffsetNotNull][datetimeoffset] NOT NULL, [datetimeoffsetNull][datetimeoffset] NULL, [decimalNotNull][decimal] NOT NULL, [decimalNull][decimal] NULL, [floatNotNull][float] NOT NULL, [floatNull][float] NULL, [geographyNotNull][geography] NOT NULL, [geographyNull][geography] NULL, [geometryNotNull][geometry] NOT NULL, [geometryNull][geometry] NULL, [hierarchyidNotNull][hierarchyid] NOT NULL, [hierarchyidNull][hierarchyid] NULL, [imageNotNull][image] NOT NULL, [imageNull][image] NULL, [intNotNull][int] NOT NULL, [intNull][int] NULL, [moneyNotNull][money] NOT NULL, [moneyNull][money] NULL, [ncharNotNull][nchar] NOT NULL, [ncharNull][nchar] NULL, [ntextNotNull][ntext] NOT NULL, [ntextNull][ntext] NULL, [numericNotNull][numeric] NOT NULL, [numericNull][numeric] NULL, [nvarcharNotNull][nvarchar] NOT NULL, [nvarcharNull][nvarchar] NULL, [realNotNull][real] NOT NULL, [realNull][real] NULL, [smalldatetimeNotNull][smalldatetime] NOT NULL, [smalldatetimeNull][smalldatetime] NULL, [smallintNotNull][smallint] NOT NULL, [smallintNull][smallint] NULL, [smallmoneyNotNull][smallmoney] NOT NULL, [smallmoneyNull][smallmoney] NULL, [sql_variantNotNull][sql_variant] NOT NULL, [sql_variantNull][sql_variant] NULL, [sysnameNotNull][sysname] NOT NULL, [sysnameNull][sysname] NULL, [textNotNull][text] NOT NULL, [textNull][text] NULL, [timeNotNull][time] NOT NULL, [timeNull][time] NULL, [timestampNotNull][timestamp] NOT NULL, [tinyintNotNull][tinyint] NOT NULL, [tinyintNull][tinyint] NULL, [uniqueidentifierNotNull][uniqueidentifier] NOT NULL, [uniqueidentifierNull][uniqueidentifier] NULL, [varbinaryNotNull][varbinary] NOT NULL, [varbinaryNull][varbinary] NULL, [varcharNotNull][varchar] NOT NULL, [varcharNull][varchar] NULL, [xmlNotNull][xml] NOT NULL, [xmlNull][xml] NULL)");
 				Result = CreateTableCommand->ExecuteNonQuery();
 
@@ -64,6 +64,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Assert::Fail();
 			}
 		}
+
 		TEST_CLASS_CLEANUP(ClassCleanup)
 		{
 			try
@@ -74,7 +75,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Connection.Open();
 
 				// delete test database
-				std::unique_ptr<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> DropDatabaseCommand = Connection.CreateCommand();
 				DropDatabaseCommand->SetCommandText(u8"DROP DATABASE IF EXISTS Test");
 				Elysium::Core::size Result = DropDatabaseCommand->ExecuteNonQuery();
 
@@ -98,10 +99,12 @@ namespace UnitTests::Core::Data::SqlNativeClient
 		{
 			PerformTransactionCreationTests(&_Connection);
 		}
+
 		TEST_METHOD(CommandCreation)
 		{
 			PerformCommandCreationTests(&_Connection);
 		}
+
 		TEST_METHOD(ChangeDatabase)
 		{
 			_Connection.Open();
@@ -137,22 +140,22 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Builder.Append(ProjectPath);
 				Builder.Append(u8"\\TestImage.png', SINGLE_BLOB) AS Image), NULL, 23, NULL, 37.56, NULL, N'n', NULL, N't', NULL, 99.1, NULL, N'n', NULL, 23.56, NULL, '02/10/2010 12:30', NULL, 23, NULL, 75.45, NULL, 'v', NULL, N's', NULL, 's', NULL, '13:37:27', NULL, DEFAULT, 17, NULL, CONVERT(uniqueidentifier, 'AE019609-99E0-4EF5-85BB-AD90DC302E70'), NULL, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, CONVERT(XML, N'<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>'), NULL)");
 				String Command = Builder.ToString();
-				std::unique_ptr<IDbCommand> InsertCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> InsertCommand = _Connection.CreateCommand();
 				InsertCommand->SetCommandText(Command);
-				PerformDataInsertionTest(InsertCommand.get());
+				PerformDataInsertionTest(InsertCommand.GetUnderlyingPointer());
 
 				// perform R test
-				std::unique_ptr<IDbCommand> SelectCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> SelectCommand = _Connection.CreateCommand();
 				SelectCommand->SetCommandText(u8"SELECT [bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geographyNotNull].Lat As Latitude, [geographyNotNull].Long As Longitude, [geographyNotNull].M As Magnitude, [geographyNotNull].Z As Depth, [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [hierarchyidNotNull].ToString() AS HierarchyPath, [hierarchyidNotNull].GetLevel() AS HierarchyLevel, [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull] FROM AllDataTypes");
 				TestReader(SelectCommand);
 
 				// perform U test
-				std::unique_ptr<IDbCommand> UpdateCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> UpdateCommand = _Connection.CreateCommand();
 				UpdateCommand->SetCommandText(u8"UPDATE AllDataTypes SET [bigintNull] = 123");
 				UpdateCommand->ExecuteNonQuery();
 
 				// perform D test
-				std::unique_ptr<IDbCommand> DeleteCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> DeleteCommand = _Connection.CreateCommand();
 				DeleteCommand->SetCommandText(u8"DELETE FROM AllDataTypes");
 				DeleteCommand->ExecuteNonQuery();
 
@@ -169,6 +172,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Assert::Fail();
 			}
 		}
+
 		TEST_METHOD(CRUDWithUnnamedParameters)
 		{
 			try
@@ -182,37 +186,37 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				_Connection.Open();
 
 				// perform C test
-				std::unique_ptr<IDbCommand> InsertCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> InsertCommand = _Connection.CreateCommand();
 				InsertCommand->SetCommandText(u8"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1.35, NULL, ?, ?, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 99.1, NULL, ?, ?, ?, ?, '02/10/2010 12:30', NULL, ?, ?, ?, ?, 'v', NULL, ?, ?, 's', NULL, ?, ?, DEFAULT, ?, ?, ?, ?, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, ?, ?)");
 
 				IDataParameterCollection& col = InsertCommand->GetParameters();
 
 				// __int64 (bigint)
-				std::unique_ptr<IDataParameter> Int64Parameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> Int64Parameter = InsertCommand->CreateParameter();
 				Int64Parameter->SetValue(9223372036854775807);
-				InsertCommand->GetParameters().Add(*Int64Parameter.get());
+				InsertCommand->GetParameters().Add(*Int64Parameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> Int64NullParameter = InsertCommand->CreateParameter();
-				Int64NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*Int64NullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> Int64NullParameter = InsertCommand->CreateParameter();
+				Int64NullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*Int64NullParameter.GetUnderlyingPointer());
 
 				// BYTE (binary)
-				std::unique_ptr<IDataParameter> ByteParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> ByteParameter = InsertCommand->CreateParameter();
 				ByteParameter->SetValue((BYTE)'v');	//0x76
-				InsertCommand->GetParameters().Add(*ByteParameter.get());
+				InsertCommand->GetParameters().Add(*ByteParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> ByteNullParameter = InsertCommand->CreateParameter();
-				ByteNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*ByteNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> ByteNullParameter = InsertCommand->CreateParameter();
+				ByteNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*ByteNullParameter.GetUnderlyingPointer());
 
 				// bool (bit)
-				std::unique_ptr<IDataParameter> BoolParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> BoolParameter = InsertCommand->CreateParameter();
 				BoolParameter->SetValue(true);
-				InsertCommand->GetParameters().Add(*BoolParameter.get());
+				InsertCommand->GetParameters().Add(*BoolParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> BoolNullParameter = InsertCommand->CreateParameter();
-				BoolNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*BoolNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> BoolNullParameter = InsertCommand->CreateParameter();
+				BoolNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*BoolNullParameter.GetUnderlyingPointer());
 
 				// char (option 1)
 				/*
@@ -239,52 +243,52 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				StringStream.Write((const BYTE*)"a - mssql won't trim automatically so set the length correctly!!!!", 1);
 				StringStream.SetPosition(0);
 
-				std::unique_ptr<IDataParameter> StreamedStringParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> StreamedStringParameter = InsertCommand->CreateParameter();
 				StreamedStringParameter->SetValue(&StringStream);
-				InsertCommand->GetParameters().Add(*StreamedStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedStringParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> StreamedStringNullParameter = InsertCommand->CreateParameter();
-				StreamedStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*StreamedStringNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> StreamedStringNullParameter = InsertCommand->CreateParameter();
+				StreamedStringNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*StreamedStringNullParameter.GetUnderlyingPointer());
 
 				// DateTime (date)
-				std::unique_ptr<IDataParameter> DateParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> DateParameter = InsertCommand->CreateParameter();
 				DateParameter->SetValue(DateTime(2012, 06, 18));
 				DateParameter->SetDbType(DbType::Date);
-				InsertCommand->GetParameters().Add(*DateParameter.get());
+				InsertCommand->GetParameters().Add(*DateParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> DateNullParameter = InsertCommand->CreateParameter();
-				DateNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*DateNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> DateNullParameter = InsertCommand->CreateParameter();
+				DateNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*DateNullParameter.GetUnderlyingPointer());
 
 				// DateTime (datetime2)
-				std::unique_ptr<IDataParameter> DateTime2Parameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> DateTime2Parameter = InsertCommand->CreateParameter();
 				DateTime2Parameter->SetValue(DateTime(2012, 06, 18, 22, 34, 9));
 				DateTime2Parameter->SetDbType(DbType::DateTime2);
-				InsertCommand->GetParameters().Add(*DateTime2Parameter.get());
+				InsertCommand->GetParameters().Add(*DateTime2Parameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> DateTime2NullParameter = InsertCommand->CreateParameter();
-				DateTime2NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*DateTime2NullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> DateTime2NullParameter = InsertCommand->CreateParameter();
+				DateTime2NullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*DateTime2NullParameter.GetUnderlyingPointer());
 
 				// DateTime (datetime)
-				std::unique_ptr<IDataParameter> DateTimeParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> DateTimeParameter = InsertCommand->CreateParameter();
 				DateTimeParameter->SetValue(DateTime(2012, 06, 18, 22, 34, 9));
 				DateTimeParameter->SetDbType(DbType::DateTime);
-				InsertCommand->GetParameters().Add(*DateTimeParameter.get());
+				InsertCommand->GetParameters().Add(*DateTimeParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> DateTimeNullParameter = InsertCommand->CreateParameter();
-				DateTimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*DateTimeNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> DateTimeNullParameter = InsertCommand->CreateParameter();
+				DateTimeNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*DateTimeNullParameter.GetUnderlyingPointer());
 
 				// DateTimeOffset (datetimeoffset)
-				std::unique_ptr<IDataParameter> DateTimeOffsetParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> DateTimeOffsetParameter = InsertCommand->CreateParameter();
 				DateTimeOffsetParameter->SetValue(DateTimeOffset(DateTime(2025, 12, 10, 12, 32, 10), TimeSpan::FromHours(1.0)));
-				InsertCommand->GetParameters().Add(*DateTimeOffsetParameter.get());
+				InsertCommand->GetParameters().Add(*DateTimeOffsetParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> DateTimeOffsetNullParameter = InsertCommand->CreateParameter();
-				DateTimeOffsetNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*DateTimeOffsetNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> DateTimeOffsetNullParameter = InsertCommand->CreateParameter();
+				DateTimeOffsetNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*DateTimeOffsetNullParameter.GetUnderlyingPointer());
 				/*
 				// decimal
 				decimal DecimalValue;
@@ -300,13 +304,13 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				InsertCommand->GetParameters().Add(DecimalNullParameter.get());
 				*/
 				// float
-				std::unique_ptr<IDataParameter> SingleParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> SingleParameter = InsertCommand->CreateParameter();
 				SingleParameter->SetValue(0.27f);
-				InsertCommand->GetParameters().Add(*SingleParameter.get());
+				InsertCommand->GetParameters().Add(*SingleParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> SingleNullParameter = InsertCommand->CreateParameter();
-				SingleNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*SingleNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> SingleNullParameter = InsertCommand->CreateParameter();
+				SingleNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*SingleNullParameter.GetUnderlyingPointer());
 
 				// geography - ToDo: mssql specific type
 
@@ -320,31 +324,31 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Builder.Append(u8"\\TestImage.png");
 				String ImagePath = Builder.ToString();
 				Elysium::Core::IO::FileStream ImageStream(ImagePath, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
-				std::unique_ptr<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 				ImageParameter->SetValue(&ImageStream);
-				InsertCommand->GetParameters().Add(*ImageParameter.get());
+				InsertCommand->GetParameters().Add(*ImageParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> ImageNullParameter = InsertCommand->CreateParameter();
-				ImageNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*ImageNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> ImageNullParameter = InsertCommand->CreateParameter();
+				ImageNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*ImageNullParameter.GetUnderlyingPointer());
 
 				// __int32 (int)
-				std::unique_ptr<IDataParameter> Int32Parameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> Int32Parameter = InsertCommand->CreateParameter();
 				Int32Parameter->SetValue((__int32)23);
-				InsertCommand->GetParameters().Add(*Int32Parameter.get());
+				InsertCommand->GetParameters().Add(*Int32Parameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> Int32NullParameter = InsertCommand->CreateParameter();
-				Int32NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*Int32NullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> Int32NullParameter = InsertCommand->CreateParameter();
+				Int32NullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*Int32NullParameter.GetUnderlyingPointer());
 
 				// money
-				std::unique_ptr<IDataParameter> MoneyParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> MoneyParameter = InsertCommand->CreateParameter();
 				MoneyParameter->SetValue(37.56);
-				InsertCommand->GetParameters().Add(*MoneyParameter.get());
+				InsertCommand->GetParameters().Add(*MoneyParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> MoneyNullParameter = InsertCommand->CreateParameter();
-				MoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*MoneyNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> MoneyNullParameter = InsertCommand->CreateParameter();
+				MoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*MoneyNullParameter.GetUnderlyingPointer());
 
 				// nchar (option 1)
 				/*
@@ -371,13 +375,13 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				WStringStream.Write((const BYTE*)L"n - mssql won't trim automatically so set the length correctly!!!!", 2);
 				WStringStream.SetPosition(0);
 
-				std::unique_ptr<IDataParameter> StreamedWStringParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> StreamedWStringParameter = InsertCommand->CreateParameter();
 				StreamedWStringParameter->SetValue(&WStringStream);
-				InsertCommand->GetParameters().Add(*StreamedWStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedWStringParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> StreamedWStringNullParameter = InsertCommand->CreateParameter();
-				StreamedWStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*StreamedWStringNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> StreamedWStringNullParameter = InsertCommand->CreateParameter();
+				StreamedWStringNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*StreamedWStringNullParameter.GetUnderlyingPointer());
 
 				// ntext (option 1)
 				/*
@@ -404,33 +408,33 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				WTextStringStream.Write((const BYTE*)L"t - mssql won't trim automatically so set the length correctly!!!!", 2);
 				WTextStringStream.SetPosition(0);
 
-				std::unique_ptr<IDataParameter> StreamedWTextStringParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> StreamedWTextStringParameter = InsertCommand->CreateParameter();
 				StreamedWTextStringParameter->SetValue(&WTextStringStream);
-				InsertCommand->GetParameters().Add(*StreamedWTextStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedWTextStringParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> StreamedWTextStringNullParameter = InsertCommand->CreateParameter();
-				StreamedWTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*StreamedWTextStringNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> StreamedWTextStringNullParameter = InsertCommand->CreateParameter();
+				StreamedWTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*StreamedWTextStringNullParameter.GetUnderlyingPointer());
 
 				// numeric (decimal)
 
 				// nvarchar
-				std::unique_ptr<IDataParameter> NVarCharParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> NVarCharParameter = InsertCommand->CreateParameter();
 				NVarCharParameter->SetValue(L'n');
-				InsertCommand->GetParameters().Add(*NVarCharParameter.get());
+				InsertCommand->GetParameters().Add(*NVarCharParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> NVarCharNullParameter = InsertCommand->CreateParameter();
-				NVarCharNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*NVarCharNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> NVarCharNullParameter = InsertCommand->CreateParameter();
+				NVarCharNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*NVarCharNullParameter.GetUnderlyingPointer());
 
 				// real
-				std::unique_ptr<IDataParameter> RealParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> RealParameter = InsertCommand->CreateParameter();
 				RealParameter->SetValue(23.559999465942383f);
-				InsertCommand->GetParameters().Add(*RealParameter.get());
+				InsertCommand->GetParameters().Add(*RealParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> RealNullParameter = InsertCommand->CreateParameter();
-				RealNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*RealNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> RealNullParameter = InsertCommand->CreateParameter();
+				RealNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*RealNullParameter.GetUnderlyingPointer());
 				/*
 				// smalldatetime - ToDo: mssql specific type
 				std::unique_ptr<IDataParameter> SmallDateTimeParameter = InsertCommand->CreateParameter();
@@ -443,22 +447,22 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				InsertCommand->GetParameters().Add(SmallDateTimeNullParameter.get());
 				*/
 				// int16 (smallint)
-				std::unique_ptr<IDataParameter> Int16Parameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> Int16Parameter = InsertCommand->CreateParameter();
 				Int16Parameter->SetValue(23);
-				InsertCommand->GetParameters().Add(*Int16Parameter.get());
+				InsertCommand->GetParameters().Add(*Int16Parameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> Int16NullParameter = InsertCommand->CreateParameter();
-				Int16NullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*Int16NullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> Int16NullParameter = InsertCommand->CreateParameter();
+				Int16NullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*Int16NullParameter.GetUnderlyingPointer());
 
 				// float (smallmoney)
-				std::unique_ptr<IDataParameter> SmallmoneyParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> SmallmoneyParameter = InsertCommand->CreateParameter();
 				SmallmoneyParameter->SetValue(75.45f);
-				InsertCommand->GetParameters().Add(*SmallmoneyParameter.get());
+				InsertCommand->GetParameters().Add(*SmallmoneyParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> SmallmoneyNullParameter = InsertCommand->CreateParameter();
-				SmallmoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*SmallmoneyNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> SmallmoneyNullParameter = InsertCommand->CreateParameter();
+				SmallmoneyNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*SmallmoneyNullParameter.GetUnderlyingPointer());
 
 				// sql_variant
 
@@ -489,22 +493,22 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				TextStringStream.Write((const BYTE*)L"s - mssql won't trim automatically so set the length correctly!!!!", 2);
 				TextStringStream.SetPosition(0);
 
-				std::unique_ptr<IDataParameter> StreamedTextStringParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> StreamedTextStringParameter = InsertCommand->CreateParameter();
 				StreamedTextStringParameter->SetValue(&TextStringStream);
-				InsertCommand->GetParameters().Add(*StreamedTextStringParameter.get());
+				InsertCommand->GetParameters().Add(*StreamedTextStringParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> StreamedTextStringNullParameter = InsertCommand->CreateParameter();
-				StreamedTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*StreamedTextStringNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> StreamedTextStringNullParameter = InsertCommand->CreateParameter();
+				StreamedTextStringNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*StreamedTextStringNullParameter.GetUnderlyingPointer());
 
 				// time
-				std::unique_ptr<IDataParameter> TimeParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> TimeParameter = InsertCommand->CreateParameter();
 				TimeParameter->SetValue(TimeSpan(13, 37, 27));
-				InsertCommand->GetParameters().Add(*TimeParameter.get());
+				InsertCommand->GetParameters().Add(*TimeParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> TimeNullParameter = InsertCommand->CreateParameter();
-				TimeNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*TimeNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> TimeNullParameter = InsertCommand->CreateParameter();
+				TimeNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*TimeNullParameter.GetUnderlyingPointer());
 				/*
 				// timestamp - this datatype equals a 'rowversion' and doesn't contain DateTime-information as the name might imply
 				std::unique_ptr<IDataParameter> RowVersionParameter = InsertCommand->CreateParameter();
@@ -512,56 +516,56 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				InsertCommand->GetParameters().Add(RowVersionParameter.get());
 				*/
 				// BYTE (tinyint)
-				std::unique_ptr<IDataParameter> TinyIntParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> TinyIntParameter = InsertCommand->CreateParameter();
 				TinyIntParameter->SetValue((unsigned short)17);
-				InsertCommand->GetParameters().Add(*TinyIntParameter.get());
+				InsertCommand->GetParameters().Add(*TinyIntParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> TinyIntNullParameter = InsertCommand->CreateParameter();
-				TinyIntNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*TinyIntNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> TinyIntNullParameter = InsertCommand->CreateParameter();
+				TinyIntNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*TinyIntNullParameter.GetUnderlyingPointer());
 
 				// GUID (uniqueidentifier)
-				std::unique_ptr<IDataParameter> GuidParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> GuidParameter = InsertCommand->CreateParameter();
 				GuidParameter->SetValue(Guid::Parse(u8"ae019609-99e0-4ef5-85bb-ad90dc302e70"));
-				InsertCommand->GetParameters().Add(*GuidParameter.get());
+				InsertCommand->GetParameters().Add(*GuidParameter.GetUnderlyingPointer());
 
 				//Assert::AreEqual("ae019609-99e0-4ef5-85bb-ad90dc302e70", Guid::Parse("ae019609-99e0-4ef5-85bb-ad90dc302e70").ToString().c_str());
 
-				std::unique_ptr<IDataParameter> GuidNullParameter = InsertCommand->CreateParameter();
-				GuidNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*GuidNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> GuidNullParameter = InsertCommand->CreateParameter();
+				GuidNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*GuidNullParameter.GetUnderlyingPointer());
 
 				// varbinary
 
 				// vchar
 
 				// xml
-				std::unique_ptr<IDataParameter> XmlParameter = InsertCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> XmlParameter = InsertCommand->CreateParameter();
 				XmlParameter->SetValue(String(u8"<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>"));
 				//XmlParameter->SetDbType(DbType::Xml);
-				InsertCommand->GetParameters().Add(*XmlParameter.get());
+				InsertCommand->GetParameters().Add(*XmlParameter.GetUnderlyingPointer());
 
-				std::unique_ptr<IDataParameter> XmlNullParameter = InsertCommand->CreateParameter();
-				XmlNullParameter->SetValue(Elysium::Core::Data::DBNull::Value);
-				InsertCommand->GetParameters().Add(*XmlNullParameter.get());
+				Template::Memory::UniquePointer<IDataParameter> XmlNullParameter = InsertCommand->CreateParameter();
+				XmlNullParameter->SetValue(Elysium::Core::Data::DBNull::GetValue());
+				InsertCommand->GetParameters().Add(*XmlNullParameter.GetUnderlyingPointer());
 
-				PerformDataInsertionTest(InsertCommand.get());
+				PerformDataInsertionTest(InsertCommand.GetUnderlyingPointer());
 
 				// perform R test
-				std::unique_ptr<IDbCommand> SelectCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> SelectCommand = _Connection.CreateCommand();
 				SelectCommand->SetCommandText(u8"SELECT [bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geographyNotNull].Lat As Latitude, [geographyNotNull].Long As Longitude, [geographyNotNull].M As Magnitude, [geographyNotNull].Z As Depth, [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [hierarchyidNotNull].ToString() AS HierarchyPath, [hierarchyidNotNull].GetLevel() AS HierarchyLevel, [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull] FROM AllDataTypes");
 				TestReader(SelectCommand);
 
 				// perform U test
-				std::unique_ptr<IDbCommand> UpdateCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> UpdateCommand = _Connection.CreateCommand();
 				UpdateCommand->SetCommandText(u8"UPDATE AllDataTypes SET [bigintNull] = ?");
-				std::unique_ptr<IDataParameter> UpdateParameter = UpdateCommand->CreateParameter();
+				Template::Memory::UniquePointer<IDataParameter> UpdateParameter = UpdateCommand->CreateParameter();
 				UpdateParameter->SetValue((__int64)123);
-				UpdateCommand->GetParameters().Add(*UpdateParameter.get());
+				UpdateCommand->GetParameters().Add(*UpdateParameter.GetUnderlyingPointer());
 				UpdateCommand->ExecuteNonQuery();
 
 				// perform D test
-				std::unique_ptr<IDbCommand> DeleteCommand = _Connection.CreateCommand();
+				Template::Memory::UniquePointer<IDbCommand> DeleteCommand = _Connection.CreateCommand();
 				DeleteCommand->SetCommandText(u8"DELETE FROM AllDataTypes");
 				DeleteCommand->ExecuteNonQuery();
 
@@ -578,6 +582,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Assert::Fail();
 			}
 		}
+
 		TEST_METHOD(CRUDWithNamedParameters)
 		{
 			// oledb doesn't support named parameters. therefore just do nothing here.
@@ -585,10 +590,10 @@ namespace UnitTests::Core::Data::SqlNativeClient
 private:
 	SqlNativeConnection _Connection = SqlNativeConnection();
 
-	static void TestReader(const std::unique_ptr<IDbCommand>& Command)
+	static void TestReader(const Template::Memory::UniquePointer<IDbCommand>& Command)
 	{
-		std::unique_ptr<IDataReader> IReader = Command->ExecuteReader();
-		DbDataReader* Reader = (DbDataReader*)IReader.get();
+		Template::Memory::UniquePointer<IDataReader> IReader = Command->ExecuteReader();
+		DbDataReader* Reader = (DbDataReader*)IReader.GetUnderlyingPointer();
 
 		// test a few reader methods before actually starting to read
 		{
@@ -957,6 +962,7 @@ private:
 
 		Reader->Close();
 	}
+
 	static void LogSqlNativeException(SqlNativeException& ex)
 	{
 		//Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());

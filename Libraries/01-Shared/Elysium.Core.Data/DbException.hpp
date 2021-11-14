@@ -27,7 +27,9 @@ namespace Elysium::Core::Data::Common
 	{
 	public:
 		DbException();
+
 		DbException(const Elysium::Core::int32_t ErrorCode);
+
 		virtual ~DbException();
 	};
 }

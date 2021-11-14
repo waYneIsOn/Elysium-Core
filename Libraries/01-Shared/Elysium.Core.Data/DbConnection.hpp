@@ -30,24 +30,23 @@ namespace Elysium::Core::Data::Common
 {
 	class ELYSIUM_CORE_DATA_API DbConnection : public IDbConnection
 	{
+	protected:
+		DbConnection(const String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout);
 	public:
-		/// <summary>
-		/// Destroy the object using the virtual destructor
-		/// </summary>
-		virtual ~DbConnection() {}
+		virtual ~DbConnection();
+	public:
+		virtual const Elysium::Core::String& GetConnectionString() const override;
 
-		virtual const String& GetConnectionString() const override;
-		virtual const int& GetConnectionTimeout() const override;
-		virtual const String& GetDatabase() const override;
+		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const override;
+
+		virtual const Elysium::Core::String& GetDatabase() const override;
+
 		virtual const ConnectionState& GetState() const override;
-
+	public:
 		virtual void SetConnectionString(const String& ConnectionString) override;
 	protected:
-		DbConnection();
-		DbConnection(const String& ConnectionString);
-
 		String _ConnectionString;
-		int _ConnectionTimeout;
+		Elysium::Core::uint32_t _ConnectionTimeout;
 		String _Database;
 		ConnectionState _ConnectionState;
 	};

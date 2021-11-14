@@ -21,9 +21,10 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::~SqlNativeTra
 	((SqlNativeConnection&)_Connection)._ActiveTransaction = nullptr;
 }
 
-std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::CreateCommand()
+
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::CreateCommand()
 {
-	return std::unique_ptr<SqlNativeCommand>(new SqlNativeCommand(this, _NativeCommandFactory));
+	return Elysium::Core::Template::Memory::UniquePointer<IDbCommand>(new SqlNativeCommand(this, _NativeCommandFactory));
 }
 
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeTransaction::Commit()

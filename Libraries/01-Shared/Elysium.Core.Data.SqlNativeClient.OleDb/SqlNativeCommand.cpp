@@ -51,9 +51,9 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeParameterCollection & Elys
 	return (SqlNativeParameterCollection&)_Parameters;
 }
 
-std::unique_ptr<Elysium::Core::Data::IDataParameter> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::CreateParameter()
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDataParameter> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::CreateParameter()
 {
-	return std::unique_ptr<IDataParameter>(new SqlNativeParameter(this));
+	return Template::Memory::UniquePointer<IDataParameter>(new SqlNativeParameter(this));
 }
 
 Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteNonQuery()
@@ -113,7 +113,7 @@ Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeComman
 	return RowsAffected;
 }
 
-std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteReader()
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::ExecuteReader()
 {
 	HRESULT HResult;
 
@@ -196,7 +196,8 @@ std::unique_ptr<Elysium::Core::Data::IDataReader> Elysium::Core::Data::SqlNative
 	NativeColumnsInfo->Release();
 
 	// create the reader
-	std::unique_ptr<SqlNativeDataReader> Reader = std::unique_ptr<SqlNativeDataReader>(new SqlNativeDataReader(NativeRowset, RowsAffected, FieldCount, ColumnInfo, ColumnNames));
+	Template::Memory::UniquePointer<IDataReader> Reader =
+		Template::Memory::UniquePointer<IDataReader>(new SqlNativeDataReader(NativeRowset, RowsAffected, FieldCount, ColumnInfo, ColumnNames));
 
 	// clean up
 	for (Elysium::Core::size i = 0; i < ParameterStreams.size(); i++)
@@ -357,7 +358,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParam
 					const BYTE* Value = _Parameters[i].GetValue();
 					Elysium::Core::IO::Stream* SourceStream;
 					memcpy(&SourceStream, &Value[0], sizeof(Elysium::Core::IO::Stream*));	// need to memcpy, not just cast since the bytes are stored in reverse order
-					if (SourceStream != nullptr && (void*)SourceStream != &Elysium::Core::Data::DBNull::Value)
+					if (SourceStream != nullptr && (void*)SourceStream != &Elysium::Core::Data::DBNull::GetValue())
 					{
 						SqlNativeSequentialStream* CurrentStream = new SqlNativeSequentialStream();
 						CurrentStream->AddRef();	// very important or the object will be deleted too early

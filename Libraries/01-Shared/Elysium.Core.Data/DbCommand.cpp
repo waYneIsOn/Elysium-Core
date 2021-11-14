@@ -5,10 +5,14 @@ Elysium::Core::Data::Common::DbCommand::DbCommand(IDbConnection & Connection)
 	_Connection(Connection),
 	_Transaction(nullptr)
 { }
+
 Elysium::Core::Data::Common::DbCommand::DbCommand(IDbTransaction * Transaction)
 	: IDbCommand(),
 	_Connection(Transaction->GetConnection()),
 	_Transaction(Transaction)
+{ }
+
+Elysium::Core::Data::Common::DbCommand::~DbCommand()
 { }
 
 const Elysium::Core::String & Elysium::Core::Data::Common::DbCommand::GetCommandText() const

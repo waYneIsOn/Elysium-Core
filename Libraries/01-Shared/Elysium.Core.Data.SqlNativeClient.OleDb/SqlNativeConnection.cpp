@@ -35,7 +35,7 @@
 using namespace Elysium::Core::Runtime::InteropServices;
 
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::SqlNativeConnection()
-	: DbConnection()
+	: DbConnection(u8"", 15000)
 {
 	/*
 	// initialize the COM library
@@ -47,6 +47,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::SqlNativeConne
 	}
 	*/
 }
+
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::~SqlNativeConnection()
 {
 	Close();
@@ -60,14 +61,17 @@ const Elysium::Core::String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 {
 	return DbConnection::GetConnectionString();
 }
-const int & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetConnectionTimeout() const
+
+const Elysium::Core::uint32_t& Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetConnectionTimeout() const
 {
 	return DbConnection::GetConnectionTimeout();
 }
+
 const Elysium::Core::String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetDatabase() const
 {
 	return DbConnection::GetDatabase();
 }
+
 const Elysium::Core::Data::ConnectionState & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetState() const
 {
 	return DbConnection::GetState();
@@ -166,11 +170,13 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Open()
 		_ConnectionState = ConnectionState::Open;
 	}
 }
-std::unique_ptr<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::BeginTransaction()
+
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::BeginTransaction()
 {
 	return BeginTransaction(IsolationLevel::ReadCommitted);
 }
-std::unique_ptr<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::BeginTransaction(IsolationLevel IsolationLevel)
+
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::BeginTransaction(IsolationLevel IsolationLevel)
 {
 	if (_ActiveTransaction != nullptr)
 	{
@@ -203,9 +209,10 @@ std::unique_ptr<Elysium::Core::Data::IDbTransaction> Elysium::Core::Data::SqlNat
 	SqlNativeTransaction* Transaction = new SqlNativeTransaction(*this, IsolationLevel, NativeCommandFactory, NativeTransaction, TransactionLevel);
 	_ActiveTransaction = Transaction;
 
-	return std::unique_ptr<SqlNativeTransaction>(Transaction);
+	return Template::Memory::UniquePointer<IDbTransaction>(Transaction);
 }
-std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::CreateCommand()
+
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::CreateCommand()
 {
 	HRESULT HResult;
 	IDBCreateCommand* CommandFactory;
@@ -214,8 +221,9 @@ std::unique_ptr<Elysium::Core::Data::IDbCommand> Elysium::Core::Data::SqlNativeC
 		throw SqlNativeException(HResult, _NativeSession);
 	}
 
-	return std::unique_ptr<SqlNativeCommand>(new SqlNativeCommand(*this, CommandFactory));
+	return Template::Memory::UniquePointer<IDbCommand>(new SqlNativeCommand(*this, CommandFactory));
 }
+
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDatabase(const Elysium::Core::String & DatabaseName)
 {
 	HRESULT HResult;
@@ -260,6 +268,7 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDat
 	}
 	DataBaseProperties->Release();
 }
+
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::Close()
 {
 	if (_ConnectionState != ConnectionState::Closed && _ConnectionState != ConnectionState::Broken)

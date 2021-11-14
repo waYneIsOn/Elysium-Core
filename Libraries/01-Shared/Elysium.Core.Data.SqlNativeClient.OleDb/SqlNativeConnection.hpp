@@ -43,17 +43,17 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		SqlNativeConnection();
 		~SqlNativeConnection();
 
-		virtual const String& GetConnectionString() const override;
-		virtual const int& GetConnectionTimeout() const override;
-		virtual const String& GetDatabase() const override;
+		virtual const Elysium::Core::String& GetConnectionString() const override;
+		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const override;
+		virtual const Elysium::Core::String& GetDatabase() const override;
 		virtual const ConnectionState& GetState() const override;
 
 		virtual void SetConnectionString(const String & ConnectionString) override;
 
 		virtual void Open() override;
-		virtual std::unique_ptr<IDbTransaction> BeginTransaction() override;
-		virtual std::unique_ptr<IDbTransaction> BeginTransaction(IsolationLevel IsolationLevel) override;
-		virtual std::unique_ptr<IDbCommand> CreateCommand() override;
+		virtual Template::Memory::UniquePointer<IDbTransaction> BeginTransaction() override;
+		virtual Template::Memory::UniquePointer<IDbTransaction> BeginTransaction(IsolationLevel IsolationLevel) override;
+		virtual Template::Memory::UniquePointer<IDbCommand> CreateCommand() override;
 		virtual void ChangeDatabase(const String & DatabaseName) override;
 		virtual void Close() override;
 	private:

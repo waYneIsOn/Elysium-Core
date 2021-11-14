@@ -28,17 +28,15 @@ namespace Elysium::Core::Data::Common
 {
 	class ELYSIUM_CORE_DATA_API DbTransaction : public IDbTransaction
 	{
-	public:
-		/// <summary>
-		/// Destroy the object using the virtual destructor
-		/// </summary>
-		virtual ~DbTransaction() {}
-
-		virtual const IDbConnection& GetConnection() const override;
-		virtual const IsolationLevel GetIsolationLevel() const override;
 	protected:
 		DbTransaction(IDbConnection& Connection, IsolationLevel _IsolationLevel);
+	public:
+		virtual ~DbTransaction();
+	public:
+		virtual const IDbConnection& GetConnection() const override;
 
+		virtual const IsolationLevel GetIsolationLevel() const override;
+	protected:
 		const IDbConnection& _Connection;
 		IsolationLevel _IsolationLevel;
 	};

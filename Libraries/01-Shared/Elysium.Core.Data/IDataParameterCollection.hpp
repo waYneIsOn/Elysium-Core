@@ -24,10 +24,10 @@ namespace Elysium::Core::Data
 {
 	class ELYSIUM_CORE_DATA_API IDataParameterCollection : public Collections::IList<IDataParameter>
 	{
-	public:
-		virtual ~IDataParameterCollection() {}
 	protected:
 		IDataParameterCollection() {}
+	public:
+		virtual ~IDataParameterCollection() {}
 	};
 }
 #endif

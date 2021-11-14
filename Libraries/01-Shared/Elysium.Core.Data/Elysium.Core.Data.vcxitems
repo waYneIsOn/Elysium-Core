@@ -22,6 +22,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DataRowVersion.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DbCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DbConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DbConnectionStringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DbDataReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DbException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DBNull.hpp" />
@@ -42,6 +43,7 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)DbCommand.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DbConnection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DbConnectionStringBuilder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DbDataReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DbException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DBNull.cpp" />

@@ -31,7 +31,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	public:
 		~SqlNativeTransaction();
 
-		virtual std::unique_ptr<IDbCommand> CreateCommand() override;
+		virtual Template::Memory::UniquePointer<IDbCommand> CreateCommand() override;
 
 		virtual void Commit() override;
 		virtual void Rollback() override;

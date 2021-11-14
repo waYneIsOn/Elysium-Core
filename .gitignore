@@ -18,6 +18,10 @@
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Debugbin
 /Libraries/02-Windows/Elysium.Core.Data.SqlNativeClient/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.Data.TdsClient/Debug
+/Libraries/02-Windows/Elysium.Core.Data.TdsClient/Debugbin
+/Libraries/02-Windows/Elysium.Core.Data.TdsClient/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.Drawing/Debug
 /Libraries/02-Windows/Elysium.Core.Drawing/Debugbin
 /Libraries/02-Windows/Elysium.Core.Drawing/Releasebin

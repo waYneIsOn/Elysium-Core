@@ -46,14 +46,19 @@ namespace Elysium::Core::Data
 	{
 	public:
 		virtual ~IDataReader() {}
-
+	public:
 		virtual const Elysium::Core::size GetDepth() const = 0;
-		virtual const bool GetIsClosed() const = 0;
-		virtual const Elysium::Core::size GetRecordsAffected() const = 0;
 
+		virtual const bool GetIsClosed() const = 0;
+
+		virtual const Elysium::Core::size GetRecordsAffected() const = 0;
+	public:
 		virtual void Close() = 0;
+
 		//virtual const Elysium::Core::Data::DataTable GetSchemaTable() = 0;
+
 		virtual const bool NextResult() = 0;
+
 		virtual const bool Read() = 0;
 	};
 }

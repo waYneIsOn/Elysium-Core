@@ -12,25 +12,34 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
 #endif
 
 namespace Elysium::Core::Data
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class ConnectionState : uint32_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class ConnectionState : Elysium::Core::uint32_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class ConnectionState
 #else
 #error "undefined os"
 #endif
 	{
 		Closed = 0,
+
 		Open = 1,
+
 		Connecting = 2,
+
 		Executing = 4,
+
 		Fetching = 8,
+
 		Broken = 16,
 	};
 

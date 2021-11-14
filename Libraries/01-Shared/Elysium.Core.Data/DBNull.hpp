@@ -20,17 +20,22 @@ namespace Elysium::Core::Data
 {
 	class ELYSIUM_CORE_DATA_API DBNull final
 	{
-	public:
-		DBNull(const DBNull& Source) = delete;
-		DBNull(DBNull&& Right) noexcept = delete;
-		~DBNull();
-
-		DBNull& operator=(const DBNull& Source) = delete;
-		DBNull& operator=(DBNull&& Right) noexcept = delete;
-
-		static const DBNull Value;
 	private:
 		DBNull();
+	public:
+		DBNull(const DBNull& Source) = delete;
+
+		DBNull(DBNull&& Right) noexcept = delete;
+
+		~DBNull();
+	public:
+		DBNull& operator=(const DBNull& Source) = delete;
+
+		DBNull& operator=(DBNull&& Right) noexcept = delete;
+	public:
+		static const DBNull& GetValue();
+	private:
+		static const DBNull _Value;
 	};
 }
 #endif

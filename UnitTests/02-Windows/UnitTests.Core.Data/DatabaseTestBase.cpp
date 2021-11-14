@@ -24,9 +24,9 @@ void DatabaseTestBase::PerformTransactionCreationTests(IDbConnection* Connection
 	{
 		Connection->Open();
 		{
-			std::unique_ptr<IDbTransaction> Transaction1 = Connection->BeginTransaction();
+			Template::Memory::UniquePointer<IDbTransaction> Transaction1 = Connection->BeginTransaction();
 		}
-		std::unique_ptr<IDbTransaction> Transaction2 = Connection->BeginTransaction();
+		Template::Memory::UniquePointer<IDbTransaction> Transaction2 = Connection->BeginTransaction();
 		Connection->Close();
 	}
 	catch (InvalidOperationException& ex)
@@ -40,8 +40,8 @@ void DatabaseTestBase::PerformTransactionCreationTests(IDbConnection* Connection
 	try
 	{
 		Connection->Open();
-		std::unique_ptr<IDbTransaction> Transaction1 = Connection->BeginTransaction();
-		std::unique_ptr<IDbTransaction> Transaction2 = Connection->BeginTransaction();
+		Template::Memory::UniquePointer<IDbTransaction> Transaction1 = Connection->BeginTransaction();
+		Template::Memory::UniquePointer<IDbTransaction> Transaction2 = Connection->BeginTransaction();
 		Connection->Close();
 
 		// if no InvalidOperationException was thrown when creating the second transaction, this test has failed
@@ -55,11 +55,11 @@ void DatabaseTestBase::PerformTransactionCreationTests(IDbConnection* Connection
 void DatabaseTestBase::PerformCommandCreationTests(IDbConnection * Connection)
 {
 	Connection->Open();
-	std::unique_ptr<IDbCommand> AdHocCommand1 = Connection->CreateCommand();
-	std::unique_ptr<IDbCommand> AdHocCommand2 = Connection->CreateCommand();
+	Template::Memory::UniquePointer<IDbCommand> AdHocCommand1 = Connection->CreateCommand();
+	Template::Memory::UniquePointer<IDbCommand> AdHocCommand2 = Connection->CreateCommand();
 
-	std::unique_ptr<IDbTransaction> Transaction = Connection->BeginTransaction();
-	std::unique_ptr<IDbCommand> TransactionAdHocCommand = Transaction->CreateCommand();
+	Template::Memory::UniquePointer<IDbTransaction> Transaction = Connection->BeginTransaction();
+	Template::Memory::UniquePointer<IDbCommand> TransactionAdHocCommand = Transaction->CreateCommand();
 
 	Connection->Close();
 }

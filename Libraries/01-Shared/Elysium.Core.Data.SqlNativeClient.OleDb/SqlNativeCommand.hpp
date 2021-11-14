@@ -57,9 +57,9 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual const SqlNativeTransaction* GetTransaction() const override;
 		virtual SqlNativeParameterCollection& GetParameters() const override;
 
-		virtual std::unique_ptr<IDataParameter> CreateParameter() override;
+		virtual Template::Memory::UniquePointer<IDataParameter> CreateParameter() override;
 		virtual Elysium::Core::size ExecuteNonQuery() override;
-		virtual std::unique_ptr<IDataReader> ExecuteReader() override;
+		virtual Template::Memory::UniquePointer<IDataReader> ExecuteReader() override;
 		virtual void Prepare() override;
 	private:
 		SqlNativeCommand(SqlNativeConnection& Connection, IDBCreateCommand* NativeCommandFactory);

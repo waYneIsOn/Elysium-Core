@@ -12,23 +12,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
 #endif
 
 namespace Elysium::Core::Data
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class ParameterDirection : int32_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class ParameterDirection : Elysium::Core::int32_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class ParameterDirection
 #else
 #error "undefined os"
 #endif
 	{
 		Input = 1,
+
 		Output = 2,
+
 		InputOutput = 3,
+
 		ReturnValue = 6,
 	};
 }
