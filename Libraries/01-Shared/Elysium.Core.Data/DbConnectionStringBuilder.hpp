@@ -28,9 +28,9 @@ namespace Elysium::Core::Data::Common
 {
 	class ELYSIUM_CORE_DATA_API DbConnectionStringBuilder
 	{
-	public:
+	protected:
 		DbConnectionStringBuilder();
-
+	public:
 		DbConnectionStringBuilder(const DbConnectionStringBuilder& Source) = delete;
 
 		DbConnectionStringBuilder(DbConnectionStringBuilder&& Right) noexcept = delete;
@@ -40,9 +40,15 @@ namespace Elysium::Core::Data::Common
 		DbConnectionStringBuilder& operator=(const DbConnectionStringBuilder& Source) = delete;
 
 		DbConnectionStringBuilder& operator=(DbConnectionStringBuilder&& Right) noexcept = delete;
+
+		Elysium::Core::String& operator[](const Elysium::Core::String& Key);
+
+		const Elysium::Core::String& operator[](const Elysium::Core::String& Key) const;
 	public:
-		void SetConnectionString(const Elysium::Core::String& ConnectionString);
-	private:
+		Elysium::Core::String GetConnectionString();
+	public:
+		virtual void SetConnectionString(const Elysium::Core::String& ConnectionString);
+	protected:
 		Elysium::Core::Template::Container::HashTable<Elysium::Core::String, Elysium::Core::String> _KeyValueMap;
 	};
 }

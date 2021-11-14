@@ -100,9 +100,9 @@ namespace Elysium::Core::Template::Container
 
 		HashTable<TKey, TValue, KeyCompare, Allocator>& operator=(HashTable&& Right) noexcept;
 
-		//HashTable<TKey, TValue, KeyCompare, Allocator>::Entry& operator[](const TKey& Key);
+		TValue& operator[](const TKey& Key);
 
-		//const HashTable<TKey, TValue, KeyCompare, Allocator>::Entry& operator[](const TKey& Key) const;
+		const TValue& operator[](const TKey& Key) const;
 	public:
 		void Set(const TKey& Key, const TValue& Value);
 
@@ -164,7 +164,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Bucket"></param>
 		/// <returns></returns>
-		HashTable<TKey, TValue, KeyCompare, Allocator>::Entry* FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key);
+		HashTable<TKey, TValue, KeyCompare, Allocator>::Entry* FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key) const;
 	};
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
@@ -225,6 +225,42 @@ namespace Elysium::Core::Template::Container
 			throw 1;
 		}
 		return *this;
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline TValue& HashTable<TKey, TValue, KeyCompare, Allocator>::operator[](const TKey& Key)
+	{
+		const Elysium::Core::size HashCode = Key.GetHashCode();
+		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		const BucketReference TargetBucket = _Buckets[TargetBucketIndex];
+
+		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
+		Entry* ExistingItem = FindEntry(Node, Key);
+		if (ExistingItem == nullptr)
+		{
+			// ToDo: throw Elysium::Core::KeyNotFoundException
+			throw 1;
+		}
+
+		return ExistingItem->GetValue();
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline const TValue& HashTable<TKey, TValue, KeyCompare, Allocator>::operator[](const TKey& Key) const
+	{
+		Elysium::Core::size HashCode = Key.GetHashCode();
+		Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		BucketReference TargetBucket = _Buckets[TargetBucketIndex];
+
+		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
+		Entry* ExistingItem = FindEntry(Node, Key);
+		if (ExistingItem == nullptr)
+		{
+			// ToDo: throw Elysium::Core::KeyNotFoundException
+			throw 1;
+		}
+
+		return ExistingItem->GetValue();
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
@@ -374,7 +410,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
-	inline HashTable<TKey, TValue, KeyCompare, Allocator>::Entry* HashTable<TKey, TValue, KeyCompare, Allocator>::FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key)
+	inline HashTable<TKey, TValue, KeyCompare, Allocator>::Entry* HashTable<TKey, TValue, KeyCompare, Allocator>::FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key) const
 	{
 		while (CurrentNode != nullptr)
 		{

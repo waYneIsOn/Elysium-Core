@@ -22,6 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Text
 {
+	// ToDo: make use of LinkedList
 	class ELYSIUM_CORE_API StringBuilder final
 	{
 	public:

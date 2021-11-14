@@ -38,7 +38,9 @@ namespace UnitTests::Core::Data::TdsClient
 			try
 			{
 				TdsConnection Connection = TdsConnection(TdsVersion::v7_0,
-					u8"Application Name=Elysium Framework;Server=localhost;Database=ElysiumTest;Trusted_Connection=Yes;", 15000);
+					//u8"Application Name=Elysium Framework;Server=localhost;Database=ElysiumTest;Trusted_Connection=Yes;", 15000);
+					//u8"Application Name=Elysium Framework;Server=127.0.0.1;Database=ElysiumTest;Trusted_Connection=Yes;", 15000);
+					u8"Application Name=Elysium Framework;Server=127.0.0.1,1433;Database=ElysiumTest;Trusted_Connection=Yes;", 15000);
 				Connection.Open();
 
 				Connection.Close();

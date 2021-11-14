@@ -86,6 +86,7 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(ValueValue)
 		{
 			HashTable<String, String> Instance = HashTable<String, String>();
+			const HashTable<String, String>& ConstInstance = Instance;
 			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				Assert::Fail();
@@ -176,6 +177,13 @@ namespace UnitTests::Core::Template::Container
 			}
 			Assert::AreEqual(static_cast<Elysium::Core::size>(3), i);
 			Logger::WriteMessage("\r\n");
+
+			// ...
+			String& AssociatedValue = Instance[u8"123"];
+			AssertExtended::AreEqual(u8"123.exe", AssociatedValue);
+
+			const String& ConstAssociatedValue = ConstInstance[u8"456"];
+			AssertExtended::AreEqual(u8"456.exe", ConstAssociatedValue);
 		}
 	};
 }

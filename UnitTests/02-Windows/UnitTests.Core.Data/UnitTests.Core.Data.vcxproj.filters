@@ -24,6 +24,9 @@
     <ClCompile Include="TdsClientTests.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="DbConnectionStringBuilderTests.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseTestBase.hpp">

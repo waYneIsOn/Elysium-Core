@@ -4,11 +4,12 @@
     <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Protocol">
-      <UniqueIdentifier>{fabc98c8-b453-4396-806b-f6c173b7f838}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsVersion.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsConnectionStringBuilder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsMessageType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsMessageStatus.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TdsVersion.hpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TdsConnectionStringBuilder.cpp" />
   </ItemGroup>
 </Project>

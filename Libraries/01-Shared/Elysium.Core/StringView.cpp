@@ -320,3 +320,8 @@ Elysium::Core::StringView Elysium::Core::StringView::Substringview(const Elysium
 {
 	return StringView(&_Data[StartIndex], Length);
 }
+
+const bool Elysium::Core::StringView::IsNullOrEmtpy(const StringView& Value)
+{
+	return Value._Data == nullptr || (Value._Data != nullptr && Value._Length == 1);
+}

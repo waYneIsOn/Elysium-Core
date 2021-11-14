@@ -67,6 +67,8 @@ namespace Elysium::Core
 
 		StringView Substringview(const Elysium::Core::size StartIndex) const;
 		StringView Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
+
+		static const bool IsNullOrEmtpy(const StringView& Value);
 	private:
 		Elysium::Core::size _Length;
 		char8_t* _Data;

@@ -19,9 +19,13 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TdsConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsConnectionStringBuilder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsMessageStatus.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsMessageType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TdsVersion.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)TdsConnection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TdsConnectionStringBuilder.cpp" />
   </ItemGroup>
 </Project>

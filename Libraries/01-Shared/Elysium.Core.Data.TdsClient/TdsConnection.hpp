@@ -63,9 +63,8 @@ namespace Elysium::Core::Data::TdsClient
 		
 		virtual void ChangeDatabase(const String& DatabaseName) override;
 	private:
-		Net::Sockets::Socket _TransportSocket;
-	private:
-
+		Elysium::Core::Net::Sockets::Socket _TransportSocket;
+		//Elysium::Core::uint16_t _PacketId;
 	};
 }
 #endif

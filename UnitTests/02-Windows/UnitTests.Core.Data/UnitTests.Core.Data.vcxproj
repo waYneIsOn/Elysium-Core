@@ -174,6 +174,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DatabaseTestBase.cpp" />
+    <ClCompile Include="DbConnectionStringBuilderTests.cpp" />
     <ClCompile Include="SqlNativeClientTests.cpp" />
     <ClCompile Include="TdsClientTests.cpp" />
   </ItemGroup>

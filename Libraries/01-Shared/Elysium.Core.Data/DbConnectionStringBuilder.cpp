@@ -1,5 +1,9 @@
 #include "DbConnectionStringBuilder.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "../Elysium.Core/StringView.hpp"
 #endif
@@ -15,59 +19,58 @@ Elysium::Core::Data::Common::DbConnectionStringBuilder::DbConnectionStringBuilde
 Elysium::Core::Data::Common::DbConnectionStringBuilder::~DbConnectionStringBuilder()
 { }
 
-void Elysium::Core::Data::Common::DbConnectionStringBuilder::SetConnectionString(const Elysium::Core::String & ConnectionString)
+Elysium::Core::String& Elysium::Core::Data::Common::DbConnectionStringBuilder::operator[](const Elysium::Core::String& Key)
 {
-	/*
-	Collections::Template::List<String> ConnectionStringParts = Collections::Template::List<String>();
-	ConnectionString.Split(u8';', ConnectionStringParts);
+	return _KeyValueMap[Key];
+}
 
-	for (Elysium::Core::size i = 0; i < ConnectionStringParts.GetCount(); i++)
+const Elysium::Core::String& Elysium::Core::Data::Common::DbConnectionStringBuilder::operator[](const Elysium::Core::String& Key) const
+{
+	return _KeyValueMap[Key];
+}
+
+Elysium::Core::String Elysium::Core::Data::Common::DbConnectionStringBuilder::GetConnectionString()
+{
+	Text::StringBuilder ConnectionStringBuilder = Text::StringBuilder();
+	for (Elysium::Core::Template::Container::HashTable<String, String>::FIterator Iterator = _KeyValueMap.GetBegin(); Iterator != _KeyValueMap.GetEnd(); ++Iterator)
 	{
-		if (!String::IsNullOrEmtpy(ConnectionStringParts[i]))
+		Elysium::Core::Template::Container::KeyValuePair<String, String> Item = (*Iterator)->GetItem();
+		const Elysium::Core::String& Key = Item.GetKey();
+		const Elysium::Core::String& Value = Item.GetValue();
+
+		if (!Elysium::Core::String::IsNullOrEmtpy(Key) && !Elysium::Core::String::IsNullOrEmtpy(Value))
 		{
-			Collections::Template::List<String> KeyValuePair = Collections::Template::List<String>();
-			ConnectionStringParts[i].Split(u8'=', KeyValuePair);
-
-			if (KeyValuePair.GetCount() != 2)
-			{
-				throw 1;
-			}
-
-			const String& Key = KeyValuePair[0];
-			const String& Value = KeyValuePair[1];
-
-			bool bla = false;
+			ConnectionStringBuilder.Append(Key);
+			ConnectionStringBuilder.Append(u8"=");
+			ConnectionStringBuilder.Append(Value);
+			ConnectionStringBuilder.Append(u8";");
 		}
 	}
-	*/
-	Collections::Template::List<StringView> ConnectionStringParts = Collections::Template::List<StringView>();
-	StringView ConnectionStringView = StringView(&ConnectionString[0]);
-	ConnectionStringView.Split(u8';', ConnectionStringParts);
 
-	const String Test = ConnectionStringView;
+	return ConnectionStringBuilder.ToString();
+}
+
+void Elysium::Core::Data::Common::DbConnectionStringBuilder::SetConnectionString(const Elysium::Core::String & ConnectionString)
+{
+	_KeyValueMap.Clear();
+
+	Collections::Template::List<StringView> ConnectionStringParts = Collections::Template::List<StringView>();
+	StringView ConnectionStringView = StringView(ConnectionString);
+	ConnectionStringView.Split(u8';', ConnectionStringParts);
 
 	for (Elysium::Core::size i = 0; i < ConnectionStringParts.GetCount(); i++)
 	{
-		const String Bla = ConnectionStringParts[i];
-		bool blaaaa = false;
-		/*
 		if (!StringView::IsNullOrEmtpy(ConnectionStringParts[i]))
 		{
 			Collections::Template::List<StringView> KeyValuePair = Collections::Template::List<StringView>();
 			ConnectionStringParts[i].Split(u8'=', KeyValuePair);
 
 			if (KeyValuePair.GetCount() != 2)
-			{
+			{	// ToDo: how to handle this scenario? are there any "key, no value"-parts?
 				throw 1;
 			}
 
-			const String& Key = KeyValuePair[0];
-			const String& Value = KeyValuePair[1];
-
-			bool bla = false;
+			_KeyValueMap.Set(KeyValuePair[0], KeyValuePair[1]);
 		}
-		*/
 	}
-
-	_KeyValueMap.Clear();
 }

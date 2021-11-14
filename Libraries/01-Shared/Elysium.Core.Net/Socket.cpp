@@ -416,8 +416,9 @@ const bool Elysium::Core::Net::Sockets::Socket::Poll(const Elysium::Core::TimeSp
 	return Poll(Duration.GetTotalMilliseconds() * 1000, Mode);
 }
 
-void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elysium::Core::int32_t Port)
+void Elysium::Core::Net::Sockets::Socket::Connect(const String& Host, const Elysium::Core::uint16_t Port)
 {
+	// ToDo: parse host to decide whether to use IpEndPoint or DnsEndPoint (can be done easily once I got regex working)
 	DnsEndPoint RemoteEndPoint = DnsEndPoint(Host, Port, AddressFamily::InterNetwork);
 	Connect(RemoteEndPoint);
 }

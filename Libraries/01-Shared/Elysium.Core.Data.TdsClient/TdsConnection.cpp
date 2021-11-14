@@ -4,8 +4,12 @@
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DATA_COMMON_DBCONNECTIONSTRINGBUILDER
-#include "../Elysium.Core.Data/DbConnectionStringBuilder.hpp"
+#ifndef ELYSIUM_CORE_CONVERT
+#include "../Elysium.Core/Convert.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_DATA_TDSCLIENT_TDSCONNECTIONSTRINGBUILDER
+#include "TdsConnectionStringBuilder.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
@@ -26,11 +30,26 @@ void Elysium::Core::Data::TdsClient::TdsConnection::Open()
 	{
 		try
 		{
-			Common::DbConnectionStringBuilder ConnectionStringBuilder = Common::DbConnectionStringBuilder();
+			TdsConnectionStringBuilder ConnectionStringBuilder = TdsConnectionStringBuilder();
 			ConnectionStringBuilder.SetConnectionString(_ConnectionString);
 
+			const String& Server = ConnectionStringBuilder.GetServer();
+			const Elysium::Core::size IndexOfPort = Server.IndexOf(u8',');
+			const StringView Host = IndexOfPort == -1 ? StringView(Server) : StringView(Server, IndexOfPort);
+			const Elysium::Core::uint16_t Port = IndexOfPort == -1 ? 1433 : Convert::ToUInt16(&Server[IndexOfPort + 1], 10);
+
 			_ConnectionState = ConnectionState::Connecting;
-			_TransportSocket.Connect(u8"127.0.0.1", 1433);
+			_TransportSocket.Connect(Host, Port);
+
+			if (ConnectionStringBuilder.GetIsTrustedConnection())
+			{
+
+			}
+			else
+			{
+
+			}
+
 			/*
 			// ...
 			Elysium::Core::byte PreLoginRequest[47] = { 

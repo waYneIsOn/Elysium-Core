@@ -187,7 +187,7 @@ namespace Elysium::Core::Net::Sockets
 		
 		const bool Poll(const Elysium::Core::TimeSpan Duration, const SelectMode Mode);
 
-		void Connect(const String& Host, const Elysium::Core::int32_t Port);
+		void Connect(const String& Host, const Elysium::Core::uint16_t Port);
 
 		void Connect(const Elysium::Core::Net::EndPoint& RemoteEndPoint);
 
