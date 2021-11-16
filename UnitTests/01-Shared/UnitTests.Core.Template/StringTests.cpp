@@ -2,6 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/String.hpp"
 
 using namespace Elysium::Core;
@@ -28,6 +29,30 @@ namespace UnitTests::Core::Template::Text
 			Assert::AreEqual(24_ui64, Utf16StringSize);
 			Assert::AreEqual(24_ui64, Utf32StringSize);
 
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::String::MaximumByteSizeOnStack);
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::WideString::MaximumByteSizeOnStack);
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::Utf8String::MaximumByteSizeOnStack);
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::Utf16String::MaximumByteSizeOnStack);
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::Utf32String::MaximumByteSizeOnStack);
+
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::String::MaximumCharSizeOnStack);
+			Assert::AreEqual(11_ui8, Elysium::Core::Template::Text::WideString::MaximumCharSizeOnStack);
+			Assert::AreEqual(23_ui8, Elysium::Core::Template::Text::Utf8String::MaximumCharSizeOnStack);
+			Assert::AreEqual(11_ui8, Elysium::Core::Template::Text::Utf16String::MaximumCharSizeOnStack);
+			Assert::AreEqual(5_ui8, Elysium::Core::Template::Text::Utf32String::MaximumCharSizeOnStack);
+
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::String::MaximumByteSizeOnHeap);
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::WideString::MaximumByteSizeOnHeap);
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::Utf8String::MaximumByteSizeOnHeap);
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::Utf16String::MaximumByteSizeOnHeap);
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::Utf32String::MaximumByteSizeOnHeap);
+
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::String::MaximumCharSizeOnHeap);
+			Assert::AreEqual(4611686018427387903_ui64, Elysium::Core::Template::Text::WideString::MaximumCharSizeOnHeap);
+			Assert::AreEqual(9223372036854775807_ui64, Elysium::Core::Template::Text::Utf8String::MaximumCharSizeOnHeap);
+			Assert::AreEqual(4611686018427387903_ui64, Elysium::Core::Template::Text::Utf16String::MaximumCharSizeOnHeap);
+			Assert::AreEqual(2305843009213693951_ui64, Elysium::Core::Template::Text::Utf32String::MaximumCharSizeOnHeap);
+			
 			// empty strings
 			Elysium::Core::Template::Text::String EmptyCharArray = Elysium::Core::Template::Text::String();
 			Elysium::Core::Template::Text::WideString EmptyWideCharArray = Elysium::Core::Template::Text::WideString();
@@ -87,19 +112,19 @@ namespace UnitTests::Core::Template::Text
 
 			// stack strings
 			Elysium::Core::Template::Text::String StackCharArray = Elysium::Core::Template::Text::String("xyz");
-			Elysium::Core::Template::Text::WideString StackWCharArray = Elysium::Core::Template::Text::WideString(L"xyz");
+			Elysium::Core::Template::Text::WideString StackWideCharArray = Elysium::Core::Template::Text::WideString(L"xyz");
 			Elysium::Core::Template::Text::Utf8String StackUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"xyz");
 			Elysium::Core::Template::Text::Utf16String StackUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"xyz");
 			Elysium::Core::Template::Text::Utf32String StackUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"xyz");
 
 			Assert::AreEqual(3_ui64, StackCharArray.GetSize());
-			Assert::AreEqual(3_ui64, StackWCharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackWideCharArray.GetSize());
 			Assert::AreEqual(3_ui64, StackUtf8CharArray.GetSize());
 			Assert::AreEqual(3_ui64, StackUtf16CharArray.GetSize());
 			Assert::AreEqual(3_ui64, StackUtf32CharArray.GetSize());
 
 			Assert::AreEqual(23_ui64, StackCharArray.GetCapacity());
-			Assert::AreEqual(11_ui64, StackWCharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackWideCharArray.GetCapacity());
 			Assert::AreEqual(23_ui64, StackUtf8CharArray.GetCapacity());
 			Assert::AreEqual(11_ui64, StackUtf16CharArray.GetCapacity());
 			Assert::AreEqual(5_ui64, StackUtf32CharArray.GetCapacity());
@@ -122,6 +147,268 @@ namespace UnitTests::Core::Template::Text
 			Assert::AreEqual(42_ui64, HeapUtf8CharArray.GetCapacity());
 			Assert::AreEqual(42_ui64, HeapUtf16CharArray.GetCapacity());
 			Assert::AreEqual(42_ui64, HeapUtf32CharArray.GetCapacity());
+
+			// "length" stack strings
+			Elysium::Core::Template::Text::String StackSizeCharArray = Elysium::Core::Template::Text::String(1);
+			Elysium::Core::Template::Text::WideString StackSizeWideCharArray = Elysium::Core::Template::Text::WideString(1);
+			Elysium::Core::Template::Text::Utf8String StackSizeUtf8CharArray = Elysium::Core::Template::Text::Utf8String(1);
+			Elysium::Core::Template::Text::Utf16String StackSizeUtf16CharArray = Elysium::Core::Template::Text::Utf16String(1);
+			Elysium::Core::Template::Text::Utf32String StackSizeUtf32CharArray = Elysium::Core::Template::Text::Utf32String(1);
+
+			Assert::AreEqual(0_ui64, StackSizeCharArray.GetSize());
+			Assert::AreEqual(0_ui64, StackSizeWideCharArray.GetSize());
+			Assert::AreEqual(0_ui64, StackSizeUtf8CharArray.GetSize());
+			Assert::AreEqual(0_ui64, StackSizeUtf16CharArray.GetSize());
+			Assert::AreEqual(0_ui64, StackSizeUtf32CharArray.GetSize());
+
+			Assert::AreEqual(23_ui64, StackSizeCharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackSizeWideCharArray.GetCapacity());
+			Assert::AreEqual(23_ui64, StackSizeUtf8CharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackSizeUtf16CharArray.GetCapacity());
+			Assert::AreEqual(5_ui64, StackSizeUtf32CharArray.GetCapacity());
+
+			// "length" heap strings
+			Elysium::Core::Template::Text::String HeapSizeCharArray = Elysium::Core::Template::Text::String(127);
+			Elysium::Core::Template::Text::WideString HeapSizeWideCharArray = Elysium::Core::Template::Text::WideString(127);
+			Elysium::Core::Template::Text::Utf8String HeapSizeUtf8CharArray = Elysium::Core::Template::Text::Utf8String(127);
+			Elysium::Core::Template::Text::Utf16String HeapSizeUtf16CharArray = Elysium::Core::Template::Text::Utf16String(127);
+			Elysium::Core::Template::Text::Utf32String HeapSizeUtf32CharArray = Elysium::Core::Template::Text::Utf32String(127);
+
+			Assert::AreEqual(0_ui64, HeapSizeCharArray.GetSize());
+			Assert::AreEqual(0_ui64, HeapSizeWideCharArray.GetSize());
+			Assert::AreEqual(0_ui64, HeapSizeUtf8CharArray.GetSize());
+			Assert::AreEqual(0_ui64, HeapSizeUtf16CharArray.GetSize());
+			Assert::AreEqual(0_ui64, HeapSizeUtf32CharArray.GetSize());
+
+			Assert::AreEqual(127_ui64, HeapSizeCharArray.GetCapacity());
+			Assert::AreEqual(127_ui64, HeapSizeWideCharArray.GetCapacity());
+			Assert::AreEqual(127_ui64, HeapSizeUtf8CharArray.GetCapacity());
+			Assert::AreEqual(127_ui64, HeapSizeUtf16CharArray.GetCapacity());
+			Assert::AreEqual(127_ui64, HeapSizeUtf32CharArray.GetCapacity());
+		}
+
+		TEST_METHOD(Copies)
+		{
+			// stack strings
+			Elysium::Core::Template::Text::String SourceStackCharArray = Elysium::Core::Template::Text::String("xyz");
+			Elysium::Core::Template::Text::WideString SourceStackWideCharArray = Elysium::Core::Template::Text::WideString(L"xyz");
+			Elysium::Core::Template::Text::Utf8String SourceStackUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"xyz");
+			Elysium::Core::Template::Text::Utf16String SourceStackUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"xyz");
+			Elysium::Core::Template::Text::Utf32String SourceStackUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"xyz");
+
+			// heap strings
+			Elysium::Core::Template::Text::String SourceHeapCharArray = Elysium::Core::Template::Text::String("this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::WideString SourceHeapWideCharArray = Elysium::Core::Template::Text::WideString(L"this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::Utf8String SourceHeapUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::Utf16String SourceHeapUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::Utf32String SourceHeapUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"this string is too large to fit onto stack");
+			
+			// copy stack string using copy-constructor
+			Elysium::Core::Template::Text::String StackCharArray = Elysium::Core::Template::Text::String(SourceStackCharArray);
+			Elysium::Core::Template::Text::WideString StackWideCharArray = Elysium::Core::Template::Text::WideString(SourceStackWideCharArray);
+			Elysium::Core::Template::Text::Utf8String StackUtf8CharArray = Elysium::Core::Template::Text::Utf8String(SourceStackUtf8CharArray);
+			Elysium::Core::Template::Text::Utf16String StackUtf16CharArray = Elysium::Core::Template::Text::Utf16String(SourceStackUtf16CharArray);
+			Elysium::Core::Template::Text::Utf32String StackUtf32CharArray = Elysium::Core::Template::Text::Utf32String(SourceStackUtf32CharArray);
+
+			Assert::AreEqual(3_ui64, StackCharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackWideCharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackUtf8CharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackUtf16CharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(23_ui64, StackCharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackWideCharArray.GetCapacity());
+			Assert::AreEqual(23_ui64, StackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(5_ui64, StackUtf32CharArray.GetCapacity());
+
+			// copy heap string using copy-constructor
+			Elysium::Core::Template::Text::String HeapCharArray = Elysium::Core::Template::Text::String(SourceHeapCharArray);
+			Elysium::Core::Template::Text::WideString HeapWideCharArray = Elysium::Core::Template::Text::WideString(SourceHeapWideCharArray);
+			Elysium::Core::Template::Text::Utf8String HeapUtf8CharArray = Elysium::Core::Template::Text::Utf8String(SourceHeapUtf8CharArray);
+			Elysium::Core::Template::Text::Utf16String HeapUtf16CharArray = Elysium::Core::Template::Text::Utf16String(SourceHeapUtf16CharArray);
+			Elysium::Core::Template::Text::Utf32String HeapUtf32CharArray = Elysium::Core::Template::Text::Utf32String(SourceHeapUtf32CharArray);
+
+			Assert::AreEqual(42_ui64, HeapCharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapWideCharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapUtf8CharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapUtf16CharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapUtf32CharArray.GetSize());
+
+			Assert::AreEqual(42_ui64, HeapCharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapWideCharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapUtf8CharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapUtf16CharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapUtf32CharArray.GetCapacity());
+
+			// copy stack string to stack string using copy operator
+			Elysium::Core::Template::Text::String TargetStackCharArray = Elysium::Core::Template::Text::String("12345");
+			Elysium::Core::Template::Text::WideString TargetStackWideCharArray = Elysium::Core::Template::Text::WideString(L"12345");
+			Elysium::Core::Template::Text::Utf8String TargetStackUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"12345");
+			Elysium::Core::Template::Text::Utf16String TargetStackUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"12345");
+			Elysium::Core::Template::Text::Utf32String TargetStackUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"12345");
+
+			TargetStackCharArray = SourceStackCharArray;
+			TargetStackWideCharArray = SourceStackWideCharArray;
+			TargetStackUtf8CharArray = SourceStackUtf8CharArray;
+			TargetStackUtf16CharArray = SourceStackUtf16CharArray;
+			TargetStackUtf32CharArray = SourceStackUtf32CharArray;
+
+			Assert::AreEqual(3_ui64, TargetStackCharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackWideCharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackUtf8CharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackUtf16CharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(23_ui64, TargetStackCharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, TargetStackWideCharArray.GetCapacity());
+			Assert::AreEqual(23_ui64, TargetStackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, TargetStackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(5_ui64, TargetStackUtf32CharArray.GetCapacity());
+
+			// copy heap string to stack string using copy operator
+			TargetStackCharArray = HeapCharArray;
+			TargetStackWideCharArray = HeapWideCharArray;
+			TargetStackUtf8CharArray = HeapUtf8CharArray;
+			TargetStackUtf16CharArray = HeapUtf16CharArray;
+			TargetStackUtf32CharArray = HeapUtf32CharArray;
+			
+			Assert::AreEqual(42_ui64, TargetStackCharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackWideCharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackUtf8CharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackUtf16CharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(42_ui64, TargetStackCharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, TargetStackWideCharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, TargetStackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, TargetStackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, TargetStackUtf32CharArray.GetCapacity());
+
+			// copy larger heap string to heap string using copy operator
+			Elysium::Core::Template::Text::String LargerSourceHeapCharArray = Elysium::Core::Template::Text::String("this string is too large to fit onto stack and is larger");
+			Elysium::Core::Template::Text::WideString LargerSourceHeapWideCharArray = Elysium::Core::Template::Text::WideString(L"this string is too large to fit onto stack and is larger");
+			Elysium::Core::Template::Text::Utf8String LargerSourceHeapUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"this string is too large to fit onto stack and is larger");
+			Elysium::Core::Template::Text::Utf16String LargerSourceHeapUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"this string is too large to fit onto stack and is larger");
+			Elysium::Core::Template::Text::Utf32String LargerSourceHeapUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"this string is too large to fit onto stack and is larger");
+
+			TargetStackCharArray = LargerSourceHeapCharArray;
+			TargetStackWideCharArray = LargerSourceHeapWideCharArray;
+			TargetStackUtf8CharArray = LargerSourceHeapUtf8CharArray;
+			TargetStackUtf16CharArray = LargerSourceHeapUtf16CharArray;
+			TargetStackUtf32CharArray = LargerSourceHeapUtf32CharArray;
+
+			Assert::AreEqual(56_ui64, TargetStackCharArray.GetSize());
+			Assert::AreEqual(56_ui64, TargetStackWideCharArray.GetSize());
+			Assert::AreEqual(56_ui64, TargetStackUtf8CharArray.GetSize());
+			Assert::AreEqual(56_ui64, TargetStackUtf16CharArray.GetSize());
+			Assert::AreEqual(56_ui64, TargetStackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(56_ui64, TargetStackCharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackWideCharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackUtf32CharArray.GetCapacity());
+			
+			// copy smaller heap string to heap string using copy operator
+			TargetStackCharArray = SourceHeapCharArray;
+			TargetStackWideCharArray = SourceHeapWideCharArray;
+			TargetStackUtf8CharArray = SourceHeapUtf8CharArray;
+			TargetStackUtf16CharArray = SourceHeapUtf16CharArray;
+			TargetStackUtf32CharArray = SourceHeapUtf32CharArray;
+
+			Assert::AreEqual(42_ui64, TargetStackCharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackWideCharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackUtf8CharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackUtf16CharArray.GetSize());
+			Assert::AreEqual(42_ui64, TargetStackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(56_ui64, TargetStackCharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackWideCharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(56_ui64, TargetStackUtf32CharArray.GetCapacity());
+
+			// copy stack string to heap string using copy operator
+			TargetStackCharArray = SourceStackCharArray;
+			TargetStackWideCharArray = SourceStackWideCharArray;
+			TargetStackUtf8CharArray = SourceStackUtf8CharArray;
+			TargetStackUtf16CharArray = SourceStackUtf16CharArray;
+			TargetStackUtf32CharArray = SourceStackUtf32CharArray;
+
+			Assert::AreEqual(3_ui64, TargetStackCharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackWideCharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackUtf8CharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackUtf16CharArray.GetSize());
+			Assert::AreEqual(3_ui64, TargetStackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(23_ui64, TargetStackCharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, TargetStackWideCharArray.GetCapacity());
+			Assert::AreEqual(23_ui64, TargetStackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, TargetStackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(5_ui64, TargetStackUtf32CharArray.GetCapacity());
+		}
+
+		TEST_METHOD(Moves)
+		{
+			// stack strings
+			Elysium::Core::Template::Text::String SourceStackCharArray = Elysium::Core::Template::Text::String("xyz");
+			Elysium::Core::Template::Text::WideString SourceStackWideCharArray = Elysium::Core::Template::Text::WideString(L"xyz");
+			Elysium::Core::Template::Text::Utf8String SourceStackUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"xyz");
+			Elysium::Core::Template::Text::Utf16String SourceStackUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"xyz");
+			Elysium::Core::Template::Text::Utf32String SourceStackUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"xyz");
+
+			// heap strings
+			Elysium::Core::Template::Text::String SourceHeapCharArray = Elysium::Core::Template::Text::String("this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::WideString SourceHeapWideCharArray = Elysium::Core::Template::Text::WideString(L"this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::Utf8String SourceHeapUtf8CharArray = Elysium::Core::Template::Text::Utf8String(u8"this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::Utf16String SourceHeapUtf16CharArray = Elysium::Core::Template::Text::Utf16String(u"this string is too large to fit onto stack");
+			Elysium::Core::Template::Text::Utf32String SourceHeapUtf32CharArray = Elysium::Core::Template::Text::Utf32String(U"this string is too large to fit onto stack");
+
+			// move stack string using move-constructor
+			Elysium::Core::Template::Text::String StackCharArray = Elysium::Core::Template::Text::String(Elysium::Core::Template::Functional::Move(SourceStackCharArray));
+			Elysium::Core::Template::Text::WideString StackWideCharArray = Elysium::Core::Template::Text::WideString(Elysium::Core::Template::Functional::Move(SourceStackWideCharArray));
+			Elysium::Core::Template::Text::Utf8String StackUtf8CharArray = Elysium::Core::Template::Text::Utf8String(Elysium::Core::Template::Functional::Move(SourceStackUtf8CharArray));
+			Elysium::Core::Template::Text::Utf16String StackUtf16CharArray = Elysium::Core::Template::Text::Utf16String(Elysium::Core::Template::Functional::Move(SourceStackUtf16CharArray));
+			Elysium::Core::Template::Text::Utf32String StackUtf32CharArray = Elysium::Core::Template::Text::Utf32String(Elysium::Core::Template::Functional::Move(SourceStackUtf32CharArray));
+
+			Assert::AreEqual(3_ui64, StackCharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackWideCharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackUtf8CharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackUtf16CharArray.GetSize());
+			Assert::AreEqual(3_ui64, StackUtf32CharArray.GetSize());
+
+			Assert::AreEqual(23_ui64, StackCharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackWideCharArray.GetCapacity());
+			Assert::AreEqual(23_ui64, StackUtf8CharArray.GetCapacity());
+			Assert::AreEqual(11_ui64, StackUtf16CharArray.GetCapacity());
+			Assert::AreEqual(5_ui64, StackUtf32CharArray.GetCapacity());
+
+			// move heap string using move-constructor
+			Elysium::Core::Template::Text::String HeapCharArray = Elysium::Core::Template::Text::String(Elysium::Core::Template::Functional::Move(SourceHeapCharArray));
+			Elysium::Core::Template::Text::WideString HeapWideCharArray = Elysium::Core::Template::Text::WideString(Elysium::Core::Template::Functional::Move(SourceHeapWideCharArray));
+			Elysium::Core::Template::Text::Utf8String HeapUtf8CharArray = Elysium::Core::Template::Text::Utf8String(Elysium::Core::Template::Functional::Move(SourceHeapUtf8CharArray));
+			Elysium::Core::Template::Text::Utf16String HeapUtf16CharArray = Elysium::Core::Template::Text::Utf16String(Elysium::Core::Template::Functional::Move(SourceHeapUtf16CharArray));
+			Elysium::Core::Template::Text::Utf32String HeapUtf32CharArray = Elysium::Core::Template::Text::Utf32String(Elysium::Core::Template::Functional::Move(SourceHeapUtf32CharArray));
+
+			Assert::AreEqual(42_ui64, HeapCharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapWideCharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapUtf8CharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapUtf16CharArray.GetSize());
+			Assert::AreEqual(42_ui64, HeapUtf32CharArray.GetSize());
+
+			Assert::AreEqual(42_ui64, HeapCharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapWideCharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapUtf8CharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapUtf16CharArray.GetCapacity());
+			Assert::AreEqual(42_ui64, HeapUtf32CharArray.GetCapacity());
+
+			// ...
+
+
+
+
+			bool bla = false;
 		}
 	};
 }
