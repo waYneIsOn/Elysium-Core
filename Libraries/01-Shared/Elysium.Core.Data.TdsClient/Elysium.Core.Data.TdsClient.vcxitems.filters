@@ -8,8 +8,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TdsConnectionStringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TdsMessageType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TdsMessageStatus.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TdsConnection.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)TdsConnectionStringBuilder.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TdsConnection.cpp" />
   </ItemGroup>
 </Project>
