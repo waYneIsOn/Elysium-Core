@@ -28,14 +28,19 @@ namespace Elysium::Core::Template::Chrono
     {
 	public:
 		Duration() = delete;
+
 		Duration(const Representation Value);
+
 		Duration(const Duration& Source);
+
 		Duration(Duration&& Right) noexcept;
+
 		~Duration();
-
+	public:
 		Duration& operator=(const Duration& Source);
-		Duration& operator=(Duration&& Right) noexcept;
 
+		Duration& operator=(Duration&& Right) noexcept;
+	public:
 		constexpr const Representation GetCount() const;
 	private:
 		Representation _Value;

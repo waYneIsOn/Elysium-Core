@@ -56,7 +56,7 @@ namespace Elysium::Core::Template::Memory
 		/// Destroys this instance.
 		/// </summary>
 		~DefaultAllocator();
-
+	public:
 		/// <summary>
 		/// 
 		/// </summary>
@@ -70,7 +70,7 @@ namespace Elysium::Core::Template::Memory
 		/// <param name="Right"></param>
 		/// <returns></returns>
 		DefaultAllocator<T>& operator=(DefaultAllocator&& Right) noexcept = delete;
-
+	public:
 		/// <summary>
 		/// Allocates the exact amount of memory required for given number of elements using operator new[].
 		/// This will not initialize the block of memory though!

@@ -71,9 +71,9 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 
 	return Oid(
 		Elysium::Core::Template::Functional::Move(Text::Encoding::ASCII().GetString((const Elysium::Core::byte*)NativeOid->pszOID,
-			Elysium::Core::Template::Text::StringTraits<char>::GetByteLength(NativeOid->pszOID))),
+			Elysium::Core::Template::Text::StringTraits<char>::GetSize(NativeOid->pszOID))),
 		Elysium::Core::Template::Functional::Move(Text::Encoding::UTF16LE().GetString((const Elysium::Core::byte*)NativeOid->pwszName,
-			Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(NativeOid->pwszName)))
+			Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(NativeOid->pwszName)))
 	);
 }
 
@@ -87,9 +87,9 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 
 	return Oid(
 		Elysium::Core::Template::Functional::Move(Text::Encoding::ASCII().GetString((const Elysium::Core::byte*)NativeOid->pszOID,
-			Elysium::Core::Template::Text::StringTraits<char>::GetByteLength(NativeOid->pszOID))),
+			Elysium::Core::Template::Text::StringTraits<char>::GetSize(NativeOid->pszOID))),
 		Elysium::Core::Template::Functional::Move(Text::Encoding::UTF16LE().GetString((const Elysium::Core::byte*)NativeOid->pwszName,
-			Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(NativeOid->pwszName)))
+			Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(NativeOid->pwszName)))
 	);
 }
 

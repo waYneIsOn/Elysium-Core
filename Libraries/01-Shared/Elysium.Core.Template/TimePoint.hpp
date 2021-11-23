@@ -32,14 +32,19 @@ namespace Elysium::Core::Template::Chrono
     {
 	public:
 		TimePoint() = delete;
+
 		TimePoint(const ClockDuration& Duration);
+
 		TimePoint(const TimePoint& Source) = delete;
+
 		TimePoint(TimePoint&& Right) noexcept = delete;
+
 		~TimePoint();
-
+	public:
 		TimePoint& operator=(const TimePoint& Source) = delete;
-		TimePoint& operator=(TimePoint&& Right) noexcept = delete;
 
+		TimePoint& operator=(TimePoint&& Right) noexcept = delete;
+	public:
 		/// <summary>
 		/// 
 		/// </summary>

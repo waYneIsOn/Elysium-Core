@@ -64,7 +64,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetDisplay
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -81,7 +81,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetEnglish
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -115,7 +115,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetNativeN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -132,7 +132,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetThreeLe
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -149,7 +149,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetTwoLett
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else

@@ -55,11 +55,15 @@ namespace Elysium::Core::Template::Chrono
         using TimePoint = TimePoint<SystemClock>;
     public:
         SystemClock() = delete;
-        SystemClock(const SystemClock& Source) = delete;
-        SystemClock(SystemClock&& Right) noexcept = delete;
-        ~SystemClock() = delete;
 
+        SystemClock(const SystemClock& Source) = delete;
+
+        SystemClock(SystemClock&& Right) noexcept = delete;
+
+        ~SystemClock() = delete;
+    public:
         SystemClock& operator=(const SystemClock& Source) = delete;
+
         SystemClock& operator=(SystemClock&& Right) noexcept = delete;
     public:
         inline static constexpr const bool IsSteady = false;

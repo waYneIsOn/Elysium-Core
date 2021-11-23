@@ -103,7 +103,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDispla
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #else
 #error "undefined os"
 #endif
@@ -120,7 +120,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglis
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #else
 #error "undefined os"
 #endif
@@ -137,7 +137,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetName()
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetByteLength(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
 #else
 #error "undefined os"
 #endif

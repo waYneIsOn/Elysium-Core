@@ -27,42 +27,42 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		using ConstCharacter = const C;
-		using ConstPointer = const C*;
+		using ConstCharacterPointer = const C*;
 	public:
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="First"></param>
 		/// <returns></returns>
-		static constexpr const bool GetIsNull(ConstPointer First) noexcept;
+		static constexpr const bool IsNull(ConstCharacterPointer First) noexcept;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="First"></param>
 		/// <returns></returns>
-		static constexpr const bool GetIsEmpty(ConstPointer First) noexcept;
+		static constexpr const bool IsEmpty(ConstCharacterPointer First) noexcept;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="First"></param>
 		/// <returns></returns>
-		static constexpr const bool GetIsNullOrEmpty(ConstPointer First) noexcept;
+		static constexpr const bool IsNullOrEmpty(ConstCharacterPointer First) noexcept;
 
 		/// <summary>
 		/// Returns the number of characters in given string up until the first null-termination character.
 		/// </summary>
 		/// <param name="First"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size GetLength(ConstPointer First) noexcept;
+		static constexpr const Elysium::Core::size GetLength(ConstCharacterPointer First) noexcept;
 
 		/// <summary>
 		/// Returns the number of bytes in given string up until the first null-termination character.
 		/// </summary>
 		/// <param name="First"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size GetByteLength(ConstPointer First) noexcept;
+		static constexpr const Elysium::Core::size GetSize(ConstCharacterPointer First) noexcept;
 
 		/// <summary>
 		/// 
@@ -71,7 +71,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="OtherFirst"></param>
 		/// <param name="Count"></param>
 		/// <returns></returns>
-		static constexpr const int Compare(ConstPointer First, ConstPointer OtherFirst, const Elysium::Core::size Count) noexcept;
+		static constexpr const int Compare(ConstCharacterPointer First, ConstCharacterPointer OtherFirst, const Elysium::Core::size Count) noexcept;
 
 		/// <summary>
 		/// 
@@ -80,29 +80,29 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Count"></param>
 		/// <param name="Length"></param>
 		/// <returns></returns>
-		static constexpr ConstPointer Find(ConstPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept;
+		static constexpr ConstCharacterPointer Find(ConstCharacterPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept;
 	};
 
 	template<Concepts::Character Character>
-	inline constexpr const bool StringTraitsBase<Character>::GetIsNull(ConstPointer First) noexcept
+	inline constexpr const bool StringTraitsBase<Character>::IsNull(ConstCharacterPointer First) noexcept
 	{
 		return First == nullptr;
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr const bool StringTraitsBase<Character>::GetIsEmpty(ConstPointer First) noexcept
+	inline constexpr const bool StringTraitsBase<Character>::IsEmpty(ConstCharacterPointer First) noexcept
 	{
 		return First == nullptr ? false : *First == Elysium::Core::Template::Text::CharacterTraits<Character>::NullTerminationCharacter;
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr const bool StringTraitsBase<Character>::GetIsNullOrEmpty(ConstPointer First) noexcept
+	inline constexpr const bool StringTraitsBase<Character>::IsNullOrEmpty(ConstCharacterPointer First) noexcept
 	{
 		return First == nullptr ? true : *First == Elysium::Core::Template::Text::CharacterTraits<Character>::NullTerminationCharacter;
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr const Elysium::Core::size StringTraitsBase<Character>::GetLength(ConstPointer First) noexcept
+	inline constexpr const Elysium::Core::size StringTraitsBase<Character>::GetLength(ConstCharacterPointer First) noexcept
 	{
 		if (First == nullptr)
 		{
@@ -120,25 +120,25 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr const Elysium::Core::size StringTraitsBase<Character>::GetByteLength(ConstPointer First) noexcept
+	inline constexpr const Elysium::Core::size StringTraitsBase<Character>::GetSize(ConstCharacterPointer First) noexcept
 	{
 		return GetLength(First) * Elysium::Core::Template::Text::CharacterTraits<Character>::MinimumByteLength;
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr const int StringTraitsBase<Character>::Compare(ConstPointer First, ConstPointer OtherFirst, const Elysium::Core::size Count) noexcept
+	inline constexpr const int StringTraitsBase<Character>::Compare(ConstCharacterPointer First, ConstCharacterPointer OtherFirst, const Elysium::Core::size Count) noexcept
 	{
 		return __builtin_memcmp(First, OtherFirst, Count);
 	}
 
 	template<Concepts::Character Character>
-	inline constexpr typename StringTraitsBase<Character>::ConstPointer StringTraitsBase<Character>::Find(ConstPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept
+	inline constexpr typename StringTraitsBase<Character>::ConstCharacterPointer StringTraitsBase<Character>::Find(ConstCharacterPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept
 	{
 		return __builtin_char_memchr(First, Value, Count);
 	}
 
 	template <>
-	inline constexpr StringTraitsBase<char8_t>::ConstPointer StringTraitsBase<char8_t>::Find(ConstPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept
+	inline constexpr StringTraitsBase<char8_t>::ConstCharacterPointer StringTraitsBase<char8_t>::Find(ConstCharacterPointer First, const Elysium::Core::size Count, ConstCharacter Value) noexcept
 	{
 		Elysium::Core::size CopiedCount = Count;
 		for (; 0 < CopiedCount; --CopiedCount, ++First)

@@ -77,9 +77,8 @@ namespace Elysium::Core::Template::Container
 		using BucketNodePointer = LinkedListNode<Entry>*;
 
 		using FIterator = Iterator::HashTableForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
+		//using ConstIterator = Iterator::ConstForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 		/*
-		using ConstIterator = Iterator::ConstForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
-
 		using ReverseIterator = Iterator::BackwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 		using ConstReverseIterator = Iterator::ConstBackwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
 		*/
