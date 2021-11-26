@@ -16,8 +16,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "../Elysium.Core.Template/StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
@@ -275,7 +275,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	Elysium::Core::size i = 0;
 	do
 	{
-		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
+		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
 		if (CurrentProcessName == ProcessName)
 		{
 			i++;
@@ -293,7 +293,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	i = 0;
 	do
 	{
-		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
+		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
 		if (CurrentProcessName == ProcessName)
 		{
 			Processes[i]._ProcessId = ProcessEntry.th32ProcessID;

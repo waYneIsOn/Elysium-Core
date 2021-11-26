@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "CharacterTraits.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text

@@ -12,8 +12,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "../Elysium.Core.Template/StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 Elysium::Core::StringView::StringView()
@@ -21,7 +21,7 @@ Elysium::Core::StringView::StringView()
 { }
 
 Elysium::Core::StringView::StringView(char8_t* Input)
-	: _Length(Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Input)), _Data(Input)
+	: _Length(Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Input)), _Data(Input)
 { }
 
 Elysium::Core::StringView::StringView(char8_t* Input, Elysium::Core::size Length)
@@ -176,20 +176,20 @@ const Elysium::Core::size Elysium::Core::StringView::GetLength() const
 
 const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t Value) const
 {
-	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(_Data, _Length, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - _Data;
 }
 
 const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const
 {
-	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
 
 const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t* Value) const
 {
 	Elysium::Core::size Index = 0;
-	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
@@ -225,7 +225,7 @@ const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t* Valu
 const Elysium::Core::size Elysium::Core::StringView::IndexOf(const char8_t* Value, const Elysium::Core::size StartIndex) const
 {
 	Elysium::Core::size Index = StartIndex;
-	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
@@ -291,7 +291,7 @@ void Elysium::Core::StringView::Split(const char8_t Delimiter, Collections::Temp
 
 void Elysium::Core::StringView::Split(const char8_t* Delimiter, Collections::Template::List<StringView>& Views) const
 {
-	Elysium::Core::size DelimiterLength = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Delimiter);
+	Elysium::Core::size DelimiterLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Delimiter);
 	Elysium::Core::size StartIndex = 0;
 	Elysium::Core::size Length = 0;
 

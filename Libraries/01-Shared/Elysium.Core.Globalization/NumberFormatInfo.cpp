@@ -12,8 +12,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "../Elysium.Core.Template/StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
@@ -109,7 +109,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetC
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -126,7 +126,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetC
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -153,7 +153,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetC
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -192,7 +192,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -209,7 +209,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -226,7 +226,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -248,7 +248,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -265,7 +265,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetN
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -299,7 +299,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 		throw SystemException();
 }
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1; 
 #else
@@ -316,7 +316,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -370,7 +370,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -387,7 +387,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -404,7 +404,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else
@@ -421,7 +421,7 @@ const Elysium::Core::String Elysium::Core::Globalization::NumberFormatInfo::GetP
 		throw SystemException();
 	}
 
-	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(Value));
+	return Elysium::Core::Text::Encoding::UTF16LE().GetString((Elysium::Core::byte*)Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(Value));
 #elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
 #else

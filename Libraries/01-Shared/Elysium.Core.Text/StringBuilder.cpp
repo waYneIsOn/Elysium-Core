@@ -16,8 +16,8 @@
 #include "../Elysium.Core.Template/NumericLimits.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "../Elysium.Core.Template/StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 Elysium::Core::Text::StringBuilder::StringBuilder()
@@ -89,18 +89,18 @@ void Elysium::Core::Text::StringBuilder::Clear()
 }
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value) const
 {
-	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(_Data, _Length, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<const char8_t>(-1) : CharPointer - _Data;
 }
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const
 {
-	const char8_t* CharPointer = Elysium::Core::Template::Text::StringTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
+	const char8_t* CharPointer = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 {
 	Elysium::Core::size Index = 0;
-	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);
@@ -135,7 +135,7 @@ Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * 
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const Elysium::Core::size StartIndex) const
 {
 	Elysium::Core::size Index = StartIndex;
-	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Value);
+	Elysium::Core::size SizeOfValue = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Value);
 	while (true)
 	{
 		Elysium::Core::size CurrentIndex = IndexOf(Value[0], Index);

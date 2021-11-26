@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "CharacterTraits.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text
@@ -168,7 +168,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Allocator>
 	inline StringBase<C, Allocator>::StringBase(ConstCharPointer Value) noexcept
-		: StringBase<C, Allocator>(Value, StringTraits<C>::GetLength(Value))
+		: StringBase<C, Allocator>(Value, CharacterTraits<C>::GetLength(Value))
 	{ }
 
 	template<Concepts::Character C, class Allocator>
@@ -334,7 +334,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Allocator>
 	inline constexpr const bool StringBase<C, Allocator>::IsEmpty(const StringBase& Value)
 	{
-		return StringTraits<C>::IsEmpty(Value.ToCharArray());
+		return CharacterTraits<C>::IsEmpty(Value.ToCharArray());
 	}
 
 	template<Concepts::Character C, class Allocator>

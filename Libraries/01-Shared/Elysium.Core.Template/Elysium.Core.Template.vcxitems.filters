@@ -204,9 +204,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringTraits.hpp">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>

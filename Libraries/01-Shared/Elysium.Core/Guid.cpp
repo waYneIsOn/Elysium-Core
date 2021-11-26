@@ -12,8 +12,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "../Elysium.Core.Template/StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 #ifndef __midl
@@ -109,7 +109,7 @@ Elysium::Core::Guid Elysium::Core::Guid::Parse(const char8_t* Input)
 	}
 
 	byte Data[16];
-	Elysium::Core::size Length = Elysium::Core::Template::Text::StringTraits<char8_t>::GetLength(Input);
+	Elysium::Core::size Length = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Input);
 	switch (Length)
 	{
 	case 32:

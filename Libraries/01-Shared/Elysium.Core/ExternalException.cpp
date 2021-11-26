@@ -9,8 +9,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGTRAITS
-#include "../Elysium.Core.Template/StringTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
@@ -44,6 +44,6 @@ Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException
 	const wchar_t* ErrorMessageW = COMError.ErrorMessage();
 
 	const Elysium::Core::Text::Encoding& WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
-	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], Elysium::Core::Template::Text::StringTraits<wchar_t>::GetSize(ErrorMessageW));
+	return WindowsEncoding.GetString((const byte*)&ErrorMessageW[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(ErrorMessageW));
 }
 #endif

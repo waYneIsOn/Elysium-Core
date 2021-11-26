@@ -19,7 +19,10 @@
 Elysium::Core::Data::TdsClient::TdsConnection::TdsConnection(const TdsVersion Version, const Elysium::Core::String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)
 	: DbConnection(ConnectionString, ConnectionTimeout),
 	_TransportSocket(Net::Sockets::AddressFamily::InterNetwork, Net::Sockets::SocketType::Stream, Net::Sockets::ProtocolType::Tcp)
-{ }
+{
+	_TransportSocket.SetReceiveTimeout(ConnectionTimeout);
+	_TransportSocket.SetSendTimeout(ConnectionTimeout);
+}
 
 Elysium::Core::Data::TdsClient::TdsConnection::~TdsConnection()
 { }
