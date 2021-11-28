@@ -3,9 +3,11 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/AppDomain.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Activator.hpp"
 
 using namespace Elysium::Core;
+using namespace Elysium::Core::Reflection;
 using namespace Elysium::Core::Template::Memory;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

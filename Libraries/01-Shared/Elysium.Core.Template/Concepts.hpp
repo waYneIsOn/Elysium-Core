@@ -32,4 +32,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Pointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_REFERENCE
+#include "Reference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_VALUE
+#include "Value.hpp"
+#endif
+
 #endif

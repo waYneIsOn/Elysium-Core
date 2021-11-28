@@ -15,12 +15,61 @@ namespace UnitTests::Core::Template::Container
 	public:
 		TEST_METHOD(PointerPointer)
 		{
-			Assert::Fail();
+			String Rtf = u8"rtf";
+			String Bmp = u8"bmp";
+			String Dib = u8"dib";
+
+			String Wordpad = u8"wordpad.exe";
+			String Paint = u8"paint.exe";
+
+			HashTable<String*, String*> Instance =
+			{
+				{ &Rtf, &Wordpad },
+				{ &Bmp, &Paint },
+				{ &Dib, &Paint },
+			};
+			
+			Elysium::Core::size i = 0;
+			for (HashTable<String*, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String*, String*>>* Node = *Iterator;
+				KeyValuePair<String*, String*>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()->operator[](0));
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), i);
+			Logger::WriteMessage("\r\n");
 		}
 
 		TEST_METHOD(PointerValue)
 		{
-			Assert::Fail();
+			String Rtf = u8"rtf";
+			String Bmp = u8"bmp";
+			String Dib = u8"dib";
+
+			HashTable<String*, String> Instance =
+			{
+				{ &Rtf, u8"wordpad.exe" },
+				{ &Bmp, u8"paint.exe" },
+				{ &Dib, u8"paint.exe" },
+			};
+
+			Elysium::Core::size i = 0;
+			for (HashTable<String*, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			{
+				LinkedListNode<KeyValuePair<String*, String>>* Node = *Iterator;
+				KeyValuePair<String*, String>& Item = Node->GetItem();
+				Logger::WriteMessage((char*)&Item.GetKey()->operator[](0));
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Item.GetValue()[0]);
+				Logger::WriteMessage("\r\n");
+				i++;
+			}
+			Assert::AreEqual(static_cast<Elysium::Core::size>(3), i);
+			Logger::WriteMessage("\r\n");
 		}
 
 		TEST_METHOD(ValuePointer)
@@ -85,7 +134,9 @@ namespace UnitTests::Core::Template::Container
 		
 		TEST_METHOD(ValueValue)
 		{
+			Elysium::Core::size i = 0;
 			HashTable<String, String> Instance = HashTable<String, String>();
+			
 			const HashTable<String, String>& ConstInstance = Instance;
 			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
@@ -95,7 +146,6 @@ namespace UnitTests::Core::Template::Container
 			Instance.Add(u8"bmp", u8"paint.exe");
 			Instance.Add(u8"dib", u8"paint.exe");
 
-			Elysium::Core::size i = 0;
 			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
@@ -160,7 +210,7 @@ namespace UnitTests::Core::Template::Container
 				Assert::Fail();
 			}
 			Assert::AreEqual(static_cast<Elysium::Core::size>(0), i);
-
+			
 			Instance.Add(u8"123", u8"123.exe");
 			Instance.Add(u8"456", u8"456.exe");
 			Instance.Set(u8"789", u8"789.exe");
@@ -182,8 +232,12 @@ namespace UnitTests::Core::Template::Container
 			String& AssociatedValue = Instance[u8"123"];
 			AssertExtended::AreEqual(u8"123.exe", AssociatedValue);
 
-			const String& ConstAssociatedValue = ConstInstance[u8"456"];
-			AssertExtended::AreEqual(u8"456.exe", ConstAssociatedValue);
+			//const String& ConstAssociatedValue = ConstInstance[u8"456"];
+			//AssertExtended::AreEqual(u8"456.exe", ConstAssociatedValue);
+
+			// ...
+			//Instance.Set(u8"025", u8"025.exe");
+			//Instance.Remove(u8"789");
 		}
 	};
 }

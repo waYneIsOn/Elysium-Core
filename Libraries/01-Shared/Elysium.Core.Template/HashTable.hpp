@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_OBJECT
+#include "Object.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "InitializerList.hpp"
 #endif
@@ -106,6 +110,10 @@ namespace Elysium::Core::Template::Container
 		void Set(const TKey& Key, const TValue& Value);
 
 		void Add(const TKey& Key, const TValue& Value);
+
+		void Remove(const TKey& Key);
+
+		void Remove(const TKey& Key, TValue& Value);
 
 		void Clear();
 	public:
@@ -229,7 +237,7 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline TValue& HashTable<TKey, TValue, KeyCompare, Allocator>::operator[](const TKey& Key)
 	{
-		const Elysium::Core::size HashCode = Key.GetHashCode();
+		const Elysium::Core::size HashCode = Object::GetHashCode(Key);
 		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
 		const BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
@@ -247,9 +255,9 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline const TValue& HashTable<TKey, TValue, KeyCompare, Allocator>::operator[](const TKey& Key) const
 	{
-		Elysium::Core::size HashCode = Key.GetHashCode();
-		Elysium::Core::size TargetBucketIndex = HashCode % _Length;
-		BucketReference TargetBucket = _Buckets[TargetBucketIndex];
+		const Elysium::Core::size HashCode = Object::GetHashCode(Key);
+		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		const BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
 		Entry* ExistingItem = FindEntry(Node, Key);
@@ -272,6 +280,18 @@ namespace Elysium::Core::Template::Container
 	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Add(const TKey& Key, const TValue& Value)
 	{
 		Insert(Key, Value, true);
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Remove(const TKey& Key)
+	{
+		throw 1;
+	}
+
+	template<class TKey, class TValue, class KeyCompare, class Allocator>
+	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Remove(const TKey& Key, TValue& Value)
+	{
+		throw 1;
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
@@ -364,8 +384,8 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Insert(const TKey& Key, const TValue& Value, const bool Add)
 	{
-		Elysium::Core::size HashCode = Key.GetHashCode();
-		Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		const Elysium::Core::size HashCode = Object::GetHashCode(Key);
+		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
 		BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();

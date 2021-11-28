@@ -154,6 +154,29 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsSame<void, void>());
 		}
 
+		TEST_METHOD(IsValue)
+		{
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsValue<Elysium::Core::uint8_t>());
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsValue<const Elysium::Core::uint8_t>());
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsValue<volatile Elysium::Core::uint8_t>());
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsValue<const volatile Elysium::Core::uint8_t>());
+
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<Elysium::Core::uint8_t&>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<const Elysium::Core::uint8_t&>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<volatile Elysium::Core::uint8_t&>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<const volatile Elysium::Core::uint8_t&>());
+
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<Elysium::Core::uint8_t&&>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<const Elysium::Core::uint8_t&&>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<volatile Elysium::Core::uint8_t&&>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<const volatile Elysium::Core::uint8_t&&>());
+
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<Elysium::Core::uint8_t*>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<const Elysium::Core::uint8_t*>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<volatile Elysium::Core::uint8_t*>());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsValue<const volatile Elysium::Core::uint8_t*>());
+		}
+
 		TEST_METHOD(IsVoid)
 		{
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsVoid<Elysium::Core::uint8_t>());

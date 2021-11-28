@@ -38,6 +38,9 @@ namespace Elysium::Core::Template::Memory
 
 		template <class T, class ...Args>
 		static T CreateInstance(Args... Arguments);
+
+		template <class T>
+		static T CreateInstance(const Elysium::Core::Reflection::Type& Type);
 	};
 
 	template<class T>
@@ -50,6 +53,12 @@ namespace Elysium::Core::Template::Memory
 	inline T Activator::CreateInstance(Args... Arguments)
 	{
 		return T(Arguments...);
+	}
+
+	template<class T>
+	inline T Activator::CreateInstance(const Elysium::Core::Reflection::Type& Type)
+	{
+		throw 1;
 	}
 }
 #endif

@@ -66,9 +66,6 @@ namespace Elysium::Core
 		Object& operator=(Object&& Right) noexcept = delete;
 		
 		template <class T>
-		static const Elysium::Core::int32_t GetHashCode(const T Value);
-
-		template <class T>
 		static const Elysium::Core::Reflection::Type& GetType();
 
 		template <class T>
@@ -77,60 +74,6 @@ namespace Elysium::Core
 		template <class T>
 		static const Elysium::Core::String ToString(const T Value);
 	};
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::int8_t>(const Elysium::Core::int8_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::int16_t>(const Elysium::Core::int16_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::int32_t>(const Elysium::Core::int32_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::int64_t>(const Elysium::Core::int64_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::uint8_t>(const Elysium::Core::uint8_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::uint16_t>(const Elysium::Core::uint16_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::uint32_t>(const Elysium::Core::uint32_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<>
-	inline const Elysium::Core::int32_t Object::GetHashCode<Elysium::Core::uint64_t>(const Elysium::Core::uint64_t Value)
-	{
-		return static_cast<Elysium::Core::int32_t>(Value);
-	}
-
-	template<class T>
-	inline const Elysium::Core::int32_t Object::GetHashCode(const T Value)
-	{
-		return Value.GetHashCode();
-	}
 
 	template<class T>
 	inline const Elysium::Core::Reflection::Type& Object::GetType()
