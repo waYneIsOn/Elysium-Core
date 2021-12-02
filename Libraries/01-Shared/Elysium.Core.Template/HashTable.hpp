@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
+#include "Hashable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
 #include "Array.hpp"
 #endif
@@ -66,6 +70,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Container
 {
+	// template <Concept::Hashable TKey, ...>
+
 	template <class TKey, class TValue, class KeyCompare = Operators::Less<TKey>, 
 		class Allocator = Memory::DefaultAllocator<LinkedList<KeyValuePair<TKey, TValue>>>>
 	class HashTable final

@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDLEFTVALUEREFERENCE
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDLEFTVALUEREFERENCE
 #include "AddLeftValueReference.hpp"
 #endif
 
@@ -24,10 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    struct IsMoveAssignable : IntegralConstant<bool, __is_assignable(AddLeftValueReferenceType<T>, T)>
-    { };
-    
+    inline constexpr bool IsMoveAssignableValue = __is_assignable(Functional::AddLeftValueReferenceType<T>, T);
+
     template <class T>
-    inline constexpr bool IsMoveAssignableValue = __is_assignable(AddLeftValueReferenceType<T>, T);
+    struct IsMoveAssignable : IntegralConstant<bool, __is_assignable(Functional::AddLeftValueReferenceType<T>, T)>
+    { };
 }
 #endif

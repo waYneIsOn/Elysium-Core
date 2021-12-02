@@ -12,8 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_BYTE
+#include "../Elysium.Core/Byte.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
@@ -89,7 +93,7 @@ namespace Elysium::Core::Template::Text
 
 		const Elysium::Core::size GetCapacity() const;
 	public:
-		//const Elysium::Core::size GetHashCode() const;
+		constexpr Elysium::Core::size GetHashCode() const;
 
 		StringBase<C, Allocator>::CharPointer ToCharArray();
 
@@ -347,6 +351,27 @@ namespace Elysium::Core::Template::Text
 	inline const Elysium::Core::size StringBase<C, Allocator>::GetCapacity() const
 	{
 		return IsHeapAllocated() ? _InternalString._Heap.GetCapacity() : MaximumByteSizeOnStack / sizeof(C);
+	}
+
+	template<Concepts::Character C, class Allocator>
+	inline constexpr Elysium::Core::size StringBase<C, Allocator>::GetHashCode() const
+	{	// code below should work similar to std::hash<std::u8string>()(_Data);
+		Elysium::Core::size Hash = 14695981039346656037ULL;
+		Elysium::Core::size Size = GetSize();
+
+		if (Size == 0)
+		{
+			return Hash;
+		}
+
+		ConstCharPointer CurrentChar = ToCharArray();
+		for (Elysium::Core::size i = 0; i < Size; i++)
+		{
+			Hash ^= static_cast<Elysium::Core::size>(CurrentChar[i]);
+			Hash *= 1099511628211ULL;
+		}
+
+		return Hash;
 	}
 
 	template<Concepts::Character C, class Allocator>

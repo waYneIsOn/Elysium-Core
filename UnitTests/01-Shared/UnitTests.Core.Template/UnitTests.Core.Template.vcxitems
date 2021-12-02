@@ -24,6 +24,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LinkedListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StackArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VectorTests.cpp" />

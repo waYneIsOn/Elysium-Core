@@ -13,6 +13,14 @@ namespace UnitTests
 	TEST_CLASS(PlatformIndependentTest)
 	{
 	public:
+		TEST_METHOD(AlignmentComparison)
+		{
+			Assert::AreEqual(static_cast <Elysium::Core::size>(1), alignof(Elysium::Core::uint8_t));
+			Assert::AreEqual(static_cast <Elysium::Core::size>(2), alignof(Elysium::Core::uint16_t));
+			Assert::AreEqual(static_cast <Elysium::Core::size>(4), alignof(Elysium::Core::uint32_t));
+			Assert::AreEqual(static_cast <Elysium::Core::size>(8), alignof(Elysium::Core::uint64_t));
+		}
+
 		TEST_METHOD(TypeComparison)
 		{
 			Assert::AreEqual(sizeof(int), sizeof(long));

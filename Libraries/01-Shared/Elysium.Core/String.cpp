@@ -204,7 +204,7 @@ Elysium::Core::String::ConstCharacterReference Elysium::Core::String::operator[]
 	return _Data[Index];
 }
 
-const Elysium::Core::size Elysium::Core::String::GetHashCode() const
+Elysium::Core::size Elysium::Core::String::GetHashCode() const
 {	// code below should work similar to std::hash<std::u8string>()(_Data);
 	Elysium::Core::size Hash = 14695981039346656037ULL;
 	if (_Length == 0)

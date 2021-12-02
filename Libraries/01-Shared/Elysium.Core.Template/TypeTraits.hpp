@@ -12,30 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDCONSTANT
-#include "AddConstant.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDCONSTANTVOLATILE
-#include "AddConstantVolatile.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDLEFTVALUEREFERENCE
-#include "AddLeftValueReference.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDREFERENCE
-#include "AddReference.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ADDRIGHTVALUEREFERENCE
-#include "AddRightValueReference.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOLATILE
-#include "AddVolatile.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CONDITIONAL
 #include "Conditional.hpp"
 #endif
@@ -94,6 +70,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGRAL
 #include "IsIntegral.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMEMBERFUNCTIONPOINTER
+#include "IsMemberFunctionPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVEASSIGNABLE

@@ -1,15 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -95,16 +86,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveAssignable.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddLeftValueReference.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddReference.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VoidType.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddRightValueReference.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp">
@@ -321,6 +303,36 @@
       <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reference.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddLeftValueReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddRightValueReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SameAs.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsMemberFunctionPointer.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
   </ItemGroup>

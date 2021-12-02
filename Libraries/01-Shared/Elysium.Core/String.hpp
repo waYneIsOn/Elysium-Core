@@ -68,7 +68,7 @@ namespace Elysium::Core
 		CharacterReference operator[](const Elysium::Core::size Index);
 		ConstCharacterReference operator[](const Elysium::Core::size Index) const;
 
-		const Elysium::Core::size GetHashCode() const;
+		Elysium::Core::size GetHashCode() const;
 		const Elysium::Core::size GetLength() const;
 		
 		const Elysium::Core::size IndexOf(ConstCharacter Value) const;

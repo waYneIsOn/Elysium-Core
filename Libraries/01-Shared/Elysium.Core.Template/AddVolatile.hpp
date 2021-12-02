@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOLATILE
-#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOLATILE
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDVOLATILE
+#define ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDVOLATILE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsVolatile.hpp"
 #endif
 
-namespace Elysium::Core::Template::TypeTraits
+namespace Elysium::Core::Template::Functional
 {
     template <class T>
     struct AddVolatile

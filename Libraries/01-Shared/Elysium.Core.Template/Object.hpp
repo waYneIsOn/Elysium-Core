@@ -16,16 +16,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASMETHOD
+#include "HasMethod.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
+#include "Integer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #include "Pointer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_REFERENCE
-#include "Reference.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_VALUE
 #include "Value.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container
@@ -45,38 +53,32 @@ namespace Elysium::Core::Template::Container
 
 		Object& operator=(Object&& Right) noexcept = delete;
 	public:
-		template <Concepts::Pointer T>
-		static Elysium::Core::size GetHashCode(const T Key);
+		template <class T> requires Concepts::Integer<T>
+		static constexpr Elysium::Core::size GetHashCode(const T Key);
 		
-		template <Concepts::Reference T>
-		static Elysium::Core::size GetHashCode(const T Key);
+		template <class T> requires Concepts::HasMethod<T, Elysium::Core::size>
+		static constexpr Elysium::Core::size GetHashCode(const T& Key);
 		
-		template <Concepts::Value T>
-		static Elysium::Core::size GetHashCode(const T Key);
+		template <class T> requires Concepts::Pointer<T>
+		static constexpr Elysium::Core::size GetHashCode(const T Key);
 	};
 
-	template<Concepts::Pointer T>
-	inline Elysium::Core::size Object::GetHashCode(const T Key)
-	{
-		return Key->GetHashCode();
-	}
-	
-	template<Concepts::Reference T>
-	inline Elysium::Core::size Object::GetHashCode(const T Key)
-	{
-		return Key.GetHashCode();
-	}
-
-	template<Concepts::Value T>
-	inline Elysium::Core::size Object::GetHashCode(const T Key)
-	{
-		return Key.GetHashCode();
-	}
-
-	template<>
-	inline Elysium::Core::size Object::GetHashCode<Elysium::Core::uint8_t>(const Elysium::Core::uint8_t Key)
+	template<class T> requires Concepts::Integer<T>
+	inline constexpr Elysium::Core::size Object::GetHashCode(const T Key)
 	{
 		return static_cast<Elysium::Core::size>(Key);
+	}
+	
+	template<class T> requires Concepts::HasMethod<T, Elysium::Core::size>
+	inline constexpr Elysium::Core::size Object::GetHashCode(const T& Key)
+	{
+		return Key.GetHashCode();
+	}
+	
+	template<class T> requires Concepts::Pointer<T>
+	inline constexpr Elysium::Core::size Object::GetHashCode(const T Key)
+	{
+		return GetHashCode(*Key);
 	}
 }
 #endif

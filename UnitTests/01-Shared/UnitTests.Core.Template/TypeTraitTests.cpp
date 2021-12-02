@@ -102,6 +102,19 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsFunction<decltype(UnitTests::Core::Template::TypeTraits::SomeFunction)>::Value);
 		}
 
+		TEST_METHOD(IsMemberFunctionPointer)
+		{
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<TypeTraitTests>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<decltype(SomeFunction)>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<decltype(&SomeFunction)>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<decltype(StaticMethod)>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<decltype(&StaticMethod)>);
+
+			//Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<&TypeTraitTests::InstanceMethod>);
+			//Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<decltype(TypeTraitTests::InstanceMethod)>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsMemberFunctionPointerValue<decltype(&TypeTraitTests::InstanceMethod)>);
+		}
+
 		TEST_METHOD(IsNullPointer)
 		{
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsNullPointer<Elysium::Core::uint8_t>());

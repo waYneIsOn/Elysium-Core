@@ -12,6 +12,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDCONSTANT
+#include "AddConstant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDCONSTANTVOLATILE
+#include "AddConstantVolatile.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDLEFTVALUEREFERENCE
+#include "AddLeftValueReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDREFERENCE
+#include "AddReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDRIGHTVALUEREFERENCE
+#include "AddRightValueReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDVOLATILE
+#include "AddVolatile.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_DELEGATE
 #include "Delegate.hpp"
 #endif
