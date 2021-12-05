@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IntegralConstant.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INVOKERESULT
+#include "InvokeResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISANYOF
 #include "IsAnyOf.hpp"
 #endif
