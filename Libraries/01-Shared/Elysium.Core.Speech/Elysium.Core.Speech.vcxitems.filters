@@ -13,5 +13,31 @@
       <Filter>Synthesis</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerState.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerEmphasis.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
