@@ -121,8 +121,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Web", "Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems", "{B8FD36BF-ECB1-433F-A981-47834D8A65AB}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Primitives", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems", "{0A65E452-28EA-4CB0-9691-ED819EF56D96}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Algorithms", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems", "{96932FCB-7D28-4130-90F2-9CC5216C7540}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.X509Certificates", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems", "{0BD00C32-9322-44BC-BDE1-9C6F8C1818DA}"
@@ -169,11 +167,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - macOS", "05 - macOS", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - macOS", "05 - macOS", "{DEF2F373-3928-4BD1-A40C-2802CC8BD7B5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Speech", "Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems", "{11D14E12-794F-4621-BC39-28EE90471599}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Speech", "Libraries\02-Windows\Elysium.Core.Speech\Elysium.Core.Speech.vcxproj", "{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{0a65e452-28ea-4cb0-9691-ed819ef56d96}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems*{01f7fcdf-e4f2-4c24-8d78-79d9e0ea35e6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems*{0bd00c32-9322-44bc-bde1-9c6f8c1818da}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{10f92d9c-832e-4ddd-b353-f3d89548cce6}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems*{11d14e12-794f-4621-bc39-28ee90471599}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{1ae389e0-479e-43d0-9299-77821b53db54}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{21ad6d88-6952-4b3b-b7c6-64a2644a2881}*SharedItemsImports = 9
@@ -182,6 +185,8 @@ Global
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{328bc640-06c0-47c1-8091-fe3b2c191222}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{32cecf97-4ffe-4e20-abc3-0093563ae62f}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Diagnostics\Elysium.Core.Diagnostics.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
@@ -198,6 +203,12 @@ Global
 		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{5ddbd666-d500-47d8-864f-950dcb77657a}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{61234faf-2bbf-4e5f-93e2-0eb2fe241580}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{61234faf-2bbf-4e5f-93e2-0eb2fe241580}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems*{6a52f036-6569-4db6-bad5-d50ff58f39ee}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems*{7101efb4-615b-4d59-9334-2a2694ca6e1d}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{72c118aa-b5cd-484f-ae38-5ed19ce85580}*SharedItemsImports = 9
@@ -238,7 +249,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Pkcs\Elysium.Core.Security.Cryptography.Pkcs.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
-		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Primitives\Elysium.Core.Security.Cryptography.Primitives.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.X509Certificates\Elysium.Core.Security.Cryptography.X509Certificates.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{ff6b7d0c-4c97-415a-b5b6-d0c21e6b50cf}*SharedItemsImports = 9
@@ -538,6 +548,18 @@ Global
 		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x64.Build.0 = Release|x64
 		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x86.ActiveCfg = Release|Win32
 		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x86.Build.0 = Release|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|ARM.ActiveCfg = Debug|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|x64.ActiveCfg = Debug|x64
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|x64.Build.0 = Debug|x64
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|x86.Build.0 = Debug|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|ARM.ActiveCfg = Release|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|ARM64.ActiveCfg = Release|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x64.ActiveCfg = Release|x64
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x64.Build.0 = Release|x64
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x86.ActiveCfg = Release|Win32
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -598,7 +620,6 @@ Global
 		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{FA0B07A3-7128-43A4-A62A-94F398EF37E4} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{B8FD36BF-ECB1-433F-A981-47834D8A65AB} = {8C483853-54B5-40FB-B14B-28383747B06B}
-		{0A65E452-28EA-4CB0-9691-ED819EF56D96} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{96932FCB-7D28-4130-90F2-9CC5216C7540} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{0BD00C32-9322-44BC-BDE1-9C6F8C1818DA} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{72C118AA-B5CD-484F-AE38-5ED19CE85580} = {8C483853-54B5-40FB-B14B-28383747B06B}
@@ -622,6 +643,8 @@ Global
 		{72D9613F-3C68-404E-849B-3FC0F122F7CC} = {78F0BA9C-9BC7-4779-9573-4AAFE2353DA9}
 		{A0D98AAD-EA46-4E95-9EAE-09A98AD8FF63} = {C66483A0-240C-4223-945E-E3AFD745C569}
 		{DEF2F373-3928-4BD1-A40C-2802CC8BD7B5} = {85AB4BBD-CEB5-4CD9-AEE8-AB25EA6DB9B7}
+		{11D14E12-794F-4621-BC39-28EE90471599} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6} = {1030673B-B627-44FE-A2AE-327B6146535E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

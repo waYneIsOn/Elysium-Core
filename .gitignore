@@ -54,6 +54,10 @@
 /Libraries/02-Windows/Elysium.Core.Security/Debugbin
 /Libraries/02-Windows/Elysium.Core.Security/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.Speech/Debug
+/Libraries/02-Windows/Elysium.Core.Speech/Debugbin
+/Libraries/02-Windows/Elysium.Core.Speech/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debug
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Debugbin
 /Libraries/02-Windows/Elysium.Core.ServiceProcess/Releasebin

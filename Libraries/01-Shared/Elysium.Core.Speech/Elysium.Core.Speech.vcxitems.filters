@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Synthesis">
+      <UniqueIdentifier>{7f654fe3-75c6-47dd-a12f-7a6705baaca7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VoiceGender.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+  </ItemGroup>
+</Project>
