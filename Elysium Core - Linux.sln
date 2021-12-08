@@ -97,6 +97,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Template", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Speech", "Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems", "{11D14E12-794F-4621-BC39-28EE90471599}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Speech", "UnitTests\01-Shared\UnitTests.Core.Speech\UnitTests.Core.Speech.vcxitems", "{7F0BBB62-BB87-4E71-84FA-BA711F06251A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -155,6 +157,7 @@ Global
 		{F52A3C96-76E1-45A4-A93C-C997DC583E91} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 		{21AD6D88-6952-4B3B-B7C6-64A2644A2881} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 		{11D14E12-794F-4621-BC39-28EE90471599} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{7F0BBB62-BB87-4E71-84FA-BA711F06251A} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

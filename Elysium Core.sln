@@ -149,13 +149,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Globalization"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Reflection", "UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems", "{5DDBD666-D500-47D8-864F-950DCB77657A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Reflection", "UnitTests\02-Windows\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxproj", "{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Template", "Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems", "{7101EFB4-615B-4D59-9334-2A2694CA6E1D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.IO", "UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems", "{F52A3C96-76E1-45A4-A93C-C997DC583E91}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.IO", "UnitTests\02-Windows\UnitTests.Core.IO\UnitTests.Core.IO.vcxproj", "{C930BB14-45FB-4CE8-81D1-59AB83126FD5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Template", "UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems", "{21AD6D88-6952-4B3B-B7C6-64A2644A2881}"
 EndProject
@@ -171,6 +167,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Speech", "Libr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Speech", "Libraries\02-Windows\Elysium.Core.Speech\Elysium.Core.Speech.vcxproj", "{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Speech", "UnitTests\01-Shared\UnitTests.Core.Speech\UnitTests.Core.Speech.vcxitems", "{7F0BBB62-BB87-4E71-84FA-BA711F06251A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.Speech", "UnitTests\02-Windows\UnitTests.Core.Speech\UnitTests.Core.Speech.vcxproj", "{274752B9-444B-4C95-848F-6BDB64ECCF8B}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems*{01f7fcdf-e4f2-4c24-8d78-79d9e0ea35e6}*SharedItemsImports = 4
@@ -180,6 +180,8 @@ Global
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{1ae389e0-479e-43d0-9299-77821b53db54}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{21ad6d88-6952-4b3b-b7c6-64a2644a2881}*SharedItemsImports = 9
+		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{274752b9-444b-4c95-848f-6bdb64eccf8b}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTests.Core.Speech\UnitTests.Core.Speech.vcxitems*{274752b9-444b-4c95-848f-6bdb64eccf8b}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{275d07c1-a1bf-46db-9b7f-3c135aa74ee3}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{2e31205a-3fcd-45b6-a9a1-329204ceb079}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{328bc640-06c0-47c1-8091-fe3b2c191222}*SharedItemsImports = 9
@@ -201,8 +203,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.Text\Elysium.Core.Text.vcxitems*{4557bf60-87a8-49d3-8abc-8642129f5a91}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{5a9d7191-9b6a-4c60-bdd1-8791ee028e0d}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{5ddbd666-d500-47d8-864f-950dcb77657a}*SharedItemsImports = 9
-		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{61234faf-2bbf-4e5f-93e2-0eb2fe241580}*SharedItemsImports = 4
-		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{61234faf-2bbf-4e5f-93e2-0eb2fe241580}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Reflection\Elysium.Core.Reflection.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems*{67b560e3-8508-4638-93a4-2ae53416733c}*SharedItemsImports = 4
@@ -215,6 +215,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems*{74fbb0fc-33b2-4419-9c86-5f7511eea181}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Drawing\Elysium.Core.Drawing.vcxitems*{7669cb16-51a8-4fa1-8d54-36aff69a2754}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{7d30fe61-9249-4556-b392-29563d82e150}*SharedItemsImports = 4
+		UnitTests\01-Shared\UnitTests.Core.Speech\UnitTests.Core.Speech.vcxitems*{7f0bbb62-bb87-4e71-84fa-ba711f06251a}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{7f54a7d9-3259-424a-8713-07095e9a8f44}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems*{81bc69ac-724d-4a7f-ae92-08b66d25d0bf}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{8bbdea16-0960-479d-941d-fe662e7740e8}*SharedItemsImports = 9
@@ -236,7 +237,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{b7b28110-f6fa-4554-b115-bae4337debc2}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems*{b8fd36bf-ecb1-433f-a981-47834d8a65ab}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{be1492a2-fd64-4dda-8ffd-7433f3d78eb6}*SharedItemsImports = 4
-		UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems*{c930bb14-45fb-4ce8-81d1-59ab83126fd5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1232826-d63b-4395-b204-f43d442c207e}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO.Ports\Elysium.Core.IO.Ports.vcxitems*{d43640fc-6fbe-4503-9fea-4128b67190b5}*SharedItemsImports = 4
@@ -524,30 +524,6 @@ Global
 		{8ED0C3E4-F5B9-4E85-A3E7-682A12521E93}.Release|x64.Build.0 = Release|x64
 		{8ED0C3E4-F5B9-4E85-A3E7-682A12521E93}.Release|x86.ActiveCfg = Release|Win32
 		{8ED0C3E4-F5B9-4E85-A3E7-682A12521E93}.Release|x86.Build.0 = Release|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Debug|ARM.ActiveCfg = Debug|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Debug|ARM64.ActiveCfg = Debug|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Debug|x64.ActiveCfg = Debug|x64
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Debug|x64.Build.0 = Debug|x64
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Debug|x86.ActiveCfg = Debug|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Debug|x86.Build.0 = Debug|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Release|ARM.ActiveCfg = Release|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Release|ARM64.ActiveCfg = Release|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Release|x64.ActiveCfg = Release|x64
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Release|x64.Build.0 = Release|x64
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Release|x86.ActiveCfg = Release|Win32
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580}.Release|x86.Build.0 = Release|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Debug|ARM.ActiveCfg = Debug|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Debug|ARM64.ActiveCfg = Debug|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Debug|x64.ActiveCfg = Debug|x64
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Debug|x64.Build.0 = Debug|x64
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Debug|x86.ActiveCfg = Debug|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Debug|x86.Build.0 = Debug|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|ARM.ActiveCfg = Release|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|ARM64.ActiveCfg = Release|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x64.ActiveCfg = Release|x64
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x64.Build.0 = Release|x64
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x86.ActiveCfg = Release|Win32
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5}.Release|x86.Build.0 = Release|Win32
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|ARM.ActiveCfg = Debug|Win32
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|ARM64.ActiveCfg = Debug|Win32
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Debug|x64.ActiveCfg = Debug|x64
@@ -560,6 +536,18 @@ Global
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x64.Build.0 = Release|x64
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x86.ActiveCfg = Release|Win32
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6}.Release|x86.Build.0 = Release|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Debug|ARM.ActiveCfg = Debug|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Debug|x64.ActiveCfg = Debug|x64
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Debug|x64.Build.0 = Debug|x64
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Debug|x86.ActiveCfg = Debug|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Debug|x86.Build.0 = Debug|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Release|ARM.ActiveCfg = Release|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Release|ARM64.ActiveCfg = Release|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Release|x64.ActiveCfg = Release|x64
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Release|x64.Build.0 = Release|x64
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Release|x86.ActiveCfg = Release|Win32
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -634,10 +622,8 @@ Global
 		{B0C1C740-4D18-4393-AB24-C7C93A3BDE64} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{B3021F5D-6BBA-449C-9742-38D64FC3854E} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{5DDBD666-D500-47D8-864F-950DCB77657A} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
-		{61234FAF-2BBF-4E5F-93E2-0EB2FE241580} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{7101EFB4-615B-4D59-9334-2A2694CA6E1D} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{F52A3C96-76E1-45A4-A93C-C997DC583E91} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
-		{C930BB14-45FB-4CE8-81D1-59AB83126FD5} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{21AD6D88-6952-4B3B-B7C6-64A2644A2881} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 		{99F453AF-57EE-481F-B707-CE395B18C29B} = {E1BE999E-098C-4E1C-AA12-CD2F62312AD8}
 		{72D9613F-3C68-404E-849B-3FC0F122F7CC} = {78F0BA9C-9BC7-4779-9573-4AAFE2353DA9}
@@ -645,6 +631,8 @@ Global
 		{DEF2F373-3928-4BD1-A40C-2802CC8BD7B5} = {85AB4BBD-CEB5-4CD9-AEE8-AB25EA6DB9B7}
 		{11D14E12-794F-4621-BC39-28EE90471599} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{01F7FCDF-E4F2-4C24-8D78-79D9E0EA35E6} = {1030673B-B627-44FE-A2AE-327B6146535E}
+		{7F0BBB62-BB87-4E71-84FA-BA711F06251A} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{274752B9-444B-4C95-848F-6BDB64ECCF8B} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

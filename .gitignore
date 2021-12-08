@@ -90,6 +90,10 @@
 /UnitTests/02-Windows/UnitTests.Core.Security/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Security/Releasebin
 
+/UnitTests/02-Windows/UnitTests.Core.Speech/Debug
+/UnitTests/02-Windows/UnitTests.Core.Speech/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.Speech/Releasebin
+
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Debug
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Releasebin
