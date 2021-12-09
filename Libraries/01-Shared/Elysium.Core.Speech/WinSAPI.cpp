@@ -3,7 +3,6 @@
 #if defined ELYSIUM_CORE_OS_WINDOWS
 
 #ifndef __ATLBASE_H__
-#define _ATL_APARTMENT_THREADED
 #include <atlbase.h>
 #endif
 
@@ -13,14 +12,16 @@
 
 void Elysium::Core::Speech::Internal::WinSAPI::Initialize()
 {
-	if (FAILED(CoInitialize(NULL)))
+	/*
+	if (FAILED(CoInitializeEx(NULL, COINIT_APARTMENTTHREADED)))
 	{
 		return;
 	}
+	*/
 }
 
 void Elysium::Core::Speech::Internal::WinSAPI::Shutdown()
 {
-	CoUninitialize();
+	//CoUninitialize();
 }
 #endif

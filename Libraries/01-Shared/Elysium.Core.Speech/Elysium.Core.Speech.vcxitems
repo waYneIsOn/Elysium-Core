@@ -23,12 +23,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceGender.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)WinSAPI.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)WinSAPI.cpp" />
   </ItemGroup>
 </Project>

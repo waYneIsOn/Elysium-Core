@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
 #endif
@@ -33,6 +37,7 @@ namespace Elysium::Core::Speech::Synthesis
 	class ELYSIUM_CORE_SPEECH_API VoiceInfo final
 	{
 		friend class InstalledVoice;
+		friend class SpeechSynthesizer;
 	private:
 		VoiceInfo();
 	public:

@@ -4,9 +4,6 @@
     <Filter Include="Synthesis">
       <UniqueIdentifier>{7f654fe3-75c6-47dd-a12f-7a6705baaca7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Internal">
-      <UniqueIdentifier>{9359bb47-f031-4126-bdb3-ebf9d20e1c61}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp">
@@ -31,9 +28,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)WinSAPI.hpp">
-      <Filter>Internal</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -44,9 +38,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp">
       <Filter>Synthesis</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)WinSAPI.cpp">
-      <Filter>Internal</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
