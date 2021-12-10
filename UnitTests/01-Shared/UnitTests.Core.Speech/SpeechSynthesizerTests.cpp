@@ -10,7 +10,7 @@ using namespace Elysium::Core::Speech::Synthesis;
 using namespace Elysium::Core::Template::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Reflection
+namespace UnitTests::Core::Speech
 {
 	TEST_CLASS(SpeechSynthesizerTests)
 	{
@@ -62,6 +62,19 @@ namespace UnitTests::Core::Reflection
 			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5);
 		}
 
+		TEST_METHOD(SpeakEnglishAsync)
+		{
+			Assert::Fail();
+			/*
+			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			
+			DateTime Start = DateTime::Now();
+			Synthesizer.SpeakAsync(u8"This is a simple english sentence taking a bit over five seconds to pronounce.");
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5);
+			*/
+		}
+
 		TEST_METHOD(SpeakGerman)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
@@ -87,6 +100,19 @@ namespace UnitTests::Core::Reflection
 			Synthesizer.SpeakSsml(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 3);
+		}
+
+		TEST_METHOD(SpeakSsmlAsync)
+		{
+			Assert::Fail();
+			/*
+			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+
+			DateTime Start = DateTime::Now();
+			Synthesizer.SpeakSsmlAsync(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 3);
+			*/
 		}
 	};
 }

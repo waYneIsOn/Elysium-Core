@@ -8,7 +8,7 @@ using namespace Elysium::Core;
 using namespace Elysium::Core::Speech::Recognition;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Reflection
+namespace UnitTests::Core::Speech
 {
 	TEST_CLASS(SpeechRecognizerTests)
 	{
