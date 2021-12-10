@@ -182,6 +182,16 @@ const bool Elysium::Core::String::operator>=(const String& Other) const
 	return Elysium::Core::Template::Text::CharacterTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) >= 0;
 }
 
+const bool Elysium::Core::String::operator==(const char8_t* Other) const
+{
+	return Elysium::Core::Template::Text::CharacterTraits<char8_t>::Compare(_Data, Other, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Other)) == 0;
+}
+
+const bool Elysium::Core::String::operator!=(const char8_t* Other) const
+{
+	return Elysium::Core::Template::Text::CharacterTraits<char8_t>::Compare(_Data, Other, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Other)) != 0;
+}
+
 Elysium::Core::String::CharacterReference Elysium::Core::String::operator[](const Elysium::Core::size Index)
 {
 	if (Index >= _Length)

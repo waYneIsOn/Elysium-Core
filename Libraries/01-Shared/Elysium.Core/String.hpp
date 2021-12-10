@@ -65,6 +65,9 @@ namespace Elysium::Core
 		const bool operator<=(const String Other) const;
 		const bool operator>=(const String& Other) const;
 
+		const bool operator==(const char8_t* Other) const;
+		const bool operator!=(const char8_t* Other) const;
+
 		CharacterReference operator[](const Elysium::Core::size Index);
 		ConstCharacterReference operator[](const Elysium::Core::size Index) const;
 
