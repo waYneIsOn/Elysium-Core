@@ -380,7 +380,7 @@ Elysium::Core::String Elysium::Core::Text::UTF16Encoding::GetString(const Elysiu
 	const Elysium::Core::uint32_t RequiredSize = GetCharCount(Bytes, ByteCount);
 	Elysium::Core::String Result = Elysium::Core::String(RequiredSize);
 
-	const Elysium::Core::uint16_t Int16Max = Elysium::Core::UInt16::GetMaxValue();
+	constexpr const Elysium::Core::uint16_t Int16Max = Elysium::Core::UInt16::GetMaxValue();
 	Elysium::Core::uint16_t SomeSurrogate;
 	Elysium::Core::uint16_t LowSurrogate;
 	Elysium::Core::uint32_t CodePoint;

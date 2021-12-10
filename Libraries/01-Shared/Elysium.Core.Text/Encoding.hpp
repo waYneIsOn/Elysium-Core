@@ -82,6 +82,8 @@ namespace Elysium::Core::Text
 
 		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 
+		//virtual char8_t* GetCharArray(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
+
 		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 	private:
 		const Elysium::Core::uint32_t _CodePage;
