@@ -24,21 +24,21 @@ namespace UnitTests::Core::Template::Container
 		{
 			// InitializerList (smaller than Instance)
 			FixedSizeHeapArray<uint32_t, 3> InitializerListSmallerInstance = { 1, 2 };
-			Assert::AreEqual(3ULL, InitializerListSmallerInstance.GetSize());
+			Assert::AreEqual(3ULL, InitializerListSmallerInstance.GetLength());
 			Assert::AreEqual(1ui32, InitializerListSmallerInstance[0]);
 			Assert::AreEqual(2ui32, InitializerListSmallerInstance[1]);
 			Assert::AreEqual(0ui32, InitializerListSmallerInstance[2]);
 
 			// InitializerList (larger than Instance)
 			FixedSizeHeapArray<uint32_t, 3> InitializerListLargerInstance = { 1, 2, 3, 4 };
-			Assert::AreEqual(3ULL, InitializerListLargerInstance.GetSize());
+			Assert::AreEqual(3ULL, InitializerListLargerInstance.GetLength());
 			Assert::AreEqual(1ui32, InitializerListLargerInstance[0]);
 			Assert::AreEqual(2ui32, InitializerListLargerInstance[1]);
 			Assert::AreEqual(3ui32, InitializerListLargerInstance[2]);
 
 			// InitializerList (same size as Instance)
 			FixedSizeHeapArray<uint32_t, 3> InitializerListInstance = { 1, 2, 4 };
-			Assert::AreEqual(3ULL, InitializerListInstance.GetSize());
+			Assert::AreEqual(3ULL, InitializerListInstance.GetLength());
 			Assert::AreEqual(1ui32, InitializerListInstance[0]);
 			Assert::AreEqual(2ui32, InitializerListInstance[1]);
 			Assert::AreEqual(4ui32, InitializerListInstance[2]);
@@ -50,7 +50,7 @@ namespace UnitTests::Core::Template::Container
 			Instance.GetAt(2) = 12;
 			Instance.GetAt(3) = 13;
 			Instance.GetAt(4) = 14;
-			Assert::AreEqual(5ULL, Instance.GetSize());
+			Assert::AreEqual(5ULL, Instance.GetLength());
 			Assert::AreEqual(10_ui32, Instance[0]);
 			Assert::AreEqual(11_ui32, Instance[1]);
 			Assert::AreEqual(12_ui32, Instance[2]);
@@ -59,7 +59,7 @@ namespace UnitTests::Core::Template::Container
 			
 			// Copy constructor
 			FixedSizeHeapArray<uint32_t, 5> CopiedInstance = FixedSizeHeapArray<uint32_t, 5>(Instance);
-			Assert::AreEqual(5ULL, CopiedInstance.GetSize());
+			Assert::AreEqual(5ULL, CopiedInstance.GetLength());
 			Assert::AreEqual(10_ui32, CopiedInstance[0]);
 			Assert::AreEqual(11_ui32, CopiedInstance[1]);
 			Assert::AreEqual(12_ui32, CopiedInstance[2]);
@@ -68,14 +68,14 @@ namespace UnitTests::Core::Template::Container
 			
 			// Move constructor
 			FixedSizeHeapArray<uint32_t, 5> MovedInstance = FixedSizeHeapArray<uint32_t, 5>(Move(CopiedInstance));
-			Assert::AreEqual(5ULL, MovedInstance.GetSize());
+			Assert::AreEqual(5ULL, MovedInstance.GetLength());
 			Assert::AreEqual(10_ui32, MovedInstance[0]);
 			Assert::AreEqual(11_ui32, MovedInstance[1]);
 			Assert::AreEqual(12_ui32, MovedInstance[2]);
 			Assert::AreEqual(13_ui32, MovedInstance[3]);
 			Assert::AreEqual(14_ui32, MovedInstance[4]);
 
-			Assert::AreEqual(5ULL, CopiedInstance.GetSize());
+			Assert::AreEqual(5ULL, CopiedInstance.GetLength());
 			Assert::AreEqual(0_ui32, CopiedInstance[0]);
 			Assert::AreEqual(0_ui32, CopiedInstance[1]);
 			Assert::AreEqual(0_ui32, CopiedInstance[2]);
@@ -87,26 +87,26 @@ namespace UnitTests::Core::Template::Container
 			MAllocInstance.GetAt(0) = 10;
 			MAllocInstance.GetAt(1) = 11;
 			MAllocInstance.GetAt(2) = 12;
-			Assert::AreEqual(3ULL, MAllocInstance.GetSize());
+			Assert::AreEqual(3ULL, MAllocInstance.GetLength());
 			Assert::AreEqual(10_ui32, MovedInstance[0]);
 			Assert::AreEqual(11_ui32, MovedInstance[1]);
 			Assert::AreEqual(12_ui32, MovedInstance[2]);
 
 			// Copy constructor for MAllocated-array
 			FixedSizeHeapArray<uint32_t, 3, MAllocator<uint32_t>> CopiedMAllocInstance = FixedSizeHeapArray<uint32_t, 3, MAllocator<uint32_t>>(MAllocInstance);
-			Assert::AreEqual(3ULL, CopiedMAllocInstance.GetSize());
+			Assert::AreEqual(3ULL, CopiedMAllocInstance.GetLength());
 			Assert::AreEqual(10_ui32, CopiedMAllocInstance[0]);
 			Assert::AreEqual(11_ui32, CopiedMAllocInstance[1]);
 			Assert::AreEqual(12_ui32, CopiedMAllocInstance[2]);
 			
 			// Move constructor for MAllocated-array
 			FixedSizeHeapArray<uint32_t, 3, MAllocator<uint32_t>> MovedMAllocInstance = FixedSizeHeapArray<uint32_t, 3, MAllocator<uint32_t>>(Move(CopiedMAllocInstance));
-			Assert::AreEqual(3ULL, MovedMAllocInstance.GetSize());
+			Assert::AreEqual(3ULL, MovedMAllocInstance.GetLength());
 			Assert::AreEqual(10_ui32, MovedMAllocInstance[0]);
 			Assert::AreEqual(11_ui32, MovedMAllocInstance[1]);
 			Assert::AreEqual(12_ui32, MovedMAllocInstance[2]);
 
-			Assert::AreEqual(3ULL, CopiedMAllocInstance.GetSize());
+			Assert::AreEqual(3ULL, CopiedMAllocInstance.GetLength());
 			Assert::AreEqual(0_ui32, CopiedMAllocInstance[0]);
 			Assert::AreEqual(0_ui32, CopiedMAllocInstance[1]);
 			Assert::AreEqual(0_ui32, CopiedMAllocInstance[2]);

@@ -47,6 +47,8 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::int32_t ToInt32(ConstPointer Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase);
 	private:
 		static const Elysium::Core::int32_t ToInt32FromBase10(ConstPointer Value, const Elysium::Core::size Length);
+
+		static const Elysium::Core::int32_t ToInt32FromBase16(ConstPointer Value, const Elysium::Core::size Length);
 	};
 
 	template<Concepts::Character C>
@@ -56,10 +58,8 @@ namespace Elysium::Core::Template::Text
 		{
 		case 10:
 			return ToInt32FromBase10(Value, Length);
-			/*
 		case 16:
 			return ToInt32FromBase16(Value, Length);
-			*/
 		default:
 			throw NotImplementedException();
 		}
@@ -85,7 +85,7 @@ namespace Elysium::Core::Template::Text
 			Sign = 1 - 2 * (Value[i++] == CharacterTraits<C>::MinusCharacter);
 		}
 
-		// check for valid input
+		// ...
 		while (Value[i] >= static_cast<ConstValue>('0') && Value[i] <= static_cast<ConstValue>('9') && i < Length)
 		{
 			// handle overflow cases
@@ -95,7 +95,51 @@ namespace Elysium::Core::Template::Text
 				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum :
 					Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Minimum;
 			}
+
 			Base = 10 * Base + (Value[i++] - static_cast<ConstValue>('0'));
+		}
+
+		return Base * Sign;
+	}
+
+	template<Concepts::Character C>
+	inline const Elysium::Core::int32_t Convert<C>::ToInt32FromBase16(ConstPointer Value, const Elysium::Core::size Length)
+	{
+		Elysium::Core::int16_t Sign = 1;
+		Elysium::Core::int32_t i = 0;
+		Elysium::Core::int32_t Base = 0;
+
+		// eat all whitespaces
+		while (Value[i] == CharacterTraits<C>::WhitespaceCharacter)
+		{
+			i++;
+		}
+
+		// sign
+		if (Value[i] == CharacterTraits<C>::MinusCharacter || Value[i] == CharacterTraits<C>::PlusCharacter)
+		{
+			Sign = 1 - 2 * (Value[i++] == CharacterTraits<C>::MinusCharacter);
+		}
+
+		// ...
+		while (true)
+		{
+			if (Value[i] >= static_cast<ConstValue>('0') && Value[i] <= static_cast<ConstValue>('9') && i < Length)
+			{
+				Base = 16 * Base + (Value[i++] - static_cast<ConstValue>('0'));
+			}
+			else if (Value[i] >= static_cast<ConstValue>('a') && Value[i] <= static_cast<ConstValue>('f') && i < Length)
+			{
+				Base = 16 * Base + (Value[i++] - static_cast<ConstValue>('a'));
+			}
+			else if (Value[i] >= static_cast<ConstValue>('A') && Value[i] <= static_cast<ConstValue>('F') && i < Length)
+			{
+				Base = 16 * Base + (Value[i++] - static_cast<ConstValue>('A'));
+			}
+			else
+			{
+				break;
+			}
 		}
 
 		return Base * Sign;

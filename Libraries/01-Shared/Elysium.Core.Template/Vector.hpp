@@ -132,9 +132,16 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Right"></param>
 		/// <returns></returns>
 		Vector<T, Allocator>& operator=(Vector&& Right) noexcept;
+	public:
+		/// <summary>
+		/// Returns a reference to the element at the specified index without checking boundaries.
+		/// </summary>
+		/// <param name="Index"></param>
+		/// <returns></returns>
+		Reference operator[](const Elysium::Core::size Index);
 
 		/// <summary>
-		/// Gets the element at the specified index without checking boundaries.
+		/// Returns a const reference to the element at the specified index without checking boundaries.
 		/// </summary>
 		/// <param name="Index">The zero-based index of the element to get.</param>
 		/// <returns></returns>
@@ -156,7 +163,7 @@ namespace Elysium::Core::Template::Container
 		/// Gets the number of elements contained in the list.
 		/// </summary>
 		/// <returns></returns>
-		constexpr const Elysium::Core::size GetSize() const noexcept;
+		constexpr const Elysium::Core::size GetLength() const noexcept;
 
 		/// <summary>
 		/// Gets the internal data structure.
@@ -378,6 +385,12 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
+	inline Vector<T, Allocator>::Reference Vector<T, Allocator>::operator[](const Elysium::Core::size Index)
+	{
+		return _Data[Index];
+	}
+
+	template<Concepts::NonConstant T, class Allocator>
 	inline Vector<T, Allocator>::ConstReference Vector<T, Allocator>::operator[](const Elysium::Core::size Index) const
 	{
 		return _Data[Index];
@@ -396,7 +409,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline constexpr const Elysium::Core::size Vector<T, Allocator>::GetSize() const noexcept
+	inline constexpr const Elysium::Core::size Vector<T, Allocator>::GetLength() const noexcept
 	{
 		return _Size;
 	}

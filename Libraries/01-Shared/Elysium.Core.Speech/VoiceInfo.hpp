@@ -56,6 +56,7 @@ namespace Elysium::Core::Speech::Synthesis
 {
 	class ELYSIUM_CORE_SPEECH_API VoiceInfo final
 	{
+		friend class InstalledVoice;
 		friend class SpeechSynthesizer;
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -64,13 +65,13 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		VoiceInfo(const VoiceInfo& Source) = delete;
 
-		VoiceInfo(VoiceInfo&& Right) noexcept = delete;
+		VoiceInfo(VoiceInfo&& Right) noexcept;
 
 		~VoiceInfo();
 	public:
 		VoiceInfo& operator=(const VoiceInfo& Source) = delete;
 
-		VoiceInfo& operator=(VoiceInfo&& Right) noexcept = delete;
+		VoiceInfo& operator=(VoiceInfo&& Right) noexcept;
 	public:
 		const VoiceAge GetAge() const;
 

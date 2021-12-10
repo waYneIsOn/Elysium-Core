@@ -17,6 +17,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognizer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerEmphasis.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerState.hpp" />
@@ -26,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognizer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp" />
   </ItemGroup>

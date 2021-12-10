@@ -1,5 +1,9 @@
 #include "VoiceInfo.hpp"
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
@@ -14,6 +18,12 @@ Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(ISpObjectToken* VoiceToke
 { }
 #endif
 
+Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(VoiceInfo&& Right) noexcept
+	: _VoiceToken(nullptr)
+{
+	*this = Elysium::Core::Template::Functional::Move(Right);
+}
+
 Elysium::Core::Speech::Synthesis::VoiceInfo::~VoiceInfo()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -23,6 +33,17 @@ Elysium::Core::Speech::Synthesis::VoiceInfo::~VoiceInfo()
 		_VoiceToken = nullptr;
 	}
 #endif
+}
+
+Elysium::Core::Speech::Synthesis::VoiceInfo& Elysium::Core::Speech::Synthesis::VoiceInfo::operator=(VoiceInfo&& Right) noexcept
+{
+	if (this != &Right)
+	{
+		_VoiceToken = Right._VoiceToken;
+
+		Right._VoiceToken = nullptr;
+	}
+	return *this;
 }
 
 const Elysium::Core::Speech::Synthesis::VoiceAge Elysium::Core::Speech::Synthesis::VoiceInfo::GetAge() const
@@ -88,7 +109,7 @@ const Elysium::Core::Globalization::CultureInfo Elysium::Core::Speech::Synthesis
 	}
 
 	const Elysium::Core::int32_t LocaleId = Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(NativeValue,
-		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeValue), 10);
+		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeValue), 16);
 
 	CoTaskMemFree(NativeValue);
 	AttributesKey->Release();

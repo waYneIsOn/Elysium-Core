@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
+#include "../Elysium.Core.Globalization/CultureInfo.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
@@ -30,6 +34,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICEINFO
 #include "VoiceInfo.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
@@ -63,14 +71,28 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		const VoiceInfo GetVoice() const;
 	public:
+		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices();
+
+		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices(const Elysium::Core::Globalization::CultureInfo& Culture);
+
+		void SelectVoice(const String& Name);
+
+		void SelectVoice(const VoiceInfo& Info);
+
+		void Speak(const char8_t* TextToSpeak, const Elysium::Core::size Length);
+
+		void Speak(const char8_t* TextToSpeak);
+
 		void Speak(const String& TextToSpeak);
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
-		ISpVoice* _NativeVoice;
+		ISpVoice* _NativeSynthesizer;
 
 		ISpVoice* Initialize();
+
+		HRESULT SelectNativeVoice(ISpObjectToken* VoiceToken);
 #endif
 	};
 }

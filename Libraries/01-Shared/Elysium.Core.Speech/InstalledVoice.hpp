@@ -28,27 +28,28 @@ namespace Elysium::Core::Speech::Synthesis
 {
 	class ELYSIUM_CORE_SPEECH_API InstalledVoice final
 	{
+		friend class SpeechSynthesizer;
 	private:
-		InstalledVoice(const bool Enabled, const VoiceInfo& VoiceInfo);
+		InstalledVoice(const bool Enabled, VoiceInfo&& VoiceInfo);
 	public:
 		InstalledVoice(const InstalledVoice& Source) = delete;
 
-		InstalledVoice(InstalledVoice&& Right) noexcept = delete;
+		InstalledVoice(InstalledVoice&& Right) noexcept;
 
 		~InstalledVoice();
 	public:
 		InstalledVoice& operator=(const InstalledVoice& Source) = delete;
 
-		InstalledVoice& operator=(InstalledVoice&& Right) noexcept = delete;
+		InstalledVoice& operator=(InstalledVoice&& Right) noexcept;
 	public:
 		const bool GetEnabled() const;
 
-		//const VoiceInfo& GetVoiceInfo() const;
+		const VoiceInfo& GetVoiceInfo() const;
 
 		void SetEnabled(const bool Value);
 	private:
 		bool _Enabled;
-		const VoiceInfo& _VoiceInfo;
+		VoiceInfo _VoiceInfo;
 	};
 }
 #endif

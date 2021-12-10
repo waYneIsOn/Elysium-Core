@@ -31,6 +31,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognizer.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -41,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp">
       <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognizer.cpp">
+      <Filter>Recognition</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

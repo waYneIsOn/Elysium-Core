@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognizerTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizerTests.cpp" />
   </ItemGroup>
 </Project>

@@ -54,15 +54,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Container
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <typeparam name="Allocator"></typeparam>
-	template <Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator = Memory::DefaultAllocator<T>>
+	template <Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator = Memory::DefaultAllocator<T>>
 	class FixedSizeHeapArray final
 	{
-		static_assert(Size > 0, "Size must be a positive number.");
 	public:
 		using Value = T;
 		using Pointer = T*;
@@ -74,11 +68,11 @@ namespace Elysium::Core::Template::Container
 		using IteratorReference = T&;
 		using ConstIteratorReference = const T&;
 
-		using FIterator = Iterator::ForwardIterator<FixedSizeHeapArray<T, Size, Allocator>>;
-		using ConstIterator = Iterator::ConstForwardIterator<FixedSizeHeapArray<T, Size, Allocator>>;
+		using FIterator = Iterator::ForwardIterator<FixedSizeHeapArray<T, Length, Allocator>>;
+		using ConstIterator = Iterator::ConstForwardIterator<FixedSizeHeapArray<T, Length, Allocator>>;
 
-		using ReverseIterator = Iterator::BackwardIterator<FixedSizeHeapArray<T, Size, Allocator>>;
-		using ConstReverseIterator = Iterator::ConstBackwardIterator<FixedSizeHeapArray<T, Size, Allocator>>;
+		using ReverseIterator = Iterator::BackwardIterator<FixedSizeHeapArray<T, Length, Allocator>>;
+		using ConstReverseIterator = Iterator::ConstBackwardIterator<FixedSizeHeapArray<T, Length, Allocator>>;
 	public:
 		/// <summary>
 		/// Creates a new instance.
@@ -107,20 +101,20 @@ namespace Elysium::Core::Template::Container
 		/// Destroys this instance.
 		/// </summary>
 		~FixedSizeHeapArray();
-
+	public:
 		/// <summary>
 		/// Copies given array to this instance.
 		/// </summary>
 		/// <param name="Source"></param>
 		/// <returns></returns>
-		FixedSizeHeapArray<T, Size, Allocator>& operator=(const FixedSizeHeapArray& Source);
+		FixedSizeHeapArray<T, Length, Allocator>& operator=(const FixedSizeHeapArray& Source);
 
 		/// <summary>
 		/// Moves given array to this instance.
 		/// </summary>
 		/// <param name="Right"></param>
 		/// <returns></returns>
-		FixedSizeHeapArray<T, Size, Allocator>& operator=(FixedSizeHeapArray&& Right) noexcept;
+		FixedSizeHeapArray<T, Length, Allocator>& operator=(FixedSizeHeapArray&& Right) noexcept;
 
 		/// <summary>
 		/// Gets the element at the specified index without checking boundaries.
@@ -133,13 +127,13 @@ namespace Elysium::Core::Template::Container
 		/// Gets the maximum size the internal data structure can hold.
 		/// </summary>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size GetMaximumSize();
+		static constexpr const Elysium::Core::size GetMaximumLength();
 
 		/// <summary>
 		/// Gets the total number of elements of the array.
 		/// </summary>
 		/// <returns></returns>
-		constexpr const Elysium::Core::size GetSize() const noexcept;
+		constexpr const Elysium::Core::size GetLength() const noexcept;
 
 		/// <summary>
 		/// Gets the internal data structure.
@@ -214,101 +208,101 @@ namespace Elysium::Core::Template::Container
 		Pointer _Data;
 	};
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>::FixedSizeHeapArray()
-		: _Data(_Allocator.Allocate(Size))
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray()
+		: _Data(_Allocator.Allocate(Length))
 	{ }
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>::FixedSizeHeapArray(const InitializerList<T>& InitializerList)
-		: _Data(_Allocator.Allocate(Size))
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray(const InitializerList<T>& InitializerList)
+		: _Data(_Allocator.Allocate(Length))
 	{
-		const Elysium::Core::size CopyLength = Size < InitializerList.size() ? Size : InitializerList.size();
+		const Elysium::Core::size CopyLength = Length < InitializerList.size() ? Length : InitializerList.size();
 		Array<T>::Copy(InitializerList.begin(), _Data, CopyLength);
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>::FixedSizeHeapArray(const FixedSizeHeapArray& Source)
-		: _Data(_Allocator.Allocate(Size))
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray(const FixedSizeHeapArray& Source)
+		: _Data(_Allocator.Allocate(Length))
 	{
-		Array<T>::Copy(Source._Data, _Data, Size);
+		Array<T>::Copy(Source._Data, _Data, Length);
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>::FixedSizeHeapArray(FixedSizeHeapArray&& Right) noexcept
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>::FixedSizeHeapArray(FixedSizeHeapArray&& Right) noexcept
 		: _Data(nullptr)
 	{
 		*this = Functional::Move(Right);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>::~FixedSizeHeapArray()
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>::~FixedSizeHeapArray()
 	{
-		_Allocator.Deallocate(_Data, Size);
+		_Allocator.Deallocate(_Data, Length);
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>& FixedSizeHeapArray<T, Size, Allocator>::operator=(const FixedSizeHeapArray& Source)
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>& FixedSizeHeapArray<T, Length, Allocator>::operator=(const FixedSizeHeapArray& Source)
 	{
 		if (this != &Source)
 		{
 			if (_Data != nullptr)
 			{
-				_Allocator.Deallocate(_Data, Size);
+				_Allocator.Deallocate(_Data, Length);
 			}
 
-			_Data = _Allocator.Allocate(Size);
-			Array<T>::Copy(Source._Data, _Data, Size);
+			_Data = _Allocator.Allocate(Length);
+			Array<T>::Copy(Source._Data, _Data, Length);
 		}
 		return *this;
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline FixedSizeHeapArray<T, Size, Allocator>& FixedSizeHeapArray<T, Size, Allocator>::operator=(FixedSizeHeapArray&& Right) noexcept
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline FixedSizeHeapArray<T, Length, Allocator>& FixedSizeHeapArray<T, Length, Allocator>::operator=(FixedSizeHeapArray&& Right) noexcept
 	{
 		if (this != &Right)
 		{
 			if (_Data != nullptr)
 			{
-				_Allocator.Deallocate(_Data, Size);
+				_Allocator.Deallocate(_Data, Length);
 			}
 
 			_Data = Right._Data;
 
-			Right._Data = _Allocator.Allocate(Size);
-			memset(&Right._Data[0], 0x00, sizeof(T) * Size);
+			Right._Data = _Allocator.Allocate(Length);
+			memset(&Right._Data[0], 0x00, sizeof(T) * Length);
 		}
 		return *this;
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstReference FixedSizeHeapArray<T, Size, Allocator>::operator[](const Elysium::Core::size Index) const
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ConstReference FixedSizeHeapArray<T, Length, Allocator>::operator[](const Elysium::Core::size Index) const
 	{
 		return _Data[Index];
 	}
 
-	template<Concepts::NonConstant T, Elysium::Core::size Size, class Allocator>
-	inline constexpr const Elysium::Core::size FixedSizeHeapArray<T, Size, Allocator>::GetMaximumSize()
+	template<Concepts::NonConstant T, Elysium::Core::size Length, class Allocator>
+	inline constexpr const Elysium::Core::size FixedSizeHeapArray<T, Length, Allocator>::GetMaximumLength()
 	{
 		return static_cast<Elysium::Core::size>(-1) / sizeof(T);
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline constexpr const Elysium::Core::size FixedSizeHeapArray<T, Size, Allocator>::GetSize() const noexcept
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline constexpr const Elysium::Core::size FixedSizeHeapArray<T, Length, Allocator>::GetLength() const noexcept
 	{
-		return Size;
+		return Length;
 	}
 
-	template<Concepts::NonConstant T, Elysium::Core::size Size, class Allocator>
-	inline constexpr typename FixedSizeHeapArray<T, Size, Allocator>::ConstPointer FixedSizeHeapArray<T, Size, Allocator>::GetData() const noexcept
+	template<Concepts::NonConstant T, Elysium::Core::size Length, class Allocator>
+	inline constexpr typename FixedSizeHeapArray<T, Length, Allocator>::ConstPointer FixedSizeHeapArray<T, Length, Allocator>::GetData() const noexcept
 	{
 		return _Data;
 	}
 
-	template<Concepts::NonConstant T, Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::Reference FixedSizeHeapArray<T, Size, Allocator>::GetAt(const Elysium::Core::size Index)
+	template<Concepts::NonConstant T, Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::Reference FixedSizeHeapArray<T, Length, Allocator>::GetAt(const Elysium::Core::size Index)
 	{
-		if (Index >= Size)
+		if (Index >= Length)
 		{
 			throw IndexOutOfRangeException();
 		}
@@ -316,10 +310,10 @@ namespace Elysium::Core::Template::Container
 		return _Data[Index];
 	}
 
-	template<Concepts::NonConstant T, Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstReference FixedSizeHeapArray<T, Size, Allocator>::GetAt(const Elysium::Core::size Index) const
+	template<Concepts::NonConstant T, Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ConstReference FixedSizeHeapArray<T, Length, Allocator>::GetAt(const Elysium::Core::size Index) const
 	{
-		if (Index >= Size)
+		if (Index >= Length)
 		{
 			throw IndexOutOfRangeException();
 		}
@@ -327,50 +321,50 @@ namespace Elysium::Core::Template::Container
 		return _Data[Index];
 	}
 
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::FIterator FixedSizeHeapArray<T, Size, Allocator>::GetBegin()
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::FIterator FixedSizeHeapArray<T, Length, Allocator>::GetBegin()
 	{
 		return FIterator(&_Data[0]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstIterator FixedSizeHeapArray<T, Size, Allocator>::GetBegin() const
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ConstIterator FixedSizeHeapArray<T, Length, Allocator>::GetBegin() const
 	{
 		return ConstIterator(&_Data[0]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::FIterator FixedSizeHeapArray<T, Size, Allocator>::GetEnd()
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::FIterator FixedSizeHeapArray<T, Length, Allocator>::GetEnd()
 	{
-		return FIterator(&_Data[Size - 1]);
+		return FIterator(&_Data[Length - 1]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstIterator FixedSizeHeapArray<T, Size, Allocator>::GetEnd() const
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ConstIterator FixedSizeHeapArray<T, Length, Allocator>::GetEnd() const
 	{
-		return ConstIterator(&_Data[Size - 1]);
+		return ConstIterator(&_Data[Length - 1]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ReverseIterator FixedSizeHeapArray<T, Size, Allocator>::GetReverseBegin()
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ReverseIterator FixedSizeHeapArray<T, Length, Allocator>::GetReverseBegin()
 	{
-		return ReverseIterator(&_Data[Size - 1]);
+		return ReverseIterator(&_Data[Length - 1]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstReverseIterator FixedSizeHeapArray<T, Size, Allocator>::GetReverseBegin() const
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ConstReverseIterator FixedSizeHeapArray<T, Length, Allocator>::GetReverseBegin() const
 	{
-		return ConstReverseIterator(&_Data[Size - 1]);
+		return ConstReverseIterator(&_Data[Length - 1]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ReverseIterator FixedSizeHeapArray<T, Size, Allocator>::GetReverseEnd()
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ReverseIterator FixedSizeHeapArray<T, Length, Allocator>::GetReverseEnd()
 	{
 		return ReverseIterator(&_Data[0]);
 	}
 	
-	template<Concepts::NonConstant T, const Elysium::Core::size Size, class Allocator>
-	inline typename FixedSizeHeapArray<T, Size, Allocator>::ConstReverseIterator FixedSizeHeapArray<T, Size, Allocator>::GetReverseEnd() const
+	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
+	inline typename FixedSizeHeapArray<T, Length, Allocator>::ConstReverseIterator FixedSizeHeapArray<T, Length, Allocator>::GetReverseEnd() const
 	{
 		return ConstReverseIterator(&_Data[0]);
 	}
