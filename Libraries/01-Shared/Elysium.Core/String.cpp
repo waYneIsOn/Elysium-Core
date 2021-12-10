@@ -134,10 +134,6 @@ const bool Elysium::Core::String::operator==(const String& Other) const
 	{
 		return true;
 	}
-	if (_Length != Other._Length)
-	{
-		return false;
-	}
 	return Elysium::Core::Template::Text::CharacterTraits<char8_t>::Compare(_Data, Other._Data, Other._Length) == 0;
 }
 
