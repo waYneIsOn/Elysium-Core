@@ -87,6 +87,10 @@ namespace Elysium::Core::Template::Text
 
 		StringBase<C, Allocator>& operator=(StringBase&& Right) noexcept;
 	public:
+		//constexpr const bool operator==(const StringBase& Other) const;
+
+		//constexpr const bool operator==(ConstCharPointer Other) const;
+	public:
 		static constexpr const bool IsEmpty(const StringBase& Value);
 	public:
 		const Elysium::Core::size GetSize() const;

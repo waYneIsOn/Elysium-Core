@@ -32,9 +32,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "VoiceInfo.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef __sapi_h__
+#pragma warning(disable: 4996)	// sapi is using GetVersionEx under certain conditions
 #include <sapi.h>
+#pragma warning(default: 4996)
 #endif
 #endif
 
@@ -57,11 +63,11 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		const VoiceInfo GetVoice() const;
 	public:
-		void SetOutputToDefaultAudioDevice();
-
 		void Speak(const String& TextToSpeak);
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
+		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+
 		ISpVoice* _NativeVoice;
 
 		ISpVoice* Initialize();

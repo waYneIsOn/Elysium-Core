@@ -60,6 +60,21 @@ namespace Elysium::Core::Template::Text
 		static constexpr ConstValue NullTerminationCharacter = C();
 
 		/// <summary>
+		/// Returns '-' as specified character-type.
+		/// </summary>
+		static constexpr ConstValue MinusCharacter = static_cast<ConstValue>('-');
+
+		/// <summary>
+		/// Returns '+' as specified character-type.
+		/// </summary>
+		static constexpr ConstValue PlusCharacter = static_cast<ConstValue>('+');
+
+		/// <summary>
+		/// Returns whitespace as specified character-type.
+		/// </summary>
+		static constexpr ConstValue WhitespaceCharacter = static_cast<ConstValue>(' ');
+
+		/// <summary>
 		/// Returns the smallest possible value as specified character-type.
 		/// </summary>
 		static constexpr ConstValue MinimumValue = Elysium::Core::Template::Numeric::NumericLimits<I>::Minimum;

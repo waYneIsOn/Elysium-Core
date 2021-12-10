@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
+#include "../Elysium.Core.Globalization/CultureInfo.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
@@ -32,14 +36,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "VoiceGender.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
+#include "../Elysium.Core.Template/HashTable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef __sapi_h__
+#pragma warning(disable: 4996)	// sapi is using GetVersionEx under certain conditions
+#include <sapi.h>
+#pragma warning(default: 4996)
+#endif
+#endif
+
 namespace Elysium::Core::Speech::Synthesis
 {
 	class ELYSIUM_CORE_SPEECH_API VoiceInfo final
 	{
-		friend class InstalledVoice;
 		friend class SpeechSynthesizer;
 	private:
-		VoiceInfo();
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		VoiceInfo(ISpObjectToken* VoiceToken);
+#endif
 	public:
 		VoiceInfo(const VoiceInfo& Source) = delete;
 
@@ -53,14 +74,21 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		const VoiceAge GetAge() const;
 
+		const Elysium::Core::Globalization::CultureInfo GetCulture() const;
+
 		const VoiceGender GetGender() const;
 
 		const String GetId() const;
 
 		const String GetName() const;
 	private:
-		VoiceAge _Age;
-		VoiceGender _Gender;
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+
+		ISpObjectToken* _VoiceToken;
+#endif
+
+		//Template::Container::HashTable<String, String> _AdditionalInfo;
 	};
 }
 #endif

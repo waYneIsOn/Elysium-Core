@@ -338,6 +338,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvokeResult.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

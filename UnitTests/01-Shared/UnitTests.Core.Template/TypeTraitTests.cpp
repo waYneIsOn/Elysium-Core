@@ -30,6 +30,9 @@ namespace UnitTests::Core::Template::TypeTraits
 		Blue
 	};
 
+	struct SomeStruct
+	{ };
+
 	TEST_CLASS(TypeTraitTests)
 	{
 	public:
@@ -43,11 +46,35 @@ namespace UnitTests::Core::Template::TypeTraits
 
 		TEST_METHOD(InvokeResult)
 		{
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::InvokeResult<TypeTraitTests>::IsInvokable::Value);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::InvokeResult<EnumerationClass>::IsInvokable::Value);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::InvokeResult<Colour>::IsInvokable::Value);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::InvokeResult<SomeStruct>::IsInvokable::Value);
 			/*
-			decltype(TypeTraitTests::InstanceMethodReturningInt()) Test;
-			Test = 25;
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::InvokeResult<decltype(SomeFunction())>::IsInvokable::Value);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::InvokeResult<decltype(SomeOtherFunction())>::IsInvokable::Value);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::InvokeResult<decltype(TypeTraitTests::StaticMethod())>::IsInvokable::Value);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::InvokeResult<decltype(TypeTraitTests::OtherStaticMethod())>::IsInvokable::Value);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::InvokeResult<decltype(TypeTraitTests::InstanceMethod())>::IsInvokable::Value);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::InvokeResult<decltype(TypeTraitTests::InstanceMethodReturningInt())>::IsInvokable::Value);
 			*/
 
+
+
+
+
+			constexpr const bool xxxxxxxxxxxxxxx1 = std::invoke_result<TypeTraitTests>::_Is_invocable::value;
+			constexpr const bool xxxxxxxxxxxxxxx3 = std::invoke_result<TypeTraitTests>::_Is_nothrow_invocable::value;
+
+
+
+
+
+			/*
+			decltype(TypeTraitTests::InstanceMethodReturningInt()) Test;
+			Test = 25;1
+			*/
+			/*
 			constexpr const bool StaticMethodReturnTypeInteger = Elysium::Core::Template::TypeTraits::IsSameValue<int,
 				Elysium::Core::Template::TypeTraits::InvokeResultType<decltype(TypeTraitTests::OtherStaticMethod())>>;
 			constexpr const bool StaticMethodReturnTypeVoid = Elysium::Core::Template::TypeTraits::IsSameValue<void,
@@ -67,9 +94,13 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsTrue(InstanceMethodReturnTypeVoid);
 			Assert::IsTrue(FunctionReturnTypeInteger);
 			Assert::IsTrue(FunctionReturnTypeVoid);
-			/*
-			Elysium::Core::Template::TypeTraits::InvokeResult<TypeTraitTests> InstanceInvokeResult;
+			*/
 
+
+
+
+
+			/*
 			constexpr const bool InstanceMethodReturnTypeInteger2 = Elysium::Core::Template::TypeTraits::IsSameValue<int,
 				Elysium::Core::Template::TypeTraits::InvokeResultType<decltype(TypeTraitTests::InstanceMethodReturningGivenInt), int>>;
 			Assert::IsTrue(InstanceMethodReturnTypeInteger2);

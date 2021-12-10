@@ -4,6 +4,9 @@
     <Filter Include="Synthesis">
       <UniqueIdentifier>{7f654fe3-75c6-47dd-a12f-7a6705baaca7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Recognition">
+      <UniqueIdentifier>{caa27c7b-6164-4218-a1f8-e2789264c166}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp">

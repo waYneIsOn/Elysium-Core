@@ -1,5 +1,13 @@
 #include "SpeechSynthesizer.hpp"
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template//CharacterTraits.hpp"
+#endif
+
+#ifndef SPHelper_h
+#include <sphelper.h>
+#endif
+
 Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeechSynthesizer()
 	: _NativeVoice(Initialize())
 { }
@@ -17,17 +25,22 @@ Elysium::Core::Speech::Synthesis::SpeechSynthesizer::~SpeechSynthesizer()
 
 const Elysium::Core::Speech::Synthesis::VoiceInfo Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetVoice() const
 {
-	return VoiceInfo();
-}
+	HRESULT Result = S_OK;
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToDefaultAudioDevice()
-{
-	throw 1;
+	ISpObjectToken* VoiceToken;
+	if (FAILED(Result = _NativeVoice->GetVoice(&VoiceToken)))
+	{	// ToDo: throw specific excetpion
+		throw 1;
+	}
+
+	return VoiceInfo(VoiceToken);
 }
 
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const String & TextToSpeak)
 {
-	HRESULT Result = _NativeVoice->Speak(L"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?", 0, nullptr);
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = _WindowsEncoding.GetBytes(&TextToSpeak[0], TextToSpeak.GetLength() + sizeof(char8_t));
+
+	HRESULT Result = _NativeVoice->Speak((wchar_t*)&Bytes[0], 0, nullptr);
 	if (FAILED(Result))
 	{	// ToDo: throw specific excetpion
 		throw 1;

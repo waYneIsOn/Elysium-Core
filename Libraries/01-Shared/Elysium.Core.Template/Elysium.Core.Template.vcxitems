@@ -32,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BlockSort.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp" />

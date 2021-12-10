@@ -29,7 +29,7 @@ namespace Elysium::Core::Speech::Synthesis
 	class ELYSIUM_CORE_SPEECH_API InstalledVoice final
 	{
 	private:
-		InstalledVoice();
+		InstalledVoice(const bool Enabled, const VoiceInfo& VoiceInfo);
 	public:
 		InstalledVoice(const InstalledVoice& Source) = delete;
 
@@ -43,12 +43,12 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		const bool GetEnabled() const;
 
-		const VoiceInfo& GetVoiceInfo() const;
+		//const VoiceInfo& GetVoiceInfo() const;
 
 		void SetEnabled(const bool Value);
 	private:
 		bool _Enabled;
-		VoiceInfo _VoiceInfo;
+		const VoiceInfo& _VoiceInfo;
 	};
 }
 #endif
