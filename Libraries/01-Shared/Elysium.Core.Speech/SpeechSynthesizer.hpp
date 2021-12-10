@@ -85,21 +85,29 @@ namespace Elysium::Core::Speech::Synthesis
 
 		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices(const Elysium::Core::Globalization::CultureInfo& Culture);
 
+		void Pause();
+
+		void Resume();
+
 		void SelectVoice(const String& Name);
 
 		void SelectVoice(const VoiceInfo& Info);
-
-		void Speak(const char8_t* TextToSpeak, const Elysium::Core::size Length);
 
 		void Speak(const char8_t* TextToSpeak);
 
 		void Speak(const String& TextToSpeak);
 
-		void SpeakSsml(const char8_t* TextToSpeak, const Elysium::Core::size Length);
+		void SpeakAsync(const char8_t* TextToSpeak);
+
+		void SpeakAsync(const String& TextToSpeak);
 
 		void SpeakSsml(const char8_t* TextToSpeak);
 
 		void SpeakSsml(const String& TextToSpeak);
+
+		void SpeakSsmlAsync(const char8_t* TextToSpeak);
+
+		void SpeakSsmlAsync(const String& TextToSpeak);
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();

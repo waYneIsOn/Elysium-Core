@@ -3,11 +3,13 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Speech/SpeechSynthesizer.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Globalization;
 using namespace Elysium::Core::Speech::Synthesis;
 using namespace Elysium::Core::Template::Container;
+using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Speech
@@ -64,15 +66,20 @@ namespace UnitTests::Core::Speech
 
 		TEST_METHOD(SpeakEnglishAsync)
 		{
-			Assert::Fail();
-			/*
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			
 			DateTime Start = DateTime::Now();
-			Synthesizer.SpeakAsync(u8"This is a simple english sentence taking a bit over five seconds to pronounce.");
+			Synthesizer.SpeakAsync(u8"This is a simple english sentence taking a bit over seven seconds to pronounce due to interruption.");			
+			
+			Thread::Sleep(TimeSpan::FromSeconds(1));
+			Synthesizer.Pause();
+
+			Thread::Sleep(TimeSpan::FromSeconds(3));
+			Synthesizer.Resume();
+
+			Thread::Sleep(TimeSpan::FromSeconds(3));
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
-			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5);
-			*/
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 7);
 		}
 
 		TEST_METHOD(SpeakGerman)
@@ -104,15 +111,20 @@ namespace UnitTests::Core::Speech
 
 		TEST_METHOD(SpeakSsmlAsync)
 		{
-			Assert::Fail();
-			/*
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 
 			DateTime Start = DateTime::Now();
 			Synthesizer.SpeakSsmlAsync(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
+			
+			Thread::Sleep(TimeSpan::FromSeconds(1));
+			Synthesizer.Pause();
+
+			Thread::Sleep(TimeSpan::FromSeconds(3));
+			Synthesizer.Resume();
+
+			Thread::Sleep(TimeSpan::FromSeconds(1));
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
-			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 3);
-			*/
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5);
 		}
 	};
 }
