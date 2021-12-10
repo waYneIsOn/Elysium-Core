@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "InstalledVoice.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SYNTHESIZERSTATE
+#include "SynthesizerState.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICEINFO
 #include "VoiceInfo.hpp"
 #endif
@@ -69,7 +73,13 @@ namespace Elysium::Core::Speech::Synthesis
 
 		SpeechSynthesizer& operator=(SpeechSynthesizer&& Right) noexcept = delete;
 	public:
+		const Elysium::Core::int32_t GetRate() const;
+
+		//const SynthesizerState GetState() const;
+
 		const VoiceInfo GetVoice() const;
+
+		const Elysium::Core::int32_t GetVolume() const;
 	public:
 		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices();
 
@@ -84,6 +94,12 @@ namespace Elysium::Core::Speech::Synthesis
 		void Speak(const char8_t* TextToSpeak);
 
 		void Speak(const String& TextToSpeak);
+
+		void SpeakSsml(const char8_t* TextToSpeak, const Elysium::Core::size Length);
+
+		void SpeakSsml(const char8_t* TextToSpeak);
+
+		void SpeakSsml(const String& TextToSpeak);
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();

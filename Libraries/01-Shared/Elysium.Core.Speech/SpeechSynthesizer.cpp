@@ -37,18 +37,49 @@ Elysium::Core::Speech::Synthesis::SpeechSynthesizer::~SpeechSynthesizer()
 #endif
 }
 
+const Elysium::Core::int32_t Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetRate() const
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	long Volume;
+	HRESULT Result = _NativeSynthesizer->GetRate(&Volume);
+	if (FAILED(Result))
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
+	return Volume;
+#else
+	throw 1;
+#endif
+}
+
 const Elysium::Core::Speech::Synthesis::VoiceInfo Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetVoice() const
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	HRESULT Result = S_OK;
-
 	ISpObjectToken* VoiceToken;
-	if (FAILED(Result = _NativeSynthesizer->GetVoice(&VoiceToken)))
+	HRESULT Result = _NativeSynthesizer->GetVoice(&VoiceToken);
+	if (FAILED(Result))
 	{	// ToDo: throw specific excetpion
 		throw 1;
 	}
 
 	return VoiceInfo(VoiceToken);
+#else
+	throw 1;
+#endif
+}
+
+const Elysium::Core::int32_t Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetVolume() const
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	unsigned short Volume;
+	HRESULT Result = _NativeSynthesizer->GetVolume(&Volume);
+	if (FAILED(Result))
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
+	return Volume;
 #else
 	throw 1;
 #endif
@@ -178,7 +209,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const String& Name)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	// ToDo: find a better way to select voice by iterating every installed voice!
+	// ToDo: find a better way to select voice than by iterating through all installed voices!
 
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> NameBytes =
 		_WindowsEncoding.GetBytes(&Name[0], Name.GetLength() + sizeof(char8_t));
@@ -294,6 +325,37 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const char8_t* T
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const String & TextToSpeak)
 {
 	Speak(&TextToSpeak[0]);
+}
+
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const char8_t* TextToSpeak, const Elysium::Core::size Length)
+{
+	if (TextToSpeak == nullptr)
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+		_WindowsEncoding.GetBytes(&TextToSpeak[0], Length + sizeof(char8_t));
+
+	HRESULT Result = _NativeSynthesizer->Speak((wchar_t*)&Bytes[0], SPF_IS_XML, nullptr);
+	if (FAILED(Result))
+	{	// ToDo: throw specific excetpion
+		throw 1;
+	}
+#else
+	throw 1;
+#endif
+}
+
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const char8_t* TextToSpeak)
+{
+	SpeakSsml(TextToSpeak, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak));
+}
+
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const String& TextToSpeak)
+{
+	SpeakSsml(&TextToSpeak[0]);
 }
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

@@ -54,12 +54,12 @@ namespace UnitTests::Core::Reflection
 			Assert::IsTrue(InstalledVoices.GetLength() > 0);
 
 			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo().GetName());
-			//Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo());
+			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo());
 
 			DateTime Start = DateTime::Now();
-			Synthesizer.Speak(u8"This is a simple english sentence taking a bit over four seconds to speak.");
+			Synthesizer.Speak(u8"This is a simple english sentence taking a bit over five seconds to pronounce.");
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
-			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 4);
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5);
 		}
 
 		TEST_METHOD(SpeakGerman)
@@ -71,12 +71,22 @@ namespace UnitTests::Core::Reflection
 			Assert::IsTrue(InstalledVoices.GetLength() > 0);
 
 			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo().GetName());
-			//Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo());
+			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo());
 			
 			DateTime Start = DateTime::Now();
 			Synthesizer.Speak(u8"Das ist ein einfacher deutscher Satz, welcher etwas mehr als sieben Sekunden zur Aussprache benötigt.");
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 7);
+		}
+
+		TEST_METHOD(SpeakSsml)
+		{
+			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+
+			DateTime Start = DateTime::Now();
+			Synthesizer.SpeakSsml(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
+			TimeSpan ElapsedTime = DateTime::Now() - Start;
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 3);
 		}
 	};
 }
