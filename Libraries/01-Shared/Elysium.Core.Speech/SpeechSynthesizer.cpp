@@ -418,6 +418,51 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToDefaultAudi
 #endif
 }
 
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(const Elysium::Core::String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo)
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	HRESULT Result = S_OK;
+	if (_NativeMemoryStream != nullptr)
+	{
+		IStream* BaseStream = nullptr;
+		if (SUCCEEDED(Result = _NativeMemoryStream->GetBaseStream(&BaseStream)) && BaseStream != nullptr)
+		{
+			BaseStream->Release();
+			BaseStream = nullptr;
+		}
+
+		_NativeMemoryStream->Release();
+		_NativeMemoryStream = InitializeNativeStream();
+	}
+
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> PathBytes =
+		_WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
+
+	WAVEFORMATEX NativeFormat = WAVEFORMATEX();
+	NativeFormat.wFormatTag = static_cast<Elysium::Core::uint16_t>(FormatInfo.GetEncodingFormat());
+	NativeFormat.nChannels = FormatInfo.GetChannelCount();
+	NativeFormat.nSamplesPerSec = FormatInfo.GetSamplesPerSecond();
+	NativeFormat.wBitsPerSample = FormatInfo.GetBitsPerSample();
+	NativeFormat.nBlockAlign = FormatInfo.GetBlockAlign();
+	NativeFormat.nAvgBytesPerSec = FormatInfo.GetAverageBytesPerSecond();
+	NativeFormat.cbSize = 0;
+
+	if (FAILED(Result = _NativeMemoryStream->BindToFile((const wchar_t*)&PathBytes[0], SPFM_CREATE_ALWAYS, &SPDFID_WaveFormatEx, &NativeFormat, 0)))
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
+	if (FAILED(Result = _NativeSynthesizer->SetOutput(_NativeMemoryStream, TRUE)))
+	{	// ToDo: throw specific exception
+		throw 1;
+	}
+
+	_TargetStream = nullptr;
+#else
+	throw 1;
+#endif
+}
+
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const char8_t* TextToSpeak)
 {
 	if (TextToSpeak == nullptr)

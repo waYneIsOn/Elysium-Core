@@ -113,6 +113,8 @@ namespace Elysium::Core::Speech::Synthesis
 
 		void SetOutputToDefaultAudioDevice();
 
+		void SetOutputToWaveFile(const Elysium::Core::String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo);
+
 		void Speak(const char8_t* TextToSpeak);
 
 		void Speak(const String& TextToSpeak);

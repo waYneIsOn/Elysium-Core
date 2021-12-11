@@ -130,7 +130,7 @@ namespace UnitTests::Core::Speech
 			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5 && ElapsedTime.GetTotalSeconds() < 7);
 		}
 
-		TEST_METHOD(SpeakToStream)
+		TEST_METHOD(SpeakToStreams)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			SpeechAudioFormatInfo FormatInfo = SpeechAudioFormatInfo(44100, AudioBitsPerSample::Sixteen, AudioChannel::Stereo);
@@ -144,6 +144,18 @@ namespace UnitTests::Core::Speech
 			Synthesizer.SetOutputToAudioStream(TargetFileStream, FormatInfo);
 			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
 			Assert::AreEqual(TargetStream.GetLength(), TargetFileStream.GetLength());
+		}
+
+		TEST_METHOD(SpeakToWaveFiles)
+		{
+			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			SpeechAudioFormatInfo FormatInfo = SpeechAudioFormatInfo(44100, AudioBitsPerSample::Sixteen, AudioChannel::Stereo);
+
+			Synthesizer.SetOutputToWaveFile(u8"SpeechSynthesizerWave1.wav", FormatInfo);
+			Synthesizer.Speak(u8"This file is called SpeechSynthesizerWave1 dot wav");
+
+			Synthesizer.SetOutputToWaveFile(u8"SpeechSynthesizerWave2.wav", FormatInfo);
+			Synthesizer.Speak(u8"This file is called SpeechSynthesizerWave2 dot wav");
 		}
 	};
 }
