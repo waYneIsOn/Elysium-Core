@@ -224,6 +224,11 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 		throw ArgumentNullException(u8"Buffer");
 	}
 
+	if (Count == 0)
+	{
+		return;
+	}
+
 	Elysium::Core::uint32_t TotalBytesWritten = 0;
 	Elysium::Core::uint32_t BytesWritten = 0;
 	do

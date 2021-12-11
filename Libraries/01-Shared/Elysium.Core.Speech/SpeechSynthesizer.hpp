@@ -12,16 +12,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
-#include "../Elysium.Core.Globalization/CultureInfo.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "../Elysium.Core/System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TIMESPAN
+#include "../Elysium.Core/TimeSpan.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
+#include "../Elysium.Core.Globalization/CultureInfo.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_STREAM
+#include "../Elysium.Core.IO/Stream.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_AUDIOFORMAT_SPEECHAUDIOFORMATINFO
+#include "SpeechAudioFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SPEECH_API
@@ -73,13 +85,17 @@ namespace Elysium::Core::Speech::Synthesis
 
 		SpeechSynthesizer& operator=(SpeechSynthesizer&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::int32_t GetRate() const;
+		const Elysium::Core::uint32_t GetRate() const;
 
 		//const SynthesizerState GetState() const;
 
 		const VoiceInfo GetVoice() const;
 
-		const Elysium::Core::int32_t GetVolume() const;
+		const Elysium::Core::uint16_t GetVolume() const;
+
+		void SetRate(const Elysium::Core::uint32_t Value);
+
+		void SetVolume(const Elysium::Core::uint16_t Value);
 	public:
 		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices();
 
@@ -92,6 +108,10 @@ namespace Elysium::Core::Speech::Synthesis
 		void SelectVoice(const String& Name);
 
 		void SelectVoice(const VoiceInfo& Info);
+
+		void SetOutputToAudioStream(Elysium::Core::IO::Stream& AudioDestination, const AudioFormat::SpeechAudioFormatInfo& FormatInfo);
+
+		void SetOutputToDefaultAudioDevice();
 
 		void Speak(const char8_t* TextToSpeak);
 
@@ -108,15 +128,23 @@ namespace Elysium::Core::Speech::Synthesis
 		void SpeakSsmlAsync(const char8_t* TextToSpeak);
 
 		void SpeakSsmlAsync(const String& TextToSpeak);
+
+		void WaitUntilDone(const Elysium::Core::TimeSpan Timeout);
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		ISpVoice* _NativeSynthesizer;
+		ISpStream* _NativeMemoryStream;
+		Elysium::Core::IO::Stream* _TargetStream;
 
-		ISpVoice* Initialize();
+		ISpVoice* InitializeNativeSynthesizer();
 
-		HRESULT SelectNativeVoice(ISpObjectToken* VoiceToken);
+		ISpStream* InitializeNativeStream();
+
+		HRESULT SetNativeVoice(ISpObjectToken* VoiceToken) noexcept;
+
+		HRESULT SpeakNatively(const wchar_t* TextToSpeak, const Elysium::Core::int32_t Flags) noexcept;
 #endif
 	};
 }

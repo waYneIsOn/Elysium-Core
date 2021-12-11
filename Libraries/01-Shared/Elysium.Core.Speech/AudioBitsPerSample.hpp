@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICEAGE
-#define ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICEAGE
+#ifndef ELYSIUM_CORE_SPEECH_AUDIOFORMAT_AUDIOBITSPERSAMPLE
+#define ELYSIUM_CORE_SPEECH_AUDIOFORMAT_AUDIOBITSPERSAMPLE
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,25 +20,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-namespace Elysium::Core::Speech::Synthesis
+namespace Elysium::Core::Speech::AudioFormat
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class VoiceAge : Elysium::Core::uint8_t
+	enum class AudioBitsPerSample : Elysium::Core::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
-	enum class VoiceAge
+	enum class AudioBitsPerSample
 #else
 #error "undefined os"
 #endif
 	{
-		NotSet = 0,
+		Eight = 8,
 
-		Child = 10,
-
-		Teen = 15,
-
-		Adult = 30,
-
-		Senior = 65
+		Sixteen = 16
 	};
 }
 #endif

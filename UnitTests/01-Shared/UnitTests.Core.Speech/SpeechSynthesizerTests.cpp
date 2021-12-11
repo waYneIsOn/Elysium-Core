@@ -2,11 +2,15 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Speech/SpeechSynthesizer.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Globalization;
+using namespace Elysium::Core::IO;
+using namespace Elysium::Core::Speech::AudioFormat;
 using namespace Elysium::Core::Speech::Synthesis;
 using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Core::Threading;
@@ -39,17 +43,12 @@ namespace UnitTests::Core::Speech
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceAge::Adult), static_cast<Elysium::Core::uint8_t>(Voice.GetAge()));
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceGender::Female), static_cast<Elysium::Core::uint8_t>(Voice.GetGender()));
 			Assert::AreEqual(1033, VoiceCulture.GetLCID());
-			/*
-			DateTime Start = DateTime::Now();
-			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
-			TimeSpan ElapsedTime = DateTime::Now() - Start;
-			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 10);
-			*/
 		}
 
 		TEST_METHOD(SpeakEnglish)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			Synthesizer.SetOutputToDefaultAudioDevice();
 
 			CultureInfo EnglishUS = CultureInfo(u8"en-US", false);
 			Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(EnglishUS);
@@ -67,6 +66,7 @@ namespace UnitTests::Core::Speech
 		TEST_METHOD(SpeakEnglishAsync)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			Synthesizer.SetOutputToDefaultAudioDevice();
 			
 			DateTime Start = DateTime::Now();
 			Synthesizer.SpeakAsync(u8"This is a simple english sentence taking a bit over seven seconds to pronounce due to interruption.");			
@@ -77,14 +77,15 @@ namespace UnitTests::Core::Speech
 			Thread::Sleep(TimeSpan::FromSeconds(3));
 			Synthesizer.Resume();
 
-			Thread::Sleep(TimeSpan::FromSeconds(3));
+			Synthesizer.WaitUntilDone(TimeSpan::FromSeconds(25));
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
-			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 7);
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 7 && ElapsedTime.GetTotalSeconds() < 9);
 		}
 
 		TEST_METHOD(SpeakGerman)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			Synthesizer.SetOutputToDefaultAudioDevice();
 
 			CultureInfo GermanGermany = CultureInfo(u8"de-DE", false);
 			Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(GermanGermany);
@@ -102,6 +103,7 @@ namespace UnitTests::Core::Speech
 		TEST_METHOD(SpeakSsml)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			Synthesizer.SetOutputToDefaultAudioDevice();
 
 			DateTime Start = DateTime::Now();
 			Synthesizer.SpeakSsml(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
@@ -112,6 +114,7 @@ namespace UnitTests::Core::Speech
 		TEST_METHOD(SpeakSsmlAsync)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			Synthesizer.SetOutputToDefaultAudioDevice();
 
 			DateTime Start = DateTime::Now();
 			Synthesizer.SpeakSsmlAsync(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
@@ -122,9 +125,25 @@ namespace UnitTests::Core::Speech
 			Thread::Sleep(TimeSpan::FromSeconds(3));
 			Synthesizer.Resume();
 
-			Thread::Sleep(TimeSpan::FromSeconds(1));
+			Synthesizer.WaitUntilDone(TimeSpan::FromSeconds(25));
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
-			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5);
+			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 5 && ElapsedTime.GetTotalSeconds() < 7);
+		}
+
+		TEST_METHOD(SpeakToStream)
+		{
+			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			SpeechAudioFormatInfo FormatInfo = SpeechAudioFormatInfo(44100, AudioBitsPerSample::Sixteen, AudioChannel::Stereo);
+			
+			MemoryStream TargetStream = MemoryStream();
+			Synthesizer.SetOutputToAudioStream(TargetStream, FormatInfo);
+			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
+			Assert::AreEqual(1919028_ui64, TargetStream.GetLength());
+			
+			FileStream TargetFileStream = FileStream(u8"SpeechSynthesizer.saf", FileMode::Create, FileAccess::Write, FileShare::None);
+			Synthesizer.SetOutputToAudioStream(TargetFileStream, FormatInfo);
+			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
+			Assert::AreEqual(TargetStream.GetLength(), TargetFileStream.GetLength());
 		}
 	};
 }
