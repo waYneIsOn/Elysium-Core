@@ -39,9 +39,6 @@
     <ClCompile Include="ReflectionTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="DelegateTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="TaskTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

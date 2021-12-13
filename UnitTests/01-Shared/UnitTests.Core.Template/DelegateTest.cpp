@@ -1,11 +1,12 @@
 #include "CppUnitTest.h"
 #include "CppUnitTestFrameworkExtension.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core/Delegate.hpp"
+
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace Elysium::Core;
+using namespace Elysium::Core::Template::Container;
 
-namespace UnitTests::Core
+namespace UnitTests::Core::Template::Container
 {
 	float FreeOneParameter(int x)
 	{
@@ -24,10 +25,10 @@ namespace UnitTests::Core
 			return (double)x / y;
 		}
 
-		static inline void StaticOneReferenceParameter(int & x)
+		static inline void StaticOneReferenceParameter(int& x)
 		{ }
 
-		static inline void StaticOnePointerParameter(int * x)
+		static inline void StaticOnePointerParameter(int* x)
 		{ }
 
 		inline float OneParameter(int x)
@@ -58,7 +59,7 @@ namespace UnitTests::Core
 			double ResultStatic2 = DelegateStatic2(5, 2);
 			Assert::AreEqual(2.5, ResultStatic2);
 
-			Delegate<float, int> DelegateLambda = Delegate<float, int>::Bind<[](int x) -> float { return (float)x * x; }>();
+			Delegate<float, int> DelegateLambda = Delegate<float, int>::Bind < [](int x) -> float { return (float)x * x; } > ();
 			float ResultLambda = DelegateLambda(3);
 			Assert::AreEqual(9.0f, ResultLambda);
 
@@ -66,11 +67,11 @@ namespace UnitTests::Core
 			Delegate<float, int> DelegateInstance = Delegate<float, int>::Bind<DelegateTestClass, &DelegateTestClass::OneParameter>(TestInstance);
 			float ResultInstance = DelegateInstance(5);
 			Assert::AreEqual(25.0f, ResultInstance);
-			
+
 			Delegate<double, int, int> DelegateInstance2 = Delegate<double, int, int>::Bind<DelegateTestClass, &DelegateTestClass::TwoParameters>(TestInstance);
 			double ResultInstance2 = DelegateInstance2(5, 2);
 			Assert::AreEqual(2.5, ResultInstance2);
-			
+
 			Delegate<void, int&> DelegateReference = Delegate<void, int&>::Bind<&DelegateTestClass::StaticOneReferenceParameter>();
 
 			Delegate<void, int*> DelegatePointer = Delegate<void, int*>::Bind<&DelegateTestClass::StaticOnePointerParameter>();

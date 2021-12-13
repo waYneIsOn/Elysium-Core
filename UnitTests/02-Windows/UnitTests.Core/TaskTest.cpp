@@ -1,42 +1,18 @@
 #include "CppUnitTest.h"
-
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "CppUnitTestFrameworkExtension.hpp"
-#endif
 
-#ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Task.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_THREADPOOL
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_THREAD
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DATETIME
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TIMESPAN
 #include "../../../Libraries/01-Shared/Elysium.Core/TimeSpan.hpp"
-#endif
-
-#ifndef _WINDOWS_
-#include <Windows.h>
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_TASKS_OPERATIONCANCELEDEXCEPTION
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/OperationCanceledException.hpp"
-#endif
 
-#ifndef _THREAD_
 #include <thread>
-#endif
+#include <Windows.h>
 
 using namespace Elysium::Core;
+using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Core::Threading;
 using namespace Elysium::Core::Threading::Tasks;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

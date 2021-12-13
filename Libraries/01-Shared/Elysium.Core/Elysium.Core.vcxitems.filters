@@ -62,7 +62,6 @@
       <Filter>Collections\Template</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />

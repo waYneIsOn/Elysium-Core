@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "Delegate.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "List.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
 namespace Elysium::Core
@@ -42,13 +42,13 @@ namespace Elysium::Core
 
 		Event& operator=(Event&& Right) noexcept = delete;
 	public:
-		const Event& operator+=(const Delegate<ReturnType, Args...>& Handler);
+		const Event& operator+=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>& Handler);
 
-		const Event& operator-=(const Delegate<ReturnType, Args...>& Handler);
+		const Event& operator-=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>& Handler);
 
 		ReturnType operator()(const Args... EventArgs);
 	private:
-		Collections::Template::List<Delegate<ReturnType, Args...>> _HandlerList;
+		Collections::Template::List<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
 	};
 
 	template<class ReturnType, class ...Args>
@@ -61,14 +61,14 @@ namespace Elysium::Core
 	{ }
 
 	template<class ReturnType, class ...Args>
-	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator+=(const Delegate<ReturnType, Args...>&Handler)
+	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator+=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>&Handler)
 	{
 		_HandlerList.Add(Handler);
 		return *this;
 	}
 
 	template<class ReturnType, class ...Args>
-	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator-=(const Delegate<ReturnType, Args...>& Handler)
+	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator-=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>& Handler)
 	{
 		_HandlerList.Remove(Handler);
 		return *this;

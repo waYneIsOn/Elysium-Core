@@ -1,54 +1,21 @@
 #include "CppUnitTest.h"
-
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "CppUnitTestFrameworkExtension.hpp"
-#endif
 
-#ifndef ELYSIUM_CORE_THREADING_THREAD
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_INTERLOCKED
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Interlocked.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_MUTEX
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Mutex.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_CRITICALSECTION
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/CriticalSection.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/AutoResetEvent.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_SEMAPHORE
-#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Semaphore.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DATETIME
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TIMESPAN
 #include "../../../Libraries/01-Shared/Elysium.Core/TimeSpan.hpp"
-#endif
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/AutoResetEvent.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/CriticalSection.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Interlocked.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Mutex.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Semaphore.hpp"
 
-#ifndef _WINDOWS_
-#include <Windows.h>
-#endif
-
-#ifndef _THREAD_
 #include <thread>
-#endif
+#include <Windows.h>
 
 using namespace Elysium::Core;
+using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Threading/ManualResetEvent.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../Elysium.Core.Template/Delegate.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_INTERNAL_WINDOWSERRORCODE
 #include "../Elysium.Core/WindowsErrorCode.hpp"
@@ -39,7 +43,7 @@ namespace Elysium::Core::Internal
 	class ELYSIUM_CORE_API AsyncResult : public IAsyncResult
 	{
 	protected:
-		AsyncResult(const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState,
+		AsyncResult(const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState,
 			const Elysium::Core::size Position);
 	public:
 		AsyncResult(const AsyncResult& Source) = delete;
@@ -60,7 +64,7 @@ namespace Elysium::Core::Internal
 
 		virtual const bool GetIsCompleted() const override;
 
-		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
+		const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
 
 		const Elysium::Core::uint16_t GetErrorCode() const;
 
@@ -68,7 +72,7 @@ namespace Elysium::Core::Internal
 		const Elysium::Core::Internal::WindowsErrorCode GetNamedErrorCode() const;
 #endif
 	public:
-		const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
+		const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
 		const void* _AsyncState;
 
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;

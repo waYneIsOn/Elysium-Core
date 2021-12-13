@@ -49,7 +49,7 @@ namespace UnitTests::Core::Speech
 		TEST_METHOD(CheckEventVoiceChanged)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
-			Synthesizer.VoiceChanged += Delegate<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>::Bind<&SpeechSynthesizer_OnVoiceChange>();
+			//Synthesizer.VoiceChanged += Delegate<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>::Bind<&SpeechSynthesizer_OnVoiceChange>();
 
 			CultureInfo EnglishUS = CultureInfo(u8"en-US", false);
 			Vector<InstalledVoice> EnglishVoices = Synthesizer.GetInstalledVoices(EnglishUS);

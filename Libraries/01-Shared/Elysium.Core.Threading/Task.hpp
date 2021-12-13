@@ -66,7 +66,7 @@ namespace Elysium::Core::Threading::Tasks
 	class ELYSIUM_CORE_API Task final : public IAsyncResult
 	{
 	public:
-		Task(const Elysium::Core::Delegate<void>& Action);
+		Task(const Elysium::Core::Template::Container::Delegate<void>& Action);
 
 		Task(const Task& Source) = delete;
 
@@ -108,7 +108,7 @@ namespace Elysium::Core::Threading::Tasks
 	private:
 		static Elysium::Core::int32_t _TaskIdCounter;
 
-		const Elysium::Core::Delegate<void> _Action;
+		const Elysium::Core::Template::Container::Delegate<void> _Action;
 		const Elysium::Core::int32_t _Id;
 		const TaskCreationOptions _CreationOptions;
 		const AutoResetEvent _WaitEvent;

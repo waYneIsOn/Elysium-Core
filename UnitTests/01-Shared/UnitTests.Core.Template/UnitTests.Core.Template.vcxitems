@@ -18,6 +18,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AllocatorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClockTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DelegateTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FixedSizeHeapArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashTableTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HeapArrayTests.cpp" />

@@ -12,11 +12,11 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Threading::Thread::Thread(const Delegate<void>& ThreadStart)
+Elysium::Core::Threading::Thread::Thread(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart)
 	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo::GetInvariantCulture()),
 	_Parameters(ThreadParameters(ThreadStart))
 { }
-Elysium::Core::Threading::Thread::Thread(const Delegate<void, void*>& ParameterizedThreadStart)
+Elysium::Core::Threading::Thread::Thread(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart)
 	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo::GetInvariantCulture()),
 	_Parameters(ThreadParameters(ParameterizedThreadStart))
 { }
@@ -88,10 +88,10 @@ void Elysium::Core::Threading::Thread::Sleep(const TimeSpan & Timeout)
 	ELYSIUM_THREAD_SLEEP(static_cast<unsigned long>(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond), false);
 }
 
-Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void>& ThreadStart)
+Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart)
 	: _Target(ThreadStart._Target), _Method(ThreadStart._Method), _FurtherParameter(nullptr), _ParamaterizedMethod(nullptr)
 { }
-Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Delegate<void, void*>& ParameterizedThreadStart)
+Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart)
 	: _Target(ParameterizedThreadStart._Target), _Method(nullptr), _FurtherParameter(nullptr), _ParamaterizedMethod(ParameterizedThreadStart._Method)
 { }
 Elysium::Core::Threading::Thread::ThreadParameters::~ThreadParameters()

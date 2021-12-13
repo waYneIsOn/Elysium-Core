@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "../Elysium.Core/Delegate.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IASYNCRESULT
 #include "../Elysium.Core/IAsyncResult.hpp"
 #endif
@@ -58,6 +54,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "Stream.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_UTF16ENCODING
@@ -145,12 +145,12 @@ namespace Elysium::Core::IO
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 
 		virtual const Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
+			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult) override;
 
 		virtual const Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
+			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State) override;
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult) override;
 	private:

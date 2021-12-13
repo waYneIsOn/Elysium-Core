@@ -54,18 +54,18 @@ namespace UnitTests::Core::Net::Security
 				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 				});
 
-			Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
+			Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
 				const Elysium::Core::Net::Security::TlsPolicyErrors> UserCertificateValidationCallback =
-				Elysium::Core::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
+				Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
 				const Elysium::Core::Net::Security::TlsPolicyErrors>::Bind<&TlsStreamTests::ValidateServerCertificate>();
 
-			Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
+			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&> UserCertificateSelectionCallback =
-				Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
+				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::Bind<&TlsStreamTests::SelectLocalCertificate>();

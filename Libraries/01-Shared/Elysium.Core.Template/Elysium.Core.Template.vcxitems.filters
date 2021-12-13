@@ -124,9 +124,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Swap.hpp">
       <Filter>Functional</Filter>
@@ -340,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp">
       <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

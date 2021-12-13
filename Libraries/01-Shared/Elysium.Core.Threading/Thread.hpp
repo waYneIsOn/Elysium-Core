@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "../Elysium.Core/Delegate.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TIMESPAN
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
@@ -34,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
 #include "../Elysium.Core.Globalization/CultureInfo.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
@@ -51,24 +51,32 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API Thread final
 	{
 	public:
-		Thread(const Delegate<void>& ThreadStart);
-		Thread(const Delegate<void, void*>& ParameterizedThreadStart);
+		Thread(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart);
+
+		Thread(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart);
+
 		Thread(const Thread& Source) = delete;
+
 		Thread(Thread&& Right) noexcept = delete;
+
 		~Thread();
-
+	public:
 		Thread& operator=(const Thread& Source) = delete;
+
 		Thread& operator=(Thread&& Right) noexcept = delete;
-
+	public:
 		bool operator==(const Thread& Other) const;
-		bool operator!=(const Thread& Other) const;
 
+		bool operator!=(const Thread& Other) const;
+	public:
 		const Globalization::CultureInfo& GetCurrentCulture() const;
+
 		const int GetThreadId() const;
 
 		static const int GetCurrentThreadIdX();
 
 		void Start();
+
 		void Start(void* Parameter);
 
 		void Join();
@@ -84,8 +92,8 @@ namespace Elysium::Core::Threading
 
 		struct ThreadParameters
 		{
-			ThreadParameters(const Delegate<void>& ThreadStart);
-			ThreadParameters(const Delegate<void, void*>& ParameterizedThreadStart);
+			ThreadParameters(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart);
+			ThreadParameters(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart);
 			~ThreadParameters();
 
 			void* _Target;

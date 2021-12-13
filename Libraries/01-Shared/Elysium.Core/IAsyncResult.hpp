@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "Delegate.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
 #include "../Elysium.Core.Threading/WaitHandle.hpp"
 #endif

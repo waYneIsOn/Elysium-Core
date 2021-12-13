@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "../Elysium.Core/Delegate.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
@@ -94,6 +90,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETERROR
 #include "SocketError.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
@@ -215,16 +215,16 @@ namespace Elysium::Core::Net::Sockets
 
 		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
 		
-		const Elysium::Core::IAsyncResult* BeginAccept(const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+		const Elysium::Core::IAsyncResult* BeginAccept(const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		const Socket EndAccept(const Elysium::Core::IAsyncResult* Result);
 
 		const Elysium::Core::IAsyncResult* BeginConnect(const Elysium::Core::Net::EndPoint& RemoteEndPoint, 
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		void EndConnect(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 
-		const Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
+		const Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
 			const void* State);
 
 		void EndDisconnect(const Elysium::Core::IAsyncResult* Result);
@@ -232,12 +232,12 @@ namespace Elysium::Core::Net::Sockets
 		// ToDo: BeginReceiveFrom and BeginSendTo
 		
 		const Elysium::Core::IAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, SocketFlags Flags,
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		const Elysium::Core::size EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 
 		const Elysium::Core::IAsyncResult* BeginSend(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, SocketFlags Flags,
-			const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		const Elysium::Core::size EndSend(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 	private:

@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DELEGATE
-#include "../Elysium.Core/Delegate.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INTERNAL_ASYNCRESULT
 #include "../Elysium.Core/AsyncResult.hpp"
 #endif
@@ -30,6 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
 #include "../Elysium.Core/ArrayOfByte.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
+#include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -46,7 +46,7 @@ namespace Elysium::Core::Net::Sockets
 	{
 		friend class Socket;
 	private:
-		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, 
+		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
 			const void* AsyncState);
 	public:
 		SendReceiveAsyncResult(const SendReceiveAsyncResult& Source) = delete;
