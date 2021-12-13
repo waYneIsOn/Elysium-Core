@@ -32,12 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/HashTable.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
-#include "Assembly.hpp"
-#endif
-
 namespace Elysium::Core::Reflection
 {
+	class Assembly;
+
 	class ELYSIUM_CORE_API AppDomain final
 	{
 		friend class Assembly;
@@ -57,18 +55,22 @@ namespace Elysium::Core::Reflection
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Assembly*> GetAssemblies() const;
 	public:
 		static AppDomain& GetCurrentDomain();
+	/*
+	public:
+		template <class T>
+		static const Type& GetTypeOf();
+	*/
+	private:
+		static Elysium::Core::Reflection::AppDomain _CurrentDomain;
 	private:
 		Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies;
-		//Elysium::Core::Collections::Template::Dictionary<const Module*, const Assembly*> _ModuleAssemblyMap
-		//Elysium::Core::Collections::Template::Dictionary<const Type*, const Module*> _TypeModuleTable
-		//Elysium::Core::Collections::Template::Dictionary<const Elysium::Core::uint64_t*, const Type*> _TypeIdTypeTable
+		//Elysium::Core::Template::Container::HashTable<Module*, Assembly*> _ModuleAssemblyMap;
+		//Elysium::Core::Template::Container::HashTable<Type*, Module*> _TypeModuleTable;
+		//Elysium::Core::Template::Container::HashTable<Elysium::Core::uint64_t*, Type*> _TypeIdTypeTable;
 
 		void Add(const Elysium::Core::Reflection::Assembly& Assembly);
 
 		void Remove(const Elysium::Core::Reflection::Assembly& Assembly);
 	};
-
-	// ToDo: "hide"
-	inline static Elysium::Core::Reflection::AppDomain _CurrentDomain = Elysium::Core::Reflection::AppDomain();
 }
 #endif

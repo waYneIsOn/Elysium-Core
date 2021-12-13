@@ -49,6 +49,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp">
       <Filter>Recognition</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -65,6 +71,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.cpp">
       <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp">
+      <Filter>Synthesis</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

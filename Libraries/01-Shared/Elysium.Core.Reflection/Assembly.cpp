@@ -4,6 +4,10 @@
 #include "AppDomain.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_MODULE
+#include "Module.hpp"
+#endif
+
 Elysium::Core::Reflection::Assembly::Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName)
 	: _AssemblyName(AssemblyName), _Modules()
 {
@@ -55,12 +59,12 @@ const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflectio
 	return Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*>(_Modules);
 }
 
-void Elysium::Core::Reflection::Assembly::Add(const Elysium::Core::Reflection::Module& Module)
+void Elysium::Core::Reflection::Assembly::Add(Elysium::Core::Reflection::Module& Module)
 {
 	_Modules.Add(&Module);
 }
 
-void Elysium::Core::Reflection::Assembly::Remove(const Elysium::Core::Reflection::Module& Module)
+void Elysium::Core::Reflection::Assembly::Remove(Elysium::Core::Reflection::Module& Module)
 {
 	_Modules.Remove(&Module);
 }

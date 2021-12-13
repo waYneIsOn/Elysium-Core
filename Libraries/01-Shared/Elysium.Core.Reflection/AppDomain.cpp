@@ -1,8 +1,15 @@
 #include "AppDomain.hpp"
 
+#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
+#include "Assembly.hpp"
+#endif
+
+Elysium::Core::Reflection::AppDomain Elysium::Core::Reflection::AppDomain::_CurrentDomain = Elysium::Core::Reflection::AppDomain();
+
 Elysium::Core::Reflection::AppDomain::AppDomain()
 	: _RegisteredAssemblies()
 { }
+
 Elysium::Core::Reflection::AppDomain::~AppDomain()
 { }
 

@@ -24,22 +24,29 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_MODULE
+#include "Module.hpp"
+#endif
+
 namespace Elysium::Core::Reflection
 {
-	class Module;
-
 	class ELYSIUM_CORE_API Type final
 	{
 	public:
 		Type(const Module& Module, const Elysium::Core::uint64_t Id, const String& Name);
+
 		Type(const Type& Source) = delete;
+
 		Type(Type&& Right) noexcept = delete;
+
 		~Type();
-
+	public:
 		Type& operator=(const Type& Source) = delete;
-		Type& operator=(Type&& Right) noexcept = delete;
 
+		Type& operator=(Type&& Right) noexcept = delete;
+	public:
 		const Elysium::Core::String GetFullName() const;
+
 		const Elysium::Core::String& GetName() const;
 	private:
 		const Module& _Module;

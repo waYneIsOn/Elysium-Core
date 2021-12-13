@@ -49,6 +49,7 @@ namespace UnitTests::Core::Speech
 		TEST_METHOD(CheckEventVoiceChanged)
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+			Synthesizer.VoiceChanged += Delegate<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>::Bind<&SpeechSynthesizer_OnVoiceChange>();
 
 			CultureInfo EnglishUS = CultureInfo(u8"en-US", false);
 			Vector<InstalledVoice> EnglishVoices = Synthesizer.GetInstalledVoices(EnglishUS);
@@ -182,6 +183,11 @@ namespace UnitTests::Core::Speech
 			Synthesizer2.Speak(u8"This file is called SpeechSynthesizer2 dot wav");
 
 			Synthesizer1.WaitUntilDone(TimeSpan::FromSeconds(1));
+		}
+	private:
+		static void SpeechSynthesizer_OnVoiceChange(const SpeechSynthesizer&, const VoiceChangeEventArgs&)
+		{
+			bool bla = false;
 		}
 	};
 }

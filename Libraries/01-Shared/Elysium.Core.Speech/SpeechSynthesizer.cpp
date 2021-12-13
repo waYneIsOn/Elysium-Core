@@ -19,8 +19,9 @@
 #endif
 
 Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeechSynthesizer()
+	: VoiceChanged(),
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	: _NativeSynthesizer(InitializeNativeSynthesizer()), _NativeMemoryStream(InitializeNativeStream()), _TargetStream(nullptr)
+	_NativeSynthesizer(InitializeNativeSynthesizer()), _NativeMemoryStream(InitializeNativeStream()), _TargetStream(nullptr)
 #endif
 { }
 

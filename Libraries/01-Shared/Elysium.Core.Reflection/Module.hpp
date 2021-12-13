@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
@@ -28,31 +32,36 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/List.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_TYPE
-#include "Type.hpp"
-#endif
-
 namespace Elysium::Core::Reflection
 {
 	class Assembly;
+	class Type;
 
 	class ELYSIUM_CORE_API Module final
 	{
 		friend class Type;
 	public:
 		Module(const Assembly& Assembly, const String& Name);
-		Module(const Module& Source) = delete;
-		Module(Module&& Right) noexcept = delete;
-		~Module();
 
+		Module(const Module& Source) = delete;
+
+		Module(Module&& Right) noexcept = delete;
+
+		~Module();
+	public:
 		Module& operator=(const Module& Source) = delete;
+
 		Module& operator=(Module&& Right) noexcept = delete;
 
+		const bool operator==(const Module& Other) const;
+	public:
 		const Assembly& GetAssembly() const;
 
 		const Elysium::Core::String& GetName() const;
 
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*> GetTypes() const;
+	public:
+		const Elysium::Core::size GetHashCode() const;
 	private:
 		const Assembly& _Assembly;
 		const String _Name;

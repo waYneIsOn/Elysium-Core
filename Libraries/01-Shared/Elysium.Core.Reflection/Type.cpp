@@ -1,14 +1,11 @@
 #include "Type.hpp"
 
-#ifndef ELYSIUM_CORE_REFLECTION_MODULE
-#include "Module.hpp"
-#endif
-
 Elysium::Core::Reflection::Type::Type(const Module& Module, const Elysium::Core::uint64_t Id, const String& Name)
 	: _Module(Module), _Id(Id), _Name(Name)
 {
 	((Elysium::Core::Reflection::Module&)_Module).Add(*this);
 }
+
 Elysium::Core::Reflection::Type::~Type()
 {
 	((Elysium::Core::Reflection::Module&)_Module).Remove(*this);

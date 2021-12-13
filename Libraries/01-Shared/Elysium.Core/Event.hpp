@@ -31,14 +31,19 @@ namespace Elysium::Core
 	{
 	public:
 		Event();
+
 		Event(const Event& Source) = delete;
+
 		Event(Event&& Right) noexcept = delete;
+
 		~Event();
-
+	public:
 		Event& operator=(const Event& Source) = delete;
-		Event& operator=(Event&& Right) noexcept = delete;
 
+		Event& operator=(Event&& Right) noexcept = delete;
+	public:
 		const Event& operator+=(const Delegate<ReturnType, Args...>& Handler);
+
 		const Event& operator-=(const Delegate<ReturnType, Args...>& Handler);
 
 		ReturnType operator()(const Args... EventArgs);

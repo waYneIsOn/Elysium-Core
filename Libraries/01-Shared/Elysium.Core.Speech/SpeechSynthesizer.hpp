@@ -52,6 +52,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SynthesizerState.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICECHANGEEVENTARGS
+#include "VoiceChangeEventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICEINFO
 #include "VoiceInfo.hpp"
 #endif
@@ -103,9 +107,8 @@ namespace Elysium::Core::Speech::Synthesis
 		Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&> SpeakStarted;
 
 		Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&> VisemeReached;
-
-		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
 		*/
+		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
 	public:
 		const Elysium::Core::uint32_t GetRate() const;
 

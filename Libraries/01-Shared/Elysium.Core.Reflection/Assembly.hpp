@@ -28,20 +28,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/List.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
-#include "../Elysium.Core.Template/HashTable.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
 #include "AssemblyName.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_MODULE
-#include "Module.hpp"
-#endif
-
 namespace Elysium::Core::Reflection
 {
+	class Module;
+
 	class ELYSIUM_CORE_API Assembly final
 	{
 		friend class Module;
@@ -78,8 +72,9 @@ namespace Elysium::Core::Reflection
 
 		Elysium::Core::Collections::Template::List<const Module*> _Modules;
 
-		void Add(const Elysium::Core::Reflection::Module& Module);
-		void Remove(const Elysium::Core::Reflection::Module& Module);
+		void Add(Elysium::Core::Reflection::Module& Module);
+
+		void Remove(Elysium::Core::Reflection::Module& Module);
 	};
 }
 #endif

@@ -20,20 +20,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioChannel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerEmphasis.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceGender.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp" />
   </ItemGroup>
 </Project>

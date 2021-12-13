@@ -4,14 +4,24 @@
 #include "Assembly.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_REFLECTION_TYPE
+#include "Type.hpp"
+#endif
+
 Elysium::Core::Reflection::Module::Module(const Assembly& Assembly, const String& Name)
 	: _Assembly(Assembly), _Name(Name), _Types()
 {
 	((Elysium::Core::Reflection::Assembly&)_Assembly).Add(*this);
 }
+
 Elysium::Core::Reflection::Module::~Module()
 {
 	((Elysium::Core::Reflection::Assembly&)_Assembly).Remove(*this);
+}
+
+const bool Elysium::Core::Reflection::Module::operator==(const Module& Other) const
+{
+	return _Assembly == Other._Assembly && _Name == Other._Name;
 }
 
 const Elysium::Core::Reflection::Assembly& Elysium::Core::Reflection::Module::GetAssembly() const
@@ -27,6 +37,11 @@ const Elysium::Core::String& Elysium::Core::Reflection::Module::GetName() const
 const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*> Elysium::Core::Reflection::Module::GetTypes() const
 {
 	return Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*>(_Types);
+}
+
+const Elysium::Core::size Elysium::Core::Reflection::Module::GetHashCode() const
+{
+	return _Name.GetHashCode();
 }
 
 void Elysium::Core::Reflection::Module::Add(const Elysium::Core::Reflection::Type& Type)

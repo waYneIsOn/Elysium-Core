@@ -17,9 +17,4 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Emit">
-      <UniqueIdentifier>{af2d7dbe-bd9a-4059-ab05-3d4596b19193}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
 </Project>
