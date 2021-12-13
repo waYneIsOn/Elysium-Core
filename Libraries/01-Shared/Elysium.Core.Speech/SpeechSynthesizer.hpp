@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_EVENT
+#include "../Elysium.Core/Event.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
@@ -85,9 +89,27 @@ namespace Elysium::Core::Speech::Synthesis
 
 		SpeechSynthesizer& operator=(SpeechSynthesizer&& Right) noexcept = delete;
 	public:
+		/*
+		Event<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&> BookmarkReached;
+
+		Event<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&> PhonemeReached;
+
+		Event<void, const SpeechSynthesizer&, const StateChangedEventArgs&> StateChanged;
+
+		Event<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&> SpeakCompleted;
+
+		Event<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&> SpeakProgress;
+		
+		Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&> SpeakStarted;
+
+		Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&> VisemeReached;
+
+		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
+		*/
+	public:
 		const Elysium::Core::uint32_t GetRate() const;
 
-		//const SynthesizerState GetState() const;
+		const SynthesizerState GetState() const;
 
 		const VoiceInfo GetVoice() const;
 
@@ -114,6 +136,8 @@ namespace Elysium::Core::Speech::Synthesis
 		void SetOutputToDefaultAudioDevice();
 
 		void SetOutputToWaveFile(const Elysium::Core::String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo);
+
+		void SetOutputToWaveStream(Elysium::Core::IO::Stream& AudioDestination);
 
 		void Speak(const char8_t* TextToSpeak);
 
@@ -147,6 +171,8 @@ namespace Elysium::Core::Speech::Synthesis
 		HRESULT SetNativeVoice(ISpObjectToken* VoiceToken) noexcept;
 
 		HRESULT SpeakNatively(const wchar_t* TextToSpeak, const Elysium::Core::int32_t Flags) noexcept;
+
+		static void NativeSynthesizerEventCallback(WPARAM wParam, LPARAM lParam);
 #endif
 	};
 }

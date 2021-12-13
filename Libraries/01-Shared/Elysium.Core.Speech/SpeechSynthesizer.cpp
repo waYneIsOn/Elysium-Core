@@ -67,6 +67,23 @@ const Elysium::Core::uint32_t Elysium::Core::Speech::Synthesis::SpeechSynthesize
 #endif
 }
 
+const Elysium::Core::Speech::Synthesis::SynthesizerState Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetState() const
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	SPVOICESTATUS VoiceStatus;
+	LPWSTR LastBookmark = { };
+	HRESULT Result = _NativeSynthesizer->GetStatus(&VoiceStatus, &LastBookmark);
+	if (FAILED(Result))
+	{	// ToDo: throw specific excetpion
+		throw 1;
+	}
+
+	return (SynthesizerState)VoiceStatus.dwRunningState;
+#else
+	throw 1;
+#endif
+}
+
 const Elysium::Core::Speech::Synthesis::VoiceInfo Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetVoice() const
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -435,8 +452,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(co
 		_NativeMemoryStream = InitializeNativeStream();
 	}
 
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> PathBytes =
-		_WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> PathBytes = _WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
 
 	WAVEFORMATEX NativeFormat = WAVEFORMATEX();
 	NativeFormat.wFormatTag = static_cast<Elysium::Core::uint16_t>(FormatInfo.GetEncodingFormat());
@@ -463,6 +479,15 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(co
 #endif
 }
 
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveStream(Elysium::Core::IO::Stream& AudioDestination)
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	throw 1;
+#else
+	throw 1;
+#endif
+}
+
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const char8_t* TextToSpeak)
 {
 	if (TextToSpeak == nullptr)
@@ -475,7 +500,6 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const char8
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_ASYNC);
-	//HRESULT Result = _NativeSynthesizer->Speak((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_ASYNC, nullptr);
 	if (FAILED(Result))
 	{	// ToDo: throw specific excetpion
 		throw 1;
@@ -502,7 +526,6 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const char8_t* T
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_DEFAULT);
-	//HRESULT Result = _NativeSynthesizer->Speak((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_DEFAULT, nullptr);
 	if (FAILED(Result))
 	{	// ToDo: throw specific excetpion
 		throw 1;
@@ -529,7 +552,6 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const char8_
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML);
-	//HRESULT Result = _NativeSynthesizer->Speak((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML, nullptr);
 	if (FAILED(Result))
 	{	// ToDo: throw specific excetpion
 		throw 1;
@@ -556,7 +578,6 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const c
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML | SPEAKFLAGS::SPF_ASYNC);
-	//HRESULT Result = _NativeSynthesizer->Speak((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML | SPEAKFLAGS::SPF_ASYNC, nullptr);
 	if (FAILED(Result))
 	{	// ToDo: throw specific excetpion
 		throw 1;
@@ -588,14 +609,42 @@ ISpVoice* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNativeS
 		return nullptr;
 	}
 
-	ISpVoice* NativeVoice = nullptr;
-	HRESULT Result = CoCreateInstance(CLSID_SpVoice, nullptr, CLSCTX_ALL, IID_ISpVoice, (void**)&NativeVoice);
-	if (FAILED(Result))
+	HRESULT Result = S_OK;
+
+	ISpVoice* NativeSynthesizer = nullptr;
+	if (FAILED(Result = CoCreateInstance(CLSID_SpVoice, nullptr, CLSCTX_ALL, IID_ISpVoice, (void**)&NativeSynthesizer)))
 	{
 		return nullptr;
 	}
 
-	return NativeVoice;
+	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_VOICE_CHANGE) | SPFEI(SPEVENTENUM::SPEI_SOUND_END) | SPFEI(SPEVENTENUM::SPEI_SOUND_START)
+		| SPFEI(SPEVENTENUM::SPEI_WORD_BOUNDARY) | SPFEI(SPEVENTENUM::SPEI_PHONEME) | SPFEI(SPEVENTENUM::SPEI_VISEME);
+	if (FAILED(NativeSynthesizer->SetInterest(Interests, Interests)))
+	{
+		NativeSynthesizer->Release();
+		NativeSynthesizer = nullptr;
+
+		return nullptr;
+	}
+	
+	if (FAILED(Result = NativeSynthesizer->SetNotifyCallbackFunction(&NativeSynthesizerEventCallback, 0, 0)))
+	{
+		NativeSynthesizer->Release();
+		NativeSynthesizer = nullptr;
+
+		return nullptr;
+	}
+	/*
+	ISpNotifySink* NativeNotificationSink = nullptr;
+	if (FAILED(Result = NativeSynthesizer->SetNotifySink(NativeNotificationSink)))
+	{
+		NativeSynthesizer->Release();
+		NativeSynthesizer = nullptr;
+
+		return nullptr;
+	}
+	*/
+	return NativeSynthesizer;
 }
 
 ISpStream* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNativeStream()
@@ -612,7 +661,26 @@ ISpStream* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNative
 
 HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetNativeVoice(ISpObjectToken* VoiceToken) noexcept
 {
-	return _NativeSynthesizer->SetVoice(VoiceToken);
+	HRESULT Result = S_OK;
+	if (SUCCEEDED(Result = _NativeSynthesizer->SetVoice(VoiceToken)))
+	{
+		/*
+		SPEVENT eventItem = SPEVENT();
+		while (_NativeSynthesizer->GetEvents(1, &eventItem, NULL) == S_OK)
+		{
+			switch (eventItem.eEventId)
+			{
+			case SPEI_WORD_BOUNDARY:
+				break;
+			default:
+				break;
+			}
+		}
+		SpClearEvent(&eventItem);
+		*/
+	}
+
+	return Result;
 }
 
 HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakNatively(const wchar_t* TextToSpeak, const Elysium::Core::int32_t Flags) noexcept
@@ -648,5 +716,10 @@ HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakNatively(const
 	}
 
 	return Result;
+}
+
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::NativeSynthesizerEventCallback(WPARAM wParam, LPARAM lParam)
+{
+	bool asdfasdf = false;
 }
 #endif

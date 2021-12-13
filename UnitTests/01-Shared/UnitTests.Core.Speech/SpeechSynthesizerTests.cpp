@@ -32,7 +32,8 @@ namespace UnitTests::Core::Speech
 				const bool Enabled = AllInstalledVoices[i].GetEnabled();
 				const VoiceInfo& Voice = AllInstalledVoices[i].GetVoiceInfo();
 
-				//Logger::WriteMessage(AllInstalledVoices[i].GetVoiceInfo().GetId());
+				Logger::WriteMessage((char*)&AllInstalledVoices[i].GetVoiceInfo().GetId()[0]);
+				Logger::WriteMessage("\r\n");
 			}
 
 			VoiceInfo Voice = Synthesizer.GetVoice();
@@ -43,6 +44,22 @@ namespace UnitTests::Core::Speech
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceAge::Adult), static_cast<Elysium::Core::uint8_t>(Voice.GetAge()));
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceGender::Female), static_cast<Elysium::Core::uint8_t>(Voice.GetGender()));
 			Assert::AreEqual(1033, VoiceCulture.GetLCID());
+		}
+
+		TEST_METHOD(CheckEventVoiceChanged)
+		{
+			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
+
+			CultureInfo EnglishUS = CultureInfo(u8"en-US", false);
+			Vector<InstalledVoice> EnglishVoices = Synthesizer.GetInstalledVoices(EnglishUS);
+			Assert::IsTrue(EnglishVoices.GetLength() > 0);
+
+			CultureInfo GermanGermany = CultureInfo(u8"de-DE", false);
+			Vector<InstalledVoice> GermanVoices = Synthesizer.GetInstalledVoices(GermanGermany);
+			Assert::IsTrue(GermanVoices.GetLength() > 0);
+
+			Synthesizer.SelectVoice(GermanVoices[0].GetVoiceInfo());
+			Synthesizer.SelectVoice(EnglishVoices[0].GetVoiceInfo());
 		}
 
 		TEST_METHOD(SpeakEnglish)
@@ -106,7 +123,7 @@ namespace UnitTests::Core::Speech
 			Synthesizer.SetOutputToDefaultAudioDevice();
 
 			DateTime Start = DateTime::Now();
-			Synthesizer.SpeakSsml(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
+			Synthesizer.SpeakSsml(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\">1/29/2009</say-as></speak>");
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			Assert::IsTrue(ElapsedTime.GetTotalSeconds() > 3);
 		}
@@ -117,7 +134,7 @@ namespace UnitTests::Core::Speech
 			Synthesizer.SetOutputToDefaultAudioDevice();
 
 			DateTime Start = DateTime::Now();
-			Synthesizer.SpeakSsmlAsync(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\"> 1/29/2009 </say-as></speak>");
+			Synthesizer.SpeakSsmlAsync(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\">1/29/2009</say-as></speak>");
 			
 			Thread::Sleep(TimeSpan::FromSeconds(1));
 			Synthesizer.Pause();
@@ -139,7 +156,12 @@ namespace UnitTests::Core::Speech
 			Synthesizer.SetOutputToAudioStream(TargetStream, FormatInfo);
 			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
 			Assert::AreEqual(1919028_ui64, TargetStream.GetLength());
-			
+			/*
+			FileStream TargetWaveStream = FileStream(u8"SpeechSynthesizer.wav", FileMode::Create, FileAccess::Write, FileShare::None);
+			Synthesizer.SetOutputToWaveStream(TargetWaveStream);
+			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
+			//Assert::AreEqual(TargetStream.GetLength(), TargetWaveStream.GetLength());
+			*/
 			FileStream TargetFileStream = FileStream(u8"SpeechSynthesizer.saf", FileMode::Create, FileAccess::Write, FileShare::None);
 			Synthesizer.SetOutputToAudioStream(TargetFileStream, FormatInfo);
 			Synthesizer.Speak(u8"Look at you, hacker: a pathetic creature of meat and bone, panting and sweating as you run through my corridors. How can you challenge a perfect immortal machine?");
@@ -148,14 +170,18 @@ namespace UnitTests::Core::Speech
 
 		TEST_METHOD(SpeakToWaveFiles)
 		{
-			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			SpeechAudioFormatInfo FormatInfo = SpeechAudioFormatInfo(44100, AudioBitsPerSample::Sixteen, AudioChannel::Stereo);
 
-			Synthesizer.SetOutputToWaveFile(u8"SpeechSynthesizerWave1.wav", FormatInfo);
-			Synthesizer.Speak(u8"This file is called SpeechSynthesizerWave1 dot wav");
+			SpeechSynthesizer Synthesizer1 = SpeechSynthesizer();
+			Synthesizer1.SetOutputToWaveFile(u8"SpeechSynthesizer1.wav", FormatInfo);
+			Synthesizer1.SpeakAsync(u8"This file is called SpeechSynthesizer1 dot wav");
+			Synthesizer1.SpeakSsmlAsync(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"en-US\"><say-as type=\"date:mdy\">1/29/2009</say-as></speak>");
 
-			Synthesizer.SetOutputToWaveFile(u8"SpeechSynthesizerWave2.wav", FormatInfo);
-			Synthesizer.Speak(u8"This file is called SpeechSynthesizerWave2 dot wav");
+			SpeechSynthesizer Synthesizer2 = SpeechSynthesizer();
+			Synthesizer2.SetOutputToWaveFile(u8"SpeechSynthesizer2.wav", FormatInfo);
+			Synthesizer2.Speak(u8"This file is called SpeechSynthesizer2 dot wav");
+
+			Synthesizer1.WaitUntilDone(TimeSpan::FromSeconds(1));
 		}
 	};
 }

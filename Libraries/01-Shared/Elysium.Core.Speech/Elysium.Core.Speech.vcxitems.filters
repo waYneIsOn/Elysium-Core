@@ -34,9 +34,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognizer.hpp">
-      <Filter>Recognition</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.hpp">
       <Filter>AudioFormat</Filter>
     </ClInclude>
@@ -49,6 +46,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp">
       <Filter>AudioFormat</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -60,11 +60,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp">
       <Filter>Synthesis</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognizer.cpp">
-      <Filter>Recognition</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.cpp">
       <Filter>AudioFormat</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.cpp">
+      <Filter>Recognition</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

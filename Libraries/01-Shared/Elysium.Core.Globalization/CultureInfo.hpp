@@ -57,22 +57,33 @@ namespace Elysium::Core::Globalization
 	{
 	public:
 		CultureInfo();
+
 		CultureInfo(const Elysium::Core::int32_t Culture, const bool UseUserOverride);
+
 		CultureInfo(const Elysium::Core::String& Name, const bool UseUserOverride);
+
 		CultureInfo(const CultureInfo& Source);
+
 		CultureInfo(CultureInfo&& Right) noexcept;
+
 		virtual ~CultureInfo();
-
+	public:
 		CultureInfo& operator=(const CultureInfo& Source);
-		CultureInfo& operator=(CultureInfo&& Right) noexcept;
 
+		CultureInfo& operator=(CultureInfo&& Right) noexcept;
+	public:
 		static const CultureInfo GetInvariantCulture();
+
 		static const Elysium::Core::Collections::Template::Array<CultureInfo> GetCultures(const CultureTypes& Types);
 
 		const Elysium::Core::String GetDisplayName() const;
+
 		const Elysium::Core::String GetEnglishName() const;
+
 		const Elysium::Core::String GetName() const;
+
 		const Elysium::Core::int32_t& GetLCID() const;
+
 		NumberFormatInfo GetNumberFormatInfo() const;
 	private:
 		Elysium::Core::int32_t _LCID;
