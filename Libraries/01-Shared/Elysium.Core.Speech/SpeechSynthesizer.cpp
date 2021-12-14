@@ -688,11 +688,30 @@ HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakNatively(const
 {
 	HRESULT Result = S_OK;
 
-	if (FAILED(Result = _NativeSynthesizer->Speak(TextToSpeak, Flags, nullptr)))
+	// always speak async as to give the current thread the ability to poll the message queue (so events can be triggered)
+	if (FAILED(Result = _NativeSynthesizer->Speak(TextToSpeak, Flags | SPEAKFLAGS::SPF_ASYNC, nullptr)))
 	{
 		return Result;
 	}
+	/*
+	MSG Msg;
+	while (::GetMessage(&Msg, NULL, 0, 0))
+	{
+		::TranslateMessage(&Msg);
+		::DispatchMessage(&Msg);
+	}
+	*/
 
+	// since speaking always is going to be executed async, a wait is required if it wasn't explicitly triggered asyncronously
+	if ((Flags & SPEAKFLAGS::SPF_ASYNC) == 0)
+	{
+		HRESULT Result = _NativeSynthesizer->WaitUntilDone(INFINITE);
+		if (FAILED(Result))
+		{	// ToDo: throw specific excetpion
+			throw 1;
+		}
+	}
+	
 	if (_TargetStream != nullptr)
 	{
 		LARGE_INTEGER Begin = { };
