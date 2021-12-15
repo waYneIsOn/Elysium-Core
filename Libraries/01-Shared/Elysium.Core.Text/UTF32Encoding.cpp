@@ -23,12 +23,12 @@ const Elysium::Core::String& Elysium::Core::Text::UTF32Encoding::GetEncodingName
 {
 	if (_BigEndian)
 	{
-		static Elysium::Core::String EncodingName = Elysium::Core::String(u8"Unicode (UTF-32 Big-Endian)");
+		static Elysium::Core::String EncodingName = u8"Unicode (UTF-32 Big-Endian)";
 		return EncodingName;
 	}
 	else
 	{
-		static Elysium::Core::String EncodingName = Elysium::Core::String(u8"Unicode (UTF-32 Little-Endian)");
+		static Elysium::Core::String EncodingName = u8"Unicode (UTF-32 Little-Endian)";
 		return EncodingName;
 	}
 }

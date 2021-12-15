@@ -20,8 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "../Elysium.Core.Template/String.hpp"
+#endif
+
 namespace Elysium::Core
 {
+	//using String = Elysium::Core::Template::Text::Utf8String();
+
 	/*
 	ToDos:
 	- empty/null string as static instance where every empty/null string references it internally

@@ -20,7 +20,7 @@ const bool Elysium::Core::Text::UTF8Encoding::GetIsSingleByte() const
 }
 const Elysium::Core::String& Elysium::Core::Text::UTF8Encoding::GetEncodingName() const
 {
-	static Elysium::Core::String EncodingName = Elysium::Core::String(u8"Unicode (UTF-8)");
+	static Elysium::Core::String EncodingName = u8"Unicode (UTF-8)";
 	return EncodingName;
 }
 

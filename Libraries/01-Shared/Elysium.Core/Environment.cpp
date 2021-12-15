@@ -16,19 +16,19 @@
 #include <thread>
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
 
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r\n");
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\n");
-#elif defined(ELYSIUM_CORE_OS_MAC)
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = Elysium::Core::String(u8"\r");
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u8"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u8"\n";
+#elif defined ELYSIUM_CORE_OS_LINUX
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u8"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = (u8"\r";
 #else
 #error "unsupported os"
 #endif

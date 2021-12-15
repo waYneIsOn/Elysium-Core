@@ -12,7 +12,7 @@ const bool Elysium::Core::Text::ASCIIEncoding::GetIsSingleByte() const
 }
 const Elysium::Core::String& Elysium::Core::Text::ASCIIEncoding::GetEncodingName() const
 {
-	static Elysium::Core::String EncodingName = Elysium::Core::String(u8"US-ASCII");
+	static Elysium::Core::String EncodingName = u8"US-ASCII";
 	return EncodingName;
 }
 

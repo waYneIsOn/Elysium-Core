@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TIMESPAN
-#include "../Elysium.Core/TimeSpan.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_THREADSTATE
-#include "ThreadState.hpp"
+#ifndef ELYSIUM_CORE_TIMESPAN
+#include "../Elysium.Core/TimeSpan.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_GLOBALIZATION_CULTUREINFO
@@ -40,11 +40,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_THREADSTATE
+#include "ThreadState.hpp"
+#endif
+
 #ifndef _ATOMIC_
 #include <atomic>
 #endif
 
-#pragma warning(disable : 4251)
+//#pragma warning(disable : 4251)
 
 namespace Elysium::Core::Threading
 {
@@ -71,9 +75,9 @@ namespace Elysium::Core::Threading
 	public:
 		const Globalization::CultureInfo& GetCurrentCulture() const;
 
-		const int GetThreadId() const;
+		const Elysium::Core::uint32_t GetThreadId() const;
 
-		static const int GetCurrentThreadIdX();
+		static const Elysium::Core::uint32_t GetCurrentThreadIdX();
 
 		void Start();
 

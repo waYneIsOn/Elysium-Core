@@ -40,12 +40,12 @@ const Elysium::Core::Globalization::CultureInfo & Elysium::Core::Threading::Thre
 	// SetThreadUILanguage
 	return _CurrentCulture;
 }
-const int Elysium::Core::Threading::Thread::GetThreadId() const
+const Elysium::Core::uint32_t Elysium::Core::Threading::Thread::GetThreadId() const
 {
 	return _Id;
 }
 
-const int Elysium::Core::Threading::Thread::GetCurrentThreadIdX()
+const Elysium::Core::uint32_t Elysium::Core::Threading::Thread::GetCurrentThreadIdX()
 {
 	return ELYSIUM_THREAD_GETCURRENTTHREADID();
 }
