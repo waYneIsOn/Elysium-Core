@@ -23,7 +23,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
 #include "../Elysium.Core.Template/Delegate.hpp"
 #endif
-
+/*
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
+#endif
+*/
 namespace Elysium::Core
 {
 	template <class ReturnType, class ...Args>
@@ -48,6 +52,7 @@ namespace Elysium::Core
 
 		ReturnType operator()(const Args... EventArgs);
 	private:
+		//Template::Container::Vector<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
 		Collections::Template::List<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
 	};
 
