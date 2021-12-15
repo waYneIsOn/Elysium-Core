@@ -64,6 +64,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeakCompletedEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VisemeReachedEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -94,6 +106,18 @@
       <Filter>Synthesis</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeakCompletedEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)VisemeReachedEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.cpp">
       <Filter>Synthesis</Filter>
     </ClCompile>
   </ItemGroup>

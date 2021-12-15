@@ -52,6 +52,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "InstalledVoice.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_PHONEMEREACHEDEVENTARGS
+#include "PhonemeReachedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SPEAKCOMPLETEDEVENTARGS
+#include "SpeakCompletedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SPEAKPROGRESSEVENTARGS
+#include "SpeakProgressEventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SPEAKSTARTEDEVENTARGS
 #include "SpeakStartedEventArgs.hpp"
 #endif
@@ -62,6 +74,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SYNTHESIZERSTATE
 #include "SynthesizerState.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VISEMEREACHEDEVENTARGS
+#include "VisemeReachedEventArgs.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICECHANGEEVENTARGS
@@ -166,17 +182,17 @@ namespace Elysium::Core::Speech::Synthesis
 		/// <summary>
 		/// Raised when a phoneme is reached.
 		/// </summary>
-		Event<void, const SpeechSynthesizer&> PhonemeReached;
+		Event<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&> PhonemeReached;
 
 		/// <summary>
 		/// Raised when the SpeechSynthesizer completes the speaking of a prompt.
 		/// </summary>
-		Event<void, const SpeechSynthesizer&> SpeakCompleted;
+		Event<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&> SpeakCompleted;
 
 		/// <summary>
 		/// Raised after the SpeechSynthesizer speaks each individual word of a prompt.
 		/// </summary>
-		Event<void, const SpeechSynthesizer&> SpeakProgress;
+		Event<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&> SpeakProgress;
 
 		/// <summary>
 		/// Raised when the SpeechSynthesizer begins the speaking of a prompt.
@@ -191,29 +207,12 @@ namespace Elysium::Core::Speech::Synthesis
 		/// <summary>
 		/// Raised when a viseme is reached.
 		/// </summary>
-		Event<void, const SpeechSynthesizer&> VisemeReached;
+		Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&> VisemeReached;
 
 		/// <summary>
 		/// Raised when the voice of the SpeechSynthesizer changes.
 		/// </summary>
 		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
-		/*
-		Event<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&> BookmarkReached;
-
-		Event<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&> PhonemeReached;
-
-		Event<void, const SpeechSynthesizer&, const StateChangedEventArgs&> StateChanged;
-
-		Event<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&> SpeakCompleted;
-
-		Event<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&> SpeakProgress;
-
-		Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&> SpeakStarted;
-
-		Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&> VisemeReached;
-
-		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
-		*/
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();

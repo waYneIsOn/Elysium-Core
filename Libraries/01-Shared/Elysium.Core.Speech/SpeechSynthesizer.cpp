@@ -275,6 +275,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Pause()
 	{	// ToDo: throw specific exception
 		throw 1;
 	}
+	StateChanged(*this, StateChangedEventArgs(u8"PROMPT", SynthesizerState::Speaking, SynthesizerState::Paused));
 }
 
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Resume()
@@ -284,6 +285,12 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Resume()
 	{	// ToDo: throw specific exception
 		throw 1;
 	}
+	StateChanged(*this, StateChangedEventArgs(u8"PROMPT", SynthesizerState::Paused, SynthesizerState::Speaking));
+
+	// ToDo:
+	// this should be done async as the speak was triggered in an async fashion!
+	// as I am currently unaware of how microsoft does this (freesync notifications?), I will leave this in for now
+	ProcessEventMessageQueue();
 }
 
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const String& Name)
@@ -730,41 +737,41 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQue
 			{
 			case SPEVENTENUM::SPEI_START_INPUT_STREAM:
 			{
-				StateChanged(*this, StateChangedEventArgs(u8"", SynthesizerState::Ready, SynthesizerState::Speaking));
-				SpeakStarted(*this, SpeakStartedEventArgs(u8""));
+				StateChanged(*this, StateChangedEventArgs(u8"PROMPT", SynthesizerState::Ready, SynthesizerState::Speaking));
+				SpeakStarted(*this, SpeakStartedEventArgs(u8"PROMPT"));
 				break;
 			}
 			case SPEVENTENUM::SPEI_END_INPUT_STREAM:
 			{
-				SpeakCompleted(*this);
-				StateChanged(*this, StateChangedEventArgs(u8"", SynthesizerState::Speaking, SynthesizerState::Ready));
+				SpeakCompleted(*this, SpeakCompletedEventArgs(u8"PROMPT"));
+				StateChanged(*this, StateChangedEventArgs(u8"PROMPT", SynthesizerState::Speaking, SynthesizerState::Ready));
 				break;
 			}
 			case SPEVENTENUM::SPEI_VOICE_CHANGE:
 			{
-				VoiceChanged(*this, VoiceChangeEventArgs(u8"", VoiceInfo((ISpObjectToken*)Event.lParam, false)));
+				VoiceChanged(*this, VoiceChangeEventArgs(u8"PROMPT", VoiceInfo((ISpObjectToken*)Event.lParam, false)));
 				break;
 			}
 			case SPEVENTENUM::SPEI_TTS_BOOKMARK:
 			{
 				wchar_t* BookmarkValue = (wchar_t*)Event.lParam;
-				BookmarkReached(*this, BookmarkReachedEventArgs(u8"", Event.ullAudioStreamOffset,
+				BookmarkReached(*this, BookmarkReachedEventArgs(u8"PROMPT", Event.ullAudioStreamOffset,
 					_WindowsEncoding.GetString((Elysium::Core::byte*)BookmarkValue, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(BookmarkValue))));
 				break;
 			}
 			case SPEVENTENUM::SPEI_WORD_BOUNDARY:
 			{
-				SpeakProgress(*this);
+				SpeakProgress(*this, SpeakProgressEventArgs(u8"PROMPT", Event.ullAudioStreamOffset, Event.wParam, Event.lParam));
 				break;
 			}
 			case SPEVENTENUM::SPEI_PHONEME:
 			{
-				PhonemeReached(*this);
+				PhonemeReached(*this, PhonemeReachedEventArgs(u8"PROMPT"));
 				break;
 			}
 			case SPEVENTENUM::SPEI_VISEME:
 			{
-				VisemeReached(*this);
+				VisemeReached(*this, VisemeReachedEventArgs(u8"PROMPT"));
 				break;
 			}
 			default:

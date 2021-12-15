@@ -59,15 +59,22 @@ namespace UnitTests::Core::Speech
 
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			Synthesizer.BookmarkReached += Delegate<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&>::Bind<&SpeechSynthesizer_OnBookmarkReached>();
-			Synthesizer.PhonemeReached += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnPhonemeReached>();
+			Synthesizer.PhonemeReached += Delegate<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&>::Bind<&SpeechSynthesizer_OnPhonemeReached>();
 			Synthesizer.StateChanged += Delegate<void, const SpeechSynthesizer&, const StateChangedEventArgs&>::Bind<&SpeechSynthesizer_OnStateChanged>();
-			Synthesizer.SpeakCompleted += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnSpeakCompleted>();
+			Synthesizer.SpeakCompleted += Delegate<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&>::Bind<&SpeechSynthesizer_OnSpeakCompleted>();
 			Synthesizer.SpeakProgress += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnSpeakProgress>();
 			Synthesizer.SpeakStarted += Delegate<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&>::Bind<&SpeechSynthesizer_OnSpeakStarted>();
-			Synthesizer.VisemeReached += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnVisemeReached>();
+			Synthesizer.VisemeReached += Delegate<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&>::Bind<&SpeechSynthesizer_OnVisemeReached>();
 			Synthesizer.VoiceChanged += Delegate<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>::Bind<&SpeechSynthesizer_OnVoiceChange>();
 
-			Synthesizer.SpeakSsmlAsync(u8"The weather forecast for today is partly cloudy with some sun breaks.<bookmark mark='Daytime forecast'/>Tonight's weather will be cloudy with a 30% chance of showers.<bookmark mark='Nighttime forecast'/>");
+			Synthesizer.SpeakSsmlAsync(u8"I am speaking some text and some more stuff and so on until I'm finished and this goes on and on and on and on.");
+
+			Thread::Sleep(TimeSpan::FromSeconds(1));
+			Synthesizer.Pause();
+
+			Thread::Sleep(TimeSpan::FromSeconds(3));
+			Synthesizer.Resume();
+
 			Synthesizer.WaitUntilDone(TimeSpan::FromSeconds(25));
 			*/
 		}
@@ -81,13 +88,13 @@ namespace UnitTests::Core::Speech
 
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			Synthesizer.BookmarkReached += Delegate<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&>::Bind<&SpeechSynthesizer_OnBookmarkReached>();
-			Synthesizer.PhonemeReached += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnPhonemeReached>();
+			Synthesizer.PhonemeReached += Delegate<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&>::Bind<&SpeechSynthesizer_OnPhonemeReached>();
 			Synthesizer.StateChanged += Delegate<void, const SpeechSynthesizer&, const StateChangedEventArgs&>::Bind<&SpeechSynthesizer_OnStateChanged>();
-			// don't need to subscribe to SpeakCompleted event as it is not going to be triggered when speaking synchronously
-			//Synthesizer.SpeakCompleted += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnSpeakCompleted>();
-			Synthesizer.SpeakProgress += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnSpeakProgress>();
+			// I don't need to subscribe to SpeakCompleted event as it's not going to be triggered when speaking synchronously!
+			//Synthesizer.SpeakCompleted += Delegate<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&>::Bind<&SpeechSynthesizer_OnSpeakCompleted>();
+			Synthesizer.SpeakProgress += Delegate<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&>::Bind<&SpeechSynthesizer_OnSpeakProgress>();
 			Synthesizer.SpeakStarted += Delegate<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&>::Bind<&SpeechSynthesizer_OnSpeakStarted>();
-			Synthesizer.VisemeReached += Delegate<void, const SpeechSynthesizer&>::Bind<&SpeechSynthesizer_OnVisemeReached>();
+			Synthesizer.VisemeReached += Delegate<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&>::Bind<&SpeechSynthesizer_OnVisemeReached>();
 			Synthesizer.VoiceChanged += Delegate<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>::Bind<&SpeechSynthesizer_OnVoiceChange>();
 
 			//Synthesizer.SpeakSsml(u8"<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\" xml:lang=\"string\"><voice name=\"en-US-JennyNeural\"><bookmark mark=\"Daytime_forecast\"/>The weather forecast for today is partly cloudy with some sun breaks. Tonight's weather will be cloudy with a 30% chance of showers<bookmark mark=\"Nighttime forecast\"/></voice></speak>");
@@ -229,7 +236,7 @@ namespace UnitTests::Core::Speech
 			Logger::WriteMessage("\r\n");
 		}
 
-		static void SpeechSynthesizer_OnPhonemeReached(const SpeechSynthesizer& Synthesizer)
+		static void SpeechSynthesizer_OnPhonemeReached(const SpeechSynthesizer& Synthesizer, const PhonemeReachedEventArgs& EventArgs)
 		{
 			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
@@ -238,7 +245,7 @@ namespace UnitTests::Core::Speech
 			Logger::WriteMessage("\r\n");
 		}
 
-		static void SpeechSynthesizer_OnSpeakCompleted(const SpeechSynthesizer& Synthesizer)
+		static void SpeechSynthesizer_OnSpeakCompleted(const SpeechSynthesizer& Synthesizer, const SpeakCompletedEventArgs& EventArgs)
 		{
 			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
@@ -247,7 +254,7 @@ namespace UnitTests::Core::Speech
 			Logger::WriteMessage("\r\n");
 		}
 
-		static void SpeechSynthesizer_OnSpeakProgress(const SpeechSynthesizer& Synthesizer)
+		static void SpeechSynthesizer_OnSpeakProgress(const SpeechSynthesizer& Synthesizer, const SpeakProgressEventArgs& EventArgs)
 		{
 			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
@@ -298,7 +305,7 @@ namespace UnitTests::Core::Speech
 			Logger::WriteMessage("\r\n");
 		}
 
-		static void SpeechSynthesizer_OnVisemeReached(const SpeechSynthesizer& Synthesizer)
+		static void SpeechSynthesizer_OnVisemeReached(const SpeechSynthesizer& Synthesizer, const VisemeReachedEventArgs& EventArgs)
 		{
 			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 

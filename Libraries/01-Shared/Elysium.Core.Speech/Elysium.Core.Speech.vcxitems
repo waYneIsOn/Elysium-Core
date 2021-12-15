@@ -21,7 +21,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeakCompletedEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp" />
@@ -29,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerEmphasis.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VisemeReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceGender.hpp" />
@@ -37,12 +41,16 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeakCompletedEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VisemeReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp" />
   </ItemGroup>
