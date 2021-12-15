@@ -19,14 +19,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClockTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DelegateTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FixedSizeHeapArrayTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FixedSizeArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HashTableTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)HeapArrayTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DynamicSizeArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LinkedListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StackArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VectorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTests.cpp" />

@@ -18,6 +18,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
+	namespace Collections::Template
+	{
+		template <typename T>
+		class List;
+	}
+
 	namespace Threading
 	{
 		class Thread;
@@ -29,6 +35,7 @@ namespace Elysium::Core::Template::Container
 	template <class ReturnType, class ...Args>
 	class Delegate
 	{
+		friend class Collections::Template::List<Delegate<ReturnType, Args...>>;
 		friend class Threading::Thread;
 	private:
 		Delegate();

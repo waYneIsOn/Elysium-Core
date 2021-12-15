@@ -24,12 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DoubleBuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEHEAPARRAY
-#include "FixedSizeHeapArray.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DYNAMICSIZEARRAY
+#include "DynamicSizeArray.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HEAPARRAY
-#include "HeapArray.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEARRAY
+#include "FixedSizeArray.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_LINKEDLIST
@@ -42,10 +42,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "InitializerList.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACKARRAY
-#include "StackArray.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE

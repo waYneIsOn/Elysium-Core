@@ -118,7 +118,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignableAndConstructible.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeHeapArray.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeArray.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
@@ -152,7 +152,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HeapArray.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)DynamicSizeArray.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp">
@@ -277,9 +277,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp">
       <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StackArray.hpp">
-      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)HashTableForwardIterator.hpp">
       <Filter>Iterator</Filter>

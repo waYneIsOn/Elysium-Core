@@ -35,11 +35,15 @@ namespace Elysium::Core::Template::Container
 	{
 	public:
 		Array() = delete;
+
 		Array(const Array& Source) = delete;
+
 		Array(Array&& Right) noexcept = delete;
+
 		~Array() = delete;
 	public:
 		Array<T>& operator=(const Array& Source) = delete;
+
 		Array<T>& operator=(Array&& Right) noexcept = delete;
 	public:
 		/// <summary>
@@ -94,6 +98,7 @@ namespace Elysium::Core::Template::Container
 
 		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
 		{
+			//First[i]~();
 			First[i] = T();
 		}
 	}

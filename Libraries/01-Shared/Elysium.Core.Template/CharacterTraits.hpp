@@ -77,12 +77,12 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the smallest possible value as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MinimumValue = Elysium::Core::Template::Numeric::NumericLimits<I>::Minimum;
+		static constexpr ConstValue MinimumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericLimits<I>::Minimum);
 
 		/// <summary>
 		/// Returns the largest possible value as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MaximumValue = Elysium::Core::Template::Numeric::NumericLimits<I>::Maximum;
+		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericLimits<I>::Maximum);
 	public:
 		/// <summary>
 		/// Returns the number of characters in given string up until the first null-termination character.

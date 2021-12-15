@@ -64,8 +64,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EnableIf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeHeapArray.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)HeapArray.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeArray.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DynamicSizeArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
@@ -107,7 +107,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SameAs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StackArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />

@@ -12,12 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
+#include "../Elysium.Core/ArgumentException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_GLOBALIZATION_NUMBERFORMATINFO
+#include "../Elysium.Core.Globalization/NumberFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
@@ -32,6 +40,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CharacterTraits.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "String.hpp"
+#endif
+
+#ifndef _CMATH_
+#include <cmath>
+#endif
+
 namespace Elysium::Core::Template::Text
 {
 	template <Concepts::Character C>
@@ -43,13 +59,72 @@ namespace Elysium::Core::Template::Text
 		using ConstValue = const C;
 		using ConstPointer = const C*;
 		using ConstReference = const C&;
+
+		using String = StringBase<C>;
 	public:
+		static const typename Convert<C>::String ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase, 
+			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+
+		static const typename Convert<C>::String ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase);
+
+		static const typename Convert<C>::String ToString(Elysium::Core::uint32_t Value);
+		
 		static Elysium::Core::int32_t ToInt32(ConstPointer Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase);
 	private:
 		static const Elysium::Core::int32_t ToInt32FromBase10(ConstPointer Value, const Elysium::Core::size Length);
 
 		static const Elysium::Core::int32_t ToInt32FromBase16(ConstPointer Value, const Elysium::Core::size Length);
 	};
+
+	template<Concepts::Character C>
+	const typename Elysium::Core::Template::Text::Convert<C>::String Elysium::Core::Template::Text::Convert<C>::ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	{
+		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
+		{
+			throw Elysium::Core::ArgumentException(u8"ToBase");
+		}
+
+		if (Value == 0)
+		{
+			return "0";
+		}
+
+		Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
+		Elysium::Core::uint8_t Index = 0;
+		RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Elysium::Core::Template::Text::Convert<C>::String Result = Elysium::Core::Template::Text::Convert<C>::String(RequiredNumberOfCharacters);
+
+		while (Index < RequiredNumberOfCharacters)
+		{
+			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + static_cast<C>('0');
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + static_cast<C>('A');
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
+	}
+
+	template<Concepts::Character C>
+	const typename Elysium::Core::Template::Text::Convert<C>::String Elysium::Core::Template::Text::Convert<C>::ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase)
+	{
+		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+
+	template<Concepts::Character C>
+	const typename Elysium::Core::Template::Text::Convert<C>::String Elysium::Core::Template::Text::Convert<C>::ToString(Elysium::Core::uint32_t Value)
+	{
+		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase)

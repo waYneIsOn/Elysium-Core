@@ -45,6 +45,8 @@ namespace Elysium::Core::Template::Text
 		using ConstCharacter = const C;
 		using CharPointer = C*;
 		using ConstCharPointer = const C*;
+		using CharReference = C&;
+		using ConstCharReference = const C&;
 	private:
 		struct HeapString final
 		{
@@ -71,9 +73,9 @@ namespace Elysium::Core::Template::Text
 
 		StringBase(ConstCharPointer Value) noexcept;
 
-		StringBase(ConstCharPointer Value, const Elysium::Core::size Size) noexcept;
+		StringBase(ConstCharPointer Value, const Elysium::Core::size Length) noexcept;
 
-		StringBase(const Elysium::Core::size Size) noexcept;
+		StringBase(const Elysium::Core::size Length) noexcept;
 
 		StringBase(const StringBase& Source);
 
@@ -81,11 +83,15 @@ namespace Elysium::Core::Template::Text
 
 		~StringBase();
 	public:
-		StringBase<C, Allocator>& operator=(ConstCharPointer Value) = delete;
+		StringBase<C, Allocator>& operator=(ConstCharPointer Value);
 
 		StringBase<C, Allocator>& operator=(const StringBase& Source);
 
 		StringBase<C, Allocator>& operator=(StringBase&& Right) noexcept;
+	public:
+		StringBase<C, Allocator>::CharReference operator[](const Elysium::Core::size Index);
+
+		StringBase<C, Allocator>::ConstCharReference operator[](const Elysium::Core::size Index) const;
 	public:
 		//constexpr const bool operator==(const StringBase& Other) const;
 
@@ -93,16 +99,20 @@ namespace Elysium::Core::Template::Text
 	public:
 		static constexpr const bool IsEmpty(const StringBase& Value);
 	public:
-		const Elysium::Core::size GetSize() const;
+		const Elysium::Core::size GetLength() const;
 
 		const Elysium::Core::size GetCapacity() const;
 	public:
 		constexpr Elysium::Core::size GetHashCode() const;
 
-		StringBase<C, Allocator>::CharPointer ToCharArray();
+		//StringBase<C, Allocator>::CharPointer ToCharArray();
 
-		StringBase<C, Allocator>::ConstCharPointer ToCharArray() const;
+		//StringBase<C, Allocator>::ConstCharPointer ToCharArray() const;
 	private:
+		void InitializeHeapString(ConstCharPointer Value, const Elysium::Core::size Length);
+
+		void InitializeStackString(ConstCharPointer Value, const Elysium::Core::size Size);
+		
 		void CopyHeapString(ConstCharPointer Value, const Elysium::Core::size CharSize);
 
 		void CopyStackString(ConstCharPointer Value, const Elysium::Core::size ByteSize);
@@ -111,11 +121,11 @@ namespace Elysium::Core::Template::Text
 
 		void DeleteHeapString();
 	public:
-		inline static constexpr const Elysium::Core::uint8_t MaximumByteSizeOnStack = sizeof(HeapString) - 1;
-		inline static constexpr const Elysium::Core::uint8_t MaximumCharSizeOnStack = MaximumByteSizeOnStack / sizeof(C);
+		inline static constexpr const Elysium::Core::uint8_t MaximumSizeOnStack = sizeof(HeapString) - 1;
+		inline static constexpr const Elysium::Core::uint8_t MaximumLengthOnStack = MaximumSizeOnStack / sizeof(C);
 		 
-		inline static constexpr const Elysium::Core::size MaximumByteSizeOnHeap = static_cast<Elysium::Core::size>(-1) / 2;
-		inline static constexpr const Elysium::Core::size MaximumCharSizeOnHeap = MaximumByteSizeOnHeap / sizeof(C);
+		inline static constexpr const Elysium::Core::size MaximumSizeOnHeap = static_cast<Elysium::Core::size>(-1) / 2;
+		inline static constexpr const Elysium::Core::size MaximumLengthOnHeap = MaximumSizeOnHeap / sizeof(C);
 	private:
 		inline static Allocator _Allocator = Allocator();
 
@@ -180,39 +190,39 @@ namespace Elysium::Core::Template::Text
 	{ }
 
 	template<Concepts::Character C, class Allocator>
-	inline StringBase<C, Allocator>::StringBase(ConstCharPointer Value, const Elysium::Core::size Size) noexcept
+	inline StringBase<C, Allocator>::StringBase(ConstCharPointer Value, const Elysium::Core::size Length) noexcept
 		: _InternalString{ 0x00 }
 	{
-		const Elysium::Core::size ValueByteSize = Size * sizeof(C);
-		const Elysium::Core::size ValueByteSizeIncludingNullTerminator = ValueByteSize + sizeof(C);
-		if (ValueByteSizeIncludingNullTerminator > MaximumByteSizeOnHeap)
-		{
-			// what to do? does this even occurre? linked list?
+		const Elysium::Core::size Size = Length * sizeof(C);
+		const Elysium::Core::size SizeIncludingNullTerminator = Size + sizeof(C);
+		if (SizeIncludingNullTerminator > MaximumSizeOnHeap)
+		{	// ToDo: what to do? does this even occurre? linked list?
+			//throw 1;
 		}
-		else if (ValueByteSizeIncludingNullTerminator > MaximumByteSizeOnStack)
+		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
 		{
-			CopyHeapString(Value, Size);
+			InitializeHeapString(Value, Length);
 		}
 		else
 		{
-			CopyStackString(Value, ValueByteSize);
+			InitializeStackString(Value, Size);
 		}
 	}
 
 	template<Concepts::Character C, class Allocator>
-	inline StringBase<C, Allocator>::StringBase(const Elysium::Core::size Size) noexcept
+	inline StringBase<C, Allocator>::StringBase(const Elysium::Core::size Length) noexcept
 		: _InternalString{ 0x00 }
 	{
-		const Elysium::Core::size ByteSizeIncludingNullTerminator = Size * sizeof(C) + sizeof(C);
-		if (ByteSizeIncludingNullTerminator > MaximumByteSizeOnHeap)
-		{
-			// what to do? does this even occurre? linked list?
+		const Elysium::Core::size SizeIncludingNullTerminator = Length * sizeof(C) + sizeof(C);
+		if (SizeIncludingNullTerminator > MaximumSizeOnHeap)
+		{	// ToDo: what to do? does this even occurre? linked list?
+			//throw 1;
 		}
-		else if (ByteSizeIncludingNullTerminator > MaximumByteSizeOnStack)
+		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
 		{
-			_InternalString._Heap._Data = _Allocator.Allocate(Size + 1);
+			_InternalString._Heap._Data = _Allocator.Allocate(Length + 1);
 			_InternalString._Heap._Size = 0;
-			_InternalString._Heap.SetCapacity(Size);
+			_InternalString._Heap.SetCapacity(Length);
 		}
 		else
 		{
@@ -226,7 +236,19 @@ namespace Elysium::Core::Template::Text
 	{
 		if (Source.IsHeapAllocated())
 		{
-			CopyHeapString(Source._InternalString._Heap._Data, Source.GetSize());
+			const Elysium::Core::size SourceCharSize = Source.GetLength();
+			const Elysium::Core::size SourceCharSizeIncludingNullTerminationCharacter = SourceCharSize + 1;
+			if (SourceCharSizeIncludingNullTerminationCharacter > GetCapacity())
+			{	// source doesn't fit into this string
+				DeleteHeapString();
+				CopyHeapString(Source._InternalString._Heap._Data, SourceCharSize);
+			}
+			else
+			{	// source fits into this string
+				const Elysium::Core::size SourceByteSizeIncludingNullTerminationCharacter = SourceCharSize * sizeof(C) + sizeof(C);
+				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceByteSizeIncludingNullTerminationCharacter);
+				_InternalString._Heap._Size = SourceCharSize;
+			}
 		}
 		else
 		{
@@ -252,29 +274,56 @@ namespace Elysium::Core::Template::Text
 	{
 		DeleteHeapString();
 	}
-	/*
+	
 	template<Concepts::Character C, class Allocator>
 	inline StringBase<C, Allocator>& StringBase<C, Allocator>::operator=(ConstCharPointer Value)
 	{
-		const Elysium::Core::size ValueSize = StringTraits<C>::GetLength(Value);
-		const Elysium::Core::size ValueByteSize = ValueSize * sizeof(C);
-		const Elysium::Core::size ByteSizeIncludingNullTerminator = ValueByteSize + sizeof(C);
-		if (ByteSizeIncludingNullTerminator > MaximumByteSizeOnHeap)
-		{
-			// what to do? does this even occurre? linked list?
-		}
-		else if (ByteSizeIncludingNullTerminator > MaximumByteSizeOnStack)
-		{
+		const bool IsThisHeapAllocated = IsHeapAllocated();
 
+		const Elysium::Core::size ValueLength = CharacterTraits<C>::GetLength(Value);
+		const Elysium::Core::size ValueLengthIncludingNullTerminator = ValueLength + 1;
+		const Elysium::Core::size ValueSize = ValueLength * sizeof(C);
+		const Elysium::Core::size ValueSizeIncludingNullTerminator = ValueSize + sizeof(C);
+		if (ValueSizeIncludingNullTerminator > MaximumSizeOnHeap)
+		{	// ToDo: what to do? does this even occurre? linked list?
+			throw 1;
+		}
+		else if (ValueSizeIncludingNullTerminator > MaximumSizeOnStack)
+		{
+			if (IsThisHeapAllocated)
+			{	// heap to heap
+				if (ValueLengthIncludingNullTerminator > GetCapacity())
+				{	// source doesn't fit into this string
+					DeleteHeapString();
+					CopyHeapString(Value, ValueLength);
+				}
+				else
+				{	// source fits into this string
+					memcpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
+					_InternalString._Heap._Size = ValueLength;
+				}
+			}
+			else
+			{	// heap to stack
+				CopyHeapString(Value, ValueLength);
+			}
 		}
 		else
 		{
-
+			if (IsThisHeapAllocated)
+			{	// stack to heap
+				memcpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
+				_InternalString._Heap._Size = ValueLength;
+			}
+			else
+			{	// stack to stack
+				CopyStackString(Value, ValueSize);
+			}
 		}
 
 		return *this;
 	}
-	*/
+	
 	template<Concepts::Character C, class Allocator>
 	inline StringBase<C, Allocator>& StringBase<C, Allocator>::operator=(const StringBase& Source)
 	{
@@ -285,7 +334,7 @@ namespace Elysium::Core::Template::Text
 
 			if (IsThisHeapAllocated && IsSourceHeapAllocated)
 			{	// heap to heap
-				const Elysium::Core::size SourceCharSize = Source.GetSize();
+				const Elysium::Core::size SourceCharSize = Source.GetLength();
 				const Elysium::Core::size SourceCharSizeIncludingNullTerminationCharacter = SourceCharSize + 1;
 				if (SourceCharSizeIncludingNullTerminationCharacter > GetCapacity())
 				{	// source doesn't fit into this string
@@ -307,14 +356,13 @@ namespace Elysium::Core::Template::Text
 			}
 			else if (!IsThisHeapAllocated && IsSourceHeapAllocated)
 			{	// heap to stack
-				CopyHeapString(Source._InternalString._Heap._Data, Source.GetSize());
+				CopyHeapString(Source._InternalString._Heap._Data, Source.GetLength());
 			}
 			else
 			{	// stack to heap
-				DeleteHeapString();
-#pragma warning (disable: 6385 6386)	// I want to copy 12/24 bytes
-				memcpy(&_InternalString._Stack._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString));
-#pragma warning (default: 6385 6386)
+				
+				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString) - 1);
+				_InternalString._Heap._Size = Source.GetLength();
 			}
 		}
 		return *this;
@@ -340,13 +388,39 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Allocator>
-	inline constexpr const bool StringBase<C, Allocator>::IsEmpty(const StringBase& Value)
+	inline StringBase<C, Allocator>::CharReference StringBase<C, Allocator>::operator[](const Elysium::Core::size Index)
 	{
-		return CharacterTraits<C>::IsEmpty(Value.ToCharArray());
+		const bool HeapAllocated = IsHeapAllocated();
+		const Elysium::Core::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		if (Index >= Length)
+		{
+			//throw IndexOutOfRangeException();
+		}
+		
+		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(CharPointer)&_InternalString._Stack._Data[Index];
 	}
 
 	template<Concepts::Character C, class Allocator>
-	inline const Elysium::Core::size StringBase<C, Allocator>::GetSize() const
+	inline StringBase<C, Allocator>::ConstCharReference StringBase<C, Allocator>::operator[](const Elysium::Core::size Index) const
+	{
+		const bool HeapAllocated = IsHeapAllocated();
+		const Elysium::Core::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		if (Index >= Length)
+		{
+			//throw IndexOutOfRangeException();
+		}
+
+		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(ConstCharPointer)&_InternalString._Stack._Data[Index];
+	}
+
+	template<Concepts::Character C, class Allocator>
+	inline constexpr const bool StringBase<C, Allocator>::IsEmpty(const StringBase& Value)
+	{
+		return CharacterTraits<C>::IsEmpty(&Value[0]);
+	}
+
+	template<Concepts::Character C, class Allocator>
+	inline const Elysium::Core::size StringBase<C, Allocator>::GetLength() const
 	{
 		return IsHeapAllocated() ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 	}
@@ -354,54 +428,48 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Allocator>
 	inline const Elysium::Core::size StringBase<C, Allocator>::GetCapacity() const
 	{
-		return IsHeapAllocated() ? _InternalString._Heap.GetCapacity() : MaximumByteSizeOnStack / sizeof(C);
+		return IsHeapAllocated() ? _InternalString._Heap.GetCapacity() : MaximumSizeOnStack / sizeof(C);
 	}
 
 	template<Concepts::Character C, class Allocator>
 	inline constexpr Elysium::Core::size StringBase<C, Allocator>::GetHashCode() const
 	{	// code below should work similar to std::hash<std::u8string>()(_Data);
 		Elysium::Core::size Hash = 14695981039346656037ULL;
-		Elysium::Core::size Size = GetSize();
+		const bool HeapAllocated = IsHeapAllocated();
+		Elysium::Core::size Size = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 
 		if (Size == 0)
 		{
 			return Hash;
 		}
-
-		ConstCharPointer CurrentChar = ToCharArray();
+		
+		ConstCharPointer CurrentChar = HeapAllocated ? _InternalString._Heap._Data : (ConstCharPointer)&_InternalString._Stack._Data[0];
 		for (Elysium::Core::size i = 0; i < Size; i++)
 		{
 			Hash ^= static_cast<Elysium::Core::size>(CurrentChar[i]);
 			Hash *= 1099511628211ULL;
 		}
-
+		
 		return Hash;
 	}
 
 	template<Concepts::Character C, class Allocator>
-	inline StringBase<C, Allocator>::CharPointer StringBase<C, Allocator>::ToCharArray()
+	inline void StringBase<C, Allocator>::InitializeHeapString(ConstCharPointer Value, const Elysium::Core::size Length)
 	{
-		if (IsHeapAllocated())
-		{
-			return _InternalString._Heap._Data;
-		}
-		else
-		{
-			return (ConstCharPointer)&_InternalString._Stack._Data;
-		}
+		const Elysium::Core::size LengthIncludingNullTerminationCharacter = Length + 1;
+
+		_InternalString._Heap._Data = _Allocator.Allocate(LengthIncludingNullTerminationCharacter);
+		memcpy(&_InternalString._Heap._Data[0], Value, LengthIncludingNullTerminationCharacter);
+
+		_InternalString._Heap._Size = Length;
+		_InternalString._Heap.SetCapacity(Length);
 	}
 
 	template<Concepts::Character C, class Allocator>
-	inline StringBase<C, Allocator>::ConstCharPointer StringBase<C, Allocator>::ToCharArray() const
+	inline void StringBase<C, Allocator>::InitializeStackString(ConstCharPointer Value, const Elysium::Core::size Size)
 	{
-		if (IsHeapAllocated())
-		{
-			return _InternalString._Heap._Data;
-		}
-		else
-		{
-			return (ConstCharPointer)&_InternalString._Stack._Data;
-		}
+		memcpy(&_InternalString._Stack._Data[0], Value, Size);
+		_InternalString._Stack.SetSize(Size);
 	}
 
 	template<Concepts::Character C, class Allocator>
