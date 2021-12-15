@@ -13,8 +13,8 @@
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(ISpObjectToken* VoiceToken)
-	: _VoiceToken(VoiceToken)
+Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(ISpObjectToken* VoiceToken, const bool OwnsVoiceToken)
+	: _VoiceToken(VoiceToken), _OwnsVoiceToken(OwnsVoiceToken)
 { }
 #endif
 
@@ -27,7 +27,7 @@ Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(VoiceInfo&& Right) noexce
 Elysium::Core::Speech::Synthesis::VoiceInfo::~VoiceInfo()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	if (_VoiceToken != nullptr)
+	if (_OwnsVoiceToken && _VoiceToken != nullptr)
 	{
 		_VoiceToken->Release();
 		_VoiceToken = nullptr;
@@ -40,8 +40,10 @@ Elysium::Core::Speech::Synthesis::VoiceInfo& Elysium::Core::Speech::Synthesis::V
 	if (this != &Right)
 	{
 		_VoiceToken = Right._VoiceToken;
+		_OwnsVoiceToken = Right._OwnsVoiceToken;
 
 		Right._VoiceToken = nullptr;
+		Right._OwnsVoiceToken = false;
 	}
 	return *this;
 }
@@ -171,6 +173,9 @@ const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetId()
 	{	// ToDo: throw specific excetpion
 		throw 1;
 	}
+
+	// ToDo to be more in line with .NET:
+	// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0 -> TTS_MS_EN-US_ZIRA_11.0
 
 	const String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeValue,
 		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeValue) + sizeof(wchar_t));

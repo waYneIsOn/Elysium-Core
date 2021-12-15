@@ -9,7 +9,7 @@ Elysium::Core::Speech::Synthesis::InstalledVoice::InstalledVoice(const bool Enab
 { }
 
 Elysium::Core::Speech::Synthesis::InstalledVoice::InstalledVoice(InstalledVoice&& Right) noexcept
-	: _Enabled(false), _VoiceInfo(nullptr)
+	: _Enabled(false), _VoiceInfo(nullptr, false)
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }

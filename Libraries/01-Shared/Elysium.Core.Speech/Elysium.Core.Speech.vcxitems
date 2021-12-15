@@ -18,12 +18,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioBitsPerSample.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioChannel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerEmphasis.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp" />
@@ -32,11 +35,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceChangeEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VoiceInfo.cpp" />
   </ItemGroup>

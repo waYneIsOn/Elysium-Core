@@ -12,6 +12,10 @@
 #include "../Elysium.Core.Template/CharacterTraits.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_TASKS_TASK
+#include "../Elysium.Core.Threading/Task.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef SPHelper_h
 #include <sphelper.h>
@@ -19,7 +23,7 @@
 #endif
 
 Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeechSynthesizer()
-	: VoiceChanged(),
+	: BookmarkReached(), PhonemeReached(), SpeakCompleted(), SpeakProgress(), SpeakStarted(), StateChanged(), VisemeReached(), VoiceChanged(),
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	_NativeSynthesizer(InitializeNativeSynthesizer()), _NativeMemoryStream(InitializeNativeStream()), _TargetStream(nullptr)
 #endif
@@ -95,7 +99,7 @@ const Elysium::Core::Speech::Synthesis::VoiceInfo Elysium::Core::Speech::Synthes
 		throw 1;
 	}
 
-	return VoiceInfo(VoiceToken);
+	return VoiceInfo(VoiceToken, true);
 #else
 	throw 1;
 #endif
@@ -178,7 +182,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 	ISpObjectToken* VoiceToken;
 	while (VoiceEnumerationToken->Next(1, &VoiceToken, nullptr) == S_OK)
 	{
-		InstalledVoices.PushBack(Elysium::Core::Template::Functional::Move(InstalledVoice(false, VoiceInfo(VoiceToken))));
+		InstalledVoices.PushBack(Elysium::Core::Template::Functional::Move(InstalledVoice(false, VoiceInfo(VoiceToken, true))));
 		// do NOT release token as VoiceInfo now owns VoiceToken and is responsible for releasing it
 	}
 
@@ -243,7 +247,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeValue), 16);
 		if (LocaleId == Culture.GetLCID())
 		{
-			InstalledVoices.PushBack(Elysium::Core::Template::Functional::Move(InstalledVoice(false, VoiceInfo(VoiceToken))));
+			InstalledVoices.PushBack(Elysium::Core::Template::Functional::Move(InstalledVoice(false, VoiceInfo(VoiceToken, true))));
 			LocaleIdMatches = true;
 		}
 
@@ -618,8 +622,9 @@ ISpVoice* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNativeS
 		return nullptr;
 	}
 
-	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_VOICE_CHANGE) | SPFEI(SPEVENTENUM::SPEI_SOUND_END) | SPFEI(SPEVENTENUM::SPEI_SOUND_START)
-		| SPFEI(SPEVENTENUM::SPEI_WORD_BOUNDARY) | SPFEI(SPEVENTENUM::SPEI_PHONEME) | SPFEI(SPEVENTENUM::SPEI_VISEME);
+	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_START_INPUT_STREAM) | SPFEI(SPEVENTENUM::SPEI_END_INPUT_STREAM) |
+		SPFEI(SPEVENTENUM::SPEI_VOICE_CHANGE) | SPFEI(SPEVENTENUM::SPEI_TTS_BOOKMARK) | SPFEI(SPEVENTENUM::SPEI_WORD_BOUNDARY) |
+		SPFEI(SPEVENTENUM::SPEI_PHONEME) | SPFEI(SPEVENTENUM::SPEI_VISEME) | SPFEI(SPEVENTENUM::SPEI_TTS_BOOKMARK);
 	if (FAILED(NativeSynthesizer->SetInterest(Interests, Interests)))
 	{
 		NativeSynthesizer->Release();
@@ -628,23 +633,14 @@ ISpVoice* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNativeS
 		return nullptr;
 	}
 	
-	if (FAILED(Result = NativeSynthesizer->SetNotifyCallbackFunction(&NativeSynthesizerEventCallback, 0, 0)))
+	if (FAILED(Result = NativeSynthesizer->SetNotifyWin32Event()))
 	{
 		NativeSynthesizer->Release();
 		NativeSynthesizer = nullptr;
 
 		return nullptr;
 	}
-	/*
-	ISpNotifySink* NativeNotificationSink = nullptr;
-	if (FAILED(Result = NativeSynthesizer->SetNotifySink(NativeNotificationSink)))
-	{
-		NativeSynthesizer->Release();
-		NativeSynthesizer = nullptr;
 
-		return nullptr;
-	}
-	*/
 	return NativeSynthesizer;
 }
 
@@ -662,56 +658,33 @@ ISpStream* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNative
 
 HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetNativeVoice(ISpObjectToken* VoiceToken) noexcept
 {
-	HRESULT Result = S_OK;
-	if (SUCCEEDED(Result = _NativeSynthesizer->SetVoice(VoiceToken)))
-	{
-		/*
-		SPEVENT eventItem = SPEVENT();
-		while (_NativeSynthesizer->GetEvents(1, &eventItem, NULL) == S_OK)
-		{
-			switch (eventItem.eEventId)
-			{
-			case SPEI_WORD_BOUNDARY:
-				break;
-			default:
-				break;
-			}
-		}
-		SpClearEvent(&eventItem);
-		*/
-	}
-
-	return Result;
+	return _NativeSynthesizer->SetVoice(VoiceToken);
 }
 
 HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakNatively(const wchar_t* TextToSpeak, const Elysium::Core::int32_t Flags) noexcept
 {
 	HRESULT Result = S_OK;
 
-	// always speak async as to give the current thread the ability to poll the message queue (so events can be triggered)
+	// always speak async as to give the current thread the ability to poll the message queue (so events can be triggered and processed right away)
 	if (FAILED(Result = _NativeSynthesizer->Speak(TextToSpeak, Flags | SPEAKFLAGS::SPF_ASYNC, nullptr)))
 	{
 		return Result;
 	}
-	/*
-	MSG Msg;
-	while (::GetMessage(&Msg, NULL, 0, 0))
-	{
-		::TranslateMessage(&Msg);
-		::DispatchMessage(&Msg);
-	}
-	*/
 
-	// since speaking always is going to be executed async, a wait is required if it wasn't explicitly triggered asyncronously
-	if ((Flags & SPEAKFLAGS::SPF_ASYNC) == 0)
+	if ((Flags & SPEAKFLAGS::SPF_ASYNC) == SPEAKFLAGS::SPF_ASYNC)
 	{
-		HRESULT Result = _NativeSynthesizer->WaitUntilDone(INFINITE);
-		if (FAILED(Result))
-		{	// ToDo: throw specific excetpion
-			throw 1;
-		}
+		// ToDo:
+		// while this works per se, it causes problems with multiple calls of SpeakAsync(...)!
+		// also all these events will then be processed on a single thread while this does not appear to be the case in .NET.
+		// ergo microsoft might use some other way (freesync notification?) for this in general.
+		Elysium::Core::Threading::Tasks::Task ProcessEventsTask = Elysium::Core::Threading::Tasks::Task(Elysium::Core::Template::Container::Delegate<void>::Bind<SpeechSynthesizer, &SpeechSynthesizer::ProcessEventMessageQueue>(*this));
+		ProcessEventsTask.Start();
 	}
-	
+	else
+	{
+		ProcessEventMessageQueue();
+	}
+
 	if (_TargetStream != nullptr)
 	{
 		LARGE_INTEGER Begin = { };
@@ -738,8 +711,67 @@ HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakNatively(const
 	return Result;
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::NativeSynthesizerEventCallback(WPARAM wParam, LPARAM lParam)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQueue()
 {
-	bool asdfasdf = false;
+	HRESULT Result = S_OK;
+	SPEVENT Event;
+	ULONG NumberOfEventsReceived = 0;
+	do
+	{
+		Result = _NativeSynthesizer->WaitForNotifyEvent(500);
+		if (Result == S_FALSE)
+		{
+			break;
+		}
+
+		if (SUCCEEDED(Result = _NativeSynthesizer->GetEvents(1, &Event, &NumberOfEventsReceived)))
+		{
+			switch (Event.eEventId)
+			{
+			case SPEVENTENUM::SPEI_START_INPUT_STREAM:
+			{
+				StateChanged(*this, StateChangedEventArgs(u8"", SynthesizerState::Ready, SynthesizerState::Speaking));
+				SpeakStarted(*this, SpeakStartedEventArgs(u8""));
+				break;
+			}
+			case SPEVENTENUM::SPEI_END_INPUT_STREAM:
+			{
+				SpeakCompleted(*this);
+				StateChanged(*this, StateChangedEventArgs(u8"", SynthesizerState::Speaking, SynthesizerState::Ready));
+				break;
+			}
+			case SPEVENTENUM::SPEI_VOICE_CHANGE:
+			{
+				VoiceChanged(*this, VoiceChangeEventArgs(u8"", VoiceInfo((ISpObjectToken*)Event.lParam, false)));
+				break;
+			}
+			case SPEVENTENUM::SPEI_TTS_BOOKMARK:
+			{
+				wchar_t* BookmarkValue = (wchar_t*)Event.lParam;
+				BookmarkReached(*this, BookmarkReachedEventArgs(u8"", Event.ullAudioStreamOffset,
+					_WindowsEncoding.GetString((Elysium::Core::byte*)BookmarkValue, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(BookmarkValue))));
+				break;
+			}
+			case SPEVENTENUM::SPEI_WORD_BOUNDARY:
+			{
+				SpeakProgress(*this);
+				break;
+			}
+			case SPEVENTENUM::SPEI_PHONEME:
+			{
+				PhonemeReached(*this);
+				break;
+			}
+			case SPEVENTENUM::SPEI_VISEME:
+			{
+				VisemeReached(*this);
+				break;
+			}
+			default:
+				break;
+			}
+			SpClearEvent(&Event);
+		}
+	} while (true);
 }
 #endif

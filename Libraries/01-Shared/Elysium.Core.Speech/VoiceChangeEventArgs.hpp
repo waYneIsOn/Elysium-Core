@@ -20,12 +20,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PromptEventArgs.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_VOICEINFO
+#include "VoiceInfo.hpp"
+#endif
+
 namespace Elysium::Core::Speech::Synthesis
 {
 	class ELYSIUM_CORE_SPEECH_API VoiceChangeEventArgs : public PromptEventArgs
 	{
+		friend class SpeechSynthesizer;
 	protected:
-		VoiceChangeEventArgs();
+		VoiceChangeEventArgs(String&& Prompt, VoiceInfo&& Voice);
 	public:
 		VoiceChangeEventArgs(const VoiceChangeEventArgs& Source) = delete;
 
@@ -36,6 +41,10 @@ namespace Elysium::Core::Speech::Synthesis
 		VoiceChangeEventArgs& operator=(const VoiceChangeEventArgs& Source) = delete;
 
 		VoiceChangeEventArgs& operator=(VoiceChangeEventArgs&& Right) noexcept = delete;
+	public:
+		const VoiceInfo& GetVoice() const;
+	private:
+		VoiceInfo _Voice;
 	};
 }
 #endif

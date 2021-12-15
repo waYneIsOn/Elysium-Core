@@ -55,6 +55,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -76,6 +85,15 @@
       <Filter>Synthesis</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.cpp">
+      <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.cpp">
       <Filter>Synthesis</Filter>
     </ClCompile>
   </ItemGroup>

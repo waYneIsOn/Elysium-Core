@@ -60,7 +60,7 @@ namespace Elysium::Core::Speech::Synthesis
 		friend class SpeechSynthesizer;
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		VoiceInfo(ISpObjectToken* VoiceToken);
+		VoiceInfo(ISpObjectToken* VoiceToken, const bool OwnsVoiceToken);
 #endif
 	public:
 		VoiceInfo(const VoiceInfo& Source) = delete;
@@ -87,6 +87,7 @@ namespace Elysium::Core::Speech::Synthesis
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		ISpObjectToken* _VoiceToken;
+		bool _OwnsVoiceToken;
 #endif
 
 		//Template::Container::HashTable<String, String> _AdditionalInfo;

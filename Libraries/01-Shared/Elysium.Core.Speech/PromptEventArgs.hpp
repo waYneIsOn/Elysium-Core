@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
 #endif
@@ -21,7 +25,7 @@ namespace Elysium::Core::Speech::Synthesis
 	class ELYSIUM_CORE_SPEECH_API PromptEventArgs
 	{
 	protected:
-		PromptEventArgs();
+		PromptEventArgs(String&& Prompt);
 	public:
 		PromptEventArgs(const PromptEventArgs& Source) = delete;
 
@@ -32,6 +36,10 @@ namespace Elysium::Core::Speech::Synthesis
 		PromptEventArgs& operator=(const PromptEventArgs& Source) = delete;
 
 		PromptEventArgs& operator=(PromptEventArgs&& Right) noexcept = delete;
+	public:
+		const String& GetPrompt() const;
+	private:
+		String _Prompt;
 	};
 }
 #endif

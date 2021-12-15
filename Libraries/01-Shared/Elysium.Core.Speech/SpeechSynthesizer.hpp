@@ -44,8 +44,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_BOOKMARKREACHEDEVENTARGS
+#include "BookmarkReachedEventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_INSTALLEDVOICE
 #include "InstalledVoice.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SPEAKSTARTEDEVENTARGS
+#include "SpeakStartedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_STATECHANGEDEVENTARGS
+#include "StateChangedEventArgs.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SYNTHESIZERSTATE
@@ -78,6 +90,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Speech::Synthesis
 {
+	/// <summary>
+	/// Provides access to the functionality of an installed speech synthesis engine.
+	/// </summary>
 	class ELYSIUM_CORE_SPEECH_API SpeechSynthesizer final
 	{
 	public:
@@ -92,23 +107,6 @@ namespace Elysium::Core::Speech::Synthesis
 		SpeechSynthesizer& operator=(const SpeechSynthesizer& Source) = delete;
 
 		SpeechSynthesizer& operator=(SpeechSynthesizer&& Right) noexcept = delete;
-	public:
-		/*
-		Event<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&> BookmarkReached;
-
-		Event<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&> PhonemeReached;
-
-		Event<void, const SpeechSynthesizer&, const StateChangedEventArgs&> StateChanged;
-
-		Event<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&> SpeakCompleted;
-
-		Event<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&> SpeakProgress;
-		
-		Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&> SpeakStarted;
-
-		Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&> VisemeReached;
-		*/
-		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
 	public:
 		const Elysium::Core::uint32_t GetRate() const;
 
@@ -159,6 +157,63 @@ namespace Elysium::Core::Speech::Synthesis
 		void SpeakSsmlAsync(const String& TextToSpeak);
 
 		void WaitUntilDone(const Elysium::Core::TimeSpan Timeout);
+	public:
+		/// <summary>
+		/// Raised when the SpeechSynthesizer encounters a bookmark in a prompt.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&> BookmarkReached;
+
+		/// <summary>
+		/// Raised when a phoneme is reached.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&> PhonemeReached;
+
+		/// <summary>
+		/// Raised when the SpeechSynthesizer completes the speaking of a prompt.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&> SpeakCompleted;
+
+		/// <summary>
+		/// Raised after the SpeechSynthesizer speaks each individual word of a prompt.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&> SpeakProgress;
+
+		/// <summary>
+		/// Raised when the SpeechSynthesizer begins the speaking of a prompt.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&> SpeakStarted;
+
+		/// <summary>
+		/// Raised when the state of the SpeechSynthesizer changes.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&, const StateChangedEventArgs&> StateChanged;
+
+		/// <summary>
+		/// Raised when a viseme is reached.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&> VisemeReached;
+
+		/// <summary>
+		/// Raised when the voice of the SpeechSynthesizer changes.
+		/// </summary>
+		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
+		/*
+		Event<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&> BookmarkReached;
+
+		Event<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&> PhonemeReached;
+
+		Event<void, const SpeechSynthesizer&, const StateChangedEventArgs&> StateChanged;
+
+		Event<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&> SpeakCompleted;
+
+		Event<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&> SpeakProgress;
+
+		Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&> SpeakStarted;
+
+		Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&> VisemeReached;
+
+		Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&> VoiceChanged;
+		*/
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
@@ -175,7 +230,7 @@ namespace Elysium::Core::Speech::Synthesis
 
 		HRESULT SpeakNatively(const wchar_t* TextToSpeak, const Elysium::Core::int32_t Flags) noexcept;
 
-		static void NativeSynthesizerEventCallback(WPARAM wParam, LPARAM lParam);
+		void ProcessEventMessageQueue();
 #endif
 	};
 }
