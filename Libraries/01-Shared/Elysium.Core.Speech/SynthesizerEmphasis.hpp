@@ -30,6 +30,8 @@ namespace Elysium::Core::Speech::Synthesis
 #error "undefined os"
 #endif
 	{
+		None = 0,
+
 		Stressed = 1,
 
 		Emphasized = 2

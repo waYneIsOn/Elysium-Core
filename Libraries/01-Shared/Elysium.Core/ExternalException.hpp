@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Exception.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef _INC_COMDEF

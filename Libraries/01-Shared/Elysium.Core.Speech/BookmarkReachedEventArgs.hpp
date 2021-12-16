@@ -38,7 +38,7 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		BookmarkReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t Ticks, String&& Bookmark);
+		BookmarkReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, String&& Bookmark);
 	public:
 		BookmarkReachedEventArgs(const BookmarkReachedEventArgs& Source) = delete;
 

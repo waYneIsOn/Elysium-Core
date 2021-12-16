@@ -15,7 +15,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_EXTERNALEXCEPTION
 #include "ExternalException.hpp"
 #endif

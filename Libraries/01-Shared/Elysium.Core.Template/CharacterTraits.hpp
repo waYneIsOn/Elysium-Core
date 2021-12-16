@@ -138,6 +138,24 @@ namespace Elysium::Core::Template::Text
 		//static constexpr const Elysium::Core::size IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const Elysium::Core::size LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
+		/// <param name="Sequence"></param>
+		/// <returns></returns>
+		//static constexpr const Elysium::Core::size LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
+
+		/// <summary>
 		/// Returns 0 if both strings match each other, a negative value if ... or a positive value otherwise.
 		/// </summary>
 		/// <param name="Start"></param>
@@ -207,6 +225,21 @@ namespace Elysium::Core::Template::Text
 		}
 
 		ConstPointer CharPointer = __builtin_char_memchr(Start, Value, Length);
+		return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - Start;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	{
+		Pointer CharPointer = nullptr;
+		for (Elysium::Core::size i = Length; i > 0; i--)
+		{
+			if (Start[i - 1] == Value)
+			{
+				CharPointer = (Pointer)&Start[i - 1];
+				break;
+			}
+		}
 		return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - Start;
 	}
 

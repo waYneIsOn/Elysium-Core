@@ -1,6 +1,6 @@
 #include "COMException.hpp"
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Move.hpp"
 #endif

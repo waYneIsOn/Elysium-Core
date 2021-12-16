@@ -17,6 +17,10 @@
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
+#include "../Elysium.Core/COMException.hpp"
+#endif
+
 #ifndef SPHelper_h
 #include <sphelper.h>
 #endif
@@ -62,8 +66,8 @@ const Elysium::Core::uint32_t Elysium::Core::Speech::Synthesis::SpeechSynthesize
 	long Volume;
 	HRESULT Result = _NativeSynthesizer->GetRate(&Volume);
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	return Volume;
@@ -79,8 +83,8 @@ const Elysium::Core::Speech::Synthesis::SynthesizerState Elysium::Core::Speech::
 	LPWSTR LastBookmark = { };
 	HRESULT Result = _NativeSynthesizer->GetStatus(&VoiceStatus, &LastBookmark);
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	return (SynthesizerState)VoiceStatus.dwRunningState;
@@ -95,8 +99,8 @@ const Elysium::Core::Speech::Synthesis::VoiceInfo Elysium::Core::Speech::Synthes
 	ISpObjectToken* VoiceToken;
 	HRESULT Result = _NativeSynthesizer->GetVoice(&VoiceToken);
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	return VoiceInfo(VoiceToken, true);
@@ -111,8 +115,8 @@ const Elysium::Core::uint16_t Elysium::Core::Speech::Synthesis::SpeechSynthesize
 	unsigned short Volume;
 	HRESULT Result = _NativeSynthesizer->GetVolume(&Volume);
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	return Volume;
@@ -126,8 +130,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetRate(const Elysium:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = _NativeSynthesizer->SetRate(Value);
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 #else
 	throw 1;
@@ -139,8 +143,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetVolume(const Elysiu
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = _NativeSynthesizer->SetVolume(Value);
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 #else
 	throw 1;
@@ -154,17 +158,16 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 
 	ISpObjectTokenCategory* CategoryToken = nullptr;
 	if (FAILED(Result = SpGetCategoryFromId(SPCAT_VOICES, &CategoryToken)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	IEnumSpObjectTokens* VoiceEnumerationToken;
 	if (FAILED(Result = CategoryToken->EnumTokens(nullptr, nullptr, &VoiceEnumerationToken)))
 	{	
 		CategoryToken->Release();
-		
-		// ToDo: throw specific exception
-		throw 1;
+
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	ULONG NumberOfInstalledVoices;
@@ -172,9 +175,8 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 	{
 		VoiceEnumerationToken->Release();
 		CategoryToken->Release();
-		
-		// ToDo: throw specific exception
-		throw 1;
+
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice> InstalledVoices =
@@ -202,8 +204,8 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 
 	ISpObjectTokenCategory* CategoryToken = nullptr;
 	if (FAILED(Result = SpGetCategoryFromId(SPCAT_VOICES, &CategoryToken)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	IEnumSpObjectTokens* VoiceEnumerationToken;
@@ -211,8 +213,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 	{	
 		CategoryToken->Release();
 
-		// ToDo: throw specific exception
-		throw 1;
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice> InstalledVoices =
@@ -226,9 +227,8 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 		{
 			VoiceEnumerationToken->Release();
 			CategoryToken->Release();
-			
-			// ToDo: throw specific excetpion
-			throw 1;
+
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 		}
 
 		wchar_t* NativeValue;
@@ -237,9 +237,8 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 			AttributesKey->Release();
 			VoiceEnumerationToken->Release();
 			CategoryToken->Release();
-			
-			// ToDo: throw specific excetpion
-			throw 1;
+
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 		}
 
 		LocaleIdMatches = false;
@@ -272,8 +271,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Pause()
 {
 	HRESULT Result = _NativeSynthesizer->Pause();
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 	StateChanged(*this, StateChangedEventArgs(u8"PROMPT", SynthesizerState::Speaking, SynthesizerState::Paused));
 }
@@ -282,8 +281,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Resume()
 {
 	HRESULT Result = _NativeSynthesizer->Resume();
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 	StateChanged(*this, StateChangedEventArgs(u8"PROMPT", SynthesizerState::Paused, SynthesizerState::Speaking));
 
@@ -305,8 +304,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Stri
 
 	ISpObjectTokenCategory* CategoryToken = nullptr;
 	if (FAILED(Result = SpGetCategoryFromId(SPCAT_VOICES, &CategoryToken)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 }
 
 	IEnumSpObjectTokens* VoiceEnumerationToken;
@@ -314,8 +313,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Stri
 	{	
 		CategoryToken->Release();
 
-		// ToDo: throw specific exception
-		throw 1;
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice> InstalledVoices =
@@ -328,9 +326,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Stri
 		{
 			VoiceEnumerationToken->Release();
 			CategoryToken->Release();
-			
-			// ToDo: throw specific exception
-			throw 1;
+
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 		}
 
 		wchar_t* NativeValue;
@@ -340,8 +337,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Stri
 			VoiceEnumerationToken->Release();
 			CategoryToken->Release();
 			
-			// ToDo: throw specific exception
-			throw 1;
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 		}
 
 		if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::Compare((wchar_t*)&NameBytes[0], NativeValue, NameBytes.GetLength()) == 0)
@@ -353,8 +349,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Stri
 				VoiceEnumerationToken->Release();
 				CategoryToken->Release();
 
-				// ToDo: throw specific exception
-				throw 1;
+				throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 			}
 		}
 
@@ -364,7 +359,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Stri
 	}
 
 	VoiceEnumerationToken->Release();
-CategoryToken->Release();
+	CategoryToken->Release();
 #else
 throw 1;
 #endif
@@ -375,8 +370,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Voic
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = SetNativeVoice(Info._VoiceToken);
 	if (FAILED(Result))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 #else
 	throw 1;
@@ -402,8 +397,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToAudioStream
 
 	IStream* NativeMemoryStream = SHCreateMemStream(NULL, 0);
 	if (NativeMemoryStream == nullptr)
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	WAVEFORMATEX NativeFormat = WAVEFORMATEX();
@@ -416,13 +411,13 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToAudioStream
 	NativeFormat.cbSize = 0;
 
 	if (FAILED(Result = _NativeMemoryStream->SetBaseStream(NativeMemoryStream, SPDFID_WaveFormatEx, &NativeFormat)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	if (FAILED(Result = _NativeSynthesizer->SetOutput(_NativeMemoryStream, TRUE)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	_TargetStream = &AudioDestination;
@@ -437,8 +432,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToDefaultAudi
 	HRESULT Result = S_OK;
 	
 	if (FAILED(Result = _NativeSynthesizer->SetOutput(nullptr, TRUE)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	_TargetStream = nullptr;
@@ -476,13 +471,13 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(co
 	NativeFormat.cbSize = 0;
 
 	if (FAILED(Result = _NativeMemoryStream->BindToFile((const wchar_t*)&PathBytes[0], SPFM_CREATE_ALWAYS, &SPDFID_WaveFormatEx, &NativeFormat, 0)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	if (FAILED(Result = _NativeSynthesizer->SetOutput(_NativeMemoryStream, TRUE)))
-	{	// ToDo: throw specific exception
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	_TargetStream = nullptr;
@@ -513,8 +508,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const char8
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_ASYNC);
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 #else
 	throw 1;
@@ -539,9 +534,9 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const char8_t* T
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_DEFAULT);
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
-}
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+	}
 #else
 	throw 1;
 #endif
@@ -565,8 +560,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const char8_
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML);
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 #else
 	throw 1;
@@ -591,8 +586,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const c
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML | SPEAKFLAGS::SPF_ASYNC);
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 #else
 	throw 1;
@@ -608,8 +603,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::WaitUntilDone(const El
 {
 	HRESULT Result = _NativeSynthesizer->WaitUntilDone(Timeout.GetTotalMilliseconds());
 	if (FAILED(Result))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 }
 
@@ -766,12 +761,24 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQue
 			}
 			case SPEVENTENUM::SPEI_PHONEME:
 			{
-				PhonemeReached(*this, PhonemeReachedEventArgs(u8"PROMPT"));
+				// ToDo:
+				unsigned short NextPhonemeId = LOWORD(Event.wParam);
+				unsigned short CurrentPhonemeId = LOWORD(Event.lParam);
+
+				wchar_t TEst0 = CurrentPhonemeId;
+				wchar_t TEst1 = NextPhonemeId;
+
+				char8_t Test2 = CurrentPhonemeId;
+				char8_t Test3 = NextPhonemeId;
+
+				PhonemeReached(*this, PhonemeReachedEventArgs(u8"PROMPT", Event.ullAudioStreamOffset, HIWORD(Event.wParam),
+					(SynthesizerEmphasis)HIWORD(Event.lParam)));
 				break;
 			}
 			case SPEVENTENUM::SPEI_VISEME:
 			{
-				VisemeReached(*this, VisemeReachedEventArgs(u8"PROMPT"));
+				VisemeReached(*this, VisemeReachedEventArgs(u8"PROMPT", Event.ullAudioStreamOffset, HIWORD(Event.wParam),
+					(SynthesizerEmphasis)HIWORD(Event.lParam), LOWORD(Event.lParam), LOWORD(Event.wParam)));
 				break;
 			}
 			default:

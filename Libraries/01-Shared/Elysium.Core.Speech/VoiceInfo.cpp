@@ -13,6 +13,12 @@
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
+#include "../Elysium.Core/COMException.hpp"
+#endif
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
 Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(ISpObjectToken* VoiceToken, const bool OwnsVoiceToken)
 	: _VoiceToken(VoiceToken), _OwnsVoiceToken(OwnsVoiceToken)
 { }
@@ -55,14 +61,16 @@ const Elysium::Core::Speech::Synthesis::VoiceAge Elysium::Core::Speech::Synthesi
 
 	ISpDataKey* AttributesKey;
 	if (FAILED(Result = _VoiceToken->OpenKey(SPTOKENKEY_ATTRIBUTES, &AttributesKey)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	wchar_t* NativeValue;
 	if (FAILED(Result = AttributesKey->GetStringValue(L"Age", &NativeValue)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		AttributesKey->Release();
+
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	const Elysium::Core::size NativeValueLength = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeValue);
@@ -100,14 +108,16 @@ const Elysium::Core::Globalization::CultureInfo Elysium::Core::Speech::Synthesis
 
 	ISpDataKey* AttributesKey;
 	if (FAILED(Result = _VoiceToken->OpenKey(SPTOKENKEY_ATTRIBUTES, &AttributesKey)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	wchar_t* NativeValue;
 	if (FAILED(Result = AttributesKey->GetStringValue(L"Language", &NativeValue)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		AttributesKey->Release();
+
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	const Elysium::Core::int32_t LocaleId = Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(NativeValue,
@@ -129,14 +139,16 @@ const Elysium::Core::Speech::Synthesis::VoiceGender Elysium::Core::Speech::Synth
 
 	ISpDataKey* AttributesKey;
 	if (FAILED(Result = _VoiceToken->OpenKey(SPTOKENKEY_ATTRIBUTES, &AttributesKey)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	wchar_t* NativeValue;
 	if (FAILED(Result = AttributesKey->GetStringValue(L"Gender", &NativeValue)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		AttributesKey->Release();
+
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	const Elysium::Core::size NativeValueLength = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeValue);
@@ -170,15 +182,16 @@ const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetId()
 
 	wchar_t* NativeValue;
 	if (FAILED(Result = _VoiceToken->GetId(&NativeValue)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
+	const Elysium::Core::size NativeValueLength = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeValue);
+	const Elysium::Core::size LastIndexOfBackslash = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::LastIndexOf(NativeValue, NativeValueLength, L'\\');
 
-	// ToDo to be more in line with .NET:
-	// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Speech\Voices\Tokens\TTS_MS_EN-US_ZIRA_11.0 -> TTS_MS_EN-US_ZIRA_11.0
+	wchar_t* NativeId = &NativeValue[LastIndexOfBackslash + 1];
 
-	const String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeValue,
-		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeValue) + sizeof(wchar_t));
+	const String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeId,
+		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeId) + sizeof(wchar_t));
 
 	CoTaskMemFree(NativeValue);
 
@@ -195,14 +208,16 @@ const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetName
 
 	ISpDataKey* AttributesKey;
 	if (FAILED(Result = _VoiceToken->OpenKey(SPTOKENKEY_ATTRIBUTES, &AttributesKey)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	wchar_t* NativeValue;
 	if (FAILED(Result = AttributesKey->GetStringValue(L"Name", &NativeValue)))
-	{	// ToDo: throw specific excetpion
-		throw 1;
+	{
+		AttributesKey->Release();
+
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
 	const String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeValue,

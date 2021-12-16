@@ -4,9 +4,9 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Speech::Synthesis::BookmarkReachedEventArgs::BookmarkReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t Ticks, String&& Bookmark)
+Elysium::Core::Speech::Synthesis::BookmarkReachedEventArgs::BookmarkReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, String&& Bookmark)
 	: Elysium::Core::Speech::Synthesis::PromptEventArgs(Elysium::Core::Template::Functional::Move(Prompt)),
-	_AudioPosition(Ticks), _Bookmark(Elysium::Core::Template::Functional::Move(Bookmark))
+	_AudioPosition(AudioPositionTicks), _Bookmark(Elysium::Core::Template::Functional::Move(Bookmark))
 { }
 
 Elysium::Core::Speech::Synthesis::BookmarkReachedEventArgs::~BookmarkReachedEventArgs()
