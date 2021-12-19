@@ -16,62 +16,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGVIEW
+#include "../Elysium.Core.Template/StringView.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API StringView final
-	{
-	public:
-		StringView();
-		StringView(char8_t* Input);
-		StringView(char8_t* Input, Elysium::Core::size Length);
-		StringView(const String& Input);
-		StringView(const String& Input, Elysium::Core::size Length);
-		StringView(const String& Input, Elysium::Core::size Offset, Elysium::Core::size Length);
-		StringView(const StringView& Source);
-		StringView(StringView&& Right) noexcept;
-		~StringView();
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringViewBase<char>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringViewBase<wchar_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringViewBase<char8_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringViewBase<char16_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringViewBase<char32_t>;
 
-		StringView& operator=(const StringView& Source);
-		StringView& operator=(StringView&& Right) noexcept;
+	using StringView = Elysium::Core::Template::Text::StringViewBase<char>;
+	using WideStringView = Elysium::Core::Template::Text::StringViewBase<wchar_t>;
+	using Utf8StringView = Elysium::Core::Template::Text::StringViewBase<char8_t>;
+	using Utf16StringView = Elysium::Core::Template::Text::StringViewBase<char16_t>;
+	using Utf32StringView = Elysium::Core::Template::Text::StringViewBase<char32_t>;
 
-		char8_t& operator[](Elysium::Core::size Index);
-		const char8_t& operator[](Elysium::Core::size Index) const;
 
-		operator Elysium::Core::String() const;
-
-		const bool operator==(const StringView& Other) const;
-		const bool operator!=(const StringView& Other) const;
-		const bool operator<(const StringView& Other) const;
-		const bool operator>(const StringView& Other) const;
-		const bool operator<=(const StringView& Other) const;
-		const bool operator>=(const StringView& Other) const;
-
-		const bool operator==(const String& Other) const;
-
-		const Elysium::Core::size GetLength() const;
-
-		const Elysium::Core::size IndexOf(const char8_t Value) const;
-		const Elysium::Core::size IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const;
-		const Elysium::Core::size IndexOf(const char8_t* Value) const;
-		const Elysium::Core::size IndexOf(const char8_t* Value, const Elysium::Core::size StartIndex) const;
-		const Elysium::Core::size IndexOf(const String& Value, const Elysium::Core::size StartIndex) const;
-
-		const Elysium::Core::size LastIndexOf(const char8_t* Value) const;
-
-		void Split(const char8_t Delimiter, Collections::Template::List<StringView>& Views) const;
-		void Split(const char8_t* Delimiter, Collections::Template::List<StringView>& Views) const;
-
-		StringView Substringview(const Elysium::Core::size StartIndex) const;
-		StringView Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
-
-		static const bool IsNullOrEmtpy(const StringView& Value);
-	private:
-		Elysium::Core::size _Length;
-		char8_t* _Data;
-	};
 }
 #endif

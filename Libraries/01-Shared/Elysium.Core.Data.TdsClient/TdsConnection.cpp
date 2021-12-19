@@ -38,12 +38,14 @@ void Elysium::Core::Data::TdsClient::TdsConnection::Open()
 
 			const String& Server = ConnectionStringBuilder.GetServer();
 			const Elysium::Core::size IndexOfPort = Server.IndexOf(u8',');
-			const StringView Host = IndexOfPort == -1 ? StringView(Server) : StringView(Server, IndexOfPort);
+			const Utf8StringView Host = IndexOfPort == -1 ? Utf8StringView(&Server[0]) : Utf8StringView(&Server[0], IndexOfPort);
 			const Elysium::Core::uint16_t Port = IndexOfPort == -1 ? 1433 : Convert::ToUInt16(&Server[IndexOfPort + 1], 10);
 
 			_ConnectionState = ConnectionState::Connecting;
-			_TransportSocket.Connect(Host, Port);
+			//_TransportSocket.Connect(Host, Port);
+			throw 1; // ToDo: conversion of StringView to String (as soon as I am using StringBase!!!)
 
+			/*
 			if (ConnectionStringBuilder.GetIsTrustedConnection())
 			{
 
@@ -52,6 +54,7 @@ void Elysium::Core::Data::TdsClient::TdsConnection::Open()
 			{
 
 			}
+			*/
 
 			/*
 			// ...

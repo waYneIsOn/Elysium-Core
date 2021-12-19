@@ -55,8 +55,8 @@ namespace Elysium::Core
 		const Elysium::Core::uint32_t GetBuild() const;
 		const Elysium::Core::uint32_t GetRevision() const;
 
-		static void Parse(const StringView& Input, Version& Result);
-		static Version Parse(const StringView& Input);
+		static void Parse(const Utf8StringView Input, Version& Result);
+		static Version Parse(const Utf8StringView Input);
 	private:
 		Elysium::Core::uint32_t _Major;
 		Elysium::Core::uint32_t _Minor;

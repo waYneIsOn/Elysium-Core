@@ -32,10 +32,10 @@ Elysium::Core::UriParser::~UriParser()
 
 const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::String& SchemeName)
 {
-	return IsKnownScheme(Elysium::Core::StringView(SchemeName));
+	return IsKnownScheme(Elysium::Core::Utf8StringView(&SchemeName[0]));
 }
 
-const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::StringView& SchemeName)
+const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::Utf8StringView& SchemeName)
 {
 	throw 1;
 }
@@ -55,7 +55,7 @@ void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriPars
 	*/
 }
 
-Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String & Source)
+Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String & Source)
 {
 	// URI = scheme:[//authority]path[?query][#fragment]
 	// authority = [userinfo@]host[:port]
@@ -64,7 +64,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 
 	if (String::IsNullOrEmtpy(Source))
 	{
-		return StringView();
+		return Utf8StringView();
 	}
 
 	switch (Component)
@@ -72,7 +72,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 	case Elysium::Core::UriComponents::Scheme:
 	{
 		Elysium::Core::size IndexOfSchemeDelimiterEnd = Source.IndexOf(u8':');
-		return StringView(Source, IndexOfSchemeDelimiterEnd);
+		return Utf8StringView(&Source[0], IndexOfSchemeDelimiterEnd);
 	}
 	/*
 	case Elysium::Core::UriComponents::UserInfo:
@@ -118,7 +118,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 			IndexOfHostEnd = IndexOfPortDelimiter + IndexOfHostStart + 1;
 		}
 		
-		return StringView(Source, IndexOfHostStart, IndexOfHostEnd - IndexOfHostStart);
+		return Utf8StringView(&Source[IndexOfHostStart], IndexOfHostEnd - IndexOfHostStart);
 	}
 	/*
 	case Elysium::Core::UriComponents::Port:
@@ -152,7 +152,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 	*/
 	case Elysium::Core::UriComponents::AbsoluteUri:
 	{
-		return StringView(Source);
+		return Utf8StringView(&Source[0]);
 	}
 	/*
 	case Elysium::Core::UriComponents::HostAndPort:
@@ -215,7 +215,7 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 			IndexOfPathDelimiterStart = Source.IndexOf(u8'/', IndexOfAuthorityDelimiterStart + 3);
 			if (IndexOfPathDelimiterStart == static_cast<Elysium::Core::size>(-1))
 			{	// Uri doesn't contain a path
-				return StringView();
+				return Utf8StringView();
 			}
 			else
 			{
@@ -225,18 +225,18 @@ Elysium::Core::StringView Elysium::Core::UriParser::ParseComponent(const Elysium
 
 		if (IndexOfPathDelimiterStart == static_cast<Elysium::Core::size>(-1))
 		{	// Uri doesn't contain a path
-			return StringView();
+			return Utf8StringView();
 		}
 
 		Elysium::Core::size IndexOfFragmentDelimiterStart = Source.IndexOf(u8'#');
 		if (IndexOfFragmentDelimiterStart == static_cast<Elysium::Core::size>(-1))
 		{
 			Elysium::Core::size OriginalUriLength = Source.GetLength();
-			return StringView(Source, IndexOfPathDelimiterStart + 1, OriginalUriLength - IndexOfPathDelimiterStart - 1);
+			return Utf8StringView(&Source[IndexOfPathDelimiterStart + 1], OriginalUriLength - IndexOfPathDelimiterStart - 1);
 		}
 		else
 		{
-			return StringView(Source, IndexOfPathDelimiterStart + 1, IndexOfFragmentDelimiterStart - IndexOfPathDelimiterStart - 1);
+			return Utf8StringView(&Source[IndexOfPathDelimiterStart + 1], IndexOfFragmentDelimiterStart - IndexOfPathDelimiterStart - 1);
 		}
 	}
 	default:

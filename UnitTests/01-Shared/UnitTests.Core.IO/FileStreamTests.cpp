@@ -97,6 +97,8 @@ namespace UnitTests::Core::IO
 
 		TEST_METHOD(AsyncReadAndWriteThroughWorkerThreads)
 		{
+			Assert::Fail();
+			/*
 			_CompletionSignal.Reset();
 
 			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
@@ -113,6 +115,7 @@ namespace UnitTests::Core::IO
 
 			// wait for completion
 			_CompletionSignal.WaitOne();
+			*/
 		}
 
 		TEST_METHOD(MemoryLeakIfDestructorDoesntWaitOrCancels)

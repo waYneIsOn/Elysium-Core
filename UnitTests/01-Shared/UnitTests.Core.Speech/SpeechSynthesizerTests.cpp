@@ -54,8 +54,6 @@ namespace UnitTests::Core::Speech
 
 		TEST_METHOD(LogEventsAsynchronously)
 		{
-			Assert::Fail();
-			/*
 			try
 			{
 				const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
@@ -89,7 +87,6 @@ namespace UnitTests::Core::Speech
 				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
 				Assert::Fail();
 			}
-			*/
 		}
 
 		TEST_METHOD(LogEventsSynchronously)
@@ -294,6 +291,7 @@ namespace UnitTests::Core::Speech
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Speak progress: ");
+			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(EventArgs.GetCharacterPosition())[0]);
 			Logger::WriteMessage("\r\n");
 		}
 

@@ -278,7 +278,7 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
 	const FileStreamAsyncResult* CastResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
-	if (CastResult != nullptr)
+	if (CastResult == nullptr)
 	{	// ToDo: throw specific exception
 		throw 1;
 	}

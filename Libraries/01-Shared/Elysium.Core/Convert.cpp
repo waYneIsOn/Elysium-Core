@@ -878,7 +878,7 @@ Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Stri
 	return ToInt32(&Value[0], Value.GetLength(), FromBase);
 }
 
-Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::StringView & Value, const Elysium::Core::uint8_t FromBase)
+Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const Elysium::Core::Utf8StringView Value, const Elysium::Core::uint8_t FromBase)
 {
 	return ToInt32(&Value[0], Value.GetLength(), FromBase);
 }

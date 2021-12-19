@@ -68,7 +68,7 @@ namespace UnitTests::Core::IO::Compression
 			*/
 			ReadOnlyStream Entry6Stream = Entry6.Open();
 			DeflateStream DecStream = DeflateStream(Entry6Stream, CompressionMode::Decompress, true);
-			FileStream Entry6File = FileStream(Entry6.GetName(), FileMode::Create, FileAccess::Write, FileShare::None);
+			FileStream Entry6File = FileStream(&Entry6.GetName()[0], FileMode::Create, FileAccess::Write, FileShare::None);
 			DecStream.CopyTo(Entry6File);
 
 

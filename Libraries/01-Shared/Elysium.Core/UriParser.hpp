@@ -51,7 +51,7 @@ namespace Elysium::Core
 		UriParser& operator=(UriParser&& Right) noexcept = delete;
 
 		static const bool IsKnownScheme(const Elysium::Core::String& SchemeName);
-		static const bool IsKnownScheme(const Elysium::Core::StringView& SchemeName);
+		static const bool IsKnownScheme(const Elysium::Core::Utf8StringView& SchemeName);
 
 		static void Register(const Elysium::Core::UriParser& UriParser, const Elysium::Core::String& SchemeName, const Elysium::Core::uint16_t DefaultPort);
 
@@ -59,7 +59,7 @@ namespace Elysium::Core
 
 
 
-		Elysium::Core::StringView ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String& Source);
+		Elysium::Core::Utf8StringView ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String& Source);
 	protected:
 		UriParser(const Elysium::Core::String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents);
 

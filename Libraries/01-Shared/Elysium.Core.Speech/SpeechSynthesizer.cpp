@@ -761,16 +761,12 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQue
 			}
 			case SPEVENTENUM::SPEI_PHONEME:
 			{
-				// ToDo:
-				unsigned short NextPhonemeId = LOWORD(Event.wParam);
-				unsigned short CurrentPhonemeId = LOWORD(Event.lParam);
-
-				wchar_t TEst0 = CurrentPhonemeId;
-				wchar_t TEst1 = NextPhonemeId;
-
-				char8_t Test2 = CurrentPhonemeId;
-				char8_t Test3 = NextPhonemeId;
-
+				wchar_t CurrentPhoneme = LOWORD(Event.lParam);
+				wchar_t NextPhoneme = LOWORD(Event.wParam);
+				/*
+				const Elysium::Core::String bla2 = _WindowsEncoding.GetString((Elysium::Core::byte*)&CurrentPhoneme, 1);
+				const Elysium::Core::String bla1 = _WindowsEncoding.GetString((Elysium::Core::byte*)&CurrentPhoneme, 1);
+				*/
 				PhonemeReached(*this, PhonemeReachedEventArgs(u8"PROMPT", Event.ullAudioStreamOffset, HIWORD(Event.wParam),
 					(SynthesizerEmphasis)HIWORD(Event.lParam)));
 				break;

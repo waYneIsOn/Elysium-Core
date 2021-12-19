@@ -120,12 +120,11 @@ const Elysium::Core::uint32_t Elysium::Core::Version::GetRevision() const
 	return _Revision;
 }
 
-void Elysium::Core::Version::Parse(const StringView & Input, Version & Result)
+void Elysium::Core::Version::Parse(const Utf8StringView Input, Version & Result)
 {
-	List<StringView> Numbers;
-	Input.Split(u8'.', Numbers);
+	Template::Container::Vector<Utf8StringView> Numbers = Input.Split(u8'.');
 
-	const Elysium::Core::size NumberCount = Numbers.GetCount();
+	const Elysium::Core::size NumberCount = Numbers.GetLength();
 	if (NumberCount > 0)
 	{
 		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[0][0], Numbers[0].GetLength(), 10);
@@ -143,7 +142,7 @@ void Elysium::Core::Version::Parse(const StringView & Input, Version & Result)
 		Result._Revision = Elysium::Core::Convert::ToInt32(&Numbers[3][0], Numbers[3].GetLength(), 10);
 	}
 }
-Elysium::Core::Version Elysium::Core::Version::Parse(const StringView & Input)
+Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8StringView Input)
 {
 	Version ParsedVersion;
 	Parse(Input, ParsedVersion);

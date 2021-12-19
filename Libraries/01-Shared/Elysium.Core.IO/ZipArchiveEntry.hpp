@@ -54,7 +54,7 @@ namespace Elysium::Core::IO::Compression
 
 		const Elysium::Core::IO::Compression::ZipArchive* GetArchive() const;
 		const Elysium::Core::String& GetFullName() const;
-		const Elysium::Core::StringView GetName() const;
+		const Elysium::Core::Utf8StringView GetName() const;
 
 		Elysium::Core::IO::ReadOnlyStream Open();
 	private:

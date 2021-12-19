@@ -135,7 +135,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Sequence"></param>
 		/// <returns></returns>
-		//static constexpr const Elysium::Core::size IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
+		static constexpr const Elysium::Core::size IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
 
 		/// <summary>
 		/// 
@@ -153,7 +153,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Sequence"></param>
 		/// <returns></returns>
-		//static constexpr const Elysium::Core::size LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
+		static constexpr const Elysium::Core::size LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
 
 		/// <summary>
 		/// Returns 0 if both strings match each other, a negative value if ... or a positive value otherwise.
@@ -171,7 +171,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr CharacterTraitsBase<C, I>::ConstPointer Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept;
+		static constexpr CharacterTraitsBase<C, I>::Pointer Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept;
 	};
 
 	template<Concepts::Character C, Concepts::Integer I>
@@ -219,13 +219,59 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
 	{
-		if (Start == nullptr)
+		if (Start == nullptr || Length == 0)
 		{
 			return static_cast<Elysium::Core::size>(-1);
 		}
 
-		ConstPointer CharPointer = __builtin_char_memchr(Start, Value, Length);
+		ConstPointer CharPointer = CharacterTraitsBase<C, I>::Find(Start, Length, Value);
 		return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - Start;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept
+	{
+		if (Start == nullptr || Length == 0 || Sequence == nullptr)
+		{
+			return static_cast<Elysium::Core::size>(-1);
+		}
+
+		ConstPointer LastCharacter = &Start[Length];
+		Pointer CurrentCharacter = (Pointer)Start;
+
+		ConstPointer LastSequenceCharacter = &Sequence[CharacterTraitsBase<C, I>::GetLength(Sequence) - 1];
+		Pointer CurrentSequenceCharacter = (Pointer)Sequence;
+
+		Pointer MatchingCharacter = CurrentCharacter;
+		
+		while (CurrentCharacter < LastCharacter)
+		{
+			// lookup the first sequence-character specifically outside the inner loop. if it wasn't found, there is no need to look any further.
+			CurrentCharacter = CharacterTraitsBase<C, I>::Find(CurrentCharacter, LastCharacter - CurrentCharacter, CurrentSequenceCharacter[0]);
+			if (CurrentCharacter == nullptr)
+			{
+				return -1;
+			}
+
+			MatchingCharacter = CurrentCharacter;
+
+			// compare the following characters
+			while (++CurrentCharacter < LastCharacter && ++CurrentSequenceCharacter < LastSequenceCharacter)
+			{
+				if (*CurrentCharacter != *CurrentSequenceCharacter)
+				{
+					CurrentSequenceCharacter = (Pointer)Sequence;
+					break;
+				}
+			}
+
+			if (CurrentSequenceCharacter == LastSequenceCharacter)
+			{
+				return LastCharacter - MatchingCharacter;
+			}
+		}
+
+		return -1;
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
@@ -244,26 +290,77 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept
+	{
+		return -1;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::int32_t CharacterTraitsBase<C, I>::Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::size Length) noexcept
 	{
 		return __builtin_memcmp(Start, OtherStart, Length);
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr CharacterTraitsBase<C, I>::ConstPointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<C, I>::Pointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
 	{
 		return __builtin_char_memchr(Start, Value, Length);
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::ConstPointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
 	{
-		Elysium::Core::size CopiedLength = Length;
-		for (; 0 < CopiedLength; --CopiedLength, ++Start)
+		ConstPointer LastCharacter = &Start[Length - 1];
+		while (Start++ < LastCharacter)
 		{
 			if (*Start == Value)
 			{
-				return Start;
+				return (Pointer)Start;
+			}
+		}
+
+		return nullptr;
+	}
+
+	template <>
+	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length - 1];
+		while (Start++ < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
+			}
+		}
+
+		return nullptr;
+	}
+
+	template <>
+	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length - 1];
+		while (Start++ < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
+			}
+		}
+
+		return nullptr;
+	}
+
+	template <>
+	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length - 1];
+		while (Start++ < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
 			}
 		}
 

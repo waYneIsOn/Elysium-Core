@@ -54,23 +54,21 @@ void Elysium::Core::Data::Common::DbConnectionStringBuilder::SetConnectionString
 {
 	_KeyValueMap.Clear();
 
-	Collections::Template::List<StringView> ConnectionStringParts = Collections::Template::List<StringView>();
-	StringView ConnectionStringView = StringView(ConnectionString);
-	ConnectionStringView.Split(u8';', ConnectionStringParts);
+	Utf8StringView ConnectionStringView = Utf8StringView(&ConnectionString[0]);
+	Template::Container::Vector<Utf8StringView> ConnectionStringParts = ConnectionStringView.Split(u8';');
 
-	for (Elysium::Core::size i = 0; i < ConnectionStringParts.GetCount(); i++)
+	for (Elysium::Core::size i = 0; i < ConnectionStringParts.GetLength(); i++)
 	{
-		if (!StringView::IsNullOrEmtpy(ConnectionStringParts[i]))
+		if (!Utf8StringView::IsNullOrEmtpy(ConnectionStringParts[i]))
 		{
-			Collections::Template::List<StringView> KeyValuePair = Collections::Template::List<StringView>();
-			ConnectionStringParts[i].Split(u8'=', KeyValuePair);
+			Template::Container::Vector<Utf8StringView> KeyValuePair = ConnectionStringParts[i].Split(u8'=');
 
-			if (KeyValuePair.GetCount() != 2)
+			if (KeyValuePair.GetLength() != 2)
 			{	// ToDo: how to handle this scenario? are there any "key, no value"-parts?
 				throw 1;
 			}
 
-			_KeyValueMap.Set(KeyValuePair[0], KeyValuePair[1]);
+			_KeyValueMap.Set(&KeyValuePair[0][0], &KeyValuePair[1][0]);
 		}
 	}
 }

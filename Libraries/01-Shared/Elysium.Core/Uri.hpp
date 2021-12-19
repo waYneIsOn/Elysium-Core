@@ -91,32 +91,32 @@ namespace Elysium::Core
 		static const Elysium::Core::String UriSchemeUrn;
 		static const Elysium::Core::String UriSchemeWebSocket;
 	public:
-		const Elysium::Core::StringView& GetAbsoluteUri() const;
-		const Elysium::Core::StringView& GetSchema() const;
-		const Elysium::Core::StringView& GetAuthority() const;
-		const Elysium::Core::StringView& GetUserInfo() const;
-		const Elysium::Core::StringView& GetHost() const;
+		const Elysium::Core::Utf8StringView& GetAbsoluteUri() const;
+		const Elysium::Core::Utf8StringView& GetSchema() const;
+		const Elysium::Core::Utf8StringView& GetAuthority() const;
+		const Elysium::Core::Utf8StringView& GetUserInfo() const;
+		const Elysium::Core::Utf8StringView& GetHost() const;
 		const Elysium::Core::uint32_t& GetPort() const;
-		const Elysium::Core::StringView& GetPathAndQuery() const;
-		const Elysium::Core::StringView& GetPath() const;
-		const Elysium::Core::StringView& GetQuery() const;
-		const Elysium::Core::StringView& GetFragment() const;
+		const Elysium::Core::Utf8StringView& GetPathAndQuery() const;
+		const Elysium::Core::Utf8StringView& GetPath() const;
+		const Elysium::Core::Utf8StringView& GetQuery() const;
+		const Elysium::Core::Utf8StringView& GetFragment() const;
 	private:
 		Elysium::Core::String _OriginalString;
-		Elysium::Core::StringView _SchemeView;
+		Elysium::Core::Utf8StringView _SchemeView;
 		Elysium::Core::UriParser& _Parser;
 
-		Elysium::Core::StringView _AbsoluteUri;
-		Elysium::Core::StringView _AuthorityView;
-		Elysium::Core::StringView _UserInfoView;
-		Elysium::Core::StringView _HostView;
+		Elysium::Core::Utf8StringView _AbsoluteUri;
+		Elysium::Core::Utf8StringView _AuthorityView;
+		Elysium::Core::Utf8StringView _UserInfoView;
+		Elysium::Core::Utf8StringView _HostView;
 		Elysium::Core::uint32_t _Port;
-		Elysium::Core::StringView _PathAndQueryView;
-		Elysium::Core::StringView _PathView;
-		Elysium::Core::StringView _QueryView;
-		Elysium::Core::StringView _FragmentView;
+		Elysium::Core::Utf8StringView _PathAndQueryView;
+		Elysium::Core::Utf8StringView _PathView;
+		Elysium::Core::Utf8StringView _QueryView;
+		Elysium::Core::Utf8StringView _FragmentView;
 
-		Elysium::Core::StringView ParseScheme();
+		Elysium::Core::Utf8StringView ParseScheme();
 		Elysium::Core::UriParser& GetParser();
 
 		const Elysium::Core::String CreateUri(const Uri& BaseUri, const Elysium::Core::String& RelativeUri);

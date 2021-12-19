@@ -72,7 +72,6 @@ Elysium::Core::IO::Compression::ZipArchiveEntry& Elysium::Core::IO::Compression:
 		Right._Archive = nullptr;
         Right._Reader = nullptr;
         Right._FileName = Elysium::Core::String();
-        Right._FileName = Elysium::Core::StringView();
         Right._RelativeOffsetToFileEntry = 0;
         Right._RelativeOffsetToCompressedData = 0;
         Right._CompressedSize = 0;
@@ -100,16 +99,16 @@ const Elysium::Core::String & Elysium::Core::IO::Compression::ZipArchiveEntry::G
     return _FileName;
 }
 
-const Elysium::Core::StringView Elysium::Core::IO::Compression::ZipArchiveEntry::GetName() const
+const Elysium::Core::Utf8StringView Elysium::Core::IO::Compression::ZipArchiveEntry::GetName() const
 {
     const Elysium::Core::size LastIndexOfSlash = _FileName.LastIndexOf(u8'/');
     if (LastIndexOfSlash == -1)
     {
-        return Elysium::Core::StringView(_FileName);
+        return Elysium::Core::Utf8StringView(&_FileName[0]);
     }
     else
     {
-        return Elysium::Core::StringView(_FileName, LastIndexOfSlash + 1, _FileName.GetLength() - LastIndexOfSlash - 1);
+        return Elysium::Core::Utf8StringView(&_FileName[LastIndexOfSlash + 1], _FileName.GetLength() - LastIndexOfSlash - 1);
     }
 }
 

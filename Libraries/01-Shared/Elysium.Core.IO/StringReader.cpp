@@ -6,8 +6,9 @@
 
 Elysium::Core::IO::StringReader::StringReader(const String & Input)
 	: Elysium::Core::IO::TextReader(),
-	_Input(Input)
+	_Input(&Input[0])
 { }
+
 Elysium::Core::IO::StringReader::~StringReader()
 { }
 
@@ -34,7 +35,7 @@ Elysium::Core::String Elysium::Core::IO::StringReader::ReadLine()
 		return String();
 	}
 
-	Elysium::Core::size IndexOfNewLine = _Input.IndexOf(Elysium::Core::Environment::NewLine(), _Position);
+	Elysium::Core::size IndexOfNewLine = _Input.IndexOf(&Elysium::Core::Environment::NewLine()[0], _Position);
 	if (IndexOfNewLine == -1)
 	{
 		Elysium::Core::size Position = _Position;
