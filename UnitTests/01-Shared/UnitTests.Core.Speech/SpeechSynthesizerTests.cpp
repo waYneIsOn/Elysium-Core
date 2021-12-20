@@ -45,7 +45,7 @@ namespace UnitTests::Core::Speech
 			VoiceInfo Voice = Synthesizer.GetVoice();
 			const CultureInfo VoiceCulture = Voice.GetCulture();
 
-			AssertExtended::AreEqual(u8"HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\TTS_MS_EN-US_ZIRA_11.0", Voice.GetId());
+			AssertExtended::AreEqual(u8"TTS_MS_EN-US_ZIRA_11.0", Voice.GetId());
 			AssertExtended::AreEqual(u8"Microsoft Zira Desktop", Voice.GetName());
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceAge::Adult), static_cast<Elysium::Core::uint8_t>(Voice.GetAge()));
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceGender::Female), static_cast<Elysium::Core::uint8_t>(Voice.GetGender()));

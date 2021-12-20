@@ -76,6 +76,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizerEvents.hpp">
+      <Filter>Synthesis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">

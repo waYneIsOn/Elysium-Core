@@ -60,16 +60,16 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char>::IsControl(static_cast<char>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char>::IsControl(static_cast<char>(i)));
 			}
 			Assert::IsTrue(CharacterTraits<char>::IsControl(0x7F));
 			for (Elysium::Core::size i = 0x80; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char>::IsControl(static_cast<char>(i)));
 			}
 		}
 
@@ -77,16 +77,16 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<signed char>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<signed char>::IsControl(static_cast<signed char>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<signed char>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<signed char>::IsControl(static_cast<signed char>(i)));
 			}
 			Assert::IsTrue(CharacterTraits<char>::IsControl(0x7F));
 			for (Elysium::Core::size i = 0x80; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<signed char>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<signed char>::IsControl(static_cast<signed char>(i)));
 			}
 		}
 
@@ -94,19 +94,19 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<unsigned char>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<unsigned char>::IsControl(static_cast<unsigned char>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<unsigned char>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<unsigned char>::IsControl(static_cast<unsigned char>(i)));
 			}
 			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
-				Assert::IsTrue(CharacterTraits<unsigned char>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<unsigned char>::IsControl(static_cast<unsigned char>(i)));
 			}
 			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<unsigned char>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<unsigned char>::IsControl(static_cast<unsigned char>(i)));
 			}
 		}
 
@@ -114,19 +114,19 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<wchar_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<wchar_t>::IsControl(static_cast<wchar_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<wchar_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<wchar_t>::IsControl(static_cast<wchar_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
-				Assert::IsTrue(CharacterTraits<wchar_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<wchar_t>::IsControl(static_cast<wchar_t>(i)));
 			}
 			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<wchar_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<wchar_t>::IsControl(static_cast<wchar_t>(i)));
 			}
 		}
 
@@ -134,19 +134,19 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char8_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char8_t>::IsControl(static_cast<char8_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char8_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char8_t>::IsControl(static_cast<char8_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char8_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char8_t>::IsControl(static_cast<char8_t>(i)));
 			}
 			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char8_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char8_t>::IsControl(static_cast<char8_t>(i)));
 			}
 		}
 
@@ -154,19 +154,19 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char16_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char16_t>::IsControl(static_cast<char16_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char16_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char16_t>::IsControl(static_cast<char16_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char16_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char16_t>::IsControl(static_cast<char16_t>(i)));
 			}
 			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char16_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char16_t>::IsControl(static_cast<char16_t>(i)));
 			}
 		}
 
@@ -174,19 +174,19 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0; i < 0x20; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char32_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char32_t>::IsControl(static_cast<char32_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x20; i < 0x7F; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char32_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsControl(static_cast<char32_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x7F; i < 0xA0; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char32_t>::IsControl(i));
+				Assert::IsTrue(CharacterTraits<char32_t>::IsControl(static_cast<char32_t>(i)));
 			}
 			for (Elysium::Core::size i = 0xA0; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char32_t>::IsControl(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsControl(static_cast<char32_t>(i)));
 			}
 		}
 
@@ -194,15 +194,15 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<char>::IsDigit(static_cast<char>(i)));
 			}
 			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char>::IsDigit(i));
+				Assert::IsTrue(CharacterTraits<char>::IsDigit(static_cast<char>(i)));
 			}
 			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<char>::IsDigit(static_cast<char>(i)));
 			}
 		}
 
@@ -210,15 +210,15 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
-				Assert::IsFalse(CharacterTraits<signed char>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<signed char>::IsDigit(static_cast<signed char>(i)));
 			}
 			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
-				Assert::IsTrue(CharacterTraits<signed char>::IsDigit(i));
+				Assert::IsTrue(CharacterTraits<signed char>::IsDigit(static_cast<signed char>(i)));
 			}
 			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<signed char>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<signed char>::IsDigit(static_cast<signed char>(i)));
 			}
 		}
 
@@ -226,15 +226,15 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
-				Assert::IsFalse(CharacterTraits<unsigned char>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<unsigned char>::IsDigit(static_cast<unsigned char>(i)));
 			}
 			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
-				Assert::IsTrue(CharacterTraits<unsigned char>::IsDigit(i));
+				Assert::IsTrue(CharacterTraits<unsigned char>::IsDigit(static_cast<unsigned char>(i)));
 			}
 			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<unsigned char>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<unsigned char>::IsDigit(static_cast<unsigned char>(i)));
 			}
 		}
 
@@ -257,15 +257,15 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::size i = 0x00; i < 0x30; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(static_cast<char32_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x30; i < 0x3A; i++)
 			{
-				Assert::IsTrue(CharacterTraits<char32_t>::IsDigit(i));
+				Assert::IsTrue(CharacterTraits<char32_t>::IsDigit(static_cast<char32_t>(i)));
 			}
 			for (Elysium::Core::size i = 0x3A; i <= 0xFF; i++)
 			{
-				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(static_cast<char32_t>(i)));
 			}
 			// ToDo: other values
 		}

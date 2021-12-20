@@ -68,6 +68,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SpeakStartedEventArgs.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_SPEECHSYNTHESIZEREVENTS
+#include "SpeechSynthesizerEvents.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_SYNTHESIS_STATECHANGEDEVENTARGS
 #include "StateChangedEventArgs.hpp"
 #endif

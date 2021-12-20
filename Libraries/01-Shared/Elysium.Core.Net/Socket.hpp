@@ -135,11 +135,11 @@ namespace Elysium::Core::Net::Sockets
 
 		Socket& operator=(Socket&& Right) noexcept;
 	public:
-		const AddressFamily& GetAddressFamily() const;
+		const AddressFamily GetAddressFamily() const;
 
-		const SocketType& GetSocketType() const;
+		const SocketType GetSocketType() const;
 
-		const ProtocolType& GetProtocolType() const;
+		const ProtocolType GetProtocolType() const;
 
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
 

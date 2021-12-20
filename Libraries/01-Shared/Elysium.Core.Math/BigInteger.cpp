@@ -18,7 +18,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::int32
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Template::Array<Elysium::Core::uint32_t>& Value, const bool IsNegative)
 	: _Sign(0), _Bits(Collections::Template::Array<Elysium::Core::uint32_t>(Value))
 {
-	Elysium::Core::int32_t Length;
+	Elysium::Core::size Length;
 
 	// Try to conserve space as much as possible by checking for wasted leading uint[] entries 
 	// sometimes the uint[] has leading zeros from bit manipulation operations & and ^
@@ -49,7 +49,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Templat
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(Collections::Template::Array<Elysium::Core::uint32_t>& Value)
 	: _Sign(0), _Bits(Value)
 { 
-	int32_t DWordCount = Value.GetLength();
+	Elysium::Core::size DWordCount = Value.GetLength();
 	const bool IsNegative = DWordCount > 0 && ((Value[DWordCount - 1] & 0x80000000) == 0x80000000);
 
 	while (DWordCount > 0 && Value[DWordCount - 1] == 0)
@@ -171,7 +171,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::uint3
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Template::Array<byte>& Value)
 	: _Sign(0), _Bits(Collections::Template::Array<Elysium::Core::uint32_t>(Value.GetLength() / 4))
 { 
-	Elysium::Core::int32_t ByteCount = Value.GetLength();
+	Elysium::Core::size ByteCount = Value.GetLength();
 	bool IsNegative = ByteCount > 0 && ((Value[ByteCount - 1] & 0x80) == 0x80);
 
 	// Try to conserve space as much as possible by checking for wasted leading byte[] entries 
@@ -275,7 +275,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Collections::Templat
 			DangerousMakeTwosComplement(Val);	// mutates Val
 
 			// pack _bits to remove any wasted space after the twos complement
-			Elysium::Core::int32_t Length = Val.GetLength();
+			Elysium::Core::size Length = Val.GetLength();
 			while (Length > 0 && Val[Length - 1] == 0)
 			{
 				Length--;
@@ -555,8 +555,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysi
 		HighDWord = 0;
 	}
 
-	// find highest significatn byte
-	int32_t msb;
+	// find highest significant byte
+	Elysium::Core::size msb;
 	for (msb = DWords.GetLength() - 1; msb > 0; msb--)
 	{
 		if (DWords[msb] != HighDWord)

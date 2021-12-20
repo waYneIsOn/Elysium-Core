@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizerEvents.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerEmphasis.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SynthesizerState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VisemeReachedEventArgs.hpp" />

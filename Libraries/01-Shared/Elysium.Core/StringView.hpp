@@ -33,7 +33,5 @@ namespace Elysium::Core
 	using Utf8StringView = Elysium::Core::Template::Text::StringViewBase<char8_t>;
 	using Utf16StringView = Elysium::Core::Template::Text::StringViewBase<char16_t>;
 	using Utf32StringView = Elysium::Core::Template::Text::StringViewBase<char32_t>;
-
-
 }
 #endif

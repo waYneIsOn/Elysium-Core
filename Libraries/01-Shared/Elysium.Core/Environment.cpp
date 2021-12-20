@@ -21,16 +21,6 @@
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
-
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u8"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u8"\n";
-#elif defined ELYSIUM_CORE_OS_LINUX
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = u8"\n";
-#elif defined ELYSIUM_CORE_OS_MAC
-const Elysium::Core::String Elysium::Core::Environment::_NewLineCharacters = (u8"\r";
-#else
-#error "unsupported os"
 #endif
 
 const bool Elysium::Core::Environment::Is64BitProcess()
@@ -73,7 +63,7 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 
 const Elysium::Core::String & Elysium::Core::Environment::NewLine()
 {
-	return _NewLineCharacters;
+	return _NewLine;
 }
 
 const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()

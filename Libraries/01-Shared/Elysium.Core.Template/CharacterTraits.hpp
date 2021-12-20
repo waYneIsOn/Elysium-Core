@@ -13,7 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
@@ -26,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
 #include "NumericLimits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
+#include "Literals.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERCATEGORY
@@ -383,6 +391,20 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
 		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(char);
@@ -535,6 +557,20 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		inline static ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			"\r\n"_sc;
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			"\n"_sc;
+#elif defined ELYSIUM_CORE_OS_MAC
+			"\r"_sc;
+#else
+#error "unsupported os"
+#endif
+		
+		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
 		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(signed char);
@@ -669,6 +705,20 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		inline static ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			"\r\n"_uc;
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			"\n"_uc;
+#elif defined ELYSIUM_CORE_OS_MAC
+			"\r"_uc;
+#else
+#error "unsupported os"
+#endif
+		
+		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
 		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(unsigned char);
@@ -802,6 +852,20 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			L"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			L"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			L"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
 		static constexpr const Elysium::Core::size MaximumByteLength = 4;
@@ -830,6 +894,20 @@ namespace Elysium::Core::Template::Text
 	struct CharacterTraits<char8_t> : public CharacterTraitsBase<char8_t, unsigned char>
 	{ 
 	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			u8"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			u8"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			u8"\r";
+#else
+#error "unsupported os"
+#endif
+
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
@@ -912,6 +990,20 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			u"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			u"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			u"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
 		static constexpr const Elysium::Core::size MaximumByteLength = 4;
@@ -940,6 +1032,20 @@ namespace Elysium::Core::Template::Text
 	struct CharacterTraits<char32_t> : public CharacterTraitsBase<char32_t, unsigned int>
 	{
 	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			U"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			U"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			U"\r";
+#else
+#error "unsupported os"
+#endif
+
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>

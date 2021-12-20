@@ -66,8 +66,10 @@ namespace Elysium::Core::Threading
 		static const bool SetMaxThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
 		static const bool SetMinThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
 	private:
+#pragma warning (disable: 4251)	// Internal::OSThreadPool won't be used outside ThreadPool
 		static Internal::OSThreadPool _WorkerPool;
 		static Internal::OSThreadPool _IOPool;
+#pragma warning (default: 4251)
 	};
 }
 #endif

@@ -601,7 +601,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const S
 
 void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::WaitUntilDone(const Elysium::Core::TimeSpan Timeout)
 {
-	HRESULT Result = _NativeSynthesizer->WaitUntilDone(Timeout.GetTotalMilliseconds());
+	HRESULT Result = _NativeSynthesizer->WaitUntilDone(static_cast<ULONG>(Timeout.GetTotalMilliseconds()));
 	if (FAILED(Result))
 	{
 		throw Elysium::Core::Runtime::InteropServices::COMException(Result);

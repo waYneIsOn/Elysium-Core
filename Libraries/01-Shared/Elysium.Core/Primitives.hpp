@@ -16,73 +16,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
+#include "../Elysium.Core.Template/Literals.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
+#endif
+
 namespace Elysium::Core
 {
-	typedef char int8_t;
-	typedef short int16_t;
-	typedef int int32_t;
-	typedef long long int64_t;
+	using int8_t = Elysium::Core::Template::System::int8_t;
+	using int16_t = Elysium::Core::Template::System::int16_t;
+	using int32_t = Elysium::Core::Template::System::int32_t;
+	using int64_t = Elysium::Core::Template::System::int64_t;
 
-	typedef unsigned char uint8_t;
-	typedef unsigned short uint16_t;
-	typedef unsigned int uint32_t;
-	typedef unsigned long long uint64_t;
+	using uint8_t = Elysium::Core::Template::System::uint8_t;
+	using uint16_t = Elysium::Core::Template::System::uint16_t;
+	using uint32_t = Elysium::Core::Template::System::uint32_t;
+	using uint64_t = Elysium::Core::Template::System::uint64_t;
 
-#if ELYSIUM_CORE_BITNESS == 32
-	typedef uint32_t size;
-#elif ELYSIUM_CORE_BITNESS == 64
-	typedef uint64_t size;
-	//typedef unsigned __int64 size;
-#else
-#error "unsupported os"
-#endif
-}
-
-constexpr Elysium::Core::int8_t operator "" _i8(const unsigned long long Value)
-{
-	// ToDo: assert
-	return static_cast<Elysium::Core::int8_t>(Value);
-}
-
-constexpr Elysium::Core::int16_t operator "" _i16(const unsigned long long Value)
-{
-	// ToDo: assert
-	return static_cast<Elysium::Core::int16_t>(Value);
-}
-
-constexpr Elysium::Core::int32_t operator "" _i32(const unsigned long long Value)
-{
-	// ToDo: assert
-	return static_cast<Elysium::Core::int32_t>(Value);
-}
-
-constexpr Elysium::Core::int64_t operator "" _i64(const unsigned long long Value)
-{
-	// ToDo: assert
-	return static_cast<Elysium::Core::int64_t>(Value);
-}
-
-constexpr Elysium::Core::uint8_t operator "" _ui8(const unsigned long long Value)
-{
-	//assert(Value >= 0u && Value <= 255u);
-	return static_cast<Elysium::Core::uint8_t>(Value);
-}
-
-constexpr Elysium::Core::uint16_t operator "" _ui16(const unsigned long long Value)
-{
-	//assert(Value >= 0u && Value <= 65535u);
-	return static_cast<Elysium::Core::uint16_t>(Value);
-}
-
-constexpr Elysium::Core::uint32_t operator "" _ui32(const unsigned long long Value)
-{
-	//assert(Value >= 0u && Value <= 4294967295u);
-	return static_cast<Elysium::Core::uint32_t>(Value);
-}
-
-constexpr Elysium::Core::uint64_t operator "" _ui64(const unsigned long long Value)
-{
-	//assert(Value >= 0u && Value <= 18446744073709551615u);
-	return static_cast<Elysium::Core::uint64_t>(Value);
+	using size = Elysium::Core::Template::System::size;
 }
 #endif

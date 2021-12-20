@@ -48,7 +48,7 @@ namespace Elysium::Core::Template::Text
 		using CharReference = C&;
 		using ConstCharReference = const C&;
 
-		using String = StringBase<C>;
+		using CorrespondingString = StringBase<C>;
 	public:
 		StringViewBase() noexcept;
 
@@ -82,8 +82,6 @@ namespace Elysium::Core::Template::Text
 
 		const bool operator>=(const StringViewBase<C>& Other) const noexcept;
 	public:
-		//explicit operator String() const;
-	public:
 		static const bool IsNullOrEmtpy(const StringViewBase<C>& Value);
 	public:
 		const Elysium::Core::size GetLength() const;
@@ -103,6 +101,8 @@ namespace Elysium::Core::Template::Text
 		Container::Vector<StringViewBase<C>> Split(ConstCharacter Delimiter) const;
 
 		Container::Vector<StringViewBase<C>> Split(ConstCharPointer DelimiterSequence) const;
+
+		StringViewBase<C>::CorrespondingString ToString() const;
 	private:
 		ConstCharPointer _Data;
 		Elysium::Core::size _Length;
@@ -345,6 +345,11 @@ namespace Elysium::Core::Template::Text
 		}
 	
 		return Result;
+	}
+	template<Concepts::Character C>
+	inline StringViewBase<C>::CorrespondingString StringViewBase<C>::ToString() const
+	{
+		return CorrespondingString(_Data, _Length);
 	}
 }
 #endif

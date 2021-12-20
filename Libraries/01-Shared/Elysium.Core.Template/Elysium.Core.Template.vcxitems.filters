@@ -338,6 +338,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
       <Filter>Container</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Literals.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -381,6 +390,9 @@
     </Filter>
     <Filter Include="Chrono">
       <UniqueIdentifier>{a6a5ce54-013c-46b2-a8ad-f6a5d0aa35ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System">
+      <UniqueIdentifier>{33fb3318-b24f-4080-a052-ba58311c2bb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

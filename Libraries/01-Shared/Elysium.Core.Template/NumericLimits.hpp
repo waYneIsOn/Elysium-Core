@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
+#include "Literals.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNED
 #include "IsSigned.hpp"
 #endif
@@ -42,12 +46,12 @@ namespace Elysium::Core::Template::Numeric
 		/// <summary>
 		/// 
 		/// </summary>
-		static constexpr ConstValue Minimum = IsSigned ? static_cast<ConstValue>(1 << (ByteLength * 8 - 1)) : 0;
+		static constexpr ConstValue Minimum = IsSigned ? static_cast<ConstValue>(1_ui64 << (ByteLength * 8 - 1)) : 0;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		static constexpr ConstValue Maximum = IsSigned ? static_cast<ConstValue>(((1 << (ByteLength * 8 - 1)) + 1) * -1) : -1;
+		static constexpr ConstValue Maximum = IsSigned ? static_cast<ConstValue>(((1_ui64 << (ByteLength * 8 - 1)) + 1) * -1) : -1;
 	};
 }
 #endif

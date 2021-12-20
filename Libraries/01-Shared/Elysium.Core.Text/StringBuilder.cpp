@@ -23,16 +23,19 @@
 Elysium::Core::Text::StringBuilder::StringBuilder()
 	: StringBuilder(16)
 { }
+
 Elysium::Core::Text::StringBuilder::StringBuilder(const Elysium::Core::size Capacity)
 	: _Capacity(Capacity <= Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum ? Capacity : Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum),
 	_Data(new char8_t[_Capacity]),
 	_Length(0)
 { }
+
 Elysium::Core::Text::StringBuilder::StringBuilder(const StringBuilder & Source)
 	: _Capacity(Source._Capacity),_Data(new char8_t[_Capacity]), _Length(Source._Length)
 {
 	memcpy(_Data, Source._Data, sizeof(char8_t) * _Capacity);
 }
+
 Elysium::Core::Text::StringBuilder::~StringBuilder()
 {
 	if (_Data != nullptr)
@@ -46,6 +49,7 @@ const Elysium::Core::size Elysium::Core::Text::StringBuilder::GetCapacity() cons
 {
 	return _Capacity;
 }
+
 const Elysium::Core::size Elysium::Core::Text::StringBuilder::GetLength() const
 {
 	return _Length;
@@ -66,6 +70,7 @@ void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Va
 	memcpy(&_Data[_Length], &Value[0], sizeof(char8_t) * ValueLength);
 	_Length += ValueLength;
 }
+
 void Elysium::Core::Text::StringBuilder::Append(const char8_t Value)
 {
 	Resize(_Length + 1);
@@ -74,6 +79,7 @@ void Elysium::Core::Text::StringBuilder::Append(const char8_t Value)
 	memcpy(&_Data[_Length], &Value, sizeof(char8_t));
 	_Length++;
 }
+
 void Elysium::Core::Text::StringBuilder::Append(const char8_t * Value, const Elysium::Core::size Length)
 {
 	// resize if required
@@ -83,20 +89,24 @@ void Elysium::Core::Text::StringBuilder::Append(const char8_t * Value, const Ely
 	memcpy(&_Data[_Length], &Value[0], sizeof(char8_t) * Length);
 	_Length += Length;
 }
+
 void Elysium::Core::Text::StringBuilder::Clear()
 {
 	_Length = 0;
 }
+
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value) const
 {
 	const char8_t* CharPointer = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(_Data, _Length, Value);
 	return CharPointer == nullptr ? static_cast<const char8_t>(-1) : CharPointer - _Data;
 }
+
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t Value, const Elysium::Core::size StartIndex) const
 {
 	const char8_t* CharPointer = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(&_Data[StartIndex], _Length - StartIndex, Value);
 	return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - &_Data[StartIndex];
 }
+
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value) const
 {
 	Elysium::Core::size Index = 0;
@@ -132,6 +142,7 @@ Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * 
 		Index++;
 	}
 }
+
 Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * Value, const Elysium::Core::size StartIndex) const
 {
 	Elysium::Core::size Index = StartIndex;
@@ -167,6 +178,7 @@ Elysium::Core::size Elysium::Core::Text::StringBuilder::IndexOf(const char8_t * 
 		Index++;
 	}
 }
+
 void Elysium::Core::Text::StringBuilder::Remove(const Elysium::Core::size StartIndex, const Elysium::Core::size Length)
 {
 	// copy data and set _Length accordingly
@@ -178,6 +190,7 @@ Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString()
 {
 	return String(_Data, _Length);
 }
+
 Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString(const Elysium::Core::size Length)
 {
 	return String(_Data, Length);

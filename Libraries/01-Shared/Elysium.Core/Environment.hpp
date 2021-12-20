@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Integer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	/// <summary>
@@ -37,13 +41,17 @@ namespace Elysium::Core
 	{
 	public:
 		Environment() = delete;
+
 		Environment(const Environment& Source) = delete;
+
 		Environment(Environment&& Right) noexcept = delete;
+
 		~Environment() = delete;
-
+	public:
 		Environment& operator=(const Environment& Source) = delete;
-		Environment& operator=(Environment&& Right) noexcept = delete;
 
+		Environment& operator=(Environment&& Right) noexcept = delete;
+	public:
 		/// <summary>
 		/// 
 		/// </summary>
@@ -86,7 +94,7 @@ namespace Elysium::Core
 		/// <returns></returns>
 		static const Elysium::Core::String SystemDirectory();
 	private:
-		static const Elysium::Core::String _NewLineCharacters;
+		inline static const Elysium::Core::String _NewLine = Elysium::Core::String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
 	};
 }
 #endif

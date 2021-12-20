@@ -57,6 +57,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Literals.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Locale.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Map.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
@@ -98,6 +99,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp" />

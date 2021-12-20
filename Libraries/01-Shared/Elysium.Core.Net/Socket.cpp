@@ -114,21 +114,21 @@ Elysium::Core::Net::Sockets::Socket & Elysium::Core::Net::Sockets::Socket::opera
 	return *this;
 }
 
-const Elysium::Core::Net::Sockets::AddressFamily & Elysium::Core::Net::Sockets::Socket::GetAddressFamily() const
+const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::Sockets::Socket::GetAddressFamily() const
 {
 	WSAPROTOCOL_INFO proto;
 	WSADuplicateSocket(_WinSocketHandle, GetCurrentProcessId(), &proto);
 	return static_cast<Elysium::Core::Net::Sockets::AddressFamily>(proto.iAddressFamily);
 }
 
-const Elysium::Core::Net::Sockets::SocketType & Elysium::Core::Net::Sockets::Socket::GetSocketType() const
+const Elysium::Core::Net::Sockets::SocketType Elysium::Core::Net::Sockets::Socket::GetSocketType() const
 {
 	WSAPROTOCOL_INFO proto;
 	WSADuplicateSocket(_WinSocketHandle, GetCurrentProcessId(), &proto);
 	return static_cast<Elysium::Core::Net::Sockets::SocketType>(proto.iSocketType);
 }
 
-const Elysium::Core::Net::Sockets::ProtocolType & Elysium::Core::Net::Sockets::Socket::GetProtocolType() const
+const Elysium::Core::Net::Sockets::ProtocolType Elysium::Core::Net::Sockets::Socket::GetProtocolType() const
 {
 	WSAPROTOCOL_INFO proto;
 	WSADuplicateSocket(_WinSocketHandle, GetCurrentProcessId(), &proto);

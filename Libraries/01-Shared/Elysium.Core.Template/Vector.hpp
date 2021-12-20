@@ -643,7 +643,7 @@ namespace Elysium::Core::Template::Container
 			throw 1;
 		}
 
-		constexpr const double GrowthFactor = 2;	// ToDo: check whether a growth factor of 1.5 would be better
+		constexpr const Elysium::Core::size GrowthFactor = 2;	// ToDo: check whether a growth factor of 1.5 (double!) would be better
 		Elysium::Core::size NewCapacity = _Capacity == 0 ? 1 : _Capacity * GrowthFactor;
 		while (NewCapacity < DesiredCapacity)
 		{
