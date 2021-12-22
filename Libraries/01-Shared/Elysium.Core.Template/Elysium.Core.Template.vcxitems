@@ -41,6 +41,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />

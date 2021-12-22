@@ -347,6 +347,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Literals.hpp">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CharacterTraits.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "String.hpp"
+#endif
+
 namespace Elysium::Core::Template::Text
 {
 	template <Concepts::Character C>

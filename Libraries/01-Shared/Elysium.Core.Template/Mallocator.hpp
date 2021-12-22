@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef _INC_CRTDBG
@@ -77,14 +77,14 @@ namespace Elysium::Core::Template::Memory
 		/// </summary>
 		/// <param name="NumberOfElements"></param>
 		/// <returns></returns>
-		constexpr T* Allocate(const Elysium::Core::size NumberOfElements);
+		constexpr T* Allocate(const System::size NumberOfElements);
 
 		/// <summary>
 		/// Calls destructor for the first number of instantiated elements before cleaning up the previously allocated memory using free(...).
 		/// </summary>
 		/// <param name="First">Pointer to the starting element.</param>
 		/// <param name="NumberOfInstantiatedElements">Number of elements the destructors needs to be called for.</param>
-		void Deallocate(T* First, const Elysium::Core::size NumberOfInstantiatedElements);
+		void Deallocate(T* First, const System::size NumberOfInstantiatedElements);
 	};
 
 	template<Concepts::NonConstant T>
@@ -96,7 +96,7 @@ namespace Elysium::Core::Template::Memory
 	{ }
 
 	template<Concepts::NonConstant T>
-	inline constexpr T* MAllocator<T>::Allocate(const Elysium::Core::size NumberOfElements)
+	inline constexpr T* MAllocator<T>::Allocate(const System::size NumberOfElements)
 	{
 		if (NumberOfElements == 0)
 		{
@@ -110,7 +110,7 @@ namespace Elysium::Core::Template::Memory
 	}
 
 	template<Concepts::NonConstant T>
-	inline void MAllocator<T>::Deallocate(T* First, const Elysium::Core::size NumberOfInstantiatedElements)
+	inline void MAllocator<T>::Deallocate(T* First, const System::size NumberOfInstantiatedElements)
 	{
 		if (First == nullptr)
 		{
