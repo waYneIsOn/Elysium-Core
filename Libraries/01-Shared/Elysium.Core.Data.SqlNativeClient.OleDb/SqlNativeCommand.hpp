@@ -68,7 +68,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		IDBCreateCommand* _NativeCommandFactory;
 		SqlNativeParameterCollection _Parameters = SqlNativeParameterCollection();
 
-		const Text::Encoding& _Utf16 = Text::Encoding::UTF16BE();
+		const Text::Encoding& _WindowsEncoding = Text::Encoding::UTF16LE();
 
 		void PrepareParameters(ICommandText* NativeCommandText, DBPARAMS* CommandParameters, std::vector<ISequentialStream*>* Streams, std::vector<byte>* ParameterDataBuffer);
 	};

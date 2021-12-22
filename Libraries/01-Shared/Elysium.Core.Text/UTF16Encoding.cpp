@@ -272,7 +272,7 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF16Encoding::GetCharCount(c
 		throw 1;
 	}
 	
-	const Elysium::Core::uint16_t Int16Max = Elysium::Core::UInt16::GetMaxValue();
+	constexpr const Elysium::Core::uint16_t Int16Max = Elysium::Core::UInt16::GetMaxValue();
 	Elysium::Core::uint16_t SomeSurrogate;
 	Elysium::Core::uint16_t LowSurrogate;
 	Elysium::Core::uint32_t CodePoint;

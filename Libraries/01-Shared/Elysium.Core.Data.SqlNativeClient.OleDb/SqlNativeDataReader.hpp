@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Data/DbDataReader.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 #ifndef __sqlncli_h__
 #define _SQLNCLI_OLEDB_IGNORE_DEPRECATION_WARNING_
 #define _SQLNCLI_OLEDB_
@@ -74,6 +78,8 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual const bool IsDBNull(const uint32_t Index) override;
 	private:
 		SqlNativeDataReader(IRowset* NativeRowset, const Elysium::Core::size RowsAffected, const Elysium::Core::size FieldCount, const DBCOLUMNINFO* ColumnInfo, const wchar_t* ColumnNames);
+
+		const Text::Encoding& _WindowsEncoding = Text::Encoding::UTF16LE();
 
 		IRowset* _NativeRowset;
 		const DBCOLUMNINFO* _ColumnInfo = nullptr;

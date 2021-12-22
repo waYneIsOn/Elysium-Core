@@ -16,6 +16,10 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
 #define MSSQL_BLOB_SIZE 4069
 
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::~SqlNativeDataReader()
@@ -677,18 +681,18 @@ const Elysium::Core::String  Elysium::Core::Data::SqlNativeClient::OleDb::SqlNat
 }
 
 const Elysium::Core::String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetName(const Elysium::Core::uint32_t Index)
-{	// ToDo
-	throw 1;
-	//return _ColumnInfo[Index].pwszName;
+{
+	wchar_t* Name = _ColumnInfo[Index].pwszName;
+	return _WindowsEncoding.GetString((byte*)Name, Template::Text::CharacterTraits<wchar_t>::GetSize(Name));
 }
 
 const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetOrdinal(const Elysium::Core::String & Name)
-{	// ToDo
-	throw 1;
-	/*
+{	
+	Collections::Template::Array<byte> Bytes = _WindowsEncoding.GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
+
 	for (unsigned long i = 0; i < _FieldCount; i++)
 	{
-		if (wcscmp(_ColumnInfo[i].pwszName, Name) == 0)
+		if (wcscmp(_ColumnInfo[i].pwszName, (wchar_t*)&Bytes[0]) == 0)
 		{
 			return _ColumnInfo[i].iOrdinal - 1;
 		}
@@ -696,7 +700,6 @@ const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 
 	//ToDo: use the given column name - throw IndexOutOfRangeException(Name);
 	throw IndexOutOfRangeException();
-	*/
 }
 
 const bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::IsDBNull(const Elysium::Core::uint32_t Index)

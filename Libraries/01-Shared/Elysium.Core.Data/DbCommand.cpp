@@ -32,7 +32,7 @@ const Elysium::Core::Data::CommandType & Elysium::Core::Data::Common::DbCommand:
 
 void Elysium::Core::Data::Common::DbCommand::SetCommandText(const char8_t* CommandText)
 {
-	_Text = String(CommandText);
+	_Text = CommandText;
 }
 
 void Elysium::Core::Data::Common::DbCommand::SetCommandText(const Elysium::Core::String& CommandText)

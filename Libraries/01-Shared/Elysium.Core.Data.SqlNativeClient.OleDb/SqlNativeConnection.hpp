@@ -60,7 +60,7 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		IDBInitialize* _NativeDataSource = nullptr;
 		IDBCreateSession* _NativeSession = nullptr;
 
-		const Text::Encoding& _Utf16 = Text::Encoding::UTF16BE();
+		const Text::Encoding& _WindowsEncoding = Text::Encoding::UTF16LE();
 
 		SqlNativeTransaction* _ActiveTransaction = nullptr;
 	};
