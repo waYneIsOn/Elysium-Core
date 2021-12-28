@@ -611,7 +611,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::WaitUntilDone(const El
 #if defined ELYSIUM_CORE_OS_WINDOWS
 ISpVoice* Elysium::Core::Speech::Synthesis::SpeechSynthesizer::InitializeNativeSynthesizer()
 {
-	if (FAILED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED)))
+	if (FAILED(CoInitializeEx(nullptr, COINIT::COINIT_APARTMENTTHREADED)))
 	{
 		return nullptr;
 	}

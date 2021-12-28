@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_GRAMMAR
+#include "Grammar.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -63,14 +67,28 @@ namespace Elysium::Core::Speech::Recognition
 		Event<void, const SpeechSynthesizer&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
 		*/
 	public:
-		void Test();
+		void LoadGrammar(const Grammar& Grammar);
+
+		void SetInputToDefaultAudioDevice();
+
+		void SetInputToWaveFile(const Elysium::Core::String& Path);
+
+		void Recognize();
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 
 		ISpRecognizer* _NativeRecognizer;
+		ISpRecoContext* _NativeRecognizerContext;
+		ISpStream* _NativeMemoryStream;
 
 		ISpRecognizer* InitializeNativeRecognizer();
+
+		ISpRecoContext* InitializeNativeRecognizerContext();
+
+		ISpStream* InitializeNativeStream();
+
+		void ProcessEventMessageQueue();
 #endif
 	};
 }

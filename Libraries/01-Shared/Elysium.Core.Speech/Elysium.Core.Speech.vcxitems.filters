@@ -79,6 +79,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizerEvents.hpp">
       <Filter>Synthesis</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngineEvents.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Grammar.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -122,6 +128,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.cpp">
       <Filter>Synthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Grammar.cpp">
+      <Filter>Recognition</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

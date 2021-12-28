@@ -20,6 +20,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioChannel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Grammar.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp" />
@@ -28,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngineEvents.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StateChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechSynthesizerEvents.hpp" />
@@ -41,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Grammar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp" />
