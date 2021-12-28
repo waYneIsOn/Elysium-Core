@@ -1,28 +1,38 @@
 #include "CppUnitTest.h"
 
-#ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "CppUnitTestFrameworkExtension.hpp"
-#endif
 
-#ifndef ELYSIUM_CORE_ENVIRONMENT
 #include "../../../Libraries/01-Shared/Elysium.Core/Environment.hpp"
-#endif
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core;
+using namespace Elysium::Core::Text;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core
 {
 	TEST_CLASS(EnvironmentTests)
 	{
 	public:
-		TEST_METHOD(Properties)
+
+		TEST_METHOD(AssertableRuntimeValues)
 		{
-			String MachineName = Environment::MachineName();
-			OperatingSystem OS = Environment::OSVersion();
-			int ProcessorCount = Environment::ProcessorCount();
-			String UserName = Environment::UserName();
-			String SystemDirectory = Environment::SystemDirectory();
+			const String& NewLine = Environment::NewLine();
+			const String SystemDirectory = Environment::SystemDirectory();
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			AssertExtended::AreEqual(u8"\r\n", NewLine);
+			AssertExtended::AreEqual(u8"C:\\WINDOWS\\system32", SystemDirectory);
+#else
+#error "unsupported os"
+#endif
+		}
+
+		TEST_METHOD(RuntimeValues)
+		{
+			const OperatingSystem OS = Environment::OSVersion();
+			const String MachineName = Environment::MachineName();
+			const Elysium::Core::uint32_t ProcessorCount = Environment::ProcessorCount();
+			const String UserName = Environment::UserName();
 		}
 	};
 }

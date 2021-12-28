@@ -20,16 +20,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OperatingSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 namespace Elysium::Core
@@ -95,6 +103,10 @@ namespace Elysium::Core
 		static const Elysium::Core::String SystemDirectory();
 	private:
 		inline static const Elysium::Core::String _NewLine = Elysium::Core::String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		inline static const Elysium::Core::Text::Encoding& _DefaultEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+#endif
 	};
 }
 #endif

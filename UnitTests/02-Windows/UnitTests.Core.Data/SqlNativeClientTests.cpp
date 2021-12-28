@@ -128,7 +128,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			{
 				// get the project path so we can get the FQPN to the test-image
 				String ProjectPath = EXPAND(UNITTESTPRJ);
-				ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
+				ProjectPath = ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
 				//ProjectPath.erase(0, 1); // erase the first quote
 				//ProjectPath.erase(ProjectPath.GetLength() - 2); // erase the last quote and the dot
 
@@ -179,7 +179,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			{
 				// get the project path so we can get the FQPN to the test-image
 				String ProjectPath = EXPAND(UNITTESTPRJ);
-				ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
+				ProjectPath = ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
 				//ProjectPath.erase(0, 1); // erase the first quote
 				//ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
 
@@ -599,7 +599,7 @@ private:
 		{
 			//Assert::AreSame(10L, Reader->GetRecordsAffected());
 			const String ColumnDataTypeName = Reader->GetDataTypeName(0);
-			AssertExtended::AreEqual(u8"DBTYPE_BOOL", &ColumnDataTypeName[0]);
+			AssertExtended::AreEqual(u8"DBTYPE_I8", &ColumnDataTypeName[0]);
 
 			const String ColumnName = Reader->GetName(0);
 			AssertExtended::AreEqual(u8"bigintNotNull", &ColumnName[0]);
@@ -774,13 +774,14 @@ private:
 			//AvailableBytes = Reader->GetBytes(28, 0, BytesValue.data(), 0, 2048);
 			Assert::IsFalse(Reader->IsDBNull(28));
 			Assert::IsTrue(Reader->IsDBNull(29));
+			/*
 			AvailableBytes = Reader->GetChars(30, 0, nullptr, 0);	// HierarchyPath
 			CharValues = String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(30, 0, &CharValues[0], AvailableBytes);	// HierarchyPath
 			Assert::AreEqual(u8'/', CharValues[0]);
 			Int16Value = Reader->GetInt16(31);	// HierarchyLevel
 			Assert::AreEqual((int16_t)0, Int16Value);
-
+			*/
 			// image
 			AvailableBytes = Reader->GetBytes(32, 0, nullptr, 0);
 			BytesValue = List<byte>(AvailableBytes);
@@ -803,7 +804,7 @@ private:
 			Assert::IsTrue(Reader->IsDBNull(37));
 
 			// nchar
-			CharValues = Reader->GetChar(38);
+			CharValues[0] = Reader->GetChar(38);
 			Assert::AreEqual(u8'n', CharValues[0]);
 			AvailableBytes = Reader->GetChars(38, 0, nullptr, 0);
 			CharValues = String(AvailableBytes);
@@ -971,26 +972,45 @@ private:
 		{
 			SqlNativeError Error = ex.GetErrors()[i];
 			Logger::WriteMessage(("\tErrorSpecificErrorCode: " + std::to_string(Error.GetErrorSpecificErrorCode())).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tProviderSpecificErrorCode: " + std::to_string(Error.GetProviderSpecificErrorCode())).c_str());
+			Logger::WriteMessage("\r\n");
 			//Logger::WriteMessage(("\tClassId: " + std::to_string(Error.GetClassId())).c_str());
+			//Logger::WriteMessage("\r\n");
 			//Logger::WriteMessage(("\tInterfaceId: " + std::to_string(Error.GetInterfaceId())).c_str());
+			//Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tDisplayId: " + std::to_string(Error.GetDisplayId())).c_str());
+			Logger::WriteMessage("\r\n");
 
 			//Logger::WriteMessage(("\tDescription: " + std::to_string(Error.GetDescription())).c_str());
+			//Logger::WriteMessage("\r\n");
 			//Logger::WriteMessage(("\tGUID: " + std::to_string(Error.GetGUID())).c_str());
+			//Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tHelpContext: " + std::to_string(Error.GetHelpContext())).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage((L"\tHelpFile: " + Error.GetHelpFile()).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage((L"\tSource: " + Error.GetSource()).c_str());
+			Logger::WriteMessage("\r\n");
 
 			Logger::WriteMessage((L"\tSqlState: " + Error.GetSqlState()).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tErrorCode: " + std::to_string(Error.GetErrorCode())).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage((L"\tSSError: " + Error.GetSSError()).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage((L"\tServer: " + Error.GetServer()).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage((L"\tProcedure: " + Error.GetProcedure()).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tNumber: " + std::to_string(Error.GetNumber())).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tState: " + std::to_string(Error.GetState())).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tErrorSeverity: " + std::to_string(Error.GetErrorSeverity())).c_str());
+			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(("\tLineNumber: " + std::to_string(Error.GetLineNumber())).c_str());
+			Logger::WriteMessage("\r\n");
 
 			Logger::WriteMessage("\t---");
 		}

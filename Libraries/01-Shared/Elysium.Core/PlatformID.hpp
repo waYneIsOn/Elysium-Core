@@ -12,15 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "System.hpp"
 #endif
 
 namespace Elysium::Core
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	enum class PlatformID : Elysium::Core::int8_t
-#elif defined(__ANDROID__)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class PlatformID
 #else
 #error "undefined os"

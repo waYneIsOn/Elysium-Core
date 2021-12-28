@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "PlatformID.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_VERSION
 #include "Version.hpp"
 #endif
@@ -33,17 +29,21 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API OperatingSystem final
 	{
 	public:
-		OperatingSystem(const PlatformID& PlatformID, const Version& Version);
-		OperatingSystem(const OperatingSystem& Source);
+		OperatingSystem(const PlatformID& PlatformID, const Version& Version) noexcept;
+
+		OperatingSystem(const OperatingSystem& Source) noexcept;
+
 		OperatingSystem(OperatingSystem&& Right) noexcept;
-		~OperatingSystem();
 
-		OperatingSystem& operator=(const OperatingSystem& Source);
+		~OperatingSystem() noexcept;
+	public:
+		OperatingSystem& operator=(const OperatingSystem& Source) noexcept;
+
 		OperatingSystem& operator=(OperatingSystem&& Right) noexcept;
+	public:
+		const PlatformID GetPlatform() const;
 
-		const PlatformID& GetPlatform() const;
-
-		const Version& GetVersion() const;
+		const Version GetVersion() const;
 	private:
 		PlatformID _PlatformId;
 		Version _Version;

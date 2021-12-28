@@ -1,15 +1,7 @@
 #include "Environment.hpp"
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "InvalidOperationException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 #ifndef _THREAD_
@@ -38,24 +30,18 @@ const bool Elysium::Core::Environment::Is64BitProcess()
 
 const Elysium::Core::String Elysium::Core::Environment::MachineName()
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	wchar_t MachineName[4096];	// TCHAR
-	unsigned long BufferCount = 4096;	// DWORD
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	// computer-name maximum length under windows appears to be 15
+	wchar_t MachineName[15];
+	unsigned long BufferCount = 15;
 	if (GetComputerName(MachineName, &BufferCount))
 	{
-		const Elysium::Core::Text::Encoding& UTF16BE = Elysium::Core::Text::Encoding::UTF16BE();
-		return UTF16BE.GetString((byte*)&MachineName, BufferCount);
+		return _DefaultEncoding.GetString((Elysium::Core::byte*)&MachineName, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{
 		throw InvalidOperationException(u8"The name of this computer cannot be obtained.");
 	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_MAC)
-	throw 1;
 #else
 #error "unsupported os"
 #endif
@@ -68,11 +54,12 @@ const Elysium::Core::String & Elysium::Core::Environment::NewLine()
 
 const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	// ToDos:
 	//		- use preprocessor for different os
 	//		- don't return fixed platform-id like PlatformID::WindowsDesktop (I'll just leave this in until I've decided on all values of PlatformID)
 	//		- the behaviour of GetVersionEx(...) has changed with windows 8.1 -> make sure to handle everything correctly
+	//		- windows phone and WindowsCE?
 	// https://www.codeproject.com/Articles/678606/Part1-Overcoming-Windows-8-1s-deprecation-of-GetVe
 	// https://blog.yaakov.online/finding-operating-system-version/
 
@@ -87,25 +74,17 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 	{
 		if (VersionInfo.wProductType == VER_NT_WORKSTATION)
 		{	// desktop os
-
+			return OperatingSystem(PlatformID::WindowsDesktop, Version(VersionInfo.dwMajorVersion, VersionInfo.dwMinorVersion, VersionInfo.dwBuildNumber));
 		}
 		else
 		{	// server os
-
+			return OperatingSystem(PlatformID::WindowsServer, Version(VersionInfo.dwMajorVersion, VersionInfo.dwMinorVersion, VersionInfo.dwBuildNumber));
 		}
-
-		return OperatingSystem(PlatformID::WindowsDesktop, Version(VersionInfo.dwMajorVersion, VersionInfo.dwMinorVersion, VersionInfo.dwBuildNumber));
-}
+	}
 	else
 	{
 		throw InvalidOperationException(u8"This property was unable to obtain the system version.");
 	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_MAC)
-	throw 1;
 #else
 #error "unsupported os"
 #endif
@@ -122,24 +101,18 @@ const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
 
 const Elysium::Core::String Elysium::Core::Environment::UserName()
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	wchar_t UserName[4096];	// TCHAR
-	unsigned long BufferCount = 4096;	// DWORD
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	// user-name maximum length under windows appears to be 1024
+	wchar_t UserName[1024];
+	unsigned long BufferCount = 1024;
 	if (GetUserName(UserName, &BufferCount))
 	{
-		const Elysium::Core::Text::Encoding& UTF16BE = Elysium::Core::Text::Encoding::UTF16BE();
-		return UTF16BE.GetString((byte*)&UserName, BufferCount);
+		return _DefaultEncoding.GetString((byte*)&UserName, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{
 		throw InvalidOperationException(u8"This property was unable to obtain the user name.");
 	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_MAC)
-	throw 1;
 #else
 #error "unsupported os"
 #endif
@@ -147,24 +120,18 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 
 const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	wchar_t SystemDirectory[4096];	// TCHAR
-	unsigned long BufferCount = 4096;	// DWORD
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	// user-name maximum length under windows appears to be ...
+	wchar_t SystemDirectory[4096];
+	unsigned long BufferCount = 4096;
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
 	{
-		const Elysium::Core::Text::Encoding& UTF16BE = Elysium::Core::Text::Encoding::UTF16BE();
-		return UTF16BE.GetString((byte*)&SystemDirectory, BufferCount);
+		return _DefaultEncoding.GetString((byte*)&SystemDirectory, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{
 		throw InvalidOperationException(u8"This property was unable to obtain the system directory.");
 	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-	throw 1;
-#elif defined(ELYSIUM_CORE_OS_MAC)
-	throw 1;
 #else
 #error "unsupported os"
 #endif

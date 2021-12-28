@@ -211,7 +211,8 @@ const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 	case DBTYPE_BYTES:
 		if (Value == nullptr)
 		{
-			return (__int64)_RowDataBuffer[_IndexBindingMap[Index]->cbMaxLen];
+			//return _IndexBindingMap[Index]->obLength;
+			return _RowDataBuffer[_IndexBindingMap[Index]->obLength];
 		}
 		else
 		{
@@ -223,7 +224,7 @@ const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 		// hierarchyid, ...
 		if (Value == nullptr)
 		{
-			return (__int64)_RowDataBuffer[_IndexBindingMap[Index]->cbMaxLen];
+			return _RowDataBuffer[_IndexBindingMap[Index]->obLength];
 		}
 		else
 		{
@@ -248,6 +249,15 @@ const char8_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::
 	case DBTYPE_STR:
 		return _RowDataBuffer[_IndexBindingMap[Index]->obValue];
 		//memcpy(Value, &_RowDataBuffer[_IndexBindingMap[Index]->obValue], sizeof(char));
+	case DBTYPE_WSTR:
+	{
+		wchar_t Utf16LEChar = (wchar_t)_RowDataBuffer[_IndexBindingMap[Index]->obValue];
+
+		// ToDo: Encoding::GetChar?
+		Elysium::Core::String String = _WindowsEncoding.GetString((Elysium::Core::byte*)&Utf16LEChar, sizeof(wchar_t));
+
+		return String[0];
+	}
 	case DBTYPE_XML:
 	{
 		throw NotImplementedException(u8"Elysium::Core::Data::SqlNativeClient::SqlNativeDataReader::GetChar");
@@ -317,6 +327,19 @@ const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 		else
 		{
 			memcpy(&Value[0], &_RowDataBuffer[_IndexBindingMap[Index]->obValue + FieldOffset], Length);
+			return Length;
+		}
+	case DBTYPE_WSTR:
+		if (Value == nullptr)
+		{
+			return _RowDataBuffer[_IndexBindingMap[Index]->obLength] / sizeof(wchar_t);
+		}
+		else
+		{
+			wchar_t* Utf16LEChars = (wchar_t*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue + FieldOffset];
+			Elysium::Core::String String = _WindowsEncoding.GetString((Elysium::Core::byte*)Utf16LEChars, Length * sizeof(wchar_t));
+			
+			memcpy(&Value[0], &String[0], String.GetLength() + sizeof(char8_t));
 			return Length;
 		}
 	case DBTYPE_XML:
@@ -390,13 +413,12 @@ const Elysium::Core::Decimal Elysium::Core::Data::SqlNativeClient::OleDb::SqlNat
 	switch (_IndexBindingMap[Index]->wType)
 	{
 	case DBTYPE_NUMERIC:
-	{	// decimal - ToDo
-		throw 1;
-		/*
+	{	// decimal
 		tagDB_NUMERIC* IntermediateValue = static_cast<tagDB_NUMERIC*>((void*)(&_RowDataBuffer[_IndexBindingMap[Index]->obValue]));
-		memcpy(Value, &IntermediateValue->val[0], sizeof(IntermediateValue->val));
-		break;
-		*/
+		assert(sizeof(IntermediateValue->val), sizeof(Elysium::Core::Decimal));
+		Elysium::Core::Decimal Result = Elysium::Core::Decimal();
+		memcpy((void*)&Result, &IntermediateValue->val[0], sizeof(IntermediateValue->val));
+		return Result;
 	}
 	default:
 		throw InvalidCastException();
