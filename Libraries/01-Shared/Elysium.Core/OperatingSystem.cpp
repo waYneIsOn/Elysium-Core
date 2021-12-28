@@ -48,7 +48,13 @@ const Elysium::Core::PlatformID Elysium::Core::OperatingSystem::GetPlatform() co
 	return _PlatformId;
 }
 
-const Elysium::Core::Version Elysium::Core::OperatingSystem::GetVersion() const
+const Elysium::Core::Version& Elysium::Core::OperatingSystem::GetVersion() const
 {
 	return _Version;
+}
+
+const bool Elysium::Core::OperatingSystem::IsWindows() const
+{
+	return _PlatformId == PlatformID::WindowsCE || _PlatformId == PlatformID::WindowsDesktop || _PlatformId == PlatformID::WindowsPhone || 
+		_PlatformId == PlatformID::WindowsServer;
 }

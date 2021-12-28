@@ -16,10 +16,12 @@ namespace UnitTests::Core
 
 		TEST_METHOD(AssertableRuntimeValues)
 		{
+			const OperatingSystem OS = Environment::OSVersion();
 			const String& NewLine = Environment::NewLine();
 			const String SystemDirectory = Environment::SystemDirectory();
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+			Assert::IsTrue(OS.IsWindows());
 			AssertExtended::AreEqual(u8"\r\n", NewLine);
 			AssertExtended::AreEqual(u8"C:\\WINDOWS\\system32", SystemDirectory);
 #else
@@ -27,7 +29,7 @@ namespace UnitTests::Core
 #endif
 		}
 
-		TEST_METHOD(RuntimeValues)
+		TEST_METHOD(OtherRuntimeValues)
 		{
 			const OperatingSystem OS = Environment::OSVersion();
 			const String MachineName = Environment::MachineName();

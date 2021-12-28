@@ -43,7 +43,9 @@ namespace Elysium::Core
 	public:
 		const PlatformID GetPlatform() const;
 
-		const Version GetVersion() const;
+		const Version& GetVersion() const;
+	public:
+		const bool IsWindows() const;
 	private:
 		PlatformID _PlatformId;
 		Version _Version;

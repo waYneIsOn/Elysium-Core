@@ -22,7 +22,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	enum class PlatformID : Elysium::Core::int8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
