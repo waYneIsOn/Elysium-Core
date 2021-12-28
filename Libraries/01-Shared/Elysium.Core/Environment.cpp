@@ -36,7 +36,7 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 	unsigned long BufferCount = 15;
 	if (GetComputerName(MachineName, &BufferCount))
 	{
-		return _DefaultEncoding.GetString((Elysium::Core::byte*)&MachineName, BufferCount * sizeof(wchar_t));
+		return _InternalEncoding.GetString((Elysium::Core::byte*)&MachineName, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{
@@ -107,7 +107,7 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 	unsigned long BufferCount = 1024;
 	if (GetUserName(UserName, &BufferCount))
 	{
-		return _DefaultEncoding.GetString((byte*)&UserName, BufferCount * sizeof(wchar_t));
+		return _InternalEncoding.GetString((byte*)&UserName, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{
@@ -126,7 +126,7 @@ const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
 	unsigned long BufferCount = 4096;
 	if (GetSystemDirectory(SystemDirectory, BufferCount))
 	{
-		return _DefaultEncoding.GetString((byte*)&SystemDirectory, BufferCount * sizeof(wchar_t));
+		return _InternalEncoding.GetString((byte*)&SystemDirectory, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{

@@ -105,7 +105,7 @@ namespace Elysium::Core
 		inline static const Elysium::Core::String _NewLine = Elysium::Core::String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		inline static const Elysium::Core::Text::Encoding& _DefaultEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+		inline static const Elysium::Core::Text::Encoding& _InternalEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 #endif
 	};
 }
