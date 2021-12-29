@@ -38,26 +38,41 @@ namespace Elysium::Core::IO
 	{
 	public:
 		BinaryReader(Stream& InputStream, Elysium::Core::Text::Encoding& Encoding, const bool LeaveOpen = false);
+
 		BinaryReader(const BinaryReader& Source) = delete;
+
 		BinaryReader(BinaryReader&& Right) noexcept = delete;
+
 		~BinaryReader();
-
+	public:
 		BinaryReader& operator=(const BinaryReader& Source) = delete;
-		BinaryReader& operator=(BinaryReader&& Right) noexcept = delete;
 
+		BinaryReader& operator=(BinaryReader&& Right) noexcept = delete;
+	public:
 		virtual Elysium::Core::IO::Stream& GetBaseStream() const;
 
 		virtual void Close();
+
 		virtual const bool ReadBoolean();
+
 		virtual const Elysium::Core::byte ReadByte();
+
 		virtual const Elysium::Core::size ReadBytes(Elysium::Core::byte* Buffer, const Elysium::Core::size Count);
+
 		virtual const double ReadDouble();
+
 		virtual const Elysium::Core::int16_t ReadInt16();
+
 		virtual const Elysium::Core::int32_t ReadInt32();
+
 		virtual const Elysium::Core::int64_t ReadInt64();
+
 		virtual const float ReadSingle();
+
 		virtual const Elysium::Core::uint16_t ReadUInt16();
+
 		virtual const Elysium::Core::uint32_t ReadUInt32();
+
 		virtual const Elysium::Core::uint64_t ReadUInt64();
 	private:
 		static const Elysium::Core::size DefaultBufferSize = 16;

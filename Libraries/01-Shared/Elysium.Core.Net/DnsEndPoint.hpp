@@ -26,17 +26,22 @@ namespace Elysium::Core::Net
 	{
 	public:
 		DnsEndPoint(const Elysium::Core::Utf8String& Host, const Elysium::Core::uint16_t Port, const Sockets::AddressFamily AddressFamily);
+
 		DnsEndPoint(const DnsEndPoint& Source) = delete;
+
 		DnsEndPoint(DnsEndPoint&& Right) noexcept = delete;
+
 		virtual ~DnsEndPoint();
-
+	public:
 		DnsEndPoint& operator=(const DnsEndPoint& Source) = delete;
+
 		DnsEndPoint& operator=(DnsEndPoint&& Right) noexcept = delete;
-
+	public:
 		virtual const Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const override;
-		const Elysium::Core::Utf8String& GetHost() const;
-		const Elysium::Core::uint16_t GetPort() const;
 
+		const Elysium::Core::Utf8String& GetHost() const;
+
+		const Elysium::Core::uint16_t GetPort() const;
 	protected:
 		virtual const Elysium::Core::Net::SocketAddress Serialize() const override;
 	private:
