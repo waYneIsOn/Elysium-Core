@@ -1,5 +1,9 @@
 #include "SpeechRecognitionEngine.hpp"
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_DICTATIONGRAMMAR
+#include "DictationGrammar.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
 #include "../Elysium.Core/COMException.hpp"
@@ -15,8 +19,9 @@ Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SpeechRecognitionEn
 { }
 
 Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SpeechRecognitionEngine(const Elysium::Core::Globalization::CultureInfo& Culture)
+	: SpeechRecognized(),
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	: _NativeRecognizer(InitializeNativeRecognizer()), _NativeRecognizerContext(InitializeNativeRecognizerContext()), _NativeMemoryStream(nullptr)
+	_NativeRecognizer(InitializeNativeRecognizer()), _NativeRecognizerContext(InitializeNativeRecognizerContext()), _NativeMemoryStream(nullptr)
 #endif
 { }
 
@@ -56,31 +61,49 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::LoadGrammar(co
 		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
-	// ToDo
-	WORD LanguageId = MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US);
-	if (FAILED(Result = NativeRecognitionGrammar->ResetGrammar(LanguageId)))
-	{
-		NativeRecognitionGrammar->Release();
-		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-	}
-
-	// ToDo
 	const wchar_t* RuleName = L"SomeCustomRuleName";
-	SPSTATEHANDLE State;
-	if (FAILED(Result = NativeRecognitionGrammar->GetRule(RuleName, 0, SPRAF_TopLevel | SPRAF_Active, true, &State)))
+
+	const DictationGrammar* DictationGrammar = dynamic_cast<const Elysium::Core::Speech::Recognition::DictationGrammar*>(&Grammar);
+	if (DictationGrammar == nullptr)
 	{
-		NativeRecognitionGrammar->Release();
-		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+		// ToDo
+		WORD LanguageId = MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US);
+		if (FAILED(Result = NativeRecognitionGrammar->ResetGrammar(LanguageId)))
+		{
+			NativeRecognitionGrammar->Release();
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+		}
+
+		// ToDo
+		SPSTATEHANDLE State;
+		if (FAILED(Result = NativeRecognitionGrammar->GetRule(RuleName, 0, SPRAF_TopLevel | SPRAF_Active, true, &State)))
+		{
+			NativeRecognitionGrammar->Release();
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+		}
+
+		// ToDo
+		const wchar_t* Command = L"computer";
+		if (FAILED(Result = NativeRecognitionGrammar->AddWordTransition(State, NULL, Command, L" ", SPWT_LEXICAL, 1, nullptr)))
+		{
+			NativeRecognitionGrammar->Release();
+			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+		}
+
+		//NativeRecognitionGrammar->LoadCmdFromFile(nullptr, SPLOADOPTIONS::SPLO_DYNAMIC);
+	}
+	else
+	{
+		//DictationGrammar->_Topic
+		//NativeRecognitionGrammar->LoadDictation()
 	}
 
-	// ToDo
-	const wchar_t* Command = L"computer";
-	if (FAILED(Result = NativeRecognitionGrammar->AddWordTransition(State, NULL, Command, L" ", SPWT_LEXICAL, 1, nullptr)))
-	{
-		NativeRecognitionGrammar->Release();
-		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-	}
-	
+
+
+
+
+
+
 	if (FAILED(Result = NativeRecognitionGrammar->Commit(0)))
 	{
 		NativeRecognitionGrammar->Release();
@@ -239,6 +262,8 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 	ULONG NumberOfEventsReceived = 0;
 	ISpRecoResult* RecognizedResult = nullptr;
 	SPPHRASE* Phrase = nullptr;
+	ISpPhraseAlt* PhraseAlternates = nullptr;
+	ULONG PhrasesReceived = 0;
 	do
 	{
 		Result = _NativeRecognizerContext->WaitForNotifyEvent(500);
@@ -254,9 +279,16 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 			wchar_t* WindowsText;
 			if (FAILED(Result = RecognizedResult->GetText(SP_GETWHOLEPHRASE, SP_GETWHOLEPHRASE, FALSE, &WindowsText, NULL)))
 			{
+				// ToDo: cleanup
 				break;
 			}
-
+			
+			if (FAILED(Result = RecognizedResult->GetAlternates(0, SPPHRASERNG::SPPR_ALL_ELEMENTS, 1, &PhraseAlternates, &PhrasesReceived)))
+			{
+				// ToDo: cleanup
+				break;
+			}
+			
 			//RecognizedResult->GetAlternates
 			//RecognizedResult->GetAudio
 			//RecognizedResult->GetPhrase
@@ -268,6 +300,9 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 			{
 			case SPEVENTENUM::SPEI_RECOGNITION:
 			{
+				SpeechRecognized(*this, SpeechRecognizedEventArgs(RecognitionResult()));
+
+				PhraseAlternates->Release();
 				CoTaskMemFree(WindowsText);
 				//RecognizedResult->Release();	// SpClearEvent(&Event) appears to be cleaning this up
 
@@ -275,6 +310,7 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 			}
 			case SPEVENTENUM::SPEI_FALSE_RECOGNITION:
 			{
+				PhraseAlternates->Release();
 				CoTaskMemFree(WindowsText);
 				//RecognizedResult->Release();	// SpClearEvent(&Event) appears to be cleaning this up
 

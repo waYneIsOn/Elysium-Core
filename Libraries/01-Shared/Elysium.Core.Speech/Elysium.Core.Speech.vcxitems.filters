@@ -10,6 +10,9 @@
     <Filter Include="AudioFormat">
       <UniqueIdentifier>{5efd0326-0022-4608-b7d1-a7e1fe74f343}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Recognition\SrgsGrammar">
+      <UniqueIdentifier>{d6a6c282-00fa-4bb1-9662-c8aec934bb40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceAge.hpp">
@@ -85,6 +88,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Grammar.hpp">
       <Filter>Recognition</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RecognitionEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RecognitionResult.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognizedEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DictationGrammar.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -130,6 +145,18 @@
       <Filter>Synthesis</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Grammar.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RecognitionEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RecognitionResult.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognizedEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DictationGrammar.cpp">
       <Filter>Recognition</Filter>
     </ClCompile>
   </ItemGroup>

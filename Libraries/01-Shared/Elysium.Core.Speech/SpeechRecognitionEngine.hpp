@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Grammar.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_SPEECHRECOGNITIONENGINEEVENTS
+#include "SpeechRecognitionEngineEvents.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -63,9 +67,27 @@ namespace Elysium::Core::Speech::Recognition
 
 		SpeechRecognitionEngine& operator=(SpeechRecognitionEngine&& Right) noexcept = delete;
 	public:
-		/*
-		Event<void, const SpeechSynthesizer&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
-		*/
+		//Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
+		
+		//Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&> AudioSignalProblemOccurred;
+		
+		//Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&> AudioStateChanged;
+		
+		//Event<void, const SpeechRecognitionEngine&, const EmulateRecognizeCompletedEventArgs&> EmulateRecognizeCompleted;
+		
+		//Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&> LoadGrammarCompleted;
+		
+		//Event<void, const SpeechRecognitionEngine&, const RecognizeCompletedEventArgs&> RecognizeCompleted;
+		
+		//Event<void, const SpeechRecognitionEngine&, const RecognizerUpdateReachedEventArgs&> RecognizerUpdateReachedEventArgs;
+		
+		//Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&> SpeechDetected;
+		
+		//Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&> SpeechHypothesized;
+		
+		//Event<void, const SpeechRecognitionEngine&, const SpeechRecognitionRejectedEventArgs&> SpeechRecognitionRejected;
+
+		Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&> SpeechRecognized;
 	public:
 		void LoadGrammar(const Grammar& Grammar);
 

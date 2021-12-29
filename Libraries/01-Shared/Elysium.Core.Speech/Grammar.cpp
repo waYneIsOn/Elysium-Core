@@ -4,7 +4,7 @@ Elysium::Core::Speech::Recognition::Grammar::Grammar()
 	: _Name(u8"")
 { }
 
-Elysium::Core::Speech::Recognition::Grammar::Grammar(const String & Path)
+Elysium::Core::Speech::Recognition::Grammar::Grammar(const String & Path, const String& RuleName)
 	:  _Name(u8"")
 { }
 

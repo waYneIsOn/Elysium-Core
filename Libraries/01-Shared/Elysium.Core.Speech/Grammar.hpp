@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
 #endif
@@ -36,8 +40,8 @@ namespace Elysium::Core::Speech::Recognition
 	protected:
 		Grammar();
 	public:
-		Grammar(const String& Path);
-	public:
+		Grammar(const String& Path, const String& RuleName);
+
 		Grammar(const Grammar& Source) = delete;
 
 		Grammar(Grammar&& Right) noexcept = delete;
