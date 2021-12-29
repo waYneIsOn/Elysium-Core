@@ -102,6 +102,8 @@ namespace Elysium::Core::Template::Text
 
 		Container::Vector<StringViewBase<C>> Split(ConstCharPointer DelimiterSequence) const;
 
+		StringViewBase<C> Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
+
 		StringViewBase<C>::CorrespondingString ToString() const;
 	private:
 		ConstCharPointer _Data;
@@ -346,6 +348,13 @@ namespace Elysium::Core::Template::Text
 	
 		return Result;
 	}
+
+	template<Concepts::Character C>
+	inline StringViewBase<C> StringViewBase<C>::Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const
+	{
+		return StringViewBase<C>(&_Data[StartIndex], Length);
+	}
+
 	template<Concepts::Character C>
 	inline StringViewBase<C>::CorrespondingString StringViewBase<C>::ToString() const
 	{
