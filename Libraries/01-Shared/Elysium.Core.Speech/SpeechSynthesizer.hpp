@@ -148,7 +148,7 @@ namespace Elysium::Core::Speech::Synthesis
 
 		void Resume();
 
-		void SelectVoice(const String& Name);
+		void SelectVoice(const Elysium::Core::Utf8String& Name);
 
 		void SelectVoice(const VoiceInfo& Info);
 
@@ -156,25 +156,25 @@ namespace Elysium::Core::Speech::Synthesis
 
 		void SetOutputToDefaultAudioDevice();
 
-		void SetOutputToWaveFile(const Elysium::Core::String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo);
+		void SetOutputToWaveFile(const Elysium::Core::Utf8String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo);
 
 		void SetOutputToWaveStream(Elysium::Core::IO::Stream& AudioDestination);
 
 		void Speak(const char8_t* TextToSpeak);
 
-		void Speak(const String& TextToSpeak);
+		void Speak(const Elysium::Core::Utf8String& TextToSpeak);
 
 		void SpeakAsync(const char8_t* TextToSpeak);
 
-		void SpeakAsync(const String& TextToSpeak);
+		void SpeakAsync(const Elysium::Core::Utf8String& TextToSpeak);
 
 		void SpeakSsml(const char8_t* TextToSpeak);
 
-		void SpeakSsml(const String& TextToSpeak);
+		void SpeakSsml(const Elysium::Core::Utf8String& TextToSpeak);
 
 		void SpeakSsmlAsync(const char8_t* TextToSpeak);
 
-		void SpeakSsmlAsync(const String& TextToSpeak);
+		void SpeakSsmlAsync(const Elysium::Core::Utf8String& TextToSpeak);
 
 		void WaitUntilDone(const Elysium::Core::TimeSpan Timeout);
 	public:

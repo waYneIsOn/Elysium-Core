@@ -66,14 +66,14 @@ namespace Elysium::Core::Diagnostics
 		static Process GetCurrentProcess();
 
 		static const Elysium::Core::Collections::Template::Array<Process> GetProcesses();
-		static const Elysium::Core::Collections::Template::Array<Process> GetProcesses(const Elysium::Core::String& MachineName);
+		static const Elysium::Core::Collections::Template::Array<Process> GetProcesses(const Elysium::Core::Utf8String& MachineName);
 
 		static Process GetProcessById(const Elysium::Core::uint32_t ProcessId);
 
-		static const Elysium::Core::Collections::Template::Array<Process> GetProcessesByName(const Elysium::Core::String& ProcessName);
-		static const Elysium::Core::Collections::Template::Array<Process> GetProcessesByName(const Elysium::Core::String& ProcessName, const Elysium::Core::String& MachineName);
+		static const Elysium::Core::Collections::Template::Array<Process> GetProcessesByName(const Elysium::Core::Utf8String& ProcessName);
+		static const Elysium::Core::Collections::Template::Array<Process> GetProcessesByName(const Elysium::Core::Utf8String& ProcessName, const Elysium::Core::Utf8String& MachineName);
 	private:
-		Elysium::Core::String _MachineName;
+		Elysium::Core::Utf8String _MachineName;
 		bool _IsRemoteMachine;
 		Elysium::Core::uint32_t _ProcessId;
 		bool _HasProcessId;
@@ -82,9 +82,9 @@ namespace Elysium::Core::Diagnostics
 		void* _ProcessHandle;
 		void* _ThreadHandle;
 
-		static inline Elysium::Core::String _LocalMachineName = Elysium::Core::String(u8".");
+		static inline Elysium::Core::Utf8String _LocalMachineName = Elysium::Core::Utf8String(u8".");
 
-		Process(const Elysium::Core::String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId);
+		Process(const Elysium::Core::Utf8String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId);
 	};
 }
 #endif

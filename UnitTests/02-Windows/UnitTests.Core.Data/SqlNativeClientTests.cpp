@@ -127,7 +127,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			try
 			{
 				// get the project path so we can get the FQPN to the test-image
-				String ProjectPath = EXPAND(UNITTESTPRJ);
+				Elysium::Core::Utf8String ProjectPath = EXPAND(UNITTESTPRJ);
 				ProjectPath = ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
 				//ProjectPath.erase(0, 1); // erase the first quote
 				//ProjectPath.erase(ProjectPath.GetLength() - 2); // erase the last quote and the dot
@@ -139,7 +139,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				Builder.Append(u8"SET ANSI_WARNINGS OFF; USE Test; INSERT INTO AllDataTypes ([bigintNotNull], [bigintNull], [binaryNotNull], [binaryNull], [bitNotNull], [bitNull], [charNotNull], [charNull], [dateNotNull], [dateNull], [datetime2NotNull], [datetime2Null], [datetimeNotNull], [datetimeNull], [datetimeoffsetNotNull], [datetimeoffsetNull], [decimalNotNull], [decimalNull], [floatNotNull], [floatNull], [geographyNotNull], [geographyNull], [geometryNotNull], [geometryNull], [hierarchyidNotNull], [hierarchyidNull], [imageNotNull], [imageNull], [intNotNull], [intNull], [moneyNotNull], [moneyNull], [ncharNotNull], [ncharNull], [ntextNotNull], [ntextNull], [numericNotNull], [numericNull], [nvarcharNotNull], [nvarcharNull], [realNotNull], [realNull], [smalldatetimeNotNull], [smalldatetimeNull], [smallintNotNull], [smallintNull], [smallmoneyNotNull], [smallmoneyNull], [sql_variantNotNull], [sql_variantNull], [sysnameNotNull], [sysnameNull], [textNotNull], [textNull], [timeNotNull], [timeNull], [timestampNotNull], [tinyintNotNull], [tinyintNull], [uniqueidentifierNotNull], [uniqueidentifierNull], [varbinaryNotNull], [varbinaryNull], [varcharNotNull], [varcharNull], [xmlNotNull], [xmlNull]) VALUES (9223372036854775807, NULL, CONVERT(varbinary(9), N'varbinary'), NULL, 1, NULL, 'a', NULL, CONVERT(date, '18-06-12', 5), NULL, CONVERT(datetime2,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetime,'18-06-12 10:34:09 PM', 5), NULL, CONVERT(datetimeoffset,'12-10-25 12:32:10 +01:00'), NULL, 1.35, NULL, 0.27, NULL, geography::Point(47.65100, -122.34900, 4326), NULL, geometry::STGeomFromText('POINT (22.9901232886963 87.5953903123242)', 4326), NULL, HierarchyID::GetRoot(), NULL, (SELECT * FROM OPENROWSET(BULK N'");
 				Builder.Append(ProjectPath);
 				Builder.Append(u8"\\TestImage.png', SINGLE_BLOB) AS Image), NULL, 23, NULL, 37.56, NULL, N'n', NULL, N't', NULL, 99.1, NULL, N'n', NULL, 23.56, NULL, '02/10/2010 12:30', NULL, 23, NULL, 75.45, NULL, 'v', NULL, N's', NULL, 's', NULL, '13:37:27', NULL, DEFAULT, 17, NULL, CONVERT(uniqueidentifier, 'AE019609-99E0-4EF5-85BB-AD90DC302E70'), NULL, CAST('wahid' AS VARBINARY(5)), NULL, 'v', NULL, CONVERT(XML, N'<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>'), NULL)");
-				String Command = Builder.ToString();
+				Elysium::Core::Utf8String Command = Builder.ToString();
 				Template::Memory::UniquePointer<IDbCommand> InsertCommand = _Connection.CreateCommand();
 				InsertCommand->SetCommandText(Command);
 				PerformDataInsertionTest(InsertCommand.GetUnderlyingPointer());
@@ -178,7 +178,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 			try
 			{
 				// get the project path so we can get the FQPN to the test-image
-				String ProjectPath = EXPAND(UNITTESTPRJ);
+				Elysium::Core::Utf8String ProjectPath = EXPAND(UNITTESTPRJ);
 				ProjectPath = ProjectPath.Substring(1, ProjectPath.GetLength() - 3); // no need for the first as well as the last quote and the dot
 				//ProjectPath.erase(0, 1); // erase the first quote
 				//ProjectPath.erase(ProjectPath.size() - 2); // erase the last quote and the dot
@@ -322,7 +322,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 				StringBuilder Builder = StringBuilder();
 				Builder.Append(ProjectPath);
 				Builder.Append(u8"\\TestImage.png");
-				String ImagePath = Builder.ToString();
+				Elysium::Core::Utf8String ImagePath = Builder.ToString();
 				Elysium::Core::IO::FileStream ImageStream(ImagePath, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read, Elysium::Core::IO::FileShare::Read);
 				Template::Memory::UniquePointer<IDataParameter> ImageParameter = InsertCommand->CreateParameter();
 				ImageParameter->SetValue(&ImageStream);
@@ -541,7 +541,7 @@ namespace UnitTests::Core::Data::SqlNativeClient
 
 				// xml
 				Template::Memory::UniquePointer<IDataParameter> XmlParameter = InsertCommand->CreateParameter();
-				XmlParameter->SetValue(String(u8"<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>"));
+				XmlParameter->SetValue(Elysium::Core::Utf8String(u8"<?xml version=\"1.0\" encoding=\"UTF-16\"?><root/>"));
 				//XmlParameter->SetDbType(DbType::Xml);
 				InsertCommand->GetParameters().Add(*XmlParameter.GetUnderlyingPointer());
 
@@ -598,13 +598,13 @@ private:
 		// test a few reader methods before actually starting to read
 		{
 			//Assert::AreSame(10L, Reader->GetRecordsAffected());
-			const String ColumnDataTypeName = Reader->GetDataTypeName(0);
+			const Elysium::Core::Utf8String ColumnDataTypeName = Reader->GetDataTypeName(0);
 			AssertExtended::AreEqual(u8"DBTYPE_I8", &ColumnDataTypeName[0]);
 
-			const String ColumnName = Reader->GetName(0);
+			const Elysium::Core::Utf8String ColumnName = Reader->GetName(0);
 			AssertExtended::AreEqual(u8"bigintNotNull", &ColumnName[0]);
 
-			const uint64_t ColumnOrdinal = Reader->GetOrdinal(String(u8"binaryNull"));
+			const uint64_t ColumnOrdinal = Reader->GetOrdinal(Elysium::Core::Utf8String(u8"binaryNull"));
 			Assert::AreEqual(3ULL, ColumnOrdinal);
 		}
 
@@ -612,7 +612,7 @@ private:
 		int64_t BigIntValue;
 		List<byte> BytesValue = List<byte>(1);
 		bool BitValue;
-		String CharValues = String(1);
+		Elysium::Core::Utf8String CharValues = Elysium::Core::Utf8String(1);
 		DateTime DatetimeValue = DateTime(0);
 		DateTimeOffset DateTimeOffsetValue = DateTimeOffset(DatetimeValue);
 		TimeSpan TimeSpanValue = TimeSpan(0);
@@ -651,7 +651,7 @@ private:
 			CharValues[0] = Reader->GetChar(6);
 			Assert::AreEqual(u8'a', CharValues[0]);
 			AvailableBytes = Reader->GetChars(6, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(6, 0, &CharValues[0], (Elysium::Core::size)AvailableBytes);
 			Assert::AreEqual(u8'a', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(6));
@@ -762,7 +762,7 @@ private:
 			BytesValue = List<byte>(AvailableBytes);
 			AvailableBytes = Reader->GetBytes(26, 0, &BytesValue[0], BytesValue.GetCapacity());
 			AvailableBytes = Reader->GetChars(26, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(26, 0, &CharValues[0], CharValues.GetLength());
 			// ToDo: test somehow or create specific type?
 			Assert::IsFalse(Reader->IsDBNull(26));
@@ -807,7 +807,7 @@ private:
 			CharValues[0] = Reader->GetChar(38);
 			Assert::AreEqual(u8'n', CharValues[0]);
 			AvailableBytes = Reader->GetChars(38, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(38, 0, &CharValues[0], AvailableBytes);
 			Assert::AreEqual(u8'n', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(38));
@@ -815,7 +815,7 @@ private:
 
 			// ntext
 			AvailableBytes = Reader->GetChars(40, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(40, 0, &CharValues[0], AvailableBytes);
 			Assert::AreEqual(u8't', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(40));
@@ -830,7 +830,7 @@ private:
 
 			// nvarchar
 			AvailableBytes = Reader->GetChars(44, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(44, 0, &CharValues[0], AvailableBytes);
 			Assert::AreEqual(u8'n', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(44));
@@ -884,7 +884,7 @@ private:
 
 			// sysname
 			AvailableBytes = Reader->GetChars(56, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(56, 0, &CharValues[0], AvailableBytes);
 			Assert::AreEqual(u8's', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(56));
@@ -892,7 +892,7 @@ private:
 
 			// text
 			AvailableBytes = Reader->GetChars(58, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(58, 0, &CharValues[0], AvailableBytes);
 			Assert::AreEqual(u8's', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(58));
@@ -946,7 +946,7 @@ private:
 
 			// vchar 
 			AvailableBytes = Reader->GetChars(69, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(69, 0, &CharValues[0], AvailableBytes);
 			Assert::AreEqual(u8'v', CharValues[0]);
 			Assert::IsFalse(Reader->IsDBNull(69));
@@ -954,7 +954,7 @@ private:
 
 			// xml
 			AvailableBytes = Reader->GetChars(71, 0, nullptr, 0);
-			CharValues = String(AvailableBytes);
+			CharValues = Elysium::Core::Utf8String(AvailableBytes);
 			AvailableBytes = Reader->GetChars(71, 0, &CharValues[0], AvailableBytes);
 			//Assert::AreEqual(L"<root\>", WCharValues.data());	// ToDo: encoding-problematic?
 			Assert::IsFalse(Reader->IsDBNull(71));

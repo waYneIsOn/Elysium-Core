@@ -140,7 +140,7 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToDefa
 #endif
 }
 
-void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToWaveFile(const Elysium::Core::String& Path)
+void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToWaveFile(const Elysium::Core::Utf8String& Path)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	if (_NativeMemoryStream != nullptr)

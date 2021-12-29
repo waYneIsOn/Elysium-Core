@@ -40,19 +40,19 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode)
+Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode)
 	: FileStream(Path, Mode, FileAccess::Read | FileAccess::Write, FileShare::None)
 { }
 
-Elysium::Core::IO::FileStream::FileStream(const String & Path, const FileMode Mode, const FileAccess Access)
+Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access)
 	: FileStream(Path, Mode, Access, FileShare::None)
 { }
 
-Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share)
+Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share)
 	: FileStream(Path, Mode, Access, Share, DefaultBufferSize, FileOptions::None)
 { }
 
-Elysium::Core::IO::FileStream::FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
+Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
 	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options)),
 	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
@@ -346,7 +346,7 @@ const Elysium::Core::size Elysium::Core::IO::FileStream::EndRead(const Elysium::
 }
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-HANDLE Elysium::Core::IO::FileStream::CreateNativeFileHandle(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options)
+HANDLE Elysium::Core::IO::FileStream::CreateNativeFileHandle(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options)
 {
 	HANDLE NativeFileHandle = CreateFile((const wchar_t*)&_OperatingSystemEncoding.GetBytes(&Path[0], Path.GetLength(), sizeof(char16_t))[0],
 		static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share),

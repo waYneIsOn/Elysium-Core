@@ -41,14 +41,14 @@ namespace Elysium::Core::Json
 		void WriteStartArray();
 		void WriteEndArray();
 
-		void WritePropertyName(const String& Name);
+		void WritePropertyName(const Utf8String& Name);
 
 		void WriteValue(const bool& Value);
 		void WriteValue(const int& Value);
 		void WriteValue(const float& Value);
 		void WriteValue(const double& Value);
 		void WriteValue(const char8_t* Value);
-		void WriteValue(const String& Value);
+		void WriteValue(const Utf8String& Value);
 
 		void WriteNull();
 	protected:
@@ -59,7 +59,7 @@ namespace Elysium::Core::Json
 		void WriteValueDelimiter();
 
 		virtual void WriteString(const char8_t Value) = 0;
-		virtual void WriteString(const String& Value) = 0;
+		virtual void WriteString(const Utf8String& Value) = 0;
 
 	private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
@@ -93,7 +93,7 @@ namespace Elysium::Core::Json
 
 		void PrepareWritingValue();
 		void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
-		void WriteEscapedString(const String& Value);
+		void WriteEscapedString(const Utf8String& Value);
 	};
 }
 #endif

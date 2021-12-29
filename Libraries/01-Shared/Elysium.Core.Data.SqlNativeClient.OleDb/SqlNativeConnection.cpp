@@ -57,7 +57,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::~SqlNativeConn
 	*/
 }
 
-const Elysium::Core::String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetConnectionString() const
+const Elysium::Core::Utf8String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetConnectionString() const
 {
 	return DbConnection::GetConnectionString();
 }
@@ -67,7 +67,7 @@ const Elysium::Core::uint32_t& Elysium::Core::Data::SqlNativeClient::OleDb::SqlN
 	return DbConnection::GetConnectionTimeout();
 }
 
-const Elysium::Core::String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetDatabase() const
+const Elysium::Core::Utf8String & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::GetDatabase() const
 {
 	return DbConnection::GetDatabase();
 }
@@ -77,7 +77,7 @@ const Elysium::Core::Data::ConnectionState & Elysium::Core::Data::SqlNativeClien
 	return DbConnection::GetState();
 }
 
-void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::SetConnectionString(const Elysium::Core::String & ConnectionString)
+void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::SetConnectionString(const Elysium::Core::Utf8String & ConnectionString)
 {
 	DbConnection::SetConnectionString(ConnectionString);
 }
@@ -225,7 +225,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbCommand> 
 	return Template::Memory::UniquePointer<IDbCommand>(new SqlNativeCommand(*this, CommandFactory));
 }
 
-void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDatabase(const Elysium::Core::String & DatabaseName)
+void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeConnection::ChangeDatabase(const Elysium::Core::Utf8String & DatabaseName)
 {
 	HRESULT HResult;
 

@@ -65,15 +65,15 @@ namespace Elysium::Core::Data::Common
 
 		virtual const Elysium::Core::int64_t GetInt64(const Elysium::Core::uint32_t Index) = 0;
 
-		virtual const Elysium::Core::String GetString(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::Utf8String GetString(const Elysium::Core::uint32_t Index) = 0;
 
 		virtual const Elysium::Core::TimeSpan GetTimeSpan(const Elysium::Core::uint32_t Index) = 0;
 
-		virtual const Elysium::Core::String GetDataTypeName(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::Utf8String GetDataTypeName(const Elysium::Core::uint32_t Index) = 0;
 
-		virtual const Elysium::Core::String GetName(const Elysium::Core::uint32_t Index) = 0;
+		virtual const Elysium::Core::Utf8String GetName(const Elysium::Core::uint32_t Index) = 0;
 
-		virtual const Elysium::Core::uint64_t GetOrdinal(const Elysium::Core::String& Name) = 0;
+		virtual const Elysium::Core::uint64_t GetOrdinal(const Elysium::Core::Utf8String& Name) = 0;
 
 		virtual const bool IsDBNull(const Elysium::Core::uint32_t Index) = 0;
 	protected:

@@ -27,12 +27,12 @@ const bool Elysium::Core::Data::Common::DbParameter::GetIsNullable() const
 	return _IsNullable;
 }
 
-const Elysium::Core::String Elysium::Core::Data::Common::DbParameter::GetParameterName() const
+const Elysium::Core::Utf8String Elysium::Core::Data::Common::DbParameter::GetParameterName() const
 {
 	return _ParameterName;
 }
 
-const Elysium::Core::String Elysium::Core::Data::Common::DbParameter::GetSourceColumn() const
+const Elysium::Core::Utf8String Elysium::Core::Data::Common::DbParameter::GetSourceColumn() const
 {
 	return _SourceColumn;
 }
@@ -72,12 +72,12 @@ void Elysium::Core::Data::Common::DbParameter::SetIsNullable(const bool IsNullab
 	_IsNullable = IsNullable;
 }
 
-void Elysium::Core::Data::Common::DbParameter::SetParameterName(const Elysium::Core::String & ParameterName)
+void Elysium::Core::Data::Common::DbParameter::SetParameterName(const Elysium::Core::Utf8String & ParameterName)
 {
 	_ParameterName = ParameterName;
 }
 
-void Elysium::Core::Data::Common::DbParameter::SetSourceColumn(const Elysium::Core::String& SourceColumn)
+void Elysium::Core::Data::Common::DbParameter::SetSourceColumn(const Elysium::Core::Utf8String& SourceColumn)
 {
 	_SourceColumn = SourceColumn;
 }
@@ -138,7 +138,7 @@ void Elysium::Core::Data::Common::DbParameter::SetValue(const char8_t * Value, c
 	_DBNullPointer = nullptr;
 }
 
-void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::String & Value)
+void Elysium::Core::Data::Common::DbParameter::SetValue(const Elysium::Core::Utf8String & Value)
 {
 	SetValue(&Value[0], Value.GetLength());
 }

@@ -4,15 +4,19 @@
 #include "JsonReaderException.hpp"
 #endif
 
+Elysium::Core::Json::JsonReader::JsonReader(const JsonIOSettings& IOSettings)
+	: _IOSettings(IOSettings), _State(JsonReader::JsonReaderState::Initialized), _CurrentToken(JsonToken::None), _CurrentNodeValue(), _PropertyBuffer()
+{ }
+
 Elysium::Core::Json::JsonReader::~JsonReader()
-{
-}
+{ }
 
 const Elysium::Core::Json::JsonToken Elysium::Core::Json::JsonReader::GetToken() const
 {
 	return _CurrentToken;
 }
-const Elysium::Core::String & Elysium::Core::Json::JsonReader::GetNodeValue() const
+
+const Elysium::Core::Utf8String & Elysium::Core::Json::JsonReader::GetNodeValue() const
 {
 	return _CurrentNodeValue;
 }
@@ -99,15 +103,10 @@ bool Elysium::Core::Json::JsonReader::Read()
 	}
 }
 
-Elysium::Core::Json::JsonReader::JsonReader(const JsonIOSettings& IOSettings)
-	: _IOSettings(IOSettings), _State(JsonReader::JsonReaderState::Initialized), _CurrentToken(JsonToken::None), _CurrentNodeValue(), _PropertyBuffer()
-{
-}
-
 bool Elysium::Core::Json::JsonReader::ReadProperty()
 {
 	// buffer property name
-	char16_t PreviousCharacter;
+	char16_t PreviousCharacter = 0;
 	int32_t CurrentCharacter;
 	while(true)
 	{

@@ -38,8 +38,9 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		VisemeReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t DurationMilliseconds,
-			const SynthesizerEmphasis Emphasis, const Elysium::Core::uint16_t Viseme, const Elysium::Core::uint16_t NextViseme);
+		VisemeReachedEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, 
+			const Elysium::Core::uint64_t DurationMilliseconds, const SynthesizerEmphasis Emphasis, const Elysium::Core::uint16_t Viseme,
+			const Elysium::Core::uint16_t NextViseme);
 	public:
 		VisemeReachedEventArgs(const VisemeReachedEventArgs& Source) = delete;
 

@@ -28,7 +28,7 @@ namespace Elysium::Core::Threading
 	public:
 		Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount);
 
-		Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const String& Name);
+		Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const Elysium::Core::Utf8String& Name);
 
 		//Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const String& Name, bool& CreatedNew);
 

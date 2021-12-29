@@ -50,9 +50,9 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 		LocaleRepository& operator=(const LocaleRepository& Source) = delete;
 		LocaleRepository& operator=(LocaleRepository&& Right) noexcept = delete;
 
-		static const Elysium::Core::int32_t GetIdFromName(const Elysium::Core::String& Name);
+		static const Elysium::Core::int32_t GetIdFromName(const Elysium::Core::Utf8String& Name);
 
-		static const Elysium::Core::String GetNameFromId(const Elysium::Core::int32_t Name);
+		static const Elysium::Core::Utf8String GetNameFromId(const Elysium::Core::int32_t Name);
 	private:
 		inline static const LocaleInfo _CultureInvariantInfo = LocaleInfo(Template::Functional::Move(127), 
 			Template::Functional::Move(u8"Invariant Language (Invariant Country)"));

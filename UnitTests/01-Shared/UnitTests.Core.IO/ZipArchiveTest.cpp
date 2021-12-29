@@ -39,27 +39,27 @@ namespace UnitTests::Core::IO::Compression
 			Assert::AreEqual((Elysium::Core::size)6, Entries.GetCount());
 
 			ZipArchiveEntry& Entry1 = Entries[0];
-			const String& FullName1 = Entry1.GetFullName();
+			const Elysium::Core::Utf8String& FullName1 = Entry1.GetFullName();
 			AssertExtended::AreEqual(u8"UT/", &FullName1[0]);
 
 			ZipArchiveEntry& Entry2 = Entries[1];
-			const String& FullName2 = Entry2.GetFullName();
+			const Elysium::Core::Utf8String& FullName2 = Entry2.GetFullName();
 			AssertExtended::AreEqual(u8"UT/Compression/", &FullName2[0]);
 
 			ZipArchiveEntry& Entry3 = Entries[2];
-			const String& FullName3 = Entry3.GetFullName();
+			const Elysium::Core::Utf8String& FullName3 = Entry3.GetFullName();
 			AssertExtended::AreEqual(u8"UT/Compression/Zip/", &FullName3[0]);
 
 			ZipArchiveEntry& Entry4 = Entries[3];
-			const String& FullName4 = Entry4.GetFullName();
+			const Elysium::Core::Utf8String& FullName4 = Entry4.GetFullName();
 			AssertExtended::AreEqual(u8"UT/Compression/Zip/dok1.txt", &FullName4[0]);
 
 			ZipArchiveEntry& Entry5 = Entries[4];
-			const String& FullName5 = Entry5.GetFullName();
+			const Elysium::Core::Utf8String& FullName5 = Entry5.GetFullName();
 			AssertExtended::AreEqual(u8"UT/Compression/Zip/dok2.txt", &FullName5[0]);
 
 			ZipArchiveEntry& Entry6 = Entries[5];
-			const String& FullName6 = Entry6.GetFullName();
+			const Elysium::Core::Utf8String& FullName6 = Entry6.GetFullName();
 			AssertExtended::AreEqual(u8"UT/Compression/Zip/Lorem ipsum.txt", &FullName6[0]);
 			/*
 			ReadOnlyStream Entry5Stream = Entry5.Open();

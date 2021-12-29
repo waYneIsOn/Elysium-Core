@@ -90,7 +90,7 @@ namespace Elysium::Core::Threading
 	private:
 		unsigned long _Id;
 		ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE _Handle;
-		Elysium::Core::String _Name;
+		Elysium::Core::Utf8String _Name;
 		std::atomic<ThreadState> _State;
 		Globalization::CultureInfo _CurrentCulture;
 

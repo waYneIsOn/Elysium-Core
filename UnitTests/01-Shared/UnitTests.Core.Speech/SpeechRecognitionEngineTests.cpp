@@ -33,7 +33,7 @@ namespace UnitTests::Core::Speech
 				Logger::WriteMessage(&CurrentThreadId[0]);
 				Logger::WriteMessage(" Main thread\r\n-----\r\n");
 
-				const String WaveFile = u8"SpeechSynthesizerForRecognition.wav";
+				const Utf8String WaveFile = u8"SpeechSynthesizerForRecognition.wav";
 
 				// put SpeechSynthesizer in a scope so the created wave-filehandle will be released before SpeechRecognitionEngine loads it as input
 				{

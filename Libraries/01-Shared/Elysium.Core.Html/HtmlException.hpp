@@ -26,7 +26,9 @@ namespace Elysium::Core::Html
 	{
 	public:
 		HtmlException();
-		HtmlException(String&& Message);
+
+		HtmlException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~HtmlException();
 	};
 }

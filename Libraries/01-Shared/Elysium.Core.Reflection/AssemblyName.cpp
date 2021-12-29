@@ -1,11 +1,13 @@
 #include "AssemblyName.hpp"
 
-Elysium::Core::Reflection::AssemblyName::AssemblyName(const String & AssemblyName, const Version& AssemblyVersion)
+Elysium::Core::Reflection::AssemblyName::AssemblyName(const Utf8String& AssemblyName, const Version& AssemblyVersion)
 	: _Name(AssemblyName), _Version(AssemblyVersion)
 { }
+
 Elysium::Core::Reflection::AssemblyName::AssemblyName(const AssemblyName & Source)
 	: _Name(Source._Name), _Version(Source._Version)
 { }
+
 Elysium::Core::Reflection::AssemblyName::~AssemblyName()
 { }
 
@@ -28,18 +30,22 @@ bool Elysium::Core::Reflection::AssemblyName::operator==(const AssemblyName & Ot
 
 	return _Name == Other._Name && _Version == Other._Version;
 }
+
 bool Elysium::Core::Reflection::AssemblyName::operator!=(const AssemblyName & Other) const
 {
 	return _Name != Other._Name || _Version != Other._Version;
 }
+
 bool Elysium::Core::Reflection::AssemblyName::operator<(const AssemblyName & Other) const
 {
 	return _Name == Other._Name && _Version < Other._Version;
 }
+
 bool Elysium::Core::Reflection::AssemblyName::operator>(const AssemblyName & Other) const
 {
 	return _Name == Other._Name && _Version > Other._Version;
 }
+
 bool Elysium::Core::Reflection::AssemblyName::operator<=(const AssemblyName & Other) const
 {
 	if (this == &Other)
@@ -49,6 +55,7 @@ bool Elysium::Core::Reflection::AssemblyName::operator<=(const AssemblyName & Ot
 
 	return _Name == Other._Name && _Version <= Other._Version;
 }
+
 bool Elysium::Core::Reflection::AssemblyName::operator>=(const AssemblyName & Other) const
 {
 	if (this == &Other)
@@ -59,7 +66,7 @@ bool Elysium::Core::Reflection::AssemblyName::operator>=(const AssemblyName & Ot
 	return _Name == Other._Name && _Version >= Other._Version;
 }
 
-const Elysium::Core::String & Elysium::Core::Reflection::AssemblyName::GetName() const
+const Elysium::Core::Utf8String& Elysium::Core::Reflection::AssemblyName::GetName() const
 {
 	return _Name;
 }

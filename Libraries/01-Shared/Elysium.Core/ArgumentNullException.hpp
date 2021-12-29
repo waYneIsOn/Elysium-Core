@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentNullException();
+
 		ArgumentNullException(const char8_t* Message);
-		ArgumentNullException(Elysium::Core::String&& Message);
+
+		ArgumentNullException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~ArgumentNullException();
 	};
 }

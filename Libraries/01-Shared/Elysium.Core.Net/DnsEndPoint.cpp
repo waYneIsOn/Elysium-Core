@@ -4,7 +4,7 @@
 #include "Dns.hpp"
 #endif
 
-Elysium::Core::Net::DnsEndPoint::DnsEndPoint(const Elysium::Core::String & Host, const Elysium::Core::uint16_t Port, const Sockets::AddressFamily AddressFamily)
+Elysium::Core::Net::DnsEndPoint::DnsEndPoint(const Elysium::Core::Utf8String & Host, const Elysium::Core::uint16_t Port, const Sockets::AddressFamily AddressFamily)
 	: EndPoint(),
 	_Host(Host), _Port(Port), _AddressFamily(AddressFamily)
 { }
@@ -15,7 +15,7 @@ const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::DnsEndPoint
 {
 	return _AddressFamily;
 }
-const Elysium::Core::String & Elysium::Core::Net::DnsEndPoint::GetHost() const
+const Elysium::Core::Utf8String & Elysium::Core::Net::DnsEndPoint::GetHost() const
 {
 	return _Host;
 }

@@ -49,9 +49,9 @@ namespace Elysium::Core::IO
 
 		virtual const Elysium::Core::size Read(char8_t* Buffer, const Elysium::Core::size Count) override;
 
-		virtual Elysium::Core::String ReadLine() override;
+		virtual Elysium::Core::Utf8String ReadLine() override;
 
-		virtual Elysium::Core::String ReadToEnd() override;
+		virtual Elysium::Core::Utf8String ReadToEnd() override;
 	private:
 		static const Elysium::Core::size DefaultBufferSize = 4096;
 

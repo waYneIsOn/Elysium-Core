@@ -55,11 +55,11 @@ namespace Elysium::Core
 	public:
 		Uri() = delete;
 
-		Uri(const Elysium::Core::String& UriString);
+		Uri(const Elysium::Core::Utf8String& UriString);
 
-		Uri(const Uri BaseUri, const Elysium::Core::String& RelativeUri);
+		Uri(const Uri BaseUri, const Elysium::Core::Utf8String& RelativeUri);
 
-		Uri(Elysium::Core::String&& UriString);
+		Uri(Elysium::Core::Utf8String&& UriString);
 
 		Uri(const Uri& Source);
 
@@ -71,25 +71,25 @@ namespace Elysium::Core
 
 		Uri& operator=(Uri&& Right) noexcept;
 	public:
-		static const Elysium::Core::String SchemeDelimiter;
+		static const Elysium::Core::Utf8String SchemeDelimiter;
 
-		static const Elysium::Core::String UriSchemeFile;
-		static const Elysium::Core::String UriSchemeFtp;
-		static const Elysium::Core::String UriSchemeGopher;
-		static const Elysium::Core::String UriSchemeHttp;
-		static const Elysium::Core::String UriSchemeHttps;
-		static const Elysium::Core::String UriSchemeIrc;
-		static const Elysium::Core::String UriSchemeLdap;
-		static const Elysium::Core::String UriSchemeMailto;
-		static const Elysium::Core::String UriSchemeNetPipe;
-		static const Elysium::Core::String UriSchemeNetTcp;
-		static const Elysium::Core::String UriSchemeNews;
-		static const Elysium::Core::String UriSchemeNntp;
-		static const Elysium::Core::String UriSchemeSecureWebSocket;
-		static const Elysium::Core::String UriSchemeTel;
-		static const Elysium::Core::String UriSchemeTelNet;
-		static const Elysium::Core::String UriSchemeUrn;
-		static const Elysium::Core::String UriSchemeWebSocket;
+		static const Elysium::Core::Utf8String UriSchemeFile;
+		static const Elysium::Core::Utf8String UriSchemeFtp;
+		static const Elysium::Core::Utf8String UriSchemeGopher;
+		static const Elysium::Core::Utf8String UriSchemeHttp;
+		static const Elysium::Core::Utf8String UriSchemeHttps;
+		static const Elysium::Core::Utf8String UriSchemeIrc;
+		static const Elysium::Core::Utf8String UriSchemeLdap;
+		static const Elysium::Core::Utf8String UriSchemeMailto;
+		static const Elysium::Core::Utf8String UriSchemeNetPipe;
+		static const Elysium::Core::Utf8String UriSchemeNetTcp;
+		static const Elysium::Core::Utf8String UriSchemeNews;
+		static const Elysium::Core::Utf8String UriSchemeNntp;
+		static const Elysium::Core::Utf8String UriSchemeSecureWebSocket;
+		static const Elysium::Core::Utf8String UriSchemeTel;
+		static const Elysium::Core::Utf8String UriSchemeTelNet;
+		static const Elysium::Core::Utf8String UriSchemeUrn;
+		static const Elysium::Core::Utf8String UriSchemeWebSocket;
 	public:
 		const Elysium::Core::Utf8StringView& GetAbsoluteUri() const;
 		const Elysium::Core::Utf8StringView& GetSchema() const;
@@ -102,7 +102,7 @@ namespace Elysium::Core
 		const Elysium::Core::Utf8StringView& GetQuery() const;
 		const Elysium::Core::Utf8StringView& GetFragment() const;
 	private:
-		Elysium::Core::String _OriginalString;
+		Elysium::Core::Utf8String _OriginalString;
 		Elysium::Core::Utf8StringView _SchemeView;
 		Elysium::Core::UriParser& _Parser;
 
@@ -119,7 +119,7 @@ namespace Elysium::Core
 		Elysium::Core::Utf8StringView ParseScheme();
 		Elysium::Core::UriParser& GetParser();
 
-		const Elysium::Core::String CreateUri(const Uri& BaseUri, const Elysium::Core::String& RelativeUri);
+		const Elysium::Core::Utf8String CreateUri(const Uri& BaseUri, const Elysium::Core::Utf8String& RelativeUri);
 	};
 }
 #endif

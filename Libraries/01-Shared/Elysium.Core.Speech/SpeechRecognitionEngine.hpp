@@ -93,7 +93,7 @@ namespace Elysium::Core::Speech::Recognition
 
 		void SetInputToDefaultAudioDevice();
 
-		void SetInputToWaveFile(const Elysium::Core::String& Path);
+		void SetInputToWaveFile(const Elysium::Core::Utf8String& Path);
 
 		void Recognize();
 	private:

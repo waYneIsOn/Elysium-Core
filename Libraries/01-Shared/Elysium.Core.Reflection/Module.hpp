@@ -41,7 +41,7 @@ namespace Elysium::Core::Reflection
 	{
 		friend class Type;
 	public:
-		Module(const Assembly& Assembly, const String& Name);
+		Module(const Assembly& Assembly, const Utf8String& Name);
 
 		Module(const Module& Source) = delete;
 
@@ -57,14 +57,14 @@ namespace Elysium::Core::Reflection
 	public:
 		const Assembly& GetAssembly() const;
 
-		const Elysium::Core::String& GetName() const;
+		const Elysium::Core::Utf8String& GetName() const;
 
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*> GetTypes() const;
 	public:
 		const Elysium::Core::size GetHashCode() const;
 	private:
 		const Assembly& _Assembly;
-		const String _Name;
+		const Utf8String _Name;
 
 		Elysium::Core::Collections::Template::List<const Type*> _Types;
 

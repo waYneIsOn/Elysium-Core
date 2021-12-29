@@ -64,11 +64,11 @@ namespace Elysium::Core::Security::Cryptography
 
 		const virtual PaddingMode GetPaddingMode() const;
 
-		//const virtual Elysium::Core::String GetKeyExchangeAlgorithm() const = 0;
+		//const virtual Elysium::Core::Utf8String GetKeyExchangeAlgorithm() const = 0;
 
 		//const virtual Collections::Template::Array<KeySizes>& GetLegalKeySizes() const;
 
-		//const virtual Elysium::Core::String GetSignatureAlgorithm() const = 0;
+		//const virtual Elysium::Core::Utf8String GetSignatureAlgorithm() const = 0;
 	public:
 		//virtual Elysium::Core::size Encrypt(const Elysium::Core::byte* Input, const Elysium::Core::Size Length) = 0;
 	protected:

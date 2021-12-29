@@ -4,7 +4,7 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Speech::Synthesis::SpeakCompletedEventArgs::SpeakCompletedEventArgs(String&& Prompt)
+Elysium::Core::Speech::Synthesis::SpeakCompletedEventArgs::SpeakCompletedEventArgs(Elysium::Core::Utf8String&& Prompt)
 	: Elysium::Core::Speech::Synthesis::PromptEventArgs(Elysium::Core::Template::Functional::Move(Prompt))
 { }
 

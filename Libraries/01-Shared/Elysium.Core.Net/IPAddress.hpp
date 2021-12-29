@@ -53,9 +53,9 @@ namespace Elysium::Core::Net
 		static const IPAddress& Loopback();
 		//static const IPAddress& None();
 
-		static const IPAddress Parse(const Elysium::Core::String& Value);
+		static const IPAddress Parse(const Elysium::Core::Utf8String& Value);
 
-		const Elysium::Core::String ToString() const;
+		const Elysium::Core::Utf8String ToString() const;
 	private:
 		Sockets::AddressFamily _Family;
 		Elysium::Core::uint32_t _Address;

@@ -24,7 +24,7 @@ Elysium::Core::Security::Cryptography::Oid::Oid()
 	: _Value(), _FriendlyName()
 { }
 
-Elysium::Core::Security::Cryptography::Oid::Oid(Elysium::Core::String && Value, Elysium::Core::String && FriendlyName)
+Elysium::Core::Security::Cryptography::Oid::Oid(Elysium::Core::Utf8String&& Value, Elysium::Core::Utf8String&& FriendlyName)
 	: _Value(Elysium::Core::Template::Functional::Move(Value)), _FriendlyName(Elysium::Core::Template::Functional::Move(FriendlyName))
 { }
 
@@ -61,7 +61,7 @@ Elysium::Core::Security::Cryptography::Oid& Elysium::Core::Security::Cryptograph
 	return *this;
 }
 
-Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromFriendlyName(const Elysium::Core::String& FriendlyName, const OidGroup Group)
+Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromFriendlyName(const Elysium::Core::Utf8String& FriendlyName, const OidGroup Group)
 {
 	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&Text::Encoding::UTF16LE().GetBytes(&FriendlyName[0], FriendlyName.GetLength(), sizeof(char16_t))[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
@@ -77,7 +77,7 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 	);
 }
 
-Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const Elysium::Core::String& OidValue, const OidGroup Group)
+Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography::Oid::FromOidValue(const Elysium::Core::Utf8String& OidValue, const OidGroup Group)
 {
 	PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>((char8_t*)&OidValue[0]), (Elysium::Core::uint32_t)Group);
 	if (NativeOid == nullptr)
@@ -93,12 +93,12 @@ Elysium::Core::Security::Cryptography::Oid Elysium::Core::Security::Cryptography
 	);
 }
 
-const Elysium::Core::String& Elysium::Core::Security::Cryptography::Oid::GetValue() const
+const Elysium::Core::Utf8String& Elysium::Core::Security::Cryptography::Oid::GetValue() const
 {
 	return _Value;
 }
 
-const Elysium::Core::String& Elysium::Core::Security::Cryptography::Oid::GetFriendlyName() const
+const Elysium::Core::Utf8String& Elysium::Core::Security::Cryptography::Oid::GetFriendlyName() const
 {
 	return _FriendlyName;
 }

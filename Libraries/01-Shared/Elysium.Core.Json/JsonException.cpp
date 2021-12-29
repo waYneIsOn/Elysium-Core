@@ -7,8 +7,10 @@
 Elysium::Core::Json::JsonException::JsonException()
 	: Elysium::Core::Exception()
 { }
-Elysium::Core::Json::JsonException::JsonException(String && Message)
+
+Elysium::Core::Json::JsonException::JsonException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
+
 Elysium::Core::Json::JsonException::~JsonException()
 { }

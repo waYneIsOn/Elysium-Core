@@ -2,12 +2,12 @@
 
 // https://docs.microsoft.com/en-us/windows/console/console-reference
 
-const Elysium::Core::String Elysium::Core::Console::ReadLine()
+const Elysium::Core::Utf8String Elysium::Core::Console::ReadLine()
 {
 	throw 1;
 }
 
-void Elysium::Core::Console::WriteLine(const String& Value)
+void Elysium::Core::Console::WriteLine(const Elysium::Core::Utf8String& Value)
 {
 	throw 1;
 }

@@ -156,7 +156,7 @@ namespace UnitTests::Core::Security::Cryptography
 		TEST_METHOD(ReadCertificateFromFile)
 		{
 			Elysium::Core::IO::FileStream TargetStream = Elysium::Core::IO::FileStream(u8"sample.crt", Elysium::Core::IO::FileMode::Create, Elysium::Core::IO::FileAccess::Write);
-			Elysium::Core::String Input = u8"-----BEGIN CERTIFICATE-----"
+			Elysium::Core::Utf8String Input = u8"-----BEGIN CERTIFICATE-----"
 				"MIIF7zCCBNegAwIBAgIRANdVj9r18RBbshMoK3B3KaMwDQYJKoZIhvcNAQEFBQAw"
 				"gZcxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJVVDEXMBUGA1UEBxMOU2FsdCBMYWtl"
 				"IENpdHkxHjAcBgNVBAoTFVRoZSBVU0VSVFJVU1QgTmV0d29yazEhMB8GA1UECxMY"
@@ -582,7 +582,7 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
 			{
 				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const String& PrintableStringValue = PrintableString.GetValue();
+				const Elysium::Core::Utf8String& PrintableStringValue = PrintableString.GetValue();
 				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
 				Logger::WriteMessage("\r\n");
 			}

@@ -161,17 +161,17 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 #endif
 }
 
-const Elysium::Core::String & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetId() const
+const Elysium::Core::Utf8String & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetId() const
 {
 	return _Id;
 }
 
-const Elysium::Core::String & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetName() const
+const Elysium::Core::Utf8String & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetName() const
 {
 	return _Name;
 }
 
-const Elysium::Core::String & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetDescription() const
+const Elysium::Core::Utf8String & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetDescription() const
 {
 	return _Description;
 }
@@ -192,5 +192,5 @@ const Elysium::Core::int64_t Elysium::Core::Net::NetworkInformation::NetworkInte
 }
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface()
-	: _Id(Elysium::Core::String()), _Name(Elysium::Core::String()), _Description(Elysium::Core::String())
+	: _Id(Elysium::Core::Utf8String()), _Name(Elysium::Core::Utf8String()), _Description(Elysium::Core::Utf8String())
 { }

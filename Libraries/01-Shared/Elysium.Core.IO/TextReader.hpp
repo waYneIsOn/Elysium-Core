@@ -36,16 +36,19 @@ namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_API TextReader
 	{
-	public:
-		TextReader(const TextReader& Source) = delete;
-		TextReader(TextReader&& Right) noexcept = delete;
-		virtual ~TextReader();
 	protected:
 		TextReader();
 	public:
-		TextReader& operator=(const TextReader& Other) = delete;
-		TextReader& operator=(TextReader&& Right) noexcept = delete;
+		TextReader(const TextReader& Source) = delete;
 
+		TextReader(TextReader&& Right) noexcept = delete;
+
+		virtual ~TextReader();
+	public:
+		TextReader& operator=(const TextReader& Other) = delete;
+
+		TextReader& operator=(TextReader&& Right) noexcept = delete;
+	public:
 		virtual void Close();
 
 		virtual const Elysium::Core::uint32_t Peek() = 0;
@@ -54,9 +57,9 @@ namespace Elysium::Core::IO
 
 		virtual const Elysium::Core::size Read(char8_t* Buffer, const Elysium::Core::size Count) = 0;
 
-		virtual Elysium::Core::String ReadLine() = 0;
+		virtual Elysium::Core::Utf8String ReadLine() = 0;
 
-		virtual Elysium::Core::String ReadToEnd() = 0;
+		virtual Elysium::Core::Utf8String ReadToEnd() = 0;
 	};
 }
 #endif

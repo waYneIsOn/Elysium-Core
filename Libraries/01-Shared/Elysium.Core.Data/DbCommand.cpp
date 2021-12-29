@@ -15,7 +15,7 @@ Elysium::Core::Data::Common::DbCommand::DbCommand(IDbTransaction * Transaction)
 Elysium::Core::Data::Common::DbCommand::~DbCommand()
 { }
 
-const Elysium::Core::String & Elysium::Core::Data::Common::DbCommand::GetCommandText() const
+const Elysium::Core::Utf8String& Elysium::Core::Data::Common::DbCommand::GetCommandText() const
 {
 	return _Text;
 }
@@ -35,7 +35,7 @@ void Elysium::Core::Data::Common::DbCommand::SetCommandText(const char8_t* Comma
 	_Text = CommandText;
 }
 
-void Elysium::Core::Data::Common::DbCommand::SetCommandText(const Elysium::Core::String& CommandText)
+void Elysium::Core::Data::Common::DbCommand::SetCommandText(const Elysium::Core::Utf8String& CommandText)
 {
 	_Text = CommandText;
 }

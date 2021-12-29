@@ -36,23 +36,29 @@ namespace Elysium::Core::Security::Cryptography
 {
 	class ELYSIUM_CORE_SECURITY_API AsymmetricAlgorithm
 	{
+	protected:
+		AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue);
 	public:
 		AsymmetricAlgorithm(const AsymmetricAlgorithm& Source) = delete;
+
 		AsymmetricAlgorithm(AsymmetricAlgorithm&& Right) noexcept = delete;
+
 		~AsymmetricAlgorithm();
-
+	public:
 		AsymmetricAlgorithm& operator=(const AsymmetricAlgorithm& Source) = delete;
-		AsymmetricAlgorithm& operator=(AsymmetricAlgorithm&& Right) noexcept = delete;
 
-		const virtual Elysium::Core::String GetKeyExchangeAlgorithm() const = 0;
+		AsymmetricAlgorithm& operator=(AsymmetricAlgorithm&& Right) noexcept = delete;
+	public:
+		const virtual Elysium::Core::Utf8String GetKeyExchangeAlgorithm() const = 0;
+
 		const virtual Elysium::Core::uint32_t GetKeySize() const;
+
 		//const virtual Collections::Template::Array<KeySizes>& GetLegalKeySizes() const;
-		const virtual Elysium::Core::String GetSignatureAlgorithm() const = 0;
+
+		const virtual Elysium::Core::Utf8String GetSignatureAlgorithm() const = 0;
 
 		//void Clear();
 	protected:
-		AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue);
-
 		Elysium::Core::uint32_t _KeySizeValue;
 		//Collections::Template::Array<KeySizes> _LegalKeySizesValue;
 	};

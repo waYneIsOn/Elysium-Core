@@ -145,7 +145,7 @@ const Elysium::Core::byte * Elysium::Core::Guid::ToByteArray() const
 {
 	return (Elysium::Core::byte*)&_Data;
 }
-Elysium::Core::String Elysium::Core::Guid::ToString() const
+Elysium::Core::Utf8String Elysium::Core::Guid::ToString() const
 {
 	throw NotImplementedException(u8"void Elysium::Core::Guid::ToString(String * Output) const");
 	/*

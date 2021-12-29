@@ -34,7 +34,7 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		PhonemeReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t DurationMilliseconds,
+		PhonemeReachedEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t DurationMilliseconds,
 			const SynthesizerEmphasis Emphasis);
 	public:
 		PhonemeReachedEventArgs(const PhonemeReachedEventArgs& Source) = delete;

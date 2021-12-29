@@ -149,7 +149,7 @@ namespace UnitTests::Core::Json
 		TEST_METHOD(ReadObject)
 		{
 			// prepare
-			String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+			Elysium::Core::Utf8String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"Double\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 			StringReader Reader = StringReader(Source);
 			JsonTextReader JsonReader = JsonTextReader(Reader);
 			
@@ -379,7 +379,7 @@ namespace UnitTests::Core::Json
 			// test: string array
 			{
 				// prepare
-				String Source = u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -411,7 +411,7 @@ namespace UnitTests::Core::Json
 			// test: int array
 			{
 				// prepare
-				String Source = u8"[\r\n\t12,\r\n\t2,\r\n\t3453\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\t12,\r\n\t2,\r\n\t3453\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -443,7 +443,7 @@ namespace UnitTests::Core::Json
 			// test: float array
 			{
 				// prepare
-				String Source = u8"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 				
@@ -475,7 +475,7 @@ namespace UnitTests::Core::Json
 			// test: bool array
 			{
 				// prepare
-				String Source = u8"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
 
@@ -507,7 +507,7 @@ namespace UnitTests::Core::Json
 			// test: empty array
 			{
 				// prepare
-				String Source = u8"[]";
+				Elysium::Core::Utf8String Source = u8"[]";
 				//String Source = u8"[ ]";
 				StringReader Reader = StringReader(Source);
 				JsonTextReader JsonReader = JsonTextReader(Reader);
@@ -543,11 +543,11 @@ namespace UnitTests::Core::Json
 				Root.AddElement(u8"Int", -5448);
 				Root.AddElement(u8"Float", 13.370000f);
 				Root.AddElement(u8"Double", 13.370000);
-				Root.AddElement(u8"String", Elysium::Core::String(u8"SomeValue"));
+				Root.AddElement(u8"String", Elysium::Core::Utf8String(u8"SomeValue"));
 				Root.AddObject(u8"EmptyObject");
 				JsonObject& SomeObject = Root.AddObject(u8"SomeObject");
-				SomeObject.AddElement(u8"Property1", Elysium::Core::String(u8"Value1"));
-				SomeObject.AddElement(u8"Property2", Elysium::Core::String(u8"Value2"));
+				SomeObject.AddElement(u8"Property1", Elysium::Core::Utf8String(u8"Value1"));
+				SomeObject.AddElement(u8"Property2", Elysium::Core::Utf8String(u8"Value2"));
 				Root.AddArray(u8"EmptyArray");
 				JsonArray& IntArray = Root.AddArray(u8"IntArray");
 				IntArray.AddElement(1);
@@ -556,14 +556,14 @@ namespace UnitTests::Core::Json
 				JsonArray& ObjectArray = Root.AddArray(u8"ObjectArray");
 				JsonObject& ObjectArrayObject1 = ObjectArray.AddObject();
 				ObjectArrayObject1.AddElement(u8"Value1", 5448);
-				ObjectArrayObject1.AddElement(u8"Value2", Elysium::Core::String(u8"SomeValue"));
+				ObjectArrayObject1.AddElement(u8"Value2", Elysium::Core::Utf8String(u8"SomeValue"));
 				JsonObject& ObjectArrayObject2 = ObjectArray.AddObject();
 				ObjectArrayObject2.AddElement(u8"Value1", 5448);
-				ObjectArrayObject2.AddElement(u8"Value2", Elysium::Core::String(u8"SomeValue"));
+				ObjectArrayObject2.AddElement(u8"Value2", Elysium::Core::Utf8String(u8"SomeValue"));
 				JsonArray& TwoDimensionalArray = Root.AddArray(u8"TwoDimensionalArray");
 				TwoDimensionalArray.AddArray();
 				TwoDimensionalArray.AddArray();
-				Root.AddElement(u8"StringWithSpecial\"Characters üñîcødé", Elysium::Core::String(u8"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
+				Root.AddElement(u8"StringWithSpecial\"Characters üñîcødé", Elysium::Core::Utf8String(u8"\"\b\f\r\n\t\\foo\x02\x0F\x1f""bar.?äüö"));
 				
 				// write
 				Document.WriteTo(JsonWriter);
@@ -582,9 +582,9 @@ namespace UnitTests::Core::Json
 
 				JsonDocument Document = JsonDocument();
 				JsonArray& Root = Document.AddRootArray();
-				Root.AddElement(Elysium::Core::String(u8"Value1"));
-				Root.AddElement(Elysium::Core::String(u8"Value2"));
-				Root.AddElement(Elysium::Core::String(u8"Value3"));
+				Root.AddElement(Elysium::Core::Utf8String(u8"Value1"));
+				Root.AddElement(Elysium::Core::Utf8String(u8"Value2"));
+				Root.AddElement(Elysium::Core::Utf8String(u8"Value3"));
 
 				// write
 				Document.WriteTo(JsonWriter);
@@ -598,7 +598,7 @@ namespace UnitTests::Core::Json
 			// test 1: object
 			{
 				// prepare
-				String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+				Elysium::Core::Utf8String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 				
@@ -706,7 +706,7 @@ namespace UnitTests::Core::Json
 			// test 2: string array
 			{
 				// prepare
-				String Source = u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\t\"Value1\",\r\n\t\"Value2\",\r\n\t\"Value3\"\r\n]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -727,7 +727,7 @@ namespace UnitTests::Core::Json
 			// test 3: numeric array
 			{
 				// prepare
-				String Source = u8"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\t1.2,\r\n\t2.3,\r\n\t3453.0\r\n]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -748,7 +748,7 @@ namespace UnitTests::Core::Json
 			// test 4: bool array
 			{
 				// prepare
-				String Source = u8"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
+				Elysium::Core::Utf8String Source = u8"[\r\n\tfalse,\r\n\ttrue,\r\n\tnull\r\n]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -769,7 +769,7 @@ namespace UnitTests::Core::Json
 			// test 5: empty array
 			{
 				// prepare
-				String Source = u8"[]";
+				Elysium::Core::Utf8String Source = u8"[]";
 				JsonDocument Document = JsonDocument();
 				Document.LoadJson(Source);
 
@@ -782,7 +782,7 @@ namespace UnitTests::Core::Json
 		TEST_METHOD(Visitor)
 		{
 			// prepare
-			String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
+			Elysium::Core::Utf8String Source = u8"{\r\n\t\"Yep\": true,\r\n\t\"Nope\": false,\r\n\t\"NullValue\": null,\r\n\t\"Int\": -5448,\r\n\t\"Float\": 13.370000,\r\n\t\"String\": \"SomeValue\",\r\n\t\"EmptyObject\": {},\r\n\t\"SomeObject\": {\r\n\t\t\"Property1\": \"Value1\",\r\n\t\t\"Property2\": \"Value2\"\r\n\t},\r\n\t\"EmptyArray\": [],\r\n\t\"IntArray\": [\r\n\t\t1,\r\n\t\t2,\r\n\t\t3\r\n\t],\r\n\t\"ObjectArray\": [{\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}, {\r\n\t\t\t\"Value1\": 5448,\r\n\t\t\t\"Value2\": \"SomeValue\"\r\n\t\t}],\r\n\t\"TwoDimensionalArray\": [[], []],\r\n\t\"StringWithSpecial\\\\\\\"Characters üñîcødé\": \"\\\\\\\"\\\\b\\\\f\\\\r\\\\n\\\\t\\\\\\\\foo\\u0002\\u0015\\u0031bar.?äüö\"\r\n}";
 			JsonDocument Document = JsonDocument();
 			Document.LoadJson(Source);
 

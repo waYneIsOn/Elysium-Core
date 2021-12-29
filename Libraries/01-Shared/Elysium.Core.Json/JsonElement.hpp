@@ -35,16 +35,16 @@ namespace Elysium::Core::Json
 		JsonElement& operator=(const JsonElement& Source) = delete;
 		JsonElement& operator=(JsonElement&& Right) noexcept = delete;
 
-		const String& GetName() const override;
+		const Utf8String& GetName() const override;
 		virtual const JsonNodeType GetNodeType() const override;
 
 		const bool IsNull() const;
-		const String& GetValueAsString() const;
+		const Utf8String& GetValueAsString() const;
 		const int32_t GetValueAsInt32() const;
 		const float GetValueAsSingle() const;
 		const bool GetValueAsBoolean() const;
 
-		void SetValue(const String& Value);
+		void SetValue(const Utf8String& Value);
 		void SetValue(const int32_t Value);
 		void SetValue(const float Value);
 		void SetValue(const bool Value);
@@ -53,17 +53,17 @@ namespace Elysium::Core::Json
 	protected:
 		virtual void Load(JsonReader& JsonReader) override;
 	private:
-		JsonElement(const String& Name, const String& Value);
-		JsonElement(const String& Name, const int32_t Value);
-		JsonElement(const String& Name, const float Value);
-		JsonElement(const String& Name, const double Value);
-		JsonElement(const String& Name, const bool Value);
-		JsonElement(const String& Name);
+		JsonElement(const Utf8String& Name, const Utf8String& Value);
+		JsonElement(const Utf8String& Name, const int32_t Value);
+		JsonElement(const Utf8String& Name, const float Value);
+		JsonElement(const Utf8String& Name, const double Value);
+		JsonElement(const Utf8String& Name, const bool Value);
+		JsonElement(const Utf8String& Name);
 
-		Elysium::Core::String _Name;
+		Elysium::Core::Utf8String _Name;
 		JsonNodeType _Type;
 #pragma warning(disable : 4251)	// _Value doesn't get exposed directly so I can simply ignore the warning
-		std::variant<bool, Elysium::Core::int32_t, float, double, Elysium::Core::String, void*> _Value;
+		std::variant<bool, Elysium::Core::int32_t, float, double, Elysium::Core::Utf8String, void*> _Value;
 #pragma warning(default : 4251)
 	};
 }

@@ -34,23 +34,32 @@ namespace Elysium::Core::Json
 	{
 	public:
 		JsonDocument();
+
 		JsonDocument(const JsonDocument& Source) = delete;
+
 		JsonDocument(JsonDocument&& Right) noexcept = delete;
+
 		virtual ~JsonDocument();
-
+	public:
 		JsonDocument& operator=(const JsonDocument& Source) = delete;
+
 		JsonDocument& operator=(JsonDocument&& Right) noexcept = delete;
+	public:
+		const Elysium::Core::Utf8String& GetName() const override;
 
-		const String& GetName() const override;
 		const JsonNodeType GetNodeType() const override;
-		JsonNode& GetRootNode();
 
+		JsonNode& GetRootNode();
+	public:
 		JsonObject& AddRootObject();
+
 		JsonArray& AddRootArray();
 
-		void Load(const Elysium::Core::String& Filename);
+		void Load(const Elysium::Core::Utf8String& Filename);
+
 		void Load(Elysium::Core::IO::Stream& InputStream);
-		void LoadJson(const Elysium::Core::String& Json);
+
+		void LoadJson(const Elysium::Core::Utf8String& Json);
 
 		void WriteTo(JsonWriter& Writer) const override;
 	protected:

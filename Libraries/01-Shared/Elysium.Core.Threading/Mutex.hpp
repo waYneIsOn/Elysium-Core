@@ -30,7 +30,7 @@ namespace Elysium::Core::Threading
 
 		Mutex(const bool InitiallyOwned);
 
-		Mutex(const bool InitiallyOwned, const String& Name);
+		Mutex(const bool InitiallyOwned, const Elysium::Core::Utf8String& Name);
 
 		//Mutex(const bool InitiallyOwned, const String& Name, bool& CreatedNew);
 

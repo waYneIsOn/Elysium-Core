@@ -109,7 +109,7 @@ void Elysium::Core::Json::JsonWriter::WriteEndArray()
 	_Depth--;
 }
 
-void Elysium::Core::Json::JsonWriter::WritePropertyName(const String & Name)
+void Elysium::Core::Json::JsonWriter::WritePropertyName(const Utf8String& Name)
 {
 	JsonWriter::JsonWriterState PreviousState = _State;
 	ValidateAndSet(JsonWriter::JsonWriterState::PropertyName);
@@ -155,9 +155,9 @@ void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const char8_t * Value)
 {
-	WriteValue(String(Value));
+	WriteValue(Utf8String(Value));
 }
-void Elysium::Core::Json::JsonWriter::WriteValue(const String & Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const Utf8String& Value)
 {
 	PrepareWritingValue();
 	WriteString(u8'"');
@@ -225,7 +225,7 @@ void Elysium::Core::Json::JsonWriter::ValidateAndSet(JsonWriter::JsonWriterState
 	_State = AspiredState;
 }
 
-void Elysium::Core::Json::JsonWriter::WriteEscapedString(const String & Value)
+void Elysium::Core::Json::JsonWriter::WriteEscapedString(const Utf8String& Value)
 {
 	const Elysium::Core::size ValueLength = Value.GetLength();
 	for (int i = 0; i < ValueLength; i++)

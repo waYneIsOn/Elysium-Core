@@ -38,7 +38,7 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		BookmarkReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, String&& Bookmark);
+		BookmarkReachedEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, Elysium::Core::Utf8String&& Bookmark);
 	public:
 		BookmarkReachedEventArgs(const BookmarkReachedEventArgs& Source) = delete;
 
@@ -52,10 +52,10 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		const Elysium::Core::TimeSpan& GetAudioPosition() const;
 
-		const String& GetBookmark() const;
+		const Elysium::Core::Utf8String& GetBookmark() const;
 	private:
 		TimeSpan _AudioPosition;
-		String _Bookmark;
+		Elysium::Core::Utf8String _Bookmark;
 	};
 }
 #endif

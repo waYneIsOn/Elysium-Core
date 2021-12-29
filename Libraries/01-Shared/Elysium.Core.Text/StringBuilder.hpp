@@ -50,7 +50,7 @@ namespace Elysium::Core::Text
 
 		void SetLength(const Elysium::Core::size Value);
 	public:
-		void Append(const Elysium::Core::String& Value);
+		void Append(const Elysium::Core::Utf8String& Value);
 
 		void Append(const char8_t Value);
 
@@ -68,9 +68,9 @@ namespace Elysium::Core::Text
 
 		void Remove(const Elysium::Core::size StartIndex, const Elysium::Core::size Length);
 
-		Elysium::Core::String ToString();
+		Elysium::Core::Utf8String ToString();
 
-		Elysium::Core::String ToString(const Elysium::Core::size Length);
+		Elysium::Core::Utf8String ToString(const Elysium::Core::size Length);
 	private:
 		Elysium::Core::size _Capacity;
 		char8_t* _Data;

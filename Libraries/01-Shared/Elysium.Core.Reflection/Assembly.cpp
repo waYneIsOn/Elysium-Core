@@ -49,7 +49,7 @@ bool Elysium::Core::Reflection::Assembly::operator>=(const Assembly& Other) cons
 	return _AssemblyName >= Other._AssemblyName;
 }
 
-const Elysium::Core::String& Elysium::Core::Reflection::Assembly::GetFullName() const
+const Elysium::Core::Utf8String& Elysium::Core::Reflection::Assembly::GetFullName() const
 {
 	return _AssemblyName.GetName();
 }

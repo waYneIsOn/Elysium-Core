@@ -28,16 +28,20 @@ namespace Elysium::Core::Json
 		friend class JsonReader;
 	public:
 		JsonIOSettings();
-		JsonIOSettings(const String& IndentSpace, const String& Indent, const String& NewLine);
+
+		JsonIOSettings(const Utf8String& IndentSpace, const Utf8String& Indent, const Utf8String& NewLine);
+
 		JsonIOSettings(const JsonIOSettings& Source);
+
 		JsonIOSettings(JsonIOSettings&& Right) = delete;
+
 		~JsonIOSettings();
 
 		JsonIOSettings& operator=(const JsonIOSettings& Source);
 	private:
-		String _IndentSpace;
-		String _Indent;
-		String _NewLine;
+		Utf8String _IndentSpace;
+		Utf8String _Indent;
+		Utf8String _NewLine;
 	};
 }
 #endif

@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
-	//using String = Elysium::Core::Template::Text::Utf8String();
+	//using Utf8String = Elysium::Core::Template::Text::Utf8String();
 
 	/*
 	ToDos:
@@ -42,7 +42,7 @@ namespace Elysium::Core
 		class List;
 	}
 
-	class ELYSIUM_CORE_API String final
+	class ELYSIUM_CORE_API Utf8String final
 	{
 	public:
 		using Character = char8_t;
@@ -52,24 +52,24 @@ namespace Elysium::Core
 		using CharacterReference = char8_t&;
 		using ConstCharacterReference = const char8_t&;
 	public:
-		String();
-		String(const Elysium::Core::size Length);
-		String(ConstCharacterPointer Value);
-		String(ConstCharacterPointer Value, const Elysium::Core::size Length);
-		String(const String& Source);
-		String(String&& Right) noexcept;
-		~String();
+		Utf8String();
+		Utf8String(const Elysium::Core::size Length);
+		Utf8String(ConstCharacterPointer Value);
+		Utf8String(ConstCharacterPointer Value, const Elysium::Core::size Length);
+		Utf8String(const Utf8String& Source);
+		Utf8String(Utf8String&& Right) noexcept;
+		~Utf8String();
 
-		String& operator=(ConstCharacterPointer Value);
-		String& operator=(const String& Source);
-		String& operator=(String&& Right) noexcept;
+		Utf8String& operator=(ConstCharacterPointer Value);
+		Utf8String& operator=(const Utf8String& Source);
+		Utf8String& operator=(Utf8String&& Right) noexcept;
 
-		const bool operator==(const String& Other) const;
-		const bool operator!=(const String& Other) const;
-		const bool operator<(const String& Other) const;
-		const bool operator>(const String& Other) const;
-		const bool operator<=(const String Other) const;
-		const bool operator>=(const String& Other) const;
+		const bool operator==(const Utf8String& Other) const;
+		const bool operator!=(const Utf8String& Other) const;
+		const bool operator<(const Utf8String& Other) const;
+		const bool operator>(const Utf8String& Other) const;
+		const bool operator<=(const Utf8String Other) const;
+		const bool operator>=(const Utf8String& Other) const;
 
 		const bool operator==(const char8_t* Other) const;
 		const bool operator!=(const char8_t* Other) const;
@@ -84,17 +84,17 @@ namespace Elysium::Core
 		const Elysium::Core::size IndexOf(ConstCharacter Value, const Elysium::Core::size StartIndex) const;
 		const Elysium::Core::size IndexOf(ConstCharacterPointer Value) const;
 		const Elysium::Core::size IndexOf(ConstCharacterPointer Value, const Elysium::Core::size StartIndex) const;
-		const Elysium::Core::size IndexOf(const String& Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size IndexOf(const Utf8String& Value, const Elysium::Core::size StartIndex) const;
 
 		const Elysium::Core::size LastIndexOf(ConstCharacter Value) const;
 		const Elysium::Core::size LastIndexOf(ConstCharacterPointer Value) const;
 		const Elysium::Core::size LastIndexOf(ConstCharacterPointer Value, const Elysium::Core::size StartIndex) const;
-		const Elysium::Core::size LastIndexOf(const String& Value, const Elysium::Core::size StartIndex) const;
+		const Elysium::Core::size LastIndexOf(const Utf8String& Value, const Elysium::Core::size StartIndex) const;
 
 		//List<String> Split(const char8_t Delimiter) const;
 
-		void Split(ConstCharacter Delimiter, Collections::Template::List<String>& Target) const;
-		void Split(ConstCharacterPointer Delimiter, Collections::Template::List<String>& Target) const;
+		void Split(ConstCharacter Delimiter, Collections::Template::List<Utf8String>& Target) const;
+		void Split(ConstCharacterPointer Delimiter, Collections::Template::List<Utf8String>& Target) const;
 
 		const bool StartsWith(ConstCharacterPointer Value) const;
 
@@ -102,8 +102,8 @@ namespace Elysium::Core
 
 		//Collections::Template::String Replace(const char8_t OldCharacter, const char8_t NewCharacter);
 
-		String Substring(const Elysium::Core::size StartIndex) const;
-		String Substring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
+		Utf8String Substring(const Elysium::Core::size StartIndex) const;
+		Utf8String Substring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
 
 		//String ToLower();
 		//String ToUpper();
@@ -111,11 +111,11 @@ namespace Elysium::Core
 		//String UnsafeSubstring(const Elysium::Core::size StartIndex) const;
 		//String UnsafeSubstring(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
 		
-		static const String Empty;
+		static const Utf8String Empty;
 
-		static const bool IsNull(const String& Value);
-		static const bool IsEmpty(const String& Value);
-		static const bool IsNullOrEmtpy(const String& Value);
+		static const bool IsNull(const Utf8String& Value);
+		static const bool IsEmpty(const Utf8String& Value);
+		static const bool IsNullOrEmtpy(const Utf8String& Value);
 	private:
 		Elysium::Core::size _Length;
 		CharacterPointer _Data;

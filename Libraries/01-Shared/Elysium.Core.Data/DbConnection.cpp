@@ -1,6 +1,6 @@
 #include "DbConnection.hpp"
 
-Elysium::Core::Data::Common::DbConnection::DbConnection(const Elysium::Core::String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)
+Elysium::Core::Data::Common::DbConnection::DbConnection(const Elysium::Core::Utf8String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)
 	: IDbConnection(),
 	_ConnectionString(ConnectionString), _ConnectionTimeout(ConnectionTimeout), _Database(), _ConnectionState(ConnectionState::Closed)
 { }
@@ -8,7 +8,7 @@ Elysium::Core::Data::Common::DbConnection::DbConnection(const Elysium::Core::Str
 Elysium::Core::Data::Common::DbConnection::~DbConnection()
 { }
 
-const Elysium::Core::String & Elysium::Core::Data::Common::DbConnection::GetConnectionString() const
+const Elysium::Core::Utf8String & Elysium::Core::Data::Common::DbConnection::GetConnectionString() const
 {
 	return _ConnectionString;
 }
@@ -18,7 +18,7 @@ const Elysium::Core::uint32_t& Elysium::Core::Data::Common::DbConnection::GetCon
 	return _ConnectionTimeout;
 }
 
-const Elysium::Core::String & Elysium::Core::Data::Common::DbConnection::GetDatabase() const
+const Elysium::Core::Utf8String & Elysium::Core::Data::Common::DbConnection::GetDatabase() const
 {
 	return _Database;
 }
@@ -28,7 +28,7 @@ const Elysium::Core::Data::ConnectionState & Elysium::Core::Data::Common::DbConn
 	return _ConnectionState;
 }
 
-void Elysium::Core::Data::Common::DbConnection::SetConnectionString(const Elysium::Core::String & ConnectionString)
+void Elysium::Core::Data::Common::DbConnection::SetConnectionString(const Elysium::Core::Utf8String & ConnectionString)
 {
 	_ConnectionString = ConnectionString;
 }

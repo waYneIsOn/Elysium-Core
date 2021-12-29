@@ -7,8 +7,10 @@
 Elysium::Core::Threading::Tasks::OperationCanceledException::OperationCanceledException()
 	: Elysium::Core::Exception(u8"OperationCanceledException")
 { }
-Elysium::Core::Threading::Tasks::OperationCanceledException::OperationCanceledException(String && Message)
+
+Elysium::Core::Threading::Tasks::OperationCanceledException::OperationCanceledException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
+
 Elysium::Core::Threading::Tasks::OperationCanceledException::~OperationCanceledException()
 { }

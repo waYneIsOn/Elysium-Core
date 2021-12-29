@@ -32,16 +32,20 @@ namespace Elysium::Core::Security::Cryptography
 	class ELYSIUM_CORE_SECURITY_API OidNode final
 	{
 	public:
-		OidNode(const Elysium::Core::uint32_t Value, const Elysium::Core::String Name);
-		OidNode(const OidNode& Source) = delete;
-		OidNode(OidNode&& Right) noexcept = delete;
-		~OidNode();
+		OidNode(const Elysium::Core::uint32_t Value, const Elysium::Core::Utf8String Name);
 
+		OidNode(const OidNode& Source) = delete;
+
+		OidNode(OidNode&& Right) noexcept = delete;
+
+		~OidNode();
+	public:
 		OidNode& operator=(const OidNode& Source) = delete;
+
 		OidNode& operator=(OidNode&& Right) noexcept = delete;
 	private:
 		const Elysium::Core::uint32_t _Value;
-		const Elysium::Core::String _Name;
+		const Elysium::Core::Utf8String _Name;
 		//OidNode* _Parent;
 		//OidNode* _Children;
 	};

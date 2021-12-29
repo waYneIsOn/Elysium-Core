@@ -37,7 +37,7 @@ namespace Elysium::Core::Data::TdsClient
 	class ELYSIUM_CORE_DATA_TDSCLIENT_API TdsConnection final : public Common::DbConnection
 	{
 	public:
-		TdsConnection(const TdsVersion Version, const Elysium::Core::String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout);
+		TdsConnection(const TdsVersion Version, const Elysium::Core::Utf8String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout);
 
 		TdsConnection(const TdsConnection& Source) = delete;
 
@@ -61,7 +61,7 @@ namespace Elysium::Core::Data::TdsClient
 
 		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbCommand> CreateCommand() override;
 		
-		virtual void ChangeDatabase(const String& DatabaseName) override;
+		virtual void ChangeDatabase(const Elysium::Core::Utf8String& DatabaseName) override;
 	private:
 		Elysium::Core::Net::Sockets::Socket _TransportSocket;
 		//Elysium::Core::uint16_t _PacketId;

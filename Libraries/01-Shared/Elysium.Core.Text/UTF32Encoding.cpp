@@ -19,16 +19,16 @@ const bool Elysium::Core::Text::UTF32Encoding::GetIsSingleByte() const
 	return false;
 }
 
-const Elysium::Core::String& Elysium::Core::Text::UTF32Encoding::GetEncodingName() const
+const Elysium::Core::Utf8String& Elysium::Core::Text::UTF32Encoding::GetEncodingName() const
 {
 	if (_BigEndian)
 	{
-		static Elysium::Core::String EncodingName = u8"Unicode (UTF-32 Big-Endian)";
+		static Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-32 Big-Endian)";
 		return EncodingName;
 	}
 	else
 	{
-		static Elysium::Core::String EncodingName = u8"Unicode (UTF-32 Little-Endian)";
+		static Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-32 Little-Endian)";
 		return EncodingName;
 	}
 }
@@ -341,10 +341,10 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetCharCount(c
 	return Result;
 }
 
-Elysium::Core::String Elysium::Core::Text::UTF32Encoding::GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const
+Elysium::Core::Utf8String Elysium::Core::Text::UTF32Encoding::GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const
 {
 	const Elysium::Core::uint32_t RequiredSize = GetCharCount(Bytes, ByteCount);
-	Elysium::Core::String Result = Elysium::Core::String(RequiredSize);
+	Elysium::Core::Utf8String Result = Elysium::Core::Utf8String(RequiredSize);
 
 	Elysium::Core::uint32_t CodePoint;
 

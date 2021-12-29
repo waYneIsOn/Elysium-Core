@@ -68,12 +68,12 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 		virtual const Elysium::Core::int16_t GetInt16(const Elysium::Core::uint32_t Index) override;
 		virtual const Elysium::Core::int32_t GetInt32(const Elysium::Core::uint32_t Index) override;
 		virtual const Elysium::Core::int64_t GetInt64(const Elysium::Core::uint32_t Index) override;
-		virtual const Elysium::Core::String GetString(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::Utf8String GetString(const Elysium::Core::uint32_t Index) override;
 		virtual const Elysium::Core::TimeSpan GetTimeSpan(const Elysium::Core::uint32_t Index) override;
 
-		virtual const Elysium::Core::String GetDataTypeName(const Elysium::Core::uint32_t Index) override;
-		virtual const Elysium::Core::String GetName(const Elysium::Core::uint32_t Index) override;
-		virtual const Elysium::Core::uint64_t GetOrdinal(const Elysium::Core::String& Name) override;
+		virtual const Elysium::Core::Utf8String GetDataTypeName(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::Utf8String GetName(const Elysium::Core::uint32_t Index) override;
+		virtual const Elysium::Core::uint64_t GetOrdinal(const Elysium::Core::Utf8String& Name) override;
 
 		virtual const bool IsDBNull(const uint32_t Index) override;
 	private:

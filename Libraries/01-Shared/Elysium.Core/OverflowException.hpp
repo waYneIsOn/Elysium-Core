@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		OverflowException();
+
 		OverflowException(const char8_t* Message);
-		OverflowException(Elysium::Core::String&& Message);
+
+		OverflowException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~OverflowException();
 	};
 }

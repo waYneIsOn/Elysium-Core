@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentException();
+
 		ArgumentException(const char8_t* Message);
-		ArgumentException(Elysium::Core::String&& Message);
+
+		ArgumentException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~ArgumentException();
 	};
 }

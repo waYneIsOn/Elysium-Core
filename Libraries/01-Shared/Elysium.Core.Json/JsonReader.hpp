@@ -40,11 +40,14 @@ namespace Elysium::Core::Json
 {
 	class ELYSIUM_CORE_JSON_API JsonReader
 	{
+	protected:
+		JsonReader(const JsonIOSettings& IOSettings);
 	public:
 		virtual ~JsonReader();
-
+	public:
 		const JsonToken GetToken() const;
-		const String& GetNodeValue() const;
+
+		const Elysium::Core::Utf8String& GetNodeValue() const;
 
 		virtual bool Read();
 		//void ReadContentAsBoolean();
@@ -52,8 +55,6 @@ namespace Elysium::Core::Json
 
 		//virtual void Skip();
 	protected:
-		JsonReader(const JsonIOSettings& IOSettings);
-
 		virtual const int32_t PeekNextCharacterFromSource() = 0;
 		virtual const int32_t ReadNextCharacterFromSource() = 0;
 
@@ -92,7 +93,7 @@ namespace Elysium::Core::Json
 		const JsonIOSettings _IOSettings;
 
 		JsonToken _CurrentToken;
-		String _CurrentNodeValue;
+		Elysium::Core::Utf8String _CurrentNodeValue;
 
 		Elysium::Core::Text::StringBuilder _PropertyBuffer;
 

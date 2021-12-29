@@ -26,21 +26,22 @@
 
 Elysium::Core::Json::JsonDocument::JsonDocument()
 	: Elysium::Core::Json::JsonNode()
-{
-}
-Elysium::Core::Json::JsonDocument::~JsonDocument()
-{
-}
+{ }
 
-const Elysium::Core::String & Elysium::Core::Json::JsonDocument::GetName() const
+Elysium::Core::Json::JsonDocument::~JsonDocument()
+{ }
+
+const Elysium::Core::Utf8String & Elysium::Core::Json::JsonDocument::GetName() const
 {
-	static const Elysium::Core::String Name = u8"#document";
+	static const Elysium::Core::Utf8String Name = u8"#document";
 	return Name;
 }
+
 const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonDocument::GetNodeType() const
 {
 	return JsonNodeType::Document;
 }
+
 Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonDocument::GetRootNode()
 {
 	if (_Children.GetCount() == 0)
@@ -61,6 +62,7 @@ Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonDocument::AddRootObje
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedObject);
 	return *OwnedObject;
 }
+
 Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray()
 {
 	if (_Children.GetCount() > 0)
@@ -73,18 +75,20 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray
 	return *OwnedArray;
 }
 
-void Elysium::Core::Json::JsonDocument::Load(const Elysium::Core::String & Filename)
+void Elysium::Core::Json::JsonDocument::Load(const Elysium::Core::Utf8String & Filename)
 {
 	Elysium::Core::IO::FileStream InputStream = Elysium::Core::IO::FileStream(Filename, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
 	Load(InputStream);
 }
+
 void Elysium::Core::Json::JsonDocument::Load(Elysium::Core::IO::Stream & InputStream)
 {
 	Elysium::Core::IO::StreamReader Reader = Elysium::Core::IO::StreamReader(InputStream, Elysium::Core::Text::Encoding::UTF8());
 	JsonTextReader JsonReader = JsonTextReader(Reader);
 	Load(JsonReader);
 }
-void Elysium::Core::Json::JsonDocument::LoadJson(const Elysium::Core::String & Json)
+
+void Elysium::Core::Json::JsonDocument::LoadJson(const Elysium::Core::Utf8String & Json)
 {
 	Elysium::Core::IO::StringReader Reader = Elysium::Core::IO::StringReader(Json);
 	JsonTextReader JsonReader = JsonTextReader(Reader);

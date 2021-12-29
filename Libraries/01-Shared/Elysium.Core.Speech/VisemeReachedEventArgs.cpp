@@ -4,7 +4,7 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Speech::Synthesis::VisemeReachedEventArgs::VisemeReachedEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t DurationMilliseconds, const SynthesizerEmphasis Emphasis, const Elysium::Core::uint16_t Viseme, const Elysium::Core::uint16_t NextViseme)
+Elysium::Core::Speech::Synthesis::VisemeReachedEventArgs::VisemeReachedEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t DurationMilliseconds, const SynthesizerEmphasis Emphasis, const Elysium::Core::uint16_t Viseme, const Elysium::Core::uint16_t NextViseme)
 	: Elysium::Core::Speech::Synthesis::PromptEventArgs(Elysium::Core::Template::Functional::Move(Prompt)),
 	_AudioPosition(AudioPositionTicks), _Duration(DurationMilliseconds * 10000), _Emphasis(Emphasis), _Viseme(Viseme), _NextViseme(NextViseme)
 { }

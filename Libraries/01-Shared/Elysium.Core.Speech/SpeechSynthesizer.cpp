@@ -292,7 +292,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Resume()
 	ProcessEventMessageQueue();
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const String& Name)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Elysium::Core::Utf8String& Name)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// ToDo: find a better way to select voice than by iterating through all installed voices!
@@ -442,7 +442,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToDefaultAudi
 #endif
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(const Elysium::Core::String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(const Elysium::Core::Utf8String& Path, const AudioFormat::SpeechAudioFormatInfo& FormatInfo)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = S_OK;
@@ -516,7 +516,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const char8
 #endif
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const String& TextToSpeak)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const Elysium::Core::Utf8String& TextToSpeak)
 {
 	SpeakAsync(&TextToSpeak[0]);
 }
@@ -542,7 +542,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const char8_t* T
 #endif
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const String & TextToSpeak)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const Elysium::Core::Utf8String& TextToSpeak)
 {
 	Speak(&TextToSpeak[0]);
 }
@@ -568,7 +568,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const char8_
 #endif
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const String& TextToSpeak)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const Elysium::Core::Utf8String& TextToSpeak)
 {
 	SpeakSsml(&TextToSpeak[0]);
 }
@@ -594,7 +594,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const c
 #endif
 }
 
-void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const String& TextToSpeak)
+void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const Elysium::Core::Utf8String& TextToSpeak)
 {
 	SpeakSsmlAsync(&TextToSpeak[0]);
 }
@@ -764,8 +764,8 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQue
 				wchar_t CurrentPhoneme = LOWORD(Event.lParam);
 				wchar_t NextPhoneme = LOWORD(Event.wParam);
 				/*
-				const Elysium::Core::String bla2 = _WindowsEncoding.GetString((Elysium::Core::byte*)&CurrentPhoneme, 1);
-				const Elysium::Core::String bla1 = _WindowsEncoding.GetString((Elysium::Core::byte*)&CurrentPhoneme, 1);
+				const Elysium::Core::Utf8String bla2 = _WindowsEncoding.GetString((Elysium::Core::byte*)&CurrentPhoneme, 1);
+				const Elysium::Core::Utf8String bla1 = _WindowsEncoding.GetString((Elysium::Core::byte*)&CurrentPhoneme, 1);
 				*/
 				PhonemeReached(*this, PhonemeReachedEventArgs(u8"PROMPT", Event.ullAudioStreamOffset, HIWORD(Event.wParam),
 					(SynthesizerEmphasis)HIWORD(Event.lParam)));

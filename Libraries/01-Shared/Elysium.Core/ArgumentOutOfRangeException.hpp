@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		ArgumentOutOfRangeException();
+
 		ArgumentOutOfRangeException(const char8_t* Message);
-		ArgumentOutOfRangeException(Elysium::Core::String&& Message);
+
+		ArgumentOutOfRangeException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~ArgumentOutOfRangeException();
 	};
 }

@@ -70,7 +70,7 @@ namespace Elysium::Core::Text
 
 		virtual const Elysium::Core::uint32_t GetCodePage() const;
 
-		virtual const Elysium::Core::String& GetEncodingName() const = 0;
+		virtual const Elysium::Core::Utf8String& GetEncodingName() const = 0;
 
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetPreamble() const = 0;
 
@@ -84,7 +84,7 @@ namespace Elysium::Core::Text
 
 		//virtual char8_t* GetCharArray(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 
-		virtual Elysium::Core::String GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
+		virtual Elysium::Core::Utf8String GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 	private:
 		const Elysium::Core::uint32_t _CodePage;
 

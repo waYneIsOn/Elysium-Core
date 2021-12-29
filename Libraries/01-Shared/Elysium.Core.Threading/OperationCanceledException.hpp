@@ -22,7 +22,9 @@ namespace Elysium::Core::Threading::Tasks
 	{
 	public:
 		OperationCanceledException();
-		OperationCanceledException(String&& Message);
+
+		OperationCanceledException(Elysium::Core::Utf8String&& Message);
+
 		~OperationCanceledException();
 	};
 }

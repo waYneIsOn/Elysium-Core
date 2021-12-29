@@ -23,7 +23,7 @@ namespace Elysium::Core
 	public:
 		IndexOutOfRangeException();
 		IndexOutOfRangeException(const char8_t* Message);
-		IndexOutOfRangeException(Elysium::Core::String&& Message);
+		IndexOutOfRangeException(Elysium::Core::Utf8String&& Message);
 		virtual ~IndexOutOfRangeException();
 	};
 }

@@ -4,8 +4,8 @@ Elysium::Core::Json::JsonIOSettings::JsonIOSettings()
 	: _IndentSpace(u8" "), _Indent(u8"\t"), _NewLine(u8"\r\n")
 {
 }
-Elysium::Core::Json::JsonIOSettings::JsonIOSettings(const String & IndentSpace, const String & Indent, const String & NewLine)
-	: _IndentSpace(String(IndentSpace)), _Indent(String(Indent)), _NewLine(String(NewLine))
+Elysium::Core::Json::JsonIOSettings::JsonIOSettings(const Utf8String& IndentSpace, const Utf8String& Indent, const Utf8String& NewLine)
+	: _IndentSpace(IndentSpace), _Indent(Indent), _NewLine(NewLine)
 {
 }
 Elysium::Core::Json::JsonIOSettings::JsonIOSettings(const JsonIOSettings & Source)

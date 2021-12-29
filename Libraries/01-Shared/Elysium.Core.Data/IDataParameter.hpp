@@ -77,9 +77,9 @@ namespace Elysium::Core::Data
 
 		virtual const bool GetIsNullable() const = 0;
 
-		virtual const Elysium::Core::String GetParameterName() const = 0;
+		virtual const Elysium::Core::Utf8String GetParameterName() const = 0;
 
-		virtual const Elysium::Core::String GetSourceColumn() const = 0;
+		virtual const Elysium::Core::Utf8String GetSourceColumn() const = 0;
 
 		virtual const DataRowVersion GetSourceVersion() const = 0;
 
@@ -95,9 +95,9 @@ namespace Elysium::Core::Data
 
 		virtual void SetIsNullable(const bool IsNullable) = 0;
 
-		virtual void SetParameterName(const Elysium::Core::String& ParameterName) = 0;
+		virtual void SetParameterName(const Elysium::Core::Utf8String& ParameterName) = 0;
 
-		virtual void SetSourceColumn(const Elysium::Core::String& SourceColumn) = 0;
+		virtual void SetSourceColumn(const Elysium::Core::Utf8String& SourceColumn) = 0;
 
 		virtual void SetSourceVersion(const DataRowVersion Version) = 0;
 
@@ -113,7 +113,7 @@ namespace Elysium::Core::Data
 
 		virtual void SetValue(const char8_t* Value, const Elysium::Core::size Length) = 0;
 
-		virtual void SetValue(const Elysium::Core::String& Value) = 0;
+		virtual void SetValue(const Elysium::Core::Utf8String& Value) = 0;
 
 		virtual void SetValue(const DateTime& Value) = 0;
 

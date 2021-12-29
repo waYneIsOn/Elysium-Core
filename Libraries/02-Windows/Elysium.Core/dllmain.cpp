@@ -60,7 +60,7 @@ inline static const Elysium::Core::Reflection::Type Typeint64_t =
 Elysium::Core::Reflection::Type(ModuleCore, typeid(Elysium::Core::int64_t).hash_code(), u8"int64_t");
 
 inline static const Elysium::Core::Reflection::Type TypeString =
-Elysium::Core::Reflection::Type(ModuleCore, typeid(Elysium::Core::String).hash_code(), u8"String");
+Elysium::Core::Reflection::Type(ModuleCore, typeid(Elysium::Core::Utf8String).hash_code(), u8"String");
 
 inline static const Elysium::Core::Reflection::Module ModuleCoreCollections =
 Elysium::Core::Reflection::Module(ReflectedAssembly, u8"Elysium::Core::Collections");

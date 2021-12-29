@@ -22,8 +22,11 @@ namespace Elysium::Core::Security::Authentication
 	{
 	public:
 		InvalidCredentialException();
+
 		InvalidCredentialException(const char8_t* Message);
-		InvalidCredentialException(String&& Message);
+
+		InvalidCredentialException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~InvalidCredentialException();
 	};
 }

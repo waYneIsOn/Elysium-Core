@@ -26,7 +26,7 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		SpeakStartedEventArgs(String&& Prompt);
+		SpeakStartedEventArgs(Elysium::Core::Utf8String&& Prompt);
 	public:
 		SpeakStartedEventArgs(const SpeakStartedEventArgs& Source) = delete;
 

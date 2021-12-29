@@ -38,7 +38,7 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		SpeakProgressEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t CharacterCount,
+		SpeakProgressEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t CharacterCount,
 			const Elysium::Core::uint64_t CharacterPosition);
 	public:
 		SpeakProgressEventArgs(const SpeakProgressEventArgs& Source) = delete;

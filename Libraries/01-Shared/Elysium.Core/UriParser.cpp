@@ -24,13 +24,13 @@ Elysium::Core::UriSyntaxFlags::None |
 Elysium::Core::UriSyntaxFlags::AllowIdn |
 Elysium::Core::UriSyntaxFlags::AllowIriParsing;
 /*
-Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser> Elysium::Core::UriParser::_RegisteredParser =
-	Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser>();
+Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, Elysium::Core::UriParser> Elysium::Core::UriParser::_RegisteredParser =
+	Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, Elysium::Core::UriParser>();
 */
 Elysium::Core::UriParser::~UriParser()
 { }
 
-const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::String& SchemeName)
+const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::Utf8String& SchemeName)
 {
 	return IsKnownScheme(Elysium::Core::Utf8StringView(&SchemeName[0]));
 }
@@ -40,7 +40,7 @@ const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::Utf8Stri
 	throw 1;
 }
 
-void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriParser, const Elysium::Core::String & SchemeName, const Elysium::Core::uint16_t DefaultPort)
+void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriParser, const Elysium::Core::Utf8String & SchemeName, const Elysium::Core::uint16_t DefaultPort)
 {
 	throw 1;
 	/*
@@ -55,14 +55,14 @@ void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriPars
 	*/
 }
 
-Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String & Source)
+Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::Utf8String & Source)
 {
 	// URI = scheme:[//authority]path[?query][#fragment]
 	// authority = [userinfo@]host[:port]
 	// scheme : //
 	// userinfo @ host : port
 
-	if (String::IsNullOrEmtpy(Source))
+	if (Elysium::Core::Utf8String::IsNullOrEmtpy(Source))
 	{
 		return Utf8StringView();
 	}
@@ -245,6 +245,6 @@ Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Ely
 	}
 }
 
-Elysium::Core::UriParser::UriParser(const Elysium::Core::String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents)
+Elysium::Core::UriParser::UriParser(const Elysium::Core::Utf8String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents)
 	: _Scheme(Scheme), _Port(Port), _RequiredComponents(RequiredComponents)
 { }

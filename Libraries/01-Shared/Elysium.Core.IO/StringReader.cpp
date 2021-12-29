@@ -4,7 +4,7 @@
 #include "../Elysium.Core/Environment.hpp"
 #endif
 
-Elysium::Core::IO::StringReader::StringReader(const String & Input)
+Elysium::Core::IO::StringReader::StringReader(const Elysium::Core::Utf8String& Input)
 	: Elysium::Core::IO::TextReader(),
 	_Input(&Input[0])
 { }
@@ -28,11 +28,11 @@ const Elysium::Core::size Elysium::Core::IO::StringReader::Read(char8_t* Buffer,
 	throw 1;
 }
 
-Elysium::Core::String Elysium::Core::IO::StringReader::ReadLine()
+Elysium::Core::Utf8String Elysium::Core::IO::StringReader::ReadLine()
 {
 	if (_Position == _Input.GetLength())
 	{
-		return String();
+		return Elysium::Core::Utf8String();
 	}
 
 	Elysium::Core::size IndexOfNewLine = _Input.IndexOf(&Elysium::Core::Environment::NewLine()[0], _Position);
@@ -40,17 +40,17 @@ Elysium::Core::String Elysium::Core::IO::StringReader::ReadLine()
 	{
 		Elysium::Core::size Position = _Position;
 		_Position = _Input.GetLength();
-		return String(&_Input[Position]);
+		return Elysium::Core::Utf8String(&_Input[Position]);
 	}
 	else
 	{
 		Elysium::Core::size Position = _Position;
 		_Position += IndexOfNewLine + Elysium::Core::Environment::NewLine().GetLength();
-		return String(&_Input[Position], IndexOfNewLine);
+		return Elysium::Core::Utf8String(&_Input[Position], IndexOfNewLine);
 	}
 }
 
-Elysium::Core::String Elysium::Core::IO::StringReader::ReadToEnd()
+Elysium::Core::Utf8String Elysium::Core::IO::StringReader::ReadToEnd()
 {
-	return String(&_Input[_Position], _Input.GetLength() - _Position);
+	return Elysium::Core::Utf8String(&_Input[_Position], _Input.GetLength() - _Position);
 }

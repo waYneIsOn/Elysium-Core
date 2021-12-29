@@ -18,9 +18,9 @@ const bool Elysium::Core::Text::UTF8Encoding::GetIsSingleByte() const
 {
 	return false;
 }
-const Elysium::Core::String& Elysium::Core::Text::UTF8Encoding::GetEncodingName() const
+const Elysium::Core::Utf8String& Elysium::Core::Text::UTF8Encoding::GetEncodingName() const
 {
-	static Elysium::Core::String EncodingName = u8"Unicode (UTF-8)";
+	static Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-8)";
 	return EncodingName;
 }
 
@@ -185,10 +185,10 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetCharCount(co
 	*/
 }
 
-Elysium::Core::String Elysium::Core::Text::UTF8Encoding::GetString(const Elysium::Core::byte * Bytes, const Elysium::Core::size ByteCount) const
+Elysium::Core::Utf8String Elysium::Core::Text::UTF8Encoding::GetString(const Elysium::Core::byte * Bytes, const Elysium::Core::size ByteCount) const
 {
 	Elysium::Core::uint32_t RequiredCharacters = GetCharCount(Bytes, ByteCount);
-	Elysium::Core::String Result = Elysium::Core::String(RequiredCharacters);
+	Elysium::Core::Utf8String Result = Elysium::Core::Utf8String(RequiredCharacters);
 	for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 	{
 		Result[i] = static_cast<char>(Bytes[i]);

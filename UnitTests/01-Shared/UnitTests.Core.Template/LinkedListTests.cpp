@@ -15,8 +15,8 @@ namespace UnitTests::Core::Template::Container
 	public:
 		TEST_METHOD(StringTest)
 		{
-			LinkedList<String> Instance = LinkedList<String>();
-			for (LinkedList<String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			LinkedList<Elysium::Core::Utf8String> Instance = LinkedList<Elysium::Core::Utf8String>();
+			for (LinkedList<Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				Assert::Fail();
 			}
@@ -25,8 +25,8 @@ namespace UnitTests::Core::Template::Container
 			Instance.PushBack(u8"1\r\n");
 			Instance.PushBack(u8"2\r\n");
 
-			LinkedListNode<String>* Head = Instance.GetHead();
-			LinkedListNode<String>* Tail = Instance.GetTail();
+			LinkedListNode<Elysium::Core::Utf8String>* Head = Instance.GetHead();
+			LinkedListNode<Elysium::Core::Utf8String>* Tail = Instance.GetTail();
 			AssertExtended::AreEqual(u8"0\r\n", Head->GetItem());
 			AssertExtended::AreEqual(u8"1\r\n", Head->GetNext()->GetItem());
 			AssertExtended::AreEqual(u8"2\r\n", Head->GetNext()->GetNext()->GetItem());
@@ -80,16 +80,16 @@ namespace UnitTests::Core::Template::Container
 			Assert::IsTrue(Instance.Contains(u8"0\r\n"));
 			Assert::IsFalse(Instance.Contains(u8"4\r\n"));
 
-			const LinkedList<String>& ConstInstance = Instance;
-			for (LinkedList<String>::ConstIterator Iterator = ConstInstance.GetBegin(); Iterator != ConstInstance.GetEnd(); ++Iterator)
+			const LinkedList<Elysium::Core::Utf8String>& ConstInstance = Instance;
+			for (LinkedList<Elysium::Core::Utf8String>::ConstIterator Iterator = ConstInstance.GetBegin(); Iterator != ConstInstance.GetEnd(); ++Iterator)
 			{
-				const LinkedListNode<String>& Node = *Iterator;
+				const LinkedListNode<Elysium::Core::Utf8String>& Node = *Iterator;
 				Logger::WriteMessage((char*)&Node.GetItem()[0]);
 			}
 			Logger::WriteMessage("\r\n");
 			
 			Instance.Clear();
-			for (LinkedList<String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (LinkedList<Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				Assert::Fail();
 			}

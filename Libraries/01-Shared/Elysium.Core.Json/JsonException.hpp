@@ -26,7 +26,9 @@ namespace Elysium::Core::Json
 	{
 	public:
 		JsonException();
-		JsonException(String&& Message);
+
+		JsonException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~JsonException();
 	};
 }

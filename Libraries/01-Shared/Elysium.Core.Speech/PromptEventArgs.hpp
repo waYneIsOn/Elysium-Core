@@ -25,7 +25,7 @@ namespace Elysium::Core::Speech::Synthesis
 	class ELYSIUM_CORE_SPEECH_API PromptEventArgs
 	{
 	protected:
-		PromptEventArgs(String&& Prompt);
+		PromptEventArgs(Elysium::Core::Utf8String&& Prompt);
 	public:
 		PromptEventArgs(const PromptEventArgs& Source) = delete;
 
@@ -37,9 +37,9 @@ namespace Elysium::Core::Speech::Synthesis
 
 		PromptEventArgs& operator=(PromptEventArgs&& Right) noexcept = delete;
 	public:
-		const String& GetPrompt() const;
+		const Elysium::Core::Utf8String& GetPrompt() const;
 	private:
-		String _Prompt;
+		Elysium::Core::Utf8String _Prompt;
 	};
 }
 #endif

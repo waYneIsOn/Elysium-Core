@@ -63,7 +63,7 @@ namespace Elysium::Core::Data
 	public:
 		virtual ~IDbCommand() {}
 	public:
-		virtual const String& GetCommandText() const = 0;
+		virtual const Utf8String& GetCommandText() const = 0;
 
 		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const = 0;
 
@@ -79,7 +79,7 @@ namespace Elysium::Core::Data
 	public:
 		virtual void SetCommandText(const char8_t* CommandText) = 0;
 
-		virtual void SetCommandText(const String& CommandText) = 0;
+		virtual void SetCommandText(const Utf8String& CommandText) = 0;
 
 		virtual void SetConnectionTimeout(const Elysium::Core::uint32_t Timeout) = 0;
 

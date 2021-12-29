@@ -29,7 +29,7 @@ namespace Elysium::Core::IO
 
 		IOException(const char8_t* Message);
 
-		IOException(String&& Message);
+		IOException(Elysium::Core::Utf8String&& Message);
 
 		virtual ~IOException();
 	};

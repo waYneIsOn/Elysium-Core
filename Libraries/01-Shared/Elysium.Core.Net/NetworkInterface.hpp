@@ -54,11 +54,11 @@ namespace Elysium::Core::Net::NetworkInformation
 		//static const Elysium::Core::int32_t GetLoopbackInterfaceIndex();
 		//static const Elysium::Core::int32_t GetIPv6LoopbackInterfaceIndex();
 
-		const Elysium::Core::String& GetId() const;
+		const Elysium::Core::Utf8String& GetId() const;
 
-		const Elysium::Core::String& GetName() const;
+		const Elysium::Core::Utf8String& GetName() const;
 
-		const Elysium::Core::String& GetDescription() const;
+		const Elysium::Core::Utf8String& GetDescription() const;
 
 		const NetworkInterfaceType& GetNetworkInterfaceType() const;
 
@@ -70,9 +70,9 @@ namespace Elysium::Core::Net::NetworkInformation
 	protected:
 		NetworkInterface();
 	private:
-		Elysium::Core::String _Id;
-		Elysium::Core::String _Name;
-		Elysium::Core::String _Description;
+		Elysium::Core::Utf8String _Id;
+		Elysium::Core::Utf8String _Name;
+		Elysium::Core::Utf8String _Description;
 		NetworkInterfaceType _Type;
 		OperationalStatus _Status;
 		Elysium::Core::int64_t _Speed;

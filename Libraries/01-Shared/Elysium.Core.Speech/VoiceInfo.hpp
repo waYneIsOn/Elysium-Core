@@ -79,9 +79,9 @@ namespace Elysium::Core::Speech::Synthesis
 
 		const VoiceGender GetGender() const;
 
-		const String GetId() const;
+		const Elysium::Core::Utf8String GetId() const;
 
-		const String GetName() const;
+		const Elysium::Core::Utf8String GetName() const;
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();

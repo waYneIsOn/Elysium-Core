@@ -22,8 +22,11 @@ namespace Elysium::Core::IO
 	{
 	public:
 		EndOfStreamException();
+
 		EndOfStreamException(const char8_t* Message);
-		EndOfStreamException(String&& Message);
+
+		EndOfStreamException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~EndOfStreamException();
 	};
 }

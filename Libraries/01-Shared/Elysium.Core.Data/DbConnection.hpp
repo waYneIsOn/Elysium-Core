@@ -31,23 +31,23 @@ namespace Elysium::Core::Data::Common
 	class ELYSIUM_CORE_DATA_API DbConnection : public IDbConnection
 	{
 	protected:
-		DbConnection(const String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout);
+		DbConnection(const Elysium::Core::Utf8String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout);
 	public:
 		virtual ~DbConnection();
 	public:
-		virtual const Elysium::Core::String& GetConnectionString() const override;
+		virtual const Elysium::Core::Utf8String& GetConnectionString() const override;
 
 		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const override;
 
-		virtual const Elysium::Core::String& GetDatabase() const override;
+		virtual const Elysium::Core::Utf8String& GetDatabase() const override;
 
 		virtual const ConnectionState& GetState() const override;
 	public:
-		virtual void SetConnectionString(const String& ConnectionString) override;
+		virtual void SetConnectionString(const Elysium::Core::Utf8String& ConnectionString) override;
 	protected:
-		String _ConnectionString;
+		Elysium::Core::Utf8String _ConnectionString;
 		Elysium::Core::uint32_t _ConnectionTimeout;
-		String _Database;
+		Elysium::Core::Utf8String _Database;
 		ConnectionState _ConnectionState;
 	};
 }

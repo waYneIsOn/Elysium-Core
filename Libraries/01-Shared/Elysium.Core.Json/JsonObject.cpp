@@ -8,13 +8,23 @@
 #include "JsonReaderException.hpp"
 #endif
 
-Elysium::Core::Json::JsonObject::~JsonObject()
-{
-}
 
-const Elysium::Core::String & Elysium::Core::Json::JsonObject::GetName() const
+Elysium::Core::Json::JsonObject::JsonObject()
+	: Elysium::Core::Json::JsonNode(),
+	_Name()
+{ }
+
+Elysium::Core::Json::JsonObject::JsonObject(const Elysium::Core::Utf8String& Name)
+	: Elysium::Core::Json::JsonNode(),
+	_Name(Name)
+{ }
+
+Elysium::Core::Json::JsonObject::~JsonObject()
+{ }
+
+const Elysium::Core::Utf8String & Elysium::Core::Json::JsonObject::GetName() const
 {
-	static const Elysium::Core::String Name = u8"#object";
+	static const Elysium::Core::Utf8String Name = u8"#object";
 	if (_Name.GetLength() > 0)
 	{
 		return _Name;
@@ -43,51 +53,51 @@ void Elysium::Core::Json::JsonObject::WriteTo(JsonWriter & Writer) const
 	Writer.WriteEndObject();
 }
 
-Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const String & Name, const String & Value)
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const Elysium::Core::Utf8String& Name, const Elysium::Core::Utf8String& Value)
 {
 	JsonElement* OwnedElement = new JsonElement(Name, Value);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
 	return *OwnedElement;
 }
-Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const String & Name, const int32_t Value)
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const Elysium::Core::Utf8String& Name, const int32_t Value)
 {
 	JsonElement* OwnedElement = new JsonElement(Name, Value);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
 	return *OwnedElement;
 }
-Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const String & Name, const float Value)
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const Elysium::Core::Utf8String& Name, const float Value)
 {
 	JsonElement* OwnedElement = new JsonElement(Name, Value);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
 	return *OwnedElement;
 }
-Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const String & Name, const double Value)
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const Elysium::Core::Utf8String& Name, const double Value)
 {
 	JsonElement* OwnedElement = new JsonElement(Name, Value);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
 	return *OwnedElement;
 }
-Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const String & Name, const bool Value)
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const Elysium::Core::Utf8String& Name, const bool Value)
 {
 	JsonElement* OwnedElement = new JsonElement(Name, Value);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
 	return *OwnedElement;
 }
-Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const String & Name)
+Elysium::Core::Json::JsonElement & Elysium::Core::Json::JsonObject::AddElement(const Elysium::Core::Utf8String& Name)
 {
 	JsonElement* OwnedElement = new JsonElement(Name);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedElement);
 	return *OwnedElement;
 }
 
-Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonObject::AddObject(const String & Name)
+Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonObject::AddObject(const Elysium::Core::Utf8String& Name)
 {
 	JsonObject* OwnedObject = new JsonObject(Name);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedObject);
 	return *OwnedObject;
 }
 
-Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonObject::AddArray(const String & Name)
+Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonObject::AddArray(const Elysium::Core::Utf8String& Name)
 {
 	JsonArray* OwnedArray = new JsonArray(Name);
 	Elysium::Core::Json::JsonNode::AddChild(*OwnedArray);
@@ -96,7 +106,7 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonObject::AddArray(const
 
 void Elysium::Core::Json::JsonObject::Load(JsonReader & JsonReader)
 {
-	String PropertyName;
+	Elysium::Core::Utf8String PropertyName;
 	while (JsonReader.Read())
 	{
 		const JsonToken Token = JsonReader.GetToken();
@@ -157,15 +167,4 @@ void Elysium::Core::Json::JsonObject::Load(JsonReader & JsonReader)
 			throw JsonReaderException();
 		}
 	}
-}
-
-Elysium::Core::Json::JsonObject::JsonObject()
-	: Elysium::Core::Json::JsonNode(),
-	_Name()
-{
-}
-Elysium::Core::Json::JsonObject::JsonObject(const String & Name)
-	: Elysium::Core::Json::JsonNode(),
-	_Name(Name)
-{
 }

@@ -7,8 +7,10 @@
 Elysium::Core::Html::HtmlException::HtmlException()
 	: Elysium::Core::Exception()
 { }
-Elysium::Core::Html::HtmlException::HtmlException(String && Message)
+
+Elysium::Core::Html::HtmlException::HtmlException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
-Elysium::Core::Html::HtmlException::~HtmlException()
+Elysium
+::Core::Html::HtmlException::~HtmlException()
 { }

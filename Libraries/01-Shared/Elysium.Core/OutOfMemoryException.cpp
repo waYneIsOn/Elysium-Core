@@ -10,7 +10,7 @@ Elysium::Core::OutOfMemoryException::OutOfMemoryException()
 Elysium::Core::OutOfMemoryException::OutOfMemoryException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
-Elysium::Core::OutOfMemoryException::OutOfMemoryException(Elysium::Core::String&& Message)
+Elysium::Core::OutOfMemoryException::OutOfMemoryException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::OutOfMemoryException::~OutOfMemoryException()

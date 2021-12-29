@@ -35,12 +35,12 @@ namespace Elysium::Core::Net
 	public:
 		Dns() = delete;
 		
-		static const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> GetHostAddresses(const Elysium::Core::String& HostNameOrAddress);
+		static const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> GetHostAddresses(const Elysium::Core::Utf8String& HostNameOrAddress);
 		/*
 		static const IPHostEntry GetHostEntry(const IPAddress& Address);
-		static const IPHostEntry GetHostEntry(const Elysium::Core::String& Address);
+		static const IPHostEntry GetHostEntry(const Elysium::Core::Utf8String& Address);
 		*/
-		static const Elysium::Core::String GetHostName();
+		static const Elysium::Core::Utf8String GetHostName();
 	private:
 		~Dns() { }
 	};

@@ -10,7 +10,7 @@ Elysium::Core::NotImplementedException::NotImplementedException()
 Elysium::Core::NotImplementedException::NotImplementedException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
-Elysium::Core::NotImplementedException::NotImplementedException(Elysium::Core::String&& Message)
+Elysium::Core::NotImplementedException::NotImplementedException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::NotImplementedException::~NotImplementedException()

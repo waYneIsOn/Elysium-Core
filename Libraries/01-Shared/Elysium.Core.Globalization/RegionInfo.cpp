@@ -20,7 +20,7 @@ Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::int32_
 	: _LCID(Culture)
 { }
 
-Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::String& Name)
+Elysium::Core::Globalization::RegionInfo::RegionInfo(const Elysium::Core::Utf8String& Name)
 	: _LCID(GetLocaleIdFromName(Name))
 { }
 
@@ -55,7 +55,7 @@ Elysium::Core::Globalization::RegionInfo& Elysium::Core::Globalization::RegionIn
 	return *this;
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetDisplayName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::RegionInfo::GetDisplayName() const
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
@@ -72,7 +72,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetDisplay
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetEnglishName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::RegionInfo::GetEnglishName() const
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
@@ -106,7 +106,7 @@ const bool Elysium::Core::Globalization::RegionInfo::GetIsMetric() const
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetNativeName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::RegionInfo::GetNativeName() const
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
@@ -123,7 +123,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetNativeN
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetThreeLetterISORegionName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::RegionInfo::GetThreeLetterISORegionName() const
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
@@ -140,7 +140,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetThreeLe
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetTwoLetterISORegionName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::RegionInfo::GetTwoLetterISORegionName() const
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
@@ -157,7 +157,7 @@ const Elysium::Core::String Elysium::Core::Globalization::RegionInfo::GetTwoLett
 #endif
 }
 
-Elysium::Core::int32_t Elysium::Core::Globalization::RegionInfo::GetLocaleIdFromName(const Elysium::Core::String& Name)
+Elysium::Core::int32_t Elysium::Core::Globalization::RegionInfo::GetLocaleIdFromName(const Elysium::Core::Utf8String& Name)
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =

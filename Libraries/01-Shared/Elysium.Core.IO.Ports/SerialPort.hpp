@@ -37,7 +37,7 @@ namespace Elysium::Core::IO::Ports
 	class ELYSIUM_CORE_IO_PORTS_API SerialPort final
 	{
 	public:
-		SerialPort(const Elysium::Core::String& PortName, const Elysium::Core::uint32_t BaudRate, const Elysium::Core::IO::Ports::Parity Parity, 
+		SerialPort(const Elysium::Core::Utf8String& PortName, const Elysium::Core::uint32_t BaudRate, const Elysium::Core::IO::Ports::Parity Parity, 
 			const Elysium::Core::uint32_t DataBits, const Elysium::Core::IO::Ports::StopBits StopBits);
 		SerialPort(const SerialPort& Source) = delete;
 		SerialPort(SerialPort&& Right) = delete;
@@ -48,7 +48,7 @@ namespace Elysium::Core::IO::Ports
 
 		static const Elysium::Core::uint32_t InfiniteTimeout = -1;
 
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::String> GetPortNames();
+		const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String> GetPortNames();
 	};
 }
 #endif

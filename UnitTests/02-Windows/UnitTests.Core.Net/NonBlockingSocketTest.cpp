@@ -33,7 +33,7 @@ namespace UnitTests::Core::Net::Sockets
 
 			try
 			{
-				ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
+				ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
 				Assert::Fail();
 			}
 			catch (const SocketException& ex)
@@ -49,7 +49,7 @@ namespace UnitTests::Core::Net::Sockets
 				{
 					try
 					{
-						ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
+						ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
 						Assert::Fail();
 					}
 					catch (const SocketException& ex)
@@ -70,7 +70,7 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(ReceiveNothing)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::String(u8"www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
 
 			ClientSocket.SetBlocking(false);
 			Assert::IsFalse(ClientSocket.GetBlocking());

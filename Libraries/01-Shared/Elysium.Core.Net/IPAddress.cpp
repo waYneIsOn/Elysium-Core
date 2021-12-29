@@ -44,7 +44,7 @@ const Elysium::Core::Net::IPAddress & Elysium::Core::Net::IPAddress::Loopback()
 	return Address;
 }
 
-const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const Elysium::Core::String & Value)
+const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const Elysium::Core::Utf8String & Value)
 {
 	// ToDo: IPv6, long etc.
 
@@ -67,7 +67,7 @@ const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const E
 	return IPAddress((IpPart1 << 24) + (IpPart2 << 16) + (IpPart3 << 8) + IpPart4);
 }
 
-const Elysium::Core::String Elysium::Core::Net::IPAddress::ToString() const
+const Elysium::Core::Utf8String Elysium::Core::Net::IPAddress::ToString() const
 {	// ToDo
 	throw 1;
 	/*
@@ -81,11 +81,11 @@ const Elysium::Core::String Elysium::Core::Net::IPAddress::ToString() const
 	switch (_Family)
 	{
 	case Elysium::Core::Net::Sockets::AddressFamily::InterNetwork:
-		return Elysium::Core::String();
+		return Elysium::Core::Utf8String();
 	case Elysium::Core::Net::Sockets::AddressFamily::InterNetworkV6:
-		return Elysium::Core::String();
+		return Elysium::Core::Utf8String();
 	default:
-		return Elysium::Core::String();
+		return Elysium::Core::Utf8String();
 	}
 	*/
 }

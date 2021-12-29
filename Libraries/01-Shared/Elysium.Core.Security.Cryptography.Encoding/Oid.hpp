@@ -41,7 +41,7 @@ namespace Elysium::Core::Security::Cryptography
 		/// <summary>
 		/// 
 		/// </summary>
-		Oid(Elysium::Core::String&& Value, Elysium::Core::String&& FriendlyName);
+		Oid(Elysium::Core::Utf8String&& Value, Elysium::Core::Utf8String&& FriendlyName);
 
 		/// <summary>
 		/// 
@@ -57,7 +57,7 @@ namespace Elysium::Core::Security::Cryptography
 		/// 
 		/// </summary>
 		~Oid();
-
+	public:
 		/// <summary>
 		/// 
 		/// </summary>
@@ -67,29 +67,29 @@ namespace Elysium::Core::Security::Cryptography
 		/// 
 		/// </summary>
 		Oid& operator=(Oid&& Right) noexcept;
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		static Oid FromFriendlyName(const Elysium::Core::Utf8String& FriendlyName, const OidGroup Group);
 
 		/// <summary>
 		/// 
 		/// </summary>
-		static Oid FromFriendlyName(const Elysium::Core::String& FriendlyName, const OidGroup Group);
+		static Oid FromOidValue(const Elysium::Core::Utf8String& OidValue, const OidGroup Group);
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		const Elysium::Core::Utf8String& GetValue() const;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		static Oid FromOidValue(const Elysium::Core::String& OidValue, const OidGroup Group);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		const Elysium::Core::String& GetValue() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		const Elysium::Core::String& GetFriendlyName() const;
+		const Elysium::Core::Utf8String& GetFriendlyName() const;
 	private:
-		Elysium::Core::String _Value;
-		Elysium::Core::String _FriendlyName;
+		Elysium::Core::Utf8String _Value;
+		Elysium::Core::Utf8String _FriendlyName;
 	};
 }
 #endif

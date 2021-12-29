@@ -42,7 +42,7 @@ namespace Elysium::Core::Globalization
 		/// 
 		/// </summary>
 		/// <param name="Name"></param>
-		RegionInfo(const Elysium::Core::String& Name);
+		RegionInfo(const Elysium::Core::Utf8String& Name);
 
 		/// <summary>
 		/// 
@@ -80,13 +80,13 @@ namespace Elysium::Core::Globalization
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Elysium::Core::String GetDisplayName() const;
+		const Elysium::Core::Utf8String GetDisplayName() const;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Elysium::Core::String GetEnglishName() const;
+		const Elysium::Core::Utf8String GetEnglishName() const;
 
 		/// <summary>
 		/// 
@@ -98,23 +98,23 @@ namespace Elysium::Core::Globalization
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Elysium::Core::String GetNativeName() const;
+		const Elysium::Core::Utf8String GetNativeName() const;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Elysium::Core::String GetThreeLetterISORegionName() const;
+		const Elysium::Core::Utf8String GetThreeLetterISORegionName() const;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const Elysium::Core::String GetTwoLetterISORegionName() const;
+		const Elysium::Core::Utf8String GetTwoLetterISORegionName() const;
 	private:
 		Elysium::Core::int32_t _LCID;
 
-		static Elysium::Core::int32_t GetLocaleIdFromName(const Elysium::Core::String& Name);
+		static Elysium::Core::int32_t GetLocaleIdFromName(const Elysium::Core::Utf8String& Name);
 	};
 }
 #endif

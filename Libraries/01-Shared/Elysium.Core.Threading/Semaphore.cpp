@@ -12,7 +12,7 @@ Elysium::Core::Threading::Semaphore::Semaphore(const uint32_t InitialCount, cons
 	: WaitHandle(ELYSIUM_SEMAPHORE_CREATE(nullptr, InitialCount, MaximumCount, nullptr))
 { }
 
-Elysium::Core::Threading::Semaphore::Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const String & Name)
+Elysium::Core::Threading::Semaphore::Semaphore(const uint32_t InitialCount, const uint32_t MaximumCount, const Elysium::Core::Utf8String& Name)
 	: WaitHandle(ELYSIUM_SEMAPHORE_CREATE(nullptr, InitialCount, MaximumCount, nullptr)) // ToDo: last parameter (char8_t -> wchar_t)
 { }
 

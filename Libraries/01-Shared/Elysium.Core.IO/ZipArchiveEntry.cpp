@@ -71,7 +71,7 @@ Elysium::Core::IO::Compression::ZipArchiveEntry& Elysium::Core::IO::Compression:
 
 		Right._Archive = nullptr;
         Right._Reader = nullptr;
-        Right._FileName = Elysium::Core::String();
+        Right._FileName = Elysium::Core::Utf8String();
         Right._RelativeOffsetToFileEntry = 0;
         Right._RelativeOffsetToCompressedData = 0;
         Right._CompressedSize = 0;
@@ -94,7 +94,7 @@ const Elysium::Core::IO::Compression::ZipArchive* Elysium::Core::IO::Compression
     return _Archive;
 }
 
-const Elysium::Core::String & Elysium::Core::IO::Compression::ZipArchiveEntry::GetFullName() const
+const Elysium::Core::Utf8String & Elysium::Core::IO::Compression::ZipArchiveEntry::GetFullName() const
 {
     return _FileName;
 }
@@ -195,7 +195,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
         {   // ToDo
             throw 1;
         }
-        const Elysium::Core::String FileComment = _Archive->GetEntryNameEncoding().GetString(&FileCommentBuffer[0], FileCommentLength);
+        const Elysium::Core::Utf8String FileComment = _Archive->GetEntryNameEncoding().GetString(&FileCommentBuffer[0], FileCommentLength);
     }
 
     if ((GeneralPurposeBitFlag & Zip::ZipBitFlag::DataDescriptor) == Zip::ZipBitFlag::DataDescriptor)
@@ -250,7 +250,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
     {   // ToDo
         throw 1;
     }
-    const Elysium::Core::String FileName = _Archive->GetEntryNameEncoding().GetString(&Buffer[0], FileNameLength);
+    const Elysium::Core::Utf8String FileName = _Archive->GetEntryNameEncoding().GetString(&Buffer[0], FileNameLength);
 
     if (ExtraFieldLength > 0)
     {

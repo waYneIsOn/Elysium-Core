@@ -99,6 +99,6 @@ void Elysium::Core::IO::Compression::ZipArchive::ReadEndOfCentralDirectory()
         {   // ToDo
             throw 1;
         }
-        const Elysium::Core::String Comment = _Encoding.GetString(&Buffer[0], CommentLength);
+        const Elysium::Core::Utf8String Comment = _Encoding.GetString(&Buffer[0], CommentLength);
     }
 }

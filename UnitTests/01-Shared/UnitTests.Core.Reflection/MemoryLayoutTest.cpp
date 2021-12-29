@@ -72,10 +72,10 @@ namespace UnitTests::Core::Reflection
 			//const int Value = (Instance.*Method_Add)(25, 25);
 
 			// constructors - text segment
-			//auto Constructor_Default = &Elysium::Core::String::String;
+			//auto Constructor_Default = &Elysium::Core::Utf8String::String;
 
 			// destructor - text segment
-			//auto Destructor = &Elysium::Core::String::~String;
+			//auto Destructor = &Elysium::Core::Utf8String::~String;
 		}
 
 		TEST_METHOD(PurelyVirtualClassTest)

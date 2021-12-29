@@ -40,7 +40,7 @@ namespace Elysium::Core::Speech::Recognition
 	protected:
 		Grammar();
 	public:
-		Grammar(const String& Path, const String& RuleName);
+		Grammar(const Utf8String& Path, const Utf8String& RuleName);
 
 		Grammar(const Grammar& Source) = delete;
 
@@ -52,13 +52,13 @@ namespace Elysium::Core::Speech::Recognition
 
 		Grammar& operator=(Grammar&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::String& GetName() const;
+		const Elysium::Core::Utf8String& GetName() const;
 
-		//const Elysium::Core::String& GetRuleName() const;
+		//const Elysium::Core::Utf8String& GetRuleName() const;
 
-		void SetName(const String& Value);
+		void SetName(const Utf8String& Value);
 	private:
-		String _Name;
+		Utf8String _Name;
 	};
 }
 #endif

@@ -12,7 +12,7 @@
 #include "../Elysium.Core/BitConverter.hpp"
 #endif
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::String & HostNameOrAddress)
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::Utf8String & HostNameOrAddress)
 {
 	const Text::Encoding& WindowsEncoding = Text::Encoding::UTF16LE();
 	Collections::Template::Array<Elysium::Core::byte> Bytes = WindowsEncoding.GetBytes(&HostNameOrAddress[0], HostNameOrAddress.GetLength(), sizeof(char16_t));
@@ -51,7 +51,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>
 	return Result;
 }
 
-const Elysium::Core::String Elysium::Core::Net::Dns::GetHostName()
+const Elysium::Core::Utf8String Elysium::Core::Net::Dns::GetHostName()
 {
 	throw 1;
 }

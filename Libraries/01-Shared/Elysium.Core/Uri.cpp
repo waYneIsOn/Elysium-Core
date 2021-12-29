@@ -16,35 +16,35 @@
 #include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
-const Elysium::Core::String Elysium::Core::Uri::SchemeDelimiter(u8"://");
+const Elysium::Core::Utf8String Elysium::Core::Uri::SchemeDelimiter(u8"://");
 
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeFile(u8"file");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeFtp(u8"ftp");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeGopher(u8"gopher");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttp(u8"http");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeHttps(u8"https");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeIrc(u8"irc");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeLdap(u8"ldap");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeMailto(u8"mailto");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetPipe(u8"net.pipe");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNetTcp(u8"net.tcp");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNews(u8"news");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeNntp(u8"nntp");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeSecureWebSocket(u8"wss");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeTel(u8"tel");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeTelNet(u8"telnet");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeUrn(u8"urn");
-const Elysium::Core::String Elysium::Core::Uri::UriSchemeWebSocket(u8"ws");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeFile(u8"file");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeFtp(u8"ftp");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeGopher(u8"gopher");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeHttp(u8"http");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeHttps(u8"https");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeIrc(u8"irc");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeLdap(u8"ldap");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeMailto(u8"mailto");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNetPipe(u8"net.pipe");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNetTcp(u8"net.tcp");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNews(u8"news");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNntp(u8"nntp");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeSecureWebSocket(u8"wss");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeTel(u8"tel");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeTelNet(u8"telnet");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeUrn(u8"urn");
+const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeWebSocket(u8"ws");
 
-Elysium::Core::Uri::Uri(const Elysium::Core::String& UriString)
+Elysium::Core::Uri::Uri(const Elysium::Core::Utf8String& UriString)
 	: _OriginalString(UriString), _SchemeView(ParseScheme()), _Parser(GetParser())
 { }
 
-Elysium::Core::Uri::Uri(const Uri BaseUri, const Elysium::Core::String & RelativeUri)
+Elysium::Core::Uri::Uri(const Uri BaseUri, const Elysium::Core::Utf8String & RelativeUri)
 	: _OriginalString(CreateUri(BaseUri._OriginalString, RelativeUri)), _SchemeView(ParseScheme()), _Parser(GetParser())
 { }
 
-Elysium::Core::Uri::Uri(Elysium::Core::String&& UriString)
+Elysium::Core::Uri::Uri(Elysium::Core::Utf8String&& UriString)
 	: _OriginalString(UriString), _SchemeView(ParseScheme()), _Parser(GetParser())
 { }
 
@@ -65,7 +65,7 @@ Elysium::Core::Uri & Elysium::Core::Uri::operator=(const Uri & Source)
 {
 	if (this != &Source)
 	{
-		_OriginalString = String(Source._OriginalString);
+		_OriginalString = Elysium::Core::Utf8String(Source._OriginalString);
 		/*
 		_AbsoluteUri = StringView(Source._AbsoluteUri);
 		_SchemeView = StringView(Source._SchemeView);
@@ -172,7 +172,7 @@ Elysium::Core::UriParser& Elysium::Core::Uri::GetParser()
 	}
 }
 
-const Elysium::Core::String Elysium::Core::Uri::CreateUri(const Uri& BaseUri, const Elysium::Core::String& RelativeUri)
+const Elysium::Core::Utf8String Elysium::Core::Uri::CreateUri(const Uri& BaseUri, const Elysium::Core::Utf8String& RelativeUri)
 {	// ToDo: make this function work correctly in all cases! atm it just concatenates two strings!
 	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder(BaseUri._OriginalString.GetLength() + RelativeUri.GetLength());
 	Builder.Append(BaseUri._OriginalString);

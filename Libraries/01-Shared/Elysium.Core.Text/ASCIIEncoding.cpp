@@ -10,9 +10,9 @@ const bool Elysium::Core::Text::ASCIIEncoding::GetIsSingleByte() const
 {
 	return true;
 }
-const Elysium::Core::String& Elysium::Core::Text::ASCIIEncoding::GetEncodingName() const
+const Elysium::Core::Utf8String& Elysium::Core::Text::ASCIIEncoding::GetEncodingName() const
 {
-	static Elysium::Core::String EncodingName = u8"US-ASCII";
+	static Elysium::Core::Utf8String EncodingName = u8"US-ASCII";
 	return EncodingName;
 }
 
@@ -47,9 +47,9 @@ const Elysium::Core::uint32_t Elysium::Core::Text::ASCIIEncoding::GetCharCount(c
 	return static_cast<Elysium::Core::uint32_t>(ByteCount);
 }
 
-Elysium::Core::String Elysium::Core::Text::ASCIIEncoding::GetString(const Elysium::Core::byte * Bytes, const Elysium::Core::size ByteCount) const
+Elysium::Core::Utf8String Elysium::Core::Text::ASCIIEncoding::GetString(const Elysium::Core::byte * Bytes, const Elysium::Core::size ByteCount) const
 {
-	String Result = String(ByteCount);
+	Utf8String Result = Utf8String(ByteCount);
 	for (Elysium::Core::size i = 0; i < ByteCount; ++i)
 	{
 		Result[i] = Bytes[i];

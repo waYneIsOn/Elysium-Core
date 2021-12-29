@@ -26,15 +26,21 @@ namespace Elysium::Core::Html
 	{
 	public:
 		HtmlDocument();
+
 		HtmlDocument(const HtmlDocument& Source) = delete;
+
 		HtmlDocument(HtmlDocument&& Right) noexcept = delete;
+
 		virtual ~HtmlDocument();
-
+	public:
 		HtmlDocument& operator=(const HtmlDocument& Source) = delete;
-		HtmlDocument& operator=(HtmlDocument&& Right) noexcept = delete;
 
-		virtual const String& GetName() const override;
+		HtmlDocument& operator=(HtmlDocument&& Right) noexcept = delete;
+	public:
+		virtual const Utf8String& GetName() const override;
+
 		virtual const HtmlNodeType GetNodeType() const override;
+
 		HtmlElement& GetRootNode();
 	private:
 		HtmlElement _RootNode;

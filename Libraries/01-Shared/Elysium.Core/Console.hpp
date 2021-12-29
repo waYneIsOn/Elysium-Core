@@ -26,16 +26,20 @@ namespace Elysium::Core
 	{
 	public:
 		Console() = delete;
+
 		Console(const Console& Source) = delete;
+
 		Console(Console&& Right) noexcept = delete;
+
 		~Console() = delete;
-
+	public:
 		Console& operator=(const Console& Source) = delete;
+
 		Console& operator=(Console&& Right) noexcept = delete;
+	public:
+		static const Elysium::Core::Utf8String ReadLine();
 
-		static const String ReadLine();
-
-		static void WriteLine(const String& Value);
+		static void WriteLine(const Elysium::Core::Utf8String& Value);
 	};
 }
 #endif

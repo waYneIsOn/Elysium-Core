@@ -122,7 +122,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::Write(const Elysium::C
 	_InnerStream.Write(Buffer, Count);
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(const Elysium::Core::String & TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection * ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection * ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	WriteClientHello(EnabledTlsProtocols);
 	ReadServerHello();
@@ -323,8 +323,8 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 			ServerCertificate = &ServerCertificates[0];
 			break;
 		default:
-			const Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>& SelectionCallback = _AuthenticationOptions.GetUserCertificateSelectionCallback();
-			ServerCertificate = &SelectionCallback(this, Elysium::Core::String(u8""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::String>(0));
+			const Elysium::Core::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String>&>& SelectionCallback = _AuthenticationOptions.GetUserCertificateSelectionCallback();
+			ServerCertificate = &SelectionCallback(this, Elysium::Core::Utf8String(u8""), ServerCertificates, ServerCertificates[0], Collections::Template::Array<Elysium::Core::Utf8String>(0));
 			break;
 		}
 

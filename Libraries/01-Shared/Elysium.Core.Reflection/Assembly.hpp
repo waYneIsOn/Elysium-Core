@@ -64,7 +64,7 @@ namespace Elysium::Core::Reflection
 
 		bool operator>=(const Assembly& Other) const;
 	public:
-		const Elysium::Core::String& GetFullName() const;
+		const Elysium::Core::Utf8String& GetFullName() const;
 	public:
 		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> GetModules() const;
 	private:

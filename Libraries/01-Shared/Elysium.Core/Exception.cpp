@@ -7,10 +7,10 @@
 Elysium::Core::Exception::Exception()
 	: Elysium::Core::Exception::Exception(u8"Exception")
 { }
-Elysium::Core::Exception::Exception(Elysium::Core::String::ConstCharacterPointer Message)
-	: Elysium::Core::Exception::Exception(Elysium::Core::String(Message))
+Elysium::Core::Exception::Exception(Elysium::Core::Utf8String::ConstCharacterPointer Message)
+	: Elysium::Core::Exception::Exception(Elysium::Core::Utf8String(Message))
 { }
-Elysium::Core::Exception::Exception(Elysium::Core::String && Message)
+Elysium::Core::Exception::Exception(Elysium::Core::Utf8String&& Message)
 	: _Message(Elysium::Core::Template::Functional::Move(Message)),
 	_InnerException(nullptr)
 { }
@@ -28,7 +28,7 @@ const Elysium::Core::Exception * Elysium::Core::Exception::GetInnerException() c
 	return _InnerException;
 }
 
-const Elysium::Core::String & Elysium::Core::Exception::GetExceptionMessage() const
+const Elysium::Core::Utf8String& Elysium::Core::Exception::GetExceptionMessage() const
 {
 	return _Message;
 }

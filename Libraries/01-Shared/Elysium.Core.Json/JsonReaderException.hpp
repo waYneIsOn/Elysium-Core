@@ -22,7 +22,9 @@ namespace Elysium::Core::Json
 	{
 	public:
 		JsonReaderException();
-		JsonReaderException(String&& Message);
+
+		JsonReaderException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~JsonReaderException();
 	};
 }

@@ -38,7 +38,7 @@ Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::int3
 	: _LCID(Culture), _UseUserOverride(UseUserOverride)
 { }
 
-Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::String& Name, const bool UseUserOverride)
+Elysium::Core::Globalization::CultureInfo::CultureInfo(const Elysium::Core::Utf8String& Name, const bool UseUserOverride)
 	: _LCID(GetLocaleIdFromName(Name)), _UseUserOverride(UseUserOverride)
 { }
 
@@ -92,7 +92,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Globalization::
 	return CultureInfos;
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDisplayName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::CultureInfo::GetDisplayName() const
 {
 #if defined (ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION)
 	throw 1;
@@ -109,7 +109,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetDispla
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglishName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::CultureInfo::GetEnglishName() const
 {
 #if defined (ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION)
 	throw 1;
@@ -126,7 +126,7 @@ const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetEnglis
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Globalization::CultureInfo::GetName() const
+const Elysium::Core::Utf8String Elysium::Core::Globalization::CultureInfo::GetName() const
 {
 #if defined (ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION)
 	return Internal::Fallback::LocaleRepository::GetNameFromId(_LCID);
@@ -153,7 +153,7 @@ Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::Cul
 	return Elysium::Core::Globalization::NumberFormatInfo(_LCID, false);
 }
 
-Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFromName(const Elysium::Core::String& Name)
+Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFromName(const Elysium::Core::Utf8String& Name)
 {
 #if defined (ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION)
 	throw 1;

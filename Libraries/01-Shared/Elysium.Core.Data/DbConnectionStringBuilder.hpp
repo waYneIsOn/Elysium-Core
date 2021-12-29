@@ -41,15 +41,15 @@ namespace Elysium::Core::Data::Common
 
 		DbConnectionStringBuilder& operator=(DbConnectionStringBuilder&& Right) noexcept = delete;
 
-		Elysium::Core::String& operator[](const Elysium::Core::String& Key);
+		Elysium::Core::Utf8String& operator[](const Elysium::Core::Utf8String& Key);
 
-		const Elysium::Core::String& operator[](const Elysium::Core::String& Key) const;
+		const Elysium::Core::Utf8String& operator[](const Elysium::Core::Utf8String& Key) const;
 	public:
-		Elysium::Core::String GetConnectionString();
+		Elysium::Core::Utf8String GetConnectionString();
 	public:
-		virtual void SetConnectionString(const Elysium::Core::String& ConnectionString);
+		virtual void SetConnectionString(const Elysium::Core::Utf8String& ConnectionString);
 	protected:
-		Elysium::Core::Template::Container::HashTable<Elysium::Core::String, Elysium::Core::String> _KeyValueMap;
+		Elysium::Core::Template::Container::HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String> _KeyValueMap;
 	};
 }
 #endif

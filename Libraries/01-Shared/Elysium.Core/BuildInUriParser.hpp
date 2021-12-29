@@ -21,12 +21,16 @@ namespace Elysium::Core
 	class BuildInUriParser : public Elysium::Core::UriParser
 	{
 	public:
-		BuildInUriParser(String Scheme, int Port, UriSyntaxFlags RequiredComponents);
-		BuildInUriParser(const BuildInUriParser& Source) = delete;
-		BuildInUriParser(BuildInUriParser&& Right) noexcept = delete;
-		virtual ~BuildInUriParser();
+		BuildInUriParser(Elysium::Core::Utf8String Scheme, int Port, UriSyntaxFlags RequiredComponents);
 
+		BuildInUriParser(const BuildInUriParser& Source) = delete;
+
+		BuildInUriParser(BuildInUriParser&& Right) noexcept = delete;
+
+		virtual ~BuildInUriParser();
+	public:
 		BuildInUriParser& operator=(const BuildInUriParser& Source) = delete;
+
 		BuildInUriParser& operator=(BuildInUriParser&& Right) noexcept = delete;
 	};
 }

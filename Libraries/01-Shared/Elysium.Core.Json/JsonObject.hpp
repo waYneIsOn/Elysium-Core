@@ -30,6 +30,9 @@ namespace Elysium::Core::Json
 	{
 		friend class JsonDocument;
 		friend class JsonArray;
+	private:
+		JsonObject();
+		JsonObject(const Elysium::Core::Utf8String& Name);
 	public:
 		JsonObject(const JsonObject& Source) = delete;
 		JsonObject(JsonObject&& Right) noexcept = delete;
@@ -38,28 +41,25 @@ namespace Elysium::Core::Json
 		JsonObject& operator=(const JsonObject& Source) = delete;
 		JsonObject& operator=(JsonObject&& Right) noexcept = delete;
 
-		const String& GetName() const override;
+		const Elysium::Core::Utf8String& GetName() const override;
 		virtual const JsonNodeType GetNodeType() const override;
 
 		virtual void WriteTo(JsonWriter& Writer) const override;
 
-		JsonElement& AddElement(const String& Name, const String& Value);
-		JsonElement& AddElement(const String& Name, const int32_t Value);
-		JsonElement& AddElement(const String& Name, const float Value);
-		JsonElement& AddElement(const String& Name, const double Value);
-		JsonElement& AddElement(const String& Name, const bool Value);
-		JsonElement& AddElement(const String& Name);
+		JsonElement& AddElement(const Elysium::Core::Utf8String& Name, const Elysium::Core::Utf8String& Value);
+		JsonElement& AddElement(const Elysium::Core::Utf8String& Name, const int32_t Value);
+		JsonElement& AddElement(const Elysium::Core::Utf8String& Name, const float Value);
+		JsonElement& AddElement(const Elysium::Core::Utf8String& Name, const double Value);
+		JsonElement& AddElement(const Elysium::Core::Utf8String& Name, const bool Value);
+		JsonElement& AddElement(const Elysium::Core::Utf8String& Name);
 
-		JsonObject& AddObject(const String& Name);
+		JsonObject& AddObject(const Elysium::Core::Utf8String& Name);
 
-		JsonArray& AddArray(const String& Name);
+		JsonArray& AddArray(const Elysium::Core::Utf8String& Name);
 	protected:
 		virtual void Load(JsonReader& JsonReader) override;
 	private:
-		JsonObject();
-		JsonObject(const String& Name);
-
-		String _Name;
+		Elysium::Core::Utf8String _Name;
 	};
 }
 #endif

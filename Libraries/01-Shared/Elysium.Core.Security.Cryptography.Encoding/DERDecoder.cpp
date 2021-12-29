@@ -400,7 +400,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 	{
 		case Asn1UniversalTag::UTCTime:
 		{
-			const Elysium::Core::String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
+			const Elysium::Core::Utf8String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
 			if (Value.EndsWith(u8"Z"))
 			{	// "YYMMDDhhmm[ss]Z
 				const Elysium::Core::int32_t Year = 1900 + Elysium::Core::Convert::ToInt32(&Value[0], 2, 10);

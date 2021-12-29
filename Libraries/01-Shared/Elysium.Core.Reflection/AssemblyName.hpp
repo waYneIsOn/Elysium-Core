@@ -29,29 +29,39 @@ namespace Elysium::Core::Reflection
 	class ELYSIUM_CORE_API AssemblyName final
 	{
 	public:
-		AssemblyName(const String& AssemblyName, const Version& AssemblyVersion);
+		AssemblyName(const Utf8String& AssemblyName, const Version& AssemblyVersion);
+
 		AssemblyName(const AssemblyName& Source);
+
 		AssemblyName(AssemblyName&& Right) noexcept = delete;
+
 		~AssemblyName();
-
+	public:
 		AssemblyName& operator=(const AssemblyName& Source);
+
 		AssemblyName& operator=(AssemblyName&& Right) noexcept = delete;
-
+	public:
 		bool operator==(const AssemblyName& Other) const;
-		bool operator!=(const AssemblyName& Other) const;
-		bool operator<(const AssemblyName& Other) const;
-		bool operator>(const AssemblyName& Other) const;
-		bool operator<=(const AssemblyName& Other) const;
-		bool operator>=(const AssemblyName& Other) const;
 
-		const Elysium::Core::String& GetName() const;
+		bool operator!=(const AssemblyName& Other) const;
+
+		bool operator<(const AssemblyName& Other) const;
+
+		bool operator>(const AssemblyName& Other) const;
+
+		bool operator<=(const AssemblyName& Other) const;
+
+		bool operator>=(const AssemblyName& Other) const;
+	public:
+		const Elysium::Core::Utf8String& GetName() const;
+
 		const Elysium::Core::Version& GetVersion() const;
 		/*
 		const CultureInfo& GetCultureInfo() const;
 		const String& GetFullName() const;
 		*/
 	private:
-		String _Name;
+		Utf8String _Name;
 		Version _Version;
 	};
 }

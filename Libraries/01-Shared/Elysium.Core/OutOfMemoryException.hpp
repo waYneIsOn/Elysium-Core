@@ -23,7 +23,7 @@ namespace Elysium::Core
 	public:
 		OutOfMemoryException();
 		OutOfMemoryException(const char8_t* Message);
-		OutOfMemoryException(Elysium::Core::String&& Message);
+		OutOfMemoryException(Elysium::Core::Utf8String&& Message);
 		virtual ~OutOfMemoryException();
 	};
 }

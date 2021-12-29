@@ -16,16 +16,22 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
+{ }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext)
 	: _CertificateContext(CertDuplicateCertificateContext(CertificateContext))
 { }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(const X509Certificate & Source)
 	: _CertificateContext(CertDuplicateCertificateContext(Source._CertificateContext))
 { }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(X509Certificate && Right) noexcept
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::~X509Certificate()
 {
 	if (_CertificateContext != nullptr)
@@ -55,7 +61,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysi
 	return *this;
 }
 
-const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetIssuer() const
+const Elysium::Core::Utf8String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetIssuer() const
 {
 	unsigned long BufferLength = CertNameToStrA(X509_ASN_ENCODING, &_CertificateContext->pCertInfo->Issuer, CERT_X500_NAME_STR, nullptr, 0);
 
@@ -64,7 +70,8 @@ const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certifica
 
 	return Elysium::Core::Text::Encoding::UTF8().GetString(&Buffer[0], Buffer.GetLength());
 }
-const Elysium::Core::String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetSubject() const
+
+const Elysium::Core::Utf8String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetSubject() const
 {
 	unsigned long BufferLength = CertNameToStrA(X509_ASN_ENCODING, &_CertificateContext->pCertInfo->Subject, CERT_X500_NAME_STR, nullptr, 0);
 
@@ -108,11 +115,12 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 	}
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const String & Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
 {
 	return LoadFromBlob(&RawData[0], static_cast<const int32_t>(RawData.GetLength()), Password, Flags);
 }
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const String & Password, const X509KeyStorageFlags Flags)
+
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
 {
 	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, RawData, DataLength);
 	if (CertificateContextPointer == nullptr)
@@ -122,7 +130,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	return X509Certificate(CertificateContextPointer);
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const String & FileName, const String & Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const Elysium::Core::Utf8String& FileName, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
 {
 	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
 	Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(SourceStream.GetLength());
@@ -156,6 +164,3 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 
 	return LoadFromBlob(Buffer, Password, Flags);
 }
-
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
-{ }

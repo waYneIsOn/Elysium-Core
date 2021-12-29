@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		NotSupportedException();
+
 		NotSupportedException(const char8_t* Message);
-		NotSupportedException(String&& Message);
+
+		NotSupportedException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~NotSupportedException();
 	};
 }

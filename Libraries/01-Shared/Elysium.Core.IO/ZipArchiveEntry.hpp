@@ -53,7 +53,7 @@ namespace Elysium::Core::IO::Compression
 		const bool operator!=(const ZipArchiveEntry& Other);
 
 		const Elysium::Core::IO::Compression::ZipArchive* GetArchive() const;
-		const Elysium::Core::String& GetFullName() const;
+		const Elysium::Core::Utf8String& GetFullName() const;
 		const Elysium::Core::Utf8StringView GetName() const;
 
 		Elysium::Core::IO::ReadOnlyStream Open();
@@ -63,7 +63,7 @@ namespace Elysium::Core::IO::Compression
 		ZipArchive* _Archive;
         BinaryReader* _Reader;
 
-		Elysium::Core::String _FileName;
+		Elysium::Core::Utf8String _FileName;
 		Elysium::Core::uint32_t _RelativeOffsetToFileEntry = 0;
 		Elysium::Core::uint32_t _RelativeOffsetToCompressedData = 0;
 		Elysium::Core::uint32_t _CompressedSize = 0;

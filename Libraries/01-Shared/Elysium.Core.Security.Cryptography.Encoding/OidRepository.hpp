@@ -41,8 +41,8 @@ namespace Elysium::Core::Security::Cryptography
 		OidRepository& operator=(const OidRepository& Source) = delete;
 		OidRepository& operator=(OidRepository&& Right) noexcept = delete;
 
-		//static OidNode FromFriendlyName(const Elysium::Core::String& FriendlyName, const OidGroup Group);
-		//static OidNode FromOidValue(const Elysium::Core::String& OidValue, const OidGroup Group);
+		//static OidNode FromFriendlyName(const Elysium::Core::Utf8String& FriendlyName, const OidGroup Group);
+		//static OidNode FromOidValue(const Elysium::Core::Utf8String& OidValue, const OidGroup Group);
 	private:
 		/*
 		inline static const OidNode _InternationalTelecommunication = OidNode(0, u8"itu-t");

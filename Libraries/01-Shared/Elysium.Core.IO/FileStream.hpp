@@ -88,13 +88,13 @@ namespace Elysium::Core::IO
 	{
 		friend class FileStreamAsyncResult;
 	public:
-		FileStream(const String& Path, const FileMode Mode);
+		FileStream(const Utf8String& Path, const FileMode Mode);
 
-		FileStream(const String& Path, const FileMode Mode, const FileAccess Access);
+		FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access);
 
-		FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share);
+		FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share);
 
-		FileStream(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options);
+		FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options);
 		
 		FileStream(const FileStream& Source) = delete;
 
@@ -156,7 +156,7 @@ namespace Elysium::Core::IO
 	private:
 		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
 	private:
-		const String _Path;
+		const Utf8String _Path;
 		Elysium::Core::size _Position = 0;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -165,7 +165,7 @@ namespace Elysium::Core::IO
 		HANDLE _FileHandle;
 		PTP_IO _CompletionPortHandle;
 
-		static HANDLE CreateNativeFileHandle(const String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options);
+		static HANDLE CreateNativeFileHandle(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const FileOptions Options);
 
 		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult,
 			ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);

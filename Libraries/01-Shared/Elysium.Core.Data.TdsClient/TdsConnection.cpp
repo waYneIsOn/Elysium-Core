@@ -16,7 +16,7 @@
 #include "../Elysium.Core.Net/SocketException.hpp"
 #endif
 
-Elysium::Core::Data::TdsClient::TdsConnection::TdsConnection(const TdsVersion Version, const Elysium::Core::String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)
+Elysium::Core::Data::TdsClient::TdsConnection::TdsConnection(const TdsVersion Version, const Elysium::Core::Utf8String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)
 	: DbConnection(ConnectionString, ConnectionTimeout),
 	_TransportSocket(Net::Sockets::AddressFamily::InterNetwork, Net::Sockets::SocketType::Stream, Net::Sockets::ProtocolType::Tcp)
 {
@@ -36,7 +36,7 @@ void Elysium::Core::Data::TdsClient::TdsConnection::Open()
 			TdsConnectionStringBuilder ConnectionStringBuilder = TdsConnectionStringBuilder();
 			ConnectionStringBuilder.SetConnectionString(_ConnectionString);
 
-			const String& Server = ConnectionStringBuilder.GetServer();
+			const Elysium::Core::Utf8String& Server = ConnectionStringBuilder.GetServer();
 			const Elysium::Core::size IndexOfPort = Server.IndexOf(u8',');
 			const Utf8StringView Host = IndexOfPort == -1 ? Utf8StringView(&Server[0]) : Utf8StringView(&Server[0], IndexOfPort);
 			const Elysium::Core::uint16_t Port = IndexOfPort == -1 ? 1433 : Convert::ToUInt16(&Server[IndexOfPort + 1], 10);
@@ -108,7 +108,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::Data::IDbCommand> 
 	throw 1;
 }
 
-void Elysium::Core::Data::TdsClient::TdsConnection::ChangeDatabase(const String& DatabaseName)
+void Elysium::Core::Data::TdsClient::TdsConnection::ChangeDatabase(const Elysium::Core::Utf8String& DatabaseName)
 {
 	throw 1;
 }

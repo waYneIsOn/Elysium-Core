@@ -253,7 +253,7 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 				Tuple<char8_t, int32_t>(0xFC, 0), Tuple<char8_t, int32_t>(0xFD, 0), Tuple<char8_t, int32_t>(0xFE, 0), Tuple<char8_t, int32_t>(0xFF, 0),
 			};
 
-			String Input = u8">This is some< test הצ?`ßהצü.";
+			Elysium::Core::Utf8String Input = u8">This is some< test הצ?`ßהצü.";
 			for (Elysium::Core::size i = 0; i < Input.GetLength(); i++)
 			{
 				Elysium::Core::byte CurrentByte = Input[i];

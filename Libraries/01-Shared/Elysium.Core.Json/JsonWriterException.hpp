@@ -22,7 +22,9 @@ namespace Elysium::Core::Json
 	{
 	public:
 		JsonWriterException();
-		JsonWriterException(String&& Message);
+
+		JsonWriterException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~JsonWriterException();
 	};
 }

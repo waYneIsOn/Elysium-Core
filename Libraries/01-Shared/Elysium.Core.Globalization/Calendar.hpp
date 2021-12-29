@@ -30,15 +30,18 @@ namespace Elysium::Core::Globalization
 	{
 	public:
 		Calendar(const Calendar& Source) = delete;
-		Calendar(Calendar&& Right) noexcept = delete;
-		virtual ~Calendar();
 
+		Calendar(Calendar&& Right) noexcept = delete;
+
+		virtual ~Calendar();
+	public:
 		Calendar& operator=(const Calendar& Source) = delete;
+
 		Calendar& operator=(Calendar&& Right) noexcept = delete;
 	protected:
 		Calendar();
 	private:
-		Elysium::Core::String _Name;
+		Elysium::Core::Utf8String _Name;
 		//Elysium::Core::int32_t _LCID;
 	};
 }

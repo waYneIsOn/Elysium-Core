@@ -15,14 +15,14 @@ namespace UnitTests::Core::Template::Container
 	public:
 		TEST_METHOD(PointerPointer)
 		{
-			String Rtf = u8"rtf";
-			String Bmp = u8"bmp";
-			String Dib = u8"dib";
+			Elysium::Core::Utf8String Rtf = u8"rtf";
+			Elysium::Core::Utf8String Bmp = u8"bmp";
+			Elysium::Core::Utf8String Dib = u8"dib";
 
-			String Wordpad = u8"wordpad.exe";
-			String Paint = u8"paint.exe";
+			Elysium::Core::Utf8String Wordpad = u8"wordpad.exe";
+			Elysium::Core::Utf8String Paint = u8"paint.exe";
 
-			HashTable<String*, String*> Instance =
+			HashTable<Elysium::Core::Utf8String*, Elysium::Core::Utf8String*> Instance =
 			{
 				{ &Rtf, &Wordpad },
 				{ &Bmp, &Paint },
@@ -30,10 +30,10 @@ namespace UnitTests::Core::Template::Container
 			};
 			
 			Elysium::Core::size i = 0;
-			for (HashTable<String*, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String*, Elysium::Core::Utf8String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String*, String*>>* Node = *Iterator;
-				KeyValuePair<String*, String*>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String*, Elysium::Core::Utf8String*>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String*, Elysium::Core::Utf8String*>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()->operator[](0));
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
@@ -46,11 +46,11 @@ namespace UnitTests::Core::Template::Container
 
 		TEST_METHOD(PointerValue)
 		{
-			String Rtf = u8"rtf";
-			String Bmp = u8"bmp";
-			String Dib = u8"dib";
+			Elysium::Core::Utf8String Rtf = u8"rtf";
+			Elysium::Core::Utf8String Bmp = u8"bmp";
+			Elysium::Core::Utf8String Dib = u8"dib";
 
-			HashTable<String*, String> Instance =
+			HashTable<Elysium::Core::Utf8String*, Elysium::Core::Utf8String> Instance =
 			{
 				{ &Rtf, u8"wordpad.exe" },
 				{ &Bmp, u8"paint.exe" },
@@ -58,10 +58,10 @@ namespace UnitTests::Core::Template::Container
 			};
 
 			Elysium::Core::size i = 0;
-			for (HashTable<String*, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String*, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String*, String>>* Node = *Iterator;
-				KeyValuePair<String*, String>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String*, Elysium::Core::Utf8String>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String*, Elysium::Core::Utf8String>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()->operator[](0));
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()[0]);
@@ -74,12 +74,12 @@ namespace UnitTests::Core::Template::Container
 
 		TEST_METHOD(ValuePointer)
 		{
-			String Wordpad = u8"wordpad.exe";
-			String Paint = u8"paint.exe";
-			String Notepad = u8"notepad.exe";
-			String Notepadpp = u8"notepad++.exe";
+			Elysium::Core::Utf8String Wordpad = u8"wordpad.exe";
+			Elysium::Core::Utf8String Paint = u8"paint.exe";
+			Elysium::Core::Utf8String Notepad = u8"notepad.exe";
+			Elysium::Core::Utf8String Notepadpp = u8"notepad++.exe";
 
-			HashTable<String, String*> Instance =
+			HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String*> Instance =
 			{
 				{ u8"rtf", &Wordpad },
 				{ u8"bmp", &Paint },
@@ -87,10 +87,10 @@ namespace UnitTests::Core::Template::Container
 			};
 
 			Elysium::Core::size i = 0;
-			for (HashTable<String, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String*>>* Node = *Iterator;
-				KeyValuePair<String, String*>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
@@ -103,10 +103,10 @@ namespace UnitTests::Core::Template::Container
 			// ...
 			Instance.Set(u8"txt", &Notepad);
 			i = 0;
-			for (HashTable<String, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String*>>* Node = *Iterator;
-				KeyValuePair<String, String*>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
@@ -119,10 +119,10 @@ namespace UnitTests::Core::Template::Container
 			// ...
 			Instance.Set(u8"txt", &Notepadpp);
 			i = 0;
-			for (HashTable<String, String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String*>>* Node = *Iterator;
-				KeyValuePair<String, String*>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String*>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()->operator[](0));
@@ -135,10 +135,10 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(ValueValue)
 		{
 			Elysium::Core::size i = 0;
-			HashTable<String, String> Instance = HashTable<String, String>();
+			HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String> Instance = HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>();
 			
-			const HashTable<String, String>& ConstInstance = Instance;
-			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			const HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>& ConstInstance = Instance;
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				Assert::Fail();
 			}
@@ -146,10 +146,10 @@ namespace UnitTests::Core::Template::Container
 			Instance.Add(u8"bmp", u8"paint.exe");
 			Instance.Add(u8"dib", u8"paint.exe");
 
-			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
-				KeyValuePair<String, String>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()[0]);
@@ -172,10 +172,10 @@ namespace UnitTests::Core::Template::Container
 			Instance.Set(u8"txt", u8"notepad.exe");
 
 			i = 0;
-			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
-				KeyValuePair<String, String>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()[0]);
@@ -189,10 +189,10 @@ namespace UnitTests::Core::Template::Container
 			Instance.Set(u8"txt", u8"notepad++.exe");
 
 			i = 0;
-			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
-				KeyValuePair<String, String>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()[0]);
@@ -205,7 +205,7 @@ namespace UnitTests::Core::Template::Container
 			// ...
 			Instance.Clear();
 			i = 0;
-			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
 				Assert::Fail();
 			}
@@ -215,10 +215,10 @@ namespace UnitTests::Core::Template::Container
 			Instance.Add(u8"456", u8"456.exe");
 			Instance.Set(u8"789", u8"789.exe");
 			i = 0;
-			for (HashTable<String, String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
+			for (HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				LinkedListNode<KeyValuePair<String, String>>* Node = *Iterator;
-				KeyValuePair<String, String>& Item = Node->GetItem();
+				LinkedListNode<KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>>* Node = *Iterator;
+				KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String>& Item = Node->GetItem();
 				Logger::WriteMessage((char*)&Item.GetKey()[0]);
 				Logger::WriteMessage(" - ");
 				Logger::WriteMessage((char*)&Item.GetValue()[0]);
@@ -229,7 +229,7 @@ namespace UnitTests::Core::Template::Container
 			Logger::WriteMessage("\r\n");
 
 			// ...
-			String& AssociatedValue = Instance[u8"123"];
+			Elysium::Core::Utf8String& AssociatedValue = Instance[u8"123"];
 			AssertExtended::AreEqual(u8"123.exe", AssociatedValue);
 
 			//const String& ConstAssociatedValue = ConstInstance[u8"456"];

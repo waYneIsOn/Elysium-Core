@@ -252,7 +252,7 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Clear(&_OutBuffer[0], _OutBuffer.GetLength());
 }
 
-void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	_TargetHost = TargetHost;
 	_TlsProtocols = EnabledTlsProtocols;

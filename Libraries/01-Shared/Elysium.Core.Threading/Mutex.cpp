@@ -8,7 +8,7 @@ Elysium::Core::Threading::Mutex::Mutex(const bool InitiallyOwned)
 	: WaitHandle(ELYSIUM_MUTEX_CREATE(nullptr, InitiallyOwned, nullptr))
 { }
 
-Elysium::Core::Threading::Mutex::Mutex(const bool InitiallyOwned, const String & Name)
+Elysium::Core::Threading::Mutex::Mutex(const bool InitiallyOwned, const Elysium::Core::Utf8String& Name)
 	: WaitHandle(ELYSIUM_MUTEX_CREATE(nullptr, InitiallyOwned, nullptr)) // ToDo: last parameter (char8_t -> wchar_t)
 { }
 

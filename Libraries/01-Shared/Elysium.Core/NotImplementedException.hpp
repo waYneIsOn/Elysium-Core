@@ -23,7 +23,7 @@ namespace Elysium::Core
 	public:
 		NotImplementedException();
 		NotImplementedException(const char8_t* Message);
-		NotImplementedException(Elysium::Core::String&& Message);
+		NotImplementedException(Elysium::Core::Utf8String&& Message);
 		virtual ~NotImplementedException();
 	};
 }

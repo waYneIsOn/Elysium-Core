@@ -22,24 +22,30 @@ namespace Elysium::Core::Html
 	class ELYSIUM_CORE_HTML_API HtmlElement final : public HtmlNode
 	{
 		friend class HtmlDocument;
+	private:
+		HtmlElement(const HtmlNodeType NodeType, const Utf8String& Value);
+
+		HtmlElement(const Utf8String& Name, const HtmlNodeType NodeType, const Utf8String& Value);
 	public:
 		HtmlElement(const HtmlElement& Source) = delete;
+
 		HtmlElement(HtmlElement&& Right) noexcept = delete;
+
 		virtual ~HtmlElement();
-
+	public:
 		HtmlElement& operator=(const HtmlElement& Source) = delete;
+
 		HtmlElement& operator=(HtmlElement&& Right) noexcept = delete;
+	public:
+		virtual const Utf8String& GetName() const override;
 
-		virtual const String& GetName() const override;
 		virtual const HtmlNodeType GetNodeType() const override;
-		const String& GetValue() const;
-	private:
-		HtmlElement(const HtmlNodeType NodeType, const String& Value);
-		HtmlElement(const String& Name, const HtmlNodeType NodeType, const String& Value);
 
-		String _Name;
+		const Utf8String& GetValue() const;
+	private:
+		Utf8String _Name;
 		HtmlNodeType _Type;
-		String _Value;
+		Utf8String _Value;
 	};
 }
 #endif

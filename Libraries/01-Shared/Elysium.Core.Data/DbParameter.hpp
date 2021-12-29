@@ -39,9 +39,9 @@ namespace Elysium::Core::Data::Common
 
 		virtual const bool GetIsNullable() const override;
 
-		virtual const Elysium::Core::String GetParameterName() const override;
+		virtual const Elysium::Core::Utf8String GetParameterName() const override;
 
-		virtual const Elysium::Core::String GetSourceColumn() const override;
+		virtual const Elysium::Core::Utf8String GetSourceColumn() const override;
 
 		virtual const DataRowVersion GetSourceVersion() const override;
 
@@ -57,9 +57,9 @@ namespace Elysium::Core::Data::Common
 
 		virtual void SetIsNullable(const bool IsNullable) override;
 
-		virtual void SetParameterName(const Elysium::Core::String& ParameterName) override;
+		virtual void SetParameterName(const Elysium::Core::Utf8String& ParameterName) override;
 
-		virtual void SetSourceColumn(const Elysium::Core::String& SourceColumn) override;
+		virtual void SetSourceColumn(const Elysium::Core::Utf8String& SourceColumn) override;
 
 		virtual void SetSourceVersion(DataRowVersion Version) override;
 	public:
@@ -75,7 +75,7 @@ namespace Elysium::Core::Data::Common
 
 		virtual void SetValue(const char8_t* Value, const Elysium::Core::size Length) override;
 
-		virtual void SetValue(const Elysium::Core::String& Value) override;
+		virtual void SetValue(const Elysium::Core::Utf8String& Value) override;
 
 		virtual void SetValue(const DateTime& Value) override;
 
@@ -110,8 +110,8 @@ namespace Elysium::Core::Data::Common
 		DbType _DbType;
 		ParameterDirection _Direction = ParameterDirection::Input;
 		bool _IsNullable = true;
-		Elysium::Core::String _ParameterName;
-		Elysium::Core::String _SourceColumn;
+		Elysium::Core::Utf8String _ParameterName;
+		Elysium::Core::Utf8String _SourceColumn;
 		DataRowVersion _SourceVersion;
 		std::vector<byte> _Data;
 		const DBNull* _DBNullPointer;

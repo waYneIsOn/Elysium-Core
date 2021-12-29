@@ -38,7 +38,7 @@ const HRESULT Elysium::Core::Runtime::InteropServices::ExternalException::GetHRe
 	return static_cast<HRESULT>(_ErrorCode);
 }
 
-Elysium::Core::String Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorMessage(const Elysium::Core::int32_t ErrorCode)
+Elysium::Core::Utf8String Elysium::Core::Runtime::InteropServices::ExternalException::GetErrorMessage(const Elysium::Core::int32_t ErrorCode)
 {
 	_com_error COMError = _com_error(ErrorCode);
 	const wchar_t* ErrorMessageW = COMError.ErrorMessage();

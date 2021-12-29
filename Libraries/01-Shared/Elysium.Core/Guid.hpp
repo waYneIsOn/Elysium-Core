@@ -59,7 +59,7 @@ namespace Elysium::Core
 		static Guid Parse(const char8_t* Input);
 
 		const byte* ToByteArray() const;
-		String ToString() const;
+		Utf8String ToString() const;
 	private:
 		//byte _Data[16];
 		Elysium::Core::uint64_t _Data;

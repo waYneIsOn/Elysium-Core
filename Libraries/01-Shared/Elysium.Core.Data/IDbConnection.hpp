@@ -47,15 +47,15 @@ namespace Elysium::Core::Data
 	public:
 		virtual ~IDbConnection() {}
 	public:
-		virtual const Elysium::Core::String& GetConnectionString() const = 0;
+		virtual const Elysium::Core::Utf8String& GetConnectionString() const = 0;
 
 		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const = 0;
 
-		virtual const Elysium::Core::String& GetDatabase() const = 0;
+		virtual const Elysium::Core::Utf8String& GetDatabase() const = 0;
 
 		virtual const ConnectionState& GetState() const = 0;
 	public:
-		virtual void SetConnectionString(const String& ConnectionString) = 0;
+		virtual void SetConnectionString(const Elysium::Core::Utf8String& ConnectionString) = 0;
 	public:
 		virtual void Open() = 0;
 
@@ -67,7 +67,7 @@ namespace Elysium::Core::Data
 
 		virtual Elysium::Core::Template::Memory::UniquePointer<IDbCommand> CreateCommand() = 0;
 
-		virtual void ChangeDatabase(const String& DatabaseName) = 0;
+		virtual void ChangeDatabase(const Elysium::Core::Utf8String& DatabaseName) = 0;
 	};
 }
 #endif

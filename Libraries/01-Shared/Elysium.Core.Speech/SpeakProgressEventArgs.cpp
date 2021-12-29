@@ -4,7 +4,7 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Speech::Synthesis::SpeakProgressEventArgs::SpeakProgressEventArgs(String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t CharacterCount, const Elysium::Core::uint64_t CharacterPosition)
+Elysium::Core::Speech::Synthesis::SpeakProgressEventArgs::SpeakProgressEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t CharacterCount, const Elysium::Core::uint64_t CharacterPosition)
 	: Elysium::Core::Speech::Synthesis::PromptEventArgs(Elysium::Core::Template::Functional::Move(Prompt)),
 	_AudioPosition(AudioPositionTicks), _CharacterCount(CharacterCount), _CharacterPosition(CharacterPosition)
 { }

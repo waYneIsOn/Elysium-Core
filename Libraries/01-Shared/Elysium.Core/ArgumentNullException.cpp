@@ -7,11 +7,14 @@
 Elysium::Core::ArgumentNullException::ArgumentNullException()
 	: Elysium::Core::ArgumentException(u8"ArgumentNullException")
 { }
+
 Elysium::Core::ArgumentNullException::ArgumentNullException(const char8_t* Message)
 	: Elysium::Core::ArgumentException(Message)
 { }
-Elysium::Core::ArgumentNullException::ArgumentNullException(Elysium::Core::String && Message)
+
+Elysium::Core::ArgumentNullException::ArgumentNullException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::ArgumentException(Elysium::Core::Template::Functional::Move(Message))
 { }
+
 Elysium::Core::ArgumentNullException::~ArgumentNullException()
 { }

@@ -29,7 +29,7 @@ namespace Elysium::Core::Diagnostics
 	class ELYSIUM_CORE_API StackFrame final
 	{
 	public:
-		StackFrame(const String& FileName, const Elysium::Core::uint32_t LineNumber, const Elysium::Core::uint32_t ColumnNumber) = delete;
+		StackFrame(const Elysium::Core::Utf8String& FileName, const Elysium::Core::uint32_t LineNumber, const Elysium::Core::uint32_t ColumnNumber) = delete;
 
 		StackFrame(const StackFrame& Source) = delete;
 
@@ -43,7 +43,7 @@ namespace Elysium::Core::Diagnostics
 	public:
 
 	private:
-		String _FileName;
+		Elysium::Core::Utf8String _FileName;
 		Elysium::Core::uint32_t _LineNumber;
 		Elysium::Core::uint32_t _ColumnNumber;
 	};

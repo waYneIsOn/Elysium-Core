@@ -23,7 +23,7 @@ namespace Elysium::Core
 	public:
 		DivideByZeroException();
 		DivideByZeroException(const char8_t* Message);
-		DivideByZeroException(Elysium::Core::String&& Message);
+		DivideByZeroException(Elysium::Core::Utf8String&& Message);
 		virtual ~DivideByZeroException();
 	};
 }

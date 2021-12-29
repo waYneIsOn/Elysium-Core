@@ -37,15 +37,15 @@ namespace Elysium::Core::Data::TdsClient
 
 		TdsConnectionStringBuilder& operator=(TdsConnectionStringBuilder&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::String& GetServer() const;
+		const Elysium::Core::Utf8String& GetServer() const;
 
-		const Elysium::Core::String& GetDatabase() const;
+		const Elysium::Core::Utf8String& GetDatabase() const;
 
 		const bool GetIsTrustedConnection() const;
 	public:
-		void SetServer(const Elysium::Core::String& Value);
+		void SetServer(const Elysium::Core::Utf8String& Value);
 
-		void SetDatabase(const Elysium::Core::String& Value);
+		void SetDatabase(const Elysium::Core::Utf8String& Value);
 
 		void SetIsTrustedConnection(const bool Value);
 	};

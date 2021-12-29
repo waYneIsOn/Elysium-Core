@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		InvalidOperationException();
+
 		InvalidOperationException(const char8_t* Message);
-		InvalidOperationException(String&& Message);
+
+		InvalidOperationException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~InvalidOperationException();
 	};
 }

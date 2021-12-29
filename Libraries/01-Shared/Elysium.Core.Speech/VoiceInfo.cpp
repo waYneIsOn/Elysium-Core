@@ -175,7 +175,7 @@ const Elysium::Core::Speech::Synthesis::VoiceGender Elysium::Core::Speech::Synth
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetId() const
+const Elysium::Core::Utf8String Elysium::Core::Speech::Synthesis::VoiceInfo::GetId() const
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = S_OK;
@@ -190,7 +190,7 @@ const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetId()
 
 	wchar_t* NativeId = &NativeValue[LastIndexOfBackslash + 1];
 
-	const String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeId,
+	const Elysium::Core::Utf8String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeId,
 		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeId) + sizeof(wchar_t));
 
 	CoTaskMemFree(NativeValue);
@@ -201,7 +201,7 @@ const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetId()
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetName() const
+const Elysium::Core::Utf8String Elysium::Core::Speech::Synthesis::VoiceInfo::GetName() const
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = S_OK;
@@ -220,7 +220,7 @@ const Elysium::Core::String Elysium::Core::Speech::Synthesis::VoiceInfo::GetName
 		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
 
-	const String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeValue,
+	const Elysium::Core::Utf8String Value = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeValue,
 		Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeValue) + sizeof(wchar_t));
 
 	CoTaskMemFree(NativeValue);

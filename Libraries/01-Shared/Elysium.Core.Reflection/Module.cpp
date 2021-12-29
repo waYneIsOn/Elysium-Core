@@ -8,7 +8,7 @@
 #include "Type.hpp"
 #endif
 
-Elysium::Core::Reflection::Module::Module(const Assembly& Assembly, const String& Name)
+Elysium::Core::Reflection::Module::Module(const Assembly& Assembly, const Utf8String& Name)
 	: _Assembly(Assembly), _Name(Name), _Types()
 {
 	((Elysium::Core::Reflection::Assembly&)_Assembly).Add(*this);
@@ -29,7 +29,7 @@ const Elysium::Core::Reflection::Assembly& Elysium::Core::Reflection::Module::Ge
 	return _Assembly;
 }
 
-const Elysium::Core::String& Elysium::Core::Reflection::Module::GetName() const
+const Elysium::Core::Utf8String& Elysium::Core::Reflection::Module::GetName() const
 {
 	return _Name;
 }

@@ -32,18 +32,24 @@ namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_API TextWriter
 	{
+	protected:
+		TextWriter();
 	public:
 		TextWriter(const TextWriter& Source) = delete;
+
 		TextWriter(TextWriter&& Right) noexcept = delete;
+
 		virtual ~TextWriter();
-
+	public:
 		TextWriter& operator=(const TextWriter& Other) = delete;
+
 		TextWriter& operator=(TextWriter&& Right) noexcept = delete;
-
+	public:
 		virtual const Text::Encoding& GetEncoding();
-		virtual const String& GetNewLine();
 
-		virtual void SetNewLine(const String& NewLine);
+		virtual const Elysium::Core::Utf8String& GetNewLine();
+
+		virtual void SetNewLine(const Elysium::Core::Utf8String& NewLine);
 
 		virtual void Close();
 
@@ -77,8 +83,7 @@ namespace Elysium::Core::IO
 
 		virtual void Write(const uint64_t Value);
 
-		virtual void Write(const String& Value);
-
+		virtual void Write(const Elysium::Core::Utf8String& Value);
 
 		virtual void WriteLine(const bool Value);
 
@@ -108,13 +113,11 @@ namespace Elysium::Core::IO
 
 		virtual void WriteLine(const uint64_t Value);
 
-		virtual void WriteLine(const String& Value);
+		virtual void WriteLine(const Elysium::Core::Utf8String& Value);
 
 		virtual void WriteLine();
-	protected:
-		TextWriter();
 	private:
-		Elysium::Core::String _NewLineCharacters;
+		Elysium::Core::Utf8String _NewLineCharacters;
 	};
 }
 #endif

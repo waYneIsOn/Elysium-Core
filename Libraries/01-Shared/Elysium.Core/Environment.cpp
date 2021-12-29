@@ -28,7 +28,7 @@ const bool Elysium::Core::Environment::Is64BitProcess()
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Environment::MachineName()
+const Elysium::Core::Utf8String Elysium::Core::Environment::MachineName()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// computer-name maximum length under windows appears to be 15
@@ -47,7 +47,7 @@ const Elysium::Core::String Elysium::Core::Environment::MachineName()
 #endif
 }
 
-const Elysium::Core::String & Elysium::Core::Environment::NewLine()
+const Elysium::Core::Utf8String& Elysium::Core::Environment::NewLine()
 {
 	return _NewLine;
 }
@@ -99,7 +99,7 @@ const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
 	return std::thread::hardware_concurrency();
 }
 
-const Elysium::Core::String Elysium::Core::Environment::UserName()
+const Elysium::Core::Utf8String Elysium::Core::Environment::UserName()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// user-name maximum length under windows appears to be 1024
@@ -118,7 +118,7 @@ const Elysium::Core::String Elysium::Core::Environment::UserName()
 #endif
 }
 
-const Elysium::Core::String Elysium::Core::Environment::SystemDirectory()
+const Elysium::Core::Utf8String Elysium::Core::Environment::SystemDirectory()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// user-name maximum length under windows appears to be ...

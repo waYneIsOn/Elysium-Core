@@ -10,7 +10,7 @@ Elysium::Core::DivideByZeroException::DivideByZeroException()
 Elysium::Core::DivideByZeroException::DivideByZeroException(const char8_t* Message)
 	: Elysium::Core::ArithmeticException(Message)
 { }
-Elysium::Core::DivideByZeroException::DivideByZeroException(Elysium::Core::String&& Message)
+Elysium::Core::DivideByZeroException::DivideByZeroException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::ArithmeticException(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::DivideByZeroException::~DivideByZeroException()

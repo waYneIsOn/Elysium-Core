@@ -43,7 +43,7 @@ namespace Elysium::Core::Json
 	public:
 		virtual ~JsonNode();
 
-		virtual const String& GetName() const = 0;
+		virtual const Elysium::Core::Utf8String& GetName() const = 0;
 		virtual const JsonNodeType GetNodeType() const = 0;
 		virtual const JsonNode* GetParentNode() const;
 		

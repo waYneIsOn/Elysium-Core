@@ -44,33 +44,37 @@ namespace Elysium::Core
 	{
 	public:
 		UriParser(const UriParser& Source) = delete;
+
 		UriParser(UriParser&& Right) noexcept = delete;
+
 		virtual ~UriParser();
-
+	public:
 		UriParser& operator=(const UriParser& Source) = delete;
-		UriParser& operator=(UriParser&& Right) noexcept = delete;
 
-		static const bool IsKnownScheme(const Elysium::Core::String& SchemeName);
+		UriParser& operator=(UriParser&& Right) noexcept = delete;
+	public:
+		static const bool IsKnownScheme(const Elysium::Core::Utf8String& SchemeName);
+
 		static const bool IsKnownScheme(const Elysium::Core::Utf8StringView& SchemeName);
 
-		static void Register(const Elysium::Core::UriParser& UriParser, const Elysium::Core::String& SchemeName, const Elysium::Core::uint16_t DefaultPort);
+		static void Register(const Elysium::Core::UriParser& UriParser, const Elysium::Core::Utf8String& SchemeName, const Elysium::Core::uint16_t DefaultPort);
 
 
 
 
 
-		Elysium::Core::Utf8StringView ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::String& Source);
+		Elysium::Core::Utf8StringView ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::Utf8String& Source);
 	protected:
-		UriParser(const Elysium::Core::String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents);
+		UriParser(const Elysium::Core::Utf8String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents);
 
-		//virtual Elysium::Core::StringView GetComponents(...);
+		//virtual Elysium::Core::Utf8StringView GetComponents(...);
 	private:
 		static const Elysium::Core::UriSyntaxFlags _DummySyntaxFlags;
 		static const Elysium::Core::UriSyntaxFlags _HttpSyntaxFlags;
 
-		//static Elysium::Core::Collections::Template::Dictionary<Elysium::Core::String, Elysium::Core::UriParser> _RegisteredParser;
+		//static Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, Elysium::Core::UriParser> _RegisteredParser;
 		
-		Elysium::Core::String _Scheme;
+		Elysium::Core::Utf8String _Scheme;
 		Elysium::Core::uint32_t _Port;
 		Elysium::Core::UriSyntaxFlags _RequiredComponents;
 	};

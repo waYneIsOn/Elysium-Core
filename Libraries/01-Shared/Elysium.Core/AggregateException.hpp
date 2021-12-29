@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		AggregateException();
-		AggregateException(Elysium::Core::String::ConstCharacterPointer Message);
-		AggregateException(String&& Message);
+
+		AggregateException(Elysium::Core::Utf8String::ConstCharacterPointer Message);
+
+		AggregateException(Utf8String&& Message);
+
 		virtual ~AggregateException();
 	};
 }

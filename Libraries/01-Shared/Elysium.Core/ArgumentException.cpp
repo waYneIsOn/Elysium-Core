@@ -7,11 +7,14 @@
 Elysium::Core::ArgumentException::ArgumentException()
 	: Elysium::Core::SystemException(u8"ArgumentException")
 { }
+
 Elysium::Core::ArgumentException::ArgumentException(const char8_t* Message)
 	: Elysium::Core::SystemException(Message)
 { }
-Elysium::Core::ArgumentException::ArgumentException(String && Message)
+
+Elysium::Core::ArgumentException::ArgumentException(Utf8String&& Message)
 	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
 { }
+
 Elysium::Core::ArgumentException::~ArgumentException()
 { }

@@ -74,7 +74,7 @@ const Elysium::Core::uint32_t Elysium::Core::Diagnostics::Process::GetId() const
 
 const bool Elysium::Core::Diagnostics::Process::Start(const ProcessStartInfo& StartInfo)
 {
-	const Elysium::Core::String& FileName = StartInfo.GetFileName();
+	const Elysium::Core::Utf8String& FileName = StartInfo.GetFileName();
 
 	STARTUPINFO StartupInfo = STARTUPINFO();
 	//ZeroMemory(&StartupInfo, sizeof(STARTUPINFO));
@@ -179,7 +179,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	return GetProcesses(_LocalMachineName);
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses(const Elysium::Core::String& MachineName)
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses(const Elysium::Core::Utf8String& MachineName)
 {
 	HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 	if (SnapshotHandle == INVALID_HANDLE_VALUE)
@@ -245,14 +245,14 @@ Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetProc
 	throw 1;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::String& ProcessName)
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::Utf8String& ProcessName)
 {
 	return GetProcessesByName(ProcessName, _LocalMachineName);
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::String& ProcessName, const Elysium::Core::String& MachineName)
+const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::Utf8String& ProcessName, const Elysium::Core::Utf8String& MachineName)
 {
-	if (Elysium::Core::String::IsNullOrEmtpy(ProcessName))
+	if (Elysium::Core::Utf8String::IsNullOrEmtpy(ProcessName))
 	{
 		throw Elysium::Core::ArgumentException(u8"ProcessName");
 	}
@@ -275,7 +275,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	Elysium::Core::size i = 0;
 	do
 	{
-		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
+		Elysium::Core::Utf8String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
 		if (CurrentProcessName == ProcessName)
 		{
 			i++;
@@ -293,7 +293,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	i = 0;
 	do
 	{
-		Elysium::Core::String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
+		Elysium::Core::Utf8String CurrentProcessName = Elysium::Core::Text::Encoding::UTF16LE().GetString((byte*)&ProcessEntry.szExeFile[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(&ProcessEntry.szExeFile[0]));
 		if (CurrentProcessName == ProcessName)
 		{
 			Processes[i]._ProcessId = ProcessEntry.th32ProcessID;
@@ -305,7 +305,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 	return Processes;
 }
 
-Elysium::Core::Diagnostics::Process::Process(const Elysium::Core::String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId)
+Elysium::Core::Diagnostics::Process::Process(const Elysium::Core::Utf8String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId)
 	: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(0), _HasThreadId(false),
 	_ProcessHandle(nullptr),_ThreadHandle(nullptr)
 { }

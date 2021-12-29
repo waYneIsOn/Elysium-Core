@@ -26,8 +26,11 @@ namespace Elysium::Core::Security::Authentication
 	{
 	public:
 		AuthenticationException();
+
 		AuthenticationException(const char8_t* Message);
-		AuthenticationException(String&& Message);
+
+		AuthenticationException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~AuthenticationException();
 	};
 }

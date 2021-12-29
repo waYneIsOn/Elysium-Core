@@ -7,11 +7,14 @@
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException()
 	: Elysium::Core::ArgumentException(u8"ArgumentOutOfRangeException")
 { }
+
 Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char8_t* Message)
 	: Elysium::Core::ArgumentException(Message)
 { }
-Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(Elysium::Core::String&& Message)
+
+Elysium::Core::ArgumentOutOfRangeException::ArgumentOutOfRangeException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::ArgumentException(Elysium::Core::Template::Functional::Move(Message))
 { }
+
 Elysium::Core::ArgumentOutOfRangeException::~ArgumentOutOfRangeException()
 { }

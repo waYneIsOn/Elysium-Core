@@ -8,7 +8,7 @@ Elysium::Core::Json::JsonElement::~JsonElement()
 {
 }
 
-const Elysium::Core::String & Elysium::Core::Json::JsonElement::GetName() const
+const Elysium::Core::Utf8String& Elysium::Core::Json::JsonElement::GetName() const
 {
 	return _Name;
 }
@@ -21,13 +21,13 @@ const bool Elysium::Core::Json::JsonElement::IsNull() const
 {
 	return _Type == JsonNodeType::Null;
 }
-const Elysium::Core::String & Elysium::Core::Json::JsonElement::GetValueAsString() const
+const Elysium::Core::Utf8String& Elysium::Core::Json::JsonElement::GetValueAsString() const
 {
 	if (_Type != JsonNodeType::String)
 	{
 		throw InvalidOperationException();
 	}
-	return std::get<String>(_Value);
+	return std::get<Utf8String>(_Value);
 }
 const int32_t Elysium::Core::Json::JsonElement::GetValueAsInt32() const
 {
@@ -54,7 +54,7 @@ const bool Elysium::Core::Json::JsonElement::GetValueAsBoolean() const
 	return std::get<bool>(_Value);
 }
 
-void Elysium::Core::Json::JsonElement::SetValue(const String & Value)
+void Elysium::Core::Json::JsonElement::SetValue(const Utf8String& Value)
 {
 	_Value = Value;
 }
@@ -80,7 +80,7 @@ void Elysium::Core::Json::JsonElement::WriteTo(JsonWriter & Writer) const
 	switch (_Type)
 	{
 	case JsonNodeType::String:
-		Writer.WriteValue(std::get<Elysium::Core::String>(_Value));
+		Writer.WriteValue(std::get<Elysium::Core::Utf8String>(_Value));
 		break;
 	case JsonNodeType::Integer:
 		Writer.WriteValue(std::get<Elysium::Core::int32_t>(_Value));
@@ -104,32 +104,32 @@ void Elysium::Core::Json::JsonElement::Load(JsonReader & JsonReader)
 {
 }
 
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const String & Value)
+Elysium::Core::Json::JsonElement::JsonElement(const Utf8String& Name, const Utf8String& Value)
 	: Elysium::Core::Json::JsonNode(),
 	_Name(Name), _Type(JsonNodeType::String), _Value(Value)
 {
 }
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const int32_t Value)
+Elysium::Core::Json::JsonElement::JsonElement(const Utf8String& Name, const int32_t Value)
 	: Elysium::Core::Json::JsonNode(),
 	_Name(Name), _Type(JsonNodeType::Integer), _Value(Value)
 {
 }
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const float Value)
+Elysium::Core::Json::JsonElement::JsonElement(const Utf8String& Name, const float Value)
 	: Elysium::Core::Json::JsonNode(),
 	_Name(Name), _Type(JsonNodeType::Float), _Value(Value)
 {
 }
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const double Value)
+Elysium::Core::Json::JsonElement::JsonElement(const Utf8String& Name, const double Value)
 	: Elysium::Core::Json::JsonNode(),
 	_Name(Name), _Type(JsonNodeType::Double), _Value(Value)
 {
 }
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name, const bool Value)
+Elysium::Core::Json::JsonElement::JsonElement(const Utf8String& Name, const bool Value)
 	: Elysium::Core::Json::JsonNode(),
 	_Name(Name), _Type(JsonNodeType::Boolean), _Value(Value)
 {
 }
-Elysium::Core::Json::JsonElement::JsonElement(const String & Name)
+Elysium::Core::Json::JsonElement::JsonElement(const Utf8String& Name)
 	: Elysium::Core::Json::JsonNode(),
 	_Name(Name), _Type(JsonNodeType::Null), _Value()
 {

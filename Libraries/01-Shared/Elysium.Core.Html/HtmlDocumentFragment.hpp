@@ -22,14 +22,19 @@ namespace Elysium::Core::Html
 	{
 	public:
 		HtmlDocumentFragment();
+
 		HtmlDocumentFragment(const HtmlDocumentFragment& Source) = delete;
+
 		HtmlDocumentFragment(HtmlDocumentFragment&& Right) noexcept = delete;
+
 		virtual ~HtmlDocumentFragment();
-
+	public:
 		HtmlDocumentFragment& operator=(const HtmlDocumentFragment& Source) = delete;
-		HtmlDocumentFragment& operator=(HtmlDocumentFragment&& Right) noexcept = delete;
 
-		virtual const String& GetName() const override;
+		HtmlDocumentFragment& operator=(HtmlDocumentFragment&& Right) noexcept = delete;
+	public:
+		virtual const Elysium::Core::Utf8String& GetName() const override;
+
 		virtual const HtmlNodeType GetNodeType() const override;
 	};
 }

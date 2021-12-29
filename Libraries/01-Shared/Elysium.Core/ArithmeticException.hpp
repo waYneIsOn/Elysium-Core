@@ -22,8 +22,11 @@ namespace Elysium::Core
 	{
 	public:
 		ArithmeticException();
+
 		ArithmeticException(const char8_t* Message);
-		ArithmeticException(Elysium::Core::String&& Message);
+
+		ArithmeticException(Elysium::Core::Utf8String&& Message);
+
 		virtual ~ArithmeticException();
 	};
 }

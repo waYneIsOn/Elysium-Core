@@ -28,7 +28,7 @@ namespace Elysium::Core
 
 		SystemException(const char8_t* Message);
 
-		SystemException(Elysium::Core::String&& Message);
+		SystemException(Elysium::Core::Utf8String&& Message);
 
 		virtual ~SystemException();
 	public:

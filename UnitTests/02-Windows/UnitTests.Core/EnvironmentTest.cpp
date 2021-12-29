@@ -17,8 +17,8 @@ namespace UnitTests::Core
 		TEST_METHOD(AssertableRuntimeValues)
 		{
 			const OperatingSystem OS = Environment::OSVersion();
-			const String& NewLine = Environment::NewLine();
-			const String SystemDirectory = Environment::SystemDirectory();
+			const Elysium::Core::Utf8String& NewLine = Environment::NewLine();
+			const Elysium::Core::Utf8String SystemDirectory = Environment::SystemDirectory();
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			Assert::IsTrue(OS.IsWindows());
@@ -32,9 +32,9 @@ namespace UnitTests::Core
 		TEST_METHOD(OtherRuntimeValues)
 		{
 			const OperatingSystem OS = Environment::OSVersion();
-			const String MachineName = Environment::MachineName();
+			const Elysium::Core::Utf8String MachineName = Environment::MachineName();
 			const Elysium::Core::uint32_t ProcessorCount = Environment::ProcessorCount();
-			const String UserName = Environment::UserName();
+			const Elysium::Core::Utf8String UserName = Environment::UserName();
 		}
 	};
 }

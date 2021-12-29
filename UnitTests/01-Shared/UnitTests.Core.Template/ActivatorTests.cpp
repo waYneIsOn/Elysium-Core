@@ -45,13 +45,13 @@ namespace UnitTests::Core::Template::Memory
 
 		TEST_METHOD(StringTests)
 		{
-			String EmptyString = Activator::CreateInstance<String>();
+			Utf8String EmptyString = Activator::CreateInstance<Utf8String>();
 			Assert::AreEqual(0_ui64, EmptyString.GetLength());
 
-			String CharString = Activator::CreateInstance<String, String::ConstCharacterPointer>(u8"bla");
+			Utf8String CharString = Activator::CreateInstance<Utf8String, Utf8String::ConstCharacterPointer>(u8"bla");
 			Assert::AreEqual(3_ui64, CharString.GetLength());
 
-			String LengthString = Activator::CreateInstance<String, const Elysium::Core::size>(27);
+			Utf8String LengthString = Activator::CreateInstance<Utf8String, const Elysium::Core::size>(27);
 			Assert::AreEqual(27_ui64, LengthString.GetLength());
 		}
 	};

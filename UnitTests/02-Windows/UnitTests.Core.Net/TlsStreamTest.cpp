@@ -29,7 +29,7 @@ namespace UnitTests::Core::Net::Security
 		TEST_METHOD(Https)
 		{
 			Socket TcpSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			TcpSocket.Connect(Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::String(u8"52.6.191.28")), 443));	// https://ulfheim.net/
+			TcpSocket.Connect(Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"52.6.191.28")), 443));	// https://ulfheim.net/
 			NetworkStream InnerStream = NetworkStream(TcpSocket);
 			
 			const Array<TlsCipherSuite> CipherSuites = Array<TlsCipherSuite>({
@@ -61,14 +61,14 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
 				const Elysium::Core::Net::Security::TlsPolicyErrors>::Bind<&TlsStreamTests::ValidateServerCertificate>();
 
-			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
+			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
-				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&> UserCertificateSelectionCallback =
-				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::String&,
+				const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String>&> UserCertificateSelectionCallback =
+				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
-				const Elysium::Core::Collections::Template::Array<Elysium::Core::String>&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
+				const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String>&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
 
 			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 			
@@ -77,16 +77,16 @@ namespace UnitTests::Core::Net::Security
 			{
 				//Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls10);
 				//Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls11);
-				Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
+				Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
 				//Stream.AuthenticateAsClient(String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls13);
 				
-				String RequestMessage = String(u8"GET /index.html HTTP/1.1\r\nHost: www.ulfheim.net\r\n\r\n");
+				Elysium::Core::Utf8String RequestMessage = Elysium::Core::Utf8String(u8"GET /index.html HTTP/1.1\r\nHost: www.ulfheim.net\r\n\r\n");
 				Stream.Write((byte*)&RequestMessage[0], RequestMessage.GetLength());
 				
 				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
 					Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32000);
 				Elysium::Core::size BytesReceived = Stream.Read(&Buffer[0], Buffer.GetLength());
-				String ResponseMessage = String((char8_t*)&Buffer[0], BytesReceived);
+				Elysium::Core::Utf8String ResponseMessage = Elysium::Core::Utf8String((char8_t*)&Buffer[0], BytesReceived);
 			}
 			catch (const AuthenticationException& ex)
 			{
@@ -118,7 +118,7 @@ namespace UnitTests::Core::Net::Security
 			}
 		}
 
-		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Collections::Template::Array<String>& AcceptableIssuers)
+		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Collections::Template::Array<Elysium::Core::Utf8String>& AcceptableIssuers)
 		{
 			// https://docs.microsoft.com/en-us/dotnet/api/system.net.security.localcertificateselectioncallback?view=netcore-3.1
 			if (LocalCertificates.GetCount() > 0 && AcceptableIssuers.GetLength() > 0)

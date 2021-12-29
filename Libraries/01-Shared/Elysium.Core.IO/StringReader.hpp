@@ -25,7 +25,7 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API StringReader : public TextReader
 	{
 	public:
-		StringReader(const String& Input);
+		StringReader(const Elysium::Core::Utf8String& Input);
 
 		StringReader(const StringReader& Source) = delete;
 
@@ -43,9 +43,9 @@ namespace Elysium::Core::IO
 
 		virtual const Elysium::Core::size Read(char8_t* Buffer, const Elysium::Core::size Count) override;
 
-		virtual Elysium::Core::String ReadLine() override;
+		virtual Elysium::Core::Utf8String ReadLine() override;
 
-		virtual Elysium::Core::String ReadToEnd() override;
+		virtual Elysium::Core::Utf8String ReadToEnd() override;
 	private:
 		Elysium::Core::uint64_t _Position = 0;
 		Elysium::Core::Utf8StringView _Input;

@@ -31,7 +31,7 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 	{
 	public:
 		LocaleInfo() = delete;
-		LocaleInfo(Elysium::Core::int32_t&& Id, Elysium::Core::String&& Name);
+		LocaleInfo(Elysium::Core::int32_t&& Id, Elysium::Core::Utf8String&& Name);
 		LocaleInfo(const LocaleInfo& Source) = delete;
 		LocaleInfo(LocaleInfo&& Right) noexcept = delete;
 		~LocaleInfo();
@@ -41,7 +41,7 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 	private:
 		// ToDo: all fields/properties of CultureInfo
 		Elysium::Core::int32_t _Id;
-		Elysium::Core::String _Name;
+		Elysium::Core::Utf8String _Name;
 
 		// ToDo: all fields/properties of NumberFormatInfo
 		//Elysium::Core::int32_t _CurrencyDecimalDigitsId;

@@ -70,13 +70,13 @@ namespace Elysium::Core
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		static const Elysium::Core::String MachineName();
+		static const Elysium::Core::Utf8String MachineName();
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		static const Elysium::Core::String& NewLine();
+		static const Elysium::Core::Utf8String& NewLine();
 
 		/// <summary>
 		/// 
@@ -94,15 +94,15 @@ namespace Elysium::Core
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		static const Elysium::Core::String UserName();
+		static const Elysium::Core::Utf8String UserName();
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		static const Elysium::Core::String SystemDirectory();
+		static const Elysium::Core::Utf8String SystemDirectory();
 	private:
-		inline static const Elysium::Core::String _NewLine = Elysium::Core::String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
+		inline static const Elysium::Core::Utf8String _NewLine = Elysium::Core::Utf8String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _InternalEncoding = Elysium::Core::Text::Encoding::UTF16LE();

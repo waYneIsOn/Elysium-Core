@@ -38,8 +38,8 @@ namespace UnitTests::Core::Security::Cryptography
 			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);
 		}
 	private:
-		const String _Value1 = u8"";
-		const String _Value2 = u8"bla";
+		const Elysium::Core::Utf8String _Value1 = u8"";
+		const Elysium::Core::Utf8String _Value2 = u8"bla";
 
 		Array<byte> Hash(HashAlgorithm& Algorithm, Array<byte>& Bytes)
 		{

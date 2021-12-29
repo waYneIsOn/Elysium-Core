@@ -25,19 +25,19 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Exception
 	{
 	public:
-		// constructors & destructor
 		Exception();
-		Exception(Elysium::Core::String::ConstCharacterPointer Message);
-		Exception(Elysium::Core::String&& Message);
+
+		Exception(Elysium::Core::Utf8String::ConstCharacterPointer Message);
+
+		Exception(Elysium::Core::Utf8String&& Message);
+
 		virtual ~Exception();
-
-		// properties - getter
+	public:
 		const Exception* GetInnerException() const;
-
-		// methods
-		const Elysium::Core::String& GetExceptionMessage() const;
+	public:
+		const Elysium::Core::Utf8String& GetExceptionMessage() const;
 	private:
-		Elysium::Core::String _Message;
+		Elysium::Core::Utf8String _Message;
 		Exception* _InnerException;
 	};
 }

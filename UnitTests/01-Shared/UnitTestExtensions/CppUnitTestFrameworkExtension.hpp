@@ -32,7 +32,7 @@ namespace Microsoft
 			class AssertExtended
 			{
 			public:
-				static void AreEqual(const Elysium::Core::String& Expected, const Elysium::Core::String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
+				static void AreEqual(const Elysium::Core::Utf8String& Expected, const Elysium::Core::Utf8String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
 				{
 					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
 					
@@ -74,7 +74,7 @@ namespace Microsoft
 			}
 			/*
 			template <>
-			static std::wstring ToString(const Elysium::Core::String& q)
+			static std::wstring ToString(const Elysium::Core::Utf8String& q)
 			{
 				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = AssertExtended::Utf16Encoding.GetBytes(q, 0, q.GetLength());
 

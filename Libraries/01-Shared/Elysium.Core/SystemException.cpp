@@ -18,7 +18,7 @@ Elysium::Core::SystemException::SystemException(const char8_t* Message)
 	_ErrorCode(SystemSpecific::GetLastErrorCode())
 { }
 
-Elysium::Core::SystemException::SystemException(String && Message)
+Elysium::Core::SystemException::SystemException(Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message)),
 	_ErrorCode(SystemSpecific::GetLastErrorCode())
 { }

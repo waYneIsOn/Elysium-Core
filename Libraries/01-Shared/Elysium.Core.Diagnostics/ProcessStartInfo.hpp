@@ -30,25 +30,35 @@ namespace Elysium::Core::Diagnostics
 	{
 	public:
 		ProcessStartInfo();
-		ProcessStartInfo(const String& FileName);
-		ProcessStartInfo(const String& FileName, const String& Arguments);
+
+		ProcessStartInfo(const Elysium::Core::Utf8String& FileName);
+
+		ProcessStartInfo(const Elysium::Core::Utf8String& FileName, const Elysium::Core::Utf8String& Arguments);
+
 		ProcessStartInfo(const ProcessStartInfo& Source) = delete;
+
 		ProcessStartInfo(ProcessStartInfo&& Right) noexcept = delete;
+
 		~ProcessStartInfo();
-
+	public:
 		ProcessStartInfo& operator=(const ProcessStartInfo& Source) = delete;
-		ProcessStartInfo& operator=(ProcessStartInfo&& Right) noexcept = delete;
 
-		const Elysium::Core::String& GetArguments() const;
-		const Elysium::Core::String& GetFileName() const;
+		ProcessStartInfo& operator=(ProcessStartInfo&& Right) noexcept = delete;
+	public:
+		const Elysium::Core::Utf8String& GetArguments() const;
+
+		const Elysium::Core::Utf8String& GetFileName() const;
+
 		const ProcessWindowStyle GetWindowStyle() const;
 
-		void SetArguments(const String& Value);
-		void SetFileName(const String& Value);
+		void SetArguments(const Elysium::Core::Utf8String& Value);
+
+		void SetFileName(const Elysium::Core::Utf8String& Value);
+
 		void SetWindowStyle(const ProcessWindowStyle Value);
 	private:
-		String _FileName;
-		String _Arguments;
+		Elysium::Core::Utf8String _FileName;
+		Elysium::Core::Utf8String _Arguments;
 		ProcessWindowStyle _WindowStyle;
 	};
 }

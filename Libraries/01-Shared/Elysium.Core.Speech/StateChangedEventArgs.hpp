@@ -30,7 +30,7 @@ namespace Elysium::Core::Speech::Synthesis
 	{
 		friend class SpeechSynthesizer;
 	protected:
-		StateChangedEventArgs(String&& Prompt, const SynthesizerState PreviousState, const SynthesizerState State);
+		StateChangedEventArgs(Elysium::Core::Utf8String&& Prompt, const SynthesizerState PreviousState, const SynthesizerState State);
 	public:
 		StateChangedEventArgs(const StateChangedEventArgs& Source) = delete;
 

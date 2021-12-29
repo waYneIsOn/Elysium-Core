@@ -32,7 +32,7 @@ namespace Elysium::Core::Speech::Recognition
 	public:
 		DictationGrammar();
 
-		DictationGrammar(const String& Topic);
+		DictationGrammar(const Utf8String& Topic);
 
 		DictationGrammar(const DictationGrammar& Source) = delete;
 
@@ -44,9 +44,9 @@ namespace Elysium::Core::Speech::Recognition
 
 		DictationGrammar& operator=(DictationGrammar&& Right) noexcept = delete;
 	public:
-		void SetDictationContext(const String& PrecedingText, const String& SubsequentText);
+		void SetDictationContext(const Utf8String& PrecedingText, const Utf8String& SubsequentText);
 	private:
-		String _Topic;
+		Utf8String _Topic;
 	};
 }
 #endif

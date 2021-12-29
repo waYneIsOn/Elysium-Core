@@ -60,7 +60,7 @@ void Elysium::Core::Text::StringBuilder::SetLength(const Elysium::Core::size Val
 	_Length = Value;
 }
 
-void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::String & Value)
+void Elysium::Core::Text::StringBuilder::Append(const Elysium::Core::Utf8String & Value)
 {
 	// resize if required
 	Elysium::Core::size ValueLength = Value.GetLength();
@@ -186,14 +186,14 @@ void Elysium::Core::Text::StringBuilder::Remove(const Elysium::Core::size StartI
 	_Length -= Length;
 }
 
-Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString()
+Elysium::Core::Utf8String Elysium::Core::Text::StringBuilder::ToString()
 {
-	return String(_Data, _Length);
+	return Elysium::Core::Utf8String(_Data, _Length);
 }
 
-Elysium::Core::String Elysium::Core::Text::StringBuilder::ToString(const Elysium::Core::size Length)
+Elysium::Core::Utf8String Elysium::Core::Text::StringBuilder::ToString(const Elysium::Core::size Length)
 {
-	return String(_Data, Length);
+	return Elysium::Core::Utf8String(_Data, Length);
 }
 
 void Elysium::Core::Text::StringBuilder::Resize(Elysium::Core::size DesiredMinimumSize)

@@ -10,7 +10,7 @@ Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException()
 Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException(const char8_t* Message)
 	: Elysium::Core::Exception(Message)
 { }
-Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException(Elysium::Core::String&& Message)
+Elysium::Core::IndexOutOfRangeException::IndexOutOfRangeException(Elysium::Core::Utf8String&& Message)
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
 Elysium::Core::IndexOutOfRangeException::~IndexOutOfRangeException()

@@ -254,7 +254,7 @@ const char8_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::
 		wchar_t Utf16LEChar = (wchar_t)_RowDataBuffer[_IndexBindingMap[Index]->obValue];
 
 		// ToDo: Encoding::GetChar?
-		Elysium::Core::String String = _WindowsEncoding.GetString((Elysium::Core::byte*)&Utf16LEChar, sizeof(wchar_t));
+		Elysium::Core::Utf8String String = _WindowsEncoding.GetString((Elysium::Core::byte*)&Utf16LEChar, sizeof(wchar_t));
 
 		return String[0];
 	}
@@ -337,7 +337,7 @@ const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 		else
 		{
 			wchar_t* Utf16LEChars = (wchar_t*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue + FieldOffset];
-			Elysium::Core::String String = _WindowsEncoding.GetString((Elysium::Core::byte*)Utf16LEChars, Length * sizeof(wchar_t));
+			Elysium::Core::Utf8String String = _WindowsEncoding.GetString((Elysium::Core::byte*)Utf16LEChars, Length * sizeof(wchar_t));
 			
 			memcpy(&Value[0], &String[0], String.GetLength() + sizeof(char8_t));
 			return Length;
@@ -577,7 +577,7 @@ const Elysium::Core::int64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNat
 	}
 }
 
-const Elysium::Core::String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetString(const Elysium::Core::uint32_t Index)
+const Elysium::Core::Utf8String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetString(const Elysium::Core::uint32_t Index)
 {
 	if (Index > _FieldCount)
 	{
@@ -591,7 +591,7 @@ const Elysium::Core::String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNati
 	case DBTYPE_STR:
 	{
 		Elysium::Core::size ResultLength = strlen((char*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue]);
-		return Elysium::Core::String((char8_t*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue], ResultLength);
+		return Elysium::Core::Utf8String((char8_t*)&_RowDataBuffer[_IndexBindingMap[Index]->obValue], ResultLength);
 		//Value->assign(&_RowDataBuffer[_IndexBindingMap[Index]->obValue], &_RowDataBuffer[_IndexBindingMap[Index]->obValue] + ResultLength);
 		//break;
 	}
@@ -625,7 +625,7 @@ const Elysium::Core::TimeSpan Elysium::Core::Data::SqlNativeClient::OleDb::SqlNa
 	}
 }
 
-const Elysium::Core::String  Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDataTypeName(uint32_t Index)
+const Elysium::Core::Utf8String  Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetDataTypeName(uint32_t Index)
 {
 	switch (_ColumnInfo[Index].wType)
 	{
@@ -702,13 +702,13 @@ const Elysium::Core::String  Elysium::Core::Data::SqlNativeClient::OleDb::SqlNat
 	}
 }
 
-const Elysium::Core::String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetName(const Elysium::Core::uint32_t Index)
+const Elysium::Core::Utf8String Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetName(const Elysium::Core::uint32_t Index)
 {
 	wchar_t* Name = _ColumnInfo[Index].pwszName;
 	return _WindowsEncoding.GetString((byte*)Name, Template::Text::CharacterTraits<wchar_t>::GetSize(Name));
 }
 
-const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetOrdinal(const Elysium::Core::String & Name)
+const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetOrdinal(const Elysium::Core::Utf8String & Name)
 {	
 	Collections::Template::Array<byte> Bytes = _WindowsEncoding.GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
 

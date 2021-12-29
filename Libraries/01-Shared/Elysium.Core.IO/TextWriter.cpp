@@ -17,6 +17,10 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+Elysium::Core::IO::TextWriter::TextWriter()
+	: _NewLineCharacters(Environment::NewLine())
+{ }
+
 Elysium::Core::IO::TextWriter::~TextWriter()
 {
 	Flush();
@@ -28,12 +32,12 @@ const Elysium::Core::Text::Encoding & Elysium::Core::IO::TextWriter::GetEncoding
 	return Elysium::Core::Text::Encoding::Default();
 }
 
-const Elysium::Core::String & Elysium::Core::IO::TextWriter::GetNewLine()
+const Elysium::Core::Utf8String & Elysium::Core::IO::TextWriter::GetNewLine()
 {
 	return _NewLineCharacters;
 }
 
-void Elysium::Core::IO::TextWriter::SetNewLine(const String & NewLine)
+void Elysium::Core::IO::TextWriter::SetNewLine(const Elysium::Core::Utf8String& NewLine)
 {
 	_NewLineCharacters = NewLine;
 }
@@ -112,7 +116,7 @@ void Elysium::Core::IO::TextWriter::Write(const uint64_t Value)
 	Write(Elysium::Core::Convert::ToString(Value, 10));
 }
 
-void Elysium::Core::IO::TextWriter::Write(const String & Value)
+void Elysium::Core::IO::TextWriter::Write(const Elysium::Core::Utf8String& Value)
 {
 	Write(&Value[0], Value.GetLength());
 }
@@ -198,7 +202,7 @@ void Elysium::Core::IO::TextWriter::WriteLine(const uint64_t Value)
 	WriteLine();
 }
 
-void Elysium::Core::IO::TextWriter::WriteLine(const String & Value)
+void Elysium::Core::IO::TextWriter::WriteLine(const Elysium::Core::Utf8String& Value)
 {
 	Write(Value);
 	WriteLine();
@@ -208,7 +212,3 @@ void Elysium::Core::IO::TextWriter::WriteLine()
 {
 	Write(_NewLineCharacters);
 }
-
-Elysium::Core::IO::TextWriter::TextWriter()
-	: _NewLineCharacters(Environment::NewLine())
-{ }

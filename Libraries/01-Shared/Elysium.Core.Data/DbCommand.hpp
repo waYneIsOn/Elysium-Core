@@ -26,11 +26,12 @@ namespace Elysium::Core::Data::Common
 	{
 	protected:
 		DbCommand(IDbConnection& Connection);
-		DbCommand(IDbTransaction* Transaction);
-	public:
-		virtual ~DbCommand();
 
-		virtual const String& GetCommandText() const override;
+		DbCommand(IDbTransaction* Transaction);
+
+		virtual ~DbCommand();
+	public:
+		virtual const Utf8String& GetCommandText() const override;
 
 		virtual const Elysium::Core::uint32_t& GetConnectionTimeout() const override;
 
@@ -40,7 +41,7 @@ namespace Elysium::Core::Data::Common
 
 		virtual void SetCommandText(const char8_t* CommandText) override;
 
-		virtual void SetCommandText(const String& CommandText) override;
+		virtual void SetCommandText(const Utf8String& CommandText) override;
 
 		virtual void SetConnectionTimeout(const Elysium::Core::uint32_t Timeout) override;
 
@@ -55,7 +56,7 @@ namespace Elysium::Core::Data::Common
 		const IDbConnection& _Connection;
 		const IDbTransaction* _Transaction;
 
-		String _Text = String::Empty;
+		Utf8String _Text = Utf8String::Empty;
 		Elysium::Core::uint32_t _Timeout = 30;
 		CommandType _Type = CommandType::Text;
 	};
