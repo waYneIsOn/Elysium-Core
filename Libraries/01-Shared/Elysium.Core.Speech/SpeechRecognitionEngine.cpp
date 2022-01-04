@@ -4,6 +4,10 @@
 #include "DictationGrammar.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEARRAY
+#include "../Elysium.Core.Template/FixedSizeArray.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
 #include "../Elysium.Core/COMException.hpp"
@@ -19,9 +23,9 @@ Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SpeechRecognitionEn
 { }
 
 Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SpeechRecognitionEngine(const Elysium::Core::Globalization::CultureInfo& Culture)
-	: SpeechRecognized(),
+	: AudioStateChanged(), SpeechRecognized(),
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	_NativeRecognizer(InitializeNativeRecognizer()), _NativeRecognizerContext(InitializeNativeRecognizerContext()), _NativeMemoryStream(nullptr)
+	_NativeRecognizer(InitializeNativeRecognizer()), _NativeRecognizerContext(InitializeNativeRecognizerContext()), _NativeMemoryStream(InitializeNativeStream())
 #endif
 { }
 
@@ -30,6 +34,14 @@ Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::~SpeechRecognitionE
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	if (_NativeMemoryStream != nullptr)
 	{
+		IStream* BaseStream = nullptr;
+		HRESULT Result = _NativeMemoryStream->GetBaseStream(&BaseStream);
+		if (SUCCEEDED(Result) && BaseStream != nullptr)
+		{
+			BaseStream->Release();
+			BaseStream = nullptr;
+		}
+
 		_NativeMemoryStream->Release();
 		_NativeMemoryStream = nullptr;
 	}
@@ -50,71 +62,20 @@ Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::~SpeechRecognitionE
 #endif
 }
 
-void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::LoadGrammar(const Grammar& Grammar)
+void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::LoadGrammar(Grammar& Grammar)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = S_OK;
 
-	ISpRecoGrammar* NativeRecognitionGrammar = nullptr;
-	if (FAILED(Result = _NativeRecognizerContext->CreateGrammar(0, &NativeRecognitionGrammar)))
+	if (Grammar._NativeRecognitionGrammar == nullptr)
 	{
-		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-	}
-
-	const wchar_t* RuleName = L"SomeCustomRuleName";
-
-	const DictationGrammar* DictationGrammar = dynamic_cast<const Elysium::Core::Speech::Recognition::DictationGrammar*>(&Grammar);
-	if (DictationGrammar == nullptr)
-	{
-		// ToDo
-		WORD LanguageId = MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US);
-		if (FAILED(Result = NativeRecognitionGrammar->ResetGrammar(LanguageId)))
+		if (FAILED(Result = _NativeRecognizerContext->CreateGrammar(0, &Grammar._NativeRecognitionGrammar)))
 		{
-			NativeRecognitionGrammar->Release();
 			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 		}
-
-		// ToDo
-		SPSTATEHANDLE State;
-		if (FAILED(Result = NativeRecognitionGrammar->GetRule(RuleName, 0, SPRAF_TopLevel | SPRAF_Active, true, &State)))
-		{
-			NativeRecognitionGrammar->Release();
-			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-		}
-
-		// ToDo
-		const wchar_t* Command = L"computer";
-		if (FAILED(Result = NativeRecognitionGrammar->AddWordTransition(State, NULL, Command, L" ", SPWT_LEXICAL, 1, nullptr)))
-		{
-			NativeRecognitionGrammar->Release();
-			throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-		}
-
-		//NativeRecognitionGrammar->LoadCmdFromFile(nullptr, SPLOADOPTIONS::SPLO_DYNAMIC);
-	}
-	else
-	{
-		//DictationGrammar->_Topic
-		//NativeRecognitionGrammar->LoadDictation()
 	}
 
-
-
-
-
-
-
-	if (FAILED(Result = NativeRecognitionGrammar->Commit(0)))
-	{
-		NativeRecognitionGrammar->Release();
-		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-	}
-
-	if (FAILED(Result = NativeRecognitionGrammar->SetRuleState(RuleName, 0, SPRS_ACTIVE)))
-	{
-		NativeRecognitionGrammar->Release();
-		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
-	}
+	Grammar.Load();
 #endif
 }
 
@@ -140,11 +101,81 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToDefa
 #endif
 }
 
+void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToAudioStream(Elysium::Core::IO::Stream& AudioStream, const Elysium::Core::Speech::AudioFormat::SpeechAudioFormatInfo& FormatInfo)
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	HRESULT Result = S_OK;
+
+	if (_NativeMemoryStream != nullptr)
+	{
+		IStream* BaseStream = nullptr;
+		if (SUCCEEDED(Result = _NativeMemoryStream->GetBaseStream(&BaseStream)) && BaseStream != nullptr)
+		{
+			BaseStream->Release();
+			BaseStream = nullptr;
+		}
+
+		_NativeMemoryStream->Release();
+		_NativeMemoryStream = InitializeNativeStream();
+	}
+
+	IStream* NativeMemoryStream = SHCreateMemStream(NULL, 0);
+	if (NativeMemoryStream == nullptr)
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+	}
+
+	WAVEFORMATEX NativeFormat = WAVEFORMATEX();
+	NativeFormat.wFormatTag = static_cast<Elysium::Core::uint16_t>(FormatInfo.GetEncodingFormat());
+	NativeFormat.nChannels = FormatInfo.GetChannelCount();
+	NativeFormat.nSamplesPerSec = FormatInfo.GetSamplesPerSecond();
+	NativeFormat.wBitsPerSample = FormatInfo.GetBitsPerSample();
+	NativeFormat.nBlockAlign = FormatInfo.GetBlockAlign();
+	NativeFormat.nAvgBytesPerSec = FormatInfo.GetAverageBytesPerSecond();
+	NativeFormat.cbSize = 0;
+
+	if (FAILED(Result = _NativeMemoryStream->SetBaseStream(NativeMemoryStream, SPDFID_WaveFormatEx, &NativeFormat)))
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+	}
+
+	Elysium::Core::size BytesRead = 0;
+	ULONG BytesWritten = 0;
+	Elysium::Core::Template::Container::FixedSizeArray<Elysium::Core::byte, 4096> Buffer = Elysium::Core::Template::Container::FixedSizeArray<Elysium::Core::byte, 4096>();
+	while ((BytesRead = AudioStream.Read(&Buffer[0], Buffer.GetLength())) > 0)
+	{
+		NativeMemoryStream->Write(&Buffer[0], BytesRead, &BytesWritten);
+	}
+
+	LARGE_INTEGER Begin = { };
+	ULARGE_INTEGER Position;
+	if (FAILED(Result = _NativeMemoryStream->Seek(Begin, 0, &Position)))
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+	}
+
+	if (FAILED(Result = _NativeRecognizer->SetInput(_NativeMemoryStream, TRUE)))
+	{
+		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
+	}
+#else
+#error "unsupported os"
+#endif
+}
+
 void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToWaveFile(const Elysium::Core::Utf8String& Path)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
+	HRESULT Result = S_OK;
 	if (_NativeMemoryStream != nullptr)
 	{
+		IStream* BaseStream = nullptr;
+		if (SUCCEEDED(Result = _NativeMemoryStream->GetBaseStream(&BaseStream)) && BaseStream != nullptr)
+		{
+			BaseStream->Release();
+			BaseStream = nullptr;
+		}
+
 		_NativeMemoryStream->Release();
 		_NativeMemoryStream = InitializeNativeStream();
 	}
@@ -153,7 +184,6 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToWave
 
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> PathBytes = _WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
 
-	HRESULT Result = S_OK;
 	if (FAILED(Result = _NativeMemoryStream->BindToFile((const wchar_t*)&PathBytes[0], SPFM_OPEN_READONLY, &SPDFID_WaveFormatEx, nullptr, 0)))
 	{
 		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
@@ -227,7 +257,7 @@ ISpRecoContext* Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::Ini
 		return nullptr;
 	}
 
-	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_FALSE_RECOGNITION);
+	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_FALSE_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_RECO_STATE_CHANGE);
 	if (FAILED(Result = NativeRecognizerContext->SetInterest(Interests, Interests)))
 	{
 		NativeRecognizerContext->Release();
@@ -260,10 +290,10 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 	HRESULT Result = S_OK;
 	SPEVENT Event;
 	ULONG NumberOfEventsReceived = 0;
-	ISpRecoResult* RecognizedResult = nullptr;
-	SPPHRASE* Phrase = nullptr;
-	ISpPhraseAlt* PhraseAlternates = nullptr;
-	ULONG PhrasesReceived = 0;
+
+	wchar_t* NativeText;
+	Elysium::Core::Utf8String Text;
+
 	do
 	{
 		Result = _NativeRecognizerContext->WaitForNotifyEvent(500);
@@ -274,51 +304,37 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 
 		if (SUCCEEDED(Result = _NativeRecognizerContext->GetEvents(1, &Event, &NumberOfEventsReceived)))
 		{
-			RecognizedResult = reinterpret_cast<ISpRecoResult*>(Event.lParam);
+			ISpRecoResult* NativeRecognizedResult = reinterpret_cast<ISpRecoResult*>(Event.lParam);
 
-			wchar_t* WindowsText;
-			if (FAILED(Result = RecognizedResult->GetText(SP_GETWHOLEPHRASE, SP_GETWHOLEPHRASE, FALSE, &WindowsText, NULL)))
+			if (FAILED(Result = NativeRecognizedResult->GetText(SPPHRASERNG::SPPR_ALL_ELEMENTS, SPPHRASERNG::SPPR_ALL_ELEMENTS, FALSE, &NativeText, NULL)))
 			{
 				// ToDo: cleanup
 				break;
 			}
-			
-			if (FAILED(Result = RecognizedResult->GetAlternates(0, SPPHRASERNG::SPPR_ALL_ELEMENTS, 1, &PhraseAlternates, &PhrasesReceived)))
-			{
-				// ToDo: cleanup
-				break;
-			}
-			
-			//RecognizedResult->GetAlternates
-			//RecognizedResult->GetAudio
-			//RecognizedResult->GetPhrase
-			//RecognizedResult->GetRecoContext
-			//RecognizedResult->GetResultTimes
-			//RecognizedResult->GetSerializedPhrase
+
+			Text = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeText, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeText));
+			CoTaskMemFree(NativeText);
 
 			switch (Event.eEventId)
 			{
 			case SPEVENTENUM::SPEI_RECOGNITION:
 			{
-				SpeechRecognized(*this, SpeechRecognizedEventArgs(RecognitionResult()));
-
-				PhraseAlternates->Release();
-				CoTaskMemFree(WindowsText);
-				//RecognizedResult->Release();	// SpClearEvent(&Event) appears to be cleaning this up
-
+				SpeechRecognized(*this, SpeechRecognizedEventArgs(RecognitionResult(Elysium::Core::Template::Functional::Move(Text))));
 				break;
 			}
 			case SPEVENTENUM::SPEI_FALSE_RECOGNITION:
 			{
-				PhraseAlternates->Release();
-				CoTaskMemFree(WindowsText);
-				//RecognizedResult->Release();	// SpClearEvent(&Event) appears to be cleaning this up
-
+				bool sdfsdfdsfdsf = false;
+				break;
+			}
+			case SPEVENTENUM::SPEI_RECO_STATE_CHANGE:
+			{
+				bool sdfsdfdsfds678f = false;
 				break;
 			}
 			default:
 			{
-				bool x = false;
+				bool x456 = false;
 				break;
 			}
 			}

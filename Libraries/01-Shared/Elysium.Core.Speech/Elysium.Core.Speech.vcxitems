@@ -18,6 +18,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioBitsPerSample.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioChannel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DictationGrammar.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp" />
@@ -27,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RecognitionEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RecognitionResult.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RecognizedPhrase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakCompletedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.hpp" />
@@ -46,6 +49,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DictationGrammar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Grammar.cpp" />
@@ -54,6 +58,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RecognitionEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RecognitionResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RecognizedPhrase.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeakCompletedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.cpp" />

@@ -45,8 +45,18 @@ namespace Elysium::Core::Speech::Recognition
 		DictationGrammar& operator=(DictationGrammar&& Right) noexcept = delete;
 	public:
 		void SetDictationContext(const Utf8String& PrecedingText, const Utf8String& SubsequentText);
+	protected:
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		virtual void Load() override;
+
+		virtual void Unload() override;
+#endif
 	private:
-		Utf8String _Topic;
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
+#endif
+	private:
+		Elysium::Core::Utf8String _Topic;
 	};
 }
 #endif

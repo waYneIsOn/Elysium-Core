@@ -52,13 +52,26 @@ namespace Elysium::Core::Speech::Recognition
 
 		Grammar& operator=(Grammar&& Right) noexcept = delete;
 	public:
+		const bool GetIsLoaded() const;
+		
 		const Elysium::Core::Utf8String& GetName() const;
 
 		//const Elysium::Core::Utf8String& GetRuleName() const;
 
 		void SetName(const Utf8String& Value);
+	protected:
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		virtual void Load();
+
+		virtual void Unload();
+#endif
 	private:
 		Utf8String _Name;
+	protected:
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		ISpRecoGrammar* _NativeRecognitionGrammar;
+		//ISpRecoGrammar2* _NativeRecognitionGrammar;
+#endif
 	};
 }
 #endif

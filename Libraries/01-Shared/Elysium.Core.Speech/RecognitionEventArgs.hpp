@@ -36,8 +36,10 @@ namespace Elysium::Core::Speech::Recognition
 		RecognitionEventArgs& operator=(const RecognitionEventArgs& Source) = delete;
 
 		RecognitionEventArgs& operator=(RecognitionEventArgs&& Right) noexcept = delete;
+	public:
+		const Elysium::Core::Speech::Recognition::RecognitionResult& GetResult() const;
 	private:
-		//RecognitionResult _Result;
+		RecognitionResult _Result;
 	};
 }
 #endif

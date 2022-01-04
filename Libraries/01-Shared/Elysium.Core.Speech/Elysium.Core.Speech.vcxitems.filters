@@ -100,6 +100,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DictationGrammar.hpp">
       <Filter>Recognition</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RecognizedPhrase.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioState.hpp">
+      <Filter>AudioFormat</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -157,6 +166,12 @@
       <Filter>Recognition</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)DictationGrammar.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RecognizedPhrase.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.cpp">
       <Filter>Recognition</Filter>
     </ClCompile>
   </ItemGroup>

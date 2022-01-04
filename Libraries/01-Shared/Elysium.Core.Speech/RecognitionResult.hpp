@@ -16,23 +16,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_RECOGNIZEDPHRASE
+#include "RecognizedPhrase.hpp"
+#endif
+
 namespace Elysium::Core::Speech::Recognition
 {
-	class ELYSIUM_CORE_SPEECH_API RecognitionResult final
+	class ELYSIUM_CORE_SPEECH_API RecognitionResult final : public RecognizedPhrase
 	{
 		friend class SpeechRecognitionEngine;
 	protected:
-		RecognitionResult();
+		RecognitionResult(Elysium::Core::Utf8String&& Text);
 	public:
 		RecognitionResult(const RecognitionResult& Source) = delete;
 
 		RecognitionResult(RecognitionResult&& Right) noexcept;
 
-		~RecognitionResult();
+		virtual ~RecognitionResult();
 	public:
 		RecognitionResult& operator=(const RecognitionResult& Source) = delete;
 
 		RecognitionResult& operator=(RecognitionResult&& Right) noexcept;
+	private:
 	};
 }
 #endif

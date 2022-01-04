@@ -24,8 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Globalization/CultureInfo.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_STREAM
+#include "../Elysium.Core.IO/Stream.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_AUDIOFORMAT_SPEECHAUDIOFORMATINFO
+#include "SpeechAudioFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_GRAMMAR
@@ -71,7 +79,7 @@ namespace Elysium::Core::Speech::Recognition
 		
 		//Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&> AudioSignalProblemOccurred;
 		
-		//Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&> AudioStateChanged;
+		Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&> AudioStateChanged;
 		
 		//Event<void, const SpeechRecognitionEngine&, const EmulateRecognizeCompletedEventArgs&> EmulateRecognizeCompleted;
 		
@@ -89,9 +97,11 @@ namespace Elysium::Core::Speech::Recognition
 
 		Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&> SpeechRecognized;
 	public:
-		void LoadGrammar(const Grammar& Grammar);
+		void LoadGrammar(Grammar& Grammar);
 
 		void SetInputToDefaultAudioDevice();
+
+		void SetInputToAudioStream(Elysium::Core::IO::Stream& AudioStream, const Elysium::Core::Speech::AudioFormat::SpeechAudioFormatInfo& FormatInfo);
 
 		void SetInputToWaveFile(const Elysium::Core::Utf8String& Path);
 
@@ -103,7 +113,7 @@ namespace Elysium::Core::Speech::Recognition
 		ISpRecognizer* _NativeRecognizer;
 		ISpRecoContext* _NativeRecognizerContext;
 		ISpStream* _NativeMemoryStream;
-
+	private:
 		ISpRecognizer* InitializeNativeRecognizer();
 
 		ISpRecoContext* InitializeNativeRecognizerContext();

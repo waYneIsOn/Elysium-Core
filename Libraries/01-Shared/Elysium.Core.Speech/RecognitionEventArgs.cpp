@@ -5,8 +5,13 @@
 #endif
 
 Elysium::Core::Speech::Recognition::RecognitionEventArgs::RecognitionEventArgs(RecognitionResult&& Result)
-	//: _Result(Elysium::Core::Template::Functional::Move(Result))
+	: _Result(Elysium::Core::Template::Functional::Move(Result))
 { }
 
 Elysium::Core::Speech::Recognition::RecognitionEventArgs::~RecognitionEventArgs()
 { }
+
+const Elysium::Core::Speech::Recognition::RecognitionResult& Elysium::Core::Speech::Recognition::RecognitionEventArgs::GetResult() const
+{
+	return _Result;
+}

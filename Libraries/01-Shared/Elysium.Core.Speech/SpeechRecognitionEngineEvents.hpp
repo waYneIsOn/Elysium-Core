@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_AUDIOSTATECHANGEDEVENTARGS
+#include "AudioStateChangedEventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_RECOGNITIONEVENTARGS
 #include "SpeechRecognitionEngineEvents.hpp"
 #endif
@@ -32,6 +36,7 @@ namespace Elysium::Core::Speech::Recognition
 {
 	class SpeechRecognitionEngine;
 
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>;
 	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>;
 }
 #endif

@@ -394,7 +394,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToAudioStream
 		_NativeMemoryStream->Release();
 		_NativeMemoryStream = InitializeNativeStream();
 	}
-
+	
 	IStream* NativeMemoryStream = SHCreateMemStream(NULL, 0);
 	if (NativeMemoryStream == nullptr)
 	{
@@ -414,7 +414,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToAudioStream
 	{
 		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
 	}
-
+	
 	if (FAILED(Result = _NativeSynthesizer->SetOutput(_NativeMemoryStream, TRUE)))
 	{
 		throw Elysium::Core::Runtime::InteropServices::COMException(Result);
