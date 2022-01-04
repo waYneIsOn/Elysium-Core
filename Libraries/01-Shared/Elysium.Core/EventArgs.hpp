@@ -22,11 +22,15 @@ namespace Elysium::Core
 	{
 	public:
 		EventArgs();
-		EventArgs(const EventArgs& Source) = delete;
-		EventArgs(EventArgs&& Right) noexcept = delete;
-		virtual ~EventArgs();
 
+		EventArgs(const EventArgs& Source) = delete;
+
+		EventArgs(EventArgs&& Right) noexcept = delete;
+
+		virtual ~EventArgs();
+	public:
 		EventArgs& operator=(const EventArgs& Source) = delete;
+
 		EventArgs& operator=(EventArgs&& Right) noexcept = delete;
 	};
 }
