@@ -121,14 +121,21 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Right"></param>
 		/// <returns></returns>
 		FixedSizeArray<T, Length, Allocator>& operator=(FixedSizeArray&& Right) noexcept;
+	public:
+		/// <summary>
+		/// Gets the element at the specified index without checking boundaries.
+		/// </summary>
+		/// <param name="Index">The zero-based index of the element to get.</param>
+		/// <returns></returns>
+		FixedSizeArray<T, Length, Allocator>::Reference operator[](const Elysium::Core::size Index);
 
 		/// <summary>
 		/// Gets the element at the specified index without checking boundaries.
 		/// </summary>
 		/// <param name="Index">The zero-based index of the element to get.</param>
 		/// <returns></returns>
-		ConstReference operator[](const Elysium::Core::size Index) const;
-
+		FixedSizeArray<T, Length, Allocator>::ConstReference operator[](const Elysium::Core::size Index) const;
+	public:
 		/// <summary>
 		/// Gets the maximum number of elements the internal data structure can hold.
 		/// </summary>
@@ -279,6 +286,12 @@ namespace Elysium::Core::Template::Container
 			memset(&Right._Data[0], 0x00, sizeof(T) * Length);
 		}
 		return *this;
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::size Length, class Allocator>
+	inline FixedSizeArray<T, Length, Allocator>::Reference FixedSizeArray<T, Length, Allocator>::operator[](const Elysium::Core::size Index)
+	{
+		return _Data[Index];
 	}
 
 	template<Concepts::NonConstant T, const Elysium::Core::size Length, class Allocator>
