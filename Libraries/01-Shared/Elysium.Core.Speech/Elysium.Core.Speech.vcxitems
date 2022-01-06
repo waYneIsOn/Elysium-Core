@@ -18,6 +18,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioBitsPerSample.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioChannel.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioLevelUpdatedEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSignalProblem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSignalProblemOccurredEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.hpp" />
@@ -25,6 +28,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EncodingFormat.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Grammar.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InstalledVoice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LoadGrammarCompletedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PromptEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RecognitionEventArgs.hpp" />
@@ -34,6 +38,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechDetectedEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechHypothesizedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngineEvents.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SpeechRecognizedEventArgs.hpp" />
@@ -49,11 +55,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoiceInfo.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioLevelUpdatedEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioSignalProblemOccurredEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BookmarkReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DictationGrammar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Grammar.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InstalledVoice.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LoadGrammarCompletedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PhonemeReachedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PromptEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RecognitionEventArgs.cpp" />
@@ -63,6 +72,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeakProgressEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeakStartedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechAudioFormatInfo.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechDetectedEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechHypothesizedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognitionEngine.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechRecognizedEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp" />

@@ -5,7 +5,8 @@
 #endif
 
 Elysium::Core::Speech::Recognition::RecognitionEventArgs::RecognitionEventArgs(RecognitionResult&& Result)
-	: _Result(Elysium::Core::Template::Functional::Move(Result))
+	: Elysium::Core::EventArgs(),
+	_Result(Elysium::Core::Template::Functional::Move(Result))
 { }
 
 Elysium::Core::Speech::Recognition::RecognitionEventArgs::~RecognitionEventArgs()

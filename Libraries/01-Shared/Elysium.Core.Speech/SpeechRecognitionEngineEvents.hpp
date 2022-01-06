@@ -20,12 +20,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_AUDIOLEVELUPDATEDEVENTARGS
+#include "AudioLevelUpdatedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_AUDIOSIGNALPROBLEMOCCURREDEVENTARGS
+#include "AudioSignalProblemOccurredEventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_AUDIOSTATECHANGEDEVENTARGS
 #include "AudioStateChangedEventArgs.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_LOADGRAMMARCOMPLETEDEVENTARGS
+#include "LoadGrammarCompletedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_SPEECHDETECTEDEVENTARGS
+#include "SpeechDetectedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_SPEECHHYPOTHESIZEDEVENTARGS
+#include "SpeechHypothesizedEventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_RECOGNITIONEVENTARGS
-#include "SpeechRecognitionEngineEvents.hpp"
+#include "RecognitionEventArgs.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_SPEECHRECOGNIZEDEVENTARGS
@@ -36,7 +56,12 @@ namespace Elysium::Core::Speech::Recognition
 {
 	class SpeechRecognitionEngine;
 
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>;
 	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>;
 	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>;
 }
 #endif

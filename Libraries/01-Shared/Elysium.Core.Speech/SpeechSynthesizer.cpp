@@ -1,5 +1,9 @@
 #include "SpeechSynthesizer.hpp"
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
@@ -778,7 +782,12 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQue
 				break;
 			}
 			default:
-				break;
+			{
+				const Elysium::Core::int32_t EventId = Event.eEventId;
+				SpClearEvent(&Event);
+				//throw Elysium::Core::NotImplementedException(Elysium::Core::Template::Text::Convert<char8_t>::ToString(EventId));
+				throw 1;	// ToDo
+			}
 			}
 			SpClearEvent(&Event);
 		}

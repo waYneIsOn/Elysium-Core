@@ -1,5 +1,9 @@
 #include "SpeechRecognitionEngine.hpp"
 
+#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
+#include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_DICTATIONGRAMMAR
 #include "DictationGrammar.hpp"
 #endif
@@ -23,10 +27,12 @@ Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SpeechRecognitionEn
 { }
 
 Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SpeechRecognitionEngine(const Elysium::Core::Globalization::CultureInfo& Culture)
-	: AudioStateChanged(), SpeechRecognized(),
+	: AudioLevelUpdated(), AudioSignalProblemOccurred(), AudioStateChanged(), LoadGrammarCompleted(), SpeechDetected(), SpeechHypothesized(), SpeechRecognized(),
+	_AudioState(AudioFormat::AudioState::Stopped),
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	_NativeRecognizer(InitializeNativeRecognizer()), _NativeRecognizerContext(InitializeNativeRecognizerContext()), _NativeMemoryStream(InitializeNativeStream())
 #endif
+	
 { }
 
 Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::~SpeechRecognitionEngine()
@@ -201,6 +207,12 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToWave
 void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::Recognize()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
+	if (_AudioState != AudioFormat::AudioState::Silence)
+	{
+		_AudioState = AudioFormat::AudioState::Silence;
+		AudioStateChanged(*this, AudioStateChangedEventArgs(_AudioState));
+	}
+
 	HRESULT Result = S_OK;
 
 	if (FAILED(Result = _NativeRecognizerContext->Resume(0)))
@@ -256,8 +268,20 @@ ISpRecoContext* Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::Ini
 		NativeRecognizerContext->Release();
 		return nullptr;
 	}
-
-	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_FALSE_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_RECO_STATE_CHANGE);
+	/*
+	const ULONGLONG Interests = SPFEI(SPEVENTENUM::SPEI_END_SR_STREAM) | SPFEI(SPEVENTENUM::SPEI_SOUND_START) | SPFEI(SPEVENTENUM::SPEI_SOUND_END) | 
+		SPFEI(SPEVENTENUM::SPEI_PHRASE_START) | SPFEI(SPEVENTENUM::SPEI_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_HYPOTHESIS) | 
+		SPFEI(SPEVENTENUM::SPEI_FALSE_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_INTERFERENCE) | SPFEI(SPEVENTENUM::SPEI_RECO_STATE_CHANGE) | 
+		SPFEI(SPEVENTENUM::SPEI_START_SR_STREAM);
+	*/
+	const ULONGLONG Interests = 
+		SPFEI(SPEVENTENUM::SPEI_END_SR_STREAM) | SPFEI(SPEVENTENUM::SPEI_SOUND_START) | SPFEI(SPEVENTENUM::SPEI_SOUND_END) |
+		SPFEI(SPEVENTENUM::SPEI_PHRASE_START) | SPFEI(SPEVENTENUM::SPEI_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_HYPOTHESIS) |
+		SPFEI(SPEVENTENUM::SPEI_SR_BOOKMARK) | SPFEI(SPEVENTENUM::SPEI_PROPERTY_NUM_CHANGE) | SPFEI(SPEVENTENUM::SPEI_PROPERTY_STRING_CHANGE) |
+		SPFEI(SPEVENTENUM::SPEI_FALSE_RECOGNITION) | SPFEI(SPEVENTENUM::SPEI_INTERFERENCE) | SPFEI(SPEVENTENUM::SPEI_REQUEST_UI) |
+		SPFEI(SPEVENTENUM::SPEI_RECO_STATE_CHANGE) | SPFEI(SPEVENTENUM::SPEI_ADAPTATION) | SPFEI(SPEVENTENUM::SPEI_START_SR_STREAM) |
+		SPFEI(SPEVENTENUM::SPEI_RECO_OTHER_CONTEXT) | SPFEI(SPEVENTENUM::SPEI_SR_AUDIO_LEVEL) | SPFEI(SPEVENTENUM::SPEI_SR_RETAINEDAUDIO) |
+		SPFEI(SPEVENTENUM::SPEI_SR_PRIVATE) | SPFEI(SPEVENTENUM::SPEI_ACTIVE_CATEGORY_CHANGED);
 	if (FAILED(Result = NativeRecognizerContext->SetInterest(Interests, Interests)))
 	{
 		NativeRecognizerContext->Release();
@@ -304,22 +328,74 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 
 		if (SUCCEEDED(Result = _NativeRecognizerContext->GetEvents(1, &Event, &NumberOfEventsReceived)))
 		{
-			ISpRecoResult* NativeRecognizedResult = reinterpret_cast<ISpRecoResult*>(Event.lParam);
-
-			if (FAILED(Result = NativeRecognizedResult->GetText(SPPHRASERNG::SPPR_ALL_ELEMENTS, SPPHRASERNG::SPPR_ALL_ELEMENTS, FALSE, &NativeText, NULL)))
-			{
-				// ToDo: cleanup
-				break;
-			}
-
-			Text = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeText, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeText));
-			CoTaskMemFree(NativeText);
-
 			switch (Event.eEventId)
 			{
+			case SPEVENTENUM::SPEI_END_SR_STREAM:
+			{
+				bool sdfsdfdsfds678f = false;
+				break;
+			}
+			case SPEVENTENUM::SPEI_SOUND_START:
+			{
+				if (_AudioState != AudioFormat::AudioState::Speech)
+				{
+					_AudioState = AudioFormat::AudioState::Speech;
+					AudioStateChanged(*this, AudioStateChangedEventArgs(_AudioState));
+				}
+				break;
+			}
+			case SPEVENTENUM::SPEI_SOUND_END:
+			{
+				if (_AudioState != AudioFormat::AudioState::Silence)
+				{
+					_AudioState = AudioFormat::AudioState::Silence;
+					AudioStateChanged(*this, AudioStateChangedEventArgs(_AudioState));
+				}
+				break;
+			}
+			case SPEVENTENUM::SPEI_PHRASE_START:
+			{
+				SpeechDetected(*this, SpeechDetectedEventArgs(Elysium::Core::TimeSpan(Event.ullAudioStreamOffset)));
+				break;
+			}
 			case SPEVENTENUM::SPEI_RECOGNITION:
 			{
+				ISpRecoResult* NativeRecognizedResult = reinterpret_cast<ISpRecoResult*>(Event.lParam);
+				if (NativeRecognizedResult == nullptr)
+				{	// this can happen (at least if we got incorrect interests)
+					continue;
+				}
+
+				if (FAILED(Result = NativeRecognizedResult->GetText(SPPHRASERNG::SPPR_ALL_ELEMENTS, SPPHRASERNG::SPPR_ALL_ELEMENTS, FALSE, &NativeText, NULL)))
+				{
+					// ToDo: cleanup
+					continue;
+				}
+
+				Text = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeText, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeText));
+				CoTaskMemFree(NativeText);
+
 				SpeechRecognized(*this, SpeechRecognizedEventArgs(RecognitionResult(Elysium::Core::Template::Functional::Move(Text))));
+				break;
+			}
+			case SPEVENTENUM::SPEI_HYPOTHESIS:
+			{
+				ISpRecoResult* NativeRecognizedResult = reinterpret_cast<ISpRecoResult*>(Event.lParam);
+				if (NativeRecognizedResult == nullptr)
+				{	// this can happen (at least if we got incorrect interests)
+					continue;
+				}
+
+				if (FAILED(Result = NativeRecognizedResult->GetText(SPPHRASERNG::SPPR_ALL_ELEMENTS, SPPHRASERNG::SPPR_ALL_ELEMENTS, FALSE, &NativeText, NULL)))
+				{
+					// ToDo: cleanup
+					continue;
+				}
+
+				Text = _WindowsEncoding.GetString((Elysium::Core::byte*)NativeText, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeText));
+				CoTaskMemFree(NativeText);
+				
+				SpeechHypothesized(*this, SpeechHypothesizedEventArgs(RecognitionResult(Elysium::Core::Template::Functional::Move(Text))));
 				break;
 			}
 			case SPEVENTENUM::SPEI_FALSE_RECOGNITION:
@@ -327,19 +403,37 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::ProcessEventMe
 				bool sdfsdfdsfdsf = false;
 				break;
 			}
+			case SPEVENTENUM::SPEI_INTERFERENCE:
+			{
+				AudioSignalProblemOccurred(*this, AudioSignalProblemOccurredEventArgs((AudioSignalProblem)Event.lParam, Event.wParam));
+				break;
+			}
 			case SPEVENTENUM::SPEI_RECO_STATE_CHANGE:
+			{
+				bool sdfsdfdsfds678f = false;
+				break;
+			}
+			case SPEVENTENUM::SPEI_START_SR_STREAM:
 			{
 				bool sdfsdfdsfds678f = false;
 				break;
 			}
 			default:
 			{
-				bool x456 = false;
-				break;
+				const Elysium::Core::int32_t EventId = Event.eEventId;
+				SpClearEvent(&Event);
+				//throw Elysium::Core::NotImplementedException(Elysium::Core::Template::Text::Convert<char8_t>::ToString(EventId));
+				throw 1;	// ToDo
 			}
 			}
 			SpClearEvent(&Event);
 		}
 	} while (true);
+
+	if (_AudioState != AudioFormat::AudioState::Stopped)
+	{
+		_AudioState = AudioFormat::AudioState::Stopped;
+		AudioStateChanged(*this, AudioStateChangedEventArgs(_AudioState));
+	}
 }
 #endif

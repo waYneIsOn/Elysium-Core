@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_EVENTARGS
+#include "../Elysium.Core/EventArgs.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
 #endif
@@ -22,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Speech::Recognition
 {
-	class ELYSIUM_CORE_SPEECH_API RecognitionEventArgs
+	class ELYSIUM_CORE_SPEECH_API RecognitionEventArgs : public EventArgs
 	{
 	protected:
 		RecognitionEventArgs(RecognitionResult&& Result);

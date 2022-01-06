@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SPEECH_AUDIOFORMAT_AUDIOSTATE
+#include "AudioState.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SPEECH_AUDIOFORMAT_SPEECHAUDIOFORMATINFO
 #include "SpeechAudioFormatInfo.hpp"
 #endif
@@ -75,23 +79,23 @@ namespace Elysium::Core::Speech::Recognition
 
 		SpeechRecognitionEngine& operator=(SpeechRecognitionEngine&& Right) noexcept = delete;
 	public:
-		//Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
+		Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
 		
-		//Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&> AudioSignalProblemOccurred;
+		Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&> AudioSignalProblemOccurred;
 		
 		Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&> AudioStateChanged;
 		
 		//Event<void, const SpeechRecognitionEngine&, const EmulateRecognizeCompletedEventArgs&> EmulateRecognizeCompleted;
 		
-		//Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&> LoadGrammarCompleted;
+		Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&> LoadGrammarCompleted;
 		
 		//Event<void, const SpeechRecognitionEngine&, const RecognizeCompletedEventArgs&> RecognizeCompleted;
 		
 		//Event<void, const SpeechRecognitionEngine&, const RecognizerUpdateReachedEventArgs&> RecognizerUpdateReachedEventArgs;
 		
-		//Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&> SpeechDetected;
+		Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&> SpeechDetected;
 		
-		//Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&> SpeechHypothesized;
+		Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&> SpeechHypothesized;
 		
 		//Event<void, const SpeechRecognitionEngine&, const SpeechRecognitionRejectedEventArgs&> SpeechRecognitionRejected;
 
@@ -107,6 +111,8 @@ namespace Elysium::Core::Speech::Recognition
 
 		void Recognize();
 	private:
+		AudioFormat::AudioState _AudioState;
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline static const Elysium::Core::Text::Encoding& _WindowsEncoding = Elysium::Core::Text::Encoding::UTF16LE();
 

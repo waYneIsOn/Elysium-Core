@@ -56,7 +56,12 @@ namespace UnitTests::Core::Speech
 				DictationGrammar DictatedGrammar = DictationGrammar(); // uri=grammar:dictation rule=
 
 				SpeechRecognitionEngine RecognitionEngine = SpeechRecognitionEngine();
+				RecognitionEngine.AudioLevelUpdated += Delegate<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>::Bind<&SpeechRecognitionEngine_OnAudioLevelUpdated>();
+				RecognitionEngine.AudioSignalProblemOccurred += Delegate<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>::Bind<&SpeechRecognitionEngine_OnAudioSignalProblemOccurred>();
 				RecognitionEngine.AudioStateChanged += Delegate<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>::Bind<&SpeechRecognitionEngine_OnAudioStateChanged>();
+				RecognitionEngine.LoadGrammarCompleted += Delegate<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>::Bind<&SpeechRecognitionEngine_OnLoadGrammarCompleted>();
+				RecognitionEngine.SpeechDetected += Delegate<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>::Bind<&SpeechRecognitionEngine_OnSpeechDetected>();
+				RecognitionEngine.SpeechHypothesized += Delegate<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>::Bind<&SpeechRecognitionEngine_OnSpeechHypothesized>();
 				RecognitionEngine.SpeechRecognized += Delegate<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>::Bind<&SpeechRecognitionEngine_OnSpeechRecognized>();
 				RecognitionEngine.LoadGrammar(DictatedGrammar);
 				RecognitionEngine.SetInputToAudioStream(_AudioStream, _AudioFormat);
@@ -87,7 +92,12 @@ namespace UnitTests::Core::Speech
 				DictationGrammar DictatedGrammar = DictationGrammar(); // uri=grammar:dictation rule=
 
 				SpeechRecognitionEngine RecognitionEngine = SpeechRecognitionEngine();
+				RecognitionEngine.AudioLevelUpdated += Delegate<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>::Bind<&SpeechRecognitionEngine_OnAudioLevelUpdated>();
+				RecognitionEngine.AudioSignalProblemOccurred += Delegate<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>::Bind<&SpeechRecognitionEngine_OnAudioSignalProblemOccurred>();
 				RecognitionEngine.AudioStateChanged += Delegate<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>::Bind<&SpeechRecognitionEngine_OnAudioStateChanged>();
+				RecognitionEngine.LoadGrammarCompleted += Delegate<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>::Bind<&SpeechRecognitionEngine_OnLoadGrammarCompleted>();
+				RecognitionEngine.SpeechDetected += Delegate<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>::Bind<&SpeechRecognitionEngine_OnSpeechDetected>();
+				RecognitionEngine.SpeechHypothesized += Delegate<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>::Bind<&SpeechRecognitionEngine_OnSpeechHypothesized>();
 				RecognitionEngine.SpeechRecognized += Delegate<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>::Bind<&SpeechRecognitionEngine_OnSpeechRecognized>();
 				RecognitionEngine.LoadGrammar(DictatedGrammar);
 				RecognitionEngine.SetInputToWaveFile(_WaveFile);
@@ -106,6 +116,55 @@ namespace UnitTests::Core::Speech
 		inline static Elysium::Core::Utf8String _WaveFile = u8"SpeechSynthesizerForRecognition.wav";
 		inline static Elysium::Core::IO::MemoryStream _AudioStream = Elysium::Core::IO::MemoryStream();
 
+		static void SpeechRecognitionEngine_OnAudioLevelUpdated(const SpeechRecognitionEngine& Engine, const AudioLevelUpdatedEventArgs& EventArgs)
+		{
+			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::uint32_t AudioLevel = EventArgs.GetAudioLevel();
+
+			Logger::WriteMessage(&CurrentThreadId[0]);
+			Logger::WriteMessage(" Audio level updated: ");
+			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(AudioLevel)[0]);
+			Logger::WriteMessage("\r\n");
+		}
+
+		static void SpeechRecognitionEngine_OnAudioSignalProblemOccurred(const SpeechRecognitionEngine& Engine, const AudioSignalProblemOccurredEventArgs& EventArgs)
+		{
+			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const AudioSignalProblem Problem = EventArgs.GetAudioSignalProblem();
+
+			Logger::WriteMessage(&CurrentThreadId[0]);
+			Logger::WriteMessage(" Audio problem occurred: ");
+			switch (Problem)
+			{
+			case AudioSignalProblem::None:
+				Logger::WriteMessage("None ");
+				break;
+			case AudioSignalProblem::TooNoisy:
+				Logger::WriteMessage("TooNoisy ");
+				break;
+			case AudioSignalProblem::NoSignal:
+				Logger::WriteMessage("NoSignal ");
+				break;
+			case AudioSignalProblem::TooLoud:
+				Logger::WriteMessage("TooLoud ");
+				break;
+			case AudioSignalProblem::TooSoft:
+				Logger::WriteMessage("TooSoft ");
+				break;
+			case AudioSignalProblem::TooFast:
+				Logger::WriteMessage("TooFast ");
+				break;
+			case AudioSignalProblem::TooSlow:
+				Logger::WriteMessage("TooSlow ");
+				break;
+			default:
+				Logger::WriteMessage("unhandled ");
+				break;
+			}
+			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(EventArgs.GetAudioLevel())[0]);
+			Logger::WriteMessage("\r\n");
+		}
+
 		static void SpeechRecognitionEngine_OnAudioStateChanged(const SpeechRecognitionEngine& Engine, const AudioStateChangedEventArgs& EventArgs)
 		{
 			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
@@ -116,18 +175,50 @@ namespace UnitTests::Core::Speech
 			switch (State)
 			{
 			case AudioState::Stopped:
-				Logger::WriteMessage(" stopped");
+				Logger::WriteMessage("stopped");
 				break;
 			case AudioState::Silence:
-				Logger::WriteMessage(" silence");
+				Logger::WriteMessage("silence");
 				break;
 			case AudioState::Speech:
-				Logger::WriteMessage(" speech");
+				Logger::WriteMessage("speech");
 				break;
 			default:
-				Logger::WriteMessage(" unhandled");
+				Logger::WriteMessage("unhandled");
 				break;
 			}
+			Logger::WriteMessage("\r\n");
+		}
+
+		static void SpeechRecognitionEngine_OnLoadGrammarCompleted(const SpeechRecognitionEngine& Engine, const LoadGrammarCompletedEventArgs& EventArgs)
+		{
+			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			
+			Logger::WriteMessage(&CurrentThreadId[0]);
+			Logger::WriteMessage(" Grammar loaded: ");
+			//Logger::WriteMessage(...);
+			Logger::WriteMessage("\r\n");
+		}
+
+		static void SpeechRecognitionEngine_OnSpeechDetected(const SpeechRecognitionEngine& Engine, const SpeechDetectedEventArgs& EventArgs)
+		{
+			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::TimeSpan& AudioPosition = EventArgs.GetAudioPosition();
+
+			Logger::WriteMessage(&CurrentThreadId[0]);
+			Logger::WriteMessage(" Speech detected: ");
+			//Logger::WriteMessage((char*)&AudioPosition.ToString()[0]);
+			Logger::WriteMessage("\r\n");
+		}
+
+		static void SpeechRecognitionEngine_OnSpeechHypothesized(const SpeechRecognitionEngine& Engine, const SpeechHypothesizedEventArgs& EventArgs)
+		{
+			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::Utf8String& Text = EventArgs.GetResult().GetText();
+
+			Logger::WriteMessage(&CurrentThreadId[0]);
+			Logger::WriteMessage(" Speech hypothesized: ");
+			Logger::WriteMessage((char*)&Text[0]);
 			Logger::WriteMessage("\r\n");
 		}
 

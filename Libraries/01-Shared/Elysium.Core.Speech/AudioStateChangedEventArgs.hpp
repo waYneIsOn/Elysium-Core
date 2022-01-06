@@ -28,6 +28,7 @@ namespace Elysium::Core::Speech::Recognition
 {
 	class ELYSIUM_CORE_SPEECH_API AudioStateChangedEventArgs : public EventArgs
 	{
+		friend class SpeechRecognitionEngine;
 	protected:
 		AudioStateChangedEventArgs(const AudioFormat::AudioState AudioState);
 	public:
@@ -41,7 +42,7 @@ namespace Elysium::Core::Speech::Recognition
 
 		AudioStateChangedEventArgs& operator=(AudioStateChangedEventArgs&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::Speech::AudioFormat::AudioState& GetAudioState() const;
+		const Elysium::Core::Speech::AudioFormat::AudioState GetAudioState() const;
 	private:
 		AudioFormat::AudioState _AudioState;
 	};

@@ -8,7 +8,7 @@ Elysium::Core::Speech::Recognition::AudioStateChangedEventArgs::AudioStateChange
 Elysium::Core::Speech::Recognition::AudioStateChangedEventArgs::~AudioStateChangedEventArgs()
 { }
 
-const Elysium::Core::Speech::AudioFormat::AudioState& Elysium::Core::Speech::Recognition::AudioStateChangedEventArgs::GetAudioState() const
+const Elysium::Core::Speech::AudioFormat::AudioState Elysium::Core::Speech::Recognition::AudioStateChangedEventArgs::GetAudioState() const
 {
 	return _AudioState;
 }

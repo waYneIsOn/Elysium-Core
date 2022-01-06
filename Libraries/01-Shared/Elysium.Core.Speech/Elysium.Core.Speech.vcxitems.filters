@@ -109,6 +109,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.hpp">
       <Filter>Recognition</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioLevelUpdatedEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechHypothesizedEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LoadGrammarCompletedEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSignalProblem.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AudioSignalProblemOccurredEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpeechDetectedEventArgs.hpp">
+      <Filter>Recognition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpeechSynthesizer.cpp">
@@ -172,6 +190,21 @@
       <Filter>Recognition</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)AudioStateChangedEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioLevelUpdatedEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechHypothesizedEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)LoadGrammarCompletedEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)AudioSignalProblemOccurredEventArgs.cpp">
+      <Filter>Recognition</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpeechDetectedEventArgs.cpp">
       <Filter>Recognition</Filter>
     </ClCompile>
   </ItemGroup>
