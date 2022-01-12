@@ -1,6 +1,6 @@
 #include "EventWaitHandle.hpp"
 
-Elysium::Core::Threading::EventWaitHandle::EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const Utf8String::Character* Name)
+Elysium::Core::Threading::EventWaitHandle::EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, Utf8String::ConstCharacterPointer Name)
 	: WaitHandle(ELYSIUM_SIGNAL_CREATE(nullptr, AutomaticallyReset, InitialState, nullptr))	// ToDo: last parameter (char8_t -> wchar_t)
 { }
 

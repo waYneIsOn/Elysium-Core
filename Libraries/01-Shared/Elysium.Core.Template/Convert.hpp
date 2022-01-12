@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_GLOBALIZATION_NUMBERFORMATINFO
 #include "../Elysium.Core.Globalization/NumberFormatInfo.hpp"
 #endif
@@ -34,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
 #include "NumericLimits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
@@ -62,22 +62,86 @@ namespace Elysium::Core::Template::Text
 
 		using CorrespondingString = StringBase<C>;
 	public:
-		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase,
+		Convert() = delete;
+
+		Convert(const Convert& Source) = delete;
+
+		Convert(Convert&& Right) noexcept = delete;
+
+		~Convert() = delete;
+	public:
+		Convert& operator=(const Convert& Source) = delete;
+
+		Convert& operator=(Convert&& Right) noexcept = delete;
+	public:
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
-		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase);
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
-		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::uint32_t Value);
-		
-		static Elysium::Core::int32_t ToInt32(ConstPointer Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase);
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
+			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint16_t Value);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
+			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint32_t Value);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
+			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint64_t Value);
+
+		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+		/*
+		static float ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static float ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static float ToSingle(ConstPointer Value);
+
+		static float ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
+
+		static float ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static float ToDouble(ConstPointer Value);
+		*/
 	private:
-		static const Elysium::Core::int32_t ToInt32FromBase10(ConstPointer Value, const Elysium::Core::size Length);
+		static const Elysium::Core::Template::System::int32_t ToInt32FromBase2(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 
-		static const Elysium::Core::int32_t ToInt32FromBase16(ConstPointer Value, const Elysium::Core::size Length);
+		static const Elysium::Core::Template::System::int32_t ToInt32FromBase8(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static const Elysium::Core::Template::System::int32_t ToInt32FromBase10(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static const Elysium::Core::Template::System::int32_t ToInt32FromBase16(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 	};
 
 	template<Concepts::Character C>
-	const typename Elysium::Core::Template::Text::Convert<C>::CorrespondingString Elysium::Core::Template::Text::Convert<C>::ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -89,15 +153,71 @@ namespace Elysium::Core::Template::Text
 			return "0";
 		}
 
-		Elysium::Core::uint8_t RequiredNumberOfCharacters = 0;
-		Elysium::Core::uint8_t Index = 0;
-		RequiredNumberOfCharacters += static_cast<Elysium::Core::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		throw Elysium::Core::NotImplementedException();
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
+	{
+		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value)
+	{
+		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+	
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
+	{
+		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
+		{
+			throw Elysium::Core::ArgumentException(u8"ToBase");
+		}
+
+		if (Value == 0)
+		{
+			return "0";
+		}
+
+		throw Elysium::Core::NotImplementedException();
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	{
+		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value)
+	{
+		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+	
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	{
+		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
+		{
+			throw Elysium::Core::ArgumentException(u8"ToBase");
+		}
+
+		if (Value == 0)
+		{
+			return "0";
+		}
+
+		Elysium::Core::Template::System::uint8_t RequiredNumberOfCharacters = 0;
+		Elysium::Core::Template::System::uint8_t Index = 0;
+		RequiredNumberOfCharacters += static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
 		Elysium::Core::Template::Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		while (Index < RequiredNumberOfCharacters)
 		{
-			Elysium::Core::int16_t BaseValue = static_cast<Elysium::Core::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			Elysium::Core::int16_t NumericalValue = Value / BaseValue;
+			Elysium::Core::Template::System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			Elysium::Core::Template::System::int16_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -115,38 +235,222 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	const typename Elysium::Core::Template::Text::Convert<C>::CorrespondingString Elysium::Core::Template::Text::Convert<C>::ToString(Elysium::Core::uint32_t Value, const Elysium::Core::uint8_t ToBase)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
 		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 	}
 
 	template<Concepts::Character C>
-	const typename Elysium::Core::Template::Text::Convert<C>::CorrespondingString Elysium::Core::Template::Text::Convert<C>::ToString(Elysium::Core::uint32_t Value)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value)
 	{
 		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	{
+		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
+		{
+			throw Elysium::Core::ArgumentException(u8"ToBase");
+		}
+
+		if (Value == 0)
+		{
+			return "0";
+		}
+
+		throw Elysium::Core::NotImplementedException();
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
+	{
+		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value)
+	{
+		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
 		switch (FromBase)
 		{
+		/*
+		case 2:
+			return ToInt8FromBase2(Value, Length);
+		case 8:
+			return ToInt8FromBase8(Value, Length);
+		case 10:
+			return ToInt8FromBase10(Value, Length);
+		case 16:
+			return ToInt8FromBase16(Value, Length);
+		*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+			/*
+			case 2:
+				return ToInt16FromBase2(Value, Length);
+			case 8:
+				return ToInt16FromBase2(Value, Length);
+			case 10:
+				return ToInt16FromBase2(Value, Length);
+			case 16:
+				return ToInt16FromBase2(Value, Length);
+			*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+		case 2:
+			return ToInt32FromBase2(Value, Length);
+		case 8:
+			return ToInt32FromBase8(Value, Length);
 		case 10:
 			return ToInt32FromBase10(Value, Length);
 		case 16:
 			return ToInt32FromBase16(Value, Length);
 		default:
-			throw NotImplementedException();
+			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::int32_t Convert<C>::ToInt32FromBase10(ConstPointer Value, const Elysium::Core::size Length)
+	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+			/*
+			case 2:
+				return ToInt64FromBase2(Value, Length);
+			case 8:
+				return ToInt64FromBase2(Value, Length);
+			case 10:
+				return ToInt64FromBase2(Value, Length);
+			case 16:
+				return ToInt64FromBase2(Value, Length);
+			*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+			/*
+			case 2:
+				return ToUInt8FromBase2(Value, Length);
+			case 8:
+				return ToUInt8FromBase2(Value, Length);
+			case 10:
+				return ToUInt8FromBase2(Value, Length);
+			case 16:
+				return ToUInt8FromBase2(Value, Length);
+			*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+			/*
+			case 2:
+				return ToUInt16FromBase2(Value, Length);
+			case 8:
+				return ToUInt16FromBase2(Value, Length);
+			case 10:
+				return ToUInt16FromBase2(Value, Length);
+			case 16:
+				return ToUInt16FromBase2(Value, Length);
+			*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+			/*
+			case 2:
+				return ToUInt32FromBase2(Value, Length);
+			case 8:
+				return ToUInt32FromBase2(Value, Length);
+			case 10:
+				return ToUInt32FromBase2(Value, Length);
+			case 16:
+				return ToUInt32FromBase2(Value, Length);
+			*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
+	{
+		switch (FromBase)
+		{
+			/*
+			case 2:
+				return ToUInt64FromBase2(Value, Length);
+			case 8:
+				return ToUInt64FromBase2(Value, Length);
+			case 10:
+				return ToUInt64FromBase2(Value, Length);
+			case 16:
+				return ToUInt64FromBase2(Value, Length);
+			*/
+		default:
+			throw Elysium::Core::ArgumentException(u8"FromBase");
+		}
+	}
+
+	template<Concepts::Character C>
+	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase2(ConstPointer Value, const Elysium::Core::Template::System::size Length)
+	{
+		throw Elysium::Core::NotImplementedException();
+	}
+
+	template<Concepts::Character C>
+	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase8(ConstPointer Value, const Elysium::Core::Template::System::size Length)
+	{
+		throw Elysium::Core::NotImplementedException();
+	}
+
+	template<Concepts::Character C>
+	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase10(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
 		// taken from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		Elysium::Core::int16_t Sign = 1;
-		Elysium::Core::int32_t i = 0;
-		Elysium::Core::int32_t Base = 0;
+		Elysium::Core::Template::System::int16_t Sign = 1;
+		Elysium::Core::Template::System::int32_t i = 0;
+		Elysium::Core::Template::System::int32_t Base = 0;
 		
 		// eat all whitespaces
 		while (Value[i] == CharacterTraits<C>::WhitespaceCharacter)
@@ -164,11 +468,11 @@ namespace Elysium::Core::Template::Text
 		while (Value[i] >= static_cast<ConstValue>('0') && Value[i] <= static_cast<ConstValue>('9') && i < Length)
 		{
 			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - static_cast<ConstValue>('0') > 7))
+			if (Base > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
+				(Base == Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[i] - static_cast<ConstValue>('0') > 7))
 			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Minimum;
+				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Maximum :
+					Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Minimum;
 			}
 
 			Base = 10 * Base + (Value[i++] - static_cast<ConstValue>('0'));
@@ -178,11 +482,11 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::int32_t Convert<C>::ToInt32FromBase16(ConstPointer Value, const Elysium::Core::size Length)
+	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase16(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		Elysium::Core::int16_t Sign = 1;
-		Elysium::Core::int32_t i = 0;
-		Elysium::Core::int32_t Base = 0;
+		Elysium::Core::Template::System::int16_t Sign = 1;
+		Elysium::Core::Template::System::int32_t i = 0;
+		Elysium::Core::Template::System::int32_t Base = 0;
 
 		// eat all whitespaces
 		while (Value[i] == CharacterTraits<C>::WhitespaceCharacter)

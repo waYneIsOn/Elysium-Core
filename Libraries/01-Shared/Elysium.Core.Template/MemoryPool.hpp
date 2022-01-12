@@ -18,7 +18,7 @@ namespace Elysium::Core::Template::Memory
 	class MemoryPool
 	{
 	public:
-		//MemoryPool(const Elysium::Core::size NumberOfBytes);
+		//MemoryPool(const Elysium::Core::Template::System::size NumberOfBytes);
 
 		MemoryPool(const MemoryPool& Source) = delete;
 

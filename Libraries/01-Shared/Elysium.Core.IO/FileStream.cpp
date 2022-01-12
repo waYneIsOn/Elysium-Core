@@ -258,8 +258,8 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(con
 		FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State, 0xFFFFFFFFFFFFFFFF);
 
 		StartThreadpoolIo(_CompletionPortHandle);
-		Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], Size, 0, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
-		//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+		Elysium::Core::int32_t Result = WriteFile(_FileHandle, &Buffer[0], static_cast<DWORD>(Size), 0, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
+		//Elysium::Core::int32_t Result = WriteFileEx(_FileHandle, &Buffer[0], static_cast<DWORD>(Size), &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
 		if (!Result)
 		{
 			Elysium::Core::uint32_t ErrorCode = GetLastError();
@@ -307,8 +307,8 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(cons
 		FileStreamAsyncResult* AsyncResult = new FileStreamAsyncResult(*this, Callback, State, _Position);
 
 		StartThreadpoolIo(_CompletionPortHandle);
-		Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], Size, nullptr, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
-		//Elysium::Core::int32_t Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], Size, &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+		Elysium::Core::int32_t Result = ReadFile(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Size), nullptr, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
+		//Elysium::Core::int32_t Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Size), &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
 		if (!Result)
 		{
 			Elysium::Core::uint32_t ErrorCode = GetLastError();

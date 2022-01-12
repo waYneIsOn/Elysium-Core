@@ -84,14 +84,14 @@ const Elysium::Core::size Elysium::Core::IO::StreamReader::Read(char8_t* Buffer,
 
 Elysium::Core::Utf8String Elysium::Core::IO::StreamReader::ReadLine()
 {
-	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder();
+	Elysium::Core::Text::Utf8StringBuilder Builder = Elysium::Core::Text::Utf8StringBuilder();
 
 	throw NotImplementedException();
 }
 
 Elysium::Core::Utf8String Elysium::Core::IO::StreamReader::ReadToEnd()
 {
-	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder();
+	Elysium::Core::Text::Utf8StringBuilder Builder = Elysium::Core::Text::Utf8StringBuilder();
 
 	throw NotImplementedException();
 }

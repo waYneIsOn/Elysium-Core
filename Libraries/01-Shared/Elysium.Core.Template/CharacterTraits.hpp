@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "../Elysium.Core/System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
@@ -60,7 +60,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the minimum number of bytes required to represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MinimumByteLength = sizeof(C);
+		static constexpr const System::size MinimumByteLength = sizeof(C);
 
 		/// <summary>
 		/// Returns '\0' as specified character-type.
@@ -97,14 +97,14 @@ namespace Elysium::Core::Template::Text
 		/// </summary>
 		/// <param name="Start"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size GetLength(ConstPointer Start) noexcept;
+		static constexpr const System::size GetLength(ConstPointer Start) noexcept;
 
 		/// <summary>
 		/// Returns the number of bytes in given string up until the first null-termination character.
 		/// </summary>
 		/// <param name="Start"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size GetSize(ConstPointer Start) noexcept;
+		static constexpr const System::size GetSize(ConstPointer Start) noexcept;
 
 		/// <summary>
 		/// Returns whether given string is nullptr or not.
@@ -134,7 +134,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept;
+		static constexpr const System::size IndexOf(ConstPointer Start, const System::size Length, ConstValue Value) noexcept;
 
 		/// <summary>
 		/// Returns index of looked up sequence within given string and length if there's a match or -1 otherwise.
@@ -143,7 +143,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Sequence"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
+		static constexpr const System::size IndexOf(ConstPointer Start, const System::size Length, ConstPointer Sequence) noexcept;
 
 		/// <summary>
 		/// 
@@ -152,7 +152,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept;
+		static constexpr const System::size LastIndexOf(ConstPointer Start, const System::size Length, ConstValue Value) noexcept;
 
 		/// <summary>
 		/// 
@@ -161,7 +161,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Sequence"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept;
+		static constexpr const System::size LastIndexOf(ConstPointer Start, const System::size Length, ConstPointer Sequence) noexcept;
 
 		/// <summary>
 		/// Returns 0 if both strings match each other, a negative value if ... or a positive value otherwise.
@@ -170,7 +170,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="OtherStart"></param>
 		/// <param name="Length"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::int32_t Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::size Length) noexcept;
+		static constexpr const System::int32_t Compare(ConstPointer Start, ConstPointer OtherStart, const System::size Length) noexcept;
 
 		/// <summary>
 		/// Returns a pointer to the first character matching given value found within given string or nullptr if there was no match.
@@ -179,18 +179,18 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Length"></param>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr CharacterTraitsBase<C, I>::Pointer Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept;
+		static constexpr CharacterTraitsBase<C, I>::Pointer Find(ConstPointer Start, const System::size Length, ConstValue Value) noexcept;
 	};
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::GetLength(ConstPointer Start) noexcept
+	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetLength(ConstPointer Start) noexcept
 	{
 		if (Start == nullptr)
 		{
 			return 0;
 		}
 
-		Elysium::Core::size Length = 0;
+		Elysium::Core::Template::System::size Length = 0;
 		while (*Start != NullTerminationCharacter)
 		{
 			Length++;
@@ -201,7 +201,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::GetSize(ConstPointer Start) noexcept
+	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetSize(ConstPointer Start) noexcept
 	{
 		return GetLength(Start) * MinimumByteLength;
 	}
@@ -225,23 +225,23 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		if (Start == nullptr || Length == 0)
 		{
-			return static_cast<Elysium::Core::size>(-1);
+			return static_cast<Elysium::Core::Template::System::size>(-1);
 		}
 
-		ConstPointer CharPointer = CharacterTraitsBase<C, I>::Find(Start, Length, Value);
-		return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - Start;
+		ConstPointer CharacterPointer = CharacterTraitsBase<C, I>::Find(Start, Length, Value);
+		return CharacterPointer == nullptr ? static_cast<Elysium::Core::Template::System::size>(-1) : CharacterPointer - Start;
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept
+	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		if (Start == nullptr || Length == 0 || Sequence == nullptr)
 		{
-			return static_cast<Elysium::Core::size>(-1);
+			return static_cast<Elysium::Core::Template::System::size>(-1);
 		}
 
 		ConstPointer LastCharacter = &Start[Length];
@@ -283,40 +283,40 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
-		Pointer CharPointer = nullptr;
-		for (Elysium::Core::size i = Length; i > 0; i--)
+		Pointer CharacterPointer = nullptr;
+		for (Elysium::Core::Template::System::size i = Length; i > 0; i--)
 		{
 			if (Start[i - 1] == Value)
 			{
-				CharPointer = (Pointer)&Start[i - 1];
+				CharacterPointer = (Pointer)&Start[i - 1];
 				break;
 			}
 		}
-		return CharPointer == nullptr ? static_cast<Elysium::Core::size>(-1) : CharPointer - Start;
+		return CharacterPointer == nullptr ? static_cast<Elysium::Core::Template::System::size>(-1) : CharacterPointer - Start;
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::size Length, ConstPointer Sequence) noexcept
+	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		return -1;
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::int32_t CharacterTraitsBase<C, I>::Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::size Length) noexcept
+	inline constexpr const Elysium::Core::Template::System::int32_t CharacterTraitsBase<C, I>::Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::Template::System::size Length) noexcept
 	{
 		return __builtin_memcmp(Start, OtherStart, Length);
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr CharacterTraitsBase<C, I>::Pointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<C, I>::Pointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		return __builtin_char_memchr(Start, Value, Length);
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length - 1];
 		while (Start++ < LastCharacter)
@@ -331,7 +331,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length - 1];
 		while (Start++ < LastCharacter)
@@ -346,7 +346,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length - 1];
 		while (Start++ < LastCharacter)
@@ -361,7 +361,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length - 1];
 		while (Start++ < LastCharacter)
@@ -407,7 +407,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(char);
+		static constexpr const System::size MaximumByteLength = sizeof(char);
 	public:
 		//static constexpr const CharacterCategory GetCategory(ConstCharacter Value) noexcept;
 
@@ -573,7 +573,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(signed char);
+		static constexpr const System::size MaximumByteLength = sizeof(signed char);
 	public:
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -721,7 +721,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(unsigned char);
+		static constexpr const System::size MaximumByteLength = sizeof(unsigned char);
 	public:
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -868,7 +868,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = 4;
+		static constexpr const System::size MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -911,7 +911,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = 4;
+		static constexpr const System::size MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -1006,7 +1006,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = 4;
+		static constexpr const System::size MaximumByteLength = 4;
 		
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.
@@ -1049,7 +1049,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const Elysium::Core::size MaximumByteLength = sizeof(char32_t);
+		static constexpr const System::size MaximumByteLength = sizeof(char32_t);
 	public:
 		/// <summary>
 		/// Indicates whether given value is categorized as a control-character.

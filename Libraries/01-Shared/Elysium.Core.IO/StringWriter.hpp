@@ -25,7 +25,7 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API StringWriter : public TextWriter
 	{
 	public:
-		StringWriter(Elysium::Core::Text::StringBuilder& StringBuilder);
+		StringWriter(Elysium::Core::Text::Utf8StringBuilder& StringBuilder);
 
 		StringWriter(const StringWriter& Source) = delete;
 
@@ -41,7 +41,7 @@ namespace Elysium::Core::IO
 
 		virtual void Write(const Elysium::Core::Utf8String& Value) override;
 	private:
-		Elysium::Core::Text::StringBuilder& _StringBuilder;
+		Elysium::Core::Text::Utf8StringBuilder& _StringBuilder;
 	};
 }
 #endif

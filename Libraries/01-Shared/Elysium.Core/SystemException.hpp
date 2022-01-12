@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Exception.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	/// <summary>

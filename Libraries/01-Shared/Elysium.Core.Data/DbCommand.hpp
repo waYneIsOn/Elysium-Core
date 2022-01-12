@@ -56,7 +56,7 @@ namespace Elysium::Core::Data::Common
 		const IDbConnection& _Connection;
 		const IDbTransaction* _Transaction;
 
-		Utf8String _Text = Utf8String::Empty;
+		Utf8String _Text = Utf8String();
 		Elysium::Core::uint32_t _Timeout = 30;
 		CommandType _Type = CommandType::Text;
 	};

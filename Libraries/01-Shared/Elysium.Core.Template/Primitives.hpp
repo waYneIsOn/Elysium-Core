@@ -36,5 +36,12 @@ namespace Elysium::Core::Template::System
 #else
 #error "unsupported os"
 #endif
+
+	/*
+	enum class byte : unsigned char
+	{};
+	*/
+	typedef uint8_t byte;
+	typedef int8_t sbyte;
 }
 #endif

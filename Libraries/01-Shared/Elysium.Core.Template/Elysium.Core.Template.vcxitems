@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />

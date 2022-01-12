@@ -39,7 +39,7 @@ namespace Elysium::Core::Template::Container
 		InitializerList<T>& operator=(const InitializerList& Source) = delete;
 		InitializerList<T>& operator=(InitializerList&& Right) noexcept = delete;
 
-		constexpr const Elysium::Core::size GetLength() const noexcept;
+		constexpr const Elysium::Core::Template::System::size GetLength() const noexcept;
 
 		constexpr ConstPointer GetFirst() const noexcept;
 		constexpr ConstPointer GetLast() const noexcept;
@@ -63,9 +63,9 @@ namespace Elysium::Core::Template::Container
 	{ }
 
 	template<class T>
-	inline constexpr const Elysium::Core::size InitializerList<T>::GetLength() const noexcept
+	inline constexpr const Elysium::Core::Template::System::size InitializerList<T>::GetLength() const noexcept
 	{
-		return static_cast<Elysium::Core::size>(_Last - _First);
+		return static_cast<Elysium::Core::Template::System::size>(_Last - _First);
 	}
 
 	template<class T>

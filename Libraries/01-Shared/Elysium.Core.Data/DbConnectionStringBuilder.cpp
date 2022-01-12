@@ -31,18 +31,18 @@ const Elysium::Core::Utf8String& Elysium::Core::Data::Common::DbConnectionString
 
 Elysium::Core::Utf8String Elysium::Core::Data::Common::DbConnectionStringBuilder::GetConnectionString()
 {
-	Text::StringBuilder ConnectionStringBuilder = Text::StringBuilder();
+	Text::Utf8StringBuilder ConnectionStringBuilder = Text::Utf8StringBuilder();
 	for (Elysium::Core::Template::Container::HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = _KeyValueMap.GetBegin(); Iterator != _KeyValueMap.GetEnd(); ++Iterator)
 	{
 		Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String> Item = (*Iterator)->GetItem();
 		const Elysium::Core::Utf8String& Key = Item.GetKey();
 		const Elysium::Core::Utf8String& Value = Item.GetValue();
 
-		if (!Elysium::Core::Utf8String::IsNullOrEmtpy(Key) && !Elysium::Core::Utf8String::IsNullOrEmtpy(Value))
+		if (!Elysium::Core::Utf8String::IsEmpty(Key) && !Elysium::Core::Utf8String::IsEmpty(Value))
 		{
-			ConnectionStringBuilder.Append(Key);
+			ConnectionStringBuilder.Append(&Key[0]);
 			ConnectionStringBuilder.Append(u8"=");
-			ConnectionStringBuilder.Append(Value);
+			ConnectionStringBuilder.Append(&Value[0]);
 			ConnectionStringBuilder.Append(u8";");
 		}
 	}

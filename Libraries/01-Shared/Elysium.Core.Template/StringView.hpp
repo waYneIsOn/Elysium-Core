@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
 #endif
@@ -26,6 +22,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
@@ -43,18 +43,18 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		using ConstCharacter = const C;
-		using CharPointer = C*;
-		using ConstCharPointer = const C*;
-		using CharReference = C&;
-		using ConstCharReference = const C&;
+		using CharacterPointer = C*;
+		using ConstCharacterPointer = const C*;
+		using CharacterReference = C&;
+		using ConstCharacterReference = const C&;
 
 		using CorrespondingString = StringBase<C>;
 	public:
 		StringViewBase() noexcept;
 
-		StringViewBase(ConstCharPointer Value) noexcept;
+		StringViewBase(ConstCharacterPointer Value) noexcept;
 
-		StringViewBase(ConstCharPointer Value, const Elysium::Core::size Length) noexcept;
+		StringViewBase(ConstCharacterPointer Value, const System::size Length) noexcept;
 
 		StringViewBase(const StringViewBase& Source);
 
@@ -66,9 +66,9 @@ namespace Elysium::Core::Template::Text
 
 		StringViewBase<C>& operator=(StringViewBase&& Right) noexcept;
 	public:
-		StringViewBase<C>::CharReference operator[](const Elysium::Core::size Index);
+		StringViewBase<C>::CharacterReference operator[](const System::size Index);
 
-		StringViewBase<C>::ConstCharReference operator[](const Elysium::Core::size Index) const;
+		StringViewBase<C>::ConstCharacterReference operator[](const System::size Index) const;
 	public:
 		const bool operator==(const StringViewBase<C>& Other) const noexcept;
 
@@ -84,30 +84,30 @@ namespace Elysium::Core::Template::Text
 	public:
 		static const bool IsNullOrEmtpy(const StringViewBase<C>& Value);
 	public:
-		const Elysium::Core::size GetLength() const;
+		const System::size GetLength() const;
 	public:
-		const Elysium::Core::size IndexOf(ConstCharacter Value) const noexcept;
+		const System::size IndexOf(ConstCharacter Value) const noexcept;
 
-		const Elysium::Core::size IndexOf(ConstCharacter Value, const Elysium::Core::size StartIndex) const noexcept;
+		const System::size IndexOf(ConstCharacter Value, const System::size StartIndex) const noexcept;
 
-		const Elysium::Core::size IndexOf(ConstCharPointer Sequence) const noexcept;
+		const System::size IndexOf(ConstCharacterPointer Sequence) const noexcept;
 
-		const Elysium::Core::size IndexOf(ConstCharPointer Sequence, const Elysium::Core::size StartIndex) const noexcept;
+		const System::size IndexOf(ConstCharacterPointer Sequence, const System::size StartIndex) const noexcept;
 
-		const Elysium::Core::size LastIndexOf(ConstCharacter Value) const noexcept;
+		const System::size LastIndexOf(ConstCharacter Value) const noexcept;
 
-		const Elysium::Core::size LastIndexOf(ConstCharPointer Sequence) const noexcept;
+		const System::size LastIndexOf(ConstCharacterPointer Sequence) const noexcept;
 
 		Container::Vector<StringViewBase<C>> Split(ConstCharacter Delimiter) const;
 
-		Container::Vector<StringViewBase<C>> Split(ConstCharPointer DelimiterSequence) const;
+		Container::Vector<StringViewBase<C>> Split(ConstCharacterPointer DelimiterSequence) const;
 
-		StringViewBase<C> Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const;
+		StringViewBase<C> Substringview(const System::size StartIndex, const System::size Length) const;
 
 		StringViewBase<C>::CorrespondingString ToString() const;
 	private:
-		ConstCharPointer _Data;
-		Elysium::Core::size _Length;
+		ConstCharacterPointer _Data;
+		System::size _Length;
 	};
 
 	template<Concepts::Character C>
@@ -116,12 +116,12 @@ namespace Elysium::Core::Template::Text
 	{ }
 
 	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(ConstCharPointer Value) noexcept
+	inline StringViewBase<C>::StringViewBase(ConstCharacterPointer Value) noexcept
 		: StringViewBase<C>(Value, CharacterTraits<C>::GetLength(Value))
 	{ }
 
 	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(ConstCharPointer Value, const Elysium::Core::size Length) noexcept
+	inline StringViewBase<C>::StringViewBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
 		: _Data(Value), _Length(Length)
 	{ }
 
@@ -167,18 +167,18 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline StringViewBase<C>::CharReference StringViewBase<C>::operator[](const Elysium::Core::size Index)
+	inline StringViewBase<C>::CharacterReference StringViewBase<C>::operator[](const Elysium::Core::Template::System::size Index)
 	{
 		if (Index >= _Length)
 		{
 			//throw IndexOutOfRangeException();
 		}
 
-		return (CharReference)_Data[Index];
+		return (CharacterReference)_Data[Index];
 	}
 
 	template<Concepts::Character C>
-	inline StringViewBase<C>::ConstCharReference StringViewBase<C>::operator[](const Elysium::Core::size Index) const
+	inline StringViewBase<C>::ConstCharacterReference StringViewBase<C>::operator[](const Elysium::Core::Template::System::size Index) const
 	{
 		if (Index >= _Length)
 		{
@@ -255,43 +255,43 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::GetLength() const
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::GetLength() const
 	{
 		return _Length;
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::IndexOf(ConstCharacter Value) const noexcept
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacter Value) const noexcept
 	{
 		return CharacterTraits<C>::IndexOf(_Data, _Length, Value);
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::IndexOf(ConstCharacter Value, const Elysium::Core::size StartIndex) const noexcept
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacter Value, const Elysium::Core::Template::System::size StartIndex) const noexcept
 	{
 		return CharacterTraits<C>::IndexOf(&_Data[StartIndex], _Length - StartIndex, Value);
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::IndexOf(ConstCharPointer Sequence) const noexcept
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacterPointer Sequence) const noexcept
 	{
 		return CharacterTraits<C>::IndexOf(_Data, _Length, Sequence);
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::IndexOf(ConstCharPointer Sequence, const Elysium::Core::size StartIndex) const noexcept
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacterPointer Sequence, const Elysium::Core::Template::System::size StartIndex) const noexcept
 	{
 		return CharacterTraits<C>::IndexOf(&_Data[StartIndex], _Length - StartIndex, Sequence);
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::LastIndexOf(ConstCharacter Value) const noexcept
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::LastIndexOf(ConstCharacter Value) const noexcept
 	{
 		return CharacterTraits<C>::LastIndexOf(_Data, _Length, Value);
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::size StringViewBase<C>::LastIndexOf(ConstCharPointer Sequence) const noexcept
+	inline const Elysium::Core::Template::System::size StringViewBase<C>::LastIndexOf(ConstCharacterPointer Sequence) const noexcept
 	{
 		return CharacterTraits<C>::LastIndexOf(_Data, _Length, Sequence);
 	}
@@ -301,13 +301,13 @@ namespace Elysium::Core::Template::Text
 	{
 		Container::Vector<StringViewBase<C>> Result = Container::Vector<StringViewBase<C>>();
 
-		Elysium::Core::size StartIndex = 0;
-		Elysium::Core::size Length = 0;
+		Elysium::Core::Template::System::size StartIndex = 0;
+		Elysium::Core::Template::System::size Length = 0;
 
 		while (true)
 		{
 			Length = IndexOf(Delimiter, StartIndex);
-			if (Length == static_cast<Elysium::Core::size>(-1))
+			if (Length == static_cast<Elysium::Core::Template::System::size>(-1))
 			{
 				if (_Length - StartIndex > 0)
 				{
@@ -323,18 +323,18 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Container::Vector<StringViewBase<C>> StringViewBase<C>::Split(ConstCharPointer DelimiterSequence) const
+	inline Container::Vector<StringViewBase<C>> StringViewBase<C>::Split(ConstCharacterPointer DelimiterSequence) const
 	{
 		Container::Vector<StringViewBase<C>> Result = Container::Vector<StringViewBase<C>>();
 
-		Elysium::Core::size DelimiterLength = Elysium::Core::Template::Text::CharacterTraits<C>::GetLength(DelimiterSequence);
-		Elysium::Core::size StartIndex = 0;
-		Elysium::Core::size Length = 0;
+		Elysium::Core::Template::System::size DelimiterLength = Elysium::Core::Template::Text::CharacterTraits<C>::GetLength(DelimiterSequence);
+		Elysium::Core::Template::System::size StartIndex = 0;
+		Elysium::Core::Template::System::size Length = 0;
 
 		while (true)
 		{
 			Length = IndexOf(DelimiterSequence, StartIndex);
-			if (Length == static_cast<Elysium::Core::size>(-1))
+			if (Length == static_cast<Elysium::Core::Template::System::size>(-1))
 			{
 				if (_Length - StartIndex > 0)
 				{
@@ -350,7 +350,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline StringViewBase<C> StringViewBase<C>::Substringview(const Elysium::Core::size StartIndex, const Elysium::Core::size Length) const
+	inline StringViewBase<C> StringViewBase<C>::Substringview(const Elysium::Core::Template::System::size StartIndex, const Elysium::Core::Template::System::size Length) const
 	{
 		return StringViewBase<C>(&_Data[StartIndex], Length);
 	}

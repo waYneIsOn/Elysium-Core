@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Literals.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNED
 #include "IsSigned.hpp"
 #endif
@@ -36,7 +40,7 @@ namespace Elysium::Core::Template::Numeric
 		/// <summary>
 		/// Returns the number of bytes required to represent this integer-type.
 		/// </summary>
-		static constexpr const Elysium::Core::uint8_t ByteLength = sizeof(T);
+		static constexpr const System::uint8_t ByteLength = sizeof(T);
 
 		/// <summary>
 		/// 

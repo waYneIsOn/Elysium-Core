@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "InitializerList.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "Move.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
 #include "BackwardIterator.hpp"
 #endif
@@ -48,8 +52,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container
@@ -75,7 +79,7 @@ namespace Elysium::Core::Template::Container
 		using ReverseIterator = Iterator::BackwardIterator<DynamicSizeArray<T, Allocator>>;
 		using ConstReverseIterator = Iterator::ConstBackwardIterator<DynamicSizeArray<T, Allocator>>;
 	public:
-		DynamicSizeArray(const Elysium::Core::size Length);
+		DynamicSizeArray(const System::size Length);
 
 		DynamicSizeArray(const InitializerList<T>& InitializerList);
 
@@ -89,19 +93,19 @@ namespace Elysium::Core::Template::Container
 
 		DynamicSizeArray<T, Allocator>& operator=(DynamicSizeArray&& Right) noexcept;
 	public:
-		Reference operator[](const Elysium::Core::size Index);
+		Reference operator[](const System::size Index);
 
-		ConstReference operator[](const Elysium::Core::size Index) const;
+		ConstReference operator[](const System::size Index) const;
 	public:
-		static constexpr const Elysium::Core::size GetMaximumLength();
+		static constexpr const System::size GetMaximumLength();
 
-		constexpr const Elysium::Core::size GetLength() const noexcept;
+		constexpr const System::size GetLength() const noexcept;
 
 		constexpr ConstPointer GetData() const noexcept;
 
-		Reference GetAt(const Elysium::Core::size Index);
+		Reference GetAt(const System::size Index);
 
-		ConstReference GetAt(const Elysium::Core::size Index) const;
+		ConstReference GetAt(const System::size Index) const;
 	public:
 		FIterator GetBegin();
 
@@ -121,12 +125,12 @@ namespace Elysium::Core::Template::Container
 	private:
 		inline static Allocator _Allocator = Allocator();
 	private:
-		Elysium::Core::size _Length;
+		System::size _Length;
 		Pointer _Data;
 	};
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline DynamicSizeArray<T, Allocator>::DynamicSizeArray(const Elysium::Core::size Length)
+	inline DynamicSizeArray<T, Allocator>::DynamicSizeArray(const Elysium::Core::Template::System::size Length)
 		: _Length(Length), _Data(_Allocator.Allocate(Length))
 	{ }
 
@@ -184,7 +188,5 @@ namespace Elysium::Core::Template::Container
 		}
 		return *this;
 	}
-
 }
-
 #endif

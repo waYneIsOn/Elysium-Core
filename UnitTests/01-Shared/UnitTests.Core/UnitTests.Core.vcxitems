@@ -20,7 +20,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformSpecificTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StopwatchTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)MemoryTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformIndependentTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.cpp" />

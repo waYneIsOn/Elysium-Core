@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "Primitives.hpp"
 #endif
 
@@ -51,7 +51,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="First"></param>
 		/// <param name="NumberOfElements"></param>
-		static void Clear(T* First, const Elysium::Core::size NumberOfElements);
+		static void Clear(T* First, const System::size NumberOfElements);
 
 		/// <summary>
 		/// 
@@ -59,7 +59,7 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Source"></param>
 		/// <param name="Destination"></param>
 		/// <param name="NumberOfElements"></param>
-		static void Copy(const T* Source, T* Destination, const Elysium::Core::size NumberOfElements);
+		static void Copy(const T* Source, T* Destination, const System::size NumberOfElements);
 
 		/// <summary>
 		/// 
@@ -68,7 +68,7 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Destination"></param>
 		/// <param name="NumberOfElements"></param>
 		/// <returns></returns>
-		static void Move(T* Source, T* Destination, const Elysium::Core::size NumberOfElements) noexcept;
+		static void Move(T* Source, T* Destination, const System::size NumberOfElements) noexcept;
 
 		/// <summary>
 		/// 
@@ -76,7 +76,7 @@ namespace Elysium::Core::Template::Container
 		/// <param name="First"></param>
 		/// <param name="NumberOfElements"></param>
 		/// <returns></returns>
-		static void Reverse(T* First, const Elysium::Core::size NumberOfElements) noexcept;
+		static void Reverse(T* First, const System::size NumberOfElements) noexcept;
 
 		/// <summary>
 		/// 
@@ -85,18 +85,18 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Value"></param>
 		/// <param name="NumberOfElements"></param>
 		/// <returns></returns>
-		static constexpr const Elysium::Core::size IndexOf(const T* First, const T& Value, const Elysium::Core::size NumberOfElements);
+		static constexpr const System::size IndexOf(const T* First, const T& Value, const System::size NumberOfElements);
 	};
 	
 	template<class T>
-	inline void Array<T>::Clear(T* First, const Elysium::Core::size NumberOfElements)
+	inline void Array<T>::Clear(T* First, const Elysium::Core::Template::System::size NumberOfElements)
 	{
 		if (First == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
 		{
 			//First[i]~();
 			First[i] = T();
@@ -104,35 +104,35 @@ namespace Elysium::Core::Template::Container
 	}
 	
 	template<class T>
-	inline void Array<T>::Copy(const T* Source, T* Destination, const Elysium::Core::size NumberOfElements)
+	inline void Array<T>::Copy(const T* Source, T* Destination, const Elysium::Core::Template::System::size NumberOfElements)
 	{
 		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
 		{
 			Destination[i] = Source[i];
 		}
 	}
 
 	template<class T>
-	inline void Array<T>::Move(T* Source, T* Destination, const Elysium::Core::size NumberOfElements) noexcept
+	inline void Array<T>::Move(T* Source, T* Destination, const Elysium::Core::Template::System::size NumberOfElements) noexcept
 	{
 		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
 		{
 			return;
 		}
 
-		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
 		{
 			Destination[i] = Functional::Move(Source[i]);
 		}
 	}
 
 	template<class T>
-	inline void Array<T>::Reverse(T* First, const Elysium::Core::size NumberOfElements) noexcept
+	inline void Array<T>::Reverse(T* First, const Elysium::Core::Template::System::size NumberOfElements) noexcept
 	{
 		if (First == nullptr || NumberOfElements < 2)
 		{
@@ -143,21 +143,21 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class T>
-	inline constexpr const Elysium::Core::size Array<T>::IndexOf(const T* First, const T& Value, const Elysium::Core::size NumberOfElements)
+	inline constexpr const Elysium::Core::Template::System::size Array<T>::IndexOf(const T* First, const T& Value, const Elysium::Core::Template::System::size NumberOfElements)
 	{
 		if (First == nullptr || NumberOfElements < 1)
 		{
 			return;
 		}
 
-		for (Elysium::Core::size i = 0; i < NumberOfElements; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
 		{
 			if (First[i] == Value)
 			{
 				return i;
 			}
 		}
-		return static_cast<Elysium::Core::size>(-1);
+		return static_cast<Elysium::Core::Template::System::size>(-1);
 	}
 }
 #endif

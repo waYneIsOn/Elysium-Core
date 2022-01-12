@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
 #include "RemovePointer.hpp"
 #endif
@@ -28,10 +24,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Greater.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Concepts::Pointer T, class Compare>
-	constexpr void BlockSort(const T First, const Elysium::Core::size Count, const Compare Comparer)
+	constexpr void BlockSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer)
 	{
 		throw 1;
 	}
@@ -43,7 +43,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void BlockSort(const T First, const Elysium::Core::size Count)
+	constexpr void BlockSort(const T First, const Elysium::Core::Template::System::size Count)
 	{
 		BlockSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 	}

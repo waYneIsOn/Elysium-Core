@@ -7,13 +7,16 @@
 Elysium::Core::Exception::Exception()
 	: Elysium::Core::Exception::Exception(u8"Exception")
 { }
+
 Elysium::Core::Exception::Exception(Elysium::Core::Utf8String::ConstCharacterPointer Message)
 	: Elysium::Core::Exception::Exception(Elysium::Core::Utf8String(Message))
 { }
+
 Elysium::Core::Exception::Exception(Elysium::Core::Utf8String&& Message)
 	: _Message(Elysium::Core::Template::Functional::Move(Message)),
 	_InnerException(nullptr)
 { }
+
 Elysium::Core::Exception::~Exception()
 {
 	if (_InnerException != nullptr)

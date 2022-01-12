@@ -153,7 +153,7 @@ bool Elysium::Core::Json::JsonReader::ReadProperty()
 
 bool Elysium::Core::Json::JsonReader::ReadValueNumeric(const int32_t FirstCharacter)
 {
-	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
+	Elysium::Core::Text::Utf8StringBuilder ValueBuilder = Elysium::Core::Text::Utf8StringBuilder();
 	ValueBuilder.Append(FirstCharacter);
 	while (true)
 	{
@@ -189,7 +189,7 @@ bool Elysium::Core::Json::JsonReader::ReadValueNumeric(const int32_t FirstCharac
 }
 bool Elysium::Core::Json::JsonReader::ReadValueBool(const int32_t FirstCharacter)
 {
-	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
+	Elysium::Core::Text::Utf8StringBuilder ValueBuilder = Elysium::Core::Text::Utf8StringBuilder();
 	ValueBuilder.Append(FirstCharacter);
 	while (true)
 	{
@@ -219,7 +219,7 @@ bool Elysium::Core::Json::JsonReader::ReadValueBool(const int32_t FirstCharacter
 }
 bool Elysium::Core::Json::JsonReader::ReadValueNull(const int32_t FirstCharacter)
 {
-	Elysium::Core::Text::StringBuilder ValueBuilder = Elysium::Core::Text::StringBuilder();
+	Elysium::Core::Text::Utf8StringBuilder ValueBuilder = Elysium::Core::Text::Utf8StringBuilder();
 	ValueBuilder.Append(FirstCharacter);
 	while (true)
 	{

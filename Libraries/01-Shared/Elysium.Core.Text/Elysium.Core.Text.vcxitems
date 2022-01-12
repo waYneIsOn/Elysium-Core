@@ -25,7 +25,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ASCIIEncoding.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Encoding.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StringBuilder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UTF16Encoding.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UTF32Encoding.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UTF8Encoding.cpp" />

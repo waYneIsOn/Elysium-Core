@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 #include "Pointer.hpp"
 #endif
@@ -32,20 +28,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Greater.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Concepts::Pointer T, class Compare>
-	constexpr void BubbleSort(const T First, const Elysium::Core::size Count, const Compare Comparer)
+	constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer)
 	{
 		if (First == nullptr || Count < 2)
 		{
 			return;
 		}
 
-		const Elysium::Core::size ReducedCount = Count - 1;
-		for (Elysium::Core::size i = 0; i < ReducedCount; i++)
+		const Elysium::Core::Template::System::size ReducedCount = Count - 1;
+		for (Elysium::Core::Template::System::size i = 0; i < ReducedCount; i++)
 		{
-			for (Elysium::Core::size j = 0; j < ReducedCount; j++)
+			for (Elysium::Core::Template::System::size j = 0; j < ReducedCount; j++)
 			{
 				if (Comparer.operator()(First[j], First[j + 1]))
 				{
@@ -83,12 +83,12 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		}
 		*/
 		// ToDo: need to make use of size of T or implement it directly using pointer
-		const Elysium::Core::size Count = Last - First + 1;
+		const Elysium::Core::Template::System::size Count = Last - First + 1;
 		BubbleSort(First, Count, Comparer);
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void BubbleSort(const T First, const Elysium::Core::size Count)
+	constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count)
 	{
 		BubbleSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 	}

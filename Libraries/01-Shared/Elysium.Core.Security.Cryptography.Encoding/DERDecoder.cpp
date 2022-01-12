@@ -233,7 +233,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 	return DecodeObjectIdentifier(Asn1Identifier, Asn1Length, InputStream);
 }
 
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier & Asn1Identifier, const Asn1Length & Asn1Length, IO::Stream & InputStream)
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream)
 {
 	const Elysium::Core::size OidLength = Asn1Length.GetLength();
 	if (OidLength < 2)
@@ -241,7 +241,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		throw IO::InvalidDataException(u8"An Oid must contain at least three nodes.");
 	}
 
-	Text::StringBuilder OidBuilder = Text::StringBuilder(OidLength + 1 + OidLength);	// start with one char16_t for each node and one for each dot in between
+	Text::Utf8StringBuilder OidBuilder = Text::Utf8StringBuilder(OidLength + 1 + OidLength);	// start with one char16_t for each node and one for each dot in between
 
 	// The first two nodes of the OID are encoded onto a single byte. The first node is multiplied by the decimal 40 and
 	// the result is added to the value of the second node.
@@ -257,9 +257,9 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		throw IO::InvalidDataException(u8"The second node of an Oid cannot be bigger than 39.");
 	}
 
-	OidBuilder.Append(Convert::ToString(FirstNode, 10));
+	OidBuilder.Append(&Convert::ToString(FirstNode, 10)[0]);
 	OidBuilder.Append(u8'.');
-	OidBuilder.Append(Convert::ToString(SecondNode, 10));
+	OidBuilder.Append(&Convert::ToString(SecondNode, 10)[0]);
 
 	for (int32_t i = 1; i < OidLength; i++)
 	{
@@ -283,7 +283,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		} while (IsMultipleByteEncoded);
 
 		OidBuilder.Append(u8'.');
-		OidBuilder.Append(Convert::ToString(Value, 10));
+		OidBuilder.Append(&Convert::ToString(Value, 10)[0]);
 	}
 
 	return Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier(Asn1Identifier, 

@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/ArgumentException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
 #include "Hashable.hpp"
 #endif
@@ -68,6 +64,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Less.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::Container
 {
 	// template <Concept::Hashable TKey, ...>
@@ -97,7 +97,7 @@ namespace Elysium::Core::Template::Container
 
 		HashTable(const InitializerList<Entry>& List);
 
-		HashTable(const Elysium::Core::size Length);
+		HashTable(const System::size Length);
 
 		HashTable(const HashTable& Source);
 
@@ -141,10 +141,10 @@ namespace Elysium::Core::Template::Container
 		*/
 	private:
 		inline static Allocator _Allocator = Allocator();
-		static const Elysium::Core::size CollisionThreshold = 10;
+		static const System::size CollisionThreshold = 10;
 	private:
-		Elysium::Core::size _Length;
-		Elysium::Core::size _CollisionCount;
+		System::size _Length;
+		System::size _CollisionCount;
 		Bucket* _Buckets;
 
 		/// <summary>
@@ -153,7 +153,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="DesiredLength"></param>
 		/// <returns></returns>
-		const Elysium::Core::size CalculateLength(const Elysium::Core::size DesiredLength);
+		const System::size CalculateLength(const System::size DesiredLength);
 
 		/// <summary>
 		/// 
@@ -196,7 +196,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
-	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable(const Elysium::Core::size Length)
+	inline HashTable<TKey, TValue, KeyCompare, Allocator>::HashTable(const Elysium::Core::Template::System::size Length)
 		: _Length(CalculateLength(Length)), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
 	{ }
 
@@ -243,8 +243,8 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline TValue& HashTable<TKey, TValue, KeyCompare, Allocator>::operator[](const TKey& Key)
 	{
-		const Elysium::Core::size HashCode = Object::GetHashCode(Key);
-		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		const Elysium::Core::Template::System::size HashCode = Object::GetHashCode(Key);
+		const Elysium::Core::Template::System::size TargetBucketIndex = HashCode % _Length;
 		const BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
@@ -261,8 +261,8 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline const TValue& HashTable<TKey, TValue, KeyCompare, Allocator>::operator[](const TKey& Key) const
 	{
-		const Elysium::Core::size HashCode = Object::GetHashCode(Key);
-		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		const Elysium::Core::Template::System::size HashCode = Object::GetHashCode(Key);
+		const Elysium::Core::Template::System::size TargetBucketIndex = HashCode % _Length;
 		const BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
@@ -303,7 +303,7 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Clear()
 	{
-		for (Elysium::Core::size i = 0; i < _Length; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
 		{
 			_Buckets[i].Clear();
 		}
@@ -313,7 +313,7 @@ namespace Elysium::Core::Template::Container
 	inline HashTable<TKey, TValue, KeyCompare, Allocator>::FIterator HashTable<TKey, TValue, KeyCompare, Allocator>::GetBegin()
 	{
 		BucketPointer FirstPopulatedBucket = nullptr;
-		for (Elysium::Core::size i = 0; i < _Length; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
 		{
 			if (_Buckets[i].GetHead() != nullptr)
 			{
@@ -331,7 +331,7 @@ namespace Elysium::Core::Template::Container
 	{
 		BucketPointer OutOfBoundsBucket = &_Buckets[_Length];
 		BucketPointer FirstPopulatedBucket = nullptr;
-		for (Elysium::Core::size i = 0; i < _Length; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
 		{
 			if (_Buckets[i].GetHead() != nullptr)
 			{
@@ -346,7 +346,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
-	inline const Elysium::Core::size HashTable<TKey, TValue, KeyCompare, Allocator>::CalculateLength(const Elysium::Core::size DesiredLength)
+	inline const Elysium::Core::Template::System::size HashTable<TKey, TValue, KeyCompare, Allocator>::CalculateLength(const Elysium::Core::Template::System::size DesiredLength)
 	{
 		// prime number calculation can be expensive so use a lookup-table
 		// certain prime numbers are exempt because resizing uses a growth factor of two which would skip certain prime numbers anways.
@@ -360,13 +360,13 @@ namespace Elysium::Core::Template::Container
 		// also 2 is exempt as .NET does not appear to be using it.
 		// ToDo: I still might want to add a few more prime numbers into the lookup-table as .NET dictionaries do not appear to grow that quickly!
 		// ToDo: what is the maximum prime number in .NET's lookup-table? (last one below int32 maximum?)
-		static const Elysium::Core::size LookupTableLength = 11;
-		static const Elysium::Core::size LookupTablePrimeNumbers[LookupTableLength] =
+		static const Elysium::Core::Template::System::size LookupTableLength = 11;
+		static const Elysium::Core::Template::System::size LookupTablePrimeNumbers[LookupTableLength] =
 		{ 
 			3, 7, 17, 37, 79, 163, 331, 673, 1361, 2729, 5471
 		};
 		
-		for (Elysium::Core::size i = 0; i < LookupTableLength; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < LookupTableLength; i++)
 		{
 			if (LookupTablePrimeNumbers[i] >= DesiredLength)
 			{
@@ -375,9 +375,9 @@ namespace Elysium::Core::Template::Container
 		}
 		
 		// if no prime number has been found inside the lookup-table, we need to calculate the next prime number the hard way
-		for (Elysium::Core::size i = DesiredLength; i < Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::size>::Maximum; i++)
+		for (Elysium::Core::Template::System::size i = DesiredLength; i < Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::size>::Maximum; i++)
 		{
-			if (Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::size>::IsPrimeNumber(i))
+			if (Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::size>::IsPrimeNumber(i))
 			{
 				return i;
 			}
@@ -390,8 +390,8 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
 	inline void HashTable<TKey, TValue, KeyCompare, Allocator>::Insert(const TKey& Key, const TValue& Value, const bool Add)
 	{
-		const Elysium::Core::size HashCode = Object::GetHashCode(Key);
-		const Elysium::Core::size TargetBucketIndex = HashCode % _Length;
+		const Elysium::Core::Template::System::size HashCode = Object::GetHashCode(Key);
+		const Elysium::Core::Template::System::size TargetBucketIndex = HashCode % _Length;
 		BucketReference TargetBucket = _Buckets[TargetBucketIndex];
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
@@ -428,7 +428,7 @@ namespace Elysium::Core::Template::Container
 	template<class TKey, class TValue, class Allocator, class KeyCompare>
 	inline void HashTable<TKey, TValue, Allocator, KeyCompare>::Resize()
 	{
-		const Elysium::Core::size NewLength = CalculateLength(_Length * 2);
+		const Elysium::Core::Template::System::size NewLength = CalculateLength(_Length * 2);
 
 
 		bool bla = false;

@@ -58,13 +58,17 @@ namespace Elysium::Core
 	{
 	public:
 		Object() = delete;
-		Object(const Object& Source) = delete;
-		Object(Object&& Right) noexcept = delete;
-		~Object() = delete;
 
+		Object(const Object& Source) = delete;
+
+		Object(Object&& Right) noexcept = delete;
+
+		~Object() = delete;
+	public:
 		Object& operator=(const Object& Source) = delete;
+
 		Object& operator=(Object&& Right) noexcept = delete;
-		
+	public:
 		template <class T>
 		static const Elysium::Core::Reflection::Type& GetType();
 

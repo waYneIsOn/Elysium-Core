@@ -33,7 +33,7 @@ namespace Elysium::Core::Template::Memory
 	class DefaultAllocator final
 	{
 	private:
-		static const Elysium::Core::size ElementSize = sizeof(T);
+		static const System::size ElementSize = sizeof(T);
 	public:
 		/// <summary>
 		/// Creates a new instance.
@@ -117,7 +117,7 @@ namespace Elysium::Core::Template::Memory
 			return;
 		}
 
-		for (Elysium::Core::size i = 0; i < NumberOfInstantiatedElements; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < NumberOfInstantiatedElements; i++)
 		{
 			First[i].~T();
 		}

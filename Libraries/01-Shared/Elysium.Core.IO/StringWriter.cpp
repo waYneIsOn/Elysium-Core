@@ -1,6 +1,6 @@
 #include "StringWriter.hpp"
 
-Elysium::Core::IO::StringWriter::StringWriter(Elysium::Core::Text::StringBuilder & StringBuilder)
+Elysium::Core::IO::StringWriter::StringWriter(Elysium::Core::Text::Utf8StringBuilder& StringBuilder)
 	: Elysium::Core::IO::TextWriter(),
 	_StringBuilder(StringBuilder)
 { }

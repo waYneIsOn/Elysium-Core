@@ -24,18 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "unsupported os"
 #endif
 
-#if defined _MSC_VER
-#define ELYSIUM_CORE_COMPILER u8"Microsoft Visual C++"
-#elif defined __clang__
-#define ELYSIUM_CORE_COMPILER u8"LLVM C compiler"
-#elif defined __INTEL_
-#define ELYSIUM_CORE_COMPILER u8"Intel C/C++ compiler"
-#elif defined __GNUC__
-#define ELYSIUM_CORE_COMPILER u8"GNU C compiler"
-#else
-#error "unsupported compiler"
-#endif
-
 #if defined _WIN64 || defined __aarch64__ || defined __x86_64__
 #define ELYSIUM_CORE_BITNESS 64
 #elif defined _WIN32 || defined __WIN32__ || defined __arm__ || defined __i386__
@@ -50,4 +38,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "unsupported os regarding endian"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+
+#elif defined ELYSIUM_CORE_OS_ANDROID
+//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_DIAGNOSTICS
+#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION
+//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_OID
+//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_SECURITY (tls etc.)
+//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_THREADING
+//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_THREADPOOL
+
+#else
+#error "unsupported os"
+#endif
+/*
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_ACTIVATOR
+#include "../Elysium.Core.Template/Activator.hpp"
+#endif
+
+#define ELYSIUM_CORE_DEFAULT_FRIEND_CLASSES friend class Elysium::Core::Template::Memory::Activator;
+*/
 #endif

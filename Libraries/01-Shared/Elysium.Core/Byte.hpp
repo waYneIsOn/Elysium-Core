@@ -12,23 +12,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "API.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	/*
-	enum class byte : unsigned char
-	{};
-	*/
-
-	typedef uint8_t byte;
-
-	typedef int8_t sbyte;
+	using byte = Elysium::Core::Template::System::byte;
+	using sbyte = Elysium::Core::Template::System::sbyte;
 }
 #endif

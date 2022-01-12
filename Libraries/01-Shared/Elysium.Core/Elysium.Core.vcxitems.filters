@@ -16,6 +16,9 @@
     <Filter Include="Internal">
       <UniqueIdentifier>{bf75a457-2bb3-4c9f-834f-d5826e2199fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{bca56f06-0fb7-4556-9053-f829b1171206}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
@@ -81,13 +84,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp">
       <Filter>Collections</Filter>
     </ClInclude>
@@ -111,6 +107,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AsyncResult.hpp">
       <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfString.hpp">
+      <Filter>Collections</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -147,7 +155,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OverflowException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)String.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />

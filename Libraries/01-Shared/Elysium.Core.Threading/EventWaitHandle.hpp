@@ -26,7 +26,7 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API EventWaitHandle : public WaitHandle
 	{
 	protected:
-		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const Utf8String::Character* Name);
+		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, Utf8String::ConstCharacterPointer Name);
 	public:
 		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const Utf8String& Name);
 

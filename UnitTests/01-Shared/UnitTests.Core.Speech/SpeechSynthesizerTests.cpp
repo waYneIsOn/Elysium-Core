@@ -56,7 +56,7 @@ namespace UnitTests::Core::Speech
 		{
 			try
 			{
-				const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+				const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 				Logger::WriteMessage("-----\r\n");
 				Logger::WriteMessage(&CurrentThreadId[0]);
 				Logger::WriteMessage(" Main thread\r\n-----\r\n");
@@ -93,7 +93,7 @@ namespace UnitTests::Core::Speech
 		{
 			try
 			{
-				const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+				const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 				Logger::WriteMessage("-----\r\n");
 				Logger::WriteMessage(&CurrentThreadId[0]);
 				Logger::WriteMessage(" Main thread\r\n-----\r\n");
@@ -244,7 +244,7 @@ namespace UnitTests::Core::Speech
 	private:
 		static void SpeechSynthesizer_OnBookmarkReached(const SpeechSynthesizer& Synthesizer, const BookmarkReachedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Bookmark reached: ");
@@ -257,7 +257,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnPhonemeReached(const SpeechSynthesizer& Synthesizer, const PhonemeReachedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Phoneme reached: ");
@@ -278,7 +278,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnSpeakCompleted(const SpeechSynthesizer& Synthesizer, const SpeakCompletedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Speak completed: ");
@@ -287,7 +287,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnSpeakProgress(const SpeechSynthesizer& Synthesizer, const SpeakProgressEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Speak progress: ");
@@ -297,7 +297,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnSpeakStarted(const SpeechSynthesizer& Synthesizer, const SpeakStartedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Speak started\r\n");
@@ -305,7 +305,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnStateChanged(const SpeechSynthesizer& Synthesizer, const StateChangedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" State changed from ");
@@ -339,7 +339,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnVisemeReached(const SpeechSynthesizer& Synthesizer, const VisemeReachedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Viseme reached: ");
@@ -360,7 +360,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechSynthesizer_OnVoiceChange(const SpeechSynthesizer& Synthesizer, const VoiceChangeEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Voice changed: ");

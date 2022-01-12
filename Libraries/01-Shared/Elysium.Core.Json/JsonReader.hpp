@@ -95,7 +95,7 @@ namespace Elysium::Core::Json
 		JsonToken _CurrentToken;
 		Elysium::Core::Utf8String _CurrentNodeValue;
 
-		Elysium::Core::Text::StringBuilder _PropertyBuffer;
+		Elysium::Core::Text::Utf8StringBuilder _PropertyBuffer;
 
 		void EatIndent();
 	};

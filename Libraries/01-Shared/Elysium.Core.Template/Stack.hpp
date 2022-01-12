@@ -39,7 +39,7 @@ namespace Elysium::Core::Template::Container
 		Stack<T>& operator=(const Stack& Source);
 		Stack<T>& operator=(Stack&& Right) noexcept;
 
-		constexpr const Elysium::Core::size GetSize() const noexcept;
+		constexpr const Elysium::Core::Template::System::size GetSize() const noexcept;
 		constexpr const bool GetIsEmpty() const noexcept;
 
 		Reference GetTop();

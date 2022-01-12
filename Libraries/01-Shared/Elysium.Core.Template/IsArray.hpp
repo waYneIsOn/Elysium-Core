@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveConstVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
@@ -32,7 +36,7 @@ namespace Elysium::Core::Template::TypeTraits
     template <class T>
     inline constexpr bool IsArrayValue<T[]> = true;
 
-    template <class T, Elysium::Core::size Size>
+    template <class T, Elysium::Core::Template::System::size Size>
     inline constexpr bool IsArrayValue<T[Size]> = true;
     /*
     template <template<class> class T, class Inner>

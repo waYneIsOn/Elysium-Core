@@ -62,7 +62,7 @@ Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Ely
 	// scheme : //
 	// userinfo @ host : port
 
-	if (Elysium::Core::Utf8String::IsNullOrEmtpy(Source))
+	if (Elysium::Core::Utf8String::IsEmpty(Source))
 	{
 		return Utf8StringView();
 	}

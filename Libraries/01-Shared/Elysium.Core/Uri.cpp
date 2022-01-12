@@ -174,9 +174,9 @@ Elysium::Core::UriParser& Elysium::Core::Uri::GetParser()
 
 const Elysium::Core::Utf8String Elysium::Core::Uri::CreateUri(const Uri& BaseUri, const Elysium::Core::Utf8String& RelativeUri)
 {	// ToDo: make this function work correctly in all cases! atm it just concatenates two strings!
-	Elysium::Core::Text::StringBuilder Builder = Elysium::Core::Text::StringBuilder(BaseUri._OriginalString.GetLength() + RelativeUri.GetLength());
-	Builder.Append(BaseUri._OriginalString);
-	Builder.Append(RelativeUri);
+	Elysium::Core::Text::Utf8StringBuilder Builder = Elysium::Core::Text::Utf8StringBuilder(BaseUri._OriginalString.GetLength() + RelativeUri.GetLength());
+	Builder.Append(&BaseUri._OriginalString[0]);
+	Builder.Append(&RelativeUri[0]);
 
 	return Builder.ToString();
 }

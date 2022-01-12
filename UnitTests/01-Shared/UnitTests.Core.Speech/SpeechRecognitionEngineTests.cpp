@@ -48,7 +48,7 @@ namespace UnitTests::Core::Speech
 		{
 			try
 			{
-				const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+				const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 				Logger::WriteMessage("-----\r\n");
 				Logger::WriteMessage(&CurrentThreadId[0]);
 				Logger::WriteMessage(" Main thread\r\n-----\r\n");
@@ -80,7 +80,7 @@ namespace UnitTests::Core::Speech
 		{
 			try
 			{
-				const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+				const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 				Logger::WriteMessage("-----\r\n");
 				Logger::WriteMessage(&CurrentThreadId[0]);
 				Logger::WriteMessage(" Main thread\r\n-----\r\n");
@@ -118,7 +118,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnAudioLevelUpdated(const SpeechRecognitionEngine& Engine, const AudioLevelUpdatedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::uint32_t AudioLevel = EventArgs.GetAudioLevel();
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
@@ -129,7 +129,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnAudioSignalProblemOccurred(const SpeechRecognitionEngine& Engine, const AudioSignalProblemOccurredEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const AudioSignalProblem Problem = EventArgs.GetAudioSignalProblem();
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
@@ -167,7 +167,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnAudioStateChanged(const SpeechRecognitionEngine& Engine, const AudioStateChangedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const AudioState State = EventArgs.GetAudioState();
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
@@ -192,7 +192,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnLoadGrammarCompleted(const SpeechRecognitionEngine& Engine, const LoadGrammarCompletedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			
 			Logger::WriteMessage(&CurrentThreadId[0]);
 			Logger::WriteMessage(" Grammar loaded: ");
@@ -202,7 +202,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnSpeechDetected(const SpeechRecognitionEngine& Engine, const SpeechDetectedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::TimeSpan& AudioPosition = EventArgs.GetAudioPosition();
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
@@ -213,7 +213,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnSpeechHypothesized(const SpeechRecognitionEngine& Engine, const SpeechHypothesizedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::Utf8String& Text = EventArgs.GetResult().GetText();
 
 			Logger::WriteMessage(&CurrentThreadId[0]);
@@ -224,7 +224,7 @@ namespace UnitTests::Core::Speech
 
 		static void SpeechRecognitionEngine_OnSpeechRecognized(const SpeechRecognitionEngine& Engine, const SpeechRecognizedEventArgs& EventArgs)
 		{
-			const Elysium::Core::Template::Text::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
+			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::Utf8String& Text = EventArgs.GetResult().GetText();
 
 			Logger::WriteMessage(&CurrentThreadId[0]);

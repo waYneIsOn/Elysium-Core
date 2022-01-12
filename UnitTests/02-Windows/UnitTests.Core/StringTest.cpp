@@ -1,13 +1,8 @@
 #include "CppUnitTest.h"
 #include "CppUnitTestFrameworkExtension.hpp"
 
-#ifndef ELYSIUM_CORE_STRING
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
 #include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
-#endif
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -22,9 +17,9 @@ namespace UnitTests::Core
 			Elysium::Core::Utf8String NullString1 = Elysium::Core::Utf8String();
 			//Assert::IsNull(&NullString1[0]);
 			Assert::AreEqual((Elysium::Core::size)0, NullString1.GetLength());
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNull(NullString1));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(NullString1));
 			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(NullString1));
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString1));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString1));
 
 			Elysium::Core::Utf8String LString = Elysium::Core::Utf8String(5);
 			Assert::AreEqual((Elysium::Core::size)5, LString.GetLength());
@@ -32,9 +27,9 @@ namespace UnitTests::Core
 			Elysium::Core::Utf8String EmptyString(u8"");
 			//Assert::IsNull(&EmptyString[0]);
 			Assert::AreEqual((Elysium::Core::size)0, EmptyString.GetLength());
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNull(EmptyString));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(EmptyString));
 			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(EmptyString));
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(EmptyString));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(EmptyString));
 			
 			Elysium::Core::Utf8String String1 = Elysium::Core::Utf8String(u8"text");
 			AssertExtended::AreEqual(u8"text", &String1[0]);
@@ -67,9 +62,9 @@ namespace UnitTests::Core
 			Elysium::Core::Utf8String NullString2(nullptr);
 			//Assert::IsNull(&NullString2[0]);
 			Assert::AreEqual((Elysium::Core::size)0, NullString2.GetLength());
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNull(NullString2));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(NullString2));
 			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(NullString2));
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString2));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString2));
 			
 			Elysium::Core::Utf8String CopiedString(String1);
 			AssertExtended::AreEqual(u8"text", &CopiedString[0]);
@@ -88,9 +83,9 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8't', MovedString[3]);
 			//Assert::IsNull(&String1[0]);
 			Assert::AreEqual((Elysium::Core::size)0, String1.GetLength());
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNull(String1));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(String1));
 			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(String1));
-			Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(String1));
+			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(String1));
 		}
 
 		TEST_METHOD(Operators)
@@ -130,10 +125,9 @@ namespace UnitTests::Core
 		{
 			Elysium::Core::Utf8String Source = Elysium::Core::Utf8String(u8"HTTP/1.1 200 OK\r\nDate: Fri, 29 Nov 2019 12:49:19 GMT\r\nContent-Type: text/html; charset=UTF-8\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nSet-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly\r\nX-Powered-By: Express\r\nVary: Origin, Accept-Encoding\r\nAccess-Control-Allow-Credentials: true\r\nCache-Control: public, max-age=14400\r\nLast-Modified: Mon, 05 Aug 2019 03:07:14 GMT\r\nVia: 1.1 vegur\r\nCF-Cache-Status: HIT\r\nAge: 6201\r\nServer: cloudflare\r\nCF-RAY: 53d4b3737b75f3fb-LHR");
 
-			Elysium::Core::Collections::Template::List<Elysium::Core::Utf8String> Lines;
-			Source.Split(u8"\r\n", Lines);
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Utf8String> Lines = Source.Split(u8"\r\n");
 
-			Assert::AreEqual((Elysium::Core::size)16, Lines.GetCount());
+			Assert::AreEqual((Elysium::Core::size)16, Lines.GetLength());
 			Assert::AreEqual(u8'H', Lines[0][0]);
 			AssertExtended::AreEqual(u8"HTTP/1.1 200 OK", &Lines[0][0]);
 			AssertExtended::AreEqual(u8"Date: Fri, 29 Nov 2019 12:49:19 GMT", &Lines[1][0]);

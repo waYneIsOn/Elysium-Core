@@ -3,8 +3,8 @@
 Elysium::Core::Data::TdsClient::TdsConnectionStringBuilder::TdsConnectionStringBuilder()
 	: Elysium::Core::Data::Common::DbConnectionStringBuilder()
 {
-	SetServer(Elysium::Core::Utf8String::Empty);
-	SetDatabase(Elysium::Core::Utf8String::Empty);
+	SetServer(Elysium::Core::Utf8String());
+	SetDatabase(Elysium::Core::Utf8String());
 	SetIsTrustedConnection(false);
 }
 

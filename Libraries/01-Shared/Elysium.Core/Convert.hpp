@@ -50,13 +50,17 @@ namespace Elysium::Core
 	{
 	public:
 		Convert() = delete;
+
 		Convert(const Convert& Source) = delete;
+
 		Convert(Convert&& Right) noexcept = delete;
+
 		~Convert() = delete;
-
+	public:
 		Convert& operator=(const Convert& Source) = delete;
-		Convert& operator=(Convert&& Right) noexcept = delete;
 
+		Convert& operator=(Convert&& Right) noexcept = delete;
+	public:
 		static const Elysium::Core::Utf8String ToString(Elysium::Core::int8_t Value, const Elysium::Core::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 		static const Elysium::Core::Utf8String ToString(const Elysium::Core::int8_t Value, const Elysium::Core::uint8_t ToBase);
 		static const Elysium::Core::Utf8String ToString(const Elysium::Core::int8_t Value);

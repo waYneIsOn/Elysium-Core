@@ -252,7 +252,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const Elysium::Core::Utf8String& ProcessName, const Elysium::Core::Utf8String& MachineName)
 {
-	if (Elysium::Core::Utf8String::IsNullOrEmtpy(ProcessName))
+	if (Elysium::Core::Utf8String::IsEmpty(ProcessName))
 	{
 		throw Elysium::Core::ArgumentException(u8"ProcessName");
 	}

@@ -58,7 +58,7 @@ namespace UnitTests::Core::Json
 		TEST_METHOD(WriteObject)
 		{
 			// prepare
-			StringBuilder Target = StringBuilder();
+			Utf8StringBuilder Target = Utf8StringBuilder();
 			StringWriter Writer = StringWriter(Target);
 			JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
@@ -131,7 +131,7 @@ namespace UnitTests::Core::Json
 		TEST_METHOD(WriteArray)
 		{
 			// prepare
-			StringBuilder Target = StringBuilder();
+			Utf8StringBuilder Target = Utf8StringBuilder();
 			StringWriter Writer = StringWriter(Target);
 			JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
@@ -531,7 +531,7 @@ namespace UnitTests::Core::Json
 			// test 1
 			{
 				// prepare
-				StringBuilder Target = StringBuilder();
+				Utf8StringBuilder Target = Utf8StringBuilder();
 				StringWriter Writer = StringWriter(Target);
 				JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 
@@ -576,7 +576,7 @@ namespace UnitTests::Core::Json
 			// test 2
 			{
 				// prepare
-				StringBuilder Target = StringBuilder();
+				Utf8StringBuilder Target = Utf8StringBuilder();
 				StringWriter Writer = StringWriter(Target);
 				JsonTextWriter JsonWriter = JsonTextWriter(Writer);
 

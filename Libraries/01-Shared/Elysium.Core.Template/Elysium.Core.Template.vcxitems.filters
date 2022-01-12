@@ -350,6 +350,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -396,6 +402,9 @@
     </Filter>
     <Filter Include="System">
       <UniqueIdentifier>{33fb3318-b24f-4080-a052-ba58311c2bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{5ece3da3-bc20-451f-9267-1f77669449c6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

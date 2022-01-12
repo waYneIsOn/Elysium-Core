@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>
@@ -37,7 +41,7 @@ namespace Elysium::Core::Template::Container
 		using Reference = T&;
 		using ConstReference = const T&;
 	private:
-		inline static const Elysium::Core::size BUFFERSIZE = 2;
+		inline static const System::size BUFFERSIZE = 2;
 		inline static Allocator _Allocator = Allocator();
 	public:
 		/// <summary>

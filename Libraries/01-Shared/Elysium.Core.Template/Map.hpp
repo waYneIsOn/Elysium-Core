@@ -87,7 +87,7 @@ namespace Elysium::Core::Template::Container
 		/// 
 		/// </summary>
 		/// <param name="Capacity"></param>
-		Map(const Elysium::Core::size Capacity);
+		Map(const Elysium::Core::Template::System::size Capacity);
 
 		/// <summary>
 		/// 
@@ -171,8 +171,8 @@ namespace Elysium::Core::Template::Container
 	private:
 		inline static Allocator _Allocator = Allocator();
 	private:
-		Elysium::Core::size _Capacity;
-		Elysium::Core::size _Size;
+		Elysium::Core::Template::System::size _Capacity;
+		Elysium::Core::Template::System::size _Size;
 		KeyValuePair* _Data;
 	};
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
@@ -181,7 +181,7 @@ namespace Elysium::Core::Template::Container
 	{ }
 
 	template<class TKey, class TValue, class KeyCompare, class Allocator>
-	inline Map<TKey, TValue, KeyCompare, Allocator>::Map(const Elysium::Core::size Capacity)
+	inline Map<TKey, TValue, KeyCompare, Allocator>::Map(const Elysium::Core::Template::System::size Capacity)
 		: _Capacity(Capacity), _Size(0), _Data(_Allocator.Allocate(_Capacity))
 	{ }
 

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
 #endif
@@ -26,6 +22,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "DefaultAllocator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
@@ -39,22 +39,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Text
 {
 	template <Concepts::Character C>
-	class StringBuilderBase
+	class StringBuilderBase final
 	{
 	public:
 		using ConstCharacter = const C;
-		using CharPointer = C*;
-		using ConstCharPointer = const C*;
-		using CharReference = C&;
-		using ConstCharReference = const C&;
+		using CharacterPointer = C*;
+		using ConstCharacterPointer = const C*;
+		using CharacterReference = C&;
+		using ConstCharacterReference = const C&;
 
 		using CorrespondingString = StringBase<C>;
 	public:
 		StringBuilderBase() noexcept;
 
-		StringBuilderBase(const Elysium::Core::size Capacity) noexcept;
+		StringBuilderBase(const Elysium::Core::Template::System::size Capacity) noexcept;
 
-		StringBuilderBase(ConstCharPointer Value, const Elysium::Core::size Length, const Elysium::Core::size Capacity) noexcept;
+		StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Capacity) noexcept;
 
 		StringBuilderBase(const StringBuilderBase& Source) = delete;
 
@@ -66,19 +66,21 @@ namespace Elysium::Core::Template::Text
 
 		StringBuilderBase<C>& operator=(StringBuilderBase&& Right) noexcept = delete;
 	private:
-		static const Elysium::Core::size DefaultCapacity = 16;
+		static const Elysium::Core::Template::System::size DefaultCapacity = 16;
 	public:
-		//const Elysium::Core::size GetCapacity() const;
+		//const Elysium::Core::Template::System::size GetCapacity() const;
 		
-		//const Elysium::Core::size GetLength() const;
+		//const Elysium::Core::Template::System::size GetLength() const;
 	public:
-		StringBuilderBase<C>& Append(ConstCharPointer Value);
+		StringBuilderBase<C>& Append(ConstCharacter Value);
+
+		StringBuilderBase<C>& Append(ConstCharacterPointer Value);
 		
-		StringBuilderBase<C>& Append(ConstCharPointer Value, const Elysium::Core::size Length);
+		StringBuilderBase<C>& Append(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
 
 		StringBuilderBase<C>& AppendLine();
 
-		StringBuilderBase<C>& AppendLine(ConstCharPointer Value, const Elysium::Core::size Length);
+		StringBuilderBase<C>& AppendLine(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
 
 		void Clear();
 
@@ -93,12 +95,12 @@ namespace Elysium::Core::Template::Text
 	{ }
 
 	template<Concepts::Character C>
-	inline StringBuilderBase<C>::StringBuilderBase(const Elysium::Core::size Capacity) noexcept
+	inline StringBuilderBase<C>::StringBuilderBase(const Elysium::Core::Template::System::size Capacity) noexcept
 		: StringBuilderBase(nullptr, 0, Capacity)
 	{ }
 
 	template<Concepts::Character C>
-	inline StringBuilderBase<C>::StringBuilderBase(ConstCharPointer Value, const Elysium::Core::size Length, const Elysium::Core::size Capacity) noexcept
+	inline StringBuilderBase<C>::StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Capacity) noexcept
 		//: _Data{ 0x00 }
 	{ }
 
@@ -107,13 +109,19 @@ namespace Elysium::Core::Template::Text
 	{ }
 
 	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharPointer Value)
+	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharacter Value)
+	{
+		return Append(&Value, 1);
+	}
+
+	template<Concepts::Character C>
+	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharacterPointer Value)
 	{
 		return Append(Value, CharacterTraits<C>::GetLength(Value));
 	}
 
 	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharPointer Value, const Elysium::Core::size Length)
+	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
 	{
 		if (Value == nullptr || Length == 0)
 		{
@@ -132,7 +140,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::AppendLine(ConstCharPointer Value, const Elysium::Core::size Length)
+	inline StringBuilderBase<C>& StringBuilderBase<C>::AppendLine(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
 	{
 		Append(Value, Length);
 		return Append(CharacterTraits<C>::NewLineCharacters);

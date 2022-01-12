@@ -28,11 +28,11 @@ namespace UnitTests::Core::Template::Container
 			constexpr const Elysium::Core::int32_t KeyInt32 = -53728_i8;
 			constexpr const Elysium::Core::int64_t KeyInt64 = -51671904_i8;
 
-			const String KeyString = "bla";
-			const WideString KeyWideString = L"bla";
-			const Utf8String KeyUtf8String = u8"bla";
-			const Utf16String KeyUtf16String = u"bla";
-			const Utf32String KeyUtf32String = U"bla";
+			const StringBase<char> KeyString = "bla";
+			const StringBase<wchar_t> KeyWideString = L"bla";
+			const StringBase<char8_t> KeyUtf8String = u8"bla";
+			const StringBase<char16_t> KeyUtf16String = u"bla";
+			const StringBase<char32_t> KeyUtf32String = U"bla";
 			
 			// specialization: unsigned integer
 			constexpr Elysium::Core::size HashCodeUInt8 = Object::GetHashCode(KeyUInt8);
