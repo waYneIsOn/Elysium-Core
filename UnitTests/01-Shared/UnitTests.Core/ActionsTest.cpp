@@ -44,25 +44,25 @@ namespace UnitTests::Core
 	public:
 		TEST_METHOD(BindActionsTest)
 		{
-			Action Free = Action::Bind<&FreeAction>();
+			Action<> Free = Action<>::Bind<&FreeAction>();
 			Free();
 			Assert::AreEqual(3.2f, _SomeFloat);
-
-			Action1<int> OneParameters = Action1<int>::Bind<&ActionTestClass::StaticOneParameter>();
+			
+			Action<int> OneParameters = Action<int>::Bind<&ActionTestClass::StaticOneParameter>();
 			OneParameters(27);
 			Assert::AreEqual(50, ActionTestClass::_SomeInteger);
 
 			int x = 12;
-			Action1<int&> OneReference = Action1<int&>::Bind<&ActionTestClass::StaticOneReferenceParameter>();
+			Action<int&> OneReference = Action<int&>::Bind<&ActionTestClass::StaticOneReferenceParameter>();
 			OneReference(x);
 			Assert::AreEqual(0, x);
 
-			Action1<int*> OnePointer = Action1<int*>::Bind<&ActionTestClass::StaticOnePointerParameter>();
+			Action<int*> OnePointer = Action<int*>::Bind<&ActionTestClass::StaticOnePointerParameter>();
 			OnePointer(&x);
 			Assert::AreEqual(27, x);
 
 			ActionTestClass Instance = ActionTestClass();
-			Action2<int, int> TwoParameters = Action2<int, int>::Bind<ActionTestClass, &ActionTestClass::TwoParameters>(Instance);
+			Action<int, int> TwoParameters = Action<int, int>::Bind<ActionTestClass, &ActionTestClass::TwoParameters>(Instance);
 			TwoParameters(27, -17);
 			Assert::AreEqual(10, ActionTestClass::_SomeInteger);
 		}
