@@ -79,7 +79,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />

@@ -1,11 +1,13 @@
 #include "CppUnitTest.h"
-#include "CppUnitTestFrameworkExtension.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core/Action.hpp"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Action.hpp"
+
 using namespace Elysium::Core;
+using namespace Elysium::Core::Template::Container;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core
+namespace UnitTests::Core::Template::Container
 {
 	float _SomeFloat = 0.0f;
 
@@ -47,7 +49,7 @@ namespace UnitTests::Core
 			Action<> Free = Action<>::Bind<&FreeAction>();
 			Free();
 			Assert::AreEqual(3.2f, _SomeFloat);
-			
+
 			Action<int> OneParameters = Action<int>::Bind<&ActionTestClass::StaticOneParameter>();
 			OneParameters(27);
 			Assert::AreEqual(50, ActionTestClass::_SomeInteger);

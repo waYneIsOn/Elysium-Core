@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ACTION
-#include "../Elysium.Core/Action.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ACTION
+#include "../Elysium.Core.Template/Action.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_AGGREGATEEXCEPTION
@@ -66,7 +66,7 @@ namespace Elysium::Core::Threading::Tasks
 	class ELYSIUM_CORE_API Task final : public IAsyncResult
 	{
 	public:
-		Task(const Elysium::Core::Template::Container::Delegate<void>& Action);
+		Task(const Elysium::Core::Template::Container::Action<>& Action);
 
 		Task(const Task& Source) = delete;
 
@@ -108,7 +108,7 @@ namespace Elysium::Core::Threading::Tasks
 	private:
 		static Elysium::Core::int32_t _TaskIdCounter;
 
-		const Elysium::Core::Template::Container::Delegate<void> _Action;
+		const Elysium::Core::Template::Container::Action<> _Action;
 		const Elysium::Core::int32_t _Id;
 		const TaskCreationOptions _CreationOptions;
 		const AutoResetEvent _WaitEvent;

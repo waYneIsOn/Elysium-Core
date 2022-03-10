@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActivatorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AllocatorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />

@@ -14,7 +14,7 @@
 
 Elysium::Core::int32_t Elysium::Core::Threading::Tasks::Task::_TaskIdCounter = 0;
 
-Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Template::Container::Delegate<void>& Action)
+Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Template::Container::Action<>& Action)
 	: Elysium::Core::IAsyncResult(),
 	_Action(Action),  _Id(Interlocked::Increment(_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)), 
 	_Status(TaskStatus::Created), _Exception(nullptr),

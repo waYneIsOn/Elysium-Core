@@ -15,7 +15,6 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />

@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp" />
