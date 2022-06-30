@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
 

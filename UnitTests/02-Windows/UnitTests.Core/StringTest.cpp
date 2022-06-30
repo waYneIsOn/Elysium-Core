@@ -22,7 +22,7 @@ namespace UnitTests::Core
 			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString1));
 
 			Elysium::Core::Utf8String LString = Elysium::Core::Utf8String(5);
-			Assert::AreEqual((Elysium::Core::size)5, LString.GetLength());
+			Assert::AreEqual(0_ui64, LString.GetLength());
 			
 			Elysium::Core::Utf8String EmptyString(u8"");
 			//Assert::IsNull(&EmptyString[0]);

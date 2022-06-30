@@ -47,12 +47,17 @@ namespace UnitTests::Core::Template::Memory
 		{
 			Utf8String EmptyString = Activator::CreateInstance<Utf8String>();
 			Assert::AreEqual(0_ui64, EmptyString.GetLength());
+			Assert::AreEqual(23_ui64, EmptyString.GetCapacity());
 
 			Utf8String CharString = Activator::CreateInstance<Utf8String, Utf8String::ConstCharacterPointer>(u8"bla");
 			Assert::AreEqual(3_ui64, CharString.GetLength());
+			Assert::AreEqual(23_ui64, CharString.GetCapacity());
 
 			Utf8String LengthString = Activator::CreateInstance<Utf8String, const Elysium::Core::size>(27);
+			const Elysium::Core::size bla = LengthString.GetLength();
+			const Elysium::Core::size bla1 = LengthString.GetCapacity();
 			Assert::AreEqual(27_ui64, LengthString.GetLength());
+			Assert::AreEqual(27_ui64, LengthString.GetCapacity());
 		}
 	};
 }
