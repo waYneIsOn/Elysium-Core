@@ -15,6 +15,24 @@
 #endif
 #endif
 
+const Elysium::Core::Utf8String Elysium::Core::Environment::CurrentDirectory()
+{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	char Buffer[MAX_PATH];	// ToDo: long names (MAX_PATH)
+	unsigned long Length = GetCurrentDirectoryA(MAX_PATH, &Buffer[0]);
+
+	return Elysium::Core::Utf8String((Elysium::Core::Utf8String::ConstCharacterPointer)Buffer, Length);
+#else
+#error "unsupported os"
+#endif
+}
+
+const bool Elysium::Core::Environment::CurrentDirectory(const Elysium::Core::Utf8String& Value)
+{
+	int Result = SetCurrentDirectoryA((char*)&Value[0]);
+	return Result == 1;
+}
+
 const bool Elysium::Core::Environment::Is64BitProcess()
 {
 #if ELYSIUM_CORE_BITNESS == 32
@@ -31,9 +49,12 @@ const bool Elysium::Core::Environment::Is64BitProcess()
 const Elysium::Core::Utf8String Elysium::Core::Environment::MachineName()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	// computer-name maximum length under windows appears to be 15
-	wchar_t MachineName[15];
-	unsigned long BufferCount = 15;
+	// https://docs.microsoft.com/en-GB/troubleshoot/windows-server/identity/naming-conventions-for-computer-domain-site-ou
+	static const Elysium::Core::uint8_t NetBiosMax = 15;
+	//static const Elysium::Core::uint8_t DnsMax = 63;
+
+	wchar_t MachineName[NetBiosMax];
+	unsigned long BufferCount = 0;
 	if (GetComputerName(MachineName, &BufferCount))
 	{
 		return _InternalEncoding.GetString((Elysium::Core::byte*)&MachineName, BufferCount * sizeof(wchar_t));

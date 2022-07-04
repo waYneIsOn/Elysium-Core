@@ -60,6 +60,10 @@ namespace Elysium::Core
 
 		Environment& operator=(Environment&& Right) noexcept = delete;
 	public:
+		static const Elysium::Core::Utf8String CurrentDirectory();
+		
+		static const bool CurrentDirectory(const Elysium::Core::Utf8String& Value);
+	public:
 		/// <summary>
 		/// 
 		/// </summary>
