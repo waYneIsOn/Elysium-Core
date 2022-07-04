@@ -26,7 +26,7 @@ namespace Elysium::Core::IO
 	/// 
 	/// </summary>
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class NotifyFilters : Elysium::Core::uint8_t
+	enum class NotifyFilters : Elysium::Core::uint16_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class NotifyFilters
 #else
@@ -36,42 +36,52 @@ namespace Elysium::Core::IO
 		/// <summary>
 		/// 
 		/// </summary>
-		FileName = 1,
+		FileName = 0x01,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		DirectoryName = 2,
+		DirectoryName = 0x02,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		Attributes = 4,
+		Attributes = 0x04,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		Size = 8,
+		Size = 0x08,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		LastWrite = 16,
+		LastWrite = 0x10,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		LastAccess = 32,
+		LastAccess = 0x20,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		CreationTime = 64,
+		CreationTime = 0x40,
 
 		/// <summary>
 		/// 
 		/// </summary>
-		Security = 256,
+		Security = 0x100,
 	};
+
+	inline NotifyFilters operator|(NotifyFilters Left, NotifyFilters Right)
+	{
+		return static_cast<NotifyFilters>(static_cast<uint32_t>(Left) | static_cast<uint32_t>(Right));
+	}
+
+	inline NotifyFilters operator&(NotifyFilters Left, NotifyFilters Right)
+	{
+		return static_cast<NotifyFilters>(static_cast<uint32_t>(Left) & static_cast<uint32_t>(Right));
+	}
 }
 #endif

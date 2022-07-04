@@ -16,9 +16,11 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReaderTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileSystemWatcherTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanTreeTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStreamTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PathTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReaderTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveTest.cpp" />
   </ItemGroup>

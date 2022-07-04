@@ -36,6 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ListOfZipArchiveEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Path.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ReadOnlyStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stream.hpp" />
@@ -66,6 +67,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Path.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReadOnlyStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReader.cpp" />

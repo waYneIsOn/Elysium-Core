@@ -38,6 +38,7 @@
       <Filter>Compression\HuffmanCoding</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Path.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -106,6 +107,7 @@
       <Filter>Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Path.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">
