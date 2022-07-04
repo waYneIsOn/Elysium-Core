@@ -42,6 +42,7 @@ namespace Elysium::Core::Template::Text
 	class StringViewBase final
 	{
 	public:
+		using Character = C;
 		using ConstCharacter = const C;
 		using CharacterPointer = C*;
 		using ConstCharacterPointer = const C*;
@@ -51,6 +52,8 @@ namespace Elysium::Core::Template::Text
 		using CorrespondingString = StringBase<C>;
 	public:
 		StringViewBase() noexcept;
+
+		StringViewBase(const CorrespondingString& Value) noexcept;
 
 		StringViewBase(ConstCharacterPointer Value) noexcept;
 
@@ -94,6 +97,10 @@ namespace Elysium::Core::Template::Text
 
 		const System::size IndexOf(ConstCharacterPointer Sequence, const System::size StartIndex) const noexcept;
 
+		const System::size IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength) const noexcept;
+
+		const System::size IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength, const System::size StartIndex) const noexcept;
+
 		const System::size LastIndexOf(ConstCharacter Value) const noexcept;
 
 		const System::size LastIndexOf(ConstCharacterPointer Sequence) const noexcept;
@@ -113,6 +120,11 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline StringViewBase<C>::StringViewBase() noexcept
 		: StringViewBase<C>(nullptr, 0)
+	{ }
+
+	template<Concepts::Character C>
+	inline StringViewBase<C>::StringViewBase(const CorrespondingString & Value) noexcept
+		: StringViewBase<C>(&Value[0], Value.GetLength())
 	{ }
 
 	template<Concepts::Character C>
@@ -282,6 +294,18 @@ namespace Elysium::Core::Template::Text
 	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacterPointer Sequence, const Elysium::Core::Template::System::size StartIndex) const noexcept
 	{
 		return CharacterTraits<C>::IndexOf(&_Data[StartIndex], _Length - StartIndex, Sequence);
+	}
+
+	template<Concepts::Character C>
+	inline const System::size StringViewBase<C>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength) const noexcept
+	{
+		return CharacterTraits<C>::IndexOfAny(_Data, _Length, Sequence, SequenceLength);
+	}
+
+	template<Concepts::Character C>
+	inline const System::size StringViewBase<C>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength, const System::size StartIndex) const noexcept
+	{
+		return CharacterTraits<C>::IndexOfAny(&_Data[StartIndex], _Length - StartIndex, Sequence, SequenceLength);
 	}
 
 	template<Concepts::Character C>

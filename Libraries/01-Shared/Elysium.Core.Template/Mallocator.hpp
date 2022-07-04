@@ -121,6 +121,7 @@ namespace Elysium::Core::Template::Memory
 		{
 			First[i].~T();
 		}
+		//memset(First, 0x00, ElementSize* NumberOfInstantiatedElements);
 		std::free(First);
 		First = nullptr;
 	}

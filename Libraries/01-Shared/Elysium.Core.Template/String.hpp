@@ -134,6 +134,10 @@ namespace Elysium::Core::Template::Text
 		const System::size IndexOf(ConstCharacterPointer Sequence, const System::size StartIndex) const;
 
 		const System::size IndexOf(const StringBase<C, Traits, Allocator>& Sequence, const System::size StartIndex) const;
+
+		const System::size IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength) const noexcept;
+
+		const System::size IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength, const System::size StartIndex) const noexcept;
 		
 		const System::size LastIndexOf(ConstCharacter Value) const;
 
@@ -261,7 +265,8 @@ namespace Elysium::Core::Template::Text
 	inline StringBase<C, Traits, Allocator>::StringBase(const Elysium::Core::Template::System::size Length) noexcept
 		: _InternalString{ 0x00 }
 	{
-		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Length * sizeof(C) + sizeof(C);
+		const Elysium::Core::Template::System::size Size = Length * sizeof(C);
+		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + sizeof(C);
 		if (SizeIncludingNullTerminator > MaximumSizeOnHeap)
 		{	// ToDo: what to do? does this even occurre? linked list?
 			//throw 1;
@@ -442,6 +447,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 		if (Index >= Length)
 		{
+			throw 1;
 			//throw IndexOutOfRangeException();
 		}
 
@@ -455,6 +461,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 		if (Index >= Length)
 		{
+			throw 1;
 			//throw IndexOutOfRangeException();
 		}
 
@@ -739,6 +746,24 @@ namespace Elysium::Core::Template::Text
 		const System::size DataLength = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 		ConstCharacterPointer Data = HeapAllocated ? &_InternalString._Heap._Data[StartIndex] : (ConstCharacterPointer)&_InternalString._Stack._Data[StartIndex];
 		return Traits::IndexOf(Data, DataLength, &Sequence[0]);
+	}
+
+	template<Concepts::Character C, class Traits, class Allocator>
+	inline const System::size StringBase<C, Traits, Allocator>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength) const noexcept
+	{
+		const bool HeapAllocated = IsHeapAllocated();
+		const System::size DataLength = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		ConstCharacterPointer Data = HeapAllocated ? &_InternalString._Heap._Data[0] : (ConstCharacterPointer)&_InternalString._Stack._Data[0];
+		return CharacterTraits<C>::IndexOfAny(Data, DataLength, Sequence, SequenceLength);
+	}
+
+	template<Concepts::Character C, class Traits, class Allocator>
+	inline const System::size StringBase<C, Traits, Allocator>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength, const System::size StartIndex) const noexcept
+	{
+		const bool HeapAllocated = IsHeapAllocated();
+		const System::size DataLength = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		ConstCharacterPointer Data = HeapAllocated ? &_InternalString._Heap._Data[StartIndex] : (ConstCharacterPointer)&_InternalString._Stack._Data[StartIndex];
+		return CharacterTraits<C>::IndexOfAny(Data, DataLength, Sequence, SequenceLength);
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>

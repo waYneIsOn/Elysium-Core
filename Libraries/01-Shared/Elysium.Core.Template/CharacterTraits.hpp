@@ -150,6 +150,17 @@ namespace Elysium::Core::Template::Text
 		/// </summary>
 		/// <param name="Start"></param>
 		/// <param name="Length"></param>
+		/// <param name="Sequence"></param>
+		/// <param name="SequenceLength"></param>
+		/// <returns></returns>
+		static constexpr const System::size IndexOfAny(ConstPointer Start, const System::size Length, ConstPointer Sequence,
+			const System::size SequenceLength) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const System::size LastIndexOf(ConstPointer Start, const System::size Length, ConstValue Value) noexcept;
@@ -258,7 +269,7 @@ namespace Elysium::Core::Template::Text
 			CurrentCharacter = CharacterTraitsBase<C, I>::Find(CurrentCharacter, LastCharacter - CurrentCharacter, CurrentSequenceCharacter[0]);
 			if (CurrentCharacter == nullptr)
 			{
-				return -1;
+				return static_cast<Elysium::Core::Template::System::size>(-1);
 			}
 
 			MatchingCharacter = CurrentCharacter;
@@ -279,7 +290,37 @@ namespace Elysium::Core::Template::Text
 			}
 		}
 
-		return -1;
+		return static_cast<Elysium::Core::Template::System::size>(-1);
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const System::size CharacterTraitsBase<C, I>::IndexOfAny(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence, const Elysium::Core::Template::System::size SequenceLength) noexcept
+	{
+		if (Start == nullptr || Length == 0 || Sequence == nullptr)
+		{
+			return static_cast<Elysium::Core::Template::System::size>(-1);
+		}
+
+		ConstPointer LastCharacter = &Start[Length];
+		Pointer CurrentCharacter = (Pointer)Start;
+
+		ConstPointer LastSequenceCharacter = &Sequence[SequenceLength];
+		Pointer CurrentSequenceCharacter = (Pointer)Sequence;
+
+		while (CurrentCharacter < LastCharacter) 
+		{
+			while (CurrentSequenceCharacter < LastSequenceCharacter)
+			{
+				if (CurrentCharacter == CurrentSequenceCharacter)
+				{
+					return LastCharacter - CurrentCharacter;
+				}
+				++CurrentSequenceCharacter;
+			}
+			++CurrentCharacter;
+		}
+
+		return static_cast<Elysium::Core::Template::System::size>(-1);
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>

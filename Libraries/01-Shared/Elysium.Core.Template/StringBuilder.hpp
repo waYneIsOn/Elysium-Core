@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_LINKEDLIST
-#include "LinkedList.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "DefaultAllocator.hpp"
 #endif
@@ -38,7 +34,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Text
 {
-	template <Concepts::Character C>
+	template <Concepts::Character C, class Allocator = Memory::DefaultAllocator<C>>
 	class StringBuilderBase final
 	{
 	public:
@@ -54,6 +50,10 @@ namespace Elysium::Core::Template::Text
 
 		StringBuilderBase(const Elysium::Core::Template::System::size Capacity) noexcept;
 
+		StringBuilderBase(ConstCharacterPointer Value) noexcept;
+
+		StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept;
+
 		StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Capacity) noexcept;
 
 		StringBuilderBase(const StringBuilderBase& Source) = delete;
@@ -62,99 +62,127 @@ namespace Elysium::Core::Template::Text
 
 		~StringBuilderBase();
 	public:
-		StringBuilderBase<C>& operator=(const StringBuilderBase& Source) = delete;
+		StringBuilderBase<C, Allocator>& operator=(const StringBuilderBase& Source) = delete;
 
-		StringBuilderBase<C>& operator=(StringBuilderBase&& Right) noexcept = delete;
+		StringBuilderBase<C, Allocator>& operator=(StringBuilderBase&& Right) noexcept = delete;
 	private:
 		static const Elysium::Core::Template::System::size DefaultCapacity = 16;
 	public:
-		//const Elysium::Core::Template::System::size GetCapacity() const;
+		//const Elysium::Core::Template::System::size& GetCapacity() const;
 		
-		//const Elysium::Core::Template::System::size GetLength() const;
+		//const Elysium::Core::Template::System::size& GetLength() const;
 	public:
-		StringBuilderBase<C>& Append(ConstCharacter Value);
+		StringBuilderBase<C, Allocator>& Append(ConstCharacter Value);
 
-		StringBuilderBase<C>& Append(ConstCharacterPointer Value);
+		StringBuilderBase<C, Allocator>& Append(ConstCharacterPointer Value);
 		
-		StringBuilderBase<C>& Append(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
+		StringBuilderBase<C, Allocator>& Append(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
 
-		StringBuilderBase<C>& AppendLine();
+		StringBuilderBase<C, Allocator>& AppendLine();
 
-		StringBuilderBase<C>& AppendLine(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
+		StringBuilderBase<C, Allocator>& AppendLine(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
 
 		void Clear();
 
-		StringBuilderBase<C>::CorrespondingString ToString() const;
+		StringBuilderBase<C, Allocator>::CorrespondingString ToString() const;
 	private:
-		//Container::LinkedList<C[255]> _Data;
+		inline static Allocator _Allocator = Allocator();
+	private:
+		CharacterPointer _Data;	// while .NET uses a linked list, this is mostly due to strings being immutable, which isn't the case in this framework
+		System::size _Length;
+		System::size _Capacity;
 	};
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>::StringBuilderBase() noexcept
-		: StringBuilderBase(DefaultCapacity)
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::StringBuilderBase() noexcept
+		: StringBuilderBase(nullptr, 0, DefaultCapacity)
 	{ }
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>::StringBuilderBase(const Elysium::Core::Template::System::size Capacity) noexcept
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::StringBuilderBase(const Elysium::Core::Template::System::size Capacity) noexcept
 		: StringBuilderBase(nullptr, 0, Capacity)
 	{ }
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>::StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Capacity) noexcept
-		//: _Data{ 0x00 }
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::StringBuilderBase(ConstCharacterPointer Value) noexcept
+		: StringBuilderBase(Value, CharacterTraits<C>::GetLength(Value), CharacterTraits<C>::GetLength(Value))
 	{ }
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>::~StringBuilderBase()
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
+		: StringBuilderBase(Value, Length, Length)
 	{ }
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharacter Value)
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::StringBuilderBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Capacity) noexcept
+		 : _Data(_Allocator.Allocate(Capacity)), _Length(Length > Capacity ? Capacity : Length), _Capacity(Capacity)
+	{
+		memcpy(&_Data[0], Value, _Length * CharacterTraits<C>::MinimumValue);
+	}
+
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::~StringBuilderBase()
+	{
+		_Allocator.Deallocate(_Data, 0);
+		_Data = nullptr;
+	}
+
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>& StringBuilderBase<C, Allocator>::Append(ConstCharacter Value)
 	{
 		return Append(&Value, 1);
 	}
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharacterPointer Value)
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>& StringBuilderBase<C, Allocator>::Append(ConstCharacterPointer Value)
 	{
 		return Append(Value, CharacterTraits<C>::GetLength(Value));
 	}
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::Append(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>& StringBuilderBase<C, Allocator>::Append(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
 	{
 		if (Value == nullptr || Length == 0)
 		{
 			return *this;
 		}
 
+		// resize if required
+		if (_Length + Length > _Capacity)
+		{
 
+		}
 
+		/*
+		memcpy(&_Data[_Length], Value, Length * CharacterTraits<C>::MinimumValue);
+		_Length += Length;
+		*/
 		return *this;
 	}
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::AppendLine()
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>& StringBuilderBase<C, Allocator>::AppendLine()
 	{
 		return Append(CharacterTraits<C>::NewLineCharacters);
 	}
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>& StringBuilderBase<C>::AppendLine(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>& StringBuilderBase<C, Allocator>::AppendLine(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
 	{
 		Append(Value, Length);
 		return Append(CharacterTraits<C>::NewLineCharacters);
 	}
 	
-	template<Concepts::Character C>
-	inline void StringBuilderBase<C>::Clear()
+	template<Concepts::Character C, class Allocator>
+	inline void StringBuilderBase<C, Allocator>::Clear()
 	{
+		_Length = 0;
 	}
 
-	template<Concepts::Character C>
-	inline StringBuilderBase<C>::CorrespondingString StringBuilderBase<C>::ToString() const
+	template<Concepts::Character C, class Allocator>
+	inline StringBuilderBase<C, Allocator>::CorrespondingString StringBuilderBase<C, Allocator>::ToString() const
 	{
-		return CorrespondingString();
+		return CorrespondingString(_Data);
 	}
 }
 #endif
