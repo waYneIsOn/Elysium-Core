@@ -359,9 +359,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Utf8StringContainer.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

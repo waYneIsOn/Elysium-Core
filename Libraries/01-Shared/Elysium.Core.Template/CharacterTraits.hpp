@@ -296,7 +296,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const System::size CharacterTraitsBase<C, I>::IndexOfAny(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence, const Elysium::Core::Template::System::size SequenceLength) noexcept
 	{
-		if (Start == nullptr || Length == 0 || Sequence == nullptr)
+		if (Start == nullptr || Length == 0 || Sequence == nullptr || SequenceLength == 0)
 		{
 			return static_cast<Elysium::Core::Template::System::size>(-1);
 		}
@@ -311,13 +311,14 @@ namespace Elysium::Core::Template::Text
 		{
 			while (CurrentSequenceCharacter < LastSequenceCharacter)
 			{
-				if (CurrentCharacter == CurrentSequenceCharacter)
+				if (*CurrentCharacter == *CurrentSequenceCharacter)
 				{
 					return LastCharacter - CurrentCharacter;
 				}
 				++CurrentSequenceCharacter;
 			}
 			++CurrentCharacter;
+			CurrentSequenceCharacter = (Pointer)Sequence;
 		}
 
 		return static_cast<Elysium::Core::Template::System::size>(-1);

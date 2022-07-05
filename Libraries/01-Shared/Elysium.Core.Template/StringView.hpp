@@ -124,7 +124,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline StringViewBase<C>::StringViewBase(const CorrespondingString & Value) noexcept
-		: StringViewBase<C>(&Value[0], Value.GetLength())
+		: StringViewBase<C>(Value.GetLength() == 0 ? nullptr : &Value[0], Value.GetLength())
 	{ }
 
 	template<Concepts::Character C>

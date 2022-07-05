@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/StringView.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UTF8STRINGCONTAINER
-#include "../Elysium.Core.Template/Utf8StringContainer.hpp"
-#endif
-
 namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_API Path
@@ -102,7 +98,7 @@ namespace Elysium::Core::IO
 			0x1F,
 
 			// further invalid characters
-			u8'"', u8'<', u8'>', u8'\\', u8'|'
+			u8'"', u8'<', u8'>', u8'|'
 		};
 
 		/// <summary>
@@ -113,70 +109,23 @@ namespace Elysium::Core::IO
 			u8'*', u8'?'
 		};
 	public:
-		template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-		static Elysium::Core::Utf8String GetDirectoryName(const T& Path);
+		static const bool EndsInDirectorySeperator(const Elysium::Core::Utf8String& Path);
 
-		template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-		static Elysium::Core::Utf8String GetFullPath(const T& Path);
+		static const bool EndsInDirectorySeperator(const Elysium::Core::Utf8StringView Path);
 
-		template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-		static Elysium::Core::Utf8String GetFullPath(const T& Path, const T& BasePath);
+		static Elysium::Core::Utf8String GetFullPath(const Elysium::Core::Utf8String& Path);
+
+		static Elysium::Core::Utf8String GetFullPath(const Elysium::Core::Utf8StringView Path);
+
+		static Elysium::Core::Utf8String GetFullPath(const Elysium::Core::Utf8String& Path, const Elysium::Core::Utf8String& BasePath);
+
+		static Elysium::Core::Utf8String GetFullPath(const Elysium::Core::Utf8StringView Path, const Elysium::Core::Utf8StringView BasePath);
 	private:
-		template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-		static void Validate(const T& Path, const bool ValidateWildcards);
+		static void Validate(const Elysium::Core::Utf8String& Path, const bool ValidateWildcards);
+
+		static void Validate(const Elysium::Core::Utf8StringView Path, const bool ValidateWildcards);
 
 		static Elysium::Core::Utf8String GetFullPath(const char* ASCIIPath);
 	};
-
-	template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-	inline Elysium::Core::Utf8String Path::GetDirectoryName(const T& Path)
-	{
-		Validate(Path, false);
-
-		const Elysium::Core::Template::System::size IndexOfPathSeparator = Path.LastIndexOf(PathSeparator);
-		if (IndexOfPathSeparator == static_cast<Elysium::Core::Template::System::size>(-1))
-		{
-
-		}
-		else
-		{
-
-		}
-
-		// ToDo:
-		throw 1;
-	}
-
-	template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-	inline Elysium::Core::Utf8String Path::GetFullPath(const T& Path)
-	{
-		Validate(Path, false);
-
-		return GetFullPath((char*)&Path[0]);
-	}
-
-	template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-	inline Elysium::Core::Utf8String Path::GetFullPath(const T& Path, const T& BasePath)
-	{
-		Validate(Path, false);
-		Validate(BasePath, false);
-
-		throw 1;
-	}
-
-	template<Elysium::Core::Template::Concepts::Utf8StringContainer T>
-	inline void Path::Validate(const T& Path, const bool ValidateWildcards)
-	{
-		if (Path.GetLength() == 0)
-		{
-			throw ArgumentException(u8"Path");
-		}
-
-		if (Path.IndexOfAny(&InvalidPathCharacters[0], 36) != static_cast<Elysium::Core::Template::System::size>(-1) ||
-			(ValidateWildcards && Path.IndexOfAny(&WildcardCharacters[0], 2) != static_cast<Elysium::Core::Template::System::size>(-1)))
-		{
-			throw ArgumentException(u8"Path contains illegal characters.");
-		}
-	}
 }
 #endif
