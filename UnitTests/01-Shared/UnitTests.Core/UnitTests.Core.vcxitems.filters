@@ -1,23 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup Label="Globals">
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-    <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{1c9d9572-a652-4285-8a6b-25e83ef859c5}</ItemsProjectGuid>
-  </PropertyGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
-  <ItemGroup>
-    <ProjectCapability Include="SourceItemsFromImports" />
-  </ItemGroup>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfoTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ForceMakeShared.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformSpecificTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StopwatchTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTest.cpp" />
@@ -26,8 +12,16 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProcessTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfoTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ForceMakeShared.cpp">
+      <Filter>Tricks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Tricks">
+      <UniqueIdentifier>{3dc4a763-9f73-400e-a5f9-453a7b5ac0ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
