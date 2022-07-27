@@ -38,7 +38,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Text
 {
-	template <Concepts::Character C>
+	template <Concepts::Character C, class Traits = CharacterTraits<C>>
 	class StringViewBase final
 	{
 	public:
@@ -65,27 +65,27 @@ namespace Elysium::Core::Template::Text
 
 		~StringViewBase();
 	public:
-		StringViewBase<C>& operator=(const StringViewBase& Source);
+		StringViewBase<C, Traits>& operator=(const StringViewBase& Source);
 
-		StringViewBase<C>& operator=(StringViewBase&& Right) noexcept;
+		StringViewBase<C, Traits>& operator=(StringViewBase&& Right) noexcept;
 	public:
-		StringViewBase<C>::CharacterReference operator[](const System::size Index);
+		StringViewBase<C, Traits>::CharacterReference operator[](const System::size Index);
 
-		StringViewBase<C>::ConstCharacterReference operator[](const System::size Index) const;
+		StringViewBase<C, Traits>::ConstCharacterReference operator[](const System::size Index) const;
 	public:
-		const bool operator==(const StringViewBase<C>& Other) const noexcept;
+		const bool operator==(const StringViewBase& Other) const noexcept;
 
-		const bool operator!=(const StringViewBase<C>& Other) const noexcept;
+		const bool operator!=(const StringViewBase& Other) const noexcept;
 
-		const bool operator<(const StringViewBase<C>& Other) const noexcept;
+		const bool operator<(const StringViewBase& Other) const noexcept;
 
-		const bool operator>(const StringViewBase<C>& Other) const noexcept;
+		const bool operator>(const StringViewBase& Other) const noexcept;
 
-		const bool operator<=(const StringViewBase<C>& Other) const noexcept;
+		const bool operator<=(const StringViewBase& Other) const noexcept;
 
-		const bool operator>=(const StringViewBase<C>& Other) const noexcept;
+		const bool operator>=(const StringViewBase& Other) const noexcept;
 	public:
-		static const bool IsNullOrEmtpy(const StringViewBase<C>& Value);
+		static const bool IsNullOrEmtpy(const StringViewBase& Value);
 	public:
 		const System::size GetLength() const;
 	public:
@@ -105,56 +105,56 @@ namespace Elysium::Core::Template::Text
 
 		const System::size LastIndexOf(ConstCharacterPointer Sequence) const noexcept;
 
-		Container::Vector<StringViewBase<C>> Split(ConstCharacter Delimiter) const;
+		Container::Vector<StringViewBase<C, Traits>> Split(ConstCharacter Delimiter) const;
 
-		Container::Vector<StringViewBase<C>> Split(ConstCharacterPointer DelimiterSequence) const;
+		Container::Vector<StringViewBase<C, Traits>> Split(ConstCharacterPointer DelimiterSequence) const;
 
-		StringViewBase<C> Substringview(const System::size StartIndex, const System::size Length) const;
+		StringViewBase<C, Traits> Substringview(const System::size StartIndex, const System::size Length) const;
 
-		StringViewBase<C>::CorrespondingString ToString() const;
+		StringViewBase<C, Traits>::CorrespondingString ToString() const;
 	private:
 		ConstCharacterPointer _Data;
 		System::size _Length;
 	};
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase() noexcept
-		: StringViewBase<C>(nullptr, 0)
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::StringViewBase() noexcept
+		: StringViewBase<C, Traits>(nullptr, 0)
 	{ }
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(const CorrespondingString & Value) noexcept
-		: StringViewBase<C>(Value.GetLength() == 0 ? nullptr : &Value[0], Value.GetLength())
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::StringViewBase(const CorrespondingString & Value) noexcept
+		: StringViewBase<C, Traits>(Value.GetLength() == 0 ? nullptr : &Value[0], Value.GetLength())
 	{ }
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(ConstCharacterPointer Value) noexcept
-		: StringViewBase<C>(Value, CharacterTraits<C>::GetLength(Value))
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::StringViewBase(ConstCharacterPointer Value) noexcept
+		: StringViewBase<C, Traits>(Value, CharacterTraits<C>::GetLength(Value))
 	{ }
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::StringViewBase(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
 		: _Data(Value), _Length(Length)
 	{ }
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(const StringViewBase & Source)
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::StringViewBase(const StringViewBase & Source)
 		: _Data(Source._Data), _Length(Source._Length)
 	{ }
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::StringViewBase(StringViewBase && Right) noexcept
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::StringViewBase(StringViewBase && Right) noexcept
 		: _Data(nullptr), _Length(0)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::~StringViewBase()
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::~StringViewBase()
 	{ }
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>& StringViewBase<C>::operator=(const StringViewBase & Source)
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>& StringViewBase<C, Traits>::operator=(const StringViewBase& Source)
 	{
 		if (this != &Source)
 		{
@@ -164,8 +164,8 @@ namespace Elysium::Core::Template::Text
 		return *this;
 	}
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>& StringViewBase<C>::operator=(StringViewBase&& Right) noexcept
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>& StringViewBase<C, Traits>::operator=(StringViewBase&& Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -178,8 +178,8 @@ namespace Elysium::Core::Template::Text
 		return *this;
 	}
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::CharacterReference StringViewBase<C>::operator[](const Elysium::Core::Template::System::size Index)
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::CharacterReference StringViewBase<C, Traits>::operator[](const Elysium::Core::Template::System::size Index)
 	{
 		if (Index >= _Length)
 		{
@@ -189,8 +189,8 @@ namespace Elysium::Core::Template::Text
 		return (CharacterReference)_Data[Index];
 	}
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::ConstCharacterReference StringViewBase<C>::operator[](const Elysium::Core::Template::System::size Index) const
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::ConstCharacterReference StringViewBase<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) const
 	{
 		if (Index >= _Length)
 		{
@@ -200,8 +200,8 @@ namespace Elysium::Core::Template::Text
 		return _Data[Index];
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::operator==(const StringViewBase<C>& Other) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::operator==(const StringViewBase& Other) const noexcept
 	{
 		if (this == &Other)
 		{
@@ -210,8 +210,8 @@ namespace Elysium::Core::Template::Text
 		return _Data == Other._Data && _Length == Other._Length;
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::operator!=(const StringViewBase<C>& Other) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::operator!=(const StringViewBase& Other) const noexcept
 	{
 		if (this == &Other)
 		{
@@ -220,8 +220,8 @@ namespace Elysium::Core::Template::Text
 		return _Data != Other._Data || _Length != Other._Length;
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::operator<(const StringViewBase<C>& Other) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::operator<(const StringViewBase& Other) const noexcept
 	{
 		if (this == &Other)
 		{
@@ -230,8 +230,8 @@ namespace Elysium::Core::Template::Text
 		return _Data == Other._Data && _Length < Other._Length;
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::operator>(const StringViewBase<C>& Other) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::operator>(const StringViewBase& Other) const noexcept
 	{
 		if (this == &Other)
 		{
@@ -240,8 +240,8 @@ namespace Elysium::Core::Template::Text
 		return _Data == Other._Data && _Length > Other._Length;
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::operator<=(const StringViewBase<C>& Other) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::operator<=(const StringViewBase& Other) const noexcept
 	{
 		if (this == &Other)
 		{
@@ -250,8 +250,8 @@ namespace Elysium::Core::Template::Text
 		return _Data == Other._Data && _Length <= Other._Length;
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::operator>=(const StringViewBase<C>& Other) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::operator>=(const StringViewBase& Other) const noexcept
 	{
 		if (this == &Other)
 		{
@@ -260,70 +260,70 @@ namespace Elysium::Core::Template::Text
 		return _Data == Other._Data && _Length >= Other._Length;
 	}
 
-	template<Concepts::Character C>
-	inline const bool StringViewBase<C>::IsNullOrEmtpy(const StringViewBase<C>& Value)
+	template<Concepts::Character C, class Traits>
+	inline const bool StringViewBase<C, Traits>::IsNullOrEmtpy(const StringViewBase& Value)
 	{
-		return CharacterTraits<C>::IsNullOrEmpty(Value._Data);
+		return Traits::IsNullOrEmpty(Value._Data);
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::GetLength() const
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::GetLength() const
 	{
 		return _Length;
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacter Value) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::IndexOf(ConstCharacter Value) const noexcept
 	{
-		return CharacterTraits<C>::IndexOf(_Data, _Length, Value);
+		return Traits::IndexOf(_Data, _Length, Value);
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacter Value, const Elysium::Core::Template::System::size StartIndex) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::IndexOf(ConstCharacter Value, const Elysium::Core::Template::System::size StartIndex) const noexcept
 	{
-		return CharacterTraits<C>::IndexOf(&_Data[StartIndex], _Length - StartIndex, Value);
+		return Traits::IndexOf(&_Data[StartIndex], _Length - StartIndex, Value);
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacterPointer Sequence) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::IndexOf(ConstCharacterPointer Sequence) const noexcept
 	{
-		return CharacterTraits<C>::IndexOf(_Data, _Length, Sequence);
+		return Traits::IndexOf(_Data, _Length, Sequence);
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::IndexOf(ConstCharacterPointer Sequence, const Elysium::Core::Template::System::size StartIndex) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::IndexOf(ConstCharacterPointer Sequence, const Elysium::Core::Template::System::size StartIndex) const noexcept
 	{
-		return CharacterTraits<C>::IndexOf(&_Data[StartIndex], _Length - StartIndex, Sequence);
+		return Traits::IndexOf(&_Data[StartIndex], _Length - StartIndex, Sequence);
 	}
 
-	template<Concepts::Character C>
-	inline const System::size StringViewBase<C>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const System::size StringViewBase<C, Traits>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength) const noexcept
 	{
-		return CharacterTraits<C>::IndexOfAny(_Data, _Length, Sequence, SequenceLength);
+		return Traits::IndexOfAny(_Data, _Length, Sequence, SequenceLength);
 	}
 
-	template<Concepts::Character C>
-	inline const System::size StringViewBase<C>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength, const System::size StartIndex) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const System::size StringViewBase<C, Traits>::IndexOfAny(ConstCharacterPointer Sequence, const System::size SequenceLength, const System::size StartIndex) const noexcept
 	{
-		return CharacterTraits<C>::IndexOfAny(&_Data[StartIndex], _Length - StartIndex, Sequence, SequenceLength);
+		return Traits::IndexOfAny(&_Data[StartIndex], _Length - StartIndex, Sequence, SequenceLength);
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::LastIndexOf(ConstCharacter Value) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::LastIndexOf(ConstCharacter Value) const noexcept
 	{
-		return CharacterTraits<C>::LastIndexOf(_Data, _Length, Value);
+		return Traits::LastIndexOf(_Data, _Length, Value);
 	}
 
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::size StringViewBase<C>::LastIndexOf(ConstCharacterPointer Sequence) const noexcept
+	template<Concepts::Character C, class Traits>
+	inline const Elysium::Core::Template::System::size StringViewBase<C, Traits>::LastIndexOf(ConstCharacterPointer Sequence) const noexcept
 	{
-		return CharacterTraits<C>::LastIndexOf(_Data, _Length, Sequence);
+		return Traits::LastIndexOf(_Data, _Length, Sequence);
 	}
 
-	template<Concepts::Character C>
-	inline Container::Vector<StringViewBase<C>> StringViewBase<C>::Split(ConstCharacter Delimiter) const
+	template<Concepts::Character C, class Traits>
+	inline Container::Vector<StringViewBase<C, Traits>> StringViewBase<C, Traits>::Split(ConstCharacter Delimiter) const
 	{
-		Container::Vector<StringViewBase<C>> Result = Container::Vector<StringViewBase<C>>();
+		Container::Vector<StringViewBase<C, Traits>> Result = Container::Vector<StringViewBase<C, Traits>>();
 
 		Elysium::Core::Template::System::size StartIndex = 0;
 		Elysium::Core::Template::System::size Length = 0;
@@ -335,21 +335,21 @@ namespace Elysium::Core::Template::Text
 			{
 				if (_Length - StartIndex > 0)
 				{
-					Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C>(&_Data[StartIndex], _Length - StartIndex)));
+					Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C, Traits>(&_Data[StartIndex], _Length - StartIndex)));
 				}
 				break;
 			}
-			Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C>(&_Data[StartIndex], Length)));
+			Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C, Traits>(&_Data[StartIndex], Length)));
 			StartIndex += Length + 1;
 		}
 
 		return Result;
 	}
 
-	template<Concepts::Character C>
-	inline Container::Vector<StringViewBase<C>> StringViewBase<C>::Split(ConstCharacterPointer DelimiterSequence) const
+	template<Concepts::Character C, class Traits>
+	inline Container::Vector<StringViewBase<C, Traits>> StringViewBase<C, Traits>::Split(ConstCharacterPointer DelimiterSequence) const
 	{
-		Container::Vector<StringViewBase<C>> Result = Container::Vector<StringViewBase<C>>();
+		Container::Vector<StringViewBase<C, Traits>> Result = Container::Vector<StringViewBase<C, Traits>>();
 
 		Elysium::Core::Template::System::size DelimiterLength = Elysium::Core::Template::Text::CharacterTraits<C>::GetLength(DelimiterSequence);
 		Elysium::Core::Template::System::size StartIndex = 0;
@@ -362,25 +362,25 @@ namespace Elysium::Core::Template::Text
 			{
 				if (_Length - StartIndex > 0)
 				{
-					Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C>(&_Data[StartIndex], _Length - StartIndex)));
+					Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C, Traits>(&_Data[StartIndex], _Length - StartIndex)));
 				}
 				break;
 			}
-			Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C>(&_Data[StartIndex], Length - StartIndex)));
+			Result.PushBack(Elysium::Core::Template::Functional::Move(StringViewBase<C, Traits>(&_Data[StartIndex], Length - StartIndex)));
 			StartIndex += (Length - StartIndex) + DelimiterLength;
 		}
 	
 		return Result;
 	}
 
-	template<Concepts::Character C>
-	inline StringViewBase<C> StringViewBase<C>::Substringview(const Elysium::Core::Template::System::size StartIndex, const Elysium::Core::Template::System::size Length) const
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits> StringViewBase<C, Traits>::Substringview(const Elysium::Core::Template::System::size StartIndex, const Elysium::Core::Template::System::size Length) const
 	{
 		return StringViewBase<C>(&_Data[StartIndex], Length);
 	}
 
-	template<Concepts::Character C>
-	inline StringViewBase<C>::CorrespondingString StringViewBase<C>::ToString() const
+	template<Concepts::Character C, class Traits>
+	inline StringViewBase<C, Traits>::CorrespondingString StringViewBase<C, Traits>::ToString() const
 	{
 		return CorrespondingString(_Data, _Length);
 	}

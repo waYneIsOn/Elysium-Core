@@ -58,12 +58,17 @@ namespace Elysium::Core::IO
 		/// <summary>
 		/// 
 		/// </summary>
-		inline static constexpr Elysium::Core::Utf8String::ConstCharacter PathSeparator = u8'.';
+		inline static constexpr Elysium::Core::Utf8String::ConstCharacter PathSeparator = u8';';
 
 		/// <summary>
 		/// 
 		/// </summary>
 		inline static constexpr Elysium::Core::Utf8String::ConstCharacter VolumeSeparator = u8':';
+
+		/// <summary>
+		/// 
+		/// </summary>
+		inline static constexpr Elysium::Core::Utf8String::ConstCharacter ExtensionSeparator = u8'.';
 
 		/// <summary>
 		/// 
@@ -109,6 +114,29 @@ namespace Elysium::Core::IO
 			u8'*', u8'?'
 		};
 	public:
+		static Elysium::Core::Utf8String GetExtension(const Elysium::Core::Utf8String& Path);
+
+		static Elysium::Core::Utf8StringView GetExtension(const Elysium::Core::Utf8StringView Path);
+		/*
+		static Elysium::Core::Utf8String GetDirectoryName(const Elysium::Core::Utf8String& Path);
+
+		static Elysium::Core::Utf8String GetDirectoryName(const Elysium::Core::Utf8StringView Path);
+		*/
+		static Elysium::Core::Utf8String GetFileName(const Elysium::Core::Utf8String& Path);
+
+		static Elysium::Core::Utf8String GetFileName(const Elysium::Core::Utf8StringView Path);
+		/*
+		static Elysium::Core::Utf8String GetFileNameWithoutExtension(const Elysium::Core::Utf8String& Path);
+
+		static Elysium::Core::Utf8String GetFileNameWithoutExtension(const Elysium::Core::Utf8StringView Path);
+
+		static Elysium::Core::Utf8String GetPathRoot(const Elysium::Core::Utf8String& Path);
+
+		static Elysium::Core::Utf8String GetPathRoot(const Elysium::Core::Utf8StringView Path);
+		*/
+	public:
+		//static Elysium::Core::Utf8String ChangeExtension(const Elysium::Core::Utf8String& Path, const Elysium::Core::Utf8String& Extension);
+
 		static const bool EndsInDirectorySeperator(const Elysium::Core::Utf8String& Path);
 
 		static const bool EndsInDirectorySeperator(const Elysium::Core::Utf8StringView Path);

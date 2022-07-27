@@ -33,59 +33,253 @@ namespace UnitTests::Core::IO
 			catch (ArgumentException&)
 			{ }
 
-			const Utf8String Invalid = u8"C:\\<\\";
 			try
 			{
-				Path::EndsInDirectorySeperator(Invalid);
+				Path::EndsInDirectorySeperator(_Invalid);
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
 			{ }
 
-			const Utf8StringView InvalidView = Utf8StringView(Invalid);
 			try
 			{
-				Path::EndsInDirectorySeperator(InvalidView);
+				Path::EndsInDirectorySeperator(_InvalidView);
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
 			{ }
 
-			const Utf8String FolderOnly = u8"tmp\\";
-			Assert::IsTrue(Path::EndsInDirectorySeperator(FolderOnly));
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_FolderOnly));
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_FolderOnlyView));
 
-			const Utf8StringView FolderOnlyView = Utf8StringView(FolderOnly);
-			Assert::IsTrue(Path::EndsInDirectorySeperator(FolderOnlyView));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FolderOnlyAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FolderOnlyAlternativeView));
 
-			const Utf8String RelativeFolder = u8"../relative";
-			Assert::IsFalse(Path::EndsInDirectorySeperator(RelativeFolder));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFolder));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFolderView));
 
-			const Utf8StringView RelativeFolderView = Utf8StringView(RelativeFolder);
-			Assert::IsFalse(Path::EndsInDirectorySeperator(RelativeFolderView));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeAlternativeFolder));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeAlternativeFolderView));
 
-			const Utf8String FileOnly = u8"file.txt";
-			Assert::IsFalse(Path::EndsInDirectorySeperator(FileOnly));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FileOnly));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FileOnlyView));
 
-			const Utf8StringView FileOnlyView = Utf8StringView(FileOnly);
-			Assert::IsFalse(Path::EndsInDirectorySeperator(FileOnlyView));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileView));
 
-			const Utf8String RelativeFile = u8"/relative/file.txt";
-			Assert::IsFalse(Path::EndsInDirectorySeperator(RelativeFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileAlternativeView));
 
-			const Utf8StringView RelativeFileView = Utf8StringView(RelativeFile);
-			Assert::IsFalse(Path::EndsInDirectorySeperator(RelativeFileView));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileMixed));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileMixedView));
 
-			const Utf8String UriFile = u8"file://localhost/somefolder/file.txt";
-			Assert::IsFalse(Path::EndsInDirectorySeperator(UriFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileMixedAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_RelativeFileMixedAlternativeView));
 
-			const Utf8StringView UriFileView = Utf8StringView(UriFile);
-			Assert::IsFalse(Path::EndsInDirectorySeperator(UriFileView));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FullFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FullFileView));
 
-			const Utf8String DosFile = u8"\\\\?\\C:\\Test\\file.txt";
-			Assert::IsFalse(Path::EndsInDirectorySeperator(DosFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FullFileAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FullFileAlternativeView));
 
-			const Utf8String DosPath = u8"\\\\.\\C:\\";
-			Assert::IsTrue(Path::EndsInDirectorySeperator(DosPath));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UriFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UriFileView));
+
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UriFileAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UriFileAlternativeView));
+
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_FullPath));
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_FullPathView));
+
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FullPathAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_FullPathAlternative));
+
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_DosFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_DosFileView));
+
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_DosFileAlternative));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_DosFileAlternativeView));
+
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_DosPath));
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_DosPathView));
+		}
+
+		TEST_METHOD(GetExtensionTests)
+		{
+			try
+			{
+				Utf8String EmptyResult = Path::GetExtension(Utf8String::Empty);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			try
+			{
+				Utf8StringView EmptyViewResult = Path::GetExtension(_EmptyView);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			try
+			{
+				Utf8String InvalidResult = Path::GetExtension(_Invalid);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			try
+			{
+				Utf8StringView InvalidViewResult = Path::GetExtension(_InvalidView);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FolderOnly)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FolderOnlyView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FolderOnlyAlternative)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FolderOnlyAlternativeView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_RelativeFolder)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_RelativeFolderView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_RelativeAlternativeFolder)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_RelativeAlternativeFolderView)));
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FileOnly));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FileOnlyView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFile));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileAlternative));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileAlternativeView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileMixed));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileMixedView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileMixedAlternative));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_RelativeFileMixedAlternativeView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FullFile));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FullFileView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FullFileAlternative));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FullFileAlternativeView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UriFile));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UriFileView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UriFileAlternative));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UriFileAlternativeView).ToString());
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FullPath)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FullPathView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FullPathAlternative)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FullPathAlternativeView)));
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFile));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFileView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFileAlternative));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFileAlternativeView).ToString());
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_DosPath)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_DosPathView)));
+		}
+
+		TEST_METHOD(GetFileNameTests)
+		{
+			try
+			{
+				Utf8String EmptyResult = Path::GetFileName(Utf8String::Empty);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			try
+			{
+				Utf8StringView EmptyViewResult = Path::GetFileName(_EmptyView);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			try
+			{
+				Utf8String InvalidResult = Path::GetFileName(_Invalid);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			try
+			{
+				Utf8StringView InvalidViewResult = Path::GetFileName(_InvalidView);
+				Assert::Fail();
+			}
+			catch (ArgumentException&)
+			{ }
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FolderOnly)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FolderOnlyView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FolderOnlyAlternative)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FolderOnlyAlternativeView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeFolder)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeFolderView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeAlternativeFolder)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeAlternativeFolderView)));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FileOnly));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FileOnlyView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFile));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileAlternative));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileAlternativeView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileMixed));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileMixedView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileMixedAlternative));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_RelativeFileMixedAlternativeView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FullFile));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FullFileView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FullFileAlternative));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FullFileAlternativeView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UriFile));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UriFileView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UriFileAlternative));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UriFileAlternativeView));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FullPath)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FullPathView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FullPathAlternative)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FullPathAlternativeView)));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFile));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFileView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFileAlternative));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFileAlternativeView));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_DosPath)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_DosPathView)));
 		}
 
 		TEST_METHOD(GetFullPathTests)
@@ -97,89 +291,99 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8"C:\\test", CurrentDirectory);
 
 			// --- GetPath(const T& Path) ---
-			const Utf8String Empty = u8"";
 			try
 			{
-				Utf8String EmptyResult = Path::GetFullPath(Empty);
+				Utf8String EmptyResult = Path::GetFullPath(Utf8String::Empty);
 				Assert::Fail();
 			}
 			catch(ArgumentException&)
 			{ }
 
-			const Utf8StringView EmptyView = Utf8StringView(Empty);
 			try
 			{
-				Utf8String EmptyViewResult = Path::GetFullPath(EmptyView);
+				Utf8String EmptyViewResult = Path::GetFullPath(_EmptyView);
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
 			{ }
 
-			const Utf8String Invalid = u8"C:\\<\\";
 			try
 			{
-				Utf8String InvalidResult = Path::GetFullPath(Invalid);
+				Utf8String InvalidResult = Path::GetFullPath(_Invalid);
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
 			{ }
 
-			const Utf8StringView InvalidView = Utf8StringView(Invalid);
 			try
 			{
-				Utf8String InvalidViewResult = Path::GetFullPath(InvalidView);
+				Utf8String InvalidViewResult = Path::GetFullPath(_InvalidView);
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
 			{ }
 
-			const Utf8String FolderOnly = u8"tmp\\";
-			Utf8String FolderOnlyResult = Path::GetFullPath(FolderOnly);
-			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", FolderOnlyResult);
+			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", Path::GetFullPath(_FolderOnly));
+			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", Path::GetFullPath(_FolderOnlyView));
 
-			const Utf8StringView FolderOnlyView = Utf8StringView(FolderOnly);
-			Utf8String FolderOnlyViewResult = Path::GetFullPath(FolderOnlyView);
-			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", FolderOnlyViewResult);
+			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", Path::GetFullPath(_FolderOnlyAlternative));
+			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", Path::GetFullPath(_FolderOnlyAlternativeView));
 
-			const Utf8String RelativeFolder = u8"../relative";
-			Utf8String RelativeFolderResult = Path::GetFullPath(RelativeFolder);
-			AssertExtended::AreEqual(u8"C:\\relative", RelativeFolderResult);
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeFolder)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeFolderView)));
 
-			const Utf8StringView RelativeFolderView = Utf8StringView(RelativeFolder);
-			Utf8String RelativeFolderViewResult = Path::GetFullPath(RelativeFolderView);
-			AssertExtended::AreEqual(u8"C:\\relative", RelativeFolderViewResult);
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeAlternativeFolder)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeAlternativeFolderView)));
 
-			const Utf8String FileOnly = u8"file.txt";
-			Utf8String FileOnlyResult = Path::GetFullPath(FileOnly);
-			AssertExtended::AreEqual(u8"C:\\test\\file.txt", FileOnlyResult);
+			AssertExtended::AreEqual(u8"C:\\test\\file.txt", Path::GetFullPath(_FileOnly));
+			AssertExtended::AreEqual(u8"C:\\test\\file.txt", Path::GetFullPath(_FileOnlyView));
 
-			const Utf8StringView FileOnlyView = Utf8StringView(FileOnly);
-			Utf8String FileOnlyViewResult = Path::GetFullPath(FileOnlyView);
-			AssertExtended::AreEqual(u8"C:\\test\\file.txt", FileOnlyViewResult);
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFile));
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileView));
 
-			const Utf8String RelativeFile = u8"/relative/file.txt";
-			Utf8String RelativeFileResult = Path::GetFullPath(RelativeFile);
-			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", RelativeFileResult);
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileAlternative));
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileAlternativeView));
 
-			const Utf8StringView RelativeFileView = Utf8StringView(RelativeFile);
-			Utf8String RelativeFileViewResult = Path::GetFullPath(RelativeFileView);
-			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", RelativeFileViewResult);
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileMixed));
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileMixedView));
 
-			const Utf8String UriFile = u8"file://localhost/somefolder/file.txt";
-			Utf8String UriFileResult = Path::GetFullPath(UriFile);
-			AssertExtended::AreEqual(u8"C:\\test\\file:\\localhost\\somefolder\\file.txt", UriFileResult);
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileMixedAlternative));
+			AssertExtended::AreEqual(u8"C:\\relative\\file.txt", Path::GetFullPath(_RelativeFileMixedAlternativeView));
 
-			const Utf8StringView UriFileView = Utf8StringView(UriFile);
-			Utf8String UriFileViewResult = Path::GetFullPath(UriFileView);
-			AssertExtended::AreEqual(u8"C:\\test\\file:\\localhost\\somefolder\\file.txt", UriFileViewResult);
-			
-			const Utf8String DosFile = u8"\\\\?\\C:\\Test\\file.txt";
-			Utf8String DosFileResult = Path::GetFullPath(DosFile);
-			AssertExtended::AreEqual(DosFile, DosFileResult);
-			
-			const Utf8String DosPath = u8"\\\\.\\C:\\";
-			Utf8String DosPathResult = Path::GetFullPath(DosPath);
-			AssertExtended::AreEqual(DosPath, DosPathResult);
+			AssertExtended::AreEqual(u8"C:\\some.path\\file.txt", Path::GetFullPath(_FullFile));
+			AssertExtended::AreEqual(u8"C:\\some.path\\file.txt", Path::GetFullPath(_FullFileView));
+
+			AssertExtended::AreEqual(u8"C:\\some.path\\file.txt", Path::GetFullPath(_FullFileAlternative));
+			AssertExtended::AreEqual(u8"C:\\some.path\\file.txt", Path::GetFullPath(_FullFileAlternativeView));
+
+			AssertExtended::AreEqual(u8"C:\\test\\file:\\localhost\\somefolder\\file.txt", Path::GetFullPath(_UriFile));
+			AssertExtended::AreEqual(u8"C:\\test\\file:\\localhost\\somefolder\\file.txt", Path::GetFullPath(_UriFileView));
+
+			AssertExtended::AreEqual(u8"C:\\test\\file:\\localhost\\somefolder\\file.txt", Path::GetFullPath(_UriFileAlternative));
+			AssertExtended::AreEqual(u8"C:\\test\\file:\\localhost\\somefolder\\file.txt", Path::GetFullPath(_UriFileAlternativeView));
+
+			AssertExtended::AreEqual(u8"C:\\some.path\\", Path::GetFullPath(_FullPath));
+			AssertExtended::AreEqual(u8"C:\\some.path\\", Path::GetFullPath(_FullPathView));
+
+			AssertExtended::AreEqual(u8"C:\\some.path\\", Path::GetFullPath(_FullPathAlternative));
+			AssertExtended::AreEqual(u8"C:\\some.path\\", Path::GetFullPath(_FullPathAlternativeView));
+
+			AssertExtended::AreEqual(u8"\\\\?\\C:\\Test\\file.txt", Path::GetFullPath(_DosFile));
+			AssertExtended::AreEqual(u8"\\\\?\\C:\\Test\\file.txt", Path::GetFullPath(_DosFileView));
+
+			AssertExtended::AreEqual(u8"\\\\?\\C:\\Test\\file.txt", Path::GetFullPath(_DosFileAlternative));
+			AssertExtended::AreEqual(u8"\\\\?\\C:\\Test\\file.txt", Path::GetFullPath(_DosFileAlternativeView));
+
+			AssertExtended::AreEqual(u8"\\\\.\\C:\\", Path::GetFullPath(_DosPath));
+			AssertExtended::AreEqual(u8"\\\\.\\C:\\", Path::GetFullPath(_DosPathView));
+
+
+
+
+
+			const Utf8String MultiplePaths = u8"tmp;../relative;\\\\.\\C:\\";
+			Utf8String MultiplePathsResult = Path::GetFullPath(MultiplePaths);
+			AssertExtended::AreEqual(u8"C:\\test\\tmp;..\\relative;\\C:\\", MultiplePathsResult);
 
 			// --- GetPath(const T& Path, const T& BasePath) ---
 			const Utf8String BasePath = u8"C:\\otherTest\\";
@@ -187,5 +391,68 @@ namespace UnitTests::Core::IO
 
 			bool sdfsdf = false;
 		}
+	private:
+		inline static const Utf8StringView _EmptyView = Utf8StringView(Utf8String::Empty);
+
+		inline static const Utf8String _Invalid = u8"C:\\</";
+		inline static const Utf8StringView _InvalidView = Utf8StringView(_Invalid);
+
+		inline static const Utf8String _FolderOnly = u8"tmp\\";
+		inline static const Utf8StringView _FolderOnlyView = Utf8StringView(_FolderOnly);
+
+		inline static const Utf8String _FolderOnlyAlternative = u8"tmp/";
+		inline static const Utf8StringView _FolderOnlyAlternativeView = Utf8StringView(_FolderOnlyAlternative);
+
+		inline static const Utf8String _RelativeFolder = u8"..\\relative";
+		inline static const Utf8StringView _RelativeFolderView = Utf8StringView(_RelativeFolder);
+
+		inline static const Utf8String _RelativeAlternativeFolder = u8"../relative";
+		inline static const Utf8StringView _RelativeAlternativeFolderView = Utf8StringView(_RelativeAlternativeFolder);
+
+		inline static const Utf8String _FileOnly = u8"file.txt";
+		inline static const Utf8StringView _FileOnlyView = Utf8StringView(_FileOnly);
+
+		inline static const Utf8String _RelativeFile = u8"\\relative\\file.txt";
+		inline static const Utf8StringView _RelativeFileView = Utf8StringView(_RelativeFile);
+		
+		inline static const Utf8String _RelativeFileAlternative = u8"/relative/file.txt";
+		inline static const Utf8StringView _RelativeFileAlternativeView = Utf8StringView(_RelativeFileAlternative);
+
+		inline static const Utf8String _RelativeFileMixed = u8"\\relative/file.txt";
+		inline static const Utf8StringView _RelativeFileMixedView = Utf8StringView(_RelativeFileMixed);
+
+		inline static const Utf8String _RelativeFileMixedAlternative = u8"/relative\\file.txt";
+		inline static const Utf8StringView _RelativeFileMixedAlternativeView = Utf8StringView(_RelativeFileMixedAlternative);
+		
+		inline static const Utf8String _FullFile = u8"C:\\some.path\\file.txt";
+		inline static const Utf8StringView _FullFileView = Utf8StringView(_FullFile);
+
+		inline static const Utf8String _FullFileAlternative = u8"C:\\some.path\\file.txt";
+		inline static const Utf8StringView _FullFileAlternativeView = Utf8StringView(_FullFileAlternative);
+
+		inline static const Utf8String _UriFile = u8"file:\\\\localhost\\somefolder\\file.txt";
+		inline static const Utf8StringView _UriFileView = Utf8StringView(_UriFile);
+
+		inline static const Utf8String _UriFileAlternative = u8"file://localhost/somefolder/file.txt";
+		inline static const Utf8StringView _UriFileAlternativeView = Utf8StringView(_UriFileAlternative);
+
+		inline static const Utf8String _FullPath = u8"C:\\some.path\\";
+		inline static const Utf8StringView _FullPathView = Utf8StringView(_FullPath);
+
+		inline static const Utf8String _FullPathAlternative = u8"C:/some.path/";
+		inline static const Utf8StringView _FullPathAlternativeView = Utf8StringView(_FullPathAlternative);
+
+		inline static const Utf8String _DosFile = u8"\\\\?\\C:\\Test\\file.txt";
+		inline static const Utf8StringView _DosFileView = Utf8StringView(_DosFile);
+
+		inline static const Utf8String _DosFileAlternative = u8"//?/C:/Test/file.txt";
+		inline static const Utf8StringView _DosFileAlternativeView = Utf8StringView(_DosFileAlternative);
+		
+		inline static const Utf8String _DosPath = u8"\\\\.\\C:\\";
+		inline static const Utf8StringView _DosPathView = Utf8StringView(_DosPath);
+		/*
+		inline static const Utf8String _UncFile = u8"\\\\server\\some.path\\file.txt";
+		inline static const Utf8StringView _UncFileView = Utf8StringView(_UncFile);
+		*/
 	};
 }

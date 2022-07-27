@@ -115,6 +115,8 @@ namespace Elysium::Core::Template::Text
 	public:
 		static constexpr const bool IsEmpty(const StringBase& Value);
 	public:
+		static const StringBase<C, Traits, Allocator> Empty;
+	public:
 		const System::size GetLength() const;
 
 		const System::size GetCapacity() const;
@@ -599,8 +601,12 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr const bool StringBase<C, Traits, Allocator>::IsEmpty(const StringBase& Value)
 	{
-		return Traits::IsEmpty(&Value[0]);
+		ConstCharacterPointer CurrentChar = Value.IsHeapAllocated() ? Value._InternalString._Heap._Data : (ConstCharacterPointer)&Value._InternalString._Stack._Data[0];
+		return Traits::IsEmpty(CurrentChar);
 	}
+
+	template <Concepts::Character C, class Traits, class Allocator>
+	inline const StringBase<C, Traits, Allocator> StringBase<C, Traits, Allocator>::Empty = StringBase<C, Traits, Allocator>();
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline const Elysium::Core::Template::System::size StringBase<C, Traits, Allocator>::GetLength() const
