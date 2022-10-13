@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IDataParameterCollection.hpp"
 #endif
 
-#ifndef _VECTOR_
-#include <vector>
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Data::Common
@@ -31,9 +31,9 @@ namespace Elysium::Core::Data::Common
 	public:
 		virtual IDataParameter& operator[](const Elysium::Core::size Index) const override;
 	public:
-		virtual const Elysium::Core::size GetCount() const override;
+		virtual const Elysium::Core::size GetLength() const override;
 
-		virtual const bool GetIsReadOnly()const  override;
+		virtual const bool GetIsReadOnly()const override;
 	public:
 		virtual void Add(const IDataParameter& Item) override;
 
@@ -49,7 +49,7 @@ namespace Elysium::Core::Data::Common
 
 		virtual void RemoveAt(const Elysium::Core::size Index) override;
 	private:
-		std::vector<const IDataParameter*> _InternalVector;
+		Elysium::Core::Template::Container::Vector<const IDataParameter*> _InternalVector;
 	};
 }
 #endif

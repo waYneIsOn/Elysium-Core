@@ -967,7 +967,7 @@ private:
 	{
 		//Logger::WriteMessage(ex.GetExceptionMessage().GetCharArray());
 		Logger::WriteMessage(std::to_string(ex.GetErrorCode()).c_str());
-		for (unsigned int i = 0; i < ex.GetErrors().GetCount(); i++)
+		for (unsigned int i = 0; i < ex.GetErrors().GetLength(); i++)
 		{
 			SqlNativeError Error = ex.GetErrors()[i];
 			Logger::WriteMessage(("\tErrorSpecificErrorCode: " + std::to_string(Error.GetErrorSpecificErrorCode())).c_str());

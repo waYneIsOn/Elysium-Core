@@ -9,8 +9,7 @@
 #endif
 
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::SqlNativeErrorCollection(IUnknown* ErrorObject)
-	: Elysium::Core::Collections::ICollection<SqlNativeError>(),
-	_Errors(std::vector<SqlNativeError>())
+	: _Errors(Elysium::Core::Template::Container::Vector<SqlNativeError>())
 {
 	HRESULT HResult;
 	ISupportErrorInfo* SupportsErrorInfo;
@@ -107,7 +106,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::SqlNative
 					}
 
 					// populate the error collection with another entry
-					_Errors.push_back(SqlNativeError(ErrorSpecificErrorCode, ProviderSpecificErrorCode, ClassId, InterfaceId, DisplayId,
+					_Errors.PushBack(SqlNativeError(ErrorSpecificErrorCode, ProviderSpecificErrorCode, ClassId, InterfaceId, DisplayId,
 						Description, GUID, HelpContext, HelpFile, Source,
 						NativeSqlState, NativeErrorCode, NativeSSError, Server, Procedure, ErrorNumber, State, ErrorSeverity, LineNumber));
 
@@ -151,12 +150,12 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::~SqlNativ
 
 const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::operator[](Elysium::Core::size i) const
 {
-	return _Errors.at(i);
+	return _Errors.GetAt(i);
 }
 
-const Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::GetCount() const
+const Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::GetLength() const
 {
-	return _Errors.size();
+	return _Errors.GetLength();
 }
 const bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::GetIsReadOnly() const
 {

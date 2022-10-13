@@ -28,9 +28,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />

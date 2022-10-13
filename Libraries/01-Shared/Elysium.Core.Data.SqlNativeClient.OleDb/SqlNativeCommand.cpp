@@ -246,7 +246,7 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::SqlNativeCommand(
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeCommand::PrepareParameters(ICommandText* NativeCommandText, DBPARAMS * CommandParameters, std::vector<ISequentialStream*>* Streams, std::vector<byte>* ParameterDataBuffer)
 {
 	HRESULT HResult;
-	Elysium::Core::size ParameterCount = _Parameters.GetCount();
+	Elysium::Core::size ParameterCount = _Parameters.GetLength();
 	if (ParameterCount > 0)
 	{
 		// get the number of blob-fields

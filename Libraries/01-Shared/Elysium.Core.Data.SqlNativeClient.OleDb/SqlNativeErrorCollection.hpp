@@ -12,16 +12,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_ICOLLECTION
-#include "../Elysium.Core/ICollection.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEERROR
 #include "SqlNativeError.hpp"
 #endif
 
-#ifndef _VECTOR_
-#include <vector>
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef __sqlncli_h__
@@ -34,7 +34,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
-	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeErrorCollection final : public Elysium::Core::Collections::ICollection<SqlNativeError>
+	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeErrorCollection final
 	{
 	public:
 		SqlNativeErrorCollection(IUnknown* ErrorObject);
@@ -42,15 +42,15 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 
 		const SqlNativeError& operator [] (Elysium::Core::size i) const;
 
-		virtual const Elysium::Core::size GetCount() const override;
-		virtual const bool GetIsReadOnly() const override;
+		const Elysium::Core::size GetLength() const;
+		const bool GetIsReadOnly() const;
 
-		virtual void Add(const SqlNativeError& Item) override;
-		virtual void Clear() override;
-		virtual bool Contains(const SqlNativeError& Item) const override;
-		virtual bool Remove(const SqlNativeError& Item) override;
+		void Add(const SqlNativeError& Item);
+		void Clear();
+		bool Contains(const SqlNativeError& Item) const;
+		bool Remove(const SqlNativeError& Item);
 	private:
-		std::vector<SqlNativeError> _Errors;
+		Elysium::Core::Template::Container::Vector<SqlNativeError> _Errors;
 	};
 }
 #endif
