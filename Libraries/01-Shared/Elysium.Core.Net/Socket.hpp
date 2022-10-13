@@ -32,7 +32,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
 #include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 

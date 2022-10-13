@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primivites.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
+#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
 #include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 

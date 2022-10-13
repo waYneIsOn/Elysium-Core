@@ -82,7 +82,7 @@ const Elysium::Core::Globalization::CultureInfo Elysium::Core::Globalization::Cu
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Globalization::CultureInfo> Elysium::Core::Globalization::CultureInfo::GetCultures(const CultureTypes& Types)
 {
-	const VectorOfInt32_t LCIDs = Internal::LocaleFinder::GetSystemLocaleIds(Types);
+	const Elysium::Core::Container::VectorOfInt32_t LCIDs = Internal::LocaleFinder::GetSystemLocaleIds(Types);
 	Elysium::Core::Collections::Template::Array<CultureInfo> CultureInfos = Elysium::Core::Collections::Template::Array<CultureInfo>(LCIDs.GetLength());
 	for (Elysium::Core::size i = 0; i < CultureInfos.GetLength(); i++)
 	{

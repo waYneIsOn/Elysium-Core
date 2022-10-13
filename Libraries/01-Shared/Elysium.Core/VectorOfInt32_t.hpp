@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFINT32_T
-#define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFINT32_T
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINT32_T
+#define ELYSIUM_CORE_CONTAINER_VECTOROFINT32_T
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
-template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::int32_t>;
+namespace Elysium::Core::Container
+{
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::int32_t>;
 
-using VectorOfInt32_t = Elysium::Core::Template::Container::Vector<Elysium::Core::int32_t>;
+	using VectorOfInt32_t = Elysium::Core::Template::Container::Vector<Elysium::Core::int32_t>;
+}
 #endif

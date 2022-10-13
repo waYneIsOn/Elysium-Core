@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM

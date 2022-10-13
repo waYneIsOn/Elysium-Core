@@ -705,7 +705,7 @@ const Elysium::Core::Utf8String Elysium::Core::Convert::ToString(const Elysium::
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-VectorOfByte Elysium::Core::Convert::FromBase64String(const Elysium::Core::Utf8String& Base64String)
+Elysium::Core::Container::VectorOfByte Elysium::Core::Convert::FromBase64String(const Elysium::Core::Utf8String& Base64String)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
 	base64.cpp and base64.h
@@ -732,7 +732,7 @@ VectorOfByte Elysium::Core::Convert::FromBase64String(const Elysium::Core::Utf8S
 
 	René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 	*/
-	VectorOfByte Result;
+	Elysium::Core::Container::VectorOfByte Result;
 	Elysium::Core::size InputLength = Base64String.GetLength();
 	int i = 0;
 	int j = 0;
@@ -814,7 +814,7 @@ Elysium::Core::Utf8String Elysium::Core::Convert::ToBase64String(const Elysium::
 	byte Array3[3];
 	byte Array4[4];
 
-	VectorOfByte Result = VectorOfByte();
+	Elysium::Core::Container::VectorOfByte Result = Elysium::Core::Container::VectorOfByte();
 
 	while (in_len--)
 	{

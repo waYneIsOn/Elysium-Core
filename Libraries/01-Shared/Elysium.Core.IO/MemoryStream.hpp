@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
 #include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
@@ -68,7 +68,7 @@ namespace Elysium::Core::IO
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 	private:
 		Elysium::Core::size _CurrentPosition = 0;
-		VectorOfByte _Buffer;
+		Elysium::Core::Container::VectorOfByte _Buffer;
 	};
 }
 #endif

@@ -19,17 +19,17 @@ Elysium::Core::IO::MemoryStream::MemoryStream()
 { }
 Elysium::Core::IO::MemoryStream::MemoryStream(const Elysium::Core::size Capacity)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(VectorOfByte(Capacity))
+	_Buffer(Elysium::Core::Container::VectorOfByte(Capacity))
 { }
 Elysium::Core::IO::MemoryStream::MemoryStream(const byte* Data, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(VectorOfByte(Length))
+	_Buffer(Elysium::Core::Container::VectorOfByte(Length))
 {
 	std::memcpy(&_Buffer[0], &Data[0], Length);
 }
 Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(VectorOfByte(Length))
+	_Buffer(Elysium::Core::Container::VectorOfByte(Length))
 { 
 	std::memcpy(&_Buffer[0], &Data[Offset], Length);
 }

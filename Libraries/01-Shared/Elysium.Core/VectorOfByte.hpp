@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
-#define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#define ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,7 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
-template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
+namespace Elysium::Core::Container
+{
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
 
-using VectorOfByte = Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
+	using VectorOfByte = Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
+}
 #endif

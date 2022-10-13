@@ -36,7 +36,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StringView.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
 #include "VectorOfByte.hpp"
 #endif
 
@@ -105,7 +105,7 @@ namespace Elysium::Core
 		static const Elysium::Core::Utf8String ToString(const Elysium::Core::Decimal Value, const Elysium::Core::uint8_t ToBase);
 		static const Elysium::Core::Utf8String ToString(const Elysium::Core::Decimal Value);
 
-		static VectorOfByte FromBase64String(const Utf8String& Base64String);
+		static Elysium::Core::Container::VectorOfByte FromBase64String(const Utf8String& Base64String);
 		static Elysium::Core::Utf8String ToBase64String(const Elysium::Core::byte* Bytes, const Elysium::Core::uint32_t Length);
 
 		static Elysium::Core::int32_t ToInt32(const char8_t* Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase);

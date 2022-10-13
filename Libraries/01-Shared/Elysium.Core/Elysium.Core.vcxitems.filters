@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Collections">
-      <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Runtime">
       <UniqueIdentifier>{d2fe92a0-e635-42f6-8730-da964314a787}</UniqueIdentifier>
     </Filter>
     <Filter Include="Runtime\InteropServices">
       <UniqueIdentifier>{446c94d0-507e-403c-ae98-72be6f78b20c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collections\Template">
-      <UniqueIdentifier>{7c593d0f-f0df-43ad-8a33-8d9cfe30877c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Internal">
       <UniqueIdentifier>{bf75a457-2bb3-4c9f-834f-d5826e2199fc}</UniqueIdentifier>
     </Filter>
     <Filter Include="Memory">
       <UniqueIdentifier>{bca56f06-0fb7-4556-9053-f829b1171206}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Template">
+      <UniqueIdentifier>{7c593d0f-f0df-43ad-8a33-8d9cfe30877c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
-      <Filter>Collections\Template</Filter>
+      <Filter>Container\Template</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
@@ -81,13 +81,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ICollection.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IEnumerable.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IList.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
@@ -105,19 +105,19 @@
       <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfString.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfInt32_t.hpp">
-      <Filter>Collections</Filter>
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
