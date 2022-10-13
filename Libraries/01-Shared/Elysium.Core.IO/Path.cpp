@@ -87,6 +87,20 @@ Elysium::Core::Utf8StringView Elysium::Core::IO::Path::GetExtension(const Elysiu
 	}
 }
 
+Elysium::Core::Utf8String Elysium::Core::IO::Path::GetDirectoryName(const Elysium::Core::Utf8String& Path)
+{
+	Validate(Path, false);
+
+	throw 1;
+}
+
+Elysium::Core::Utf8String Elysium::Core::IO::Path::GetDirectoryName(const Elysium::Core::Utf8StringView Path)
+{
+	Validate(Path, false);
+
+	throw 1;
+}
+
 Elysium::Core::Utf8String Elysium::Core::IO::Path::GetFileName(const Elysium::Core::Utf8String& Path)
 {
 	Validate(Path, false);

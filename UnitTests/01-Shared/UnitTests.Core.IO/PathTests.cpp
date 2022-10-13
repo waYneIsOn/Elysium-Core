@@ -102,6 +102,15 @@ namespace UnitTests::Core::IO
 
 			Assert::IsTrue(Path::EndsInDirectorySeperator(_DosPath));
 			Assert::IsTrue(Path::EndsInDirectorySeperator(_DosPathView));
+
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_UncPath));
+			Assert::IsTrue(Path::EndsInDirectorySeperator(_UncPathView));
+
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UncFile));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UncFileView));
+
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UncFileMixed));
+			Assert::IsFalse(Path::EndsInDirectorySeperator(_UncFileMixedView));
 		}
 
 		TEST_METHOD(GetExtensionTests)
@@ -191,6 +200,20 @@ namespace UnitTests::Core::IO
 
 			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_DosPath)));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_DosPathView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_UncPath)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_UncPathView)));
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UncFile));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UncFileView).ToString());
+
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UncFileMixed));
+			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UncFileMixedView).ToString());
+		}
+
+		TEST_METHOD(GetDirectoryNameTests)
+		{
+			Assert::Fail();
 		}
 
 		TEST_METHOD(GetFileNameTests)
@@ -280,6 +303,15 @@ namespace UnitTests::Core::IO
 
 			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_DosPath)));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_DosPathView)));
+
+			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_UncPath)));
+			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_UncPathView)));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UncFile));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UncFileView));
+
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UncFileMixed));
+			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UncFileMixedView));
 		}
 
 		TEST_METHOD(GetFullPathTests)
@@ -377,13 +409,23 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8"\\\\.\\C:\\", Path::GetFullPath(_DosPath));
 			AssertExtended::AreEqual(u8"\\\\.\\C:\\", Path::GetFullPath(_DosPathView));
 
+			AssertExtended::AreEqual(u8"\\\\server\\some.path\\", Path::GetFullPath(_UncPath));
+			AssertExtended::AreEqual(u8"\\\\server\\some.path\\", Path::GetFullPath(_UncPathView));
+
+			AssertExtended::AreEqual(u8"\\\\server\\some.path\\file.txt", Path::GetFullPath(_UncFile));
+			AssertExtended::AreEqual(u8"\\\\server\\some.path\\file.txt", Path::GetFullPath(_UncFileView));
+
+			AssertExtended::AreEqual(u8"\\\\server\\some.path\\file.txt", Path::GetFullPath(_UncFileMixed));
+			AssertExtended::AreEqual(u8"\\\\server\\some.path\\file.txt", Path::GetFullPath(_UncFileMixedView));
 
 
 
 
-			const Utf8String MultiplePaths = u8"tmp;../relative;\\\\.\\C:\\";
+
+
+			const Utf8String MultiplePaths = u8"tmp;../relative;\\\\.\\C:\\;\\\\server\\some.path\\file.txt";
 			Utf8String MultiplePathsResult = Path::GetFullPath(MultiplePaths);
-			AssertExtended::AreEqual(u8"C:\\test\\tmp;..\\relative;\\C:\\", MultiplePathsResult);
+			AssertExtended::AreEqual(u8"C:\\test\\tmp;..\\relative;\\C:\\;\\server\\some.path\\file.txt", MultiplePathsResult);
 
 			// --- GetPath(const T& Path, const T& BasePath) ---
 			const Utf8String BasePath = u8"C:\\otherTest\\";
@@ -450,9 +492,14 @@ namespace UnitTests::Core::IO
 		
 		inline static const Utf8String _DosPath = u8"\\\\.\\C:\\";
 		inline static const Utf8StringView _DosPathView = Utf8StringView(_DosPath);
-		/*
+
+		inline static const Utf8String _UncPath = u8"\\\\server\\some.path\\";
+		inline static const Utf8StringView _UncPathView = Utf8StringView(_UncPath);
+
 		inline static const Utf8String _UncFile = u8"\\\\server\\some.path\\file.txt";
 		inline static const Utf8StringView _UncFileView = Utf8StringView(_UncFile);
-		*/
+
+		inline static const Utf8String _UncFileMixed = u8"\\\\server\\some.path/file.txt";
+		inline static const Utf8StringView _UncFileMixedView = Utf8StringView(_UncFileMixed);
 	};
 }

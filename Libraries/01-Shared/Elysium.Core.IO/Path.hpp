@@ -117,11 +117,11 @@ namespace Elysium::Core::IO
 		static Elysium::Core::Utf8String GetExtension(const Elysium::Core::Utf8String& Path);
 
 		static Elysium::Core::Utf8StringView GetExtension(const Elysium::Core::Utf8StringView Path);
-		/*
+		
 		static Elysium::Core::Utf8String GetDirectoryName(const Elysium::Core::Utf8String& Path);
 
 		static Elysium::Core::Utf8String GetDirectoryName(const Elysium::Core::Utf8StringView Path);
-		*/
+		
 		static Elysium::Core::Utf8String GetFileName(const Elysium::Core::Utf8String& Path);
 
 		static Elysium::Core::Utf8String GetFileName(const Elysium::Core::Utf8StringView Path);
