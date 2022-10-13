@@ -16,27 +16,35 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IndexOutOfRangeException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "List.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
+#include "../Elysium.Core.Template/NonConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "../Elysium.Core.Template/InitializerList.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
 #include "../Elysium.Core.Template/Reverse.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
+#include "../Elysium.Core.Template/TypeTraits.hpp"
+#endif
+
 constexpr const Elysium::Core::size ARRAY_MAX = static_cast<Elysium::Core::size>(-1);
 
 namespace Elysium::Core::Collections::Template
 {
-	template <class T>
+	template <Elysium::Core::Template::Concepts::NonConstant T>
 	class Array final
 	{
 	public:
@@ -45,13 +53,13 @@ namespace Elysium::Core::Collections::Template
 		Array(const Elysium::Core::Template::Container::InitializerList<T> InitializerList);
 		Array(const Array<T>& Source);
 		Array(Array<T>&& Right) noexcept;
-		Array(const List<T>& Source);
-		Array(List<T>&& Right) noexcept;
+		Array(const Elysium::Core::Template::Container::Vector<T>& Source);
+		Array(Elysium::Core::Template::Container::Vector<T>&& Right) noexcept;
 		~Array();
 
 		Array<T>& operator=(const Array<T>& Source);
 		Array<T>& operator=(Array<T>&& Right) noexcept;
-		Array<T>& operator=(List<T>&& Right) noexcept;
+		Array<T>& operator=(Elysium::Core::Template::Container::Vector<T>&& Right) noexcept;
 
 		T& operator[](const Elysium::Core::size Index);
 		const T& operator[](const Elysium::Core::size Index) const;
@@ -70,7 +78,7 @@ namespace Elysium::Core::Collections::Template
 		T* _Data;
 	};
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>::Array(const Elysium::Core::size Length, const bool PerformMemoryClear)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
@@ -79,7 +87,7 @@ namespace Elysium::Core::Collections::Template
 			memset(_Data, 0x00, _Length);
 		}
 	}
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>::Array(const T* Begin, const Elysium::Core::size Length)
 		: _Length(Length <= ARRAY_MAX ? Length : ARRAY_MAX), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
@@ -88,7 +96,7 @@ namespace Elysium::Core::Collections::Template
 			_Data[i] = Begin[i];
 		}
 	}
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>::Array(const Elysium::Core::Template::Container::InitializerList<T> InitializerList)
 		: _Length(InitializerList.size()), _Data(_Length == 0 ? nullptr : new T[_Length])
 	{
@@ -102,7 +110,7 @@ namespace Elysium::Core::Collections::Template
 #pragma warning(default : 6011)
 		}
 	}
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>::Array(const Array<T>& Source)
 		: _Length(Source._Length), _Data(Source._Length == 0 ? nullptr : new T[_Length])
 	{
@@ -111,28 +119,28 @@ namespace Elysium::Core::Collections::Template
 			_Data[i] = Source._Data[i];
 		}
 	}
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>::Array(Array<T>&& Right) noexcept
 		: _Length(0), _Data(nullptr)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
-	template<class T>
-	inline Array<T>::Array(const List<T>& Source)
-		: _Length(Source._Count), _Data(Source._Count == 0 ? nullptr : new T[_Length])
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline Array<T>::Array(const Elysium::Core::Template::Container::Vector<T>& Source)
+		: _Length(Source._Length), _Data(Source._Length == 0 ? nullptr : new T[_Length])
 	{
 		for (Elysium::Core::size i = 0; i < _Length; i++)
 		{
 			_Data[i] = Source._Data[i];
 		}
 	}
-	template<class T>
-	inline Array<T>::Array(List<T>&& Right) noexcept
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline Array<T>::Array(Elysium::Core::Template::Container::Vector<T>&& Right) noexcept
 		: _Length(0), _Data(nullptr)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>::~Array()
 	{
 		if (_Data != nullptr)
@@ -142,7 +150,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>& Array<T>::operator=(const Array<T>& Source)
 	{
 		if (this != &Source)
@@ -162,7 +170,7 @@ namespace Elysium::Core::Collections::Template
 		return *this;
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline Array<T>& Array<T>::operator=(Array<T>&& Right) noexcept
 	{
 		if (this != &Right)
@@ -181,8 +189,8 @@ namespace Elysium::Core::Collections::Template
 		return *this;
 	}
 
-	template<class T>
-	inline Array<T>& Array<T>::operator=(List<T>&& Right) noexcept
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline Array<T>& Array<T>::operator=(Elysium::Core::Template::Container::Vector<T>&& Right) noexcept
 	{
 		if (_Data != nullptr)
 		{
@@ -192,14 +200,14 @@ namespace Elysium::Core::Collections::Template
 		_Length = Right._Capacity;
 		_Data = Right._Data;
 
-		Right._Count = 0;
+		Right._Length = 0;
 		Right._Capacity = 0;
 		Right._Data = nullptr;
 		
 		return *this;
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline T& Array<T>::operator[](const Elysium::Core::size Index)
 	{
 		if (Index >= _Length)
@@ -210,7 +218,7 @@ namespace Elysium::Core::Collections::Template
 		return _Data[Index];
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline const T& Array<T>::operator[](const Elysium::Core::size Index) const
 	{
 		if (Index >= _Length)
@@ -221,19 +229,19 @@ namespace Elysium::Core::Collections::Template
 		return _Data[Index];
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline const Elysium::Core::size Array<T>::GetLength() const
 	{
 		return _Length;
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline void Array<T>::Clear(T* Array, const Elysium::Core::size Length)
 	{
 		memset(Array, 0, Length);
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline void Array<T>::Copy(const T* Source, T* Destination, const Elysium::Core::size Length)
 	{
 		for (Elysium::Core::size i = 0; i < Length; i++)
@@ -241,7 +249,7 @@ namespace Elysium::Core::Collections::Template
 			Destination[i] = Source[i];
 		}
 	}
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline void Array<T>::Move(T* Source, T* Destination, const Elysium::Core::size Length)
 	{
 		for (Elysium::Core::size i = 0; i < Length; i++)
@@ -250,7 +258,7 @@ namespace Elysium::Core::Collections::Template
 		}
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	inline void Array<T>::Reverse(Array<T>& Array)
 	{
 		Elysium::Core::Template::Functional::Reverse(Array._Data, &Array._Data[Array.GetLength() - 1]);

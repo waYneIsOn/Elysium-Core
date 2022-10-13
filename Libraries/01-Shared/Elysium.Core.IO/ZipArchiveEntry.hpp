@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "../Elysium.Core/StringView.hpp"
 #endif
@@ -38,7 +34,6 @@ namespace Elysium::Core::IO::Compression
 
 	class ELYSIUM_CORE_API ZipArchiveEntry final
 	{
-		friend class Elysium::Core::Collections::Template::List<Elysium::Core::IO::Compression::ZipArchiveEntry>;
 	public:
 		//ZipArchiveEntry(ZipArchive* Archive, Stream& BaseStream);
 		ZipArchiveEntry(ZipArchive* Archive, BinaryReader* Reader);

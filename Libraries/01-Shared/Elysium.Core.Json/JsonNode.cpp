@@ -6,7 +6,7 @@
 
 Elysium::Core::Json::JsonNode::~JsonNode()
 {
-	for (Elysium::Core::size i = 0; i < _Children.GetCount(); i++)
+	for (Elysium::Core::size i = 0; i < _Children.GetLength(); i++)
 	{
 		delete _Children.operator[](i);
 	}
@@ -25,12 +25,12 @@ const Elysium::Core::Json::JsonNode * Elysium::Core::Json::JsonNode::GetParentNo
 
 const Elysium::Core::size Elysium::Core::Json::JsonNode::GetChildCount()
 {
-	return _Children.GetCount();
+	return _Children.GetLength();
 }
 
 Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonNode::GetChild(Elysium::Core::size Index)
 {
-	if (Index > _Children.GetCount())
+	if (Index > _Children.GetLength())
 	{
 		throw Elysium::Core::IndexOutOfRangeException();
 	}
@@ -39,16 +39,15 @@ Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonNode::GetChild(Elysium:
 void Elysium::Core::Json::JsonNode::RemoveChild(JsonNode & Node)
 {
 	Node._ParentNode = nullptr;
-	_Children.Remove(&Node);
+	_Children.Erase(&Node);
 }
 
 Elysium::Core::Json::JsonNode::JsonNode()
-	: _ParentNode(nullptr), _Children(Collections::Template::List<JsonNode*>())
-{
-}
+	: _ParentNode(nullptr), _Children(Elysium::Core::Template::Container::Vector<JsonNode*>())
+{ }
 
 void Elysium::Core::Json::JsonNode::AddChild(JsonNode & Node)
 {
 	Node._ParentNode = this;
-	_Children.Add(&Node);
+	_Children.PushBack(&Node);
 }

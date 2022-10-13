@@ -18,9 +18,6 @@
     <ClCompile Include="DateTimeTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ListTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="TimeSpanTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
@@ -66,7 +66,7 @@ namespace Elysium::Core::Reflection
 		const Assembly& _Assembly;
 		const Utf8String _Name;
 
-		Elysium::Core::Collections::Template::List<const Type*> _Types;
+		Elysium::Core::Template::Container::Vector<const Type*> _Types;
 
 		void Add(const Elysium::Core::Reflection::Type& Type);
 		void Remove(const Elysium::Core::Reflection::Type& Type);

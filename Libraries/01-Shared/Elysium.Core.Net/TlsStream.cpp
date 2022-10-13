@@ -445,7 +445,7 @@ void Elysium::Core::Net::Security::TlsStream::ClientHandshakeLoop(const bool Rea
 			// The application layer will later decrypt it with DecryptMessage.
 			if (InBuffers[1].BufferType == SECBUFFER_EXTRA)// && InBuffers[1].pvBuffer != nullptr)
 			{
-				_ExtraBuffer.AddRange((Elysium::Core::byte*)InBuffers[1].pvBuffer, InBuffers[1].cbBuffer);
+				_ExtraBuffer.PushBackRange((Elysium::Core::byte*)InBuffers[1].pvBuffer, InBuffers[1].cbBuffer);
 				/*
 				pExtraData->pvBuffer = LocalAlloc(LMEM_FIXED, InBuffers[1].cbBuffer);
 				if (pExtraData->pvBuffer == NULL)

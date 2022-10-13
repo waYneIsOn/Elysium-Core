@@ -12,6 +12,10 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "../Elysium.Core/SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_GLOBALIZATION_SYSTEM
 #include "System.hpp"
 #endif

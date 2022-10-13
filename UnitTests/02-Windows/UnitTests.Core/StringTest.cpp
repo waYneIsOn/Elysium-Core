@@ -2,7 +2,6 @@
 #include "CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

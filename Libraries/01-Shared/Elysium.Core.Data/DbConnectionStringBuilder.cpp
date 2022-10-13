@@ -8,10 +8,6 @@
 #include "../Elysium.Core/StringView.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 Elysium::Core::Data::Common::DbConnectionStringBuilder::DbConnectionStringBuilder()
 	: _KeyValueMap()
 { }

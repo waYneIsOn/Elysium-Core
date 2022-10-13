@@ -8,10 +8,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_GENERIC_LIST
-#include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_LINQ_EXTENSION
 #include "../../../Libraries/01-Shared/Elysium.Core.Linq/Extension.hpp"
 #endif

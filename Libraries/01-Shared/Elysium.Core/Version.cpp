@@ -1,9 +1,5 @@
 #include "Version.hpp"
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_CONVERT
 #include "Convert.hpp"
 #endif

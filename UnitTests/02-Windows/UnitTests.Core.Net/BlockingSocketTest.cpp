@@ -42,11 +42,11 @@ namespace UnitTests::Core::Net::Sockets
 			Socket FtpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			FtpClientSocket.Connect(Elysium::Core::Utf8String(u8"demo.wftpserver.com"), 21);
 			Assert::IsTrue(FtpClientSocket.Poll(1000000, SelectMode::SelectRead));
-			List<Socket*> CheckRead = List<Socket*>(2);
+			Elysium::Core::Template::Container::Vector<Socket*> CheckRead = Elysium::Core::Template::Container::Vector<Socket*>(2);
 			CheckRead[0] = &HttpClientSocket;
 			CheckRead[1] = &FtpClientSocket;
 			Socket::Select(&CheckRead, nullptr, nullptr, 1000000);
-			Assert::AreEqual((Elysium::Core::size)1, CheckRead.GetCount());
+			Assert::AreEqual((Elysium::Core::size)1, CheckRead.GetLength());
 			Assert::AreEqual((const void*)&FtpClientSocket, (const void*)CheckRead[0]);
 
 			HttpClientSocket.Shutdown(SocketShutdown::Both);

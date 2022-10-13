@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_JSON_API
 #include "API.hpp"
 #endif
@@ -34,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_JSON_JSONWRITER
 #include "JsonWriter.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Json
@@ -58,7 +58,7 @@ namespace Elysium::Core::Json
 
 		JsonNode* _ParentNode;
 #pragma warning(disable : 4251)	// _Children don't get exposed directly so I can simply ignore the warning
-		Collections::Template::List<JsonNode*> _Children;
+		Elysium::Core::Template::Container::Vector<JsonNode*> _Children;
 #pragma warning(default : 4251)
 
 		virtual void AddChild(JsonNode& Node);

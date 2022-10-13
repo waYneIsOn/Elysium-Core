@@ -32,8 +32,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LISTOFBYTE
-#include "../Elysium.Core/ListOfByte.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
@@ -179,9 +179,9 @@ namespace Elysium::Core::Net::Sockets
 		
 		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength);
 
-		static void Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
+		static void Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds);
 		
-		static void Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
+		static void Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
 
 		const bool Poll(const Elysium::Core::int32_t MicroSeconds, const SelectMode Mode);
 		

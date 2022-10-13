@@ -61,10 +61,10 @@ const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflectio
 
 void Elysium::Core::Reflection::Assembly::Add(Elysium::Core::Reflection::Module& Module)
 {
-	_Modules.Add(&Module);
+	_Modules.PushBack(&Module);
 }
 
 void Elysium::Core::Reflection::Assembly::Remove(Elysium::Core::Reflection::Module& Module)
 {
-	_Modules.Remove(&Module);
+	_Modules.Erase(&Module);
 }

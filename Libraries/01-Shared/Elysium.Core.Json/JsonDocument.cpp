@@ -44,7 +44,7 @@ const Elysium::Core::Json::JsonNodeType Elysium::Core::Json::JsonDocument::GetNo
 
 Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonDocument::GetRootNode()
 {
-	if (_Children.GetCount() == 0)
+	if (_Children.GetLength() == 0)
 	{
 		throw IndexOutOfRangeException();
 	}
@@ -53,7 +53,7 @@ Elysium::Core::Json::JsonNode & Elysium::Core::Json::JsonDocument::GetRootNode()
 
 Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonDocument::AddRootObject()
 {
-	if (_Children.GetCount() > 0)
+	if (_Children.GetLength() > 0)
 	{	// ToDo: InvalidOperationException
 		throw JsonException(u8"A document can only hold one child - the root node!");
 	}
@@ -65,7 +65,7 @@ Elysium::Core::Json::JsonObject & Elysium::Core::Json::JsonDocument::AddRootObje
 
 Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray()
 {
-	if (_Children.GetCount() > 0)
+	if (_Children.GetLength() > 0)
 	{	// ToDo: InvalidOperationException
 		throw JsonException(u8"A document can only hold one child - the root node!");
 	}
@@ -97,7 +97,7 @@ void Elysium::Core::Json::JsonDocument::LoadJson(const Elysium::Core::Utf8String
 
 void Elysium::Core::Json::JsonDocument::WriteTo(JsonWriter & Writer) const
 {
-	for (int i = 0; i < _Children.GetCount(); i++)
+	for (int i = 0; i < _Children.GetLength(); i++)
 	{
 		_Children[i]->WriteTo(Writer);
 	}

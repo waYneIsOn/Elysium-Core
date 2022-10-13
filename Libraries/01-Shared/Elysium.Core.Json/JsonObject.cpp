@@ -46,7 +46,7 @@ void Elysium::Core::Json::JsonObject::WriteTo(JsonWriter & Writer) const
 		Writer.WritePropertyName(_Name);
 	}
 	Writer.WriteStartObject();
-	for (int i = 0; i < _Children.GetCount(); i++)
+	for (int i = 0; i < _Children.GetLength(); i++)
 	{
 		_Children[i]->WriteTo(Writer);
 	}

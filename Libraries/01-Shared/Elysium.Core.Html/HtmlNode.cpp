@@ -7,7 +7,7 @@
 
 Elysium::Core::Html::HtmlNode::~HtmlNode()
 {
-	for (Elysium::Core::size i = 0; i < _Children.GetCount(); i++)
+	for (Elysium::Core::size i = 0; i < _Children.GetLength(); i++)
 	{
 		delete _Children.operator[](i);
 	}
@@ -26,12 +26,12 @@ const Elysium::Core::Html::HtmlNode * Elysium::Core::Html::HtmlNode::GetParentNo
 
 const Elysium::Core::size Elysium::Core::Html::HtmlNode::GetChildCount()
 {
-	return _Children.GetCount();
+	return _Children.GetLength();
 }
 
 Elysium::Core::Html::HtmlNode & Elysium::Core::Html::HtmlNode::GetChild(Elysium::Core::size Index)
 {
-	if (Index > _Children.GetCount())
+	if (Index > _Children.GetLength())
 	{
 		throw Elysium::Core::IndexOutOfRangeException();
 	}
@@ -40,15 +40,15 @@ Elysium::Core::Html::HtmlNode & Elysium::Core::Html::HtmlNode::GetChild(Elysium:
 void Elysium::Core::Html::HtmlNode::RemoveChild(HtmlNode & Node)
 {
 	Node._ParentNode = nullptr;
-	_Children.Remove(&Node);
+	_Children.Erase(&Node);
 }
 
 Elysium::Core::Html::HtmlNode::HtmlNode()
-	: _ParentNode(nullptr), _Children(Collections::Template::List<HtmlNode*>())
+	: _ParentNode(nullptr), _Children(Elysium::Core::Template::Container::Vector<HtmlNode*>())
 { }
 
 void Elysium::Core::Html::HtmlNode::AddChild(HtmlNode & Node)
 {
 	Node._ParentNode = this;
-	_Children.Add(&Node);
+	_Children.PushBack(&Node);
 }

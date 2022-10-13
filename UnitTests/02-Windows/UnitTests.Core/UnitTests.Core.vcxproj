@@ -181,7 +181,6 @@
     <ClCompile Include="DecimalTest.cpp" />
     <ClCompile Include="EnvironmentTest.cpp" />
     <ClCompile Include="NumericTest.cpp" />
-    <ClCompile Include="ListTest.cpp" />
     <ClCompile Include="ReflectionTest.cpp" />
     <ClCompile Include="StringTest.cpp" />
     <ClCompile Include="TaskTest.cpp" />

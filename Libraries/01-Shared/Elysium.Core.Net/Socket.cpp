@@ -314,7 +314,7 @@ const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(cons
 	}
 }
 
-void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds)
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds)
 {
 	fd_set ReadSet = fd_set();
 	fd_set WriteSet = fd_set();
@@ -326,21 +326,21 @@ void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Tem
 
 	if (CheckRead != nullptr)
 	{
-		for (Elysium::Core::size i = 0; i < CheckRead->GetCount(); i++)
+		for (Elysium::Core::size i = 0; i < CheckRead->GetLength(); i++)
 		{
 			FD_SET(CheckRead->operator[](i)->_WinSocketHandle, &ReadSet);
 		}
 	}
 	if (CheckWrite != nullptr)
 	{
-		for (Elysium::Core::size i = 0; i < CheckWrite->GetCount(); i++)
+		for (Elysium::Core::size i = 0; i < CheckWrite->GetLength(); i++)
 		{
 			FD_SET(CheckWrite->operator[](i)->_WinSocketHandle, &WriteSet);
 		}
 	}
 	if (CheckError != nullptr)
 	{
-		for (Elysium::Core::size i = 0; i < CheckError->GetCount(); i++)
+		for (Elysium::Core::size i = 0; i < CheckError->GetLength(); i++)
 		{
 			FD_SET(CheckError->operator[](i)->_WinSocketHandle, &ErrorSet);
 		}
@@ -357,37 +357,37 @@ void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Tem
 
 	if (CheckRead != nullptr)
 	{
-		for (Elysium::Core::size i = CheckRead->GetCount(); i > 0; i--)
+		for (Elysium::Core::size i = CheckRead->GetLength(); i > 0; i--)
 		{
 			if (!FD_ISSET(CheckRead->operator[](i - 1)->_WinSocketHandle, &ReadSet))
 			{
-				CheckRead->RemoveAt(i - 1);
+				CheckRead->EraseAt(i - 1);
 			}
 		}
 	}
 	if (CheckWrite != nullptr)
 	{
-		for (Elysium::Core::size i = CheckWrite->GetCount(); i > 0; i--)
+		for (Elysium::Core::size i = CheckWrite->GetLength(); i > 0; i--)
 		{
 			if (!FD_ISSET(CheckWrite->operator[](i - 1)->_WinSocketHandle, &WriteSet))
 			{
-				CheckWrite->RemoveAt(i - 1);
+				CheckWrite->EraseAt(i - 1);
 			}
 		}
 	}
 	if (CheckError != nullptr)
 	{
-		for (Elysium::Core::size i = CheckError->GetCount(); i > 0; i--)
+		for (Elysium::Core::size i = CheckError->GetLength(); i > 0; i--)
 		{
 			if (!FD_ISSET(CheckError->operator[](i - 1)->_WinSocketHandle, &ErrorSet))
 			{
-				CheckError->RemoveAt(i - 1);
+				CheckError->EraseAt(i - 1);
 			}
 		}
 	}
 }
 
-void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Collections::Template::List<Socket*>* CheckRead, Elysium::Core::Collections::Template::List<Socket*>* CheckWrite, Elysium::Core::Collections::Template::List<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration)
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration)
 {
 	return Select(CheckRead, CheckWrite, CheckError, Duration.GetTotalMilliseconds() * 1000);
 }

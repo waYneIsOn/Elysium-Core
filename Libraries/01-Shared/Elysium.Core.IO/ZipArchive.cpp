@@ -18,7 +18,7 @@ Elysium::Core::IO::Compression::ZipArchive::ZipArchive(Elysium::Core::IO::Stream
 Elysium::Core::IO::Compression::ZipArchive::~ZipArchive()
 { }
 
-const Elysium::Core::Collections::Template::List<Elysium::Core::IO::Compression::ZipArchiveEntry> Elysium::Core::IO::Compression::ZipArchive::GetEntries() const
+const VectorOfZipArchiveEntry Elysium::Core::IO::Compression::ZipArchive::GetEntries() const
 {
     return _Entries;
 }
@@ -44,7 +44,7 @@ void Elysium::Core::IO::Compression::ZipArchive::ReadCentralDirectory()
 
     for (Elysium::Core::uint16_t i = 0; i < _TotalNumberOfCentralDirectoryRecords; i++)
     {
-        _Entries.Add(ZipArchiveEntry(this, &_Reader));
+        _Entries.PushBack(ZipArchiveEntry(this, &_Reader));
     }
 }
 

@@ -25,10 +25,10 @@ Elysium::Core::Reflection::AppDomain& Elysium::Core::Reflection::AppDomain::GetC
 
 void Elysium::Core::Reflection::AppDomain::Add(const Elysium::Core::Reflection::Assembly& Assembly)
 {
-	_RegisteredAssemblies.Add(&Assembly);
+	_RegisteredAssemblies.PushBack(&Assembly);
 }
 
 void Elysium::Core::Reflection::AppDomain::Remove(const Elysium::Core::Reflection::Assembly& Assembly)
 {
-	_RegisteredAssemblies.Remove(&Assembly);
+	_RegisteredAssemblies.Erase(&Assembly);
 }

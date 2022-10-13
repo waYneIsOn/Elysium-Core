@@ -24,12 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
 #include "../Elysium.Core.Template/HashTable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
@@ -63,7 +63,7 @@ namespace Elysium::Core::Reflection
 	private:
 		static Elysium::Core::Reflection::AppDomain _CurrentDomain;
 	private:
-		Elysium::Core::Collections::Template::List<const Assembly*> _RegisteredAssemblies;
+		Elysium::Core::Template::Container::Vector<const Assembly*> _RegisteredAssemblies;
 		//Elysium::Core::Template::Container::HashTable<Module*, Assembly*> _ModuleAssemblyMap;
 		//Elysium::Core::Template::Container::HashTable<Type*, Module*> _TypeModuleTable;
 		//Elysium::Core::Template::Container::HashTable<Elysium::Core::uint64_t*, Type*> _TypeIdTypeTable;

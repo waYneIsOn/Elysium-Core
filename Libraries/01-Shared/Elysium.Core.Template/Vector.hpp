@@ -56,6 +56,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
+
+
+
+
+namespace Elysium::Core::Collections::Template
+{
+	template <Elysium::Core::Template::Concepts::NonConstant T>
+	class Array;
+}
+
+
+
+
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>
@@ -66,6 +79,7 @@ namespace Elysium::Core::Template::Container
 	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
 	class Vector final
 	{
+		friend class Elysium::Core::Collections::Template::Array<T>;
 	public:
 		using Value = T;
 		using ConstValue = const T;
@@ -255,6 +269,20 @@ namespace Elysium::Core::Template::Container
 		/// 
 		/// </summary>
 		/// <param name="Value"></param>
+		/// <returns></returns>
+		FIterator Erase(ConstValue Value);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Index"></param>
+		/// <returns></returns>
+		FIterator EraseAt(const System::size Index);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
 		/// <param name="Index"></param>
 		void Insert(ConstValue Value, const System::size Index);
 
@@ -265,7 +293,7 @@ namespace Elysium::Core::Template::Container
 		void PushBack(ConstReference Item);
 
 		/// <summary>
-		/// 
+		/// Moves given item to the end of the vector. (May cause reallocation.)
 		/// </summary>
 		/// <param name="Item"></param>
 		void PushBack(RValueReference Item);
@@ -520,6 +548,44 @@ namespace Elysium::Core::Template::Container
 		}
 
 		_Length = 0;
+	}
+
+	template<Concepts::NonConstant T, class Allocator>
+	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::Erase(ConstValue Value)
+	{
+		for (System::size i = 0; i < _Length; i++)
+		{
+			if (_Data[i] == Value)
+			{
+				return EraseAt(i);
+			}
+		}
+
+		// ToDo: have a look at std::vector::erase in regards to returning the last element?
+		return GetEnd();
+	}
+
+	template<Concepts::NonConstant T, class Allocator>
+	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
+	{	// ToDo: have a look at std::vector::erase in regards to returning the last element?
+		if (Index >= _Length)
+		{
+			//throw IndexOutOfRangeException();
+			throw 1;
+		}
+
+		// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
+		memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T)* (_Length - Index));
+		/*
+		// move all old elements right of InsertionIndex to _Data using the move constructor
+		for (Elysium::Core::size i = Index; i < _Count; i++)
+		{
+			_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
+		}
+		*/
+		_Length--;
+
+		return GetEnd();
 	}
 
 	template<Concepts::NonConstant T, class Allocator>

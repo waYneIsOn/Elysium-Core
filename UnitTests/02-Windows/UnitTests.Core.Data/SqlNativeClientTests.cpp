@@ -3,7 +3,6 @@
 
 #include "DatabaseTestBase.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core/List.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Data/DbDataReader.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Data.SqlNativeClient.OleDB/SqlNativeConnection.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Data.SqlNativeClient.OleDB/SqlNativeException.hpp"
@@ -610,7 +609,7 @@ private:
 
 		__int64 AvailableBytes;
 		int64_t BigIntValue;
-		List<byte> BytesValue = List<byte>(1);
+		Elysium::Core::Template::Container::Vector<byte> BytesValue = Elysium::Core::Template::Container::Vector<byte>(1);
 		bool BitValue;
 		Elysium::Core::Utf8String CharValues = Elysium::Core::Utf8String(1);
 		DateTime DatetimeValue = DateTime(0);
@@ -635,7 +634,7 @@ private:
 			BytesValue[0] = Reader->GetByte(2);
 			Assert::AreEqual((byte)'v', BytesValue[0]);
 			AvailableBytes = Reader->GetBytes(2, 0, nullptr, 1);
-			BytesValue = List<byte>(AvailableBytes);
+			BytesValue = Elysium::Core::Template::Container::Vector<byte>(AvailableBytes);
 			AvailableBytes = Reader->GetBytes(2, 0, &BytesValue[0], 1);
 			Assert::AreEqual((byte)'v', BytesValue[0]);
 			Assert::IsFalse(Reader->IsDBNull(2));
@@ -741,7 +740,7 @@ private:
 
 			// geography
 			AvailableBytes = Reader->GetBytes(20, 0, nullptr, 0);
-			BytesValue = List<byte>(AvailableBytes);
+			BytesValue = Elysium::Core::Template::Container::Vector<byte>(AvailableBytes);
 			AvailableBytes = Reader->GetBytes(20, 0, &BytesValue[0], BytesValue.GetCapacity());
 			// ToDo: test somehow or create specific type?
 			Assert::IsFalse(Reader->IsDBNull(20));
@@ -759,7 +758,7 @@ private:
 
 			// geometry
 			AvailableBytes = Reader->GetBytes(26, 0, nullptr, 0);
-			BytesValue = List<byte>(AvailableBytes);
+			BytesValue = Elysium::Core::Template::Container::Vector<byte>(AvailableBytes);
 			AvailableBytes = Reader->GetBytes(26, 0, &BytesValue[0], BytesValue.GetCapacity());
 			AvailableBytes = Reader->GetChars(26, 0, nullptr, 0);
 			CharValues = Elysium::Core::Utf8String(AvailableBytes);
@@ -784,7 +783,7 @@ private:
 			*/
 			// image
 			AvailableBytes = Reader->GetBytes(32, 0, nullptr, 0);
-			BytesValue = List<byte>(AvailableBytes);
+			BytesValue = Elysium::Core::Template::Container::Vector<byte>(AvailableBytes);
 			AvailableBytes = Reader->GetBytes(32, 0, &BytesValue[0], (Elysium::Core::size)AvailableBytes);
 			Assert::IsFalse(Reader->IsDBNull(32));
 			Assert::IsTrue(Reader->IsDBNull(33));

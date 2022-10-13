@@ -16,18 +16,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "List.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
 #include "../Elysium.Core.Template/Delegate.hpp"
 #endif
-/*
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
-*/
+
 namespace Elysium::Core
 {
 	template <class ReturnType, class ...Args>
@@ -52,8 +52,7 @@ namespace Elysium::Core
 
 		ReturnType operator()(const Args... EventArgs);
 	private:
-		//Template::Container::Vector<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
-		Collections::Template::List<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
 	};
 
 	template<class ReturnType, class ...Args>
@@ -66,27 +65,27 @@ namespace Elysium::Core
 	{ }
 
 	template<class ReturnType, class ...Args>
-	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator+=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>&Handler)
+	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator+=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>& Handler)
 	{
-		_HandlerList.Add(Handler);
+		_HandlerList.PushBack(Handler);
 		return *this;
 	}
 
 	template<class ReturnType, class ...Args>
 	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator-=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>& Handler)
 	{
-		_HandlerList.Remove(Handler);
+		_HandlerList.Erase(Handler);
 		return *this;
 	}
 
 	template<class ReturnType, class ...Args>
 	inline ReturnType Event<ReturnType, Args...>::operator()(const Args ...EventArgs)
 	{
-		for (Elysium::Core::size i = 0; i < _HandlerList.GetCount(); i++)
+		for (Elysium::Core::size i = 0; i < _HandlerList.GetLength(); i++)
 		{
 			_HandlerList[i](EventArgs...);
 		}
-
+		
 		// ToDo
 		return ReturnType();
 	}

@@ -61,9 +61,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
       <Filter>Collections\Template</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)List.hpp">
-      <Filter>Collections\Template</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
@@ -110,7 +107,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp">
       <Filter>Collections</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfByte.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp">
       <Filter>Collections</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfString.hpp">
@@ -118,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
       <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfInt32_t.hpp">
+      <Filter>Collections</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

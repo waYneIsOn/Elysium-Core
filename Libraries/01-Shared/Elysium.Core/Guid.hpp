@@ -28,15 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "List.hpp"
-#endif
-
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API Guid final
 	{
-		friend class Collections::Template::List<Guid>;
 	public:
 		Guid(const Elysium::Core::byte B[16]);
 		Guid(const Elysium::Core::uint32_t A, const Elysium::Core::uint16_t B, const Elysium::Core::uint16_t C, const Elysium::Core::byte* D[8]);

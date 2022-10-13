@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Html
@@ -52,7 +52,7 @@ namespace Elysium::Core::Html
 		HtmlNode();
 
 		HtmlNode* _ParentNode;
-		Collections::Template::List<HtmlNode*> _Children;
+		Elysium::Core::Template::Container::Vector<HtmlNode*> _Children;
 
 		virtual void AddChild(HtmlNode& Node);
 

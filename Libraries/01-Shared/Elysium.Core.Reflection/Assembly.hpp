@@ -24,12 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
 #include "AssemblyName.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
@@ -70,7 +70,7 @@ namespace Elysium::Core::Reflection
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;
 
-		Elysium::Core::Collections::Template::List<const Module*> _Modules;
+		Elysium::Core::Template::Container::Vector<const Module*> _Modules;
 
 		void Add(Elysium::Core::Reflection::Module& Module);
 

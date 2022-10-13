@@ -100,7 +100,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateEncodingMethod.hpp">
       <Filter>Compression\Deflate</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfZipArchiveEntry.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfZipArchiveEntry.hpp">
       <Filter>Compression</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTable.hpp">

@@ -93,7 +93,7 @@ namespace Elysium::Core::Net::Security
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 
-		Elysium::Core::Collections::Template::List<Elysium::Core::byte> _ExtraBuffer;
+		Elysium::Core::Template::Container::Vector<Elysium::Core::byte> _ExtraBuffer;
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _InBuffer;
 		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _OutBuffer;
 

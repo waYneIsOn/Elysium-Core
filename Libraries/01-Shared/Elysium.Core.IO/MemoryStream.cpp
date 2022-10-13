@@ -19,17 +19,17 @@ Elysium::Core::IO::MemoryStream::MemoryStream()
 { }
 Elysium::Core::IO::MemoryStream::MemoryStream(const Elysium::Core::size Capacity)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(Collections::Template::List<byte>(Capacity))
+	_Buffer(VectorOfByte(Capacity))
 { }
 Elysium::Core::IO::MemoryStream::MemoryStream(const byte* Data, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(Collections::Template::List<byte>(Length))
+	_Buffer(VectorOfByte(Length))
 {
 	std::memcpy(&_Buffer[0], &Data[0], Length);
 }
 Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(Collections::Template::List<byte>(Length))
+	_Buffer(VectorOfByte(Length))
 { 
 	std::memcpy(&_Buffer[0], &Data[Offset], Length);
 }
@@ -58,7 +58,7 @@ const bool Elysium::Core::IO::MemoryStream::GetCanWrite() const
 
 const Elysium::Core::size Elysium::Core::IO::MemoryStream::GetLength() const
 {
-	return _Buffer.GetCount();
+	return _Buffer.GetLength();
 }
 
 const Elysium::Core::uint64_t Elysium::Core::IO::MemoryStream::GetPosition() const
@@ -108,7 +108,7 @@ void Elysium::Core::IO::MemoryStream::SetCapacity(const Elysium::Core::size Capa
 		throw ArgumentOutOfRangeException();
 	}
 
-	_Buffer.SetCapacity(Capacity);
+	_Buffer.Reserve(Capacity);
 }
 
 void Elysium::Core::IO::MemoryStream::Close()
@@ -134,7 +134,7 @@ const Elysium::Core::size Elysium::Core::IO::MemoryStream::Read(Elysium::Core::b
 		throw NotSupportedException();
 	}
 
-	Elysium::Core::size BytesToRead = _Buffer.GetCount() - _CurrentPosition;
+	Elysium::Core::size BytesToRead = _Buffer.GetLength() - _CurrentPosition;
 	if (BytesToRead > Count)
 	{
 		BytesToRead = Count;
@@ -165,7 +165,7 @@ const Elysium::Core::size Elysium::Core::IO::MemoryStream::Read(Elysium::Core::b
 
 Elysium::Core::byte Elysium::Core::IO::MemoryStream::ReadByte()
 {
-	if (_CurrentPosition >= _Buffer.GetCount())
+	if (_CurrentPosition >= _Buffer.GetLength())
 	{
 		return -1;
 	}
@@ -180,5 +180,5 @@ void Elysium::Core::IO::MemoryStream::Write(const Elysium::Core::byte * Buffer, 
 		throw NotSupportedException();
 	}
 
-	_Buffer.AddRange(Buffer, Count);
+	_Buffer.PushBackRange(Buffer, Count);
 }

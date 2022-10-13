@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "BinaryReader.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_GZIPSTREAM_LISTOFZIPARCHIVEENTRY
-#include "ListOfZipArchiveEntry.hpp"
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_GZIPSTREAM_VECTOROFZIPARCHIVEENTRY
+#include "VectorOfZipArchiveEntry.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_COMPRESSION_ZIPARCHIVEENTRY
@@ -55,7 +55,7 @@ namespace Elysium::Core::IO::Compression
 		ZipArchive& operator=(const ZipArchive& Source) = delete;
 		ZipArchive& operator=(ZipArchive&& Right) noexcept = delete;
 
-		const Elysium::Core::Collections::Template::List<ZipArchiveEntry> GetEntries() const;
+		const VectorOfZipArchiveEntry GetEntries() const;
 		const ZipArchiveMode GetMode() const;
 	private:
 		Elysium::Core::IO::Stream& _Stream;
@@ -65,7 +65,7 @@ namespace Elysium::Core::IO::Compression
 
 		Elysium::Core::uint16_t _TotalNumberOfCentralDirectoryRecords = 0;
 		Elysium::Core::uint32_t _OffsetToCentralDirectory = 0;
-		Elysium::Core::Collections::Template::List<ZipArchiveEntry> _Entries;
+		VectorOfZipArchiveEntry _Entries;
 
 		static const Elysium::Core::uint8_t _SizeOfBlockEndOfCentralDirectoryWithSignature = 22;
 

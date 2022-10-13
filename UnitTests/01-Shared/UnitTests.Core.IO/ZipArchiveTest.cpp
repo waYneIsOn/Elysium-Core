@@ -27,7 +27,7 @@ namespace UnitTests::Core::IO::Compression
 			MinimalisticArchive.SetPosition(0);
 
 			ZipArchive Archive = ZipArchive(MinimalisticArchive, ZipArchiveMode::Read, false, Encoding::UTF8());
-			Assert::AreEqual((Elysium::Core::size)0, Archive.GetEntries().GetCount());
+			Assert::AreEqual((Elysium::Core::size)0, Archive.GetEntries().GetLength());
 		}
 
 		TEST_METHOD(ReadArchive)
@@ -35,8 +35,8 @@ namespace UnitTests::Core::IO::Compression
 			FileStream MinimalisticArchive = FileStream(u8"UT.zip", FileMode::Open, FileAccess::Read, FileShare::None);
 
 			ZipArchive Archive = ZipArchive(MinimalisticArchive, ZipArchiveMode::Read, false, Encoding::UTF8());
-			Elysium::Core::Collections::Template::List<ZipArchiveEntry> Entries = Archive.GetEntries();
-			Assert::AreEqual((Elysium::Core::size)6, Entries.GetCount());
+			Elysium::Core::Template::Container::Vector<ZipArchiveEntry> Entries = Archive.GetEntries();
+			Assert::AreEqual((Elysium::Core::size)6, Entries.GetLength());
 
 			ZipArchiveEntry& Entry1 = Entries[0];
 			const Elysium::Core::Utf8String& FullName1 = Entry1.GetFullName();

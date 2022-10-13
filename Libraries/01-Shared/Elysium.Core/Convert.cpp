@@ -705,7 +705,7 @@ const Elysium::Core::Utf8String Elysium::Core::Convert::ToString(const Elysium::
 	return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
 }
 
-Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::Convert::FromBase64String(const Elysium::Core::Utf8String& Base64String)
+VectorOfByte Elysium::Core::Convert::FromBase64String(const Elysium::Core::Utf8String& Base64String)
 {	// https://renenyffenegger.ch/notes/development/Base64/Encoding-and-decoding-base-64-with-cpp
 	/*
 	base64.cpp and base64.h
@@ -732,7 +732,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 
 	René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 	*/
-	Elysium::Core::Collections::Template::List<Elysium::Core::byte> Result;
+	VectorOfByte Result;
 	Elysium::Core::size InputLength = Base64String.GetLength();
 	int i = 0;
 	int j = 0;
@@ -756,7 +756,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 			Array3[1] = ((Array4[1] & 0xF) << 4) + ((Array4[2] & 0x3C) >> 2);
 			Array3[2] = ((Array4[2] & 0x3) << 6) + Array4[3];
 
-			Result.AddRange(&Array3[0], 3);
+			Result.PushBackRange(&Array3[0], 3);
 			i = 0;
 		}
 	}
@@ -773,7 +773,7 @@ Elysium::Core::Collections::Template::List<Elysium::Core::byte> Elysium::Core::C
 
 		for (j = 0; j < i - 1; j++)
 		{
-			Result.Add(Array3[j]);
+			Result.PushBack(Array3[j]);
 		}
 	}
 
@@ -814,7 +814,7 @@ Elysium::Core::Utf8String Elysium::Core::Convert::ToBase64String(const Elysium::
 	byte Array3[3];
 	byte Array4[4];
 
-	Elysium::Core::Collections::Template::List<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::List<Elysium::Core::byte>();
+	VectorOfByte Result = VectorOfByte();
 
 	while (in_len--)
 	{
@@ -828,7 +828,7 @@ Elysium::Core::Utf8String Elysium::Core::Convert::ToBase64String(const Elysium::
 
 			for (i = 0; i < 4; i++)
 			{
-				Result.Add(_Base64Chars[Array4[i]]);
+				Result.PushBack(_Base64Chars[Array4[i]]);
 			}
 			i = 0;
 		}
@@ -848,16 +848,16 @@ Elysium::Core::Utf8String Elysium::Core::Convert::ToBase64String(const Elysium::
 
 		for (j = 0; j < i + 1; j++)
 		{
-			Result.Add(_Base64Chars[Array4[j]]);
+			Result.PushBack(_Base64Chars[Array4[j]]);
 		}
 
 		while (i++ < 3)
 		{
-			Result.Add(u8'=');
+			Result.PushBack(u8'=');
 		}
 	}
 
-	return Elysium::Core::Text::Encoding::Default().GetString(&Result[0], Result.GetCount());
+	return Elysium::Core::Text::Encoding::Default().GetString(&Result[0], Result.GetLength());
 }
 
 Elysium::Core::int32_t Elysium::Core::Convert::ToInt32(const char8_t* Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase)

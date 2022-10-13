@@ -24,12 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_LIST
-#include "../Elysium.Core/List.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LISTOFBYTE
-#include "../Elysium.Core/ListOfByte.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTEGER
@@ -72,7 +68,7 @@ namespace Elysium::Core::IO
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 	private:
 		Elysium::Core::size _CurrentPosition = 0;
-		Collections::Template::List<byte> _Buffer;
+		VectorOfByte _Buffer;
 	};
 }
 #endif

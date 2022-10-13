@@ -20,8 +20,8 @@
 #include "../Elysium.Core/NotSupportedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_LIST
-#include "../Elysium.Core/List.hpp"
+#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTERNAL_ASYNCRESULT
@@ -111,7 +111,7 @@ void Elysium::Core::IO::Stream::CopyTo(Stream & Destination, const Elysium::Core
 	}
 
 	Elysium::Core::size BytesRead = 0;
-	Elysium::Core::Collections::Template::List<byte> Buffer = Elysium::Core::Collections::Template::List<byte>(BufferSize);
+	VectorOfByte Buffer = VectorOfByte(BufferSize);
 	while ((BytesRead = Read(&Buffer[0], BufferSize)) > 0)
 	{
 		Destination.Write(&Buffer[0], BytesRead);

@@ -34,7 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ListOfZipArchiveEntry.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfZipArchiveEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Path.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ReadOnlyStream.hpp" />

@@ -46,10 +46,10 @@ const Elysium::Core::size Elysium::Core::Reflection::Module::GetHashCode() const
 
 void Elysium::Core::Reflection::Module::Add(const Elysium::Core::Reflection::Type& Type)
 {
-	_Types.Add(&Type);
+	_Types.PushBack(&Type);
 }
 
 void Elysium::Core::Reflection::Module::Remove(const Elysium::Core::Reflection::Type& Type)
 {
-	_Types.Remove(&Type);
+	_Types.Erase(&Type);
 }
