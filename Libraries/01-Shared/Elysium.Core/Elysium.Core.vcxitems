@@ -27,7 +27,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultCharacterAllocator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultIntegerAllocator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
@@ -76,7 +77,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfInt32_t.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfString.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WindowsErrorCode.hpp" />

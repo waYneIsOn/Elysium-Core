@@ -33,6 +33,7 @@ namespace UnitTests::Core
 		{
 			const OperatingSystem OS = Environment::OSVersion();
 			const Elysium::Core::Utf8String MachineName = Environment::MachineName();
+			Logger::WriteMessage((char*)&MachineName[0]);
 			const Elysium::Core::uint32_t ProcessorCount = Environment::ProcessorCount();
 			const Elysium::Core::Utf8String UserName = Environment::UserName();
 		}

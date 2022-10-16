@@ -1,7 +1,7 @@
 #include "Environment.hpp"
 
-#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "SystemException.hpp"
 #endif
 
 #ifndef _THREAD_
@@ -50,18 +50,17 @@ const Elysium::Core::Utf8String Elysium::Core::Environment::MachineName()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// https://docs.microsoft.com/en-GB/troubleshoot/windows-server/identity/naming-conventions-for-computer-domain-site-ou
-	static const Elysium::Core::uint8_t NetBiosMax = 15;
+	//static const Elysium::Core::uint8_t NetBiosMax = MAX_COMPUTERNAME_LENGTH + 1;
 	//static const Elysium::Core::uint8_t DnsMax = 63;
-
-	wchar_t MachineName[NetBiosMax];
-	unsigned long BufferCount = 0;
+	wchar_t MachineName[MAX_COMPUTERNAME_LENGTH + 1];
+	unsigned long BufferCount = sizeof(MachineName);
 	if (GetComputerName(MachineName, &BufferCount))
 	{
 		return _InternalEncoding.GetString((Elysium::Core::byte*)&MachineName, BufferCount * sizeof(wchar_t));
 	}
 	else
 	{
-		throw InvalidOperationException(u8"The name of this computer cannot be obtained.");
+		throw SystemException();
 	}
 #else
 #error "unsupported os"
@@ -104,7 +103,7 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 	}
 	else
 	{
-		throw InvalidOperationException(u8"This property was unable to obtain the system version.");
+		throw SystemException();
 	}
 #else
 #error "unsupported os"
@@ -132,7 +131,7 @@ const Elysium::Core::Utf8String Elysium::Core::Environment::UserName()
 	}
 	else
 	{
-		throw InvalidOperationException(u8"This property was unable to obtain the user name.");
+		throw SystemException();
 	}
 #else
 #error "unsupported os"
@@ -145,13 +144,14 @@ const Elysium::Core::Utf8String Elysium::Core::Environment::SystemDirectory()
 	// user-name maximum length under windows appears to be ...
 	wchar_t SystemDirectory[4096];
 	unsigned long BufferCount = 4096;
-	if (GetSystemDirectory(SystemDirectory, BufferCount))
+	Elysium::Core::uint32_t Length = GetSystemDirectory(SystemDirectory, BufferCount);
+	if (Length > 0)
 	{
-		return _InternalEncoding.GetString((byte*)&SystemDirectory, BufferCount * sizeof(wchar_t));
+		return _InternalEncoding.GetString((byte*)&SystemDirectory, Length * sizeof(wchar_t));
 	}
 	else
 	{
-		throw InvalidOperationException(u8"This property was unable to obtain the system directory.");
+		throw SystemException();
 	}
 #else
 #error "unsupported os"

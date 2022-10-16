@@ -21,8 +21,10 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(u8"28", Object::ToString(28_ui16));
 			AssertExtended::AreEqual(u8"28", Object::ToString(28_ui32));
 			AssertExtended::AreEqual(u8"28", Object::ToString(28_ui64));
-			AssertExtended::AreEqual(u8"", Object::ToString(24.38f));
-			AssertExtended::AreEqual(u8"", Object::ToString(24.38));
+
+			// ToDo: not right!
+			AssertExtended::AreEqual(u8"24.379999", Object::ToString(24.38f));
+			AssertExtended::AreEqual(u8"24.380000", Object::ToString(24.38));
 		}
 	};
 }

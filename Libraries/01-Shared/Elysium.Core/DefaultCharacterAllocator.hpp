@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOR
-#define ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOR
+#ifndef ELYSIUM_CORE_MEMORY_DEFAULTCHARACTERALLOCATOR
+#define ELYSIUM_CORE_MEMORY_DEFAULTCHARACTERALLOCATOR
 
 #ifdef _MSC_VER
 #pragma once

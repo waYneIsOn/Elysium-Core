@@ -275,7 +275,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
 		{
-			_InternalString._Heap._Data = _Allocator.Allocate(Length + 1);
+			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
 			_InternalString._Heap._Size = 0;
 			_InternalString._Heap.SetCapacity(Length);
 		}
@@ -446,11 +446,26 @@ namespace Elysium::Core::Template::Text
 	inline StringBase<C, Traits, Allocator>::CharacterReference StringBase<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index)
 	{
 		const bool HeapAllocated = IsHeapAllocated();
-		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
-		if (Index >= Length)
+		const Elysium::Core::Template::System::size Capacity = HeapAllocated ? _InternalString._Heap.GetCapacity() : MaximumLengthOnStack;
+		if (Index >= Capacity)
 		{
 			throw 1;
 			//throw IndexOutOfRangeException();
+		}
+
+		// we possibly need to grow Length (in bounds of Capacity) as someone could write a char using this operator.
+		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		if (Index >= Length)
+		{
+			const Elysium::Core::Template::System::size Size = (Length + 1) * sizeof(C);
+			if (HeapAllocated)
+			{
+				_InternalString._Heap._Size = Size;
+			}
+			else
+			{
+				_InternalString._Stack.SetSize(Size);
+			}
 		}
 
 		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(CharacterPointer)&_InternalString._Stack._Data[Index];

@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CultureTypes.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINT32_T
-#include "../Elysium.Core/VectorOfInt32_t.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
+#include "../Elysium.Core/VectorOfInteger.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)

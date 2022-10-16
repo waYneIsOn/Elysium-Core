@@ -10,25 +10,18 @@ namespace UnitTests::Core
 	TEST_CLASS(StringTests)
 	{
 	public:
-
 		TEST_METHOD(Constructors)
 		{
-			Elysium::Core::Utf8String NullString1 = Elysium::Core::Utf8String();
-			//Assert::IsNull(&NullString1[0]);
-			Assert::AreEqual((Elysium::Core::size)0, NullString1.GetLength());
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(NullString1));
-			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(NullString1));
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString1));
+			Elysium::Core::Utf8String EmptyString1 = Elysium::Core::Utf8String();
+			Assert::AreEqual((Elysium::Core::size)0, EmptyString1.GetLength());
+			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(EmptyString1));
+
+			Elysium::Core::Utf8String EmptyString2 = u8"";
+			Assert::AreEqual((Elysium::Core::size)0, EmptyString2.GetLength());
+			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(EmptyString2));
 
 			Elysium::Core::Utf8String LString = Elysium::Core::Utf8String(5);
 			Assert::AreEqual(0_ui64, LString.GetLength());
-			
-			Elysium::Core::Utf8String EmptyString(u8"");
-			//Assert::IsNull(&EmptyString[0]);
-			Assert::AreEqual((Elysium::Core::size)0, EmptyString.GetLength());
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(EmptyString));
-			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(EmptyString));
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(EmptyString));
 			
 			Elysium::Core::Utf8String String1 = Elysium::Core::Utf8String(u8"text");
 			AssertExtended::AreEqual(u8"text", &String1[0]);
@@ -58,13 +51,6 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8'd', String3[1]);
 			Assert::AreEqual(u8'o', String3[2]);
 			
-			Elysium::Core::Utf8String NullString2(nullptr);
-			//Assert::IsNull(&NullString2[0]);
-			Assert::AreEqual((Elysium::Core::size)0, NullString2.GetLength());
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(NullString2));
-			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(NullString2));
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(NullString2));
-			
 			Elysium::Core::Utf8String CopiedString(String1);
 			AssertExtended::AreEqual(u8"text", &CopiedString[0]);
 			Assert::AreEqual((Elysium::Core::size)4, CopiedString.GetLength());
@@ -80,11 +66,6 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8'e', MovedString[1]);
 			Assert::AreEqual(u8'x', MovedString[2]);
 			Assert::AreEqual(u8't', MovedString[3]);
-			//Assert::IsNull(&String1[0]);
-			Assert::AreEqual((Elysium::Core::size)0, String1.GetLength());
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNull(String1));
-			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(String1));
-			//Assert::IsTrue(Elysium::Core::Utf8String::IsNullOrEmtpy(String1));
 		}
 
 		TEST_METHOD(Operators)
@@ -107,6 +88,7 @@ namespace UnitTests::Core
 		TEST_METHOD(IndexOf)
 		{
 			Elysium::Core::Utf8String SomeString = u8"different";
+
 			Assert::AreEqual((Elysium::Core::size)0, SomeString.IndexOf(u8'd'));
 			Assert::AreEqual((Elysium::Core::size)1, SomeString.IndexOf(u8'i'));
 			Assert::AreEqual((Elysium::Core::size)2, SomeString.IndexOf(u8'f'));
@@ -114,6 +96,8 @@ namespace UnitTests::Core
 
 			Assert::AreEqual((Elysium::Core::size)0, SomeString.IndexOf(u8'f', 3));
 			Assert::AreEqual((Elysium::Core::size)1, SomeString.IndexOf(u8'e', 5));
+
+			auto sdfsdf = SomeString.IndexOf(u8"di");
 
 			Assert::AreEqual((Elysium::Core::size)0, SomeString.IndexOf(u8"di"));
 			Assert::AreEqual((Elysium::Core::size)3, SomeString.IndexOf(u8"fe"));

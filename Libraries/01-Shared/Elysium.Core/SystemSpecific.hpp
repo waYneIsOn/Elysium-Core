@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 namespace Elysium::Core
 {
 	class SystemSpecific
@@ -30,6 +34,8 @@ namespace Elysium::Core
 		SystemSpecific& operator=(SystemSpecific&& Right) noexcept = delete;
 	public:
 		static const Elysium::Core::int32_t GetLastErrorCode();
+
+		static Elysium::Core::Utf8String GetErrorMessage(const Elysium::Core::int32_t ErrorCode);
 	};
 }
 #endif

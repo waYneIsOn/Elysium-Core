@@ -15,7 +15,6 @@
 #error "unsupported os"
 #endif
 
-
 const Elysium::Core::int32_t Elysium::Core::SystemSpecific::GetLastErrorCode()
 {
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -25,4 +24,14 @@ const Elysium::Core::int32_t Elysium::Core::SystemSpecific::GetLastErrorCode()
 #else
 #error "unsupported os"
 #endif
+}
+
+Elysium::Core::Utf8String Elysium::Core::SystemSpecific::GetErrorMessage(const Elysium::Core::int32_t ErrorCode)
+{
+	char* ErrorMessageBuffer = nullptr;
+	Elysium::Core::size size = FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		NULL, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&ErrorMessageBuffer, 0, NULL);
+	LocalFree(ErrorMessageBuffer);
+
+	return Elysium::Core::Utf8String();
 }

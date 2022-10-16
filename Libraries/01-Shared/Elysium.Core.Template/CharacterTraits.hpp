@@ -360,13 +360,14 @@ namespace Elysium::Core::Template::Text
 	template <>
 	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
-		ConstPointer LastCharacter = &Start[Length - 1];
-		while (Start++ < LastCharacter)
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
 		{
 			if (*Start == Value)
 			{
 				return (Pointer)Start;
 			}
+			Start++;
 		}
 
 		return nullptr;
@@ -375,13 +376,14 @@ namespace Elysium::Core::Template::Text
 	template <>
 	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
-		ConstPointer LastCharacter = &Start[Length - 1];
-		while (Start++ < LastCharacter)
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
 		{
 			if (*Start == Value)
 			{
 				return (Pointer)Start;
 			}
+			Start++;
 		}
 
 		return nullptr;
@@ -390,13 +392,14 @@ namespace Elysium::Core::Template::Text
 	template <>
 	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
-		ConstPointer LastCharacter = &Start[Length - 1];
-		while (Start++ < LastCharacter)
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
 		{
 			if (*Start == Value)
 			{
 				return (Pointer)Start;
 			}
+			Start++;
 		}
 
 		return nullptr;
@@ -405,13 +408,14 @@ namespace Elysium::Core::Template::Text
 	template <>
 	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
-		ConstPointer LastCharacter = &Start[Length - 1];
-		while (Start++ < LastCharacter)
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
 		{
 			if (*Start == Value)
 			{
 				return (Pointer)Start;
 			}
+			Start++;
 		}
 
 		return nullptr;
