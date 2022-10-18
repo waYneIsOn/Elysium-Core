@@ -26,16 +26,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBase<char>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBase<wchar_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBase<char8_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBase<char16_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBase<char32_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<wchar_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char8_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char16_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char32_t>;
 
-	using String = Elysium::Core::Template::Text::StringBase<char>;
-	using WideString = Elysium::Core::Template::Text::StringBase<wchar_t>;
-	using Utf8String = Elysium::Core::Template::Text::StringBase<char8_t>;
-	using Utf16String = Elysium::Core::Template::Text::StringBase<char16_t>;
-	using Utf32String = Elysium::Core::Template::Text::StringBase<char32_t>;
+	using String = Elysium::Core::Template::Text::String<char>;
+	using WideString = Elysium::Core::Template::Text::String<wchar_t>;
+	using Utf8String = Elysium::Core::Template::Text::String<char8_t>;
+	using Utf16String = Elysium::Core::Template::Text::String<char16_t>;
+	using Utf32String = Elysium::Core::Template::Text::String<char32_t>;
 }
 #endif

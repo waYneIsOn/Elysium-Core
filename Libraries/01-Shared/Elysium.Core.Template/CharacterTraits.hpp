@@ -93,6 +93,14 @@ namespace Elysium::Core::Template::Text
 		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericLimits<I>::Maximum);
 	public:
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Destination"></param>
+		/// <param name="Source"></param>
+		/// <param name="Length"></param>
+		static void Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length);
+	public:
+		/// <summary>
 		/// Returns the number of characters in given string up until the first null-termination character.
 		/// </summary>
 		/// <param name="Start"></param>
@@ -194,6 +202,12 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<Concepts::Character C, Concepts::Integer I>
+	inline void CharacterTraitsBase<C, I>::Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length)
+	{
+		memcpy(Destination, Source, Length * CharacterTraits<C>::MinimumByteLength);
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetLength(ConstPointer Start) noexcept
 	{
 		if (Start == nullptr)
@@ -258,10 +272,10 @@ namespace Elysium::Core::Template::Text
 		ConstPointer LastCharacter = &Start[Length];
 		Pointer CurrentCharacter = (Pointer)Start;
 
-		ConstPointer LastSequenceCharacter = &Sequence[CharacterTraitsBase<C, I>::GetLength(Sequence) - 1];
+		ConstPointer LastSequenceCharacter = &Sequence[CharacterTraitsBase<C, I>::GetLength(Sequence)];
 		Pointer CurrentSequenceCharacter = (Pointer)Sequence;
 
-		Pointer MatchingCharacter = CurrentCharacter;
+		Pointer FirstMatchingCharacter = CurrentCharacter;
 		
 		while (CurrentCharacter < LastCharacter)
 		{
@@ -271,12 +285,24 @@ namespace Elysium::Core::Template::Text
 			{
 				return static_cast<Elysium::Core::Template::System::size>(-1);
 			}
+			FirstMatchingCharacter = CurrentCharacter;
 
-			MatchingCharacter = CurrentCharacter;
+			// another early cancel if the rest of the string isn't long enough to hold all sequence-characters
+			if (LastCharacter - CurrentCharacter < LastSequenceCharacter - CurrentSequenceCharacter)
+			{
+				return static_cast<Elysium::Core::Template::System::size>(-1);
+			}
 
 			// compare the following characters
-			while (++CurrentCharacter < LastCharacter && ++CurrentSequenceCharacter < LastSequenceCharacter)
+			while (CurrentCharacter < LastCharacter)
 			{
+				++CurrentCharacter;
+				++CurrentSequenceCharacter;
+				if (CurrentSequenceCharacter == LastSequenceCharacter)
+				{
+					break;
+				}
+
 				if (*CurrentCharacter != *CurrentSequenceCharacter)
 				{
 					CurrentSequenceCharacter = (Pointer)Sequence;
@@ -286,7 +312,7 @@ namespace Elysium::Core::Template::Text
 
 			if (CurrentSequenceCharacter == LastSequenceCharacter)
 			{
-				return LastCharacter - MatchingCharacter;
+				return FirstMatchingCharacter - Start;
 			}
 		}
 

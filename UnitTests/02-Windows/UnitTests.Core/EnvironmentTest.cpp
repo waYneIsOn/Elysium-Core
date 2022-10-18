@@ -17,7 +17,7 @@ namespace UnitTests::Core
 		TEST_METHOD(AssertableRuntimeValues)
 		{
 			const OperatingSystem OS = Environment::OSVersion();
-			const Elysium::Core::Utf8String& NewLine = Environment::NewLine();
+			const Elysium::Core::Utf8String& NewLine = Environment::NewLine;
 			const Elysium::Core::Utf8String SystemDirectory = Environment::SystemDirectory();
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

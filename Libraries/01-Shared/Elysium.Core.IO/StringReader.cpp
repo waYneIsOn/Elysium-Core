@@ -35,7 +35,7 @@ Elysium::Core::Utf8String Elysium::Core::IO::StringReader::ReadLine()
 		return Elysium::Core::Utf8String();
 	}
 
-	Elysium::Core::size IndexOfNewLine = _Input.IndexOf(&Elysium::Core::Environment::NewLine()[0], _Position);
+	Elysium::Core::size IndexOfNewLine = _Input.IndexOf(&Elysium::Core::Environment::NewLine[0], _Position);
 	if (IndexOfNewLine == -1)
 	{
 		Elysium::Core::size Position = _Position;
@@ -45,7 +45,7 @@ Elysium::Core::Utf8String Elysium::Core::IO::StringReader::ReadLine()
 	else
 	{
 		Elysium::Core::size Position = _Position;
-		_Position += IndexOfNewLine + Elysium::Core::Environment::NewLine().GetLength();
+		_Position += IndexOfNewLine + Elysium::Core::Environment::NewLine.GetLength();
 		return Elysium::Core::Utf8String(&_Input[Position], IndexOfNewLine);
 	}
 }

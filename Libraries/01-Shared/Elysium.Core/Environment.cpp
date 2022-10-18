@@ -67,11 +67,6 @@ const Elysium::Core::Utf8String Elysium::Core::Environment::MachineName()
 #endif
 }
 
-const Elysium::Core::Utf8String& Elysium::Core::Environment::NewLine()
-{
-	return _NewLine;
-}
-
 const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS

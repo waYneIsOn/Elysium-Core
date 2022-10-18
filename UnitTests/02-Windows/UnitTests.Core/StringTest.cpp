@@ -1,7 +1,9 @@
 #include "CppUnitTest.h"
 #include "CppUnitTestFrameworkExtension.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core/Environment.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -97,8 +99,6 @@ namespace UnitTests::Core
 			Assert::AreEqual((Elysium::Core::size)0, SomeString.IndexOf(u8'f', 3));
 			Assert::AreEqual((Elysium::Core::size)1, SomeString.IndexOf(u8'e', 5));
 
-			auto sdfsdf = SomeString.IndexOf(u8"di");
-
 			Assert::AreEqual((Elysium::Core::size)0, SomeString.IndexOf(u8"di"));
 			Assert::AreEqual((Elysium::Core::size)3, SomeString.IndexOf(u8"fe"));
 			Assert::AreEqual((Elysium::Core::size)7, SomeString.IndexOf(u8"nt"));
@@ -107,8 +107,12 @@ namespace UnitTests::Core
 		TEST_METHOD(Split)
 		{
 			Elysium::Core::Utf8String Source = Elysium::Core::Utf8String(u8"HTTP/1.1 200 OK\r\nDate: Fri, 29 Nov 2019 12:49:19 GMT\r\nContent-Type: text/html; charset=UTF-8\r\nTransfer-Encoding: chunked\r\nConnection: keep-alive\r\nSet-Cookie: __cfduid=d007dcacfb7e13f1ccff76110bae859eb1575031759; expires=Sun, 29-Dec-19 12:49:19 GMT; path=/; domain=.typicode.com; HttpOnly\r\nX-Powered-By: Express\r\nVary: Origin, Accept-Encoding\r\nAccess-Control-Allow-Credentials: true\r\nCache-Control: public, max-age=14400\r\nLast-Modified: Mon, 05 Aug 2019 03:07:14 GMT\r\nVia: 1.1 vegur\r\nCF-Cache-Status: HIT\r\nAge: 6201\r\nServer: cloudflare\r\nCF-RAY: 53d4b3737b75f3fb-LHR");
+			Elysium::Core::Utf8StringView SourceView = Source;
 
-			Elysium::Core::Template::Container::Vector<Elysium::Core::Utf8String> Lines = Source.Split(u8"\r\n");
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Utf8StringView> Lines = SourceView.Split(&Elysium::Core::Environment::NewLine[0]);
+
+			Elysium::Core::Utf8StringView l1 = Lines[1];
+			Elysium::Core::Utf8String s1 = l1.ToString();
 
 			Assert::AreEqual((Elysium::Core::size)16, Lines.GetLength());
 			Assert::AreEqual(u8'H', Lines[0][0]);

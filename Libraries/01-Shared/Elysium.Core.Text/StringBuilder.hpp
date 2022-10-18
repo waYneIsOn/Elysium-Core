@@ -30,16 +30,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Text
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilderBase<char>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilderBase<wchar_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilderBase<char8_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilderBase<char16_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilderBase<char32_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilder<char>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilder<wchar_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilder<char8_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilder<char16_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringBuilder<char32_t>;
 
-	using StringBuilder = Elysium::Core::Template::Text::StringBuilderBase<char>;
-	using WideStringBuilder = Elysium::Core::Template::Text::StringBuilderBase<wchar_t>;
-	using Utf8StringBuilder = Elysium::Core::Template::Text::StringBuilderBase<char8_t>;
-	using Utf16StringBuilder = Elysium::Core::Template::Text::StringBuilderBase<char16_t>;
-	using Utf32StringBuilder = Elysium::Core::Template::Text::StringBuilderBase<char32_t>;
+	using StringBuilder = Elysium::Core::Template::Text::StringBuilder<char>;
+	using WideStringBuilder = Elysium::Core::Template::Text::StringBuilder<wchar_t>;
+	using Utf8StringBuilder = Elysium::Core::Template::Text::StringBuilder<char8_t>;
+	using Utf16StringBuilder = Elysium::Core::Template::Text::StringBuilder<char16_t>;
+	using Utf32StringBuilder = Elysium::Core::Template::Text::StringBuilder<char32_t>;
 }
 #endif

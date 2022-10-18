@@ -18,7 +18,7 @@
 #endif
 
 Elysium::Core::IO::TextWriter::TextWriter()
-	: _NewLineCharacters(Environment::NewLine())
+	: _NewLineCharacters(Environment::NewLine)
 { }
 
 Elysium::Core::IO::TextWriter::~TextWriter()

@@ -60,7 +60,7 @@ namespace Elysium::Core::Template::Text
 		using ConstPointer = const C*;
 		using ConstReference = const C&;
 
-		using CorrespondingString = StringBase<C>;
+		using CorrespondingString = String<C>;
 	public:
 		Convert() = delete;
 
