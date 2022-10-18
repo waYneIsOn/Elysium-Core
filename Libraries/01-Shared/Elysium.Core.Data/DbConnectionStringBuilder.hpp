@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
-#include "../Elysium.Core.Template/HashTable.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
+#include "../Elysium.Core.Template/UnorderedMap.hpp"
 #endif
 
 namespace Elysium::Core::Data::Common
@@ -49,7 +49,7 @@ namespace Elysium::Core::Data::Common
 	public:
 		virtual void SetConnectionString(const Elysium::Core::Utf8String& ConnectionString);
 	protected:
-		Elysium::Core::Template::Container::HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String> _KeyValueMap;
+		Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, Elysium::Core::Utf8String> _KeyValueMap;
 	};
 }
 #endif

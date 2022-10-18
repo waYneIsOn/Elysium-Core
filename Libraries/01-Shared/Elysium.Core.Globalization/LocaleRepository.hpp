@@ -29,8 +29,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "LocaleInfo.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
-#include "../Elysium.Core.Template/HashTable.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
+#include "../Elysium.Core.Template/UnorderedMap.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE

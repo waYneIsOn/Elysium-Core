@@ -24,12 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Array.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_HASHTABLE
-#include "../Elysium.Core.Template/HashTable.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
+#include "../Elysium.Core.Template/UnorderedMap.hpp"
 #endif
 
 namespace Elysium::Core::Reflection

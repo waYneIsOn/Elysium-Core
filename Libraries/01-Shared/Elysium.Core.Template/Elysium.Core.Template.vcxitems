@@ -50,8 +50,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)HashTable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)HashTableForwardIterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMapForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvokeResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp" />

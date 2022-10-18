@@ -28,7 +28,7 @@ const Elysium::Core::Utf8String& Elysium::Core::Data::Common::DbConnectionString
 Elysium::Core::Utf8String Elysium::Core::Data::Common::DbConnectionStringBuilder::GetConnectionString()
 {
 	Text::Utf8StringBuilder ConnectionStringBuilder = Text::Utf8StringBuilder();
-	for (Elysium::Core::Template::Container::HashTable<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = _KeyValueMap.GetBegin(); Iterator != _KeyValueMap.GetEnd(); ++Iterator)
+	for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, Elysium::Core::Utf8String>::FIterator Iterator = _KeyValueMap.GetBegin(); Iterator != _KeyValueMap.GetEnd(); ++Iterator)
 	{
 		Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Utf8String, Elysium::Core::Utf8String> Item = (*Iterator)->GetItem();
 		const Elysium::Core::Utf8String& Key = Item.GetKey();

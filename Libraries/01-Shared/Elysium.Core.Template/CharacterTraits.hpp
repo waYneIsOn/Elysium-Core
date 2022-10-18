@@ -98,7 +98,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Destination"></param>
 		/// <param name="Source"></param>
 		/// <param name="Length"></param>
-		static void Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length);
+		static constexpr void Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length);
 	public:
 		/// <summary>
 		/// Returns the number of characters in given string up until the first null-termination character.
@@ -202,7 +202,7 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<Concepts::Character C, Concepts::Integer I>
-	inline void CharacterTraitsBase<C, I>::Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length)
+	inline constexpr void CharacterTraitsBase<C, I>::Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length)
 	{
 		memcpy(Destination, Source, Length * CharacterTraits<C>::MinimumByteLength);
 	}

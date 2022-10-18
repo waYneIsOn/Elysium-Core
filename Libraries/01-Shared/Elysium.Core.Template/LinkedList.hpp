@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ConstLinkedListForwardIterator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_HASHTABLEFORWARDITERATOR
-#include "HashTableForwardIterator.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_UNORDEREDMAPFORWARDITERATOR
+#include "UnorderedMapForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_LINKEDLISTFORWARDITERATOR
@@ -45,7 +45,7 @@ namespace Elysium::Core::Template::Container
 	class LinkedList final
 	{
 		friend class Iterator::LinkedListForwardIterator<LinkedList<T>>;
-		friend class Iterator::HashTableForwardIterator<LinkedList<T>>;
+		friend class Iterator::UnorderedMapForwardIterator<LinkedList<T>>;
 	public:
 		using ConstReference = const T&;
 		using RValueReference = T&&;

@@ -259,7 +259,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HashTable.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp">
@@ -278,7 +278,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HashTableForwardIterator.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMapForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp">
