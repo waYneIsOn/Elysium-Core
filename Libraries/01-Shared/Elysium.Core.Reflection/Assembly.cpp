@@ -54,9 +54,9 @@ const Elysium::Core::Utf8String& Elysium::Core::Reflection::Assembly::GetFullNam
 	return _AssemblyName.GetName();
 }
 
-const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> Elysium::Core::Reflection::Assembly::GetModules() const
+const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Module*> Elysium::Core::Reflection::Assembly::GetModules() const
 {
-	return Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*>(_Modules);
+	return _Modules;
 }
 
 void Elysium::Core::Reflection::Assembly::Add(Elysium::Core::Reflection::Module& Module)

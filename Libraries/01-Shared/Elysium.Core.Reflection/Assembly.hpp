@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLYNAME
 #include "AssemblyName.hpp"
 #endif
@@ -66,7 +62,7 @@ namespace Elysium::Core::Reflection
 	public:
 		const Elysium::Core::Utf8String& GetFullName() const;
 	public:
-		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Module*> GetModules() const;
+		const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Module*> GetModules() const;
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;
 

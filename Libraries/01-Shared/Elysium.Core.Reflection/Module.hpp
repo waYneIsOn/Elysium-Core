@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
@@ -59,7 +55,7 @@ namespace Elysium::Core::Reflection
 
 		const Elysium::Core::Utf8String& GetName() const;
 
-		const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*> GetTypes() const;
+		const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Type*> GetTypes() const;
 	public:
 		const Elysium::Core::size GetHashCode() const;
 	private:

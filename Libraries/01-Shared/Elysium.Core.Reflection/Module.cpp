@@ -34,9 +34,9 @@ const Elysium::Core::Utf8String& Elysium::Core::Reflection::Module::GetName() co
 	return _Name;
 }
 
-const Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*> Elysium::Core::Reflection::Module::GetTypes() const
+const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Type*> Elysium::Core::Reflection::Module::GetTypes() const
 {
-	return Elysium::Core::Collections::Template::Array<const Elysium::Core::Reflection::Type*>(_Types);
+	return _Types;
 }
 
 const Elysium::Core::size Elysium::Core::Reflection::Module::GetHashCode() const
