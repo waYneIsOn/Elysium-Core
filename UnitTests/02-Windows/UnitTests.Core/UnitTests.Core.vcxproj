@@ -190,6 +190,9 @@
     <ClCompile Include="UriTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxproj">
+      <Project>{d4f510ca-0532-4c90-811b-752b92393b68}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Json\Elysium.Core.Json.vcxproj">
       <Project>{1ae389e0-479e-43d0-9299-77821b53db54}</Project>
     </ProjectReference>
