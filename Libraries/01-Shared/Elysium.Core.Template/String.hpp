@@ -159,7 +159,7 @@ namespace Elysium::Core::Template::Text
 
 		//String<C, Allocator>::ConstCharPointer ToCharArray() const;
 	private:
-		void constexpr InitializeHeapString(ConstCharacterPointer Value, const System::size Length);
+		void constexpr InitializeHeapString(ConstCharacterPointer Value, const System::size Size);
 
 		void constexpr InitializeStackString(ConstCharacterPointer Value, const System::size Size);
 		
@@ -251,7 +251,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
 		{
-			InitializeHeapString(Value, Length);
+			InitializeHeapString(Value, Size);
 		}
 		else
 		{
@@ -464,7 +464,7 @@ namespace Elysium::Core::Template::Text
 			}
 		}
 
-		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(CharacterPointer)&_InternalString._Stack._Data[Index];
+		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(CharacterPointer)&_InternalString._Stack._Data[Index * sizeof(C)];
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -478,7 +478,7 @@ namespace Elysium::Core::Template::Text
 			//throw IndexOutOfRangeException();
 		}
 
-		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(ConstCharacterPointer)&_InternalString._Stack._Data[Index];
+		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(ConstCharacterPointer)&_InternalString._Stack._Data[Index * sizeof(C)];
 	}
 	
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -872,15 +872,15 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline constexpr void String<C, Traits, Allocator>::InitializeHeapString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
+	inline constexpr void String<C, Traits, Allocator>::InitializeHeapString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Size)
 	{
-		const Elysium::Core::Template::System::size LengthIncludingNullTerminationCharacter = Length + 1;
+		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + sizeof(C);
 
-		_InternalString._Heap._Data = _Allocator.Allocate(LengthIncludingNullTerminationCharacter);
-		memcpy(&_InternalString._Heap._Data[0], Value, LengthIncludingNullTerminationCharacter);
+		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
+		memcpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminator);
 
-		_InternalString._Heap._Size = Length;
-		_InternalString._Heap.SetCapacity(Length);
+		_InternalString._Heap._Size = Size;
+		_InternalString._Heap.SetCapacity(Size);
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
