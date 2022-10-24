@@ -50,6 +50,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMapForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />
@@ -121,7 +122,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimePoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UniquePointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnsignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Value.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp" />

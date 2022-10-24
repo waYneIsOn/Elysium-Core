@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Convert.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_ENCODING
+#include "Encoding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
 #include "String.hpp"
 #endif

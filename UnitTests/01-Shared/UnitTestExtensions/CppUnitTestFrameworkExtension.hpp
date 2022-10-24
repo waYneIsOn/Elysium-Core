@@ -1,7 +1,9 @@
-#pragma once
-
 #ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #define MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
+
+#ifdef _MSC_VER
+#pragma once
+#endif
 
 #ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT
 #include <CppUnitTestAssert.h>
@@ -32,14 +34,55 @@ namespace Microsoft
 			class AssertExtended
 			{
 			public:
+				static void AreEqual(const Elysium::Core::String& Expected, const Elysium::Core::String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
+				{
+					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
+
+					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
+					{
+						Assert::AreEqual(Expected[i], Actual[i]);
+					}
+				}
+
+				static void AreEqual(const Elysium::Core::WideString& Expected, const Elysium::Core::WideString& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
+				{
+					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
+
+					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
+					{
+						Assert::AreEqual(Expected[i], Actual[i]);
+					}
+				}
+
 				static void AreEqual(const Elysium::Core::Utf8String& Expected, const Elysium::Core::Utf8String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
 				{
 					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
-					
+
 					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
-						//Assert::IsTrue(static_cast<int32_t>(Expected[i]) == static_cast<int32_t>(Actual[i]));
 						Assert::AreEqual(Expected[i], Actual[i]);
+					}
+				}
+
+				static void AreEqual(const Elysium::Core::Utf16String& Expected, const Elysium::Core::Utf16String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
+				{
+					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
+
+					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
+					{
+						Assert::IsTrue(static_cast<uint16_t>(Expected[i]) == static_cast<uint16_t>(Actual[i]));
+						//Assert::AreEqual(Expected[i], Actual[i]);
+					}
+				}
+
+				static void AreEqual(const Elysium::Core::Utf32String& Expected, const Elysium::Core::Utf32String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
+				{
+					//Assert::AreEqual(Expected.GetLength(), Actual.GetLength());
+
+					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
+					{
+						Assert::IsTrue(static_cast<uint32_t>(Expected[i]) == static_cast<uint32_t>(Actual[i]));
+						//Assert::AreEqual(Expected[i], Actual[i]);
 					}
 				}
 

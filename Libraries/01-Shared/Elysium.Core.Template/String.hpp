@@ -464,7 +464,7 @@ namespace Elysium::Core::Template::Text
 			}
 		}
 
-		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(CharacterPointer)&_InternalString._Stack._Data[Index * sizeof(C)];
+		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(CharacterPointer)&_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -478,7 +478,7 @@ namespace Elysium::Core::Template::Text
 			//throw IndexOutOfRangeException();
 		}
 
-		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(ConstCharacterPointer)&_InternalString._Stack._Data[Index * sizeof(C)];
+		return HeapAllocated ? _InternalString._Heap._Data[Index] : *(ConstCharacterPointer)&_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
 	}
 	
 	template<Concepts::Character C, class Traits, class Allocator>

@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
-#include "Integer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
+#include "UnsignedInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
@@ -34,6 +34,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
 #include "Literals.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERCATEGORY
@@ -45,7 +49,7 @@ namespace Elysium::Core::Template::Text
 	/// <summary>
 	/// 
 	/// </summary>
-	template <Concepts::Character C, Concepts::Integer I>
+	template <Concepts::Character C, Concepts::UnsignedInteger I>
 	struct CharacterTraitsBase
 	{
 	public:
@@ -93,12 +97,101 @@ namespace Elysium::Core::Template::Text
 		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericLimits<I>::Maximum);
 	public:
 		/// <summary>
+		/// Indicates whether a character is categorized as an ASCII character ([ U+0000..U+007F ]).
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsAscii(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Indicates whether a character is categorized as a control character.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsControl(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Indicates whether a character is categorized as a decimal digit.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsDigit(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsHighAscii(ConstValue Value) noexcept;
+		/*
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsLetter(ConstValue Value) noexcept;
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsLetterOrDigit(ConstValue Value) noexcept;
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsLower(ConstValue Value) noexcept;
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsNumber(ConstValue Value) noexcept;
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsUpper(ConstValue Value) noexcept;
+
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsWhiteSpace(ConstValue Value) noexcept;
+		*/
+	public:
+		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Destination"></param>
 		/// <param name="Source"></param>
 		/// <param name="Length"></param>
 		static constexpr void Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length);
+	public:
+		/// <summary>
+		/// Returns 0 if both strings match each other, a negative value if ... or a positive value otherwise.
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="OtherStart"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		static constexpr const System::int32_t Compare(ConstPointer Start, ConstPointer OtherStart, const System::size Length) noexcept;
+
+		/// <summary>
+		/// Returns a pointer to the first character matching given value found within given string or nullptr if there was no match.
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr CharacterTraitsBase<C, I>::Pointer Find(ConstPointer Start, const System::size Length, ConstValue Value) noexcept;
 	public:
 		/// <summary>
 		/// Returns the number of characters in given string up until the first null-termination character.
@@ -113,7 +206,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Start"></param>
 		/// <returns></returns>
 		static constexpr const System::size GetSize(ConstPointer Start) noexcept;
-
+	public:
 		/// <summary>
 		/// Returns whether given string is nullptr or not.
 		/// </summary>
@@ -134,7 +227,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Start"></param>
 		/// <returns></returns>
 		static constexpr const bool IsNullOrEmpty(ConstPointer Start) noexcept;
-
+	public:
 		/// <summary>
 		/// Returns index of looked up value within given string and length if there's a match or -1 otherwise.
 		/// </summary>
@@ -181,33 +274,151 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Sequence"></param>
 		/// <returns></returns>
 		static constexpr const System::size LastIndexOf(ConstPointer Start, const System::size Length, ConstPointer Sequence) noexcept;
-
-		/// <summary>
-		/// Returns 0 if both strings match each other, a negative value if ... or a positive value otherwise.
-		/// </summary>
-		/// <param name="Start"></param>
-		/// <param name="OtherStart"></param>
-		/// <param name="Length"></param>
-		/// <returns></returns>
-		static constexpr const System::int32_t Compare(ConstPointer Start, ConstPointer OtherStart, const System::size Length) noexcept;
-
-		/// <summary>
-		/// Returns a pointer to the first character matching given value found within given string or nullptr if there was no match.
-		/// </summary>
-		/// <param name="Start"></param>
-		/// <param name="Length"></param>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr CharacterTraitsBase<C, I>::Pointer Find(ConstPointer Start, const System::size Length, ConstValue Value) noexcept;
 	};
+	
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAscii(ConstValue Value) noexcept
+	{
+		return static_cast<ConstInteger>(Value) < 0x80;
+	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char, unsigned char>::IsControl(ConstValue Value) noexcept
+	{
+		return static_cast<ConstInteger>(Value) < 0x20 || static_cast<ConstInteger>(Value) == 0x7F;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsControl(ConstValue Value) noexcept
+	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
+		return static_cast<ConstInteger>(Value) < 0x20 || (static_cast<ConstInteger>(Value) > 0x7E && static_cast<ConstInteger>(Value) < 0xA0);
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsDigit(ConstValue Value) noexcept
+	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
+		return static_cast<ConstInteger>(Value) > 0x2F && static_cast<ConstInteger>(Value) < 0x3A;	// Radix-10 digits
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char, unsigned char>::IsHighAscii(ConstValue Value) noexcept
+	{
+		return Value >> 7 != 0x00;	// 1-xxx xxxx (128 - 255)
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char8_t, unsigned char>::IsHighAscii(ConstValue Value) noexcept
+	{
+		return Value >> 7 != 0x00;	// 1-xxx xxxx (128 - 255)
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char16_t, unsigned short>::IsHighAscii(ConstValue Value) noexcept
+	{	// ToDo:
+		return false;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char32_t, unsigned int>::IsHighAscii(ConstValue Value) noexcept
+	{	// ToDo:
+		return false;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<wchar_t, unsigned short>::IsHighAscii(ConstValue Value) noexcept
+	{	// ToDo:
+		return false;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsHighAscii(ConstValue Value) noexcept
+	{
+		return false;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr void CharacterTraitsBase<C, I>::Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length)
 	{
 		memcpy(Destination, Source, Length * CharacterTraits<C>::MinimumByteLength);
 	}
+	
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const Elysium::Core::Template::System::int32_t CharacterTraitsBase<C, I>::Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::Template::System::size Length) noexcept
+	{
+		return __builtin_memcmp(Start, OtherStart, Length);
+	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template <>
+	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
+			}
+			Start++;
+		}
+
+		return nullptr;
+	}
+
+	template <>
+	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
+			}
+			Start++;
+		}
+
+		return nullptr;
+	}
+
+	template <>
+	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
+			}
+			Start++;
+		}
+
+		return nullptr;
+	}
+
+	template <>
+	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	{
+		ConstPointer LastCharacter = &Start[Length];
+		while (Start < LastCharacter)
+		{
+			if (*Start == Value)
+			{
+				return (Pointer)Start;
+			}
+			Start++;
+		}
+
+		return nullptr;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr CharacterTraitsBase<C, I>::Pointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	{
+		return __builtin_char_memchr(Start, Value, Length);
+	}
+	
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetLength(ConstPointer Start) noexcept
 	{
 		if (Start == nullptr)
@@ -225,31 +436,31 @@ namespace Elysium::Core::Template::Text
 		return Length;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetSize(ConstPointer Start) noexcept
 	{
 		return GetLength(Start) * MinimumByteLength;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsNull(ConstPointer Start) noexcept
 	{
 		return Start == nullptr;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsEmpty(ConstPointer Start) noexcept
 	{
 		return Start == nullptr ? false : *Start == NullTerminationCharacter;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsNullOrEmpty(ConstPointer Start) noexcept
 	{
 		return Start == nullptr ? true : *Start == NullTerminationCharacter;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		if (Start == nullptr || Length == 0)
@@ -261,7 +472,7 @@ namespace Elysium::Core::Template::Text
 		return CharacterPointer == nullptr ? static_cast<Elysium::Core::Template::System::size>(-1) : CharacterPointer - Start;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		if (Start == nullptr || Length == 0 || Sequence == nullptr)
@@ -319,7 +530,7 @@ namespace Elysium::Core::Template::Text
 		return static_cast<Elysium::Core::Template::System::size>(-1);
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const System::size CharacterTraitsBase<C, I>::IndexOfAny(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence, const Elysium::Core::Template::System::size SequenceLength) noexcept
 	{
 		if (Start == nullptr || Length == 0 || Sequence == nullptr || SequenceLength == 0)
@@ -350,7 +561,7 @@ namespace Elysium::Core::Template::Text
 		return static_cast<Elysium::Core::Template::System::size>(-1);
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		Pointer CharacterPointer = nullptr;
@@ -365,86 +576,10 @@ namespace Elysium::Core::Template::Text
 		return CharacterPointer == nullptr ? static_cast<Elysium::Core::Template::System::size>(-1) : CharacterPointer - Start;
 	}
 
-	template<Concepts::Character C, Concepts::Integer I>
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		return -1;
-	}
-
-	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr const Elysium::Core::Template::System::int32_t CharacterTraitsBase<C, I>::Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::Template::System::size Length) noexcept
-	{
-		return __builtin_memcmp(Start, OtherStart, Length);
-	}
-
-	template<Concepts::Character C, Concepts::Integer I>
-	inline constexpr CharacterTraitsBase<C, I>::Pointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
-	{
-		return __builtin_char_memchr(Start, Value, Length);
-	}
-
-	template <>
-	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
-	{
-		ConstPointer LastCharacter = &Start[Length];
-		while (Start < LastCharacter)
-		{
-			if (*Start == Value)
-			{
-				return (Pointer)Start;
-			}
-			Start++;
-		}
-
-		return nullptr;
-	}
-
-	template <>
-	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
-	{
-		ConstPointer LastCharacter = &Start[Length];
-		while (Start < LastCharacter)
-		{
-			if (*Start == Value)
-			{
-				return (Pointer)Start;
-			}
-			Start++;
-		}
-
-		return nullptr;
-	}
-
-	template <>
-	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
-	{
-		ConstPointer LastCharacter = &Start[Length];
-		while (Start < LastCharacter)
-		{
-			if (*Start == Value)
-			{
-				return (Pointer)Start;
-			}
-			Start++;
-		}
-
-		return nullptr;
-	}
-
-	template <>
-	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
-	{
-		ConstPointer LastCharacter = &Start[Length];
-		while (Start < LastCharacter)
-		{
-			if (*Start == Value)
-			{
-				return (Pointer)Start;
-			}
-			Start++;
-		}
-
-		return nullptr;
 	}
 
 	/// <summary>
@@ -459,7 +594,7 @@ namespace Elysium::Core::Template::Text
 	/// https://www.asciitable.com/
 	/// </summary>
 	template <>
-	struct CharacterTraits<char> : public CharacterTraitsBase<char, signed char>
+	struct CharacterTraits<char> : public CharacterTraitsBase<char, unsigned char>
 	{
 	public:
 		/// <summary>
@@ -484,20 +619,6 @@ namespace Elysium::Core::Template::Text
 		//static constexpr const CharacterCategory GetCategory(ConstCharacter Value) noexcept;
 
 		//static constexpr unsigned int ConvertToUtf32(ConstCharacter Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a radix-10 digit-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsDigit(ConstValue Value) noexcept;
 
 		/// <summary>
 		/// Indicates whether given value is categorized as a letter-character.
@@ -545,7 +666,7 @@ namespace Elysium::Core::Template::Text
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const bool IsWhitespace(ConstValue Value) noexcept;
+		static constexpr const bool IsWhiteSpace(ConstValue Value) noexcept;
 
 		//static constexpr C ToLower(ConstValue Value) noexcept;
 		
@@ -554,31 +675,7 @@ namespace Elysium::Core::Template::Text
 		//static constexpr C ToUpper(ConstValue Value) noexcept;
 		
 		//static constexpr C ToUpperInvariant(ConstValue Value) noexcept;
-	private:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsAscii(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsHighAscii(ConstValue Value) noexcept;
 	};
-
-	inline constexpr const bool CharacterTraits<char>::IsControl(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return (Value >= 0x00 && Value < 0x20) || Value == 0x7F;
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsDigit(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
-	}
 
 	inline constexpr const bool CharacterTraits<char>::IsLetter(CharacterTraits<char>::ConstValue Value) noexcept
 	{
@@ -605,315 +702,9 @@ namespace Elysium::Core::Template::Text
 		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
 	}
 
-	inline constexpr const bool CharacterTraits<char>::IsWhitespace(CharacterTraits<char>::ConstValue Value) noexcept
+	inline constexpr const bool CharacterTraits<char>::IsWhiteSpace(CharacterTraits<char>::ConstValue Value) noexcept
 	{
 		return Value == 0x20;
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsAscii(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return (Value >= 0x00 && Value < 0x80);	// 0 - 127
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsHighAscii(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return Value < 0x00;	// -128 - -1
-	}
-
-	/// <summary>
-	/// 
-	/// https://www.asciitable.com/
-	/// </summary>
-	template <>
-	struct CharacterTraits<signed char> : public CharacterTraitsBase<signed char, signed char>
-	{
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		inline static ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			"\r\n"_sc;
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			"\n"_sc;
-#elif defined ELYSIUM_CORE_OS_MAC
-			"\r"_sc;
-#else
-#error "unsupported os"
-#endif
-		
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = sizeof(signed char);
-	public:
-		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a radix-10 digit-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsDigit(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a letter-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetter(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetterOrDigit(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLower(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a number-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsNumber(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsUpper(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsWhitespace(ConstValue Value) noexcept;
-	private:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsAscii(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsHighAscii(ConstValue Value) noexcept;
-	};
-
-	inline constexpr const bool CharacterTraits<signed char>::IsControl(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return (Value >= 0x00 && Value < 0x20) || Value == 0x7F;
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsDigit(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsLetter(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return IsLower(Value) || IsUpper(Value);
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsLetterOrDigit(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return IsDigit(Value) || IsLetter(Value);
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsLower(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x60 && Value < 0x7B);	// Latin small (lower case) letters
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsNumber(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsUpper(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsWhitespace(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return Value == 0x20;
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsAscii(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return (Value >= 0x00 && Value < 0x80);	// 0 - 127
-	}
-
-	inline constexpr const bool CharacterTraits<signed char>::IsHighAscii(CharacterTraits<signed char>::ConstValue Value) noexcept
-	{
-		return Value < 0x00;	// -128 - -1
-	}
-
-	/// <summary>
-	/// 
-	/// https://www.asciitable.com/
-	/// </summary>
-	template <>
-	struct CharacterTraits<unsigned char> : public CharacterTraitsBase<unsigned char, unsigned char>
-	{
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		inline static ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			"\r\n"_uc;
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			"\n"_uc;
-#elif defined ELYSIUM_CORE_OS_MAC
-			"\r"_uc;
-#else
-#error "unsupported os"
-#endif
-		
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = sizeof(unsigned char);
-	public:
-		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a radix-10 digit-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsDigit(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a letter-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetter(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetterOrDigit(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLower(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a number-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsNumber(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsUpper(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsWhitespace(ConstValue Value) noexcept;
-	private:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsAscii(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsHighAscii(ConstValue Value) noexcept;
-	};
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsControl(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsDigit(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsLetter(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return IsLower(Value) || IsUpper(Value);
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsLetterOrDigit(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return IsDigit(Value) || IsLetter(Value);
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsLower(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x60 && Value < 0x7B);	// Latin small (lower case) letters
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsNumber(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsUpper(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsWhitespace(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return Value == 0x20;
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsAscii(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return Value < 0x80;	// 0 - 127
-	}
-
-	inline constexpr const bool CharacterTraits<unsigned char>::IsHighAscii(CharacterTraits<unsigned char>::ConstValue Value) noexcept
-	{
-		return Value > 0x7F;	// 128 - 255
 	}
 
 	/// <summary>
@@ -942,22 +733,10 @@ namespace Elysium::Core::Template::Text
 		/// </summary>
 		static constexpr const System::size MaximumByteLength = 4;
 	public:
-		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-		
 		//static constexpr const bool IsHighSurrogate(ConstValue Value) noexcept;
 
 		//static constexpr const bool IsLowSurrogate(ConstValue Value) noexcept;
 	};
-
-	inline constexpr const bool CharacterTraits<wchar_t>::IsControl(CharacterTraits<wchar_t>::ConstValue Value) noexcept
-	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
-		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
-	}
 
 	/// <summary>
 	/// 
@@ -986,13 +765,6 @@ namespace Elysium::Core::Template::Text
 		static constexpr const System::size MaximumByteLength = 4;
 	public:
 		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-
-		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Value"></param>
@@ -1005,19 +777,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsTrailByte(ConstValue Value) noexcept;
-	private:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsAscii(ConstValue Value) noexcept;
 	};
-
-	inline constexpr const bool CharacterTraits<char8_t>::IsControl(ConstValue Value) noexcept
-	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
-		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
-	}
 
 	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(CharacterTraits<char8_t>::ConstValue Value) noexcept
 	{	// In UTF-8 a leading byte will always look like this: 0xxx xxxx, 110x xxxx, 1110 xxxx or 1111 0xxx
@@ -1049,11 +809,6 @@ namespace Elysium::Core::Template::Text
 		return (Value & 0x80) == 0x80;
 	}
 
-	inline constexpr const bool CharacterTraits<char8_t>::IsAscii(CharacterTraits<char8_t>::ConstValue Value) noexcept
-	{
-		return Value < 0x80;	// 0 - 127 (utf-8 is ascii compliant regarding these values)
-	}
-
 	/// <summary>
 	/// 
 	/// </summary>
@@ -1080,22 +835,10 @@ namespace Elysium::Core::Template::Text
 		/// </summary>
 		static constexpr const System::size MaximumByteLength = 4;
 		
-		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-		
 		//static constexpr const bool IsHighSurrogate(ConstValue Value) noexcept;
 
 		//static constexpr const bool IsLowSurrogate(ConstValue Value) noexcept;
 	};
-
-	inline constexpr const bool CharacterTraits<char16_t>::IsControl(CharacterTraits<char16_t>::ConstValue Value) noexcept
-	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
-		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
-	}
 
 	/// <summary>
 	/// 
@@ -1124,20 +867,6 @@ namespace Elysium::Core::Template::Text
 		static constexpr const System::size MaximumByteLength = sizeof(char32_t);
 	public:
 		/// <summary>
-		/// Indicates whether given value is categorized as a control-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsControl(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a radix-10 digit-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsDigit(ConstValue Value) noexcept;
-
-		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Value"></param>
@@ -1150,25 +879,8 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsNumber(ConstValue Value) noexcept;
-	private:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsAscii(ConstValue Value) noexcept;
 	};
 
-	inline constexpr const bool CharacterTraits<char32_t>::IsControl(CharacterTraits<char32_t>::ConstValue Value) noexcept
-	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
-		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
-	}
-
-	inline constexpr const bool CharacterTraits<char32_t>::IsDigit(CharacterTraits<char32_t>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);	// Radix-10 digits
-	}
-	
 	inline constexpr const bool CharacterTraits<char32_t>::IsLetter(CharacterTraits<char32_t>::ConstValue Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/LC/list.htm
 		// https://www.fileformat.info/info/unicode/category/Ll/list.htm
@@ -1243,11 +955,6 @@ namespace Elysium::Core::Template::Text
 			(Value > 0x01E2EF && Value < 0x01E2FA) ||	// Wancho digits
 			(Value > 0x01E94F && Value < 0x01E95A) ||	// Adlam digits
 			(Value > 0x01FBEF && Value < 0x1FBFA);		// Segmented digits
-	}
-
-	inline constexpr const bool CharacterTraits<char32_t>::IsAscii(CharacterTraits<char32_t>::ConstValue Value) noexcept
-	{
-		return Value < 0x80;	// 0 - 127 (utf-32 is ascii compliant regarding these values)
 	}
 }
 #endif
