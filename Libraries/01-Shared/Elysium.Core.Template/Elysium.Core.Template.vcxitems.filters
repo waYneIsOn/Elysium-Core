@@ -183,9 +183,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp">
-      <Filter>Numeric</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -197,9 +194,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp">
       <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterCategory.hpp">
-      <Filter>Text</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
       <Filter>Memory</Filter>

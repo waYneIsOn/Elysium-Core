@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "UnsignedInteger.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
-#include "NumericLimits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
+#include "NumericTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
@@ -38,10 +38,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "OperatingSystem.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERCATEGORY
-#include "CharacterCategory.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text
@@ -89,33 +85,47 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the smallest possible value as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MinimumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericLimits<I>::Minimum);
+		static constexpr ConstValue MinimumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Minimum);
 
 		/// <summary>
 		/// Returns the largest possible value as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericLimits<I>::Maximum);
+		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Maximum);
 	public:
 		/// <summary>
-		/// Indicates whether a character is categorized as an ASCII character ([ U+0000..U+007F ]).
+		/// Returns the unicode code point representation.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const char32_t ConvertToUtf32(ConstPointer Value) noexcept;
+
+		/// <summary>
+		/// Determines whether a character is categorized as an ASCII character ([ U+0000..U+007F ]).
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsAscii(ConstValue Value) noexcept;
 
 		/// <summary>
-		/// Indicates whether a character is categorized as a control character.
+		/// Determines whether a character is categorized as a control character.
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsControl(ConstValue Value) noexcept;
 
 		/// <summary>
-		/// Indicates whether a character is categorized as a decimal digit.
+		/// Determines whether a character is categorized as a decimal digit. (radix-10 digits: 0 - 9)
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsDigit(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsLetter(ConstValue Value) noexcept;
 
 		/// <summary>
 		/// 
@@ -275,7 +285,375 @@ namespace Elysium::Core::Template::Text
 		/// <returns></returns>
 		static constexpr const System::size LastIndexOf(ConstPointer Start, const System::size Length, ConstPointer Sequence) noexcept;
 	};
+
+	/// <summary>
+	/// 
+	/// </summary>
+	template <Concepts::Character C>
+	struct CharacterTraits
+	{ };
+
+	/// <summary>
+	/// https://en.wikipedia.org/wiki/ANSI_character_set
+	/// https://en.wikipedia.org/wiki/ASCII
+	/// https://en.wikipedia.org/wiki/Extended_ASCII
+	/// https://en.wikipedia.org/wiki/ANSEL
+	/// https://en.wikipedia.org/wiki/ISO/IEC_8859
+	/// 
+	/// https://www.asciitable.com/
+	/// </summary>
+	template <>
+	struct CharacterTraits<char> : public CharacterTraitsBase<char, System::uint8_t>
+	{
+	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
+		/// Returns the maximum number of bytes which can represent a single character.
+		/// </summary>
+		static constexpr const System::size MaximumByteLength = sizeof(char);
+	};
+
+	/// <summary>
+	/// https://en.wikipedia.org/wiki/UTF-8
+	/// </summary>
+	template <>
+	struct CharacterTraits<char8_t> : public CharacterTraitsBase<char8_t, System::uint8_t>
+	{
+	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			u8"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			u8"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			u8"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
+		/// Returns the maximum number of bytes which can represent a single character.
+		/// </summary>
+		static constexpr const System::size MaximumByteLength = 4;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const System::byte LeadByteShift = 0x07;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const System::byte LeadByteMask2 = 0xC0;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const System::byte LeadByteMask3 = 0xE0;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const System::byte LeadByteMask4 = 0xF0;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const System::byte TrailByteBitMask = 0x80;
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsLeadByte(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsTrailByte(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Returns the number of bytes used to represent a single character or -1 for a trail-byte which makes the evaluation impossible.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr System::uint8_t GetByteCount(ConstValue Value) noexcept;
+	};
+
+	/// <summary>
+	/// https://en.wikipedia.org/wiki/UTF-16
+	/// </summary>
+	template <>
+	struct CharacterTraits<char16_t> : public CharacterTraitsBase<char16_t, System::uint16_t>
+	{
+	private:
+		/// <summary>
+		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_high_surrogate
+		/// </summary>
+		static constexpr const char16_t HighSurrogateLimits[2] = { 0xD800, 0xDBFF };
+
+		/// <summary>
+		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_low_surrogate
+		/// </summary>
+		static constexpr const char16_t LowSurrogateLimits[2] = { 0xDC00, 0xDFFF };
+	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			u"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			u"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			u"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
+		/// Returns the maximum number of bytes which can represent a single character.
+		/// </summary>
+		static constexpr const System::size MaximumByteLength = 4;
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const bool IsHighSurrogate(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const bool IsLowSurrogate(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="First"></param>
+		/// <param name="Second"></param>
+		/// <returns></returns>
+		static constexpr const bool IsSurrogatePair(ConstValue First, ConstValue Second) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr System::uint8_t GetByteCount(ConstValue Value) noexcept;
+	};
+
+	/// <summary>
+	/// https://en.wikipedia.org/wiki/UTF-32
+	/// </summary>
+	template <>
+	struct CharacterTraits<char32_t> : public CharacterTraitsBase<char32_t, System::uint32_t>
+	{
+	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			U"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			U"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			U"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
+		/// Returns the maximum number of bytes which can represent a single character.
+		/// </summary>
+		static constexpr const System::size MaximumByteLength = sizeof(System::uint32_t);
+	};
 	
+	/// <summary>
+	/// https://en.wikipedia.org/wiki/UTF-16
+	/// </summary>
+	template <>
+	struct CharacterTraits<wchar_t> : public CharacterTraitsBase<wchar_t, System::uint16_t>
+	{
+	private:
+		/// <summary>
+		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_high_surrogate
+		/// </summary>
+		static constexpr const wchar_t HighSurrogateLimits[2] = { 0xD800, 0xDBFF };
+
+		/// <summary>
+		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_low_surrogate
+		/// </summary>
+		static constexpr const wchar_t LowSurrogateLimits[2] = { 0xDC00, 0xDFFF };
+	public:
+		/// <summary>
+		/// Returns newline as specified character-type depending on the operating system.
+		/// </summary>
+		static constexpr ConstPointer NewLineCharacters =
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			L"\r\n";
+#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+			L"\n";
+#elif defined ELYSIUM_CORE_OS_MAC
+			L"\r";
+#else
+#error "unsupported os"
+#endif
+
+		/// <summary>
+		/// Returns the maximum number of bytes which can represent a single character.
+		/// </summary>
+		static constexpr const System::size MaximumByteLength = 4;
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const bool IsHighSurrogate(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr const bool IsLowSurrogate(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="First"></param>
+		/// <param name="Second"></param>
+		/// <returns></returns>
+		static constexpr const bool IsSurrogatePair(ConstValue First, ConstValue Second) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr System::uint8_t GetByteCount(ConstValue Value) noexcept;
+	};
+
+	template<>
+	inline constexpr const char32_t CharacterTraitsBase<char, System::uint8_t>::ConvertToUtf32(ConstPointer Value) noexcept
+	{
+		return static_cast<char32_t>(*Value);
+	}
+
+	template<>
+	inline constexpr const char32_t CharacterTraitsBase<char8_t, System::uint8_t>::ConvertToUtf32(ConstPointer Value) noexcept
+	{
+		switch (CharacterTraits<char8_t>::GetByteCount(*Value))
+		{
+		case 1:		// 0xxx xxxx										->	0xxx xxxx
+			return static_cast<char32_t>(Value[0]);
+		case 2:		// 110y yyyy	10xx xxxx							->	0000 0yyy	yyxx xxxx
+			return char32_t(((Value[0] & 0x1F) << 6) | (Value[1] & 0x3F));
+		case 3:		// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
+			return char32_t(((Value[0] & 0x0F) << 12) | ((Value[1] & 0x3F) << 6) | (Value[3] & 0x3F));
+		case 4:		// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
+			return char32_t(((Value[0] & 0x07) << 18) | ((Value[1] & 0x3F) << 12) | ((Value[2] & 0x3F) << 6) | (Value[3] & 0x3F));
+		default:	// 10xx xxxx (trail byte. determination not possible)
+			return static_cast<char32_t>(-1);
+		}
+		/*
+		if (CharacterTraits<char8_t>::IsTrailByte(*Value))
+		{
+			return static_cast<System::uint32_t>(-1);
+		}
+		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 1)
+		{	// 0xxx xxxx										->	0xxx xxxx
+			return static_cast<System::uint32_t>(Value[0]);
+		}
+		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 2)
+		{	// 110y yyyy	10xx xxxx							->	0000 0yyy	yyxx xxxx
+			return System::uint32_t(((Value[0] & 0x1F) << 6) | (Value[1] & 0x3F));
+		}
+		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 3)
+		{	// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
+			return System::uint32_t(((Value[0] & 0x0F) << 12) | ((Value[1] & 0x3F) << 6) | (Value[3] & 0x3F));
+		}
+		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 4)
+		{	// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
+			return System::uint32_t(((Value[0] & 0x07) << 18) | ((Value[1] & 0x3F) << 12) | ((Value[2] & 0x3F) << 6) | (Value[3] & 0x3F));
+		}
+		else
+		{
+			return static_cast<System::uint32_t>(-1);
+		}
+		*/
+	}
+
+	template<>
+	inline constexpr const char32_t CharacterTraitsBase<char16_t, System::uint16_t>::ConvertToUtf32(ConstPointer Value) noexcept
+	{
+		if (CharacterTraits<char16_t>::IsHighSurrogate(Value[0]))
+		{
+			return char32_t((Value[0] << 10) + Value[1] - 0x35FDC00);
+		}
+		/*
+		* As a low surrogate cannot be converted to UTF-32 on it's own, given value is an error on the user's part.
+		* To reduce the number of function calls I do therefore not handle that case.
+		else if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
+		{
+			return -1_ui32;
+		}
+		*/
+		else
+		{
+			return static_cast<char32_t>(Value[0]);
+		}
+	}
+
+	template<>
+	inline constexpr const char32_t CharacterTraitsBase<char32_t, System::uint32_t>::ConvertToUtf32(ConstPointer Value) noexcept
+	{
+		return *Value;
+	}
+
+	template<>
+	inline constexpr const char32_t CharacterTraitsBase<wchar_t, System::uint16_t>::ConvertToUtf32(ConstPointer Value) noexcept
+	{
+		if (CharacterTraits<wchar_t>::IsHighSurrogate(Value[0]))
+		{
+			return char32_t((Value[0] << 10) + Value[1] - 0x35FDC00);
+		}
+		/*
+		* As a low surrogate cannot be converted to UTF-32 on it's own, given value is an error on the user's part.
+		* To reduce the number of function calls I do therefore not handle that case.
+		else if (CharacterTraits<wchar_t>::IsLowSurrogate(Value[0]))
+		{
+			return -1_ui32;
+		}
+		*/
+		else
+		{
+			return static_cast<char32_t>(Value[0]);
+		}
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const char32_t CharacterTraitsBase<C, I>::ConvertToUtf32(ConstPointer Value) noexcept
+	{
+		return -1_ui32;
+	}
+
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsAscii(ConstValue Value) noexcept
 	{
@@ -283,7 +661,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<>
-	inline constexpr const bool CharacterTraitsBase<char, unsigned char>::IsControl(ConstValue Value) noexcept
+	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsControl(ConstValue Value) noexcept
 	{
 		return static_cast<ConstInteger>(Value) < 0x20 || static_cast<ConstInteger>(Value) == 0x7F;
 	}
@@ -297,43 +675,32 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsDigit(ConstValue Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
-		return static_cast<ConstInteger>(Value) > 0x2F && static_cast<ConstInteger>(Value) < 0x3A;	// Radix-10 digits
+		return static_cast<ConstInteger>(Value) > 0x2F && static_cast<ConstInteger>(Value) < 0x3A;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsLetter(ConstValue Value) noexcept
+	{	// ToDo:
+		return false;
 	}
 
 	template<>
-	inline constexpr const bool CharacterTraitsBase<char, unsigned char>::IsHighAscii(ConstValue Value) noexcept
+	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsHighAscii(ConstValue Value) noexcept
 	{
-		return Value >> 7 != 0x00;	// 1-xxx xxxx (128 - 255)
+		return Value >> 7 != 0x00;	// 1xxx xxxx (128 - 255)
 	}
 
 	template<>
-	inline constexpr const bool CharacterTraitsBase<char8_t, unsigned char>::IsHighAscii(ConstValue Value) noexcept
+	inline constexpr const bool CharacterTraitsBase<char8_t, System::uint8_t>::IsHighAscii(ConstValue Value) noexcept
 	{
-		return Value >> 7 != 0x00;	// 1-xxx xxxx (128 - 255)
-	}
-
-	template<>
-	inline constexpr const bool CharacterTraitsBase<char16_t, unsigned short>::IsHighAscii(ConstValue Value) noexcept
-	{	// ToDo:
-		return false;
-	}
-
-	template<>
-	inline constexpr const bool CharacterTraitsBase<char32_t, unsigned int>::IsHighAscii(ConstValue Value) noexcept
-	{	// ToDo:
-		return false;
-	}
-
-	template<>
-	inline constexpr const bool CharacterTraitsBase<wchar_t, unsigned short>::IsHighAscii(ConstValue Value) noexcept
-	{	// ToDo:
-		return false;
+		return Value >> 7 != 0x00;	// 1xxx xxxx (128 - 255)
+		// while a trail byte looks like 10xx xxxx, this just'd be an error on the user's part
 	}
 
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsHighAscii(ConstValue Value) noexcept
 	{
-		return false;
+		return Value > 127 && Value < 256;
 	}
 
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
@@ -349,7 +716,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char8_t, unsigned char>::Pointer CharacterTraitsBase<char8_t, unsigned char>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<char8_t, System::uint8_t>::Pointer CharacterTraitsBase<char8_t, System::uint8_t>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length];
 		while (Start < LastCharacter)
@@ -365,7 +732,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char16_t, unsigned short>::Pointer CharacterTraitsBase<char16_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<char16_t, System::uint16_t>::Pointer CharacterTraitsBase<char16_t, System::uint16_t>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length];
 		while (Start < LastCharacter)
@@ -381,7 +748,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<char32_t, unsigned int>::Pointer CharacterTraitsBase<char32_t, unsigned int>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<char32_t, System::uint32_t>::Pointer CharacterTraitsBase<char32_t, System::uint32_t>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length];
 		while (Start < LastCharacter)
@@ -397,7 +764,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template <>
-	inline constexpr CharacterTraitsBase<wchar_t, unsigned short>::Pointer CharacterTraitsBase<wchar_t, unsigned short>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
+	inline constexpr CharacterTraitsBase<wchar_t, System::uint16_t>::Pointer CharacterTraitsBase<wchar_t, System::uint16_t>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		ConstPointer LastCharacter = &Start[Length];
 		while (Start < LastCharacter)
@@ -581,380 +948,94 @@ namespace Elysium::Core::Template::Text
 	{
 		return -1;
 	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	template <Concepts::Character C>
-	struct CharacterTraits
-	{ };
-
-	/// <summary>
-	/// 
-	/// https://www.asciitable.com/
-	/// </summary>
-	template <>
-	struct CharacterTraits<char> : public CharacterTraitsBase<char, unsigned char>
-	{
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			"\n";
-#elif defined ELYSIUM_CORE_OS_MAC
-			"\r";
-#else
-#error "unsupported os"
-#endif
-
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = sizeof(char);
-	public:
-		//static constexpr const CharacterCategory GetCategory(ConstCharacter Value) noexcept;
-
-		//static constexpr unsigned int ConvertToUtf32(ConstCharacter Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a letter-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetter(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetterOrDigit(ConstValue Value) noexcept;
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLower(ConstValue Value) noexcept;
-		
-		/// <summary>
-		/// Indicates whether given value is categorized as a number-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsNumber(ConstValue Value) noexcept;
-		
-		//static constexpr const bool IsPunctuation(ConstValue Value) noexcept;
-		
-		//static constexpr const bool IsSeperator(ConstValue Value) noexcept;
-		
-		//static constexpr const bool IsSymbol(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsUpper(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsWhiteSpace(ConstValue Value) noexcept;
-
-		//static constexpr C ToLower(ConstValue Value) noexcept;
-		
-		//static constexpr C ToLowerInvariant(ConstValue Value) noexcept;
-		
-		//static constexpr C ToUpper(ConstValue Value) noexcept;
-		
-		//static constexpr C ToUpperInvariant(ConstValue Value) noexcept;
-	};
-
-	inline constexpr const bool CharacterTraits<char>::IsLetter(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return IsLower(Value) || IsUpper(Value);
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsLetterOrDigit(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return IsDigit(Value) || IsLetter(Value);
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsLower(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x60 && Value < 0x7B);	// Latin small (lower case) letters
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsNumber(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x2F && Value < 0x3A);
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsUpper(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return (Value > 0x40 && Value < 0x5B);	// Latin capital (upper case) letters
-	}
-
-	inline constexpr const bool CharacterTraits<char>::IsWhiteSpace(CharacterTraits<char>::ConstValue Value) noexcept
-	{
-		return Value == 0x20;
-	}
-
-	/// <summary>
-	/// 
-	/// </summary>
-	template <>
-	struct CharacterTraits<wchar_t> : public CharacterTraitsBase<wchar_t, unsigned short>
-	{
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			L"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			L"\n";
-#elif defined ELYSIUM_CORE_OS_MAC
-			L"\r";
-#else
-#error "unsupported os"
-#endif
-
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = 4;
-	public:
-		//static constexpr const bool IsHighSurrogate(ConstValue Value) noexcept;
-
-		//static constexpr const bool IsLowSurrogate(ConstValue Value) noexcept;
-	};
-
-	/// <summary>
-	/// 
-	/// </summary>
-	template <>
-	struct CharacterTraits<char8_t> : public CharacterTraitsBase<char8_t, unsigned char>
-	{ 
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			u8"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			u8"\n";
-#elif defined ELYSIUM_CORE_OS_MAC
-			u8"\r";
-#else
-#error "unsupported os"
-#endif
-
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = 4;
-	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLeadByte(ConstValue Value) noexcept;
-		
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsTrailByte(ConstValue Value) noexcept;
-	};
-
+	
 	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(CharacterTraits<char8_t>::ConstValue Value) noexcept
 	{	// In UTF-8 a leading byte will always look like this: 0xxx xxxx, 110x xxxx, 1110 xxxx or 1111 0xxx
-		/*
-		if ((Value >> 7) == 0x00)
-		{
-			return true;
-		}
-		else if ((Value & 0xC0) == 0xC0)
-		{
-			return true;
-		}
-		else if ((Value & 0xE0) == 0xE0)
-		{
-			return true;
-		}
-		else if ((Value & 0xF0) == 0xF0)
-		{
-			return true;
-		}
-
-		return false;
-		*/
-		return (Value & 0x80) != 0x80;
+		// instead of checking all these conditions I can simply make sure it's not a trailing byte
+		return (Value & CharacterTraits<char8_t>::TrailByteBitMask) != CharacterTraits<char8_t>::TrailByteBitMask;
 	}
 
 	inline constexpr const bool CharacterTraits<char8_t>::IsTrailByte(CharacterTraits<char8_t>::ConstValue Value) noexcept
 	{	// In UTF-8 a trailing byte will always look like this: 10xx xxxx
-		return (Value & 0x80) == 0x80;
+		return (Value & CharacterTraits<char8_t>::TrailByteBitMask) == CharacterTraits<char8_t>::TrailByteBitMask;
 	}
 
-	/// <summary>
-	/// 
-	/// </summary>
-	template <>
-	struct CharacterTraits<char16_t> : public CharacterTraitsBase<char16_t, unsigned short>
+	inline constexpr System::uint8_t CharacterTraits<char8_t>::GetByteCount(ConstValue Value) noexcept
 	{
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			u"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			u"\n";
-#elif defined ELYSIUM_CORE_OS_MAC
-			u"\r";
-#else
-#error "unsupported os"
-#endif
-
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = 4;
-		
-		//static constexpr const bool IsHighSurrogate(ConstValue Value) noexcept;
-
-		//static constexpr const bool IsLowSurrogate(ConstValue Value) noexcept;
-	};
-
-	/// <summary>
-	/// 
-	/// </summary>
-	template <>
-	struct CharacterTraits<char32_t> : public CharacterTraitsBase<char32_t, unsigned int>
-	{
-	public:
-		/// <summary>
-		/// Returns newline as specified character-type depending on the operating system.
-		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
-#if defined ELYSIUM_CORE_OS_WINDOWS
-			U"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
-			U"\n";
-#elif defined ELYSIUM_CORE_OS_MAC
-			U"\r";
-#else
-#error "unsupported os"
-#endif
-
-		/// <summary>
-		/// Returns the maximum number of bytes which can represent a single character.
-		/// </summary>
-		static constexpr const System::size MaximumByteLength = sizeof(char32_t);
-	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsLetter(ConstValue Value) noexcept;
-
-		/// <summary>
-		/// Indicates whether given value is categorized as a number-character.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsNumber(ConstValue Value) noexcept;
-	};
-
-	inline constexpr const bool CharacterTraits<char32_t>::IsLetter(CharacterTraits<char32_t>::ConstValue Value) noexcept
-	{	// https://www.fileformat.info/info/unicode/category/LC/list.htm
-		// https://www.fileformat.info/info/unicode/category/Ll/list.htm
-		// https://www.fileformat.info/info/unicode/category/Lm/list.htm
-		// https://www.fileformat.info/info/unicode/category/Lo/list.htm
-		// https://www.fileformat.info/info/unicode/category/Lt/list.htm
-		// https://www.fileformat.info/info/unicode/category/Lu/list.htm
-		return false;
+		if ((Value & CharacterTraits<char8_t>::TrailByteBitMask) == CharacterTraits<char8_t>::TrailByteBitMask)
+		{	// 10xx xxxx (trail byte, ergo no way to tell how many bytes are used for a character)
+			return -1_ui8;
+		}
+		else if ((Value >> CharacterTraits<char8_t>::LeadByteShift) == 0x00)
+		{	// 0xxx xxxx
+			return 1_ui8;
+		}
+		else if ((Value & CharacterTraits<char8_t>::LeadByteMask2) == CharacterTraits<char8_t>::LeadByteMask2)
+		{	// 110y yyyy
+			return 2_ui8;
+		}
+		else if ((Value & CharacterTraits<char8_t>::LeadByteMask3) == CharacterTraits<char8_t>::LeadByteMask3)
+		{	// 1110 zzzz
+			return 3_ui8;
+		}
+		else if ((Value & CharacterTraits<char8_t>::LeadByteMask4) == CharacterTraits<char8_t>::LeadByteMask4)
+		{	// 1111 0aaa
+			return 4_ui8;
+		}
 	}
 
-	inline constexpr const bool CharacterTraits<char32_t>::IsNumber(CharacterTraits<char32_t>::ConstValue Value) noexcept
-	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
-		return
-			(Value > 0x2F && Value < 0x3A) ||			// Radix-10 digits
-			(Value > 0x065F && Value < 0x066A) ||		// Arabic-Indic digits
-			(Value > 0x06EF && Value < 0x06FA) ||		// Extended arabic-indic digits
-			(Value > 0x07BF && Value < 0x07CA) ||		// Nko digits
-			(Value > 0x0965 && Value < 0x0970) ||		// Devanagri digits
-			(Value > 0x09E5 && Value < 0x09F0) || 		// Bengali digits
-			(Value > 0x0A65 && Value < 0x0AF0) || 		// Gurmukhi and gurjarati digits
-			(Value > 0x0B65 && Value < 0x0B70) || 		// Oriya digits
-			(Value > 0x0BE5 && Value < 0x0BF0) || 		// Tamil digits
-			(Value > 0x0C65 && Value < 0x0C70) || 		// Telugu digits
-			(Value > 0x0CE5 && Value < 0x0CF0) || 		// Kannada digits
-			(Value > 0x0D65 && Value < 0x0D70) || 		// Malayalam digits
-			(Value > 0x0DE5 && Value < 0x0DF0) || 		// Sinhala lith digits
-			(Value > 0x0E4F && Value < 0x0E5A) || 		// Thai digits
-			(Value > 0x0ECF && Value < 0x0EDA) || 		// Lao digits
-			(Value > 0x0F1F && Value < 0x0F2A) || 		// Tibetan digits
-			(Value > 0x103F && Value < 0x104A) || 		// Myanmar digits
-			(Value > 0x108F && Value < 0x109A) || 		// Myanmar shan digits
-			(Value > 0x17DF && Value < 0x17E9) || 		// Khmer digits
-			(Value > 0x180F && Value < 0x181A) || 		// Mongolian digits
-			(Value > 0x1945 && Value < 0x1950) || 		// Limbu digits
-			(Value > 0x19CF && Value < 0x19DA) || 		// New tai lue digits
-			(Value > 0x1A7F && Value < 0x1A8A) || 		// Tai tham hora digits
-			(Value > 0x1A8F && Value < 0x1A9A) || 		// Tai tham tham digits
-			(Value > 0x1B4F && Value < 0x1B5A) || 		// Balinese digits
-			(Value > 0x1BAF && Value < 0x1BBA) || 		// Sundanese digits
-			(Value > 0x1C3F && Value < 0x1C4A) || 		// Lepcha digits
-			(Value > 0x1C4F && Value < 0x1C5A) || 		// Ol chiki digits
-			(Value > 0xA61F && Value < 0xA62A) || 		// Vai digits
-			(Value > 0xA8CF && Value < 0xA8DA) || 		// Saurashtra digits
-			(Value > 0xA8FF && Value < 0xA90A) || 		// Kayah li digits
-			(Value > 0xA9CF && Value < 0xA9DA) || 		// Javanese digits
-			(Value > 0xA9EF && Value < 0xA9FA) || 		// Myanmar tai laing digits
-			(Value > 0xAA4F && Value < 0xAA5A) || 		// Cham digits
-			(Value > 0xABEF && Value < 0xABFA) || 		// Meetei mayek digits
-			(Value > 0xFF0F && Value < 0xFF1A) || 		// Fullwidth digits
-			(Value > 0x01049F && Value < 0x0104AA) || 	// Osmanya digits
-			(Value > 0x010D2F && Value < 0x010D3A) || 	// Hanifi rohingya digits
-			(Value > 0x011065 && Value < 0x011070) || 	// Brahmi digits
-			(Value > 0x0110EF && Value < 0x0110FA) ||	// Sora sompeng digits
-			(Value > 0x011135 && Value < 0x011140) ||	// Charkma digits
-			(Value > 0x0111CF && Value < 0x0111DA) ||	// Sharada digits
-			(Value > 0x0112EF && Value < 0x0112FA) ||	// Khudawadi digits
-			(Value > 0x01144F && Value < 0x01145A) ||	// Newa digits
-			(Value > 0x0114CF && Value < 0x0114DA) ||	// Tirhuta digits
-			(Value > 0x01164F && Value < 0x01165A) ||	// Modi digits
-			(Value > 0x0116BF && Value < 0x0116CA) ||	// Takri digits
-			(Value > 0x01172F && Value < 0x01173A) ||	// Ahom digits
-			(Value > 0x0118DF && Value < 0x0118EA) ||	// Warang citi digits
-			(Value > 0x01194F && Value < 0x01195A) ||	// Dives akuru digits
-			(Value > 0x011C4F && Value < 0x011C5A) ||	// Bhaiksuki digits
-			(Value > 0x011D4F && Value < 0x011D5A) ||	// Masaram gondi digits
-			(Value > 0x011D9F && Value < 0x011DAA) ||	// Gunjala gondi digits
-			(Value > 0x016A5F && Value < 0x016A6A) ||	// Mro digits
-			(Value > 0x016ABF && Value < 0x016ACA) ||	// Tangsa digits
-			(Value > 0x016B4F && Value < 0x016B5A) ||	// Pahawh hmong digits
-			(Value > 0x01D7CD && Value < 0x01D800) ||	// Mathematical bold, mathematical double-struck, mathematical sans-serif, mathematical sans-serif bold and mathematical monospace digits
-			(Value > 0x01E13F && Value < 0x01E14A) ||	// Nyiakeng puachue digits
-			(Value > 0x01E2EF && Value < 0x01E2FA) ||	// Wancho digits
-			(Value > 0x01E94F && Value < 0x01E95A) ||	// Adlam digits
-			(Value > 0x01FBEF && Value < 0x1FBFA);		// Segmented digits
+	inline constexpr const bool CharacterTraits<char16_t>::IsHighSurrogate(ConstValue Value) noexcept
+	{
+		return Value >= CharacterTraits<char16_t>::HighSurrogateLimits[0] && Value <= CharacterTraits<char16_t>::HighSurrogateLimits[1];
+	}
+
+	inline constexpr const bool CharacterTraits<char16_t>::IsLowSurrogate(ConstValue Value) noexcept
+	{
+		return Value >= CharacterTraits<char16_t>::LowSurrogateLimits[0] && Value <= CharacterTraits<char16_t>::LowSurrogateLimits[1];
+	}
+
+	inline constexpr const bool CharacterTraits<char16_t>::IsSurrogatePair(ConstValue First, ConstValue Second) noexcept
+	{
+		return CharacterTraits<char16_t>::IsHighSurrogate(First) && CharacterTraits<char16_t>::IsLowSurrogate(Second);
+	}
+
+	inline constexpr System::uint8_t CharacterTraits<char16_t>::GetByteCount(ConstValue Value) noexcept
+	{
+		if (CharacterTraits<char16_t>::IsHighSurrogate(Value))
+		{
+			return 4_ui8;
+		}
+		else
+		{	// unicode scalar value, low surrogate
+			return 2_ui8;
+		}
+	}
+
+	inline constexpr const bool CharacterTraits<wchar_t>::IsHighSurrogate(ConstValue Value) noexcept
+	{
+		return Value >= CharacterTraits<wchar_t>::HighSurrogateLimits[0] && Value <= CharacterTraits<wchar_t>::HighSurrogateLimits[1];
+	}
+
+	inline constexpr const bool CharacterTraits<wchar_t>::IsLowSurrogate(ConstValue Value) noexcept
+	{
+		return Value >= CharacterTraits<wchar_t>::LowSurrogateLimits[0] && Value <= CharacterTraits<wchar_t>::LowSurrogateLimits[1];
+	}
+
+	inline constexpr const bool CharacterTraits<wchar_t>::IsSurrogatePair(ConstValue First, ConstValue Second) noexcept
+	{
+		return CharacterTraits<wchar_t>::IsHighSurrogate(First) && CharacterTraits<wchar_t>::IsLowSurrogate(Second);
+	}
+
+	inline constexpr System::uint8_t CharacterTraits<wchar_t>::GetByteCount(ConstValue Value) noexcept
+	{
+		if (CharacterTraits<wchar_t>::IsHighSurrogate(Value))
+		{
+			return 4_ui8;
+		}
+		else
+		{	// unicode scalar value, low surrogate
+			return 2_ui8;
+		}
 	}
 }
 #endif

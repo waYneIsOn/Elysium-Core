@@ -43,6 +43,8 @@ namespace Elysium::Core::Template::Text
 		using ConstCharacterPointer = const C*;
 		using CharacterReference = C&;
 		using ConstCharacterReference = const C&;
+
+		using CharacterTraits = CharacterTraits<C>;
 	private:
 		struct HeapString final
 		{
@@ -771,7 +773,7 @@ namespace Elysium::Core::Template::Text
 		const bool HeapAllocated = IsHeapAllocated();
 		const System::size DataLength = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 		ConstCharacterPointer Data = HeapAllocated ? &_InternalString._Heap._Data[0] : (ConstCharacterPointer)&_InternalString._Stack._Data[0];
-		return CharacterTraits<C>::IndexOfAny(Data, DataLength, Sequence, SequenceLength);
+		return Traits::IndexOfAny(Data, DataLength, Sequence, SequenceLength);
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -780,7 +782,7 @@ namespace Elysium::Core::Template::Text
 		const bool HeapAllocated = IsHeapAllocated();
 		const System::size DataLength = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
 		ConstCharacterPointer Data = HeapAllocated ? &_InternalString._Heap._Data[StartIndex] : (ConstCharacterPointer)&_InternalString._Stack._Data[StartIndex];
-		return CharacterTraits<C>::IndexOfAny(Data, DataLength, Sequence, SequenceLength);
+		return Traits::IndexOfAny(Data, DataLength, Sequence, SequenceLength);
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>

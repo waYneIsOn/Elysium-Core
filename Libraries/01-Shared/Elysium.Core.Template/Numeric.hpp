@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
-#include "NumericLimits.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "NumericTraits.hpp"
 #endif

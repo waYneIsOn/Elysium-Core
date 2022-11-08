@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
-#include "NumericLimits.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
+#include "NumericTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -468,11 +468,11 @@ namespace Elysium::Core::Template::Text
 		while (Value[i] >= static_cast<ConstValue>('0') && Value[i] <= static_cast<ConstValue>('9') && i < Length)
 		{
 			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[i] - static_cast<ConstValue>('0') > 7))
+			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
+				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[i] - static_cast<ConstValue>('0') > 7))
 			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::int32_t>::Minimum;
+				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum :
+					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Minimum;
 			}
 
 			Base = 10 * Base + (Value[i++] - static_cast<ConstValue>('0'));

@@ -52,10 +52,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
-#include "NumericLimits.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "NumericTraits.hpp"
 #endif
@@ -375,7 +371,7 @@ namespace Elysium::Core::Template::Container
 		}
 		
 		// if no prime number has been found inside the lookup-table, we need to calculate the next prime number the hard way
-		for (Elysium::Core::Template::System::size i = DesiredLength; i < Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::Template::System::size>::Maximum; i++)
+		for (Elysium::Core::Template::System::size i = DesiredLength; i < Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::size>::Maximum; i++)
 		{
 			if (Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::size>::IsPrimeNumber(i))
 			{

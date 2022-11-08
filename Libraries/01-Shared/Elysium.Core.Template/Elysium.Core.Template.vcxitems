@@ -27,7 +27,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp" />
@@ -101,7 +100,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)NumericLimits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />

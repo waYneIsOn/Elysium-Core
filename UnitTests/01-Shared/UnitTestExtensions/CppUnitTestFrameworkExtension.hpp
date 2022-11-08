@@ -86,7 +86,17 @@ namespace Microsoft
 					}
 				}
 
-				static void AreEqual(const unsigned short Expected, const unsigned short Actual)
+				static void AreEqual(const Elysium::Core::uint8_t Expected, const Elysium::Core::uint8_t Actual)
+				{
+					Assert::IsTrue(Expected == Actual);
+				}
+
+				static void AreEqual(const Elysium::Core::uint16_t Expected, const Elysium::Core::uint16_t Actual)
+				{
+					Assert::IsTrue(Expected == Actual);
+				}
+
+				static void AreEqual(const Elysium::Core::uint32_t Expected, const Elysium::Core::uint32_t Actual)
 				{
 					Assert::IsTrue(Expected == Actual);
 				}

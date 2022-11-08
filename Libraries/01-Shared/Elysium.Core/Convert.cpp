@@ -12,10 +12,6 @@
 #include "NotImplementedException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICLIMITS
-#include "../Elysium.Core.Template/NumericLimits.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
@@ -905,15 +901,28 @@ Elysium::Core::uint8_t Elysium::Core::Convert::ToUInt8(const char8_t * Value, co
 	while (Value[i] >= u8'0' && Value[i] <= u8'9')
 	{
 		// handle overflow cases
-		if (Base > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 || 
-			(Base == Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - u8'0' > 7))
+		if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum / 10 ||
+			(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - u8'0' > 7))
 		{
-			return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum : 
-				Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Minimum;
+			return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum :
+				Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Minimum;
 		}
 		Base = 10 * Base + (Value[i++] - u8'0');
 	}
 	return Base * Sign;
+}
+
+Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t* Value, const Elysium::Core::size Length, const Elysium::Core::uint8_t FromBase)
+{
+	switch (FromBase)
+	{
+	case 10:
+		return ToUInt16FromBase10(Value, Length);
+	case 16:
+		return ToUInt16FromBase16(Value, Length);
+	default:
+		throw NotImplementedException();
+	}
 }
 
 Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t* Value, const Elysium::Core::uint8_t FromBase)
@@ -938,11 +947,11 @@ Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16(const char8_t* Value, c
 	while (Value[i] >= u8'0' && Value[i] <= u8'9')
 	{
 		// handle overflow cases
-		if (Base > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 ||
-			(Base == Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - u8'0' > 7))
+		if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum / 10 ||
+			(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - u8'0' > 7))
 		{
-			return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum :
-				Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Minimum;
+			return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum :
+				Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Minimum;
 		}
 		Base = 10 * Base + (Value[i++] - u8'0');
 	}
@@ -1009,11 +1018,11 @@ const Elysium::Core::int32_t Elysium::Core::Convert::ToInt32FromBase10(const cha
 	while (Value[i] >= u8'0' && Value[i] <= u8'9' && i < Length)
 	{
 		// handle overflow cases
-		if (Base > Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 ||
-			(Base == Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - u8'0' > 7))
+		if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum / 10 ||
+			(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum / 10 && Value[i] - u8'0' > 7))
 		{
-			return Sign == 1 ? Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Maximum :
-				Elysium::Core::Template::Numeric::NumericLimits<Elysium::Core::int32_t>::Minimum;
+			return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Maximum :
+				Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::int32_t>::Minimum;
 		}
 		Base = 10 * Base + (Value[i++] - u8'0');
 	}
@@ -1030,6 +1039,16 @@ const Elysium::Core::int32_t Elysium::Core::Convert::ToInt32FromBase16(const cha
 	}
 
 	return Result;
+}
+
+const Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16FromBase10(const char8_t* Value, const Elysium::Core::size Length)
+{
+	throw NotImplementedException();
+}
+
+const Elysium::Core::uint16_t Elysium::Core::Convert::ToUInt16FromBase16(const char8_t* Value, const Elysium::Core::size Length)
+{
+	throw NotImplementedException();
 }
 
 const Elysium::Core::uint32_t Elysium::Core::Convert::ToUInt32FromBase10(const char8_t* Value, const Elysium::Core::size Length)
