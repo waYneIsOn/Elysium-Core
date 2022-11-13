@@ -8,10 +8,6 @@
 #include "FormatConverter.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "../Elysium.Core/Stream.hpp"
 #endif

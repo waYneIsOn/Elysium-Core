@@ -4,12 +4,12 @@
 #include "../Elysium.Core/StringView.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_OBJECT
 #include "../Elysium.Core/Object.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 Elysium::Core::Net::IPAddress::IPAddress()
@@ -50,19 +50,19 @@ const Elysium::Core::Net::IPAddress Elysium::Core::Net::IPAddress::Parse(const E
 
 	Elysium::Core::size StartIndexIpPart = 0;
 	Elysium::Core::size EndIndexIpPart = Value.IndexOf('.', StartIndexIpPart);
-	const Elysium::Core::uint8_t IpPart1 = Elysium::Core::Convert::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
+	const Elysium::Core::uint8_t IpPart1 = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
 
 	StartIndexIpPart = EndIndexIpPart + 1;
 	EndIndexIpPart = StartIndexIpPart + Value.IndexOf('.', StartIndexIpPart);
-	const Elysium::Core::uint8_t IpPart2 = Elysium::Core::Convert::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
+	const Elysium::Core::uint8_t IpPart2 = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
 
 	StartIndexIpPart = EndIndexIpPart + 1;
 	EndIndexIpPart = StartIndexIpPart + Value.IndexOf('.', StartIndexIpPart);
-	const Elysium::Core::uint8_t IpPart3 = Elysium::Core::Convert::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
+	const Elysium::Core::uint8_t IpPart3 = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
 
 	StartIndexIpPart = EndIndexIpPart + 1;
 	EndIndexIpPart = StartIndexIpPart + Value.IndexOf('.', StartIndexIpPart);
-	const Elysium::Core::uint8_t IpPart4 = Elysium::Core::Convert::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
+	const Elysium::Core::uint8_t IpPart4 = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
 
 	return IPAddress((IpPart1 << 24) + (IpPart2 << 16) + (IpPart3 << 8) + IpPart4);
 }

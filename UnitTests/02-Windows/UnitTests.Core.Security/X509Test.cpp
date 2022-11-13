@@ -1,7 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/InvalidDataException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
@@ -9,6 +8,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
 ;
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
@@ -208,13 +208,13 @@ namespace UnitTests::Core::Security::Cryptography
 			for (Elysium::Core::uint32_t StoreNameInt = (Elysium::Core::uint32_t)StoreName::AddressBook; StoreNameInt <= (Elysium::Core::uint32_t)StoreName::TrustedPublisher; StoreNameInt++)
 			{
 				Logger::WriteMessage("-- StoreName: ");
-				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(StoreNameInt)[0]);
+				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(StoreNameInt)[0]);
 				Logger::WriteMessage(" --\r\n");
 
 				for (Elysium::Core::uint8_t StoreLocationInt = (Elysium::Core::uint8_t)StoreLocation::CurrentUser; StoreLocationInt != (Elysium::Core::uint8_t)StoreLocation::LocalMachine; StoreLocationInt++)
 				{
 					Logger::WriteMessage("-- StoreLocation: ");
-					Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(StoreLocationInt)[0]);
+					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(StoreLocationInt)[0]);
 					Logger::WriteMessage(" --\r\n");
 
 					X509Store CurrentStore = X509Store(static_cast<StoreName>(StoreNameInt), static_cast<StoreLocation>(StoreLocationInt));
@@ -227,7 +227,7 @@ namespace UnitTests::Core::Security::Cryptography
 						MemoryStream InputStream = MemoryStream(RawData, 0, RawData.GetLength());
 
 						Logger::WriteMessage("X509Certificate #");
-						Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(Count)[0]);
+						Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(Count)[0]);
 						Logger::WriteMessage(":\r\n");
 
 						Asn1Identifier Identifier = Asn1Identifier(Asn1TagClass::Universal, false, Asn1UniversalTag::EndOfContent, 0);
@@ -325,7 +325,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Asn1Integer Version = Decoder.DecodeInteger(Identifier, Length, InputStream);
 
 				// ToDo: simply adding 2 obviously isn't correct
-				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(Version.GetValue().GetSign() + 2)[0]);
+				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(Version.GetValue().GetSign() + 2)[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -629,17 +629,17 @@ namespace UnitTests::Core::Security::Cryptography
 			Asn1DateTime ValidityNotBefore = Decoder.DecodeDateTime(Identifier, Length, InputStream);
 			const Elysium::Core::DateTime& ValidityNotBeforeValue = ValidityNotBefore.GetValue();
 			Logger::WriteMessage("\tNotBefore: ");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetYear())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotBeforeValue.GetYear())[0]);
 			Logger::WriteMessage("-");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetMonth())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotBeforeValue.GetMonth())[0]);
 			Logger::WriteMessage("-");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetDay())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotBeforeValue.GetDay())[0]);
 			Logger::WriteMessage(" ");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetHour())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotBeforeValue.GetHour())[0]);
 			Logger::WriteMessage(":");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetMinute())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotBeforeValue.GetMinute())[0]);
 			Logger::WriteMessage(":");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotBeforeValue.GetSecond())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotBeforeValue.GetSecond())[0]);
 			Logger::WriteMessage(" UTC\r\n");
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -651,17 +651,17 @@ namespace UnitTests::Core::Security::Cryptography
 			Asn1DateTime ValidityNotAfter = Decoder.DecodeDateTime(Identifier, Length, InputStream);
 			const Elysium::Core::DateTime& ValidityNotAfterValue = ValidityNotAfter.GetValue();
 			Logger::WriteMessage("\tNotAfter: ");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetYear())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotAfterValue.GetYear())[0]);
 			Logger::WriteMessage("-");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetMonth())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotAfterValue.GetMonth())[0]);
 			Logger::WriteMessage("-");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetDay())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotAfterValue.GetDay())[0]);
 			Logger::WriteMessage(" ");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetHour())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotAfterValue.GetHour())[0]);
 			Logger::WriteMessage(":");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetMinute())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotAfterValue.GetMinute())[0]);
 			Logger::WriteMessage(":");
-			Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(ValidityNotAfterValue.GetSecond())[0]);
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(ValidityNotAfterValue.GetSecond())[0]);
 			Logger::WriteMessage(" UTC\r\n");
 		}
 
@@ -856,7 +856,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 					Logger::WriteMessage("\tPublicKey (RSA) length: ");
 					// ToDo: simply subtracting one is certainly not goind to be correct (also NumberOfUnusedBits)!
-					Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString((PublicKeyLength.GetLength() - 1) * 8)[0]);
+					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString((PublicKeyLength.GetLength() - 1) * 8)[0]);
 					Logger::WriteMessage(" bits\r\n");
 				}
 				else if (SignatureHashAlgorithm.GetFriendlyName() == u8"ECC")
@@ -988,7 +988,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
 				Logger::WriteMessage("IssuerUniqueID:\r\n");
 				Logger::WriteMessage("\tLength: ");
-				Logger::WriteMessage((char*)&Elysium::Core::Convert::ToString(BitString.GetData().GetLength())[0]);
+				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(BitString.GetData().GetLength())[0]);
 				Logger::WriteMessage("\r\n\tValue: ");
 				//Logger::WriteMessage((char*)&BitString.GetValue()[0]);
 				Logger::WriteMessage("\r\n");

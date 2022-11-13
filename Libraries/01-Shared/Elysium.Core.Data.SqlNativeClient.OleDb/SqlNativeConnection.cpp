@@ -16,10 +16,6 @@
 #include "SqlNativeException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_RUNTIME_INTEROPSERVICES_COMEXCEPTION
 #include "../Elysium.Core/COMException.hpp"
 #endif

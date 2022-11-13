@@ -1,13 +1,12 @@
 #include "JsonObject.hpp"
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_JSON_JSONREADEREXCEPTION
 #include "JsonReaderException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
+#endif
 
 Elysium::Core::Json::JsonObject::JsonObject()
 	: Elysium::Core::Json::JsonNode(),
@@ -119,13 +118,15 @@ void Elysium::Core::Json::JsonObject::Load(JsonReader & JsonReader)
 		}
 		case JsonToken::Integer:
 		{
-			JsonElement* Node = new JsonElement(PropertyName, Elysium::Core::Convert::ToInt32(JsonReader.GetNodeValue(), 10));
+			const Elysium::Core::Utf8String& NodeValue = JsonReader.GetNodeValue();
+			JsonElement* Node = new JsonElement(PropertyName, Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&NodeValue[0], NodeValue.GetLength(), 10));
 			AddChild(*Node);
 			break;
 		}
 		case JsonToken::Float:
 		{
-			JsonElement* Node = new JsonElement(PropertyName, Elysium::Core::Convert::ToSingle(JsonReader.GetNodeValue()));
+			const Elysium::Core::Utf8String& NodeValue = JsonReader.GetNodeValue();
+			JsonElement* Node = new JsonElement(PropertyName, Elysium::Core::Template::Text::Convert<char8_t>::ToSingle(&NodeValue[0], NodeValue.GetLength(), 10));
 			AddChild(*Node);
 			break;
 		}

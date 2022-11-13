@@ -1,9 +1,5 @@
 #include "NumberFormatInfo.hpp"
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
 #include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
@@ -14,6 +10,10 @@
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
@@ -435,16 +435,14 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalDigits(co
 	{
 		throw InvalidOperationException();
 	}
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	Elysium::Core::Utf8String ValueAsString = Elysium::Core::Convert::ToString(Value, 10);
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	Elysium::Core::Utf8String ValueAsString = Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10);
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
 		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&ValueAsString[0], ValueAsString.GetLength(), sizeof(char16_t));
 	if (SetLocaleInfo((LCID)_LCID, LOCALE_ICURRDIGITS, (LPCWSTR)&Bytes[0]) == 0)
 	{
 		throw SystemException();
 	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	throw 1;
 #else
 #error "undefined os"
 #endif
@@ -456,15 +454,13 @@ void Elysium::Core::Globalization::NumberFormatInfo::SetCurrencyDecimalSeparator
 	{
 		throw InvalidOperationException();
 	}
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
 		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Value[0], Value.GetLength(), sizeof(char16_t));
 	if (SetLocaleInfo((LCID)_LCID, LOCALE_SMONDECIMALSEP, (LPCWSTR)&Bytes[0]) == 0)
 	{
 		throw SystemException();
 	}
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	throw 1;
 #else
 #error "undefined os"
 #endif

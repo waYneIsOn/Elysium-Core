@@ -4,8 +4,8 @@
 #include "../Elysium.Core/Boolean.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 #ifndef _STRING_
@@ -133,25 +133,25 @@ void Elysium::Core::Json::JsonWriter::WritePropertyName(const Utf8String& Name)
 	WriteString(u8':');
 }
 
-void Elysium::Core::Json::JsonWriter::WriteValue(const bool & Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const bool Value)
 {
 	PrepareWritingValue();
 	WriteString(Value ? Elysium::Core::Boolean::TrueString : Elysium::Core::Boolean::FalseString);
 }
-void Elysium::Core::Json::JsonWriter::WriteValue(const int & Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const int Value)
 {
 	PrepareWritingValue();
-	WriteString(Convert::ToString(Value, 10));
+	WriteString(Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
-void Elysium::Core::Json::JsonWriter::WriteValue(const float & Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const float Value)
 {
 	PrepareWritingValue();
-	WriteString(Convert::ToString(Value, 10));
+	WriteString(Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
-void Elysium::Core::Json::JsonWriter::WriteValue(const double & Value)
+void Elysium::Core::Json::JsonWriter::WriteValue(const double Value)
 {
 	PrepareWritingValue();
-	WriteString(Convert::ToString(Value, 10));
+	WriteString(Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 void Elysium::Core::Json::JsonWriter::WriteValue(const char8_t * Value)
 {

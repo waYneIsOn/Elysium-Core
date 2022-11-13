@@ -5,16 +5,16 @@
 #include "../Elysium.Core/Boolean.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_ENVIRONMENT
 #include "../Elysium.Core/Environment.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 Elysium::Core::IO::TextWriter::TextWriter()
@@ -71,49 +71,49 @@ void Elysium::Core::IO::TextWriter::Write(const char8_t * Value, const Elysium::
 
 void Elysium::Core::IO::TextWriter::Write(const float Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const double Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const Decimal & Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value.GetHighPart(), 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value.GetHighPart(), 10));
 	Write(u8".");
-	Write(Elysium::Core::Convert::ToString(Value.GetLowPart(), 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value.GetLowPart(), 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const int16_t Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const int32_t Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const int64_t Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const uint16_t Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const uint32_t Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const uint64_t Value)
 {
-	Write(Elysium::Core::Convert::ToString(Value, 10));
+	Write(Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10));
 }
 
 void Elysium::Core::IO::TextWriter::Write(const Elysium::Core::Utf8String& Value)

@@ -1,9 +1,5 @@
 #include "DERDecoder.hpp"
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
@@ -34,6 +30,10 @@
 
 #ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
 #include "../Elysium.Core.Text/StringBuilder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DERDecoder()
@@ -257,9 +257,9 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		throw IO::InvalidDataException(u8"The second node of an Oid cannot be bigger than 39.");
 	}
 
-	OidBuilder.Append(&Convert::ToString(FirstNode, 10)[0]);
+	OidBuilder.Append(&Template::Text::Convert<char8_t>::ToString(FirstNode, 10)[0]);
 	OidBuilder.Append(u8'.');
-	OidBuilder.Append(&Convert::ToString(SecondNode, 10)[0]);
+	OidBuilder.Append(&Template::Text::Convert<char8_t>::ToString(SecondNode, 10)[0]);
 
 	for (int32_t i = 1; i < OidLength; i++)
 	{
@@ -283,7 +283,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		} while (IsMultipleByteEncoded);
 
 		OidBuilder.Append(u8'.');
-		OidBuilder.Append(&Convert::ToString(Value, 10)[0]);
+		OidBuilder.Append(&Template::Text::Convert<char8_t>::ToString(Value, 10)[0]);
 	}
 
 	return Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier(Asn1Identifier, 
@@ -403,28 +403,28 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 			const Elysium::Core::Utf8String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
 			if (Value.EndsWith(u8"Z"))
 			{	// "YYMMDDhhmm[ss]Z
-				const Elysium::Core::int32_t Year = 1900 + Elysium::Core::Convert::ToInt32(&Value[0], 2, 10);
-				const Elysium::Core::int32_t Month = Elysium::Core::Convert::ToInt32(&Value[2], 2, 10);
-				const Elysium::Core::int32_t Day = Elysium::Core::Convert::ToInt32(&Value[4], 2, 10);
+				const Elysium::Core::int32_t Year = 1900 + Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[0], 2, 10);
+				const Elysium::Core::int32_t Month = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[2], 2, 10);
+				const Elysium::Core::int32_t Day = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[4], 2, 10);
 				switch (Value.GetLength())
 				{
 				case 11:
 					return Asn1DateTime(Asn1Identifier, DateTime(
 						Year > 1950 ? Year : Year + 100,
-						Elysium::Core::Convert::ToInt32(&Value[2], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[4], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[6], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[8], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[2], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[4], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[6], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[8], 2, 10),
 						0
 					));
 				case 13:
 					return Asn1DateTime(Asn1Identifier, DateTime(
 						Year > 1950 ? Year : Year + 100,
-						Elysium::Core::Convert::ToInt32(&Value[2], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[4], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[6], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[8], 2, 10),
-						Elysium::Core::Convert::ToInt32(&Value[10], 2, 10)
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[2], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[4], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[6], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[8], 2, 10),
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[10], 2, 10)
 					));
 				default:
 					// ToDo: while this shouldn't ever happen, throw a specific exception as data is invalid

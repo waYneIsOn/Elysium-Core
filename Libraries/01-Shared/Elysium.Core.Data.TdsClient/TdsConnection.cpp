@@ -4,8 +4,8 @@
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "../Elysium.Core/Convert.hpp"
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DATA_TDSCLIENT_TDSCONNECTIONSTRINGBUILDER
@@ -14,6 +14,10 @@
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETEXCEPTION
 #include "../Elysium.Core.Net/SocketException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 Elysium::Core::Data::TdsClient::TdsConnection::TdsConnection(const TdsVersion Version, const Elysium::Core::Utf8String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)
@@ -39,7 +43,7 @@ void Elysium::Core::Data::TdsClient::TdsConnection::Open()
 			const Elysium::Core::Utf8String& Server = ConnectionStringBuilder.GetServer();
 			const Elysium::Core::size IndexOfPort = Server.IndexOf(u8',');
 			const Utf8StringView Host = IndexOfPort == -1 ? Utf8StringView(&Server[0]) : Utf8StringView(&Server[0], IndexOfPort);
-			const Elysium::Core::uint16_t Port = IndexOfPort == -1 ? 1433 : Convert::ToUInt16(&Server[IndexOfPort + 1], 10);
+			const Elysium::Core::uint16_t Port = IndexOfPort == -1 ? 1433 : Template::Text::Convert<char8_t>::ToUInt16(&Server[IndexOfPort + 1], 10);
 
 			_ConnectionState = ConnectionState::Connecting;
 			//_TransportSocket.Connect(Host, Port);

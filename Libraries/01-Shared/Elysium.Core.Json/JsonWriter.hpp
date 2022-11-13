@@ -43,10 +43,10 @@ namespace Elysium::Core::Json
 
 		void WritePropertyName(const Utf8String& Name);
 
-		void WriteValue(const bool& Value);
-		void WriteValue(const int& Value);
-		void WriteValue(const float& Value);
-		void WriteValue(const double& Value);
+		void WriteValue(const bool Value);
+		void WriteValue(const int Value);
+		void WriteValue(const float Value);
+		void WriteValue(const double Value);
 		void WriteValue(const char8_t* Value);
 		void WriteValue(const Utf8String& Value);
 

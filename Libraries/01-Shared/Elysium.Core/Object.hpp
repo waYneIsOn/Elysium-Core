@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "Convert.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_INTEGER
 #include "Integer.hpp"
 #endif
@@ -46,6 +42,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_REMOVEREFERENCE
 #include "../Elysium.Core.Template/RemoveReference.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
 #ifndef _TYPEINFO_
@@ -102,61 +102,61 @@ namespace Elysium::Core
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::int8_t>(const Elysium::Core::int8_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::int16_t>(const Elysium::Core::int16_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::int32_t>(const Elysium::Core::int32_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::int64_t>(const Elysium::Core::int64_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::uint8_t>(const Elysium::Core::uint8_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::uint16_t>(const Elysium::Core::uint16_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::uint32_t>(const Elysium::Core::uint32_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<Elysium::Core::uint64_t>(const Elysium::Core::uint64_t Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<float>(const float Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToString<double>(const double Value)
 	{
-		return Elysium::Core::Convert::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
+		return Elysium::Core::Template::Text::Convert<char8_t>::ToString(Value, 10, Globalization::NumberFormatInfo::GetCurrentInfo());
 	}
 
 	template <class T>

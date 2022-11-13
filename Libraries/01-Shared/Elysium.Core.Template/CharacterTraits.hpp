@@ -100,6 +100,21 @@ namespace Elysium::Core::Template::Text
 		static constexpr const char32_t ConvertToUtf32(ConstPointer Value) noexcept;
 
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsValid(ConstPointer Value, System::size Length) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		static constexpr const bool IsValid(ConstPointer Value) noexcept;
+
+		/// <summary>
 		/// Determines whether a character is categorized as an ASCII character ([ U+0000..U+007F ]).
 		/// </summary>
 		/// <param name="Value"></param>
@@ -351,31 +366,6 @@ namespace Elysium::Core::Template::Text
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
 		static constexpr const System::size MaximumByteLength = 4;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr const System::byte LeadByteShift = 0x07;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr const System::byte LeadByteMask2 = 0xC0;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr const System::byte LeadByteMask3 = 0xE0;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr const System::byte LeadByteMask4 = 0xF0;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr const System::byte TrailByteBitMask = 0x80;
 	public:
 		/// <summary>
 		/// 
@@ -553,7 +543,7 @@ namespace Elysium::Core::Template::Text
 	template<>
 	inline constexpr const char32_t CharacterTraitsBase<char, System::uint8_t>::ConvertToUtf32(ConstPointer Value) noexcept
 	{
-		return static_cast<char32_t>(*Value);
+		return char32_t(Value[0]);
 	}
 
 	template<>
@@ -572,32 +562,6 @@ namespace Elysium::Core::Template::Text
 		default:	// 10xx xxxx (trail byte. determination not possible)
 			return static_cast<char32_t>(-1);
 		}
-		/*
-		if (CharacterTraits<char8_t>::IsTrailByte(*Value))
-		{
-			return static_cast<System::uint32_t>(-1);
-		}
-		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 1)
-		{	// 0xxx xxxx										->	0xxx xxxx
-			return static_cast<System::uint32_t>(Value[0]);
-		}
-		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 2)
-		{	// 110y yyyy	10xx xxxx							->	0000 0yyy	yyxx xxxx
-			return System::uint32_t(((Value[0] & 0x1F) << 6) | (Value[1] & 0x3F));
-		}
-		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 3)
-		{	// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
-			return System::uint32_t(((Value[0] & 0x0F) << 12) | ((Value[1] & 0x3F) << 6) | (Value[3] & 0x3F));
-		}
-		else if (CharacterTraits<char8_t>::GetByteCount(*Value) == 4)
-		{	// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
-			return System::uint32_t(((Value[0] & 0x07) << 18) | ((Value[1] & 0x3F) << 12) | ((Value[2] & 0x3F) << 6) | (Value[3] & 0x3F));
-		}
-		else
-		{
-			return static_cast<System::uint32_t>(-1);
-		}
-		*/
 	}
 
 	template<>
@@ -654,6 +618,76 @@ namespace Elysium::Core::Template::Text
 		return -1_ui32;
 	}
 
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsValid(ConstPointer Value, const System::size Length) noexcept
+	{
+		return true;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char8_t, System::uint8_t>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{
+		System::size ByteCount;
+		for (System::size i = 0; i < Length; i++)
+		{
+			ByteCount = CharacterTraits<char8_t>::GetByteCount(Value[i]);
+			if (ByteCount > Length)
+			{
+				return false;
+			}
+
+			if (!CharacterTraits<char8_t>::IsLeadByte(Value[i]))
+			{
+				return false;
+			}
+
+			for (System::size j = 0; j < ByteCount - 1; j++)
+			{
+				if (!CharacterTraits<char8_t>::IsTrailByte(Value[i++]))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char16_t, System::uint16_t>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{
+		return false;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char32_t, System::uint32_t>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{
+		return false;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<wchar_t, System::uint16_t>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{
+		return false;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{
+		return false;
+	}
+
+	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsValid(ConstPointer Value) noexcept
+	{
+		if (Value == nullptr)
+		{
+			return false;
+		}
+
+		return CharacterTraitsBase<C, I>::IsValid(Value, CharacterTraitsBase<C, I>::GetLength(Value));
+	}
+
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsAscii(ConstValue Value) noexcept
 	{
@@ -687,13 +721,13 @@ namespace Elysium::Core::Template::Text
 	template<>
 	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsHighAscii(ConstValue Value) noexcept
 	{
-		return Value >> 7 != 0x00;	// 1xxx xxxx (128 - 255)
+		return Value >> 7_ui8 != 0x00_ui8;	// 1xxx xxxx (128 - 255)
 	}
 
 	template<>
 	inline constexpr const bool CharacterTraitsBase<char8_t, System::uint8_t>::IsHighAscii(ConstValue Value) noexcept
 	{
-		return Value >> 7 != 0x00;	// 1xxx xxxx (128 - 255)
+		return Value >> 7_ui8 != 0x00_ui8;	// 1xxx xxxx (128 - 255)
 		// while a trail byte looks like 10xx xxxx, this just'd be an error on the user's part
 	}
 
@@ -788,19 +822,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetLength(ConstPointer Start) noexcept
 	{
-		if (Start == nullptr)
-		{
-			return 0;
-		}
-
-		Elysium::Core::Template::System::size Length = 0;
+		ConstPointer FirstCharacter = Start;
 		while (*Start != NullTerminationCharacter)
 		{
-			Length++;
 			Start++;
 		}
 
-		return Length;
+		return Start - FirstCharacter;
 	}
 
 	template<Concepts::Character C, Concepts::UnsignedInteger I>
@@ -952,33 +980,35 @@ namespace Elysium::Core::Template::Text
 	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(CharacterTraits<char8_t>::ConstValue Value) noexcept
 	{	// In UTF-8 a leading byte will always look like this: 0xxx xxxx, 110x xxxx, 1110 xxxx or 1111 0xxx
 		// instead of checking all these conditions I can simply make sure it's not a trailing byte
-		return (Value & CharacterTraits<char8_t>::TrailByteBitMask) != CharacterTraits<char8_t>::TrailByteBitMask;
+		//return (Value & CharacterTraits<char8_t>::TrailByteBitMask) != CharacterTraits<char8_t>::TrailByteBitMask;
+		return Value >> 6_ui8 != 0x02_ui8;
 	}
 
 	inline constexpr const bool CharacterTraits<char8_t>::IsTrailByte(CharacterTraits<char8_t>::ConstValue Value) noexcept
 	{	// In UTF-8 a trailing byte will always look like this: 10xx xxxx
-		return (Value & CharacterTraits<char8_t>::TrailByteBitMask) == CharacterTraits<char8_t>::TrailByteBitMask;
+		//return (Value & CharacterTraits<char8_t>::TrailByteBitMask) == CharacterTraits<char8_t>::TrailByteBitMask;
+		return Value >> 6_ui8 == 0x02_ui8;
 	}
 
 	inline constexpr System::uint8_t CharacterTraits<char8_t>::GetByteCount(ConstValue Value) noexcept
 	{
-		if ((Value & CharacterTraits<char8_t>::TrailByteBitMask) == CharacterTraits<char8_t>::TrailByteBitMask)
+		if (Value >> 6_ui8 == 0x02_ui8)
 		{	// 10xx xxxx (trail byte, ergo no way to tell how many bytes are used for a character)
 			return -1_ui8;
 		}
-		else if ((Value >> CharacterTraits<char8_t>::LeadByteShift) == 0x00)
+		else if (Value >> 7_ui8 == 0x00_ui8)
 		{	// 0xxx xxxx
 			return 1_ui8;
 		}
-		else if ((Value & CharacterTraits<char8_t>::LeadByteMask2) == CharacterTraits<char8_t>::LeadByteMask2)
+		else if (Value >> 5_ui8 == 0x06_ui8)
 		{	// 110y yyyy
 			return 2_ui8;
 		}
-		else if ((Value & CharacterTraits<char8_t>::LeadByteMask3) == CharacterTraits<char8_t>::LeadByteMask3)
+		else if (Value >> 4_ui8 == 0x0E_ui8)
 		{	// 1110 zzzz
 			return 3_ui8;
 		}
-		else if ((Value & CharacterTraits<char8_t>::LeadByteMask4) == CharacterTraits<char8_t>::LeadByteMask4)
+		else if (Value >> 3_ui8 == 0x1E_ui8)
 		{	// 1111 0aaa
 			return 4_ui8;
 		}

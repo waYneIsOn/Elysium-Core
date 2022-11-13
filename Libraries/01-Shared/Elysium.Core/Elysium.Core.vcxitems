@@ -33,7 +33,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DatePart.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
@@ -94,7 +93,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Convert.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />

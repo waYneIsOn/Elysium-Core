@@ -1,7 +1,8 @@
 #include "CppUnitTest.h"
 #include "CppUnitTestFrameworkExtension.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Object.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Object.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
