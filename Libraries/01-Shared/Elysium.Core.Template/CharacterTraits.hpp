@@ -12,20 +12,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
-#include "UnsignedInteger.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
+#include "Integer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_UNICODECATEGORY
+#include "UnicodeCategory.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
@@ -40,12 +36,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OperatingSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::Text
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	template <Concepts::Character C, Concepts::UnsignedInteger I>
+	template <Concepts::Character C, Concepts::Integer I>
 	struct CharacterTraitsBase
 	{
 	public:
@@ -93,6 +93,13 @@ namespace Elysium::Core::Template::Text
 		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Maximum);
 	public:
 		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		//static constexpr const char32_t ConvertFromUtf32(ConstPointer Value) noexcept;
+		
+		/// <summary>
 		/// Returns the unicode code point representation.
 		/// </summary>
 		/// <param name="Value"></param>
@@ -100,26 +107,53 @@ namespace Elysium::Core::Template::Text
 		static constexpr const char32_t ConvertToUtf32(ConstPointer Value) noexcept;
 
 		/// <summary>
-		/// 
+		/// Indicates whether given text is valid.
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsValid(ConstPointer Value, System::size Length) noexcept;
 
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <param name="Length"></param>
-		/// <returns></returns>
-		static constexpr const bool IsValid(ConstPointer Value) noexcept;
-
-		/// <summary>
-		/// Determines whether a character is categorized as an ASCII character ([ U+0000..U+007F ]).
+		/// Indicates whether a character is categorized as an ASCII character ([ U+0000..U+007F ]).
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsAscii(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Indicates whether a character is categorized as an ASCII hexademical digit.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsAsciiHexDigit(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Indicates whether a character is categorized as an ASCII lower-case hexademical digit.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsAsciiHexDigitLower(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Indicates whether a character is categorized as an ASCII upper-case hexademical digit.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsAsciiHexDigitUpper(ConstValue Value) noexcept;
+		
+		/// <summary>
+		/// Indicates whether a character is categorized as a lowercase ASCII letter.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsAsciiLetterLower(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// Indicates whether a character is categorized as an uppercase ASCII letter.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsAsciiLetterUpper(ConstValue Value) noexcept;
 
 		/// <summary>
 		/// Determines whether a character is categorized as a control character.
@@ -136,7 +170,7 @@ namespace Elysium::Core::Template::Text
 		static constexpr const bool IsDigit(ConstValue Value) noexcept;
 
 		/// <summary>
-		/// 
+		/// Indicates whether a Unicode character is categorized as a Unicode letter.
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
@@ -169,28 +203,35 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsLower(ConstValue Value) noexcept;
-
+		*/
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsNumber(ConstValue Value) noexcept;
-
+		/*
 		/// <summary>
 		///
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsUpper(ConstValue Value) noexcept;
-
+		*/
+	public:
 		/// <summary>
-		///
+		/// 
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const bool IsWhiteSpace(ConstValue Value) noexcept;
-		*/
+		static constexpr ConstValue ToLower(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr ConstValue ToUpper(ConstValue Value) noexcept;
 	public:
 		/// <summary>
 		/// 
@@ -318,7 +359,7 @@ namespace Elysium::Core::Template::Text
 	/// https://www.asciitable.com/
 	/// </summary>
 	template <>
-	struct CharacterTraits<char> : public CharacterTraitsBase<char, System::uint8_t>
+	struct CharacterTraits<char> : public CharacterTraitsBase<char, System::int8_t>
 	{
 	public:
 		/// <summary>
@@ -541,7 +582,7 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<>
-	inline constexpr const char32_t CharacterTraitsBase<char, System::uint8_t>::ConvertToUtf32(ConstPointer Value) noexcept
+	inline constexpr const char32_t CharacterTraitsBase<char, System::int8_t>::ConvertToUtf32(ConstPointer Value) noexcept
 	{
 		return char32_t(Value[0]);
 	}
@@ -612,16 +653,10 @@ namespace Elysium::Core::Template::Text
 		}
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const char32_t CharacterTraitsBase<C, I>::ConvertToUtf32(ConstPointer Value) noexcept
 	{
 		return -1_ui32;
-	}
-
-	template<>
-	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsValid(ConstPointer Value, const System::size Length) noexcept
-	{
-		return true;
 	}
 
 	template<>
@@ -656,72 +691,141 @@ namespace Elysium::Core::Template::Text
 	template<>
 	inline constexpr const bool CharacterTraitsBase<char16_t, System::uint16_t>::IsValid(ConstPointer Value, System::size Length) noexcept
 	{
-		return false;
-	}
+		if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
+		{
+			return false;
+		}
 
-	template<>
-	inline constexpr const bool CharacterTraitsBase<char32_t, System::uint32_t>::IsValid(ConstPointer Value, System::size Length) noexcept
-	{
-		return false;
+		for (System::size i = 0; i < Length; i++)
+		{
+			if (CharacterTraits<char16_t>::IsHighSurrogate(Value[i]))
+			{
+				if (i + 1 > Length || CharacterTraits<char16_t>::IsLowSurrogate(Value[i + 1]))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	template<>
 	inline constexpr const bool CharacterTraitsBase<wchar_t, System::uint16_t>::IsValid(ConstPointer Value, System::size Length) noexcept
 	{
-		return false;
-	}
-
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
-	inline constexpr const bool CharacterTraitsBase<C, I>::IsValid(ConstPointer Value, System::size Length) noexcept
-	{
-		return false;
-	}
-
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
-	inline constexpr const bool CharacterTraitsBase<C, I>::IsValid(ConstPointer Value) noexcept
-	{
-		if (Value == nullptr)
+		if (CharacterTraits<wchar_t>::IsLowSurrogate(Value[0]))
 		{
 			return false;
 		}
 
-		return CharacterTraitsBase<C, I>::IsValid(Value, CharacterTraitsBase<C, I>::GetLength(Value));
+		for (System::size i = 0; i < Length; i++)
+		{
+			if (CharacterTraits<wchar_t>::IsHighSurrogate(Value[i]))
+			{
+				if (i + 1 > Length || CharacterTraits<wchar_t>::IsLowSurrogate(Value[i + 1]))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
-	inline constexpr const bool CharacterTraitsBase<C, I>::IsAscii(ConstValue Value) noexcept
-	{
-		return static_cast<ConstInteger>(Value) < 0x80;
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{	// char and char32_t will always be valid
+		return true;
 	}
 
 	template<>
-	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsControl(ConstValue Value) noexcept
+	inline constexpr const bool CharacterTraitsBase<char, System::int8_t>::IsAscii(ConstValue Value) noexcept
 	{
-		return static_cast<ConstInteger>(Value) < 0x20 || static_cast<ConstInteger>(Value) == 0x7F;
+		return Value >> 7_ui8 == 0x00_ui8;	// 0xxx xxxx (0 - 127)
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAscii(ConstValue Value) noexcept
+	{	// 0x00 - 0x7F
+		return Value < 0x80;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiHexDigit(ConstValue Value) noexcept
+	{	// 0 - 9 || A - F || a - f
+		return (Value > 0x2F && Value < 0x3A) || (Value > 0x40 && Value < 0x47) || (Value > 0x60 && Value < 0x67);
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiHexDigitLower(ConstValue Value) noexcept
+	{	// 0 - 9 || a - f
+		return (Value > 0x2F && Value < 0x3A) || (Value > 0x60 && Value < 0x67);
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiHexDigitUpper(ConstValue Value) noexcept
+	{	// 0 - 9 || A - F
+		return (Value > 0x2F && Value < 0x3A) || (Value > 0x40 && Value < 0x47);
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiLetterLower(ConstValue Value) noexcept
+	{
+		return Value > 0x60 && Value < 0x7B;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiLetterUpper(ConstValue Value) noexcept
+	{
+		return Value > 0x40 && Value < 0x5B;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char, System::int8_t>::IsControl(ConstValue Value) noexcept
+	{
+		return (Value >= 0x00 && Value < 0x20) || Value == 0x7F;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsControl(ConstValue Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Cc/list.htm
-		return static_cast<ConstInteger>(Value) < 0x20 || (static_cast<ConstInteger>(Value) > 0x7E && static_cast<ConstInteger>(Value) < 0xA0);
+		return Value < 0x20 || (Value > 0x7E && Value < 0xA0);
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsDigit(ConstValue Value) noexcept
 	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
-		return static_cast<ConstInteger>(Value) > 0x2F && static_cast<ConstInteger>(Value) < 0x3A;
-	}
-
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
-	inline constexpr const bool CharacterTraitsBase<C, I>::IsLetter(ConstValue Value) noexcept
-	{	// ToDo:
-		return false;
+		return Value > 0x2F && Value < 0x3A;
 	}
 
 	template<>
-	inline constexpr const bool CharacterTraitsBase<char, System::uint8_t>::IsHighAscii(ConstValue Value) noexcept
+	inline constexpr const bool CharacterTraitsBase<char16_t, System::uint16_t>::IsLetter(ConstValue Value) noexcept
+	{	// ToDo: non-ascii characters (probably not all possible with ConstValue)
+		return (Value > 0x40 && Value < 0x5B) || (Value > 0x60 && Value < 0x7B);
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char32_t, System::uint32_t>::IsLetter(ConstValue Value) noexcept
+	{	// ToDo: non-ascii characters
+		return (Value > 0x40 && Value < 0x5B) || (Value > 0x60 && Value < 0x7B);
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<wchar_t, System::uint16_t>::IsLetter(ConstValue Value) noexcept
+	{	// ToDo: non-ascii characters (probably not all possible with ConstValue)
+		return (Value > 0x40 && Value < 0x5B) || (Value > 0x60 && Value < 0x7B);
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsLetter(ConstValue Value) noexcept
 	{
-		return Value >> 7_ui8 != 0x00_ui8;	// 1xxx xxxx (128 - 255)
+		return (Value > 0x40 && Value < 0x5B) || (Value > 0x60 && Value < 0x7B);
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char, System::int8_t>::IsHighAscii(ConstValue Value) noexcept
+	{
+		return Value >> 7_ui8 != 0x00_ui8;	// 1xxx xxxx (-128 - -1)
 	}
 
 	template<>
@@ -731,19 +835,128 @@ namespace Elysium::Core::Template::Text
 		// while a trail byte looks like 10xx xxxx, this just'd be an error on the user's part
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsHighAscii(ConstValue Value) noexcept
 	{
-		return Value > 127 && Value < 256;
+		return Value > 0x7F && Value < 0xFF;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char16_t, System::uint16_t>::IsNumber(ConstValue Value) noexcept
+	{	// ToDo: non-ascii characters (probably not all possible with ConstValue)
+		return false;
+	}
+
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char32_t, System::uint32_t>::IsNumber(ConstValue Value) noexcept
+	{	// https://www.fileformat.info/info/unicode/category/Nd/list.htm
+		return
+			(Value > 0x2F && Value < 0x3A) ||			// Radix-10 digits
+			(Value > 0x065F && Value < 0x066A) ||		// Arabic-Indic digits
+			(Value > 0x06EF && Value < 0x06FA) ||		// Extended arabic-indic digits
+			(Value > 0x07BF && Value < 0x07CA) ||		// Nko digits
+			(Value > 0x0965 && Value < 0x0970) ||		// Devanagri digits
+			(Value > 0x09E5 && Value < 0x09F0) || 		// Bengali digits
+			(Value > 0x0A65 && Value < 0x0AF0) || 		// Gurmukhi and gurjarati digits
+			(Value > 0x0B65 && Value < 0x0B70) || 		// Oriya digits
+			(Value > 0x0BE5 && Value < 0x0BF0) || 		// Tamil digits
+			(Value > 0x0C65 && Value < 0x0C70) || 		// Telugu digits.
+			(Value > 0x0CE5 && Value < 0x0CF0) || 		// Kannada digits
+			(Value > 0x0D65 && Value < 0x0D70) || 		// Malayalam digits
+			(Value > 0x0DE5 && Value < 0x0DF0) || 		// Sinhala lith digits
+			(Value > 0x0E4F && Value < 0x0E5A) || 		// Thai digits
+			(Value > 0x0ECF && Value < 0x0EDA) || 		// Lao digits
+			(Value > 0x0F1F && Value < 0x0F2A) || 		// Tibetan digits
+			(Value > 0x103F && Value < 0x104A) || 		// Myanmar digits
+			(Value > 0x108F && Value < 0x109A) || 		// Myanmar shan digits
+			(Value > 0x17DF && Value < 0x17E9) || 		// Khmer digits
+			(Value > 0x180F && Value < 0x181A) || 		// Mongolian digits
+			(Value > 0x1945 && Value < 0x1950) || 		// Limbu digits
+			(Value > 0x19CF && Value < 0x19DA) || 		// New tai lue digits
+			(Value > 0x1A7F && Value < 0x1A8A) || 		// Tai tham hora digits
+			(Value > 0x1A8F && Value < 0x1A9A) || 		// Tai tham tham digits
+			(Value > 0x1B4F && Value < 0x1B5A) || 		// Balinese digits
+			(Value > 0x1BAF && Value < 0x1BBA) || 		// Sundanese digits
+			(Value > 0x1C3F && Value < 0x1C4A) || 		// Lepcha digits
+			(Value > 0x1C4F && Value < 0x1C5A) || 		// Ol chiki digits
+			(Value > 0xA61F && Value < 0xA62A) || 		// Vai digits
+			(Value > 0xA8CF && Value < 0xA8DA) || 		// Saurashtra digits
+			(Value > 0xA8FF && Value < 0xA90A) || 		// Kayah li digits
+			(Value > 0xA9CF && Value < 0xA9DA) || 		// Javanese digits
+			(Value > 0xA9EF && Value < 0xA9FA) || 		// Myanmar tai laing digits
+			(Value > 0xAA4F && Value < 0xAA5A) || 		// Cham digits
+			(Value > 0xABEF && Value < 0xABFA) || 		// Meetei mayek digits
+			(Value > 0xFF0F && Value < 0xFF1A) || 		// Fullwidth digits
+			(Value > 0x01049F && Value < 0x0104AA) || 	// Osmanya digits
+			(Value > 0x010D2F && Value < 0x010D3A) || 	// Hanifi rohingya digits
+			(Value > 0x011065 && Value < 0x011070) || 	// Brahmi digits
+			(Value > 0x0110EF && Value < 0x0110FA) ||	// Sora sompeng digits
+			(Value > 0x011135 && Value < 0x011140) ||	// Charkma digits
+			(Value > 0x0111CF && Value < 0x0111DA) ||	// Sharada digits
+			(Value > 0x0112EF && Value < 0x0112FA) ||	// Khudawadi digits
+			(Value > 0x01144F && Value < 0x01145A) ||	// Newa digits
+			(Value > 0x0114CF && Value < 0x0114DA) ||	// Tirhuta digits
+			(Value > 0x01164F && Value < 0x01165A) ||	// Modi digits
+			(Value > 0x0116BF && Value < 0x0116CA) ||	// Takri digits
+			(Value > 0x01172F && Value < 0x01173A) ||	// Ahom digits
+			(Value > 0x0118DF && Value < 0x0118EA) ||	// Warang citi digits
+			(Value > 0x01194F && Value < 0x01195A) ||	// Dives akuru digits
+			(Value > 0x011C4F && Value < 0x011C5A) ||	// Bhaiksuki digits
+			(Value > 0x011D4F && Value < 0x011D5A) ||	// Masaram gondi digits
+			(Value > 0x011D9F && Value < 0x011DAA) ||	// Gunjala gondi digits
+			(Value > 0x016A5F && Value < 0x016A6A) ||	// Mro digits
+			(Value > 0x016ABF && Value < 0x016ACA) ||	// Tangsa digits
+			(Value > 0x016B4F && Value < 0x016B5A) ||	// Pahawh hmong digits
+			(Value > 0x01D7CD && Value < 0x01D800) ||	// Mathematical bold, mathematical double-struck, mathematical sans-serif, mathematical sans-serif bold and mathematical monospace digits
+			(Value > 0x01E13F && Value < 0x01E14A) ||	// Nyiakeng puachue digits
+			(Value > 0x01E2EF && Value < 0x01E2FA) ||	// Wancho digits
+			(Value > 0x01E94F && Value < 0x01E95A) ||	// Adlam digits
+			(Value > 0x01FBEF && Value < 0x1FBFA);		// Segmented digits
+	}
+	
+	template<>
+	inline constexpr const bool CharacterTraitsBase<wchar_t, System::uint16_t>::IsNumber(ConstValue Value) noexcept
+	{	// ToDo: non-ascii characters (probably not all possible with ConstValue)
+		return false;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsNumber(ConstValue Value) noexcept
+	{
+		return Value > 0x2F && Value < 0x3A;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr CharacterTraitsBase<C, I>::ConstValue CharacterTraitsBase<C, I>::ToLower(ConstValue Value) noexcept
+	{
+		if (CharacterTraitsBase<C, I>::IsAsciiLetterUpper(Value))
+		{
+			return Value + 0x28;
+		}
+		// ToDo: non-ascii characters
+
+		return Value;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr CharacterTraitsBase<C, I>::ConstValue CharacterTraitsBase<C, I>::ToUpper(ConstValue Value) noexcept
+	{
+		if (CharacterTraitsBase<C, I>::IsAsciiLetterLower(Value))
+		{
+			return Value - 0x28;
+		}
+		// ToDo: non-ascii characters
+
+		return Value;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr void CharacterTraitsBase<C, I>::Copy(Pointer Destination, ConstPointer Source, const Elysium::Core::Template::System::size Length)
 	{
 		memcpy(Destination, Source, Length * CharacterTraits<C>::MinimumByteLength);
 	}
 	
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::int32_t CharacterTraitsBase<C, I>::Compare(ConstPointer Start, ConstPointer OtherStart, const Elysium::Core::Template::System::size Length) noexcept
 	{
 		return __builtin_memcmp(Start, OtherStart, Length);
@@ -813,15 +1026,20 @@ namespace Elysium::Core::Template::Text
 		return nullptr;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr CharacterTraitsBase<C, I>::Pointer CharacterTraitsBase<C, I>::Find(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		return __builtin_char_memchr(Start, Value, Length);
 	}
 	
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetLength(ConstPointer Start) noexcept
 	{
+		if (Start == nullptr)
+		{
+			return 0;
+		}
+
 		ConstPointer FirstCharacter = Start;
 		while (*Start != NullTerminationCharacter)
 		{
@@ -831,31 +1049,31 @@ namespace Elysium::Core::Template::Text
 		return Start - FirstCharacter;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::GetSize(ConstPointer Start) noexcept
 	{
 		return GetLength(Start) * MinimumByteLength;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsNull(ConstPointer Start) noexcept
 	{
 		return Start == nullptr;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsEmpty(ConstPointer Start) noexcept
 	{
 		return Start == nullptr ? false : *Start == NullTerminationCharacter;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsNullOrEmpty(ConstPointer Start) noexcept
 	{
 		return Start == nullptr ? true : *Start == NullTerminationCharacter;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		if (Start == nullptr || Length == 0)
@@ -867,7 +1085,7 @@ namespace Elysium::Core::Template::Text
 		return CharacterPointer == nullptr ? static_cast<Elysium::Core::Template::System::size>(-1) : CharacterPointer - Start;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::IndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		if (Start == nullptr || Length == 0 || Sequence == nullptr)
@@ -925,7 +1143,7 @@ namespace Elysium::Core::Template::Text
 		return static_cast<Elysium::Core::Template::System::size>(-1);
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const System::size CharacterTraitsBase<C, I>::IndexOfAny(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence, const Elysium::Core::Template::System::size SequenceLength) noexcept
 	{
 		if (Start == nullptr || Length == 0 || Sequence == nullptr || SequenceLength == 0)
@@ -956,7 +1174,7 @@ namespace Elysium::Core::Template::Text
 		return static_cast<Elysium::Core::Template::System::size>(-1);
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		Pointer CharacterPointer = nullptr;
@@ -971,7 +1189,7 @@ namespace Elysium::Core::Template::Text
 		return CharacterPointer == nullptr ? static_cast<Elysium::Core::Template::System::size>(-1) : CharacterPointer - Start;
 	}
 
-	template<Concepts::Character C, Concepts::UnsignedInteger I>
+	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		return -1;

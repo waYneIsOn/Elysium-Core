@@ -49,8 +49,8 @@ namespace Elysium::Core::Template::Text
 		struct HeapString final
 		{
 			CharacterPointer _Data; // 4/8 bytes
-			System::size _Size; // 4/8 bytes
-			System::size _CapacityAndFlag; // 4/8 bytes -> 1 bit flag (stack/heap allocated) + 31/63 bit capacity
+			System::size _Size; // 4/8 bytes (stores the number of bytes the string requires)
+			System::size _CapacityAndFlag; // 4/8 bytes (stores 1 bit flag (stack/heap allocated) + 31/63 bit capacity)
 
 			System::size GetCapacity() const noexcept;
 
@@ -60,7 +60,7 @@ namespace Elysium::Core::Template::Text
 		struct StackString final
 		{
 			System::byte _Data[sizeof(HeapString) - sizeof(System::byte)]; // 11/23 bytes
-			System::byte _RemainingBytesAndFlag;	// 1 byte -> 1 bit flag (stack/heap allocated) + 7 bit remaining size
+			System::byte _RemainingBytesAndFlag;	// 1 byte -> 1 bit flag (indicating stack/heap allocation) + 7 bit remaining size
 
 			constexpr const System::size GetSize() const noexcept;
 
@@ -289,18 +289,19 @@ namespace Elysium::Core::Template::Text
 	{
 		if (Source.IsHeapAllocated())
 		{
-			const Elysium::Core::Template::System::size SourceCharSize = Source.GetLength();
-			const Elysium::Core::Template::System::size SourceCharSizeIncludingNullTerminationCharacter = SourceCharSize + 1;
-			if (SourceCharSizeIncludingNullTerminationCharacter > GetCapacity())
+			const Elysium::Core::Template::System::size SourceLength = Source.GetLength();
+			const Elysium::Core::Template::System::size SourceLengthIncludingNullTerminationCharacter = SourceLength + sizeof(C);
+			const Elysium::Core::Template::System::size SourceSize = SourceLength * sizeof(C);
+			if (SourceLengthIncludingNullTerminationCharacter > GetCapacity())
 			{	// source doesn't fit into this string
 				DeleteHeapString();
-				CopyHeapString(Source._InternalString._Heap._Data, SourceCharSize);
+				CopyHeapString(Source._InternalString._Heap._Data, SourceSize);
 			}
 			else
 			{	// source fits into this string
-				const Elysium::Core::Template::System::size SourceByteSizeIncludingNullTerminationCharacter = SourceCharSize * sizeof(C) + sizeof(C);
-				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceByteSizeIncludingNullTerminationCharacter);
-				_InternalString._Heap._Size = SourceCharSize;
+				const Elysium::Core::Template::System::size SourceSizeIncludingNullTerminationCharacter = SourceLength * sizeof(C) + sizeof(C);
+				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceSizeIncludingNullTerminationCharacter);
+				_InternalString._Heap._Size = SourceSize;
 			}
 		}
 		else
@@ -345,20 +346,20 @@ namespace Elysium::Core::Template::Text
 		{
 			if (IsThisHeapAllocated)
 			{	// heap to heap
-				if (ValueLengthIncludingNullTerminator > GetCapacity())
+				if (ValueSizeIncludingNullTerminator > GetCapacity() * sizeof(C))
 				{	// source doesn't fit into this string
 					DeleteHeapString();
-					CopyHeapString(Value, ValueLength);
+					CopyHeapString(Value, ValueSize);
 				}
 				else
 				{	// source fits into this string
 					memcpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
-					_InternalString._Heap._Size = ValueLength;
+					_InternalString._Heap._Size = ValueSize;
 				}
 			}
 			else
 			{	// heap to stack
-				CopyHeapString(Value, ValueLength);
+				CopyHeapString(Value, ValueSize);
 			}
 		}
 		else
@@ -366,7 +367,7 @@ namespace Elysium::Core::Template::Text
 			if (IsThisHeapAllocated)
 			{	// stack to heap
 				memcpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
-				_InternalString._Heap._Size = ValueLength;
+				_InternalString._Heap._Size = ValueSize;
 			}
 			else
 			{	// stack to stack
@@ -387,18 +388,17 @@ namespace Elysium::Core::Template::Text
 
 			if (IsThisHeapAllocated && IsSourceHeapAllocated)
 			{	// heap to heap
-				const Elysium::Core::Template::System::size SourceCharSize = Source.GetLength();
-				const Elysium::Core::Template::System::size SourceCharSizeIncludingNullTerminationCharacter = SourceCharSize + 1;
-				if (SourceCharSizeIncludingNullTerminationCharacter > GetCapacity())
+				const Elysium::Core::Template::System::size SourceSize = Source.GetLength() * sizeof(C);
+				const Elysium::Core::Template::System::size SourceSizeIncludingNullTerminationCharacter = SourceSize + sizeof(C);
+				if (SourceSizeIncludingNullTerminationCharacter > GetCapacity() * sizeof(C))
 				{	// source doesn't fit into this string
 					DeleteHeapString();
-					CopyHeapString(Source._InternalString._Heap._Data, SourceCharSize);
+					CopyHeapString(Source._InternalString._Heap._Data, SourceSize);
 				}
 				else
 				{	// source fits into this string
-					const Elysium::Core::Template::System::size SourceByteSizeIncludingNullTerminationCharacter = SourceCharSize * sizeof(C) + sizeof(C);
-					memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceByteSizeIncludingNullTerminationCharacter);
-					_InternalString._Heap._Size = SourceCharSize;
+					memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceSizeIncludingNullTerminationCharacter);
+					_InternalString._Heap._Size = SourceSize;
 				}
 			}
 			else if (!IsThisHeapAllocated && !IsSourceHeapAllocated)
@@ -409,13 +409,12 @@ namespace Elysium::Core::Template::Text
 			}
 			else if (!IsThisHeapAllocated && IsSourceHeapAllocated)
 			{	// heap to stack
-				CopyHeapString(Source._InternalString._Heap._Data, Source.GetLength());
+				CopyHeapString(Source._InternalString._Heap._Data, Source.GetLength() * sizeof(C));
 			}
 			else
 			{	// stack to heap
-				
 				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString) - 1);
-				_InternalString._Heap._Size = Source.GetLength();
+				_InternalString._Heap._Size = Source.GetLength() * sizeof(C);
 			}
 		}
 		return *this;
@@ -452,7 +451,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// we possibly need to grow Length (in bounds of Capacity) as someone could write a char using this operator.
-		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size / sizeof(C) : _InternalString._Stack.GetSize() / sizeof(C);
 		if (Index >= Length)
 		{
 			const Elysium::Core::Template::System::size Size = (Length + 1) * sizeof(C);
@@ -473,7 +472,7 @@ namespace Elysium::Core::Template::Text
 	inline String<C, Traits, Allocator>::ConstCharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const
 	{
 		const bool HeapAllocated = IsHeapAllocated();
-		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		const Elysium::Core::Template::System::size Length = HeapAllocated ? _InternalString._Heap._Size / sizeof(C) : _InternalString._Stack.GetSize() / sizeof(C);
 		if (Index >= Length)
 		{
 			throw 1;
@@ -624,7 +623,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr const Elysium::Core::Template::System::size String<C, Traits, Allocator>::GetLength() const
 	{
-		return IsHeapAllocated() ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		return IsHeapAllocated() ? _InternalString._Heap._Size / sizeof(C) : _InternalString._Stack.GetSize() / sizeof(C);
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -690,7 +689,7 @@ namespace Elysium::Core::Template::Text
 	{	// code below should work similar to std::hash<std::u8string>()(_Data);
 		Elysium::Core::Template::System::size Hash = 14695981039346656037ULL;
 		const bool HeapAllocated = IsHeapAllocated();
-		Elysium::Core::Template::System::size Size = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / sizeof(C);
+		Elysium::Core::Template::System::size Size = HeapAllocated ? _InternalString._Heap._Size / sizeof(C) : _InternalString._Stack.GetSize() / sizeof(C);
 
 		if (Size == 0)
 		{
@@ -882,7 +881,7 @@ namespace Elysium::Core::Template::Text
 		memcpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminator);
 
 		_InternalString._Heap._Size = Size;
-		_InternalString._Heap.SetCapacity(Size);
+		_InternalString._Heap.SetCapacity(Size / sizeof(C));
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -895,13 +894,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline void String<C, Traits, Allocator>::CopyHeapString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size CharSize)
 	{
-		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = CharSize + 1;
+		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = CharSize + sizeof(C);
 
 		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
 		memcpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminationCharacter);
 
 		_InternalString._Heap._Size = CharSize;
-		_InternalString._Heap.SetCapacity(CharSize);
+		_InternalString._Heap.SetCapacity(CharSize / sizeof(C));
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>

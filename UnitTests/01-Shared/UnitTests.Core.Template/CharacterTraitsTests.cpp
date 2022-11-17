@@ -71,14 +71,12 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(GetLength)
 		{
-			/*
-			// incorrect input!
 			Assert::AreEqual(0_ui64, CharacterTraits<char>::GetLength(nullptr));
 			Assert::AreEqual(0_ui64, CharacterTraits<char8_t>::GetLength(nullptr));
 			Assert::AreEqual(0_ui64, CharacterTraits<char16_t>::GetLength(nullptr));
 			Assert::AreEqual(0_ui64, CharacterTraits<char32_t>::GetLength(nullptr));
 			Assert::AreEqual(0_ui64, CharacterTraits<wchar_t>::GetLength(nullptr));
-			*/
+			
 			Assert::AreEqual(0_ui64, CharacterTraits<char>::GetLength(""));
 			Assert::AreEqual(0_ui64, CharacterTraits<char8_t>::GetLength(u8""));
 			Assert::AreEqual(0_ui64, CharacterTraits<char16_t>::GetLength(u""));
@@ -126,6 +124,7 @@ namespace UnitTests::Core::Template::Text
 
 		TEST_METHOD(IsControlChar)
 		{
+			// ASCII-characters
 			for (Elysium::Core::uint8_t i = 0; i < 0x20; i++)
 			{
 				Assert::IsTrue(CharacterTraits<char>::IsControl(i));
@@ -190,6 +189,51 @@ namespace UnitTests::Core::Template::Text
 				Assert::IsFalse(CharacterTraits<char16_t>::IsDigit(i));
 				Assert::IsFalse(CharacterTraits<char32_t>::IsDigit(i));
 				Assert::IsFalse(CharacterTraits<wchar_t>::IsDigit(i));
+			}
+		}
+
+		TEST_METHOD(IsLetter)
+		{
+			// ASCII-characters
+			for (Elysium::Core::uint8_t i = 0; i < 0x41; i++)
+			{
+				Assert::IsFalse(CharacterTraits<char>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char8_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char16_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<wchar_t>::IsLetter(i));
+			}
+			for (Elysium::Core::uint8_t i = 0x41; i < 0x5B; i++)
+			{	// A - Z
+				Assert::IsTrue(CharacterTraits<char>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<char8_t>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<char16_t>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<char32_t>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<wchar_t>::IsLetter(i));
+			}
+			for (Elysium::Core::uint8_t i = 0x5B; i < 0x61; i++)
+			{
+				Assert::IsFalse(CharacterTraits<char>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char8_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char16_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<wchar_t>::IsLetter(i));
+			}
+			for (Elysium::Core::uint8_t i = 0x61; i < 0x7B; i++)
+			{	// a - Z
+				Assert::IsTrue(CharacterTraits<char>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<char8_t>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<char16_t>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<char32_t>::IsLetter(i));
+				Assert::IsTrue(CharacterTraits<wchar_t>::IsLetter(i));
+			}
+			for (Elysium::Core::uint8_t i = 0x7B; i < 0xFF; i++)
+			{
+				Assert::IsFalse(CharacterTraits<char>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char8_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char16_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<char32_t>::IsLetter(i));
+				Assert::IsFalse(CharacterTraits<wchar_t>::IsLetter(i));
 			}
 		}
 	};

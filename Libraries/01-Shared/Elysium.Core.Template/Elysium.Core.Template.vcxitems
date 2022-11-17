@@ -50,6 +50,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMapForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp" />

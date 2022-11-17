@@ -362,6 +362,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
