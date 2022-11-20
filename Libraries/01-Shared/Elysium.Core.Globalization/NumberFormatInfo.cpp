@@ -236,7 +236,19 @@ const Elysium::Core::Utf8String Elysium::Core::Globalization::NumberFormatInfo::
 
 const Elysium::Core::int32_t Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalDigits() const
 {
+#if defined(ELYSIUM_CORE_OS_WINDOWS)
+	wchar_t Value[LOCALE_NAME_MAX_LENGTH];
+	if (GetLocaleInfo((LCID)_LCID, LOCALE_SNATIVEDIGITS, (LPWSTR)&Value[0], LOCALE_NAME_MAX_LENGTH) == 0)
+	{
+		throw SystemException();
+	}
+
+	return Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(Value, Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Value));
+#elif defined(ELYSIUM_CORE_OS_ANDROID)
 	throw 1;
+#else
+#error "undefined os"
+#endif
 }
 
 const Elysium::Core::Utf8String Elysium::Core::Globalization::NumberFormatInfo::GetNumberDecimalSeparator() const
