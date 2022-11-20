@@ -365,6 +365,40 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Absolute.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Logarithm.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LessOrEqual.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

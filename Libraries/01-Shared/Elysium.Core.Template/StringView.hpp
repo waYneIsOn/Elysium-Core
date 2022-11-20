@@ -69,9 +69,9 @@ namespace Elysium::Core::Template::Text
 
 		StringView<C, Traits>& operator=(StringView&& Right) noexcept;
 	public:
-		StringView<C, Traits>::CharacterReference operator[](const System::size Index);
+		StringView<C, Traits>::CharacterReference operator[](const System::size Index) noexcept;
 
-		StringView<C, Traits>::ConstCharacterReference operator[](const System::size Index) const;
+		StringView<C, Traits>::ConstCharacterReference operator[](const System::size Index) const noexcept;
 	public:
 		const bool operator==(const StringView& Other) const noexcept;
 
@@ -179,24 +179,14 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::CharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index)
+	inline StringView<C, Traits>::CharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) noexcept
 	{
-		if (Index >= _Length)
-		{
-			//throw IndexOutOfRangeException();
-		}
-
 		return (CharacterReference)_Data[Index];
 	}
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::ConstCharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) const
+	inline StringView<C, Traits>::ConstCharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) const noexcept
 	{
-		if (Index >= _Length)
-		{
-			//throw IndexOutOfRangeException();
-		}
-
 		return _Data[Index];
 	}
 
@@ -334,7 +324,7 @@ namespace Elysium::Core::Template::Text
 			{
 				if (_Length - StartIndex > 0)
 				{
-					Result.PushBack(Functional::Move(StringView<C, Traits>(&_Data[StartIndex], Length - StartIndex)));
+					Result.PushBack(Functional::Move(StringView<C, Traits>(&_Data[StartIndex], _Length - StartIndex)));
 				}
 				break;
 			}

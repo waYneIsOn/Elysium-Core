@@ -83,6 +83,21 @@ namespace Elysium::Core::Template::Text
 		static constexpr ConstValue WhitespaceCharacter = static_cast<ConstValue>(' ');
 
 		/// <summary>
+		/// Returns '0' as specified character-type.
+		/// </summary>
+		static constexpr ConstValue ZeroCharacter = static_cast<ConstValue>('0');
+
+		/// <summary>
+		/// Returns 'a' as specified character-type.
+		/// </summary>
+		static constexpr ConstValue LowerACharacter = static_cast<ConstValue>('a');
+
+		/// <summary>
+		/// Returns 'A' as specified character-type.
+		/// </summary>
+		static constexpr ConstValue UpperACharacter = static_cast<ConstValue>('A');
+
+		/// <summary>
 		/// Returns the smallest possible value as specified character-type.
 		/// </summary>
 		static constexpr ConstValue MinimumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Minimum);
@@ -758,14 +773,14 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiHexDigitLower(ConstValue Value) noexcept
-	{	// 0 - 9 || a - f
-		return (Value > 0x2F && Value < 0x3A) || (Value > 0x60 && Value < 0x67);
+	{	// a - f || 0 - 9
+		return (Value > 0x60 && Value < 0x67) || (Value > 0x2F && Value < 0x3A);
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsAsciiHexDigitUpper(ConstValue Value) noexcept
-	{	// 0 - 9 || A - F
-		return (Value > 0x2F && Value < 0x3A) || (Value > 0x40 && Value < 0x47);
+	{	// A - F || 0 - 9 
+		return (Value > 0x40 && Value < 0x47) || (Value > 0x2F && Value < 0x3A);
 	}
 
 	template<Concepts::Character C, Concepts::Integer I>

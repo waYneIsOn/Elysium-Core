@@ -40,7 +40,11 @@ namespace Microsoft
 
 					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
-						Assert::AreEqual(Expected[i], Actual[i]);
+						char8_t ExpectedChar = Expected[i];
+						char8_t ActualChar = Actual[i];
+
+						Assert::AreEqual(ExpectedChar, ActualChar);
+						//Assert::AreEqual(Expected[i], Actual[i]);
 					}
 				}
 
@@ -50,7 +54,11 @@ namespace Microsoft
 
 					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
-						Assert::AreEqual(Expected[i], Actual[i]);
+						char8_t ExpectedChar = Expected[i];
+						char8_t ActualChar = Actual[i];
+
+						Assert::AreEqual(ExpectedChar, ActualChar);
+						//Assert::AreEqual(Expected[i], Actual[i]);
 					}
 				}
 
@@ -60,7 +68,11 @@ namespace Microsoft
 
 					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
-						Assert::AreEqual(Expected[i], Actual[i]);
+						char8_t ExpectedChar = Expected[i];
+						char8_t ActualChar = Actual[i];
+
+						Assert::AreEqual(ExpectedChar, ActualChar);
+						//Assert::AreEqual(Expected[i], Actual[i]);
 					}
 				}
 
@@ -70,8 +82,13 @@ namespace Microsoft
 
 					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
-						Assert::IsTrue(static_cast<uint16_t>(Expected[i]) == static_cast<uint16_t>(Actual[i]));
+						char8_t ExpectedChar = Expected[i];
+						char8_t ActualChar = Actual[i];
+
+						Assert::AreEqual(ExpectedChar, ActualChar);
 						//Assert::AreEqual(Expected[i], Actual[i]);
+
+						//Assert::IsTrue(static_cast<uint16_t>(Expected[i]) == static_cast<uint16_t>(Actual[i]));
 					}
 				}
 
@@ -81,8 +98,13 @@ namespace Microsoft
 
 					for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 					{
-						Assert::IsTrue(static_cast<uint32_t>(Expected[i]) == static_cast<uint32_t>(Actual[i]));
+						char8_t ExpectedChar = Expected[i];
+						char8_t ActualChar = Actual[i];
+
+						Assert::AreEqual(ExpectedChar, ActualChar);
 						//Assert::AreEqual(Expected[i], Actual[i]);
+
+						//::IsTrue(static_cast<uint32_t>(Expected[i]) == static_cast<uint32_t>(Actual[i]));
 					}
 				}
 
@@ -117,13 +139,9 @@ namespace Microsoft
 			template <>
 			static std::wstring ToString(const char8_t& q)
 			{
-				// ToDo: this is obviously incorrect!
-				return std::wstring(&reinterpret_cast<const wchar_t&>(q), 1);
-				/*
-				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = AssertExtended::Utf16Encoding.GetBytes(q, 0, 1);
+				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = AssertExtended::Utf16Encoding.GetBytes(&q, 1, 1);
 
 				return std::wstring((wchar_t*)&Bytes[0], Bytes.GetLength());
-				*/
 			}
 			/*
 			template <>

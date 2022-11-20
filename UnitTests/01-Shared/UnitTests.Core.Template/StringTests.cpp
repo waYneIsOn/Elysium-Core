@@ -154,11 +154,11 @@ namespace UnitTests::Core::Template::Text
 			Elysium::Core::Utf16String StackSizeUtf16CharArray = Elysium::Core::Utf16String(1);
 			Elysium::Core::Utf32String StackSizeUtf32CharArray = Elysium::Core::Utf32String(1);
 
-			Assert::AreEqual(0_ui64, StackSizeCharArray.GetLength());
-			Assert::AreEqual(0_ui64, StackSizeWideCharArray.GetLength());
-			Assert::AreEqual(0_ui64, StackSizeUtf8CharArray.GetLength());
-			Assert::AreEqual(0_ui64, StackSizeUtf16CharArray.GetLength());
-			Assert::AreEqual(0_ui64, StackSizeUtf32CharArray.GetLength());
+			Assert::AreEqual(1_ui64, StackSizeCharArray.GetLength());
+			Assert::AreEqual(1_ui64, StackSizeWideCharArray.GetLength());
+			Assert::AreEqual(1_ui64, StackSizeUtf8CharArray.GetLength());
+			Assert::AreEqual(1_ui64, StackSizeUtf16CharArray.GetLength());
+			Assert::AreEqual(1_ui64, StackSizeUtf32CharArray.GetLength());
 
 			Assert::AreEqual(23_ui64, StackSizeCharArray.GetCapacity());
 			Assert::AreEqual(11_ui64, StackSizeWideCharArray.GetCapacity());
@@ -173,11 +173,11 @@ namespace UnitTests::Core::Template::Text
 			Elysium::Core::Utf16String HeapSizeUtf16CharArray = Elysium::Core::Utf16String(127);
 			Elysium::Core::Utf32String HeapSizeUtf32CharArray = Elysium::Core::Utf32String(127);
 
-			Assert::AreEqual(0_ui64, HeapSizeCharArray.GetLength());
-			Assert::AreEqual(0_ui64, HeapSizeWideCharArray.GetLength());
-			Assert::AreEqual(0_ui64, HeapSizeUtf8CharArray.GetLength());
-			Assert::AreEqual(0_ui64, HeapSizeUtf16CharArray.GetLength());
-			Assert::AreEqual(0_ui64, HeapSizeUtf32CharArray.GetLength());
+			Assert::AreEqual(127_ui64, HeapSizeCharArray.GetLength());
+			Assert::AreEqual(127_ui64, HeapSizeWideCharArray.GetLength());
+			Assert::AreEqual(127_ui64, HeapSizeUtf8CharArray.GetLength());
+			Assert::AreEqual(127_ui64, HeapSizeUtf16CharArray.GetLength());
+			Assert::AreEqual(127_ui64, HeapSizeUtf32CharArray.GetLength());
 
 			Assert::AreEqual(127_ui64, HeapSizeCharArray.GetCapacity());
 			Assert::AreEqual(127_ui64, HeapSizeWideCharArray.GetCapacity());

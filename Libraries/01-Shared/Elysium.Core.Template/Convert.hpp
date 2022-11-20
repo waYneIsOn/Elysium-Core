@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
+#include "Absolute.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "NumericTraits.hpp"
 #endif
@@ -54,11 +58,11 @@ namespace Elysium::Core::Template::Text
 	struct Convert
 	{
 	public:
-		using Value = C;
-		using Pointer = C*;
-		using ConstValue = const C;
-		using ConstPointer = const C*;
-		using ConstReference = const C&;
+		using Value = CharacterTraits<C>::Value;
+		using Pointer = CharacterTraits<C>::Pointer;
+		using ConstValue = CharacterTraits<C>::ConstValue;
+		using ConstPointer = CharacterTraits<C>::ConstPointer;
+		using ConstReference = CharacterTraits<C>::ConstReference;
 
 		using CorrespondingString = String<C>;
 	public:
@@ -130,19 +134,19 @@ namespace Elysium::Core::Template::Text
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int64_t Value);
 
-		static const typename Convert<C>::CorrespondingString ToString(float Value, const Elysium::Core::Template::System::uint8_t ToBase,
+		static const typename Convert<C>::CorrespondingString ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
-		static const typename Convert<C>::CorrespondingString ToString(float Value, const Elysium::Core::Template::System::uint8_t ToBase);
+		static const typename Convert<C>::CorrespondingString ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
-		static const typename Convert<C>::CorrespondingString ToString(float Value);
+		static const typename Convert<C>::CorrespondingString ToString(const float Value);
 
-		static const typename Convert<C>::CorrespondingString ToString(double Value, const Elysium::Core::Template::System::uint8_t ToBase,
+		static const typename Convert<C>::CorrespondingString ToString(const double Value, const Elysium::Core::Template::System::uint8_t ToBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
-		static const typename Convert<C>::CorrespondingString ToString(double Value, const Elysium::Core::Template::System::uint8_t ToBase);
+		static const typename Convert<C>::CorrespondingString ToString(const double Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
-		static const typename Convert<C>::CorrespondingString ToString(double Value);
+		static const typename Convert<C>::CorrespondingString ToString(const double Value);
 	public:
 		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
@@ -225,6 +229,8 @@ namespace Elysium::Core::Template::Text
 
 		static const Elysium::Core::Template::System::int32_t ToInt32FromBase16(ConstPointer Value, const Elysium::Core::Template::System::size Length,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+	private:
+		inline static const Elysium::Core::Globalization::NumberFormatInfo _InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo();
 	};
 
 	template<Concepts::Character C>
@@ -237,22 +243,45 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -265,22 +294,45 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return static_cast<C>('0');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 	
 	template<Concepts::Character C>
@@ -293,26 +345,27 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		Elysium::Core::Template::System::uint8_t RequiredNumberOfCharacters = 0;
-		Elysium::Core::Template::System::uint8_t Index = 0;
-		RequiredNumberOfCharacters += static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
-		Elysium::Core::Template::Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
+		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			Elysium::Core::Template::System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			Elysium::Core::Template::System::int16_t NumericalValue = Value / BaseValue;
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
-				Result[Index++] = NumericalValue + static_cast<C>('0');
+				Result[Index++] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
 			}
 			else
 			{
-				Result[Index++] = NumericalValue - 10 + static_cast<C>('A');
+				Result[Index++] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
 			}
 
 			Value -= BaseValue * NumericalValue;
@@ -324,13 +377,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -343,22 +396,45 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index++] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+			}
+			else
+			{
+				Result[Index++] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -371,22 +447,57 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			Value = Math::Absolute(Value);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int8_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int8_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -399,22 +510,57 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			Value = Math::Absolute(Value);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int16_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int16_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -427,22 +573,57 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+		const System::uint8_t RequiredNumberOfCharacters =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			Value = Math::Absolute(Value);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int32_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int32_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -455,26 +636,61 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+		const System::uint8_t RequiredNumberOfCharacters = 
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			Value = Math::Absolute(Value);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharacters)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
+			System::int16_t NumericalValue = Value / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			Value -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int64_t Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int64_t Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(float Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -483,22 +699,106 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
+
+		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
+		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * pow(10, NumberDecimalDigits));
+
+		// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+
+		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(IntegerPart)) /log(ToBase)) + 1_ui8);
+
+		const System::uint8_t RequiredNumberOfCharactersPostIntegerPart =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
+
+		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersPostIntegerPart > 0 ?
+			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()): 0;
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(NegativeSignLength + 
+			RequiredNumberOfCharactersPreFloatingPart + DecimalSeparatorLength + NumberDecimalDigits);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			IntegerPart = Math::Absolute(IntegerPart);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharactersPreFloatingPart)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharactersPreFloatingPart) - Index - 1_ui8));
+			System::int16_t NumericalValue = IntegerPart / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			IntegerPart -= BaseValue * NumericalValue;
+		}
+		
+		if (DecimalSeparatorLength > 0)
+		{
+			memcpy(&Result[Index + NegativeSignLength], (const void*)&DecimalSeparator[0], DecimalSeparatorLength * CharacterTraits<C>::MinimumByteLength);
+			Index += DecimalSeparatorLength;
+		}
+
+		Index = 0;
+		while (Index < RequiredNumberOfCharactersPostIntegerPart)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharactersPostIntegerPart) - Index - 1_ui8));
+			System::int16_t NumericalValue = FloatingPart / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersPreFloatingPart] = 
+					NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersPreFloatingPart] = 
+					NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			if (Index >= NumberDecimalDigits)
+			{
+				break;
+			}
+
+			FloatingPart -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(float Value, const Elysium::Core::Template::System::uint8_t ToBase)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
-
+	
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(float Value)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(const float Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -511,22 +811,106 @@ namespace Elysium::Core::Template::Text
 
 		if (Value == 0)
 		{
-			return Convert<C>::CorrespondingString('\u0030');
+			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		throw Elysium::Core::NotImplementedException();
+		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
+
+		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
+		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * pow(10, NumberDecimalDigits));
+
+		// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+
+		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(IntegerPart)) / log(ToBase)) + 1_ui8);
+
+		const System::uint8_t RequiredNumberOfCharactersPostIntegerPart =
+			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
+
+		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersPostIntegerPart > 0 ?
+			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()) : 0;
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(NegativeSignLength +
+			RequiredNumberOfCharactersPreFloatingPart + DecimalSeparatorLength + NumberDecimalDigits);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			IntegerPart = Math::Absolute(IntegerPart);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharactersPreFloatingPart)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharactersPreFloatingPart) - Index - 1_ui8));
+			System::int16_t NumericalValue = IntegerPart / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			IntegerPart -= BaseValue * NumericalValue;
+		}
+
+		if (DecimalSeparatorLength > 0)
+		{
+			memcpy(&Result[Index + NegativeSignLength], (const void*)&DecimalSeparator[0], DecimalSeparatorLength * CharacterTraits<C>::MinimumByteLength);
+			Index += DecimalSeparatorLength;
+		}
+
+		Index = 0;
+		while (Index < RequiredNumberOfCharactersPostIntegerPart)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+				static_cast<double>(RequiredNumberOfCharactersPostIntegerPart) - Index - 1_ui8));
+			System::int16_t NumericalValue = FloatingPart / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersPreFloatingPart] =
+					NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersPreFloatingPart] =
+					NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			if (Index >= NumberDecimalDigits)
+			{
+				break;
+			}
+
+			FloatingPart -= BaseValue * NumericalValue;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(double Value, const Elysium::Core::Template::System::uint8_t ToBase)
 	{
-		return ToString(Value, ToBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, ToBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(double Value)
 	{
-		return ToString(Value, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToString(Value, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -552,13 +936,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToUInt8(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt8(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToUInt8(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt8(Value, Length, 10, _InvariantInfo);
 	}
 	
 	template<Concepts::Character C>
@@ -584,13 +968,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToUInt16(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt16(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToUInt8(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt8(Value, Length, 10, _InvariantInfo);
 	}
 	
 	template<Concepts::Character C>
@@ -616,13 +1000,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToUInt32(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt32(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToUInt32(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt32(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -648,13 +1032,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToUInt64(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt64(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToUInt64(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToUInt64(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -680,13 +1064,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToInt8(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt8(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToInt8(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt8(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -712,13 +1096,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToInt16(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt16(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToInt16(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt16(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -742,13 +1126,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToInt32(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt32(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToInt32(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt32(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -774,13 +1158,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToInt64(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt64(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToInt64(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToInt64(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -806,13 +1190,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline float Convert<C>::ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToSingle(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToSingle(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline float Convert<C>::ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToSingle(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToSingle(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -838,13 +1222,13 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase)
 	{
-		return ToDouble(Value, Length, FromBase, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToDouble(Value, Length, FromBase, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
 	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToDouble(Value, Length, 10, Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo());
+		return ToDouble(Value, Length, 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -863,34 +1247,37 @@ namespace Elysium::Core::Template::Text
 	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase10(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
 		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		ConstPointer LastCharacter = &Value[Length];
+
 		Elysium::Core::Template::System::int16_t Sign = 1;
-		Elysium::Core::Template::System::int32_t i = 0;
 		Elysium::Core::Template::System::int32_t Base = 0;
 		
 		// eat all whitespaces
-		while (Value[i] == CharacterTraits<C>::WhitespaceCharacter)
+		while (Value[0] == CharacterTraits<C>::WhitespaceCharacter)
 		{
-			i++;
+			Value++;
 		}
-
+		
 		// sign
-		if (Value[i] == CharacterTraits<C>::MinusCharacter || Value[i] == CharacterTraits<C>::PlusCharacter)
+		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[i++] == CharacterTraits<C>::MinusCharacter);
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
 		}
 
 		// ...
-		while (Value[i] >= '\u0030' && Value[i] <= '\u0039' && i < Length)
+		while (Value[0] >= '\u0030' && Value[0] <= '\u0039' && Value < LastCharacter)
 		{
 			// handle overflow cases
 			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[i] - static_cast<ConstValue>('0') > 7))
+				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[0] - static_cast<ConstValue>('0') > 7))
 			{
 				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum :
 					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Minimum;
 			}
 
-			Base = 10 * Base + (Value[i++] - static_cast<ConstValue>('0'));
+			Base = 10 * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
 		}
 
 		return Base * Sign;
@@ -900,41 +1287,45 @@ namespace Elysium::Core::Template::Text
 	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
 		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		ConstPointer LastCharacter = &Value[Length];
+
 		Elysium::Core::Template::System::int16_t Sign = 1;
-		Elysium::Core::Template::System::int32_t i = 0;
 		Elysium::Core::Template::System::int32_t Base = 0;
-
+		
 		// eat all whitespaces
-		while (Value[i] == CharacterTraits<C>::WhitespaceCharacter)
+		while (Value[0] == CharacterTraits<C>::WhitespaceCharacter)
 		{
-			i++;
+			Value++;
 		}
-
+		
 		// sign
-		if (Value[i] == CharacterTraits<C>::MinusCharacter || Value[i] == CharacterTraits<C>::PlusCharacter)
+		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[i++] == CharacterTraits<C>::MinusCharacter);
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
 		}
 
 		// ...
-		while (true)
+		while (Value < LastCharacter)
 		{
-			if (Value[i] >= static_cast<ConstValue>('0') && Value[i] <= static_cast<ConstValue>('9') && i < Length)
+			ConstReference CurrentCharacter = Value[0];
+			if (CharacterTraits<C>::IsDigit(CurrentCharacter))
 			{
-				Base = 16 * Base + (Value[i++] - static_cast<ConstValue>('0'));
+				Base = 16 * Base + (CurrentCharacter - CharacterTraits<C>::ZeroCharacter);
 			}
-			else if (Value[i] >= static_cast<ConstValue>('a') && Value[i] <= static_cast<ConstValue>('f') && i < Length)
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(CurrentCharacter))
 			{
-				Base = 16 * Base + (Value[i++] - static_cast<ConstValue>('a'));
+				Base = 16 * Base + (CurrentCharacter - CharacterTraits<C>::LowerACharacter);
 			}
-			else if (Value[i] >= static_cast<ConstValue>('A') && Value[i] <= static_cast<ConstValue>('F') && i < Length)
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(CurrentCharacter))
 			{
-				Base = 16 * Base + (Value[i++] - static_cast<ConstValue>('A'));
+				Base = 16 * Base + (CurrentCharacter - CharacterTraits<C>::UpperACharacter);
 			}
 			else
-			{
+			{	// we are still within range but CurrentCharacter is no hex digit character
 				break;
 			}
+			Value++;
 		}
 
 		return Base * Sign;

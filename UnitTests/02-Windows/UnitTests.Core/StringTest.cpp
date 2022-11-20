@@ -24,7 +24,7 @@ namespace UnitTests::Core
 			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(EmptyString2));
 
 			Elysium::Core::Utf8String LString = Elysium::Core::Utf8String(5);
-			Assert::AreEqual(0_ui64, LString.GetLength());
+			Assert::AreEqual(5_ui64, LString.GetLength());
 			
 			Elysium::Core::Utf8String String1 = Elysium::Core::Utf8String(u8"text");
 			AssertExtended::AreEqual(u8"text", &String1[0]);

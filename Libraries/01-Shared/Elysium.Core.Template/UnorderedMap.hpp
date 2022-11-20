@@ -66,8 +66,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Container
 {
-	// template <Concept::Hashable TKey, ...>
-
+	/// <summary>
+	/// 
+	/// ToDos:
+	/// https://bannalia.blogspot.com/2022/11/inside-boostunorderedflatmap.html
+	/// </summary>
+	/// <typeparam name="TKey"></typeparam>
+	/// <typeparam name="TValue"></typeparam>
+	/// <typeparam name="KeyCompare"></typeparam>
+	/// <typeparam name="Allocator"></typeparam>
 	template <class TKey, class TValue, class KeyCompare = Operators::Less<TKey>, 
 		class Allocator = Memory::DefaultAllocator<LinkedList<KeyValuePair<TKey, TValue>>>>
 	class UnorderedMap final

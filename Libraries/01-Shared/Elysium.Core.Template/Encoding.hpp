@@ -228,13 +228,7 @@ namespace Elysium::Core::Template::Text
 		for (System::size i = 0; i < RequiredLength; i++)
 		{
 			IntegerRepresentation = Input[i];
-#if defined ELYSIUM_CORE_LITTLEENDIAN
-			Data[0] = IntegerRepresentation < 0x80 ? static_cast<System::byte>(IntegerRepresentation) : 0x3F;
-			Data[1] = 0x00;
-#else
-			Data[0] = 0x00;
-			Data[1] = IntegerRepresentation < 0x80 ? static_cast<System::byte>(IntegerRepresentation) : 0x3F;
-#endif
+			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
 			Data += 2;
 		}
 
@@ -251,17 +245,7 @@ namespace Elysium::Core::Template::Text
 		for (System::size i = 0; i < RequiredLength; i++)
 		{
 			IntegerRepresentation = Input[i];
-#if defined ELYSIUM_CORE_LITTLEENDIAN
-			Data[0] = 0x00;
-			Data[1] = 0x00;
-			Data[2] = 0x00;
-			Data[3] = IntegerRepresentation < 0x80 ? static_cast<System::byte>(IntegerRepresentation) : 0x3F;
-#else
-			Data[0] = IntegerRepresentation < 0x80 ? static_cast<System::byte>(IntegerRepresentation) : 0x3F;
-			Data[1] = 0x00;
-			Data[2] = 0x00;
-			Data[3] = 0x00;
-#endif
+			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
 			Data += 4;
 		}
 
@@ -278,14 +262,7 @@ namespace Elysium::Core::Template::Text
 		for (System::size i = 0; i < RequiredLength; i++)
 		{
 			IntegerRepresentation = Input[i];
-#if defined ELYSIUM_CORE_LITTLEENDIAN
-
-			Data[0] = 0x00;
-			Data[1] = IntegerRepresentation < 0x80 ? static_cast<System::byte>(IntegerRepresentation) : 0x3F;
-#else
-			Data[0] = IntegerRepresentation < 0x80 ? static_cast<System::byte>(IntegerRepresentation) : 0x3F;
-			Data[1] = 0x00;
-#endif
+			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
 			Data += 2;
 		}
 

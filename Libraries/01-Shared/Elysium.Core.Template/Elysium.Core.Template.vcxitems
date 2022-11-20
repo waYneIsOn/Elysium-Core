@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp" />
@@ -46,10 +47,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)LessOrEqual.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Logarithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMapForwardIterator.hpp" />

@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
-#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNEDINTEGER
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNEDINTEGER
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,26 +16,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveConstVolatile.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
-#include "IntegralConstant.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISANYOF
 #include "IsAnyOf.hpp"
 #endif
 
-namespace Elysium::Core
-{
-    class Decimal;
-}
-
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, float, double, long double, Elysium::Core::Decimal>;
+    inline constexpr bool IsSignedIntegerValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, char, short, int,
+        long, long long>;
 
     template <class T>
-    struct IsFloatingPoint : IntegralConstant<bool, IsFloatingPointValue<T>>
+    struct IsSignedInteger : IntegralConstant<bool, IsSignedIntegerValue<T>>
     { };
 }
 #endif
