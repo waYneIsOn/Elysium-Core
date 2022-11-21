@@ -362,9 +362,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp">
       <Filter>Concepts</Filter>
@@ -398,6 +395,24 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp">
       <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRange.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRanges.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp">
+      <Filter>TypeTraits</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -448,6 +463,15 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{5ece3da3-bc20-451f-9267-1f77669449c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Text\Unicode">
+      <UniqueIdentifier>{7b62957e-c4db-4cba-9eb6-6d748b8e6056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ranges">
+      <UniqueIdentifier>{5dc88a30-27a9-48fd-827c-eae28449a0f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ranges\Views">
+      <UniqueIdentifier>{ee8c614d-1bdc-4660-a290-4063e1a830b7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

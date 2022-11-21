@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Integer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_UNICODECATEGORY
-#include "UnicodeCategory.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "NumericTraits.hpp"
 #endif

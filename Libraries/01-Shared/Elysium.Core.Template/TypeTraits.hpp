@@ -112,6 +112,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsSignedInteger.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISUNICODECHARACTER
+#include "IsUnicodeCharacter.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISUNION
 #include "IsUnion.hpp"
 #endif

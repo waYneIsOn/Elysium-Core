@@ -55,7 +55,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Text
 {
 	template <Concepts::Character C>
-	struct Convert
+	class Convert
 	{
 	public:
 		using Value = CharacterTraits<C>::Value;
@@ -716,10 +716,10 @@ namespace Elysium::Core::Template::Text
 		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(IntegerPart)) /log(ToBase)) + 1_ui8);
 
-		const System::uint8_t RequiredNumberOfCharactersPostIntegerPart =
+		const System::uint8_t RequiredNumberOfCharactersFloatingPart =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
 
-		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersPostIntegerPart > 0 ?
+		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersFloatingPart > 0 ?
 			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()): 0;
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(NegativeSignLength + 
@@ -759,10 +759,10 @@ namespace Elysium::Core::Template::Text
 		}
 
 		Index = 0;
-		while (Index < RequiredNumberOfCharactersPostIntegerPart)
+		while (Index < RequiredNumberOfCharactersFloatingPart)
 		{
 			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
-				static_cast<double>(RequiredNumberOfCharactersPostIntegerPart) - Index - 1_ui8));
+				static_cast<double>(RequiredNumberOfCharactersFloatingPart) - Index - 1_ui8));
 			System::int16_t NumericalValue = FloatingPart / BaseValue;
 
 			if (NumericalValue < 10)
@@ -828,10 +828,10 @@ namespace Elysium::Core::Template::Text
 		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(IntegerPart)) / log(ToBase)) + 1_ui8);
 
-		const System::uint8_t RequiredNumberOfCharactersPostIntegerPart =
+		const System::uint8_t RequiredNumberOfCharactersFloatingPart =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
 
-		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersPostIntegerPart > 0 ?
+		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersFloatingPart > 0 ?
 			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()) : 0;
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(NegativeSignLength +
@@ -871,10 +871,10 @@ namespace Elysium::Core::Template::Text
 		}
 
 		Index = 0;
-		while (Index < RequiredNumberOfCharactersPostIntegerPart)
+		while (Index < RequiredNumberOfCharactersFloatingPart)
 		{
 			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
-				static_cast<double>(RequiredNumberOfCharactersPostIntegerPart) - Index - 1_ui8));
+				static_cast<double>(RequiredNumberOfCharactersFloatingPart) - Index - 1_ui8));
 			System::int16_t NumericalValue = FloatingPart / BaseValue;
 
 			if (NumericalValue < 10)

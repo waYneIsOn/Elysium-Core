@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_UNICODECATEGORY
-#define ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_UNICODECATEGORY
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UNICODECATEGORY
+#define ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UNICODECATEGORY
 
 #ifdef _MSC_VER
 #pragma once
@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
-namespace Elysium::Core::Template::Globalization
+namespace Elysium::Core::Template::Text::Unicode
 {
 	/// <summary>
 	/// https://www.fileformat.info/info/unicode/category/index.htm

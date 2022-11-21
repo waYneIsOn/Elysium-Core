@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CHRONO
-#include "Chrono.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
+#include "NumberFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_LOCALE

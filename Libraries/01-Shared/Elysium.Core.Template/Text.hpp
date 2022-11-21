@@ -36,4 +36,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StringView.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UNICODECATEGORY
+#include "UnicodeCategory.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UNICODERANGE
+#include "UnicodeRange.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UNICODERANGES
+#include "UnicodeRanges.hpp"
+#endif
+
 #endif

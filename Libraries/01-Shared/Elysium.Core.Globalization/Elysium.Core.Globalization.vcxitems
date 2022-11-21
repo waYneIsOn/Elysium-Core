@@ -36,6 +36,5 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeBlock.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
   </ItemGroup>
 </Project>
