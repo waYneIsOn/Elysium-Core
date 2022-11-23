@@ -79,9 +79,19 @@ namespace Elysium::Core::Template::Text
 		static constexpr ConstValue WhitespaceCharacter = static_cast<ConstValue>(' ');
 
 		/// <summary>
+		/// Returns tabulator as specified character-type.
+		/// </summary>
+		static constexpr ConstValue TabCharacter = static_cast<ConstValue>('\t');
+
+		/// <summary>
 		/// Returns '0' as specified character-type.
 		/// </summary>
 		static constexpr ConstValue ZeroCharacter = static_cast<ConstValue>('0');
+
+		/// <summary>
+		/// Returns '9' as specified character-type.
+		/// </summary>
+		static constexpr ConstValue NineCharacter = static_cast<ConstValue>('9');
 
 		/// <summary>
 		/// Returns 'a' as specified character-type.
@@ -193,6 +203,13 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Value"></param>
 		/// <returns></returns>
 		static constexpr const bool IsHighAscii(ConstValue Value) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsIndent(ConstValue Value) noexcept;
 		/*
 		/// <summary>
 		///
@@ -850,6 +867,12 @@ namespace Elysium::Core::Template::Text
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsHighAscii(ConstValue Value) noexcept
 	{
 		return Value > 0x7F && Value < 0xFF;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::IsIndent(ConstValue Value) noexcept
+	{
+		return Value == CharacterTraitsBase<C, I>::WhitespaceCharacter || Value == CharacterTraitsBase<C, I>::TabCharacter;
 	}
 
 	template<>

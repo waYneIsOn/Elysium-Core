@@ -139,6 +139,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TimePoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UniquePointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnsignedInteger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Value.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp" />

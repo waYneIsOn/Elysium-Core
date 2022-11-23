@@ -155,12 +155,16 @@ namespace Elysium::Core::Template::Text
 
 		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 
+		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value);
+
 		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
 		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value);
 
 		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
@@ -169,12 +173,16 @@ namespace Elysium::Core::Template::Text
 
 		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 
+		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value);
+
 		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
 		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value);
 
 		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
@@ -183,12 +191,16 @@ namespace Elysium::Core::Template::Text
 
 		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 
+		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value);
+
 		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
 		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value);
 
 		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
@@ -197,12 +209,16 @@ namespace Elysium::Core::Template::Text
 
 		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 
+		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value);
+
 		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
 		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length);
+
+		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value);
 
 		static float ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
@@ -211,24 +227,16 @@ namespace Elysium::Core::Template::Text
 
 		static float ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length);
 
+		static float ToSingle(ConstPointer Value);
+
 		static double ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
 		static double ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
 		static double ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length);
-	private:
-		static const Elysium::Core::Template::System::int32_t ToInt32FromBase2(ConstPointer Value, const Elysium::Core::Template::System::size Length,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
 
-		static const Elysium::Core::Template::System::int32_t ToInt32FromBase8(ConstPointer Value, const Elysium::Core::Template::System::size Length,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
-
-		static const Elysium::Core::Template::System::int32_t ToInt32FromBase10(ConstPointer Value, const Elysium::Core::Template::System::size Length,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
-
-		static const Elysium::Core::Template::System::int32_t ToInt32FromBase16(ConstPointer Value, const Elysium::Core::Template::System::size Length,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+		static double ToDouble(ConstPointer Value);
 	private:
 		inline static const Elysium::Core::Globalization::NumberFormatInfo _InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo();
 	};
@@ -916,21 +924,30 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToUInt8FromBase2(Value, Length);
-			case 8:
-				return ToUInt8FromBase2(Value, Length);
-			case 10:
-				return ToUInt8FromBase2(Value, Length);
-			case 16:
-				return ToUInt8FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// ...
+		Elysium::Core::Template::System::uint8_t Result = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint8_t>::Maximum / 10 ||
+				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint8_t>::Maximum / 10 && Value[0] -
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint8_t>::Maximum;
+			}
+
+			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
@@ -944,25 +961,40 @@ namespace Elysium::Core::Template::Text
 	{
 		return ToUInt8(Value, Length, 10, _InvariantInfo);
 	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value)
+	{
+		return ToUInt8(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
 	
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToUInt16FromBase2(Value, Length);
-			case 8:
-				return ToUInt16FromBase2(Value, Length);
-			case 10:
-				return ToUInt16FromBase2(Value, Length);
-			case 16:
-				return ToUInt16FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// ...
+		Elysium::Core::Template::System::uint16_t Result = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum / 10 ||
+				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum / 10 && Value[0] -
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum;
+			}
+
+			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
@@ -974,27 +1006,42 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
-		return ToUInt8(Value, Length, 10, _InvariantInfo);
+		return ToUInt16(Value, Length, 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value)
+	{
+		return ToUInt16(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
 	}
 	
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToUInt32FromBase2(Value, Length);
-			case 8:
-				return ToUInt32FromBase2(Value, Length);
-			case 10:
-				return ToUInt32FromBase2(Value, Length);
-			case 16:
-				return ToUInt32FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// ...
+		Elysium::Core::Template::System::uint32_t Result = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum / 10 ||
+				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum / 10 && Value[0] -
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum;
+			}
+
+			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
@@ -1010,23 +1057,38 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value)
+	{
+		return ToUInt32(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToUInt64FromBase2(Value, Length);
-			case 8:
-				return ToUInt64FromBase2(Value, Length);
-			case 10:
-				return ToUInt64FromBase2(Value, Length);
-			case 16:
-				return ToUInt64FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// ...
+		Elysium::Core::Template::System::uint64_t Result = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint64_t>::Maximum / 10 ||
+				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint64_t>::Maximum / 10 && Value[0] -
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint64_t>::Maximum;
+			}
+
+			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Result;
 	}
 
 	template<Concepts::Character C>
@@ -1042,23 +1104,46 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value)
+	{
+		return ToUInt64(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToInt8FromBase2(Value, Length);
-			case 8:
-				return ToInt8FromBase8(Value, Length);
-			case 10:
-				return ToInt8FromBase10(Value, Length);
-			case 16:
-				return ToInt8FromBase16(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// sign
+		Elysium::Core::Template::System::int16_t Sign = 1;
+		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
+		{
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
+		}
+
+		// ...
+		Elysium::Core::Template::System::int8_t Base = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Maximum / 10 ||
+				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Maximum / 10 && Value[0] - static_cast<ConstValue>('0') > 7))
+			{
+				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Maximum :
+					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Minimum;
+			}
+
+			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Base * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1074,23 +1159,47 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value)
+	{
+		return ToInt8(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToInt16FromBase2(Value, Length);
-			case 8:
-				return ToInt16FromBase2(Value, Length);
-			case 10:
-				return ToInt16FromBase2(Value, Length);
-			case 16:
-				return ToInt16FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// sign
+		Elysium::Core::Template::System::int16_t Sign = 1;
+		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
+		{
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
+		}
+
+		// ...
+		Elysium::Core::Template::System::int16_t Base = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Maximum / 10 ||
+				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Maximum / 10 && Value[0] -
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Maximum :
+					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Minimum;
+			}
+
+			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Base * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1106,21 +1215,47 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value)
+	{
+		return ToInt16(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-		case 2:
-			return ToInt32FromBase2(Value, Length, FormatInfo);
-		case 8:
-			return ToInt32FromBase8(Value, Length, FormatInfo);
-		case 10:
-			return ToInt32FromBase10(Value, Length, FormatInfo);
-		case 16:
-			return ToInt32FromBase16(Value, Length, FormatInfo);
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// sign
+		Elysium::Core::Template::System::int16_t Sign = 1;
+		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
+		{
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
+		}
+
+		// ...
+		Elysium::Core::Template::System::int32_t Base = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
+				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[0] - 
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum :
+					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Minimum;
+			}
+
+			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Base * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1136,23 +1271,55 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value)
+	{
+		return ToInt32(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToInt64FromBase2(Value, Length);
-			case 8:
-				return ToInt64FromBase2(Value, Length);
-			case 10:
-				return ToInt64FromBase2(Value, Length);
-			case 16:
-				return ToInt64FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		// sign
+		/*
+		//const Elysium::Core::Utf8String PositiveSign = FormatInfo.GetPositiveSign();	// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();	// ToDo: String<C>
+		for (System::size i = 0; i < NegativeSign.GetLength(); i++)
+		{
+
+		}
+		*/
+		Elysium::Core::Template::System::int16_t Sign = 1;
+		if (Value[0] == CharacterTraits<C>::MinusCharacter)
+		{
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
+		}
+
+		// ...
+		Elysium::Core::Template::System::int64_t Base = 0;
+		ConstPointer LastCharacter = &Value[Length];
+		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		{
+			// handle overflow cases
+			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum / 10 ||
+				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum / 10 && Value[0] -
+					CharacterTraits<C>::ZeroCharacter > 7))
+			{
+				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum :
+					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Minimum;
+			}
+
+			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
+			Value++;
+		}
+
+		return Base * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1165,6 +1332,12 @@ namespace Elysium::Core::Template::Text
 	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length)
 	{
 		return ToInt64(Value, Length, 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
+	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value)
+	{
+		return ToInt64(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
 	}
 
 	template<Concepts::Character C>
@@ -1200,6 +1373,12 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
+	inline float Convert<C>::ToSingle(ConstPointer Value)
+	{
+		return ToSingle(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
 	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
 		switch (FromBase)
@@ -1232,103 +1411,9 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase2(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline double Convert<C>::ToDouble(ConstPointer Value)
 	{
-		throw Elysium::Core::NotImplementedException();
-	}
-
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		throw Elysium::Core::NotImplementedException();
-	}
-
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase10(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		ConstPointer LastCharacter = &Value[Length];
-
-		Elysium::Core::Template::System::int16_t Sign = 1;
-		Elysium::Core::Template::System::int32_t Base = 0;
-		
-		// eat all whitespaces
-		while (Value[0] == CharacterTraits<C>::WhitespaceCharacter)
-		{
-			Value++;
-		}
-		
-		// sign
-		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
-		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
-		}
-
-		// ...
-		while (Value[0] >= '\u0030' && Value[0] <= '\u0039' && Value < LastCharacter)
-		{
-			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[0] - static_cast<ConstValue>('0') > 7))
-			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Minimum;
-			}
-
-			Base = 10 * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
-		}
-
-		return Base * Sign;
-	}
-
-	template<Concepts::Character C>
-	inline const Elysium::Core::Template::System::int32_t Convert<C>::ToInt32FromBase16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		ConstPointer LastCharacter = &Value[Length];
-
-		Elysium::Core::Template::System::int16_t Sign = 1;
-		Elysium::Core::Template::System::int32_t Base = 0;
-		
-		// eat all whitespaces
-		while (Value[0] == CharacterTraits<C>::WhitespaceCharacter)
-		{
-			Value++;
-		}
-		
-		// sign
-		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
-		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
-		}
-
-		// ...
-		while (Value < LastCharacter)
-		{
-			ConstReference CurrentCharacter = Value[0];
-			if (CharacterTraits<C>::IsDigit(CurrentCharacter))
-			{
-				Base = 16 * Base + (CurrentCharacter - CharacterTraits<C>::ZeroCharacter);
-			}
-			else if (CharacterTraits<C>::IsAsciiHexDigitLower(CurrentCharacter))
-			{
-				Base = 16 * Base + (CurrentCharacter - CharacterTraits<C>::LowerACharacter);
-			}
-			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(CurrentCharacter))
-			{
-				Base = 16 * Base + (CurrentCharacter - CharacterTraits<C>::UpperACharacter);
-			}
-			else
-			{	// we are still within range but CurrentCharacter is no hex digit character
-				break;
-			}
-			Value++;
-		}
-
-		return Base * Sign;
+		return ToDouble(Value, CharacterTraits<C>::GetLength(Value), 10, _InvariantInfo);
 	}
 }
 #endif

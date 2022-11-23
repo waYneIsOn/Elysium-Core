@@ -414,6 +414,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

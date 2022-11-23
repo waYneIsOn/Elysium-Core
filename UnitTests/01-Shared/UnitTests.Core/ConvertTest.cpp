@@ -255,6 +255,215 @@ namespace UnitTests::Core
 				//AssertExtended::AreEqual(u8"0", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating128, Bases[i]));
 			}
 		}
+
+		TEST_METHOD(ZeroToInt)
+		{
+			for (Elysium::Core::uint8_t i = 0; i < NumberOfBases; i++)
+			{
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char>::ToUInt8("0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char>::ToUInt16("0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char>::ToUInt32("0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char>::ToUInt64("0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char>::ToUInt8("-0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char>::ToUInt16("-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char>::ToUInt32("-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char>::ToUInt64("-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char>::ToUInt8("+0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char>::ToUInt16("+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char>::ToUInt32("+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char>::ToUInt64("+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char>::ToUInt8("0 ", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char>::ToUInt16("0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char>::ToUInt32("0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char>::ToUInt64("0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt8(u8"0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(u8"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt32(u8"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt64(u8"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt8(u8"-0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(u8"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt32(u8"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt64(u8"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt8(u8"+0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(u8"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt32(u8"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt64(u8"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt8(u8"0 ", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(u8"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt32(u8"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char8_t>::ToUInt64(u8"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt8(u"0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt16(u"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt32(u"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt64(u"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt8(u"-0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt16(u"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt32(u"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt64(u"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt8(u"+0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt16(u"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt32(u"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt64(u"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt8(u"0 ", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt16(u"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt32(u"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char16_t>::ToUInt64(u"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt8(U"0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt16(U"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt32(U"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt64(U"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt8(U"-0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt16(U"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt32(U"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt64(U"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt8(U"+0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt16(U"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt32(U"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt64(U"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt8(U"0 ", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt16(U"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt32(U"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<char32_t>::ToUInt64(U"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt8(L"0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt16(L"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt32(L"0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt64(L"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt8(L"-0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt16(L"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt32(L"-0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt64(L"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt8(L"+0", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt16(L"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt32(L"+0", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt64(L"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_ui8, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt8(L"0 ", 1, Bases[i]));
+				AssertExtended::AreEqual(0_ui16, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt16(L"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui32, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt32(L"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_ui64, Elysium::Core::Template::Text::Convert<wchar_t>::ToUInt64(L"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char>::ToInt8("0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char>::ToInt16("0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char>::ToInt32("0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char>::ToInt64("0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char>::ToInt8("-0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char>::ToInt16("-0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char>::ToInt32("-0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char>::ToInt64("-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char>::ToInt8("+0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char>::ToInt16("+0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char>::ToInt32("+0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char>::ToInt64("+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char>::ToInt8("0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char>::ToInt16("0 ", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char>::ToInt32("0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char>::ToInt64("0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char8_t>::ToInt8(u8"0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char8_t>::ToInt16(u8"0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(u8"0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char8_t>::ToInt64(u8"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char8_t>::ToInt8(u8"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char8_t>::ToInt16(u8"-0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(u8"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char8_t>::ToInt64(u8"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char8_t>::ToInt8(u8"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char8_t>::ToInt16(u8"+0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(u8"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char8_t>::ToInt64(u8"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char8_t>::ToInt8(u8"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char8_t>::ToInt16(u8"0 ", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(u8"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char8_t>::ToInt64(u8"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char16_t>::ToInt8(u"0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char16_t>::ToInt16(u"0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char16_t>::ToInt32(u"0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char16_t>::ToInt64(u"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char16_t>::ToInt8(u"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char16_t>::ToInt16(u"-0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char16_t>::ToInt32(u"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char16_t>::ToInt64(u"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char16_t>::ToInt8(u"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char16_t>::ToInt16(u"+0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char16_t>::ToInt32(u"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char16_t>::ToInt64(u"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char16_t>::ToInt8(u"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char16_t>::ToInt16(u"0 ", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char16_t>::ToInt32(u"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char16_t>::ToInt64(u"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char32_t>::ToInt8(U"0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char32_t>::ToInt16(U"0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char32_t>::ToInt32(U"0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char32_t>::ToInt64(U"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char32_t>::ToInt8(U"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char32_t>::ToInt16(U"-0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char32_t>::ToInt32(U"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char32_t>::ToInt64(U"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char32_t>::ToInt8(U"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char32_t>::ToInt16(U"+0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char32_t>::ToInt32(U"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char32_t>::ToInt64(U"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<char32_t>::ToInt8(U"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<char32_t>::ToInt16(U"0 ", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<char32_t>::ToInt32(U"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<char32_t>::ToInt64(U"0 ", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt8(L"0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt16(L"0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(L"0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt64(L"0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt8(L"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt16(L"-0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(L"-0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt64(L"-0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt8(L"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt16(L"+0", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(L"+0", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt64(L"+0", 1, Bases[i]));
+
+				Assert::AreEqual(0_i8, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt8(L"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i16, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt16(L"0 ", 1, Bases[i]));
+				Assert::AreEqual(0, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt32(L"0 ", 1, Bases[i]));
+				Assert::AreEqual(0_i64, Elysium::Core::Template::Text::Convert<wchar_t>::ToInt64(L"0 ", 1, Bases[i]));
+
+				//Assert::AreEqual(0.0f, Elysium::Core::Template::Text::Convert<char>::ToSingle("0", 1, Bases[i]));
+				//Assert::AreEqual(0.0, Elysium::Core::Template::Text::Convert<char>::ToDouble("0", 1, Bases[i]));
+			}
+		}
 	private:
 		inline static const Elysium::Core::uint8_t NumberOfBases = 4;
 		inline static const Elysium::Core::uint8_t Bases[NumberOfBases] = { 2, 8, 10, 16 };
