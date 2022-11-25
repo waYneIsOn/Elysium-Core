@@ -57,9 +57,26 @@ namespace Elysium::Core::Template::Numeric
 		/// </summary>
 		static constexpr ConstValue Maximum = IsSigned ? static_cast<ConstValue>(((1_ui64 << (ByteLength * 8 - 1)) + 1) * -1) : -1;
 	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
 		static constexpr const bool IsPositive(ConstValue Value);
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
 		static constexpr const bool IsPrimeNumber(ConstValue Value);
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr System::uint8_t GetDigitCount(Value Value);
 	};
 
 	template <class T>
@@ -157,6 +174,19 @@ namespace Elysium::Core::Template::Numeric
 		}
 
 		return true;
+	}
+
+	template<class T>
+	inline constexpr System::uint8_t NumericTraitsBase<T>::GetDigitCount(Value Value)
+	{
+		System::uint8_t Result = 0;
+		while (Value > 0)
+		{
+			Value /= 10;
+			Result++;
+		}
+
+		return Result;
 	}
 
 	inline constexpr const System::uint8_t NumericTraits<System::uint16_t>::GetHigh(ConstValue Value)

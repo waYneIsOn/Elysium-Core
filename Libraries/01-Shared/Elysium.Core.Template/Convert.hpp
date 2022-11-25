@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Absolute.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
+#include "Power.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "NumericTraits.hpp"
 #endif
@@ -42,10 +46,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "CharacterTraits.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
 #endif
 
 #ifndef _CMATH_
@@ -261,7 +261,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -312,7 +312,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -363,7 +363,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -414,7 +414,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase, 
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -475,7 +475,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -538,7 +538,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -601,7 +601,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -664,7 +664,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
 			System::int16_t NumericalValue = Value / BaseValue;
 
@@ -713,7 +713,7 @@ namespace Elysium::Core::Template::Text
 		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
 
 		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
-		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * pow(10, NumberDecimalDigits));
+		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
 
 		// ToDo: String<C>
 		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
@@ -742,7 +742,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharactersPreFloatingPart)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersPreFloatingPart) - Index - 1_ui8));
 			System::int16_t NumericalValue = IntegerPart / BaseValue;
 
@@ -769,7 +769,7 @@ namespace Elysium::Core::Template::Text
 		Index = 0;
 		while (Index < RequiredNumberOfCharactersFloatingPart)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersFloatingPart) - Index - 1_ui8));
 			System::int16_t NumericalValue = FloatingPart / BaseValue;
 
@@ -825,7 +825,7 @@ namespace Elysium::Core::Template::Text
 		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
 
 		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
-		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * pow(10, NumberDecimalDigits));
+		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
 
 		// ToDo: String<C>
 		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
@@ -854,7 +854,7 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharactersPreFloatingPart)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersPreFloatingPart) - Index - 1_ui8));
 			System::int16_t NumericalValue = IntegerPart / BaseValue;
 
@@ -881,7 +881,7 @@ namespace Elysium::Core::Template::Text
 		Index = 0;
 		while (Index < RequiredNumberOfCharactersFloatingPart)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(pow(ToBase,
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersFloatingPart) - Index - 1_ui8));
 			System::int16_t NumericalValue = FloatingPart / BaseValue;
 
@@ -923,28 +923,33 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
-		// ...
-		Elysium::Core::Template::System::uint8_t Result = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::uint8_t Result = 0;
+		while (ChangeableValue < &Value[Length])
 		{
-			// handle overflow cases
-			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint8_t>::Maximum / 10 ||
-				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint8_t>::Maximum / 10 && Value[0] -
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint8_t>::Maximum;
+				Result = FromBase * Result + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
 		return Result;
@@ -970,28 +975,33 @@ namespace Elysium::Core::Template::Text
 	
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
-		// ...
-		Elysium::Core::Template::System::uint16_t Result = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::uint16_t Result = 0;
+		while (ChangeableValue < &Value[Length])
 		{
-			// handle overflow cases
-			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum / 10 ||
-				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum / 10 && Value[0] -
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum;
+				Result = FromBase * Result + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
 		return Result;
@@ -1017,28 +1027,33 @@ namespace Elysium::Core::Template::Text
 	
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
-		// ...
-		Elysium::Core::Template::System::uint32_t Result = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::uint32_t Result = 0;
+		while (ChangeableValue < &Value[Length])
 		{
-			// handle overflow cases
-			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum / 10 ||
-				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum / 10 && Value[0] -
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum;
+				Result = FromBase * Result + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
 		return Result;
@@ -1064,28 +1079,33 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
-		// ...
-		Elysium::Core::Template::System::uint64_t Result = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::uint64_t Result = 0;
+		while (ChangeableValue < &Value[Length])
 		{
-			// handle overflow cases
-			if (Result > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint64_t>::Maximum / 10 ||
-				(Result == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint64_t>::Maximum / 10 && Value[0] -
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint64_t>::Maximum;
+				Result = FromBase * Result + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Result = FromBase * Result + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
 		return Result;
@@ -1111,15 +1131,24 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		ConstPointer LastCharacter = &Value[Length];
+
 		// sign
-		Elysium::Core::Template::System::int16_t Sign = 1;
+		/*
+		//const Elysium::Core::Utf8String PositiveSign = FormatInfo.GetPositiveSign();	// ToDo: String<C>
+		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();	// ToDo: String<C>
+		for (System::size i = 0; i < NegativeSign.GetLength(); i++)
+		{
+
+		}
+		*/
+		System::int16_t Sign = 1;
 		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
 		{
 			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
@@ -1127,23 +1156,30 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ...
-		Elysium::Core::Template::System::int8_t Base = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::int8_t AbsoluteResult = 0;
+		while (ChangeableValue < LastCharacter)
 		{
-			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Maximum / 10 && Value[0] - static_cast<ConstValue>('0') > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int8_t>::Minimum;
+				AbsoluteResult = FromBase * AbsoluteResult + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
-		return Base * Sign;
+		return AbsoluteResult * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1166,15 +1202,16 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		ConstPointer LastCharacter = &Value[Length];
+
 		// sign
-		Elysium::Core::Template::System::int16_t Sign = 1;
+		System::int16_t Sign = 1;
 		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
 		{
 			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
@@ -1182,24 +1219,30 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ...
-		Elysium::Core::Template::System::int16_t Base = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::int16_t AbsoluteResult = 0;
+		while (ChangeableValue < LastCharacter)
 		{
-			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Maximum / 10 && Value[0] -
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int16_t>::Minimum;
+				AbsoluteResult = FromBase * AbsoluteResult + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_i16 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_i16 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
-		return Base * Sign;
+		return AbsoluteResult * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1222,15 +1265,16 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		ConstPointer LastCharacter = &Value[Length];
+
 		// sign
-		Elysium::Core::Template::System::int16_t Sign = 1;
+		System::int16_t Sign = 1;
 		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
 		{
 			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
@@ -1238,24 +1282,30 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ...
-		Elysium::Core::Template::System::int32_t Base = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::int32_t AbsoluteResult = 0;
+		while (ChangeableValue < LastCharacter)
 		{
-			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum / 10 && Value[0] - 
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Minimum;
+				AbsoluteResult = FromBase * AbsoluteResult + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
-		return Base * Sign;
+		return AbsoluteResult * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1278,23 +1328,16 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
-	{
-		// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
+	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
-		// sign
-		/*
-		//const Elysium::Core::Utf8String PositiveSign = FormatInfo.GetPositiveSign();	// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();	// ToDo: String<C>
-		for (System::size i = 0; i < NegativeSign.GetLength(); i++)
-		{
+		ConstPointer LastCharacter = &Value[Length];
 
-		}
-		*/
-		Elysium::Core::Template::System::int16_t Sign = 1;
+		// sign
+		System::int16_t Sign = 1;
 		if (Value[0] == CharacterTraits<C>::MinusCharacter)
 		{
 			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
@@ -1302,24 +1345,30 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ...
-		Elysium::Core::Template::System::int64_t Base = 0;
-		ConstPointer LastCharacter = &Value[Length];
-		while (Value[0] >= CharacterTraits<C>::ZeroCharacter && Value[0] <= CharacterTraits<C>::NineCharacter && Value < LastCharacter)
+		Pointer ChangeableValue = (Pointer)Value;
+		System::int64_t AbsoluteResult = 0;
+		while (ChangeableValue < LastCharacter)
 		{
-			// handle overflow cases
-			if (Base > Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum / 10 ||
-				(Base == Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum / 10 && Value[0] -
-					CharacterTraits<C>::ZeroCharacter > 7))
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				return Sign == 1 ? Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum :
-					Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Minimum;
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int64_t>(ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
-
-			Base = FromBase * Base + (Value[0] - CharacterTraits<C>::ZeroCharacter);
-			Value++;
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_i64 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_i64 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
 		}
 
-		return Base * Sign;
+		return AbsoluteResult * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1343,21 +1392,73 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline float Convert<C>::ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToUInt8FromBase2(Value, Length);
-			case 8:
-				return ToUInt8FromBase2(Value, Length);
-			case 10:
-				return ToUInt8FromBase2(Value, Length);
-			case 16:
-				return ToUInt8FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		ConstPointer LastCharacter = &Value[Length];
+
+		// sign
+		System::int16_t Sign = 1;
+		if (Value[0] == CharacterTraits<C>::MinusCharacter)
+		{
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
+		}
+
+		// ...
+		Pointer ChangeableValue = (Pointer)Value;
+		System::uint32_t AbsoluteResult = 0;
+		while (ChangeableValue < LastCharacter && ChangeableValue[0] != static_cast<C>('.'))
+		{
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::uint32_t>(ChangeableValue[0]) - CharacterTraits<C>::ZeroCharacter;
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_ui32 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_ui32 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
+		}
+
+		// skip .
+		ChangeableValue++;
+		
+		// calculate the decimal value based on an integer to get a closer representation of the actual number
+		System::uint32_t DecimalPointResult = 0;
+		while (ChangeableValue < LastCharacter && ChangeableValue[0] != static_cast<C>('.'))
+		{
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
+			{
+				DecimalPointResult = FromBase * DecimalPointResult + static_cast<System::uint32_t>(ChangeableValue[0]) - CharacterTraits<C>::ZeroCharacter;
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				DecimalPointResult = FromBase * DecimalPointResult + (10_ui32 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				DecimalPointResult = FromBase * DecimalPointResult + (10_ui32 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
+		}
+
+		return (AbsoluteResult + static_cast<float>(DecimalPointResult) / Math::Power(10, 
+			Numeric::NumericTraits<System::uint8_t>::GetDigitCount(DecimalPointResult))) * Sign;
 	}
 
 	template<Concepts::Character C>
@@ -1381,21 +1482,73 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
 	{
-		switch (FromBase)
+		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
-			/*
-			case 2:
-				return ToUInt8FromBase2(Value, Length);
-			case 8:
-				return ToUInt8FromBase2(Value, Length);
-			case 10:
-				return ToUInt8FromBase2(Value, Length);
-			case 16:
-				return ToUInt8FromBase2(Value, Length);
-			*/
-		default:
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
+
+		ConstPointer LastCharacter = &Value[Length];
+
+		// sign
+		System::int16_t Sign = 1;
+		if (Value[0] == CharacterTraits<C>::MinusCharacter)
+		{
+			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
+			Value++;
+		}
+
+		// ...
+		Pointer ChangeableValue = (Pointer)Value;
+		System::uint64_t AbsoluteResult = 0;
+		while (ChangeableValue < LastCharacter && ChangeableValue[0] != static_cast<C>('.'))
+		{
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int64_t>(ChangeableValue[0]) - CharacterTraits<C>::ZeroCharacter;
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_ui64 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				AbsoluteResult = FromBase * AbsoluteResult + (10_ui64 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
+		}
+
+		// skip .
+		ChangeableValue++;
+
+		// calculate the decimal value based on an integer to get a closer representation of the actual number
+		System::uint64_t DecimalPointResult = 0;
+		while (ChangeableValue < LastCharacter && ChangeableValue[0] != static_cast<C>('.'))
+		{
+			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
+			{
+				DecimalPointResult = FromBase * DecimalPointResult + static_cast<System::int64_t>(ChangeableValue[0]) - CharacterTraits<C>::ZeroCharacter;
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
+			{
+				DecimalPointResult = FromBase * DecimalPointResult + (10_ui64 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+			}
+			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
+			{
+				DecimalPointResult = FromBase * DecimalPointResult + (10_ui64 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+			}
+			else
+			{
+				break;
+			}
+			ChangeableValue++;
+		}
+
+		return (AbsoluteResult + static_cast<double>(DecimalPointResult) / Math::Power(10,
+			Numeric::NumericTraits<System::uint8_t>::GetDigitCount(DecimalPointResult))) * Sign;
 	}
 
 	template<Concepts::Character C>
