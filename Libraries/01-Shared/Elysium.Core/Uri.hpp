@@ -71,36 +71,67 @@ namespace Elysium::Core
 
 		Uri& operator=(Uri&& Right) noexcept;
 	public:
-		static const Elysium::Core::Utf8String SchemeDelimiter;
+		inline static const Elysium::Core::Utf8String SchemeDelimiter = u8"://";
 
-		static const Elysium::Core::Utf8String UriSchemeFile;
-		static const Elysium::Core::Utf8String UriSchemeFtp;
-		static const Elysium::Core::Utf8String UriSchemeGopher;
-		static const Elysium::Core::Utf8String UriSchemeHttp;
-		static const Elysium::Core::Utf8String UriSchemeHttps;
-		static const Elysium::Core::Utf8String UriSchemeIrc;
-		static const Elysium::Core::Utf8String UriSchemeLdap;
-		static const Elysium::Core::Utf8String UriSchemeMailto;
-		static const Elysium::Core::Utf8String UriSchemeNetPipe;
-		static const Elysium::Core::Utf8String UriSchemeNetTcp;
-		static const Elysium::Core::Utf8String UriSchemeNews;
-		static const Elysium::Core::Utf8String UriSchemeNntp;
-		static const Elysium::Core::Utf8String UriSchemeSecureWebSocket;
-		static const Elysium::Core::Utf8String UriSchemeTel;
-		static const Elysium::Core::Utf8String UriSchemeTelNet;
-		static const Elysium::Core::Utf8String UriSchemeUrn;
-		static const Elysium::Core::Utf8String UriSchemeWebSocket;
+		inline static const Elysium::Core::Utf8String UriSchemeFile = u8"file";
+
+		inline static const Elysium::Core::Utf8String UriSchemeFtp = u8"ftp";
+
+		inline static const Elysium::Core::Utf8String UriSchemeGopher = u8"gopher";
+
+		inline static const Elysium::Core::Utf8String UriSchemeHttp = u8"http";
+
+		inline static const Elysium::Core::Utf8String UriSchemeHttps = u8"https";
+
+		inline static const Elysium::Core::Utf8String UriSchemeIrc = u8"irc";
+
+		inline static const Elysium::Core::Utf8String UriSchemeLdap = u8"ldap";
+
+		inline static const Elysium::Core::Utf8String UriSchemeMailto = u8"mailto";
+
+		inline static const Elysium::Core::Utf8String UriSchemeNetPipe = u8"net.pipe";
+
+		inline static const Elysium::Core::Utf8String UriSchemeNetTcp = u8"net.tcp";
+
+		inline static const Elysium::Core::Utf8String UriSchemeNews = u8"news";
+
+		inline static const Elysium::Core::Utf8String UriSchemeNntp = u8"nntp";
+
+		inline static const Elysium::Core::Utf8String UriSchemeSecureWebSocket = u8"wss";
+
+		inline static const Elysium::Core::Utf8String UriSchemeTel = u8"tel";
+
+		inline static const Elysium::Core::Utf8String UriSchemeTelNet = u8"telnet";
+
+		inline static const Elysium::Core::Utf8String UriSchemeUrn = u8"urn";
+
+		inline static const Elysium::Core::Utf8String UriSchemeWebSocket = u8"ws";
 	public:
 		const Elysium::Core::Utf8StringView& GetAbsoluteUri() const;
+
 		const Elysium::Core::Utf8StringView& GetSchema() const;
+
 		const Elysium::Core::Utf8StringView& GetAuthority() const;
+
 		const Elysium::Core::Utf8StringView& GetUserInfo() const;
+
 		const Elysium::Core::Utf8StringView& GetHost() const;
-		const Elysium::Core::uint32_t& GetPort() const;
+
+		const Elysium::Core::uint32_t GetPort() const;
+
 		const Elysium::Core::Utf8StringView& GetPathAndQuery() const;
+
 		const Elysium::Core::Utf8StringView& GetPath() const;
+
 		const Elysium::Core::Utf8StringView& GetQuery() const;
+
 		const Elysium::Core::Utf8StringView& GetFragment() const;
+	private:
+		Elysium::Core::Utf8StringView ParseScheme();
+
+		Elysium::Core::UriParser& GetParser();
+
+		const Elysium::Core::Utf8String CreateUri(const Uri& BaseUri, const Elysium::Core::Utf8String& RelativeUri);
 	private:
 		Elysium::Core::Utf8String _OriginalString;
 		Elysium::Core::Utf8StringView _SchemeView;
@@ -115,11 +146,6 @@ namespace Elysium::Core
 		Elysium::Core::Utf8StringView _PathView;
 		Elysium::Core::Utf8StringView _QueryView;
 		Elysium::Core::Utf8StringView _FragmentView;
-
-		Elysium::Core::Utf8StringView ParseScheme();
-		Elysium::Core::UriParser& GetParser();
-
-		const Elysium::Core::Utf8String CreateUri(const Uri& BaseUri, const Elysium::Core::Utf8String& RelativeUri);
 	};
 }
 #endif

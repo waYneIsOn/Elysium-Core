@@ -31,14 +31,19 @@ namespace Elysium::Core
 
 		Exception(Elysium::Core::Utf8String&& Message);
 
+		//Exception(const Exception& Source) = delete;
+
+		//Exception(Exception&& Right) noexcept = delete;
+
 		virtual ~Exception();
 	public:
-		const Exception* GetInnerException() const;
+		//Exception& operator=(const Exception& Source) = delete;
+
+		//Exception& operator=(Exception&& Right) noexcept = delete;
 	public:
 		const Elysium::Core::Utf8String& GetExceptionMessage() const;
 	private:
 		Elysium::Core::Utf8String _Message;
-		Exception* _InnerException;
 	};
 }
 #endif

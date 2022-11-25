@@ -1,46 +1,55 @@
 #include "UriParser.hpp"
 
 const Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::_DummySyntaxFlags =
-Elysium::Core::UriSyntaxFlags::MayHaveUserInfo |
-Elysium::Core::UriSyntaxFlags::MayHavePort |
-Elysium::Core::UriSyntaxFlags::MayHavePath |
-Elysium::Core::UriSyntaxFlags::MayHaveQuery |
-Elysium::Core::UriSyntaxFlags::MayHaveFragment;
+	Elysium::Core::UriSyntaxFlags::MayHaveUserInfo |
+	Elysium::Core::UriSyntaxFlags::MayHavePort |
+	Elysium::Core::UriSyntaxFlags::MayHavePath |
+	Elysium::Core::UriSyntaxFlags::MayHaveQuery |
+	Elysium::Core::UriSyntaxFlags::MayHaveFragment;
 
 const Elysium::Core::UriSyntaxFlags Elysium::Core::UriParser::_HttpSyntaxFlags =
-Elysium::Core::UriSyntaxFlags::MustHaveAuthority |
-Elysium::Core::UriSyntaxFlags::MayHaveUserInfo |
-Elysium::Core::UriSyntaxFlags::MayHavePort |
-Elysium::Core::UriSyntaxFlags::MayHavePath |
-Elysium::Core::UriSyntaxFlags::MayHaveQuery |
-Elysium::Core::UriSyntaxFlags::MayHaveFragment |
-Elysium::Core::UriSyntaxFlags::AllowUncHost |
-Elysium::Core::UriSyntaxFlags::AllowAnInternetHost |
-Elysium::Core::UriSyntaxFlags::PathIsRooted |
-Elysium::Core::UriSyntaxFlags::ConvertPathSlashes |
-Elysium::Core::UriSyntaxFlags::CompressPath |
-Elysium::Core::UriSyntaxFlags::CanonicalizeAsFilePath |
-Elysium::Core::UriSyntaxFlags::None |
-Elysium::Core::UriSyntaxFlags::AllowIdn |
-Elysium::Core::UriSyntaxFlags::AllowIriParsing;
-/*
-Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, Elysium::Core::UriParser> Elysium::Core::UriParser::_RegisteredParser =
-	Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, Elysium::Core::UriParser>();
-*/
+	Elysium::Core::UriSyntaxFlags::MustHaveAuthority |
+	Elysium::Core::UriSyntaxFlags::MayHaveUserInfo |
+	Elysium::Core::UriSyntaxFlags::MayHavePort |
+	Elysium::Core::UriSyntaxFlags::MayHavePath |
+	Elysium::Core::UriSyntaxFlags::MayHaveQuery |
+	Elysium::Core::UriSyntaxFlags::MayHaveFragment |
+	Elysium::Core::UriSyntaxFlags::AllowUncHost |
+	Elysium::Core::UriSyntaxFlags::AllowAnInternetHost |
+	Elysium::Core::UriSyntaxFlags::PathIsRooted |
+	Elysium::Core::UriSyntaxFlags::ConvertPathSlashes |
+	Elysium::Core::UriSyntaxFlags::CompressPath |
+	Elysium::Core::UriSyntaxFlags::CanonicalizeAsFilePath |
+	Elysium::Core::UriSyntaxFlags::None |
+	Elysium::Core::UriSyntaxFlags::AllowIdn |
+	Elysium::Core::UriSyntaxFlags::AllowIriParsing;
+
+const Elysium::Core::UriParser Elysium::Core::UriParser::_HttpParser = Elysium::Core::UriParser(u8"http", 80, _HttpSyntaxFlags);
+
+Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, const Elysium::Core::UriParser*> Elysium::Core::UriParser::_RegisteredParser =
+	Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, const Elysium::Core::UriParser*>(
+	{
+		{ Elysium::Core::UriParser::_HttpParser._Scheme, &Elysium::Core::UriParser::_HttpParser }
+	});
+
+Elysium::Core::UriParser::UriParser(const Elysium::Core::Utf8String& LowerCaseScheme, Elysium::Core::uint16_t DefaultPort, Elysium::Core::UriSyntaxFlags RequiredComponents)
+	: _Scheme(LowerCaseScheme), _Port(DefaultPort), _RequiredComponents(RequiredComponents)
+{ }
+
 Elysium::Core::UriParser::~UriParser()
 { }
 
 const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::Utf8String& SchemeName)
 {
-	return IsKnownScheme(Elysium::Core::Utf8StringView(&SchemeName[0]));
+	return _RegisteredParser[SchemeName] != nullptr;
 }
 
-const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::Utf8StringView& SchemeName)
+const bool Elysium::Core::UriParser::IsKnownScheme(const Elysium::Core::Utf8StringView SchemeName)
 {
-	throw 1;
+	return IsKnownScheme(SchemeName.ToString());
 }
 
-void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriParser, const Elysium::Core::Utf8String & SchemeName, const Elysium::Core::uint16_t DefaultPort)
+void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser& UriParser, const Elysium::Core::Utf8String& SchemeName, const Elysium::Core::uint16_t DefaultPort)
 {
 	throw 1;
 	/*
@@ -55,7 +64,7 @@ void Elysium::Core::UriParser::Register(const Elysium::Core::UriParser & UriPars
 	*/
 }
 
-Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::Utf8String & Source)
+Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::Utf8String& Source) const
 {
 	// URI = scheme:[//authority]path[?query][#fragment]
 	// authority = [userinfo@]host[:port]
@@ -244,7 +253,3 @@ Elysium::Core::Utf8StringView Elysium::Core::UriParser::ParseComponent(const Ely
 		throw 1;
 	}
 }
-
-Elysium::Core::UriParser::UriParser(const Elysium::Core::Utf8String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents)
-	: _Scheme(Scheme), _Port(Port), _RequiredComponents(RequiredComponents)
-{ }

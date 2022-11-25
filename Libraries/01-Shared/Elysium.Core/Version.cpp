@@ -1,39 +1,35 @@
 #include "Version.hpp"
 
-#ifndef ELYSIUM_CORE_CONVERT
-#include "Convert.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../Elysium.Core.Template/Convert.hpp"
 #endif
-
-#ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
-#include "ArgumentNullException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
-#endif
-
-using namespace Elysium::Core::Collections::Template;
 
 Elysium::Core::Version::Version()
-	: _Major(0), _Minor(0), _Build(0), _Revision(0)
+	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
 { }
-Elysium::Core::Version::Version(const Elysium::Core::uint32_t & Major, const Elysium::Core::uint32_t & Minor)
-	: _Major(Major), _Minor(Minor), _Build(0), _Revision(0)
+
+Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor)
+	: _Major(Major), _Minor(Minor), _Build(Undefined), _Revision(Undefined)
 { }
-Elysium::Core::Version::Version(const Elysium::Core::uint32_t & Major, const Elysium::Core::uint32_t & Minor, const Elysium::Core::uint32_t & Build)
-	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(0)
+
+Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build)
+	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Undefined)
 { }
-Elysium::Core::Version::Version(const Elysium::Core::uint32_t & Major, const Elysium::Core::uint32_t & Minor, const Elysium::Core::uint32_t & Build, const Elysium::Core::uint32_t & Revision)
+
+Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build, const Elysium::Core::uint16_t& Revision)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Revision)
 { }
+
 Elysium::Core::Version::Version(const Version & Source)
 	: _Major(Source._Major), _Minor(Source._Minor), _Build(Source._Build), _Revision(Source._Revision)
 { }
+
 Elysium::Core::Version::Version(Version && Right) noexcept
-	: _Major(0), _Minor(0), _Build(0), _Revision(0)
+	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Core::Version::~Version()
 { }
 
@@ -48,6 +44,7 @@ Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other
 	}
 	return *this;
 }
+
 Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noexcept
 {
 	if (this != &Right)
@@ -56,33 +53,43 @@ Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noe
 		_Minor = Elysium::Core::Template::Functional::Move(Right._Minor);
 		_Build = Elysium::Core::Template::Functional::Move(Right._Build);
 		_Revision = Elysium::Core::Template::Functional::Move(Right._Revision);
+
+		Right._Major = Undefined;
+		Right._Minor = Undefined;
+		Right._Build = Undefined;
+		Right._Revision = Undefined;
 	}
 	return *this;
 }
 
 bool Elysium::Core::Version::operator==(const Version & Other) const
 {
-	return Compare(Other) == 0;
+	return Compare(Other) == 0_ui8;
 }
+
 bool Elysium::Core::Version::operator!=(const Version & Other) const
 {
-	return Compare(Other) != 0;
+	return Compare(Other) != 0_ui8;
 }
+
 bool Elysium::Core::Version::operator<(const Version & Other) const
 {
-	return Compare(Other) < 0;
+	return Compare(Other) < 0_ui8;
 }
+
 bool Elysium::Core::Version::operator>(const Version & Other) const
 {
-	return Compare(Other) > 0;
+	return Compare(Other) > 0_ui8;
 }
+
 bool Elysium::Core::Version::operator<=(const Version & Other) const
 {
-	return Compare(Other) <= 0;
+	return Compare(Other) <= 0_ui8;
 }
+
 bool Elysium::Core::Version::operator>=(const Version & Other) const
 {
-	return Compare(Other) >= 0;
+	return Compare(Other) >= 0_ui8;
 }
 /*
 Elysium::Core::IO::Stream & Elysium::Core::operator<<(Elysium::Core::IO::Stream & Target, const Elysium::Core::Version & Version)
@@ -99,55 +106,132 @@ Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream 
 	return Source;
 }
 */
-const Elysium::Core::uint32_t Elysium::Core::Version::GetMajor() const
+Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8String& Input)
 {
-	return _Major;
-}
-const Elysium::Core::uint32_t Elysium::Core::Version::GetMinor() const
-{
-	return _Minor;
-}
-const Elysium::Core::uint32_t Elysium::Core::Version::GetBuild() const
-{
-	return _Build;
-}
-const Elysium::Core::uint32_t Elysium::Core::Version::GetRevision() const
-{
-	return _Revision;
+	return Parse(Utf8StringView(Input));
 }
 
-void Elysium::Core::Version::Parse(const Utf8StringView Input, Version & Result)
+Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8StringView Input)
 {
-	Template::Container::Vector<Utf8StringView> Numbers = Input.Split(u8'.');
+	Template::Container::Vector<Utf8StringView> Numbers = Input.Split(Delimiter);
 
 	const Elysium::Core::size NumberCount = Numbers.GetLength();
 	if (NumberCount > 0)
 	{
-		Result._Major = Elysium::Core::Convert::ToInt32(&Numbers[0][0], Numbers[0].GetLength(), 10);
+		return Version(Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[0][0], Numbers[0].GetLength(), 10), 0);
 	}
 	if (NumberCount > 1)
 	{
-		Result._Minor = Elysium::Core::Convert::ToInt32(&Numbers[1][0], Numbers[1].GetLength(), 10);
+		return Version(
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[0][0], Numbers[0].GetLength(), 10),
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[1][0], Numbers[1].GetLength(), 10)
+		);
 	}
 	if (NumberCount > 2)
 	{
-		Result._Build = Elysium::Core::Convert::ToInt32(&Numbers[2][0], Numbers[2].GetLength(), 10);
+		return Version(
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[0][0], Numbers[0].GetLength(), 10),
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[1][0], Numbers[1].GetLength(), 10),
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[2][0], Numbers[2].GetLength(), 10)
+		);
 	}
 	if (NumberCount > 3)
 	{
-		Result._Revision = Elysium::Core::Convert::ToInt32(&Numbers[3][0], Numbers[3].GetLength(), 10);
+		return Version(
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[0][0], Numbers[0].GetLength(), 10),
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[1][0], Numbers[1].GetLength(), 10),
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[2][0], Numbers[2].GetLength(), 10),
+			Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[3][0], Numbers[3].GetLength(), 10)
+		);
+	}
+	else
+	{
+		return Version();
 	}
 }
-Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8StringView Input)
+
+const Elysium::Core::uint16_t Elysium::Core::Version::GetMajor() const
 {
-	Version ParsedVersion;
-	Parse(Input, ParsedVersion);
-	return ParsedVersion;
+	return _Major;
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Version::Compare(const Version & Other) const
+const Elysium::Core::uint16_t Elysium::Core::Version::GetMinor() const
 {
-	if (this != &Other)
+	return _Minor;
+}
+
+const Elysium::Core::uint16_t Elysium::Core::Version::GetBuild() const
+{
+	return _Build;
+}
+
+const Elysium::Core::uint16_t Elysium::Core::Version::GetRevision() const
+{
+	return _Revision;
+}
+
+const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
+{
+	Elysium::Core::size DelimiterLength = Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
+
+	const Elysium::Core::Utf8String Major = Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Major);
+	const Elysium::Core::size MajorLength = Major.GetLength();
+
+	const Elysium::Core::Utf8String Minor = Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Minor);
+	const Elysium::Core::size MinorLength = Minor.GetLength();
+
+	if (_Build != Undefined)
+	{
+		DelimiterLength += Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
+	}
+	const Elysium::Core::Utf8String Build = DelimiterLength == Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength * 2 ?
+		Elysium::Core::Utf8String() : Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Build);
+	const Elysium::Core::size BuildLength = Build.GetLength();
+
+	if (_Revision != Undefined)
+	{
+		DelimiterLength += Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
+	}
+	const Elysium::Core::Utf8String Revision = DelimiterLength == Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength * 3 ?
+		Elysium::Core::Utf8String() : Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Revision);
+	const Elysium::Core::size RevisionLength = Revision.GetLength();
+
+	const Elysium::Core::size RequiredLength = DelimiterLength + MajorLength + MinorLength + BuildLength + RevisionLength;
+
+	Elysium::Core::Utf8String Result = Elysium::Core::Utf8String(RequiredLength);
+	Elysium::Core::size ResultIndex = 0;
+	for (Elysium::Core::size i = 0; i < MajorLength; i++)
+	{
+		Result[ResultIndex++] = Major[i];
+	}
+	Result[ResultIndex++] = Delimiter;
+	for (Elysium::Core::size i = 0; i < MinorLength; i++)
+	{
+		Result[ResultIndex++] = Minor[i];
+	}
+	if (DelimiterLength > Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength)
+	{
+		Result[ResultIndex++] = Delimiter;
+		for (Elysium::Core::size i = 0; i < BuildLength; i++)
+		{
+			Result[ResultIndex++] = Build[i];
+		}
+	}
+	if (DelimiterLength > Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength * 2)
+	{
+		Result[ResultIndex++] = Delimiter;
+		for (Elysium::Core::size i = 0; i < RevisionLength; i++)
+		{
+			Result[ResultIndex++] = Revision[i];
+		}
+	}
+
+	return Result;
+}
+
+const Elysium::Core::uint8_t Elysium::Core::Version::Compare(const Version & Other) const
+{
+	if (this == &Other)
 	{
 		return 0;
 	}

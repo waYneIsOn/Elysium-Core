@@ -1,5 +1,9 @@
 #include "FileSystemWatcher.hpp"
 
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
+#endif
+
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const Utf8String& Path)
 	: _NotifyFilters(DefaultNotifyFilters), _IncludeSubdirectories(false),
 	_Path(Path), _Filter(u8"*.*")
@@ -42,5 +46,7 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 	}
 
 	// ToDo: cast -> encoding
-	_DirectoryHandle = FindFirstChangeNotificationA((char*)&_Path[0], true, static_cast<DWORD>(_NotifyFilters));
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> WindowsPath = 
+		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&_Path[0], _Path.GetLength());
+	_DirectoryHandle = FindFirstChangeNotificationA((char*)&WindowsPath[0], true, static_cast<DWORD>(_NotifyFilters));
 }

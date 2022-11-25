@@ -83,7 +83,7 @@ void Elysium::Core::Data::TdsClient::TdsConnection::Open()
 		catch (Net::Sockets::SocketException& Ex)
 		{
 			_ConnectionState = ConnectionState::Broken;
-			throw Ex;
+			throw;
 		}
 	}
 }

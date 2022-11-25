@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -36,13 +36,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "UriSyntaxFlags.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
+#include "../Elysium.Core.Template/UnorderedMap.hpp"
+#endif
+
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API Uri;
+	class Uri;
 
 	class ELYSIUM_CORE_API UriParser
 	{
+	protected:
+		UriParser(const Elysium::Core::Utf8String& LowerCaseScheme, Elysium::Core::uint16_t DefaultPort, Elysium::Core::UriSyntaxFlags RequiredComponents);
 	public:
+		UriParser() = delete;
+
 		UriParser(const UriParser& Source) = delete;
 
 		UriParser(UriParser&& Right) noexcept = delete;
@@ -55,27 +63,25 @@ namespace Elysium::Core
 	public:
 		static const bool IsKnownScheme(const Elysium::Core::Utf8String& SchemeName);
 
-		static const bool IsKnownScheme(const Elysium::Core::Utf8StringView& SchemeName);
+		static const bool IsKnownScheme(const Elysium::Core::Utf8StringView SchemeName);
 
-		static void Register(const Elysium::Core::UriParser& UriParser, const Elysium::Core::Utf8String& SchemeName, const Elysium::Core::uint16_t DefaultPort);
-
-
-
-
-
-		Elysium::Core::Utf8StringView ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::Utf8String& Source);
+		static void Register(const Elysium::Core::UriParser& UriParser, const Elysium::Core::Utf8String& SchemeName, 
+			const Elysium::Core::uint16_t DefaultPort);
+	public:
+		virtual Elysium::Core::Utf8StringView ParseComponent(const Elysium::Core::UriComponents Component, const Elysium::Core::Utf8String& Source) const;
 	protected:
-		UriParser(const Elysium::Core::Utf8String& Scheme, int Port, Elysium::Core::UriSyntaxFlags RequiredComponents);
-
 		//virtual Elysium::Core::Utf8StringView GetComponents(...);
 	private:
 		static const Elysium::Core::UriSyntaxFlags _DummySyntaxFlags;
+
 		static const Elysium::Core::UriSyntaxFlags _HttpSyntaxFlags;
 
-		//static Elysium::Core::Collections::Template::Dictionary<Elysium::Core::Utf8String, Elysium::Core::UriParser> _RegisteredParser;
-		
+		static const UriParser _HttpParser;
+
+		static Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, const Elysium::Core::UriParser*> _RegisteredParser;
+	private:
 		Elysium::Core::Utf8String _Scheme;
-		Elysium::Core::uint32_t _Port;
+		Elysium::Core::uint16_t _Port;
 		Elysium::Core::UriSyntaxFlags _RequiredComponents;
 	};
 }

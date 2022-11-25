@@ -130,15 +130,24 @@ const Elysium::Core::IAsyncResult* Elysium::Core::IO::Stream::BeginWrite(const E
 		throw ArgumentNullException(u8"Buffer");
 	}
 
+	throw NotImplementedException();
+	/*
+	Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::byte*, const Elysium::Core::size> WriteDelegate =
+		Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::byte*, const Elysium::Core::size>::Bind<IO::Stream, &Stream::Write>(*this);
+
+	Elysium::Core::Template::Container::Action<const Elysium::Core::byte*, const Elysium::Core::size> WriteAction =
+		Elysium::Core::Template::Container::Action<const Elysium::Core::byte*, const Elysium::Core::size>::Bind<IO::Stream, &Stream::Write>(*this);
+
 	Elysium::Core::Threading::Tasks::Task* WriteTask = new Elysium::Core::Threading::Tasks::Task(
-		Elysium::Core::Template::Container::Delegate<void>::Bind<[]() -> void
+		Elysium::Core::Template::Container::Action<>::Bind<[]() -> void
 		{
-			//_Stream.Write(Buffer, Size);
+			//Write(nullptr, 0)
 		}>()
 	);
 	WriteTask->Start();
 
 	return WriteTask;
+	*/
 }
 
 void Elysium::Core::IO::Stream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)

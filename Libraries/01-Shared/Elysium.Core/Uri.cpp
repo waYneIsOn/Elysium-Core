@@ -16,26 +16,6 @@
 #include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
-const Elysium::Core::Utf8String Elysium::Core::Uri::SchemeDelimiter(u8"://");
-
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeFile(u8"file");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeFtp(u8"ftp");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeGopher(u8"gopher");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeHttp(u8"http");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeHttps(u8"https");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeIrc(u8"irc");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeLdap(u8"ldap");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeMailto(u8"mailto");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNetPipe(u8"net.pipe");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNetTcp(u8"net.tcp");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNews(u8"news");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeNntp(u8"nntp");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeSecureWebSocket(u8"wss");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeTel(u8"tel");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeTelNet(u8"telnet");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeUrn(u8"urn");
-const Elysium::Core::Utf8String Elysium::Core::Uri::UriSchemeWebSocket(u8"ws");
-
 Elysium::Core::Uri::Uri(const Elysium::Core::Utf8String& UriString)
 	: _OriginalString(UriString), _SchemeView(ParseScheme()), _Parser(GetParser())
 { }
@@ -128,7 +108,7 @@ const Elysium::Core::Utf8StringView& Elysium::Core::Uri::GetHost() const
 	return _HostView;
 }
 
-const Elysium::Core::uint32_t& Elysium::Core::Uri::GetPort() const
+const Elysium::Core::uint32_t Elysium::Core::Uri::GetPort() const
 {
 	return _Port;
 }
