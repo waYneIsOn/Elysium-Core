@@ -215,9 +215,6 @@
       <Filter>Iterator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Locale.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp">
       <Filter>Text</Filter>
@@ -414,8 +411,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp">
       <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utf16.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp">
+      <Filter>Globalization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -475,6 +488,9 @@
     </Filter>
     <Filter Include="Ranges\Views">
       <UniqueIdentifier>{ee8c614d-1bdc-4660-a290-4063e1a830b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Globalization\Internal">
+      <UniqueIdentifier>{b6d533b5-593f-418d-9255-02caa90c3a8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

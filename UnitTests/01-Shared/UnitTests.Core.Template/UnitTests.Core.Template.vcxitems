@@ -26,7 +26,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DynamicSizeArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LinkedListTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeleterTests.cpp" />

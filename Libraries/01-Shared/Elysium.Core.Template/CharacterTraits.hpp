@@ -642,7 +642,7 @@ namespace Elysium::Core::Template::Text
 		}
 		/*
 		* As a low surrogate cannot be converted to UTF-32 on it's own, given value is an error on the user's part.
-		* To reduce the number of function calls I do therefore not handle that case.
+		* To reduce the number of calculations I do therefore not handle that case.
 		else if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
 		{
 			return -1_ui32;
@@ -669,7 +669,7 @@ namespace Elysium::Core::Template::Text
 		}
 		/*
 		* As a low surrogate cannot be converted to UTF-32 on it's own, given value is an error on the user's part.
-		* To reduce the number of function calls I do therefore not handle that case.
+		* To reduce the number of calculations I do therefore not handle that case.
 		else if (CharacterTraits<wchar_t>::IsLowSurrogate(Value[0]))
 		{
 			return -1_ui32;

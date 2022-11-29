@@ -49,7 +49,7 @@ namespace UnitTests::Core::Speech
 			AssertExtended::AreEqual(u8"Microsoft Zira Desktop", Voice.GetName());
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceAge::Adult), static_cast<Elysium::Core::uint8_t>(Voice.GetAge()));
 			Assert::AreEqual(static_cast<Elysium::Core::uint8_t>(VoiceGender::Female), static_cast<Elysium::Core::uint8_t>(Voice.GetGender()));
-			Assert::AreEqual(1033, VoiceCulture.GetLCID());
+			AssertExtended::AreEqual(1033_ui32, VoiceCulture.GetLCID());
 		}
 
 		TEST_METHOD(LogEventsAsynchronously)
@@ -125,8 +125,8 @@ namespace UnitTests::Core::Speech
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			Synthesizer.SetOutputToDefaultAudioDevice();
 
-			CultureInfo EnglishUS = CultureInfo(u8"en-US", false);
-			Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(EnglishUS);
+			Utf8CultureInfo EnglishUS = Utf8CultureInfo(u8"en-US", false);
+			const Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(EnglishUS);
 			Assert::IsTrue(InstalledVoices.GetLength() > 0);
 
 			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo().GetName());
@@ -162,8 +162,8 @@ namespace UnitTests::Core::Speech
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 			Synthesizer.SetOutputToDefaultAudioDevice();
 
-			CultureInfo GermanGermany = CultureInfo(u8"de-DE", false);
-			Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(GermanGermany);
+			Utf8CultureInfo GermanGermany = Utf8CultureInfo(u8"de-DE", false);
+			const Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(GermanGermany);
 			Assert::IsTrue(InstalledVoices.GetLength() > 0);
 
 			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo().GetName());

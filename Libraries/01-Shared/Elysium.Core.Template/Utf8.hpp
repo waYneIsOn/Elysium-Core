@@ -12,37 +12,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "OperatingSystem.hpp"
-#endif
-
 namespace Elysium::Core::Template::Text::Unicode
 {
-	/*
-	template <Concepts::Character C>
-	class Utf8
+	class Utf8 final
 	{
 	public:
-		Utf8() = delete;
+		constexpr Utf8() noexcept = delete;
 
-		Utf8(const Utf8& Source) = delete;
+		constexpr Utf8(const Utf8& Source) = delete;
 
-		Utf8(Utf8&& Right) noexcept = delete;
+		constexpr Utf8(Utf8&& Right) noexcept = delete;
 
-		~Utf8() = delete;
+		constexpr ~Utf8() = delete;
 	public:
 		Utf8& operator=(const Utf8& Source) = delete;
 
 		Utf8& operator=(Utf8&& Right) noexcept = delete;
-	public:
-		FromAscii();
-
-		FromUtf16();
-
-		FromUtf32();
-
-		ToUtf16();
 	};
-	*/
 }
 #endif

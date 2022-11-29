@@ -16,16 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/ArgumentException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "../Elysium.Core/NotImplementedException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_GLOBALIZATION_NUMBERFORMATINFO
-#include "../Elysium.Core.Globalization/NumberFormatInfo.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
+#include "NumberFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
@@ -48,6 +44,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CharacterTraits.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "String.hpp"
+#endif
+
 #ifndef _CMATH_
 #include <cmath>
 #endif
@@ -65,6 +65,8 @@ namespace Elysium::Core::Template::Text
 		using ConstReference = CharacterTraits<C>::ConstReference;
 
 		using CorrespondingString = String<C>;
+
+		using CorrespondingNumberFormatInfo = Globalization::NumberFormatInfo<C>;
 	public:
 		Convert() = delete;
 
@@ -79,77 +81,77 @@ namespace Elysium::Core::Template::Text
 		Convert& operator=(Convert&& Right) noexcept = delete;
 	public:
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint16_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint32_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint64_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int8_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int8_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int8_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int16_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int16_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int16_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int32_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int32_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int32_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int64_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int64_t Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::int64_t Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(const float Value);
 
 		static const typename Convert<C>::CorrespondingString ToString(const double Value, const Elysium::Core::Template::System::uint8_t ToBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static const typename Convert<C>::CorrespondingString ToString(const double Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(const double Value);
 	public:
 		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -158,7 +160,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value);
 
 		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -167,7 +169,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::uint16_t ToUInt16(ConstPointer Value);
 
 		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -176,7 +178,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::uint32_t ToUInt32(ConstPointer Value);
 
 		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -185,7 +187,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::uint64_t ToUInt64(ConstPointer Value);
 
 		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -194,7 +196,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::int8_t ToInt8(ConstPointer Value);
 
 		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -203,7 +205,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::int16_t ToInt16(ConstPointer Value);
 
 		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -212,7 +214,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::int32_t ToInt32(ConstPointer Value);
 
 		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -221,7 +223,7 @@ namespace Elysium::Core::Template::Text
 		static Elysium::Core::Template::System::int64_t ToInt64(ConstPointer Value);
 
 		static float ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static float ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -230,7 +232,7 @@ namespace Elysium::Core::Template::Text
 		static float ToSingle(ConstPointer Value);
 
 		static double ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
-			const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+			const CorrespondingNumberFormatInfo& FormatInfo);
 
 		static double ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase);
 
@@ -238,11 +240,11 @@ namespace Elysium::Core::Template::Text
 
 		static double ToDouble(ConstPointer Value);
 	private:
-		inline static const Elysium::Core::Globalization::NumberFormatInfo _InvariantInfo = Elysium::Core::Globalization::NumberFormatInfo::GetInvariantInfo();
+		inline static const CorrespondingNumberFormatInfo _InvariantInfo = CorrespondingNumberFormatInfo::GetInvariantInfo();
 	};
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -293,7 +295,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -344,7 +346,7 @@ namespace Elysium::Core::Template::Text
 	}
 	
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -395,7 +397,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -446,7 +448,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -459,7 +461,8 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::Utf8String NegativeSign = u8"-";
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
@@ -509,7 +512,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -522,7 +525,8 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::Utf8String NegativeSign = u8"-";
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
@@ -572,7 +576,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -585,7 +589,8 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::Utf8String NegativeSign = u8"-";
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
@@ -635,7 +640,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -648,7 +653,8 @@ namespace Elysium::Core::Template::Text
 		}
 
 		// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		const Elysium::Core::Utf8String NegativeSign = u8"-";
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters = 
 			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
@@ -698,7 +704,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -716,8 +722,10 @@ namespace Elysium::Core::Template::Text
 		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
 
 		// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		//const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+		const Elysium::Core::Utf8String NegativeSign = u8"-";
+		const Elysium::Core::Utf8String DecimalSeparator = u8".";
 
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 
@@ -810,7 +818,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(double Value, const Elysium::Core::Template::System::uint8_t ToBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(double Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
 		{
@@ -828,8 +836,10 @@ namespace Elysium::Core::Template::Text
 		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
 
 		// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
+		//const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+		const Elysium::Core::Utf8String NegativeSign = u8"-";
+		const Elysium::Core::Utf8String DecimalSeparator = u8".";
 
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 
@@ -922,7 +932,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -974,7 +984,7 @@ namespace Elysium::Core::Template::Text
 	}
 	
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1026,7 +1036,7 @@ namespace Elysium::Core::Template::Text
 	}
 	
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1078,7 +1088,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1130,7 +1140,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1201,7 +1211,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1264,7 +1274,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1327,7 +1337,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1390,7 +1400,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline float Convert<C>::ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline float Convert<C>::ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{
@@ -1480,7 +1490,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C>
-	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
 		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
 		{

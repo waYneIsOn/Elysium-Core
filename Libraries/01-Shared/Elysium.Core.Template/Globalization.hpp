@@ -12,12 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CULTUREINFO
+#include "CultureInfo.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CULTURETYPES
+#include "CultureTypes.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
 #include "NumberFormatInfo.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_LOCALE
-#include "Locale.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_REGIONINFO
+#include "RegionInfo.hpp"
 #endif
 
 #endif

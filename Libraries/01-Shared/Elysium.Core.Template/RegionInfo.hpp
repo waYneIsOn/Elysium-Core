@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_LOCALE
-#define ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_LOCALE
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_REGIONINFO
+#define ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_REGIONINFO
 
 #ifdef _MSC_VER
 #pragma once
@@ -14,13 +14,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Globalization
 {
-	template <class T>
-	class LocaleBase
-	{
-	public:
 
-	private:
-
-	};
 }
 #endif

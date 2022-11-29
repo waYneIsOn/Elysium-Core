@@ -74,12 +74,12 @@ namespace Elysium::Core
 
 		template <class T>
 		static const Elysium::Core::Reflection::Type& GetType(const T Value);
-
+		
 		template <class T>
 		static const Elysium::Core::Utf8String ToUtf8String(const T Value);
 
 		template <class T>
-		static const Elysium::Core::Utf8String ToUtf8String(const T Value, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo);
+		static const Elysium::Core::Utf8String ToUtf8String(const T Value, const Globalization::Utf8NumberFormatInfo& FormatInfo);
 	};
 
 	template<class T>
@@ -94,14 +94,14 @@ namespace Elysium::Core
 
 	template<class T>
 	inline const Elysium::Core::Reflection::Type& Object::GetType(const T Value)
-	{	
+	{
 		const Elysium::Core::size TypeId = typeid(Value).hash_code();
 
 		// ToDo: lookup TypeId in AppDomain
 		//Elysium::Core::Reflection::AppDomain::GetCurrentDomain().
 		throw 1;
 	}
-	
+
 	template<>
 	inline const Elysium::Core::Utf8String Object::ToUtf8String<Elysium::Core::int8_t>(const Elysium::Core::int8_t Value)
 	{
@@ -169,7 +169,7 @@ namespace Elysium::Core
 	}
 
 	template<class T>
-	inline const Elysium::Core::Utf8String Object::ToUtf8String(const T Value, const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo)
+	inline const Elysium::Core::Utf8String Object::ToUtf8String(const T Value, const Globalization::Utf8NumberFormatInfo& FormatInfo)
 	{
 		return Value.ToUtf8String(FormatInfo);
 	}

@@ -480,10 +480,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline String<C, Traits, Allocator>::CharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) noexcept
 	{
-		/*
-		return IsHeapAllocated() ?
-			_InternalString._Heap._Data[Index] : *(CharacterPointer)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
-		*/
 		return IsHeapAllocated() ?
 			_InternalString._Heap._Data[Index] : (CharacterReference)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
 	}

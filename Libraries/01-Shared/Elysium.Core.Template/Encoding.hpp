@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Swap.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "OperatingSystem.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "CharacterTraits.hpp"
 #endif
@@ -79,285 +83,54 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr const System::byte Utf32BigEndianPreamble[4] = { 0x00, 0x00, 0xFE, 0xFF };
 	public:
 		template <class C, class Traits = CharacterTraits<C>>
+		static Elysium::Core::Template::Text::String<C> FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input);
+
+		template <class C, class Traits = CharacterTraits<C>>
+		static Elysium::Core::Template::Text::String<wchar_t> ToWideString(const Elysium::Core::Template::Text::String<C>& Input);
+	public:
+		template <class C, class Traits = CharacterTraits<C>>
 		static Elysium::Core::Template::Text::String<char> ToANSIString(const Elysium::Core::Template::Text::String<C>& Input);
 
 		template <class C, class Traits = CharacterTraits<C>>
 		static Elysium::Core::Template::Text::String<char> ToASCIIString(const Elysium::Core::Template::Text::String<C>& Input);
-
-		template <class C, class Traits = CharacterTraits<C>>
-		static Elysium::Core::Template::Text::String<char8_t> ToUtf8String(const Elysium::Core::Template::Text::String<C>& Input);
-
-		template <class C, class Traits = CharacterTraits<C>>
-		static Elysium::Core::Template::Text::String<char16_t> ToUtf16String(const Elysium::Core::Template::Text::String<C>& Input);
-
-		template <class C, class Traits = CharacterTraits<C>>
-		static Elysium::Core::Template::Text::String<char32_t> ToUtf32String(const Elysium::Core::Template::Text::String<C>& Input);
-
-		template <class C, class Traits = CharacterTraits<C>>
-		static Elysium::Core::Template::Text::String<wchar_t> ToWideString(const Elysium::Core::Template::Text::String<C>& Input);
 	};
 
 	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char>& Input)
+	inline Elysium::Core::Template::Text::String<char> Encoding::FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char8_t> Encoding::FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
+	{
+		const System::size Length = Input.GetLength();
+
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char16_t> Encoding::FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char32_t> Encoding::FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<wchar_t> Encoding::FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
 	{
 		return Input;
 	}
 
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char8_t>& Input)
+	template<class C, class Traits>
+	inline Elysium::Core::Template::Text::String<C> Encoding::FromWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
 	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char16_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char32_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char>& Input)
-	{
-		String<char> Result = String<char>(Input);
-		for (System::size i = 0; i < Result.GetLength(); i++)
-		{
-			Result[i] = CharacterTraits<char>::IsAscii(Input[i]) ? Input[i] : 0x3F;
-		}
-
-		return Result;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char8_t>& Input)
-	{
-		const System::size InputLength = Input.GetLength();
-		System::size RequiredLength = 0;
-		Elysium::Core::uint32_t CodePoint;
-		for (System::size i = 0; i < InputLength; i++)
-		{
-			bool bla = Text::CharacterTraits<char8_t>::IsAscii(Input[i]);
-
-			if (Input[i] >> 7 == 0x00)
-			{	// 0-xxx xxxx											07 bit
-				RequiredLength++;
-			}
-			else if (Input[i] >> 5 == 0x06)
-			{	// 110-x xxyy	10-yy yyyy								11 bit
-				RequiredLength++;
-				i++;
-			}
-			else if (Input[i] >> 4 == 0x0E)
-			{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
-				CodePoint = ((((Input[i] & 0x0F) << 4) | ((Input[i + 1] >> 2) & 0x0F)) << 8) |
-					(((Input[i + 1] & 0x03) << 6) | Input[i + 2] & 0x3F);
-				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
-				{
-					RequiredLength++;
-					i += 3;
-				}
-				else
-				{
-					RequiredLength++;
-					i += 2;
-				}
-			}
-			else if (Input[i] >> 3 == 0x1E)
-			{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
-				RequiredLength++;
-				i += 3;
-			}
-		}
-
-		String<char> Result = String<char>(RequiredLength);
-		System::size ResultIndex = 0;
-		for (System::size i = 0; i < InputLength; i++)
-		{
-			if (Input[i] >> 7 == 0x00)
-			{	// 0-xxx xxxx											07 bit
-				Result[ResultIndex++] = Input[i];
-			}
-			else if (Input[i] >> 5 == 0x06)
-			{	// 110-x xxyy	10-yy yyyy								11 bit
-				Result[ResultIndex++] = 0x3F;
-				i++;
-			}
-			else if (Input[i] >> 4 == 0x0E)
-			{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
-				CodePoint = ((((Input[i] & 0x0F) << 4) | ((Input[i + 1] >> 2) & 0x0F)) << 8) |
-					(((Input[i + 1] & 0x03) << 6) | Input[i + 2] & 0x3F);
-				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
-				{
-					Result[ResultIndex++] = 0x3F;
-					i += 3;
-				}
-				else
-				{
-					Result[ResultIndex++] = 0x3F;
-					i += 2;
-				}
-			}
-			else if (Input[i] >> 3 == 0x1E)
-			{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
-				Result[ResultIndex++] = 0x3F;
-				i += 3;
-			}
-		}
-
-		return Result;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char16_t>& Input)
-	{
-		const System::size RequiredLength = Input.GetLength();
-		System::byte* Data = (System::byte*)&Input[0];
-		Elysium::Core::uint16_t IntegerRepresentation;
-		String<char> Result = String<char>(RequiredLength);
-		for (System::size i = 0; i < RequiredLength; i++)
-		{
-			IntegerRepresentation = Input[i];
-			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
-			Data += 2;
-		}
-
-		return Result;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char32_t>& Input)
-	{
-		const System::size RequiredLength = Input.GetLength();
-		System::byte* Data = (System::byte*)&Input[0];
-		String<char> Result = String<char>(RequiredLength);
-		Elysium::Core::uint32_t IntegerRepresentation;
-		for (System::size i = 0; i < RequiredLength; i++)
-		{
-			IntegerRepresentation = Input[i];
-			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
-			Data += 4;
-		}
-
-		return Result;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
-	{
-		const System::size RequiredLength = Input.GetLength();
-		System::byte* Data = (System::byte*)&Input[0];
-		Elysium::Core::uint16_t IntegerRepresentation;
-		String<char> Result = String<char>(RequiredLength);
-		for (System::size i = 0; i < RequiredLength; i++)
-		{
-			IntegerRepresentation = Input[i];
-			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
-			Data += 2;
-		}
-
-		return Result;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char8_t> Encoding::ToUtf8String(const Elysium::Core::Template::Text::String<char>& Input)
-	{
-		const char8_t* Data = (const char8_t*)&Input[0];
-		return String<char8_t>(Data);
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char8_t> Encoding::ToUtf8String(const Elysium::Core::Template::Text::String<char8_t>& Input)
-	{
-		return Input;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char8_t> Encoding::ToUtf8String(const Elysium::Core::Template::Text::String<char16_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char8_t> Encoding::ToUtf8String(const Elysium::Core::Template::Text::String<char32_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char8_t> Encoding::ToUtf8String(const Elysium::Core::Template::Text::String<wchar_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char16_t> Encoding::ToUtf16String(const Elysium::Core::Template::Text::String<char>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char16_t> Encoding::ToUtf16String(const Elysium::Core::Template::Text::String<char8_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char16_t> Encoding::ToUtf16String(const Elysium::Core::Template::Text::String<char16_t>& Input)
-	{
-		return Input;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char16_t> Encoding::ToUtf16String(const Elysium::Core::Template::Text::String<char32_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char16_t> Encoding::ToUtf16String(const Elysium::Core::Template::Text::String<wchar_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char32_t> Encoding::ToUtf32String(const Elysium::Core::Template::Text::String<char>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char32_t> Encoding::ToUtf32String(const Elysium::Core::Template::Text::String<char8_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char32_t> Encoding::ToUtf32String(const Elysium::Core::Template::Text::String<char16_t>& Input)
-	{
-		throw 1;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char32_t> Encoding::ToUtf32String(const Elysium::Core::Template::Text::String<char32_t>& Input)
-	{
-		return Input;
-	}
-
-	template<>
-	inline Elysium::Core::Template::Text::String<char32_t> Encoding::ToUtf32String(const Elysium::Core::Template::Text::String<wchar_t>& Input)
-	{
-		throw 1;
+		return String<C>();
 	}
 
 	template<>
@@ -592,6 +365,184 @@ namespace Elysium::Core::Template::Text
 	inline Elysium::Core::Template::Text::String<wchar_t> Encoding::ToWideString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
 	{
 		return Input;
+	}
+
+	template<class C, class Traits>
+	inline Elysium::Core::Template::Text::String<wchar_t> Encoding::ToWideString(const Elysium::Core::Template::Text::String<C>& Input)
+	{
+		return String<wchar_t>();
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char>& Input)
+	{
+		return Input;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char8_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char16_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<char32_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToANSIString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
+	{
+		throw 1;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char>& Input)
+	{
+		String<char> Result = String<char>(Input);
+		for (System::size i = 0; i < Result.GetLength(); i++)
+		{
+			Result[i] = CharacterTraits<char>::IsAscii(Input[i]) ? Input[i] : 0x3F;
+		}
+
+		return Result;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char8_t>& Input)
+	{
+		const System::size InputLength = Input.GetLength();
+		System::size RequiredLength = 0;
+		Elysium::Core::uint32_t CodePoint;
+		for (System::size i = 0; i < InputLength; i++)
+		{
+			bool bla = Text::CharacterTraits<char8_t>::IsAscii(Input[i]);
+
+			if (Input[i] >> 7 == 0x00)
+			{	// 0-xxx xxxx											07 bit
+				RequiredLength++;
+			}
+			else if (Input[i] >> 5 == 0x06)
+			{	// 110-x xxyy	10-yy yyyy								11 bit
+				RequiredLength++;
+				i++;
+			}
+			else if (Input[i] >> 4 == 0x0E)
+			{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
+				CodePoint = ((((Input[i] & 0x0F) << 4) | ((Input[i + 1] >> 2) & 0x0F)) << 8) |
+					(((Input[i + 1] & 0x03) << 6) | Input[i + 2] & 0x3F);
+				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
+				{
+					RequiredLength++;
+					i += 3;
+				}
+				else
+				{
+					RequiredLength++;
+					i += 2;
+				}
+			}
+			else if (Input[i] >> 3 == 0x1E)
+			{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
+				RequiredLength++;
+				i += 3;
+			}
+		}
+
+		String<char> Result = String<char>(RequiredLength);
+		System::size ResultIndex = 0;
+		for (System::size i = 0; i < InputLength; i++)
+		{
+			if (Input[i] >> 7 == 0x00)
+			{	// 0-xxx xxxx											07 bit
+				Result[ResultIndex++] = Input[i];
+			}
+			else if (Input[i] >> 5 == 0x06)
+			{	// 110-x xxyy	10-yy yyyy								11 bit
+				Result[ResultIndex++] = 0x3F;
+				i++;
+			}
+			else if (Input[i] >> 4 == 0x0E)
+			{	// 1110 xxxx	10-xx xxyy	10-yy yyyy					16 bit
+				CodePoint = ((((Input[i] & 0x0F) << 4) | ((Input[i + 1] >> 2) & 0x0F)) << 8) |
+					(((Input[i + 1] & 0x03) << 6) | Input[i + 2] & 0x3F);
+				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
+				{
+					Result[ResultIndex++] = 0x3F;
+					i += 3;
+				}
+				else
+				{
+					Result[ResultIndex++] = 0x3F;
+					i += 2;
+				}
+			}
+			else if (Input[i] >> 3 == 0x1E)
+			{	// 1111 0-xxx	10-xx yyyy	10-yy yyzz	10-zz zzzz		21 bit
+				Result[ResultIndex++] = 0x3F;
+				i += 3;
+			}
+		}
+
+		return Result;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char16_t>& Input)
+	{
+		const System::size RequiredLength = Input.GetLength();
+		System::byte* Data = (System::byte*)&Input[0];
+		Elysium::Core::uint16_t IntegerRepresentation;
+		String<char> Result = String<char>(RequiredLength);
+		for (System::size i = 0; i < RequiredLength; i++)
+		{
+			IntegerRepresentation = Input[i];
+			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
+			Data += 2;
+		}
+
+		return Result;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<char32_t>& Input)
+	{
+		const System::size RequiredLength = Input.GetLength();
+		System::byte* Data = (System::byte*)&Input[0];
+		String<char> Result = String<char>(RequiredLength);
+		Elysium::Core::uint32_t IntegerRepresentation;
+		for (System::size i = 0; i < RequiredLength; i++)
+		{
+			IntegerRepresentation = Input[i];
+			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
+			Data += 4;
+		}
+
+		return Result;
+	}
+
+	template<>
+	inline Elysium::Core::Template::Text::String<char> Encoding::ToASCIIString(const Elysium::Core::Template::Text::String<wchar_t>& Input)
+	{
+		const System::size RequiredLength = Input.GetLength();
+		System::byte* Data = (System::byte*)&Input[0];
+		Elysium::Core::uint16_t IntegerRepresentation;
+		String<char> Result = String<char>(RequiredLength);
+		for (System::size i = 0; i < RequiredLength; i++)
+		{
+			IntegerRepresentation = Input[i];
+			Result[i] = IntegerRepresentation < 0x80 ? static_cast<char>(IntegerRepresentation) : 0x3F;
+			Data += 2;
+		}
+
+		return Result;
 	}
 }
 #endif

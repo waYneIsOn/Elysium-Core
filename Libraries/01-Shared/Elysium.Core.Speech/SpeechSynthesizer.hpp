@@ -142,7 +142,7 @@ namespace Elysium::Core::Speech::Synthesis
 	public:
 		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices();
 
-		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices(const Elysium::Core::Globalization::CultureInfo& Culture);
+		const Elysium::Core::Template::Container::Vector<InstalledVoice> GetInstalledVoices(const Elysium::Core::Globalization::Utf8CultureInfo& Culture);
 
 		void Pause();
 

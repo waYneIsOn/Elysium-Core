@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_GLOBALIZATION_CULTURETYPES
-#include "CultureTypes.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
 #include "../Elysium.Core/VectorOfInteger.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CULTURETYPES
+#include "../Elysium.Core.Template/CultureTypes.hpp"
 #endif
 
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
@@ -52,7 +52,7 @@ namespace Elysium::Core::Globalization::Internal
 		LocaleFinder& operator=(const LocaleFinder& Source) = delete;
 		LocaleFinder& operator=(LocaleFinder&& Right) noexcept = delete;
 
-		static const Elysium::Core::Container::VectorOfInt32_t GetSystemLocaleIds(const CultureTypes& Types);
+		static const Elysium::Core::Container::VectorOfInt32_t GetSystemLocaleIds(const Template::Globalization::CultureTypes Types);
 	private:
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 		static Elysium::Core::int32_t EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter);

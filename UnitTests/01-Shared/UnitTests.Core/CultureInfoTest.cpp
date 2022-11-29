@@ -1,9 +1,12 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Globalization/CultureInfo.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Globalization/NumberFormatInfo.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
+using namespace Elysium::Core::Template::Container;
+using namespace Elysium::Core::Template::Globalization;
 using namespace Elysium::Core::Globalization;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -14,10 +17,10 @@ namespace UnitTests::Core::Globalization
 	public:
 		TEST_METHOD(GetSpecificCultures)
 		{
-			Array<CultureInfo> NeutralCultures = CultureInfo::GetCultures(CultureTypes::NeutralCultures);
-			Array<CultureInfo> SpecificCultures = CultureInfo::GetCultures(CultureTypes::SpecificCultures);
-			Array<CultureInfo> InstalledCultures = CultureInfo::GetCultures(CultureTypes::InstalledCultures);
-			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
+			Vector<Utf8CultureInfo> NeutralCultures = Utf8CultureInfo::GetCultures(CultureTypes::NeutralCultures);
+			Vector<Utf8CultureInfo> SpecificCultures = Utf8CultureInfo::GetCultures(CultureTypes::SpecificCultures);
+			Vector<Utf8CultureInfo> InstalledCultures = Utf8CultureInfo::GetCultures(CultureTypes::InstalledCultures);
+			Vector<Utf8CultureInfo> AllCultures = Utf8CultureInfo::GetCultures(CultureTypes::AllCultures);
 			Assert::AreNotSame((Elysium::Core::size)0, AllCultures.GetLength());
 			
 			for (Elysium::Core::size i = 0; i < AllCultures.GetLength(); i++)
@@ -34,7 +37,7 @@ namespace UnitTests::Core::Globalization
 				}
 				else
 				{
-					Array<byte> Bytes = Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
+					//Array<byte> Bytes = Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
 					//Logger::WriteMessage((wchar_t*)&Bytes[0]);
 					Logger::WriteMessage("\r\n");
 				}
@@ -46,8 +49,8 @@ namespace UnitTests::Core::Globalization
 		TEST_METHOD(CheckInvariantCulture)
 		{
 			// check culture
-			const CultureInfo InvariantCulture = CultureInfo::GetInvariantCulture();
-			Assert::AreEqual(127, InvariantCulture.GetLCID());
+			const Utf8CultureInfo InvariantCulture = Utf8CultureInfo::GetInvariantCulture();
+			AssertExtended::AreEqual(127_ui32, InvariantCulture.GetLCID());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"Invariant Language (Invariant Country)"), InvariantCulture.GetEnglishName());
 			Assert::AreEqual((Elysium::Core::size)0, InvariantCulture.GetName().GetLength());
 
@@ -57,26 +60,27 @@ namespace UnitTests::Core::Globalization
 			// ...
 
 			// check numberformatinfo
-			NumberFormatInfo NumberFormat = InvariantCulture.GetNumberFormatInfo();
-			Assert::AreEqual(2, NumberFormat.GetCurrencyDecimalDigits());
+			const Utf8NumberFormatInfo NumberFormat = InvariantCulture.GetNumberFormatInfo();
+ 			AssertExtended::AreEqual(2_ui32, NumberFormat.GetCurrencyDecimalDigits());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"."), NumberFormat.GetCurrencyDecimalSeparator());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8","), NumberFormat.GetCurrencyGroupSeparator());
-			//Assert::AreEqual(0, NumberFormat.GetCurrencyNegativePattern());
-			//Assert::AreEqual(0, NumberFormat.GetCurrencyPositivePattern());
+			Assert::AreEqual(0_ui32, NumberFormat.GetCurrencyNegativePattern());
+			Assert::AreEqual(0_ui32, NumberFormat.GetCurrencyPositivePattern());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"¤"), NumberFormat.GetCurrencySymbol());
-			Assert::AreEqual(static_cast<Elysium::Core::uint32_t>(DigitShapes::None), static_cast<Elysium::Core::uint32_t>(NumberFormat.GetDigitSubstitution()));
+			AssertExtended::AreEqual(static_cast<Elysium::Core::uint8_t>(Template::Globalization::DigitShapes::None),
+				static_cast<Elysium::Core::uint8_t>(NumberFormat.GetDigitSubstitution()));
 			Assert::AreEqual(false, NumberFormat.GetIsReadOnly());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"NaN"), NumberFormat.GetNaNSymbol());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"-Infinity"), NumberFormat.GetNegativeInfinitySymbol());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"-"), NumberFormat.GetNegativeSign());
-			//Assert::AreEqual(2, NumberFormat.GetNumberDecimalDigits());
+			Assert::AreEqual(1_ui32, NumberFormat.GetNumberDecimalDigits());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"."), NumberFormat.GetNumberDecimalSeparator());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8","), NumberFormat.GetNumberGroupSeparator());
-			Assert::AreEqual(2, NumberFormat.GetPercentDecimalDigits());
+			AssertExtended::AreEqual(2, NumberFormat.GetPercentDecimalDigits());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"."), NumberFormat.GetPercentDecimalSeparator());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8","), NumberFormat.GetPercentGroupSeparator());
-			//Assert::AreEqual(0, NumberFormat.GetPercentNegativePattern());
-			//Assert::AreEqual(0, NumberFormat.GetPercentPositivePattern());
+			Assert::AreEqual(0_ui32, NumberFormat.GetPercentNegativePattern());
+			Assert::AreEqual(0_ui32, NumberFormat.GetPercentPositivePattern());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"%"), NumberFormat.GetPercentSymbol());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"‰"), NumberFormat.GetPerMilleSymbol());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"Infinity"), NumberFormat.GetPositiveInfinitySymbol());
@@ -86,38 +90,41 @@ namespace UnitTests::Core::Globalization
 		TEST_METHOD(CheckCultureGermanAustria)
 		{
 			// check culture
-			const CultureInfo NamedCulture = CultureInfo(u8"de-AT", true);
-			const CultureInfo NumberedCulture = CultureInfo(3079, true);
+			const Utf8CultureInfo NamedCulture = Utf8CultureInfo(u8"de-AT", true);
+			const Utf8CultureInfo NumberedCulture = Utf8CultureInfo(3079, true);
 
+			const Utf8String dfgdfg1 = NamedCulture.GetName();
+			const Utf8String dfgdfg2 = NumberedCulture.GetName();
+			
 			Assert::AreEqual(NumberedCulture.GetLCID(), NamedCulture.GetLCID());
 
 			CheckCultureGermanAustria(NamedCulture);
 			CheckCultureGermanAustria(NumberedCulture);
-
+			
 			// change some values (and back again)
-			NumberFormatInfo NumberFormat = NamedCulture.GetNumberFormatInfo();
+			Utf8NumberFormatInfo NumberFormat = NamedCulture.GetNumberFormatInfo();
 			int32_t OriginalCurrencyDecimalDigits = NumberFormat.GetCurrencyDecimalDigits();
 			Elysium::Core::Utf8String OriginalCurrencyDecimalSeparator = NumberFormat.GetCurrencyDecimalSeparator();
 
 			NumberFormat.SetCurrencyDecimalDigits(OriginalCurrencyDecimalDigits + 1);
-			Assert::AreEqual(OriginalCurrencyDecimalDigits + 1, NumberFormat.GetCurrencyDecimalDigits());
+			AssertExtended::AreEqual(OriginalCurrencyDecimalDigits + 1, NumberFormat.GetCurrencyDecimalDigits());
 
 			NumberFormat.SetCurrencyDecimalDigits(OriginalCurrencyDecimalDigits);
-			Assert::AreEqual(OriginalCurrencyDecimalDigits, NumberFormat.GetCurrencyDecimalDigits());
+			AssertExtended::AreEqual(OriginalCurrencyDecimalDigits, NumberFormat.GetCurrencyDecimalDigits());
 
-			NumberFormat.SetCurrencyDecimalSeparator(Elysium::Core::Utf8String(u8"X"));
+			NumberFormat.SetCurrencyDecimalSeparator(u8"X");
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"X"), NumberFormat.GetCurrencyDecimalSeparator());
 
-			NumberFormat.SetCurrencyDecimalSeparator(OriginalCurrencyDecimalSeparator);
+			NumberFormat.SetCurrencyDecimalSeparator(&OriginalCurrencyDecimalSeparator[0]);
 			AssertExtended::AreEqual(OriginalCurrencyDecimalSeparator, NumberFormat.GetCurrencyDecimalSeparator());
 		}
 
 		TEST_METHOD(CheckValueRanges)
 		{
-			Array<CultureInfo> AllCultures = CultureInfo::GetCultures(CultureTypes::AllCultures);
+			Vector<Utf8CultureInfo> AllCultures = Utf8CultureInfo::GetCultures(CultureTypes::AllCultures);
 			for (Elysium::Core::size i = 0; i < AllCultures.GetLength(); i++)
 			{
-				Elysium::Core::Globalization::NumberFormatInfo NumberFormatInfo = AllCultures[i].GetNumberFormatInfo();
+				Elysium::Core::Globalization::Utf8NumberFormatInfo NumberFormatInfo = AllCultures[i].GetNumberFormatInfo();
 				
 				AssertLongestValue(NumberFormatInfo, 3, u8"CurrencyDecimalDigits", u8"", NumberFormatInfo.GetCurrencyDecimalDigits());
 				AssertLongestValue(NumberFormatInfo, 1, u8"CurrencyDecimalSeparator", NumberFormatInfo.GetCurrencyDecimalSeparator(), NumberFormatInfo.GetCurrencyDecimalSeparator().GetLength());
@@ -143,20 +150,20 @@ namespace UnitTests::Core::Globalization
 			}
 		}
 	private:
-		static void CheckCultureGermanAustria(const CultureInfo& Culture)
+		static void CheckCultureGermanAustria(const Utf8CultureInfo& Culture)
 		{
-			Assert::AreEqual(3079, Culture.GetLCID());
+			AssertExtended::AreEqual(3079_ui32, Culture.GetLCID());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"de-AT"), Culture.GetName());
 
 			// check calendar
 			// ...
 
 			// check numberformatinfo
-			NumberFormatInfo NumberFormat = Culture.GetNumberFormatInfo();
+			Utf8NumberFormatInfo NumberFormat = Culture.GetNumberFormatInfo();
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8","), NumberFormat.GetCurrencyDecimalSeparator());
 		}
 
-		static void AssertLongestValue(const Elysium::Core::Globalization::NumberFormatInfo& FormatInfo, const Elysium::Core::size MaximumAllowedLength,
+		static void AssertLongestValue(const Elysium::Core::Globalization::Utf8NumberFormatInfo& FormatInfo, const Elysium::Core::size MaximumAllowedLength,
 			const Elysium::Core::Utf8String& Method, const Elysium::Core::Utf8String& Value, const Elysium::Core::size ActualLength)
 		{
 			// bla - this is just for checking values while debugging and can be changed freely

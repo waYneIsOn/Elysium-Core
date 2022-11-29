@@ -8,7 +8,7 @@
 #include "../Elysium.Core/SystemException.hpp"
 #endif
 
-const Elysium::Core::Container::VectorOfInt32_t Elysium::Core::Globalization::Internal::LocaleFinder::GetSystemLocaleIds(const CultureTypes& Types)
+const Elysium::Core::Container::VectorOfInt32_t Elysium::Core::Globalization::Internal::LocaleFinder::GetSystemLocaleIds(const Template::Globalization::CultureTypes Types)
 {
 	Elysium::Core::Container::VectorOfInt32_t LCIDs = Elysium::Core::Container::VectorOfInt32_t();
 

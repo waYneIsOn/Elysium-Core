@@ -30,8 +30,8 @@ namespace UnitTests::Core::Speech
 		{
 			SpeechSynthesizer Synthesizer = SpeechSynthesizer();
 
-			CultureInfo EnglishUS = CultureInfo(u8"en-US", false);
-			Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(EnglishUS);
+			Utf8CultureInfo EnglishUS = Utf8CultureInfo(u8"en-US", false);
+			const Vector<InstalledVoice> InstalledVoices = Synthesizer.GetInstalledVoices(EnglishUS);
 			Assert::IsTrue(InstalledVoices.GetLength() > 0);
 
 			Synthesizer.SelectVoice(InstalledVoices[0].GetVoiceInfo());

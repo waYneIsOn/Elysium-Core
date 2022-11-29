@@ -201,7 +201,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 #endif
 }
 
-const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice> Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetInstalledVoices(const Elysium::Core::Globalization::CultureInfo& Culture)
+const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice> Elysium::Core::Speech::Synthesis::SpeechSynthesizer::GetInstalledVoices(const Elysium::Core::Globalization::Utf8CultureInfo& Culture)
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	HRESULT Result = S_OK;

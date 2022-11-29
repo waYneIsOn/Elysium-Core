@@ -1,3 +1,4 @@
+/*
 #include "CultureInfo.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
@@ -148,9 +149,9 @@ const Elysium::Core::int32_t & Elysium::Core::Globalization::CultureInfo::GetLCI
 	return _LCID;
 }
 
-Elysium::Core::Globalization::NumberFormatInfo Elysium::Core::Globalization::CultureInfo::GetNumberFormatInfo() const
+Elysium::Core::Globalization::Utf8NumberFormatInfo Elysium::Core::Globalization::CultureInfo::GetNumberFormatInfo() const
 {
-	return Elysium::Core::Globalization::NumberFormatInfo(_LCID, false);
+	return Elysium::Core::Globalization::Utf8NumberFormatInfo(_LCID, false);
 }
 
 Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFromName(const Elysium::Core::Utf8String& Name)
@@ -159,7 +160,7 @@ Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFro
 	throw 1;
 #elif defined(ELYSIUM_CORE_OS_WINDOWS)
 	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
-		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(char16_t));
+		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
 	Elysium::Core::int32_t LCID = LocaleNameToLCID((LPCWSTR)&Bytes[0], 0);
 	if (LCID == 0)
 	{
@@ -171,3 +172,4 @@ Elysium::Core::int32_t Elysium::Core::Globalization::CultureInfo::GetLocaleIdFro
 #error "undefined os"
 #endif
 }
+*/

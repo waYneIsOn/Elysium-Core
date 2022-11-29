@@ -123,7 +123,8 @@ namespace UnitTests::Core
 			Elysium::Core::Utf16String Char16StackString = u"φί~";
 			Elysium::Core::Utf32String Char32StackString = U"φί~";
 			Elysium::Core::WideString WCharStackString = L"φί~";
-
+			Assert::Fail();
+			/*
 			Elysium::Core::Utf8String ConvertedUtf8CharStackString1 = Elysium::Core::Template::Text::Encoding::ToUtf8String<char>(CharStackString);
 			Elysium::Core::Utf8String ConvertedUtf8CharStackString2 = Elysium::Core::Template::Text::Encoding::ToUtf8String<char8_t>(Char8StackString);
 			//Elysium::Core::Utf8String ConvertedUtf8CharStackString3 = Elysium::Core::Template::Text::Encoding::ToUtf8String<char16_t>(Char16StackString);
@@ -135,6 +136,7 @@ namespace UnitTests::Core
 			//AssertExtended::AreEqual(&Char8StackString[0], &ConvertedUtf8CharStackString3[0]);
 			//AssertExtended::AreEqual(&Char8StackString[0], &ConvertedUtf8CharStackString4[0]);
 			AssertExtended::AreEqual(&Char8StackString[0], &ConvertedUtf8CharStackString5[0]);
+			*/
 		}
 
 		TEST_METHOD(EncodingToWideString)
