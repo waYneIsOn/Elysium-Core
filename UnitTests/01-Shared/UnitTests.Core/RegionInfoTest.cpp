@@ -14,7 +14,7 @@ namespace UnitTests::Core::Globalization
 	public:
 		TEST_METHOD(CheckInvariantRegion)
 		{
-			const RegionInfo InvariantRegion = RegionInfo(127);
+			const Utf8RegionInfo InvariantRegion = Utf8RegionInfo(127);
 			AssertExtended::AreEqual(u8"Invariant Country", InvariantRegion.GetEnglishName());
 			AssertExtended::AreEqual(u8"Invariant Country", InvariantRegion.GetNativeName());
 			Assert::AreEqual((Elysium::Core::size)0, InvariantRegion.GetThreeLetterISORegionName().GetLength());
@@ -24,7 +24,7 @@ namespace UnitTests::Core::Globalization
 
 		TEST_METHOD(CheckRegionGermanAustria)
 		{
-			const RegionInfo NamedRegion = RegionInfo(u8"de-AT");
+			const Utf8RegionInfo NamedRegion = Utf8RegionInfo(u8"de-AT");
 			AssertExtended::AreEqual(u8"Austria", NamedRegion.GetEnglishName());
 			AssertExtended::AreEqual(u8"Österreich", NamedRegion.GetNativeName());
 			AssertExtended::AreEqual(u8"AUT", NamedRegion.GetThreeLetterISORegionName());
@@ -34,7 +34,7 @@ namespace UnitTests::Core::Globalization
 
 		TEST_METHOD(CheckRegionEnglishAmerica)
 		{
-			const RegionInfo NamedRegion = RegionInfo(u8"en-US");
+			const Utf8RegionInfo NamedRegion = Utf8RegionInfo(u8"en-US");
 			AssertExtended::AreEqual(u8"United States", NamedRegion.GetEnglishName());
 			AssertExtended::AreEqual(u8"United States", NamedRegion.GetNativeName());
 			AssertExtended::AreEqual(u8"USA", NamedRegion.GetThreeLetterISORegionName());

@@ -16,105 +16,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_REGIONINFO
+#include "../Elysium.Core.Template/RegionInfo.hpp"
 #endif
 
 namespace Elysium::Core::Globalization
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	class ELYSIUM_CORE_API RegionInfo final
-	{
-	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Culture"></param>
-		RegionInfo(const Elysium::Core::int32_t Culture);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Name"></param>
-		RegionInfo(const Elysium::Core::Utf8String& Name);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Source"></param>
-		RegionInfo(const RegionInfo& Source);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Right"></param>
-		/// <returns></returns>
-		RegionInfo(RegionInfo&& Right) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		~RegionInfo();
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Source"></param>
-		/// <returns></returns>
-		RegionInfo& operator=(const RegionInfo& Source);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Right"></param>
-		/// <returns></returns>
-		RegionInfo& operator=(RegionInfo&& Right) noexcept;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const Elysium::Core::Utf8String GetDisplayName() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const Elysium::Core::Utf8String GetEnglishName() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const bool GetIsMetric() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const Elysium::Core::Utf8String GetNativeName() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const Elysium::Core::Utf8String GetThreeLetterISORegionName() const;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		const Elysium::Core::Utf8String GetTwoLetterISORegionName() const;
-	private:
-		Elysium::Core::int32_t _LCID;
-
-		static Elysium::Core::int32_t GetLocaleIdFromName(const Elysium::Core::Utf8String& Name);
-	};
+	/*
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::RegionInfo<char>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::RegionInfo<char8_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::RegionInfo<char16_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::RegionInfo<char32_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::RegionInfo<wchar_t>;
+	*/
+	using RegionInfo = Elysium::Core::Template::Globalization::RegionInfo<char>;
+	using Utf8RegionInfo = Elysium::Core::Template::Globalization::RegionInfo<char8_t>;
+	using Utf16RegionInfo = Elysium::Core::Template::Globalization::RegionInfo<char16_t>;
+	using Utf32RegionInfo = Elysium::Core::Template::Globalization::RegionInfo<char32_t>;
+	using WideRegionInfo = Elysium::Core::Template::Globalization::RegionInfo<wchar_t>;
 }
 #endif

@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "../Elysium.Core/SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
 #endif
@@ -99,6 +103,8 @@ namespace Elysium::Core::Template::Globalization
 	public:
 		NumberFormatInfo<C> GetNumberFormatInfo();
 	private:
+		static System::int32_t EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter);
+	private:
 		System::uint32_t GetLocaleIdFromName(ConstCharacterPointer Name);
 	private:
 		System::uint32_t _LocaleId;
@@ -169,9 +175,24 @@ namespace Elysium::Core::Template::Globalization
 
 	template<Concepts::Character C>
 	inline const Container::Vector<CultureInfo<C>> CultureInfo<C>::GetCultures(const CultureTypes& Types)
-	{
-		throw 1;
-		//return Container::Vector<CultureInfo<C>>();
+	{	// I can assume at least one installed language pack
+		Container::Vector<System::uint32_t> LocaleIds = Container::Vector<System::uint32_t>(1);
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// ToDo: convert Types to second parameter correctly! (example: LOCALE_ALL = 0)
+		while (EnumSystemLocalesEx(EnumerateSystemLocalesExCallback, static_cast<unsigned long>(Types), (LPARAM)&LocaleIds, nullptr) == 0)
+		{ }
+
+		const System::size LocaleIdsLength = LocaleIds.GetLength();
+		Container::Vector<CultureInfo<C>> Locales = Container::Vector<CultureInfo<C>>(LocaleIdsLength);
+		for (System::size i = 0; i < LocaleIdsLength; i++)
+		{
+			Locales[i] = CultureInfo<C>(LocaleIds[i], true);
+		}
+
+#else
+#error "undefined os"
+#endif
+		return Locales;
 	}
 
 	template<>
@@ -179,7 +200,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
-		if (GetLocaleInfoA((LCID)_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
+		if (GetLocaleInfoA(_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
 			throw SystemException();
 		}
@@ -195,7 +216,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
-		if (GetLocaleInfoW((LCID)_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
+		if (GetLocaleInfoW(_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
 			throw SystemException();
 		}
@@ -211,7 +232,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
-		if (GetLocaleInfoW((LCID)_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
+		if (GetLocaleInfoW(_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
 			throw SystemException();
 		}
@@ -228,7 +249,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
-		if (GetLocaleInfoA((LCID)_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
+		if (GetLocaleInfoA(_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
 			throw SystemException();
 		}
@@ -244,7 +265,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
-		if (GetLocaleInfoW((LCID)_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
+		if (GetLocaleInfoW(_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
 			throw SystemException();
 		}
@@ -260,7 +281,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
-		if (GetLocaleInfoW((LCID)_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
+		if (GetLocaleInfoW(_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
 			throw SystemException();
 		}
@@ -277,7 +298,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
-		if (LCIDToLocaleName((LCID)_LocaleId, (LPWSTR)&Buffer[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
+		if (LCIDToLocaleName(_LocaleId, (LPWSTR)&Buffer[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
 		{
 			throw SystemException();
 		}
@@ -293,7 +314,7 @@ namespace Elysium::Core::Template::Globalization
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
-		if (LCIDToLocaleName((LCID)_LocaleId, (LPWSTR)&Buffer[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
+		if (LCIDToLocaleName(_LocaleId, (LPWSTR)&Buffer[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
 		{
 			throw SystemException();
 		}
@@ -321,6 +342,20 @@ namespace Elysium::Core::Template::Globalization
 	inline NumberFormatInfo<C> CultureInfo<C>::GetNumberFormatInfo()
 	{
 		return NumberFormatInfo<C>(_LocaleId, false);
+	}
+
+	template<Concepts::Character C>
+	inline System::int32_t CultureInfo<C>::EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter)
+	{
+		System::uint32_t LocaleId = LocaleNameToLCID(Name, 0);
+		if (LocaleId == 0)
+		{
+			return 0;
+		}
+
+		((Container::Vector<System::uint32_t>*)Parameter)->PushBack(LocaleId);
+
+		return 1;
 	}
 
 	template<>

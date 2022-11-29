@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleFinder.cpp">
-      <Filter>Internal</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleRepository.cpp">
       <Filter>Internal\Fallback</Filter>
     </ClCompile>
@@ -17,9 +12,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LocaleFinder.hpp">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleRepository.hpp">
       <Filter>Internal\Fallback</Filter>

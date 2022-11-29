@@ -14,15 +14,11 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)LocaleFinder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LocaleRepository.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LocaleFinder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleRepository.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />

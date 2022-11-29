@@ -68,9 +68,9 @@ namespace Elysium::Core::Template::Text::Unicode
 	template<>
 	inline String<char> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		Elysium::Core::uint32_t CodePoint = 0;
-		Elysium::Core::uint32_t RequiredLength = 0;
-		for (Elysium::Core::size i = 0; i < Length; ++i)
+		System::uint32_t CodePoint = 0;
+		System::uint32_t RequiredLength = 0;
+		for (System::size i = 0; i < Length; ++i)
 		{
 			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
@@ -84,7 +84,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		}
 
 		String<char> Result = String<char>(RequiredLength);
-		for (Elysium::Core::size i = 0; i < Length; ++i)
+		for (System::size i = 0; i < Length; ++i)
 		{
 			// ToDo
 		}
@@ -96,8 +96,8 @@ namespace Elysium::Core::Template::Text::Unicode
 	inline String<char8_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
 		char32_t CodePoint;
-		Elysium::Core::size RequiredLength = 0;
-		for (Elysium::Core::size i = 0; i < Length; ++i)
+		System::size RequiredLength = 0;
+		for (System::size i = 0; i < Length; ++i)
 		{
 			CodePoint = CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
 			if (CodePoint < 0x80)			// 0 - 127
@@ -127,14 +127,14 @@ namespace Elysium::Core::Template::Text::Unicode
 		System::byte* Byte1 = nullptr;
 		System::byte* Byte2 = nullptr;
 		System::byte* Byte3 = nullptr;
-		Core::uint32_t CharacterIndex = 0;
-		for (Elysium::Core::size i = 0; i < Length; ++i)
+		System::uint32_t CharacterIndex = 0;
+		for (System::size i = 0; i < Length; ++i)
 		{
 			CodePoint = CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
 			if (CodePoint < 0x80)			// 0 - 127
 			{
 				// 0xxx xxxx									->	0xxx xxxx
-				Result[CharacterIndex++] = static_cast<Elysium::Core::uint8_t>(CodePoint);
+				Result[CharacterIndex++] = static_cast<System::uint8_t>(CodePoint);
 			}
 			else if (CodePoint < 0x800)		// 128 - 2047
 			{

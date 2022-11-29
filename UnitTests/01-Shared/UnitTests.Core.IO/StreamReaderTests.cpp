@@ -15,18 +15,24 @@ namespace UnitTests::Core::IO
 	public:
 		TEST_METHOD(ReadUsingBufferLargerThanInternal)
 		{
+			Assert::Fail();
+			/*
 			const Elysium::Core::size BufferSize = 8192;
 			byte Buffer[BufferSize];
 
 			ReadSomeFile(&Buffer[0], BufferSize);
+			*/
 		}
 
 		TEST_METHOD(ReadUsingBufferSmallerThanInternal)
 		{
+			Assert::Fail();
+			/*
 			const Elysium::Core::size BufferSize = 2048;
 			byte Buffer[BufferSize];
 
 			ReadSomeFile(&Buffer[0], BufferSize);
+			*/
 		}
 	private:
 		void ReadSomeFile(byte* Buffer, const Elysium::Core::size Count)
