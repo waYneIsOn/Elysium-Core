@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Absolute.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
+#include "Floor.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
 #include "Power.hpp"
 #endif
@@ -257,7 +261,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -308,7 +312,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -359,7 +363,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -410,7 +414,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -460,12 +464,10 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		// ToDo: String<C>
-		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		const Elysium::Core::Utf8String NegativeSign = u8"-";
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -524,12 +526,10 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		// ToDo: String<C>
-		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		const Elysium::Core::Utf8String NegativeSign = u8"-";
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -588,12 +588,10 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		// ToDo: String<C>
-		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		const Elysium::Core::Utf8String NegativeSign = u8"-";
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -652,12 +650,10 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		// ToDo: String<C>
-		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		const Elysium::Core::Utf8String NegativeSign = u8"-";
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters = 
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -721,19 +717,16 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
 		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
 
-		// ToDo: String<C>
-		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		//const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
-		const Elysium::Core::Utf8String NegativeSign = u8"-";
-		const Elysium::Core::Utf8String DecimalSeparator = u8".";
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
+		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
 
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 
 		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(IntegerPart)) /log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(IntegerPart)) /log(ToBase)) + 1_ui8);
 
 		const System::uint8_t RequiredNumberOfCharactersFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
 
 		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersFloatingPart > 0 ?
 			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()): 0;
@@ -835,19 +828,16 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
 		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
 
-		// ToDo: String<C>
-		//const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();
-		//const Elysium::Core::Utf8String DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
-		const Elysium::Core::Utf8String NegativeSign = u8"-";
-		const Elysium::Core::Utf8String DecimalSeparator = u8".";
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
+		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
 
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 
 		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Math::Absolute(IntegerPart)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(IntegerPart)) / log(ToBase)) + 1_ui8);
 
 		const System::uint8_t RequiredNumberOfCharactersFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
 
 		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersFloatingPart > 0 ?
 			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()) : 0;
@@ -1147,26 +1137,18 @@ namespace Elysium::Core::Template::Text
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
 		// sign
-		/*
-		//const Elysium::Core::Utf8String PositiveSign = FormatInfo.GetPositiveSign();	// ToDo: String<C>
-		const Elysium::Core::Utf8String NegativeSign = FormatInfo.GetNegativeSign();	// ToDo: String<C>
-		for (System::size i = 0; i < NegativeSign.GetLength(); i++)
-		{
-
-		}
-		*/
 		System::int16_t Sign = 1;
-		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
+		if (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter || ChangeableValue[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
+			Sign = 1 - 2 * (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter);
+			ChangeableValue++;
 		}
 
 		// ...
-		Pointer ChangeableValue = (Pointer)Value;
 		System::int8_t AbsoluteResult = 0;
 		while (ChangeableValue < LastCharacter)
 		{
@@ -1218,18 +1200,18 @@ namespace Elysium::Core::Template::Text
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
 		// sign
 		System::int16_t Sign = 1;
-		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
+		if (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter || ChangeableValue[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
+			Sign = 1 - 2 * (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter);
+			ChangeableValue++;
 		}
 
 		// ...
-		Pointer ChangeableValue = (Pointer)Value;
 		System::int16_t AbsoluteResult = 0;
 		while (ChangeableValue < LastCharacter)
 		{
@@ -1281,18 +1263,18 @@ namespace Elysium::Core::Template::Text
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
 		// sign
 		System::int16_t Sign = 1;
-		if (Value[0] == CharacterTraits<C>::MinusCharacter || Value[0] == CharacterTraits<C>::PlusCharacter)
+		if (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter || ChangeableValue[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
+			Sign = 1 - 2 * (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter);
+			ChangeableValue++;
 		}
 
 		// ...
-		Pointer ChangeableValue = (Pointer)Value;
 		System::int32_t AbsoluteResult = 0;
 		while (ChangeableValue < LastCharacter)
 		{
@@ -1344,18 +1326,18 @@ namespace Elysium::Core::Template::Text
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
 		// sign
 		System::int16_t Sign = 1;
-		if (Value[0] == CharacterTraits<C>::MinusCharacter)
+		if (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter || ChangeableValue[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
+			Sign = 1 - 2 * (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter);
+			ChangeableValue++;
 		}
 
 		// ...
-		Pointer ChangeableValue = (Pointer)Value;
 		System::int64_t AbsoluteResult = 0;
 		while (ChangeableValue < LastCharacter)
 		{
@@ -1407,18 +1389,18 @@ namespace Elysium::Core::Template::Text
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
 		// sign
 		System::int16_t Sign = 1;
-		if (Value[0] == CharacterTraits<C>::MinusCharacter)
+		if (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter || ChangeableValue[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
+			Sign = 1 - 2 * (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter);
+			ChangeableValue++;
 		}
 
 		// ...
-		Pointer ChangeableValue = (Pointer)Value;
 		System::uint32_t AbsoluteResult = 0;
 		while (ChangeableValue < LastCharacter && ChangeableValue[0] != static_cast<C>('.'))
 		{
@@ -1497,18 +1479,18 @@ namespace Elysium::Core::Template::Text
 			throw Elysium::Core::ArgumentException(u8"FromBase");
 		}
 
+		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
 		// sign
 		System::int16_t Sign = 1;
-		if (Value[0] == CharacterTraits<C>::MinusCharacter)
+		if (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter || ChangeableValue[0] == CharacterTraits<C>::PlusCharacter)
 		{
-			Sign = 1 - 2 * (Value[0] == CharacterTraits<C>::MinusCharacter);
-			Value++;
+			Sign = 1 - 2 * (ChangeableValue[0] == CharacterTraits<C>::MinusCharacter);
+			ChangeableValue++;
 		}
 
 		// ...
-		Pointer ChangeableValue = (Pointer)Value;
 		System::uint64_t AbsoluteResult = 0;
 		while (ChangeableValue < LastCharacter && ChangeableValue[0] != static_cast<C>('.'))
 		{

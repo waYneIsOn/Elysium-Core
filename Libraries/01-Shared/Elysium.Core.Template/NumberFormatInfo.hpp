@@ -283,7 +283,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -299,7 +301,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -332,7 +336,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -348,7 +354,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -413,7 +421,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -429,7 +439,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -478,7 +490,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -494,7 +508,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -527,7 +543,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -543,7 +561,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -576,7 +596,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -592,7 +614,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -641,7 +665,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -657,7 +683,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -690,7 +718,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -706,7 +736,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -755,7 +787,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -771,7 +805,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -804,7 +840,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -820,7 +858,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -885,7 +925,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -901,7 +943,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -934,7 +978,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -950,7 +996,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -983,7 +1031,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -999,7 +1049,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -1032,7 +1084,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -1048,7 +1102,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// in most cases the string will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif

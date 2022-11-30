@@ -177,10 +177,51 @@ namespace Elysium::Core::Template::Text::Unicode
 		return Result;
 	}
 
+	template<>
+	inline String<char16_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		String<char16_t> Result = String<char16_t>(Length);
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		memcpy(&Result[0], Data, Length * CharacterTraits<wchar_t>::MinimumByteLength);
+#else
+		// ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+
+		return Result;
+	}
+
+	template<>
+	inline String<char32_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		System::size RequiredLength = 0;
+		for (System::size i = 0; i < Length; ++i) 
+		{
+			RequiredLength++;
+			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			{
+				i++;	// skip low surrogate
+			}
+		}
+
+		String<char32_t> Result = String<char32_t>(RequiredLength);
+		for (System::size i = 0; i < Length; ++i)
+		{
+			Result[i] = CharacterTraits<wchar_t>::ConvertToUtf32(&Data[i]);
+			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			{
+				i++;	// skip low surrogate
+			}
+		}
+
+		return Result;
+	}
+
 	template<Concepts::Character C>
 	inline String<C> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{	// ToDo: throw NotImplementedException($"Unhandled Character {typeof(C).FullName}");
-		throw 1;
+		// cannot throw exception here though due to noexcept!
+		return String<C>();
 	}
 
 	template<>

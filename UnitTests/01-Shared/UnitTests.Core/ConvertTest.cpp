@@ -155,10 +155,10 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(u8"1B", Elysium::Core::Template::Text::Convert<char8_t>::ToString(I64, Bases[3]));
 
 			const float Floating32 = 27.27f;
-			AssertExtended::AreEqual("11011", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[0]));
-			AssertExtended::AreEqual("33", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[1]));
-			AssertExtended::AreEqual("27", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[2]));
-			AssertExtended::AreEqual("1B", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[3]));
+			AssertExtended::AreEqual("11011.11", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[0]));
+			AssertExtended::AreEqual("33.33", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[1]));
+			AssertExtended::AreEqual("27.27", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[2]));
+			AssertExtended::AreEqual("1B.1B", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[3]));
 
 			AssertExtended::AreEqual(u8"11011.11", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[0]));
 			AssertExtended::AreEqual(u8"33.33", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[1]));

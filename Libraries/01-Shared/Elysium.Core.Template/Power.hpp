@@ -16,7 +16,6 @@ namespace Elysium::Core::Template::Math
 {
 	constexpr double Power(const double Base, const double Exponent) noexcept
 	{
-		// ToDo: this can be done way better!
 		double Result = 1;
 		for (double i = 0; i < Exponent; i++)
 		{

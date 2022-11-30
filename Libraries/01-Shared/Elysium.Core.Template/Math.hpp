@@ -12,6 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+// ToDo: all classes, methods etc. here can be heavily improved!
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
 #include "Absolute.hpp"
 #endif

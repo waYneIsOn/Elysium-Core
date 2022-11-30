@@ -318,7 +318,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// three letters will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -334,7 +336,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// three letters will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -350,7 +354,7 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		// in most cases the string will fit onto the stack which is why I get the actual length here
+		// three letters will fit onto the stack which is why I get the actual length here
 		return Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
 #else
 #error "undefined os"
@@ -367,7 +371,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// two letters will fit onto the stack which is why I copy the string here
+		char* Data = &Buffer[0];
+		return Text::String<char>(Data, Text::CharacterTraits<char>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -383,7 +389,9 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		return Buffer;
+		// two letters will fit onto the stack which is why I copy the string here
+		wchar_t* Data = &Buffer[0];
+		return Text::String<wchar_t>(Data, Text::CharacterTraits<wchar_t>::GetLength(Data));
 #else
 #error "undefined os"
 #endif
@@ -399,7 +407,7 @@ namespace Elysium::Core::Template::Globalization
 			throw SystemException();
 		}
 
-		// in most cases the string will fit onto the stack which is why I get the actual length here
+		// two letters will fit onto the stack which is why I get the actual length here
 		return Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
 #else
 #error "undefined os"
