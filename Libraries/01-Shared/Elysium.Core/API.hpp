@@ -11,22 +11,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/OperatingSystem.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifdef ELYSIUMCORE_EXPORTS
+#if defined ELYSIUM_CORE_OS_WINDOWS
+#if defined ELYSIUMCORE_EXPORTS
 #define ELYSIUM_CORE_API __declspec(dllexport)
 #else
 #define ELYSIUM_CORE_API __declspec(dllimport)
 #endif
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-#define ELYSIUM_CORE_API
-#elif defined(ELYSIUM_CORE_OS_LINUX)
-
-#elif defined(ELYSIUM_CORE_OS_MAC)
-
 #else
 #error "unsupported os"
 #endif

@@ -103,13 +103,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfString.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultCharacterAllocator.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfCharacter.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfInteger.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultIntegerAllocator.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfInteger.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfByte.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>

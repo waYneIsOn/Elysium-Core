@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOROFBYTE
+#include "DefaultAllocatorOfByte.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif

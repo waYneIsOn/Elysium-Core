@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MEMORY_DEFAULTCHARACTERALLOCATOR
-#include "DefaultCharacterAllocator.hpp"
+#ifndef ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOROfCHARACTER
+#include "DefaultAllocatorOfCharacter.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGBUILDER

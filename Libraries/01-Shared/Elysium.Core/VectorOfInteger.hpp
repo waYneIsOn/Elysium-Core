@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOROFINTEGER
+#include "DefaultAllocatorOfInteger.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif

@@ -12,7 +12,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#if defined(_WIN32) || defined(_WIN64) ||  defined(__WIN32__) || defined(__TOS_WIN__) || defined(__WINDOWS__) || defined(__CYGWIN__)
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/OperatingSystem.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
 
 #ifndef __WINCRYPT_H__
 #ifndef _WINDOWS_
@@ -42,12 +46,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINECONFIG CERT_CHAIN_ENGINE_CONFIG
 
 #define ELYSIUM_CORE_SECURITY_CRYPTOHRAPHY_OIDPOINTER PCCRYPT_OID_INFO
-
-#elif defined(__ANDROID__)
-
-#elif defined(linux) || defined(__linux) || defined(__linux__) || defined(__gnu_linux__))
-
-#elif defined(macintosh) || defined(Macintosh) || (defined(__APPLE__) && defined(__MACH__)))
 
 #else
 #error "unsupported os"
