@@ -68,6 +68,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp" />

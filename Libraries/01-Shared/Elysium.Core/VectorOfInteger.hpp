@@ -30,7 +30,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Container
 {
-
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::uint8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::uint16_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::uint32_t>;

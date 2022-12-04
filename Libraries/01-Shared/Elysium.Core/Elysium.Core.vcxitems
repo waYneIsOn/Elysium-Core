@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfInteger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfString.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />

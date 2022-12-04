@@ -430,6 +430,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

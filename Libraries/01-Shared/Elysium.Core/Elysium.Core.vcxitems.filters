@@ -115,6 +115,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfByte.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfString.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
