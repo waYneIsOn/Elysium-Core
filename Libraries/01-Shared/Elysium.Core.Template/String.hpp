@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "Vector.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "DefaultAllocator.hpp"
 #endif
@@ -488,7 +484,9 @@ namespace Elysium::Core::Template::Text
 	inline String<C, Traits, Allocator>::ConstCharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const noexcept
 	{
 		return IsHeapAllocated() ? 
-			_InternalString._Heap._Data[Index] : (ConstCharacterReference)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
+			_InternalString._Heap._Data[Index] : 
+			// do NOT cast to ConstCharacterReference here!
+			(CharacterReference)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
 	}
 	
 	template<Concepts::Character C, class Traits, class Allocator>
@@ -683,7 +681,9 @@ namespace Elysium::Core::Template::Text
 			//throw IndexOutOfRangeException();
 		}
 
-		return HeapAllocated ? _InternalString._Heap._Data[Index] : (ConstCharacterReference)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
+		return HeapAllocated ? _InternalString._Heap._Data[Index] :
+			// do NOT cast to ConstCharacterReference here!
+			(CharacterReference)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>

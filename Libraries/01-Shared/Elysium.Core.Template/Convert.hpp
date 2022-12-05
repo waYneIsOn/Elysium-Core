@@ -267,9 +267,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint8_t BaseValue = static_cast<Elysium::Core::Template::System::uint8_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint8_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -318,9 +318,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint16_t BaseValue = static_cast<Elysium::Core::Template::System::uint16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint16_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -369,9 +369,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint32_t BaseValue = static_cast<Elysium::Core::Template::System::uint32_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint32_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -420,9 +420,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint64_t BaseValue = static_cast<Elysium::Core::Template::System::uint64_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint64_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -480,9 +480,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint8_t BaseValue = static_cast<Elysium::Core::Template::System::uint8_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint8_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -542,9 +542,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint16_t BaseValue = static_cast<Elysium::Core::Template::System::uint16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint16_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -604,9 +604,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint32_t BaseValue = static_cast<Elysium::Core::Template::System::uint32_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint32_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -666,9 +666,9 @@ namespace Elysium::Core::Template::Text
 		System::uint8_t Index = 0;
 		while (Index < RequiredNumberOfCharacters)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::uint64_t BaseValue = static_cast<Elysium::Core::Template::System::uint64_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::int16_t NumericalValue = Value / BaseValue;
+			System::uint64_t NumericalValue = Value / BaseValue;
 
 			if (NumericalValue < 10)
 			{

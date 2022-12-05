@@ -493,5 +493,8 @@
     <Filter Include="Globalization\Internal">
       <UniqueIdentifier>{b6d533b5-593f-418d-9255-02caa90c3a8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Diagnostics">
+      <UniqueIdentifier>{23f51f0a-e493-43cc-8e62-c73b0328d3ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
