@@ -42,10 +42,19 @@
 #error "undefined os"
 #endif
 
+Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::_CurrentProcess = 
+	Elysium::Core::Diagnostics::Process(_LocalMachineName, false, GetCurrentProcessId());
+
+Elysium::Core::Diagnostics::Process::Process(const Elysium::Core::Utf8String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId)
+	: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(GetCurrentThreadId()), 
+	_HasThreadId(true), _ProcessHandle(GetCurrentProcess()), _ThreadHandle(GetCurrentThread())
+{ }
+
 Elysium::Core::Diagnostics::Process::Process()
 	: _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false), 
 	_ProcessHandle(nullptr), _ThreadHandle(nullptr)
 { }
+
 Elysium::Core::Diagnostics::Process::~Process()
 {
 	Close();
@@ -111,7 +120,7 @@ void Elysium::Core::Diagnostics::Process::Close()
 	if (_ThreadHandle != nullptr)
 	{
 		CloseHandle(_ThreadHandle);
-		_ProcessHandle = nullptr;
+		_ThreadHandle = nullptr;
 	}
 	if (_ProcessHandle != nullptr)
 	{
@@ -169,9 +178,10 @@ void Elysium::Core::Diagnostics::Process::LeaveDebugMode()
 	throw 1;
 }
 
-Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetCurrentProcess()
+const Elysium::Core::Diagnostics::Process& Elysium::Core::Diagnostics::Process::CurrentProcess()
 {
-	return Process(_LocalMachineName, false, GetCurrentProcessId());
+	return _CurrentProcess;
+	//return Process(_LocalMachineName, false, GetCurrentProcessId());
 }
 
 const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses()
@@ -304,8 +314,3 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Diagnostics::Pr
 
 	return Processes;
 }
-
-Elysium::Core::Diagnostics::Process::Process(const Elysium::Core::Utf8String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId)
-	: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(0), _HasThreadId(false),
-	_ProcessHandle(nullptr),_ThreadHandle(nullptr)
-{ }

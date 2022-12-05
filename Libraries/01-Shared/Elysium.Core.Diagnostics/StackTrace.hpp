@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StackFrame.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_CONTAINER_VECTOROFSTACKFRAME
+#include "VectorOfStackFrame.hpp"
+#endif
+
 namespace Elysium::Core::Diagnostics
 {
 	class ELYSIUM_CORE_API StackTrace final
@@ -35,15 +39,25 @@ namespace Elysium::Core::Diagnostics
 
 		StackTrace(StackTrace&& Right) noexcept = delete;
 
-		~StackTrace();
+		~StackTrace() noexcept;
 	public:
 		StackTrace& operator=(const StackTrace& Source) = delete;
 
 		StackTrace& operator=(StackTrace&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::size GetFrameCount() const;
+		static constexpr const Elysium::Core::size FramesToSkip = 0;
+
+		static constexpr const Elysium::Core::size MaxFrames = 0xFFFF;
+
+		static constexpr const Elysium::Core::size MaxFunctionNameLength = 1024;
+	public:
+		const Container::VectorOfStackFrame& GetFrames() const noexcept;
+	public:
+		//Utf8String ToUtf8String();
 	private:
-		Elysium::Core::size _FrameCount;
+		Container::VectorOfStackFrame _StackFrames;
+	private:
+		Container::VectorOfStackFrame CaptureStackFrames();
 	};
 }
 #endif

@@ -6,6 +6,10 @@
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_INTERNAL_WINSYMBOLS
+#include "../Elysium.Core.Diagnostics/WinSymbols.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
 #include "../Elysium.Core.Reflection/AppDomain.hpp"
 #endif
@@ -112,10 +116,14 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
+        Elysium::Core::Diagnostics::Internal::WinSymbols::Initialize(); // doesn't need to be called on every thread
+        return TRUE;
     case DLL_THREAD_ATTACH:
+        return TRUE;
     case DLL_THREAD_DETACH:
+        return TRUE;
     case DLL_PROCESS_DETACH:
-        break;
+        Elysium::Core::Diagnostics::Internal::WinSymbols::Shutdown(); // doesn't need to be called on every thread
+        return TRUE;
     }
-    return TRUE;
 }

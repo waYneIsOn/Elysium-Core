@@ -28,21 +28,29 @@ namespace Elysium::Core::Diagnostics
 {
 	class ELYSIUM_CORE_API StackFrame final
 	{
-	public:
-		StackFrame(const Elysium::Core::Utf8String& FileName, const Elysium::Core::uint32_t LineNumber, const Elysium::Core::uint32_t ColumnNumber) = delete;
-
-		StackFrame(const StackFrame& Source) = delete;
-
-		StackFrame(StackFrame&& Right) noexcept = delete;
-
-		~StackFrame() = delete;
-	public:
-		StackFrame& operator=(const StackFrame& Source) = delete;
-
-		StackFrame& operator=(StackFrame&& Right) noexcept = delete;
-	public:
-
+		friend class StackTrace;
 	private:
+		StackFrame(void* Address, const char8_t* FileName, const Elysium::Core::uint32_t LineNumber, const Elysium::Core::uint32_t ColumnNumber);
+	public:
+		StackFrame(const StackFrame& Source);
+
+		StackFrame(StackFrame&& Right) noexcept;
+
+		~StackFrame() noexcept;
+	public:
+		StackFrame& operator=(const StackFrame& Source);
+
+		StackFrame& operator=(StackFrame&& Right) noexcept;
+	public:
+		bool operator==(const StackFrame& Other) const;
+	public:
+		const Elysium::Core::Utf8String& GetFileName() const;
+
+		const Elysium::Core::uint32_t GetLineNumber() const;
+
+		const Elysium::Core::uint32_t GetColumnNumber() const;
+	private:
+		void* _Address;
 		Elysium::Core::Utf8String _FileName;
 		Elysium::Core::uint32_t _LineNumber;
 		Elysium::Core::uint32_t _ColumnNumber;

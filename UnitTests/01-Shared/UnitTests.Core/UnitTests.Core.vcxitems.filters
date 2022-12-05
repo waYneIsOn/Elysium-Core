@@ -15,6 +15,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ForceMakeShared.cpp">
       <Filter>Tricks</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)StackTrace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.hpp" />

@@ -14,7 +14,7 @@ namespace UnitTests::Core::Diagnostics
 	public:
 		TEST_METHOD(GetLocalProcessCurrent)
 		{
-			Process CurrentProcess = Process::GetCurrentProcess();
+			const Process& CurrentProcess = Process::CurrentProcess();
 			const Elysium::Core::uint32_t CurrentProcessId = CurrentProcess.GetId();
 
 			Assert::AreNotEqual((Elysium::Core::uint32_t)0, CurrentProcessId);

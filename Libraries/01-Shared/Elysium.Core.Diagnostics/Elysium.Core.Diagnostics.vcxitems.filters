@@ -9,6 +9,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StackTrace.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StackFrame.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)WinSymbols.cpp">
+      <Filter>Internal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
@@ -21,10 +24,25 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Stopwatch.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfStackFrame.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfStackFrame.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WinSymbols.hpp">
+      <Filter>Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Internal">
       <UniqueIdentifier>{b794901e-8861-4d04-aaa4-ef54cb9f46ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{f36a48fb-e98e-4cc7-8d02-d20aa53d12f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{6a6a3b60-bb97-4a23-b8c1-be465b9ca2e4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
