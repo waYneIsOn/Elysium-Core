@@ -140,7 +140,7 @@ namespace UnitTests::Core::IO
 		{
 			if (_TotalBytesWritten < _BytesToRead)
 			{
-				const Elysium::Core::IAsyncResult* ReadResult = _SourceStream->BeginRead(&_Buffer[0], _BufferLength,
+				Elysium::Core::IAsyncResult* ReadResult = _SourceStream->BeginRead(&_Buffer[0], _BufferLength,
 					Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::ReadWriteCallback>(*this), nullptr);
 				ReadResult->GetAsyncWaitHandle().WaitOne();
 			}
@@ -163,7 +163,7 @@ namespace UnitTests::Core::IO
 			FileStream& SourceStream = ReadResult->GetFileStream();
 			size BytesRead = SourceStream.EndRead(ReadResult);
 
-			const Elysium::Core::IAsyncResult* WriteResult = _TargetStream->BeginWrite(&_Buffer[0], BytesRead,
+			Elysium::Core::IAsyncResult* WriteResult = _TargetStream->BeginWrite(&_Buffer[0], BytesRead,
 				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::WriteReadCallback>(*this), nullptr);
 			WriteResult->GetAsyncWaitHandle().WaitOne();
 		}

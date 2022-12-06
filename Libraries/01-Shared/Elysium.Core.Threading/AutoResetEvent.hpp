@@ -12,27 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_EVENTWAITHANDLE
-#include "EventWaitHandle.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "../Elysium.Core/API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_AUTORESETEVENT
+#include "../Elysium.Core.Template/AutoResetEvent.hpp"
 #endif
 
 namespace Elysium::Core::Threading
 {
-	// Represents a thread synchronization event that, when signaled, resets automatically after releasing a single waiting thread. This class cannot be inherited.
-	class ELYSIUM_CORE_API AutoResetEvent final : public EventWaitHandle
-	{
-	public:
-		AutoResetEvent(const bool InitialState);
+	class ELYSIUM_CORE_API Elysium::Core::Template::Threading::AutoResetEvent;
 
-		AutoResetEvent(const AutoResetEvent& Source) = delete;
-
-		AutoResetEvent(AutoResetEvent&& Right) noexcept = delete;
-
-		virtual ~AutoResetEvent();
-	public:
-		AutoResetEvent& operator=(const AutoResetEvent& Source) = delete;
-
-		AutoResetEvent& operator=(AutoResetEvent&& Right) noexcept = delete;
-	};
+	using AutoResetEvent = Elysium::Core::Template::Threading::AutoResetEvent;
 }
 #endif

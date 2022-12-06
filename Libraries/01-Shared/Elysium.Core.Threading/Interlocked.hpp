@@ -16,31 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_INTERLOCKED
+#include "../Elysium.Core.Template/Interlocked.hpp"
 #endif
 
 namespace Elysium::Core::Threading
 {
-	// Provides atomic operations for variables that are shared by multiple threads.
-	class ELYSIUM_CORE_API Interlocked final
-	{
-	private:
-		Interlocked() = delete;
+	class ELYSIUM_CORE_API Elysium::Core::Template::Threading::Interlocked;
 
-		~Interlocked() = delete;
-	public:
-		static int32_t Add(int32_t& Location, int32_t Value);
-
-		static int64_t Add(int64_t& Location, int64_t Value);
-		
-		static int32_t Decrement(int32_t& Location);
-
-		static int64_t Decrement(int64_t& Location);
-
-		static int32_t Increment(int32_t& Location);
-
-		static int64_t Increment(int64_t& Location);
-	};
+	using Interlocked = Elysium::Core::Template::Threading::Interlocked;
 }
 #endif

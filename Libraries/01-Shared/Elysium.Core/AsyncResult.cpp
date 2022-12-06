@@ -13,7 +13,7 @@ const void* Elysium::Core::Internal::AsyncResult::GetAsyncState() const
 	return _AsyncState;
 }
 
-const Elysium::Core::Threading::WaitHandle& Elysium::Core::Internal::AsyncResult::GetAsyncWaitHandle() const
+Elysium::Core::Threading::WaitHandle& Elysium::Core::Internal::AsyncResult::GetAsyncWaitHandle()
 {
 	return _OperationDoneEvent;
 }

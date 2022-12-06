@@ -2,6 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Diagnostics/StackTrace.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Utf16.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Diagnostics;
@@ -53,6 +54,10 @@ namespace UnitTests::Core::Diagnostics
 
 		void PrintStackTrace(const StackTrace& Instance)
 		{
+			/*
+			const Utf8String StringifiedInstance = Instance.ToUtf8String();
+			Logger::WriteMessage(&Template::Text::Unicode::Utf16::SafeToWideString(&StringifiedInstance[0], StringifiedInstance.GetLength())[0]);
+			*/
 			VectorOfStackFrame StackFrames = Instance.GetFrames();
 			for (Elysium::Core::size i = 0; i < StackFrames.GetLength(); i++)
 			{
@@ -69,7 +74,7 @@ namespace UnitTests::Core::Diagnostics
 				Logger::WriteMessage(&LineNumber[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			Logger::WriteMessage("-------------------------------");
+			Logger::WriteMessage("-------------------------------\r\n");
 		}
 	};
 }

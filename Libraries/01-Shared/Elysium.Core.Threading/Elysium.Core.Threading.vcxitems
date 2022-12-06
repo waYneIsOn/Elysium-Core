@@ -37,20 +37,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)AutoResetEvent.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CriticalSection.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)EventWaitHandle.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Interlocked.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OSThreadPool.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ManualResetEvent.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Mutex.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Semaphore.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)WaitHandle.cpp" />
   </ItemGroup>
 </Project>

@@ -12,27 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_EVENTWAITHANDLE
-#include "EventWaitHandle.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "../Elysium.Core/API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MANUALRESETEVENT
+#include "../Elysium.Core.Template/ManualResetEvent.hpp"
 #endif
 
 namespace Elysium::Core::Threading
 {
-	// Represents a thread synchronization event that, when signaled, must be reset manually. This class cannot be inherited.
-	class ELYSIUM_CORE_API ManualResetEvent final : public EventWaitHandle
-	{
-	public:
-		ManualResetEvent(const bool InitialState);
+	class ELYSIUM_CORE_API Elysium::Core::Template::Threading::ManualResetEvent;
 
-		ManualResetEvent(const ManualResetEvent& Source) = delete;
-
-		ManualResetEvent(ManualResetEvent&& Right) noexcept = delete;
-
-		virtual ~ManualResetEvent();
-	public:
-		ManualResetEvent& operator=(const ManualResetEvent& Source) = delete;
-
-		ManualResetEvent& operator=(ManualResetEvent&& Right) noexcept = delete;
-	};
+	using ManualResetEvent = Elysium::Core::Template::Threading::ManualResetEvent;
 }
 #endif

@@ -441,6 +441,31 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -505,6 +530,9 @@
     </Filter>
     <Filter Include="Diagnostics">
       <UniqueIdentifier>{23f51f0a-e493-43cc-8e62-c73b0328d3ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Threading">
+      <UniqueIdentifier>{1dbbb211-6988-4749-8b92-bc0782f431f6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

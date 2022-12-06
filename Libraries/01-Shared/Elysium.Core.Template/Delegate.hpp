@@ -20,12 +20,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
-namespace Elysium::Core
+namespace Elysium::Core::Threading
 {
-	namespace Threading
-	{
-		class Thread;
-	}
+	class Thread;
 }
 
 namespace Elysium::Core::Template::Container
@@ -33,7 +30,7 @@ namespace Elysium::Core::Template::Container
 	template <class ReturnType, class ...Args>
 	class Delegate
 	{
-		friend class Threading::Thread;
+		friend class Elysium::Core::Threading::Thread;
 	private:
 		Delegate();
 	public:

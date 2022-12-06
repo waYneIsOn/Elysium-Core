@@ -58,7 +58,7 @@ namespace Elysium::Core::Internal
 	public:
 		virtual const void* GetAsyncState() const override;
 
-		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const override;
+		virtual Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() override;
 
 		virtual const bool GetCompletedSynchronously() const override;
 

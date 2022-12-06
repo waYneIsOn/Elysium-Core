@@ -88,7 +88,7 @@ namespace Elysium::Core::Threading::Tasks
 
 		virtual const void* GetAsyncState() const override;
 
-		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const override;
+		virtual Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() override;
 
 		virtual const bool GetCompletedSynchronously() const override;
 
@@ -111,7 +111,7 @@ namespace Elysium::Core::Threading::Tasks
 		const Elysium::Core::Template::Container::Action<> _Action;
 		const Elysium::Core::int32_t _Id;
 		const TaskCreationOptions _CreationOptions;
-		const AutoResetEvent _WaitEvent;
+		AutoResetEvent _WaitEvent;
 
 		std::atomic<TaskStatus> _Status;
 		std::atomic<AggregateException*> _Exception;

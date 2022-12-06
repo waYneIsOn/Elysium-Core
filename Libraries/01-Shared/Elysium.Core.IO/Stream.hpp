@@ -106,12 +106,12 @@ namespace Elysium::Core::IO
 
 		virtual void WriteByte(const Elysium::Core::byte Value);
 
-		virtual const Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+		virtual Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
 			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult);
 
-		virtual const Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+		virtual Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
 			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult);

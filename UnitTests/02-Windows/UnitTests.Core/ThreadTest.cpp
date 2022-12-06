@@ -249,7 +249,7 @@ namespace UnitTests::Core::Threading
 			for (uint16_t i = 0; i < *NumberOfIncrementsPerThread; i++)
 			{
 				//_InterlockedInteger = _InterlockedInteger + 1;
-				Interlocked::Increment(_InterlockedInteger);
+				Interlocked::Increment(&_InterlockedInteger);
 			}
 		}
 		void DecrementInterlocked(void* Input)
@@ -258,7 +258,7 @@ namespace UnitTests::Core::Threading
 			for (uint16_t i = 0; i < *NumberOfIncrementsPerThread; i++)
 			{
 				//_InterlockedInteger = _InterlockedInteger - 1;
-				Interlocked::Decrement(_InterlockedInteger);
+				Interlocked::Decrement(&_InterlockedInteger);
 			}
 		}
 

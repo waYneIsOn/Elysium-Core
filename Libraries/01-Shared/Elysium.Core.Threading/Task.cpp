@@ -16,7 +16,7 @@ Elysium::Core::int32_t Elysium::Core::Threading::Tasks::Task::_TaskIdCounter = 0
 
 Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Template::Container::Action<>& Action)
 	: Elysium::Core::IAsyncResult(),
-	_Action(Action),  _Id(Interlocked::Increment(_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)), 
+	_Action(Action),  _Id(Interlocked::Increment(&_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None), _WaitEvent(AutoResetEvent(false)), 
 	_Status(TaskStatus::Created), _Exception(nullptr),
 	_Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::_WorkerPool._Environment))
 { }
@@ -59,7 +59,7 @@ const void * Elysium::Core::Threading::Tasks::Task::GetAsyncState() const
 	return nullptr;
 }
 
-const Elysium::Core::Threading::WaitHandle & Elysium::Core::Threading::Tasks::Task::GetAsyncWaitHandle() const
+Elysium::Core::Threading::WaitHandle & Elysium::Core::Threading::Tasks::Task::GetAsyncWaitHandle()
 {
 	return _WaitEvent;
 }

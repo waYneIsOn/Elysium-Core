@@ -39,7 +39,7 @@ namespace Elysium::Core
 	public:
 		virtual const void* GetAsyncState() const = 0;
 
-		virtual const Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() const = 0;
+		virtual Elysium::Core::Threading::WaitHandle& GetAsyncWaitHandle() = 0;
 
 		virtual const bool GetCompletedSynchronously() const = 0;
 
