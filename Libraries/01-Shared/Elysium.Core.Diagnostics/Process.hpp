@@ -41,11 +41,16 @@ namespace Elysium::Core::Diagnostics::Internal
 	class WinSymbols;
 }
 
+namespace Elysium::Core::Template::Diagnostics
+{
+	class StackTrace;
+}
+
 namespace Elysium::Core::Diagnostics
 {
 	class ELYSIUM_CORE_API Process final
 	{
-		friend class StackTrace;
+		friend class Elysium::Core::Template::Diagnostics::StackTrace;
 		friend class Internal::WinSymbols;
 	private:
 		Process(const Elysium::Core::Utf8String MachineName, const bool IsRemoteMachine, const Elysium::Core::uint32_t ProcessId);

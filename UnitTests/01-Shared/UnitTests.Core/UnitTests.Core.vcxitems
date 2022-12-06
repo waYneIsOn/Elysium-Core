@@ -19,7 +19,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ForceMakeShared.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformSpecificTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StackTrace.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StackTraceTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StopwatchTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlatformIndependentTest.cpp" />

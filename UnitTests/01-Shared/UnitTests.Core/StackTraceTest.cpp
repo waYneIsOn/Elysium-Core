@@ -6,7 +6,6 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::Diagnostics;
 using namespace Elysium::Core::Diagnostics::Container;
-using namespace Elysium::Core::Diagnostics::Container;
 using namespace Elysium::Core::Template::Text;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -15,9 +14,45 @@ namespace UnitTests::Core::Diagnostics
 	TEST_CLASS(StackTraceTest)
 	{
 	public:
-		TEST_METHOD(PrintStackTrace)
+		TEST_METHOD(PrintCurrent)
 		{
-			StackTrace Instance = StackTrace();
+			PrintStackTrace(StackTrace());
+		}
+
+		TEST_METHOD(PrintException)
+		{
+			Assert::Fail(L"not implemented yet");
+			/*
+			try
+			{
+				throw Exception();
+			}
+			catch (const Exception& ex)
+			{
+				//PrintStackTrace(ex.GetStackTrace());
+			}
+			*/
+		}
+
+		TEST_METHOD(PrintRecursion)
+		{
+			RecursiveMethod(0, 50, 3);
+			RecursiveMethod(0, 50, 100);
+		}
+	private:
+		void RecursiveMethod(uint32_t Depth, const uint32_t MaxRecursion, const uint32_t FramesToCapture)
+		{
+			if (Depth > MaxRecursion)
+			{
+				PrintStackTrace(StackTrace(FramesToCapture));
+				return;
+			}
+
+			RecursiveMethod(++Depth, MaxRecursion, FramesToCapture);
+		}
+
+		void PrintStackTrace(const StackTrace& Instance)
+		{
 			VectorOfStackFrame StackFrames = Instance.GetFrames();
 			for (Elysium::Core::size i = 0; i < StackFrames.GetLength(); i++)
 			{
@@ -34,6 +69,7 @@ namespace UnitTests::Core::Diagnostics
 				Logger::WriteMessage(&LineNumber[0]);
 				Logger::WriteMessage("\r\n");
 			}
+			Logger::WriteMessage("-------------------------------");
 		}
 	};
 }

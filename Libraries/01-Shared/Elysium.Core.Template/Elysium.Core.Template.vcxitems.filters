@@ -431,6 +431,16 @@
       <Filter>Globalization</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

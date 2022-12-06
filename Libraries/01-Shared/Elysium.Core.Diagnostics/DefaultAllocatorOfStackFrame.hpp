@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics::Memory
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
 
 	using DefaultAllocatorOfStackFrame = Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
 

@@ -47,6 +47,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
@@ -66,8 +67,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />

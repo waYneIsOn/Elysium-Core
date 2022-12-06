@@ -29,8 +29,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProcessStartInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StackFrame.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StackTrace.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WindowFinder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinSymbols.cpp" />

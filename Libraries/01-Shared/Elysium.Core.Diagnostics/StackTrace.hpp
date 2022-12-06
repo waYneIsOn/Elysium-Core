@@ -16,48 +16,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_STACKFRAME
-#include "StackFrame.hpp"
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_MEMORY_DEFAULTALLOCATOROFSTACKFRAME
+#include "DefaultAllocatorOfStackFrame.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_CONTAINER_VECTOROFSTACKFRAME
 #include "VectorOfStackFrame.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKTRACE
+#include "../Elysium.Core.Template/StackTrace.hpp"
+#endif
+
 namespace Elysium::Core::Diagnostics
 {
-	class ELYSIUM_CORE_API StackTrace final
-	{
-	public:
-		StackTrace();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::StackTrace;
 
-		StackTrace(const StackTrace& Source) = delete;
-
-		StackTrace(StackTrace&& Right) noexcept = delete;
-
-		~StackTrace() noexcept;
-	public:
-		StackTrace& operator=(const StackTrace& Source) = delete;
-
-		StackTrace& operator=(StackTrace&& Right) noexcept = delete;
-	public:
-		static constexpr const Elysium::Core::size FramesToSkip = 0;
-
-		static constexpr const Elysium::Core::size MaxFrames = 0xFFFF;
-
-		static constexpr const Elysium::Core::size MaxFunctionNameLength = 1024;
-	public:
-		const Container::VectorOfStackFrame& GetFrames() const noexcept;
-	public:
-		//Utf8String ToUtf8String();
-	private:
-		Container::VectorOfStackFrame _StackFrames;
-	private:
-		Container::VectorOfStackFrame CaptureStackFrames();
-	};
+	using StackTrace = Elysium::Core::Template::Diagnostics::StackTrace;
 }
 #endif

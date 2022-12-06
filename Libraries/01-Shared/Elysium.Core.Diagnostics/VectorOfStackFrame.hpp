@@ -30,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics::Container
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<StackFrame>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<StackFrame>;
 
 	using VectorOfStackFrame = Elysium::Core::Template::Container::Vector<StackFrame>;
 }

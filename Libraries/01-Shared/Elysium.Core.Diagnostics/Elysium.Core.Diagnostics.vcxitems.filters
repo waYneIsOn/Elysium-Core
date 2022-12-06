@@ -7,8 +7,6 @@
       <Filter>Internal</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StackTrace.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)StackFrame.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinSymbols.cpp">
       <Filter>Internal</Filter>
     </ClCompile>

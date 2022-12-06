@@ -1,0 +1,27 @@
+/*
+===========================================================================
+
+Copyright (c) waYne (CAM). All rights reserved.
+
+===========================================================================
+*/
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS
+#define ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS
+
+#ifdef _MSC_VER
+#pragma once
+#endif
+
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESS
+#include "Process.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKFRAME
+#include "StackFrame.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKTRACE
+#include "StackTrace.hpp"
+#endif
+
+#endif
