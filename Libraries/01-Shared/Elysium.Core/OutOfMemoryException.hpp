@@ -12,19 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OUTOFMEMORYEXCEPTION
+#include "../Elysium.Core.Template/OutOfMemoryException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API OutOfMemoryException : public Exception
-	{
-	public:
-		OutOfMemoryException();
-		OutOfMemoryException(const char8_t* Message);
-		OutOfMemoryException(Elysium::Core::Utf8String&& Message);
-		virtual ~OutOfMemoryException();
-	};
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::OutOfMemoryException;
+
+	using OutOfMemoryException = Elysium::Core::Template::Exceptions::OutOfMemoryException;
 }
 #endif

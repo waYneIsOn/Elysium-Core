@@ -121,17 +121,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
@@ -141,17 +134,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArithmeticException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OverflowException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />

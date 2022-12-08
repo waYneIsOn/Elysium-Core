@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_AUTHENTICATIONEXCEPTION
 #include "AuthenticationException.hpp"
 #endif

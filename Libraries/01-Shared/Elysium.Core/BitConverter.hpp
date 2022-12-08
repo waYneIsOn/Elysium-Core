@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 #include "Array.hpp"
 #endif

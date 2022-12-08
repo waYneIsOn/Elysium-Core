@@ -1,13 +1,5 @@
 #include "SqlNativeErrorCollection.hpp"
 
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "../Elysium.Core/NotImplementedException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
-#endif
-
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::SqlNativeErrorCollection(IUnknown* ErrorObject)
 	: _Errors(Elysium::Core::Template::Container::Vector<SqlNativeError>())
 {
@@ -164,17 +156,17 @@ const bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection
 
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Add(const SqlNativeError & Item)
 {
-	throw NotImplementedException();
+	throw 1;
 }
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Clear()
 {
-	throw NotImplementedException();
+	throw 1;
 }
 bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Contains(const SqlNativeError & Item) const
 {
-	throw NotImplementedException();
+	throw 1;
 }
 bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Remove(const SqlNativeError & Item)
 {
-	throw NotImplementedException();
+	throw 1;
 }

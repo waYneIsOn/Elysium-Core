@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDCASTEXCEPTION
+#include "../Elysium.Core.Template/InvalidCastException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API InvalidCastException : public Exception
-	{
-	public:
-		InvalidCastException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::InvalidCastException;
 
-		InvalidCastException(const char8_t* Message);
-
-		InvalidCastException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~InvalidCastException();
-	};
+	using InvalidCastException = Elysium::Core::Template::Exceptions::InvalidCastException;
 }
 #endif

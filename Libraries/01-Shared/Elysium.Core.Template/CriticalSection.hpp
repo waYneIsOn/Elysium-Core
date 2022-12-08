@@ -43,15 +43,15 @@ namespace Elysium::Core::Template::Threading
 
 		CriticalSection& operator=(CriticalSection&& Right) noexcept = delete;
 	public:
-		const bool Enter(const bool Blocking = true);
+		const bool Enter(const bool Blocking = true) noexcept;
 
-		void Exit();
+		void Exit() noexcept;
 	private:
 		CRITICAL_SECTION _Handle;
 	};
 	
 	inline Elysium::Core::Template::Threading::CriticalSection::CriticalSection()
-		: _Handle(CRITICAL_SECTION())
+		: _Handle()
 	{
 		InitializeCriticalSection(&_Handle);
 	}
@@ -61,7 +61,7 @@ namespace Elysium::Core::Template::Threading
 		DeleteCriticalSection(&_Handle);
 	}
 
-	inline const bool Elysium::Core::Template::Threading::CriticalSection::Enter(const bool Blocking)
+	inline const bool Elysium::Core::Template::Threading::CriticalSection::Enter(const bool Blocking) noexcept
 	{
 		if (TryEnterCriticalSection(&_Handle) == 0)
 		{
@@ -74,7 +74,7 @@ namespace Elysium::Core::Template::Threading
 		return true;
 	}
 
-	inline void Elysium::Core::Template::Threading::CriticalSection::Exit()
+	inline void Elysium::Core::Template::Threading::CriticalSection::Exit() noexcept
 	{
 		LeaveCriticalSection(&_Handle);
 	}

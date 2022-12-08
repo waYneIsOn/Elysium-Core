@@ -12,19 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ARITHMETICEXCEPTION
-#include "ArithmeticException.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_DIVIDEBYZEROEXCEPTION
+#include "../Elysium.Core.Template/DivideByZeroException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API DivideByZeroException : public ArithmeticException
-	{
-	public:
-		DivideByZeroException();
-		DivideByZeroException(const char8_t* Message);
-		DivideByZeroException(Elysium::Core::Utf8String&& Message);
-		virtual ~DivideByZeroException();
-	};
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::DivideByZeroException;
+
+	using DivideByZeroException = Elysium::Core::Template::Exceptions::DivideByZeroException;
 }
 #endif

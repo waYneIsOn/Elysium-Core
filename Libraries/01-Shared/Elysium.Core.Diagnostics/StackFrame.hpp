@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics
 {
-	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::StackFrame;
+	//class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::StackFrame;
 
 	using StackFrame = Elysium::Core::Template::Diagnostics::StackFrame;
 }

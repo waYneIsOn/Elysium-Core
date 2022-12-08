@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "ArgumentException.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTOUTOFRANGEEXCEPTION
+#include "../Elysium.Core.Template/ArgumentOutOfRangeException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API ArgumentOutOfRangeException : public ArgumentException
-	{
-	public:
-		ArgumentOutOfRangeException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::ArgumentOutOfRangeException;
 
-		ArgumentOutOfRangeException(const char8_t* Message);
-
-		ArgumentOutOfRangeException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~ArgumentOutOfRangeException();
-	};
+	using ArgumentOutOfRangeException = Elysium::Core::Template::Exceptions::ArgumentOutOfRangeException;
 }
 #endif

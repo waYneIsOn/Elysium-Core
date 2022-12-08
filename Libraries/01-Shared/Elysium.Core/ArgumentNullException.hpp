@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "ArgumentException.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
+#include "../Elysium.Core.Template/ArgumentNullException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API ArgumentNullException : public ArgumentException
-	{
-	public:
-		ArgumentNullException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::ArgumentNullException;
 
-		ArgumentNullException(const char8_t* Message);
-
-		ArgumentNullException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~ArgumentNullException();
-	};
+	using ArgumentNullException = Elysium::Core::Template::Exceptions::ArgumentNullException;
 }
 #endif

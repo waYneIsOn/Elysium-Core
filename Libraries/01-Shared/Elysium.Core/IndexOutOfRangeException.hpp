@@ -12,19 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
+#include "../Elysium.Core.Template/IndexOutOfRangeException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API IndexOutOfRangeException : public Exception
-	{
-	public:
-		IndexOutOfRangeException();
-		IndexOutOfRangeException(const char8_t* Message);
-		IndexOutOfRangeException(Elysium::Core::Utf8String&& Message);
-		virtual ~IndexOutOfRangeException();
-	};
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::IndexOutOfRangeException;
+
+	using IndexOutOfRangeException = Elysium::Core::Template::Exceptions::IndexOutOfRangeException;
 }
 #endif

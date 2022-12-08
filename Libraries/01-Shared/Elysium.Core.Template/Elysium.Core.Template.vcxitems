@@ -24,7 +24,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AddReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddRightValueReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />
@@ -51,10 +56,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
@@ -62,7 +70,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />
@@ -72,7 +83,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
@@ -83,6 +98,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />

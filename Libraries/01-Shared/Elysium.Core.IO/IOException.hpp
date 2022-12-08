@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
 #include "../Elysium.Core/SystemException.hpp"
 #endif

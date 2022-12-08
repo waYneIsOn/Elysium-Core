@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/Socket.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"

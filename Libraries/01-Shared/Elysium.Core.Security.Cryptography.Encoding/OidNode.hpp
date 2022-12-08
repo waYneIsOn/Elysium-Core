@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/Stringg.hpp"
+#include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API

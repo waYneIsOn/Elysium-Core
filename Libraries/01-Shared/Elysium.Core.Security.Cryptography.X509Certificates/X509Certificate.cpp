@@ -16,6 +16,13 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
+#include <Windows.h>
+#endif
+#endif
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
 { }
 

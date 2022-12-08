@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ARITHMETICEXCEPTION
-#include "ArithmeticException.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OVERFLOWEXCEPTION
+#include "../Elysium.Core.Template/OverflowException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API OverflowException : public ArithmeticException
-	{
-	public:
-		OverflowException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::OverflowException;
 
-		OverflowException(const char8_t* Message);
-
-		OverflowException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~OverflowException();
-	};
+	using OverflowException = Elysium::Core::Template::Exceptions::OverflowException;
 }
 #endif

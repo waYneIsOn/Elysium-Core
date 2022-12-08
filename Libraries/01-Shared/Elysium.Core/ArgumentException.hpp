@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "SystemException.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTEXCEPTION
+#include "../Elysium.Core.Template/ArgumentException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API ArgumentException : public SystemException
-	{
-	public:
-		ArgumentException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::ArgumentException;
 
-		ArgumentException(const char8_t* Message);
-
-		ArgumentException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~ArgumentException();
-	};
+	using ArgumentException = Elysium::Core::Template::Exceptions::ArgumentException;
 }
 #endif

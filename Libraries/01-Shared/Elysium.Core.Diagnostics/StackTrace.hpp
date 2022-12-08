@@ -30,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics
 {
-	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::StackTrace;
+	//class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::StackTrace;
 
 	using StackTrace = Elysium::Core::Template::Diagnostics::StackTrace;
 }

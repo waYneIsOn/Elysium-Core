@@ -30,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Container
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
 
 	using VectorOfByte = Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
 }

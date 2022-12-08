@@ -4,6 +4,11 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeException::SqlNativeExcept
 	: Elysium::Core::Data::Common::DbException(ErrorCode),
 	_Errors(SqlNativeErrorCollection(ErrorObject))
 { }
+
+Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeException::SqlNativeException(const SqlNativeException & Source)
+	: Elysium::Core::Data::Common::DbException(Source._ErrorCode), _Errors(Source._Errors)
+{ }
+
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeException::~SqlNativeException()
 { }
 

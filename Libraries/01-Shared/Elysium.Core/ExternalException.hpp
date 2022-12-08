@@ -15,6 +15,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
+
 #if defined(ELYSIUM_CORE_OS_WINDOWS)
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "Exception.hpp"

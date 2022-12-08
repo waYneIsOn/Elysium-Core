@@ -12,14 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-#include "../Elysium.Core/InvalidOperationException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "../Elysium.Core/SystemException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
 #endif
@@ -264,7 +256,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -280,7 +273,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SMONDECIMALSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -298,7 +292,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -316,7 +311,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -333,7 +329,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SMONTHOUSANDSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -351,7 +348,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -369,7 +367,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -386,7 +385,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGCURR | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -402,7 +402,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRENCY | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -418,7 +419,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SCURRENCY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -436,7 +438,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -454,7 +457,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -471,7 +475,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITSUBSTITUTION | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return static_cast<DigitShapes>(Result);
@@ -487,7 +492,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNAN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -505,7 +511,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNAN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -523,7 +530,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNAN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -540,7 +548,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNEGINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -558,7 +567,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -576,7 +586,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -593,7 +604,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNEGATIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -611,7 +623,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -629,7 +642,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -646,7 +660,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGNUMBER | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -662,7 +677,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -680,7 +696,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -698,7 +715,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -715,7 +733,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -733,7 +752,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -751,7 +771,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -768,7 +789,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -784,7 +806,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -802,7 +825,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -820,7 +844,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -837,7 +862,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -855,7 +881,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -873,7 +900,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -890,7 +918,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGATIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -906,7 +935,8 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_IPOSITIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		return Result;
@@ -922,7 +952,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPERCENT, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -940,7 +971,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -958,7 +990,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -975,7 +1008,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPERMILLE, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -993,7 +1027,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1011,7 +1046,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1028,7 +1064,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPOSINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1046,7 +1083,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1064,7 +1102,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1081,7 +1120,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPOSITIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1099,7 +1139,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1117,7 +1158,8 @@ namespace Elysium::Core::Template::Globalization
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1132,14 +1174,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRDIGITS, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1152,13 +1196,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SMONDECIMALSEP, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1170,13 +1216,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1188,14 +1236,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1207,13 +1257,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SMONTHOUSANDSEP, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1225,13 +1277,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1243,14 +1297,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1262,14 +1318,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGCURR, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1281,14 +1339,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRENCY, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1300,13 +1360,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SCURRENCY, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1318,13 +1380,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1336,14 +1400,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1355,14 +1421,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = ToWideString(Value);
 		if (SetLocaleInfoW(_LocaleId, LOCALE_IDIGITSUBSTITUTION, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1374,13 +1442,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SNAN, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1392,13 +1462,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNAN, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1410,14 +1482,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNAN, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1429,13 +1503,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SNEGINFINITY, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1447,13 +1523,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1465,14 +1543,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1484,13 +1564,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SNEGATIVESIGN, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1502,13 +1584,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1520,14 +1604,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1539,14 +1625,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGNUMBER, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1558,13 +1646,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1576,13 +1666,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1594,14 +1686,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1613,13 +1707,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1631,13 +1727,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1649,14 +1747,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1668,14 +1768,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITS, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1687,13 +1789,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1705,13 +1809,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1723,14 +1829,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1742,13 +1850,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1760,13 +1870,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1778,14 +1890,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1797,14 +1911,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGATIVEPERCENT, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1816,14 +1932,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_IPOSITIVEPERCENT, &StringValue[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1835,13 +1953,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPERCENT, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1853,13 +1973,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1871,14 +1993,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1890,13 +2014,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPERMILLE, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1908,13 +2034,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1926,14 +2054,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1945,13 +2075,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPOSINFINITY, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1963,13 +2095,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -1981,14 +2115,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -2000,13 +2136,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPOSITIVESIGN, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -2018,13 +2156,15 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, Value) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"
@@ -2036,14 +2176,16 @@ namespace Elysium::Core::Template::Globalization
 	{
 		if (_IsReadOnly)
 		{
-			throw InvalidOperationException();
+			// ToDo: throw InvalidOperationException();
+			throw 1;
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, &WideString[0]) == 0)
 		{
-			throw SystemException();
+			// ToDo: throw SystemException();
+			throw 1;
 		}
 #else
 #error "undefined os"

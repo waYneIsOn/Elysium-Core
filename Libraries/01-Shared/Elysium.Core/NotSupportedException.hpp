@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_NOTSUPPORTEDEXCEPTION
+#include "../Elysium.Core.Template/NotSupportedException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API NotSupportedException : public Exception
-	{
-	public:
-		NotSupportedException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::NotSupportedException;
 
-		NotSupportedException(const char8_t* Message);
-
-		NotSupportedException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~NotSupportedException();
-	};
+	using NotSupportedException = Elysium::Core::Template::Exceptions::NotSupportedException;
 }
 #endif

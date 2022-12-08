@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Exception.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 namespace Elysium::Core::Json
 {
 	class ELYSIUM_CORE_JSON_API JsonException : public Elysium::Core::Exception

@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 
+#include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/HuffmanTree.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms.hpp"

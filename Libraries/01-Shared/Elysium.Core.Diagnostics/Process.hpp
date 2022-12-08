@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics
 {
-	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::Process;
+	//class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::Process;
 
 	using Process = Elysium::Core::Template::Diagnostics::Process;
 }

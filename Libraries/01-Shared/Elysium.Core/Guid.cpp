@@ -1,5 +1,9 @@
 #include "Guid.hpp"
 
+#ifndef ELYSIUM_CORE_EXCEPTION
+#include "Exception.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_ARGUMENTNULLEXCEPTION
 #include "ArgumentNullException.hpp"
 #endif

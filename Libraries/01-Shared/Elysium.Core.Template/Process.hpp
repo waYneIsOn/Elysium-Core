@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
+#include "SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
 #include "ProcessStartInfo.hpp"
 #endif
@@ -286,7 +290,7 @@ namespace Elysium::Core::Template::Diagnostics
 		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
-			throw Elysium::Core::SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		// ...
@@ -299,7 +303,7 @@ namespace Elysium::Core::Template::Diagnostics
 			throw 1;
 		}
 
-		Elysium::Core::size i = 0;
+		System::size i = 0;
 		do
 		{
 			i++;

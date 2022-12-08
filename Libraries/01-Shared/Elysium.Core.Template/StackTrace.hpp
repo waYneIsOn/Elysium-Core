@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CriticalSection.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
-#include "Convert.hpp"
-#endif
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	#ifndef _WINDOWS_
 	#define _WINSOCKAPI_ // don't include winsock
@@ -181,7 +177,7 @@ namespace Elysium::Core::Template::Diagnostics
 				// leave this out for now as Symbol->Name contains what I need
 				//DWORD NumberOfCharacters = UnDecorateSymbolName(Symbol->Name, (PSTR)MethodNameBuffer, MaxFunctionNameLength * sizeof(wchar_t), UNDNAME_COMPLETE);
 				/*
-				* ToDo: get function-/method-parameters
+				// ToDo: get function-/method-parameters
 				BOOL SymGetTypeInfoExResult = SymGetTypeInfoEx(CurrentProcessHandle, Symbol->Address, &Parameters);
 				if (SymGetTypeInfoExResult != TRUE)
 				{

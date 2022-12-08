@@ -16,34 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_EXCEPTION
+#include "../Elysium.Core.Template/Exception.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API Exception
-	{
-	public:
-		Exception();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::Exception;
 
-		Exception(Elysium::Core::Utf8String::ConstCharacterPointer Message);
-
-		Exception(Elysium::Core::Utf8String&& Message);
-
-		//Exception(const Exception& Source) = delete;
-
-		//Exception(Exception&& Right) noexcept = delete;
-
-		virtual ~Exception();
-	public:
-		//Exception& operator=(const Exception& Source) = delete;
-
-		//Exception& operator=(Exception&& Right) noexcept = delete;
-	public:
-		const Elysium::Core::Utf8String& GetExceptionMessage() const;
-	private:
-		Elysium::Core::Utf8String _Message;
-	};
+	using Exception = Elysium::Core::Template::Exceptions::Exception;
 }
 #endif

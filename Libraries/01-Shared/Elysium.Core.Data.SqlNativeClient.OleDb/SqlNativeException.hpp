@@ -26,6 +26,9 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	{
 	public:
 		SqlNativeException(const Elysium::Core::int32_t ErrorCode, IUnknown* ErrorObject);
+
+		SqlNativeException(const SqlNativeException& Source);
+
 		virtual ~SqlNativeException();
 
 		const SqlNativeErrorCollection& GetErrors() const;

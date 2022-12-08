@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-#include "IndexOutOfRangeException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "Primitives.hpp"
 #endif
@@ -212,7 +208,8 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (Index >= _Length)
 		{
-			throw IndexOutOfRangeException();
+			// ToDo: throw IndexOutOfRangeException();
+			throw 1;
 		}
 
 		return _Data[Index];
@@ -223,7 +220,8 @@ namespace Elysium::Core::Collections::Template
 	{
 		if (Index >= _Length)
 		{
-			throw IndexOutOfRangeException();
+			// ToDo: throw IndexOutOfRangeException();
+			throw 1;
 		}
 
 		return _Data[Index];

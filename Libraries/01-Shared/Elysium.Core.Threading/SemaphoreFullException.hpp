@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Exception.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 namespace Elysium::Core::Threading
 {
 	// The exception that is thrown when the Release method is called on a semaphore whose count is already at the maximum.

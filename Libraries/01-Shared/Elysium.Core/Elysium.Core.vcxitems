@@ -85,11 +85,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WrappedOverlap.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)AggregateException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentNullException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ArithmeticException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
@@ -98,22 +93,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DivideByZeroException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Exception.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IAsyncResult.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCastException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)InvalidOperationException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)NotImplementedException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)NotSupportedException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OutOfMemoryException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OverflowException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)SystemException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemSpecific.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />

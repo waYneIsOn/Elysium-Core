@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/IndexOutOfRangeException.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Move.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
@@ -74,7 +75,7 @@ namespace UnitTests::Core::Template::Container
 				uint32_t& At3 = Instance.GetAt(3);
 				Assert::Fail();
 			}
-			catch (IndexOutOfRangeException&)
+			catch (const IndexOutOfRangeException& ex)
 			{
 			}
 		}

@@ -12,22 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "SystemException.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARITHMETICEXCEPTION
+#include "../Elysium.Core.Template/ArithmeticException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API ArithmeticException : public SystemException
-	{
-	public:
-		ArithmeticException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::ArithmeticException;
 
-		ArithmeticException(const char8_t* Message);
-
-		ArithmeticException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~ArithmeticException();
-	};
+	using ArithmeticException = Elysium::Core::Template::Exceptions::ArithmeticException;
 }
 #endif

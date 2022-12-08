@@ -12,33 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
+#include "../Elysium.Core.Template/SystemException.hpp"
 #endif
 
 namespace Elysium::Core
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	class ELYSIUM_CORE_API SystemException : public Exception
-	{
-	public:
-		SystemException();
+	class ELYSIUM_CORE_API Elysium::Core::Template::Exceptions::SystemException;
 
-		SystemException(const char8_t* Message);
-
-		SystemException(Elysium::Core::Utf8String&& Message);
-
-		virtual ~SystemException();
-	public:
-		const Elysium::Core::uint32_t GetErrorCode() const;
-	private:
-		const Elysium::Core::uint32_t _ErrorCode;
-	};
+	using SystemException = Elysium::Core::Template::Exceptions::SystemException;
 }
 #endif

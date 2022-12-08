@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Diagnostics/StackTrace.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Utf16.hpp"

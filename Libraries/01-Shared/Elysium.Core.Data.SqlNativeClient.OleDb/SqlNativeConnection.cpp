@@ -1,5 +1,9 @@
 #include "SqlNativeConnection.hpp"
 
+#ifndef ELYSIUM_CORE_EXCEPTION
+#include "../Elysium.Core/Exception.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_ENCODING
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif

@@ -22,12 +22,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Memory
 {
+	/*
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char16_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char32_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<wchar_t>;
-
+	*/
 	using DefaultAllocatorOfChar = Elysium::Core::Template::Memory::DefaultAllocator<char>;
 	using DefaultAllocatorOfUtf8Char = Elysium::Core::Template::Memory::DefaultAllocator<char8_t>;
 	using DefaultAllocatorOfUtf16Char = Elysium::Core::Template::Memory::DefaultAllocator<char16_t>;

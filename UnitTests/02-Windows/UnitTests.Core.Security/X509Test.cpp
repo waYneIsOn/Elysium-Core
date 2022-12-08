@@ -450,7 +450,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
 				Logger::WriteMessage(": ");
 			}
-			catch (CryptographicException)
+			catch (const CryptographicException& ex)
 			{
 				Logger::WriteMessage("\t\t0.0.0.0 - UNKNOWN: ");
 
@@ -753,7 +753,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
 				Logger::WriteMessage(": ");
 			}
-			catch (CryptographicException)
+			catch (const CryptographicException& ex)
 			{
 				Logger::WriteMessage("\t0.0.0.0 - UNKNOWN: ");
 

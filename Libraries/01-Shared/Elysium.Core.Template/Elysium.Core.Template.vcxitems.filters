@@ -475,6 +475,52 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "../Elysium.Core/ArgumentException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
 #endif
@@ -250,11 +246,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -301,11 +292,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -352,11 +338,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -403,11 +384,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -454,11 +430,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -516,11 +487,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int16_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -578,11 +544,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int32_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -640,11 +601,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::int64_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -702,11 +658,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(const float Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -813,11 +764,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(double Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (ToBase != 2 && ToBase != 8 && ToBase != 10 && ToBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"ToBase");
-		}
-
 		if (Value == 0)
 		{
 			return Convert<C>::CorrespondingString('\u0030', 1);
@@ -924,11 +870,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint8_t Convert<C>::ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		System::uint8_t Result = 0;
 		while (ChangeableValue < &Value[Length])
@@ -976,11 +917,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint16_t Convert<C>::ToUInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		System::uint16_t Result = 0;
 		while (ChangeableValue < &Value[Length])
@@ -1028,11 +964,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint32_t Convert<C>::ToUInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		System::uint32_t Result = 0;
 		while (ChangeableValue < &Value[Length])
@@ -1080,11 +1011,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::uint64_t Convert<C>::ToUInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		System::uint64_t Result = 0;
 		while (ChangeableValue < &Value[Length])
@@ -1132,11 +1058,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int8_t Convert<C>::ToInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
@@ -1195,11 +1116,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int16_t Convert<C>::ToInt16(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
@@ -1258,11 +1174,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int32_t Convert<C>::ToInt32(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
@@ -1321,11 +1232,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::System::int64_t Convert<C>::ToInt64(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{	// taken and adapted from: https://www.geeksforgeeks.org/write-your-own-atoi/
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
@@ -1384,11 +1290,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline float Convert<C>::ToSingle(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 
@@ -1474,11 +1375,6 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C>
 	inline double Convert<C>::ToDouble(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase, const CorrespondingNumberFormatInfo& FormatInfo)
 	{
-		if (FromBase != 2 && FromBase != 8 && FromBase != 10 && FromBase != 16)
-		{
-			throw Elysium::Core::ArgumentException(u8"FromBase");
-		}
-
 		Pointer ChangeableValue = (Pointer)Value;
 		ConstPointer LastCharacter = &Value[Length];
 

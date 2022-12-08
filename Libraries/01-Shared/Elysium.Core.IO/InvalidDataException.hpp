@@ -17,7 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_EXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
+#include "../Elysium.Core/Exception.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
 #endif
 
 namespace Elysium::Core::IO
