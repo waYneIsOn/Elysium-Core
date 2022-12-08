@@ -12,8 +12,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESS
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESS
 #include "Process.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
+#include "ProcessStartInfo.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSWINDOWSTYLE
+#include "ProcessWindowStyle.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKFRAME

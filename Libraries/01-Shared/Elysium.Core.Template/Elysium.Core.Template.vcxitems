@@ -55,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
@@ -74,6 +75,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />

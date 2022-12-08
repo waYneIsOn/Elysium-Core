@@ -22,17 +22,15 @@ namespace UnitTests::Core::Diagnostics
 
 		TEST_METHOD(PrintException)
 		{
-			Assert::Fail(L"not implemented yet");
-			/*
 			try
 			{
 				throw Exception();
 			}
 			catch (const Exception& ex)
 			{
+				Assert::Fail(L"not implemented yet");
 				//PrintStackTrace(ex.GetStackTrace());
 			}
-			*/
 		}
 
 		TEST_METHOD(PrintRecursion)
@@ -54,10 +52,6 @@ namespace UnitTests::Core::Diagnostics
 
 		void PrintStackTrace(const StackTrace& Instance)
 		{
-			/*
-			const Utf8String StringifiedInstance = Instance.ToUtf8String();
-			Logger::WriteMessage(&Template::Text::Unicode::Utf16::SafeToWideString(&StringifiedInstance[0], StringifiedInstance.GetLength())[0]);
-			*/
 			VectorOfStackFrame StackFrames = Instance.GetFrames();
 			for (Elysium::Core::size i = 0; i < StackFrames.GetLength(); i++)
 			{

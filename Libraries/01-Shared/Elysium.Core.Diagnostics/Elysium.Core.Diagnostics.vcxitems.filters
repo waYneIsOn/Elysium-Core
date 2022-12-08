@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProcessStartInfo.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)WindowFinder.cpp">
-      <Filter>Internal</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinSymbols.cpp">
       <Filter>Internal</Filter>
@@ -16,9 +11,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)WindowFinder.hpp">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Stopwatch.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
@@ -30,6 +22,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)WinSymbols.hpp">
       <Filter>Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfProcess.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfProcess.hpp">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

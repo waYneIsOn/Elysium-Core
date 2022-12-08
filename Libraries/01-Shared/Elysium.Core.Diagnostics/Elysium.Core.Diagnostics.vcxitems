@@ -14,6 +14,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfProcess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfStackFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
@@ -22,15 +23,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Stopwatch.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfProcess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfStackFrame.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)WindowFinder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WinSymbols.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ProcessStartInfo.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)WindowFinder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinSymbols.cpp" />
   </ItemGroup>
 </Project>

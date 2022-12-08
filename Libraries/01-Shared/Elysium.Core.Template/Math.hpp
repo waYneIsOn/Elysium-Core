@@ -18,6 +18,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Absolute.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_FACTORIAL
+#include "Factorial.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
 #include "Floor.hpp"
 #endif

@@ -12,31 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSWINDOWSTYLE
+#include "../Elysium.Core.Template/ProcessWindowStyle.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class ProcessWindowStyle : Elysium::Core::uint8_t
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-	enum class ProcessWindowStyle
-#else
-#error "undefined os"
-#endif
-	{
-		Normal = 0,
-
-		Hidden = 1,
-
-		Minimized = 2,
-
-		Maximized = 3,
-	};
+	using ProcessWindowStyle = Elysium::Core::Template::Diagnostics::ProcessWindowStyle;
 }
 #endif

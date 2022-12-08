@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_MEMORY_DEFAULTALLOCATOROFSTACKFRAME
-#define ELYSIUM_CORE_DIAGNOSTICS_MEMORY_DEFAULTALLOCATOROFSTACKFRAME
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_MEMORY_DEFAULTALLOCATOROFPROCESS
+#define ELYSIUM_CORE_DIAGNOSTICS_MEMORY_DEFAULTALLOCATOROFPROCESS
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_STACKFRAME
-#include "StackFrame.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESS
+#include "../Elysium.Core.Template/Process.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
@@ -26,8 +26,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics::Memory
 {
-	//template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::Template::Diagnostics::Process>;
 
-	using DefaultAllocatorOfStackFrame = Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
+	using DefaultAllocatorOfProcess = Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::Template::Diagnostics::Process>;
 }
 #endif

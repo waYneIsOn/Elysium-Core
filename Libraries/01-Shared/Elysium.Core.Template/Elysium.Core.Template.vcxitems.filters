@@ -466,6 +466,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -533,6 +542,9 @@
     </Filter>
     <Filter Include="Threading">
       <UniqueIdentifier>{1dbbb211-6988-4749-8b92-bc0782f431f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{6d3e8155-c915-4e37-98aa-d3710457a2e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

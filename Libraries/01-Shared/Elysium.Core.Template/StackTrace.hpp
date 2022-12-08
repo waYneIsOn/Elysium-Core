@@ -32,27 +32,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Convert.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-// ToDo: template!
-#include "../Elysium.Core/SystemException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESS
-// ToDo: template!
-#include "../Elysium.Core.Diagnostics/Process.hpp"
-#endif
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
-#endif
+	#ifndef _WINDOWS_
+	#define _WINSOCKAPI_ // don't include winsock
+	#include <Windows.h>
+	#endif
 
-#ifndef _DBGHELP_
-#include <DbgHelp.h>
+	#ifndef _DBGHELP_
+	#include <DbgHelp.h>
 
-#pragma comment(lib, "Dbghelp.lib")
-#endif
+	#pragma comment(lib, "Dbghelp.lib")
+	#endif
 #endif
 
 namespace Elysium::Core::Template::Diagnostics
@@ -60,9 +50,7 @@ namespace Elysium::Core::Template::Diagnostics
 	class StackTrace final
 	{
 	public:
-		StackTrace();
-
-		StackTrace(const System::uint16_t MaximumFramesToCapture);
+		StackTrace(const System::uint16_t MaximumFramesToCapture = DefaultFramesToCapture) noexcept;
 
 		StackTrace(const StackTrace& Source) = delete;
 
@@ -76,7 +64,7 @@ namespace Elysium::Core::Template::Diagnostics
 	public:
 		const Container::Vector<StackFrame>& GetFrames() const noexcept;
 	private:
-		Container::Vector<StackFrame> CaptureStackFrames(const System::uint16_t MaximumFramesToCapture);
+		Container::Vector<StackFrame> CaptureStackFrames(const System::uint16_t MaximumFramesToCapture) noexcept;
 	public:
 		static constexpr const System::uint16_t DefaultFramesToCapture = 0xFFFF;
 	private:
@@ -85,11 +73,7 @@ namespace Elysium::Core::Template::Diagnostics
 		Container::Vector<StackFrame> _StackFrames;
 	};
 
-	inline Elysium::Core::Template::Diagnostics::StackTrace::StackTrace()
-		: _StackFrames(CaptureStackFrames(DefaultFramesToCapture))
-	{ }
-
-	inline StackTrace::StackTrace(const System::uint16_t MaximumFramesToCapture)
+	inline StackTrace::StackTrace(const System::uint16_t MaximumFramesToCapture) noexcept
 		: _StackFrames(CaptureStackFrames(MaximumFramesToCapture))
 	{ }
 
@@ -101,7 +85,7 @@ namespace Elysium::Core::Template::Diagnostics
 		return _StackFrames;
 	}
 
-	inline Elysium::Core::Template::Container::Vector<StackFrame> Elysium::Core::Template::Diagnostics::StackTrace::CaptureStackFrames(const System::uint16_t MaximumFramesToCapture)
+	inline Elysium::Core::Template::Container::Vector<StackFrame> Elysium::Core::Template::Diagnostics::StackTrace::CaptureStackFrames(const System::uint16_t MaximumFramesToCapture) noexcept
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		CONTEXT NativeContextFrame;
@@ -153,7 +137,10 @@ namespace Elysium::Core::Template::Diagnostics
 		DWORD64 Displacement = 0;
 		DWORD OffsetFromLine = 0;
 
-		char MethodNameBuffer[SymbolBufferSize];
+		//char MethodNameBuffer[SymbolBufferSize];
+
+		IMAGEHLP_GET_TYPE_INFO_PARAMS Parameters = IMAGEHLP_GET_TYPE_INFO_PARAMS();
+		Parameters.SizeOfStruct = sizeof(IMAGEHLP_GET_TYPE_INFO_PARAMS);
 
 		IMAGEHLP_LINE64 Line;
 		Line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
@@ -174,8 +161,9 @@ namespace Elysium::Core::Template::Diagnostics
 					nullptr, SymFunctionTableAccess64, SymGetModuleBase64, nullptr);
 				if (StackWalk64Result != TRUE)
 				{
+					// This method must not throw any exceptions (as it will be called by exceptions a lot this would cause issues)!
+					// ToDo: store GetLastError() and calling method?
 					break;
-					//throw SystemException();
 				}
 				/*
 				if (NativeStackFrame.AddrPC.Offset == NativeStackFrame.AddrReturn.Offset)
@@ -185,31 +173,33 @@ namespace Elysium::Core::Template::Diagnostics
 				BOOL SymGetSymFromAddr64Result = SymGetSymFromAddr64(CurrentProcessHandle, (ULONG64)NativeStackFrame.AddrPC.Offset, &Displacement, Symbol);
 				if (SymGetSymFromAddr64Result != TRUE)
 				{
-					DWORD LastError = GetLastError();
-					if (LastError == 126)
-					{	// The specified module could not be found.
-						// ...
-						break;
-					}
-					throw SystemException();
+					// This method must not throw any exceptions (as it will be called by exceptions a lot this would cause issues)!
+					// ToDo: store GetLastError() and calling method?
+					break;
 				}
 
-				// do I even need to call UnDecorateSymbolName(...) as Symbol->Name contains the value I want?
-				DWORD NumberOfCharacters = UnDecorateSymbolName(Symbol->Name, (PSTR)MethodNameBuffer, MaxFunctionNameLength * sizeof(wchar_t), UNDNAME_NAME_ONLY);
-
+				// leave this out for now as Symbol->Name contains what I need
+				//DWORD NumberOfCharacters = UnDecorateSymbolName(Symbol->Name, (PSTR)MethodNameBuffer, MaxFunctionNameLength * sizeof(wchar_t), UNDNAME_COMPLETE);
+				/*
+				* ToDo: get function-/method-parameters
+				BOOL SymGetTypeInfoExResult = SymGetTypeInfoEx(CurrentProcessHandle, Symbol->Address, &Parameters);
+				if (SymGetTypeInfoExResult != TRUE)
+				{
+					// This method must not throw any exceptions (as it will be called by exceptions a lot this would cause issues)!
+					// ToDo: store GetLastError() and calling method?
+					break;
+				}
+				//SymGetTypeInfo(CurrentProcessHandle, Symbol->Address, 0, Symbol->, nullptr);
+				*/
 				BOOL SymGetLineFromAddr64Result = SymGetLineFromAddr64(CurrentProcessHandle, NativeStackFrame.AddrPC.Offset, &OffsetFromLine, &Line);
 				if (SymGetLineFromAddr64Result != TRUE)
 				{
-					DWORD LastError = GetLastError();
-					if (LastError == 487)
-					{	// Attempt to access invalid address.
-						// ...
-						break;
-					}
-					throw SystemException();
+					// This method must not throw any exceptions (as it will be called by exceptions a lot this would cause issues)!
+					// ToDo: store GetLastError() and calling method?
+					break;
 				}
 
-				StackFrames.PushBack(Elysium::Core::Template::Functional::Move(StackFrame((void*)Line.Address, (const char8_t*)MethodNameBuffer,
+				StackFrames.PushBack(Elysium::Core::Template::Functional::Move(StackFrame((void*)Line.Address, (const char8_t*)Symbol->Name,
 					Line.LineNumber, 0)));
 
 				// reset for next frame
