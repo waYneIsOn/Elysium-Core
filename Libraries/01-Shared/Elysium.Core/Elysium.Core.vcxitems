@@ -24,13 +24,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfString.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidConstIASyncResultPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
@@ -73,11 +73,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemSpecific.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfString.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Version.hpp" />
@@ -87,7 +82,6 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
@@ -101,8 +95,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemSpecific.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WrappedOverlap.cpp" />
   </ItemGroup>

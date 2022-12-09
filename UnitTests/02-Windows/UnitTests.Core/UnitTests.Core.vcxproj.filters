@@ -24,9 +24,6 @@
     <ClCompile Include="ThreadTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="UriTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="StringTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

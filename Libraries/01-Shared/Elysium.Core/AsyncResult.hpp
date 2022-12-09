@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IASYNCRESULT
-#include "IAsyncResult.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_DELEGATEOFVOIDCONSTIASYNCRESULTPOINTER
+#include "DelegateOfVoidConstIASyncResultPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INTERNAL_WRAPPEDOVERLAP
@@ -28,22 +28,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Threading/ManualResetEvent.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
-#include "../Elysium.Core.Template/Delegate.hpp"
-#endif
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_INTERNAL_WINDOWSERRORCODE
 #include "../Elysium.Core/WindowsErrorCode.hpp"
 #endif
 #endif
 
+namespace Elysium::Core::IO
+{
+	class FileStream;
+}
+
+namespace Elysium::Core::Net::Sockets
+{
+	class Socket;
+}
+
 namespace Elysium::Core::Internal
 {
 	class ELYSIUM_CORE_API AsyncResult : public IAsyncResult
 	{
+		friend class IO::FileStream;
+		friend class Net::Sockets::Socket;
 	protected:
-		AsyncResult(const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* AsyncState,
+		AsyncResult(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState,
 			const Elysium::Core::size Position);
 	public:
 		AsyncResult(const AsyncResult& Source) = delete;
@@ -64,15 +72,15 @@ namespace Elysium::Core::Internal
 
 		virtual const bool GetIsCompleted() const override;
 
-		const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& GetCallback() const;
+		const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& GetCallback() const;
 
 		const Elysium::Core::uint16_t GetErrorCode() const;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		const Elysium::Core::Internal::WindowsErrorCode GetNamedErrorCode() const;
 #endif
-	public:
-		const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*> _Callback;
+	private:
+		const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer _Callback;
 		const void* _AsyncState;
 
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;

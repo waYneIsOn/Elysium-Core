@@ -24,18 +24,22 @@ Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false)
 { }
+
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen)
 { }
+
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false)
 { }
+
 Elysium::Core::IO::Compression::DeflateStream::DeflateStream(Stream & BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen)
 { }
+
 Elysium::Core::IO::Compression::DeflateStream::~DeflateStream()
 {
 	if (!_LeaveOpen)
@@ -221,8 +225,8 @@ const Elysium::Core::size Elysium::Core::IO::Compression::DeflateStream::Read(El
                 These code lengths are interpreted as 3-bit integers (0-7); as above, a code length of 0 means the corresponding symbol 
 				(literal/length or distance code length) is not used.
 			*/
-			Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t> CodeLengthsLengths =
-				Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t>(19, true);
+			Elysium::Core::Template::Container::Vector<Elysium::Core::uint8_t> CodeLengthsLengths =
+				Elysium::Core::Template::Container::Vector<Elysium::Core::uint8_t>(19);
 			CodeLengthsLengths[16] = GetBits(3);
 			CodeLengthsLengths[17] = GetBits(3);
 			CodeLengthsLengths[18] = GetBits(3);
@@ -244,8 +248,8 @@ const Elysium::Core::size Elysium::Core::IO::Compression::DeflateStream::Read(El
 			HLIT + 257 code lengths for the literal/length alphabet, encoded using the code length Huffman code
             HDIST + 1 code lengths for the distance alphabet, encoded using the code length Huffman code
 			*/
-			Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t> CodeLengths = 
-				Elysium::Core::Collections::Template::Array<Elysium::Core::uint8_t>(static_cast<Elysium::Core::uint64_t>(HLIT) + HDIST);
+			Elysium::Core::Template::Container::Vector<Elysium::Core::uint8_t> CodeLengths =
+				Elysium::Core::Template::Container::Vector<Elysium::Core::uint8_t>(static_cast<Elysium::Core::uint64_t>(HLIT) + HDIST);
 
 			int asdf = 45;
 		}

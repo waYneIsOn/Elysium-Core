@@ -123,7 +123,7 @@ namespace UnitTests::Core::IO
 			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::Asynchronous);
 			const Elysium::Core::IAsyncResult* ReadResult = SourceStream.BeginRead(&_Buffer[0], _BufferLength,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
 		}
 	private:
 		inline static ManualResetEvent _CompletionSignal = ManualResetEvent(false);
@@ -141,7 +141,7 @@ namespace UnitTests::Core::IO
 			if (_TotalBytesWritten < _BytesToRead)
 			{
 				Elysium::Core::IAsyncResult* ReadResult = _SourceStream->BeginRead(&_Buffer[0], _BufferLength,
-					Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::ReadWriteCallback>(*this), nullptr);
+					Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::ReadWriteCallback>(*this), nullptr);
 				ReadResult->GetAsyncWaitHandle().WaitOne();
 			}
 			else
@@ -164,7 +164,7 @@ namespace UnitTests::Core::IO
 			size BytesRead = SourceStream.EndRead(ReadResult);
 
 			Elysium::Core::IAsyncResult* WriteResult = _TargetStream->BeginWrite(&_Buffer[0], BytesRead,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<FileStreamTests, &FileStreamTests::WriteReadCallback>(*this), nullptr);
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::WriteReadCallback>(*this), nullptr);
 			WriteResult->GetAsyncWaitHandle().WaitOne();
 		}
 

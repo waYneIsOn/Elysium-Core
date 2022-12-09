@@ -11,21 +11,25 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_API
+#include "API.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#include "System.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
-#endif
-
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_EXCEPTION
 #include "Exception.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
 #endif
 
 #ifndef _INC_COMDEF

@@ -182,6 +182,9 @@
     <ProjectReference Include="..\Elysium.Core.Data\Elysium.Core.Data.vcxproj">
       <Project>{d72c0184-b715-4762-9004-ace86b3e15fb}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Elysium.Core.Net\Elysium.Core.Net.vcxproj">
+      <Project>{d1232826-d63b-4395-b204-f43d442c207e}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Elysium.Core\Elysium.Core.vcxproj">
       <Project>{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}</Project>
     </ProjectReference>

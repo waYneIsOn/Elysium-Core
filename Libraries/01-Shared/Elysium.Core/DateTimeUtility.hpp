@@ -22,13 +22,17 @@ namespace Elysium::Core
 	{
 	public:
 		DateTimeUtility() = delete;
+
 		DateTimeUtility(const DateTimeUtility& Source) = delete;
+
 		DateTimeUtility(DateTimeUtility&& Right) noexcept = delete;
+
 		~DateTimeUtility() = delete;
-
+	public:
 		DateTimeUtility& operator=(const DateTimeUtility& Source) = delete;
-		DateTimeUtility& operator=(DateTimeUtility&& Right) noexcept = delete;
 
+		DateTimeUtility& operator=(DateTimeUtility&& Right) noexcept = delete;
+	public:
 		// number of 100 nanosecond ticks per time unit 
 		inline static constexpr const Elysium::Core::int64_t TicksPerMillisecond = 10000;
 		inline static constexpr const Elysium::Core::int64_t TicksPerSecond = TicksPerMillisecond * 1000;

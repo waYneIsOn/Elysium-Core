@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IASYNCRESULT
-#include "../Elysium.Core/IAsyncResult.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "../Elysium.Core/Primitives.hpp"
 #endif
@@ -36,8 +32,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SeekOrigin.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
-#include "../Elysium.Core.Template/Delegate.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_DELEGATEOFIASYNCRESULTPOINTER
+#include "../Elysium.Core/DelegateOfVoidConstIASyncResultPointer.hpp"
 #endif
 
 namespace Elysium::Core::IO
@@ -107,12 +103,12 @@ namespace Elysium::Core::IO
 		virtual void WriteByte(const Elysium::Core::byte Value);
 
 		virtual Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult);
 
 		virtual Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult);
 	};

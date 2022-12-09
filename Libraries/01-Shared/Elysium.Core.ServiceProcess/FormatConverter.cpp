@@ -53,10 +53,3 @@ int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceType Servic
 		throw NotImplementedException(u8"unhandled ServiceType");
 	}
 }
-
-Elysium::Core::ServiceProcess::FormatConverter::FormatConverter()
-{
-}
-Elysium::Core::ServiceProcess::FormatConverter::~FormatConverter()
-{
-}

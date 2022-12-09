@@ -567,7 +567,7 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::SendTo(const Elys
 	return BytesSent;
 }
 
-Elysium::Core::IAsyncResult* Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
+Elysium::Core::IAsyncResult* Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
 {
 	AcceptAsyncResult* AsyncResult = new AcceptAsyncResult(*this, Callback, State, 8192);
 	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
@@ -594,7 +594,7 @@ const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::E
 	return Elysium::Core::Net::Sockets::Socket(AsyncAcceptResult->_ClientSocket);
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginConnect(const Elysium::Core::Net::EndPoint & RemoteEndPoint, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State)
+Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginConnect(const Elysium::Core::Net::EndPoint & RemoteEndPoint, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	// ConnectEx requires the socket to be bound!
 	Elysium::Core::Net::IPEndPoint LocalEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Any(), 0);
@@ -625,7 +625,7 @@ void Elysium::Core::Net::Sockets::Socket::EndConnect(const Elysium::Core::IAsync
 	// ToDo: read error
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State)
+Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
 	AsyncResult->_WSABuffer.len = 0;
@@ -651,7 +651,7 @@ void Elysium::Core::Net::Sockets::Socket::EndDisconnect(const Elysium::Core::IAs
 	// ToDo: read error?
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginReceive(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State)
+Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginReceive(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
 	AsyncResult->_WSABuffer.len = Size;
@@ -680,7 +680,7 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndReceive(const 
 	return CastResult->_BytesTransferred;
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginSend(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void * State)
+Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginSend(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
 	AsyncResult->_WSABuffer.len = Size;

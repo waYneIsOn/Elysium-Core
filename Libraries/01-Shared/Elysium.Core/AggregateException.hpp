@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_EXCEPTION
+#include "Exception.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_AGGREGATEEXCEPTION
 #include "../Elysium.Core.Template/AggregateException.hpp"
 #endif

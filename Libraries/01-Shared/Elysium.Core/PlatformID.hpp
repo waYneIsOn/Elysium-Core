@@ -12,18 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/OperatingSystem.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
 namespace Elysium::Core
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class PlatformID : Elysium::Core::int8_t
+	enum class PlatformID : Template::System::int8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class PlatformID
 #else

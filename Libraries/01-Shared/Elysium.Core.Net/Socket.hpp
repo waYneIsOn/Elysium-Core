@@ -219,16 +219,16 @@ namespace Elysium::Core::Net::Sockets
 
 		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
 		
-		Elysium::Core::IAsyncResult* BeginAccept(const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+		Elysium::Core::IAsyncResult* BeginAccept(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		const Socket EndAccept(const Elysium::Core::IAsyncResult* Result);
 
 		Elysium::Core::IAsyncResult* BeginConnect(const Elysium::Core::Net::EndPoint& RemoteEndPoint, 
-			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		void EndConnect(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 
-		Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
+		Elysium::Core::IAsyncResult* BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback,
 			const void* State);
 
 		void EndDisconnect(const Elysium::Core::IAsyncResult* Result);
@@ -236,12 +236,12 @@ namespace Elysium::Core::Net::Sockets
 		// ToDo: BeginReceiveFrom and BeginSendTo
 		
 		Elysium::Core::IAsyncResult* BeginReceive(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, SocketFlags Flags,
-			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		const Elysium::Core::size EndReceive(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 
 		Elysium::Core::IAsyncResult* BeginSend(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, SocketFlags Flags,
-			const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State);
+			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		const Elysium::Core::size EndSend(const Elysium::Core::IAsyncResult* Result, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
 	private:

@@ -46,7 +46,7 @@ namespace Elysium::Core::Net::Sockets
 	{
 		friend class Socket;
 	private:
-		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback,
+		SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback,
 			const void* AsyncState);
 	public:
 		SendReceiveAsyncResult(const SendReceiveAsyncResult& Source) = delete;

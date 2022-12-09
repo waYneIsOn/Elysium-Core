@@ -1,8 +1,9 @@
 #include "ExternalException.hpp"
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#if defined ELYSIUM_CORE_OS_WINDOWS
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
@@ -11,10 +12,6 @@
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "../Elysium.Core.Template/CharacterTraits.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()

@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Container
 {
-	//template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::byte>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::byte>;
 
 	using DefaultAllocatorOfByte = Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::byte>;
 }

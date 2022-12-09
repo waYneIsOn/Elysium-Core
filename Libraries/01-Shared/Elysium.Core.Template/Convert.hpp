@@ -772,7 +772,7 @@ namespace Elysium::Core::Template::Text
 		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
 
 		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
-		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
+		Elysium::Core::uint32_t FloatingPart = static_cast<Elysium::Core::uint32_t>(Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
 
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();

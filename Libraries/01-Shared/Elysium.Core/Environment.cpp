@@ -89,11 +89,13 @@ const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 	{
 		if (VersionInfo.wProductType == VER_NT_WORKSTATION)
 		{	// desktop os
-			return OperatingSystem(PlatformID::WindowsDesktop, Version(VersionInfo.dwMajorVersion, VersionInfo.dwMinorVersion, VersionInfo.dwBuildNumber));
+			return OperatingSystem(PlatformID::WindowsDesktop, Version((Elysium::Core::uint16_t)VersionInfo.dwMajorVersion, 
+				(Elysium::Core::uint16_t)VersionInfo.dwMinorVersion, (Elysium::Core::uint16_t)VersionInfo.dwBuildNumber));
 		}
 		else
 		{	// server os
-			return OperatingSystem(PlatformID::WindowsServer, Version(VersionInfo.dwMajorVersion, VersionInfo.dwMinorVersion, VersionInfo.dwBuildNumber));
+			return OperatingSystem(PlatformID::WindowsServer, Version((Elysium::Core::uint16_t)VersionInfo.dwMajorVersion, 
+				(Elysium::Core::uint16_t)VersionInfo.dwMinorVersion, (Elysium::Core::uint16_t)VersionInfo.dwBuildNumber));
 		}
 	}
 	else

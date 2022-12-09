@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OUTOFMEMORYEXCEPTION
 #include "../Elysium.Core.Template/OutOfMemoryException.hpp"
 #endif

@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM
@@ -74,6 +74,8 @@ namespace Elysium::Core::IO
 		virtual const Elysium::Core::uint32_t ReadUInt32();
 
 		virtual const Elysium::Core::uint64_t ReadUInt64();
+	protected:
+		void FillBuffer(const Elysium::Core::size Count);
 	private:
 		static const Elysium::Core::size DefaultBufferSize = 16;
 
@@ -81,9 +83,7 @@ namespace Elysium::Core::IO
 		Elysium::Core::Text::Encoding& _Encoding;
 		const bool _LeaveOpen;
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
-	protected:
-		void FillBuffer(const Elysium::Core::size Count);
+		Container::VectorOfByte _Buffer;
 	};
 }
 #endif

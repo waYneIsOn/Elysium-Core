@@ -37,11 +37,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriParser.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriComponents.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriSyntaxFlags.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Uri.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BuildInUriParser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClInclude>
@@ -80,7 +75,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)UriKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemSpecific.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
@@ -118,6 +112,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfString.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidConstIASyncResultPointer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -125,9 +122,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)UriParser.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Uri.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BuildInUriParser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp">
       <Filter>Runtime\InteropServices</Filter>
     </ClCompile>

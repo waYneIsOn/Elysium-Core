@@ -30,15 +30,21 @@ namespace Elysium::Core
 	{
 	public:
 		DateTimeOffset(const DateTime DateTime);
+
 		DateTimeOffset(const DateTime DateTime, const TimeSpan Offset);
+
 		DateTimeOffset(const DateTimeOffset& Source);
+
 		DateTimeOffset(DateTimeOffset&& Right) noexcept;
+
 		~DateTimeOffset();
-
+	public:
 		DateTimeOffset& operator=(const DateTimeOffset& Source);
-		DateTimeOffset& operator=(DateTimeOffset&& Right) noexcept;
 
+		DateTimeOffset& operator=(DateTimeOffset&& Right) noexcept;
+	public:
 		DateTime& GetDateTime() const;
+
 		TimeSpan& GetOffset() const;
 	private:
 		DateTime _DateTime;

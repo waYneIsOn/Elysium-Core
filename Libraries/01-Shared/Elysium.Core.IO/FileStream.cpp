@@ -242,7 +242,7 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 	} while (TotalBytesWritten != Count);
 }
 
-Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
+Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
 {
 	if (_CompletionPortHandle == nullptr)
 	{	// the file wasn't opened in a way to support io completion ports
@@ -291,7 +291,7 @@ void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* 
 	CastResult->GetFileStream()._Position += CastResult->GetBytesTransferred();
 }
 
-Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>& Callback, const void* State)
+Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
 {
 	if (Buffer == nullptr)
 	{
@@ -372,7 +372,7 @@ void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTAN
 	if (AsyncFileStreamResult != nullptr)
 	{
 		AsyncFileStreamResult->_BytesTransferred = NumberOfBytesTransferred;
-		AsyncFileStreamResult->_ErrorCode = IoResult;
+		AsyncFileStreamResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
 
 		((Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle()).Set();
 

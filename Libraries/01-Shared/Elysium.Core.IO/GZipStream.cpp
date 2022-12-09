@@ -22,24 +22,28 @@ Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, cons
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(false),
 	_DeflateStream(_BaseStream, CompressionMode)
 { }
+
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionMode CompressionMode, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode), _CompressionLevel(CompressionLevel::Optimal), _LeaveOpen(LeaveOpen),
 	_DeflateStream(_BaseStream, CompressionMode, LeaveOpen)
 { }
+
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionLevel CompressionLevel)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(false),
 	_DeflateStream(_BaseStream, CompressionLevel)
 { }
+
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionLevel CompressionLevel, const bool LeaveOpen)
 	: Elysium::Core::IO::Stream(),
 	_Buffer(DefaultBufferSize), _UncompressedSize(0),
 	_BaseStream(BaseStream), _CompressionMode(CompressionMode::Compress), _CompressionLevel(CompressionLevel), _LeaveOpen(LeaveOpen),
 	_DeflateStream(_BaseStream, CompressionLevel, LeaveOpen)
 { }
+
 Elysium::Core::IO::Compression::GZipStream::~GZipStream()
 {
 	if (!_LeaveOpen)

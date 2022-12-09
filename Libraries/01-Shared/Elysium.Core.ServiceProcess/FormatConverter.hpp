@@ -45,6 +45,10 @@ namespace Elysium::Core::ServiceProcess
 	class FormatConverter
 	{
 	public:
+		FormatConverter() = delete;
+
+		~FormatConverter() = delete;
+	public:
 		//static int Translate(PowerBroadcastStatus PowerBroadcastStatus);
 		//static int Translate(ServiceAccount ServiceAccount);
 		//static int Translate(ServiceControllerPermissionAccess ServiceControllerPermissionAccess);
@@ -52,9 +56,6 @@ namespace Elysium::Core::ServiceProcess
 		//static int Translate(ServiceStartMode ServiceStartMode);
 		static int Translate(ServiceType ServiceType);
 		//static int Translate(SessionChangeReason SessionChangeReason);
-	private:
-		FormatConverter();
-		~FormatConverter();
 	};
 }
 #endif
