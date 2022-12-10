@@ -16,13 +16,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
 #include "../Elysium.Core.Template/ProcessStartInfo.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics
 {
-	//class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::ProcessStartInfo;
+	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::ProcessStartInfo;
 
 	using ProcessStartInfo = Elysium::Core::Template::Diagnostics::ProcessStartInfo;
 }

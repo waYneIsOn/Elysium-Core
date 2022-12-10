@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "../Elysium.Core/SystemException.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 #include "Character.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
+#include "SystemException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
@@ -112,38 +112,38 @@ namespace Elysium::Core::Template::Globalization
 	};
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>::CultureInfo() noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>::CultureInfo() noexcept
 		: _LocaleId(LOCALE_INVARIANT), _UseUserOverride(false)
 	{ }
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>::CultureInfo(const System::uint32_t LocaleId, const bool UseUserOverride) noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>::CultureInfo(const System::uint32_t LocaleId, const bool UseUserOverride) noexcept
 		: _LocaleId(LocaleId), _UseUserOverride(UseUserOverride)
 	{ }
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>::CultureInfo(ConstCharacterPointer Name, const bool UseUserOverride)
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>::CultureInfo(ConstCharacterPointer Name, const bool UseUserOverride)
 		: _LocaleId(GetLocaleIdFromName(Name)), _UseUserOverride(UseUserOverride)
 	{ }
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>::CultureInfo(const CultureInfo&Source) noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>::CultureInfo(const CultureInfo&Source) noexcept
 		: _LocaleId(Source._LocaleId), _UseUserOverride(Source._UseUserOverride)
 	{ }
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>::CultureInfo(CultureInfo&& Right) noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>::CultureInfo(CultureInfo&& Right) noexcept
 		: _LocaleId(0), _UseUserOverride(false)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>::~CultureInfo() noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>::~CultureInfo() noexcept
 	{ }
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>& Elysium::Core::Template::Globalization::CultureInfo<C>::operator=(const CultureInfo& Source) noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>& Elysium::Core::Template::Globalization::CultureInfo<C>::operator=(const CultureInfo& Source) noexcept
 	{
 		if (this != &Source)
 		{
@@ -154,7 +154,7 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline CultureInfo<C>& Elysium::Core::Template::Globalization::CultureInfo<C>::operator=(CultureInfo&& Right) noexcept
+	inline Elysium::Core::Template::Globalization::CultureInfo<C>& Elysium::Core::Template::Globalization::CultureInfo<C>::operator=(CultureInfo&& Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -168,13 +168,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const CultureInfo<C> Elysium::Core::Template::Globalization::CultureInfo<C>::GetInvariantCulture()
+	inline const Elysium::Core::Template::Globalization::CultureInfo<C> Elysium::Core::Template::Globalization::CultureInfo<C>::GetInvariantCulture()
 	{
 		return CultureInfo(LOCALE_INVARIANT, false);
 	}
 
 	template<Concepts::Character C>
-	inline const Container::Vector<CultureInfo<C>> CultureInfo<C>::GetCultures(const CultureTypes& Types)
+	inline const Container::Vector<CultureInfo<C>> Elysium::Core::Template::Globalization::CultureInfo<C>::GetCultures(const CultureTypes& Types)
 	{	// I can assume at least one installed language pack
 		Container::Vector<System::uint32_t> LocaleIds = Container::Vector<System::uint32_t>(1);
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -196,13 +196,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const CultureInfo<char>::CorrespondingString CultureInfo<char>::GetDisplayName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<char>::CorrespondingString CultureInfo<char>::GetDisplayName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return Buffer;
@@ -212,13 +212,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const CultureInfo<wchar_t>::CorrespondingString CultureInfo<wchar_t>::GetDisplayName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<wchar_t>::CorrespondingString CultureInfo<wchar_t>::GetDisplayName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return Buffer;
@@ -228,13 +228,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const CultureInfo<C>::CorrespondingString CultureInfo<C>::GetDisplayName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<C>::CorrespondingString CultureInfo<C>::GetDisplayName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNATIVEDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -245,13 +245,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const CultureInfo<char>::CorrespondingString CultureInfo<char>::GetEnglishName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<char>::CorrespondingString CultureInfo<char>::GetEnglishName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return Buffer;
@@ -261,13 +261,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const CultureInfo<wchar_t>::CorrespondingString CultureInfo<wchar_t>::GetEnglishName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<wchar_t>::CorrespondingString CultureInfo<wchar_t>::GetEnglishName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return Buffer;
@@ -277,13 +277,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const CultureInfo<C>::CorrespondingString CultureInfo<C>::GetEnglishName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<C>::CorrespondingString CultureInfo<C>::GetEnglishName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SENGLISHDISPLAYNAME, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -294,13 +294,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const CultureInfo<wchar_t>::CorrespondingString CultureInfo<wchar_t>::GetName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<wchar_t>::CorrespondingString CultureInfo<wchar_t>::GetName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (LCIDToLocaleName(_LocaleId, (LPWSTR)&Buffer[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return Buffer;
@@ -310,13 +310,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const CultureInfo<C>::CorrespondingString CultureInfo<C>::GetName() const
+	inline const Elysium::Core::Template::Globalization::CultureInfo<C>::CorrespondingString CultureInfo<C>::GetName() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (LCIDToLocaleName(_LocaleId, (LPWSTR)&Buffer[0], LOCALE_NAME_MAX_LENGTH, 0) == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -333,19 +333,19 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C> CultureInfo<C>::GetNumberFormatInfo() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C> Elysium::Core::Template::Globalization::CultureInfo<C>::GetNumberFormatInfo() const
 	{
 		return NumberFormatInfo<C>(_LocaleId, false);
 	}
 
 	template<Concepts::Character C>
-	inline NumberFormatInfo<C> CultureInfo<C>::GetNumberFormatInfo()
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C> Elysium::Core::Template::Globalization::CultureInfo<C>::GetNumberFormatInfo()
 	{
 		return NumberFormatInfo<C>(_LocaleId, false);
 	}
 
 	template<Concepts::Character C>
-	inline System::int32_t CultureInfo<C>::EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter)
+	inline System::int32_t Elysium::Core::Template::Globalization::CultureInfo<C>::EnumerateSystemLocalesExCallback(wchar_t* Name, unsigned long Flags, LPARAM Parameter)
 	{
 		System::uint32_t LocaleId = LocaleNameToLCID(Name, 0);
 		if (LocaleId == 0)
@@ -359,13 +359,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline System::uint32_t CultureInfo<wchar_t>::GetLocaleIdFromName(ConstCharacterPointer Name)
+	inline System::uint32_t Elysium::Core::Template::Globalization::CultureInfo<wchar_t>::GetLocaleIdFromName(ConstCharacterPointer Name)
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		System::uint32_t LocaleId = LocaleNameToLCID(Name, 0);
 		if (LocaleId == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return LocaleId;
@@ -375,14 +375,14 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline System::uint32_t CultureInfo<C>::GetLocaleIdFromName(ConstCharacterPointer Name)
+	inline System::uint32_t Elysium::Core::Template::Globalization::CultureInfo<C>::GetLocaleIdFromName(ConstCharacterPointer Name)
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideName = Text::Unicode::Utf16::SafeToWideString<C>(Name, Text::CharacterTraits<C>::GetLength(Name));
 		System::uint32_t LocaleId = LocaleNameToLCID(&WideName[0], 0);
 		if (LocaleId == 0)
 		{
-			throw SystemException();
+			throw Exceptions::SystemException();
 		}
 
 		return LocaleId;

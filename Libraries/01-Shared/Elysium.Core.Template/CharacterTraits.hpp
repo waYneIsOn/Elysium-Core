@@ -56,62 +56,62 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the minimum number of bytes required to represent a single character.
 		/// </summary>
-		static constexpr const System::size MinimumByteLength = sizeof(C);
+		inline static constexpr const System::size MinimumByteLength = sizeof(C);
 
 		/// <summary>
 		/// Returns '\0' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue NullTerminationCharacter = C();
+		inline static constexpr ConstValue NullTerminationCharacter = C();
 
 		/// <summary>
 		/// Returns '-' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MinusCharacter = static_cast<ConstValue>('-');
+		inline static constexpr ConstValue MinusCharacter = static_cast<ConstValue>('-');
 
 		/// <summary>
 		/// Returns '+' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue PlusCharacter = static_cast<ConstValue>('+');
+		inline static constexpr ConstValue PlusCharacter = static_cast<ConstValue>('+');
 
 		/// <summary>
 		/// Returns whitespace as specified character-type.
 		/// </summary>
-		static constexpr ConstValue WhitespaceCharacter = static_cast<ConstValue>(' ');
+		inline static constexpr ConstValue WhitespaceCharacter = static_cast<ConstValue>(' ');
 
 		/// <summary>
 		/// Returns tabulator as specified character-type.
 		/// </summary>
-		static constexpr ConstValue TabCharacter = static_cast<ConstValue>('\t');
+		inline static constexpr ConstValue TabCharacter = static_cast<ConstValue>('\t');
 
 		/// <summary>
 		/// Returns '0' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue ZeroCharacter = static_cast<ConstValue>('0');
+		inline static constexpr ConstValue ZeroCharacter = static_cast<ConstValue>('0');
 
 		/// <summary>
 		/// Returns '9' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue NineCharacter = static_cast<ConstValue>('9');
+		inline static constexpr ConstValue NineCharacter = static_cast<ConstValue>('9');
 
 		/// <summary>
 		/// Returns 'a' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue LowerACharacter = static_cast<ConstValue>('a');
+		inline static constexpr ConstValue LowerACharacter = static_cast<ConstValue>('a');
 
 		/// <summary>
 		/// Returns 'A' as specified character-type.
 		/// </summary>
-		static constexpr ConstValue UpperACharacter = static_cast<ConstValue>('A');
+		inline static constexpr ConstValue UpperACharacter = static_cast<ConstValue>('A');
 
 		/// <summary>
 		/// Returns the smallest possible value as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MinimumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Minimum);
+		inline static constexpr ConstValue MinimumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Minimum);
 
 		/// <summary>
 		/// Returns the largest possible value as specified character-type.
 		/// </summary>
-		static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Maximum);
+		inline static constexpr ConstValue MaximumValue = static_cast<ConstValue>(Elysium::Core::Template::Numeric::NumericTraits<I>::Maximum);
 	public:
 		/// <summary>
 		/// 
@@ -393,7 +393,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns newline as specified character-type depending on the operating system.
 		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
+		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			"\r\n";
 #elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
@@ -407,7 +407,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const System::size MaximumByteLength = sizeof(char);
+		inline static constexpr const System::size MaximumByteLength = sizeof(char);
 	};
 
 	/// <summary>
@@ -420,7 +420,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns newline as specified character-type depending on the operating system.
 		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
+		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			u8"\r\n";
 #elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
@@ -434,7 +434,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const System::size MaximumByteLength = 4;
+		inline static constexpr const System::size MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// 
@@ -468,17 +468,17 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_high_surrogate
 		/// </summary>
-		static constexpr const char16_t HighSurrogateLimits[2] = { 0xD800, 0xDBFF };
+		inline static constexpr const char16_t HighSurrogateLimits[2] = { 0xD800, 0xDBFF };
 
 		/// <summary>
 		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_low_surrogate
 		/// </summary>
-		static constexpr const char16_t LowSurrogateLimits[2] = { 0xDC00, 0xDFFF };
+		inline static constexpr const char16_t LowSurrogateLimits[2] = { 0xDC00, 0xDFFF };
 	public:
 		/// <summary>
 		/// Returns newline as specified character-type depending on the operating system.
 		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
+		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			u"\r\n";
 #elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
@@ -492,7 +492,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const System::size MaximumByteLength = 4;
+		inline static constexpr const System::size MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// 
@@ -530,7 +530,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns newline as specified character-type depending on the operating system.
 		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
+		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			U"\r\n";
 #elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
@@ -544,7 +544,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const System::size MaximumByteLength = sizeof(System::uint32_t);
+		inline static constexpr const System::size MaximumByteLength = sizeof(System::uint32_t);
 	};
 	
 	/// <summary>
@@ -557,17 +557,17 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_high_surrogate
 		/// </summary>
-		static constexpr const wchar_t HighSurrogateLimits[2] = { 0xD800, 0xDBFF };
+		inline static constexpr const wchar_t HighSurrogateLimits[2] = { 0xD800, 0xDBFF };
 
 		/// <summary>
 		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_low_surrogate
 		/// </summary>
-		static constexpr const wchar_t LowSurrogateLimits[2] = { 0xDC00, 0xDFFF };
+		inline static constexpr const wchar_t LowSurrogateLimits[2] = { 0xDC00, 0xDFFF };
 	public:
 		/// <summary>
 		/// Returns newline as specified character-type depending on the operating system.
 		/// </summary>
-		static constexpr ConstPointer NewLineCharacters =
+		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			L"\r\n";
 #elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
@@ -581,7 +581,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		static constexpr const System::size MaximumByteLength = 4;
+		inline static constexpr const System::size MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// 
@@ -1263,6 +1263,10 @@ namespace Elysium::Core::Template::Text
 		else if (Value >> 3_ui8 == 0x1E_ui8)
 		{	// 1111 0aaa
 			return 4_ui8;
+		}
+		else
+		{	// should obviously never happen
+			return -1_ui8;
 		}
 	}
 

@@ -5,9 +5,8 @@
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Collections::Template;
-using namespace Elysium::Core::Template::Container;
-using namespace Elysium::Core::Template::Globalization;
 using namespace Elysium::Core::Globalization;
+using namespace Elysium::Core::Template::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Globalization
@@ -98,8 +97,8 @@ namespace UnitTests::Core::Globalization
 			
 			Assert::AreEqual(NumberedCulture.GetLCID(), NamedCulture.GetLCID());
 
-			CheckCultureGermanAustria(NamedCulture);
-			CheckCultureGermanAustria(NumberedCulture);
+			ValidateCultureGermanAustria(NamedCulture);
+			ValidateCultureGermanAustria(NumberedCulture);
 			
 			// change some values (and back again)
 			Utf8NumberFormatInfo NumberFormat = NamedCulture.GetNumberFormatInfo();
@@ -150,7 +149,7 @@ namespace UnitTests::Core::Globalization
 			}
 		}
 	private:
-		static void CheckCultureGermanAustria(const Utf8CultureInfo& Culture)
+		static void ValidateCultureGermanAustria(const Utf8CultureInfo& Culture)
 		{
 			AssertExtended::AreEqual(3079_ui32, Culture.GetLCID());
 			AssertExtended::AreEqual(Elysium::Core::Utf8String(u8"de-AT"), Culture.GetName());

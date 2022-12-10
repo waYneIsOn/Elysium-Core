@@ -20,14 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StackFrame.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_MEMORY_DEFAULTALLOCATOROFSTACKFRAME
-#include "DefaultAllocatorOfStackFrame.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_CONTAINER_VECTOROFSTACKFRAME
-#include "VectorOfStackFrame.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKTRACE
 #include "../Elysium.Core.Template/StackTrace.hpp"
 #endif

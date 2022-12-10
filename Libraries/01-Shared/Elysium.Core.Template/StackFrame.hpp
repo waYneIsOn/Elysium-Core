@@ -105,22 +105,22 @@ namespace Elysium::Core::Template::Diagnostics
 		return *this;
 	}
 
-	bool Elysium::Core::Template::Diagnostics::StackFrame::operator==(const StackFrame& Other) const
+	inline bool Elysium::Core::Template::Diagnostics::StackFrame::operator==(const StackFrame& Other) const
 	{
 		return _Address == Other._Address;
 	}
 
-	const Text::String<char8_t>& Elysium::Core::Template::Diagnostics::StackFrame::GetFileName() const
+	inline const Text::String<char8_t>& Elysium::Core::Template::Diagnostics::StackFrame::GetFileName() const
 	{
 		return _FileName;
 	}
 
-	const System::uint32_t Elysium::Core::Template::Diagnostics::StackFrame::GetLineNumber() const
+	inline const System::uint32_t Elysium::Core::Template::Diagnostics::StackFrame::GetLineNumber() const
 	{
 		return _LineNumber;
 	}
 
-	const System::uint32_t Elysium::Core::Template::Diagnostics::StackFrame::GetColumnNumber() const
+	inline const System::uint32_t Elysium::Core::Template::Diagnostics::StackFrame::GetColumnNumber() const
 	{
 		return _ColumnNumber;
 	}

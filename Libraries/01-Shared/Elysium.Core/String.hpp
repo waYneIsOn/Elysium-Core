@@ -26,16 +26,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char8_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char16_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<char32_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::String<wchar_t>;
+	template class ELYSIUM_CORE_API Template::Text::String<char, Template::Text::CharacterTraits<char>, Memory::DefaultAllocatorOfChar>;
+	template class ELYSIUM_CORE_API Template::Text::String<char8_t, Template::Text::CharacterTraits<char8_t>, Memory::DefaultAllocatorOfUtf8Char>;
+	template class ELYSIUM_CORE_API Template::Text::String<char16_t, Template::Text::CharacterTraits<char16_t>, Memory::DefaultAllocatorOfUtf16Char>;
+	template class ELYSIUM_CORE_API Template::Text::String<char32_t, Template::Text::CharacterTraits<char32_t>, Memory::DefaultAllocatorOfUtf32Char>;
+	template class ELYSIUM_CORE_API Core::Template::Text::String<wchar_t, Template::Text::CharacterTraits<wchar_t>, Memory::DefaultAllocatorOfWideChar>;
 	
-	using String = Elysium::Core::Template::Text::String<char>;
-	using Utf8String = Elysium::Core::Template::Text::String<char8_t>;
-	using Utf16String = Elysium::Core::Template::Text::String<char16_t>;
-	using Utf32String = Elysium::Core::Template::Text::String<char32_t>;
-	using WideString = Elysium::Core::Template::Text::String<wchar_t>;
+	using String = Template::Text::String<char, Template::Text::CharacterTraits<char>, Memory::DefaultAllocatorOfChar>;
+	using Utf8String = Template::Text::String<char8_t, Template::Text::CharacterTraits<char8_t>, Memory::DefaultAllocatorOfUtf8Char>;
+	using Utf16String = Template::Text::String<char16_t, Template::Text::CharacterTraits<char16_t>, Memory::DefaultAllocatorOfUtf16Char>;
+	using Utf32String = Template::Text::String<char32_t, Template::Text::CharacterTraits<char32_t>, Memory::DefaultAllocatorOfUtf32Char>;
+	using WideString = Template::Text::String<wchar_t, Template::Text::CharacterTraits<wchar_t>, Memory::DefaultAllocatorOfWideChar>;
 }
 #endif

@@ -18,7 +18,7 @@ Elysium::Core::IO::Compression::ZipArchive::ZipArchive(Elysium::Core::IO::Stream
 Elysium::Core::IO::Compression::ZipArchive::~ZipArchive()
 { }
 
-const VectorOfZipArchiveEntry Elysium::Core::IO::Compression::ZipArchive::GetEntries() const
+const Elysium::Core::IO::Compression::VectorOfZipArchiveEntry Elysium::Core::IO::Compression::ZipArchive::GetEntries() const
 {
     return _Entries;
 }

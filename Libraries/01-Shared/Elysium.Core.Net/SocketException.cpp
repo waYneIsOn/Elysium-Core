@@ -1,5 +1,15 @@
 #include "SocketException.hpp"
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef _WINSOCK2API_
+	#include <WinSock2.h>
+	#endif
+
+	#ifndef _MSWSOCK_
+	#include <MSWSock.h>
+	#endif
+#endif
+
 Elysium::Core::Net::Sockets::SocketException::SocketException()
 	: Elysium::Core::Runtime::InteropServices::ExternalException(WSAGetLastError())
 { }

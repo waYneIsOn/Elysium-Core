@@ -19,6 +19,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleRepository.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />

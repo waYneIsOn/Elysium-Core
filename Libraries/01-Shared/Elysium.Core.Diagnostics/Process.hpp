@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_CONTAINER_VECTOROFPROCESS
-#include "VectorOfProcess.hpp"
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESSSTARTINFO
+#include "ProcessStartInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESS
@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Diagnostics
 {
-	//class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::Process;
+	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::Process;
 
 	using Process = Elysium::Core::Template::Diagnostics::Process;
 }

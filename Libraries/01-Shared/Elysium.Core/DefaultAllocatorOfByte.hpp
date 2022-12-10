@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/DefaultAllocator.hpp"
 #endif
 
-namespace Elysium::Core::Container
+namespace Elysium::Core::Memory
 {
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::byte>;
 

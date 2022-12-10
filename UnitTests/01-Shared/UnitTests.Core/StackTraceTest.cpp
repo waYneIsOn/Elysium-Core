@@ -3,11 +3,9 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Diagnostics/StackTrace.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Utf16.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Diagnostics;
-using namespace Elysium::Core::Diagnostics::Container;
 using namespace Elysium::Core::Template::Text;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -29,8 +27,7 @@ namespace UnitTests::Core::Diagnostics
 			}
 			catch (const Exception& ex)
 			{
-				Assert::Fail(L"not implemented yet");
-				//PrintStackTrace(ex.GetStackTrace());
+				PrintStackTrace(ex.GetStackTrace());
 			}
 		}
 
@@ -53,7 +50,7 @@ namespace UnitTests::Core::Diagnostics
 
 		void PrintStackTrace(const StackTrace& Instance)
 		{
-			VectorOfStackFrame StackFrames = Instance.GetFrames();
+			Template::Container::Vector<StackFrame> StackFrames = Instance.GetFrames();
 			for (Elysium::Core::size i = 0; i < StackFrames.GetLength(); i++)
 			{
 				const StackFrame& CurrentFrame = StackFrames[i];

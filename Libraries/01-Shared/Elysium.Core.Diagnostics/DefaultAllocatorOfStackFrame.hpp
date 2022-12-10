@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StackFrame.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKFRAME
+#include "../Elysium.Core.Template/StackFrame.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "../Elysium.Core.Template/DefaultAllocator.hpp"
 #endif
@@ -28,6 +32,6 @@ namespace Elysium::Core::Diagnostics::Memory
 {
 	//template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
 
-	using DefaultAllocatorOfStackFrame = Elysium::Core::Template::Memory::DefaultAllocator<StackFrame>;
+	//using DefaultAllocatorOfStackFrame = Elysium::Core::Template::Memory::DefaultAllocator<Elysium::Core::Template::Diagnostics::StackFrame>;
 }
 #endif

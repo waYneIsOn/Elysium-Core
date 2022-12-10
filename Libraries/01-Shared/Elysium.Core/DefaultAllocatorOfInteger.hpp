@@ -26,7 +26,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Memory
 {
-	/*
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<uint8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<uint16_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<uint32_t>;
@@ -38,7 +37,7 @@ namespace Elysium::Core::Memory
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<int64_t>;
 
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<size>;
-	*/
+	
 	using DefaultAllocatorOfuint8_t = Elysium::Core::Template::Memory::DefaultAllocator<uint8_t>;
 	using DefaultAllocatorOfuint16_t= Elysium::Core::Template::Memory::DefaultAllocator<uint16_t>;
 	using DefaultAllocatorOfuint32_t= Elysium::Core::Template::Memory::DefaultAllocator<uint32_t>;

@@ -32,6 +32,6 @@ namespace Elysium::Core::Container
 {
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
 
-	using VectorOfByte = Elysium::Core::Template::Container::Vector<Elysium::Core::byte>;
+	using VectorOfByte = Elysium::Core::Template::Container::Vector<Elysium::Core::byte, Memory::DefaultAllocatorOfByte>;
 }
 #endif

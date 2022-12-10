@@ -124,29 +124,29 @@ namespace Elysium::Core::Template::Diagnostics
 		static const bool IsMainWindow(HWND WindowHandle);
 	};
 
-	inline const Process Process::_CurrentProcess = Process(_LocalMachineName, false, GetCurrentProcessId());
+	inline const Elysium::Core::Template::Diagnostics::Process Process::_CurrentProcess = Process(_LocalMachineName, false, GetCurrentProcessId());
 
-	inline Process::Process(const char8_t* MachineName, const bool IsRemoteMachine, const System::uint32_t ProcessId) noexcept
+	inline Elysium::Core::Template::Diagnostics::Process::Process(const char8_t* MachineName, const bool IsRemoteMachine, const System::uint32_t ProcessId) noexcept
 		: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(GetCurrentThreadId()),
 		_HasThreadId(true), _ProcessHandle(GetCurrentProcess()), _ThreadHandle(GetCurrentThread())
 	{ }
 
-	inline Process::Process() noexcept
+	inline Elysium::Core::Template::Diagnostics::Process::Process() noexcept
 		: _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false),
 		_ProcessHandle(nullptr), _ThreadHandle(nullptr)
 	{ }
 
-	inline Diagnostics::Process::Process(const Process & Source)
+	inline Elysium::Core::Template::Diagnostics::Process::Process(const Process & Source)
 		: _MachineName(Source._MachineName), _IsRemoteMachine(Source._IsRemoteMachine), _ProcessId(Source._ProcessId), _HasProcessId(Source._HasProcessId),
 		_ThreadId(Source._ThreadId), _HasThreadId(Source._HasThreadId), _ProcessHandle(Source._ProcessHandle), _ThreadHandle(Source._ThreadHandle)
 	{ }
 
-	inline Process::~Process()
+	inline Elysium::Core::Template::Diagnostics::Process::~Process()
 	{ 
 		Close();
 	}
 
-	inline Process& Diagnostics::Process::operator=(const Process& Source)
+	inline Elysium::Core::Template::Diagnostics::Process& Diagnostics::Process::operator=(const Process& Source)
 	{
 		if (this != &Source)
 		{
@@ -284,7 +284,7 @@ namespace Elysium::Core::Template::Diagnostics
 	{
 		return _CurrentProcess;
 	}
-
+	
 	inline const Container::Vector<Process> Elysium::Core::Template::Diagnostics::Process::GetProcesses(const char8_t* MachineName)
 	{
 		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
@@ -328,8 +328,8 @@ namespace Elysium::Core::Template::Diagnostics
 
 		return Processes;
 	}
-
-	inline Process Elysium::Core::Template::Diagnostics::Process::GetProcessById(const System::uint32_t ProcessId)
+	
+	inline Elysium::Core::Template::Diagnostics::Process Elysium::Core::Template::Diagnostics::Process::GetProcessById(const System::uint32_t ProcessId)
 	{
 		HANDLE ProcessHandle = OpenProcess(READ_CONTROL | PROCESS_QUERY_INFORMATION, true, ProcessId);
 		if (ProcessHandle == nullptr)
@@ -353,7 +353,7 @@ namespace Elysium::Core::Template::Diagnostics
 		// ToDo:
 		throw 1;
 	}
-
+	
 	inline const Container::Vector<Process> Elysium::Core::Template::Diagnostics::Process::GetProcessesByName(const char8_t* ProcessName, const char8_t* MachineName)
 	{
 		if (Text::CharacterTraits<char8_t>::IsEmpty(ProcessName))
@@ -414,8 +414,8 @@ namespace Elysium::Core::Template::Diagnostics
 
 		return Processes;
 	}
-
-	inline const HANDLE Diagnostics::Process::GetMainWindowHandle(const System::uint32_t ProcessId)
+	
+	inline const HANDLE Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(const System::uint32_t ProcessId)
 	{
 		WindowHandleData HandleData = WindowHandleData();
 		HandleData.ProcessId = ProcessId;
@@ -426,7 +426,7 @@ namespace Elysium::Core::Template::Diagnostics
 		return HandleData.WindowHandle;
 	}
 
-	inline BOOL Diagnostics::Process::GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter)
+	inline BOOL Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter)
 	{
 		WindowHandleData* HandleData = (WindowHandleData*)Parameter;
 
@@ -441,7 +441,7 @@ namespace Elysium::Core::Template::Diagnostics
 		return FALSE;
 	}
 
-	inline const bool Diagnostics::Process::IsMainWindow(HWND WindowHandle)
+	inline const bool Elysium::Core::Template::Diagnostics::Process::IsMainWindow(HWND WindowHandle)
 	{
 		return GetWindow(WindowHandle, GW_OWNER) == (HWND)0 && IsWindowVisible(WindowHandle);
 	}

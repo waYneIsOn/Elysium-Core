@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "BinaryReader.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_COMPRESSION_GZIPSTREAM_VECTOROFZIPARCHIVEENTRY
+#ifndef ELYSIUM_CORE_IO_COMPRESSION_VECTOROFZIPARCHIVEENTRY
 #include "VectorOfZipArchiveEntry.hpp"
 #endif
 

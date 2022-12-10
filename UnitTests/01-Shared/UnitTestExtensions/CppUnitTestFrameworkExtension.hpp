@@ -9,10 +9,6 @@
 #include <CppUnitTestAssert.h>
 #endif
 
-#ifndef _UCHAR
-#include <uchar.h>
-#endif
-
 #ifndef ELYSIUM_CORE_STRING
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
 #endif
@@ -64,6 +60,31 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 		{
 			Assert::IsTrue(Expected == Actual);
 		}
+		/*
+		static void AreEqual(const char Expected, const char Actual)
+		{
+			Assert::IsTrue(Expected == Actual);
+		}
+		*/
+		static void AreEqual(const char8_t Expected, const char8_t Actual)
+		{
+			Assert::IsTrue(Expected == Actual);
+		}
+
+		static void AreEqual(const char16_t Expected, const char16_t Actual)
+		{
+			Assert::IsTrue(Expected == Actual);
+		}
+
+		static void AreEqual(const char32_t Expected, const char32_t Actual)
+		{
+			Assert::IsTrue(Expected == Actual);
+		}
+
+		static void AreEqual(const wchar_t Expected, const wchar_t Actual)
+		{
+			Assert::IsTrue(Expected == Actual);
+		}
 
 		static void AreEqual(const Elysium::Core::String& Expected, const Elysium::Core::String& Actual, bool ignoreCase = false, const wchar_t* message = NULL, const __LineInfo* pLineInfo = NULL)
 		{
@@ -86,10 +107,10 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 
 			for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 			{
-				Elysium::Core::String::ConstCharacterReference ExpectedChar = Expected[i];
-				Elysium::Core::String::ConstCharacterReference ActualChar = Actual[i];
+				Elysium::Core::Utf8String::ConstCharacterReference ExpectedChar = Expected[i];
+				Elysium::Core::Utf8String::ConstCharacterReference ActualChar = Actual[i];
 
-				Assert::AreEqual(ExpectedChar, ActualChar);
+				AssertExtended::AreEqual(ExpectedChar, ActualChar);
 			}
 		}
 
@@ -100,10 +121,10 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 
 			for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 			{
-				Elysium::Core::String::ConstCharacterReference ExpectedChar = Expected[i];
-				Elysium::Core::String::ConstCharacterReference ActualChar = Actual[i];
+				Elysium::Core::Utf16String::ConstCharacterReference ExpectedChar = Expected[i];
+				Elysium::Core::Utf16String::ConstCharacterReference ActualChar = Actual[i];
 
-				Assert::AreEqual(ExpectedChar, ActualChar);
+				AssertExtended::AreEqual(ExpectedChar, ActualChar);
 			}
 		}
 
@@ -114,10 +135,10 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 
 			for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 			{
-				Elysium::Core::String::ConstCharacterReference ExpectedChar = Expected[i];
-				Elysium::Core::String::ConstCharacterReference ActualChar = Actual[i];
+				Elysium::Core::Utf32String::ConstCharacterReference ExpectedChar = Expected[i];
+				Elysium::Core::Utf32String::ConstCharacterReference ActualChar = Actual[i];
 
-				//Assert::AreEqual(ExpectedChar, ActualChar);
+				AssertExtended::AreEqual(ExpectedChar, ActualChar);
 			}
 		}
 
@@ -127,14 +148,13 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 
 			for (Elysium::Core::size i = 0; i < Expected.GetLength(); ++i)
 			{
-				Elysium::Core::String::ConstCharacterReference ExpectedChar = Expected[i];
-				Elysium::Core::String::ConstCharacterReference ActualChar = Actual[i];
+				Elysium::Core::WideString::ConstCharacterReference ExpectedChar = Expected[i];
+				Elysium::Core::WideString::ConstCharacterReference ActualChar = Actual[i];
 
-				Assert::AreEqual(ExpectedChar, ActualChar);
+				AssertExtended::AreEqual(ExpectedChar, ActualChar);
 			}
 		}
 
-			
 		inline static Elysium::Core::Text::UTF16Encoding Utf16Encoding = Elysium::Core::Text::UTF16Encoding();
 	};
 

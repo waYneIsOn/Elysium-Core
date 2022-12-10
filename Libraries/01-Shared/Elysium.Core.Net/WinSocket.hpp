@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINSOCK2API_
 #include <WinSock2.h>
 #endif

@@ -1,12 +1,9 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Diagnostics/Process.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Diagnostics/ProcessStartInfo.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Diagnostics/VectorOfProcess.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Diagnostics;
-using namespace Elysium::Core::Diagnostics::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Diagnostics
@@ -24,7 +21,7 @@ namespace UnitTests::Core::Diagnostics
 
 		TEST_METHOD(GetLocalProcesses)
 		{
-			const VectorOfProcess Processes = Process::GetProcesses();
+			const Template::Container::Vector<Process> Processes = Process::GetProcesses();
 			if (Processes.GetLength() == 0)
 			{
 				Assert::Fail();
@@ -33,7 +30,7 @@ namespace UnitTests::Core::Diagnostics
 
 		TEST_METHOD(GetLocalProcessesByName)
 		{
-			const VectorOfProcess Processes = Process::GetProcessesByName(u8"explorer.exe");
+			const Template::Container::Vector<Process> Processes = Process::GetProcessesByName(u8"explorer.exe");
 			if (Processes.GetLength() == 0)
 			{
 				Assert::Fail();

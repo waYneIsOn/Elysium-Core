@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Floor.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
+#include "Logarithm.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
 #include "Power.hpp"
 #endif
@@ -46,10 +50,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
 #include "String.hpp"
-#endif
-
-#ifndef _CMATH_
-#include <cmath>
 #endif
 
 namespace Elysium::Core::Template::Text
@@ -252,7 +252,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -298,7 +298,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -344,7 +344,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -390,7 +390,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Value) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -398,7 +398,7 @@ namespace Elysium::Core::Template::Text
 		{
 			System::uint64_t BaseValue = static_cast<Elysium::Core::Template::System::uint64_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::uint64_t NumericalValue = Value / BaseValue;
+			System::uint32_t NumericalValue = static_cast<System::uint32_t>(Value / BaseValue);
 
 			if (NumericalValue < 10)
 			{
@@ -438,7 +438,7 @@ namespace Elysium::Core::Template::Text
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(Value)) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -495,7 +495,7 @@ namespace Elysium::Core::Template::Text
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(Value)) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -552,7 +552,7 @@ namespace Elysium::Core::Template::Text
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(Value)) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -609,7 +609,7 @@ namespace Elysium::Core::Template::Text
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 		const System::uint8_t RequiredNumberOfCharacters = 
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(Value)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(Value)) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters + NegativeSignLength);
 
@@ -624,7 +624,7 @@ namespace Elysium::Core::Template::Text
 		{
 			System::uint64_t BaseValue = static_cast<Elysium::Core::Template::System::uint64_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharacters) - Index - 1_ui8));
-			System::uint64_t NumericalValue = Value / BaseValue;
+			System::uint32_t NumericalValue = static_cast<System::uint32_t>(Value / BaseValue);
 
 			if (NumericalValue < 10)
 			{
@@ -665,8 +665,8 @@ namespace Elysium::Core::Template::Text
 
 		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
 
-		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
-		Elysium::Core::uint32_t FloatingPart = Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits));
+		const System::uint32_t NumberDecimalDigits = 2;
+		System::uint32_t FloatingPart = static_cast<Elysium::Core::uint32_t>(Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
 
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
@@ -674,10 +674,10 @@ namespace Elysium::Core::Template::Text
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 
 		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(IntegerPart)) /log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(IntegerPart)) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		const System::uint8_t RequiredNumberOfCharactersFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(FloatingPart) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersFloatingPart > 0 ?
 			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()): 0;
@@ -771,8 +771,8 @@ namespace Elysium::Core::Template::Text
 
 		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
 
-		const Elysium::Core::uint32_t NumberDecimalDigits = 2;
-		Elysium::Core::uint32_t FloatingPart = static_cast<Elysium::Core::uint32_t>(Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
+		const System::uint32_t NumberDecimalDigits = 2;
+		System::uint32_t FloatingPart = static_cast<Elysium::Core::uint32_t>(Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
 
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
@@ -780,10 +780,10 @@ namespace Elysium::Core::Template::Text
 		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
 
 		const System::uint8_t RequiredNumberOfCharactersPreFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(Math::Absolute(IntegerPart)) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(IntegerPart)) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		const System::uint8_t RequiredNumberOfCharactersFloatingPart =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(log(FloatingPart) / log(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(FloatingPart) / Math::Logarithm(ToBase)) + 1_ui8);
 
 		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersFloatingPart > 0 ?
 			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()) : 0;
@@ -1436,7 +1436,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		return (AbsoluteResult + static_cast<double>(DecimalPointResult) / Math::Power(10,
-			Numeric::NumericTraits<System::uint8_t>::GetDigitCount(DecimalPointResult))) * Sign;
+			Numeric::NumericTraits<System::uint64_t>::GetDigitCount(DecimalPointResult))) * Sign;
 	}
 
 	template<Concepts::Character C>

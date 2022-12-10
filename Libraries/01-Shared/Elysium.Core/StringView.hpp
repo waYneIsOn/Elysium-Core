@@ -27,7 +27,7 @@ namespace Elysium::Core
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringView<char8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringView<char16_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Text::StringView<char32_t>;
-
+	
 	using StringView = Elysium::Core::Template::Text::StringView<char>;
 	using WideStringView = Elysium::Core::Template::Text::StringView<wchar_t>;
 	using Utf8StringView = Elysium::Core::Template::Text::StringView<char8_t>;

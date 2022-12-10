@@ -16,12 +16,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
+#include "InvalidOperationException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
+#include "SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_DIGITSHAPES
 #include "DigitShapes.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
+#include "Floor.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
+#include "Logarithm.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
@@ -55,10 +71,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#endif
 #else
 #error "undefined os"
-#endif
-
-#ifndef _CMATH_
-#include <cmath>
 #endif
 
 namespace Elysium::Core::Template::Globalization
@@ -178,36 +190,34 @@ namespace Elysium::Core::Template::Globalization
 		void SetPositiveSign(const ConstCharacterPointer Value);
 	private:
 		Text::String<char> ToString(System::uint32_t Value);
-
-		Text::String<wchar_t> ToWideString(System::uint32_t Value);
 	private:
 		System::uint32_t _LocaleId;
 		bool _IsReadOnly;
 	};
 
 	template<Concepts::Character C>
-	Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept
 		: _LocaleId(LocaleId), _IsReadOnly(ReadOnly)
 	{ }
 
 	template<Concepts::Character C>
-	Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const NumberFormatInfo& Source) noexcept
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const NumberFormatInfo& Source) noexcept
 		: _LocaleId(Source._LocaleId), _IsReadOnly(Source._IsReadOnly)
 	{ }
 
 	template<Concepts::Character C>
-	Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(NumberFormatInfo && Right) noexcept
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(NumberFormatInfo && Right) noexcept
 		: _LocaleId(0), _IsReadOnly(false)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
 	template<Concepts::Character C>
-	Elysium::Core::Template::Globalization::NumberFormatInfo<C>::~NumberFormatInfo() noexcept
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::~NumberFormatInfo() noexcept
 	{ }
 
 	template<Concepts::Character C>
-	Elysium::Core::Template::Globalization::NumberFormatInfo<C>& Elysium::Core::Template::Globalization::NumberFormatInfo<C>::operator=(const NumberFormatInfo& Source) noexcept
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>& Elysium::Core::Template::Globalization::NumberFormatInfo<C>::operator=(const NumberFormatInfo& Source) noexcept
 	{
 		if (this != &Source)
 		{
@@ -218,7 +228,7 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	Elysium::Core::Template::Globalization::NumberFormatInfo<C>& Elysium::Core::Template::Globalization::NumberFormatInfo<C>::operator=(NumberFormatInfo&& Right) noexcept
+	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>& Elysium::Core::Template::Globalization::NumberFormatInfo<C>::operator=(NumberFormatInfo&& Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -232,32 +242,31 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	constexpr const Elysium::Core::Template::Globalization::NumberFormatInfo<C> Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetCurrentInfo()
+	inline constexpr const Elysium::Core::Template::Globalization::NumberFormatInfo<C> Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetCurrentInfo()
 	{
 		return NumberFormatInfo<C>(LOCALE_CUSTOM_DEFAULT, true);
 	}
 
 	template<Concepts::Character C>
-	constexpr const Elysium::Core::Template::Globalization::NumberFormatInfo<C> Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetInvariantInfo()
+	inline constexpr const Elysium::Core::Template::Globalization::NumberFormatInfo<C> Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetInvariantInfo()
 	{
 		return NumberFormatInfo<C>(LOCALE_INVARIANT, true);
 	}
 
 	template<Concepts::Character C>
-	inline const bool NumberFormatInfo<C>::GetIsReadOnly() const
+	inline const bool Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetIsReadOnly() const
 	{
 		return _IsReadOnly;
 	}
 
 	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetCurrencyDecimalDigits() const
+	inline const System::uint32_t Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetCurrencyDecimalDigits() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -267,14 +276,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencyDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencyDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SMONDECIMALSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -286,14 +294,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetCurrencyDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetCurrencyDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -305,14 +312,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetCurrencyDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetCurrencyDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -323,14 +329,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencyGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencyGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SMONTHOUSANDSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -342,14 +347,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetCurrencyGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetCurrencyGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -361,14 +365,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetCurrencyGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetCurrencyGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -385,8 +388,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGCURR | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -402,8 +404,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRENCY | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -413,14 +414,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SCURRENCY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -432,14 +432,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetCurrencySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetCurrencySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -451,14 +450,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetCurrencySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetCurrencySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -475,8 +473,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITSUBSTITUTION | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return static_cast<DigitShapes>(Result);
@@ -486,14 +483,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNaNSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNaNSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNAN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -505,14 +501,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNaNSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNaNSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNAN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -524,14 +519,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNaNSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNaNSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNAN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -542,14 +536,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNegativeInfinitySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNegativeInfinitySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNEGINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -561,14 +554,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNegativeInfinitySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNegativeInfinitySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -580,14 +572,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNegativeInfinitySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNegativeInfinitySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -598,14 +589,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNegativeSign() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNegativeSign() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SNEGATIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -617,14 +607,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNegativeSign() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNegativeSign() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -636,14 +625,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNegativeSign() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNegativeSign() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -660,8 +648,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGNUMBER | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -671,14 +658,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNumberDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNumberDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -690,14 +676,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNumberDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNumberDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -709,14 +694,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNumberDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNumberDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -727,14 +711,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNumberGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNumberGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -746,14 +729,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNumberGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetNumberGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -765,14 +747,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNumberGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetNumberGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -789,8 +770,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -800,14 +780,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -819,14 +798,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPercentDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPercentDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -838,14 +816,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPercentDecimalSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPercentDecimalSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -856,14 +833,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -875,14 +851,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPercentGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPercentGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -894,14 +869,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPercentGroupSeparator() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPercentGroupSeparator() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -918,8 +892,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGATIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -935,8 +908,7 @@ namespace Elysium::Core::Template::Globalization
 		System::uint32_t Result = -1;
 		if (GetLocaleInfoW(_LocaleId, LOCALE_IPOSITIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return Result;
@@ -946,14 +918,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPERCENT, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -965,14 +936,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPercentSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPercentSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -984,14 +954,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPercentSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPercentSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1002,14 +971,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPerMilleSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPerMilleSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPERMILLE, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1021,14 +989,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPerMilleSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPerMilleSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1040,14 +1007,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPerMilleSymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPerMilleSymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1058,14 +1024,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPositiveInfinitySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPositiveInfinitySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPOSINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1077,14 +1042,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPositiveInfinitySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPositiveInfinitySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1096,14 +1060,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPositiveInfinitySymbol() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPositiveInfinitySymbol() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1114,14 +1077,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPositiveSign() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPositiveSign() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> Buffer = Text::String<char>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoA(_LocaleId, LOCALE_SPOSITIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1133,14 +1095,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline const NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPositiveSign() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::CorrespondingString NumberFormatInfo<wchar_t>::GetPositiveSign() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I copy the string here
@@ -1152,14 +1113,13 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline const NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPositiveSign() const
+	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<C>::CorrespondingString NumberFormatInfo<C>::GetPositiveSign() const
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> Buffer = Text::String<wchar_t>(LOCALE_NAME_MAX_LENGTH);
 		if (GetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, &Buffer[0], LOCALE_NAME_MAX_LENGTH) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
@@ -1170,20 +1130,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetCurrencyDecimalDigits(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyDecimalDigits(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRDIGITS, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1192,19 +1150,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SMONDECIMALSEP, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1212,19 +1168,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1232,20 +1186,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONDECIMALSEP, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1253,19 +1205,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetCurrencyGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetCurrencyGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SMONTHOUSANDSEP, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1273,19 +1223,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetCurrencyGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetCurrencyGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1293,20 +1241,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetCurrencyGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SMONTHOUSANDSEP, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1314,20 +1260,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetCurrencyNegativePattern(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyNegativePattern(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGCURR, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1335,20 +1279,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetCurrencyPositivePattern(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyPositivePattern(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRENCY, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1356,19 +1298,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetCurrencySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetCurrencySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SCURRENCY, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1376,19 +1316,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetCurrencySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetCurrencySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1396,20 +1334,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetCurrencySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1417,20 +1353,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetDigitSubstitution(const DigitShapes Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetDigitSubstitution(const DigitShapes Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		Text::String<wchar_t> WideString = ToWideString(Value);
-		if (SetLocaleInfoW(_LocaleId, LOCALE_IDIGITSUBSTITUTION, &WideString[0]) == 0)
+		Text::String<char> StringValue = ToString(Value);
+		if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITSUBSTITUTION, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1438,19 +1372,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetNaNSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetNaNSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SNAN, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1458,19 +1390,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetNaNSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetNaNSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNAN, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1478,20 +1408,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetNaNSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNaNSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNAN, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1499,19 +1427,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetNegativeInfinitySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetNegativeInfinitySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SNEGINFINITY, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1519,19 +1445,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetNegativeInfinitySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetNegativeInfinitySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1539,20 +1463,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetNegativeInfinitySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNegativeInfinitySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGINFINITY, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1560,19 +1482,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetNegativeSign(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetNegativeSign(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SNEGATIVESIGN, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1580,19 +1500,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetNegativeSign(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetNegativeSign(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1600,20 +1518,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetNegativeSign(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNegativeSign(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SNEGATIVESIGN, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1621,20 +1537,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetNumberDecimalDigits(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNumberDecimalDigits(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGNUMBER, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1642,19 +1556,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1662,19 +1574,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1682,20 +1592,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1703,19 +1611,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetNumberGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetNumberGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1723,19 +1629,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetNumberGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetNumberGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1743,20 +1647,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetNumberGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNumberGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1764,20 +1666,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPercentDecimalDigits(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentDecimalDigits(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITS, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1785,19 +1685,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1805,19 +1703,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1825,20 +1721,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SDECIMAL, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1846,19 +1740,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetPercentGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPercentGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1866,19 +1758,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetPercentGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetPercentGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1886,20 +1776,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPercentGroupSeparator(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentGroupSeparator(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1907,20 +1795,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPercentNegativePattern(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentNegativePattern(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGATIVEPERCENT, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1928,20 +1814,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPercentPositivePattern(const System::uint32_t Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentPositivePattern(const System::uint32_t Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<char> StringValue = ToString(Value);
 		if (SetLocaleInfoA(_LocaleId, LOCALE_IPOSITIVEPERCENT, &StringValue[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1949,19 +1833,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetPercentSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPercentSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPERCENT, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1969,19 +1851,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetPercentSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetPercentSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -1989,20 +1869,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPercentSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERCENT, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2010,19 +1888,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetPerMilleSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPerMilleSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPERMILLE, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2030,19 +1906,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetPerMilleSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetPerMilleSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2050,20 +1924,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPerMilleSymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPerMilleSymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPERMILLE, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2071,19 +1943,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetPositiveInfinitySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPositiveInfinitySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPOSINFINITY, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2091,19 +1961,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetPositiveInfinitySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetPositiveInfinitySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2111,20 +1979,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPositiveInfinitySymbol(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPositiveInfinitySymbol(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSINFINITY, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2132,19 +1998,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<char>::SetPositiveSign(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPositiveSign(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoA(_LocaleId, LOCALE_SPOSITIVESIGN, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2152,19 +2016,17 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<>
-	inline void NumberFormatInfo<wchar_t>::SetPositiveSign(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<wchar_t>::SetPositiveSign(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, Value) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2172,20 +2034,18 @@ namespace Elysium::Core::Template::Globalization
 	}
 
 	template<Concepts::Character C>
-	inline void NumberFormatInfo<C>::SetPositiveSign(const ConstCharacterPointer Value)
+	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPositiveSign(const ConstCharacterPointer Value)
 	{
 		if (_IsReadOnly)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Text::String<wchar_t> WideString = Text::Unicode::Utf16::SafeToWideString(Value, Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SPOSITIVESIGN, &WideString[0]) == 0)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 #else
 #error "undefined os"
@@ -2196,7 +2056,7 @@ namespace Elysium::Core::Template::Globalization
 	inline Text::String<char> NumberFormatInfo<C>::ToString(System::uint32_t Value)
 	{
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(floor(log(Value) / log(10)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(10)) + 1_ui8);
 		Text::String<char> Result = Text::String<char>(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;

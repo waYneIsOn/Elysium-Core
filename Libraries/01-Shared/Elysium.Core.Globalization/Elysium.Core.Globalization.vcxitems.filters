@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LocaleInfo.hpp">
       <Filter>Internal\Fallback</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Internal">

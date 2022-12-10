@@ -28,10 +28,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKFRAME
+#include "../Elysium.Core.Template/StackFrame.hpp"
+#endif
+
 namespace Elysium::Core::Diagnostics::Container
 {
-	//template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<StackFrame>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Diagnostics::StackFrame>;
 
-	using VectorOfStackFrame = Elysium::Core::Template::Container::Vector<StackFrame>;
+	//using VectorOfStackFrame = Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Diagnostics::StackFrame, Memory::DefaultAllocatorOfStackFrame>;
 }
 #endif

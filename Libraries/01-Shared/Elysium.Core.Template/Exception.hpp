@@ -19,11 +19,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
 #include "String.hpp"
 #endif
-/*
+
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKTRACE
 #include "StackTrace.hpp"
 #endif
-*/
+
 namespace Elysium::Core::Template::Exceptions
 {
 	/// <summary>
@@ -48,20 +48,18 @@ namespace Elysium::Core::Template::Exceptions
 	public:
 		const Text::String<char8_t>& GetExceptionMessage() const noexcept;
 
-		//const Diagnostics::StackTrace& GetStackTrace() const noexcept;
+		const Diagnostics::StackTrace& GetStackTrace() const noexcept;
 	private:
 		Text::String<char8_t> _Message;
-		//Diagnostics::StackTrace _StackTrace;
+		Diagnostics::StackTrace _StackTrace;
 	};
 
 	inline Elysium::Core::Template::Exceptions::Exception::Exception(const char8_t* Message)
-		: _Message(Message)
-		//, _StackTrace(Diagnostics::StackTrace())
+		: _Message(Message), _StackTrace(Diagnostics::StackTrace())
 	{ }
 
 	inline Exception::Exception(Text::String<char8_t> && Message)
-		: _Message(Functional::Move(Message))
-		//, _StackTrace(Diagnostics::StackTrace())
+		: _Message(Functional::Move(Message)), _StackTrace(Diagnostics::StackTrace())
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::Exception::~Exception()
@@ -71,11 +69,10 @@ namespace Elysium::Core::Template::Exceptions
 	{
 		return _Message;
 	}
-	/*
+	
 	inline const Diagnostics::StackTrace& Elysium::Core::Template::Exceptions::Exception::GetStackTrace() const noexcept
 	{
 		return _StackTrace;
 	}
-	*/
 }
 #endif

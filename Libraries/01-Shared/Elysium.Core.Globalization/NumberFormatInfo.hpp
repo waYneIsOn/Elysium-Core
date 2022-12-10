@@ -16,6 +16,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
+#include "../Elysium.Core/InvalidOperationException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
+#include "../Elysium.Core/SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
 #include "../Elysium.Core.Template/NumberFormatInfo.hpp"
 #endif
@@ -23,8 +35,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Globalization
 {
 	/*
-	* as Template::Globalization::NumberFormatInfo<C> is being used in Elysium::Core::Template::Text::Convert<C>,
-	* exporting here would result in a linker error (as those types already exist!)
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::NumberFormatInfo<char>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::NumberFormatInfo<char8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::NumberFormatInfo<char16_t>;

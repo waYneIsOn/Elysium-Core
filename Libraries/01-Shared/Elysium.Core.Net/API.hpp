@@ -15,7 +15,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifdef ELYSIUMCORENET_EXPORTS
 #define ELYSIUM_CORE_NET_API __declspec(dllexport)
 #else
