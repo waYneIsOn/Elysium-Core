@@ -38,15 +38,15 @@ namespace UnitTests::Core
 			
 			const float Floating32 = -27.27f;
 			AssertExtended::AreEqual(u8"-11011.11", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[0]));
-			AssertExtended::AreEqual(u8"-33.33", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[1]));
-			AssertExtended::AreEqual(u8"-27.27", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[2]));
-			AssertExtended::AreEqual(u8"-1B.1B", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[3]));
+			AssertExtended::AreEqual(u8"-33.34", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[1]));
+			AssertExtended::AreEqual(u8"-27.28", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[2]));
+			AssertExtended::AreEqual(u8"-1B.1C", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[3]));
 			
 			const double Floating64 = -27.27;
 			AssertExtended::AreEqual(u8"-11011.11", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[0]));
-			AssertExtended::AreEqual(u8"-33.32", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[1]));
-			AssertExtended::AreEqual(u8"-27.26", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[2]));
-			AssertExtended::AreEqual(u8"-1B.1A", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[3]));
+			AssertExtended::AreEqual(u8"-33.33", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[1]));
+			AssertExtended::AreEqual(u8"-27.27", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[2]));
+			AssertExtended::AreEqual(u8"-1B.1B", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[3]));
 		}
 
 		TEST_METHOD(PositiveToString)
@@ -156,14 +156,14 @@ namespace UnitTests::Core
 
 			const float Floating32 = 27.27f;
 			AssertExtended::AreEqual("11011.11", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[0]));
-			AssertExtended::AreEqual("33.33", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[1]));
-			AssertExtended::AreEqual("27.27", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[2]));
-			AssertExtended::AreEqual("1B.1B", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[3]));
+			AssertExtended::AreEqual("33.34", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[1]));
+			AssertExtended::AreEqual("27.28", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[2]));
+			AssertExtended::AreEqual("1B.1C", Elysium::Core::Template::Text::Convert<char>::ToString(Floating32, Bases[3]));
 
 			AssertExtended::AreEqual(u8"11011.11", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[0]));
-			AssertExtended::AreEqual(u8"33.33", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[1]));
-			AssertExtended::AreEqual(u8"27.27", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[2]));
-			AssertExtended::AreEqual(u8"1B.1B", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[3]));
+			AssertExtended::AreEqual(u8"33.34", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[1]));
+			AssertExtended::AreEqual(u8"27.28", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[2]));
+			AssertExtended::AreEqual(u8"1B.1C", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating32, Bases[3]));
 
 			const double Floating64 = 27.27;
 			AssertExtended::AreEqual("11011", Elysium::Core::Template::Text::Convert<char>::ToString(Floating64, Bases[0]));
@@ -172,9 +172,9 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual("1B", Elysium::Core::Template::Text::Convert<char>::ToString(Floating64, Bases[3]));
 
 			AssertExtended::AreEqual(u8"11011.11", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[0]));
-			AssertExtended::AreEqual(u8"33.32", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[1]));
-			AssertExtended::AreEqual(u8"27.26", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[2]));
-			AssertExtended::AreEqual(u8"1B.1A", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[3]));
+			AssertExtended::AreEqual(u8"33.33", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[1]));
+			AssertExtended::AreEqual(u8"27.27", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[2]));
+			AssertExtended::AreEqual(u8"1B.1B", Elysium::Core::Template::Text::Convert<char8_t>::ToString(Floating64, Bases[3]));
 		}
 
 		TEST_METHOD(ZeroToString)
