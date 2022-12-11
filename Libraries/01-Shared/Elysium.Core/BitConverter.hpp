@@ -34,29 +34,45 @@ namespace Elysium::Core
 	{
 	public:
 		BitConverter() = delete;
-		BitConverter(const BitConverter& Source) = delete;
-		BitConverter(BitConverter&& Right) noexcept = delete;
-		~BitConverter() = delete;
 
+		BitConverter(const BitConverter& Source) = delete;
+
+		BitConverter(BitConverter&& Right) noexcept = delete;
+
+		~BitConverter() = delete;
+	public:
 		BitConverter& operator=(const BitConverter& Source) = delete;
+
 		BitConverter& operator=(BitConverter&& Right) noexcept = delete;
 	public:
 		static const bool GetIsLittleEndian();
 
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int16_t Value);
+
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int32_t Value);
+
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int64_t Value);
+
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint16_t Value);
+
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint32_t Value);
+
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint64_t Value);
 
 		static const Elysium::Core::int16_t ToInt16(const Elysium::Core::byte* Value);
+
 		static const Elysium::Core::int32_t ToInt24(const Elysium::Core::byte* Value);	// ToDo: return custom uint24_t-type?
+
 		static const Elysium::Core::int32_t ToInt32(const Elysium::Core::byte* Value);
+
 		static const Elysium::Core::int64_t ToInt64(const Elysium::Core::byte* Value);
+
 		static const Elysium::Core::uint16_t ToUInt16(const Elysium::Core::byte* Value);
+
 		static const Elysium::Core::uint32_t ToUInt24(const Elysium::Core::byte* Value);	// ToDo: return custom uint24_t-type?
+
 		static const Elysium::Core::uint32_t ToUInt32(const Elysium::Core::byte* Value);
+
 		static const Elysium::Core::uint64_t ToUInt64(const Elysium::Core::byte* Value);
 	};
 }
