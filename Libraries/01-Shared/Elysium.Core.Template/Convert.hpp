@@ -1350,7 +1350,7 @@ namespace Elysium::Core::Template::Text
 			ChangeableValue++;
 		}
 
-		return static_cast<float>((AbsoluteResult + static_cast<double>(DecimalPointResult) / Math::Power(10, Numeric::NumericTraits<System::uint8_t>::GetDigitCount(DecimalPointResult)))) * Sign;
+		return static_cast<float>((AbsoluteResult + static_cast<double>(DecimalPointResult) / Math::Power(10, Numeric::NumericTraits<System::uint32_t>::GetDigitCount(DecimalPointResult)))) * Sign;
 	}
 
 	template<Concepts::Character C>
