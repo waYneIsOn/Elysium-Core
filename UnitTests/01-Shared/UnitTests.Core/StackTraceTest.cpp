@@ -27,7 +27,7 @@ namespace UnitTests::Core::Diagnostics
 			}
 			catch (const Exception& ex)
 			{
-				PrintStackTrace(ex.GetStackTrace());
+				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
 			}
 		}
 

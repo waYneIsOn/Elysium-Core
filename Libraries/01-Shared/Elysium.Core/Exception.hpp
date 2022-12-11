@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_STACKTRACE
-#include "../Elysium.Core.Diagnostics/StackTrace.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_EXCEPTION
 #include "../Elysium.Core.Template/Exception.hpp"
 #endif
