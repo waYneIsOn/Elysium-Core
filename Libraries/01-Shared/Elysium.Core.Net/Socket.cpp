@@ -289,32 +289,7 @@ void Elysium::Core::Net::Sockets::Socket::SetBlocking(const bool Value)
 	_IsBlocking = Value;
 }
 
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
-{
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = BitConverter::GetBytes(OptionInValue);
-	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), &Bytes[0], Bytes.GetLength(), OptionOutValue, OptionOutValueLength);
-}
-
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
-{
-	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), OptionInValue, OptionInValueLength, OptionOutValue, OptionOutValueLength);
-}
-
-const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
-{
-	unsigned long BytesReturned = 0;
-	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, ControlCode, (DWORD*)&OptionInValue, OptionInValueLength,
-		OptionOutValue, OptionOutValueLength, &BytesReturned, nullptr, nullptr) == SOCKET_ERROR)
-	{
-		throw SocketException();
-	}
-	else
-	{
-		return Result;
-	}
-}
-
-void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::int32_t MicroSeconds)
+void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::uint32_t MicroSeconds)
 {
 	fd_set ReadSet = fd_set();
 	fd_set WriteSet = fd_set();
@@ -390,6 +365,31 @@ void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Contai
 void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration)
 {
 	return Select(CheckRead, CheckWrite, CheckError, Duration.GetTotalMilliseconds() * 1000);
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
+{
+	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = BitConverter::GetBytes(OptionInValue);
+	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), &Bytes[0], Bytes.GetLength(), OptionOutValue, OptionOutValueLength);
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
+{
+	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), OptionInValue, OptionInValueLength, OptionOutValue, OptionOutValueLength);
+}
+
+const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
+{
+	unsigned long BytesReturned = 0;
+	if (const Elysium::Core::int32_t Result = WSAIoctl(_WinSocketHandle, ControlCode, (DWORD*)&OptionInValue, OptionInValueLength,
+		OptionOutValue, OptionOutValueLength, &BytesReturned, nullptr, nullptr) == SOCKET_ERROR)
+	{
+		throw SocketException();
+	}
+	else
+	{
+		return Result;
+	}
 }
 
 const bool Elysium::Core::Net::Sockets::Socket::Poll(const Elysium::Core::int32_t MicroSeconds, const SelectMode Mode)
@@ -475,7 +475,8 @@ void Elysium::Core::Net::Sockets::Socket::Close()
 void Elysium::Core::Net::Sockets::Socket::Bind(const Elysium::Core::Net::EndPoint & LocalEndPoint)
 {
 	const SocketAddress Address = LocalEndPoint.Serialize();
-	if (Elysium::Core::int32_t Result = bind(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize()) == SOCKET_ERROR)
+	Elysium::Core::int32_t Result = bind(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize());
+	if (Result == SOCKET_ERROR)
 	{
 		throw SocketException();
 	}
@@ -567,7 +568,7 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::SendTo(const Elys
 	return BytesSent;
 }
 
-Elysium::Core::IAsyncResult* Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginAccept(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
 {
 	AcceptAsyncResult* AsyncResult = new AcceptAsyncResult(*this, Callback, State, 8192);
 	AsyncResult->_ClientSocket = WSASocket(FormatConverter::Convert(GetAddressFamily()), FormatConverter::Convert(GetSocketType()),
@@ -594,7 +595,7 @@ const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::E
 	return Elysium::Core::Net::Sockets::Socket(AsyncAcceptResult->_ClientSocket);
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginConnect(const Elysium::Core::Net::EndPoint & RemoteEndPoint, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginConnect(const Elysium::Core::Net::EndPoint & RemoteEndPoint, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	// ConnectEx requires the socket to be bound!
 	Elysium::Core::Net::IPEndPoint LocalEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Any(), 0);
@@ -625,7 +626,7 @@ void Elysium::Core::Net::Sockets::Socket::EndConnect(const Elysium::Core::IAsync
 	// ToDo: read error
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginDisconnect(const bool ReuseSocket, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
 	AsyncResult->_WSABuffer.len = 0;
@@ -651,7 +652,7 @@ void Elysium::Core::Net::Sockets::Socket::EndDisconnect(const Elysium::Core::IAs
 	// ToDo: read error?
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginReceive(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginReceive(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
 	AsyncResult->_WSABuffer.len = Size;
@@ -680,7 +681,7 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndReceive(const 
 	return CastResult->_BytesTransferred;
 }
 
-Elysium::Core::IAsyncResult * Elysium::Core::Net::Sockets::Socket::BeginSend(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::Net::Sockets::Socket::BeginSend(const Elysium::Core::byte * Buffer, const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void * State)
 {
 	SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
 	AsyncResult->_WSABuffer.len = Size;
@@ -734,6 +735,4 @@ void Elysium::Core::Net::Sockets::Socket::IOCompletionPortCallback(PTP_CALLBACK_
 
 		TriggeredSendReceiveAsyncResult->GetCallback()(TriggeredSendReceiveAsyncResult);
 	}
-
-	delete AsyncResult;
 }

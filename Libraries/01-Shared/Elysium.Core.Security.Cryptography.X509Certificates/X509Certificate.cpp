@@ -137,7 +137,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	return X509Certificate(CertificateContextPointer);
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const Elysium::Core::Utf8String& FileName, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
 {
 	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
 	Collections::Template::Array<byte> RawData = Collections::Template::Array<byte>(SourceStream.GetLength());

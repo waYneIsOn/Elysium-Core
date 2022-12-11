@@ -40,20 +40,13 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode)
-	: FileStream(Path, Mode, FileAccess::Read | FileAccess::Write, FileShare::None)
+Elysium::Core::IO::FileStream::FileStream(const char8_t* Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
+	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(_Path, Mode, Access, Share, Options)),
+	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
 
-Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access)
-	: FileStream(Path, Mode, Access, FileShare::None)
-{ }
-
-Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share)
-	: FileStream(Path, Mode, Access, Share, DefaultBufferSize, FileOptions::None)
-{ }
-
-Elysium::Core::IO::FileStream::FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
-	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(Path, Mode, Access, Share, Options)),
+Elysium::Core::IO::FileStream::FileStream(const Elysium::Core::Utf8String & Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options)
+	: Elysium::Core::IO::Stream(), _Path(Path), _Position(0), _FileHandle(CreateNativeFileHandle(_Path, Mode, Access, Share, Options)),
 	_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
 
@@ -242,7 +235,7 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 	} while (TotalBytesWritten != Count);
 }
 
-Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
 {
 	if (_CompletionPortHandle == nullptr)
 	{	// the file wasn't opened in a way to support io completion ports
@@ -277,21 +270,26 @@ Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginWrite(const Ely
 
 void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	const FileStreamAsyncResult* CastResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
-	if (CastResult == nullptr)
+	//const FileStreamAsyncResult* AsyncFileStreamResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
+	FileStreamAsyncResult* AsyncFileStreamResult = (FileStreamAsyncResult*)AsyncResult;
+	if (AsyncFileStreamResult == nullptr)
 	{	// ToDo: throw specific exception
 		throw 1;
 	}
 
-	if (CastResult->GetErrorCode() != NO_ERROR)
+	if (AsyncFileStreamResult->GetErrorCode() != NO_ERROR)
 	{
-		throw IOException(CastResult->GetErrorCode());
+		throw IOException(AsyncFileStreamResult->GetErrorCode());
 	}
 
-	CastResult->GetFileStream()._Position += CastResult->GetBytesTransferred();
+	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
+		(Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle();
+	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
+
+	AsyncFileStreamResult->GetFileStream()._Position += AsyncFileStreamResult->GetBytesTransferred();
 }
 
-Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
 {
 	if (Buffer == nullptr)
 	{
@@ -326,21 +324,26 @@ Elysium::Core::IAsyncResult* Elysium::Core::IO::FileStream::BeginRead(const Elys
 
 const Elysium::Core::size Elysium::Core::IO::FileStream::EndRead(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	const FileStreamAsyncResult* CastResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
-	if (CastResult == nullptr)
+	//const FileStreamAsyncResult* AsyncFileStreamResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
+	FileStreamAsyncResult* AsyncFileStreamResult = (FileStreamAsyncResult*)AsyncResult;
+	if (AsyncFileStreamResult == nullptr)
 	{	// ToDo: throw specific exception
 		throw 1;
 	}
 
-	if (CastResult->GetErrorCode() != NO_ERROR)
+	if (AsyncFileStreamResult->GetErrorCode() != NO_ERROR)
 	{
-		throw IOException(CastResult->GetErrorCode());
+		throw IOException(AsyncFileStreamResult->GetErrorCode());
 	}
 
-	const Elysium::Core::size BytesTransferred = CastResult->GetBytesTransferred();
+	const Elysium::Core::size BytesTransferred = AsyncFileStreamResult->GetBytesTransferred();
 
-	FileStream& TargetStream = CastResult->GetFileStream();
+	FileStream& TargetStream = AsyncFileStreamResult->GetFileStream();
 	TargetStream._Position += BytesTransferred;
+
+	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
+		(Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle();
+	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
 
 	return BytesTransferred;
 }
@@ -373,12 +376,13 @@ void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTAN
 	{
 		AsyncFileStreamResult->_BytesTransferred = NumberOfBytesTransferred;
 		AsyncFileStreamResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
-
-		((Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle()).Set();
-
-		AsyncFileStreamResult->GetCallback()(AsyncFileStreamResult);
+		/*
+		Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
+			(Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle();
+		bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();	// ToDo: this causes UniquePointer to run out of scope!
+		*/
+		const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback = AsyncFileStreamResult->GetCallback();
+		Callback(AsyncFileStreamResult);
 	}
-
-	delete AsyncResult;
 }
 #endif

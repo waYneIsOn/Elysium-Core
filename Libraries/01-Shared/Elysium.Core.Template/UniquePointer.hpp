@@ -59,26 +59,33 @@ namespace Elysium::Core::Template::Memory
 	inline UniquePointer<T, Deleter>::UniquePointer(Pointer Data)
 		: _Data(Data)
 	{ }
-
+	
 	template<class T, class Deleter>
 	inline UniquePointer<T, Deleter>::UniquePointer(UniquePointer&& Right) noexcept
 		: _Data(nullptr)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
-
+	
 	template<class T, class Deleter>
 	inline UniquePointer<T, Deleter>::~UniquePointer()
 	{
-		_Deleter(_Data);
+		if (_Data != nullptr)
+		{
+			_Deleter(_Data);
+			_Data = nullptr;
+		}
 	}
-
+	
 	template<class T, class Deleter>
 	inline UniquePointer<T, Deleter>& UniquePointer<T, Deleter>::operator=(UniquePointer<T, Deleter>&& Right) noexcept
 	{
 		if (this != &Right)
 		{
-			_Deleter(_Data);
+			if (_Data == nullptr)
+			{
+				_Deleter(_Data);
+			}
 
 			_Data = Elysium::Core::Template::Functional::Move(Right._Data);
 
@@ -86,7 +93,7 @@ namespace Elysium::Core::Template::Memory
 		}
 		return *this;
 	}
-
+	
 	template<class T, class Deleter>
 	inline UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::operator->() const noexcept
 	{

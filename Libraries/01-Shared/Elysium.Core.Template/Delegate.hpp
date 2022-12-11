@@ -58,7 +58,7 @@ namespace Elysium::Core::Template::Container
 	private:
 		void* _Target;
 		ReturnType(*_Method)(void* NonSpecificInstance, Args...);
-
+	private:
 		template<ReturnType(*ActualMethod)(Args...)>
 		static ReturnType WrappedMethod(void* NullPointer, Args... Parameters);
 

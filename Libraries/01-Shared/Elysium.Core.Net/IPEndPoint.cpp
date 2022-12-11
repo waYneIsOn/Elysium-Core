@@ -4,6 +4,7 @@ Elysium::Core::Net::IPEndPoint::IPEndPoint(const IPAddress & Address, const Elys
 	: EndPoint(),
 	_Address(Address), _Port(Port)
 { }
+
 Elysium::Core::Net::IPEndPoint::~IPEndPoint()
 { }
 
@@ -11,6 +12,7 @@ const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::IPEndPoint:
 {
 	return _Address.GetAddressFamily();
 }
+
 const int Elysium::Core::Net::IPEndPoint::GetPort() const
 {
 	return _Port;

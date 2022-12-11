@@ -8,6 +8,7 @@ Elysium::Core::Net::DnsEndPoint::DnsEndPoint(const Elysium::Core::Utf8String & H
 	: EndPoint(),
 	_Host(Host), _Port(Port), _AddressFamily(AddressFamily)
 { }
+
 Elysium::Core::Net::DnsEndPoint::~DnsEndPoint()
 { }
 
@@ -15,10 +16,12 @@ const Elysium::Core::Net::Sockets::AddressFamily Elysium::Core::Net::DnsEndPoint
 {
 	return _AddressFamily;
 }
+
 const Elysium::Core::Utf8String & Elysium::Core::Net::DnsEndPoint::GetHost() const
 {
 	return _Host;
 }
+
 const Elysium::Core::uint16_t Elysium::Core::Net::DnsEndPoint::GetPort() const
 {
 	return _Port;

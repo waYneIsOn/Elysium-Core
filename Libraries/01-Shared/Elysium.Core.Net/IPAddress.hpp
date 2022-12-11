@@ -35,29 +35,39 @@ namespace Elysium::Core::Net
 		friend class SocketAddress;
 	public:
 		IPAddress();
+
 		IPAddress(const Elysium::Core::uint32_t Address);
-		//IPAddress(const IPAddress& Source) = delete;
-		//IPAddress(IPAddress&& Right) noexcept = delete;
+
+		//IPAddress(const IPAddress& Source);
+		 
+		//IPAddress(IPAddress&& Right) noexcept;
+
 		~IPAddress();
+	public:
+		//IPAddress& operator=(const IPAddress& Source);
 
-		//IPAddress& operator=(const IPAddress& Source) = delete;
-		//IPAddress& operator=(IPAddress&& Right) noexcept = delete;
-
+		//IPAddress& operator=(IPAddress&& Right) noexcept;
+	public:
 		const Sockets::AddressFamily& GetAddressFamily() const;
-
+	public:
 		static const IPAddress& Any();
+
 		static const IPAddress& Broadcast();
+
 		//static const IPAddress& IPv6Any();
+		// 
 		//static const IPAddress& IPv6Loopback();
+		// 
 		//static const IPAddress& IPv6None();
+
 		static const IPAddress& Loopback();
+
 		//static const IPAddress& None();
 
 		static const IPAddress Parse(const Elysium::Core::Utf8String& Value);
-
-		const Elysium::Core::Utf8String ToString() const;
 	private:
 		Sockets::AddressFamily _Family;
+
 		Elysium::Core::uint32_t _Address;
 	};
 }

@@ -34,18 +34,21 @@ namespace Elysium::Core::Net
 	class ELYSIUM_CORE_NET_API EndPoint
 	{
 		friend class Sockets::Socket;
-	public:
-		EndPoint(const EndPoint& Source) = delete;
-		EndPoint(EndPoint&& Right) noexcept = delete;
-		virtual ~EndPoint();
-
-		EndPoint& operator=(const EndPoint& Source) = delete;
-		EndPoint& operator=(EndPoint&& Right) noexcept = delete;
-
-		virtual const Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const = 0;
 	protected:
 		EndPoint();
+	public:
+		EndPoint(const EndPoint& Source) = delete;
 
+		EndPoint(EndPoint&& Right) noexcept = delete;
+
+		virtual ~EndPoint();
+	public:
+		EndPoint& operator=(const EndPoint& Source) = delete;
+
+		EndPoint& operator=(EndPoint&& Right) noexcept = delete;
+	public:
+		virtual const Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const = 0;
+	protected:
 		virtual const Elysium::Core::Net::SocketAddress Serialize() const = 0;
 	};
 }

@@ -780,7 +780,7 @@ namespace Elysium::Core::Template::Text
 	inline const Elysium::Core::Template::System::size String<C, Traits, Allocator>::IndexOf(ConstCharacter Value, const Elysium::Core::Template::System::size StartIndex) const
 	{
 		const bool HeapAllocated = IsHeapAllocated();
-		const System::size DataLength = HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / Traits::MinimumByteLength;
+		const System::size DataLength = (HeapAllocated ? _InternalString._Heap._Size : _InternalString._Stack.GetSize() / Traits::MinimumByteLength) - StartIndex;
 		ConstCharacterPointer Data = HeapAllocated ? &_InternalString._Heap._Data[StartIndex] : (ConstCharacterPointer)&_InternalString._Stack._Data[StartIndex];
 		return Traits::IndexOf(Data, DataLength, Value);
 	}

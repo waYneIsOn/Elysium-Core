@@ -55,7 +55,7 @@ namespace Elysium::Core::Json
 
 		JsonArray& AddRootArray();
 
-		void Load(const Elysium::Core::Utf8String& Filename);
+		void Load(const char8_t* Filename);
 
 		void Load(Elysium::Core::IO::Stream& InputStream);
 

@@ -88,13 +88,13 @@ namespace Elysium::Core::IO
 	{
 		friend class FileStreamAsyncResult;
 	public:
-		FileStream(const Utf8String& Path, const FileMode Mode);
+		FileStream(const char8_t* Path, const FileMode Mode, const FileAccess Access = FileAccess::Read | FileAccess::Write, 
+			const FileShare Share = FileShare::None, const Elysium::Core::uint32_t BufferSize = DefaultBufferSize, 
+			const FileOptions Options = FileOptions::None);
 
-		FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access);
-
-		FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share);
-
-		FileStream(const Utf8String& Path, const FileMode Mode, const FileAccess Access, const FileShare Share, const Elysium::Core::uint32_t BufferSize, const FileOptions Options);
+		FileStream(const Elysium::Core::Utf8String& Path, const FileMode Mode, const FileAccess Access = FileAccess::Read | FileAccess::Write,
+			const FileShare Share = FileShare::None, const Elysium::Core::uint32_t BufferSize = DefaultBufferSize,
+			const FileOptions Options = FileOptions::None);
 		
 		FileStream(const FileStream& Source) = delete;
 
@@ -143,20 +143,20 @@ namespace Elysium::Core::IO
 		virtual Elysium::Core::byte ReadByte() override;
 
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
-
-		virtual Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+	public:
+		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
 			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State) override;
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult) override;
 
-		virtual Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
 			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State) override;
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult) override;
 	private:
 		static const Elysium::Core::uint32_t DefaultBufferSize = 4096;
 	private:
-		const Utf8String _Path;
+		Elysium::Core::Utf8String _Path;
 		Elysium::Core::size _Position = 0;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

@@ -75,7 +75,7 @@ Elysium::Core::Json::JsonArray & Elysium::Core::Json::JsonDocument::AddRootArray
 	return *OwnedArray;
 }
 
-void Elysium::Core::Json::JsonDocument::Load(const Elysium::Core::Utf8String & Filename)
+void Elysium::Core::Json::JsonDocument::Load(const char8_t* Filename)
 {
 	Elysium::Core::IO::FileStream InputStream = Elysium::Core::IO::FileStream(Filename, Elysium::Core::IO::FileMode::Open, Elysium::Core::IO::FileAccess::Read);
 	Load(InputStream);

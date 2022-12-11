@@ -195,6 +195,9 @@
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Json\Elysium.Core.Json.vcxproj">
       <Project>{1ae389e0-479e-43d0-9299-77821b53db54}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Math\Elysium.Core.Math.vcxproj">
+      <Project>{adb5d221-a0f1-4eee-9101-8988fdf910b8}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Security\Elysium.Core.Security.vcxproj">
       <Project>{fa0b07a3-7128-43a4-a62a-94f398ef37e4}</Project>
     </ProjectReference>

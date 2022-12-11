@@ -26,14 +26,19 @@ namespace Elysium::Core::Net
 	{
 	public:
 		IPEndPoint(const IPAddress& Address, const Elysium::Core::uint16_t Port);
+
 		IPEndPoint(const IPEndPoint& Source) = delete;
+
 		IPEndPoint(IPEndPoint&& Right) noexcept = delete;
+
 		virtual ~IPEndPoint();
-
+	public:
 		IPEndPoint& operator=(const IPEndPoint& Source) = delete;
-		IPEndPoint& operator=(IPEndPoint&& Right) noexcept = delete;
 
+		IPEndPoint& operator=(IPEndPoint&& Right) noexcept = delete;
+	public:
 		virtual const Elysium::Core::Net::Sockets::AddressFamily GetAddressFamily() const override;
+
 		const int GetPort() const;
 	protected:
 		virtual const Elysium::Core::Net::SocketAddress Serialize() const override;

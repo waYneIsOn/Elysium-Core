@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/DelegateOfVoidConstIASyncResultPointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
+#include "../Elysium.Core.Template/UniquePointer.hpp"
+#endif
+
 namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_API Stream
@@ -102,12 +106,13 @@ namespace Elysium::Core::IO
 
 		virtual void WriteByte(const Elysium::Core::byte Value);
 
-		virtual Elysium::Core::IAsyncResult* BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+	public:
+		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
 			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult);
 
-		virtual Elysium::Core::IAsyncResult* BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
+		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
 			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult);

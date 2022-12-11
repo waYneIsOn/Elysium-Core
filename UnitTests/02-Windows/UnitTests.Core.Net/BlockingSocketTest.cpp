@@ -26,7 +26,7 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(Properties)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
 			Assert::IsTrue(ClientSocket.GetBlocking());
 
 			ClientSocket.Shutdown(SocketShutdown::Both);
@@ -36,15 +36,17 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(PollAndSelectRead)
 		{
 			Socket HttpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			HttpClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
+			HttpClientSocket.Connect(u8"www.tutorialspoint.com", 80);
 			Assert::IsFalse(HttpClientSocket.Poll(1000000, SelectMode::SelectRead));
 
 			Socket FtpClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			FtpClientSocket.Connect(Elysium::Core::Utf8String(u8"demo.wftpserver.com"), 21);
+			FtpClientSocket.Connect(u8"demo.wftpserver.com", 21);
 			Assert::IsTrue(FtpClientSocket.Poll(1000000, SelectMode::SelectRead));
+
 			Elysium::Core::Template::Container::Vector<Socket*> CheckRead = Elysium::Core::Template::Container::Vector<Socket*>(2);
-			CheckRead[0] = &HttpClientSocket;
-			CheckRead[1] = &FtpClientSocket;
+			CheckRead.PushBack(&HttpClientSocket);
+			CheckRead.PushBack(&FtpClientSocket);
+
 			Socket::Select(&CheckRead, nullptr, nullptr, 1000000);
 			Assert::AreEqual((Elysium::Core::size)1, CheckRead.GetLength());
 			Assert::AreEqual((const void*)&FtpClientSocket, (const void*)CheckRead[0]);
@@ -59,25 +61,25 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(ParseIpAddresses)
 		{
 			// int64
-			Elysium::Core::Net::IPAddress Int64_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"2130706433"));
+			Elysium::Core::Net::IPAddress Int64_1 = Elysium::Core::Net::IPAddress::Parse(u8"2130706433");
 
 			// IPv4
-			Elysium::Core::Net::IPAddress IPv4_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"127.0.0.1"));
-			Elysium::Core::Net::IPAddress IPv4_2 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"127.0.0.1:80"));
+			Elysium::Core::Net::IPAddress IPv4_1 = Elysium::Core::Net::IPAddress::Parse(u8"127.0.0.1");
+			Elysium::Core::Net::IPAddress IPv4_2 = Elysium::Core::Net::IPAddress::Parse(u8"127.0.0.1:80");
 
 			//Assert::AreEqual("127.0.0.1", &IPv4_1.ToString()[0]);
 
 			// IPv6
-			Elysium::Core::Net::IPAddress IPv6_1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"0:0:0:0:0:0:0:1"));
+			Elysium::Core::Net::IPAddress IPv6_1 = Elysium::Core::Net::IPAddress::Parse(u8"0:0:0:0:0:0:0:1");
 
 			// invalid input
-			Elysium::Core::Net::IPAddress IP1 = Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"277.0.0.1"));
+			Elysium::Core::Net::IPAddress IP1 = Elysium::Core::Net::IPAddress::Parse(u8"277.0.0.1");
 		}
 
 		TEST_METHOD(ConnectUsingHost)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
 
 			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
@@ -85,7 +87,7 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(ConnectUsingDnsEndPoint)
 		{
-			Elysium::Core::Net::DnsEndPoint RemoteEndPoint = Elysium::Core::Net::DnsEndPoint(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80,
+			Elysium::Core::Net::DnsEndPoint RemoteEndPoint = Elysium::Core::Net::DnsEndPoint(u8"www.tutorialspoint.com", 80,
 				Elysium::Core::Net::Sockets::AddressFamily::InterNetwork);
 
 			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
@@ -97,8 +99,7 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(ConnectUsingIpEndPoint)
 		{
-			Elysium::Core::Net::IPEndPoint RemoteEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"93.184.220.42")),
-				443);
+			Elysium::Core::Net::IPEndPoint RemoteEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(u8"192.229.221.69"), 80);
 
 			Socket ClientSocket = Socket(RemoteEndPoint.GetAddressFamily(), SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(RemoteEndPoint);
@@ -110,14 +111,14 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(Reconnect)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
 
 			ClientSocket.Shutdown(SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 
 			try
 			{
-				ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
+				ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
 
 				Assert::Fail();
 			}
@@ -130,7 +131,7 @@ namespace UnitTests::Core::Net::Sockets
 		TEST_METHOD(RunIntoTimeout)
 		{
 			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
-			ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
+			ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
 			ClientSocket.SetReceiveTimeout(1000);
 
 			try
@@ -146,44 +147,44 @@ namespace UnitTests::Core::Net::Sockets
 
 		TEST_METHOD(AsyncClient)
 		{
-			DnsEndPoint RemoteEndPoint = DnsEndPoint(Elysium::Core::Utf8String(u8"demo.wftpserver.com"), 21, AddressFamily::InterNetwork);
+			DnsEndPoint RemoteEndPoint = DnsEndPoint(u8"demo.wftpserver.com", 21, AddressFamily::InterNetwork);
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 
-			IAsyncResult* ConnectResult = AsyncClient.BeginConnect(RemoteEndPoint,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ConnectCallback>(*this), nullptr);
+			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> ConnectResult = AsyncClient.BeginConnect(RemoteEndPoint,
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::ConnectCallback>(*this), nullptr);
 			ConnectResult->GetAsyncWaitHandle().WaitOne();
 			
 			Elysium::Core::byte ReceiveBuffer[256];
-			IAsyncResult* ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
 			
-			Elysium::Core::Utf8String HelpMessage = Elysium::Core::Utf8String(u8"HELP\r\n");
+			Elysium::Core::Utf8String HelpMessage = u8"HELP\r\n";
 			const Encoding& UTF8Encoding = Encoding::UTF8();
 			Array<byte> Bytes = UTF8Encoding.GetBytes(&HelpMessage[0], HelpMessage.GetLength());
-			IAsyncResult* SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
+			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
 			SendResult->GetAsyncWaitHandle().WaitOne();
 			
 			ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 			ReceiveResult->GetAsyncWaitHandle().WaitOne();
 			
 			//AsyncClient.Shutdown(SocketShutdown::Both);
-			IAsyncResult* DisconnectResult = AsyncClient.BeginDisconnect(true,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::DisconnectCallback>(*this), nullptr);
+			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> DisconnectResult = AsyncClient.BeginDisconnect(true,
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::DisconnectCallback>(*this), nullptr);
 			DisconnectResult->GetAsyncWaitHandle().WaitOne();
 		}
 
 		TEST_METHOD(CloseWhileWaitingForAsyncReceive)
 		{
-			DnsEndPoint RemoteEndPoint = DnsEndPoint(Elysium::Core::Utf8String(u8"www.google.com"), 80, AddressFamily::InterNetwork);
+			DnsEndPoint RemoteEndPoint = DnsEndPoint(u8"www.google.com", 80, AddressFamily::InterNetwork);
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(RemoteEndPoint);
 
 			Elysium::Core::byte ReceiveBuffer[256];
-			IAsyncResult* ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
-				Elysium::Core::Template::Container::Delegate<void, const Elysium::Core::IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
+			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> ReceiveResult = AsyncClient.BeginReceive(&ReceiveBuffer[0], 256, SocketFlags::None,
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::ReceiveCallback>(*this), nullptr);
 
 			AsyncClient.Shutdown(SocketShutdown::Both);
 			AsyncClient.Disconnect(false);
@@ -199,8 +200,8 @@ namespace UnitTests::Core::Net::Sockets
 			AsyncServer.Listen(100);
 			//AsyncServer.SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::AcceptConnection, 1);
 
-			IAsyncResult* AcceptResult = AsyncServer.BeginAccept(
-				Elysium::Core::Template::Container::Delegate<void, const IAsyncResult*>::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
+			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> AcceptResult = AsyncServer.BeginAccept(
+				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::AcceptCallback>(*this), nullptr);
 			
 			Socket AsyncClient = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			AsyncClient.Connect(LocalEndPoint);
@@ -210,12 +211,12 @@ namespace UnitTests::Core::Net::Sockets
 			//AsyncServer.Shutdown(SocketShutdown::Both);	// ToDo: this throws an exception as a listening socket will never get into a "connected-state"
 		}
 	private:
-		void AcceptCallback(const IAsyncResult* Result)
+		void AcceptCallback(const Elysium::Core::IAsyncResult* Result)
 		{
 			Elysium::Core::Net::Sockets::AcceptAsyncResult* AsyncAcceptResult = (Elysium::Core::Net::Sockets::AcceptAsyncResult*)Result;
 
 			Socket& Socket = AsyncAcceptResult->GetSocket();
-			Socket.EndAccept(Result);
+			Socket.EndAccept(AsyncAcceptResult);
 		}
 		
 		void ConnectCallback(const Elysium::Core::IAsyncResult* Result)
@@ -237,7 +238,7 @@ namespace UnitTests::Core::Net::Sockets
 			Socket& Socket = AsyncResult->GetSocket();
 
 			SocketError ErrorCode = SocketError::Success;
-			const Elysium::Core::size BytesReceived = Socket.EndReceive(Result, ErrorCode);
+			const Elysium::Core::size BytesReceived = Socket.EndReceive(AsyncResult, ErrorCode);
 		}
 
 		void SendCallback(const Elysium::Core::IAsyncResult* Result)
@@ -246,7 +247,7 @@ namespace UnitTests::Core::Net::Sockets
 			Socket& Socket = AsyncResult->GetSocket();
 
 			SocketError ErrorCode = SocketError::Success;
-			const Elysium::Core::size BytesSent = Socket.EndSend(Result, ErrorCode);
+			const Elysium::Core::size BytesSent = Socket.EndSend(AsyncResult, ErrorCode);
 		}
 	};
 }
