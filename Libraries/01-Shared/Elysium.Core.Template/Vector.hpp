@@ -11,14 +11,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifdef _MSC_VER
 #pragma once
 #endif
-/*
-#ifndef ELYSIUM_CORE_INDEXOUTOFRANGEEXCEPTION
-#include "../Elysium.Core/IndexOutOfRangeException.hpp"
-#endif
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
-#endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
@@ -31,7 +23,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "InitializerList.hpp"
 #endif
-
+/*
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
+#include "IndexOutOfRangeException.hpp"
+#endif
+*/
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
@@ -54,6 +50,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "DefaultAllocator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 
@@ -459,7 +459,8 @@ namespace Elysium::Core::Template::Container
 	{
 		if (Index >= _Length)
 		{
-			//throw IndexOutOfRangeException();
+			// ToDo: throw Exceptions::IndexOutOfRangeException();
+			throw 1;
 		}
 
 		return _Data[Index];
@@ -470,7 +471,8 @@ namespace Elysium::Core::Template::Container
 	{
 		if (Index >= _Length)
 		{
-			//throw IndexOutOfRangeException();
+			// ToDo: throw Exceptions::IndexOutOfRangeException();
+			throw 1;
 		}
 
 		return _Data[Index];
@@ -570,7 +572,7 @@ namespace Elysium::Core::Template::Container
 	{	// ToDo: have a look at std::vector::erase in regards to returning the last element?
 		if (Index >= _Length)
 		{
-			//throw IndexOutOfRangeException();
+			// ToDo: throw Exceptions::IndexOutOfRangeException();
 			throw 1;
 		}
 
@@ -705,7 +707,7 @@ namespace Elysium::Core::Template::Container
 		constexpr const Elysium::Core::Template::System::size MaximumSize = GetMaximumSize();
 		if (_Capacity == MaximumSize)
 		{
-			// ToDo: throw specific exception (no more memory can be allocated!)
+			// ToDo: throw specific exception (no more memory can be allocated!) -> throw Exceptions::OutOfMemoryException();
 			throw 1;
 		}
 

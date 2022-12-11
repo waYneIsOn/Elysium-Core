@@ -4,7 +4,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/Environment.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Encoding.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -69,85 +68,6 @@ namespace UnitTests::Core
 			Assert::AreEqual(u8'e', MovedString[1]);
 			Assert::AreEqual(u8'x', MovedString[2]);
 			Assert::AreEqual(u8't', MovedString[3]);
-		}
-
-		TEST_METHOD(EncodingToToASCIIString)
-		{
-			Elysium::Core::String CharStackString = "φί~";
-			Elysium::Core::Utf8String Char8StackString = u8"φί~";
-			Elysium::Core::Utf16String Char16StackString = u"φί~";
-			Elysium::Core::Utf32String Char32StackString = U"φί~";
-			Elysium::Core::WideString WCharStackString = L"φί~";
-
-			Elysium::Core::String ConvertedCharStackString1 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char>(CharStackString);
-			Elysium::Core::String ConvertedCharStackString2 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char8_t>(Char8StackString);
-			Elysium::Core::String ConvertedCharStackString3 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char16_t>(Char16StackString);
-			Elysium::Core::String ConvertedCharStackString4 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char32_t>(Char32StackString);
-			Elysium::Core::String ConvertedCharStackString5 = Elysium::Core::Template::Text::Encoding::ToASCIIString<wchar_t>(WCharStackString);
-
-			Elysium::Core::String ASCIIStackString = "??~";
-			AssertExtended::AreEqual(ASCIIStackString, ConvertedCharStackString1);
-			AssertExtended::AreEqual(ASCIIStackString, ConvertedCharStackString2);
-			AssertExtended::AreEqual(ASCIIStackString, ConvertedCharStackString3);
-			AssertExtended::AreEqual(ASCIIStackString, ConvertedCharStackString4);
-			AssertExtended::AreEqual(ASCIIStackString, ConvertedCharStackString5);
-
-			Elysium::Core::String CharHeapString = "this string is a bit longer to force it onto the heap";
-			Elysium::Core::Utf8String Char8HeapString = u8"this string is a bit longer to force it onto the heap";
-			Elysium::Core::Utf16String Char16HeapString = u"this string is a bit longer to force it onto the heap";
-			Elysium::Core::Utf32String Char32HeapString = U"this string is a bit longer to force it onto the heap";
-			Elysium::Core::WideString WCharHeapString = L"this string is a bit longer to force it onto the heap";
-
-			Elysium::Core::String ConvertedCharHeapString1 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char>(CharHeapString);
-			Elysium::Core::String ConvertedCharHeapString2 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char8_t>(Char8HeapString);
-			Elysium::Core::String ConvertedCharHeapString3 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char16_t>(Char16HeapString);
-			Elysium::Core::String ConvertedCharHeapString4 = Elysium::Core::Template::Text::Encoding::ToASCIIString<char32_t>(Char32HeapString);
-			Elysium::Core::String ConvertedCharHeapString5 = Elysium::Core::Template::Text::Encoding::ToASCIIString<wchar_t>(WCharHeapString);
-
-			AssertExtended::AreEqual(&CharHeapString[0], &ConvertedCharHeapString1[0]);
-			AssertExtended::AreEqual(&CharHeapString[0], &ConvertedCharHeapString2[0]);
-			AssertExtended::AreEqual(&CharHeapString[0], &ConvertedCharHeapString3[0]);
-			AssertExtended::AreEqual(&CharHeapString[0], &ConvertedCharHeapString4[0]);
-			AssertExtended::AreEqual(&CharHeapString[0], &ConvertedCharHeapString5[0]);
-		}
-
-		TEST_METHOD(EncodingToWideString)
-		{
-			Elysium::Core::String CharStackString = "φί~";
-			Elysium::Core::Utf8String Char8StackString = u8"φί~";
-			Elysium::Core::Utf16String Char16StackString = u"φί~";
-			Elysium::Core::Utf32String Char32StackString = U"φί~";
-			Elysium::Core::WideString WCharStackString = L"φί~";
-
-			Elysium::Core::WideString ConvertedWCharStackString1 = Elysium::Core::Template::Text::Encoding::ToWideString<char>(CharStackString);
-			Elysium::Core::WideString ConvertedWCharStackString2 = Elysium::Core::Template::Text::Encoding::ToWideString<char8_t>(Char8StackString);
-			Elysium::Core::WideString ConvertedWCharStackString3 = Elysium::Core::Template::Text::Encoding::ToWideString<char16_t>(Char16StackString);
-			//Elysium::Core::WideString ConvertedWCharStackString4 = Elysium::Core::Template::Text::Encoding::ToWideString<char32_t>(Char32StackString);
-			Elysium::Core::WideString ConvertedWCharStackString5 = Elysium::Core::Template::Text::Encoding::ToWideString<wchar_t>(WCharStackString);
-			
-			AssertExtended::AreEqual(&WCharStackString[0], &ConvertedWCharStackString1[0]);
-			AssertExtended::AreEqual(&WCharStackString[0], &ConvertedWCharStackString2[0]);
-			AssertExtended::AreEqual(&WCharStackString[0], &ConvertedWCharStackString3[0]);
-			//AssertExtended::AreEqual(&WCharStackString[0], &ConvertedWCharStackString4[0]);
-			AssertExtended::AreEqual(&WCharStackString[0], &ConvertedWCharStackString5[0]);
-
-			Elysium::Core::String CharHeapString = "this string is a bit longer to force it onto the heap";
-			Elysium::Core::Utf8String Char8HeapString = u8"this string is a bit longer to force it onto the heap";
-			Elysium::Core::Utf16String Char16HeapString = u"this string is a bit longer to force it onto the heap";
-			Elysium::Core::Utf32String Char32HeapString = U"this string is a bit longer to force it onto the heap";
-			Elysium::Core::WideString WCharHeapString = L"this string is a bit longer to force it onto the heap";
-
-			Elysium::Core::WideString ConvertedWCharHeapString1 = Elysium::Core::Template::Text::Encoding::ToWideString<char>(CharHeapString);
-			Elysium::Core::WideString ConvertedWCharHeapString2 = Elysium::Core::Template::Text::Encoding::ToWideString<char8_t>(Char8HeapString);
-			Elysium::Core::WideString ConvertedWCharHeapString3 = Elysium::Core::Template::Text::Encoding::ToWideString<char16_t>(Char16HeapString);
-			//Elysium::Core::WideString ConvertedWCharHeapString4 = Elysium::Core::Template::Text::Encoding::ToWideString<char32_t>(Char32HeapString);
-			Elysium::Core::WideString ConvertedWCharHeapString5 = Elysium::Core::Template::Text::Encoding::ToWideString<wchar_t>(WCharHeapString);
-
-			AssertExtended::AreEqual(&WCharHeapString[0], &ConvertedWCharHeapString1[0]);
-			AssertExtended::AreEqual(&WCharHeapString[0], &ConvertedWCharHeapString2[0]);
-			AssertExtended::AreEqual(&WCharHeapString[0], &ConvertedWCharHeapString3[0]);
-			//AssertExtended::AreEqual(&WCharHeapString[0], &ConvertedWCharHeapString4[0]);
-			AssertExtended::AreEqual(&WCharHeapString[0], &ConvertedWCharHeapString5[0]);
 		}
 
 		TEST_METHOD(Operators)

@@ -16,8 +16,25 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
+#include "SignedInteger.hpp"
+#endif
+
 namespace Elysium::Core::Template::Math
 {
+	template<Concepts::SignedInteger SI>
+	constexpr SI Floor(const SI Value) noexcept
+	{
+		if (Value < 0)	// obviously cannot be evaluated at compile-time using concepts
+		{
+			return Value - 1;
+		}
+		else
+		{
+			return Value;
+		}
+	}
+	
 	constexpr float Floor(const float Value) noexcept
 	{
 		if (Value < 0)	// obviously cannot be evaluated at compile-time using concepts

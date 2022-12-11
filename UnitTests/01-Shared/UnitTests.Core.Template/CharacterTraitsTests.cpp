@@ -33,15 +33,15 @@ namespace UnitTests::Core::Template::Text
 			Assert::AreEqual(0, static_cast<int>(CharacterTraits<char16_t>::NullTerminationCharacter));
 			Assert::AreEqual(0, static_cast<int>(CharacterTraits<char32_t>::NullTerminationCharacter));
 
-			Assert::AreEqual(static_cast<char>(-128), CharacterTraits<char>::MinimumValue);
-			Assert::AreEqual(static_cast<wchar_t>(0), CharacterTraits<wchar_t>::MinimumValue);
-			Assert::AreEqual(static_cast<char8_t>(0), CharacterTraits<char8_t>::MinimumValue);
+			Assert::AreEqual(-128, static_cast<int>(CharacterTraits<char>::MinimumValue));
+			Assert::AreEqual(0, static_cast<int>(CharacterTraits<wchar_t>::MinimumValue));
+			Assert::AreEqual(0, static_cast<int>(CharacterTraits<char8_t>::MinimumValue));
 			Assert::AreEqual(0, static_cast<int>(CharacterTraits<char16_t>::MinimumValue));
 			Assert::AreEqual(0, static_cast<int>(CharacterTraits<char32_t>::MinimumValue));
-
-			Assert::AreEqual(static_cast<char>(127), CharacterTraits<char>::MaximumValue);
-			Assert::AreEqual(static_cast<wchar_t>(65535), CharacterTraits<wchar_t>::MaximumValue);
-			Assert::AreEqual(static_cast<char8_t>(255), CharacterTraits<char8_t>::MaximumValue);
+			
+			Assert::AreEqual(127, static_cast<int>(CharacterTraits<char>::MaximumValue));
+			Assert::AreEqual(65535, static_cast<int>(CharacterTraits<wchar_t>::MaximumValue));
+			Assert::AreEqual(255, static_cast<int>(CharacterTraits<char8_t>::MaximumValue));
 			Assert::AreEqual(65535, static_cast<int>(CharacterTraits<char16_t>::MaximumValue));
 			Assert::AreEqual(4294967295u, static_cast<unsigned int>(CharacterTraits<char32_t>::MaximumValue));
 		}

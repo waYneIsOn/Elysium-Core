@@ -16,12 +16,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
+#include "ProcessStartInfo.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTEXCEPTION
+#include "ArgumentException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
+#include "ArgumentNullException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
+#include "InvalidOperationException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
 #include "SystemException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
-#include "ProcessStartInfo.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -62,13 +78,13 @@ namespace Elysium::Core::Template::Diagnostics
 
 		Process(const Process& Source);
 
-		Process(Process&& Right) noexcept = delete;
+		Process(Process&& Right) noexcept;
 
 		~Process();
 	public:
 		Process& operator=(const Process& Source);
 
-		Process& operator=(Process&& Right) noexcept = delete;
+		Process& operator=(Process&& Right) noexcept;
 	public:
 		const bool GetHasExited() const;
 
@@ -141,6 +157,12 @@ namespace Elysium::Core::Template::Diagnostics
 		_ThreadId(Source._ThreadId), _HasThreadId(Source._HasThreadId), _ProcessHandle(Source._ProcessHandle), _ThreadHandle(Source._ThreadHandle)
 	{ }
 
+	inline Diagnostics::Process::Process(Process&& Right) noexcept
+		: _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle()
+	{
+		*this = Functional::Move(Right);
+	}
+
 	inline Elysium::Core::Template::Diagnostics::Process::~Process()
 	{ 
 		Close();
@@ -163,13 +185,37 @@ namespace Elysium::Core::Template::Diagnostics
 		return *this;
 	}
 
+	inline Elysium::Core::Template::Diagnostics::Process& Diagnostics::Process::operator=(Process&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			_MachineName = Functional::Move(Right._MachineName);
+			_IsRemoteMachine = Functional::Move(Right._IsRemoteMachine);
+			_ProcessId = Functional::Move(Right._ProcessId);
+			_HasProcessId = Functional::Move(Right._HasProcessId);
+			_ThreadId = Functional::Move(Right._ThreadId);
+			_HasThreadId = Functional::Move(Right._HasThreadId);
+			_ProcessHandle = Functional::Move(Right._ProcessHandle);
+			_ThreadHandle = Functional::Move(Right._ThreadHandle);
+			
+			Right._IsRemoteMachine = false;
+			Right._ProcessId = 0;
+			Right._HasProcessId = false;
+			Right._ThreadId = 0;
+			Right._HasThreadId = false;
+			Right._ProcessHandle = nullptr;
+			Right._ThreadHandle = nullptr;
+		}
+
+		return *this;
+	}
+
 	inline const bool Elysium::Core::Template::Diagnostics::Process::GetHasExited() const
 	{
 		DWORD ExitCode;
 		if (!GetExitCodeProcess(_ProcessHandle, &ExitCode))
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		return ExitCode != STILL_ACTIVE;
@@ -179,8 +225,7 @@ namespace Elysium::Core::Template::Diagnostics
 	{
 		if (!_HasProcessId)
 		{
-			// ToDo: throw InvalidOperationException();
-			throw 1;
+			throw Exceptions::InvalidOperationException();
 		}
 
 		return _ProcessId;
@@ -208,8 +253,7 @@ namespace Elysium::Core::Template::Diagnostics
 			nullptr,		// Use parent's starting directory 
 			&StartupInfo, &ProcessInformation))
 		{
-			// ToDO: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		_ProcessId = ProcessInformation.dwProcessId;
@@ -296,34 +340,12 @@ namespace Elysium::Core::Template::Diagnostics
 		// ...
 		PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
 		ProcessEntry.dwSize = sizeof(PROCESSENTRY32);
-		if (!Process32First(SnapshotHandle, &ProcessEntry))
+
+		Container::Vector<Process> Processes = Container::Vector<Process>();
+		while (Process32Next(SnapshotHandle, &ProcessEntry))
 		{
-			CloseHandle(SnapshotHandle);
-			// ToDo: throw SystemException();
-			throw 1;
+			Processes.PushBack(Process(MachineName, MachineName == _LocalMachineName, ProcessEntry.th32ProcessID));
 		}
-
-		System::size i = 0;
-		do
-		{
-			i++;
-		} while (Process32Next(SnapshotHandle, &ProcessEntry));
-
-		// ...
-		Container::Vector<Process> Processes = Container::Vector<Process>(i);
-		if (!Process32First(SnapshotHandle, &ProcessEntry))
-		{
-			CloseHandle(SnapshotHandle);
-			// ToDo: throw SystemException();
-			throw 1;
-		}
-
-		i = 0;
-		do
-		{
-			Processes[i]._ProcessId = ProcessEntry.th32ProcessID;
-			i++;
-		} while (Process32Next(SnapshotHandle, &ProcessEntry));
 		CloseHandle(SnapshotHandle);
 
 		return Processes;
@@ -334,8 +356,7 @@ namespace Elysium::Core::Template::Diagnostics
 		HANDLE ProcessHandle = OpenProcess(READ_CONTROL | PROCESS_QUERY_INFORMATION, true, ProcessId);
 		if (ProcessHandle == nullptr)
 		{
-			// ToDo: throw ArgumentException(u8"The process specified by the ProcessId parameter is not running. The identifier might be expired.");
-			throw 1;
+			throw Exceptions::ArgumentException(u8"The process specified by the ProcessId parameter is not running. The identifier might be expired.");
 		}
 		/*
 		if ()
@@ -358,58 +379,29 @@ namespace Elysium::Core::Template::Diagnostics
 	{
 		if (Text::CharacterTraits<char8_t>::IsEmpty(ProcessName))
 		{
-			// ToDo: throw ArgumentException(u8"ProcessName");
-			throw 1;
+			throw Exceptions::ArgumentNullException(u8"ProcessName");
 		}
 
 		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
-			// ToDo: throw SystemException();
-			throw 1;
+			throw Exceptions::SystemException();
 		}
 
 		// ...
 		PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
 		ProcessEntry.dwSize = sizeof(PROCESSENTRY32);
-		if (!Process32First(SnapshotHandle, &ProcessEntry))
-		{
-			CloseHandle(SnapshotHandle);
-			// ToDo: throw SystemException();
-			throw 1;
-		}
 
-		System::size i = 0;
-		do
+		Container::Vector<Process> Processes = Container::Vector<Process>();
+		while (Process32Next(SnapshotHandle, &ProcessEntry))
 		{
 			Text::String<char8_t> CurrentProcessName =
 				Text::Unicode::Utf16::FromSafeWideString<char8_t>(&ProcessEntry.szExeFile[0], Text::CharacterTraits<wchar_t>::GetLength(&ProcessEntry.szExeFile[0]));
 			if (CurrentProcessName == ProcessName)
 			{
-				i++;
+				Processes.PushBack(Process(MachineName, MachineName == _LocalMachineName, ProcessEntry.th32ProcessID));
 			}
-		} while (Process32Next(SnapshotHandle, &ProcessEntry));
-
-		// ...
-		Container::Vector<Process> Processes = Container::Vector<Process>(i);
-		if (!Process32First(SnapshotHandle, &ProcessEntry))
-		{
-			CloseHandle(SnapshotHandle);
-			// ToDo: throw SystemException();
-			throw 1;
 		}
-
-		i = 0;
-		do
-		{
-			Text::String<char8_t> CurrentProcessName =
-				Text::Unicode::Utf16::FromSafeWideString<char8_t>(&ProcessEntry.szExeFile[0], Text::CharacterTraits<wchar_t>::GetLength(&ProcessEntry.szExeFile[0]));
-			if (CurrentProcessName == ProcessName)
-			{
-				Processes[i]._ProcessId = ProcessEntry.th32ProcessID;
-				i++;
-			}
-		} while (Process32Next(SnapshotHandle, &ProcessEntry));
 		CloseHandle(SnapshotHandle);
 
 		return Processes;

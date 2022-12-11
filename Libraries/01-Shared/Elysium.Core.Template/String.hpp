@@ -288,7 +288,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else
 		{
-			memset(&_InternalString._Stack._Data[0], Value, Size);
+			memset(&_InternalString._Stack._Data[0], Value, Count);
 			_InternalString._Stack.SetSize(Size);
 		}
 	}

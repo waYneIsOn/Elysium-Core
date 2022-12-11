@@ -1361,7 +1361,7 @@ namespace Elysium::Core::Template::Globalization
 		}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		Text::String<char> StringValue = ToString(Value);
+		Text::String<char> StringValue = ToString(static_cast<System::uint32_t>(Value));
 		if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITSUBSTITUTION, &StringValue[0]) == 0)
 		{
 			throw Exceptions::SystemException();
@@ -2056,7 +2056,7 @@ namespace Elysium::Core::Template::Globalization
 	inline Text::String<char> NumberFormatInfo<C>::ToString(System::uint32_t Value)
 	{
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(10)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Logarithm(Value) / Math::Logarithm(10) + 1_ui8);
 		Text::String<char> Result = Text::String<char>(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;

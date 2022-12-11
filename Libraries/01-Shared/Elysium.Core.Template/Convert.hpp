@@ -876,15 +876,15 @@ namespace Elysium::Core::Template::Text
 		{
 			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				Result = FromBase * Result + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
+				Result = FromBase * Result + static_cast<System::uint8_t>(ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
 			{
-				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+				Result = FromBase * Result + static_cast<System::uint8_t>(10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
 			{
-				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+				Result = FromBase * Result + static_cast<System::uint8_t>(10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
 			}
 			else
 			{
@@ -923,15 +923,15 @@ namespace Elysium::Core::Template::Text
 		{
 			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				Result = FromBase * Result + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
+				Result = FromBase * Result + static_cast<System::uint16_t>(ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
 			{
-				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+				Result = FromBase * Result + static_cast<System::uint16_t>(10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
 			{
-				Result = FromBase * Result + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+				Result = FromBase * Result + static_cast<System::uint16_t>(10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
 			}
 			else
 			{
@@ -1075,15 +1075,15 @@ namespace Elysium::Core::Template::Text
 		{
 			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				AbsoluteResult = FromBase * AbsoluteResult + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int8_t>(ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
 			{
-				AbsoluteResult = FromBase * AbsoluteResult + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int8_t>(10_i8 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
 			{
-				AbsoluteResult = FromBase * AbsoluteResult + (10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int8_t>(10_i8 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
 			}
 			else
 			{
@@ -1133,15 +1133,15 @@ namespace Elysium::Core::Template::Text
 		{
 			if (CharacterTraits<C>::IsDigit(ChangeableValue[0]))
 			{
-				AbsoluteResult = FromBase * AbsoluteResult + (ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int16_t>(ChangeableValue[0] - CharacterTraits<C>::ZeroCharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitLower(ChangeableValue[0]))
 			{
-				AbsoluteResult = FromBase * AbsoluteResult + (10_i16 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int16_t>(10_i16 + ChangeableValue[0] - CharacterTraits<C>::LowerACharacter);
 			}
 			else if (CharacterTraits<C>::IsAsciiHexDigitUpper(ChangeableValue[0]))
 			{
-				AbsoluteResult = FromBase * AbsoluteResult + (10_i16 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
+				AbsoluteResult = FromBase * AbsoluteResult + static_cast<System::int16_t>(10_i16 + ChangeableValue[0] - CharacterTraits<C>::UpperACharacter);
 			}
 			else
 			{
@@ -1350,8 +1350,7 @@ namespace Elysium::Core::Template::Text
 			ChangeableValue++;
 		}
 
-		return (AbsoluteResult + static_cast<float>(DecimalPointResult) / Math::Power(10, 
-			Numeric::NumericTraits<System::uint8_t>::GetDigitCount(DecimalPointResult))) * Sign;
+		return static_cast<float>((AbsoluteResult + static_cast<double>(DecimalPointResult) / Math::Power(10, Numeric::NumericTraits<System::uint8_t>::GetDigitCount(DecimalPointResult)))) * Sign;
 	}
 
 	template<Concepts::Character C>

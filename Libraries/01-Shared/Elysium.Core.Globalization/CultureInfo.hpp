@@ -28,19 +28,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CultureTypes.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_GLOBALIZATION_NUMBERFORMATINFO
+#include "NumberFormatInfo.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CULTUREINFO
 #include "../Elysium.Core.Template/CultureInfo.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
 namespace Elysium::Core::Globalization
 {
-	/*
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::CultureInfo<char>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::CultureInfo<char8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::CultureInfo<char16_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::CultureInfo<char32_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Globalization::CultureInfo<wchar_t>;
-	*/
+	
 	using CultureInfo = Elysium::Core::Template::Globalization::CultureInfo<char>;
 	using Utf8CultureInfo = Elysium::Core::Template::Globalization::CultureInfo<char8_t>;
 	using Utf16CultureInfo = Elysium::Core::Template::Globalization::CultureInfo<char16_t>;
