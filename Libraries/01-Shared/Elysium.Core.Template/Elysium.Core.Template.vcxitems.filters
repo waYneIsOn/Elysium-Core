@@ -521,6 +521,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Truncate.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Round.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MidpointRounding.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Ceiling.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

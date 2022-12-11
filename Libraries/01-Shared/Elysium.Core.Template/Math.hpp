@@ -18,6 +18,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Absolute.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_CEILING
+#include "Ceiling.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FACTORIAL
 #include "Factorial.hpp"
 #endif
@@ -30,8 +34,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Logarithm.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIDPOINTROUNDING
+#include "MidpointRounding.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
 #include "Power.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_ROUND
+#include "Round.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
+#include "Truncate.hpp"
 #endif
 
 #endif

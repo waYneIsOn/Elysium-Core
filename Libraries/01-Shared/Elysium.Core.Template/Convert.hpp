@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Absolute.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_CEILING
+#include "Ceiling.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
 #include "Floor.hpp"
 #endif
@@ -34,6 +38,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
 #include "Power.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
+#include "Truncate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
@@ -663,10 +671,10 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
-
 		const System::uint32_t NumberDecimalDigits = 2;
-		System::uint32_t FloatingPart = static_cast<Elysium::Core::uint32_t>(Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
+		System::int32_t IntegerPart = Math::Truncate<float, System::int32_t>(Value);
+		System::uint32_t FloatingPart = 
+			static_cast<System::uint32_t>(Math::Ceiling(Math::Absolute(Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
 
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
@@ -769,11 +777,11 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		System::int32_t IntegerPart = static_cast<System::int32_t>(Value);
-
-		const System::uint32_t NumberDecimalDigits = 2;
-		System::uint32_t FloatingPart = static_cast<Elysium::Core::uint32_t>(Math::Absolute((Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
-
+		const System::uint64_t NumberDecimalDigits = 2;
+		System::int32_t IntegerPart = Math::Truncate<double, System::int32_t>(Value);
+		System::uint64_t FloatingPart =
+			static_cast<System::uint64_t>(Math::Ceiling(Math::Absolute(Value - IntegerPart) * Math::Power(10, NumberDecimalDigits)));
+		
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
 
