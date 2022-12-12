@@ -20,11 +20,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
-
-#pragma warning( disable : 4251 )
 
 namespace Elysium::Core::Security::Cryptography
 {
@@ -37,7 +39,7 @@ namespace Elysium::Core::Security::Cryptography
 
 		HashAlgorithm(HashAlgorithm&& Right) noexcept = delete;
 
-		~HashAlgorithm();
+		virtual ~HashAlgorithm();
 	public:
 		HashAlgorithm& operator=(const HashAlgorithm& Source) = delete;
 
@@ -47,18 +49,18 @@ namespace Elysium::Core::Security::Cryptography
 
 		virtual const bool GetCanReuseTransform() const;
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ComputeHash(Elysium::Core::IO::Stream& InputStream);
+		Container::ArrayOfByte ComputeHash(Elysium::Core::IO::Stream& InputStream);
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length);
+		Container::ArrayOfByte ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length);
 
 		virtual void Initialize() = 0;
 	protected:
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _HashValue;
-		int32_t _State;
-
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) = 0;
 
 		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() = 0;
+	protected:
+		Container::ArrayOfByte _HashValue;
+		int32_t _State;
 	};
 }
 #endif

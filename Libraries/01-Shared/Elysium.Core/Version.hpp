@@ -68,7 +68,7 @@ namespace Elysium::Core
 		*/
 	public:
 		static Version Parse(const Utf8String& Input);
-
+		
 		static Version Parse(const Utf8StringView Input);
 	public:
 		const Elysium::Core::uint16_t GetMajor() const;
@@ -81,9 +81,9 @@ namespace Elysium::Core
 	public:
 		const Utf8String ToString();
 	private:
-		static constexpr const Elysium::Core::uint16_t Undefined = -1_ui16;
+		inline static constexpr const Elysium::Core::uint16_t Undefined = -1_ui16;
 
-		static constexpr Elysium::Core::Utf8String::ConstCharacter Delimiter = u8'.';
+		inline static constexpr Elysium::Core::Utf8String::ConstCharacter Delimiter = u8'.';
 	private:
 		Elysium::Core::uint16_t _Major;
 		Elysium::Core::uint16_t _Minor;

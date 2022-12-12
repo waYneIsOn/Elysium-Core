@@ -9,7 +9,7 @@
 #endif
 
 Elysium::Core::Security::Cryptography::HashAlgorithm::HashAlgorithm(int32_t HashSizeValue)
-	: _HashValue(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(HashSizeValue)), _State(0)
+	: _HashValue(Elysium::Core::Container::ArrayOfByte(HashSizeValue)), _State(0)
 { }
 
 Elysium::Core::Security::Cryptography::HashAlgorithm::~HashAlgorithm()
@@ -25,9 +25,9 @@ const bool Elysium::Core::Security::Cryptography::HashAlgorithm::GetCanReuseTran
 	return false;
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::IO::Stream& InputStream)
+Elysium::Core::Container::ArrayOfByte Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::IO::Stream& InputStream)
 {
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(4096);
+	Elysium::Core::Container::ArrayOfByte Buffer = Elysium::Core::Container::ArrayOfByte(4096);
 	Elysium::Core::size BytesRead = 0;
 	do
 	{
@@ -39,18 +39,18 @@ Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::
 	} while (BytesRead > 0);
 
 	_HashValue = HashFinal();
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = Elysium::Core::Template::Functional::Move(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue));
+	Elysium::Core::Container::ArrayOfByte Temporary = Elysium::Core::Template::Functional::Move(Elysium::Core::Container::ArrayOfByte(_HashValue));
 
 	Initialize();
 
 	return Temporary;
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length)
+Elysium::Core::Container::ArrayOfByte Elysium::Core::Security::Cryptography::HashAlgorithm::ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length)
 {
 	HashCore(&Buffer[0], Length);
 	_HashValue = HashFinal();
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Temporary = Elysium::Core::Template::Functional::Move(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(_HashValue));
+	Elysium::Core::Container::ArrayOfByte Temporary = Elysium::Core::Template::Functional::Move(Elysium::Core::Container::ArrayOfByte(_HashValue));
 
 	Initialize();
 

@@ -31,7 +31,7 @@ namespace Elysium::Core::Security::Cryptography
 
 		MD5(MD5&& Right) noexcept = delete;
 
-		~MD5();
+		virtual ~MD5();
 	public:
 		MD5& operator=(const MD5& Source) = delete;
 

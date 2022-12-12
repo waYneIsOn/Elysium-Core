@@ -4,6 +4,10 @@
 #include "../Elysium.Core.Template/Convert.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
 Elysium::Core::Version::Version()
 	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
 { }

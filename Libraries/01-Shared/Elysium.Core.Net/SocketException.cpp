@@ -1,12 +1,8 @@
 #include "SocketException.hpp"
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	#ifndef _WINSOCK2API_
-	#include <WinSock2.h>
-	#endif
-
-	#ifndef _MSWSOCK_
-	#include <MSWSock.h>
+	#ifndef _WINDOWS_
+	#include <Windows.h>
 	#endif
 #endif
 

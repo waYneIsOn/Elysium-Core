@@ -12,6 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_DATETIME
+#include "../Elysium.Core/DateTime.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TIMESPAN
+#include "../Elysium.Core/TimeSpan.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
@@ -32,16 +40,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "X509RevocationMode.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TIMESPAN
-#include "../Elysium.Core/TimeSpan.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509VERIFICATIONFLAGS
 #include "X509VerificationFlags.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DATETIME
-#include "../Elysium.Core/DateTime.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
@@ -50,25 +50,37 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	{
 	public:
 		X509ChainPolicy();
+
 		X509ChainPolicy(const X509ChainPolicy& Source) = delete;
+
 		X509ChainPolicy(X509ChainPolicy&& Right) noexcept = delete;
+
 		~X509ChainPolicy();
-
+	public:
 		X509ChainPolicy& operator=(const X509ChainPolicy& Source) = delete;
+
 		X509ChainPolicy& operator=(X509ChainPolicy&& Right) noexcept = delete;
-
+	public:
 		const OidCollection& GetApplicationPolicy() const;
+
 		const OidCollection& GetCertificatePolicy() const;
+
 		const X509CertificateCollection& GetExtraStore() const;
+
 		const X509RevocationFlag GetRevocationFlag() const;
+
 		const X509RevocationMode GetRevocationMode() const;
+
 		const TimeSpan GetUrlRetrievalTimeout() const;
+
 		const X509VerificationFlags GetVerificationFlags() const;
+
 		const DateTime GetVerificationTime() const;
-
+	public:
 		void SetRevocationFlag(const X509RevocationFlag Value);
-		void SetRevocationMode(const X509RevocationMode Value);
 
+		void SetRevocationMode(const X509RevocationMode Value);
+	public:
 		void Reset();
 	private:
 		OidCollection _ApplicationPolicy = OidCollection();

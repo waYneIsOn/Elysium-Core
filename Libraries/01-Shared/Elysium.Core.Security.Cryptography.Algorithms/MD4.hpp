@@ -31,7 +31,7 @@ namespace Elysium::Core::Security::Cryptography
 
 		MD4(MD4&& Right) noexcept = delete;
 
-		~MD4();
+		virtual ~MD4();
 	public:
 		MD4& operator=(const MD4& Source) = delete;
 
@@ -41,7 +41,7 @@ namespace Elysium::Core::Security::Cryptography
 	private:
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) override;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() override;
+		virtual const Elysium::Core::Container::ArrayOfByte HashFinal() override;
 	};
 }
 #endif

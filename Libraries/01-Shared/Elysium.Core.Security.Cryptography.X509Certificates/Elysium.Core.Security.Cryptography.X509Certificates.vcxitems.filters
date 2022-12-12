@@ -21,6 +21,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfX509Certificate.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfX509Certificate.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt" />
@@ -34,6 +40,12 @@
     </Filter>
     <Filter Include="Rfc\5280">
       <UniqueIdentifier>{8f2d0249-abc5-484e-87c3-dae89dafff70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{657a266b-bdc5-4b26-9675-ad39bea416b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{b0731fb1-2157-497e-9891-a90b31ba388e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

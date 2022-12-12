@@ -7,6 +7,11 @@ const Elysium::Core::Utf8String Elysium::Core::Console::ReadLine()
 	throw 1;
 }
 
+void Elysium::Core::Console::WriteLine(const char8_t* Value)
+{
+	throw 1;
+}
+
 void Elysium::Core::Console::WriteLine(const Elysium::Core::Utf8String& Value)
 {
 	throw 1;

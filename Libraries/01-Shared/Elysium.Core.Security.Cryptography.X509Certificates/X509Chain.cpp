@@ -11,6 +11,7 @@
 Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::X509Chain()
 	: _ChainPolicy()
 { }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::~X509Chain()
 { }
 
@@ -125,6 +126,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 
 	return true;
 }
+
 void Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::Reset()
 {
 	_ChainPolicy.Reset();

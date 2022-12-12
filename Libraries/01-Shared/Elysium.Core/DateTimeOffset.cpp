@@ -45,12 +45,22 @@ Elysium::Core::DateTimeOffset & Elysium::Core::DateTimeOffset::operator=(DateTim
 	return *this;
 }
 
-Elysium::Core::DateTime & Elysium::Core::DateTimeOffset::GetDateTime() const
+Elysium::Core::DateTime& Elysium::Core::DateTimeOffset::GetDateTime()
 {
-	return (DateTime&)_DateTime;
+	return _DateTime;
 }
 
-Elysium::Core::TimeSpan & Elysium::Core::DateTimeOffset::GetOffset() const
+Elysium::Core::TimeSpan& Elysium::Core::DateTimeOffset::GetOffset()
 {
-	return (TimeSpan&)_Offset;
+	return _Offset;
+}
+
+const Elysium::Core::DateTime & Elysium::Core::DateTimeOffset::GetDateTime() const
+{
+	return _DateTime;
+}
+
+const Elysium::Core::TimeSpan & Elysium::Core::DateTimeOffset::GetOffset() const
+{
+	return _Offset;
 }

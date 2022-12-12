@@ -31,9 +31,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef __BCRYPT_H__
 #include <bcrypt.h>
-#endif
 
 #pragma comment (lib, "bcrypt.lib")
+#endif
 
 namespace Elysium::Core::Security::Cryptography::Windows
 {

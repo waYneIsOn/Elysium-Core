@@ -18,9 +18,11 @@
     <Text Include="$(MSBuildThisFileDirectory)01 - Info.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfX509Certificate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfX509Certificate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp" />

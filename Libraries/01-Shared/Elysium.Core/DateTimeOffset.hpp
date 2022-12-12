@@ -43,9 +43,13 @@ namespace Elysium::Core
 
 		DateTimeOffset& operator=(DateTimeOffset&& Right) noexcept;
 	public:
-		DateTime& GetDateTime() const;
+		DateTime& GetDateTime();
 
-		TimeSpan& GetOffset() const;
+		TimeSpan& GetOffset();
+
+		const DateTime& GetDateTime() const;
+
+		const TimeSpan& GetOffset() const;
 	private:
 		DateTime _DateTime;
 		TimeSpan _Offset;

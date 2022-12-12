@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
 namespace Elysium::Core::Net::Security
 {
 	class ELYSIUM_CORE_NET_API AuthenticatedStream : public IO::Stream

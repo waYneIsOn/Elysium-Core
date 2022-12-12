@@ -24,6 +24,7 @@
 #endif
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
+	: _CertificateContext()
 { }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext)
@@ -66,6 +67,16 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysi
 		Right._CertificateContext = nullptr;
 	}
 	return *this;
+}
+
+const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::operator==(const X509Certificate& Other) const
+{	
+	if (this == &Other)
+	{
+		return true;
+	}
+
+	return _CertificateContext == Other._CertificateContext;
 }
 
 const Elysium::Core::Utf8String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetIssuer() const

@@ -22,9 +22,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	enum class SeekOrigin : Elysium::Core::uint8_t
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class SeekOrigin
 #else
 #error "undefined os"

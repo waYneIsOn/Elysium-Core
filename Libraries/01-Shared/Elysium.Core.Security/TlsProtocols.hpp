@@ -22,9 +22,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Security::Authentication
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	enum class TlsProtocols : Elysium::Core::uint16_t
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class TlsProtocols
 #else
 #error "undefined os"

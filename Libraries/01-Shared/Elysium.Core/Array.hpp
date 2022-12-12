@@ -36,8 +36,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/TypeTraits.hpp"
 #endif
 
-constexpr const Elysium::Core::size ARRAY_MAX = static_cast<Elysium::Core::size>(-1);
-
 namespace Elysium::Core::Collections::Template
 {
 	template <Elysium::Core::Template::Concepts::NonConstant T>
@@ -69,6 +67,8 @@ namespace Elysium::Core::Collections::Template
 		static void Move(T* Source, T* Destination, const Elysium::Core::size Length);
 
 		static void Reverse(Array<T>& Array);
+	public:
+		inline static constexpr const Elysium::Core::size ARRAY_MAX = static_cast<Elysium::Core::size>(-1);
 	private:
 		Elysium::Core::size _Length;
 		T* _Data;

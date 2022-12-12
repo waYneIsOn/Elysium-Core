@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core
 {
-	class ELYSIUM_CORE_API Console
+	class ELYSIUM_CORE_API Console final
 	{
 	public:
 		Console() = delete;
@@ -38,6 +38,8 @@ namespace Elysium::Core
 		Console& operator=(Console&& Right) noexcept = delete;
 	public:
 		static const Elysium::Core::Utf8String ReadLine();
+
+		static void WriteLine(const char8_t* Value);
 
 		static void WriteLine(const Elysium::Core::Utf8String& Value);
 	};

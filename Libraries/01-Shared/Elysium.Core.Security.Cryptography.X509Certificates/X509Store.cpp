@@ -11,6 +11,7 @@
 Elysium::Core::Security::Cryptography::X509Certificates::X509Store::X509Store(const StoreName StoreName, const StoreLocation StoreLocation)
 	: _StoreName(StoreName), _StoreLocation(StoreLocation)
 { }
+
 Elysium::Core::Security::Cryptography::X509Certificates::X509Store::~X509Store()
 {
 	if (_NativeCertificateStore != nullptr)
@@ -24,6 +25,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Store::G
 {
 	return _NativeCertificateStore != nullptr;
 }
+
 const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection & Elysium::Core::Security::Cryptography::X509Certificates::X509Store::GetCertificates() const
 {
 	return _CertificateCollection;

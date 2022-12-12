@@ -15,17 +15,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifdef ELYSIUMCORESECURITY_EXPORTS
 #define ELYSIUM_CORE_SECURITY_API __declspec(dllexport)
 #else
 #define ELYSIUM_CORE_SECURITY_API __declspec(dllimport)
 #endif
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 
-#elif defined(ELYSIUM_CORE_OS_LINUX)
+#elif defined ELYSIUM_CORE_OS_LINUX
 
-#elif defined(ELYSIUM_CORE_OS_MAC)
+#elif defined ELYSIUM_CORE_OS_MAC
 
 #else
 #error "unsupported os"

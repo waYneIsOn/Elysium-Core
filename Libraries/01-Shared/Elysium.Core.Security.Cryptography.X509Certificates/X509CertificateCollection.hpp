@@ -16,12 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATE
-#include "X509Certificate.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CONTAINER_VECTOROFX509CERTIFICATE
+#include "VectorOfX509Certificate.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates

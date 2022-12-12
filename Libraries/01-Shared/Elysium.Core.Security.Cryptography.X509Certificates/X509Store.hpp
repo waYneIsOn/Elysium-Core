@@ -42,16 +42,21 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	{
 	public:
 		X509Store(const StoreName StoreName, const StoreLocation StoreLocation);
+
 		X509Store(const X509Store& Source) = delete;
+
 		X509Store(X509Store&& Right) noexcept = delete;
+
 		~X509Store();
-
+	public:
 		X509Store& operator=(const X509Store& Source) = delete;
+
 		X509Store& operator=(X509Store&& Right) noexcept = delete;
-
+	public:
 		const bool GetIsOpen() const;
-		const X509CertificateCollection& GetCertificates() const;
 
+		const X509CertificateCollection& GetCertificates() const;
+	public:
 		void Open(const OpenFlags OpenFlags);
 	private:
 		X509CertificateCollection _CertificateCollection = { };

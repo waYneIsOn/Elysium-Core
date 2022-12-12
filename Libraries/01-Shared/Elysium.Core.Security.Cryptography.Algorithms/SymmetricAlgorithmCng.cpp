@@ -35,7 +35,6 @@ void Elysium::Core::Security::Cryptography::Windows::SymmetricAlgorithmCng::Test
 	}
 	*/
 	// https://docs.microsoft.com/en-us/windows/win32/seccng/encrypting-data-with-cng#encrypting-data-example
-
 	NTSTATUS Status;
 	DWORD cbData;
 

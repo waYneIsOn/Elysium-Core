@@ -16,23 +16,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOROFCHARACTER
+#include "DefaultAllocatorOfCharacter.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRING
+#include "String.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
 #include "../Elysium.Core.Template/DefaultAllocator.hpp"
 #endif
 
 namespace Elysium::Core::Memory
 {
-	/*
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char8_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char16_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<char32_t>;
-	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<wchar_t>;
-	*/
-	using DefaultAllocatorOfChar = Elysium::Core::Template::Memory::DefaultAllocator<char>;
-	using DefaultAllocatorOfChar8 = Elysium::Core::Template::Memory::DefaultAllocator<char8_t>;
-	using DefaultAllocatorOfChar16 = Elysium::Core::Template::Memory::DefaultAllocator<char16_t>;
-	using DefaultAllocatorOfChar32 = Elysium::Core::Template::Memory::DefaultAllocator<char32_t>;
-	using DefaultAllocatorOfWideChar = Elysium::Core::Template::Memory::DefaultAllocator<wchar_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<String>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Utf8String>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Utf16String>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<Utf32String>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Memory::DefaultAllocator<WideString>;
+	
+	using DefaultAllocatorOfString = Elysium::Core::Template::Memory::DefaultAllocator<String>;
+	using DefaultAllocatorOfUtf8String = Elysium::Core::Template::Memory::DefaultAllocator<Utf8String>;
+	using DefaultAllocatorOfUtf16String = Elysium::Core::Template::Memory::DefaultAllocator<Utf16String>;
+	using DefaultAllocatorOfUtf32String = Elysium::Core::Template::Memory::DefaultAllocator<Utf32String>;
+	using DefaultAllocatorOfWideString = Elysium::Core::Template::Memory::DefaultAllocator<WideString>;
 }
 #endif

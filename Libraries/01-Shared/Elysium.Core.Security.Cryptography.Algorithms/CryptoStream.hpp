@@ -11,7 +11,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifdef _MSC_VER
 #pragma once
 #endif
-
+/*
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOSTREAMMODE
 #include "CryptoStreamMode.hpp"
 #endif
-
+*/
 namespace Elysium::Core::Security::Cryptography
 {
 	/*

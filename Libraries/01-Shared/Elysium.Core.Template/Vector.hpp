@@ -23,11 +23,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
 #include "InitializerList.hpp"
 #endif
-/*
+
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
-*/
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OUTOFMEMORYEXCEPTION
+#include "OutOfMemoryException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
@@ -459,8 +463,7 @@ namespace Elysium::Core::Template::Container
 	{
 		if (Index >= _Length)
 		{
-			// ToDo: throw Exceptions::IndexOutOfRangeException();
-			throw 1;
+			throw Exceptions::IndexOutOfRangeException();
 		}
 
 		return _Data[Index];
@@ -471,8 +474,7 @@ namespace Elysium::Core::Template::Container
 	{
 		if (Index >= _Length)
 		{
-			// ToDo: throw Exceptions::IndexOutOfRangeException();
-			throw 1;
+			throw Exceptions::IndexOutOfRangeException();
 		}
 
 		return _Data[Index];
@@ -572,8 +574,7 @@ namespace Elysium::Core::Template::Container
 	{	// ToDo: have a look at std::vector::erase in regards to returning the last element?
 		if (Index >= _Length)
 		{
-			// ToDo: throw Exceptions::IndexOutOfRangeException();
-			throw 1;
+			throw Exceptions::IndexOutOfRangeException();
 		}
 
 		// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
@@ -707,8 +708,7 @@ namespace Elysium::Core::Template::Container
 		constexpr const Elysium::Core::Template::System::size MaximumSize = GetMaximumSize();
 		if (_Capacity == MaximumSize)
 		{
-			// ToDo: throw specific exception (no more memory can be allocated!) -> throw Exceptions::OutOfMemoryException();
-			throw 1;
+			throw Exceptions::OutOfMemoryException();
 		}
 
 		constexpr const Elysium::Core::Template::System::size GrowthFactor = 2;	// ToDo: check whether a growth factor of 1.5 (double!) would be better

@@ -56,6 +56,8 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		X509Certificate& operator=(X509Certificate&& Right) noexcept;
 	public:
+		const bool operator==(const X509Certificate& Other) const;
+	public:
 		const Elysium::Core::Utf8String GetIssuer() const;
 
 		const Elysium::Core::Utf8String GetSubject() const;
