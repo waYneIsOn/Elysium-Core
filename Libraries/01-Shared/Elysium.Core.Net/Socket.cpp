@@ -70,21 +70,7 @@ Elysium::Core::Net::Sockets::Socket::~Socket()
 {
 	if (_CompletionPortHandle != nullptr)
 	{
-		/*
-		* It is necessary to wait for any pending io callbacks here or I'm going to cause a memory leak!
-		*
-		* Imagine a scenario where in a scope a Socket gets created on the stack and BeginRead(...) gets called.
-		* As soon as the scope ends, the Socket gets deleted and it's io completion port canceled (due to this very destructor).
-		* This means Socket::IOCompletionPortCallback(...), where the IAsyncResult - created on the heap by BeginRead(...) -
-		* would be deleted, is NOT going to be called.
-		* Therefore it is also imperative I do not cancel any pending notifications.
-		* 
-		* ToDo: 
-		* While this MIGHT be fine for a FileStream, this behaviour might not be feasible for a Socket.
-		* Imagine a server with a single connected client waiting for it to send something and it doesn't!
-		*/
-		//CancelThreadpoolIo(_CompletionPortHandle);
-		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
+		CancelThreadpoolIo(_CompletionPortHandle);
 		CloseThreadpoolIo(_CompletionPortHandle);
 
 		_CompletionPortHandle = nullptr;
@@ -586,7 +572,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 		}
 	}
 
-	return AsyncResult;
+	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
 const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const Elysium::Core::IAsyncResult* Result)
@@ -618,7 +604,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 		}
 	}
 
-	return AsyncResult;
+	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
 void Elysium::Core::Net::Sockets::Socket::EndConnect(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
@@ -644,7 +630,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 		}
 	}
 
-	return AsyncResult;
+	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
 void Elysium::Core::Net::Sockets::Socket::EndDisconnect(const Elysium::Core::IAsyncResult * Result)
@@ -670,8 +656,8 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 			throw SocketException();
 		}
 	}
-	
-	return AsyncResult;
+
+	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
 const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndReceive(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
@@ -700,7 +686,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 		}
 	}
 
-	return AsyncResult;
+	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
 const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndSend(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
