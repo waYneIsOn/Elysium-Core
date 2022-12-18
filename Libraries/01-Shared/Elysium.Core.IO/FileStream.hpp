@@ -64,7 +64,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Text/UTF16Encoding.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
 #include <Windows.h>
 #endif
@@ -76,7 +76,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef _APISETFILE_
 #include <fileapi.h>
 #endif
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 
 #else
 #error "undefined os"

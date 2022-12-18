@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Diagnostics/Process.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Diagnostics/Process.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Diagnostics;

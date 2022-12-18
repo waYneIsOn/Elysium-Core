@@ -376,11 +376,7 @@ void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTAN
 	{
 		AsyncFileStreamResult->_BytesTransferred = NumberOfBytesTransferred;
 		AsyncFileStreamResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
-		/*
-		Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
-			(Elysium::Core::Threading::ManualResetEvent&)AsyncFileStreamResult->GetAsyncWaitHandle();
-		bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();	// ToDo: this causes UniquePointer to run out of scope!
-		*/
+		
 		const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback = AsyncFileStreamResult->GetCallback();
 		Callback(AsyncFileStreamResult);
 	}

@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_ENVIRONMENT
+#include "../Elysium.Core/Environment.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
@@ -27,6 +31,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::IO
 {
 	class FileStream;
+	class FileSystemWatcher;
 }
 
 namespace Elysium::Core::Net::Sockets
@@ -44,6 +49,7 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API ThreadPool final
 	{
 		friend class Elysium::Core::IO::FileStream;
+		friend class Elysium::Core::IO::FileSystemWatcher;
 		friend class Elysium::Core::Net::Sockets::Socket;
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
@@ -67,8 +73,8 @@ namespace Elysium::Core::Threading
 		static const bool SetMinThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
 	private:
 #pragma warning (disable: 4251)	// Internal::OSThreadPool won't be used outside ThreadPool
-		static Internal::OSThreadPool _WorkerPool;
-		static Internal::OSThreadPool _IOPool;
+		inline static Internal::OSThreadPool _WorkerPool = Internal::OSThreadPool(Elysium::Core::Environment::ProcessorCount(), Elysium::Core::Environment::ProcessorCount() * 128 - 1);
+		inline static Internal::OSThreadPool _IOPool = Internal::OSThreadPool(Elysium::Core::Environment::ProcessorCount(), 1000);
 #pragma warning (default: 4251)
 	};
 }

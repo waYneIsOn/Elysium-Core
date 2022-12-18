@@ -26,18 +26,58 @@ namespace Elysium::Core::IO
 #error "undefined os"
 #endif
 	{
-		//WriteThrough = -2147483648,
-		None = 0,
+		None = 0x00000000,
 
-		Encrypted = 16384,
+		Readonly = 0x00000001,
 
-		DeleteOnClose =	67108864,
+		Hidden = 0x00000002,
+		/*
+		System = 0x00000004,
 
-		SequentialScan = 134217728,
+		Directory = 0x00000010,
 
-		RandomAccess = 268435456,
+		Archive = 0x00000020,
 
-		Asynchronous = 1073741824,	// FILE_FLAG_OVERLAPPED
+		Device = 0x00000040,
+
+		Normal = 0x00000080,
+
+		Temporary = 0x00000100,
+
+		SparseFile = 0x00000200,
+
+		ReparsePoint = 0x00000400,
+
+		Compressed = 0x00000800,
+
+		Offline = 0x00001000,
+
+		NotContentIndexed = 0x00002000,
+
+		Encrypted = 0x00004000,
+
+		RandomAccess = 0x10000000,
+
+		NoBuffering = 0x20000000,
+		*/
+		Asynchronous = 0x40000000,	// FILE_FLAG_OVERLAPPED
+		
+		Write_Through = 0x80000000,
+
+		DeleteOnClose = 0x04000000,
+
+		SequentialScan = 0x08000000,
+		
+		BackupSemantics = 0x02000000,	// FILE_FLAG_BACKUP_SEMANTICS
+		/*
+		PosixSemantics = 0x01000000,
+
+		OpenReparsePoint = 0x00200000,
+
+		OpenNoRecall = 0x00100000,
+
+		FirstPipeInstance = 0x00080000,
+		*/
 	};
 
 	inline FileOptions operator|(const FileOptions Left, const FileOptions Right)

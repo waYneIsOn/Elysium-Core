@@ -58,11 +58,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Threading::Tasks
 {
-	/*
-	template class ELYSIUM_CORE_API Elysium::Core::Delegate<void>;
-	template struct ELYSIUM_CORE_API std::atomic<TaskStatus>;
-	template struct ELYSIUM_CORE_API std::atomic<AggregateException*>;
-	*/
 	class ELYSIUM_CORE_API Task final : public IAsyncResult
 	{
 	public:
@@ -106,7 +101,7 @@ namespace Elysium::Core::Threading::Tasks
 
 		void Wait();
 	private:
-		static Elysium::Core::int32_t _TaskIdCounter;
+		inline static Elysium::Core::int32_t _TaskIdCounter = 0;
 
 		const Elysium::Core::Template::Container::Action<> _Action;
 		const Elysium::Core::int32_t _Id;
