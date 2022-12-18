@@ -39,7 +39,7 @@
 #if defined ELYSIUM_CORE_OS_WINDOWS
 Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle)
 	: _WinSocketHandle(WinSocketHandle), 
-	_CompletionPortHandle(CreateThreadpoolIo((HANDLE)_WinSocketHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment)),
+	_CompletionPortHandle(CreateThreadpoolIo((HANDLE)_WinSocketHandle, &IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment)),
 	ConnectEx(Internal::WinSocket::RetrieveFunctionConnectEx(_WinSocketHandle)),
 	DisconnectEx(Internal::WinSocket::RetrieveFunctionDisconnectEx(_WinSocketHandle))
 { }
@@ -47,7 +47,7 @@ Elysium::Core::Net::Sockets::Socket::Socket(SOCKET WinSocketHandle)
 
 Elysium::Core::Net::Sockets::Socket::Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType)
 	: _WinSocketHandle(WSASocket(FormatConverter::Convert(AddressFamily), FormatConverter::Convert(SocketType), FormatConverter::Convert(ProtocolType), nullptr, 0, WSA_FLAG_OVERLAPPED)),
-	_CompletionPortHandle(CreateThreadpoolIo((HANDLE)_WinSocketHandle, (PTP_WIN32_IO_CALLBACK)&IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment)),
+	_CompletionPortHandle(CreateThreadpoolIo((HANDLE)_WinSocketHandle, &IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment)),
 	ConnectEx(Internal::WinSocket::RetrieveFunctionConnectEx(_WinSocketHandle)),
 	DisconnectEx(Internal::WinSocket::RetrieveFunctionDisconnectEx(_WinSocketHandle))
 {
