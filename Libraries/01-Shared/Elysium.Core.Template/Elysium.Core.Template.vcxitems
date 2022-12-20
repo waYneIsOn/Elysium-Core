@@ -65,6 +65,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />

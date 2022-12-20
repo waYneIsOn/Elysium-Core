@@ -533,6 +533,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Ceiling.hpp">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileSystem.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -603,6 +607,9 @@
     </Filter>
     <Filter Include="Exceptions">
       <UniqueIdentifier>{6d3e8155-c915-4e37-98aa-d3710457a2e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{da343ac3-8d6b-4920-a155-5b76de9e737c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

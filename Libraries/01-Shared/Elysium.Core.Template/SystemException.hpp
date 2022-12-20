@@ -70,7 +70,7 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::SystemException::SystemException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::Exception(Message),
-		_ErrorCode(GetLastError())
+ 		_ErrorCode(GetLastError())
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::SystemException::SystemException(Text::String<char8_t>&& Message)
