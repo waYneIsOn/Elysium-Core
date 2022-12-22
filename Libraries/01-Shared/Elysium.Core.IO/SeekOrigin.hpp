@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/OperatingSystem.hpp"
 #endif
 
 namespace Elysium::Core::IO

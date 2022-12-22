@@ -16,11 +16,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/OperatingSystem.hpp"
+#endif
+
 namespace Elysium::Core::IO
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	enum class FileOptions : Elysium::Core::uint32_t
-#elif defined(__ANDROID__)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class FileOptions
 #else
 #error "undefined os"

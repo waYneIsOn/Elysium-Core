@@ -39,6 +39,8 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Path.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)File.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Directory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
@@ -108,6 +110,8 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Path.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)File.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Directory.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

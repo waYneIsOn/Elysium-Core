@@ -20,7 +20,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DeflateEncodingMethod.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Directory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndOfStreamException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)File.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileNotFoundException.hpp" />
@@ -56,7 +58,9 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Directory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EndOfStreamException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)File.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.cpp" />
