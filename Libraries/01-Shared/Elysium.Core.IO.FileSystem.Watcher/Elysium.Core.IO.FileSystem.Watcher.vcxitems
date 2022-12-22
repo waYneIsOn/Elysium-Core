@@ -16,10 +16,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ErrorEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileSystemEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileSystemWatcher.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FileSystemWatcherAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotifyFilters.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RenamedEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)WatcherChangeTypes.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ErrorEventArgs.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileSystemEventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileSystemWatcher.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FileSystemWatcherAsyncResult.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RenamedEventArgs.cpp" />
   </ItemGroup>
 </Project>
