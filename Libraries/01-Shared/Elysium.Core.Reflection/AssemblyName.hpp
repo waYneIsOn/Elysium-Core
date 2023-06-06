@@ -29,17 +29,17 @@ namespace Elysium::Core::Reflection
 	class ELYSIUM_CORE_API AssemblyName final
 	{
 	public:
-		AssemblyName(const Utf8String& AssemblyName, const Version& AssemblyVersion);
+		constexpr AssemblyName(const Utf8String& AssemblyName, const Version& AssemblyVersion);
 
-		AssemblyName(const AssemblyName& Source);
+		constexpr AssemblyName(const AssemblyName& Source);
 
-		AssemblyName(AssemblyName&& Right) noexcept = delete;
+		constexpr AssemblyName(AssemblyName&& Right) noexcept = delete;
 
-		~AssemblyName();
+		constexpr ~AssemblyName();
 	public:
-		AssemblyName& operator=(const AssemblyName& Source);
+		constexpr AssemblyName& operator=(const AssemblyName& Source);
 
-		AssemblyName& operator=(AssemblyName&& Right) noexcept = delete;
+		constexpr AssemblyName& operator=(AssemblyName&& Right) noexcept = delete;
 	public:
 		bool operator==(const AssemblyName& Other) const;
 

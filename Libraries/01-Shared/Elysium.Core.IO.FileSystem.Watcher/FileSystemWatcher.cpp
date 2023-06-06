@@ -132,7 +132,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	Elysium::Core::IO::FileSystemWatcherAsyncResult* AsyncFileWatcherResult = (Elysium::Core::IO::FileSystemWatcherAsyncResult*)AsyncResult;
+	FileSystemWatcherAsyncResult* AsyncFileWatcherResult = const_cast<FileSystemWatcherAsyncResult*>(static_cast<const FileSystemWatcherAsyncResult*>(AsyncResult));
 	if (AsyncFileWatcherResult == nullptr)
 	{	// ToDo: throw specific exception
 		throw 1;

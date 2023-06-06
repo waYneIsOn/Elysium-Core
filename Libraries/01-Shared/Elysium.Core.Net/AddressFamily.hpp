@@ -12,15 +12,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
 #endif
 
 namespace Elysium::Core::Net::Sockets
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	enum class AddressFamily : Elysium::Core::uint16_t
-#elif defined(__ANDROID__)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class AddressFamily
 #else
 #error "undefined os"

@@ -8,36 +8,36 @@
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
-Elysium::Core::Version::Version()
+constexpr Elysium::Core::Version::Version()
 	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
 { }
 
-Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor)
+constexpr Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor)
 	: _Major(Major), _Minor(Minor), _Build(Undefined), _Revision(Undefined)
 { }
 
-Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build)
+constexpr Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Undefined)
 { }
 
-Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build, const Elysium::Core::uint16_t& Revision)
+constexpr Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build, const Elysium::Core::uint16_t& Revision)
 	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Revision)
 { }
 
-Elysium::Core::Version::Version(const Version & Source)
+constexpr Elysium::Core::Version::Version(const Version & Source)
 	: _Major(Source._Major), _Minor(Source._Minor), _Build(Source._Build), _Revision(Source._Revision)
 { }
 
-Elysium::Core::Version::Version(Version && Right) noexcept
+constexpr Elysium::Core::Version::Version(Version && Right) noexcept
 	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
 
-Elysium::Core::Version::~Version()
+constexpr Elysium::Core::Version::~Version()
 { }
 
-Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
+constexpr Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
 {
 	if (this != &Other)
 	{
@@ -49,7 +49,7 @@ Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other
 	return *this;
 }
 
-Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noexcept
+constexpr Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noexcept
 {
 	if (this != &Right)
 	{

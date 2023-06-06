@@ -8,13 +8,13 @@
 #include "Module.hpp"
 #endif
 
-Elysium::Core::Reflection::Assembly::Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName)
+constexpr Elysium::Core::Reflection::Assembly::Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName)
 	: _AssemblyName(AssemblyName), _Modules()
 {
 	AppDomain::GetCurrentDomain().Add(*this);
 }
 
-Elysium::Core::Reflection::Assembly::~Assembly()
+constexpr Elysium::Core::Reflection::Assembly::~Assembly()
 {
 	AppDomain::GetCurrentDomain().Remove(*this);
 }
@@ -59,12 +59,12 @@ const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection
 	return _Modules;
 }
 
-void Elysium::Core::Reflection::Assembly::Add(Elysium::Core::Reflection::Module& Module)
+constexpr void Elysium::Core::Reflection::Assembly::Add(Elysium::Core::Reflection::Module& Module)
 {
 	_Modules.PushBack(&Module);
 }
 
-void Elysium::Core::Reflection::Assembly::Remove(Elysium::Core::Reflection::Module& Module)
+constexpr void Elysium::Core::Reflection::Assembly::Remove(Elysium::Core::Reflection::Module& Module)
 {
 	_Modules.Erase(&Module);
 }

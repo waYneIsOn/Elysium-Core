@@ -33,21 +33,21 @@ namespace Elysium::Core::Reflection
 	class ELYSIUM_CORE_API Type final
 	{
 	public:
-		Type(const Module& Module, const Elysium::Core::uint64_t Id, const Elysium::Core::Utf8String& Name);
+		constexpr Type(const Module& Module, const Elysium::Core::uint64_t Id, const Elysium::Core::Utf8String& Name);
 
-		Type(const Type& Source) = delete;
+		constexpr Type(const Type& Source) = delete;
 
-		Type(Type&& Right) noexcept = delete;
+		constexpr Type(Type&& Right) noexcept = delete;
 
-		~Type();
+		constexpr ~Type();
 	public:
-		Type& operator=(const Type& Source) = delete;
+		constexpr Type& operator=(const Type& Source) = delete;
 
-		Type& operator=(Type&& Right) noexcept = delete;
+		constexpr Type& operator=(Type&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::Utf8String GetFullName() const;
+		constexpr const Elysium::Core::Utf8String GetFullName() const;
 
-		const Elysium::Core::Utf8String& GetName() const;
+		constexpr const Elysium::Core::Utf8String& GetName() const;
 	private:
 		const Module& _Module;
 		const Elysium::Core::uint64_t _Id;

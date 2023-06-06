@@ -50,7 +50,7 @@ namespace UnitTests::Core::IO
 
 			//Watcher.EndInit();
 
-			Assert::Fail(L"while this test works, the implemenation of iocp-cancelation is not correct yet (multiple threads deleting FileSystemWatcherAsyncResult for isntance)");
+			Assert::Fail(L"while this test works, the implemenation of iocp-cancelation is not correct yet (multiple threads deleting FileSystemWatcherAsyncResult for instance)");
 		}
 
 		TEST_METHOD(WatchFile)

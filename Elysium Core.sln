@@ -175,6 +175,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO.FileSystem.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO.FileSystem.Watcher", "Libraries\02-Windows\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxproj", "{D4F510CA-0532-4C90-811B-752B92393B68}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Data.TdsClient", "Libraries\02-Windows\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxproj", "{3B7CC342-6018-4F5E-A222-CA02F6D57869}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems*{01f7fcdf-e4f2-4c24-8d78-79d9e0ea35e6}*SharedItemsImports = 4
@@ -195,6 +197,7 @@ Global
 		UnitTests\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{35e6a008-a909-453d-90f4-8ebe79bb86ce}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems*{3b7cc342-6018-4f5e-a222-ca02f6d57869}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Diagnostics\Elysium.Core.Diagnostics.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.IO\Elysium.Core.IO.vcxitems*{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}*SharedItemsImports = 4
@@ -246,6 +249,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO.Ports\Elysium.Core.IO.Ports.vcxitems*{d43640fc-6fbe-4503-9fea-4128b67190b5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxitems*{d4f510ca-0532-4c90-811b-752b92393b68}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{d4f510ca-0532-4c90-811b-752b92393b68}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{d72c0184-b715-4762-9004-ace86b3e15fb}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{dda554ce-e73b-4fcb-9da0-ec45214c84df}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems*{e02b4f08-16e6-45ba-aa47-72d24d6ebd2e}*SharedItemsImports = 9
@@ -566,6 +570,18 @@ Global
 		{D4F510CA-0532-4C90-811B-752B92393B68}.Release|x64.Build.0 = Release|x64
 		{D4F510CA-0532-4C90-811B-752B92393B68}.Release|x86.ActiveCfg = Release|Win32
 		{D4F510CA-0532-4C90-811B-752B92393B68}.Release|x86.Build.0 = Release|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Debug|ARM.ActiveCfg = Debug|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Debug|x64.ActiveCfg = Debug|x64
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Debug|x64.Build.0 = Debug|x64
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Debug|x86.ActiveCfg = Debug|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Debug|x86.Build.0 = Debug|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Release|ARM.ActiveCfg = Release|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Release|ARM64.ActiveCfg = Release|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Release|x64.ActiveCfg = Release|x64
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Release|x64.Build.0 = Release|x64
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Release|x86.ActiveCfg = Release|Win32
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -653,6 +669,7 @@ Global
 		{274752B9-444B-4C95-848F-6BDB64ECCF8B} = {63A9D5D7-8E60-4AEB-94A9-C193FD6E8999}
 		{73EFFDFC-A77C-4BD2-8F16-B500AF772E84} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{D4F510CA-0532-4C90-811B-752B92393B68} = {1030673B-B627-44FE-A2AE-327B6146535E}
+		{3B7CC342-6018-4F5E-A222-CA02F6D57869} = {1030673B-B627-44FE-A2AE-327B6146535E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

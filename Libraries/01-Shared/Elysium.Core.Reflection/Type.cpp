@@ -1,22 +1,22 @@
 #include "Type.hpp"
 
-Elysium::Core::Reflection::Type::Type(const Module& Module, const Elysium::Core::uint64_t Id, const Elysium::Core::Utf8String& Name)
+constexpr Elysium::Core::Reflection::Type::Type(const Module& Module, const Elysium::Core::uint64_t Id, const Elysium::Core::Utf8String& Name)
 	: _Module(Module), _Id(Id), _Name(Name)
 {
 	((Elysium::Core::Reflection::Module&)_Module).Add(*this);
 }
 
-Elysium::Core::Reflection::Type::~Type()
+constexpr Elysium::Core::Reflection::Type::~Type()
 {
 	((Elysium::Core::Reflection::Module&)_Module).Remove(*this);
 }
 
-const Elysium::Core::Utf8String Elysium::Core::Reflection::Type::GetFullName() const
+constexpr const Elysium::Core::Utf8String Elysium::Core::Reflection::Type::GetFullName() const
 {	// ToDo: _Module.GetName() + "::" + _Name;
-	throw 1;
+	return _Name;
 }
 
-const Elysium::Core::Utf8String& Elysium::Core::Reflection::Type::GetName() const
+constexpr const Elysium::Core::Utf8String& Elysium::Core::Reflection::Type::GetName() const
 {
 	return _Name;
 }

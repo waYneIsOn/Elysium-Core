@@ -106,36 +106,36 @@ namespace Elysium::Core::Template::Container
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
-		Vector() noexcept;
+		constexpr Vector() noexcept;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Capacity"></param>
-		Vector(const System::size Capacity);
+		constexpr Vector(const System::size Capacity);
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="InitializerList"></param>
-		Vector(const InitializerList<T>& InitializerList);
+		constexpr Vector(const InitializerList<T>& InitializerList);
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Source"></param>
-		Vector(const Vector& Source);
+		constexpr Vector(const Vector& Source);
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Right"></param>
-		Vector(Vector&& Right) noexcept;
+		constexpr Vector(Vector&& Right) noexcept;
 
 		/// <summary>
 		/// Destroys this instance.
 		/// </summary>
-		~Vector();
+		constexpr ~Vector();
 	public:
 		/// <summary>
 		/// 
@@ -274,7 +274,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		FIterator Erase(ConstValue Value);
+		constexpr FIterator Erase(ConstValue Value);
 
 		/// <summary>
 		/// 
@@ -300,7 +300,7 @@ namespace Elysium::Core::Template::Container
 		/// Moves given item to the end of the vector. (May cause reallocation.)
 		/// </summary>
 		/// <param name="Item"></param>
-		void PushBack(RValueReference Item);
+		void constexpr PushBack(RValueReference Item);
 
 		/// <summary>
 		/// 
@@ -343,38 +343,38 @@ namespace Elysium::Core::Template::Container
 	};
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Vector() noexcept
+	inline constexpr Vector<T, Allocator>::Vector() noexcept
 		: _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
 	{ }
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
+	inline constexpr Vector<T, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
 		: _Capacity(Capacity == 0 ? 1 : Capacity), _Length(0), _Data(_Allocator.Allocate(_Capacity))
 	{ }
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
+	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
 		: _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
 		Array<T>::Copy(InitializerList.begin(), _Data, _Capacity);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Vector(const Vector& Source)
+	inline constexpr Vector<T, Allocator>::Vector(const Vector& Source)
 		: _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
 	{
 		Array<T>::Copy(Source._Data, _Data, _Length);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::Vector(Vector&& Right) noexcept
+	inline constexpr Vector<T, Allocator>::Vector(Vector&& Right) noexcept
 		: _Capacity(0), _Length(0), _Data(nullptr)
 	{
 		*this = Functional::Move(Right);
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Vector<T, Allocator>::~Vector()
+	inline constexpr Vector<T, Allocator>::~Vector()
 	{
 		_Allocator.Deallocate(_Data, _Length);
 	}
@@ -555,7 +555,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::Erase(ConstValue Value)
+	inline constexpr Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::Erase(ConstValue Value)
 	{
 		for (System::size i = 0; i < _Length; i++)
 		{
@@ -627,7 +627,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::PushBack(RValueReference Item)
+	inline constexpr void Vector<T, Allocator>::PushBack(RValueReference Item)
 	{
 		if (_Length == _Capacity)
 		{

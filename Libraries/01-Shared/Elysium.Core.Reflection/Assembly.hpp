@@ -36,17 +36,17 @@ namespace Elysium::Core::Reflection
 	{
 		friend class Module;
 	public:
-		Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName);
+		constexpr Assembly(const Elysium::Core::Reflection::AssemblyName& AssemblyName);
 
-		Assembly(const Assembly& Source) = delete;
+		constexpr Assembly(const Assembly& Source) = delete;
 
-		Assembly(Assembly&& Right) noexcept = delete;
+		constexpr Assembly(Assembly&& Right) noexcept = delete;
 
-		~Assembly();
+		constexpr ~Assembly();
 	public:
-		Assembly& operator=(const Assembly& Source) = delete;
+		constexpr Assembly& operator=(const Assembly& Source) = delete;
 
-		Assembly& operator=(Assembly&& Right) noexcept = delete;
+		constexpr Assembly& operator=(Assembly&& Right) noexcept = delete;
 
 		bool operator==(const Assembly& Other) const;
 
@@ -68,9 +68,9 @@ namespace Elysium::Core::Reflection
 
 		Elysium::Core::Template::Container::Vector<const Module*> _Modules;
 
-		void Add(Elysium::Core::Reflection::Module& Module);
+		constexpr void Add(Elysium::Core::Reflection::Module& Module);
 
-		void Remove(Elysium::Core::Reflection::Module& Module);
+		constexpr void Remove(Elysium::Core::Reflection::Module& Module);
 	};
 }
 #endif

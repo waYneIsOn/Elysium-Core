@@ -36,17 +36,17 @@ namespace Elysium::Core::Reflection
 	{
 		friend class Assembly;
 	public:
-		AppDomain();
+		constexpr AppDomain();
 
-		AppDomain(const AppDomain& Source) = delete;
+		constexpr AppDomain(const AppDomain& Source) = delete;
 
-		AppDomain(AppDomain&& Right) noexcept = delete;
+		constexpr AppDomain(AppDomain&& Right) noexcept = delete;
 
-		~AppDomain();
+		constexpr ~AppDomain();
 	public:
-		AppDomain& operator=(const AppDomain& Source) = delete;
+		constexpr AppDomain& operator=(const AppDomain& Source) = delete;
 
-		AppDomain& operator=(AppDomain&& Right) noexcept = delete;
+		constexpr AppDomain& operator=(AppDomain&& Right) noexcept = delete;
 	public:
 		const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Assembly*> GetAssemblies() const;
 	public:
@@ -64,9 +64,9 @@ namespace Elysium::Core::Reflection
 		//Elysium::Core::Template::Container::HashTable<Type*, Module*> _TypeModuleTable;
 		//Elysium::Core::Template::Container::HashTable<Elysium::Core::uint64_t*, Type*> _TypeIdTypeTable;
 
-		void Add(const Elysium::Core::Reflection::Assembly& Assembly);
+		constexpr void Add(const Elysium::Core::Reflection::Assembly& Assembly);
 
-		void Remove(const Elysium::Core::Reflection::Assembly& Assembly);
+		constexpr void Remove(const Elysium::Core::Reflection::Assembly& Assembly);
 	};
 }
 #endif

@@ -8,13 +8,13 @@
 #include "Type.hpp"
 #endif
 
-Elysium::Core::Reflection::Module::Module(const Assembly& Assembly, const Utf8String& Name)
+constexpr Elysium::Core::Reflection::Module::Module(const Assembly& Assembly, const Utf8String& Name)
 	: _Assembly(Assembly), _Name(Name), _Types()
 {
 	((Elysium::Core::Reflection::Assembly&)_Assembly).Add(*this);
 }
 
-Elysium::Core::Reflection::Module::~Module()
+constexpr Elysium::Core::Reflection::Module::~Module()
 {
 	((Elysium::Core::Reflection::Assembly&)_Assembly).Remove(*this);
 }
@@ -44,12 +44,12 @@ const Elysium::Core::size Elysium::Core::Reflection::Module::GetHashCode() const
 	return _Name.GetHashCode();
 }
 
-void Elysium::Core::Reflection::Module::Add(const Elysium::Core::Reflection::Type& Type)
+constexpr void Elysium::Core::Reflection::Module::Add(const Elysium::Core::Reflection::Type& Type)
 {
 	_Types.PushBack(&Type);
 }
 
-void Elysium::Core::Reflection::Module::Remove(const Elysium::Core::Reflection::Type& Type)
+constexpr void Elysium::Core::Reflection::Module::Remove(const Elysium::Core::Reflection::Type& Type)
 {
 	_Types.Erase(&Type);
 }

@@ -6,11 +6,11 @@
 
 Elysium::Core::Reflection::AppDomain Elysium::Core::Reflection::AppDomain::_CurrentDomain = Elysium::Core::Reflection::AppDomain();
 
-Elysium::Core::Reflection::AppDomain::AppDomain()
+constexpr Elysium::Core::Reflection::AppDomain::AppDomain()
 	: _RegisteredAssemblies()
 { }
 
-Elysium::Core::Reflection::AppDomain::~AppDomain()
+constexpr Elysium::Core::Reflection::AppDomain::~AppDomain()
 { }
 
 const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Assembly*> Elysium::Core::Reflection::AppDomain::GetAssemblies() const
@@ -23,12 +23,12 @@ Elysium::Core::Reflection::AppDomain& Elysium::Core::Reflection::AppDomain::GetC
 	return _CurrentDomain;
 }
 
-void Elysium::Core::Reflection::AppDomain::Add(const Elysium::Core::Reflection::Assembly& Assembly)
+constexpr void Elysium::Core::Reflection::AppDomain::Add(const Elysium::Core::Reflection::Assembly& Assembly)
 {
 	_RegisteredAssemblies.PushBack(&Assembly);
 }
 
-void Elysium::Core::Reflection::AppDomain::Remove(const Elysium::Core::Reflection::Assembly& Assembly)
+constexpr void Elysium::Core::Reflection::AppDomain::Remove(const Elysium::Core::Reflection::Assembly& Assembly)
 {
 	_RegisteredAssemblies.Erase(&Assembly);
 }

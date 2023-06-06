@@ -54,9 +54,7 @@ Elysium::Core::IO::FileStream::~FileStream()
 {
 	if (_CompletionPortHandle != nullptr)
 	{
-		CancelThreadpoolIo(_CompletionPortHandle);
 		CloseThreadpoolIo(_CompletionPortHandle);
-
 		_CompletionPortHandle = nullptr;
 	}
 	Close();
@@ -260,8 +258,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 
 void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	//const FileStreamAsyncResult* AsyncFileStreamResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
-	FileStreamAsyncResult* AsyncFileStreamResult = (FileStreamAsyncResult*)AsyncResult;
+	FileStreamAsyncResult* AsyncFileStreamResult = const_cast<FileStreamAsyncResult*>(static_cast<const FileStreamAsyncResult*>(AsyncResult));
 	if (AsyncFileStreamResult == nullptr)
 	{	// ToDo: throw specific exception
 		throw 1;
@@ -314,8 +311,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 
 const Elysium::Core::size Elysium::Core::IO::FileStream::EndRead(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	//const FileStreamAsyncResult* AsyncFileStreamResult = dynamic_cast<const FileStreamAsyncResult*>(AsyncResult);
-	FileStreamAsyncResult* AsyncFileStreamResult = (FileStreamAsyncResult*)AsyncResult;
+	FileStreamAsyncResult* AsyncFileStreamResult = const_cast<FileStreamAsyncResult*>(static_cast<const FileStreamAsyncResult*>(AsyncResult));
 	if (AsyncFileStreamResult == nullptr)
 	{	// ToDo: throw specific exception
 		throw 1;

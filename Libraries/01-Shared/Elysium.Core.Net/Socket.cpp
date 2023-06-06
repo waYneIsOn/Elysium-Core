@@ -575,9 +575,9 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
-const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const Elysium::Core::IAsyncResult* Result)
+const Elysium::Core::Net::Sockets::Socket Elysium::Core::Net::Sockets::Socket::EndAccept(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	Elysium::Core::Net::Sockets::AcceptAsyncResult* AsyncAcceptResult = (Elysium::Core::Net::Sockets::AcceptAsyncResult*)Result;
+	AcceptAsyncResult* AsyncAcceptResult = const_cast<AcceptAsyncResult*>(static_cast<const AcceptAsyncResult*>(AsyncResult));
 	return Elysium::Core::Net::Sockets::Socket(AsyncAcceptResult->_ClientSocket);
 }
 
@@ -607,7 +607,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
-void Elysium::Core::Net::Sockets::Socket::EndConnect(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
+void Elysium::Core::Net::Sockets::Socket::EndConnect(const Elysium::Core::IAsyncResult * AsyncResult, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
 {
 	// ToDo: read error
 }
@@ -633,7 +633,7 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
-void Elysium::Core::Net::Sockets::Socket::EndDisconnect(const Elysium::Core::IAsyncResult * Result)
+void Elysium::Core::Net::Sockets::Socket::EndDisconnect(const Elysium::Core::IAsyncResult * AsyncResult)
 {
 	// ToDo: read error?
 }
@@ -660,10 +660,9 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
-const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndReceive(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
+const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndReceive(const Elysium::Core::IAsyncResult * AsyncResult, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
 {
-	SendReceiveAsyncResult* CastResult = (SendReceiveAsyncResult*)Result;
-
+	SendReceiveAsyncResult* CastResult = const_cast<SendReceiveAsyncResult*>(static_cast<const SendReceiveAsyncResult*>(AsyncResult));
 	return CastResult->_BytesTransferred;
 }
 
@@ -689,10 +688,9 @@ Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elys
 	return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
 }
 
-const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndSend(const Elysium::Core::IAsyncResult * Result, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
+const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::EndSend(const Elysium::Core::IAsyncResult * AsyncResult, Elysium::Core::Net::Sockets::SocketError & ErrorCode)
 {
-	SendReceiveAsyncResult* CastResult = (SendReceiveAsyncResult*)Result;
-
+	SendReceiveAsyncResult* CastResult = const_cast<SendReceiveAsyncResult*>(static_cast<const SendReceiveAsyncResult*>(AsyncResult));
 	return CastResult->_BytesTransferred;
 }
 

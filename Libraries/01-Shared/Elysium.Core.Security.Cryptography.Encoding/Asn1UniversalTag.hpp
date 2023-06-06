@@ -12,15 +12,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SYSTEM
+#include "../Elysium.Core/System.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class Asn1UniversalTag : uint8_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class Asn1UniversalTag : Elysium::Core::uint8_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class Asn1UniversalTag
 #else
 #error "undefined os"

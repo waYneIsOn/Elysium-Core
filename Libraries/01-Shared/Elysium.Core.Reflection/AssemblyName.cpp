@@ -1,17 +1,17 @@
 #include "AssemblyName.hpp"
 
-Elysium::Core::Reflection::AssemblyName::AssemblyName(const Utf8String& AssemblyName, const Version& AssemblyVersion)
+constexpr Elysium::Core::Reflection::AssemblyName::AssemblyName(const Utf8String& AssemblyName, const Version& AssemblyVersion)
 	: _Name(AssemblyName), _Version(AssemblyVersion)
 { }
 
-Elysium::Core::Reflection::AssemblyName::AssemblyName(const AssemblyName & Source)
+constexpr Elysium::Core::Reflection::AssemblyName::AssemblyName(const AssemblyName & Source)
 	: _Name(Source._Name), _Version(Source._Version)
 { }
 
-Elysium::Core::Reflection::AssemblyName::~AssemblyName()
+constexpr Elysium::Core::Reflection::AssemblyName::~AssemblyName()
 { }
 
-Elysium::Core::Reflection::AssemblyName& Elysium::Core::Reflection::AssemblyName::operator=(const AssemblyName& Source)
+constexpr Elysium::Core::Reflection::AssemblyName& Elysium::Core::Reflection::AssemblyName::operator=(const AssemblyName& Source)
 {
 	if (this != &Source)
 	{

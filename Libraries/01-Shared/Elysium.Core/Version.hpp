@@ -33,23 +33,23 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API Version final
 	{
 	public:
-		Version();
+		constexpr Version();
 
-		Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor);
+		constexpr Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor);
 
-		Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build);
+		constexpr Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build);
 
-		Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build, const Elysium::Core::uint16_t& Revision);
+		constexpr Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build, const Elysium::Core::uint16_t& Revision);
 
-		Version(const Version& Source);
+		constexpr Version(const Version& Source);
 
-		Version(Version&& Right) noexcept;
+		constexpr Version(Version&& Right) noexcept;
 
-		~Version();
+		constexpr ~Version();
 	public:
-		Version& operator=(const Version& Other);
+		constexpr Version& operator=(const Version& Other);
 
-		Version& operator=(Version&& Right) noexcept;
+		constexpr Version& operator=(Version&& Right) noexcept;
 	public:
 		bool operator==(const Version& Other) const;
 
