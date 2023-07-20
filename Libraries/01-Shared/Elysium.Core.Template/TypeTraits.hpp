@@ -136,6 +136,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_UNDERLYINGTYPE
+#include "UnderlyingType.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOIDTYPE
 #include "VoidType.hpp"
 #endif

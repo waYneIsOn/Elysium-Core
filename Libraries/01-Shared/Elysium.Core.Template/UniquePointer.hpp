@@ -32,23 +32,23 @@ namespace Elysium::Core::Template::Memory
 	public:
 		using Pointer = Functional::RemoveReferenceType<T>*;
 	public:
-		UniquePointer(Pointer Data);
+		constexpr UniquePointer(Pointer Data) noexcept;
 
-		UniquePointer(const UniquePointer& Source) = delete;
+		constexpr UniquePointer(const UniquePointer& Source) = delete;
 
-		UniquePointer(UniquePointer&& Right) noexcept;
+		constexpr UniquePointer(UniquePointer&& Right) noexcept;
 
-		~UniquePointer();
+		constexpr ~UniquePointer();
 	public:
-		UniquePointer<T, Deleter>& operator=(const UniquePointer& Source) = delete;
+		constexpr UniquePointer<T, Deleter>& operator=(const UniquePointer& Source) = delete;
 
-		UniquePointer<T, Deleter>& operator=(UniquePointer&& Right) noexcept;
+		constexpr UniquePointer<T, Deleter>& operator=(UniquePointer&& Right) noexcept;
 	public:
-		UniquePointer<T, Deleter>::Pointer operator->() const noexcept;
+		constexpr UniquePointer<T, Deleter>::Pointer operator->() const noexcept;
 	public:
-		UniquePointer<T, Deleter>::Pointer GetUnderlyingPointer() const noexcept;
+		constexpr UniquePointer<T, Deleter>::Pointer GetUnderlyingPointer() const noexcept;
 
-		UniquePointer<T, Deleter>::Pointer Release() noexcept;
+		constexpr UniquePointer<T, Deleter>::Pointer Release() noexcept;
 	private:
 		inline static Deleter _Deleter = Deleter();
 	private:
@@ -56,19 +56,19 @@ namespace Elysium::Core::Template::Memory
 	};
 
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>::UniquePointer(Pointer Data)
+	inline constexpr UniquePointer<T, Deleter>::UniquePointer(Pointer Data) noexcept
 		: _Data(Data)
 	{ }
 	
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>::UniquePointer(UniquePointer&& Right) noexcept
+	inline constexpr UniquePointer<T, Deleter>::UniquePointer(UniquePointer&& Right) noexcept
 		: _Data(nullptr)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>::~UniquePointer()
+	inline constexpr UniquePointer<T, Deleter>::~UniquePointer()
 	{
 		if (_Data != nullptr)
 		{
@@ -78,7 +78,7 @@ namespace Elysium::Core::Template::Memory
 	}
 	
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>& UniquePointer<T, Deleter>::operator=(UniquePointer<T, Deleter>&& Right) noexcept
+	inline constexpr UniquePointer<T, Deleter>& UniquePointer<T, Deleter>::operator=(UniquePointer<T, Deleter>&& Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -95,19 +95,19 @@ namespace Elysium::Core::Template::Memory
 	}
 	
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::operator->() const noexcept
+	inline constexpr UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::operator->() const noexcept
 	{
 		return _Data;
 	}
 
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::GetUnderlyingPointer() const noexcept
+	inline constexpr UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::GetUnderlyingPointer() const noexcept
 	{
 		return _Data;
 	}
 
 	template<class T, class Deleter>
-	inline UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::Release() noexcept
+	inline constexpr UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::Release() noexcept
 	{
 		Pointer TemporaryData = _Data;
 		_Data = nullptr;

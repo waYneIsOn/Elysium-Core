@@ -124,6 +124,7 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsArray<EnumerationClass>::Value);
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsArray<Colour>::Value);
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsArray<TypeTraitTests>::Value);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsArray<SomeStruct>::Value);
 
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<char[]>::Value);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsArray<char[2]>::Value);
@@ -140,6 +141,7 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsClass<Colour>::Value);
 
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsClass<TypeTraitTests>::Value);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsClass<SomeStruct>::Value);
 		}
 
 		TEST_METHOD(IsEnumeration)
@@ -148,6 +150,7 @@ namespace UnitTests::Core::Template::TypeTraits
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsEnumeration<char*>::Value);
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsEnumeration<char&>::Value);
 			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsEnumeration<TypeTraitTests>::Value);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsEnumeration<SomeStruct>::Value);
 
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsEnumeration<EnumerationClass>::Value);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsEnumeration<Colour>::Value);

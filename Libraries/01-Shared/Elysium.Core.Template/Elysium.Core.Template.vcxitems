@@ -60,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
@@ -72,6 +73,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
@@ -98,6 +100,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Round.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
@@ -107,6 +110,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Truncate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRange.hpp" />

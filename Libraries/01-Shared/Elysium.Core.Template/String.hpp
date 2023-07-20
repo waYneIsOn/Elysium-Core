@@ -939,7 +939,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + Traits::MinimumByteLength;
 
 		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
-		memcpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminator);
+		memcpy(&_InternalString._Heap._Data[0], Value, Size);
 
 		_InternalString._Heap._Size = Size;
 		_InternalString._Heap.SetCapacity(Size / Traits::MinimumByteLength);

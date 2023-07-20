@@ -537,6 +537,19 @@
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Enumeration.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp">
+      <Filter>RunTimeTypeInformation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -610,6 +623,15 @@
     </Filter>
     <Filter Include="IO">
       <UniqueIdentifier>{da343ac3-8d6b-4920-a155-5b76de9e737c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression">
+      <UniqueIdentifier>{00795f94-4385-4654-ba27-1f1c85ac9a4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\HuffmanCoding">
+      <UniqueIdentifier>{86d55853-a77f-449d-ac44-5ce169202147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RunTimeTypeInformation">
+      <UniqueIdentifier>{56e47322-ae2c-430f-b257-87272da0f320}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
