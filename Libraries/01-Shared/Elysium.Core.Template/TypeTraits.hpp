@@ -52,6 +52,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsConstant.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONVERTIBLE
+#include "IsConvertible.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISENUMERATION
 #include "IsEnumeration.hpp"
 #endif
@@ -102,6 +106,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
 #include "IsSame.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSCOPEDENUMERATION
+#include "IsScopedEnumeration.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNED

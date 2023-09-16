@@ -173,7 +173,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Map.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)OrderedMap.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp">
@@ -540,13 +540,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Enumeration.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsScopedEnumeration.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp">
       <Filter>RunTimeTypeInformation</Filter>
     </ClInclude>
@@ -632,6 +638,9 @@
     </Filter>
     <Filter Include="RunTimeTypeInformation">
       <UniqueIdentifier>{56e47322-ae2c-430f-b257-87272da0f320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{0115952b-a0a4-47b8-be20-1e46cfd87a6c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

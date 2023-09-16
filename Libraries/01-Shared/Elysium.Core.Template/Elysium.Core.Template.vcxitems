@@ -79,6 +79,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsScopedEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />
@@ -101,6 +103,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Round.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
@@ -127,7 +130,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Literals.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Map.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)OrderedMap.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EnableIf.hpp" />

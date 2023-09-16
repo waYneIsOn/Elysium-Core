@@ -2,6 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IsSame.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IsScopedEnumeration.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/UnderlyingType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
@@ -9,6 +10,19 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::TypeTraits;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+enum GlobalEnum
+{
+	A = -1,
+	Sunday = 0,
+	B = 1,
+};
+
+enum class GlobalSomeEnumClass
+{
+	A = -1,
+	B = 1,
+};
 
 namespace UnitTests::Core::Template::Reflection
 {
@@ -37,30 +51,122 @@ namespace UnitTests::Core::Template::Reflection
 		B = 1
 	};
 
+	enum struct SomeInt32EnumStruct : ::Template::System::int32_t
+	{
+		A = 345,
+		B = 465,
+		C = -21,
+		D = 23904
+	};
+
 	TEST_CLASS(RunTimeTypeInformation)
 	{
 	public:
-		TEST_METHOD(ReflectEnumTests)
+		TEST_METHOD(EnumUnderlyingType)
 		{
+			Assert::IsTrue(IsSameValue<::Template::System::int32_t, UnderlyingTypeType<GlobalEnum>>);
+			Assert::IsTrue(IsSameValue<::Template::System::int32_t, UnderlyingTypeType<GlobalSomeEnumClass>>);
 			Assert::IsTrue(IsSameValue<::Template::System::int32_t, UnderlyingTypeType<SomeEnum>>);
 			Assert::IsTrue(IsSameValue<::Template::System::int32_t, UnderlyingTypeType<SomeEnumClass>>);
-
 			Assert::IsTrue(IsSameValue<::Template::System::uint8_t, UnderlyingTypeType<SomeUInt8EnumClass>>);
 			Assert::IsTrue(IsSameValue<::Template::System::int8_t, UnderlyingTypeType<SomeInt8EnumClass>>);
+			Assert::IsTrue(IsSameValue<::Template::System::int32_t, UnderlyingTypeType<SomeInt32EnumStruct>>);
+		}
 
-			Elysium::Core::Template::Text::String<char8_t> EnumFullName =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::ToString();
-			Elysium::Core::Template::Text::String<char8_t> EnumValue =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetName<SomeEnum::Sunday>();
-			Elysium::Core::Template::Text::String<char8_t> EnumValues =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetValues();
+		TEST_METHOD(EnumIsScoped)
+		{
+			Assert::IsFalse(IsScopedEnumeration<GlobalEnum>::Value);
+			Assert::IsTrue(IsScopedEnumeration<GlobalSomeEnumClass>::Value);
+			Assert::IsFalse(IsScopedEnumeration<SomeEnum>::Value);
+			Assert::IsTrue(IsScopedEnumeration<SomeEnumClass>::Value);
+			Assert::IsTrue(IsScopedEnumeration<SomeUInt8EnumClass>::Value);
+			Assert::IsTrue(IsScopedEnumeration<SomeInt8EnumClass>::Value);
+			Assert::IsTrue(IsScopedEnumeration<SomeInt32EnumStruct>::Value);
+		}
 
-			Elysium::Core::Template::Text::String<char8_t> EnumClassFullName =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::ToString();
-			Elysium::Core::Template::Text::String<char8_t> EnumClassValue =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetName<SomeUInt8EnumClass::A>();
-			Elysium::Core::Template::Text::String<char8_t> EnumClassValues =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetValues();
+		TEST_METHOD(EnumIsDefinedValue)
+		{
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::IsDefinedValue<GlobalEnum::A>());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::IsDefinedValue<GlobalSomeEnumClass::A>());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::IsDefinedValue<SomeEnum::A>());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::IsDefinedValue<SomeEnumClass::A>());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::IsDefinedValue<SomeUInt8EnumClass::A>());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::IsDefinedValue<SomeInt8EnumClass::A>());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::IsDefinedValue<SomeInt32EnumStruct::A>());
+
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::IsDefinedValue<static_cast<GlobalEnum>(123)>());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::IsDefinedValue<static_cast<GlobalSomeEnumClass>(123)>());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::IsDefinedValue<static_cast<SomeEnum>(123)>());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::IsDefinedValue<static_cast<SomeEnumClass>(123)>());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::IsDefinedValue<static_cast<SomeUInt8EnumClass>(123)>());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::IsDefinedValue<static_cast<SomeInt8EnumClass>(123)>());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::IsDefinedValue<static_cast<SomeInt32EnumStruct>(123)>());
+		}
+
+		TEST_METHOD(GetFullNames)
+		{
+			AssertExtended::AreEqual(u8"GlobalEnum", 
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"GlobalSomeEnumClass", 
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::SomeEnum",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::SomeEnumClass",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::SomeUInt8EnumClass",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::SomeInt8EnumClass",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::SomeInt32EnumStruct",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::GetFullName()[0]);
+		}
+
+		TEST_METHOD(GetNameValues)
+		{
+			const Elysium::Core::Template::Text::String<char8_t> GlobalEnumValueX =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<static_cast<GlobalEnum>(123)>();
+			const Elysium::Core::Template::Text::String<char8_t> GlobalSomeEnumClassValueX =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetNamedValue<static_cast<GlobalSomeEnumClass>(123)>();
+
+			const Elysium::Core::Template::Text::String<char8_t> GlobalEnumValue =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<GlobalEnum::Sunday>();
+			const Elysium::Core::Template::Text::String<char8_t> GlobalEnumClassValue =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetNamedValue<GlobalSomeEnumClass::A>();
+			const Elysium::Core::Template::Text::String<char8_t> EnumValue =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetNamedValue<SomeEnum::Sunday>();
+			const Elysium::Core::Template::Text::String<char8_t> EnumClassValue =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetNamedValue<SomeUInt8EnumClass::A>();
+
+
+			SomeUInt8EnumClass GlobalEnumMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetMinimumValue();
+
+ 			AssertExtended::AreEqual(u8"Sunday",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<GlobalEnum::Sunday>()[0]);
+
+			Assert::Fail();
+		}
+
+		TEST_METHOD(TemporaryPublic)
+		{
+			const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> EnumClassNamedValues =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>
+				::GetNamedValues<SomeInt32EnumStruct::A, SomeInt32EnumStruct::B, SomeInt32EnumStruct::C, SomeInt32EnumStruct::D,
+				static_cast<SomeInt32EnumStruct>(13)>();
+			
+			const Elysium::Core::Template::Container::Vector<::Template::System::int32_t> EnumClassUnderlyingValues =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>
+				::GetUnderlyingValues<SomeInt32EnumStruct::A, SomeInt32EnumStruct::B, SomeInt32EnumStruct::C, SomeInt32EnumStruct::D, 
+				static_cast<SomeInt32EnumStruct>(13)>();
+			
+			for (Elysium::Core::Template::System::size i = 0; i < EnumClassUnderlyingValues.GetLength(); i++)
+			{
+				Elysium::Core::Template::System::int32_t Value = EnumClassUnderlyingValues[i];
+				Elysium::Core::Template::Text::String<char8_t> Name = EnumClassNamedValues[i];
+				bool blasdf = false;
+			}
+
+
+			Elysium::Core::Template::Text::String<char8_t> Name3 = EnumClassNamedValues[3];
 
 			bool bla = false;
 		}
