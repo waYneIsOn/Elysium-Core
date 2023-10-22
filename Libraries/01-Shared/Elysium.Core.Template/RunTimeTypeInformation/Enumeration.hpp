@@ -102,25 +102,34 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const Elysium::Core::Template::System::size StartIndexOfFullName =
 			Elysium::Core::Template::Text::CharacterTraits<char>::LastIndexOf(InitialStart, InitialLength, '<') + sizeof(char);
 		constexpr const char* FullNameStart = &FullName[SkipFront + StartIndexOfFullName];
-		constexpr const Elysium::Core::Template::System::size NameLength =
+		constexpr const Elysium::Core::Template::System::size FullNameLengthWithSkippedBack =
 			Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(FullNameStart) - SkipBack;
 
-
-
-
-		// @ToDo: doesn't work with global enums
-		constexpr const Elysium::Core::Template::System::size StartIndex =
-			Elysium::Core::Template::Text::CharacterTraits<char>::LastIndexOf(InitialStart, InitialLength, ':');
-		if (StartIndex == static_cast<Elysium::Core::Template::System::size>(-1))
+		// Handle undefined value which looks like this: (enum SomeEnum)0xAB>(void) noexcept
+		if (FullNameStart[0] == '(')
 		{
-			return Elysium::Core::Template::Text::String<char8_t>();
+			constexpr const Elysium::Core::Template::System::size StartIndex =
+				Elysium::Core::Template::Text::CharacterTraits<char>::IndexOf(FullNameStart, FullNameLengthWithSkippedBack, ')') + sizeof(char);
+			constexpr const char* NameStart = &FullNameStart[StartIndex];
+
+			return Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart, FullNameLengthWithSkippedBack - StartIndex);
+
+			// @ToDo: alternatively I could just remove everything in this scope and return a fixed value like so:
+			//return Elysium::Core::Template::Text::String<char8_t>(u8"<undefined>");
 		}
 
-		constexpr const char* NameStartX = &InitialStart[StartIndex + 1];
-		constexpr const Elysium::Core::Template::System::size RequiredLength =
-			Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(NameStartX) - SkipBack;
+		constexpr const Elysium::Core::Template::System::size LastIndexOfNamespace =
+			Elysium::Core::Template::Text::CharacterTraits<char>::LastIndexOf(FullNameStart, FullNameLengthWithSkippedBack, ':');
 
-		return Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStartX, RequiredLength);
+		// Handle global enums (no namespace, no ':')
+		if (LastIndexOfNamespace == -1)
+		{
+			return Elysium::Core::Template::Text::String<char8_t>((char8_t*)FullNameStart, FullNameLengthWithSkippedBack);
+		}
+
+		constexpr const char* NameStart = &FullNameStart[LastIndexOfNamespace] + sizeof(char);
+		return Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart,
+			FullNameLengthWithSkippedBack - LastIndexOfNamespace - sizeof(char));
 	}
 
 	template<Concepts::Enumeration T>

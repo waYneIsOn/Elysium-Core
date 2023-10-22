@@ -121,29 +121,38 @@ namespace UnitTests::Core::Template::Reflection
 				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::GetFullName()[0]);
 		}
 
-		TEST_METHOD(GetNameValues)
+		TEST_METHOD(GetMinimumValues)
 		{
-			const Elysium::Core::Template::Text::String<char8_t> GlobalEnumValueX =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<static_cast<GlobalEnum>(123)>();
-			const Elysium::Core::Template::Text::String<char8_t> GlobalSomeEnumClassValueX =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetNamedValue<static_cast<GlobalSomeEnumClass>(123)>();
-
-			const Elysium::Core::Template::Text::String<char8_t> GlobalEnumValue =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<GlobalEnum::Sunday>();
-			const Elysium::Core::Template::Text::String<char8_t> GlobalEnumClassValue =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetNamedValue<GlobalSomeEnumClass::A>();
-			const Elysium::Core::Template::Text::String<char8_t> EnumValue =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetNamedValue<SomeEnum::Sunday>();
-			const Elysium::Core::Template::Text::String<char8_t> EnumClassValue =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetNamedValue<SomeUInt8EnumClass::A>();
-
-
 			SomeUInt8EnumClass GlobalEnumMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetMinimumValue();
 
- 			AssertExtended::AreEqual(u8"Sunday",
-				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<GlobalEnum::Sunday>()[0]);
-
 			Assert::Fail();
+		}
+
+		TEST_METHOD(GetNameValues)
+		{
+			AssertExtended::AreEqual(u8"0x7b",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<static_cast<GlobalEnum>(123)>()[0]);
+			AssertExtended::AreEqual(u8"0x7b",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetNamedValue<static_cast<GlobalSomeEnumClass>(123)>()[0]);
+			AssertExtended::AreEqual(u8"0x7b",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetNamedValue<static_cast<SomeEnum>(123)>()[0]);
+			AssertExtended::AreEqual(u8"0x7b",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::GetNamedValue<static_cast<SomeEnumClass>(123)>()[0]);
+
+			AssertExtended::AreEqual(u8"Sunday",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetNamedValue<GlobalEnum::Sunday>()[0]);
+			AssertExtended::AreEqual(u8"A",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::GetNamedValue<GlobalSomeEnumClass::A>()[0]);
+			AssertExtended::AreEqual(u8"Sunday",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::GetNamedValue<SomeEnum::Sunday>()[0]);
+			AssertExtended::AreEqual(u8"B",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::GetNamedValue<SomeEnumClass::B>()[0]);
+			AssertExtended::AreEqual(u8"B",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetNamedValue<SomeUInt8EnumClass::B>()[0]);
+			AssertExtended::AreEqual(u8"B",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetNamedValue<SomeInt8EnumClass::B>()[0]);
+			AssertExtended::AreEqual(u8"B",
+				&Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::GetNamedValue<SomeInt32EnumStruct::B>()[0]);
 		}
 
 		TEST_METHOD(TemporaryPublic)
