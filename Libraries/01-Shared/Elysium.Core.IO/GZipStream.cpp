@@ -1,11 +1,11 @@
 #include "GZipStream.hpp"
 
 #ifndef ELYSIUM_CORE_NOTSUPPORTEDEXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotSupportedException.hpp"
+#include "../Elysium.Core/NotSupportedException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/InvalidOperationException.hpp"
+#include "../Elysium.Core/InvalidOperationException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
@@ -13,7 +13,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_NOTIMPLEMENTEDEXCEPTION
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/NotImplementedException.hpp"
+#include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
 Elysium::Core::IO::Compression::GZipStream::GZipStream(Stream & BaseStream, const CompressionMode CompressionMode)

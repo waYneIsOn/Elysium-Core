@@ -556,6 +556,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp">
       <Filter>RunTimeTypeInformation</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp">
+      <Filter>RunTimeTypeInformation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

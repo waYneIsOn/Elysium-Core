@@ -104,6 +104,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Round.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />

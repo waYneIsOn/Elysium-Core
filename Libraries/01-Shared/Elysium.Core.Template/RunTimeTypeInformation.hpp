@@ -16,4 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RunTimeTypeInformation/Enumeration.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_SOURCELOCATION
+#include "RunTimeTypeInformation/SourceLocation.hpp"
+#endif
+
 #endif

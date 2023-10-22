@@ -3,19 +3,19 @@
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/AppDomain.hpp"
+#include "../Elysium.Core.Reflection/AppDomain.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/Assembly.hpp"
+#include "../Elysium.Core.Reflection/Assembly.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_MODULE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/Module.hpp"
+#include "../Elysium.Core.Reflection/Module.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_TYPE
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/Type.hpp"
+#include "../Elysium.Core.Reflection/Type.hpp"
 #endif
 
 inline static const Elysium::Core::Reflection::Assembly ReflectedAssembly =

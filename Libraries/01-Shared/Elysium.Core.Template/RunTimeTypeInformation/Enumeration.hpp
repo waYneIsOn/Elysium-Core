@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../NumericTraits.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_SOURCELOCATION
+#include "SourceLocation.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../Primitives.hpp"
 #endif
@@ -173,6 +177,22 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const int FullName7 = __LINE__;
 		constexpr const char* FullName8 = __FILE__;
 
+
+		constexpr const char* FullName9 = __builtin_FUNCTION();
+		constexpr const char* FullName10 = __builtin_FILE();
+		constexpr const Elysium::Core::Template::System::uint32_t FullName11 = __builtin_LINE();
+		constexpr const Elysium::Core::Template::System::uint32_t FullName12 = __builtin_COLUMN();
+
+
+		//constexpr const char* FullName13 = __builtin_ARGS();
+		//constexpr const char* FullName14 = __builtin_ARGUMENTS();
+		//constexpr const char* FullName15 = __builtin_PARAMS();
+		//constexpr const char* FullName16 = __ARGS__;
+		//constexpr const char* FullName17 = __ARGUMENTS__;
+		//constexpr const char* FullName18 = __PARAMS__;
+		//constexpr const char* FullName19 = __PARAMETERS__;
+		//constexpr const char* FullName20 = __VA_ARGS__;
+		
 
 		return false;
 	}
