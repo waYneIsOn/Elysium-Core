@@ -152,9 +152,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DynamicSizeArray.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp">
       <Filter>Container</Filter>
     </ClInclude>
@@ -558,6 +555,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp">
       <Filter>RunTimeTypeInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Hash.hpp">
+      <Filter>Functional</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

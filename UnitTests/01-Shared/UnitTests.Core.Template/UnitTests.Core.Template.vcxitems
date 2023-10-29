@@ -24,7 +24,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReflectionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UnorderedMapTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DynamicSizeArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InitializerListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LinkedListTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTests.cpp" />

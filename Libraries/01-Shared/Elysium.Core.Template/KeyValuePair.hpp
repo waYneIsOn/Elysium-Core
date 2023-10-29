@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
+#include "Hashable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
@@ -27,7 +31,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="TKey"></typeparam>
 	/// <typeparam name="TValue"></typeparam>
-	template <class TKey, class TValue>
+	template <Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	class KeyValuePair final
 	{
 	public:
@@ -53,28 +57,28 @@ namespace Elysium::Core::Template::Container
 		TValue _Value;
 	};
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>::KeyValuePair(const TKey& Key, const TValue& Value)
 		: _Key(Key), _Value(Value)
 	{ }
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>::KeyValuePair(const KeyValuePair & Source)
 		: _Key(Source._Key), _Value(Source._Value)
 	{ }
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>::KeyValuePair(KeyValuePair&& Right) noexcept
 		: _Key(), _Value()
 	{
 		*this = Functional::Move(Right);
 	}
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>::~KeyValuePair()
 	{ }
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>& KeyValuePair<TKey, TValue>::operator=(const KeyValuePair& Source)
 	{
 		if (this != &Source)
@@ -85,7 +89,7 @@ namespace Elysium::Core::Template::Container
 		return *this;
 	}
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>& KeyValuePair<TKey, TValue>::operator=(KeyValuePair&& Right) noexcept
 	{
 		if (this != &Right)
@@ -96,19 +100,19 @@ namespace Elysium::Core::Template::Container
 		return *this;
 	}
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline const TKey& KeyValuePair<TKey, TValue>::GetKey() const
 	{
 		return _Key;
 	}
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline TValue& KeyValuePair<TKey, TValue>::GetValue()
 	{
 		return _Value;
 	}
 
-	template<class TKey, class TValue>
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline const TValue& KeyValuePair<TKey, TValue>::GetValue() const
 	{
 		return _Value;

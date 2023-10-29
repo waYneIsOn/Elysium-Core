@@ -30,5 +30,8 @@ namespace Elysium::Core::Template::Utility
 	{
 		return sizeof...(Values);
 	}
+
+	template<class T, T Size>
+	using MakeIntegerSequence = __make_integer_seq<IntegerSequence, T, Size>;
 }
 #endif

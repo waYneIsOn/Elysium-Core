@@ -93,7 +93,7 @@ namespace UnitTests::Core::Template::Reflection
 			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::IsDefinedValue<SomeUInt8EnumClass::A>());
 			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::IsDefinedValue<SomeInt8EnumClass::A>());
 			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::IsDefinedValue<SomeInt32EnumStruct::A>());
-
+			
 			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::IsDefinedValue<static_cast<GlobalEnum>(123)>());
 			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::IsDefinedValue<static_cast<GlobalSomeEnumClass>(123)>());
 			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::IsDefinedValue<static_cast<SomeEnum>(123)>());
@@ -123,7 +123,11 @@ namespace UnitTests::Core::Template::Reflection
 
 		TEST_METHOD(GetMinimumValues)
 		{
-			SomeUInt8EnumClass GlobalEnumMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetMinimumValue();
+			//GlobalEnum GlobalEnumMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetMinimumValue();
+
+			//SomeInt8EnumClass SomeInt8EnumClassMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetMinimumValue();
+
+			SomeUInt8EnumClass SomeUInt8EnumClassMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetMinimumValue();
 
 			Assert::Fail();
 		}

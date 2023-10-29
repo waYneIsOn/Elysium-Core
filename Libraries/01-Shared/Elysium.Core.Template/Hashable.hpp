@@ -20,11 +20,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsMemberFunctionPointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
+#include "IntegralConstant.hpp"
+#endif
+
 namespace Elysium::Core::Template::Concepts
 {
 	/*
 	template<class T>
 	concept Hashable = TypeTraits::IsIntegerValue<T> || TypeTraits::HasMethod<...>;
 	*/
+
+	// @ToDo: for now everything's hashable
+	template<class T>
+	concept Hashable = Elysium::Core::Template::TypeTraits::IntegralConstant<bool, true>::Value;
 }
 #endif

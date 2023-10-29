@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AddVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_HASH
+#include "Hash.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif

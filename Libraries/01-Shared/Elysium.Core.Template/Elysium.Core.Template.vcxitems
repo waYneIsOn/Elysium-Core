@@ -71,6 +71,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Hash.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
@@ -138,7 +139,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeArray.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DynamicSizeArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
