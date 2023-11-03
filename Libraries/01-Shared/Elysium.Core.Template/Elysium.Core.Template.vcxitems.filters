@@ -559,6 +559,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Hash.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

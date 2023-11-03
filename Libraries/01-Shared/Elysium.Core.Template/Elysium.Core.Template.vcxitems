@@ -38,6 +38,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp" />
