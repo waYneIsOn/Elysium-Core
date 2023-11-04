@@ -349,7 +349,7 @@ namespace Elysium::Core::Template::Container
 
 	template<Concepts::NonConstant T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
-		: _Capacity(Capacity == 0 ? 1 : Capacity), _Length(0), _Data(_Allocator.Allocate(_Capacity))
+		: _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{ }
 
 	template<Concepts::NonConstant T, class Allocator>
