@@ -1,3 +1,5 @@
+#include "..\Elysium.Core.Template\Array.hpp"
+#include "..\Elysium.Core.Template\Array.hpp"
 /*
 ===========================================================================
 

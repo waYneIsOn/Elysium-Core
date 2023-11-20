@@ -118,9 +118,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignableAndConstructible.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeArray.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
       <Filter>Container</Filter>
     </ClInclude>
@@ -561,6 +558,25 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp">
       <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Clear.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Copy.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyConstructible.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IntegerSequence.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IndexSequence.hpp">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

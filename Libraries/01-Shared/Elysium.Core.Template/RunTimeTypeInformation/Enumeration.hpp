@@ -12,16 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ENUMERATION
-#include "../Concepts/Enumeration.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_REFLECTABLEENUMERATION
+#include "../Concepts/ReflectableEnumeration.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Move.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
+#include "../Array.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Vector.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
@@ -54,7 +58,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::RunTimeTypeInformation
 {
-	template <Concepts::Enumeration T>
+	template <Concepts::ReflectableEnumeration T>
 	class Enumeration
 	{
 	public:
@@ -72,8 +76,6 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		template <T Value>
 		static constexpr const bool IsDefinedValue() noexcept;
 		
-		static constexpr const bool IsDefinedValue(ConstValue Value) noexcept;
-
 		static constexpr const T GetMinimumValue() noexcept;
 
 		//static constexpr const bool IsFlag(ConstReference Value) noexcept;
@@ -89,7 +91,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		static constexpr const typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type GetFirstDefinedValue(Sequence... Values);
 	};
 
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	template<T Value>
 	inline constexpr const Elysium::Core::Template::Text::String<char8_t> Enumeration<T>::GetNamedValue() noexcept
 	{
@@ -114,7 +116,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 				Elysium::Core::Template::Text::CharacterTraits<char>::IndexOf(FullNameStart, FullNameLengthWithSkippedBack, ')') + sizeof(char);
 			constexpr const char* NameStart = &FullNameStart[StartIndex];
 
-			return Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart, FullNameLengthWithSkippedBack - StartIndex);
+			return Elysium::Core::Template::Text::String<char8_t>(reinterpret_cast<const char8_t*>(NameStart), FullNameLengthWithSkippedBack - StartIndex);
 
 			// @ToDo: alternatively I could just remove everything in this scope and return a fixed value like so:
 			//return Elysium::Core::Template::Text::String<char8_t>(u8"<undefined>");
@@ -126,15 +128,15 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		// Handle global enums (no namespace, no ':')
 		if (LastIndexOfNamespace == -1)
 		{
-			return Elysium::Core::Template::Text::String<char8_t>((char8_t*)FullNameStart, FullNameLengthWithSkippedBack);
+			return Elysium::Core::Template::Text::String<char8_t>(reinterpret_cast<const char8_t*>(FullNameStart), FullNameLengthWithSkippedBack);
 		}
 
 		constexpr const char* NameStart = &FullNameStart[LastIndexOfNamespace] + sizeof(char);
-		return Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart,
+		return Elysium::Core::Template::Text::String<char8_t>(reinterpret_cast<const char8_t*>(NameStart),
 			FullNameLengthWithSkippedBack - LastIndexOfNamespace - sizeof(char));
 	}
 
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	inline constexpr const Elysium::Core::Template::Text::String<char8_t> Enumeration<T>::GetFullName() noexcept
 	{
 		constexpr const Elysium::Core::Template::System::size SkipFront = 66;	// Elysium::Core::Template::RunTimeTypeInformation::Enumeration<enum 
@@ -144,10 +146,10 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const char* NameStart = &FullName[SkipFront];
 		constexpr const Elysium::Core::Template::System::size RequiredLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(NameStart) - SkipBack;
 
-		return Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart, RequiredLength);
+		return Elysium::Core::Template::Text::String<char8_t>(reinterpret_cast<const char8_t*>(NameStart), RequiredLength);
 	}
 
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	template<T Value>
 	inline constexpr const bool Enumeration<T>::IsDefinedValue() noexcept
 	{
@@ -174,41 +176,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		return UndefinedIndex == static_cast<Elysium::Core::Template::System::size>(-1) ? true : false;
 	}
 
-	template<Concepts::Enumeration T>
-	inline constexpr const bool Enumeration<T>::IsDefinedValue(ConstValue Value) noexcept
-	{
-		constexpr const Elysium::Core::Template::System::size SkipFront = 85;	// 
-		constexpr const Elysium::Core::Template::System::size SkipBack = 10;	// ) noexcept
-		constexpr const char* FullName1 = __FUNCTION__;
-		constexpr const char* FullName2 = __FUNCDNAME__;
-		constexpr const char* FullName3 = __FUNCSIG__;
-		constexpr const wchar_t* FullName4 = __FUNCTIONW__;
-		constexpr const char* FullName5 = __func__;
-		//constexpr const char* FullName6 = __PRETTY_FUNCTION__;
-		constexpr const int FullName7 = __LINE__;
-		constexpr const char* FullName8 = __FILE__;
-
-
-		constexpr const char* FullName9 = __builtin_FUNCTION();
-		constexpr const char* FullName10 = __builtin_FILE();
-		constexpr const Elysium::Core::Template::System::uint32_t FullName11 = __builtin_LINE();
-		constexpr const Elysium::Core::Template::System::uint32_t FullName12 = __builtin_COLUMN();
-
-
-		//constexpr const char* FullName13 = __builtin_ARGS();
-		//constexpr const char* FullName14 = __builtin_ARGUMENTS();
-		//constexpr const char* FullName15 = __builtin_PARAMS();
-		//constexpr const char* FullName16 = __ARGS__;
-		//constexpr const char* FullName17 = __ARGUMENTS__;
-		//constexpr const char* FullName18 = __PARAMS__;
-		//constexpr const char* FullName19 = __PARAMETERS__;
-		//constexpr const char* FullName20 = __VA_ARGS__;
-		//constexpr const char* FullName21 = __VA_OPT__;
-
-		return false;
-	}
-
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	inline constexpr const T Enumeration<T>::GetMinimumValue() noexcept
 	{
 		constexpr const Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> RangeStart =
@@ -218,10 +186,23 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 			Elysium::Core::Template::Numeric::NumericTraits<UnderlyingTypeType<T>>::Maximum;
 		
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
-			Elysium::Core::Template::Utility::MakeIntegerSequence<typename Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>, RangeEnd>();
+			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>, RangeEnd>();
+		
+		constexpr Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = Elysium::Core::Template::Container::Array<bool, RangeEnd>();
 
 
-		GetFirstDefinedValue(Sequence);
+		//for (const Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> Element : { Sequence... })
+		{
+			//const T bla = static_cast<const T>(Element);
+
+		}
+
+		/*
+		constexpr const Elysium::Core::Template::Utility::IntegerSequence<T, RangeEnd> EnumSequence =
+			Elysium::Core::Template::Utility::__Repeat<T, RangeEnd>();
+		*/
+
+
 
 		//constexpr const T Array[] = { Sequence... };
 
@@ -243,7 +224,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		return T();
 	}
 
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	template<T... Values>
 	inline constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> Enumeration<T>::GetNamedValues() noexcept
 	{
@@ -271,35 +252,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 			const char* CurrentName = &CurrentFullName[CurrentNameSpaceEndIndex + sizeof(char)];
 
 			Result.PushBack(Elysium::Core::Template::Functional::Move(
-				Elysium::Core::Template::Text::String<char8_t>((char8_t*)CurrentName, RemainingNames - CurrentName)));
-
-
-
-
-			Elysium::Core::Template::Text::String<char> CurrentFullNameX =
-				Elysium::Core::Template::Text::String<char>(CurrentName, RemainingNames - CurrentName);
-
-
-
-			/*
-			if (RemainingNames == nullptr)
-			{
-				Elysium::Core::Template::Text::String<char> CurrentFullName =
-					Elysium::Core::Template::Text::String<char>(NameStart, RemainingLength - SkipBack);
-				
-				Result.PushBack(Elysium::Core::Template::Functional::Move(
-					Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart, RemainingLength - SkipBack)));
-			}
-			else
-			{
-				Elysium::Core::Template::Text::String<char> CurrentFullName =
-					Elysium::Core::Template::Text::String<char>(NameStart, RemainingNames - NameStart);
-				
-				Result.PushBack(Elysium::Core::Template::Functional::Move(
-					Elysium::Core::Template::Text::String<char8_t>((char8_t*)NameStart, RemainingNames - NameStart)));
-			}
-			*/
-
+				Elysium::Core::Template::Text::String<char8_t>(reinterpret_cast<const char8_t*>(CurrentName), RemainingNames - CurrentName)));
 
 			NameStart = RemainingNames + sizeof(char);
 			RemainingLength -= (RemainingNames - NameStart + sizeof(char));
@@ -308,7 +261,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		return Result;
 	}
 
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	template<T ...Values>
 	inline constexpr const Elysium::Core::Template::Container::Vector<typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type> Enumeration<T>::GetUnderlyingValues() noexcept
 	{
@@ -325,7 +278,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		return Result;
 	}
 
-	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration T>
 	template<typename ...Sequence>
 	inline constexpr const typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type Enumeration<T>::GetFirstDefinedValue(Sequence ...Values)
 	{

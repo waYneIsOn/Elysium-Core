@@ -20,7 +20,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClockTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DelegateTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FixedSizeArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReflectionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)UnorderedMapTests.cpp" />

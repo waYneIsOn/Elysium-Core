@@ -37,12 +37,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Clear.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Copy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp" />
@@ -82,6 +84,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyConstructible.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsScopedEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp" />
@@ -139,7 +143,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EnableIf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FixedSizeArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp" />
@@ -192,6 +195,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UnsignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf16.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IndexSequence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IntegerSequence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Value.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp" />

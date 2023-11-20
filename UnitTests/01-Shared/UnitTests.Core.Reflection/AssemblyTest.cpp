@@ -5,7 +5,6 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/Type.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Reflection;
 using namespace Elysium::Core::Template::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

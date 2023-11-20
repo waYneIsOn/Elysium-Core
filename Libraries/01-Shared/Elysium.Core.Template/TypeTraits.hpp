@@ -56,6 +56,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsConvertible.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCOPYASSIGNABLE
+#include "IsCopyAssignable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCOPYCONSTRUCTIBLE
+#include "IsCopyConstructible.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISENUMERATION
 #include "IsEnumeration.hpp"
 #endif

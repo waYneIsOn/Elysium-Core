@@ -12,16 +12,40 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
+#include "NonConstant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "InitializerList.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
+#include "IndexOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
-#include "Reverse.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
+#include "BackwardIterator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
+#include "ConstBackwardIterator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
+#include "ConstForwardIterator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
+#include "ForwardIterator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container
@@ -29,135 +53,270 @@ namespace Elysium::Core::Template::Container
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	template <class T>
-	class Array final
+	template <Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	class Array
 	{
 	public:
-		Array() = delete;
+		using Value = T;
+		using Pointer = T*;
+		using ConstPointer = const T*;
+		using Reference = T&;
+		using ConstReference = const T&;
 
-		Array(const Array& Source) = delete;
+		using IteratorPointer = T*;
+		using IteratorReference = T&;
+		using ConstIteratorReference = const T&;
 
-		Array(Array&& Right) noexcept = delete;
+		using FIterator = Iterator::ForwardIterator<Array<T, Length>>;
+		using ConstIterator = Iterator::ConstForwardIterator<Array<T, Length>>;
 
-		~Array() = delete;
+		using ReverseIterator = Iterator::BackwardIterator<Array<T, Length>>;
+		using ConstReverseIterator = Iterator::ConstBackwardIterator<Array<T, Length>>;
 	public:
-		Array<T>& operator=(const Array& Source) = delete;
+		Array();
 
-		Array<T>& operator=(Array&& Right) noexcept = delete;
+		Array(const InitializerList<T>& InitializerList);
+
+		Array(const Array& Source);
+
+		Array(Array&& Right) noexcept;
+
+		~Array();
 	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <param name="NumberOfElements"></param>
-		static void Clear(T* First, const System::size NumberOfElements);
+		Array<T, Length>& operator=(const Array& Source);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Source"></param>
-		/// <param name="Destination"></param>
-		/// <param name="NumberOfElements"></param>
-		static void Copy(const T* Source, T* Destination, const System::size NumberOfElements);
+		Array<T, Length>& operator=(Array&& Right) noexcept;
+	public:
+		Array<T, Length>::Reference operator[](const System::size Index);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Source"></param>
-		/// <param name="Destination"></param>
-		/// <param name="NumberOfElements"></param>
-		/// <returns></returns>
-		static void Move(T* Source, T* Destination, const System::size NumberOfElements) noexcept;
+		Array<T, Length>::ConstReference operator[](const System::size Index) const;
+	public:
+		constexpr const Elysium::Core::Template::System::size GetLength() const noexcept;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <param name="NumberOfElements"></param>
-		/// <returns></returns>
-		static void Reverse(T* First, const System::size NumberOfElements) noexcept;
+		constexpr Reference GetAt(const Elysium::Core::Template::System::size Index);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="First"></param>
-		/// <param name="Value"></param>
-		/// <param name="NumberOfElements"></param>
-		/// <returns></returns>
-		static constexpr const System::size IndexOf(const T* First, const T& Value, const System::size NumberOfElements);
+		constexpr ConstReference GetAt(const Elysium::Core::Template::System::size Index) const;
+
+		constexpr Reference GetFront();
+
+		constexpr ConstReference GetFront() const;
+
+		constexpr Reference GetBack();
+
+		constexpr ConstReference GetBack() const;
+
+		constexpr Pointer GetData() noexcept;
+
+		constexpr ConstPointer GetData() const noexcept;
+	public:
+		FIterator GetBegin();
+
+		ConstIterator GetBegin() const;
+
+		FIterator GetEnd();
+
+		ConstIterator GetEnd() const;
+
+		ReverseIterator GetReverseBegin();
+
+		ConstReverseIterator GetReverseBegin() const;
+
+		ReverseIterator GetReverseEnd();
+
+		ConstReverseIterator GetReverseEnd() const;
+	private:
+		T _Data[Length];
 	};
-	
-	template<class T>
-	inline void Array<T>::Clear(T* First, const Elysium::Core::Template::System::size NumberOfElements)
-	{
-		if (First == nullptr || NumberOfElements == 0)
-		{
-			return;
-		}
 
-		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
-		{
-			//First[i]~();
-			First[i] = T();
-		}
-	}
-	
-	template<class T>
-	inline void Array<T>::Copy(const T* Source, T* Destination, const Elysium::Core::Template::System::size NumberOfElements)
-	{
-		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
-		{
-			return;
-		}
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Elysium::Core::Template::Container::Array<T, Length>::Array()
+		: _Data()
+	{ }
 
-		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Elysium::Core::Template::Container::Array<T, Length>::Array(const InitializerList<T>& InitializerList)
+		: _Data()
+	{
+		const Elysium::Core::Template::System::size CopyLength = Length < InitializerList.size() ? Length : InitializerList.size();
+		for (Elysium::Core::Template::System::size i = 0; i < CopyLength; i++)
 		{
-			Destination[i] = Source[i];
+			_Data[i] = InitializerList.begin()[i];
 		}
 	}
 
-	template<class T>
-	inline void Array<T>::Move(T* Source, T* Destination, const Elysium::Core::Template::System::size NumberOfElements) noexcept
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Elysium::Core::Template::Container::Array<T, Length>::Array(const Array& Source)
+		: _Data()
 	{
-		if (Source == nullptr || Destination == nullptr || NumberOfElements == 0)
+		for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
 		{
-			return;
-		}
-
-		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
-		{
-			Destination[i] = Functional::Move(Source[i]);
+			_Data[i] = Source._Data[i];
 		}
 	}
 
-	template<class T>
-	inline void Array<T>::Reverse(T* First, const Elysium::Core::Template::System::size NumberOfElements) noexcept
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Elysium::Core::Template::Container::Array<T, Length>::Array(Array&& Right) noexcept
+		: _Data()
 	{
-		if (First == nullptr || NumberOfElements < 2)
-		{
-			return;
-		}
-
-		Elysium::Core::Template::Functional::Reverse(First, &First[NumberOfElements - 1]);
+		*this = Functional::Move(Right);
 	}
 
-	template<class T>
-	inline constexpr const Elysium::Core::Template::System::size Array<T>::IndexOf(const T* First, const T& Value, const Elysium::Core::Template::System::size NumberOfElements)
-	{
-		if (First == nullptr || NumberOfElements < 1)
-		{
-			return;
-		}
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Elysium::Core::Template::Container::Array<T, Length>::~Array()
+	{ }
 
-		for (Elysium::Core::Template::System::size i = 0; i < NumberOfElements; i++)
+	template<Concepts::NonConstant T, const Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>& Array<T, Length>::operator=(const Array& Source)
+	{
+		if (this != &Source)
 		{
-			if (First[i] == Value)
+			for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
 			{
-				return i;
+				_Data[i] = Source._Data[i];
 			}
 		}
-		return static_cast<Elysium::Core::Template::System::size>(-1);
+		return *this;
 	}
+
+	template<Concepts::NonConstant T, const Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>& Array<T, Length>::operator=(Array&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
+			{
+				_Data[i] = Functional::Move(Right._Data[i]);
+			}
+		}
+		return *this;
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::Reference Array<T, Length>::operator[](const Elysium::Core::Template::System::size Index)
+	{
+		return _Data[Index];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ConstReference Array<T, Length>::operator[](const Elysium::Core::Template::System::size Index) const
+	{
+		return _Data[Index];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr const Elysium::Core::Template::System::size Array<T, Length>::GetLength() const noexcept
+	{
+		return Length;
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::Reference Elysium::Core::Template::Container::Array<T, Length>::GetAt(const Elysium::Core::Template::System::size Index)
+	{
+		if (Index >= Length)
+		{
+			throw Elysium::Core::Template::Exceptions::IndexOutOfRangeException();
+		}
+
+		return _Data[Index];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::ConstReference Elysium::Core::Template::Container::Array<T, Length>::GetAt(const Elysium::Core::Template::System::size Index) const
+	{
+		if (Index >= Length)
+		{
+			throw Elysium::Core::Template::Exceptions::IndexOutOfRangeException();
+		}
+
+		return _Data[Index];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::Reference Array<T, Length>::GetFront()
+	{
+		return _Data[0];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::ConstReference Array<T, Length>::GetFront() const
+	{
+		return _Data[0];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::Reference Array<T, Length>::GetBack()
+	{
+		return _Data[Length - 1];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::ConstReference Array<T, Length>::GetBack() const
+	{
+		return _Data[Length - 1];
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::Pointer Array<T, Length>::GetData() noexcept
+	{
+		return &_Data;
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline constexpr Array<T, Length>::ConstPointer Elysium::Core::Template::Container::Array<T, Length>::GetData() const noexcept
+	{
+		return &_Data;
+	}
+	
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::FIterator Elysium::Core::Template::Container::Array<T, Length>::GetBegin()
+	{
+		return FIterator(&_Data[0]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ConstIterator Elysium::Core::Template::Container::Array<T, Length>::GetBegin() const
+	{
+		return ConstIterator(&_Data[0]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::FIterator Elysium::Core::Template::Container::Array<T, Length>::GetEnd()
+	{
+		return FIterator(&_Data[Length - 1]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ConstIterator Elysium::Core::Template::Container::Array<T, Length>::GetEnd() const
+	{
+		return ConstIterator(&_Data[Length - 1]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseBegin()
+	{
+		return ReverseIterator(&_Data[Length - 1]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ConstReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseBegin() const
+	{
+		return ConstReverseIterator(&_Data[Length - 1]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseEnd()
+	{
+		return ReverseIterator(&_Data[0]);
+	}
+
+	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
+	inline Array<T, Length>::ConstReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseEnd() const
+	{
+		return ConstReverseIterator(&_Data[0]);
+	}
+	
+	template <Elysium::Core::Template::System::size Length>
+	class Array<bool, Length>
+	{ };
 }
 #endif

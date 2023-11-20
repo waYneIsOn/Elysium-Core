@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Vector.hpp"
+#endif
+
 namespace Elysium::Core::Template::Utility
 {
 	template <class T, T... Values>
@@ -31,7 +35,7 @@ namespace Elysium::Core::Template::Utility
 		return sizeof...(Values);
 	}
 
-	template<class T, T Size>
-	using MakeIntegerSequence = __make_integer_seq<IntegerSequence, T, Size>;
+	template<class T, T Length>
+	using MakeIntegerSequence = __make_integer_seq<IntegerSequence, T, Length>;
 }
 #endif

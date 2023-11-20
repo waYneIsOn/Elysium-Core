@@ -9,7 +9,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEARRAY
-#include "../Elysium.Core.Template/FixedSizeArray.hpp"
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -147,7 +147,7 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToAudi
 
 	Elysium::Core::size BytesRead = 0;
 	ULONG BytesWritten = 0;
-	Elysium::Core::Template::Container::FixedSizeArray<Elysium::Core::byte, 4096> Buffer = Elysium::Core::Template::Container::FixedSizeArray<Elysium::Core::byte, 4096>();
+	Elysium::Core::Template::Container::Vector<Elysium::Core::byte> Buffer = Elysium::Core::Template::Container::Vector<Elysium::Core::byte>(4096);
 	while ((BytesRead = AudioStream.Read(&Buffer[0], Buffer.GetLength())) > 0)
 	{
 		NativeMemoryStream->Write(&Buffer[0], BytesRead, &BytesWritten);

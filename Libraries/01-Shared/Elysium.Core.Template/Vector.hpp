@@ -63,7 +63,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 
 
-
+// @ToDo: remove asap
 namespace Elysium::Core::Collections::Template
 {
 	template <Elysium::Core::Template::Concepts::NonConstant T>
@@ -83,6 +83,7 @@ namespace Elysium::Core::Template::Container
 	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
 	class Vector final
 	{
+		// @ToDo: remove asap
 		friend class Elysium::Core::Collections::Template::Array<T>;
 	public:
 		using Value = T;
@@ -356,14 +357,20 @@ namespace Elysium::Core::Template::Container
 	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
 		: _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
-		Array<T>::Copy(InitializerList.begin(), _Data, _Capacity);
+		for (Elysium::Core::Template::System::size i = 0; i < _Capacity; i++)
+		{
+			_Data[i] = InitializerList.begin()[i];
+		}
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector(const Vector& Source)
 		: _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
 	{
-		Array<T>::Copy(Source._Data, _Data, _Length);
+		for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
+		{
+			_Data[i] = Source._Data[i];
+		}
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
@@ -393,7 +400,10 @@ namespace Elysium::Core::Template::Container
 			}
 
 			_Length = Source._Length;
-			Array<T>::Copy(Source._Data, _Data, _Length);
+			for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
+			{
+				_Data[i] = Source._Data[i];
+			}
 		}
 		return *this;
 	}
@@ -676,7 +686,10 @@ namespace Elysium::Core::Template::Container
 			_Capacity = CalculateCapacityGrowth(DesiredCapacity);
 			_Data = _Allocator.Allocate(_Capacity);
 
-			Array<T>::Move(OldData, _Data, _Length);
+			for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
+			{
+				_Data[i] = Functional::Move(OldData[i]);
+			}
 
 			_Allocator.Deallocate(OldData, _Length);
 		}
@@ -696,7 +709,10 @@ namespace Elysium::Core::Template::Container
 			_Capacity = _Length;
 			_Data = _Allocator.Allocate(_Capacity);
 
-			Array<T>::Move(OldData, _Data, _Length);
+			for (Elysium::Core::Template::System::size i = 0; i < _Length; i++)
+			{
+				_Data[i] = Functional::Move(OldData[i]);
+			}
 
 			_Allocator.Deallocate(OldData, _Length);
 		}

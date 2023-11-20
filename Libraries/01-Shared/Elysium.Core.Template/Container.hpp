@@ -24,14 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DoubleBuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DYNAMICSIZEARRAY
-#include "DynamicSizeArray.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEARRAY
-#include "FixedSizeArray.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_LINKEDLIST
 #include "LinkedList.hpp"
 #endif
