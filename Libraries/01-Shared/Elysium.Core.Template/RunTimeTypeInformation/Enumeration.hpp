@@ -79,7 +79,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		static constexpr const T GetMinimumValue() noexcept;
 
 		//static constexpr const bool IsFlag(ConstReference Value) noexcept;
-	public: // @ToDo: private:
+	public: // @ToDo: make private or remove
 		template <T... Values>
 		static constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> GetNamedValues() noexcept;
 
@@ -87,8 +87,9 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		static constexpr const Elysium::Core::Template::Container::Vector<typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type> 
 			GetUnderlyingValues() noexcept;
 	private:
-		template<typename... Sequence>
-		static constexpr const typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type GetFirstDefinedValue(Sequence... Values);
+		template <Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>... Indices>
+		static constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)>
+			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>, Indices...>);
 	};
 
 	template<Concepts::ReflectableEnumeration T>
@@ -187,40 +188,17 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
 			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>, RangeEnd>();
-		
-		constexpr Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = Elysium::Core::Template::Container::Array<bool, RangeEnd>();
 
-
-		//for (const Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> Element : { Sequence... })
-		{
-			//const T bla = static_cast<const T>(Element);
-
-		}
-
-		/*
-		constexpr const Elysium::Core::Template::Utility::IntegerSequence<T, RangeEnd> EnumSequence =
-			Elysium::Core::Template::Utility::__Repeat<T, RangeEnd>();
-		*/
-
-
-
-		//constexpr const T Array[] = { Sequence... };
-
+		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
 
 		for (Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> i = RangeStart; i < RangeEnd; i++)
 		{
-			//const T CurrentValue = Sequence...;
-
-			//IsDefinedValue<CurrentValue>();
-			//IsDefinedValue(CurrentValue);
-			//IsDefinedValue(&CurrentValue);
-			/*
-			const bool kjsdf1 = Enumeration<T>::IsDefinedValue<CurrentValue>();
-			const bool kjsdf2 = Enumeration<T>::IsDefinedValue(CurrentValue);
-			*/
-			bool dfg = false;
+			if (AreDefinedValues[i])
+			{
+				return static_cast<T>(i);
+			}
 		}
-		
+
 		return T();
 	}
 
@@ -279,27 +257,12 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	}
 
 	template<Concepts::ReflectableEnumeration T>
-	template<typename ...Sequence>
-	inline constexpr const typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type Enumeration<T>::GetFirstDefinedValue(Sequence ...Values)
+	template<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> ...Indices>
+	inline constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)> Enumeration<T>::GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>, Indices...>)
 	{
-		//const bool IsDefined = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<(... *(Values + 1))>();
-		
-
-		return typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type();
-		//return GetFirstDefinedValue<Values...>();
-		/*
-		constexpr const bool IsDefined = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<Values...>();
-		if (IsDefined)
-		{
-			return Values...;
-		}
-		else
-		{
-			return GetFirstDefinedValue(...Values);
-		}
-
-		return typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type();
-		*/
+		//return { (static_cast<T>(Indices))... };
+		//return { Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<(static_cast<T>(1))>() };
+		return { (Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>())... };
 	}
 }
 #endif

@@ -12,30 +12,34 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ENUMERATIONORINTEGRAL
+#include "../EnumerationOrIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::Utility
 {
-	template <class T, T... Values>
+	template <Concepts::EnumerationOrIntegral T, T... Values>
 	class IntegerSequence
 	{
 	public:
 		static constexpr const Elysium::Core::Template::System::size GetLength() noexcept;
 	};
 
-	template<class T, T ...Values>
+	template<Concepts::EnumerationOrIntegral T, T ...Values>
 	inline constexpr const Elysium::Core::Template::System::size IntegerSequence<T, Values...>::GetLength() noexcept
 	{
 		return sizeof...(Values);
 	}
 
-	template<class T, T Length>
+	template<Concepts::EnumerationOrIntegral T, T Length>
 	using MakeIntegerSequence = __make_integer_seq<IntegerSequence, T, Length>;
 }
 #endif

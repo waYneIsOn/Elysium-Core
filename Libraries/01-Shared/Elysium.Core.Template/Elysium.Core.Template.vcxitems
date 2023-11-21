@@ -64,6 +64,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)EnumerationOrIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
@@ -79,6 +80,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Integral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />

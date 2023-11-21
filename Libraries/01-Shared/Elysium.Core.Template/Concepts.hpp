@@ -24,12 +24,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Concepts/Enumeration.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ENUMERATIONORINTEGRAL
+#include "EnumerationOrIntegral.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
 #include "Hashable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
 #include "Integer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGRAL
+#include "Integral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
