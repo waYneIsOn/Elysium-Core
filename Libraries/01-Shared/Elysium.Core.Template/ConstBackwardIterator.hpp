@@ -21,41 +21,46 @@ namespace Elysium::Core::Template::Iterator
 		using CollectionPointer = typename Collection::IteratorPointer;
 		using ConstCollectionReference = typename Collection::ConstIteratorReference;
 	public:
-		ConstBackwardIterator() = delete;
-		ConstBackwardIterator(CollectionPointer Current) noexcept;
-		ConstBackwardIterator(const ConstBackwardIterator& Source) = delete;
-		ConstBackwardIterator(ConstBackwardIterator&& Right) noexcept = delete;
-		~ConstBackwardIterator() noexcept;
+		constexpr ConstBackwardIterator() = delete;
+
+		constexpr ConstBackwardIterator(CollectionPointer Current) noexcept;
+
+		constexpr ConstBackwardIterator(const ConstBackwardIterator& Source) = delete;
+
+		constexpr ConstBackwardIterator(ConstBackwardIterator&& Right) noexcept = delete;
+
+		constexpr ~ConstBackwardIterator() noexcept;
 	public:
-		ConstBackwardIterator<Collection>& operator=(const ConstBackwardIterator& Source) noexcept = delete;
-		ConstBackwardIterator<Collection>& operator=(ConstBackwardIterator&& Right) noexcept = delete;
+		constexpr ConstBackwardIterator<Collection>& operator=(const ConstBackwardIterator& Source) noexcept = delete;
 
-		const bool operator!=(const ConstBackwardIterator& Other) const;
+		constexpr ConstBackwardIterator<Collection>& operator=(ConstBackwardIterator&& Right) noexcept = delete;
+	public:
+		constexpr const bool operator!=(const ConstBackwardIterator& Other) const;
 
-		ConstBackwardIterator<Collection>& operator--();
+		constexpr ConstBackwardIterator<Collection>& operator--();
 
-		ConstCollectionReference operator*() const;
+		constexpr ConstCollectionReference operator*() const;
 	private:
 		CollectionPointer _Current;
 	};
 
 	template<class Collection>
-	inline ConstBackwardIterator<Collection>::ConstBackwardIterator(CollectionPointer Current) noexcept
+	inline constexpr ConstBackwardIterator<Collection>::ConstBackwardIterator(CollectionPointer Current) noexcept
 		: _Current(Current)
 	{ }
 
 	template <class Collection>
-	inline ConstBackwardIterator<Collection>::~ConstBackwardIterator() noexcept
+	inline constexpr ConstBackwardIterator<Collection>::~ConstBackwardIterator() noexcept
 	{ }
 
 	template<class Collection>
-	inline const bool ConstBackwardIterator<Collection>::operator!=(const ConstBackwardIterator& Other) const
+	inline constexpr const bool ConstBackwardIterator<Collection>::operator!=(const ConstBackwardIterator& Other) const
 	{
 		return _Current >= Other._Current;
 	}
 
 	template <class Collection>
-	inline ConstBackwardIterator<Collection>& ConstBackwardIterator<Collection>::operator--()
+	inline constexpr ConstBackwardIterator<Collection>& ConstBackwardIterator<Collection>::operator--()
 	{
 		_Current--;
 
@@ -63,7 +68,7 @@ namespace Elysium::Core::Template::Iterator
 	}
 
 	template <class Collection>
-	inline typename ConstBackwardIterator<Collection>::ConstCollectionReference ConstBackwardIterator<Collection>::operator*() const
+	inline constexpr typename ConstBackwardIterator<Collection>::ConstCollectionReference ConstBackwardIterator<Collection>::operator*() const
 	{
 		return *_Current;
 	}

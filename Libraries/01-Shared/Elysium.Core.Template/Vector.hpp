@@ -81,7 +81,7 @@ namespace Elysium::Core::Template::Container
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="Allocator"></typeparam>
 	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
-	class Vector final
+	class Vector
 	{
 		// @ToDo: remove asap
 		friend class Elysium::Core::Collections::Template::Array<T>;
@@ -336,11 +336,11 @@ namespace Elysium::Core::Template::Container
 	private:
 		inline static Allocator _Allocator = Allocator();
 	private:
+		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity);
+	private:
 		System::size _Capacity;
 		System::size _Length;
 		Pointer _Data;
-	private:
-		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity);
 	};
 
 	template<Concepts::NonConstant T, class Allocator>
@@ -740,5 +740,11 @@ namespace Elysium::Core::Template::Container
 
 		return NewCapacity;
 	}
+	/*
+	// @ToDo: implement specialization (SOO as well?)
+	template <bool, class Allocator = Memory::DefaultAllocator<bool>>
+	class Vector
+	{ };
+	*/
 }
 #endif

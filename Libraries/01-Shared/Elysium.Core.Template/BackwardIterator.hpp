@@ -21,41 +21,46 @@ namespace Elysium::Core::Template::Iterator
 		using CollectionPointer = typename Collection::IteratorPointer;
 		using CollectionReference = typename Collection::IteratorReference;
 	public:
-		BackwardIterator() = delete;
-		BackwardIterator(CollectionPointer Current) noexcept;
-		BackwardIterator(const BackwardIterator& Source) = delete;
-		BackwardIterator(BackwardIterator&& Right) noexcept = delete;
-		~BackwardIterator() noexcept;
+		constexpr BackwardIterator() = delete;
+
+		constexpr BackwardIterator(CollectionPointer Current) noexcept;
+
+		constexpr BackwardIterator(const BackwardIterator& Source) = delete;
+
+		constexpr BackwardIterator(BackwardIterator&& Right) noexcept = delete;
+
+		constexpr ~BackwardIterator() noexcept;
 	public:
-		BackwardIterator<Collection>& operator=(const BackwardIterator& Source) noexcept = delete;
-		BackwardIterator<Collection>& operator=(BackwardIterator&& Right) noexcept = delete;
+		constexpr BackwardIterator<Collection>& operator=(const BackwardIterator& Source) noexcept = delete;
 
-		const bool operator!=(const BackwardIterator& Other) const;
+		constexpr BackwardIterator<Collection>& operator=(BackwardIterator&& Right) noexcept = delete;
+	public:
+		constexpr const bool operator!=(const BackwardIterator& Other) const;
 
-		BackwardIterator<Collection>& operator--();
+		constexpr BackwardIterator<Collection>& operator--();
 
-		CollectionReference operator*();
+		constexpr CollectionReference operator*();
 	private:
 		CollectionPointer _Current;
 	};
 
 	template<class Collection>
-	inline BackwardIterator<Collection>::BackwardIterator(BackwardIterator<Collection>::CollectionPointer Current) noexcept
+	inline constexpr BackwardIterator<Collection>::BackwardIterator(BackwardIterator<Collection>::CollectionPointer Current) noexcept
 		: _Current(Current)
 	{ }
 
 	template <class Collection>
-	inline BackwardIterator<Collection>::~BackwardIterator() noexcept
+	inline constexpr BackwardIterator<Collection>::~BackwardIterator() noexcept
 	{ }
 
 	template <class Collection>
-	const bool BackwardIterator<Collection>::operator!=(const BackwardIterator<Collection>& Other) const
+	inline constexpr const bool BackwardIterator<Collection>::operator!=(const BackwardIterator<Collection>& Other) const
 	{
 		return _Current >= Other._Current;
 	}
 
 	template<class Collection>
-	inline BackwardIterator<Collection>& BackwardIterator<Collection>::operator--()
+	inline constexpr BackwardIterator<Collection>& BackwardIterator<Collection>::operator--()
 	{
 		_Current--;
 
@@ -63,7 +68,7 @@ namespace Elysium::Core::Template::Iterator
 	}
 
 	template<class Collection>
-	inline typename BackwardIterator<Collection>::CollectionReference BackwardIterator<Collection>::operator*()
+	inline constexpr typename BackwardIterator<Collection>::CollectionReference BackwardIterator<Collection>::operator*()
 	{
 		return *_Current;
 	}

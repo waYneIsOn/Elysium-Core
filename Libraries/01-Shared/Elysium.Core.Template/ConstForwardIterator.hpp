@@ -21,41 +21,46 @@ namespace Elysium::Core::Template::Iterator
 		using CollectionPointer = typename Collection::IteratorPointer;
 		using ConstCollectionReference = typename Collection::ConstIteratorReference;
 	public:
-		ConstForwardIterator() = delete;
-		ConstForwardIterator(CollectionPointer Current) noexcept;
-		ConstForwardIterator(const ConstForwardIterator& Source) = delete;
-		ConstForwardIterator(ConstForwardIterator&& Right) noexcept = delete;
-		~ConstForwardIterator() noexcept;
+		constexpr ConstForwardIterator() = delete;
+
+		constexpr ConstForwardIterator(CollectionPointer Current) noexcept;
+
+		constexpr ConstForwardIterator(const ConstForwardIterator& Source) = delete;
+
+		constexpr ConstForwardIterator(ConstForwardIterator&& Right) noexcept = delete;
+
+		constexpr ~ConstForwardIterator() noexcept;
 	public:
-		ConstForwardIterator<Collection>& operator=(const ConstForwardIterator& Source) noexcept = delete;
-		ConstForwardIterator<Collection>& operator=(ConstForwardIterator&& Right) noexcept = delete;
+		constexpr ConstForwardIterator<Collection>& operator=(const ConstForwardIterator& Source) noexcept = delete;
 
-		const bool operator!=(const ConstForwardIterator& Other) const;
+		constexpr ConstForwardIterator<Collection>& operator=(ConstForwardIterator&& Right) noexcept = delete;
+	public:
+		constexpr const bool operator!=(const ConstForwardIterator& Other) const;
 
-		ConstForwardIterator<Collection>& operator++();
+		constexpr ConstForwardIterator<Collection>& operator++();
 
-		ConstCollectionReference operator*() const;
+		constexpr ConstCollectionReference operator*() const;
 	private:
 		CollectionPointer _Current;
 	};
 
 	template<class Collection>
-	inline ConstForwardIterator<Collection>::ConstForwardIterator(CollectionPointer Current) noexcept
+	inline constexpr ConstForwardIterator<Collection>::ConstForwardIterator(CollectionPointer Current) noexcept
 		: _Current(Current)
 	{ }
 
 	template <class Collection>
-	inline ConstForwardIterator<Collection>::~ConstForwardIterator() noexcept
+	inline constexpr ConstForwardIterator<Collection>::~ConstForwardIterator() noexcept
 	{ }
 
 	template <class Collection>
-	const bool ConstForwardIterator<Collection>::operator!=(const ConstForwardIterator& Other) const
+	inline constexpr const bool ConstForwardIterator<Collection>::operator!=(const ConstForwardIterator& Other) const
 	{
 		return _Current <= Other._Current;
 	}
 
 	template<class Collection>
-	inline ConstForwardIterator<Collection>& ConstForwardIterator<Collection>::operator++()
+	inline constexpr ConstForwardIterator<Collection>& ConstForwardIterator<Collection>::operator++()
 	{
 		_Current++;
 
@@ -63,7 +68,7 @@ namespace Elysium::Core::Template::Iterator
 	}
 
 	template<class Collection>
-	inline typename ConstForwardIterator<Collection>::ConstCollectionReference ConstForwardIterator<Collection>::operator*() const
+	inline constexpr typename ConstForwardIterator<Collection>::ConstCollectionReference ConstForwardIterator<Collection>::operator*() const
 	{
 		return *_Current;
 	}
