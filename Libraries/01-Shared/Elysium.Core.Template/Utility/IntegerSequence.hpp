@@ -38,8 +38,5 @@ namespace Elysium::Core::Template::Utility
 	{
 		return sizeof...(Values);
 	}
-
-	template<Concepts::EnumerationOrIntegral T, T Length>
-	using MakeIntegerSequence = __make_integer_seq<IntegerSequence, T, Length>;
 }
 #endif

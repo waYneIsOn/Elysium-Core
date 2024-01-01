@@ -584,6 +584,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)EnumerationOrIntegral.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__MakeIntegerSequence.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__Repeat.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

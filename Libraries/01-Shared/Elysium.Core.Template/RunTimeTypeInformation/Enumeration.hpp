@@ -52,8 +52,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../TypeTraits.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_INTEGERSEQUENCE
-#include "../Utility/IntegerSequence.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_MAKEINTEGERSEQUENCE
+#include "../Utility/__MakeIntegerSequence.hpp"
 #endif
 
 namespace Elysium::Core::Template::RunTimeTypeInformation
@@ -76,7 +76,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		template <T Value>
 		static constexpr const bool IsDefinedValue() noexcept;
 		
-		static constexpr const T GetMinimumValue() noexcept;
+		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValues() noexcept;
 
 		//static constexpr const bool IsFlag(ConstReference Value) noexcept;
 	public: // @ToDo: make private or remove
@@ -178,7 +178,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	}
 
 	template<Concepts::ReflectableEnumeration T>
-	inline constexpr const T Enumeration<T>::GetMinimumValue() noexcept
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValues() noexcept
 	{
 		constexpr const Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> RangeStart =
 			Elysium::Core::Template::Numeric::NumericTraits<UnderlyingTypeType<T>>::Minimum;
@@ -191,15 +191,17 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 
 		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
 
+		Elysium::Core::Template::Container::Vector<T> DefinedValues =
+			Elysium::Core::Template::Container::Vector<T>();
 		for (Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> i = RangeStart; i < RangeEnd; i++)
 		{
 			if (AreDefinedValues[i])
 			{
-				return static_cast<T>(i);
+				DefinedValues.PushBack(static_cast<T>(i));
 			}
 		}
 
-		return T();
+		return DefinedValues;
 	}
 
 	template<Concepts::ReflectableEnumeration T>

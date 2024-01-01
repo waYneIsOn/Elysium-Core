@@ -142,17 +142,17 @@ namespace UnitTests::Core::Template::Reflection
 			*/
 		}
 
-		TEST_METHOD(GetMinimumValues)
+		TEST_METHOD(GetDefinedValues)
 		{
 			//GlobalEnum GlobalEnumMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetMinimumValue();
 
 			//SomeInt8EnumClass SomeInt8EnumClassMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetMinimumValue();
 
-			constexpr const SomeUInt8EnumClass SomeUInt8EnumClassMinimum =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetMinimumValue();
-			/*
-			constexpr const SomeEmtpyUInt8EnumClass SomeEmtpyUint8EnumClassMinimum =
-				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEmtpyUInt8EnumClass>::GetMinimumValue();
+			const ::Template::Container::Vector<SomeUInt8EnumClass> SomeUInt8EnumClassDefinedValues =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetDefinedValues();
+			
+			const ::Template::Container::Vector<SomeEmtpyUInt8EnumClass> SomeEmtpyUint8EnumDefinedValues =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEmtpyUInt8EnumClass>::GetDefinedValues();
 			/*
 			Elysium::Core::Template::Utility::IntegerSequence<SomeUInt8EnumClass, SomeUInt8EnumClass::A, SomeUInt8EnumClass::B> bla =
 				Elysium::Core::Template::Utility::IntegerSequence< SomeUInt8EnumClass, SomeUInt8EnumClass::A, SomeUInt8EnumClass::B>();

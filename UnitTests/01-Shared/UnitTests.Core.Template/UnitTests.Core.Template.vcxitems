@@ -33,5 +33,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeTraitTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FunctionalTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)__RepeatTests.cpp" />
   </ItemGroup>
 </Project>

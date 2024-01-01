@@ -224,5 +224,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)VoidType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WeakPointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__MakeIntegerSequence.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__Repeat.hpp" />
   </ItemGroup>
 </Project>
