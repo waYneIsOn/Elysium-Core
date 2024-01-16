@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Process.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSMODULE
+#include "ProcessModule.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
 #include "ProcessStartInfo.hpp"
 #endif

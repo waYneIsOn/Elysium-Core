@@ -15,6 +15,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
@@ -24,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WinSymbols.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Process.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stopwatch.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinSymbols.cpp" />
   </ItemGroup>

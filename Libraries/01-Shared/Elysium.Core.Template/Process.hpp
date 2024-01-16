@@ -16,28 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSMODULE
+#include "ProcessModule.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
 #include "ProcessStartInfo.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTEXCEPTION
-#include "ArgumentException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
-#include "ArgumentNullException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
-#include "SystemException.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -65,155 +49,97 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#ifndef _INC_TOOLHELP32
 	#include <tlhelp32.h>
 	#endif
+
+	#ifndef _PSAPI_H_
+	#include <Psapi.h>
+	#endif
 #endif
 
 namespace Elysium::Core::Template::Diagnostics
 {
-	class Process final
+	class Process
 	{
 	public:
-		Process(const char8_t* MachineName, const bool IsRemoteMachine, const System::uint32_t ProcessId) noexcept;
+		Process() noexcept = delete;
+
+		Process(const Process& Source) = delete;
+
+		Process(Process&& Right) noexcept = delete;
+
+		~Process() = delete;
 	public:
-		Process() noexcept;
+		Process& operator=(const Process& Source) = delete;
 
-		Process(const Process& Source);
-
-		Process(Process&& Right) noexcept;
-
-		~Process();
+		Process& operator=(Process&& Right) noexcept = delete;
 	public:
-		Process& operator=(const Process& Source);
+		static void* GetCurrentProcessHandle();
 
-		Process& operator=(Process&& Right) noexcept;
+		static Elysium::Core::Template::System::uint32_t GetCurrentProcessId();
 	public:
-		const bool GetHasExited() const;
+		static void* GetHandle(const Elysium::Core::Template::System::uint32_t ProcessId);
 
-		const System::uint32_t GetId() const;
+		static Elysium::Core::Template::System::uint32_t GetId(void* ProcessHandle);
+
+		static Elysium::Core::Template::Text::String<char8_t> GetName(void* ProcessHandle);
+
+		static const bool HasExited(void* ProcessHandle);
 	public:
-		const bool Start(const ProcessStartInfo& StartInfo);
+		static const bool CloseMainWindow(const System::uint32_t ProcessId);
 
-		void Close();
+		static void Kill(void* ProcessHandle, const System::uint32_t ExitCode, const bool EntireProcessTree);
 
-		const bool CloseMainWindow();
-
-		void Kill(const bool EntireProcessTree);
-
-		void Refresh();
-
-		void WaitForExit(const System::uint32_t Milliseconds = 0xFFFFFFFF);
+		static void WaitForExit(void* ProcessHandle, const Elysium::Core::Template::System::uint32_t Milliseconds);
 	public:
-		static void EnterDebugMode();
+		static Elysium::Core::Template::Container::Vector<PROCESSENTRY32> GetProcessIds();
 
-		static void LeaveDebugMode();
-
-		static const Process& CurrentProcess();
-
-		static const Container::Vector<Process> GetProcesses(const char8_t* MachineName = _LocalMachineName);
-
-		static Process GetProcessById(const System::uint32_t ProcessId);
-
-		static const Container::Vector<Process> GetProcessesByName(const char8_t* ProcessName, const char8_t* MachineName = _LocalMachineName);
+		static Elysium::Core::Template::Container::Vector<PROCESSENTRY32> GetProcessIdsByName(const char8_t* ProcessName, const char8_t* MachineName);
 	private:
-		inline static const char8_t* _LocalMachineName = u8".";
 
-		static const Process _CurrentProcess;
-	private:
-		Text::String<char8_t> _MachineName;
-		bool _IsRemoteMachine;
-		System::uint32_t _ProcessId;
-		bool _HasProcessId;
-		System::uint32_t _ThreadId;
-		bool _HasThreadId;
-		void* _ProcessHandle;
-		void* _ThreadHandle;
-	private:
-		struct WindowHandleData
-		{
-			System::uint32_t ProcessId;
-			HANDLE WindowHandle;
-		};
-
-		static const HANDLE GetMainWindowHandle(const System::uint32_t ProcessId);
-
-		static BOOL GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter);
-
-		static const bool IsMainWindow(HWND WindowHandle);
 	};
 
-	inline const Elysium::Core::Template::Diagnostics::Process Process::_CurrentProcess = Process(_LocalMachineName, false, GetCurrentProcessId());
-
-	inline Elysium::Core::Template::Diagnostics::Process::Process(const char8_t* MachineName, const bool IsRemoteMachine, const System::uint32_t ProcessId) noexcept
-		: _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(GetCurrentThreadId()),
-		_HasThreadId(true), _ProcessHandle(GetCurrentProcess()), _ThreadHandle(GetCurrentThread())
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::Process::Process() noexcept
-		: _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false),
-		_ProcessHandle(nullptr), _ThreadHandle(nullptr)
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::Process::Process(const Process & Source)
-		: _MachineName(Source._MachineName), _IsRemoteMachine(Source._IsRemoteMachine), _ProcessId(Source._ProcessId), _HasProcessId(Source._HasProcessId),
-		_ThreadId(Source._ThreadId), _HasThreadId(Source._HasThreadId), _ProcessHandle(Source._ProcessHandle), _ThreadHandle(Source._ThreadHandle)
-	{ }
-
-	inline Diagnostics::Process::Process(Process&& Right) noexcept
-		: _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle()
+	inline void* Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessHandle()
 	{
-		*this = Functional::Move(Right);
+		return GetCurrentProcess();
 	}
 
-	inline Elysium::Core::Template::Diagnostics::Process::~Process()
-	{ 
-		Close();
+	inline Elysium::Core::Template::System::uint32_t Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessId()
+	{
+		//return GetCurrentProcessId();	// @ToDo: can I somehow use this directly here? (Psapi.h)
+		return GetId(GetCurrentProcessHandle());
 	}
 
-	inline Elysium::Core::Template::Diagnostics::Process& Diagnostics::Process::operator=(const Process& Source)
+	inline void* Process::GetHandle(const Elysium::Core::Template::System::uint32_t ProcessId)
 	{
-		if (this != &Source)
+		void* Handle = OpenProcess(READ_CONTROL | PROCESS_QUERY_INFORMATION, TRUE, ProcessId);
+		if (Handle == INVALID_HANDLE_VALUE)
 		{
-			_MachineName = Source._MachineName;
-			_IsRemoteMachine = Source._IsRemoteMachine;
-			_ProcessId = Source._ProcessId;
-			_HasProcessId = Source._HasProcessId;
-			_ThreadId = Source._ThreadId;
-			_HasThreadId = Source._HasThreadId;
-			_ProcessHandle = Source._ProcessHandle;
-			_ThreadHandle = Source._ThreadHandle;
+			throw Exceptions::SystemException();
 		}
 
-		return *this;
+		return Handle;
 	}
 
-	inline Elysium::Core::Template::Diagnostics::Process& Diagnostics::Process::operator=(Process&& Right) noexcept
+	inline Elysium::Core::Template::System::uint32_t Elysium::Core::Template::Diagnostics::Process::GetId(void* ProcessHandle)
 	{
-		if (this != &Right)
+		return GetProcessId(ProcessHandle);
+	}
+
+	inline Elysium::Core::Template::Text::String<char8_t> Process::GetName(void* ProcessHandle)
+	{
+		// @ToDo: windows max module-(file-?)name length?
+		char Name[MAX_PATH];
+		if (!GetModuleBaseNameA(ProcessHandle, nullptr, Name, sizeof(Name)))
 		{
-			_MachineName = Functional::Move(Right._MachineName);
-			_IsRemoteMachine = Functional::Move(Right._IsRemoteMachine);
-			_ProcessId = Functional::Move(Right._ProcessId);
-			_HasProcessId = Functional::Move(Right._HasProcessId);
-			_ThreadId = Functional::Move(Right._ThreadId);
-			_HasThreadId = Functional::Move(Right._HasThreadId);
-			_ProcessHandle = Functional::Move(Right._ProcessHandle);
-			_ThreadHandle = Functional::Move(Right._ThreadHandle);
-			
-			Right._IsRemoteMachine = false;
-			Right._ProcessId = 0;
-			Right._HasProcessId = false;
-			Right._ThreadId = 0;
-			Right._HasThreadId = false;
-			Right._ProcessHandle = nullptr;
-			Right._ThreadHandle = nullptr;
+			throw Exceptions::SystemException();
 		}
 
-		return *this;
+		return Text::String<char8_t>(reinterpret_cast<char8_t*>(&Name));
 	}
 
-	inline const bool Elysium::Core::Template::Diagnostics::Process::GetHasExited() const
+	inline const bool Elysium::Core::Template::Diagnostics::Process::HasExited(void* ProcessHandle)
 	{
 		DWORD ExitCode;
-		if (!GetExitCodeProcess(_ProcessHandle, &ExitCode))
+		if (!GetExitCodeProcess(ProcessHandle, &ExitCode))
 		{
 			throw Exceptions::SystemException();
 		}
@@ -221,221 +147,92 @@ namespace Elysium::Core::Template::Diagnostics
 		return ExitCode != STILL_ACTIVE;
 	}
 
-	inline const System::uint32_t Elysium::Core::Template::Diagnostics::Process::GetId() const
+	inline const bool Process::CloseMainWindow(const System::uint32_t ProcessId)
 	{
-		if (!_HasProcessId)
-		{
-			throw Exceptions::InvalidOperationException();
-		}
-
-		return _ProcessId;
-	}
-
-	inline const bool Elysium::Core::Template::Diagnostics::Process::Start(const ProcessStartInfo& StartInfo)
-	{
-		const Text::String<char8_t>& FileName = StartInfo.GetFileName();
-		const Text::String<wchar_t>& WideFileName = Text::Unicode::Utf16::SafeToWideString<char8_t>(&FileName[0], FileName.GetLength());
-
-		STARTUPINFO StartupInfo = STARTUPINFO();
-		//ZeroMemory(&StartupInfo, sizeof(STARTUPINFO));
-		StartupInfo.cb = sizeof(STARTUPINFO);
-
-		PROCESS_INFORMATION ProcessInformation = PROCESS_INFORMATION();
-		//ZeroMemory(&ProcessInformation, sizeof(PROCESS_INFORMATION));
-
-		if (!CreateProcess(&WideFileName[0],
-			nullptr,        // Command line arguments
-			nullptr,        // Process handle not inheritable
-			nullptr,		// Thread handle not inheritable
-			false,          // Set handle inheritance to FALSE
-			0,              // No creation flags
-			nullptr,		// Use parent's environment block
-			nullptr,		// Use parent's starting directory 
-			&StartupInfo, &ProcessInformation))
-		{
-			throw Exceptions::SystemException();
-		}
-
-		_ProcessId = ProcessInformation.dwProcessId;
-		_HasProcessId = true;
-		_ThreadId = ProcessInformation.dwThreadId;
-		_HasThreadId = true;
-		_ProcessHandle = ProcessInformation.hProcess;
-		_ThreadHandle = ProcessInformation.hThread;
-
-		return true;
-	}
-
-	inline void Elysium::Core::Template::Diagnostics::Process::Close()
-	{
-		if (_ThreadHandle != nullptr)
-		{
-			CloseHandle(_ThreadHandle);
-			_ThreadHandle = nullptr;
-		}
-		if (_ProcessHandle != nullptr)
-		{
-			CloseHandle(_ProcessHandle);
-			_ProcessHandle = nullptr;
-		}
-	}
-	
-	inline const bool Elysium::Core::Template::Diagnostics::Process::CloseMainWindow()
-	{
-		const HANDLE MainWindowHandle = GetMainWindowHandle(_ProcessId);
+		//@ ToDo:
+		/*
+		const HANDLE MainWindowHandle = GetMainWindowHandle(ProcessId);
 		if (MainWindowHandle == nullptr)
 		{	// no main window found, ergo there is nothing to do, so simply return true
 			return true;
 		}
 		else
 		{
-			return CloseWindow((HWND)MainWindowHandle) == 1;
+			return CloseWindow(reinterpret_cast<HWND>(MainWindowHandle)) != FALSE;
+			//return DestroyWindow(reinterpret_cast<HWND>(MainWindowHandle)) != FALSE;
 		}
+		*/
+		return false;
 	}
 	
-	inline void Elysium::Core::Template::Diagnostics::Process::Kill(const bool EntireProcessTree)
+	inline void Elysium::Core::Template::Diagnostics::Process::Kill(void* ProcessHandle, const System::uint32_t ExitCode, const bool EntireProcessTree)
 	{
 		if (EntireProcessTree)
-		{	// ToDo:
-			throw 1;
+		{	// @ToDo:
 		}
-		TerminateProcess(_ProcessHandle, 0);
+		TerminateProcess(ProcessHandle, ExitCode);
 	}
 
-	inline void Diagnostics::Process::Refresh()
-	{	// ToDo:
-		throw 1;
+	inline void Elysium::Core::Template::Diagnostics::Process::WaitForExit(void* ProcessHandle, const Elysium::Core::Template::System::uint32_t Milliseconds)
+	{
+		WaitForSingleObject(ProcessHandle, Milliseconds);
 	}
 
-	inline void Diagnostics::Process::WaitForExit(const System::uint32_t Milliseconds)
-	{
-		WaitForSingleObject(_ProcessHandle, Milliseconds);
-	}
 
-	inline void Diagnostics::Process::EnterDebugMode()
+	inline Elysium::Core::Template::Container::Vector<PROCESSENTRY32> Process::GetProcessIds()
 	{
-		//EnableDebugPriv();
-		throw 1;
-	}
-
-	inline void Elysium::Core::Template::Diagnostics::Process::LeaveDebugMode()
-	{
-		//LeaveDebugPriv();
-		throw 1;
-	}
-
-	inline const Process& Elysium::Core::Template::Diagnostics::Process::CurrentProcess()
-	{
-		return _CurrentProcess;
-	}
-	
-	inline const Container::Vector<Process> Elysium::Core::Template::Diagnostics::Process::GetProcesses(const char8_t* MachineName)
-	{
-		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPTHREAD, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
 			throw Exceptions::SystemException();
 		}
 
-		// ...
 		PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
 		ProcessEntry.dwSize = sizeof(PROCESSENTRY32);
+		if (!Process32First(SnapshotHandle, &ProcessEntry))
+		{
+			throw Exceptions::SystemException();
+		}
 
-		Container::Vector<Process> Processes = Container::Vector<Process>();
+		Container::Vector<PROCESSENTRY32> Processes = Container::Vector<PROCESSENTRY32>();
 		while (Process32Next(SnapshotHandle, &ProcessEntry))
 		{
-			Processes.PushBack(Process(MachineName, MachineName == _LocalMachineName, ProcessEntry.th32ProcessID));
+			Processes.PushBack(ProcessEntry);
 		}
 		CloseHandle(SnapshotHandle);
 
 		return Processes;
 	}
-	
-	inline Elysium::Core::Template::Diagnostics::Process Elysium::Core::Template::Diagnostics::Process::GetProcessById(const System::uint32_t ProcessId)
-	{
-		HANDLE ProcessHandle = OpenProcess(READ_CONTROL | PROCESS_QUERY_INFORMATION, true, ProcessId);
-		if (ProcessHandle == nullptr)
-		{
-			throw Exceptions::ArgumentException(u8"The process specified by the ProcessId parameter is not running. The identifier might be expired.");
-		}
-		/*
-		if ()
-		{
-			throw InvalidOperationException(u8"The process was not started by this object.");
-		}
-		*/
-		/*
-		MEMORY_PRIORITY_INFORMATION MemoryPriorityInformation = MEMORY_PRIORITY_INFORMATION();
-		if (!GetProcessInformation(ProcessHandle, PROCESS_INFORMATION_CLASS::ProcessMemoryPriority, &MemoryPriorityInformation, sizeof(MEMORY_PRIORITY_INFORMATION)))
-		{
-			throw 1;
-		}
-		*/
-		// ToDo:
-		throw 1;
-	}
-	
-	inline const Container::Vector<Process> Elysium::Core::Template::Diagnostics::Process::GetProcessesByName(const char8_t* ProcessName, const char8_t* MachineName)
-	{
-		if (Text::CharacterTraits<char8_t>::IsEmpty(ProcessName))
-		{
-			throw Exceptions::ArgumentNullException(u8"ProcessName");
-		}
 
-		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+	inline Elysium::Core::Template::Container::Vector<PROCESSENTRY32> Process::GetProcessIdsByName(const char8_t* ProcessName, const char8_t* MachineName)
+	{
+		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPTHREAD, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
 			throw Exceptions::SystemException();
 		}
 
-		// ...
 		PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
 		ProcessEntry.dwSize = sizeof(PROCESSENTRY32);
+		if (!Process32First(SnapshotHandle, &ProcessEntry))
+		{
+			throw Exceptions::SystemException();
+		}
 
-		Container::Vector<Process> Processes = Container::Vector<Process>();
+		Container::Vector<PROCESSENTRY32> Processes = Container::Vector<PROCESSENTRY32>();
 		while (Process32Next(SnapshotHandle, &ProcessEntry))
 		{
 			Text::String<char8_t> CurrentProcessName =
 				Text::Unicode::Utf16::FromSafeWideString<char8_t>(&ProcessEntry.szExeFile[0], Text::CharacterTraits<wchar_t>::GetLength(&ProcessEntry.szExeFile[0]));
 			if (CurrentProcessName == ProcessName)
 			{
-				Processes.PushBack(Process(MachineName, MachineName == _LocalMachineName, ProcessEntry.th32ProcessID));
+				Processes.PushBack(ProcessEntry);
 			}
 		}
 		CloseHandle(SnapshotHandle);
 
 		return Processes;
 	}
-	
-	inline const HANDLE Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(const System::uint32_t ProcessId)
-	{
-		WindowHandleData HandleData = WindowHandleData();
-		HandleData.ProcessId = ProcessId;
-		HandleData.WindowHandle = nullptr;
-		while (EnumWindows(GetMainWindowHandleCallback, (LPARAM)&HandleData))
-		{ }
 
-		return HandleData.WindowHandle;
-	}
-
-	inline BOOL Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter)
-	{
-		WindowHandleData* HandleData = (WindowHandleData*)Parameter;
-
-		DWORD ProcessId;
-		GetWindowThreadProcessId(WindowHandle, &ProcessId);
-		if (HandleData->ProcessId != ProcessId || !IsMainWindow(WindowHandle))
-		{
-			return TRUE;
-		}
-
-		HandleData->WindowHandle = WindowHandle;
-		return FALSE;
-	}
-
-	inline const bool Elysium::Core::Template::Diagnostics::Process::IsMainWindow(HWND WindowHandle)
-	{
-		return GetWindow(WindowHandle, GW_OWNER) == (HWND)0 && IsWindowVisible(WindowHandle);
-	}
 }
 #endif
