@@ -59,7 +59,7 @@ namespace Elysium::Core::Diagnostics
 
 		const Utf8String& GetProcessName() const;
 	public:
-		const bool Start(const ProcessStartInfo& StartInfo);
+		static Process Start(const ProcessStartInfo& StartInfo);
 
 		void Close();
 
@@ -72,8 +72,6 @@ namespace Elysium::Core::Diagnostics
 		static const Process CurrentProcess();
 
 		static const Elysium::Core::Template::Container::Vector<Process> GetProcesses(const char8_t* MachineName = _LocalMachineName);
-
-		static Process GetProcessById(const Template::System::uint32_t ProcessId);
 
 		static const Elysium::Core::Template::Container::Vector<Process> GetProcessesByName(const char8_t* ProcessName, const char8_t* MachineName = _LocalMachineName);
 	private:
@@ -92,18 +90,6 @@ namespace Elysium::Core::Diagnostics
 
 		void* _ProcessHandle;
 		void* _ThreadHandle;
-	private:
-		struct WindowHandleData
-		{
-			Elysium::Core::Template::System::uint32_t ProcessId;
-			HANDLE WindowHandle;
-		};
-
-		static const HANDLE GetMainWindowHandle(const Elysium::Core::Template::System::uint32_t ProcessId);
-
-		static BOOL GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter);
-
-		static const bool IsMainWindow(HWND WindowHandle);
 	};
 }
 #endif

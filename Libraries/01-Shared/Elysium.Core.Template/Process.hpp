@@ -84,7 +84,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 		static const bool HasExited(void* ProcessHandle);
 	public:
-		static const bool CloseMainWindow(const System::uint32_t ProcessId);
+		static const bool CloseMainWindow(HWND MainWindowHandle);
 
 		static void Kill(void* ProcessHandle, const System::uint32_t ExitCode, const bool EntireProcessTree);
 
@@ -93,8 +93,18 @@ namespace Elysium::Core::Template::Diagnostics
 		static Elysium::Core::Template::Container::Vector<PROCESSENTRY32> GetProcessIds();
 
 		static Elysium::Core::Template::Container::Vector<PROCESSENTRY32> GetProcessIdsByName(const char8_t* ProcessName, const char8_t* MachineName);
-	private:
 
+		static void* GetMainWindowHandle(const Elysium::Core::Template::System::uint32_t ProcessId);
+	private:
+		struct WindowHandleData
+		{
+			Elysium::Core::Template::System::uint32_t ProcessId;
+			HANDLE WindowHandle;
+		};
+
+		static BOOL GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter);
+
+		static const bool IsMainWindow(HWND WindowHandle);
 	};
 
 	inline void* Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessHandle()
@@ -147,22 +157,29 @@ namespace Elysium::Core::Template::Diagnostics
 		return ExitCode != STILL_ACTIVE;
 	}
 
-	inline const bool Process::CloseMainWindow(const System::uint32_t ProcessId)
+	inline const bool Process::CloseMainWindow(HWND MainWindowHandle)
 	{
-		//@ ToDo:
-		/*
-		const HANDLE MainWindowHandle = GetMainWindowHandle(ProcessId);
 		if (MainWindowHandle == nullptr)
-		{	// no main window found, ergo there is nothing to do, so simply return true
-			return true;
-		}
-		else
 		{
-			return CloseWindow(reinterpret_cast<HWND>(MainWindowHandle)) != FALSE;
-			//return DestroyWindow(reinterpret_cast<HWND>(MainWindowHandle)) != FALSE;
+			return false;
+		}
+
+		if (!PostMessage(MainWindowHandle, WM_CLOSE, 0, 0))
+		{
+			throw Exceptions::SystemException();
+		}
+		/*
+		if (!CloseWindow(MainWindowHandle))
+		{
+			throw Exceptions::SystemException();
+		}
+
+		if (!DestroyWindow(MainWindowHandle))
+		{
+			throw Exceptions::SystemException();
 		}
 		*/
-		return false;
+		return true;
 	}
 	
 	inline void Elysium::Core::Template::Diagnostics::Process::Kill(void* ProcessHandle, const System::uint32_t ExitCode, const bool EntireProcessTree)
@@ -177,8 +194,7 @@ namespace Elysium::Core::Template::Diagnostics
 	{
 		WaitForSingleObject(ProcessHandle, Milliseconds);
 	}
-
-
+	
 	inline Elysium::Core::Template::Container::Vector<PROCESSENTRY32> Process::GetProcessIds()
 	{
 		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPTHREAD, 0);
@@ -234,5 +250,36 @@ namespace Elysium::Core::Template::Diagnostics
 		return Processes;
 	}
 
+	inline void* Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(const System::uint32_t ProcessId)
+	{
+		WindowHandleData HandleData = WindowHandleData();
+		HandleData.ProcessId = ProcessId;
+		HandleData.WindowHandle = nullptr;
+		while (EnumWindows(GetMainWindowHandleCallback, (LPARAM)&HandleData))
+		{
+		}
+
+		return HandleData.WindowHandle;
+	}
+
+	inline BOOL Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter)
+	{
+		WindowHandleData* HandleData = reinterpret_cast<WindowHandleData*>(Parameter);
+
+		DWORD ProcessId;
+		GetWindowThreadProcessId(WindowHandle, &ProcessId);
+		if (HandleData->ProcessId != ProcessId || !IsMainWindow(WindowHandle))
+		{
+			return TRUE;
+		}
+
+		HandleData->WindowHandle = WindowHandle;
+		return FALSE;
+	}
+
+	inline const bool Elysium::Core::Template::Diagnostics::Process::IsMainWindow(HWND WindowHandle)
+	{
+		return GetWindow(WindowHandle, GW_OWNER) == (HWND)0 && IsWindowVisible(WindowHandle);
+	}
 }
 #endif

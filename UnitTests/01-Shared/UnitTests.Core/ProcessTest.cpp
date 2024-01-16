@@ -78,9 +78,10 @@ namespace UnitTests::Core::Diagnostics
 			ProcessStartInfo StartInfo = ProcessStartInfo();
 			StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
 
-			Process Notepad = Process();
-			Notepad.Start(StartInfo);
+			Process Notepad = Process::Start(StartInfo);
 			bool Closed = Notepad.CloseMainWindow();
+
+			// @ToDo: this works but only if I wait a bit before checking as the window might not have been closed yet!
 			if (!Notepad.GetHasExited())
 			{
 				Assert::Fail();

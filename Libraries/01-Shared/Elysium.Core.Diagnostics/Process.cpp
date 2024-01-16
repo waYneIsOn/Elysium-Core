@@ -129,9 +129,41 @@ const Elysium::Core::Utf8String& Elysium::Core::Diagnostics::Process::GetProcess
 	return _Name;
 }
 
-const bool Elysium::Core::Diagnostics::Process::Start(const ProcessStartInfo& StartInfo)
+Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::Start(const ProcessStartInfo& StartInfo)
 {
-	return false;
+	const Template::Text::String<char8_t>& FileName = StartInfo.GetFileName();
+	const Template::Text::String<wchar_t>& WideFileName = Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&FileName[0], FileName.GetLength());
+
+	STARTUPINFO StartupInfo = STARTUPINFO();
+	//ZeroMemory(&StartupInfo, sizeof(STARTUPINFO));
+	StartupInfo.cb = sizeof(STARTUPINFO);
+
+	PROCESS_INFORMATION ProcessInformation = PROCESS_INFORMATION();
+	//ZeroMemory(&ProcessInformation, sizeof(PROCESS_INFORMATION));
+
+	if (!CreateProcess(&WideFileName[0],
+		nullptr,        // Command line arguments
+		nullptr,        // Process handle not inheritable
+		nullptr,		// Thread handle not inheritable
+		false,          // Set handle inheritance to FALSE
+		0,              // No creation flags
+		nullptr,		// Use parent's environment block
+		nullptr,		// Use parent's starting directory 
+		&StartupInfo, &ProcessInformation))
+	{
+		throw Template::Exceptions::SystemException();
+	}
+
+	return Process(u8"", _LocalMachineName, false, ProcessInformation.dwProcessId);
+	/*
+	_ProcessId = ProcessInformation.dwProcessId;
+	_HasProcessId = true;
+	_ThreadId = ProcessInformation.dwThreadId;
+	_HasThreadId = true;
+	_ProcessHandle = ProcessInformation.hProcess;
+	_ThreadHandle = ProcessInformation.hThread;
+	*/
+	//return true;
 }
 
 void Elysium::Core::Diagnostics::Process::Close()
@@ -157,7 +189,9 @@ void Elysium::Core::Diagnostics::Process::Close()
 
 const bool Elysium::Core::Diagnostics::Process::CloseMainWindow()
 {
-	return false;
+	void* MainWindowHandle = Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(_ProcessId);
+
+	return Elysium::Core::Template::Diagnostics::Process::CloseMainWindow(reinterpret_cast<HWND>(MainWindowHandle));
 }
 
 void Elysium::Core::Diagnostics::Process::Kill(const bool EntireProcessTree)
@@ -202,11 +236,6 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 	return Result;
 }
 
-Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::GetProcessById(const Elysium::Core::Template::System::uint32_t ProcessId)
-{
-	return Process();
-}
-
 const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcessesByName(const char8_t* ProcessName, const char8_t* MachineName)
 {
 	const Elysium::Core::Template::Container::Vector<PROCESSENTRY32> ProcessIds =
@@ -229,21 +258,6 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 	}
 
 	return Result;
-}
-
-const HANDLE Elysium::Core::Diagnostics::Process::GetMainWindowHandle(const Template::System::uint32_t ProcessId)
-{
-	return HANDLE();
-}
-
-BOOL Elysium::Core::Diagnostics::Process::GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter)
-{
-	return 0;
-}
-
-const bool Elysium::Core::Diagnostics::Process::IsMainWindow(HWND WindowHandle)
-{
-	return false;
 }
 
 
@@ -276,83 +290,7 @@ inline const Container::Vector<ProcessModule> Process::GetModules() const
 
 inline const bool Elysium::Core::Template::Diagnostics::Process::Start(const ProcessStartInfo& StartInfo)
 {
-	const Text::String<char8_t>& FileName = StartInfo.GetFileName();
-	const Text::String<wchar_t>& WideFileName = Text::Unicode::Utf16::SafeToWideString<char8_t>(&FileName[0], FileName.GetLength());
-
-	STARTUPINFO StartupInfo = STARTUPINFO();
-	//ZeroMemory(&StartupInfo, sizeof(STARTUPINFO));
-	StartupInfo.cb = sizeof(STARTUPINFO);
-
-	PROCESS_INFORMATION ProcessInformation = PROCESS_INFORMATION();
-	//ZeroMemory(&ProcessInformation, sizeof(PROCESS_INFORMATION));
-
-	if (!CreateProcess(&WideFileName[0],
-		nullptr,        // Command line arguments
-		nullptr,        // Process handle not inheritable
-		nullptr,		// Thread handle not inheritable
-		false,          // Set handle inheritance to FALSE
-		0,              // No creation flags
-		nullptr,		// Use parent's environment block
-		nullptr,		// Use parent's starting directory 
-		&StartupInfo, &ProcessInformation))
-	{
-		throw Exceptions::SystemException();
-	}
-
-	_ProcessId = ProcessInformation.dwProcessId;
-	_HasProcessId = true;
-	_ThreadId = ProcessInformation.dwThreadId;
-	_HasThreadId = true;
-	_ProcessHandle = ProcessInformation.hProcess;
-	_ThreadHandle = ProcessInformation.hThread;
-
-	return true;
 }
 
-inline const bool Elysium::Core::Template::Diagnostics::Process::CloseMainWindow()
-{
-	const HANDLE MainWindowHandle = GetMainWindowHandle(_ProcessId);
-	if (MainWindowHandle == nullptr)
-	{	// no main window found, ergo there is nothing to do, so simply return true
-		return true;
-	}
-	else
-	{
-		return CloseWindow(reinterpret_cast<HWND>(MainWindowHandle)) != FALSE;
-		//return DestroyWindow(reinterpret_cast<HWND>(MainWindowHandle)) != FALSE;
-	}
-}
-
-inline const HANDLE Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(const System::uint32_t ProcessId)
-{
-	WindowHandleData HandleData = WindowHandleData();
-	HandleData.ProcessId = ProcessId;
-	HandleData.WindowHandle = nullptr;
-	while (EnumWindows(GetMainWindowHandleCallback, (LPARAM)&HandleData))
-	{
-	}
-
-	return HandleData.WindowHandle;
-}
-
-inline BOOL Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter)
-{
-	WindowHandleData* HandleData = (WindowHandleData*)Parameter;
-
-	DWORD ProcessId;
-	GetWindowThreadProcessId(WindowHandle, &ProcessId);
-	if (HandleData->ProcessId != ProcessId || !IsMainWindow(WindowHandle))
-	{
-		return TRUE;
-	}
-
-	HandleData->WindowHandle = WindowHandle;
-	return FALSE;
-}
-
-inline const bool Elysium::Core::Template::Diagnostics::Process::IsMainWindow(HWND WindowHandle)
-{
-	return GetWindow(WindowHandle, GW_OWNER) == (HWND)0 && IsWindowVisible(WindowHandle);
-}
 */
 
