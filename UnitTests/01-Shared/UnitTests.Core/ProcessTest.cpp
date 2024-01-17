@@ -26,7 +26,7 @@ namespace UnitTests::Core::Diagnostics
 
 			//const ProcessModule MainModule = CurrentProcess.GetMainModule();
 
-			const Template::Container::Vector<ProcessModule> Modules = CurrentProcess.GetModules();
+			const Template::Container::Vector<ProcessModule>& Modules = CurrentProcess.GetModules();
 			for (Template::Container::Vector<ProcessModule>::ConstIterator Iterator = Modules.GetBegin(); Iterator != Modules.GetEnd(); ++Iterator)
 			{
 				const ProcessModule& CurrentModule = *Iterator;
@@ -39,8 +39,8 @@ namespace UnitTests::Core::Diagnostics
 				const void* ModuleBaseAddress = CurrentModule.GetBaseAddress();
 				const Template::System::size Address =
 					reinterpret_cast<const Template::System::size>(ModuleBaseAddress);
-				Template::Text::String bla = Template::Text::Convert<char>::ToString(Address);
-				Logger::WriteMessage(&bla[0]);
+				Template::Text::String BaseAddress = Template::Text::Convert<char>::ToString(Address);
+				Logger::WriteMessage(&BaseAddress[0]);
 				Logger::WriteMessage("\r\n");
 			}
 		}
@@ -90,11 +90,13 @@ namespace UnitTests::Core::Diagnostics
 					Assert::Fail();
 				}
 			}
-			catch (Elysium::Core::Template::Exceptions::SystemException& ex)
+			catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
 			{
-				const Elysium::Core::Template::System::uint32_t ErrorCode = ex.GetErrorCode();
+				Template::Text::String ErrorCode = Template::Text::Convert<char>::ToString(ex.GetErrorCode());
 
 				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage(&ErrorCode[0]);
 				Logger::WriteMessage("\r\n");
 				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
 				Logger::WriteMessage("\r\n");
@@ -117,11 +119,13 @@ namespace UnitTests::Core::Diagnostics
 					Assert::Fail();
 				}
 			}
-			catch (Elysium::Core::Template::Exceptions::SystemException& ex)
+			catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
 			{
-				const Elysium::Core::Template::System::uint32_t ErrorCode = ex.GetErrorCode();
+				Template::Text::String ErrorCode = Template::Text::Convert<char>::ToString(ex.GetErrorCode());
 
 				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage(&ErrorCode[0]);
 				Logger::WriteMessage("\r\n");
 				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
 				Logger::WriteMessage("\r\n");

@@ -63,7 +63,7 @@ namespace Elysium::Core::Diagnostics
 
 		//const ProcessModule GetMainModule() const;
 
-		const Elysium::Core::Template::Container::Vector<ProcessModule> GetModules() const;
+		const Elysium::Core::Template::Container::Vector<ProcessModule>& GetModules() const;
 
 		const Utf8String& GetProcessName() const;
 	public:
@@ -74,6 +74,8 @@ namespace Elysium::Core::Diagnostics
 		const bool CloseMainWindow();
 
 		void Kill(const bool EntireProcessTree);
+
+		void Refresh();
 
 		void WaitForExit(const Elysium::Core::Template::System::uint32_t Milliseconds = 0xFFFFFFFF);
 	public:
@@ -96,6 +98,9 @@ namespace Elysium::Core::Diagnostics
 
 		void* _ProcessHandle;
 		void* _ThreadHandle;
+
+		//Elysium::Core::Template::Container::Vector<ProcessThread> _Threads;
+		Elysium::Core::Template::Container::Vector<ProcessModule> _Modules;
 	};
 }
 #endif

@@ -17,28 +17,28 @@
 #endif
 
 Elysium::Core::Diagnostics::Process::Process(const char8_t* Name, const char8_t* MachineName, const bool IsRemoteMachine, const Elysium::Core::Template::System::uint32_t ProcessId)
-	: _Name(Name), _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(GetCurrentThreadId()),
-	_HasThreadId(true),
+	: _Name(Name), _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(0),
+	_HasThreadId(false),
 	_ProcessHandle(Elysium::Core::Template::Diagnostics::Process::GetHandle(ProcessId, Elysium::Core::Template::Diagnostics::ProcessAccess::ReadControl)),
-	_ThreadHandle(0)
+	_ThreadHandle(0), _Modules()
 {
 	// @ToDo: _ThreadId and _ThreadHandle
 }
 
 Elysium::Core::Diagnostics::Process::Process() noexcept
-	: _Name(), _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false),
-	_ProcessHandle(nullptr), _ThreadHandle(nullptr)
+	: _Name(), _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false), 
+	_ProcessHandle(nullptr), _ThreadHandle(nullptr), _Modules()
 { }
 
 Elysium::Core::Diagnostics::Process::Process(const Process& Source)
-	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle()
+	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle(), _Modules()
 { 
 	Close();
 	*this = Source;
 }
 
 Elysium::Core::Diagnostics::Process::Process(Process&& Right) noexcept
-	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle()
+	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle(), _Modules()
 {
 	Close();
 	*this = Elysium::Core::Template::Functional::Move(Right);
@@ -62,6 +62,7 @@ Elysium::Core::Diagnostics::Process& Elysium::Core::Diagnostics::Process::operat
 		_HasThreadId = Source._HasThreadId;
 		_ProcessHandle = Source._ProcessHandle;
 		_ThreadHandle = Source._ThreadHandle;
+		_Modules = Source._Modules;
 	}
 
 	return *this;
@@ -80,6 +81,7 @@ Elysium::Core::Diagnostics::Process& Elysium::Core::Diagnostics::Process::operat
 		_HasThreadId = Elysium::Core::Template::Functional::Move(Right._HasThreadId);
 		_ProcessHandle = Elysium::Core::Template::Functional::Move(Right._ProcessHandle);
 		_ThreadHandle = Elysium::Core::Template::Functional::Move(Right._ThreadHandle);
+		_Modules = Elysium::Core::Template::Functional::Move(Right._Modules);
 
 		Right._IsRemoteMachine = false;
 		Right._ProcessId = 0;
@@ -95,7 +97,7 @@ Elysium::Core::Diagnostics::Process& Elysium::Core::Diagnostics::Process::operat
 
 const bool Elysium::Core::Diagnostics::Process::GetHasExited() const
 {
-	return Elysium::Core::Template::Diagnostics::Process::HasExited(_ProcessHandle);
+	return Elysium::Core::Template::Diagnostics::Process::HasExited(_ProcessId);
 }
 
 const Elysium::Core::Template::System::uint32_t Elysium::Core::Diagnostics::Process::GetId() const
@@ -108,30 +110,32 @@ const Elysium::Core::Template::System::uint32_t Elysium::Core::Diagnostics::Proc
 	return _ProcessId;
 }
 
-const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule> Elysium::Core::Diagnostics::Process::GetModules() const
+const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Elysium::Core::Diagnostics::Process::GetModules() const
 {
-	Elysium::Core::Template::Container::Vector<MODULEENTRY32W> NativeModules = 
-		Elysium::Core::Template::Diagnostics::Process::GetProcessModules(_ProcessId);
-
-	Template::Container::Vector<ProcessModule> Result =
-		Template::Container::Vector<ProcessModule>(NativeModules.GetLength());
-	Result.Clear();
-	for (Template::Container::Vector<MODULEENTRY32W>::FIterator Iterator = NativeModules.GetBegin(); Iterator != NativeModules.GetEnd(); ++Iterator)
+	if (_Modules.GetLength() == 0)
 	{
-		MODULEENTRY32W Entry = *Iterator;
+		Elysium::Core::Template::Container::Vector<MODULEENTRY32W> NativeModules =
+			Elysium::Core::Template::Diagnostics::Process::GetProcessModules(_ProcessId);
 
-		Elysium::Core::Template::Text::String<char8_t> Name =
-			Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szModule,
-				Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szModule));
-		Elysium::Core::Template::Text::String<char8_t> FileName =
-			Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szExePath,
-				Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szExePath));
+		for (Template::Container::Vector<MODULEENTRY32W>::FIterator Iterator = NativeModules.GetBegin(); Iterator != NativeModules.GetEnd(); ++Iterator)
+		{
+			MODULEENTRY32W& Entry = *Iterator;
 
-		Result.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
-			Elysium::Core::Template::Functional::Move(FileName), reinterpret_cast<void*>(Entry.modBaseAddr), nullptr, Entry.modBaseSize, Entry.th32ModuleID)));
+			Elysium::Core::Template::Text::String<char8_t> Name =
+				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szModule,
+					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szModule));
+			Elysium::Core::Template::Text::String<char8_t> FileName =
+				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szExePath,
+					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szExePath));
+
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Modules =
+				const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>&>(_Modules);
+			Modules.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
+				Elysium::Core::Template::Functional::Move(FileName), reinterpret_cast<void*>(Entry.modBaseAddr), nullptr, Entry.modBaseSize, Entry.th32ModuleID)));
+		}
 	}
 
-	return Result;
+	return _Modules;
 }
 
 const Elysium::Core::Utf8String& Elysium::Core::Diagnostics::Process::GetProcessName() const
@@ -181,6 +185,10 @@ void Elysium::Core::Diagnostics::Process::Close()
 const bool Elysium::Core::Diagnostics::Process::CloseMainWindow()
 {
 	void* MainWindowHandle = Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(_ProcessId);
+	if (MainWindowHandle == nullptr)
+	{
+		return false;
+	}
 
 	const bool Result = Elysium::Core::Template::Diagnostics::Process::CloseMainWindow(reinterpret_cast<HWND>(MainWindowHandle));
 
@@ -192,9 +200,22 @@ void Elysium::Core::Diagnostics::Process::Kill(const bool EntireProcessTree)
 	void* ProcessHandle = Elysium::Core::Template::Diagnostics::Process::GetHandle(_ProcessId, 
 		Elysium::Core::Template::Diagnostics::ProcessAccess::Terminate);
 
-	Elysium::Core::Template::Diagnostics::Process::Kill(ProcessHandle, -1, EntireProcessTree);
+	try
+	{
+		Elysium::Core::Template::Diagnostics::Process::Kill(ProcessHandle, -1, EntireProcessTree);
+		CloseHandle(ProcessHandle);
+	}
+	catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
+	{
+		CloseHandle(ProcessHandle);
+		throw;
+	}
+}
 
-	CloseHandle(ProcessHandle);
+void Elysium::Core::Diagnostics::Process::Refresh()
+{
+	//_Threads.Clear();
+	_Modules.Clear();
 }
 
 void Elysium::Core::Diagnostics::Process::WaitForExit(const Elysium::Core::Template::System::uint32_t Milliseconds)
@@ -207,7 +228,7 @@ const Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::C
 	void* ProcessHandle = Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessHandle();
 	Elysium::Core::Utf8String CurrentProcessName = Elysium::Core::Template::Diagnostics::Process::GetName(ProcessHandle);
 
-	return Process(&CurrentProcessName[0], _LocalMachineName, false, Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessId());
+	return Process(&CurrentProcessName[0], _LocalMachineName, false, Elysium::Core::Template::Diagnostics::Process::GetCurrentId());
 }
 
 const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Process> Elysium::Core::Diagnostics::Process::GetProcesses(const char8_t* ProcessName, const char8_t* MachineName)
