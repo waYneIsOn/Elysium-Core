@@ -590,7 +590,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__Repeat.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessAccess.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
   </ItemGroup>

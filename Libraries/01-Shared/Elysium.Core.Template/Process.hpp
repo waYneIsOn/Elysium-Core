@@ -16,12 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Vector.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSMODULE
-#include "ProcessModule.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
-#include "ProcessStartInfo.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSACCESS
+#include "ProcessAccess.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -76,7 +72,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 		static Elysium::Core::Template::System::uint32_t GetCurrentProcessId();
 	public:
-		static void* GetHandle(const Elysium::Core::Template::System::uint32_t ProcessId);
+		static void* GetHandle(const Elysium::Core::Template::System::uint32_t ProcessId, const ProcessAccess DesiredAccess);
 
 		static Elysium::Core::Template::System::uint32_t GetId(void* ProcessHandle);
 
@@ -94,6 +90,12 @@ namespace Elysium::Core::Template::Diagnostics
 
 		static Elysium::Core::Template::Container::Vector<PROCESSENTRY32> GetProcessIdsByName(const char8_t* ProcessName, const char8_t* MachineName);
 
+		//static Process StartViaShellExecute();
+
+		static PROCESS_INFORMATION StartViaCreateProcess(const wchar_t* ApplicationName);
+
+		static Elysium::Core::Template::Container::Vector<MODULEENTRY32W> GetProcessModules(const Elysium::Core::Template::System::uint32_t ProcessId);
+
 		static void* GetMainWindowHandle(const Elysium::Core::Template::System::uint32_t ProcessId);
 	private:
 		struct WindowHandleData
@@ -105,6 +107,12 @@ namespace Elysium::Core::Template::Diagnostics
 		static BOOL GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter);
 
 		static const bool IsMainWindow(HWND WindowHandle);
+	public:
+		/*
+		static void Inject(void* ProcessHandle, Elysium::Core::Template::System::byte* Payload, Elysium::Core::Template::System::uint32_t PayloadLength);
+
+		static void Inject(void* ProcessHandle, const char8_t* Assembly);
+		*/
 	};
 
 	inline void* Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessHandle()
@@ -115,12 +123,13 @@ namespace Elysium::Core::Template::Diagnostics
 	inline Elysium::Core::Template::System::uint32_t Elysium::Core::Template::Diagnostics::Process::GetCurrentProcessId()
 	{
 		//return GetCurrentProcessId();	// @ToDo: can I somehow use this directly here? (Psapi.h)
-		return GetId(GetCurrentProcessHandle());
+		return GetProcessId(GetCurrentProcessHandle());
 	}
 
-	inline void* Process::GetHandle(const Elysium::Core::Template::System::uint32_t ProcessId)
+	inline void* Process::GetHandle(const Elysium::Core::Template::System::uint32_t ProcessId, const ProcessAccess DesiredAccess)
 	{
-		void* Handle = OpenProcess(READ_CONTROL | PROCESS_QUERY_INFORMATION, TRUE, ProcessId);
+		//void* Handle = OpenProcess(READ_CONTROL | PROCESS_QUERY_INFORMATION, TRUE, ProcessId);
+		void* Handle = OpenProcess(static_cast<Elysium::Core::Template::System::uint32_t>(DesiredAccess), FALSE, ProcessId);
 		if (Handle == INVALID_HANDLE_VALUE)
 		{
 			throw Exceptions::SystemException();
@@ -187,7 +196,11 @@ namespace Elysium::Core::Template::Diagnostics
 		if (EntireProcessTree)
 		{	// @ToDo:
 		}
-		TerminateProcess(ProcessHandle, ExitCode);
+
+		if (!TerminateProcess(ProcessHandle, ExitCode))
+		{
+			throw Exceptions::SystemException();
+		}
 	}
 
 	inline void Elysium::Core::Template::Diagnostics::Process::WaitForExit(void* ProcessHandle, const Elysium::Core::Template::System::uint32_t Milliseconds)
@@ -250,6 +263,75 @@ namespace Elysium::Core::Template::Diagnostics
 		return Processes;
 	}
 
+	inline PROCESS_INFORMATION Process::StartViaCreateProcess(const wchar_t* ApplicationName)
+	{
+		STARTUPINFO StartupInfo = STARTUPINFO();
+		ZeroMemory(&StartupInfo, sizeof(STARTUPINFO));
+		StartupInfo.cb = sizeof(STARTUPINFO);
+		StartupInfo.dwFlags = 0;
+
+		PROCESS_INFORMATION ProcessInformation = PROCESS_INFORMATION();
+		//ZeroMemory(&ProcessInformation, sizeof(PROCESS_INFORMATION));
+		/*
+		if (!CreateProcessWithLogonW(nullptr, nullptr, nullptr, 0, ApplicationName, nullptr, 0,
+			nullptr, nullptr, &StartupInfo, &ProcessInformation))
+		{
+			throw Template::Exceptions::SystemException();
+		}
+		*/
+
+		if (!CreateProcessW(ApplicationName,
+			nullptr,        // Command line arguments
+			nullptr,        // Process handle not inheritable
+			nullptr,		// Thread handle not inheritable
+			TRUE,          // Set handle inheritance to FALSE
+			0,              // No creation flags
+			nullptr,		// Use parent's environment block
+			nullptr,		// Use parent's starting directory 
+			&StartupInfo, &ProcessInformation))
+		{
+			throw Template::Exceptions::SystemException();
+		}
+
+		//WaitForSingleObject(ProcessInformation.hProcess, INFINITE);
+		CloseHandle(ProcessInformation.hThread);
+		CloseHandle(ProcessInformation.hProcess);
+
+		return ProcessInformation;
+
+		//return Process(u8"", _LocalMachineName, false, ProcessInformation.dwProcessId);
+	}
+
+	inline Elysium::Core::Template::Container::Vector<MODULEENTRY32W> Process::GetProcessModules(const Elysium::Core::Template::System::uint32_t ProcessId)
+	{
+		Elysium::Core::Template::Container::Vector<MODULEENTRY32W> Result =
+			Elysium::Core::Template::Container::Vector<MODULEENTRY32W>();
+
+		void* ProcessHandle = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, ProcessId);
+		if (ProcessHandle == INVALID_HANDLE_VALUE)
+		{
+			throw Elysium::Core::Template::Exceptions::SystemException();
+		}
+
+		MODULEENTRY32W ModuleEntry;
+		ZeroMemory(&ModuleEntry, sizeof(ModuleEntry));
+		ModuleEntry.dwSize = sizeof(MODULEENTRY32W);
+		if (!Module32FirstW(ProcessHandle, &ModuleEntry))
+		{
+			CloseHandle(ProcessHandle);
+			throw Elysium::Core::Template::Exceptions::SystemException();
+		}
+
+		do
+		{
+			Result.PushBack(ModuleEntry);
+		} while (Module32NextW(ProcessHandle, &ModuleEntry));
+
+		CloseHandle(ProcessHandle);
+
+		return Result;
+	}
+	
 	inline void* Elysium::Core::Template::Diagnostics::Process::GetMainWindowHandle(const System::uint32_t ProcessId)
 	{
 		WindowHandleData HandleData = WindowHandleData();

@@ -106,7 +106,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />

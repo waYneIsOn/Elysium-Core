@@ -16,14 +16,55 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSMODULE
-#include "../Elysium.Core.Template/ProcessModule.hpp"
+#ifndef ELYSIUM_CORE_STRING
+#include "../Elysium.Core/String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics
 {
-	class ELYSIUM_CORE_API Elysium::Core::Template::Diagnostics::ProcessModule;
+	class Process;
 
-	using ProcessModule = Elysium::Core::Template::Diagnostics::ProcessModule;
+	class ELYSIUM_CORE_API ProcessModule final
+	{
+		friend class Process;
+	private:
+		constexpr ProcessModule(Elysium::Core::Template::Text::String<char8_t>&& Name, Elysium::Core::Template::Text::String<char8_t>&& FileName,
+			void* BaseAddress, void* EntryPoint, Elysium::Core::Template::System::uint32_t SizeOfImage, Elysium::Core::Template::System::uint32_t Id) noexcept;
+	public:
+		constexpr ProcessModule();
+
+		constexpr ProcessModule(const ProcessModule& Source);
+
+		constexpr ProcessModule(ProcessModule&& Right) noexcept;
+
+		constexpr ~ProcessModule();
+	public:
+		constexpr ProcessModule& operator=(const ProcessModule& Source);
+
+		constexpr ProcessModule& operator=(ProcessModule&& Right) noexcept;
+	public:
+		const Elysium::Core::Template::Text::String<char8_t> GetModuleName() const;
+
+		const Elysium::Core::Template::Text::String<char8_t> GetFileName() const;
+
+		const void* GetBaseAddress() const;
+
+		const void* GetEntryPoint() const;
+
+		const Elysium::Core::Template::System::uint32_t GetSizeOfImage() const;
+
+		const Elysium::Core::Template::System::uint32_t GetId() const;
+	private:
+		Elysium::Core::Template::Text::String<char8_t> _Name;
+		Elysium::Core::Template::Text::String<char8_t> _FileName;
+		void* _BaseAddress;
+		void* _EntryPoint;
+		Elysium::Core::Template::System::uint32_t _SizeOfImage;
+		Elysium::Core::Template::System::uint32_t _Id;
+	};
 }
 #endif

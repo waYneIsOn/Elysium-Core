@@ -20,6 +20,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+
+
+
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESSSTARTINFO
 #include "ProcessStartInfo.hpp"
 #endif
@@ -27,6 +30,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESSMODULE
 #include "ProcessModule.hpp"
 #endif
+
+
+
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
@@ -55,6 +61,8 @@ namespace Elysium::Core::Diagnostics
 
 		const Elysium::Core::Template::System::uint32_t GetId() const;
 
+		//const ProcessModule GetMainModule() const;
+
 		const Elysium::Core::Template::Container::Vector<ProcessModule> GetModules() const;
 
 		const Utf8String& GetProcessName() const;
@@ -71,9 +79,7 @@ namespace Elysium::Core::Diagnostics
 	public:
 		static const Process CurrentProcess();
 
-		static const Elysium::Core::Template::Container::Vector<Process> GetProcesses(const char8_t* MachineName = _LocalMachineName);
-
-		static const Elysium::Core::Template::Container::Vector<Process> GetProcessesByName(const char8_t* ProcessName, const char8_t* MachineName = _LocalMachineName);
+		static const Elysium::Core::Template::Container::Vector<Process> GetProcesses(const char8_t* ProcessName = nullptr, const char8_t* MachineName = _LocalMachineName);
 	private:
 		inline static const char8_t* _LocalMachineName = u8".";
 	private:

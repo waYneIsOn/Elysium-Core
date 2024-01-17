@@ -22,6 +22,27 @@ namespace UnitTests::Core::Diagnostics
 
 			const Template::Text::String<char8_t> ProcessName = CurrentProcess.GetProcessName();
 			Logger::WriteMessage((char*)&ProcessName[0]);
+			Logger::WriteMessage("\r\n");
+
+			//const ProcessModule MainModule = CurrentProcess.GetMainModule();
+
+			const Template::Container::Vector<ProcessModule> Modules = CurrentProcess.GetModules();
+			for (Template::Container::Vector<ProcessModule>::ConstIterator Iterator = Modules.GetBegin(); Iterator != Modules.GetEnd(); ++Iterator)
+			{
+				const ProcessModule& CurrentModule = *Iterator;
+
+				const Template::Text::String<char8_t> ModuleName = CurrentModule.GetModuleName();
+				Logger::WriteMessage("\t");
+				Logger::WriteMessage((char*)&ModuleName[0]);
+				Logger::WriteMessage(" - ");
+
+				const void* ModuleBaseAddress = CurrentModule.GetBaseAddress();
+				const Template::System::size Address =
+					reinterpret_cast<const Template::System::size>(ModuleBaseAddress);
+				Template::Text::String bla = Template::Text::Convert<char>::ToString(Address);
+				Logger::WriteMessage(&bla[0]);
+				Logger::WriteMessage("\r\n");
+			}
 		}
 
 		TEST_METHOD(GetLocalProcesses)
@@ -42,62 +63,68 @@ namespace UnitTests::Core::Diagnostics
 
 		TEST_METHOD(GetLocalProcessesByName)
 		{
-			const Template::Container::Vector<Process> Processes = Process::GetProcessesByName(u8"explorer.exe");
+			const Template::Container::Vector<Process> Processes = Process::GetProcesses(u8"explorer.exe");
 			if (Processes.GetLength() == 0)
 			{
 				Assert::Fail(L"process not found");
 			}
 
-			const Process& Process = Processes[0];
-			const Template::Text::String<char8_t> ProcessName = Process.GetProcessName();
+			const Process& FirstProcess = Processes[0];
+			const Template::Text::String<char8_t> ProcessName = FirstProcess.GetProcessName();
 			Logger::WriteMessage((char*)&ProcessName[0]);
 			Logger::WriteMessage("\r\n");
-			/*
-			const Template::Container::Vector<ProcessModule> Modules = Process.GetModules();
-			for (Template::Container::Vector<ProcessModule>::ConstIterator Iterator = Modules.GetBegin(); Iterator != Modules.GetEnd(); ++Iterator)
-			{
-				const ProcessModule& CurrentModule = *Iterator;
-
-				const Template::Text::String<char8_t> ModuleName = CurrentModule.GetModuleName();
-				Logger::WriteMessage("\t");
-				Logger::WriteMessage((char*)&ModuleName[0]);
-				Logger::WriteMessage(" - ");
-
-				const void* ModuleBaseAddress = CurrentModule.GetBaseAddress();
-				const Template::System::size Address = 
-					reinterpret_cast<const Template::System::size>(ModuleBaseAddress);
-				Template::Text::String bla = Template::Text::Convert<char>::ToString(Address);
-				Logger::WriteMessage(&bla[0]);
-				Logger::WriteMessage("\r\n");
-			}
-			*/
 		}
 
 		TEST_METHOD(StartAndCloseNotepad)
 		{
-			ProcessStartInfo StartInfo = ProcessStartInfo();
-			StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
-
-			Process Notepad = Process::Start(StartInfo);
-			bool Closed = Notepad.CloseMainWindow();
-
-			// @ToDo: this works but only if I wait a bit before checking as the window might not have been closed yet!
-			if (!Notepad.GetHasExited())
+			try
 			{
+				ProcessStartInfo StartInfo = ProcessStartInfo();
+				StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
+
+				Process Notepad = Process::Start(StartInfo);
+				bool Closed = Notepad.CloseMainWindow();
+
+				if (!Notepad.GetHasExited())
+				{
+					Assert::Fail();
+				}
+			}
+			catch (Elysium::Core::Template::Exceptions::SystemException& ex)
+			{
+				const Elysium::Core::Template::System::uint32_t ErrorCode = ex.GetErrorCode();
+
+				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				Logger::WriteMessage("\r\n");
+				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
+				Logger::WriteMessage("\r\n");
 				Assert::Fail();
 			}
 		}
 
 		TEST_METHOD(StartAndKillNotepad)
 		{
-			ProcessStartInfo StartInfo = ProcessStartInfo();
-			StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
-
-			Process Notepad = Process();
-			Notepad.Start(StartInfo);
-			Notepad.Kill(false);
-			if (!Notepad.GetHasExited())
+			try
 			{
+				ProcessStartInfo StartInfo = ProcessStartInfo();
+				StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
+
+				Process Notepad = Process::Start(StartInfo);
+				Notepad.Kill(false);
+
+				if (!Notepad.GetHasExited())
+				{
+					Assert::Fail();
+				}
+			}
+			catch (Elysium::Core::Template::Exceptions::SystemException& ex)
+			{
+				const Elysium::Core::Template::System::uint32_t ErrorCode = ex.GetErrorCode();
+
+				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				Logger::WriteMessage("\r\n");
+				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
+				Logger::WriteMessage("\r\n");
 				Assert::Fail();
 			}
 		}
