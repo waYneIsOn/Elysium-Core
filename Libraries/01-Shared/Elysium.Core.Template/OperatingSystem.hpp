@@ -39,7 +39,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-
+/*
+	#ifndef _WINDOWS_
+	#define WIN32_LEAN_AND_MEAN 
+	#include <Windows.h>
+	#endif
+*/
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_DIAGNOSTICS
 	#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION

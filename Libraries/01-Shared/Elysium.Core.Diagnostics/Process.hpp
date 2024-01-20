@@ -32,10 +32,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 
+#ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESSTHREAD
+#include "ProcessThread.hpp"
+#endif
+
+
 
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
+#include "../Elysium.Core.Template/NumericTraits.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics
@@ -65,6 +74,8 @@ namespace Elysium::Core::Diagnostics
 
 		const Elysium::Core::Template::Container::Vector<ProcessModule>& GetModules() const;
 
+		const Elysium::Core::Template::Container::Vector<ProcessThread>& GetThreads() const;
+
 		const Utf8String& GetProcessName() const;
 	public:
 		static Process Start(const ProcessStartInfo& StartInfo);
@@ -77,7 +88,8 @@ namespace Elysium::Core::Diagnostics
 
 		void Refresh();
 
-		void WaitForExit(const Elysium::Core::Template::System::uint32_t Milliseconds = 0xFFFFFFFF);
+		void WaitForExit(const Elysium::Core::Template::System::uint32_t Milliseconds = 
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum);
 	public:
 		static const Process CurrentProcess();
 
@@ -99,7 +111,7 @@ namespace Elysium::Core::Diagnostics
 		void* _ProcessHandle;
 		void* _ThreadHandle;
 
-		//Elysium::Core::Template::Container::Vector<ProcessThread> _Threads;
+		Elysium::Core::Template::Container::Vector<ProcessThread> _Threads;
 		Elysium::Core::Template::Container::Vector<ProcessModule> _Modules;
 	};
 }

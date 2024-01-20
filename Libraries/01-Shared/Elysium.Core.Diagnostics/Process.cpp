@@ -20,25 +20,25 @@ Elysium::Core::Diagnostics::Process::Process(const char8_t* Name, const char8_t*
 	: _Name(Name), _MachineName(MachineName), _IsRemoteMachine(IsRemoteMachine), _ProcessId(ProcessId), _HasProcessId(true), _ThreadId(0),
 	_HasThreadId(false),
 	_ProcessHandle(Elysium::Core::Template::Diagnostics::Process::GetHandle(ProcessId, Elysium::Core::Template::Diagnostics::ProcessAccess::ReadControl)),
-	_ThreadHandle(0), _Modules()
+	_ThreadHandle(0), _Threads(), _Modules()
 {
 	// @ToDo: _ThreadId and _ThreadHandle
 }
 
 Elysium::Core::Diagnostics::Process::Process() noexcept
 	: _Name(), _MachineName(_LocalMachineName), _IsRemoteMachine(false), _ProcessId(0), _HasProcessId(false), _ThreadId(0), _HasThreadId(false), 
-	_ProcessHandle(nullptr), _ThreadHandle(nullptr), _Modules()
+	_ProcessHandle(nullptr), _ThreadHandle(nullptr), _Threads(), _Modules()
 { }
 
 Elysium::Core::Diagnostics::Process::Process(const Process& Source)
-	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle(), _Modules()
+	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle(), _Threads(), _Modules()
 { 
 	Close();
 	*this = Source;
 }
 
 Elysium::Core::Diagnostics::Process::Process(Process&& Right) noexcept
-	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle(), _Modules()
+	: _Name(), _MachineName(), _IsRemoteMachine(), _ProcessId(), _HasProcessId(), _ThreadId(), _HasThreadId(), _ProcessHandle(), _ThreadHandle(), _Threads(), _Modules()
 {
 	Close();
 	*this = Elysium::Core::Template::Functional::Move(Right);
@@ -62,6 +62,7 @@ Elysium::Core::Diagnostics::Process& Elysium::Core::Diagnostics::Process::operat
 		_HasThreadId = Source._HasThreadId;
 		_ProcessHandle = Source._ProcessHandle;
 		_ThreadHandle = Source._ThreadHandle;
+		_Threads = Source._Threads;
 		_Modules = Source._Modules;
 	}
 
@@ -81,6 +82,7 @@ Elysium::Core::Diagnostics::Process& Elysium::Core::Diagnostics::Process::operat
 		_HasThreadId = Elysium::Core::Template::Functional::Move(Right._HasThreadId);
 		_ProcessHandle = Elysium::Core::Template::Functional::Move(Right._ProcessHandle);
 		_ThreadHandle = Elysium::Core::Template::Functional::Move(Right._ThreadHandle);
+		_Threads = Elysium::Core::Template::Functional::Move(Right._Threads);
 		_Modules = Elysium::Core::Template::Functional::Move(Right._Modules);
 
 		Right._IsRemoteMachine = false;
@@ -117,6 +119,9 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 		Elysium::Core::Template::Container::Vector<MODULEENTRY32W> NativeModules =
 			Elysium::Core::Template::Diagnostics::Process::GetProcessModules(_ProcessId);
 
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Modules =
+			const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>&>(_Modules);
+
 		for (Template::Container::Vector<MODULEENTRY32W>::FIterator Iterator = NativeModules.GetBegin(); Iterator != NativeModules.GetEnd(); ++Iterator)
 		{
 			MODULEENTRY32W& Entry = *Iterator;
@@ -128,14 +133,34 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szExePath,
 					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szExePath));
 
-			Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Modules =
-				const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>&>(_Modules);
 			Modules.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
 				Elysium::Core::Template::Functional::Move(FileName), reinterpret_cast<void*>(Entry.modBaseAddr), nullptr, Entry.modBaseSize, Entry.th32ModuleID)));
 		}
 	}
 
 	return _Modules;
+}
+
+const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessThread>& Elysium::Core::Diagnostics::Process::GetThreads() const
+{
+	if (_Threads.GetLength() == 0)
+	{
+		Elysium::Core::Template::Container::Vector<THREADENTRY32> NativeThreads =
+			Elysium::Core::Template::Diagnostics::Process::GetProcessThreads(_ProcessId);
+
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessThread>& Threads =
+			const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessThread>&>(_Threads);
+
+		for (Template::Container::Vector<THREADENTRY32>::FIterator Iterator = NativeThreads.GetBegin(); Iterator != NativeThreads.GetEnd(); ++Iterator)
+		{
+			THREADENTRY32& Entry = *Iterator;
+
+			Threads.PushBack(Elysium::Core::Template::Functional::Move(ProcessThread(Entry.th32ThreadID, Entry.th32OwnerProcessID, Entry.tpBasePri,
+				Entry.tpBasePri + Entry.tpDeltaPri)));
+		}
+	}
+
+	return _Threads;
 }
 
 const Elysium::Core::Utf8String& Elysium::Core::Diagnostics::Process::GetProcessName() const
@@ -214,7 +239,7 @@ void Elysium::Core::Diagnostics::Process::Kill(const bool EntireProcessTree)
 
 void Elysium::Core::Diagnostics::Process::Refresh()
 {
-	//_Threads.Clear();
+	_Threads.Clear();
 	_Modules.Clear();
 }
 
@@ -250,6 +275,17 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 		Elysium::Core::Utf8String CurrentProcessName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(
 			&CurrentEnty.szExeFile[0],
 			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&CurrentEnty.szExeFile[0]));
+
+		//CurrentEnty.cntThreads
+		//CurrentEnty.cntUsage
+		//CurrentEnty.dwFlags
+		//CurrentEnty.dwSize
+		//CurrentEnty.pcPriClassBase
+		//CurrentEnty.szExeFile
+		//CurrentEnty.th32DefaultHeapID
+		//CurrentEnty.th32ModuleID
+		//CurrentEnty.th32ParentProcessID
+		//CurrentEnty.th32ProcessID
 
 		Result.PushBack(Elysium::Core::Template::Functional::Move(Process(&CurrentProcessName[0], MachineName, MachineName == _LocalMachineName, CurrentEnty.th32ProcessID)));
 	}

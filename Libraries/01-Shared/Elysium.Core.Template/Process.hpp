@@ -36,12 +36,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Utf16.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
+#if defined ELYSIUM_CORE_OS_WINDOWS	
 	#ifndef _WINDOWS_
 	#define _WINSOCKAPI_ // don't include winsock
 	#include <Windows.h>
 	#endif
-	
+
 	#ifndef _INC_TOOLHELP32
 	#include <tlhelp32.h>
 	#endif
@@ -95,6 +95,8 @@ namespace Elysium::Core::Template::Diagnostics
 		static PROCESS_INFORMATION StartViaCreateProcess(const wchar_t* ApplicationName);
 
 		static Elysium::Core::Template::Container::Vector<MODULEENTRY32W> GetProcessModules(const Elysium::Core::Template::System::uint32_t ProcessId);
+
+		static Elysium::Core::Template::Container::Vector<THREADENTRY32> GetProcessThreads(const Elysium::Core::Template::System::uint32_t ProcessId);
 
 		static void* GetMainWindowHandle(const Elysium::Core::Template::System::uint32_t ProcessId) noexcept;
 	private:
@@ -162,15 +164,28 @@ namespace Elysium::Core::Template::Diagnostics
 			return true;
 		}
 
-		DWORD ExitCode;
-		if (!GetExitCodeProcess(ProcessHandle, &ExitCode))
+		DWORD WaitResult = WaitForSingleObject(ProcessHandle, 0);
+		if (WaitResult == WAIT_ABANDONED)
 		{
 			CloseHandle(ProcessHandle);
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
+		}
+		else if (WaitResult != WAIT_TIMEOUT)
+		{
+			DWORD ExitCode;
+			if (!GetExitCodeProcess(ProcessHandle, &ExitCode))
+			{
+				CloseHandle(ProcessHandle);
+				throw Exceptions::SystemException();
+			}
+
+			CloseHandle(ProcessHandle);
+			return ExitCode != STILL_ACTIVE;
 		}
 
 		CloseHandle(ProcessHandle);
-		return ExitCode != STILL_ACTIVE;
+
+		return true;
 	}
 
 	inline const bool Process::CloseMainWindow(HWND MainWindowHandle)
@@ -207,7 +222,7 @@ namespace Elysium::Core::Template::Diagnostics
 	
 	inline Elysium::Core::Template::Container::Vector<PROCESSENTRY32> Process::GetProcessIds()
 	{
-		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPTHREAD, 0);
+		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
 			throw Exceptions::SystemException();
@@ -234,7 +249,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 	inline Elysium::Core::Template::Container::Vector<PROCESSENTRY32> Process::GetProcessIdsByName(const char8_t* ProcessName, const char8_t* MachineName)
 	{
-		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS | TH32CS_SNAPTHREAD, 0);
+		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
 			throw Exceptions::SystemException();
@@ -294,13 +309,10 @@ namespace Elysium::Core::Template::Diagnostics
 			throw Template::Exceptions::SystemException();
 		}
 
-		//WaitForSingleObject(ProcessInformation.hProcess, INFINITE);
 		CloseHandle(ProcessInformation.hThread);
 		CloseHandle(ProcessInformation.hProcess);
 
 		return ProcessInformation;
-
-		//return Process(u8"", _LocalMachineName, false, ProcessInformation.dwProcessId);
 	}
 
 	inline Elysium::Core::Template::Container::Vector<MODULEENTRY32W> Process::GetProcessModules(const Elysium::Core::Template::System::uint32_t ProcessId)
@@ -315,7 +327,7 @@ namespace Elysium::Core::Template::Diagnostics
 		}
 
 		MODULEENTRY32W ModuleEntry;
-		ZeroMemory(&ModuleEntry, sizeof(ModuleEntry));
+		ZeroMemory(&ModuleEntry, sizeof(MODULEENTRY32W));
 		ModuleEntry.dwSize = sizeof(MODULEENTRY32W);
 		if (!Module32FirstW(ProcessHandle, &ModuleEntry))
 		{
@@ -327,6 +339,36 @@ namespace Elysium::Core::Template::Diagnostics
 		{
 			Result.PushBack(ModuleEntry);
 		} while (Module32NextW(ProcessHandle, &ModuleEntry));
+
+		CloseHandle(ProcessHandle);
+
+		return Result;
+	}
+
+	inline Elysium::Core::Template::Container::Vector<THREADENTRY32> Process::GetProcessThreads(const Elysium::Core::Template::System::uint32_t ProcessId)
+	{
+		Elysium::Core::Template::Container::Vector<THREADENTRY32> Result =
+			Elysium::Core::Template::Container::Vector<THREADENTRY32>();
+
+		void* ProcessHandle = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, ProcessId);
+		if (ProcessHandle == INVALID_HANDLE_VALUE)
+		{
+			throw Elysium::Core::Template::Exceptions::SystemException();
+		}
+
+		THREADENTRY32 ThreadEntry;
+		ZeroMemory(&ThreadEntry, sizeof(THREADENTRY32));
+		ThreadEntry.dwSize = sizeof(THREADENTRY32);
+		if (!Thread32First(ProcessHandle, &ThreadEntry))
+		{
+			CloseHandle(ProcessHandle);
+			throw Elysium::Core::Template::Exceptions::SystemException();
+		}
+
+		do
+		{
+			Result.PushBack(ThreadEntry);
+		} while (Thread32Next(ProcessHandle, &ThreadEntry));
 
 		CloseHandle(ProcessHandle);
 

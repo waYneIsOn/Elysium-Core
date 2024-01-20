@@ -5,37 +5,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESSMODULE
-#define ELYSIUM_CORE_DIAGNOSTICS_PROCESSMODULE
+#ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSMODULE
+#define ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSMODULE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/API.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "Primitives.hpp"
 #endif
 
-namespace Elysium::Core::Diagnostics
-{
-	class Process;
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "String.hpp"
+#endif
 
-	class ELYSIUM_CORE_API ProcessModule final
+namespace Elysium::Core::Template::Diagnostics
+{
+	/*
+	class ProcessModule final
 	{
-		friend class Process;
-	private:
-		constexpr ProcessModule(Elysium::Core::Template::Text::String<char8_t>&& Name, Elysium::Core::Template::Text::String<char8_t>&& FileName,
-			void* BaseAddress, void* EntryPoint, const Elysium::Core::Template::System::uint32_t SizeOfImage, const Elysium::Core::Template::System::uint32_t Id) noexcept;
 	public:
-		constexpr ProcessModule();
+		constexpr ProcessModule() = delete;
+
+		constexpr ProcessModule(Elysium::Core::Template::Text::String<char8_t>&& Name, Elysium::Core::Template::Text::String<char8_t>&& FileName,
+			void* BaseAddress, void* EntryPoint, const Elysium::Core::Template::System::uint32_t SizeOfImage,
+			const Elysium::Core::Template::System::uint32_t Id) noexcept;
 
 		constexpr ProcessModule(const ProcessModule& Source);
 
@@ -66,5 +61,6 @@ namespace Elysium::Core::Diagnostics
 		Elysium::Core::Template::System::uint32_t _SizeOfImage;
 		Elysium::Core::Template::System::uint32_t _Id;
 	};
+	*/
 }
 #endif

@@ -17,22 +17,25 @@ namespace UnitTests::Core::Diagnostics
 		{
 			const Process CurrentProcess = Process::CurrentProcess();
 			const Elysium::Core::uint32_t CurrentProcessId = CurrentProcess.GetId();
-
 			Assert::AreNotEqual((Elysium::Core::uint32_t)0, CurrentProcessId);
+			Logger::WriteMessage(&Template::Text::Convert<char>::ToString(CurrentProcessId)[0]);
+			Logger::WriteMessage("\r\n");
 
 			const Template::Text::String<char8_t> ProcessName = CurrentProcess.GetProcessName();
 			Logger::WriteMessage((char*)&ProcessName[0]);
 			Logger::WriteMessage("\r\n");
 
+			Logger::WriteMessage("\tMainModule:\r\n");
 			//const ProcessModule MainModule = CurrentProcess.GetMainModule();
-
+			
+			Logger::WriteMessage("\tModules:\r\n");
 			const Template::Container::Vector<ProcessModule>& Modules = CurrentProcess.GetModules();
 			for (Template::Container::Vector<ProcessModule>::ConstIterator Iterator = Modules.GetBegin(); Iterator != Modules.GetEnd(); ++Iterator)
 			{
 				const ProcessModule& CurrentModule = *Iterator;
+				Logger::WriteMessage("\t\t");
 
 				const Template::Text::String<char8_t> ModuleName = CurrentModule.GetModuleName();
-				Logger::WriteMessage("\t");
 				Logger::WriteMessage((char*)&ModuleName[0]);
 				Logger::WriteMessage(" - ");
 
@@ -41,6 +44,22 @@ namespace UnitTests::Core::Diagnostics
 					reinterpret_cast<const Template::System::size>(ModuleBaseAddress);
 				Template::Text::String BaseAddress = Template::Text::Convert<char>::ToString(Address);
 				Logger::WriteMessage(&BaseAddress[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			
+			Logger::WriteMessage("\tThreads:\r\n");
+			const Template::Container::Vector<ProcessThread>& Threads = CurrentProcess.GetThreads();
+			for (Template::Container::Vector<ProcessThread>::ConstIterator Iterator = Threads.GetBegin(); Iterator != Threads.GetEnd(); ++Iterator)
+			{
+				const ProcessThread& CurrentThread = *Iterator;
+				Logger::WriteMessage("\t\t");
+
+				Template::Text::String ProcessOwnerId = Template::Text::Convert<char>::ToString(CurrentThread.GetOwnedProcessId());
+				Logger::WriteMessage(&ProcessOwnerId[0]);
+				Logger::WriteMessage(" - ");
+
+				Template::Text::String ThreadId = Template::Text::Convert<char>::ToString(CurrentThread.GetId());
+				Logger::WriteMessage(&ThreadId[0]);
 				Logger::WriteMessage("\r\n");
 			}
 		}

@@ -593,6 +593,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessAccess.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessThread.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -188,8 +188,8 @@ namespace UnitTests::Core::Text
 			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
 			for (Elysium::Core::size i = 0; i < Bytes.GetLength(); i++)
 			{
-				byte Expected = Bytes[i];
-				byte Actual = ResultingBytes[i];
+				Elysium::Core::Template::System::byte Expected = Bytes[i];
+				Elysium::Core::Template::System::byte Actual = ResultingBytes[i];
 
 				Assert::AreEqual(Bytes[i], ResultingBytes[i]);
 			}
