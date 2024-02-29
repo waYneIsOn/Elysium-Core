@@ -30,13 +30,17 @@ namespace Elysium::Core::Security::Cryptography::Checksum
 	{
 	public:
 		Crc32() = delete;
+
 		Crc32(const Crc32& Source) = delete;
+
 		Crc32(Crc32&& Right) noexcept = delete;
+
 		~Crc32() = delete;
-
+	public:
 		Crc32& operator=(const Crc32& Other) = delete;
-		Crc32& operator=(Crc32&& Right) noexcept = delete;
 
+		Crc32& operator=(Crc32&& Right) noexcept = delete;
+	public:
 		static const Elysium::Core::uint32_t CalculateBytewise(const Elysium::Core::byte* Data, const Elysium::Core::size Length);
 	private:
 		// Todd K. Moon, "Error Correction Coding. Mathematical Methods and Algorithms", Wiley, 2005, ISBN 0-471-64800-0
