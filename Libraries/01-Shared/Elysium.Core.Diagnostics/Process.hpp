@@ -70,6 +70,8 @@ namespace Elysium::Core::Diagnostics
 
 		const Elysium::Core::Template::System::uint32_t GetId() const;
 
+		const bool Is64BitProcess() const;
+
 		//const ProcessModule GetMainModule() const;
 
 		const Elysium::Core::Template::Container::Vector<ProcessModule>& GetModules() const;
@@ -90,6 +92,8 @@ namespace Elysium::Core::Diagnostics
 
 		void WaitForExit(const Elysium::Core::Template::System::uint32_t Milliseconds = 
 			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint32_t>::Maximum);
+	public:
+		void InjectAssembly(const char8_t* AssemblyFPQN);
 	public:
 		static const Process CurrentProcess();
 

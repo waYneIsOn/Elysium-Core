@@ -116,6 +116,9 @@
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -133,6 +136,9 @@
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -154,6 +160,9 @@
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -175,6 +184,9 @@
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;Elysium.Core.Security.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DateTimeTest.cpp" />
@@ -201,6 +213,10 @@
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">
       <Project>{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SampleFiles\InjectMessageBox32.dll" />
+    <None Include="SampleFiles\InjectMessageBox64.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

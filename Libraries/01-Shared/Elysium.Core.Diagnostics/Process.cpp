@@ -8,12 +8,20 @@
 #include "../Elysium.Core.Template/ProcessAccess.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
+#include "InvalidOperationException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
+#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
+#include "../Elysium.Core.Template/Utf16.hpp"
 #endif
 
 Elysium::Core::Diagnostics::Process::Process(const char8_t* Name, const char8_t* MachineName, const bool IsRemoteMachine, const Elysium::Core::Template::System::uint32_t ProcessId)
@@ -106,10 +114,63 @@ const Elysium::Core::Template::System::uint32_t Elysium::Core::Diagnostics::Proc
 {
 	if (!_HasProcessId)
 	{
-		throw InvalidOperationException();
+		throw Elysium::Core::Template::Exceptions::InvalidOperationException();
 	}
 	
 	return _ProcessId;
+}
+
+const bool Elysium::Core::Diagnostics::Process::Is64BitProcess() const
+{
+	void* ProcessHandle = Elysium::Core::Template::Diagnostics::Process::GetHandle(_ProcessId,
+		Elysium::Core::Template::Diagnostics::ProcessAccess::AllAccess);	// @ToDo: figure out processaccess-requirements
+	/*
+	BOOL Is64Bit;
+	BOOL Result = IsWow64Process(ProcessHandle, &Is64Bit);
+	if (Result == FALSE)
+	{
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	CloseHandle(ProcessHandle);
+	return Is64Bit == TRUE;
+	*/
+	bool Is64BitMachine = false;
+	USHORT ProcessMachineArchitecture;
+	USHORT NativeMachineArchitecture;
+
+	BOOL Result = IsWow64Process2(ProcessHandle, &ProcessMachineArchitecture, &NativeMachineArchitecture);
+	if (Result == FALSE)
+	{	// From documentation: "If the function succeeds, the return value is a nonzero value."
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+	CloseHandle(ProcessHandle);
+
+	if (ProcessMachineArchitecture == IMAGE_FILE_MACHINE_UNKNOWN)
+	{
+		if (NativeMachineArchitecture == IMAGE_FILE_MACHINE_IA64 || NativeMachineArchitecture == IMAGE_FILE_MACHINE_AMD64 || NativeMachineArchitecture == IMAGE_FILE_MACHINE_ARM64)
+		{
+			Is64BitMachine = true;
+			return false;
+		}
+
+		if (NativeMachineArchitecture == IMAGE_FILE_MACHINE_I386 || NativeMachineArchitecture == IMAGE_FILE_MACHINE_ARM)
+		{
+			Is64BitMachine = false;
+			return true;
+		}
+
+		Is64BitMachine = false;
+		return false;
+	}
+	else
+	{
+		Is64BitMachine = true;
+		return true;
+	}
+	
 }
 
 const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Elysium::Core::Diagnostics::Process::GetModules() const
@@ -245,7 +306,86 @@ void Elysium::Core::Diagnostics::Process::Refresh()
 
 void Elysium::Core::Diagnostics::Process::WaitForExit(const Elysium::Core::Template::System::uint32_t Milliseconds)
 {
+
+
 	Elysium::Core::Template::Diagnostics::Process::WaitForExit(_ProcessHandle, Milliseconds);
+}
+
+void Elysium::Core::Diagnostics::Process::InjectAssembly(const char8_t* AssemblyFPQN)
+{
+	const Elysium::Core::Template::Text::String<wchar_t> AssemblyName = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(AssemblyFPQN,
+		Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(AssemblyFPQN));
+	const Elysium::Core::Template::System::size AssemblyNameSize = (AssemblyName.GetLength() + 1) * sizeof(wchar_t);
+
+	HMODULE Kernel32Handle = GetModuleHandleA("Kernel32.dll");
+	if (Kernel32Handle == nullptr)
+	{
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	const FARPROC LoadLibraryRoutine = GetProcAddress(Kernel32Handle, "LoadLibraryW");
+	if (LoadLibraryRoutine == nullptr)
+	{
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	void* ProcessHandle = Elysium::Core::Template::Diagnostics::Process::GetHandle(_ProcessId,
+		Elysium::Core::Template::Diagnostics::ProcessAccess::CreateThread |
+		Elysium::Core::Template::Diagnostics::ProcessAccess::VMOperation |
+		Elysium::Core::Template::Diagnostics::ProcessAccess::VMRead |
+		Elysium::Core::Template::Diagnostics::ProcessAccess::VMWrite);
+
+	const LPVOID TargetAddress = VirtualAllocEx(ProcessHandle, nullptr, AssemblyNameSize, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);
+	if (TargetAddress == nullptr)
+	{
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	SIZE_T BytesWritten;
+	const BOOL WriteProcessMemoryResult = WriteProcessMemory(ProcessHandle, TargetAddress, (LPVOID)&AssemblyName[0], AssemblyNameSize, &BytesWritten);
+	if (WriteProcessMemoryResult == FALSE || AssemblyNameSize != BytesWritten)
+	{
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	DWORD RemoteThreadId;
+	const HANDLE RemoteThreadHandle = CreateRemoteThreadEx(ProcessHandle, nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(LoadLibraryRoutine),
+		TargetAddress, 0, nullptr, &RemoteThreadId);
+	if (RemoteThreadHandle == nullptr || RemoteThreadHandle == INVALID_HANDLE_VALUE)
+	{
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	const DWORD WaitResult = WaitForSingleObject(RemoteThreadHandle, INFINITE);
+	if (WaitResult != WAIT_OBJECT_0)
+	{
+		CloseHandle(RemoteThreadHandle);
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	const BOOL FreeResult = VirtualFreeEx(ProcessHandle, TargetAddress, 0, MEM_RELEASE);
+	if (FreeResult == FALSE)
+	{
+		CloseHandle(RemoteThreadHandle);
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+
+	DWORD RemoteThreadExitCode;
+	const BOOL GetExitCodeResult = GetExitCodeThread(RemoteThreadHandle, &RemoteThreadExitCode);
+	if (GetExitCodeResult == FALSE)	// STILL_ACTIVE
+	{
+		CloseHandle(RemoteThreadHandle);
+		CloseHandle(ProcessHandle);
+		throw Elysium::Core::Template::Exceptions::SystemException();
+	}
+	
+	CloseHandle(RemoteThreadHandle);
+	CloseHandle(ProcessHandle);
 }
 
 const Elysium::Core::Diagnostics::Process Elysium::Core::Diagnostics::Process::CurrentProcess()

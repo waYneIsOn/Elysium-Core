@@ -13,6 +13,33 @@ namespace UnitTests::Core::Diagnostics
 	TEST_CLASS(ProcessTest)
 	{
 	public:
+		TEST_METHOD(CheckBitness)
+		{
+			ProcessStartInfo StartInfo = ProcessStartInfo();
+
+			try
+			{
+				StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
+				Process Notepad = Process::Start(StartInfo);
+				const bool Is64BitProcess = Notepad.Is64BitProcess();
+				bool ClosedNotepad = Notepad.CloseMainWindow();
+				Assert::IsFalse(Is64BitProcess);
+
+			}
+			catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
+			{
+				Template::Text::String ErrorCode = Template::Text::Convert<char>::ToString(ex.GetErrorCode());
+
+				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage(&ErrorCode[0]);
+				Logger::WriteMessage("\r\n");
+				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
+				Logger::WriteMessage("\r\n");
+				Assert::Fail();
+			}
+		}
+
 		TEST_METHOD(GetLocalProcessCurrent)
 		{
 			const Process CurrentProcess = Process::CurrentProcess();
@@ -137,6 +164,56 @@ namespace UnitTests::Core::Diagnostics
 				{
 					Assert::Fail();
 				}
+			}
+			catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
+			{
+				Template::Text::String ErrorCode = Template::Text::Convert<char>::ToString(ex.GetErrorCode());
+
+				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage(&ErrorCode[0]);
+				Logger::WriteMessage("\r\n");
+				Logger::WriteMessage((char*)&ex.GetStackTrace()[0]);
+				Logger::WriteMessage("\r\n");
+				Assert::Fail();
+			}
+		}
+
+		TEST_METHOD(InjectAssemblyIntoNotepad)
+		{
+			const char8_t* InjectionAssembly32 = u8"InjectMessageBox32.dll";
+			const char8_t* InjectionAssembly64 = u8"InjectMessageBox64.dll";
+
+			try
+			{
+				ProcessStartInfo StartInfo = ProcessStartInfo();
+				StartInfo.SetFileName(u8"C:\\Windows\\System32\\notepad.exe");
+
+				Process Notepad = Process::Start(StartInfo);
+				//Assert::IsTrue(Notepad.Is64BitProcess(), L"Notepad is not a 64 bit process.");
+
+				Notepad.InjectAssembly(InjectionAssembly64);
+
+				bool ContainsInjectedAssembly = false;
+				const Template::Container::Vector<ProcessModule>& Modules = Notepad.GetModules();
+				for (Template::Container::Vector<ProcessModule>::ConstIterator Iterator = Modules.GetBegin(); Iterator != Modules.GetEnd(); ++Iterator)
+				{
+					const ProcessModule& CurrentModule = *Iterator;
+					Logger::WriteMessage("\t\t");
+
+					const Template::Text::String<char8_t> ModuleName = CurrentModule.GetModuleName();
+					Logger::WriteMessage((char*)&ModuleName[0]);
+					Logger::WriteMessage("\r\n");
+
+					if (ModuleName == InjectionAssembly64)
+					{
+						ContainsInjectedAssembly = true;
+					}
+				}
+
+				//Notepad.WaitForExit();
+
+				Assert::IsTrue(ContainsInjectedAssembly, L"Injected assembly not found in process.");
 			}
 			catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
 			{

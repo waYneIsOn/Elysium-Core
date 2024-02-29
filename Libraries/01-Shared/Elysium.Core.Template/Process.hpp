@@ -103,7 +103,7 @@ namespace Elysium::Core::Template::Diagnostics
 		struct WindowHandleData
 		{
 			Elysium::Core::Template::System::uint32_t ProcessId;
-			HANDLE WindowHandle;
+			HWND WindowHandle;
 		};
 
 		static BOOL GetMainWindowHandleCallback(HWND WindowHandle, LPARAM Parameter) noexcept;
@@ -218,6 +218,10 @@ namespace Elysium::Core::Template::Diagnostics
 	inline void Elysium::Core::Template::Diagnostics::Process::WaitForExit(void* ProcessHandle, const Elysium::Core::Template::System::uint32_t Milliseconds)
 	{
 		DWORD Result = WaitForSingleObject(ProcessHandle, Milliseconds);
+		if (Result != WAIT_OBJECT_0)
+		{
+			throw Exceptions::SystemException();
+		}
 	}
 	
 	inline Elysium::Core::Template::Container::Vector<PROCESSENTRY32> Process::GetProcessIds()

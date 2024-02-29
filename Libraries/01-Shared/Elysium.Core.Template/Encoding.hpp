@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OperatingSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "CharacterTraits.hpp"
 #endif
@@ -152,7 +156,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size Length = Input.GetLength();
 		System::uint32_t CodePoint;
 		System::size RequiredLength = 0;
-		for (Elysium::Core::size i = 0; i < Length; ++i)
+		for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
 		{
 			if (Input[i] >> 7 == 0x00)
 			{	// 0-xxx xxxx											07 bit
@@ -420,7 +424,7 @@ namespace Elysium::Core::Template::Text
 	{
 		const System::size InputLength = Input.GetLength();
 		System::size RequiredLength = 0;
-		Elysium::Core::uint32_t CodePoint;
+		Elysium::Core::Template::System::uint32_t CodePoint;
 		for (System::size i = 0; i < InputLength; i++)
 		{
 			bool bla = Text::CharacterTraits<char8_t>::IsAscii(Input[i]);
@@ -499,7 +503,7 @@ namespace Elysium::Core::Template::Text
 	{
 		const System::size RequiredLength = Input.GetLength();
 		System::byte* Data = (System::byte*)&Input[0];
-		Elysium::Core::uint16_t IntegerRepresentation;
+		Elysium::Core::Template::System::uint16_t IntegerRepresentation;
 		String<char> Result = String<char>(RequiredLength);
 		for (System::size i = 0; i < RequiredLength; i++)
 		{
@@ -517,7 +521,7 @@ namespace Elysium::Core::Template::Text
 		const System::size RequiredLength = Input.GetLength();
 		System::byte* Data = (System::byte*)&Input[0];
 		String<char> Result = String<char>(RequiredLength);
-		Elysium::Core::uint32_t IntegerRepresentation;
+		Elysium::Core::Template::System::uint32_t IntegerRepresentation;
 		for (System::size i = 0; i < RequiredLength; i++)
 		{
 			IntegerRepresentation = Input[i];
@@ -533,7 +537,7 @@ namespace Elysium::Core::Template::Text
 	{
 		const System::size RequiredLength = Input.GetLength();
 		System::byte* Data = (System::byte*)&Input[0];
-		Elysium::Core::uint16_t IntegerRepresentation;
+		Elysium::Core::Template::System::uint16_t IntegerRepresentation;
 		String<char> Result = String<char>(RequiredLength);
 		for (System::size i = 0; i < RequiredLength; i++)
 		{

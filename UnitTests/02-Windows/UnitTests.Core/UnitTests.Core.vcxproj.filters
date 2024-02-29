@@ -46,4 +46,12 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SampleFiles\InjectMessageBox32.dll">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="SampleFiles\InjectMessageBox64.dll">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+  </ItemGroup>
 </Project>
