@@ -110,6 +110,20 @@ namespace UnitTests::Core::Diagnostics
 				const Template::Text::String<char8_t> ProcessName = (*Iterator).GetProcessName();
 				Logger::WriteMessage((char*)&ProcessName[0]);
 				Logger::WriteMessage("\r\n");
+
+				try
+				{
+					const ProcessModule MainModule = (*Iterator).GetMainModule();
+					Logger::WriteMessage("\t\t");
+
+					const Template::Text::String<char8_t> ModuleName = MainModule.GetModuleName();
+					Logger::WriteMessage((char*)&ModuleName[0]);
+					Logger::WriteMessage("\r\n");
+				}
+				catch (Elysium::Core::Template::Exceptions::SystemException& ex)
+				{
+					Logger::WriteMessage("\t\tNo main module???\r\n");
+				}
 			}
 		}
 

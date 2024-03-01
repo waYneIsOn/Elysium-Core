@@ -133,7 +133,7 @@ namespace Elysium::Core::Template::Diagnostics
 		void* Handle = OpenProcess(static_cast<Elysium::Core::Template::System::uint32_t>(DesiredAccess), FALSE, ProcessId);
 		if (Handle == INVALID_HANDLE_VALUE)
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		return Handle;
@@ -150,7 +150,7 @@ namespace Elysium::Core::Template::Diagnostics
 		char Name[MAX_PATH];
 		if (!GetModuleBaseNameA(ProcessHandle, nullptr, Name, sizeof(Name)))
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		return Text::String<char8_t>(reinterpret_cast<char8_t*>(&Name));
@@ -176,7 +176,7 @@ namespace Elysium::Core::Template::Diagnostics
 			if (!GetExitCodeProcess(ProcessHandle, &ExitCode))
 			{
 				CloseHandle(ProcessHandle);
-				throw Exceptions::SystemException();
+				throw Elysium::Core::Template::Exceptions::SystemException();
 			}
 
 			CloseHandle(ProcessHandle);
@@ -197,7 +197,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 		if (!PostMessage(MainWindowHandle, WM_CLOSE, 0, 0))
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		return true;
@@ -211,7 +211,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 		if (!TerminateProcess(ProcessHandle, ExitCode))
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 	}
 
@@ -220,7 +220,7 @@ namespace Elysium::Core::Template::Diagnostics
 		DWORD Result = WaitForSingleObject(ProcessHandle, Milliseconds);
 		if (Result != WAIT_OBJECT_0)
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 	}
 	
@@ -229,7 +229,7 @@ namespace Elysium::Core::Template::Diagnostics
 		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
@@ -237,7 +237,7 @@ namespace Elysium::Core::Template::Diagnostics
 		if (!Process32First(SnapshotHandle, &ProcessEntry))
 		{
 			CloseHandle(SnapshotHandle);
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		Container::Vector<PROCESSENTRY32> Processes = Container::Vector<PROCESSENTRY32>();
@@ -256,7 +256,7 @@ namespace Elysium::Core::Template::Diagnostics
 		HANDLE SnapshotHandle = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 		if (SnapshotHandle == INVALID_HANDLE_VALUE)
 		{
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		PROCESSENTRY32 ProcessEntry = PROCESSENTRY32();
@@ -264,7 +264,7 @@ namespace Elysium::Core::Template::Diagnostics
 		if (!Process32First(SnapshotHandle, &ProcessEntry))
 		{
 			CloseHandle(SnapshotHandle);
-			throw Exceptions::SystemException();
+			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
 
 		Container::Vector<PROCESSENTRY32> Processes = Container::Vector<PROCESSENTRY32>();
