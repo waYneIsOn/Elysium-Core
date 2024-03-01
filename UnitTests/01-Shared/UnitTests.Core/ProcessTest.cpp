@@ -53,7 +53,13 @@ namespace UnitTests::Core::Diagnostics
 			Logger::WriteMessage("\r\n");
 
 			Logger::WriteMessage("\tMainModule:\r\n");
-			//const ProcessModule MainModule = CurrentProcess.GetMainModule();
+			
+			const ProcessModule MainModule = CurrentProcess.GetMainModule();
+			Logger::WriteMessage("\t\t");
+
+			const Template::Text::String<char8_t> ModuleName = MainModule.GetModuleName();
+			Logger::WriteMessage((char*)&ModuleName[0]);
+			Logger::WriteMessage("\r\n");
 			
 			Logger::WriteMessage("\tModules:\r\n");
 			const Template::Container::Vector<ProcessModule>& Modules = CurrentProcess.GetModules();

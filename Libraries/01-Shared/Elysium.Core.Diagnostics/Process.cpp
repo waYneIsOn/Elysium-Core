@@ -173,31 +173,17 @@ const bool Elysium::Core::Diagnostics::Process::Is64BitProcess() const
 	
 }
 
+const Elysium::Core::Diagnostics::ProcessModule& Elysium::Core::Diagnostics::Process::GetMainModule() const
+{
+	LoadModules();
+
+	// @ToDo: check whether the first module actually always is the main module!
+	return _Modules[0];
+}
+
 const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Elysium::Core::Diagnostics::Process::GetModules() const
 {
-	if (_Modules.GetLength() == 0)
-	{
-		Elysium::Core::Template::Container::Vector<MODULEENTRY32W> NativeModules =
-			Elysium::Core::Template::Diagnostics::Process::GetProcessModules(_ProcessId);
-
-		Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Modules =
-			const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>&>(_Modules);
-
-		for (Template::Container::Vector<MODULEENTRY32W>::FIterator Iterator = NativeModules.GetBegin(); Iterator != NativeModules.GetEnd(); ++Iterator)
-		{
-			MODULEENTRY32W& Entry = *Iterator;
-
-			Elysium::Core::Template::Text::String<char8_t> Name =
-				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szModule,
-					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szModule));
-			Elysium::Core::Template::Text::String<char8_t> FileName =
-				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szExePath,
-					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szExePath));
-
-			Modules.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
-				Elysium::Core::Template::Functional::Move(FileName), reinterpret_cast<void*>(Entry.modBaseAddr), nullptr, Entry.modBaseSize, Entry.th32ModuleID)));
-		}
-	}
+	LoadModules();
 
 	return _Modules;
 }
@@ -431,6 +417,34 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 	}
 
 	return Result;
+}
+
+void Elysium::Core::Diagnostics::Process::LoadModules() const
+{
+	if (_Modules.GetLength() == 0)
+	{
+		Elysium::Core::Template::Container::Vector<MODULEENTRY32W> NativeModules =
+			Elysium::Core::Template::Diagnostics::Process::GetProcessModules(_ProcessId);
+
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Modules =
+			const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>&>(_Modules);
+
+		for (Template::Container::Vector<MODULEENTRY32W>::FIterator Iterator = NativeModules.GetBegin(); Iterator != NativeModules.GetEnd(); ++Iterator)
+		{
+			MODULEENTRY32W& Entry = *Iterator;
+
+			Elysium::Core::Template::Text::String<char8_t> Name =
+				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szModule,
+					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szModule));
+			Elysium::Core::Template::Text::String<char8_t> FileName =
+				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szExePath,
+					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szExePath));
+
+			Modules.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
+				Elysium::Core::Template::Functional::Move(FileName), reinterpret_cast<void*>(Entry.modBaseAddr), nullptr, Entry.modBaseSize, Entry.th32ModuleID)));
+		}
+	}
+
 }
 
 

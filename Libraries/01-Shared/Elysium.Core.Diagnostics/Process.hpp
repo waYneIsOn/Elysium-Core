@@ -72,7 +72,7 @@ namespace Elysium::Core::Diagnostics
 
 		const bool Is64BitProcess() const;
 
-		//const ProcessModule GetMainModule() const;
+		const ProcessModule& GetMainModule() const;
 
 		const Elysium::Core::Template::Container::Vector<ProcessModule>& GetModules() const;
 
@@ -98,6 +98,8 @@ namespace Elysium::Core::Diagnostics
 		static const Process CurrentProcess();
 
 		static const Elysium::Core::Template::Container::Vector<Process> GetProcesses(const char8_t* ProcessName = nullptr, const char8_t* MachineName = _LocalMachineName);
+	private:
+		void LoadModules() const;
 	private:
 		inline static const char8_t* _LocalMachineName = u8".";
 	private:
