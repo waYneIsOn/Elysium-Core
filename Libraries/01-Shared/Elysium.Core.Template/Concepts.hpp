@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Hashable.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HUFFMANCODEABLE
+#include "Concepts/HuffmanCodeable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
 #include "Integer.hpp"
 #endif

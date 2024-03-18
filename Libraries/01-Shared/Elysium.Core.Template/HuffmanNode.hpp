@@ -12,17 +12,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "OperatingSystem.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HUFFMANCODEABLE
+#include "Concepts/HuffmanCodeable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
+#include "UnsignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
-	template<class T>
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanNode
 	{
 	public:
-		HuffmanNode(const T Symbol);
+		HuffmanNode(const S Symbol, const F Frequency);
 
 		HuffmanNode(const HuffmanNode& Source) = delete;
 
@@ -33,20 +37,23 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		HuffmanNode& operator=(const HuffmanNode& Source) = delete;
 
 		HuffmanNode& operator=(HuffmanNode&& Right) noexcept = delete;
+	public:
+
 	private:
-		T _Symbol;
+		S _Symbol;
+		F _Frequency;
+
 		HuffmanNode* _Left;
 		HuffmanNode* _Right;
 	};
 
-	template<class T>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<T>::HuffmanNode(const T Symbol)
-		: _Symbol(Symbol), _Left(nullptr), _Right(nullptr)
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::HuffmanNode(const S Symbol, const F Frequency)
+		: _Symbol(Symbol), _Frequency(Frequency), _Left(nullptr), _Right(nullptr)
 	{ }
 
-	template<class T>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<T>::~HuffmanNode()
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::~HuffmanNode()
 	{ }
-
 }
 #endif

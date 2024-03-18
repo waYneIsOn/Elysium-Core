@@ -20,12 +20,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsAnyOf.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsIntegerValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, char, unsigned char, signed char, 
-        short, unsigned short, signed short, int, unsigned int, signed int, long, unsigned long, signed long,
-        long long, unsigned long long, signed long long>;
+    inline constexpr bool IsIntegerValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, 
+        Elysium::Core::Template::System::uint8_t, Elysium::Core::Template::System::uint8_t, signed char,
+        Elysium::Core::Template::System::int16_t, Elysium::Core::Template::System::uint16_t, signed short,
+        Elysium::Core::Template::System::int32_t, Elysium::Core::Template::System::uint32_t, signed int, 
+        long, unsigned long, signed long,
+        Elysium::Core::Template::System::int64_t, Elysium::Core::Template::System::uint64_t, signed long long,
+        Elysium::Core::Template::System::size>;
 
     template <class T>
     struct IsInteger : IntegralConstant<bool, IsIntegerValue<T>>

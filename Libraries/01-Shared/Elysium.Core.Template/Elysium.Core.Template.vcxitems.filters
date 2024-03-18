@@ -599,6 +599,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

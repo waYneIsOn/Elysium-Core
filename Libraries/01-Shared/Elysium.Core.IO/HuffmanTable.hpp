@@ -33,19 +33,23 @@ namespace Elysium::Core::IO::Compression::HuffmanCoding
 	{
 	public:
 		HuffmanTable();
-		HuffmanTable(const HuffmanTable& Source) = delete;
-		HuffmanTable(HuffmanTable&& Right) noexcept = delete;
-		~HuffmanTable();
 
+		HuffmanTable(const HuffmanTable& Source) = delete;
+
+		HuffmanTable(HuffmanTable&& Right) noexcept = delete;
+
+		~HuffmanTable();
+	public:
 		HuffmanTable& operator=(const HuffmanTable& Source) = delete;
+
 		HuffmanTable& operator=(HuffmanTable&& Right) noexcept = delete;
 	private:
 		/*
-		static const Elysium::Core::uint32_t MaximumLiteralTreeElements = 288;	// 256 literal codes, end of block code, 31 distance and length elements
-		static const Elysium::Core::uint32_t MaximumDistanceTreeElements = 32;	// 32 distances, fixed 5 bits, additional bits
+		static constexpr const Elysium::Core::uint32_t MaximumLiteralTreeElements = 288;	// 256 literal codes, end of block code, 31 distance and length elements
+		static constexpr const Elysium::Core::uint32_t MaximumDistanceTreeElements = 32;	// 32 distances, fixed 5 bits, additional bits
 
-		static const Elysium::Core::uint32_t EndOfBlockCodeIndex = 256;
-		static const Elysium::Core::uint32_t NumberOfCodeLengthTreeElements = 19;
+		static constexpr const Elysium::Core::uint32_t EndOfBlockCodeIndex = 256;
+		static constexpr const Elysium::Core::uint32_t NumberOfCodeLengthTreeElements = 19;
 
 		Elysium::Core::uint32_t _TableBits;	// 7 or 9 depending on the length of _Table
 		Elysium::Core::uint32_t _TableMask;	// last index of _Table: 127 (7) or 511 (9)

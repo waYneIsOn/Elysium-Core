@@ -31,23 +31,31 @@ namespace Elysium::Core::IO::Compression::HuffmanCoding
 		friend class HuffmanTree;
 	public:
 		HuffmanNode(const Elysium::Core::byte Symbol);
+
 		HuffmanNode(const HuffmanNode& Source) = delete;
+
 		HuffmanNode(HuffmanNode&& Right) noexcept = delete;
+
 		~HuffmanNode();
-
+	public:
 		HuffmanNode& operator=(const HuffmanNode& Source) = delete;
+
 		HuffmanNode& operator=(HuffmanNode&& Right) noexcept = delete;
-
+	public:
 		const Elysium::Core::byte GetSymbol() const;
-		const HuffmanNode* GetLeft() const;
-		const HuffmanNode* GetRight() const;
-		const bool GetIsLeaf() const;
 
+		const HuffmanNode* GetLeft() const;
+
+		const HuffmanNode* GetRight() const;
+
+		const bool GetIsLeaf() const;
+	public:
 		void SetSymbol(const Elysium::Core::byte Value);
 
 		HuffmanNode* SetLeft(const Elysium::Core::byte Symbol = 0x00);
-		HuffmanNode* SetRight(const Elysium::Core::byte Symbol = 0x00);
 
+		HuffmanNode* SetRight(const Elysium::Core::byte Symbol = 0x00);
+	public:
 		const HuffmanNode* Find(const Elysium::Core::byte Symbol) const;
 	private:
 		Elysium::Core::byte _Symbol;

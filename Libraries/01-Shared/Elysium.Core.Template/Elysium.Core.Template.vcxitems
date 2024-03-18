@@ -78,7 +78,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Hash.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
