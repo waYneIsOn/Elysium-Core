@@ -39,13 +39,17 @@ namespace Elysium::Core::Template::Container
 	{
 	public:
 		Tuple(T1 Item1);
+
 		Tuple(const Tuple<T1>& Source) = delete;
+
 		Tuple(Tuple<T1>&& Right) noexcept = delete;
+
 		~Tuple();
-
+	public:
 		Tuple<T1>& operator=(const Tuple<T1>& Source) = delete;
-		Tuple<T1>& operator=(Tuple<T1>&& Right) noexcept = delete;
 
+		Tuple<T1>& operator=(Tuple<T1>&& Right) noexcept = delete;
+	public:
 		T1& GetItem1();
 
 		const T1& GetItem1() const;
@@ -83,17 +87,23 @@ namespace Elysium::Core::Template::Container
 	{
 	public:
 		Tuple(T1 Item1, T2 Item2);
+
 		Tuple(const Tuple<T1, T2>& Source) = delete;
+
 		Tuple(Tuple<T1, T2>&& Right) noexcept;
+
 		~Tuple();
-
+	public:
 		Tuple<T1, T2>& operator=(const Tuple<T1, T2>& Source) = delete;
-		Tuple<T1, T2>& operator=(Tuple<T1, T2>&& Right) noexcept;
 
+		Tuple<T1, T2>& operator=(Tuple<T1, T2>&& Right) noexcept;
+	public:
 		T1& GetItem1();
+
 		T2& GetItem2();
 
 		const T1& GetItem1() const;
+
 		const T2& GetItem2() const;
 	private:
 		T1 _Item1;
@@ -160,19 +170,27 @@ namespace Elysium::Core::Template::Container
 	{
 	public:
 		Tuple(T1 Item1, T2 Item2, T3 Item3);
+
 		Tuple(const Tuple<T1, T2, T3>& Source) = delete;
+
 		Tuple(Tuple<T1, T2, T3>&& Right) noexcept = delete;
+
 		~Tuple();
-
+	public:
 		Tuple<T1, T2, T3>& operator=(const Tuple<T1, T2, T3>& Source) = delete;
-		Tuple<T1, T2, T3>& operator=(Tuple<T1, T2, T3>&& Right) noexcept = delete;
 
+		Tuple<T1, T2, T3>& operator=(Tuple<T1, T2, T3>&& Right) noexcept = delete;
+	public:
 		T1& GetItem1();
+
 		T2& GetItem2();
+
 		T3& GetItem3();
 
 		const T1& GetItem1() const;
+
 		const T2& GetItem2() const;
+
 		const T3& GetItem3() const;
 	private:
 		T1 _Item1;
@@ -237,21 +255,31 @@ namespace Elysium::Core::Template::Container
 	{
 	public:
 		Tuple(T1 Item1, T2 Item2, T3 Item3, T4 Item4);
+
 		Tuple(const Tuple<T1, T2, T3, T4>& Source) = delete;
+
 		Tuple(Tuple<T1, T2, T3, T4>&& Right) noexcept = delete;
+
 		~Tuple();
-
+	public:
 		Tuple<T1, T2, T3, T4>& operator=(const Tuple<T1, T2, T3, T4>& Source) = delete;
-		Tuple<T1, T2, T3, T4>& operator=(Tuple<T1, T2, T3, T4>&& Right) noexcept = delete;
 
+		Tuple<T1, T2, T3, T4>& operator=(Tuple<T1, T2, T3, T4>&& Right) noexcept = delete;
+	public:
 		T1& GetItem1();
+
 		T2& GetItem2();
+
 		T3& GetItem3();
+
 		T4& GetItem4();
 
 		const T1& GetItem1() const;
+
 		const T2& GetItem2() const;
+
 		const T3& GetItem3() const;
+
 		const T4& GetItem4() const;
 	private:
 		T1 _Item1;
