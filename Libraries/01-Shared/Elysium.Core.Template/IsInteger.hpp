@@ -28,7 +28,7 @@ namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
     inline constexpr bool IsIntegerValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, 
-        Elysium::Core::Template::System::uint8_t, Elysium::Core::Template::System::uint8_t, signed char,
+        Elysium::Core::Template::System::int8_t, Elysium::Core::Template::System::uint8_t, signed char,
         Elysium::Core::Template::System::int16_t, Elysium::Core::Template::System::uint16_t, signed short,
         Elysium::Core::Template::System::int32_t, Elysium::Core::Template::System::uint32_t, signed int, 
         long, unsigned long, signed long,
