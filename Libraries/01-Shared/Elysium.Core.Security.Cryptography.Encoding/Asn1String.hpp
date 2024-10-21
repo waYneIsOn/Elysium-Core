@@ -12,8 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
@@ -29,7 +33,9 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 	class ELYSIUM_CORE_SECURITY_API Asn1String final : public Asn1Object
 	{
 	public:
-		Asn1String(const Asn1Identifier& Identifier, Elysium::Core::Utf8String&& Value);
+		Asn1String(const Asn1Identifier& Identifier, Elysium::Core::byte* Data, Elysium::Core::size Length);
+
+		Asn1String(const Asn1Identifier& Identifier, Elysium::Core::Container::VectorOfByte&& Data);
 
 		Asn1String(const Asn1String& Source) = delete;
 
@@ -41,9 +47,12 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 
 		Asn1String& operator=(Asn1String&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::Utf8String& GetValue() const;
+		const Elysium::Core::Container::VectorOfByte& GetData() const;
+
+		const Elysium::Core::Utf8StringView GetValue() const;
 	private:
-		Elysium::Core::Utf8String _Value;
+		Elysium::Core::Container::VectorOfByte _Data;
+		//Elysium::Core::Utf8String _Value;
 	};
 }
 #endif

@@ -307,7 +307,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 	const Elysium::Core::uint32_t Length = Asn1Length.GetLength();
 	if (Length == 0)
 	{
-		return Asn1String(Asn1Identifier, Elysium::Core::Template::Functional::Move(u8""));
+		return Asn1String(Asn1Identifier, nullptr, 0);
 	}
 
 	switch (Asn1Identifier.GetUniversalTag())
@@ -328,7 +328,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 			const Elysium::Core::size BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
 			TotalBytesRead += BytesRead;
 		} while (TotalBytesRead != Length);
-		return Asn1String(Asn1Identifier, Elysium::Core::Template::Functional::Move(Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length)));
+		return Asn1String(Asn1Identifier, &Bytes[0], Length);
 	}
 	case Asn1UniversalTag::BitString:
 		[[fallthrough]];

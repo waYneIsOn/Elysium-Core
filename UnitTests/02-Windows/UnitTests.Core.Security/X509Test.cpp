@@ -582,7 +582,7 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
 			{
 				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Utf8String& PrintableStringValue = PrintableString.GetValue();
+				const Elysium::Core::Utf8StringView PrintableStringValue = PrintableString.GetValue();
 				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
 				Logger::WriteMessage("\r\n");
 			}
