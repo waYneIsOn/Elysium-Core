@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/InvalidDataException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
@@ -460,7 +461,10 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
 			{
 				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = PrintableString.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -582,20 +586,28 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
 			{
 				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Utf8StringView PrintableStringValue = PrintableString.GetValue();
-				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = PrintableString.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::IA5String)
 			{
 				Asn1String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&IA5String.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = IA5String.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::UTF8String)
 			{
 				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&Utf8String.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = Utf8String.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -763,19 +775,28 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
 			{
 				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&PrintableString.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = PrintableString.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::IA5String)
 			{
 				Asn1String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&IA5String.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = IA5String.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::UTF8String)
 			{
 				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&Utf8String.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = Utf8String.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -1013,7 +1034,10 @@ namespace UnitTests::Core::Security::Cryptography
 			{
 				Logger::WriteMessage("SubjectUniqueID: ");
 				Asn1String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
-				Logger::WriteMessage((char*)&BitString.GetValue()[0]);
+				const Elysium::Core::Container::VectorOfByte& Data = BitString.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else

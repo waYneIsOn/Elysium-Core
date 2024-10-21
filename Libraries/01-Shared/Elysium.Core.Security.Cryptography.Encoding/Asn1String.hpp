@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRINGVIEW
-#include "../Elysium.Core/StringView.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
@@ -48,11 +44,8 @@ namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 		Asn1String& operator=(Asn1String&& Right) noexcept = delete;
 	public:
 		const Elysium::Core::Container::VectorOfByte& GetData() const;
-
-		const Elysium::Core::Utf8StringView GetValue() const;
 	private:
 		Elysium::Core::Container::VectorOfByte _Data;
-		//Elysium::Core::Utf8String _Value;
 	};
 }
 #endif

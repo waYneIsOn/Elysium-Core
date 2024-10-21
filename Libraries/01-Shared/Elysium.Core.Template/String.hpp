@@ -733,14 +733,15 @@ namespace Elysium::Core::Template::Text
 			return false;
 		}
 
-		ConstCharacterPointer Data = &operator[](Length - 1);
-		for (System::size i = Length - ValueLength; i < Length; i++)
+		const System::size Offset = Length - ValueLength;
+		for (System::size i = 0; i < ValueLength; i++)
 		{
-			if (Data[i] != Value[Length - 1 - i])
+			if (operator[](i + Offset) != Value[i])
 			{
 				return false;
 			}
 		}
+
 		return true;
 	}
 

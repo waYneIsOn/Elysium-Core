@@ -328,6 +328,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 			const Elysium::Core::size BytesRead = InputStream.Read(&Bytes[TotalBytesRead], Length - TotalBytesRead);
 			TotalBytesRead += BytesRead;
 		} while (TotalBytesRead != Length);
+
 		return Asn1String(Asn1Identifier, &Bytes[0], Length);
 	}
 	case Asn1UniversalTag::BitString:
@@ -371,7 +372,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 		throw 1;
 	}
 	default:
-		throw NotImplementedException(u8"Unhandled Asn1UniversalTag for string.");
+		throw NotImplementedException(u8"Unhandled Asn1UniversalTag for String.");
 	}
 }
 
@@ -447,7 +448,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 			throw 1;
 		}
 		default:
-			throw NotImplementedException();
+			throw NotImplementedException(u8"Unhandled Asn1UniversalTag for DateTime.");
 	}
 }
 
