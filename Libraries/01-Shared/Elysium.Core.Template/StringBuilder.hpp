@@ -195,7 +195,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Allocator>
 	inline StringBuilder<C, Allocator>::CorrespondingString StringBuilder<C, Allocator>::ToString() const
 	{
-		return CorrespondingString(_Data);
+		return CorrespondingString(_Data, _Length);
 	}
 }
 #endif
