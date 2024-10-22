@@ -319,6 +319,9 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 		// Upper and lower case letters, digits, space, apostrophe, left/right parenthesis, plus sign, comma, hyphen, full stop, solidus, colon, 
 		// equal sign and question mark.
 		[[fallthrough]];
+	case Asn1UniversalTag::TeletexString:
+		// Latin-1 (ISO 8859-1)
+		[[fallthrough]];
 	case Asn1UniversalTag::UTF8String:
 	{	// ...
 		Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
@@ -337,10 +340,6 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1String Elysium::Core:
 		throw Elysium::Core::InvalidOperationException(u8"Asn1 datatype can be interpreted in multiple ways. Please make use of DecodeByteArray(...) instead.");
 	case Asn1UniversalTag::NumericString:
 	{	// 0 - 9 and whitespace
-		throw 1;
-	}
-	case Asn1UniversalTag::TeletexString:
-	{
 		throw 1;
 	}
 	case Asn1UniversalTag::VideotexString:

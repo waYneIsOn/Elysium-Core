@@ -221,7 +221,13 @@ namespace UnitTests::Core::Security::Cryptography
 					X509Store CurrentStore = X509Store(static_cast<StoreName>(StoreNameInt), static_cast<StoreLocation>(StoreLocationInt));
 					CurrentStore.Open(OpenFlags::ReadOnly);
 
-					for (Elysium::Core::size i = 0; i < CurrentStore.GetCertificates().GetCount(); i++)
+					const Elysium::Core::size CertificateCount = CurrentStore.GetCertificates().GetCount();
+
+					Logger::WriteMessage("-- Number of certificates: ");
+					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(CertificateCount)[0]);
+					Logger::WriteMessage(" --\r\n");
+
+					for (Elysium::Core::size i = 0; i < CertificateCount; i++)
 					{
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
 						const Array<byte> RawData = Certificate.GetRawCertData();
@@ -230,6 +236,11 @@ namespace UnitTests::Core::Security::Cryptography
 						Logger::WriteMessage("X509Certificate #");
 						Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(Count)[0]);
 						Logger::WriteMessage(":\r\n");
+
+						if (Count == 22)
+						{
+							bool bla = false;
+						}
 
 						Asn1Identifier Identifier = Asn1Identifier(Asn1TagClass::Universal, false, Asn1UniversalTag::EndOfContent, 0);
 						Asn1Length Length = Asn1Length(0, 0);
@@ -568,6 +579,15 @@ namespace UnitTests::Core::Security::Cryptography
 
 		void ReadIssuerAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
+			/*
+			...
+
+			AttributeTypeAndValue ::= SEQUENCE {
+				type     AttributeType,
+				value    AttributeValue }
+
+			...
+			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
 			{
@@ -605,6 +625,15 @@ namespace UnitTests::Core::Security::Cryptography
 			{
 				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
 				const Elysium::Core::Container::VectorOfByte& Data = Utf8String.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::TeletexString)
+			{
+				Asn1String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Container::VectorOfByte& Data = TeletexString.GetData();
 				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -749,6 +778,17 @@ namespace UnitTests::Core::Security::Cryptography
 
 		void ReadSubjectAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
+			/*
+			...
+
+			AttributeTypeAndValue ::= SEQUENCE {
+				type     AttributeType,
+				value    AttributeValue }
+
+			AttributeType ::= OBJECT IDENTIFIER
+
+			AttributeValue ::= ANY -- DEFINED BY AttributeType
+			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
 			{
@@ -794,6 +834,15 @@ namespace UnitTests::Core::Security::Cryptography
 			{
 				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
 				const Elysium::Core::Container::VectorOfByte& Data = Utf8String.GetData();
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+				Logger::WriteMessage((char*)&DataString[0]);
+				Logger::WriteMessage("\r\n");
+			}
+			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::TeletexString)
+			{
+				Asn1String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Container::VectorOfByte& Data = TeletexString.GetData();
 				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -902,6 +951,29 @@ namespace UnitTests::Core::Security::Cryptography
 						Logger::WriteMessage("Error: OctetStringIdentifier\r\n");
 						throw InvalidDataException(u8"OctetStringIdentifier");
 					}
+
+
+
+
+					if (OctetStringLength.GetLength() > 500)
+					{
+						Index -= OctetStringLength.GetEncodedLength();
+						InputStream.SetPosition(CurrentPositionSubjectPublicKeyInfo + Index);
+
+						Asn1Length TestOctetStringLength = Decoder.DecodeLength(Data, Index, Data.GetLength() - Index);
+
+						Logger::WriteMessage("ERROR - WTF\r\n");
+						InputStream.SetPosition(CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength);
+						return;
+						//throw 1;
+					}
+
+
+
+
+					Asn1ByteArray OctetString = Decoder.DecodeByteArray(OctetStringIdentifier, OctetStringLength, Data, Index, Data.GetLength() - Index);
+					Index += OctetStringLength.GetLength();
+
 					/*
 					The first octet of the OCTET STRING indicates whether the key is
 					compressed or uncompressed.  The uncompressed form is indicated
@@ -909,11 +981,11 @@ namespace UnitTests::Core::Security::Cryptography
 					0x03 (see 2.3.3 in [SEC1]).  The public key MUST be rejected if
 					any other value is included in the first octet.
 					*/
-					//const Elysium::Core::uint8_t CompressedB = Data[Index++];
-					//const Elysium::Core::uint8_t CompressedE = Data[Data.GetLength() - 1];
 
-					// ToDo: read public key (length)
-					throw 1;
+					Logger::WriteMessage("\tPublicKey (ECC) length: ");
+					// ToDo: simply subtracting one is certainly not goind to be correct (also NumberOfUnusedBits)!
+					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString((OctetStringLength.GetLength() - 1) * 8)[0]);
+					Logger::WriteMessage(" bits\r\n");
 				}
 				else
 				{
@@ -1007,11 +1079,14 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&BitString.GetData()[0],
+					BitString.GetData().GetLength());
+
 				Logger::WriteMessage("IssuerUniqueID:\r\n");
 				Logger::WriteMessage("\tLength: ");
 				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(BitString.GetData().GetLength())[0]);
 				Logger::WriteMessage("\r\n\tValue: ");
-				//Logger::WriteMessage((char*)&BitString.GetValue()[0]);
+				//Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
