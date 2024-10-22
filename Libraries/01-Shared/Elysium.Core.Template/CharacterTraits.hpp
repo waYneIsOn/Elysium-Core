@@ -368,6 +368,26 @@ namespace Elysium::Core::Template::Text
 		/// <param name="Sequence"></param>
 		/// <returns></returns>
 		static constexpr const System::size LastIndexOf(ConstPointer Start, const System::size Length, ConstPointer Sequence) noexcept;
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
+		/// <param name="Sequence"></param>
+		/// <param name="SequenceLength"></param>
+		/// <returns></returns>
+		static constexpr const bool StartsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
+		/// <param name="Sequence"></param>
+		/// <param name="SequenceLength"></param>
+		/// <returns></returns>
+		static constexpr const bool EndsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept;
 	};
 
 	/// <summary>
@@ -1227,6 +1247,56 @@ namespace Elysium::Core::Template::Text
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstPointer Sequence) noexcept
 	{
 		return -1;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::StartsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept
+	{
+		if (Start == nullptr || Sequence == nullptr)
+		{
+			return false;
+		}
+
+		if (SequenceLength > Length)
+		{
+			return false;
+		}
+
+		for (System::size i = 0; i < SequenceLength; i++)
+		{
+			if (Start[i] != Sequence[i])
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::EndsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept
+	{
+		if (Start == nullptr || Sequence == nullptr)
+		{
+			return false;
+		}
+
+		if (SequenceLength > Length)
+		{
+			return false;
+		}
+		
+		// @ToDo: should I do this in reverse order (back to front)?
+		const System::size Offset = Length - SequenceLength;
+		for (System::size i = 0; i < SequenceLength; i++)
+		{
+			if (Start[i + Offset] != Sequence[i])
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(CharacterTraits<char8_t>::ConstValue Value) noexcept

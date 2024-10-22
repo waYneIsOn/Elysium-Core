@@ -695,6 +695,8 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr const bool String<C, Traits, Allocator>::StartsWith(ConstCharacterPointer Value) const
 	{
+		return Traits::StartsWith(&operator[](0), GetLength(), Value, Traits::GetLength(Value));
+		/*
 		if (Value == nullptr)
 		{
 			return false;
@@ -716,33 +718,13 @@ namespace Elysium::Core::Template::Text
 			}
 		}
 		return true;
+		*/
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr const bool String<C, Traits, Allocator>::EndsWith(ConstCharacterPointer Value) const
 	{
-		if (Value == nullptr)
-		{
-			return false;
-		}
-
-		const System::size ValueLength = Traits::GetLength(Value);
-		const System::size Length = GetLength();
-		if (ValueLength > Length)
-		{
-			return false;
-		}
-
-		const System::size Offset = Length - ValueLength;
-		for (System::size i = 0; i < ValueLength; i++)
-		{
-			if (operator[](i + Offset) != Value[i])
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return Traits::EndsWith(&operator[](0), GetLength(), Value, Traits::GetLength(Value));
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
