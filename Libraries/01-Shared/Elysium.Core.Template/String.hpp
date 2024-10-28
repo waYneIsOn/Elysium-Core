@@ -510,7 +510,7 @@ namespace Elysium::Core::Template::Text
 				return false;
 			}
 
-			return Traits::Compare((ConstCharacterPointer)&_InternalString._Stack._Data[0], Other, OtherLength) == 0;
+			return Traits::Compare(reinterpret_cast<ConstCharacterPointer>(&_InternalString._Stack._Data[0]), Other, OtherLength) == 0;
 		}
 	}
 
@@ -519,11 +519,12 @@ namespace Elysium::Core::Template::Text
 	{
 		if (IsHeapAllocated())
 		{
-			return Traits::Compare(&_InternalString._Heap._Data[0], Other, _InternalString._Heap._Size) == 0;
+			return Traits::Compare(&_InternalString._Heap._Data[0], Other, _InternalString._Heap._Size) != 0;
 		}
 		else
 		{
-			return Traits::Compare((ConstCharacterPointer)&_InternalString._Stack._Data[0], Other, _InternalString._Stack.GetSize()) == 0;
+			return Traits::Compare(reinterpret_cast<ConstCharacterPointer>(&_InternalString._Stack._Data[0]), Other, 
+				_InternalString._Stack.GetSize()) != 0;
 		}
 	}
 

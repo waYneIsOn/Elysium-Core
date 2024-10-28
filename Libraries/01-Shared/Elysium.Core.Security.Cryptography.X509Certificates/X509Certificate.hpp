@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
+#include "../Elysium.Core/ArrayOfByte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -30,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
 #include "../Elysium.Core.Security/System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CONTENTTYPE
+#include "X509ContentType.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509KEYSTORAGEFLAGS
@@ -63,8 +67,12 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		const Elysium::Core::Utf8String GetSubject() const;
 
 		const Collections::Template::Array<byte> GetRawCertData() const;
+	public:
+		Elysium::Core::Container::VectorOfByte Export(const X509ContentType ContentType, const char8_t* Password);
 
-		static X509Certificate LoadFromBlob(const Collections::Template::Array<byte>& RawData, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		// @ToDo: export directly to stream
+	public:
+		static X509Certificate LoadFromBlob(const Elysium::Core::Container::ArrayOfByte& RawData, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		
 		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		

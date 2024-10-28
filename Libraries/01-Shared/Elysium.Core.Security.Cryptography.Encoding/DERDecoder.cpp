@@ -38,6 +38,7 @@
 
 Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DERDecoder()
 { }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::~DERDecoder()
 { }
 
@@ -108,7 +109,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Length Elysium::Core:
 		Length = 0;
 		for (CurrentByteValue = CurrentByteValue & 0x7F; CurrentByteValue > 0; CurrentByteValue--)
 		{
-			int NextByteValue = InputStream.ReadByte();
+			int32_t NextByteValue = InputStream.ReadByte();
 			EncodedLength++;
 			if (NextByteValue < 0)
 			{
@@ -241,7 +242,8 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ObjectIdentifier Elys
 		throw IO::InvalidDataException(u8"An Oid must contain at least three nodes.");
 	}
 
-	Text::Utf8StringBuilder OidBuilder = Text::Utf8StringBuilder(OidLength + 1 + OidLength);	// start with one char16_t for each node and one for each dot in between
+	// start with one char8_t for each node and one for each dot in between
+	Text::Utf8StringBuilder OidBuilder = Text::Utf8StringBuilder(OidLength + 1 + OidLength);
 
 	// The first two nodes of the OID are encoded onto a single byte. The first node is multiplied by the decimal 40 and
 	// the result is added to the value of the second node.

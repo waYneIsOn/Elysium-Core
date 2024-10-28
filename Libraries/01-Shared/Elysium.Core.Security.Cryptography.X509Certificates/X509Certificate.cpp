@@ -133,7 +133,17 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::
 	}
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Collections::Template::Array<byte>& RawData, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::Export(const X509ContentType ContentType, const char8_t* Password)
+{
+	if (ContentType != X509ContentType::Cert && ContentType != X509ContentType::SerializedCert && ContentType != X509ContentType::Pkcs12)
+	{	// @ToDo: message
+		throw CryptographicException();
+	}
+
+	throw 1;
+}
+
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Elysium::Core::Container::ArrayOfByte& RawData, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
 {
 	return LoadFromBlob(&RawData[0], static_cast<const int32_t>(RawData.GetLength()), Password, Flags);
 }

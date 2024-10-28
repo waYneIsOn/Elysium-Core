@@ -9,6 +9,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
 ;
 using namespace Elysium::Core;
@@ -229,6 +230,21 @@ namespace UnitTests::Core::Security::Cryptography
 
 					for (Elysium::Core::size i = 0; i < CertificateCount; i++)
 					{
+
+
+
+
+
+
+						if (Count == 22)
+						{
+							bool bla = false;
+						}
+
+
+
+
+
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
 						const Array<byte> RawData = Certificate.GetRawCertData();
 						MemoryStream InputStream = MemoryStream(RawData, 0, RawData.GetLength());
@@ -236,11 +252,6 @@ namespace UnitTests::Core::Security::Cryptography
 						Logger::WriteMessage("X509Certificate #");
 						Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(Count)[0]);
 						Logger::WriteMessage(":\r\n");
-
-						if (Count == 22)
-						{
-							bool bla = false;
-						}
 
 						Asn1Identifier Identifier = Asn1Identifier(Asn1TagClass::Universal, false, Asn1UniversalTag::EndOfContent, 0);
 						Asn1Length Length = Asn1Length(0, 0);
@@ -271,6 +282,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 
 			ReadTbsCertificate(Decoder, InputStream, Identifier, Length);
+			/*
 			ReadSignatureAlgorithm(Decoder, InputStream, Identifier, Length);
 			ReadSignatureValue(Decoder, InputStream, Identifier, Length);
 
@@ -279,6 +291,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage("Error: Certificate still contains data\r\n");
 				throw InvalidDataException(u8"Certificate still contains data");
 			}
+			*/
 		}
 
 		void ReadTbsCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
@@ -358,9 +371,9 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage("Error: CertificateSerialNumber\r\n");
 				throw InvalidDataException(u8"CertificateSerialNumber");
 			}
+			Asn1Integer SerialNumber = Decoder.DecodeInteger(Identifier, Length, InputStream);
 
 			Logger::WriteMessage("SerialNumber: ");
-			Asn1Integer SerialNumber = Decoder.DecodeInteger(Identifier, Length, InputStream);
 			Logger::WriteMessage("\r\n");
 		}
 
@@ -387,6 +400,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
 			const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+			const Utf8String ObjectIdentifierValueValue = ObjectIdentifierValue.GetValue();
 
 			Logger::WriteMessage("\t");
 			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
@@ -395,52 +409,102 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage("\r\n");
 
 			// depending on the algorithm used, different paramaters (or none) can occurre:
+			// https://datatracker.ietf.org/doc/html/rfc3279 
 			// https://datatracker.ietf.org/doc/html/rfc4055
-			// https://datatracker.ietf.org/doc/html/rfc3279
 			// https://datatracker.ietf.org/doc/html/rfc4491
 
-			ReadHeader(Decoder, InputStream, Identifier, Length);
 			Logger::WriteMessage("\tSignatureParameters:\r\n");
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Null)
-			{
-				Logger::WriteMessage("\t\tnull\r\n");
+			if (ObjectIdentifierValueValue == u8"1.2.840.113549.1.1.2" ||
+				ObjectIdentifierValueValue == u8"1.2.840.113549.1.1.4" ||
+				ObjectIdentifierValueValue == u8"1.2.840.113549.1.1.5")
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.2.1 - 2.2.1 RSA Signature Algorithm
+				* 
+				* 1.2.840.113549.1.1.2	md2WithRSAEncryption 
+				* 1.2.840.113549.1.1.4	md5WithRSAEncryption 
+				* 1.2.840.113549.1.1.5	sha-1WithRSAEncryption
+				* 
+				* When any of these three OIDs appears within the ASN.1 type
+				* AlgorithmIdentifier, the parameters component of that type SHALL be
+				* the ASN.1 type NULL.
+				*/
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Null)
+				{
+					Logger::WriteMessage("Error: SignatureParameters - rfc3279: ...the parameters component of that type SHALL be the ASN.1 type NULL.\r\n");
+					throw InvalidDataException(u8"SignatureParameters");
+				}
+				Logger::WriteMessage("\t\tnull RSA\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
-			{
-				const Elysium::Core::size CurrentPositionParameters = InputStream.GetPosition();
-				const Elysium::Core::size ParametersLength = Length.GetLength();
-				while (InputStream.GetPosition() < CurrentPositionParameters + ParametersLength)
-				{
-					ReadHeader(Decoder, InputStream, Identifier, Length);
-					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
-					{
-						ReadHeader(Decoder, InputStream, Identifier, Length);
-						if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
-						{
-							Logger::WriteMessage("Error: SignatureParametersSetSequence\r\n");
-							throw InvalidDataException(u8"SignatureParametersSetSequence");
-						}
-
-						ReadSignatureAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
-					}
-					else
-					{
-						Logger::WriteMessage("Error: SignatureParametersSet\r\n");
-						throw InvalidDataException(u8"SignatureParametersSet");
-					}
-				}
-				Logger::WriteMessage("\r\n");
-
-				if (InputStream.GetPosition() != CurrentPositionParameters + ParametersLength)
-				{
-					Logger::WriteMessage("Error: SignatureParametersLength\r\n");
-					throw InvalidDataException(u8"SignatureParametersLength");
-				}
+			else if(ObjectIdentifierValueValue.StartsWith(u8"1.2.840.10040.4.3"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.2.2 - 2.2.2 DSA Signature Algorithm
+				* 
+				* 1.2.840.10040.4.3		id-dsa-with-sha1
+				* 
+				* When the id-dsa-with-sha1 algorithm identifier appears as the
+			    * algorithm field in an AlgorithmIdentifier, the encoding SHALL omit
+			    * the parameters field. That is, the AlgorithmIdentifier SHALL be a
+				* SEQUENCE of one component: the OBJECT IDENTIFIER id-dsa-with-sha1.
+				*/
+				Logger::WriteMessage("\t\tomitted DSA\r\n");
+			}
+			else if (ObjectIdentifierValueValue.StartsWith(u8"1.2.840.10045.4"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.2.3 - 2.2.3 ECDSA Signature Algorithm
+				* 
+				* 1.2.840.10045			ansi-X9-62
+				* 4						id-ecSigType
+				* 
+				* 1						ecdsa-with-SHA1
+				* 
+				* When the ecdsa-with-SHA1 algorithm identifier appears as the
+				* algorithm field in an AlgorithmIdentifier, the encoding MUST omit the
+				* parameters field.  That is, the AlgorithmIdentifier SHALL be a
+				* SEQUENCE of one component: the OBJECT IDENTIFIER ecdsa-with-SHA1.
+				*/
+				Logger::WriteMessage("\t\tomitted ECDSA\r\n");
 			}
 			else
 			{
-				Logger::WriteMessage("Error: SignatureParameters\r\n");
-				throw InvalidDataException(u8"SignatureParameters");
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Null)
+				{
+					Logger::WriteMessage("\t\tnull\r\n");
+				}
+				else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+				{
+					const Elysium::Core::size CurrentPositionParameters = InputStream.GetPosition();
+					const Elysium::Core::size ParametersLength = Length.GetLength();
+					while (InputStream.GetPosition() < CurrentPositionParameters + ParametersLength)
+					{
+						ReadHeader(Decoder, InputStream, Identifier, Length);
+						if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
+						{
+							ReadHeader(Decoder, InputStream, Identifier, Length);
+							if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+							{
+								Logger::WriteMessage("Error: SignatureParametersSetSequence\r\n");
+								throw InvalidDataException(u8"SignatureParametersSetSequence");
+							}
+
+							ReadSignatureAttributeTypeAndValue(Decoder, InputStream, Identifier, Length);
+						}
+						else
+						{
+							Logger::WriteMessage("Error: SignatureParametersSet\r\n");
+							throw InvalidDataException(u8"SignatureParametersSet");
+						}
+					}
+
+					if (InputStream.GetPosition() != CurrentPositionParameters + ParametersLength)
+					{
+						Logger::WriteMessage("Error: SignatureParametersLength\r\n");
+						throw InvalidDataException(u8"SignatureParametersLength");
+					}
+				}
+				else
+				{
+					Logger::WriteMessage("Error: SignatureParameters\r\n");
+					throw InvalidDataException(u8"SignatureParameters");
+				}
 			}
 		}
 
@@ -465,7 +529,6 @@ namespace UnitTests::Core::Security::Cryptography
 			catch (const CryptographicException& ex)
 			{
 				Logger::WriteMessage("\t\t0.0.0.0 - UNKNOWN: ");
-
 			}
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -861,148 +924,7 @@ namespace UnitTests::Core::Security::Cryptography
 			SubjectPublicKeyInfo  ::=  SEQUENCE  {
 				algorithm            AlgorithmIdentifier,
 				subjectPublicKey     BIT STRING  }
-			*/
-			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
-			{
-				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequence\r\n");
-				throw InvalidDataException(u8"SubjectPublicKeyInfoSequence");
-			}
-			Logger::WriteMessage("SubjectPublicKeyInfo:\r\n");
 
-			const Elysium::Core::size CurrentPositionSubjectPublicKeyInfo = InputStream.GetPosition();
-			const Elysium::Core::size SubjectPublicKeyInfoLength = Length.GetLength();
-			while (InputStream.GetPosition() < CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
-			{
-				const Oid SignatureHashAlgorithm = ReadSubjectPublicKeyInfoAlgorithm(Decoder, InputStream, Identifier, Length);
-
-				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
-				{
-					Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceSequenceBitString\r\n");
-					throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequenceBitString");
-				}
-				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
-
-				if (SignatureHashAlgorithm.GetFriendlyName() == u8"RSA")
-				{	// 1.2.840.113549.1.1.1 - RSA
-					const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data = BitString.GetData();
-
-					Elysium::Core::size Index = 0;
-					const Elysium::Core::uint8_t NumberOfUnusedBits = Data[Index++];
-					Asn1Identifier PublicKeySequenceIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
-					Index += PublicKeySequenceIdentifier.GetEncodedLength();
-					Asn1Length PublicKeySequenceLength = Decoder.DecodeLength(Data, Index, Data.GetLength() - Index);
-					Index += PublicKeySequenceLength.GetEncodedLength();
-					if (PublicKeySequenceIdentifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
-					{
-						Logger::WriteMessage("Error: PublicKeySequenceIdentifier\r\n");
-						throw InvalidDataException(u8"PublicKeySequenceIdentifier");
-					}
-
-					Asn1Identifier PublicKeyIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
-					Index += PublicKeyIdentifier.GetEncodedLength();
-					Asn1Length PublicKeyLength = Decoder.DecodeLength(Data, Index, Data.GetLength() - Index);
-					Index += PublicKeyLength.GetEncodedLength();
-					if (PublicKeyIdentifier.GetUniversalTag() != Asn1UniversalTag::Integer)
-					{
-						Logger::WriteMessage("Error: PublicKeyIdentifier\r\n");
-						throw InvalidDataException(u8"PublicKeyIdentifier");
-					}
-					Asn1Integer PublicKey = Decoder.DecodeInteger(PublicKeyIdentifier, PublicKeyLength, Data, Index, Data.GetLength() - Index);
-					Index += PublicKeyLength.GetLength();
-
-					Asn1Identifier SomeIntegerIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
-					Index += SomeIntegerIdentifier.GetEncodedLength();
-					Asn1Length SomeIntegerLength = Decoder.DecodeLength(Data, Index, Data.GetLength() - Index);
-					Index += SomeIntegerLength.GetEncodedLength();
-					if (SomeIntegerIdentifier.GetUniversalTag() != Asn1UniversalTag::Integer)
-					{
-						Logger::WriteMessage("Error: SomeIntegerIdentifier\r\n");
-						throw InvalidDataException(u8"SomeIntegerIdentifier");
-					}
-					Asn1Integer SomeInteger = Decoder.DecodeInteger(PublicKeyIdentifier, PublicKeyLength, Data, Index, Data.GetLength() - Index);
-					Index += PublicKeyLength.GetLength();
-
-					Logger::WriteMessage("\tPublicKey (RSA) length: ");
-					// ToDo: simply subtracting one is certainly not goind to be correct (also NumberOfUnusedBits)!
-					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString((PublicKeyLength.GetLength() - 1) * 8)[0]);
-					Logger::WriteMessage(" bits\r\n");
-				}
-				else if (SignatureHashAlgorithm.GetFriendlyName() == u8"ECC")
-				{	// 1.2.840.10045.2.1 - ECC
-					const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data = BitString.GetData();
-
-					Elysium::Core::size Index = 0;
-					Asn1Identifier EndOfContentIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
-					Index += EndOfContentIdentifier.GetEncodedLength();
-					if (EndOfContentIdentifier.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
-					{
-						Logger::WriteMessage("Error: PublicKeyEndOfContentIdentifier\r\n");
-						throw InvalidDataException(u8"PublicKeyEndOfContentIdentifier");
-					}
-
-					Asn1Identifier OctetStringIdentifier = Decoder.DecodeIdentifier(Data, Index, Data.GetLength() - Index);
-					Index += OctetStringIdentifier.GetEncodedLength();
-					Asn1Length OctetStringLength = Decoder.DecodeLength(Data, Index, Data.GetLength() - Index);
-					Index += OctetStringLength.GetEncodedLength();
-					if (OctetStringIdentifier.GetUniversalTag() != Asn1UniversalTag::OctetString)
-					{
-						Logger::WriteMessage("Error: OctetStringIdentifier\r\n");
-						throw InvalidDataException(u8"OctetStringIdentifier");
-					}
-
-
-
-
-					if (OctetStringLength.GetLength() > 500)
-					{
-						Index -= OctetStringLength.GetEncodedLength();
-						InputStream.SetPosition(CurrentPositionSubjectPublicKeyInfo + Index);
-
-						Asn1Length TestOctetStringLength = Decoder.DecodeLength(Data, Index, Data.GetLength() - Index);
-
-						Logger::WriteMessage("ERROR - WTF\r\n");
-						InputStream.SetPosition(CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength);
-						return;
-						//throw 1;
-					}
-
-
-
-
-					Asn1ByteArray OctetString = Decoder.DecodeByteArray(OctetStringIdentifier, OctetStringLength, Data, Index, Data.GetLength() - Index);
-					Index += OctetStringLength.GetLength();
-
-					/*
-					The first octet of the OCTET STRING indicates whether the key is
-					compressed or uncompressed.  The uncompressed form is indicated
-					by 0x04 and the compressed form is indicated by either 0x02 or
-					0x03 (see 2.3.3 in [SEC1]).  The public key MUST be rejected if
-					any other value is included in the first octet.
-					*/
-
-					Logger::WriteMessage("\tPublicKey (ECC) length: ");
-					// ToDo: simply subtracting one is certainly not goind to be correct (also NumberOfUnusedBits)!
-					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString((OctetStringLength.GetLength() - 1) * 8)[0]);
-					Logger::WriteMessage(" bits\r\n");
-				}
-				else
-				{
-					throw 1;
-				}
-			}
-
-			if (InputStream.GetPosition() != CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
-			{
-				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceLength\r\n");
-				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceLength");
-			}
-		}
-
-		const Oid ReadSubjectPublicKeyInfoAlgorithm(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
-		{
-			/*
 			AlgorithmIdentifier  ::=  SEQUENCE  {
 				algorithm               OBJECT IDENTIFIER,
 				parameters              ANY DEFINED BY algorithm OPTIONAL  }
@@ -1010,60 +932,258 @@ namespace UnitTests::Core::Security::Cryptography
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
 			{
+				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequence\r\n");
+				throw InvalidDataException(u8"SubjectPublicKeyInfoSequence");
+			}
+
+			const Elysium::Core::size CurrentPositionSubjectPublicKeyInfo = InputStream.GetPosition();
+			const Elysium::Core::size SubjectPublicKeyInfoLength = Length.GetLength();
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			{
 				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceSequence\r\n");
 				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequence");
 			}
 
-			const Elysium::Core::size CurrentPositionSubjectPublicKeyInfoSequenceSequence = InputStream.GetPosition();
-			const Elysium::Core::size SubjectPublicKeyInfoSequenceSequenceLength = Length.GetLength();
-
-			// algorithm
+			Logger::WriteMessage("SubjectPublicKeyInfoAlgorithmIdentifier:\r\n");
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: OID\r\n");
 				throw InvalidDataException(u8"OID");
 			}
+
 			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
-			const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+			const Oid ObjectIdentifierOid = ObjectIdentifier.GetValue();
+			const Utf8String ObjectIdentifierOidValue = ObjectIdentifierOid.GetValue();
 
 			Logger::WriteMessage("\t");
-			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
+			Logger::WriteMessage((char*)&ObjectIdentifierOidValue[0]);
 			Logger::WriteMessage(" - ");
-			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
+			Logger::WriteMessage((char*)&ObjectIdentifierOid.GetFriendlyName()[0]);
 			Logger::WriteMessage("\r\n");
 
-			// parameters
-			ReadHeader(Decoder, InputStream, Identifier, Length);
-			Logger::WriteMessage("\tParameters:\r\n");
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Null)
-			{
-				Logger::WriteMessage("\t\tnull\r\n");
-			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::ObjectIdentifier)
-			{
-				Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
-				const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+			// depending on the algorithm used, different paramaters (or none) can occurre:
+			// https://datatracker.ietf.org/doc/html/rfc3279 
+			// https://datatracker.ietf.org/doc/html/rfc4055
+			// https://datatracker.ietf.org/doc/html/rfc4491
 
-				Logger::WriteMessage("\t\t");
-				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
-				Logger::WriteMessage(" - ");
-				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetFriendlyName()[0]);
-				Logger::WriteMessage("\r\n");
+			if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.113549.1.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.1 - 2.3.1 RSA Keys
+				*
+				* 1.2.840.113549.1		pkcs-1
+				* 1						rsaEncryption
+				*
+				* The parameters field MUST
+				* have ASN.1 type NULL for this algorithm identifier.
+				*/
+				Asn1Identifier RSAIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (RSAIdentifier.GetUniversalTag() != Asn1UniversalTag::Null)
+				{
+					Logger::WriteMessage("Error: RSAIdentifier\r\n");
+					throw InvalidDataException(u8"RSAIdentifier");
+				}
+
+				Asn1Identifier AlgorithmIdentifierSequenceEnd = Decoder.DecodeIdentifier(InputStream);
+				if (AlgorithmIdentifierSequenceEnd.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
+				{
+					Logger::WriteMessage("Error: AlgorithmIdentifierEnd\r\n");
+					throw InvalidDataException(u8"AlgorithmIdentifierEnd");
+				}
+
+				/*
+				* The RSA public key MUST be encoded using the ASN.1 type RSAPublicKey:
+				*	RSAPublicKey ::= SEQUENCE {
+				*		modulus            INTEGER,    -- n
+				*		publicExponent     INTEGER  }  -- e/
+				*/
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+				{
+					Logger::WriteMessage("Error: RSA Public Key - Data\r\n");
+					throw InvalidDataException(u8"RSA Public Key - Data");
+				}
+
+				Asn1Identifier UnusedBitsIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (UnusedBitsIdentifier.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
+				{
+					Logger::WriteMessage("Error: RSA Public Key - Unused Bitsr\n");
+					throw InvalidDataException(u8"RSA Public Key - Unused Bits");
+				}
+
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+				{
+					Logger::WriteMessage("Error: RSA Public Key - Sequence\r\n");
+					throw InvalidDataException(u8"RSA Public Key - Sequence");
+				}
+
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
+				{
+					Logger::WriteMessage("Error: RSA Public Key - Modulus\r\n");
+					throw InvalidDataException(u8"RSA Public Key - Modulus");
+				}
+				Asn1Integer Modulus = Decoder.DecodeInteger(Identifier, Length, InputStream);
+
+				ReadHeader(Decoder, InputStream, Identifier, Length);
+				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
+				{
+					Logger::WriteMessage("Error: RSA Public Key - Public Exponent\r\n");
+					throw InvalidDataException(u8"RSA Public Key - Public Exponent");
+				}
+				Asn1Integer PublicExponent = Decoder.DecodeInteger(Identifier, Length, InputStream);
+
+				Logger::WriteMessage("\tRSA Public Key length: ");
+				Logger::WriteMessage(" bits\r\n");
+
+				if (InputStream.GetPosition() != CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
+				{
+					Logger::WriteMessage("Error: SubjectSequenceLength\r\n");
+					throw InvalidDataException(u8"SubjectSequenceLength");
+				}
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.10040.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.2 - 2.3.2 DSA Signature Keys
+				*
+				* 1.2.840.10040.1		id-dsa
+				*
+				* ...
+				*/
+
+				throw 1;
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.10046.2.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.3 - 2.3.3 Diffie-Hellman Key Exchange Keys
+				*
+				* 1.2.840.10046.2.1		dhpublicnumber
+				*
+				* ...
+				*/
+
+				throw 1;
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"ToDo KEA"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.4 - 2.3.4 KEA Public Keys
+				*
+				* 2 16 840 1 101 2 1 1 22	id-keyExchangeAlgorithm
+				*
+				* ...
+				*/
+
+				throw 1;
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.10045"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.5 - 2.3.5 ECDSA and ECDH Keys
+				*
+				* 1.2.840.10045		 	ansi-X9-62
+				* 
+				*/
+				if (ObjectIdentifierOidValue != u8"1.2.840.10045.2.1")
+				{	/* 
+					* 1.2.840.10045.2		id-public-key-type
+					* 1.2.840.10045.2.1		id-ecPublicKey
+					* When certificates contain an ECDSA or ECDH public key, the
+					* id-ecPublicKey algorithm identifier MUST be used.
+					*/
+					throw 1;
+				}
+
+				/*
+				* EcpkParameters ::= CHOICE {
+				*	ecParameters  ECParameters,
+				*	namedCurve    OBJECT IDENTIFIER,
+				*	implicitlyCA  NULL }
+				*/
+				Asn1Identifier EcpkParametersIdentifier = Decoder.DecodeIdentifier(InputStream);
+				switch (EcpkParametersIdentifier.GetUniversalTag())
+				{
+					case Asn1UniversalTag::ObjectIdentifier:	// namedCurve
+					{	/*
+						* When parameters are
+						* specified by reference, the parameters field SHALL contain the
+						* named-Curve choice, which is an object identifier.
+						*/
+						Asn1Length NamedCurveLength = Decoder.DecodeLength(InputStream);
+						Asn1ObjectIdentifier NamedCurveIdentifier = Decoder.DecodeObjectIdentifier(EcpkParametersIdentifier, NamedCurveLength, InputStream);
+						const Oid NamedCurveIdentifierOid = NamedCurveIdentifier.GetValue();
+
+						Logger::WriteMessage("\tECDSA Public Key (named curve) oid: ");
+						Logger::WriteMessage((char*)&NamedCurveIdentifierOid.GetValue()[0]);
+						Logger::WriteMessage(" - ");
+						Logger::WriteMessage((char*)&NamedCurveIdentifierOid.GetFriendlyName()[0]);
+						Logger::WriteMessage("\r\n");
+
+						ReadHeader(Decoder, InputStream, Identifier, Length);
+						if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+						{
+							Logger::WriteMessage("Error: ECDSA Public Key (named curve) - Data\r\n");
+							throw InvalidDataException(u8"ECDSA Public Key (named curve) - Data");
+						}
+
+						Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+						const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data = BitString.GetData();
+
+						Logger::WriteMessage("\tECDSA Public Key (named curve) length: ");
+						Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString((Length.GetEncodedLength() - 1) * 8)[0]);
+						Logger::WriteMessage(" bits\r\n");
+					}
+						break;
+					case Asn1UniversalTag::Null:	// implicitlyCA
+					{	/*
+						* When the parameters are inherited, the parameters field SHALL contain
+						* implictlyCA, which is the ASN.1 value NULL.
+						*/
+						
+						throw 1;
+					}
+						break;
+					default:	// ecParameters
+					{	/*
+						* When the
+						* parameters are explicitly included, they SHALL be encoded in the
+						* ASN.1 structure ECParameters:
+						* 
+						* ECParameters ::= SEQUENCE {
+						*	 version   ECPVer,          -- version is always 1
+						*	 fieldID   FieldID,         -- identifies the finite field over
+						*								-- which the curve is defined
+						*	 curve     Curve,           -- coefficients a and b of the
+						*								-- elliptic curve
+						*	 base      ECPoint,         -- specifies the base point P
+						*								-- on the elliptic curve
+						*	 order     INTEGER,         -- the order n of the base point
+						*	 cofactor  INTEGER OPTIONAL -- The integer h = #E(Fq)/n
+						*	 }
+						* 
+						* ECPVer ::= INTEGER {ecpVer1(1)}
+						* 
+						* Curve ::= SEQUENCE {
+						*	 a         FieldElement,
+						*	 b         FieldElement,
+						*	 seed      BIT STRING OPTIONAL }
+						* 
+						*  FieldElement ::= OCTET STRING
+						* 
+						*  ECPoint ::= OCTET STRING
+						*/
+
+						throw 1;
+					}
+						break;
+				}
+
+				if (InputStream.GetPosition() != CurrentPositionSubjectPublicKeyInfo + SubjectPublicKeyInfoLength)
+				{
+					Logger::WriteMessage("Error: SubjectSequenceLength\r\n");
+					throw InvalidDataException(u8"SubjectSequenceLength");
+				}
 			}
 			else
 			{
-				Logger::WriteMessage("Error: SubjectPublicKeyInfoAlgorithmParameters\r\n");
-				throw InvalidDataException(u8"SubjectPublicKeyInfoAlgorithmParameters");
+				throw 1;
 			}
-
-			if (InputStream.GetPosition() != CurrentPositionSubjectPublicKeyInfoSequenceSequence + SubjectPublicKeyInfoSequenceSequenceLength)
-			{
-				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceSequenceLength\r\n");
-				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequenceLength");
-			}
-
-			return ObjectIdentifierValue;
 		}
 
 		void ReadIssuerUniqueID(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
@@ -1082,11 +1202,13 @@ namespace UnitTests::Core::Security::Cryptography
 				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&BitString.GetData()[0],
 					BitString.GetData().GetLength());
 
-				Logger::WriteMessage("IssuerUniqueID:\r\n");
+				Logger::WriteMessage("IssuerUniqueID: \r\n");
+				//Logger::WriteMessage((char*)&DataString[0]);
+				Logger::WriteMessage("\r\n");
+
 				Logger::WriteMessage("\tLength: ");
 				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(BitString.GetData().GetLength())[0]);
 				Logger::WriteMessage("\r\n\tValue: ");
-				//Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -1169,6 +1291,11 @@ namespace UnitTests::Core::Security::Cryptography
 					if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 					{
 						Asn1String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
+						const Elysium::Core::Container::VectorOfByte& Data = BitString.GetData();
+						const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+
+						Logger::WriteMessage((char*)&DataString[0]);
+						Logger::WriteMessage("\r\n");
 					}
 					else
 					{
