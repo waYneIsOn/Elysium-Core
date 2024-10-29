@@ -26,6 +26,10 @@
 #include "../Elysium.Core.Reflection/Type.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
+#include "../Elysium.Core/VectorOfInteger.hpp"
+#endif
+
 #ifndef _TYPEINFO_
 #include <typeinfo>
 #endif

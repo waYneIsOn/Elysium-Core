@@ -46,7 +46,7 @@ namespace Elysium::Core
 		BitConverter& operator=(BitConverter&& Right) noexcept = delete;
 	public:
 		static const bool GetIsLittleEndian();
-
+	public:
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int16_t Value);
 
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int32_t Value);
@@ -58,7 +58,7 @@ namespace Elysium::Core
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint32_t Value);
 
 		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint64_t Value);
-
+	public:
 		static const Elysium::Core::int16_t ToInt16(const Elysium::Core::byte* Value);
 
 		static const Elysium::Core::int32_t ToInt24(const Elysium::Core::byte* Value);	// ToDo: return custom uint24_t-type?

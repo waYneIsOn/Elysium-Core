@@ -88,6 +88,12 @@ namespace Elysium::Core::Template::Text
 
 		Convert& operator=(Convert&& Right) noexcept = delete;
 	public:
+		static const typename Convert<C>::CorrespondingString ToHexString(const Elysium::Core::Template::System::byte* Value,
+			const Elysium::Core::Template::System::size Size, const CorrespondingNumberFormatInfo& FormatInfo);
+
+		static const typename Convert<C>::CorrespondingString ToHexString(const Elysium::Core::Template::System::byte* Value,
+			const Elysium::Core::Template::System::size Length);
+	public:
 		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase,
 			const CorrespondingNumberFormatInfo& FormatInfo);
 
@@ -249,7 +255,33 @@ namespace Elysium::Core::Template::Text
 		static double ToDouble(ConstPointer Value);
 	private:
 		inline static const CorrespondingNumberFormatInfo _InvariantInfo = CorrespondingNumberFormatInfo::GetInvariantInfo();
+
+		inline static constexpr const Elysium::Core::Template::System::byte _HexMap[] =
+			{ 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66 };	// lower case
+			//{ 0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x41, 0x42, 0x43, 0x44, 0x45, 0x46 };	// upper case
 	};
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToHexString(const Elysium::Core::Template::System::byte* Value, const Elysium::Core::Template::System::size Size, const CorrespondingNumberFormatInfo& FormatInfo)
+	{	// original idea from: https://stackoverflow.com/questions/311165/how-do-you-convert-a-byte-array-to-a-hexadecimal-string-and-vice-versa
+		// @ToDo: make use of FormatInfo
+		
+		Convert<C>::CorrespondingString Result = Convert<C>::CorrespondingString(Size * 2);
+
+		for (Elysium::Core::Template::System::size i = 0; i < Size; i++)
+		{
+			Result[i * 2] = _HexMap[(Value[i] & 0xF0) >> 4];
+			Result[i * 2 + 1] = _HexMap[Value[i] & 0x0F];
+		}
+
+		return Result;
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToHexString(const Elysium::Core::Template::System::byte* Value, const Elysium::Core::Template::System::size Size)
+	{
+		return ToHexString(Value, Size, _InvariantInfo);
+	}
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::System::uint8_t Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)

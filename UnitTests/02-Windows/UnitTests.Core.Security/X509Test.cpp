@@ -230,21 +230,6 @@ namespace UnitTests::Core::Security::Cryptography
 
 					for (Elysium::Core::size i = 0; i < CertificateCount; i++)
 					{
-
-
-
-
-
-
-						if (Count == 22)
-						{
-							bool bla = false;
-						}
-
-
-
-
-
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
 						const Array<byte> RawData = Certificate.GetRawCertData();
 						MemoryStream InputStream = MemoryStream(RawData, 0, RawData.GetLength());
@@ -282,7 +267,6 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 
 			ReadTbsCertificate(Decoder, InputStream, Identifier, Length);
-			/*
 			ReadSignatureAlgorithm(Decoder, InputStream, Identifier, Length);
 			ReadSignatureValue(Decoder, InputStream, Identifier, Length);
 
@@ -291,7 +275,6 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage("Error: Certificate still contains data\r\n");
 				throw InvalidDataException(u8"Certificate still contains data");
 			}
-			*/
 		}
 
 		void ReadTbsCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
@@ -346,11 +329,10 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetTagClass() == Asn1TagClass::Context && Identifier.GetIsConstructed())
 			{	// version explicitly defined
-				Logger::WriteMessage("Version: V");
 				Asn1Integer Version = Decoder.DecodeInteger(Identifier, Length, InputStream);
 
-				// ToDo: simply adding 2 obviously isn't correct
-				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(Version.GetValue().GetSign() + 2)[0]);
+				Logger::WriteMessage("Version: V");
+				Logger::WriteMessage((char*)&Version.GetValue().ToString()[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -361,9 +343,10 @@ namespace UnitTests::Core::Security::Cryptography
 		}
 
 		void ReadSerialNumber(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
-		{
-			/*
-			CertificateSerialNumber  ::=  INTEGER
+		{	/* https://www.rfc-editor.org/rfc/rfc5280#section-4.1.2.2 - Serial Number
+			* CertificateSerialNumber  ::=  INTEGER
+			* 
+			* 
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
@@ -371,9 +354,13 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage("Error: CertificateSerialNumber\r\n");
 				throw InvalidDataException(u8"CertificateSerialNumber");
 			}
-			Asn1Integer SerialNumber = Decoder.DecodeInteger(Identifier, Length, InputStream);
+			Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+			const Elysium::Core::Container::ArrayOfByte& BitStringData = BitString.GetData();
+
+			Elysium::Core::String SerialNumber = Elysium::Core::Template::Text::Convert<char>::ToHexString(&BitStringData[0], BitStringData.GetLength());
 
 			Logger::WriteMessage("SerialNumber: ");
+			Logger::WriteMessage(&SerialNumber[0]);
 			Logger::WriteMessage("\r\n");
 		}
 
@@ -1199,20 +1186,17 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&BitString.GetData()[0],
-					BitString.GetData().GetLength());
+				const Elysium::Core::Container::ArrayOfByte& BitStringData = BitString.GetData();
 
-				Logger::WriteMessage("IssuerUniqueID: \r\n");
-				//Logger::WriteMessage((char*)&DataString[0]);
-				Logger::WriteMessage("\r\n");
+				Elysium::Core::String IssuerUniqueID = Elysium::Core::Template::Text::Convert<char>::ToHexString(&BitStringData[0], BitStringData.GetLength());
 
-				Logger::WriteMessage("\tLength: ");
-				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(BitString.GetData().GetLength())[0]);
-				Logger::WriteMessage("\r\n\tValue: ");
+				Logger::WriteMessage("IssuerUniqueID: ");
+				Logger::WriteMessage(&IssuerUniqueID[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
 			{	// optional > reset position
+				Logger::WriteMessage("IssuerUniqueID: none\r\n");
 				InputStream.SetPosition(InitialPosition);
 			}
 		}
@@ -1229,16 +1213,18 @@ namespace UnitTests::Core::Security::Cryptography
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
-				Logger::WriteMessage("SubjectUniqueID: ");
-				Asn1String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = BitString.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
+				const Elysium::Core::Container::ArrayOfByte& BitStringData = BitString.GetData();
 
-				Logger::WriteMessage((char*)&DataString[0]);
+				Elysium::Core::String SubjectUniqueId = Elysium::Core::Template::Text::Convert<char>::ToHexString(&BitStringData[0], BitStringData.GetLength());
+
+				Logger::WriteMessage("SubjectUniqueId: ");
+				Logger::WriteMessage(&SubjectUniqueId[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
 			{	// optional > reset position
+				Logger::WriteMessage("SubjectUniqueId: none\r\n");
 				InputStream.SetPosition(InitialPosition);
 			}
 		}
