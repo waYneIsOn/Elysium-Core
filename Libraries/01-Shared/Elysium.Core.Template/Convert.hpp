@@ -263,9 +263,9 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToHexString(const Elysium::Core::Template::System::byte* Value, const Elysium::Core::Template::System::size Size, const CorrespondingNumberFormatInfo& FormatInfo)
-	{	// original idea from: https://stackoverflow.com/questions/311165/how-do-you-convert-a-byte-array-to-a-hexadecimal-string-and-vice-versa
+	{	// original implementation from: https://stackoverflow.com/questions/311165/how-do-you-convert-a-byte-array-to-a-hexadecimal-string-and-vice-versa
 		// @ToDo: make use of FormatInfo
-		
+
 		Convert<C>::CorrespondingString Result = Convert<C>::CorrespondingString(Size * 2);
 
 		for (Elysium::Core::Template::System::size i = 0; i < Size; i++)

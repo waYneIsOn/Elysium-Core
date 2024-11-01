@@ -266,9 +266,9 @@ namespace UnitTests::Core::Security::Cryptography
 				throw InvalidDataException(u8"CertificateSequence");
 			}
 
-			ReadTbsCertificate(Decoder, InputStream, Identifier, Length);
-			ReadSignatureAlgorithm(Decoder, InputStream, Identifier, Length);
-			ReadSignatureValue(Decoder, InputStream, Identifier, Length);
+			const Oid SignatureOid = ReadTbsCertificate(Decoder, InputStream, Identifier, Length);
+			ReadSignatureAlgorithm(Decoder, InputStream, Identifier, Length, SignatureOid);
+			ReadSignatureValue(Decoder, InputStream, Identifier, Length, SignatureOid);
 
 			if (InputStream.GetPosition() != InputStream.GetLength())
 			{
@@ -277,7 +277,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadTbsCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		const Oid ReadTbsCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			TBSCertificate  ::=  SEQUENCE  {
@@ -305,14 +305,16 @@ namespace UnitTests::Core::Security::Cryptography
 
 			ReadVersion(Decoder, InputStream, Identifier, Length);
 			ReadSerialNumber(Decoder, InputStream, Identifier, Length);
-			ReadSignature(Decoder, InputStream, Identifier, Length);
+			const Oid SignatureOid = ReadSignature(Decoder, InputStream, Identifier, Length);
 			ReadIssuer(Decoder, InputStream, Identifier, Length);
 			ReadValidity(Decoder, InputStream, Identifier, Length);
 			ReadSubject(Decoder, InputStream, Identifier, Length);
-			ReadSubjectPublicKeyInfo(Decoder, InputStream, Identifier, Length);
+			ReadSubjectPublicKeyInfo(Decoder, InputStream, Identifier, Length, SignatureOid);
 			ReadIssuerUniqueID(Decoder, InputStream, Identifier, Length);
 			ReadSubjectUniqueID(Decoder, InputStream, Identifier, Length);
 			ReadExtensions(Decoder, InputStream, Identifier, Length);
+
+			return SignatureOid;
 		}
 
 		void ReadVersion(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
@@ -364,7 +366,7 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage("\r\n");
 		}
 
-		void ReadSignature(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		const Oid ReadSignature(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			AlgorithmIdentifier  ::=  SEQUENCE  {
@@ -493,6 +495,8 @@ namespace UnitTests::Core::Security::Cryptography
 					throw InvalidDataException(u8"SignatureParameters");
 				}
 			}
+
+			return ObjectIdentifierValue;
 		}
 
 		void ReadSignatureAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
@@ -503,10 +507,12 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage("Error: SignatureArgumentType\r\n");
 				throw InvalidDataException(u8"SignatureArgumentType");
 			}
+
 			try
 			{
 				Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
 				const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
+
 				Logger::WriteMessage("\t\t");
 				Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
 				Logger::WriteMessage(" - ");
@@ -516,6 +522,7 @@ namespace UnitTests::Core::Security::Cryptography
 			catch (const CryptographicException& ex)
 			{
 				Logger::WriteMessage("\t\t0.0.0.0 - UNKNOWN: ");
+				throw 1;
 			}
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
@@ -905,7 +912,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSubjectPublicKeyInfo(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSubjectPublicKeyInfo(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
 		{
 			/*
 			SubjectPublicKeyInfo  ::=  SEQUENCE  {
@@ -1305,12 +1312,17 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSignatureAlgorithm(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSignatureAlgorithm(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
 		{
 			/*
-			AlgorithmIdentifier  ::=  SEQUENCE  {
-				algorithm               OBJECT IDENTIFIER,
-				parameters              ANY DEFINED BY algorithm OPTIONAL  }
+			* https://www.rfc-editor.org/rfc/rfc5280#section-5.1.1.2
+			* 
+			* This field MUST contain the same algorithm identifier as the
+			* signature field in the sequence tbsCertList (https://www.rfc-editor.org/rfc/rfc5280#section-5.1.2.2).
+			* 
+			* AlgorithmIdentifier  ::=  SEQUENCE  {
+			* 	algorithm               OBJECT IDENTIFIER,
+			* 	parameters              ANY DEFINED BY algorithm OPTIONAL  }
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
@@ -1318,35 +1330,208 @@ namespace UnitTests::Core::Security::Cryptography
 				Logger::WriteMessage("Error: SignatureAlgorithmSequence\r\n");
 				throw InvalidDataException(u8"SignatureAlgorithmSequence");
 			}
-			Logger::WriteMessage("SignatureAlgorithm:\r\n");
 
 			const Elysium::Core::size CurrentPositionSignatureAlgorithm = InputStream.GetPosition();
 			const Elysium::Core::size SignatureAlgorithmLength = Length.GetLength();
-			while (InputStream.GetPosition() < CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
+
+			ReadHeader(Decoder, InputStream, Identifier, Length);
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
 			{
-				InputStream.ReadByte();
+				Logger::WriteMessage("Error: SignatureAlgorithmSequenceObjectIdentifier\r\n");
+				throw InvalidDataException(u8"SignatureAlgorithmSequenceObjectIdentifier");
 			}
 
+			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
+			const Oid ObjectIdentifierOid = ObjectIdentifier.GetValue();
+			const Utf8String ObjectIdentifierOidValue = ObjectIdentifierOid.GetValue();
+
+			Logger::WriteMessage("SignatureAlgorithm:\r\n");
+			Logger::WriteMessage("\t");
+			Logger::WriteMessage((char*)&ObjectIdentifierOidValue[0]);
+			Logger::WriteMessage(" - ");
+			Logger::WriteMessage((char*)&ObjectIdentifierOid.GetFriendlyName()[0]);
+			Logger::WriteMessage("\r\n");
+
+			// depending on the algorithm used, different paramaters (or none) can occurre:
+			// https://datatracker.ietf.org/doc/html/rfc3279
+			// https://datatracker.ietf.org/doc/html/rfc4055
+			// https://datatracker.ietf.org/doc/html/rfc4491
+			
+			if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.113549.1.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.1 - 2.3.1 RSA Keys
+				*
+				* 1.2.840.113549.1		pkcs-1
+				* 1						rsaEncryption
+				*
+				* The parameters field MUST
+				* have ASN.1 type NULL for this algorithm identifier.
+				*/
+				Asn1Identifier RSAIdentifier = Decoder.DecodeIdentifier(InputStream);
+				if (RSAIdentifier.GetUniversalTag() != Asn1UniversalTag::Null)
+				{
+					Logger::WriteMessage("Error: RSAIdentifier\r\n");
+					throw InvalidDataException(u8"RSAIdentifier");
+				}
+
+				Asn1Identifier AlgorithmIdentifierSequenceEnd = Decoder.DecodeIdentifier(InputStream);
+				if (AlgorithmIdentifierSequenceEnd.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
+				{
+					Logger::WriteMessage("Error: AlgorithmIdentifierEnd\r\n");
+					throw InvalidDataException(u8"AlgorithmIdentifierEnd");
+				}
+
+				if (InputStream.GetPosition() != CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
+				{
+					throw 1;
+				}
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.10040.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.2 - 2.3.2 DSA Signature Keys
+				*
+				* 1.2.840.10040.1		id-dsa
+				*
+				* ...
+				*/
+
+				throw 1;
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.10046.2.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.3 - 2.3.3 Diffie-Hellman Key Exchange Keys
+				*
+				* 1.2.840.10046.2.1		dhpublicnumber
+				*
+				* ...
+				*/
+
+				throw 1;
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"ToDo KEA"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.4 - 2.3.4 KEA Public Keys
+				*
+				* 2 16 840 1 101 2 1 1 22	id-keyExchangeAlgorithm
+				*
+				* ...
+				*/
+
+				throw 1;
+			}
+			else if (ObjectIdentifierOidValue.StartsWith(u8"1.2.840.10045"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.5 - 2.3.5 ECDSA and ECDH Keys
+				*
+				* 1.2.840.10045		 	ansi-X9-62
+				*
+				*/
+
+				if (InputStream.GetPosition() != CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
+				{
+					throw 1;
+				}
+			}
+			else
+			{
+				throw 1;
+			}
+			
 			if (InputStream.GetPosition() != CurrentPositionSignatureAlgorithm + SignatureAlgorithmLength)
 			{
-				Logger::WriteMessage("Error: SignatureAlgorithmLength\r\n");
-				throw InvalidDataException(u8"SignatureAlgorithmLength");
+				Logger::WriteMessage("Error: SubjectSequenceLength\r\n");
+				throw InvalidDataException(u8"SubjectSequenceLength");
 			}
 		}
 
-		void ReadSignatureValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
-		{
+		void ReadSignatureValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
+		{	/*
+			* https://www.rfc-editor.org/rfc/rfc5280#section-5.1.1.3
+			*
+			* This signature value
+		    * is encoded as a BIT STRING and included in the CRL signatureValue
+		    * field.  The details of this process are specified for each of the
+		    * supported algorithms in [RFC3279], [RFC4055], and [RFC4491].
+			*/
+			const Utf8String SignatureOidValue = SignatureOid.GetValue();
+
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
 			{
 				Logger::WriteMessage("Error: SignatureValue\r\n");
 				throw InvalidDataException(u8"SignatureValue");
 			}
+
+			const Elysium::Core::size CurrentPositionSignatureValue = InputStream.GetPosition();
+			const Elysium::Core::size SignatureValueLength = Length.GetLength();
+
+			// depending on the algorithm used, different paramaters (or none) can occurre:
+			// https://datatracker.ietf.org/doc/html/rfc3279
+			// https://datatracker.ietf.org/doc/html/rfc4055
+			// https://datatracker.ietf.org/doc/html/rfc4491
+
+			if (SignatureOidValue.StartsWith(u8"1.2.840.113549.1.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.1 - 2.3.1 RSA Keys
+				*
+				* 1.2.840.113549.1		pkcs-1
+				* 1						rsaEncryption
+				*
+				* The parameters field MUST
+				* have ASN.1 type NULL for this algorithm identifier.
+				*/
+
+				//throw 1;
+			}
+			else if (SignatureOidValue.StartsWith(u8"1.2.840.10040.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.2 - 2.3.2 DSA Signature Keys
+				*
+				* 1.2.840.10040.1		id-dsa
+				*
+				* ...
+				*/
+
+				//throw 1;
+			}
+			else if (SignatureOidValue.StartsWith(u8"1.2.840.10046.2.1"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.3 - 2.3.3 Diffie-Hellman Key Exchange Keys
+				*
+				* 1.2.840.10046.2.1		dhpublicnumber
+				*
+				* ...
+				*/
+
+				//throw 1;
+			}
+			else if (SignatureOidValue.StartsWith(u8"ToDo KEA"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.4 - 2.3.4 KEA Public Keys
+				*
+				* 2 16 840 1 101 2 1 1 22	id-keyExchangeAlgorithm
+				*
+				* ...
+				*/
+
+				//throw 1;
+			}
+			else if (SignatureOidValue.StartsWith(u8"1.2.840.10045"))
+			{	/* https://datatracker.ietf.org/doc/html/rfc3279#section-2.3.5 - 2.3.5 ECDSA and ECDH Keys
+				*
+				* 1.2.840.10045		 	ansi-X9-62
+				*
+				*/
+
+				//throw 1;
+			}
+			else
+			{
+				//throw 1;
+			}
+
 			Asn1ByteArray Signature = Decoder.DecodeByteArray(Identifier, Length, InputStream);
 
 			Logger::WriteMessage("SignatureValue: ");
-			//Logger::WriteMessage((char*)&Signature.GetValue()[0]);
+			//Logger::WriteMessage((char*)&Signature.GetData()[0]);
 			Logger::WriteMessage("\r\n");
+
+			if (InputStream.GetPosition() != CurrentPositionSignatureValue + SignatureValueLength)
+			{
+				Logger::WriteMessage("Error: SignatureValueLength\r\n");
+				throw InvalidDataException(u8"SignatureValueLength");
+			}
 		}
 
 		void ReadHeader(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)

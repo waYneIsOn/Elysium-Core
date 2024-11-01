@@ -524,7 +524,7 @@ const Elysium::Core::int32_t Elysium::Core::Math::Numerics::BigInteger::GetSign(
 const Elysium::Core::Utf8String Elysium::Core::Math::Numerics::BigInteger::ToString() const
 {
 	// @ToDo
-	return Elysium::Core::Utf8String(u8"BigInteger");
+	return Elysium::Core::Utf8String(u8"Elysium::Core::Math::Numerics::BigInteger::ToString()");
 }
 
 const bool Elysium::Core::Math::Numerics::BigInteger::GetPartsForBitManipulation(const BigInteger & Value, Elysium::Core::Container::VectorOfUInt32_t& Bits, Elysium::Core::int32_t& Length)
