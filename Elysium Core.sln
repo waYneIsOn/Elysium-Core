@@ -111,12 +111,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Json", "Librar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems", "{B7B28110-F6FA-4554-B115-BAE4337DEBC2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Xml", "Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems", "{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Html", "Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems", "{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Html", "Libraries\02-Windows\Elysium.Core.Html\Elysium.Core.Html.vcxproj", "{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Libraries\02-Windows\Elysium.Core.Security\Elysium.Core.Security.vcxproj", "{FA0B07A3-7128-43A4-A62A-94F398EF37E4}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Web", "Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems", "{B8FD36BF-ECB1-433F-A981-47834D8A65AB}"
@@ -227,13 +221,11 @@ Global
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{7f54a7d9-3259-424a-8713-07095e9a8f44}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems*{81bc69ac-724d-4a7f-ae92-08b66d25d0bf}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{8bbdea16-0960-479d-941d-fe662e7740e8}*SharedItemsImports = 9
-		Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems*{8d5b0f66-ca1c-4fb6-83d2-b9d2ae8a1230}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Drawing\Elysium.Core.Drawing.vcxitems*{8ed0c3e4-f5b9-4e85-a3e7-682a12521e93}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{93501e30-8bf5-4cb7-8c13-de2001425bf5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.OleDb\Elysium.Core.Data.SqlNativeClient.OleDb.vcxitems*{95297142-7d9e-4acb-9f74-3d18572ed6c6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems*{96932fcb-7d28-4130-90f2-9cc5216c7540}*SharedItemsImports = 9
-		Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems*{98e6f0e2-d2c3-46ad-aaff-e6ae02ec11e7}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{a4b705a1-60e7-4bb9-ba2a-a012faf826fd}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{a8ec7cea-4204-4384-a93b-cb59901202b3}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO.Ports\Elysium.Core.IO.Ports.vcxitems*{abbe2c07-62a6-4498-a409-fad7482b59d2}*SharedItemsImports = 9
@@ -252,7 +244,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{d4f510ca-0532-4c90-811b-752b92393b68}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{d72c0184-b715-4762-9004-ace86b3e15fb}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{dda554ce-e73b-4fcb-9da0-ec45214c84df}*SharedItemsImports = 9
-		Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems*{e02b4f08-16e6-45ba-aa47-72d24d6ebd2e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{ee7a43c1-c408-4688-920f-5878c6e6a7c7}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems*{f52a3c96-76e1-45a4-a93c-c997dc583e91}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems*{f612b617-2b63-4644-852f-642827a6ba4f}*SharedItemsImports = 9
@@ -474,18 +465,6 @@ Global
 		{1AE389E0-479E-43D0-9299-77821B53DB54}.Release|x64.Build.0 = Release|x64
 		{1AE389E0-479E-43D0-9299-77821B53DB54}.Release|x86.ActiveCfg = Release|Win32
 		{1AE389E0-479E-43D0-9299-77821B53DB54}.Release|x86.Build.0 = Release|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Debug|ARM.ActiveCfg = Debug|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Debug|ARM64.ActiveCfg = Debug|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Debug|x64.ActiveCfg = Debug|x64
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Debug|x64.Build.0 = Debug|x64
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Debug|x86.ActiveCfg = Debug|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Debug|x86.Build.0 = Debug|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Release|ARM.ActiveCfg = Release|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Release|ARM64.ActiveCfg = Release|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Release|x64.ActiveCfg = Release|x64
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Release|x64.Build.0 = Release|x64
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Release|x86.ActiveCfg = Release|Win32
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230}.Release|x86.Build.0 = Release|Win32
 		{FA0B07A3-7128-43A4-A62A-94F398EF37E4}.Debug|ARM.ActiveCfg = Debug|Win32
 		{FA0B07A3-7128-43A4-A62A-94F398EF37E4}.Debug|ARM64.ActiveCfg = Debug|Win32
 		{FA0B07A3-7128-43A4-A62A-94F398EF37E4}.Debug|x64.ActiveCfg = Debug|x64
@@ -637,9 +616,6 @@ Global
 		{A8EC7CEA-4204-4384-A93B-CB59901202B3} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{1AE389E0-479E-43D0-9299-77821B53DB54} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{B7B28110-F6FA-4554-B115-BAE4337DEBC2} = {8C483853-54B5-40FB-B14B-28383747B06B}
-		{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7} = {8C483853-54B5-40FB-B14B-28383747B06B}
-		{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E} = {8C483853-54B5-40FB-B14B-28383747B06B}
-		{8D5B0F66-CA1C-4FB6-83D2-B9D2AE8A1230} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{FA0B07A3-7128-43A4-A62A-94F398EF37E4} = {1030673B-B627-44FE-A2AE-327B6146535E}
 		{B8FD36BF-ECB1-433F-A981-47834D8A65AB} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{96932FCB-7D28-4130-90F2-9CC5216C7540} = {8C483853-54B5-40FB-B14B-28383747B06B}
