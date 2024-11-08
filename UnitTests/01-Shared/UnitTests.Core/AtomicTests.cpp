@@ -17,20 +17,18 @@ namespace UnitTests::Core::Threading
 		TEST_METHOD(IncrementCountersInParallel)
 		{
 			{
-				const Elysium::Core::uint8_t NumberOfThreads = 10;
-
 				Elysium::Core::Template::Container::Delegate<void> ThreadStart =
 					Elysium::Core::Template::Container::Delegate<void>::Bind<AtomicTests, &AtomicTests::Increment>(*this);
 
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Threading::Thread> Threads =
-					Elysium::Core::Template::Container::Vector<Elysium::Core::Threading::Thread>(NumberOfThreads);
+					Elysium::Core::Template::Container::Vector<Elysium::Core::Threading::Thread>(_NumberOfThreads);
 				Threads.Clear();
-				for (Elysium::Core::size i = 0; i < NumberOfThreads; i++)
+				for (Elysium::Core::size i = 0; i < _NumberOfThreads; i++)
 				{
 					Threads.PushBack(Elysium::Core::Threading::Thread(ThreadStart));
 				}
 
-				for (Elysium::Core::size i = 0; i < NumberOfThreads; i++)
+				for (Elysium::Core::size i = 0; i < _NumberOfThreads; i++)
 				{
 					Threads[i].Start();
 				}
@@ -40,17 +38,23 @@ namespace UnitTests::Core::Threading
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_Counter)[0]);
 			Logger::WriteMessage("\r\nAtomic counter: ");
 			//Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_AtomicCounter)[0]);
+
+			Assert::IsTrue(_Counter < _NumberOfThreads * _NumberOfIncrements);
+			//Assert::IsTrue(_AtomicCounter == _NumberOfThreads* _NumberOfIncrements);
 		}
 	private:
 		void Increment()
 		{
-			for (Elysium::Core::Template::System::uint16_t i = 0; i < 10000; i++)
+			for (Elysium::Core::Template::System::size i = 0; i < _NumberOfIncrements; i++)
 			{
 				_Counter++;
 				//_AtomicCounter++;
 			}
 		}
 	private:
+		const Elysium::Core::uint32_t _NumberOfThreads = 10;
+		const Elysium::Core::uint32_t _NumberOfIncrements = 100000;
+
 		Elysium::Core::Template::System::uint32_t _Counter;
 		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t> _AtomicCounter;
 	};
