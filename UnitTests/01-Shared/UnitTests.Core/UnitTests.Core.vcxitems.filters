@@ -16,6 +16,7 @@
       <Filter>Tricks</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)StackTraceTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)AtomicTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.hpp" />

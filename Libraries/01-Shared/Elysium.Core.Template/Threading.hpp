@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "Atomic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_AUTORESETEVENT
 #include "AutoResetEvent.hpp"
 #endif

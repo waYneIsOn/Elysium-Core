@@ -46,6 +46,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OSThreadPool.hpp">
       <Filter>Internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

@@ -23,10 +23,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	class HuffmanTree;
+
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanNode
 	{
+		friend class HuffmanTree<S, F>;
 	public:
-		HuffmanNode(const S Symbol, const F Frequency);
+		HuffmanNode(const S Symbol = 0x00, const F Frequency = 0, const bool IsInternalNode = false);
 
 		HuffmanNode(const HuffmanNode& Source) = delete;
 
@@ -42,14 +46,15 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	private:
 		S _Symbol;
 		F _Frequency;
+		bool _IsInternalNode;
 
 		HuffmanNode* _Left;
 		HuffmanNode* _Right;
 	};
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::HuffmanNode(const S Symbol, const F Frequency)
-		: _Symbol(Symbol), _Frequency(Frequency), _Left(nullptr), _Right(nullptr)
+	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::HuffmanNode(const S Symbol, const F Frequency, const bool IsInternalNode)
+		: _Symbol(Symbol), _Frequency(Frequency), _IsInternalNode(IsInternalNode), _Left(nullptr), _Right(nullptr)
 	{ }
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>

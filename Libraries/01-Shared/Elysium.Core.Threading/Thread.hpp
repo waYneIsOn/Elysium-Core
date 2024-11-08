@@ -61,13 +61,13 @@ namespace Elysium::Core::Threading
 
 		Thread(const Thread& Source) = delete;
 
-		Thread(Thread&& Right) noexcept = delete;
+		Thread(Thread&& Right) noexcept;
 
 		~Thread();
 	public:
 		Thread& operator=(const Thread& Source) = delete;
 
-		Thread& operator=(Thread&& Right) noexcept = delete;
+		Thread& operator=(Thread&& Right) noexcept;
 	public:
 		bool operator==(const Thread& Other) const;
 
@@ -86,28 +86,41 @@ namespace Elysium::Core::Threading
 		void Join();
 
 		static void Sleep(const TimeSpan& Timeout);
+
 		//static bool Yield();
 	private:
-		unsigned long _Id;
-		ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE _Handle;
-		Elysium::Core::Utf8String _Name;
-		std::atomic<ThreadState> _State;
-		Globalization::CultureInfo _CurrentCulture;
-
 		struct ThreadParameters
 		{
-			ThreadParameters(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart);
-			ThreadParameters(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart);
-			~ThreadParameters();
+		public:
+			ThreadParameters();
 
+			ThreadParameters(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart);
+
+			ThreadParameters(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart);
+
+			~ThreadParameters();
+		public:
 			void* _Target;
+
 			void(*_Method)(void* NonSpecificInstance);
+
 			void* _FurtherParameter;
+
 			void(*_ParamaterizedMethod)(void* NonSpecificInstance, void* FurtherParameter);
 		};
+	private:
+		unsigned long _Id;
+
+		ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE _Handle;
+
+		Elysium::Core::Utf8String _Name;
+
+		std::atomic<ThreadState> _State;
+
+		Globalization::CultureInfo _CurrentCulture;
 
 		ThreadParameters _Parameters;
-
+	private:
 		static void ThreadMain(ThreadParameters& Parameters);
 	};
 }

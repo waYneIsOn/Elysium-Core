@@ -36,6 +36,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "InitializerList.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_PRIORITYQUEUE
+#include "PriorityQueue.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SEQUENCECONTAINER
+#include "SequenceContainer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
 #include "Tuple.hpp"
 #endif

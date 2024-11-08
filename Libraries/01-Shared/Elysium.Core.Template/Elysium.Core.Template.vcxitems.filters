@@ -118,9 +118,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignableAndConstructible.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Swap.hpp">
       <Filter>Functional</Filter>
@@ -143,34 +140,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OrderedMap.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
@@ -244,19 +220,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
@@ -605,6 +572,48 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PriorityQueue.hpp">
+      <Filter>Container\Adopter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp">
+      <Filter>Container\Adopter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
+      <Filter>Container\Adopter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp">
+      <Filter>Container\UnorderedAssociative</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OrderedMap.hpp">
+      <Filter>Container\OrderedAssociative</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp">
+      <Filter>Container\OrderedAssociative</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -690,6 +699,24 @@
     </Filter>
     <Filter Include="Utility">
       <UniqueIdentifier>{0115952b-a0a4-47b8-be20-1e46cfd87a6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Adopter">
+      <UniqueIdentifier>{aa9d107c-5c10-4671-a0f7-0601ac559079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Sequence">
+      <UniqueIdentifier>{47d973e1-470c-4d2d-86ce-816cce34d99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\UnorderedAssociative">
+      <UniqueIdentifier>{05da5da5-e0bf-416f-8a62-730d9e02a82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\OrderedAssociative">
+      <UniqueIdentifier>{da767481-3335-4bb6-bd9c-672fbefce859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\Views">
+      <UniqueIdentifier>{18f5be00-8725-48bf-93ae-c76cabcde751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Threading\Tasks">
+      <UniqueIdentifier>{a5f154e2-9cdf-416f-be1e-ee2e29b2a129}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

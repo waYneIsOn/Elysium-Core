@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ceiling.hpp" />
@@ -107,18 +108,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PriorityQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Round.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
@@ -183,7 +187,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Reference.hpp" />
