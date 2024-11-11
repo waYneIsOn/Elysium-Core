@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMORYORDER
+#include "MemoryOrder.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SHAREDPOINTER
 #include "SharedPointer.hpp"
 #endif

@@ -16,6 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Atomic.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICBASE
+#include "AtomicBase.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICINTEGRAL
+#include "AtomicIntegral.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_AUTORESETEVENT
 #include "AutoResetEvent.hpp"
 #endif

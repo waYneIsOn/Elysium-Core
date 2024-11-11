@@ -37,10 +37,10 @@ namespace UnitTests::Core::Threading
 			Logger::WriteMessage("Counter: ");
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_Counter)[0]);
 			Logger::WriteMessage("\r\nAtomic counter: ");
-			//Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_AtomicCounter)[0]);
+			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_AtomicCounter)[0]);
 
 			Assert::IsTrue(_Counter < _NumberOfThreads * _NumberOfIncrements);
-			//Assert::IsTrue(_AtomicCounter == _NumberOfThreads* _NumberOfIncrements);
+			Assert::IsTrue(_AtomicCounter == _NumberOfThreads* _NumberOfIncrements);
 		}
 	private:
 		void Increment()
@@ -48,7 +48,10 @@ namespace UnitTests::Core::Threading
 			for (Elysium::Core::Template::System::size i = 0; i < _NumberOfIncrements; i++)
 			{
 				_Counter++;
-				//_AtomicCounter++;
+
+				//_AtomicCounter++;	// @ToDo: why isn't this available? inheritance?
+				Elysium::Core::uint32_t Bla = _AtomicCounter.operator++();
+				bool sdf = false;
 			}
 		}
 	private:

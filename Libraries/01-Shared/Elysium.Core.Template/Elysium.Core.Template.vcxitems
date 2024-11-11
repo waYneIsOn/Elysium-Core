@@ -32,6 +32,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicIntegral.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicUsable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ceiling.hpp" />
@@ -91,6 +94,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyConstructible.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsNoThrowDefaultConstructible.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsScopedEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp" />
@@ -99,6 +103,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Logarithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryOrder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MidpointRounding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp" />
@@ -121,6 +126,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Select.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />

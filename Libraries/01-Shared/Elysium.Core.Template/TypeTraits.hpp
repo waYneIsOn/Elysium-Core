@@ -100,6 +100,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsMoveConstructible.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWDEFAULTCONSTRUCTIBLE
+#include "IsNothrowDefaultConstructible.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNULLPOINTER
 #include "IsNullPointer.hpp"
 #endif
@@ -150,6 +154,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISVOLATILE
 #include "IsVolatile.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_SELECT
+#include "Select.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_UNDERLYINGTYPE
