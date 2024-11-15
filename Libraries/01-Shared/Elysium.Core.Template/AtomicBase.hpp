@@ -26,42 +26,46 @@ namespace Elysium::Core::Template::Threading
 	class AtomicBase
 	{
 	public:
-		/*
-		constexpr AtomicBase();
+		constexpr AtomicBase() noexcept = default;
 
 		AtomicBase(const AtomicBase& Source) = delete;
 
 		AtomicBase(AtomicBase&& Right) noexcept = delete;
 
-		~AtomicBase();
-		*/
+		~AtomicBase() = default;
 	public:
 		AtomicBase& operator=(const AtomicBase& Source) = delete;
 
 		AtomicBase& operator=(AtomicBase&& Right) noexcept = delete;
-	public:
-		T Load(const Elysium::Core::Template::Memory::MemoryOrder MemoryOrder = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const noexcept;
+	protected:
+		T Load(const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const noexcept;
 		
-		void Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder MemoryOrder = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
-	private:
-
+		T Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
 	protected:
 		T _Value;
 	};
 
 	template<class T, Elysium::Core::Template::System::size TSize>
-	inline T AtomicBase<T, TSize>::Load(const Elysium::Core::Template::Memory::MemoryOrder MemoryOrder) const noexcept
+	inline T AtomicBase<T, TSize>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
 	{
-		// @ToDo: MemoryOrder
+		// @ToDo: validate memory order!
+
+		// @ToDo: this cannot work every time! need to somehow force some synchronization here as well!
 		T CopiedValue = _Value;
+
 		return CopiedValue;
 	}
 
 	template<class T, Elysium::Core::Template::System::size TSize>
-	inline void AtomicBase<T, TSize>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder MemoryOrder) noexcept
+	inline T AtomicBase<T, TSize>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
 	{
-		// @ToDo: MemoryOrder
+		// @ToDo: validate memory order!
+
+		// @ToDo: this cannot work every time! need to somehow force some synchronization here as well!
+		T CopiedValue = _Value;
 		_Value = Value;
+
+		return CopiedValue;
 	}
 }
 #endif

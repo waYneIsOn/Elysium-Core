@@ -23,13 +23,19 @@ namespace Elysium::Core::Template::Memory
     /// Absent any constraints on a multi-core system, when multiple threads simultaneously read and write to several variables,
     /// one thread can observe the values change in an order different from the order another thread wrote them.
     /// Indeed, the apparent order of changes can even differ among multiple reader threads.
-    /// Some similar effects can occur even on uniprocessor systems due to compiler transformations allowed by the memory model. 
+    /// Some similar effects can occur even on uniprocessor systems due to compiler transformations allowed by the memory model.
+    /// 
+    /// Read:
+    /// https://en.wikipedia.org/wiki/Memory_ordering
+    /// https://www.freecodecamp.org/news/atomics-and-concurrency-in-cpp/
+    /// https://www.sobyte.net/post/2022-06/cpp-memory-order/
+    /// https://stackoverflow.com/questions/12346487/what-do-each-memory-order-mean
     /// </summary>
     enum class MemoryOrder
         : Elysium::Core::Template::System::int32_t
     {
         /// <summary>
-        /// Zhere are no synchronization or ordering constraints imposed on other reads or writes, only this operation's atomicity is guaranteed.
+        /// There are no synchronization or ordering constraints imposed on other reads or writes, only this operation's atomicity is guaranteed.
         /// </summary>
         Relaxed,
 

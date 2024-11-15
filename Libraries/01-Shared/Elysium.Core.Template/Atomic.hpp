@@ -35,13 +35,13 @@ namespace Elysium::Core::Template::Threading
 		: public AtomicIntegral<T>
 	{
 	public:
-		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>);
+		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>) = default;
 
 		Atomic(const Atomic& Source) = delete;
 
 		Atomic(Atomic&& Right) noexcept = delete;
 
-		~Atomic();
+		~Atomic() = default;
 	public:
 		Atomic& operator=(const Atomic& Source) = delete;
 
@@ -57,16 +57,8 @@ namespace Elysium::Core::Template::Threading
 	public:
 		T Load() const volatile noexcept;
 
-		void Store(const T Value) volatile noexcept;
+		T Store(const T Value) volatile noexcept;
 	};
-
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
-	inline constexpr Atomic<T>::Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>)
-	{ }
-
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
-	inline Atomic<T>::~Atomic()
-	{ }
 
 	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline Atomic<T>::operator T() const volatile noexcept
@@ -101,9 +93,9 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<Elysium::Core::Template::Concepts::AtomicUsable T>
-	inline void Atomic<T>::Store(const T Value) volatile noexcept
+	inline T Atomic<T>::Store(const T Value) volatile noexcept
 	{
-		const_cast<Atomic<T>*>(this)->AtomicIntegral<T>::Store(Value);
+		return const_cast<Atomic<T>*>(this)->AtomicIntegral<T>::Store(Value);
 	}
 }
 #endif

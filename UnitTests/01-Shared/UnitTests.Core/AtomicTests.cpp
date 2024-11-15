@@ -50,8 +50,7 @@ namespace UnitTests::Core::Threading
 				_Counter++;
 
 				//_AtomicCounter++;	// @ToDo: why isn't this available? inheritance?
-				Elysium::Core::uint32_t Bla = _AtomicCounter.operator++();
-				bool sdf = false;
+				_AtomicCounter.operator++();
 			}
 		}
 	private:

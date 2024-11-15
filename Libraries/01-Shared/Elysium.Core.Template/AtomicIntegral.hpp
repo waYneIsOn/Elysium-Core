@@ -31,35 +31,71 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Threading
 {
 	template <Elysium::Core::Template::Concepts::Integral T, Elysium::Core::Template::System::size TSize = sizeof(T)>
-	struct AtomicIntegral;
+	class AtomicIntegral;
 
 	template <Elysium::Core::Template::Concepts::Integral T>
-	struct AtomicIntegral<T, 1>
+	class AtomicIntegral<T, 1>
 		: public AtomicBase<T, 1>
 	{
-		// @ToDo
-	};
+	public:
+		constexpr AtomicIntegral() noexcept = default;
 
-	template <Elysium::Core::Template::Concepts::Integral T>
-	struct AtomicIntegral<T, 2>
-		: AtomicBase<T, 2>
-	{
-		// @ToDo
-	};
+		AtomicIntegral(const AtomicIntegral& Source) = delete;
 
-	template <Elysium::Core::Template::Concepts::Integral T>
-	struct AtomicIntegral<T, 4>
-		: AtomicBase<T, 4>
-	{
-		// @ToDo
+		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+
+		~AtomicIntegral() = default;
 	public:
 		T operator++() noexcept;
+
+		// @ToDo
 	};
 
-	template <Elysium::Core::Template::Concepts::Integral T>
-	struct AtomicIntegral<T, 8>
-		: AtomicBase<T, 8>
+	template<Elysium::Core::Template::Concepts::Integral T>
+	inline T AtomicIntegral<T, 1>::operator++() noexcept
 	{
+		return static_cast<T>(_InterlockedExchangeAdd8(&reinterpret_cast<volatile Elysium::Core::Template::System::int8_t&>(this->_Value), 1));
+	}
+
+	template <Elysium::Core::Template::Concepts::Integral T>
+	class AtomicIntegral<T, 2>
+		: public AtomicBase<T, 2>
+	{
+	public:
+		constexpr AtomicIntegral() noexcept = default;
+
+		AtomicIntegral(const AtomicIntegral& Source) = delete;
+
+		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+
+		~AtomicIntegral() = default;
+	public:
+		T operator++() noexcept;
+
+		// @ToDo
+	};
+
+	template<Elysium::Core::Template::Concepts::Integral T>
+	inline T AtomicIntegral<T, 2>::operator++() noexcept
+	{
+		return static_cast<T>(_InterlockedIncrement16(&reinterpret_cast<volatile Elysium::Core::Template::System::int16_t&>(this->_Value)));
+	}
+
+	template <Elysium::Core::Template::Concepts::Integral T>
+	class AtomicIntegral<T, 4>
+		: public AtomicBase<T, 4>
+	{
+	public:
+		constexpr AtomicIntegral() noexcept = default;
+
+		AtomicIntegral(const AtomicIntegral& Source) = delete;
+
+		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+
+		~AtomicIntegral() = default;
+	public:
+		T operator++() noexcept;
+
 		// @ToDo
 	};
 
@@ -67,6 +103,30 @@ namespace Elysium::Core::Template::Threading
 	inline T AtomicIntegral<T, 4>::operator++() noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement(&reinterpret_cast<volatile long&>(this->_Value)));
+	}
+
+	template <Elysium::Core::Template::Concepts::Integral T>
+	class AtomicIntegral<T, 8>
+		: public AtomicBase<T, 8>
+	{
+	public:
+		constexpr AtomicIntegral() noexcept = default;
+
+		AtomicIntegral(const AtomicIntegral& Source) = delete;
+
+		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+
+		~AtomicIntegral() = default;
+	public:
+		T operator++() noexcept;
+
+		// @ToDo
+	};
+
+	template<Elysium::Core::Template::Concepts::Integral T>
+	inline T AtomicIntegral<T, 8>::operator++() noexcept
+	{
+		return static_cast<T>(_InterlockedIncrement64(&reinterpret_cast<volatile Elysium::Core::Template::System::int64_t&>(this->_Value)));
 	}
 }
 #endif

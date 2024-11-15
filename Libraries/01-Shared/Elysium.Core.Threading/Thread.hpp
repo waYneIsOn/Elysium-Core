@@ -55,6 +55,8 @@ namespace Elysium::Core::Threading
 	class ELYSIUM_CORE_API Thread final
 	{
 	public:
+		Thread() = delete;
+
 		Thread(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart);
 
 		Thread(const Elysium::Core::Template::Container::Delegate<void, void*>& ParameterizedThreadStart);
