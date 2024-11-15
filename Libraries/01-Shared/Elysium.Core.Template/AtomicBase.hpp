@@ -50,7 +50,8 @@ namespace Elysium::Core::Template::Threading
 	{
 		// @ToDo: validate memory order!
 
-		// @ToDo: this cannot work every time! need to somehow force some synchronization here as well!
+		// @ToDo: this most likely only works in my test because I wait for all threads to join giving enough time!
+		// need to somehow force some synchronization here as well!
 		T CopiedValue = _Value;
 
 		return CopiedValue;
@@ -61,7 +62,8 @@ namespace Elysium::Core::Template::Threading
 	{
 		// @ToDo: validate memory order!
 
-		// @ToDo: this cannot work every time! need to somehow force some synchronization here as well!
+		// @ToDo: this most likely only works in my test because I wait for all threads to join giving enough time!
+		// need to somehow force some synchronization here as well!
 		T CopiedValue = _Value;
 		_Value = Value;
 

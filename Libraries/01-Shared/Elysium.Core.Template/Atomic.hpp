@@ -50,8 +50,10 @@ namespace Elysium::Core::Template::Threading
 	class Atomic
 		: public SelectAtomicBase<T>
 	{
+	private:
+		using Base = SelectAtomicBase<T>;
 	public:
-		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>) = default;
+		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>);
 
 		Atomic(const Atomic& Source) = delete;
 
@@ -75,6 +77,11 @@ namespace Elysium::Core::Template::Threading
 
 		T Store(const T Value) volatile noexcept;
 	};
+
+	template<class T>
+	inline constexpr Atomic<T>::Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>)
+		: Base()
+	{ }
 
 	template<class T>
 	inline Atomic<T>::operator T() const volatile noexcept
@@ -105,13 +112,13 @@ namespace Elysium::Core::Template::Threading
 	template<class T>
 	inline T Atomic<T>::Load() const volatile noexcept
 	{
-		return const_cast<const Atomic<T>*>(this)->AtomicIntegral<T>::Load();
+		return const_cast<const Atomic<T>*>(this)->Base::Load();
 	}
 
 	template<class T>
 	inline T Atomic<T>::Store(const T Value) volatile noexcept
 	{
-		return const_cast<Atomic<T>*>(this)->AtomicIntegral<T>::Store(Value);
+		return const_cast<Atomic<T>*>(this)->Base::Store(Value);
 	}
 }
 #endif

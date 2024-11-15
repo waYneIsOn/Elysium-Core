@@ -16,6 +16,11 @@ namespace UnitTests::Core::Threading
 	public:
 		TEST_METHOD(IncrementCountersInParallel)
 		{
+			_Counter = 0;
+			_AtomicCounter = 0;
+			_AtomicPointerStorage = 0;
+			_AtomicPointer = &_AtomicPointerStorage;
+
 			{
 				Elysium::Core::Template::Container::Delegate<void> ThreadStart =
 					Elysium::Core::Template::Container::Delegate<void>::Bind<AtomicTests, &AtomicTests::Increment>(*this);
@@ -40,7 +45,8 @@ namespace UnitTests::Core::Threading
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_AtomicCounter)[0]);
 
 			Assert::IsTrue(_Counter < _NumberOfThreads * _NumberOfIncrements);
-			Assert::IsTrue(_AtomicCounter == _NumberOfThreads* _NumberOfIncrements);
+			Assert::IsTrue(_AtomicCounter == _NumberOfThreads * _NumberOfIncrements);
+			Assert::IsTrue(*_AtomicPointer.Load() == _AtomicCounter);
 		}
 	private:
 		void Increment()
@@ -49,8 +55,10 @@ namespace UnitTests::Core::Threading
 			{
 				_Counter++;
 
-				//_AtomicCounter++;	// @ToDo: why isn't this available? inheritance?
+				//_AtomicCounter++;	// @ToDo: why isn't this available? probably same reason Load() wasn't available until specifically added!
 				_AtomicCounter.operator++();
+
+				_AtomicPointer.operator++();
 			}
 		}
 	private:
@@ -59,6 +67,8 @@ namespace UnitTests::Core::Threading
 
 		Elysium::Core::Template::System::uint32_t _Counter;
 		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t> _AtomicCounter;
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::byte*> _AtomicPointer;
+
+		Elysium::Core::Template::System::uint32_t _AtomicPointerStorage = 0;
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t*> _AtomicPointer;
 	};
 }
