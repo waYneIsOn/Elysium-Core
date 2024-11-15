@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AtomicIntegral.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICPOINTER
+#include "AtomicPointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_AUTORESETEVENT
 #include "AutoResetEvent.hpp"
 #endif

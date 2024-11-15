@@ -30,10 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Threading
 {
-	template <Elysium::Core::Template::Concepts::Integral T, Elysium::Core::Template::System::size TSize = sizeof(T)>
+	template <class T, Elysium::Core::Template::System::size TSize = sizeof(T)>
 	class AtomicIntegral;
 
-	template <Elysium::Core::Template::Concepts::Integral T>
+	template <class T>
 	class AtomicIntegral<T, 1>
 		: public AtomicBase<T, 1>
 	{
@@ -51,13 +51,13 @@ namespace Elysium::Core::Template::Threading
 		// @ToDo
 	};
 
-	template<Elysium::Core::Template::Concepts::Integral T>
+	template<class T>
 	inline T AtomicIntegral<T, 1>::operator++() noexcept
 	{
 		return static_cast<T>(_InterlockedExchangeAdd8(&reinterpret_cast<volatile Elysium::Core::Template::System::int8_t&>(this->_Value), 1));
 	}
 
-	template <Elysium::Core::Template::Concepts::Integral T>
+	template <class T>
 	class AtomicIntegral<T, 2>
 		: public AtomicBase<T, 2>
 	{
@@ -75,13 +75,13 @@ namespace Elysium::Core::Template::Threading
 		// @ToDo
 	};
 
-	template<Elysium::Core::Template::Concepts::Integral T>
+	template<class T>
 	inline T AtomicIntegral<T, 2>::operator++() noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement16(&reinterpret_cast<volatile Elysium::Core::Template::System::int16_t&>(this->_Value)));
 	}
 
-	template <Elysium::Core::Template::Concepts::Integral T>
+	template <class T>
 	class AtomicIntegral<T, 4>
 		: public AtomicBase<T, 4>
 	{
@@ -99,13 +99,13 @@ namespace Elysium::Core::Template::Threading
 		// @ToDo
 	};
 
-	template<Elysium::Core::Template::Concepts::Integral T>
+	template<class T>
 	inline T AtomicIntegral<T, 4>::operator++() noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement(&reinterpret_cast<volatile long&>(this->_Value)));
 	}
 
-	template <Elysium::Core::Template::Concepts::Integral T>
+	template <class T>
 	class AtomicIntegral<T, 8>
 		: public AtomicBase<T, 8>
 	{
@@ -123,7 +123,7 @@ namespace Elysium::Core::Template::Threading
 		// @ToDo
 	};
 
-	template<Elysium::Core::Template::Concepts::Integral T>
+	template<class T>
 	inline T AtomicIntegral<T, 8>::operator++() noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement64(&reinterpret_cast<volatile Elysium::Core::Template::System::int64_t&>(this->_Value)));

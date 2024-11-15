@@ -34,6 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicUsable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />

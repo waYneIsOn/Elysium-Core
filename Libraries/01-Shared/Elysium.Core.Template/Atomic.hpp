@@ -20,8 +20,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AtomicIntegral.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICPOINTER
+#include "AtomicPointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWDEFAULTCONSTRUCTIBLE
 #include "IsNothrowDefaultConstructible.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISPOINTER
+#include "IsPointer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_SELECT
+#include "Select.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -30,9 +42,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Threading
 {
-	template <Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
+	using SelectAtomicBase = typename TypeTraits::Select<TypeTraits::IsPointerValue<T>>::template 
+		Apply<AtomicPointer<T>, AtomicIntegral<T>>;
+	
+	template <class T>
 	class Atomic
-		: public AtomicIntegral<T>
+		: public SelectAtomicBase<T>
 	{
 	public:
 		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>) = default;
@@ -60,39 +76,39 @@ namespace Elysium::Core::Template::Threading
 		T Store(const T Value) volatile noexcept;
 	};
 
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
 	inline Atomic<T>::operator T() const volatile noexcept
 	{
 		return Load();
 	}
 
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
 	inline Atomic<T>::operator T() const noexcept
 	{
 		return Load();
 	}
 
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
 	inline T Atomic<T>::operator=(const T Value) volatile noexcept
 	{
 		Store(Value);
 		return Value;
 	}
 
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
 	inline T Atomic<T>::operator=(const T Value) noexcept
 	{
 		Store(Value);
 		return Value;
 	}
 
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
 	inline T Atomic<T>::Load() const volatile noexcept
 	{
 		return const_cast<const Atomic<T>*>(this)->AtomicIntegral<T>::Load();
 	}
 
-	template<Elysium::Core::Template::Concepts::AtomicUsable T>
+	template<class T>
 	inline T Atomic<T>::Store(const T Value) volatile noexcept
 	{
 		return const_cast<Atomic<T>*>(this)->AtomicIntegral<T>::Store(Value);

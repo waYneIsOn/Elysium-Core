@@ -632,6 +632,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicIntegral.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicPointer.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -59,5 +59,6 @@ namespace UnitTests::Core::Threading
 
 		Elysium::Core::Template::System::uint32_t _Counter;
 		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t> _AtomicCounter;
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::byte*> _AtomicPointer;
 	};
 }
