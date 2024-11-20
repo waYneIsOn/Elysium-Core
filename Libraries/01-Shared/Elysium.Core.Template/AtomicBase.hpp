@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Threading
 {
-	template <class T, Elysium::Core::Template::System::size TSize>
+	template <class T, Elysium::Core::Template::System::size SizeOfT>
 	class AtomicBase
 	{
 	public:
@@ -40,15 +40,21 @@ namespace Elysium::Core::Template::Threading
 	protected:
 		T Load(const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const noexcept;
 		
-		T Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
+		T Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept; private:
+	private:
+		void ValidateMemoryOrderLoad(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept;
+
+		void ValidateMemoryOrderStore(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept;
 	protected:
 		T _Value;
+	private:
+		void* _MemoryBarrier;
 	};
 
-	template<class T, Elysium::Core::Template::System::size TSize>
-	inline T AtomicBase<T, TSize>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline T AtomicBase<T, SizeOfT>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
 	{
-		// @ToDo: validate memory order!
+		ValidateMemoryOrderLoad(Order);
 
 		// @ToDo: this most likely only works in my test because I wait for all threads to join giving enough time!
 		// need to somehow force some synchronization here as well!
@@ -57,10 +63,10 @@ namespace Elysium::Core::Template::Threading
 		return CopiedValue;
 	}
 
-	template<class T, Elysium::Core::Template::System::size TSize>
-	inline T AtomicBase<T, TSize>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline T AtomicBase<T, SizeOfT>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
 	{
-		// @ToDo: validate memory order!
+		ValidateMemoryOrderStore(Order);
 
 		// @ToDo: this most likely only works in my test because I wait for all threads to join giving enough time!
 		// need to somehow force some synchronization here as well!
@@ -68,6 +74,37 @@ namespace Elysium::Core::Template::Threading
 		_Value = Value;
 
 		return CopiedValue;
+	}
+
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline void AtomicBase<T, SizeOfT>::ValidateMemoryOrderLoad(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	{
+		switch (Order)
+		{
+		case Elysium::Core::Template::Memory::MemoryOrder::Release:
+		case Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease:
+			// @ToDo: noexcept context!
+			break;
+		default:
+			// all other memory order values should be ok for loading
+			return;
+		}
+	}
+
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline void AtomicBase<T, SizeOfT>::ValidateMemoryOrderStore(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	{
+		switch (Order)
+		{
+		case Elysium::Core::Template::Memory::MemoryOrder::Consume:
+		case Elysium::Core::Template::Memory::MemoryOrder::Acquire:
+		case Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease:
+			// @ToDo: noexcept context!
+			break;
+		default:
+			// all other memory order values should be ok for storing
+			return;
+		}
 	}
 }
 #endif

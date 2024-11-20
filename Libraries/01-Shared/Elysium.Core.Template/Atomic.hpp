@@ -46,7 +46,7 @@ namespace Elysium::Core::Template::Threading
 	using SelectAtomicBase = typename TypeTraits::Select<TypeTraits::IsPointerValue<T>>::template 
 		Apply<AtomicPointer<T>, AtomicIntegral<T>>;
 	
-	template <class T>
+	template <Elysium::Core::Template::Concepts::AtomicUsable T>
 	class Atomic
 		: public SelectAtomicBase<T>
 	{
@@ -68,7 +68,7 @@ namespace Elysium::Core::Template::Threading
 		operator T() const volatile noexcept;
 
 		operator T() const noexcept;
-
+	public:
 		T operator=(const T Value) volatile noexcept;
 
 		T operator=(const T Value) noexcept;
@@ -78,44 +78,44 @@ namespace Elysium::Core::Template::Threading
 		T Store(const T Value) volatile noexcept;
 	};
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline constexpr Atomic<T>::Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>)
 		: Base()
 	{ }
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline Atomic<T>::operator T() const volatile noexcept
 	{
 		return Load();
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline Atomic<T>::operator T() const noexcept
 	{
 		return Load();
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline T Atomic<T>::operator=(const T Value) volatile noexcept
 	{
 		Store(Value);
 		return Value;
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline T Atomic<T>::operator=(const T Value) noexcept
 	{
 		Store(Value);
 		return Value;
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline T Atomic<T>::Load() const volatile noexcept
 	{
 		return const_cast<const Atomic<T>*>(this)->Base::Load();
 	}
 
-	template<class T>
+	template<Elysium::Core::Template::Concepts::AtomicUsable T>
 	inline T Atomic<T>::Store(const T Value) volatile noexcept
 	{
 		return const_cast<Atomic<T>*>(this)->Base::Store(Value);
