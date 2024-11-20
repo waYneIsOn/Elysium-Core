@@ -33,7 +33,8 @@ namespace Elysium::Core::Template::Threading
 	/// Represents a thread synchronization event that, when signaled, resets automatically after releasing a single waiting thread.
 	/// This class cannot be inherited.
 	/// </summary>
-	class AutoResetEvent final : public EventWaitHandle
+	class AutoResetEvent final 
+		: public EventWaitHandle
 	{
 	public:
 		AutoResetEvent(const bool InitialState);

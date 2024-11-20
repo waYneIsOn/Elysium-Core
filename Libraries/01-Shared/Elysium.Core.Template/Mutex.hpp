@@ -32,7 +32,8 @@ namespace Elysium::Core::Template::Threading
 	/// <summary>
 	/// A synchronization primitive that can also be used for interprocess synchronization.
 	/// </summary>
-	class Mutex final : public WaitHandle
+	class Mutex final 
+		: public WaitHandle
 	{
 	public:
 		Mutex(const bool InitiallyOwned = false, const char8_t* Name = nullptr);

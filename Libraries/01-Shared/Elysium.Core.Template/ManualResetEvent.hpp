@@ -33,7 +33,8 @@ namespace Elysium::Core::Template::Threading
 	/// Represents a thread synchronization event that, when signaled, must be reset manually.
 	/// This class cannot be inherited.
 	/// </summary>
-	class ManualResetEvent final : public EventWaitHandle
+	class ManualResetEvent final 
+		: public EventWaitHandle
 	{
 	public:
 		ManualResetEvent(const bool InitialState);

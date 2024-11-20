@@ -37,7 +37,8 @@ namespace Elysium::Core::Template::Threading
 	/// <summary>
 	/// Limits the number of threads that can access a resource or pool of resources concurrently.
 	/// </summary>
-	class Semaphore final : public WaitHandle
+	class Semaphore final 
+		: public WaitHandle
 	{
 	public:
 		Semaphore(const System::uint32_t InitialCount, const System::uint32_t MaximumCount, const char8_t* Name = nullptr);

@@ -32,7 +32,8 @@ namespace Elysium::Core::Template::Threading
 	/// <summary>
 	/// Represents a thread synchronization event.
 	/// </summary>
-	class EventWaitHandle : public WaitHandle
+	class EventWaitHandle
+		: public WaitHandle
 	{
 	public:
 		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const char8_t* Name);
