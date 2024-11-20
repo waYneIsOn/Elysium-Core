@@ -416,7 +416,7 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+#elif defined ELYSIUM_CORE_OS_LINUX || defined ELYSIUM_CORE_OS_ANDROID
 			"\n";
 #elif defined ELYSIUM_CORE_OS_MAC
 			"\r";
@@ -443,7 +443,7 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			u8"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+#elif defined ELYSIUM_CORE_OS_LINUX || defined ELYSIUM_CORE_OS_ANDROID
 			u8"\n";
 #elif defined ELYSIUM_CORE_OS_MAC
 			u8"\r";
@@ -501,7 +501,7 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			u"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+#elif defined ELYSIUM_CORE_OS_LINUX || defined ELYSIUM_CORE_OS_ANDROID
 			u"\n";
 #elif defined ELYSIUM_CORE_OS_MAC
 			u"\r";
@@ -553,7 +553,7 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			U"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+#elif defined ELYSIUM_CORE_OS_LINUX || defined ELYSIUM_CORE_OS_ANDROID
 			U"\n";
 #elif defined ELYSIUM_CORE_OS_MAC
 			U"\r";
@@ -590,7 +590,7 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr ConstPointer NewLineCharacters =
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			L"\r\n";
-#elif defined ELYSIUM_CORE_OS_ANDROID || ELYSIUM_CORE_OS_LINUX
+#elif defined ELYSIUM_CORE_OS_LINUX || defined ELYSIUM_CORE_OS_ANDROID
 			L"\n";
 #elif defined ELYSIUM_CORE_OS_MAC
 			L"\r";

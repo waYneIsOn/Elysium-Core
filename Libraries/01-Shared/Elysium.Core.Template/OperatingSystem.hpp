@@ -14,25 +14,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #if defined _WIN32 || defined _WIN64 || defined __WIN32__ || defined __TOS_WIN__ || defined __WINDOWS__ || defined __CYGWIN__
 	#define ELYSIUM_CORE_OS_WINDOWS
-#elif defined __ANDROID__ || defined __ANDROID_API__
-	#define ELYSIUM_CORE_OS_ANDROID
 #elif defined linux || defined __linux || defined __linux__  || defined __gnu_linux__
 	#define ELYSIUM_CORE_OS_LINUX
+#elif defined __ANDROID__ || defined __ANDROID_API__
+	#define ELYSIUM_CORE_OS_ANDROID
 #elif defined _MAC || defined macintosh || defined Macintosh || (defined __APPLE__ && defined __MACH__)
 	#define ELYSIUM_CORE_OS_MAC
 #else
 	#error "unsupported os"
 #endif
 
-#if defined _WIN64 || defined __aarch64__ || defined __x86_64__
+#if defined _WIN64 || defined __aarch64__ || defined _M_ARM64 || defined __x86_64__
 	#define ELYSIUM_CORE_BITNESS 64
 #elif defined _WIN32 || defined __WIN32__ || defined __arm__ || defined __i386__
-	#error "32bit is not supported"
+	#define ELYSIUM_CORE_BITNESS 32
 #else
 	#error "unsupported os regarding bitness"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS || defined ELYSIUM_CORE_OS_ANDROID
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	#define ELYSIUM_CORE_LITTLEENDIAN 1
+#elif defined ELYSIUM_CORE_OS_LINUX
+	#define ELYSIUM_CORE_LITTLEENDIAN 1
+	// @ToDo: need to look into this. some linux distros might not be little endian!
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	#define ELYSIUM_CORE_LITTLEENDIAN 1
 #else
 	#error "unsupported os regarding endian"
@@ -45,6 +50,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#include <Windows.h>
 	#endif
 */
+#elif defined ELYSIUM_CORE_OS_LINUX
+
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_DIAGNOSTICS
 	#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_GLOBALIZATION
@@ -52,9 +59,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 	//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_SECURITY (tls etc.)
 	//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_THREADING
 	//#define ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_THREADPOOL
-
 #else
-#error "unsupported os"
+#error "unsupported os regarding fallbacks"
 #endif
 /*
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_ACTIVATOR

@@ -28,8 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "System.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _MINWINBASE_
 #include <minwinbase.h>
+#endif
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

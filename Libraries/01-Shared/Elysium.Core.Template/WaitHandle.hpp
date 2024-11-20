@@ -25,6 +25,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#define _WINSOCKAPI_ // don't include winsock
 	#include <Windows.h>
 	#endif
+#elif defined ELYSIUM_CORE_OS_LINUX
+
+#elif defined ELYSIUM_CORE_OS_ANDROID
+
+#else
+	#error "unsupported os"
 #endif
 
 namespace Elysium::Core::Template::Threading
@@ -84,7 +90,13 @@ namespace Elysium::Core::Template::Threading
 	{
 		if (_Handle != nullptr)
 		{
+#if defined ELYSIUM_CORE_OS_WINDOWS
 			CloseHandle(_Handle);
+#elif defined ELYSIUM_CORE_OS_LINUX
+
+#else
+#error "unsupported os"
+#endif
 			_Handle = nullptr;
 		}
 	}
