@@ -6,6 +6,8 @@
 /Libraries/02-Windows/Elysium.Core/Debugbin
 /Libraries/02-Windows/Elysium.Core/Releasebin
 
+/Libraries/03-Linux/Elysium.Core/obj
+
 /Libraries/04-Android/Elysium.Core/Debugbin
 /Libraries/04-Android/Elysium.Core/Debugbin
 /Libraries/04-Android/Elysium.Core/Releasebin
