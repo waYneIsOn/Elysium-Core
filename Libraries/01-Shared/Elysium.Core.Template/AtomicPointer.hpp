@@ -26,7 +26,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Threading
 {
-	template <Elysium::Core::Template::Concepts::Pointer T>
+	template <class T>
 	class AtomicPointer
 		: public AtomicBase<T, sizeof(void*)>
 	{
@@ -44,7 +44,7 @@ namespace Elysium::Core::Template::Threading
 		// @ToDo
 	};
 
-	template<Elysium::Core::Template::Concepts::Pointer T>
+	template<class T>
 	inline T AtomicPointer<T>::operator++() noexcept
 	{
 #if ELYSIUM_CORE_BITNESS == 64
