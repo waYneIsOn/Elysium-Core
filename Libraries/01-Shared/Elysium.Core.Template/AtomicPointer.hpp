@@ -23,7 +23,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICBASE
 #include "AtomicBase.hpp"
 #endif
-
+/*
+#define __INTRIN0_INL_H_
+#include <intrin0.inl.h>
+#endif
+*/
 namespace Elysium::Core::Template::Threading
 {
 	template <class T>

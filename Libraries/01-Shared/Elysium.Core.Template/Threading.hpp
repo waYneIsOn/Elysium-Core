@@ -56,6 +56,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Semaphore.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_SHAREDMUTEX
+#include "SharedMutex.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
 #include "WaitHandle.hpp"
 #endif

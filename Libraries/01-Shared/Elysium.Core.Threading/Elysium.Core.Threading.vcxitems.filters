@@ -47,6 +47,7 @@
       <Filter>Internal</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

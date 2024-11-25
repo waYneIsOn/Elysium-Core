@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_SHAREDMUTEX
+#include "SharedMutex.hpp"
+#endif
+
 namespace Elysium::Core::Template::Threading
 {
 	template <class T, Elysium::Core::Template::System::size SizeOfT>
@@ -48,7 +52,7 @@ namespace Elysium::Core::Template::Threading
 	protected:
 		T _Value;
 	private:
-		void* _MemoryBarrier;
+		mutable SharedMutex _MemoryBarrier;
 	};
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
@@ -56,9 +60,9 @@ namespace Elysium::Core::Template::Threading
 	{
 		ValidateMemoryOrderLoad(Order);
 
-		// @ToDo: this most likely only works in my test because I wait for all threads to join giving enough time!
-		// need to somehow force some synchronization here as well!
+		_MemoryBarrier.LockExclusive();
 		T CopiedValue = _Value;
+		_MemoryBarrier.UnlockExclusive();
 
 		return CopiedValue;
 	}
@@ -68,10 +72,10 @@ namespace Elysium::Core::Template::Threading
 	{
 		ValidateMemoryOrderStore(Order);
 
-		// @ToDo: this most likely only works in my test because I wait for all threads to join giving enough time!
-		// need to somehow force some synchronization here as well!
+		_MemoryBarrier.LockExclusive();
 		T CopiedValue = _Value;
 		_Value = Value;
+		_MemoryBarrier.UnlockExclusive();
 
 		return CopiedValue;
 	}
@@ -83,7 +87,11 @@ namespace Elysium::Core::Template::Threading
 		{
 		case Elysium::Core::Template::Memory::MemoryOrder::Release:
 		case Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease:
-			// @ToDo: noexcept context!
+#if defined _DEBUG
+			_invalid_parameter(L"Incorrect memory order when loading atomic value.", L"", __WFILE__, __LINE__, 0);
+#else
+			_invalid_parameter_noinfo_noreturn();
+#endif
 			break;
 		default:
 			// all other memory order values should be ok for loading
@@ -99,7 +107,11 @@ namespace Elysium::Core::Template::Threading
 		case Elysium::Core::Template::Memory::MemoryOrder::Consume:
 		case Elysium::Core::Template::Memory::MemoryOrder::Acquire:
 		case Elysium::Core::Template::Memory::MemoryOrder::AcquireRelease:
-			// @ToDo: noexcept context!
+#if defined _DEBUG
+			_invalid_parameter(L"Incorrect memory order when storing atomic value.", L"", __WFILE__, __LINE__, 0);
+#else
+			_invalid_parameter_noinfo_noreturn();
+#endif
 			break;
 		default:
 			// all other memory order values should be ok for storing

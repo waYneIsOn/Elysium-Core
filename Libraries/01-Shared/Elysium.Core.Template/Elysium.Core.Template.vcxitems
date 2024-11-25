@@ -130,6 +130,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Select.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp" />
