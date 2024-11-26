@@ -25,6 +25,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#define _WINSOCKAPI_ // don't include winsock
 	#include <Windows.h>
 	#endif
+#elif defined ELYSIUM_CORE_OS_LINUX
+	#ifndef _PTHREAD_H
+	#include <pthread.h>
+	#endif
+#else
+#error "unsupported os"
 #endif
 
 namespace Elysium::Core::Template::Threading
@@ -51,16 +57,40 @@ namespace Elysium::Core::Template::Threading
 		void Release();
 	};
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	inline Elysium::Core::Template::Threading::Mutex::Mutex(const bool InitiallyOwned, const char8_t* Name)
-		: WaitHandle(CreateMutexW(nullptr, false, nullptr))
+		: WaitHandle(CreateMutexW(nullptr, InitiallyOwned == true ? TRUE : FALSE, nullptr))
 	{ }
+#elif defined ELYSIUM_CORE_OS_LINUX
+	inline Elysium::Core::Template::Threading::Mutex::Mutex(const bool InitiallyOwned, const char8_t* Name)
+		: WaitHandle(PTHREAD_MUTEX_INITIALIZER)
+	{ 
+		if (InitiallyOwned)
+		{	
+			pthread_mutex_lock(&_Handle);
+		}
+	}
+#else
+#error "unsupported os"
+#endif
 
 	inline Elysium::Core::Template::Threading::Mutex::~Mutex()
-	{ }
+	{
+		// @ToDo: Parent destructor will call Close(). Do I need to release here beforehand though? need to write specific test!
+	}
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	inline void Elysium::Core::Template::Threading::Mutex::Release()
 	{
 		BOOL WasReleased = ReleaseMutex(_Handle);
 	}
+#elif defined ELYSIUM_CORE_OS_LINUX
+	inline void Elysium::Core::Template::Threading::Mutex::Release()
+	{
+		int WasReleased = pthread_mutex_unlock(&_Handle);
+	}
+#else
+#error "unsupported os"
+#endif
 }
 #endif

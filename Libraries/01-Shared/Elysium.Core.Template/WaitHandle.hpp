@@ -26,9 +26,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#include <Windows.h>
 	#endif
 #elif defined ELYSIUM_CORE_OS_LINUX
-
-#elif defined ELYSIUM_CORE_OS_ANDROID
-
+	#ifndef _PTHREAD_H
+	#include <pthread.h>
+	#endif
 #else
 	#error "unsupported os"
 #endif
@@ -41,7 +41,13 @@ namespace Elysium::Core::Template::Threading
 	class WaitHandle
 	{
 	protected:
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		WaitHandle(HANDLE Handle);
+#elif defined ELYSIUM_CORE_OS_LINUX
+		WaitHandle(pthread_mutex_t Handle);
+#else
+#error "unsupported os"
+#endif
 	public:
 		WaitHandle() = delete;
 
@@ -74,12 +80,29 @@ namespace Elysium::Core::Template::Threading
 	public:
 		static constexpr const System::uint32_t WaitTimeout = 258;
 	protected:
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _Handle;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		pthread_mutex_t _Handle;
+#else
+#error "unsupported os"
+#endif
 	};
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	inline Elysium::Core::Template::Threading::WaitHandle::WaitHandle(HANDLE Handle)
 		: _Handle(Handle)
 	{ }
+#elif defined ELYSIUM_CORE_OS_LINUX
+	inline WaitHandle::WaitHandle(pthread_mutex_t Handle)
+		: _Handle(Handle)
+	{
+		//pthread_mutexattr_t MutexAttributes = pthread_mutexattr_t();
+		pthread_mutex_init(&_Handle, nullptr);
+	}
+#else
+#error "unsupported os"
+#endif
 
 	inline Elysium::Core::Template::Threading::WaitHandle::~WaitHandle()
 	{
@@ -88,22 +111,35 @@ namespace Elysium::Core::Template::Threading
 
 	inline void WaitHandle::Close()
 	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		if (_Handle != nullptr)
 		{
-#if defined ELYSIUM_CORE_OS_WINDOWS
 			CloseHandle(_Handle);
+			_Handle = nullptr;
+		}
 #elif defined ELYSIUM_CORE_OS_LINUX
-
+		pthread_mutex_destroy(&_Handle);
 #else
 #error "unsupported os"
 #endif
-			_Handle = nullptr;
-		}
 	}
 
 	inline const bool WaitHandle::WaitOne(const System::uint32_t MillisecondsTimeout, const bool ExitContext) const
 	{
+		// @ToDo: ExitContext
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		return WaitForSingleObject(_Handle, MillisecondsTimeout) == WAIT_OBJECT_0;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		// @ToDo: set timespec/timeout values correctly
+		timespec Timeout;
+		Timeout.tv_nsec = 0;
+		Timeout.tv_sec = 0;
+
+		return pthread_mutex_timedlock(&_Handle, &Timeout) != 0;
+#else
+#error "unsupported os"
+#endif
 	}
 }
 #endif

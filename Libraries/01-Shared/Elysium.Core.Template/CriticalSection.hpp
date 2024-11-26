@@ -21,6 +21,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#define _WINSOCKAPI_ // don't include winsock
 	#include <Windows.h>
 	#endif
+#elif defined ELYSIUM_CORE_OS_LINUX
+	#ifndef _PTHREAD_H
+	#include <pthread.h>
+	#endif
+#else
+#error "unsupported os"
 #endif
 
 namespace Elysium::Core::Template::Threading
@@ -47,7 +53,13 @@ namespace Elysium::Core::Template::Threading
 
 		void Exit() noexcept;
 	private:
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		CRITICAL_SECTION _Handle;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		pthread_mutex_t _Handle;	// There is no pendant for CRITICAL_SECTION so I use a mutex instead
+#else
+#error "unsupported os"
+#endif
 	};
 	
 	inline Elysium::Core::Template::Threading::CriticalSection::CriticalSection()

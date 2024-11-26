@@ -36,8 +36,14 @@ namespace Elysium::Core::Template::System
 #elif defined __GNUC__
 		inline static constexpr const char8_t* Name = u8"GNU C compiler";
 #else
-		inline static constexpr const char8_t* Name = u8"Unhandled compiler";
+		inline static constexpr const char8_t* Name = u8"Unknown compiler";
 #endif
+
+		//inline static constexpr const char8_t* Archticture = u8"x86_x64";
+		//inline static constexpr const char8_t* Archticture = u8"x86_x32";
+		//inline static constexpr const char8_t* Archticture = u8"ARM";
+		//inline static constexpr const char8_t* Archticture = u8"ARM64";
+		//inline static constexpr const char8_t* Archticture = u8"Unknown architecture";
 	};
 }
 #endif
