@@ -12,16 +12,33 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef _SYNCHAPI_H_
-#include <synchapi.h>
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "OperatingSystem.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef _SYNCHAPI_H_
+	#include <synchapi.h>
+	#endif
+
+	#ifndef CONCURRENCYSAL_H
+	#include <concurrencysal.h>
+	#endif
+#else
+#error "unsupported os"
 #endif
 
 namespace Elysium::Core::Template::Threading
 {
+	/// <summary>
+	/// 
+	/// 
+	/// https://learn.microsoft.com/en-us/windows/win32/sync/slim-reader-writer--srw--locks
+	/// </summary>
 	class SharedMutex
 	{
 	public:
-		constexpr SharedMutex() noexcept;
+		SharedMutex() noexcept;
 
 		SharedMutex(const SharedMutex& Source) = delete;
 
@@ -45,44 +62,90 @@ namespace Elysium::Core::Template::Threading
 
 		void UnlockShared() noexcept;
 	private:
-		void* _Handle;
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		SRWLOCK _Handle;
+#else
+#error "unsupported os"
+#endif
 	};
 
-	inline constexpr Elysium::Core::Template::Threading::SharedMutex::SharedMutex() noexcept
-		: _Handle(nullptr)
+	inline Elysium::Core::Template::Threading::SharedMutex::SharedMutex() noexcept
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		: _Handle()
+	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-initializesrwlock
+		InitializeSRWLock(&_Handle);
+	}
+#else
 	{ }
+#error "unsupported os"
+#endif
 
 	inline SharedMutex::~SharedMutex() noexcept
 	{ }
 
 	inline bool SharedMutex::TryLockExlusive() noexcept
-	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-tryacquiresrwlockexclusive
-		return TryAcquireSRWLockExclusive(reinterpret_cast<PSRWLOCK>(&_Handle)) != 0;
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-tryacquiresrwlockexclusive
+		return TryAcquireSRWLockExclusive(&_Handle) != 0;
+#else
+#error "unsupported os"
+#endif
 	}
 
 	inline void SharedMutex::LockExclusive() noexcept
-	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive
-		AcquireSRWLockExclusive(reinterpret_cast<PSRWLOCK>(&_Handle));
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive
+		AcquireSRWLockExclusive(&_Handle);
+#else
+#error "unsupported os"
+#endif
 	}
 
 	inline void SharedMutex::UnlockExclusive() noexcept
-	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive
-		ReleaseSRWLockExclusive(reinterpret_cast<PSRWLOCK>(&_Handle));
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// https://learn.microsoft.com/en-us/cpp/code-quality/c26110?view=msvc-170
+		// https://learn.microsoft.com/en-us/cpp/code-quality/annotating-locking-behavior?view=msvc-170
+		// https://learn.microsoft.com/en-us/cpp/code-quality/how-to-specify-additional-code-information-by-using-analysis-assume?view=msvc-170
+		_Analysis_assume_lock_held_(_Handle);
+
+		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockexclusive
+		ReleaseSRWLockExclusive(&_Handle);
+#else
+#error "unsupported os"
+#endif
 	}
 
 	inline bool SharedMutex::TryLockShared() noexcept
-	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-tryacquiresrwlockshared
-		return TryAcquireSRWLockShared(reinterpret_cast<PSRWLOCK>(&_Handle)) != 0;
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-tryacquiresrwlockshared
+		return TryAcquireSRWLockShared(&_Handle) != 0;
+#else
+#error "unsupported os"
+#endif
 	}
 
 	inline void SharedMutex::LockShared() noexcept
-	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockshared
-		AcquireSRWLockShared(reinterpret_cast<PSRWLOCK>(&_Handle));
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockshared
+		AcquireSRWLockShared(&_Handle);
+#else
+#error "unsupported os"
+#endif
 	}
 
 	inline void SharedMutex::UnlockShared() noexcept
-	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockshared
-		ReleaseSRWLockShared(reinterpret_cast<PSRWLOCK>(&_Handle));
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-releasesrwlockshared
+		ReleaseSRWLockShared(&_Handle);
+#else
+#error "unsupported os"
+#endif
 	}
 }
 #endif
