@@ -109,7 +109,12 @@ namespace UnitTests::Core::Threading
 			{
 				_Counter++;
 
-				Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter;
+				// between reading PreviousValue and CurrentValue all the other threads could have incremented the internal value
+				// therefore it doesn't make sense to store PreviousValue
+				// how to determine whether Load() still locks correctly?
+				//Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter;
+				Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter.Load();
+
 				//Elysium::Core::Template::System::uint32_t CurrentValue = _AtomicCounter++;	// @ToDo: why isn't this available? probably same reason Load() wasn't available until specifically added!
 				Elysium::Core::Template::System::uint32_t CurrentValue = _AtomicCounter.operator++();
 				static_cast<Elysium::Core::Template::Container::Vector<int>*>(Input)->PushBack(CurrentValue);
