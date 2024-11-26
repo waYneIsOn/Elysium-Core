@@ -638,6 +638,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Find.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -742,8 +745,5 @@
     <Filter Include="Threading\Tasks">
       <UniqueIdentifier>{a5f154e2-9cdf-416f-be1e-ee2e29b2a129}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SharedMutex.cpp" />
   </ItemGroup>
 </Project>

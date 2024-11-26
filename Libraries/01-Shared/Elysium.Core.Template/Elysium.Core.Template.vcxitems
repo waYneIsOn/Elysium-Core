@@ -76,6 +76,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileSystem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Find.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
