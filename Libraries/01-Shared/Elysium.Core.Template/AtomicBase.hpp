@@ -52,7 +52,7 @@ namespace Elysium::Core::Template::Threading
 	protected:
 		T _Value;
 	private:
-		mutable SharedMutex _MemoryBarrier;
+		mutable SharedMutex _SlimReaderWriterLock;
 	};
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
@@ -60,9 +60,9 @@ namespace Elysium::Core::Template::Threading
 	{
 		ValidateMemoryOrderLoad(Order);
 
-		_MemoryBarrier.LockExclusive();
+		_SlimReaderWriterLock.LockExclusive();
 		T CopiedValue = _Value;
-		_MemoryBarrier.UnlockExclusive();
+		_SlimReaderWriterLock.UnlockExclusive();
 
 		return CopiedValue;
 	}
@@ -72,10 +72,10 @@ namespace Elysium::Core::Template::Threading
 	{
 		ValidateMemoryOrderStore(Order);
 
-		_MemoryBarrier.LockExclusive();
+		_SlimReaderWriterLock.LockExclusive();
 		T CopiedValue = _Value;
 		_Value = Value;
-		_MemoryBarrier.UnlockExclusive();
+		_SlimReaderWriterLock.UnlockExclusive();
 
 		return CopiedValue;
 	}
