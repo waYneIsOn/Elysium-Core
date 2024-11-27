@@ -23,16 +23,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Math
 {
 	template<Concepts::SignedInteger SI>
-	constexpr SI Ceiling(const SI Value) noexcept
+	constexpr double Ceiling(const SI Value) noexcept
 	{
-		if (Value < 0)	// obviously cannot be evaluated at compile-time using concepts
-		{
-			return Value;
-		}
-		else
-		{
-			return Value + 1;
-		}
+		return static_cast<double>(Value);
 	}
 	
 	constexpr float Ceiling(const float Value) noexcept

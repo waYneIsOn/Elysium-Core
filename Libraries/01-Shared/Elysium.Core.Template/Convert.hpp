@@ -292,7 +292,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm10(Value) / Math::Logarithm10(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -338,7 +338,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm10(Value) / Math::Logarithm10(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -384,7 +384,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm10(Value) / Math::Logarithm10(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
@@ -430,7 +430,7 @@ namespace Elysium::Core::Template::Text
 		}
 
 		const System::uint8_t RequiredNumberOfCharacters =
-			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Value) / Math::Logarithm(ToBase)) + 1_ui8);
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm10(Value) / Math::Logarithm10(ToBase)) + 1_ui8);
 		Text::Convert<C>::CorrespondingString Result = Elysium::Core::Template::Text::Convert<C>::CorrespondingString(RequiredNumberOfCharacters);
 
 		System::uint8_t Index = 0;
