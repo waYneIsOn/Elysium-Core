@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ARITHMETIC
+#include "Arithmetic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
 #include "Literals.hpp"
 #endif
@@ -30,8 +34,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Numeric
 {
-	template <class T>
-	struct NumericTraitsBase
+	template <Elysium::Core::Template::Concepts::Arithmetic T>
+	class _NumericTraitsBase
 	{
 	public:
 		using Value = T;
@@ -79,92 +83,20 @@ namespace Elysium::Core::Template::Numeric
 		static constexpr System::uint8_t GetDigitCount(Value Value);
 	};
 
-	template <class T>
-	struct NumericTraits
-	{ };
-
-	template <>
-	struct NumericTraits<System::uint8_t> : public NumericTraitsBase<System::uint8_t>
-	{ };
-
-	template <>
-	struct NumericTraits<System::uint16_t> : public NumericTraitsBase<System::uint16_t>
-	{
-	public:
-		static constexpr const System::uint8_t GetHigh(ConstValue Value);
-
-		static constexpr const System::uint8_t GetLow(ConstValue Value);
-	};
-
-	template <>
-	struct NumericTraits<System::uint32_t> : public NumericTraitsBase<System::uint32_t>
-	{
-	public:
-		static constexpr const System::uint16_t GetHigh(ConstValue Value);
-
-		static constexpr const System::uint16_t GetLow(ConstValue Value);
-	};
-
-	template <>
-	struct NumericTraits<System::uint64_t> : public NumericTraitsBase<System::uint64_t>
-	{
-	public:
-		static constexpr const System::uint32_t GetHigh(ConstValue Value);
-
-		static constexpr const System::uint32_t GetLow(ConstValue Value);
-	};
-
-	template <>
-	struct NumericTraits<System::int8_t> : public NumericTraitsBase<System::int8_t>
-	{ };
-
-	template <>
-	struct NumericTraits<System::int16_t> : public NumericTraitsBase<System::int16_t>
-	{
-	/*
-	public:
-		static constexpr const System::uint8_t GetHigh(ConstValue Value);
-
-		static constexpr const System::uint8_t GetLow(ConstValue Value);
-	*/
-	};
-
-	template <>
-	struct NumericTraits<System::int32_t> : public NumericTraitsBase<System::int32_t>
-	{
-		/*
-		public:
-			static constexpr const System::uint16_t GetHigh(ConstValue Value);
-
-			static constexpr const System::uint16_t GetLow(ConstValue Value);
-		*/
-	};
-
-	template <>
-	struct NumericTraits<System::int64_t> : public NumericTraitsBase<System::int64_t>
-	{
-		/*
-		public:
-			static constexpr const System::int32_t GetHigh(ConstValue Value);
-
-			static constexpr const System::int32_t GetLow(ConstValue Value);
-		*/
-	};
-
-	template<class T>
-	inline constexpr const bool NumericTraitsBase<T>::IsPositive(ConstValue Value)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline constexpr const bool _NumericTraitsBase<T>::IsPositive(ConstValue Value)
 	{
 		return Value > 0;
 	}
 
-	template<class T>
-	inline constexpr const bool NumericTraitsBase<T>::IsPrimeNumber(ConstValue Input)
-	{	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline constexpr const bool _NumericTraitsBase<T>::IsPrimeNumber(ConstValue Input)
+	{
 		if (Input < 0x02)
 		{
 			return false;
 		}
-		
+
 		for (Value i = 2; i <= Input / 2; i++)
 		{
 			if (Input % i == 0)
@@ -176,8 +108,8 @@ namespace Elysium::Core::Template::Numeric
 		return true;
 	}
 
-	template<class T>
-	inline constexpr System::uint8_t NumericTraitsBase<T>::GetDigitCount(Value Value)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline constexpr System::uint8_t _NumericTraitsBase<T>::GetDigitCount(Value Value)
 	{
 		System::uint8_t Result = 0;
 		while (Value > 0)
@@ -188,6 +120,25 @@ namespace Elysium::Core::Template::Numeric
 
 		return Result;
 	}
+
+	template <Elysium::Core::Template::Concepts::Arithmetic T>
+	class NumericTraits
+	{ };
+
+	template <>
+	class NumericTraits<System::uint8_t>
+		: public _NumericTraitsBase<System::uint8_t>
+	{ };
+
+	template <>
+	class NumericTraits<System::uint16_t>
+		: public _NumericTraitsBase<System::uint16_t>
+	{
+	public:
+		static constexpr const System::uint8_t GetHigh(ConstValue Value);
+
+		static constexpr const System::uint8_t GetLow(ConstValue Value);
+	};
 
 	inline constexpr const System::uint8_t NumericTraits<System::uint16_t>::GetHigh(ConstValue Value)
 	{
@@ -208,6 +159,16 @@ namespace Elysium::Core::Template::Numeric
 		return Value >> 8 & 0xFF;
 #endif
 	}
+	
+	template <>
+	class NumericTraits<System::uint32_t>
+		: public _NumericTraitsBase<System::uint32_t>
+	{
+	public:
+		static constexpr const System::uint16_t GetHigh(ConstValue Value);
+
+		static constexpr const System::uint16_t GetLow(ConstValue Value);
+	};
 
 	inline constexpr const System::uint16_t NumericTraits<System::uint32_t>::GetHigh(ConstValue Value)
 	{
@@ -226,6 +187,16 @@ namespace Elysium::Core::Template::Numeric
 		return Value >> 16 & 0xFFFF;
 #endif
 	}
+	
+	template <>
+	class NumericTraits<System::uint64_t>
+		: public _NumericTraitsBase<System::uint64_t>
+	{
+	public:
+		static constexpr const System::uint32_t GetHigh(ConstValue Value);
+
+		static constexpr const System::uint32_t GetLow(ConstValue Value);
+	};
 
 	inline constexpr const System::uint32_t NumericTraits<System::uint64_t>::GetHigh(ConstValue Value)
 	{
@@ -243,6 +214,83 @@ namespace Elysium::Core::Template::Numeric
 #else
 		return Value >> 32 & 0xFFFFFFFF;
 #endif
+	}
+
+	template <>
+	class NumericTraits<System::int8_t>
+		: public _NumericTraitsBase<System::int8_t>
+	{ };
+
+	template <>
+	class NumericTraits<System::int16_t>
+		: public _NumericTraitsBase<System::int16_t>
+	{
+	/*
+	public:
+		static constexpr const System::uint8_t GetHigh(ConstValue Value);
+
+		static constexpr const System::uint8_t GetLow(ConstValue Value);
+	*/
+	};
+
+	template <>
+	class NumericTraits<System::int32_t>
+		: public _NumericTraitsBase<System::int32_t>
+	{
+		/*
+		public:
+			static constexpr const System::uint16_t GetHigh(ConstValue Value);
+
+			static constexpr const System::uint16_t GetLow(ConstValue Value);
+		*/
+	};
+
+	template <>
+	class NumericTraits<System::int64_t>
+		: public _NumericTraitsBase<System::int64_t>
+	{
+		/*
+		public:
+			static constexpr const System::int32_t GetHigh(ConstValue Value);
+
+			static constexpr const System::int32_t GetLow(ConstValue Value);
+		*/
+	};
+
+	template <>
+	struct NumericTraits<float>
+		: public _NumericTraitsBase<float>
+	{
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsNaN(ConstValue Value);
+	};
+
+	inline constexpr const bool NumericTraits<float>::IsNaN(ConstValue Value)
+	{
+		return Value != Value;
+	}
+	
+	template <>
+	struct NumericTraits<double>
+		: public _NumericTraitsBase<double>
+	{
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const bool IsNaN(ConstValue Value);
+	};
+	
+	inline constexpr const bool NumericTraits<double>::IsNaN(ConstValue Value)
+	{
+		return Value != Value;
 	}
 }
 #endif

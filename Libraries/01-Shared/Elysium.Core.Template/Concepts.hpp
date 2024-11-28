@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ARITHMETIC
+#include "Arithmetic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ATOMICUSABLE
 #include "AtomicUsable.hpp"
 #endif

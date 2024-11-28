@@ -76,7 +76,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	inline Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F> HuffmanTree<S, F>::Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length)
 	{
 		// count occurrences for each symbol
-		constexpr const F OccurrencesLength = Elysium::Core::Template::Numeric::NumericTraitsBase<S>::Maximum + 1;
+		constexpr const F OccurrencesLength = Elysium::Core::Template::Numeric::NumericTraits<S>::Maximum + 1;
 		F Occurrences[OccurrencesLength] = { 0 };
 		for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
 		{

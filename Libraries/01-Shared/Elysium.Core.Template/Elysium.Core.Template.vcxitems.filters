@@ -641,6 +641,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Find.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Arithmetic.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

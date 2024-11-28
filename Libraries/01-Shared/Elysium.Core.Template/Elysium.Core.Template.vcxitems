@@ -112,6 +112,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Arithmetic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp" />

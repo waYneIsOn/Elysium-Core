@@ -3,8 +3,6 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/NumericTraits.hpp"
 
-#include <Windows.h>
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template::Numeric
