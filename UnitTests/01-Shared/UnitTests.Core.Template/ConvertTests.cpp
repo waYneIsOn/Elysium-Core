@@ -27,7 +27,7 @@ namespace UnitTests::Core::Template::Text
 			Elysium::Core::Template::Text::String<wchar_t> NotWorkingWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(NotWorking);
 			Elysium::Core::Template::Text::String<wchar_t> FromFloatWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(FromFloat);
 			Elysium::Core::Template::Text::String<wchar_t> FromDoubleWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(FromDouble);
-
+			
 			Logger::WriteMessage(&ZeroWString[0]);
 			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(&PositiveWString[0]);

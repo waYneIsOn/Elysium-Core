@@ -984,7 +984,7 @@ namespace Elysium::Core::Template::Text
 		Index = 0;
 		while (Index < RequiredNumberOfCharactersLowPart)
 		{
-			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+			System::int64_t BaseValue = static_cast<Elysium::Core::Template::System::int64_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersLowPart) - Index - 1_ui8));
 			System::int64_t NumericalValue = LowPart / BaseValue;
 
