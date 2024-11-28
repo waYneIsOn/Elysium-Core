@@ -644,6 +644,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Arithmetic.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

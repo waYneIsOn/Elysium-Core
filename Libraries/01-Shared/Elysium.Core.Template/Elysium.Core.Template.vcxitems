@@ -53,6 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BlockSort.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp" />

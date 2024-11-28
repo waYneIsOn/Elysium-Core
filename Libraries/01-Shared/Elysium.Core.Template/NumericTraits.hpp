@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Arithmetic.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
+#include "Power.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
 #include "Literals.hpp"
 #endif
@@ -66,31 +70,31 @@ namespace Elysium::Core::Template::Numeric
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const bool IsPositive(ConstValue Value);
+		static constexpr const bool IsPositive(ConstValue Value) noexcept;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr const bool IsPrimeNumber(ConstValue Value);
+		static constexpr const bool IsPrimeNumber(ConstValue Value) noexcept;
 	public:
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		static constexpr System::uint8_t GetDigitCount(Value Value);
+		static constexpr System::uint8_t GetDigitCount(Value Value) noexcept;
 	};
 
 	template<Elysium::Core::Template::Concepts::Arithmetic T>
-	inline constexpr const bool _NumericTraitsBase<T>::IsPositive(ConstValue Value)
+	inline constexpr const bool _NumericTraitsBase<T>::IsPositive(ConstValue Value) noexcept
 	{
 		return Value > 0;
 	}
 
 	template<Elysium::Core::Template::Concepts::Arithmetic T>
-	inline constexpr const bool _NumericTraitsBase<T>::IsPrimeNumber(ConstValue Input)
+	inline constexpr const bool _NumericTraitsBase<T>::IsPrimeNumber(ConstValue Input) noexcept
 	{
 		if (Input < 0x02)
 		{
@@ -109,7 +113,7 @@ namespace Elysium::Core::Template::Numeric
 	}
 
 	template<Elysium::Core::Template::Concepts::Arithmetic T>
-	inline constexpr System::uint8_t _NumericTraitsBase<T>::GetDigitCount(Value Value)
+	inline constexpr System::uint8_t _NumericTraitsBase<T>::GetDigitCount(Value Value) noexcept
 	{
 		System::uint8_t Result = 0;
 		while (Value > 0)
@@ -135,12 +139,12 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBase<System::uint16_t>
 	{
 	public:
-		static constexpr const System::uint8_t GetHigh(ConstValue Value);
+		static constexpr const System::uint8_t GetHigh(ConstValue Value) noexcept;
 
-		static constexpr const System::uint8_t GetLow(ConstValue Value);
+		static constexpr const System::uint8_t GetLow(ConstValue Value) noexcept;
 	};
 
-	inline constexpr const System::uint8_t NumericTraits<System::uint16_t>::GetHigh(ConstValue Value)
+	inline constexpr const System::uint8_t NumericTraits<System::uint16_t>::GetHigh(ConstValue Value) noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return Value >> 8 & 0xFF;
@@ -150,7 +154,7 @@ namespace Elysium::Core::Template::Numeric
 #endif
 	}
 
-	inline constexpr const System::uint8_t NumericTraits<System::uint16_t>::GetLow(ConstValue Value)
+	inline constexpr const System::uint8_t NumericTraits<System::uint16_t>::GetLow(ConstValue Value) noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return Value & 0xFF;
@@ -165,12 +169,12 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBase<System::uint32_t>
 	{
 	public:
-		static constexpr const System::uint16_t GetHigh(ConstValue Value);
+		static constexpr const System::uint16_t GetHigh(ConstValue Value) noexcept;
 
-		static constexpr const System::uint16_t GetLow(ConstValue Value);
+		static constexpr const System::uint16_t GetLow(ConstValue Value) noexcept;
 	};
 
-	inline constexpr const System::uint16_t NumericTraits<System::uint32_t>::GetHigh(ConstValue Value)
+	inline constexpr const System::uint16_t NumericTraits<System::uint32_t>::GetHigh(ConstValue Value) noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return Value >> 16 & 0xFFFF;
@@ -179,7 +183,7 @@ namespace Elysium::Core::Template::Numeric
 #endif
 	}
 
-	inline constexpr const System::uint16_t NumericTraits<System::uint32_t>::GetLow(ConstValue Value)
+	inline constexpr const System::uint16_t NumericTraits<System::uint32_t>::GetLow(ConstValue Value) noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return Value & 0xFFFF;
@@ -193,12 +197,12 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBase<System::uint64_t>
 	{
 	public:
-		static constexpr const System::uint32_t GetHigh(ConstValue Value);
+		static constexpr const System::uint32_t GetHigh(ConstValue Value) noexcept;
 
-		static constexpr const System::uint32_t GetLow(ConstValue Value);
+		static constexpr const System::uint32_t GetLow(ConstValue Value) noexcept;
 	};
 
-	inline constexpr const System::uint32_t NumericTraits<System::uint64_t>::GetHigh(ConstValue Value)
+	inline constexpr const System::uint32_t NumericTraits<System::uint64_t>::GetHigh(ConstValue Value) noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return Value >> 32 & 0xFFFFFFFF;
@@ -207,7 +211,7 @@ namespace Elysium::Core::Template::Numeric
 #endif
 	}
 
-	inline constexpr const System::uint32_t NumericTraits<System::uint64_t>::GetLow(ConstValue Value)
+	inline constexpr const System::uint32_t NumericTraits<System::uint64_t>::GetLow(ConstValue Value) noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return Value & 0xFFFFFFFF;
@@ -262,35 +266,74 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBase<float>
 	{
 	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsNaN(ConstValue Value);
+		static constexpr const bool IsNaN(ConstValue Value) noexcept;
+
+		static constexpr const Elysium::Core::Template::System::int64_t GetValuePreDecimalPoint(ConstValue Value) noexcept;
+
+		static constexpr const Elysium::Core::Template::System::uint64_t GetValuePostDecimalPoint(ConstValue Value,
+			const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept;
 	};
 
-	inline constexpr const bool NumericTraits<float>::IsNaN(ConstValue Value)
+	inline constexpr const bool NumericTraits<float>::IsNaN(ConstValue Value) noexcept
 	{
 		return Value != Value;
 	}
-	
+
+	inline constexpr const Elysium::Core::Template::System::int64_t NumericTraits<float>::GetValuePreDecimalPoint(ConstValue Value) noexcept
+	{
+		return static_cast<Elysium::Core::Template::System::int64_t>(Value);
+	}
+
+	inline constexpr const Elysium::Core::Template::System::uint64_t NumericTraits<float>::GetValuePostDecimalPoint(ConstValue Value, const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept
+	{
+		const double Factor = Elysium::Core::Template::Math::Power(10.0, NumberOfDigits);
+		// @ToDo: is it better to Round(Value * Factor) / Factor?
+		return static_cast<Elysium::Core::Template::System::uint64_t>((Value * Factor) / Factor);
+	}
+
 	template <>
 	struct NumericTraits<double>
 		: public _NumericTraitsBase<double>
 	{
 	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <returns></returns>
-		static constexpr const bool IsNaN(ConstValue Value);
+		static constexpr const bool IsNaN(ConstValue Value) noexcept;
+
+		static constexpr const Elysium::Core::Template::System::int64_t GetValuePreDecimalPoint(ConstValue Value) noexcept;
+
+		static constexpr const Elysium::Core::Template::System::uint64_t GetValuePostDecimalPoint(ConstValue Value,
+			const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept;
 	};
 	
-	inline constexpr const bool NumericTraits<double>::IsNaN(ConstValue Value)
+	inline constexpr const bool NumericTraits<double>::IsNaN(ConstValue Value) noexcept
 	{
 		return Value != Value;
 	}
+
+	inline constexpr const Elysium::Core::Template::System::int64_t NumericTraits<double>::GetValuePreDecimalPoint(ConstValue Value) noexcept
+	{
+		return static_cast<Elysium::Core::Template::System::int64_t>(Value);
+	}
+
+	inline constexpr const Elysium::Core::Template::System::uint64_t NumericTraits<double>::GetValuePostDecimalPoint(ConstValue Value, const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept
+	{
+		const double Factor = Elysium::Core::Template::Math::Power(10.0, NumberOfDigits);
+		// @ToDo: is it better to Round(Value * Factor) / Factor?
+		return static_cast<Elysium::Core::Template::System::uint64_t>((Value * Factor) / Factor);
+	}
+	
+	/*
+	template <>
+	struct NumericTraits<long double>
+		: public _NumericTraitsBase<long double>
+	{
+	public:
+		static constexpr const bool IsNaN(ConstValue Value) noexcept;
+
+		static constexpr const Elysium::Core::Template::System::int64_t GetPreDecimalPoint(ConstValue Value) noexcept;
+
+		static constexpr const Elysium::Core::Template::System::uint64_t GetPostDecimalPoint(ConstValue Value,
+			const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept;
+	};
+	*/
 }
 #endif

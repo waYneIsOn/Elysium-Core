@@ -83,7 +83,7 @@ namespace Elysium::Core::Template::Globalization
 
 		using CorrespondingString = Text::String<C>;
 	public:
-		NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept;
+		constexpr NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept;
 
 		NumberFormatInfo(const NumberFormatInfo& Source) noexcept;
 
@@ -196,7 +196,7 @@ namespace Elysium::Core::Template::Globalization
 	};
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept
+	inline constexpr Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept
 		: _LocaleId(LocaleId), _IsReadOnly(ReadOnly)
 	{ }
 

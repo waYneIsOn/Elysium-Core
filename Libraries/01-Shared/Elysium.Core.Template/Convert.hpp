@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Logarithm.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_DECIMAL
+#include "Decimal.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
 #include "Power.hpp"
 #endif
@@ -163,6 +167,13 @@ namespace Elysium::Core::Template::Text
 		static const typename Convert<C>::CorrespondingString ToString(const double Value, const Elysium::Core::Template::System::uint8_t ToBase);
 
 		static const typename Convert<C>::CorrespondingString ToString(const double Value);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::Math::Decimal Value, const Elysium::Core::Template::System::uint8_t ToBase,
+			const CorrespondingNumberFormatInfo& FormatInfo);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::Math::Decimal Value, const Elysium::Core::Template::System::uint8_t ToBase);
+
+		static const typename Convert<C>::CorrespondingString ToString(Elysium::Core::Template::Math::Decimal Value);
 	public:
 		static Elysium::Core::Template::System::uint8_t ToUInt8(ConstPointer Value, const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::uint8_t FromBase,
 			const CorrespondingNumberFormatInfo& FormatInfo);
@@ -903,6 +914,112 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C>
 	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(double Value)
+	{
+		return ToString(Value, 10, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::Math::Decimal Value, const Elysium::Core::Template::System::uint8_t ToBase, const CorrespondingNumberFormatInfo& FormatInfo)
+	{
+		Elysium::Core::Template::System::int64_t HighPart = Value.GetHighPart();
+		Elysium::Core::Template::System::uint64_t LowPart = Value.GetLowPart();
+		
+		if (HighPart == 0 && LowPart == 0)
+		{
+			return Convert<C>::CorrespondingString('\u0030', 1);
+		}
+
+		const System::uint64_t NumberDecimalDigits = 2;
+
+		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
+		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();
+
+		const System::uint8_t NegativeSignLength = Value < 0 ? static_cast<Elysium::Core::uint8_t>(NegativeSign.GetLength()) : 0;
+
+		const System::uint8_t RequiredNumberOfCharactersHighPart =
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(Math::Absolute(HighPart)) / Math::Logarithm(ToBase)) + 1_ui8);
+
+		const System::uint8_t RequiredNumberOfCharactersLowPart =
+			static_cast<Elysium::Core::Template::System::uint8_t>(Math::Floor(Math::Logarithm(LowPart) / Math::Logarithm(ToBase)) + 1_ui8);
+
+		const System::uint8_t DecimalSeparatorLength = RequiredNumberOfCharactersLowPart > 0 ?
+			static_cast<Elysium::Core::uint8_t>(DecimalSeparator.GetLength()) : 0;
+
+		Text::Convert<C>::CorrespondingString Result = Template::Text::Convert<C>::CorrespondingString(NegativeSignLength +
+			RequiredNumberOfCharactersHighPart + DecimalSeparatorLength + NumberDecimalDigits);
+
+		if (NegativeSignLength > 0)
+		{
+			memcpy(&Result[0], (const void*)&NegativeSign[0], NegativeSignLength * CharacterTraits<C>::MinimumByteLength);
+			HighPart = Math::Absolute(HighPart);
+		}
+
+		System::uint8_t Index = 0;
+		while (Index < RequiredNumberOfCharactersHighPart)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+				static_cast<double>(RequiredNumberOfCharactersHighPart) - Index - 1_ui8));
+			System::int16_t NumericalValue = HighPart / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength] = NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength] = NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			HighPart -= BaseValue * NumericalValue;
+		}
+
+		if (DecimalSeparatorLength > 0)
+		{
+			memcpy(&Result[Index + NegativeSignLength], (const void*)&DecimalSeparator[0], DecimalSeparatorLength * CharacterTraits<C>::MinimumByteLength);
+			Index += DecimalSeparatorLength;
+		}
+
+		Index = 0;
+		while (Index < RequiredNumberOfCharactersLowPart)
+		{
+			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
+				static_cast<double>(RequiredNumberOfCharactersLowPart) - Index - 1_ui8));
+			System::int64_t NumericalValue = LowPart / BaseValue;
+
+			if (NumericalValue < 10)
+			{
+				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersHighPart] =
+					NumericalValue + CharacterTraits<C>::ZeroCharacter;
+				Index++;
+			}
+			else
+			{
+				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersHighPart] =
+					NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+				Index++;
+			}
+
+			if (Index >= NumberDecimalDigits)
+			{
+				break;
+			}
+
+			LowPart -= BaseValue * NumericalValue;
+		}
+		
+		return Result;
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::Math::Decimal Value, const Elysium::Core::Template::System::uint8_t ToBase)
+	{
+		return ToString(Value, ToBase, _InvariantInfo);
+	}
+
+	template<Concepts::Character C>
+	inline const typename Convert<C>::CorrespondingString Convert<C>::ToString(Elysium::Core::Template::Math::Decimal Value)
 	{
 		return ToString(Value, 10, _InvariantInfo);
 	}

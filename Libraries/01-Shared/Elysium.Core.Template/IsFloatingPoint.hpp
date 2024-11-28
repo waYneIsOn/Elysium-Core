@@ -24,7 +24,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsAnyOf.hpp"
 #endif
 
-namespace Elysium::Core
+namespace Elysium::Core::Template::Math
 {
     class Decimal;
 }
@@ -32,7 +32,8 @@ namespace Elysium::Core
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, float, double, long double, Elysium::Core::Decimal>;
+    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, float, double, long double, 
+        Elysium::Core::Template::Math::Decimal>;
 
     template <class T>
     struct IsFloatingPoint : IntegralConstant<bool, IsFloatingPointValue<T>>

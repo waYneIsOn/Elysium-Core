@@ -86,7 +86,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />

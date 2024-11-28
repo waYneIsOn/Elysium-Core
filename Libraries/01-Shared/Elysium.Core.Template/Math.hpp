@@ -22,6 +22,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Ceiling.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_DECIMAL
+#include "Decimal.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FACTORIAL
 #include "Factorial.hpp"
 #endif

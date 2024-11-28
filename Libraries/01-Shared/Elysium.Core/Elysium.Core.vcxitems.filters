@@ -118,7 +118,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Decimal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
