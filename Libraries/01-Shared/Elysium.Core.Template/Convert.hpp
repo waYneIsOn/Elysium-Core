@@ -929,7 +929,7 @@ namespace Elysium::Core::Template::Text
 			return Convert<C>::CorrespondingString('\u0030', 1);
 		}
 
-		const System::uint64_t NumberDecimalDigits = 2;
+		const System::uint64_t NumberDecimalDigits = 4;
 
 		const CorrespondingString NegativeSign = FormatInfo.GetNegativeSign();
 		const CorrespondingString DecimalSeparator = FormatInfo.GetNumberDecimalSeparator();

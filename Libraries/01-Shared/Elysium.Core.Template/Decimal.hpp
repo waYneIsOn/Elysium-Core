@@ -95,12 +95,12 @@ namespace Elysium::Core::Template::Math
 
 	inline constexpr Decimal::Decimal(const float Value) noexcept
 		: _HighPart(Elysium::Core::Template::Numeric::NumericTraits<float>::GetValuePreDecimalPoint(Value)),
-		_LowPart(Elysium::Core::Template::Numeric::NumericTraits<float>::GetValuePostDecimalPoint(Value, 3))
+		_LowPart(Elysium::Core::Template::Numeric::NumericTraits<float>::GetValuePostDecimalPoint(Value, 4))
 	{ }
 
 	inline constexpr Decimal::Decimal(const double Value) noexcept
 		: _HighPart(Elysium::Core::Template::Numeric::NumericTraits<double>::GetValuePreDecimalPoint(Value)),
-		_LowPart(Elysium::Core::Template::Numeric::NumericTraits<double>::GetValuePostDecimalPoint(Value, 3))
+		_LowPart(Elysium::Core::Template::Numeric::NumericTraits<double>::GetValuePostDecimalPoint(Value, 4))
 	{ }
 
 	inline constexpr Decimal::Decimal(const Elysium::Core::Template::System::int64_t HighPart, const Elysium::Core::Template::System::uint64_t LowPart) noexcept
