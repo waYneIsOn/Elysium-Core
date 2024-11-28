@@ -17,14 +17,16 @@ namespace UnitTests::Core::Template::Text
 			Elysium::Core::Template::Math::Decimal Zero = Elysium::Core::Template::Math::Decimal(0_i64, 0_ui64);
 			Elysium::Core::Template::Math::Decimal Positive = Elysium::Core::Template::Math::Decimal(3_i64, 5_ui64);
 			Elysium::Core::Template::Math::Decimal Negative = Elysium::Core::Template::Math::Decimal(-2_i64, 345_ui64);
-			Elysium::Core::Template::Math::Decimal NonHandledPostDecimalPoint = Elysium::Core::Template::Math::Decimal(2_i64, 123456789_ui64);
-			Elysium::Core::Template::Math::Decimal NotWorking = -2.345;
+			Elysium::Core::Template::Math::Decimal NotWorking = Elysium::Core::Template::Math::Decimal(-2_i64, 123456789_ui64);
+			Elysium::Core::Template::Math::Decimal FromFloat = -2.345f;
+			Elysium::Core::Template::Math::Decimal FromDouble = 12.987;
 
 			Elysium::Core::Template::Text::String<wchar_t> ZeroWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(Zero);
 			Elysium::Core::Template::Text::String<wchar_t> PositiveWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(Positive);
 			Elysium::Core::Template::Text::String<wchar_t> NegativeWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(Negative);
-			Elysium::Core::Template::Text::String<wchar_t> NonHandledPostDecimalPointWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(NonHandledPostDecimalPoint);
-			//Elysium::Core::Template::Text::String<wchar_t> NotWorkingWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(NotWorking);
+			Elysium::Core::Template::Text::String<wchar_t> NotWorkingWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(NotWorking);
+			Elysium::Core::Template::Text::String<wchar_t> FromFloatWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(FromFloat);
+			Elysium::Core::Template::Text::String<wchar_t> FromDoubleWString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(FromDouble);
 
 			Logger::WriteMessage(&ZeroWString[0]);
 			Logger::WriteMessage("\r\n");
@@ -32,12 +34,12 @@ namespace UnitTests::Core::Template::Text
 			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage(&NegativeWString[0]);
 			Logger::WriteMessage("\r\n");
-			Logger::WriteMessage(&NonHandledPostDecimalPointWString[0]);
-			Logger::WriteMessage("\r\n");
-			/*
 			Logger::WriteMessage(&NotWorkingWString[0]);
 			Logger::WriteMessage("\r\n");
-			*/
+			Logger::WriteMessage(&FromFloatWString[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage(&FromDoubleWString[0]);
+			Logger::WriteMessage("\r\n");
 		}
 
 		TEST_METHOD(Ui8ToString)

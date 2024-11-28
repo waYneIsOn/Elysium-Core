@@ -30,37 +30,37 @@ namespace Elysium::Core::Template::Math
 	template<Concepts::FloatingPoint FP>
 	constexpr FP Logarithm(const FP Value) noexcept
 	{
-		return log(Value);
+		return std::log(Value);
 	}
 
 	template<Concepts::Integer I>
 	constexpr double Logarithm(const I Value) noexcept
 	{
-		return log(Value);
+		return std::log(Value);
 	}
 
 	template<Concepts::FloatingPoint FP>
 	constexpr FP Logarithm2(const FP Value) noexcept
 	{
-		return log2(Value);
+		return std::log2(Value);
 	}
 
 	template<Concepts::Integer I>
 	constexpr double Logarithm2(const I Value) noexcept
 	{
-		return log2(Value);
+		return std::log2(Value);
 	}
 
 	template<Concepts::FloatingPoint FP>
 	constexpr FP Logarithm10(const FP Value) noexcept
 	{
-		return log10(Value);
+		return std::log10(Value);
 	}
 
 	template<Concepts::Integer I>
 	constexpr double Logarithm10(const I Value) noexcept
 	{
-		return log10(Value);
+		return std::log10(Value);
 	}
 }
 #endif

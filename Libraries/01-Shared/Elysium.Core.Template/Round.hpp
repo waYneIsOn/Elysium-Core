@@ -16,13 +16,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef _CMATH_
+// ToDo: implement myself and remove
+#include <cmath>
+#endif
+
 namespace Elysium::Core::Template::Math
 {
-	/*
-	constexpr double Round(const double Value) noexcept
+	template<Concepts::FloatingPoint FP>
+	constexpr FP Round(const FP Value) noexcept
 	{
-		return Value;
+		return std::round(Value);
 	}
-	*/
 }
 #endif

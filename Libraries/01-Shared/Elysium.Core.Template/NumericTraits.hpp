@@ -16,8 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Arithmetic.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
+#include "Absolute.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
 #include "Power.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
+#include "Truncate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
@@ -286,9 +294,12 @@ namespace Elysium::Core::Template::Numeric
 
 	inline constexpr const Elysium::Core::Template::System::uint64_t NumericTraits<float>::GetValuePostDecimalPoint(ConstValue Value, const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept
 	{
+		const Elysium::Core::Template::System::int64_t TruncatedValue =
+			Elysium::Core::Template::Math::Truncate<double, Elysium::Core::Template::System::int64_t>(Value);
+		const double FractionalValue = Elysium::Core::Template::Math::Absolute(Value - TruncatedValue);
 		const double Factor = Elysium::Core::Template::Math::Power(10.0, NumberOfDigits);
-		// @ToDo: is it better to Round(Value * Factor) / Factor?
-		return static_cast<Elysium::Core::Template::System::uint64_t>((Value * Factor) / Factor);
+
+		return static_cast<Elysium::Core::Template::System::uint64_t>(FractionalValue * Factor);
 	}
 
 	template <>
@@ -316,9 +327,12 @@ namespace Elysium::Core::Template::Numeric
 
 	inline constexpr const Elysium::Core::Template::System::uint64_t NumericTraits<double>::GetValuePostDecimalPoint(ConstValue Value, const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept
 	{
+		const Elysium::Core::Template::System::int64_t TruncatedValue = 
+			Elysium::Core::Template::Math::Truncate<double, Elysium::Core::Template::System::int64_t>(Value);
+		const double FractionalValue = Elysium::Core::Template::Math::Absolute(Value - TruncatedValue);
 		const double Factor = Elysium::Core::Template::Math::Power(10.0, NumberOfDigits);
-		// @ToDo: is it better to Round(Value * Factor) / Factor?
-		return static_cast<Elysium::Core::Template::System::uint64_t>((Value * Factor) / Factor);
+
+		return static_cast<Elysium::Core::Template::System::uint64_t>(FractionalValue * Factor);
 	}
 	
 	/*
