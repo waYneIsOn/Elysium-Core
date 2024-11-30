@@ -35,100 +35,100 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Threading
 {
 	template <class T, Elysium::Core::Template::System::size SizeOfT = sizeof(T)>
-	class AtomicIntegral;
+	class _AtomicIntegral;
 
 	template <class T>
-	class AtomicIntegral<T, 1>
-		: public AtomicBase<T, 1>
+	class _AtomicIntegral<T, 1>
+		: public _AtomicBase<T, 1>
 	{
 	public:
-		constexpr AtomicIntegral() noexcept = default;
+		constexpr _AtomicIntegral() noexcept = default;
 
-		AtomicIntegral(const AtomicIntegral& Source) = delete;
+		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~AtomicIntegral() = default;
+		~_AtomicIntegral() = default;
 	public:
-		T operator++() noexcept;
+		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
 
 	template<class T>
-	inline T AtomicIntegral<T, 1>::operator++() noexcept
+	inline T _AtomicIntegral<T, 1>::operator++(Elysium::Core::Template::System::int32_t) noexcept
 	{
 		return static_cast<T>(_InterlockedExchangeAdd8(&reinterpret_cast<volatile Elysium::Core::Template::System::int8_t&>(this->_Value), 1));
 	}
 
 	template <class T>
-	class AtomicIntegral<T, 2>
-		: public AtomicBase<T, 2>
+	class _AtomicIntegral<T, 2>
+		: public _AtomicBase<T, 2>
 	{
 	public:
-		constexpr AtomicIntegral() noexcept = default;
+		constexpr _AtomicIntegral() noexcept = default;
 
-		AtomicIntegral(const AtomicIntegral& Source) = delete;
+		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~AtomicIntegral() = default;
+		~_AtomicIntegral() = default;
 	public:
-		T operator++() noexcept;
+		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
 
 	template<class T>
-	inline T AtomicIntegral<T, 2>::operator++() noexcept
+	inline T _AtomicIntegral<T, 2>::operator++(Elysium::Core::Template::System::int32_t) noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement16(&reinterpret_cast<volatile Elysium::Core::Template::System::int16_t&>(this->_Value)));
 	}
 
 	template <class T>
-	class AtomicIntegral<T, 4>
-		: public AtomicBase<T, 4>
+	class _AtomicIntegral<T, 4>
+		: public _AtomicBase<T, 4>
 	{
 	public:
-		constexpr AtomicIntegral() noexcept = default;
+		constexpr _AtomicIntegral() noexcept = default;
 
-		AtomicIntegral(const AtomicIntegral& Source) = delete;
+		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~AtomicIntegral() = default;
+		~_AtomicIntegral() = default;
 	public:
-		T operator++() noexcept;
+		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
 
 	template<class T>
-	inline T AtomicIntegral<T, 4>::operator++() noexcept
+	inline T _AtomicIntegral<T, 4>::operator++(Elysium::Core::Template::System::int32_t) noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement(&reinterpret_cast<volatile long&>(this->_Value)));
 	}
 
 	template <class T>
-	class AtomicIntegral<T, 8>
-		: public AtomicBase<T, 8>
+	class _AtomicIntegral<T, 8>
+		: public _AtomicBase<T, 8>
 	{
 	public:
-		constexpr AtomicIntegral() noexcept = default;
+		constexpr _AtomicIntegral() noexcept = default;
 
-		AtomicIntegral(const AtomicIntegral& Source) = delete;
+		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		AtomicIntegral(AtomicIntegral&& Right) noexcept = delete;
+		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~AtomicIntegral() = default;
+		~_AtomicIntegral() = default;
 	public:
-		T operator++() noexcept;
+		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
 
 	template<class T>
-	inline T AtomicIntegral<T, 8>::operator++() noexcept
+	inline T _AtomicIntegral<T, 8>::operator++(Elysium::Core::Template::System::int32_t) noexcept
 	{
 		return static_cast<T>(_InterlockedIncrement64(&reinterpret_cast<volatile Elysium::Core::Template::System::int64_t&>(this->_Value)));
 	}

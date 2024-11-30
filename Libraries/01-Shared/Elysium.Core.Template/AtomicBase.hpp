@@ -27,20 +27,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Threading
 {
 	template <class T, Elysium::Core::Template::System::size SizeOfT>
-	class AtomicBase
+	class _AtomicBase
 	{
 	public:
-		constexpr AtomicBase() noexcept = default;
+		constexpr _AtomicBase() noexcept = default;
 
-		AtomicBase(const AtomicBase& Source) = delete;
+		_AtomicBase(const _AtomicBase& Source) = delete;
 
-		AtomicBase(AtomicBase&& Right) noexcept = delete;
+		_AtomicBase(_AtomicBase&& Right) noexcept = delete;
 
-		~AtomicBase() = default;
+		~_AtomicBase() = default;
 	public:
-		AtomicBase& operator=(const AtomicBase& Source) = delete;
+		_AtomicBase& operator=(const _AtomicBase& Source) = delete;
 
-		AtomicBase& operator=(AtomicBase&& Right) noexcept = delete;
+		_AtomicBase& operator=(_AtomicBase&& Right) noexcept = delete;
 	protected:
 		T Load(const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const noexcept;
 		
@@ -56,7 +56,7 @@ namespace Elysium::Core::Template::Threading
 	};
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
-	inline T AtomicBase<T, SizeOfT>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	inline T _AtomicBase<T, SizeOfT>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
 	{
 		ValidateMemoryOrderLoad(Order);
 
@@ -68,7 +68,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
-	inline T AtomicBase<T, SizeOfT>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
+	inline T _AtomicBase<T, SizeOfT>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
 	{
 		ValidateMemoryOrderStore(Order);
 
@@ -81,7 +81,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
-	inline void AtomicBase<T, SizeOfT>::ValidateMemoryOrderLoad(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	inline void _AtomicBase<T, SizeOfT>::ValidateMemoryOrderLoad(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
 	{
 		switch (Order)
 		{
@@ -100,7 +100,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
-	inline void AtomicBase<T, SizeOfT>::ValidateMemoryOrderStore(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	inline void _AtomicBase<T, SizeOfT>::ValidateMemoryOrderStore(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
 	{
 		switch (Order)
 		{

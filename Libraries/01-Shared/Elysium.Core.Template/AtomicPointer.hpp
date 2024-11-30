@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "OperatingSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICBASE
 #include "AtomicBase.hpp"
 #endif
@@ -31,31 +35,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Threading
 {
 	template <class T>
-	class AtomicPointer
-		: public AtomicBase<T, sizeof(void*)>
+	class _AtomicPointer
+		: public _AtomicBase<T, sizeof(void*)>
 	{
 	public:
-		constexpr AtomicPointer() noexcept = default;
+		constexpr _AtomicPointer() noexcept = default;
 
-		AtomicPointer(const AtomicPointer& Source) = delete;
+		_AtomicPointer(const _AtomicPointer& Source) = delete;
 
-		AtomicPointer(AtomicPointer&& Right) noexcept = delete;
+		_AtomicPointer(_AtomicPointer&& Right) noexcept = delete;
 
-		~AtomicPointer() = default;
+		~_AtomicPointer() = default;
 	public:
-		T operator++() noexcept;
+		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
 
 	template<class T>
-	inline T AtomicPointer<T>::operator++() noexcept
+	inline T _AtomicPointer<T>::operator++(Elysium::Core::Template::System::int32_t) noexcept
 	{
 #if ELYSIUM_CORE_BITNESS == 64
-		Elysium::Core::Template::System::int64_t Result = 
+		Elysium::Core::Template::System::int64_t Result =
 			_InterlockedExchangeAdd64(reinterpret_cast<volatile Elysium::Core::Template::System::int64_t*>(this->_Value), 1);
 #elif ELYSIUM_CORE_BITNESS == 32
-		long Result = 
+		long Result =
 			_InterlockedExchangeAdd(reinterpret_cast<volatile long*>(this->_Value), 1);
 #else
 #error "unsupported os regarding bitness"

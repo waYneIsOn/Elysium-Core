@@ -115,11 +115,10 @@ namespace UnitTests::Core::Threading
 				//Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter;
 				Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter.Load();
 
-				//Elysium::Core::Template::System::uint32_t CurrentValue = _AtomicCounter++;	// @ToDo: why isn't this available? probably same reason Load() wasn't available until specifically added!
-				Elysium::Core::Template::System::uint32_t CurrentValue = _AtomicCounter.operator++();
+				Elysium::Core::Template::System::uint32_t CurrentValue = _AtomicCounter++;
 				static_cast<Elysium::Core::Template::Container::Vector<int>*>(Input)->PushBack(CurrentValue);
 
-				_AtomicPointer.operator++();
+				_AtomicPointer++;
 			}
 		}
 	private:
