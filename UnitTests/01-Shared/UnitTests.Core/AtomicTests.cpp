@@ -88,7 +88,7 @@ namespace UnitTests::Core::Threading
 				GatheredValues[i].ShrinkToFit();
 			}
 
-			Elysium::Core::uint32_t Index = 1;
+			Elysium::Core::uint32_t Index = 0;
 			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::uint32_t, Elysium::Core::uint32_t>::FIterator Iterator = UniqueValues.GetBegin();
 				Iterator != UniqueValues.GetEnd(); ++Iterator)
 			{
@@ -113,10 +113,10 @@ namespace UnitTests::Core::Threading
 				// therefore it doesn't make sense to store PreviousValue
 				// how to determine whether Load() still locks correctly?
 				//Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter;
-				Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter.Load();
+				//Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter.Load();
 
-				Elysium::Core::Template::System::uint32_t CurrentValue = _AtomicCounter++;
-				static_cast<Elysium::Core::Template::Container::Vector<int>*>(Input)->PushBack(CurrentValue);
+				Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter++;
+				static_cast<Elysium::Core::Template::Container::Vector<int>*>(Input)->PushBack(PreviousValue);
 
 				_AtomicPointer++;
 			}

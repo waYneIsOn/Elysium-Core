@@ -47,10 +47,24 @@ namespace Elysium::Core::Template::Threading
 
 		~_AtomicPointer() = default;
 	public:
+		T operator++() noexcept;
+
 		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
+
+	template<class T>
+	inline T _AtomicPointer<T>::operator++() noexcept
+	{
+#if ELYSIUM_CORE_BITNESS == 64
+		return reinterpret_cast<T>(_InterlockedExchangeAdd64(reinterpret_cast<volatile Elysium::Core::Template::System::int64_t*>(this->_Value), 1));
+#elif ELYSIUM_CORE_BITNESS == 32
+		return reinterpret_cast<T>(_InterlockedExchangeAdd(reinterpret_cast<volatile long*>(this->_Value), 1));
+#else
+#error "unsupported os regarding bitness"
+#endif
+	}
 
 	template<class T>
 	inline T _AtomicPointer<T>::operator++(Elysium::Core::Template::System::int32_t) noexcept
@@ -59,12 +73,13 @@ namespace Elysium::Core::Template::Threading
 		Elysium::Core::Template::System::int64_t Result =
 			_InterlockedExchangeAdd64(reinterpret_cast<volatile Elysium::Core::Template::System::int64_t*>(this->_Value), 1);
 #elif ELYSIUM_CORE_BITNESS == 32
-		long Result =
+		Elysium::Core::Template::System::int32_t Result =
 			_InterlockedExchangeAdd(reinterpret_cast<volatile long*>(this->_Value), 1);
 #else
 #error "unsupported os regarding bitness"
 #endif
 
+		--Result;
 		return reinterpret_cast<T>(Result);
 	}
 }
