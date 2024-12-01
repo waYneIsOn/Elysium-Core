@@ -54,6 +54,7 @@ namespace UnitTests::Core::Threading
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_Counter)[0]);
 			Logger::WriteMessage("\r\nAtomic counter: ");
 			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(_AtomicCounter)[0]);
+			Logger::WriteMessage("\r\n");
 
 			Assert::IsTrue(_Counter < _NumberOfThreads * _NumberOfIncrements);
 			Assert::IsTrue(_AtomicCounter == _NumberOfThreads * _NumberOfIncrements);
@@ -75,7 +76,7 @@ namespace UnitTests::Core::Threading
 					}
 					catch (const Elysium::Core::ArgumentException& ex)
 					{
-						Logger::WriteMessage("\r\nDuplicate value ");
+						Logger::WriteMessage("Duplicate value ");
 						Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(Value)[0]);
 						Logger::WriteMessage(" in thread ");
 						Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(i)[0]);
