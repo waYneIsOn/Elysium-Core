@@ -30,6 +30,10 @@
 #include "../Elysium.Core/VectorOfInteger.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_ATOMIC
+#include "../Elysium.Core.Threading/Atomic.hpp"
+#endif
+
 #ifndef _TYPEINFO_
 #include <typeinfo>
 #endif

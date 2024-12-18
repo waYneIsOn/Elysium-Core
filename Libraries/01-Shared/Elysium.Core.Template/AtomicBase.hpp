@@ -24,6 +24,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SharedMutex.hpp"
 #endif
 
+#ifndef __WFILE__
+// @ToDo: get rid of these lines asap
+#define _CRT_WIDE_(s) L ## s
+#define _CRT_WIDE(s) _CRT_WIDE_(s)
+#define __WFILE__     _CRT_WIDE(__FILE__)
+#endif
+
 namespace Elysium::Core::Template::Threading
 {
 	template <class T, Elysium::Core::Template::System::size SizeOfT>

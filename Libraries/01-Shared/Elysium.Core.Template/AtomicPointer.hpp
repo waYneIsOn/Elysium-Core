@@ -34,6 +34,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 */
 namespace Elysium::Core::Template::Threading
 {
+	/// <summary>
+	/// 
+	/// https://learn.microsoft.com/en-us/windows/win32/sync/interlocked-variable-access
+	/// </summary>
 	template <class T>
 	class _AtomicPointer
 		: public _AtomicBase<T, sizeof(void*)>

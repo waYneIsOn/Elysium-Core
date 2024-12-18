@@ -34,6 +34,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 */
 namespace Elysium::Core::Template::Threading
 {
+	/// <summary>
+	/// 
+	/// https://learn.microsoft.com/en-us/windows/win32/sync/interlocked-variable-access
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template <class T, Elysium::Core::Template::System::size SizeOfT = sizeof(T)>
 	class _AtomicIntegral;
 

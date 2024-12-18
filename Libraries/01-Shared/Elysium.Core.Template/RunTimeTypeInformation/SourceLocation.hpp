@@ -16,20 +16,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
+#include "../Compiler.hpp"
+#endif
+
 namespace Elysium::Core::Template::RunTimeTypeInformation
 {
 	class SourceLocation
 	{
 	public:
-		SourceLocation(const Elysium::Core::Template::System::uint32_t Line = __builtin_LINE(),
-			const Elysium::Core::Template::System::uint32_t Column = __builtin_COLUMN(),
-			const char8_t* File = (char8_t*)__builtin_FILE(), const char8_t* Function = (char8_t*)__builtin_FUNCTION()) noexcept;
+		SourceLocation(const Elysium::Core::Template::System::uint32_t Line = Elysium::Core::Template::System::Compiler::GetLine(),
+			const Elysium::Core::Template::System::uint32_t Column = Elysium::Core::Template::System::Compiler::GetColumn(),
+			const char8_t* File = Elysium::Core::Template::System::Compiler::GetFileName(),
+			const char8_t* Function = Elysium::Core::Template::System::Compiler::GetFunctionName()) noexcept;
 
 		~SourceLocation() noexcept;
 	public:
-		const SourceLocation Current(const Elysium::Core::Template::System::uint32_t Line = __builtin_LINE(),
-			const Elysium::Core::Template::System::uint32_t Column = __builtin_COLUMN(), 
-			const char8_t* File = (char8_t*)__builtin_FILE(), const char8_t* Function = (char8_t*)__builtin_FUNCTION()) noexcept;
+		const SourceLocation Current(const Elysium::Core::Template::System::uint32_t Line = Elysium::Core::Template::System::Compiler::GetLine(),
+			const Elysium::Core::Template::System::uint32_t Column = Elysium::Core::Template::System::Compiler::GetColumn(),
+			const char8_t* File = Elysium::Core::Template::System::Compiler::GetFileName(), 
+			const char8_t* Function = Elysium::Core::Template::System::Compiler::GetFunctionName()) noexcept;
 	public:
 		const Elysium::Core::Template::System::uint32_t GetLine() const noexcept;
 

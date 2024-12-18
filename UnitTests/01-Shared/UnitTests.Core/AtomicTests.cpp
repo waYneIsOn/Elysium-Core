@@ -10,7 +10,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTests::Core::Threading
+namespace UnitTests::Core::Threading::SynchronizationPrimitives
 {
 	TEST_CLASS(AtomicTests)
 	{
@@ -110,11 +110,9 @@ namespace UnitTests::Core::Threading
 			{
 				_Counter++;
 
-				// between reading PreviousValue and CurrentValue all the other threads could have incremented the internal value
-				// therefore it doesn't make sense to store PreviousValue
 				// how to determine whether Load() still locks correctly?
-				//Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter;
-				//Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter.Load();
+				//Elysium::Core::Template::System::uint32_t LoadedValue = _AtomicCounter;
+				//Elysium::Core::Template::System::uint32_t LoadedValue = _AtomicCounter.Load();
 
 				Elysium::Core::Template::System::uint32_t PreviousValue = _AtomicCounter++;
 				static_cast<Elysium::Core::Template::Container::Vector<int>*>(Input)->PushBack(PreviousValue);

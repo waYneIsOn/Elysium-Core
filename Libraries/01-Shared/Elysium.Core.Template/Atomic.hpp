@@ -44,7 +44,10 @@ namespace Elysium::Core::Template::Threading
 {
 	template<class T>
 	using SelectAtomicBase = typename TypeTraits::Select<TypeTraits::IsPointerValue<T>>::template 
-		Apply<_AtomicPointer<T>, _AtomicIntegral<T>>;
+		Apply
+		<
+			_AtomicPointer<T>, _AtomicIntegral<T>
+		>;
 	
 	template <class T>
 	class Atomic

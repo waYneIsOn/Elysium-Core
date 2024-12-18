@@ -751,5 +751,8 @@
     <Filter Include="Threading\Tasks">
       <UniqueIdentifier>{a5f154e2-9cdf-416f-be1e-ee2e29b2a129}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Linq">
+      <UniqueIdentifier>{0058495a-1c2b-4b5a-ae29-2c846496b44b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

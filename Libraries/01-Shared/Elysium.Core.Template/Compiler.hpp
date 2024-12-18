@@ -12,6 +12,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "OperatingSystem.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
+#if defined _MSC_VER	
+	#define ELYSIUM_CORE_COMPILER_MSVC
+#elif defined __clang__
+	#define ELYSIUM_CORE_COMPILER_CLANG
+#elif defined __INTEL_
+	#define ELYSIUM_CORE_COMPILER_INTEL
+#elif defined __GNUC__
+	#define ELYSIUM_CORE_COMPILER_GCC
+#else
+	#error "Unhandled compiler"
+#endif
+
 namespace Elysium::Core::Template::System
 {
 	class Compiler
@@ -27,16 +47,24 @@ namespace Elysium::Core::Template::System
 	public:
 
 	public:
-#if defined _MSC_VER
+		static constexpr Elysium::Core::Template::System::int32_t GetLine() noexcept;
+
+		static constexpr Elysium::Core::Template::System::int32_t GetColumn() noexcept;
+
+		static constexpr char8_t* GetFileName() noexcept;
+
+		static constexpr char8_t* GetFunctionName() noexcept;
+	public:
+#if defined ELYSIUM_CORE_COMPILER_MSVC
 		inline static constexpr const char8_t* Name = u8"Microsoft Visual C++";
-#elif defined __clang__
+#elif defined ELYSIUM_CORE_COMPILER_CLANG
 		inline static constexpr const char8_t* Name = u8"LLVM C compiler";
-#elif defined __INTEL_
+#elif defined ELYSIUM_CORE_COMPILER_INTEL
 		inline static constexpr const char8_t* Name = u8"Intel C/C++ compiler";
-#elif defined __GNUC__
+#elif defined ELYSIUM_CORE_COMPILER_GCC
 		inline static constexpr const char8_t* Name = u8"GNU C compiler";
 #else
-		inline static constexpr const char8_t* Name = u8"Unknown compiler";
+	#error "Unhandled compiler"
 #endif
 
 		//inline static constexpr const char8_t* Archticture = u8"x86_x64";
@@ -45,5 +73,45 @@ namespace Elysium::Core::Template::System
 		//inline static constexpr const char8_t* Archticture = u8"ARM64";
 		//inline static constexpr const char8_t* Archticture = u8"Unknown architecture";
 	};
+
+	inline constexpr Elysium::Core::Template::System::int32_t Elysium::Core::Template::System::Compiler::GetLine() noexcept
+	{
+#if defined ELYSIUM_CORE_COMPILER_MSVC
+		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
+		return __builtin_LINE();
+#else
+#error "unsupported compiler"
+#endif
+	}
+
+	inline constexpr Elysium::Core::Template::System::int32_t Compiler::GetColumn() noexcept
+	{
+#if defined ELYSIUM_CORE_COMPILER_MSVC
+		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
+		return __builtin_COLUMN();
+#else
+#error "unsupported compiler"
+#endif
+	}
+
+	inline constexpr char8_t* Compiler::GetFileName() noexcept
+	{
+#if defined ELYSIUM_CORE_COMPILER_MSVC
+		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
+		return (char8_t*)__builtin_FILE();
+#else
+#error "unsupported compiler"
+#endif
+	}
+
+	inline constexpr char8_t* Compiler::GetFunctionName() noexcept
+	{
+#if defined ELYSIUM_CORE_COMPILER_MSVC
+		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
+		return (char8_t*)__builtin_FUNCTION();
+#else
+#error "unsupported compiler"
+#endif
+	}
 }
 #endif
