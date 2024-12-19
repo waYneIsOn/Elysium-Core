@@ -24,6 +24,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SharedMutex.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CONDITIONAL
+#include "Conditional.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISREFERENCE
+#include "IsReference.hpp"
+#endif
+
 #ifndef __WFILE__
 // @ToDo: get rid of these lines asap
 #define _CRT_WIDE_(s) L ## s
@@ -38,6 +46,8 @@ namespace Elysium::Core::Template::Threading
 	{
 	public:
 		constexpr _AtomicBase() noexcept = default;
+
+		constexpr _AtomicBase(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
 		_AtomicBase(const _AtomicBase& Source) = delete;
 
@@ -61,6 +71,11 @@ namespace Elysium::Core::Template::Threading
 	private:
 		mutable SharedMutex _SlimReaderWriterLock;
 	};
+
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline constexpr _AtomicBase<T, SizeOfT>::_AtomicBase(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: _Value(Value)
+	{ }
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
 	inline T _AtomicBase<T, SizeOfT>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept

@@ -45,6 +45,8 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr _AtomicPointer() noexcept = default;
 
+		constexpr _AtomicPointer(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
+
 		_AtomicPointer(const _AtomicPointer& Source) = delete;
 
 		_AtomicPointer(_AtomicPointer&& Right) noexcept = delete;
@@ -57,6 +59,11 @@ namespace Elysium::Core::Template::Threading
 
 		// @ToDo
 	};
+
+	template<class T>
+	inline constexpr _AtomicPointer<T>::_AtomicPointer(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: _AtomicBase<T, sizeof(void*)>(Value)
+	{ }
 
 	template<class T>
 	inline T _AtomicPointer<T>::operator++() noexcept

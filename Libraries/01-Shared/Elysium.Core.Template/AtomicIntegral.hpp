@@ -49,6 +49,8 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr _AtomicIntegral() noexcept = default;
 
+		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
+
 		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
 		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
@@ -61,6 +63,11 @@ namespace Elysium::Core::Template::Threading
 
 		// @ToDo
 	};
+
+	template<class T>
+	inline constexpr _AtomicIntegral<T, 1>::_AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: _AtomicBase<T, 1>(Value)
+	{ }
 
 	template<class T>
 	inline T _AtomicIntegral<T, 1>::operator++() noexcept
@@ -83,6 +90,8 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr _AtomicIntegral() noexcept = default;
 
+		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
+
 		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
 		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
@@ -95,6 +104,11 @@ namespace Elysium::Core::Template::Threading
 
 		// @ToDo
 	};
+
+	template<class T>
+	inline constexpr _AtomicIntegral<T, 2>::_AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: _AtomicBase<T, 2>(Value)
+	{ }
 
 	template<class T>
 	inline T _AtomicIntegral<T, 2>::operator++() noexcept
@@ -117,6 +131,8 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr _AtomicIntegral() noexcept = default;
 
+		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
+
 		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
 		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
@@ -129,6 +145,11 @@ namespace Elysium::Core::Template::Threading
 
 		// @ToDo
 	};
+
+	template<class T>
+	inline constexpr _AtomicIntegral<T, 4>::_AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: _AtomicBase<T, 4>(Value)
+	{ }
 
 	template<class T>
 	inline T _AtomicIntegral<T, 4>::operator++() noexcept
@@ -151,6 +172,8 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr _AtomicIntegral() noexcept = default;
 
+		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
+
 		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
 		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
@@ -163,6 +186,11 @@ namespace Elysium::Core::Template::Threading
 
 		// @ToDo
 	};
+
+	template<class T>
+	inline constexpr _AtomicIntegral<T, 8>::_AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: _AtomicBase<T, 8>(Value)
+	{ }
 
 	template<class T>
 	inline T _AtomicIntegral<T, 8>::operator++() noexcept

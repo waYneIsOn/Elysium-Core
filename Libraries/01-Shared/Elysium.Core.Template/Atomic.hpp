@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AtomicPointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISBOOLEAN
+#include "IsBoolean.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWDEFAULTCONSTRUCTIBLE
 #include "IsNothrowDefaultConstructible.hpp"
 #endif
@@ -43,10 +47,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Threading
 {
 	template<class T>
-	using SelectAtomicBase = typename TypeTraits::Select<TypeTraits::IsPointerValue<T>>::template 
+	using SelectAtomicBase = typename TypeTraits::Select<TypeTraits::IsPointerValue<T>>::template
 		Apply
 		<
-			_AtomicPointer<T>, _AtomicIntegral<T>
+		_AtomicPointer<T>,
+		typename TypeTraits::Select<TypeTraits::IsBooleanValue<T>>::template
+			Apply
+			<
+				_AtomicBase<T, sizeof(T)>,
+				_AtomicIntegral<T>
+			>
 		>;
 	
 	template <class T>
@@ -57,6 +67,8 @@ namespace Elysium::Core::Template::Threading
 		using Base = SelectAtomicBase<T>;
 	public:
 		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructibleValue<T>);
+
+		constexpr Atomic(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
 		Atomic(const Atomic& Source) = delete;
 
@@ -84,6 +96,11 @@ namespace Elysium::Core::Template::Threading
 	template<class T>
 	inline constexpr Atomic<T>::Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructibleValue<T>)
 		: Base()
+	{ }
+
+	template<class T>
+	inline constexpr Atomic<T>::Atomic(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+		: Base(Value)
 	{ }
 
 	template<class T>

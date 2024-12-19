@@ -94,6 +94,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IsBoolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyConstructible.hpp" />

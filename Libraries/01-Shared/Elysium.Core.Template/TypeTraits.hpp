@@ -40,6 +40,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsArithemtic.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISBOOLEAN
+#include "IsBoolean.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCHARACTER
 #include "IsCharacter.hpp"
 #endif

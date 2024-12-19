@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "../Elysium.Core.Template/Atomic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
 #include "AutoResetEvent.hpp"
 #endif
@@ -50,10 +54,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_THREADING_THREADPOOL
 #include "ThreadPool.hpp"
-#endif
-
-#ifndef _ATOMIC_
-#include <atomic>
 #endif
 
 namespace Elysium::Core::Threading::Tasks
@@ -108,8 +108,8 @@ namespace Elysium::Core::Threading::Tasks
 		const TaskCreationOptions _CreationOptions;
 		AutoResetEvent _WaitEvent;
 
-		std::atomic<TaskStatus> _Status;
-		std::atomic<AggregateException*> _Exception;
+		Elysium::Core::Template::Threading::Atomic<TaskStatus> _Status;
+		Elysium::Core::Template::Threading::Atomic<AggregateException*> _Exception;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		const ELYSIUM_TASK_HANDLE _Handle;

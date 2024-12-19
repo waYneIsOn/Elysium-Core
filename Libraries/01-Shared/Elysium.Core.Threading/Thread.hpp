@@ -36,16 +36,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "../Elysium.Core.Template/Atomic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
 #include "System.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_THREADSTATE
 #include "ThreadState.hpp"
-#endif
-
-#ifndef _ATOMIC_
-#include <atomic>
 #endif
 
 //#pragma warning(disable : 4251)
@@ -117,7 +117,7 @@ namespace Elysium::Core::Threading
 
 		Elysium::Core::Utf8String _Name;
 
-		std::atomic<ThreadState> _State;
+		Elysium::Core::Template::Threading::Atomic<ThreadState> _State;
 
 		Globalization::CultureInfo _CurrentCulture;
 

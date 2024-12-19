@@ -12,9 +12,41 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Threading::SynchronizationPrimitives
 {
+	enum class EnumForAtomics
+	{
+		Value1,
+		Value2,
+		Value3
+	};
+
 	TEST_CLASS(AtomicTests)
 	{
 	public:
+		TEST_METHOD(Construction)
+		{
+			// default construction
+			Elysium::Core::Template::Threading::Atomic<bool> DefaultAtomicBoolean;
+			Elysium::Core::Template::Threading::Atomic<void*> DefaultAtomicPointer;
+			Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t> DefaultAtomicUInt32;
+			Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::int32_t> DefaultAtomicInt32;
+
+			Assert::IsFalse(DefaultAtomicBoolean.Load());
+			Assert::IsNull(DefaultAtomicPointer.Load());
+			Assert::AreEqual(0_ui32, DefaultAtomicUInt32.Load());
+			Assert::AreEqual(0, DefaultAtomicInt32.Load());
+
+			// construction with given value
+			Elysium::Core::Template::Threading::Atomic<bool> AtomicBoolean(true);
+			Elysium::Core::Template::Threading::Atomic<void*> AtomicPointer(reinterpret_cast<void*>(0x01));
+			Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t> AtomicUInt32(1337);
+			Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::int32_t> AtomicInt32(-5448);
+
+			Assert::IsTrue(AtomicBoolean.Load());
+			Assert::AreEqual(reinterpret_cast<void*>(0x01), AtomicPointer.Load());
+			Assert::AreEqual(1337_ui32, AtomicUInt32.Load());
+			Assert::AreEqual(-5448, AtomicInt32.Load());
+		}
+
 		TEST_METHOD(IncrementCountersInParallel)
 		{
 			_Counter = 0;
@@ -138,7 +170,7 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 
 		TEST_METHOD(MultiThreadedLoad)
 		{
-			_MultiThreadedLoadAndStoreAtomic = 5448;
+			_AtomicBool = true;
 
 			Elysium::Core::Template::Container::Delegate<void> LoadingThreadStart =
 				Elysium::Core::Template::Container::Delegate<void>::Bind<AtomicTests, &AtomicTests::LoadValue>(*this);
@@ -164,8 +196,8 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 			LoadingThread5.Join();
 			LoadingThread6.Join();
 
-			const Elysium::Core::int32_t LoadedValue = _MultiThreadedLoadAndStoreAtomic.Load();
-			Assert::AreEqual(5448, LoadedValue);
+			const bool LoadedValue = _AtomicBool.Load();
+			Assert::IsTrue(LoadedValue);
 		}
 
 		TEST_METHOD(MultiThreadedStoreAndLoad)
@@ -219,12 +251,8 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 
 		void LoadValue()
 		{
-			const Elysium::Core::int32_t Value = _MultiThreadedLoadAndStoreAtomic.Load();
-
-			if (Value != 5448)
-			{
-				throw 1;
-			}
+			const bool LoadedValue = _AtomicBool.Load();
+			Assert::IsTrue(LoadedValue);
 		}
 
 		void SimulateWorkAndStoreValue(void* Input)
@@ -250,5 +278,7 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t*> _AtomicPointer;
 	private:
 		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::int32_t> _MultiThreadedLoadAndStoreAtomic;
+	private:
+		Elysium::Core::Template::Threading::Atomic<bool> _AtomicBool;
 	};
 }

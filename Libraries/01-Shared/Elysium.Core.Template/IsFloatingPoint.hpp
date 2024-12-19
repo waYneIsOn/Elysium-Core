@@ -26,6 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Math
 {
+    // @ToDo: While Decimal represents a floating-point, it does so by using int64_t and uint64_t, 
+    // differing from float, double, long double etc. which use the IEEE 754 standard.
+    // Ergo I will have to evaluate whether it counts as a floating-point in regard of this typetrait!
+    // Hint: STL would NOT count Decimal as floating.
     class Decimal;
 }
 

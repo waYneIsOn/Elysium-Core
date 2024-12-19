@@ -46,7 +46,7 @@ Elysium::Core::Threading::Thread& Elysium::Core::Threading::Thread::operator=(Th
 		_Id = Elysium::Core::Template::Functional::Move(Right._Id);
 		_Handle = Elysium::Core::Template::Functional::Move(Right._Handle);
 		_Name = Elysium::Core::Template::Functional::Move(Right._Name);
-		_State = Right._State.load();
+		_State = Right._State.Load();
 		_CurrentCulture = Elysium::Core::Template::Functional::Move(Right._CurrentCulture);
 		_Parameters = Elysium::Core::Template::Functional::Move(Right._Parameters);
 
