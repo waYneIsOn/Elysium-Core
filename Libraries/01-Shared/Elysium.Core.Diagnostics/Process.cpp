@@ -277,7 +277,7 @@ void Elysium::Core::Diagnostics::Process::Kill(const bool EntireProcessTree)
 		Elysium::Core::Template::Diagnostics::Process::Kill(ProcessHandle, -1, EntireProcessTree);
 		CloseHandle(ProcessHandle);
 	}
-	catch (const Elysium::Core::Template::Exceptions::SystemException& ex)
+	catch (const Elysium::Core::Template::Exceptions::SystemException&)
 	{
 		CloseHandle(ProcessHandle);
 		throw;

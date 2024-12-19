@@ -59,6 +59,8 @@ namespace Elysium::Core::Template::Exceptions
 
 		SystemException(Text::String<char8_t>&& Message);
 
+		SystemException(const SystemException& Source);
+
 		virtual ~SystemException();
 	public:
 		const System::uint32_t GetErrorCode() const noexcept;
@@ -79,6 +81,10 @@ namespace Elysium::Core::Template::Exceptions
 	inline Elysium::Core::Template::Exceptions::SystemException::SystemException(Text::String<char8_t>&& Message)
 		: Elysium::Core::Template::Exceptions::Exception(Functional::Move(Message)),
 		_ErrorCode(GetLastError())
+	{ }
+
+	inline SystemException::SystemException(const SystemException& Source)
+		: _ErrorCode(Source._ErrorCode)
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::SystemException::~SystemException()

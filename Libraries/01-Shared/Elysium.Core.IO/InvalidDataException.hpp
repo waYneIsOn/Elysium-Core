@@ -35,6 +35,8 @@ namespace Elysium::Core::IO
 
 		InvalidDataException(Elysium::Core::Utf8String&& Message);
 
+		InvalidDataException(const InvalidDataException& Source);
+
 		virtual ~InvalidDataException();
 	};
 }

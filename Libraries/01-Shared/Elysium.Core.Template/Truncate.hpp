@@ -27,12 +27,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Math
 {
 	/// <summary>
-	/// Calculates the integral part of a number.
+	/// Calculates the integral part of a floating-point.
 	/// </summary>
 	/// <param name="Value"></param>
 	/// <returns></returns>
 	template<Concepts::FloatingPoint FP, Concepts::Integer I>
-	constexpr FP Truncate(const FP Value) noexcept
+	constexpr I Truncate(const FP Value) noexcept
 	{
 		return static_cast<I>(Value);
 	}

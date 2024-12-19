@@ -16,5 +16,8 @@ Elysium::Core::IO::InvalidDataException::InvalidDataException(Elysium::Core::Utf
 	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
 { }
 
+Elysium::Core::IO::InvalidDataException::InvalidDataException(const InvalidDataException & Source)
+{ }
+
 Elysium::Core::IO::InvalidDataException::~InvalidDataException()
 { }

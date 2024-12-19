@@ -295,7 +295,7 @@ namespace Elysium::Core::Template::Numeric
 	inline constexpr const Elysium::Core::Template::System::uint64_t NumericTraits<float>::GetValuePostDecimalPoint(ConstValue Value, const Elysium::Core::Template::System::uint8_t NumberOfDigits) noexcept
 	{
 		const Elysium::Core::Template::System::int64_t TruncatedValue =
-			Elysium::Core::Template::Math::Truncate<double, Elysium::Core::Template::System::int64_t>(Value);
+			Elysium::Core::Template::Math::Truncate<float, Elysium::Core::Template::System::int64_t>(Value);
 		const double FractionalValue = Elysium::Core::Template::Math::Absolute(Value - TruncatedValue);
 		const double Factor = Elysium::Core::Template::Math::Power(10.0, NumberOfDigits);
 
