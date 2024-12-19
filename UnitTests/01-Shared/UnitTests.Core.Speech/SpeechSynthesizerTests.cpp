@@ -38,7 +38,9 @@ namespace UnitTests::Core::Speech
 				const bool Enabled = AllInstalledVoices[i].GetEnabled();
 				const VoiceInfo& Voice = AllInstalledVoices[i].GetVoiceInfo();
 
-				Logger::WriteMessage((char*)&AllInstalledVoices[i].GetVoiceInfo().GetId()[0]);
+				Logger::WriteMessage((char*)&Voice.GetId()[0]);
+				Logger::WriteMessage(" - ");
+				Logger::WriteMessage((char*)&Voice.GetName()[0]);
 				Logger::WriteMessage("\r\n");
 			}
 

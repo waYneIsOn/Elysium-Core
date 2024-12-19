@@ -185,6 +185,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesi
 
 	Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice> InstalledVoices =
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Speech::Synthesis::InstalledVoice>(NumberOfInstalledVoices);
+	InstalledVoices.Clear();
 	ISpObjectToken* VoiceToken;
 	while (VoiceEnumerationToken->Next(1, &VoiceToken, nullptr) == S_OK)
 	{
