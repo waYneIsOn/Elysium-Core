@@ -181,10 +181,10 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValues() noexcept
 	{
 		constexpr const Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> RangeStart =
-			Elysium::Core::Template::Numeric::NumericTraits<UnderlyingTypeType<T>>::Minimum;
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Minimum;
 
 		constexpr const Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T> RangeEnd =
-			Elysium::Core::Template::Numeric::NumericTraits<UnderlyingTypeType<T>>::Maximum;
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Maximum;
 		
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
 			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>, RangeEnd>();
@@ -247,8 +247,8 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	{
 		constexpr const Elysium::Core::Template::System::size ParameterPackLength =
 			Elysium::Core::Template::Utility::IntegerSequence<T, Values...>::GetLength();
-		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type> Result =
-			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type>(ParameterPackLength);
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>> Result =
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>(ParameterPackLength);
 
 		for (const T Value : { Values... })
 		{

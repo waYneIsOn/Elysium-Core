@@ -56,7 +56,7 @@ namespace Elysium::Core::Template::Threading
 	private:
 		using Base = SelectAtomicBase<T>;
 	public:
-		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>);
+		constexpr Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructibleValue<T>);
 
 		Atomic(const Atomic& Source) = delete;
 
@@ -82,7 +82,7 @@ namespace Elysium::Core::Template::Threading
 	};
 
 	template<class T>
-	inline constexpr Atomic<T>::Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructible<T>)
+	inline constexpr Atomic<T>::Atomic() noexcept(Elysium::Core::Template::TypeTraits::IsNoThrowDefaultConstructibleValue<T>)
 		: Base()
 	{ }
 

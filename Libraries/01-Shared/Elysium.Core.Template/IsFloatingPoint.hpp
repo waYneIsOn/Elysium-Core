@@ -32,7 +32,7 @@ namespace Elysium::Core::Template::Math
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<Functional::RemoveConstVolatile<T>::Type, float, double, long double, 
+    inline constexpr bool IsFloatingPointValue = IsAnyOfValue<typename Functional::RemoveConstVolatile<T>::Type, float, double, long double,
         Elysium::Core::Template::Math::Decimal>;
 
     template <class T>

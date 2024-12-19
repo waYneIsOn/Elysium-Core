@@ -26,6 +26,6 @@ namespace Elysium::Core::Template::TypeTraits
 	};
 
 	template <Concepts::Enumeration T>
-	using UnderlyingTypeType = UnderlyingType<T>::Type;
+	using UnderlyingTypeType = typename UnderlyingType<T>::Type;
 }
 #endif

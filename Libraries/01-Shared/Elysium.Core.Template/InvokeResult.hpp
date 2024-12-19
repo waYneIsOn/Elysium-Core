@@ -29,7 +29,7 @@ namespace Elysium::Core::Template::TypeTraits
 	{
 		using IsInvokable = IntegralConstant<bool, true>;
 
-		using Type = decltype(FunctionOrMethod(Args...));
+		//using Type = decltype(FunctionOrMethod(Args...));
 	};
 
 
@@ -39,7 +39,7 @@ namespace Elysium::Core::Template::TypeTraits
 	{
 		using IsInvokable = IntegralConstant<bool, true>;
 
-		using Type = decltype(FunctionOrMethod(Args...));
+		//using Type = decltype(FunctionOrMethod(Args...));
 	};
 
 	template <class T>
@@ -47,8 +47,9 @@ namespace Elysium::Core::Template::TypeTraits
 	{
 		using IsInvokable = IntegralConstant<bool, false>;
 	};
-
+	/*
 	template <class FunctionOrMethod, class ...Args>
-	using InvokeResultType = InvokeResult<FunctionOrMethod, Args...>::Type;
+	using InvokeResultType = typename InvokeResult<FunctionOrMethod, Args...>::Type;
+	*/
 }
 #endif

@@ -207,7 +207,7 @@ namespace Elysium::Core::Template::Container
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::UnorderedMap(const UnorderedMap& Source)
 		: _Length(Source._Length), _CollisionCount(Source._CollisionCount), _Buckets(_Allocator.Allocate(_Length))
 	{
-		Array<HashTableEntry<TKey, TValue>>::Copy(Source._Buckets, _Buckets, _Length);
+		Array<Entry>::Copy(Source._Buckets, _Buckets, _Length);
 	}
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>

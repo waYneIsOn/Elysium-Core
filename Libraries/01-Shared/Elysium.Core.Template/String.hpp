@@ -62,6 +62,12 @@ namespace Elysium::Core::Template::Text
 
 			constexpr void SetSize(const System::size Value) noexcept;
 		};	// 12/24 bytes
+
+		union InternalString
+		{
+			HeapString _Heap;
+			StackString _Stack;
+		};
 	public:
 		constexpr String() noexcept;
 
@@ -193,11 +199,7 @@ namespace Elysium::Core::Template::Text
 		// ...
 #endif
 	private:
-		union
-		{
-			HeapString _Heap;
-			StackString _Stack;
-		} _InternalString;
+		InternalString _InternalString;
 	};
 
 	template<Concepts::Character C, class Traits, class Allocator>
