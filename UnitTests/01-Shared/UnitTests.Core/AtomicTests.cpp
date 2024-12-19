@@ -33,7 +33,7 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 
 			// ...
 			{
-				Elysium::Core::Template::Container::Delegate<void, void*> ThreadStart =
+				Elysium::Core::Template::Container::Delegate<void, void*> ParameterizedThreadStart =
 					Elysium::Core::Template::Container::Delegate<void, void*>::Bind<AtomicTests, &AtomicTests::Increment>(*this);
 
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Threading::Thread> Threads =
@@ -41,7 +41,7 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 				Threads.Clear();
 				for (Elysium::Core::size i = 0; i < _NumberOfThreads; i++)
 				{
-					Threads.PushBack(Elysium::Core::Threading::Thread(ThreadStart));
+					Threads.PushBack(Elysium::Core::Threading::Thread(ParameterizedThreadStart));
 				}
 
 				for (Elysium::Core::size i = 0; i < _NumberOfThreads; i++)
@@ -103,6 +103,95 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 				Index++;
 			}
 		}
+
+		TEST_METHOD(MultiThreadedStore)
+		{
+			_MultiThreadedLoadAndStoreAtomic = 0;
+
+			Elysium::Core::Template::Container::Delegate<void, void*> ParameterizedThreadStart =
+				Elysium::Core::Template::Container::Delegate<void, void*>::Bind<AtomicTests, &AtomicTests::StoreValue>(*this);
+
+			Elysium::Core::int32_t Value1 = 111;
+			Elysium::Core::int32_t Value2 = 222;
+			Elysium::Core::int32_t Value3 = 333;
+
+			Elysium::Core::Threading::Thread Thread1 = Elysium::Core::Threading::Thread(ParameterizedThreadStart);
+			Elysium::Core::Threading::Thread Thread2 = Elysium::Core::Threading::Thread(ParameterizedThreadStart);
+			Elysium::Core::Threading::Thread Thread3 = Elysium::Core::Threading::Thread(ParameterizedThreadStart);
+
+			Thread1.Start(reinterpret_cast<void*>(&Value1));
+			Thread2.Start(reinterpret_cast<void*>(&Value2));
+			Thread3.Start(reinterpret_cast<void*>(&Value3));
+
+			Thread1.Join();
+			Thread2.Join();
+			Thread3.Join();
+
+			Elysium::Core::int32_t LoadedValue = _MultiThreadedLoadAndStoreAtomic.Load();
+
+			Assert::IsTrue(
+				LoadedValue == Value1 ||
+				LoadedValue == Value2 ||
+				LoadedValue == Value3
+			);
+		}
+
+		TEST_METHOD(MultiThreadedLoad)
+		{
+			_MultiThreadedLoadAndStoreAtomic = 5448;
+
+			Elysium::Core::Template::Container::Delegate<void> LoadingThreadStart =
+				Elysium::Core::Template::Container::Delegate<void>::Bind<AtomicTests, &AtomicTests::LoadValue>(*this);
+
+			Elysium::Core::Threading::Thread LoadingThread1 = Elysium::Core::Threading::Thread(LoadingThreadStart);
+			Elysium::Core::Threading::Thread LoadingThread2 = Elysium::Core::Threading::Thread(LoadingThreadStart);
+			Elysium::Core::Threading::Thread LoadingThread3 = Elysium::Core::Threading::Thread(LoadingThreadStart);
+			Elysium::Core::Threading::Thread LoadingThread4 = Elysium::Core::Threading::Thread(LoadingThreadStart);
+			Elysium::Core::Threading::Thread LoadingThread5 = Elysium::Core::Threading::Thread(LoadingThreadStart);
+			Elysium::Core::Threading::Thread LoadingThread6 = Elysium::Core::Threading::Thread(LoadingThreadStart);
+
+			LoadingThread1.Start();
+			LoadingThread2.Start();
+			LoadingThread3.Start();
+			LoadingThread4.Start();
+			LoadingThread5.Start();
+			LoadingThread6.Start();
+
+			LoadingThread1.Join();
+			LoadingThread2.Join();
+			LoadingThread3.Join();
+			LoadingThread4.Join();
+			LoadingThread5.Join();
+			LoadingThread6.Join();
+
+			const Elysium::Core::int32_t LoadedValue = _MultiThreadedLoadAndStoreAtomic.Load();
+			Assert::AreEqual(5448, LoadedValue);
+		}
+
+		TEST_METHOD(MultiThreadedStoreAndLoad)
+		{
+			_MultiThreadedLoadAndStoreAtomic = 0;
+
+			Elysium::Core::Template::Container::Delegate<void, void*> StoringThreadStart =
+				Elysium::Core::Template::Container::Delegate<void, void*>::Bind<AtomicTests, &AtomicTests::SimulateWorkAndStoreValue>(*this);
+
+			Elysium::Core::Template::Container::Delegate<void> LoadingThreadStart =
+				Elysium::Core::Template::Container::Delegate<void>::Bind<AtomicTests, &AtomicTests::SimulateWorkAndLoad>(*this);
+
+			Elysium::Core::int32_t StoringValue = 1337;
+
+			Elysium::Core::Threading::Thread StoringThread = Elysium::Core::Threading::Thread(StoringThreadStart);
+			Elysium::Core::Threading::Thread LoadingThread = Elysium::Core::Threading::Thread(LoadingThreadStart);
+
+			StoringThread.Start(reinterpret_cast<void*>(&StoringValue));
+			LoadingThread.Start();
+
+			StoringThread.Join();
+			LoadingThread.Join();
+
+			const Elysium::Core::int32_t LoadedValue = _MultiThreadedLoadAndStoreAtomic.Load();
+			Assert::AreEqual(StoringValue, LoadedValue);
+		}
 	private:
 		void Increment(void* Input)
 		{
@@ -120,6 +209,36 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 				_AtomicPointer++;
 			}
 		}
+
+		void StoreValue(void* Input)
+		{
+			const Elysium::Core::int32_t Value = *reinterpret_cast<const Elysium::Core::int32_t*>(Input);
+
+			_MultiThreadedLoadAndStoreAtomic.Store(Value);
+		}
+
+		void LoadValue()
+		{
+			const Elysium::Core::int32_t Value = _MultiThreadedLoadAndStoreAtomic.Load();
+
+			if (Value != 5448)
+			{
+				throw 1;
+			}
+		}
+
+		void SimulateWorkAndStoreValue(void* Input)
+		{
+			Elysium::Core::Threading::Thread::Sleep(Elysium::Core::TimeSpan::FromTicks(1000000));
+			const Elysium::Core::int32_t Value = *reinterpret_cast<const Elysium::Core::int32_t*>(Input);
+			_MultiThreadedLoadAndStoreAtomic.Store(Value);
+		}
+
+		void SimulateWorkAndLoad()
+		{
+			Elysium::Core::Threading::Thread::Sleep(Elysium::Core::TimeSpan::FromTicks(500000));
+			const Elysium::Core::int32_t Value = _MultiThreadedLoadAndStoreAtomic.Load();
+		}
 	private:
 		const Elysium::Core::uint32_t _NumberOfThreads = 10;
 		const Elysium::Core::uint32_t _NumberOfIncrements = 100000;
@@ -129,5 +248,7 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 
 		Elysium::Core::Template::System::uint32_t _AtomicPointerStorage = 0;
 		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint32_t*> _AtomicPointer;
+	private:
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::int32_t> _MultiThreadedLoadAndStoreAtomic;
 	};
 }
