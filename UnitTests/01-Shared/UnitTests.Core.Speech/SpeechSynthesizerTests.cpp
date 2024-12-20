@@ -230,6 +230,8 @@ namespace UnitTests::Core::Speech
 
 		TEST_METHOD(SpeakToWaveFiles)
 		{
+			Assert::Fail(L"There is an error here that occurres sometimes in regards to multithreading. Haven't found the reason yet.");
+			
 			SpeechAudioFormatInfo FormatInfo = SpeechAudioFormatInfo(44100, AudioBitsPerSample::Sixteen, AudioChannel::Stereo);
 
 			SpeechSynthesizer Synthesizer1 = SpeechSynthesizer();
