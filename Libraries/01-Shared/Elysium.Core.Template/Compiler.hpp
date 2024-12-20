@@ -66,12 +66,6 @@ namespace Elysium::Core::Template::System
 #else
 	#error "Unhandled compiler"
 #endif
-
-		//inline static constexpr const char8_t* Archticture = u8"x86_x64";
-		//inline static constexpr const char8_t* Archticture = u8"x86_x32";
-		//inline static constexpr const char8_t* Archticture = u8"ARM";
-		//inline static constexpr const char8_t* Archticture = u8"ARM64";
-		//inline static constexpr const char8_t* Archticture = u8"Unknown architecture";
 	};
 
 	inline constexpr Elysium::Core::Template::System::int32_t Elysium::Core::Template::System::Compiler::GetLine() noexcept
