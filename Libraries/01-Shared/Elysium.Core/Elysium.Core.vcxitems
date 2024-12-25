@@ -32,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfString.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidConstIASyncResultPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RingBufferOfInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />

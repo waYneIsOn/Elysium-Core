@@ -115,6 +115,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidConstIASyncResultPointer.hpp">
       <Filter>Container</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RingBufferOfInteger.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
