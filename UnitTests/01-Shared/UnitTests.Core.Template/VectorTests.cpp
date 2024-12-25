@@ -30,6 +30,7 @@ namespace UnitTests::Core::Template::Container
 
 			// Default constructor with elements
 			Vector<uint32_t> Instance = Vector<uint32_t>(5);
+			Instance.Clear();
 			Assert::AreEqual(5ULL, Instance.GetCapacity());
 			Assert::AreEqual(0ULL, Instance.GetLength());
 
@@ -83,6 +84,7 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(Modifiers)
 		{
 			Vector<uint32_t> Instance = Vector<uint32_t>(1);
+			Instance.Clear();
 			Assert::AreEqual(static_cast<Elysium::Core::size>(0), Instance.GetLength());
 			Assert::AreEqual(static_cast<Elysium::Core::size>(1), Instance.GetCapacity());
 			Assert::IsTrue(Instance.GetIsEmpty());
@@ -179,7 +181,7 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(4_ui32, Instance[3]);
 			Assert::AreEqual(5_ui32, Instance[4]);
 
-			// ToDo: need to check this block with another T to make sure the item really gets moved
+			// @ToDo: need to check this block with another T to make sure the item really gets moved
 			Instance.PopBack();
 			Instance.PopBack();
 			Instance.PushBack(Move(SomeOtherInstance.GetAt(0)));
@@ -206,7 +208,7 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(27_ui32, Instance[7]);
 			Assert::AreEqual(27_ui32, Instance[8]);
 
-			Instance.Insert(33, 6);
+			Instance.Insert(6, 33);
 			Assert::AreEqual(static_cast<Elysium::Core::size>(10), Instance.GetLength());
 			Assert::AreEqual(static_cast<Elysium::Core::size>(16), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);

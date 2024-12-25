@@ -97,7 +97,7 @@ namespace Elysium::Core::Template::Container
 		using IteratorPointer = T*;
 		using IteratorReference = T&;
 		using ConstIteratorReference = const T&;
-
+	public:
 		using FIterator = Iterator::ForwardIterator<Vector<T, Allocator>>;
 		using ConstIterator = Iterator::ConstForwardIterator<Vector<T, Allocator>>;
 
@@ -287,9 +287,9 @@ namespace Elysium::Core::Template::Container
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="Value"></param>
 		/// <param name="Index"></param>
-		void Insert(ConstValue Value, const System::size Index);
+		/// <param name="Value"></param>
+		void Insert(const System::size Index, ConstValue Value);
 
 		/// <summary>
 		/// Adds given item to the end of the vector. (May cause reallocation.)
@@ -357,7 +357,8 @@ namespace Elysium::Core::Template::Container
 	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
 		: _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
-		for (Elysium::Core::Template::System::size i = 0; i < _Capacity; i++)
+		const Elysium::Core::Template::System::size InitializerListLength = InitializerList.size();
+		for (Elysium::Core::Template::System::size i = 0; i < InitializerListLength; i++)
 		{
 			_Data[i] = InitializerList.begin()[i];
 		}
@@ -581,7 +582,7 @@ namespace Elysium::Core::Template::Container
 
 	template<Concepts::NonConstant T, class Allocator>
 	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
-	{	// ToDo: have a look at std::vector::erase in regards to returning the last element?
+	{	// @ToDo: have a look at std::vector::erase in regards to returning the last element?
 		if (Index >= _Length)
 		{
 			throw Exceptions::IndexOutOfRangeException();
@@ -602,8 +603,9 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::Insert(ConstValue Value, const Elysium::Core::Template::System::size Index)
+	inline void Vector<T, Allocator>::Insert(const Elysium::Core::Template::System::size Index, ConstValue Value)
 	{
+
 		/*
 		if (_Size == _Capacity)
 		{	// don't call Reserve(...) here as to reduce the amount of copies/moves
