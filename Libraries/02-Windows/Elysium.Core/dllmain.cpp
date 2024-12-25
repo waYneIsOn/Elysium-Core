@@ -26,6 +26,10 @@
 #include "../Elysium.Core.Reflection/Type.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_RINGBUFFEROFINTEGER
+#include "../Elysium.Core/RingBufferOfInteger.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
 #include "../Elysium.Core/VectorOfInteger.hpp"
 #endif
