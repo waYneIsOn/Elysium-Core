@@ -32,7 +32,7 @@ namespace Elysium::Core::Template::Exceptions
 
 		Exception(Text::String<char8_t>&& Message);
 
-		Exception(const Exception& Source) = delete;
+		Exception(const Exception& Source);
 
 		Exception(Exception&& Right) noexcept = delete;
 
@@ -58,6 +58,10 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Exception::Exception(Text::String<char8_t> && Message)
 		: _Message(Functional::Move(Message)), _StackTrace(CaptureStackTrace())
+	{ }
+
+	inline Exception::Exception(const Exception & Source)
+		: _Message(Source._Message), _StackTrace(Source._StackTrace)
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::Exception::~Exception()
