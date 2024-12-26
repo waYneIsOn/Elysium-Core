@@ -144,20 +144,31 @@ namespace UnitTests::Core::Template::Reflection
 
 		TEST_METHOD(GetDefinedValues)
 		{
-			//GlobalEnum GlobalEnumMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::GetMinimumValue();
-
-			//SomeInt8EnumClass SomeInt8EnumClassMinimum = Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetMinimumValue();
-
+			
 			const ::Template::Container::Vector<SomeUInt8EnumClass> SomeUInt8EnumClassDefinedValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetDefinedValues();
+			Assert::AreEqual(2_ui64, SomeUInt8EnumClassDefinedValues.GetLength());
+
+			const SomeUInt8EnumClass SomeUInt8EnumClassValue1 = SomeUInt8EnumClassDefinedValues[0];
+			const SomeUInt8EnumClass SomeUInt8EnumClassValue2 = SomeUInt8EnumClassDefinedValues[1];
+
+			const ::Template::System::uint8_t SomeUInt8EnumClassCastValue1 = static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassValue1);
+			const ::Template::System::uint8_t SomeUInt8EnumClassCastValue2 = static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassValue2);
 			
 			const ::Template::Container::Vector<SomeEmtpyUInt8EnumClass> SomeEmtpyUint8EnumDefinedValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEmtpyUInt8EnumClass>::GetDefinedValues();
+			Assert::AreEqual(0_ui64, SomeEmtpyUint8EnumDefinedValues.GetLength());
+			
+
+
+
 			/*
-			Elysium::Core::Template::Utility::IntegerSequence<SomeUInt8EnumClass, SomeUInt8EnumClass::A, SomeUInt8EnumClass::B> bla =
-				Elysium::Core::Template::Utility::IntegerSequence< SomeUInt8EnumClass, SomeUInt8EnumClass::A, SomeUInt8EnumClass::B>();
-			*/
+			const ::Template::Container::Vector<SomeInt8EnumClass> SomeInt8EnumClassDefinedValues =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetDefinedValues();
+			bool bla = false;
+
 			Assert::Fail();
+			*/
 		}
 
 		TEST_METHOD(GetNameValues)
