@@ -653,6 +653,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Architecture.hpp">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemSet.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemCpy.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

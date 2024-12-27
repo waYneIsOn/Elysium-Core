@@ -20,8 +20,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "MemCpy.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMORYORDER
 #include "MemoryOrder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
+#include "MemSet.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SHAREDPOINTER

@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
+#include "MemSet.hpp"
 #endif
 
-#ifndef _CSTRING_
-#include <cstring>	// memset
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Memory
@@ -29,16 +29,18 @@ namespace Elysium::Core::Template::Memory
 	/// <summary>
 	/// 
 	/// </summary>
-	template<Concepts::NonConstant T>
+	template<Elysium::Core::Template::Concepts::NonConstant T>
 	class DefaultAllocator final
 	{
+	public:
+		using Pointer = T*;
 	private:
-		static const System::size ElementSize = sizeof(T);
+		static const Elysium::Core::Template::System::size ElementSize = sizeof(T);
 	public:
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
-		DefaultAllocator() noexcept;
+		constexpr DefaultAllocator() noexcept;
 
 		/// <summary>
 		/// 
@@ -55,7 +57,7 @@ namespace Elysium::Core::Template::Memory
 		/// <summary>
 		/// Destroys this instance.
 		/// </summary>
-		~DefaultAllocator();
+		constexpr ~DefaultAllocator();
 	public:
 		/// <summary>
 		/// 
@@ -77,40 +79,41 @@ namespace Elysium::Core::Template::Memory
 		/// </summary>
 		/// <param name="NumberOfElements"></param>
 		/// <returns></returns>
-		constexpr T* Allocate(const System::size NumberOfElements);
+		constexpr Pointer Allocate(const Elysium::Core::Template::System::size NumberOfElements);
 
 		/// <summary>
 		/// Calls destructor for the first number of instantiated elements before cleaning up the previously allocated memory using operator delete[].
 		/// </summary>
 		/// <param name="First">Pointer to the starting element.</param>
 		/// <param name="NumberOfInstantiatedElements">Number of elements the destructors needs to be called for.</param>
-		void Deallocate(T* First, const System::size NumberOfInstantiatedElements);
+		void Deallocate(Pointer First, const Elysium::Core::Template::System::size NumberOfInstantiatedElements);
 	};
 
-	template<Concepts::NonConstant T>
-	inline DefaultAllocator<T>::DefaultAllocator() noexcept
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline constexpr DefaultAllocator<T>::DefaultAllocator() noexcept
 	{ }
 
-	template<Concepts::NonConstant T>
-	inline DefaultAllocator<T>::~DefaultAllocator()
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline constexpr DefaultAllocator<T>::~DefaultAllocator()
 	{ }
 
-	template<Concepts::NonConstant T>
-	inline constexpr T* DefaultAllocator<T>::Allocate(const System::size NumberOfElements)
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline constexpr Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer DefaultAllocator<T>::Allocate(const Elysium::Core::Template::System::size NumberOfElements)
 	{
 		if (NumberOfElements == 0)
 		{
 			return nullptr;
 		}
 
+		// @ToDo: this will not call any constructors and might cause problems with certain types. will have to see!
 		void* Data = operator new[](ElementSize * NumberOfElements);
-		memset(Data, 0x00, ElementSize * NumberOfElements);
+		Elysium::Core::Template::Memory::MemSet(Data, 0x00, ElementSize * NumberOfElements);
 		
 		return static_cast<T*>(Data);
 	}
 
-	template<Concepts::NonConstant T>
-	inline void DefaultAllocator<T>::Deallocate(T* First, const System::size NumberOfInstantiatedElements)
+	template<Elysium::Core::Template::Concepts::NonConstant T>
+	inline void DefaultAllocator<T>::Deallocate(Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer First, const Elysium::Core::Template::System::size NumberOfInstantiatedElements)
 	{
 		if (First == nullptr)
 		{
@@ -121,7 +124,7 @@ namespace Elysium::Core::Template::Memory
 		{
 			First[i].~T();
 		}
-		//memset(First, 0x00, ElementSize* NumberOfInstantiatedElements);
+
 		operator delete[](First);
 		First = nullptr;
 	}

@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
+#include "MemSet.hpp"
 #endif
 
-#ifndef _INC_CRTDBG
-#include <cstdlib>
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Memory
@@ -104,7 +104,7 @@ namespace Elysium::Core::Template::Memory
 		}
 
 		void* Data = operator new[](ElementSize* NumberOfElements);
-		memset(Data, 0x00, ElementSize * NumberOfElements);
+		Elysium::Core::Template::Memory::MemSet(Data, 0x00, ElementSize * NumberOfElements);
 
 		return static_cast<T*>(Data);
 	}
@@ -121,8 +121,8 @@ namespace Elysium::Core::Template::Memory
 		{
 			First[i].~T();
 		}
-		//memset(First, 0x00, ElementSize* NumberOfInstantiatedElements);
-		std::free(First);
+
+		std::free(First);	// @ToDo: stl remnant
 		First = nullptr;
 	}
 }

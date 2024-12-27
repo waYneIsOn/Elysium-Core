@@ -108,7 +108,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Logarithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemCpy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryOrder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemSet.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MidpointRounding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp" />

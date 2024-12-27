@@ -20,6 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "MemCpy.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
+#include "MemSet.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "Primitives.hpp"
 #endif
@@ -282,7 +290,7 @@ namespace Elysium::Core::Template::Text
 			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
 			for (System::size i = 0; i < Count; i++)
 			{
-				memset(&_InternalString._Heap._Data[i * Traits::MinimumByteLength], Value, Traits::MinimumByteLength);
+				Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[i * Traits::MinimumByteLength], Value, Traits::MinimumByteLength);
 			}
 
 			_InternalString._Heap._Size = Size;
@@ -290,7 +298,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else
 		{
-			memset(&_InternalString._Stack._Data[0], Value, Count);
+			Elysium::Core::Template::Memory::MemSet(&_InternalString._Stack._Data[0], Value, Count);
 			_InternalString._Stack.SetSize(Size);
 		}
 	}
@@ -336,14 +344,14 @@ namespace Elysium::Core::Template::Text
 			{	// source fits into this string
 				const Elysium::Core::Template::System::size SourceSizeIncludingNullTerminationCharacter = SourceLength * 
 					Traits::MinimumByteLength + Traits::MinimumByteLength;
-				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceSizeIncludingNullTerminationCharacter);
+				Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceSizeIncludingNullTerminationCharacter);
 				_InternalString._Heap._Size = SourceSize;
 			}
 		}
 		else
 		{
 #pragma warning (disable: 6385 6386)	// I want to copy 12/24 bytes
-			memcpy(&_InternalString._Stack._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString));
+			Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString));
 #pragma warning (default: 6385 6386)
 		}
 	}
@@ -353,8 +361,8 @@ namespace Elysium::Core::Template::Text
 		: _InternalString{ 0x00 }
 	{
 #pragma warning (disable: 6385 6386)	// I want to copy and set 12/24 bytes
-		memcpy(&_InternalString._Stack._Data[0], &Right._InternalString._Stack._Data[0], sizeof(StackString));
-		memset(&Right._InternalString._Stack._Data[0], 0x00, sizeof(StackString));
+		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], &Right._InternalString._Stack._Data[0], sizeof(StackString));
+		Elysium::Core::Template::Memory::MemSet(&Right._InternalString._Stack._Data[0], 0x00, sizeof(StackString));
 #pragma warning (default: 6385 6386)
 		Right._InternalString._Stack.SetSize(0);
 	}
@@ -389,7 +397,7 @@ namespace Elysium::Core::Template::Text
 				}
 				else
 				{	// source fits into this string
-					memcpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
+					Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
 					_InternalString._Heap._Size = ValueSize;
 				}
 			}
@@ -402,7 +410,7 @@ namespace Elysium::Core::Template::Text
 		{
 			if (IsThisHeapAllocated)
 			{	// stack to heap
-				memcpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
+				Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], Value, ValueSizeIncludingNullTerminator);
 				_InternalString._Heap._Size = ValueSize;
 			}
 			else
@@ -433,14 +441,14 @@ namespace Elysium::Core::Template::Text
 				}
 				else
 				{	// source fits into this string
-					memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceSizeIncludingNullTerminationCharacter);
+					Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], &Source._InternalString._Heap._Data[0], SourceSizeIncludingNullTerminationCharacter);
 					_InternalString._Heap._Size = SourceSize;
 				}
 			}
 			else if (!IsThisHeapAllocated && !IsSourceHeapAllocated)
 			{	// stack to stack
 #pragma warning (disable: 6385 6386)	// I want to copy 12/24 bytes
-				memcpy(&_InternalString._Stack._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString));
+				Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString));
 #pragma warning (default: 6385 6386)
 			}
 			else if (!IsThisHeapAllocated && IsSourceHeapAllocated)
@@ -449,7 +457,7 @@ namespace Elysium::Core::Template::Text
 			}
 			else
 			{	// stack to heap
-				memcpy(&_InternalString._Heap._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString) - 1);
+				Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], &Source._InternalString._Stack._Data[0], sizeof(StackString) - 1);
 				_InternalString._Heap._Size = Source.GetLength() * Traits::MinimumByteLength;
 			}
 		}
@@ -467,8 +475,8 @@ namespace Elysium::Core::Template::Text
 			}
 
 #pragma warning (disable: 6385 6386)	// I want to copy and set 12/24 bytes
-			memcpy(&_InternalString._Stack._Data[0], &Right._InternalString._Stack._Data[0], sizeof(StackString));
-			memset(&Right._InternalString._Stack._Data[0], 0x00, sizeof(StackString));
+			Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], &Right._InternalString._Stack._Data[0], sizeof(StackString));
+			Elysium::Core::Template::Memory::MemSet(&Right._InternalString._Stack._Data[0], 0x00, sizeof(StackString));
 #pragma warning (default: 6385 6386)
 			Right._InternalString._Stack.SetSize(0);
 		}
@@ -925,7 +933,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + Traits::MinimumByteLength;
 
 		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
-		memcpy(&_InternalString._Heap._Data[0], Value, Size);
+		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], Value, Size);
 
 		_InternalString._Heap._Size = Size;
 		_InternalString._Heap.SetCapacity(Size / Traits::MinimumByteLength);
@@ -934,7 +942,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr void String<C, Traits, Allocator>::InitializeStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Size)
 	{
-		memcpy(&_InternalString._Stack._Data[0], Value, Size);
+		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, Size);
 		_InternalString._Stack.SetSize(Size);
 	}
 
@@ -944,7 +952,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = CharSize + Traits::MinimumByteLength;
 
 		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
-		memcpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminationCharacter);
+		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminationCharacter);
 
 		_InternalString._Heap._Size = CharSize;
 		_InternalString._Heap.SetCapacity(CharSize / Traits::MinimumByteLength);
@@ -953,7 +961,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline void String<C, Traits, Allocator>::CopyStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size ByteSize)
 	{
-		memcpy(&_InternalString._Stack._Data[0], Value, ByteSize);
+		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, ByteSize);
 		_InternalString._Stack.SetSize(ByteSize);
 	}
 

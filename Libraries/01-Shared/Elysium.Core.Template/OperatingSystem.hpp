@@ -24,9 +24,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#error "unsupported os"
 #endif
 
-#if defined _WIN64 || defined __aarch64__ || defined _M_ARM64 || defined __x86_64__
+#if defined _WIN64 || defined __aarch64__ || defined _M_ARM64 || defined __x86_64__ || defined _M_X64 
 	#define ELYSIUM_CORE_BITNESS 64
-#elif defined _WIN32 || defined __WIN32__ || defined __arm__ || defined __i386__
+#elif defined _WIN32 || defined __WIN32__ || defined __arm__ || defined __i386__ || defined _M_IX86 
 	#define ELYSIUM_CORE_BITNESS 32
 #else
 	#error "unsupported os regarding bitness"
@@ -69,4 +69,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #define ELYSIUM_CORE_DEFAULT_FRIEND_CLASSES friend class Elysium::Core::Template::Memory::Activator;
 */
+
+namespace Elysium::Core::Template::System
+{
+	class OperatingSystem
+	{
+	public:
+		constexpr OperatingSystem() noexcept = delete;
+
+		OperatingSystem(const OperatingSystem& Source) = delete;
+
+		OperatingSystem(OperatingSystem&& Right) noexcept = delete;
+
+		~OperatingSystem() = delete;
+	public:
+
+	};
+}
 #endif
