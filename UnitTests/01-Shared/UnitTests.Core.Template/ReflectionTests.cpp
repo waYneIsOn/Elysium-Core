@@ -144,31 +144,43 @@ namespace UnitTests::Core::Template::Reflection
 
 		TEST_METHOD(GetDefinedValues)
 		{
+			// GlobalEnum (int32_t doesn't currently work - too large)
+			// GlobalSomeEnumClass (int32_t doesn't currently work - too large)
+			// SomeEnum (int32_t doesn't currently work - too large)
+			// SomeEnumClass (int32_t doesn't currently work - too large)
 			
+			// SomeUInt8EnumClass
 			const ::Template::Container::Vector<SomeUInt8EnumClass> SomeUInt8EnumClassDefinedValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetDefinedValues();
 			Assert::AreEqual(2_ui64, SomeUInt8EnumClassDefinedValues.GetLength());
 
-			const SomeUInt8EnumClass SomeUInt8EnumClassValue1 = SomeUInt8EnumClassDefinedValues[0];
-			const SomeUInt8EnumClass SomeUInt8EnumClassValue2 = SomeUInt8EnumClassDefinedValues[1];
-
-			const ::Template::System::uint8_t SomeUInt8EnumClassCastValue1 = static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassValue1);
-			const ::Template::System::uint8_t SomeUInt8EnumClassCastValue2 = static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassValue2);
+			Assert::AreEqual(static_cast<::Template::System::uint8_t>(SomeUInt8EnumClass::B), 
+				static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassDefinedValues[0]));
+			Assert::AreEqual(static_cast<::Template::System::uint8_t>(SomeUInt8EnumClass::A),
+				static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassDefinedValues[1]));
 			
+			// SomeEmtpyUInt8EnumClass
 			const ::Template::Container::Vector<SomeEmtpyUInt8EnumClass> SomeEmtpyUint8EnumDefinedValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEmtpyUInt8EnumClass>::GetDefinedValues();
 			Assert::AreEqual(0_ui64, SomeEmtpyUint8EnumDefinedValues.GetLength());
-			
-
-
-
-			/*
+						
+			// SomeInt8EnumClass
 			const ::Template::Container::Vector<SomeInt8EnumClass> SomeInt8EnumClassDefinedValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetDefinedValues();
-			bool bla = false;
+			Assert::AreEqual(2_ui64, SomeInt8EnumClassDefinedValues.GetLength());
 
-			Assert::Fail();
+			Assert::AreEqual(static_cast<::Template::System::uint8_t>(SomeInt8EnumClass::B),
+				static_cast<::Template::System::uint8_t>(SomeInt8EnumClassDefinedValues[0]));
+			Assert::AreEqual(static_cast<::Template::System::uint8_t>(SomeInt8EnumClass::A),
+				static_cast<::Template::System::uint8_t>(SomeInt8EnumClassDefinedValues[1]));
+			
+			/*
+			// SomeInt16EnumClass
+			const ::Template::Container::Vector<SomeInt16EnumClass> SomeInt16EnumClassDefinedValues =
+				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt16EnumClass>::GetDefinedValues();
+			Assert::AreEqual(4_ui64, SomeInt16EnumClassDefinedValues.GetLength());
 			*/
+			// SomeInt32EnumStruct (int32_t doesn't currently work - too large)
 		}
 
 		TEST_METHOD(GetNameValues)

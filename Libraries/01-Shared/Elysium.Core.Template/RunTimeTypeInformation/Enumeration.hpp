@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Move.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
+#include "../Absolute.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "../NumericTraits.hpp"
 #endif
@@ -95,9 +99,19 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		static constexpr const Elysium::Core::Template::Container::Vector<typename Elysium::Core::Template::TypeTraits::UnderlyingType<T>::Type> 
 			GetUnderlyingValues() noexcept;
 	private:
-		template <Elysium::Core::Template::System::size... Indices>
+		template <Elysium::Core::Template::Concepts::UnsignedInteger UI>
+		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType();
+
+		template <Elysium::Core::Template::Concepts::SignedInteger SI>
+		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType();
+
+		template <Elysium::Core::Template::System::uint64_t... Indices>
 		static constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)>
-			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::size, Indices...>);
+			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>);
+		
+		template <Elysium::Core::Template::System::int64_t... Indices>
+		static constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)>
+			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>);
 	};
 
 	template<Concepts::ReflectableEnumeration T>
@@ -188,42 +202,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	template<Concepts::ReflectableEnumeration T>
 	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValues() noexcept
 	{
-		/*
-		* Why use Elysium::Core::Template::System::size here? (Example: uint8_t)
-		* The created integer sequence should contain values from minimum to maxmimum so in my example from 0 to 255.
-		* MakeIntegerSequence takes the number of elements though which would be 256 (i.e. maximum + 1) which would cause an
-		* overflow if I were to use the underlying type, meaning I need to use a bigger type and 
-		* I just decided to use "largest" type in general.
-		* 
-		* This still causes another issue:
-		* The overflow still is going to occurre if the underlying type of given enum is 32 bit on 32 bit hardware or
-		* 64 bit on 64 bit hardware.
-		* Since I only allow enums with an underlying type of 16bit or less, this is not an issue for now!
-		* 
-		*/
-
-		constexpr const Elysium::Core::Template::System::size RangeStart =
-			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Minimum;
-
-		constexpr const Elysium::Core::Template::System::size RangeEnd =
-			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Maximum + 1;
-
-		// @ToDo: The created integer sequence only works for underlying UNSIGNED integer types atm!
-		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
-			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::size, RangeEnd>();
-
-		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
-
-		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
-		for (Elysium::Core::Template::System::size i = RangeStart; i < RangeEnd; i++)
-		{
-			if (AreDefinedValues[i])
-			{
-				DefinedValues.PushBack(static_cast<T>(i));
-			}
-		}
-
-		return DefinedValues;
+		return GetDefinedValuesUsingUnderlyingType<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>();
 	}
 
 	template<Concepts::ReflectableEnumeration T>
@@ -279,13 +258,100 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 
 		return Result;
 	}
+	
+	template<Concepts::ReflectableEnumeration T>
+	template<Elysium::Core::Template::Concepts::UnsignedInteger UI>
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType()
+	{
+		/*
+		* Why use Elysium::Core::Template::System::uint64_t here? (Example: uint8_t)
+		* The created integer sequence should contain values from minimum to maxmimum so in my example from 0 to 255.
+		* MakeIntegerSequence takes the number of elements though which would be 256 (i.e. maximum + 1) which would cause an
+		* overflow if I were to use the underlying type, meaning I need to use a bigger type and
+		* I just decided to use "largest" integer type in general.
+		*
+		* There's still another issue:
+		* The overflow is going to occurre regardless if the underlying type of given enum is 32 bit on 32 bit hardware or
+		* 64 bit on 64 bit hardware.
+		* Since I created the concept, ReflectableEnumeration, to only allow enums with an underlying type having a size of
+		* 16 bit or less, this is not an issue for now!
+		*/
+		constexpr const Elysium::Core::Template::System::uint64_t RangeStart =
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Minimum;
+
+		constexpr const Elysium::Core::Template::System::uint64_t RangeEnd =
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Maximum + 1;
+
+		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
+			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::uint64_t, RangeEnd>();
+
+		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
+
+		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
+		for (Elysium::Core::Template::System::uint64_t i = RangeStart; i < RangeEnd; i++)
+		{
+			if (AreDefinedValues[i])
+			{
+				DefinedValues.PushBack(static_cast<T>(i));
+			}
+		}
+
+		return DefinedValues;
+	}
 
 	template<Concepts::ReflectableEnumeration T>
-	template<Elysium::Core::Template::System::size ...Indices>
-	inline constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)> Enumeration<T>::GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::size, Indices...>)
+	template<Elysium::Core::Template::Concepts::SignedInteger SI>
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType()
 	{
-		//return { (static_cast<T>(Indices))... };
-		//return { Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<(static_cast<T>(1))>() };
+		/*
+		* Why use Elysium::Core::Template::System::int64_t here? (Example: int8_t)
+		* The created integer sequence should contain values from minimum to maxmimum so in my example from -128 to 127.
+		* MakeIntegerSequence takes the number of elements though which would be 256 which would cause an
+		* overflow if I were to use the underlying type, meaning I need to use a bigger type and
+		* I just decided to use "largest" integer type in general.
+		*
+		* There's still another issue:
+		* The overflow is going to occurre regardless if the underlying type of given enum is 32 bit on 32 bit hardware or
+		* 64 bit on 64 bit hardware.
+		* Since I created the concept, ReflectableEnumeration, to only allow enums with an underlying type having a size of
+		* 16 bit or less, this is not an issue for now!
+		*/
+		constexpr const Elysium::Core::Template::System::int64_t RangeStart =
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Minimum;
+
+		constexpr const Elysium::Core::Template::System::int64_t Offset = Elysium::Core::Template::Math::Absolute(RangeStart);
+
+		constexpr const Elysium::Core::Template::System::int64_t RangeEnd = Offset +
+			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>::Maximum + 1;
+
+		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
+			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::int64_t, RangeEnd>();
+
+		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
+
+		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
+		for (Elysium::Core::Template::System::int64_t i = RangeStart + Offset; i < RangeEnd; i++)
+		{
+			if (AreDefinedValues[i])
+			{
+				DefinedValues.PushBack(static_cast<T>(i));
+			}
+		}
+
+		return DefinedValues;
+	}
+
+	template<Concepts::ReflectableEnumeration T>
+	template<Elysium::Core::Template::System::uint64_t ...Indices>
+	inline constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)> Enumeration<T>::GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>)
+	{
+		return { (Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>())... };
+	}
+
+	template<Concepts::ReflectableEnumeration T>
+	template<Elysium::Core::Template::System::int64_t ...Indices>
+	inline constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)> Enumeration<T>::GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>)
+	{
 		return { (Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>())... };
 	}
 }
