@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Memory
 {
-	inline void* MemCopy(void* Destination, const void* Source, Elysium::Core::Template::System::size Size)
+	inline void* MemCpy(void* Destination, const void* Source, Elysium::Core::Template::System::size Size)
 	{	// @ToDo: stl remnant
 		return std::memcpy(Destination, Source, Size);
 	}
