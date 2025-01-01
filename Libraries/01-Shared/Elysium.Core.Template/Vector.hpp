@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NonConstant.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
+#include "EnableIf.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
 #include "Array.hpp"
 #endif
@@ -58,6 +62,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVECONSTRUCTIBLE
+#include "IsMoveConstructible.hpp"
 #endif
 
 
@@ -295,13 +303,14 @@ namespace Elysium::Core::Template::Container
 		/// Adds given item to the end of the vector. (May cause reallocation.)
 		/// </summary>
 		/// <param name="Item"></param>
-		void PushBack(ConstReference Item);
+		constexpr void PushBack(ConstReference Item);
 
 		/// <summary>
 		/// Moves given item to the end of the vector. (May cause reallocation.)
 		/// </summary>
 		/// <param name="Item"></param>
-		void constexpr PushBack(RValueReference Item);
+		constexpr void PushBack(RValueReference Item);
+			//typename Elysium::Core::Template::Common::EnableIf<Elysium::Core::Template::TypeTraits::IsMoveConstructible<T>::Value>::Type* = nullptr;
 
 		/// <summary>
 		/// 
@@ -628,7 +637,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::NonConstant T, class Allocator>
-	inline void Vector<T, Allocator>::PushBack(ConstReference Item)
+	inline constexpr void Vector<T, Allocator>::PushBack(ConstReference Item)
 	{
 		if (_Length == _Capacity)
 		{
