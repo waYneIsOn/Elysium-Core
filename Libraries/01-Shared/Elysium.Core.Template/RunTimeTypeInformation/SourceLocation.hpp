@@ -25,25 +25,33 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	class SourceLocation
 	{
 	public:
-		SourceLocation(const Elysium::Core::Template::System::uint32_t Line = Elysium::Core::Template::System::Compiler::GetLine(),
+		constexpr SourceLocation(const Elysium::Core::Template::System::uint32_t Line = Elysium::Core::Template::System::Compiler::GetLine(),
 			const Elysium::Core::Template::System::uint32_t Column = Elysium::Core::Template::System::Compiler::GetColumn(),
 			const char8_t* File = Elysium::Core::Template::System::Compiler::GetFileName(),
 			const char8_t* Function = Elysium::Core::Template::System::Compiler::GetFunctionName()) noexcept;
 
-		~SourceLocation() noexcept;
+		constexpr SourceLocation(const SourceLocation& Source) = delete;
+
+		constexpr SourceLocation(SourceLocation&& Source) noexcept = delete;
+
+		constexpr ~SourceLocation() noexcept;
 	public:
-		const SourceLocation Current(const Elysium::Core::Template::System::uint32_t Line = Elysium::Core::Template::System::Compiler::GetLine(),
+		SourceLocation& operator=(const SourceLocation& Source) = delete;
+
+		SourceLocation& operator=(SourceLocation&& Right) noexcept = delete;
+	public:
+		constexpr const SourceLocation Current(const Elysium::Core::Template::System::uint32_t Line = Elysium::Core::Template::System::Compiler::GetLine(),
 			const Elysium::Core::Template::System::uint32_t Column = Elysium::Core::Template::System::Compiler::GetColumn(),
 			const char8_t* File = Elysium::Core::Template::System::Compiler::GetFileName(), 
 			const char8_t* Function = Elysium::Core::Template::System::Compiler::GetFunctionName()) noexcept;
 	public:
-		const Elysium::Core::Template::System::uint32_t GetLine() const noexcept;
+		constexpr const Elysium::Core::Template::System::uint32_t GetLine() const noexcept;
 
-		const Elysium::Core::Template::System::uint32_t GetColumn() const noexcept;
+		constexpr const Elysium::Core::Template::System::uint32_t GetColumn() const noexcept;
 
-		const char8_t* GetFile() const noexcept;
+		constexpr const char8_t* GetFile() const noexcept;
 
-		const char8_t* GetFunction() const noexcept;
+		constexpr const char8_t* GetFunction() const noexcept;
 	private:
 		Elysium::Core::Template::System::uint32_t _Line;
 		Elysium::Core::Template::System::uint32_t _Column;
@@ -51,34 +59,34 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		const char8_t* _Function;
 	};
 
-	inline SourceLocation::SourceLocation(const Elysium::Core::Template::System::uint32_t Line, const Elysium::Core::Template::System::uint32_t Column, const char8_t* File, const char8_t* Function) noexcept
+	inline constexpr  SourceLocation::SourceLocation(const Elysium::Core::Template::System::uint32_t Line, const Elysium::Core::Template::System::uint32_t Column, const char8_t* File, const char8_t* Function) noexcept
 		: _Line(Line), _Column(Column), _File(File), _Function(Function)
 	{ }
 
-	inline Elysium::Core::Template::RunTimeTypeInformation::SourceLocation::~SourceLocation() noexcept
+	inline constexpr Elysium::Core::Template::RunTimeTypeInformation::SourceLocation::~SourceLocation() noexcept
 	{ }
 
-	inline const SourceLocation SourceLocation::Current(const Elysium::Core::Template::System::uint32_t Line, const Elysium::Core::Template::System::uint32_t Column, const char8_t* File, const char8_t* Function) noexcept
+	inline constexpr const SourceLocation SourceLocation::Current(const Elysium::Core::Template::System::uint32_t Line, const Elysium::Core::Template::System::uint32_t Column, const char8_t* File, const char8_t* Function) noexcept
 	{
 		return SourceLocation(Line, Column, File, Function);
 	}
 
-	inline const Elysium::Core::Template::System::uint32_t Elysium::Core::Template::RunTimeTypeInformation::SourceLocation::GetLine() const noexcept
+	inline constexpr const Elysium::Core::Template::System::uint32_t Elysium::Core::Template::RunTimeTypeInformation::SourceLocation::GetLine() const noexcept
 	{
 		return _Line;
 	}
 
-	inline const Elysium::Core::Template::System::uint32_t Elysium::Core::Template::RunTimeTypeInformation::SourceLocation::GetColumn() const noexcept
+	inline constexpr const Elysium::Core::Template::System::uint32_t Elysium::Core::Template::RunTimeTypeInformation::SourceLocation::GetColumn() const noexcept
 	{
 		return _Column;
 	}
 
-	inline const char8_t* SourceLocation::GetFile() const noexcept
+	inline constexpr const char8_t* SourceLocation::GetFile() const noexcept
 	{
 		return _File;
 	}
 
-	inline const char8_t* SourceLocation::GetFunction() const noexcept
+	inline constexpr const char8_t* SourceLocation::GetFunction() const noexcept
 	{
 		return _Function;
 	}

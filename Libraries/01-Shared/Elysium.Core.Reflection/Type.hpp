@@ -33,7 +33,7 @@ namespace Elysium::Core::Reflection
 	class ELYSIUM_CORE_API Type final
 	{
 	public:
-		constexpr Type(const Module& Module, const Elysium::Core::uint64_t Id, const Elysium::Core::Utf8String& Name);
+		constexpr Type(const Module& Module, const Elysium::Core::Utf8String& Name);
 
 		constexpr Type(const Type& Source) = delete;
 

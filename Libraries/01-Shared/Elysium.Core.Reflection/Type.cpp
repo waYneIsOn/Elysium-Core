@@ -1,7 +1,7 @@
 #include "Type.hpp"
 
-constexpr Elysium::Core::Reflection::Type::Type(const Module& Module, const Elysium::Core::uint64_t Id, const Elysium::Core::Utf8String& Name)
-	: _Module(Module), _Id(Id), _Name(Name)
+constexpr Elysium::Core::Reflection::Type::Type(const Module& Module, const Elysium::Core::Utf8String& Name)
+	: _Module(Module), _Id(0), _Name(Name)
 {
 	((Elysium::Core::Reflection::Module&)_Module).Add(*this);
 }
