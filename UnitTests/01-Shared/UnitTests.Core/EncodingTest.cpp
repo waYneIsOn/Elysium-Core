@@ -227,6 +227,8 @@ namespace UnitTests::Core::Text
 
 		TEST_METHOD(Utf32BE_FileStream)
 		{
+			Assert::Fail(L"Heap corruption in WriteTo(...)!");
+
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF32BE();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf32BE.txt", Elysium::Core::IO::FileMode::Create,
@@ -237,6 +239,8 @@ namespace UnitTests::Core::Text
 
 		TEST_METHOD(Utf32LE_FileStream)
 		{
+			Assert::Fail(L"Heap corruption in WriteTo(...)!");
+
 			Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF32LE();
 
 			Elysium::Core::IO::FileStream File = Elysium::Core::IO::FileStream(u8"Utf32LE.txt", Elysium::Core::IO::FileMode::Create,
@@ -249,7 +253,7 @@ namespace UnitTests::Core::Text
 
 		void WriteTo(Elysium::Core::IO::FileStream& TargetStream, const Elysium::Core::Text::Encoding& Encoding)
 		{
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Encoding.GetBytes(&_Content[0], _Content.GetLength());
+			Elysium::Core::Container::VectorOfByte Bytes = Encoding.GetBytes(&_Content[0], _Content.GetLength());
 
 			Elysium::Core::IO::StreamWriter Writer = Elysium::Core::IO::StreamWriter(TargetStream, Encoding);
 			Writer.Write(&Bytes[0], Bytes.GetLength());

@@ -7,10 +7,12 @@
 Elysium::Core::Text::UTF8Encoding::UTF8Encoding()
 	: Elysium::Core::Text::UTF8Encoding(false, false)
 { }
+
 Elysium::Core::Text::UTF8Encoding::UTF8Encoding(const bool EncoderShouldEmitIdentifier, const bool ThrowOnInvalidBytes)
 	: Elysium::Core::Text::Encoding(65001),	// WinNls.h -> CP_UTF8
 	_EncoderShouldEmitIdentifier(EncoderShouldEmitIdentifier), _ThrowOnInvalidBytes(ThrowOnInvalidBytes)
 { }
+
 Elysium::Core::Text::UTF8Encoding::~UTF8Encoding()
 { }
 
@@ -18,24 +20,23 @@ const bool Elysium::Core::Text::UTF8Encoding::GetIsSingleByte() const
 {
 	return false;
 }
+
 const Elysium::Core::Utf8String& Elysium::Core::Text::UTF8Encoding::GetEncodingName() const
 {
-	static Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-8)";
+	static const Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-8)";
 	return EncodingName;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Text::UTF8Encoding::GetPreamble() const
+const Elysium::Core::Container::VectorOfByte& Elysium::Core::Text::UTF8Encoding::GetPreamble() const
 {
 	if (_EncoderShouldEmitIdentifier)
 	{
-		static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xEF, 0xBB, 0xBF });
+		static const Elysium::Core::Container::VectorOfByte Preamble = { 0xEF, 0xBB, 0xBF };
 		return Preamble;
 	}
 	else
 	{
-		static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+		static const Elysium::Core::Container::VectorOfByte Preamble = Elysium::Core::Container::VectorOfByte(0);
 		return Preamble;
 	}
 }
@@ -96,10 +97,10 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF8Encoding::GetByteCount(co
 	*/
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF8Encoding::GetBytes(const char8_t * Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
+Elysium::Core::Container::VectorOfByte Elysium::Core::Text::UTF8Encoding::GetBytes(const char8_t * Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
 {
 	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharCount);
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize, AdditionalCount > 0 ? true : false);
+	Elysium::Core::Container::VectorOfByte Result = Elysium::Core::Container::VectorOfByte(RequiredSize);
 	for (Elysium::Core::size i = 0; i < CharCount; ++i)
 	{
 		Result[i] = static_cast<Elysium::Core::byte>(Input[i]);

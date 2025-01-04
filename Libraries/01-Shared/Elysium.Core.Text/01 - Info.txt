@@ -1,4 +1,4 @@
-Code Pages
+Code Pages (at least on windows)
 https://docs.microsoft.com/en-us/windows/desktop/intl/code-page-identifiers
 
 ToDo:

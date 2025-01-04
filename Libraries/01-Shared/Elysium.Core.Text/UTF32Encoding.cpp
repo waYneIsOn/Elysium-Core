@@ -7,10 +7,12 @@
 Elysium::Core::Text::UTF32Encoding::UTF32Encoding()
 	: Elysium::Core::Text::UTF32Encoding(false, false, false)
 { }
+
 Elysium::Core::Text::UTF32Encoding::UTF32Encoding(const bool BigEndian, const bool EncoderShouldEmitIdentifier, const bool ThrowOnInvalidBytes)
 	: Elysium::Core::Text::Encoding(BigEndian ? 12001 : 12000),
 	_BigEndian(BigEndian), _EncoderShouldEmitIdentifier(EncoderShouldEmitIdentifier), _ThrowOnInvalidBytes(ThrowOnInvalidBytes)
 { }
+
 Elysium::Core::Text::UTF32Encoding::~UTF32Encoding()
 { }
 
@@ -23,37 +25,34 @@ const Elysium::Core::Utf8String& Elysium::Core::Text::UTF32Encoding::GetEncoding
 {
 	if (_BigEndian)
 	{
-		static Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-32 Big-Endian)";
+		static const Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-32 Big-Endian)";
 		return EncodingName;
 	}
 	else
 	{
-		static Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-32 Little-Endian)";
+		static const Elysium::Core::Utf8String EncodingName = u8"Unicode (UTF-32 Little-Endian)";
 		return EncodingName;
 	}
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Elysium::Core::Text::UTF32Encoding::GetPreamble() const
+const Elysium::Core::Container::VectorOfByte& Elysium::Core::Text::UTF32Encoding::GetPreamble() const
 {
 	if (_EncoderShouldEmitIdentifier)
 	{
 		if (_BigEndian)
 		{
-			static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
-				Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0x00, 0x00, 0xFE, 0xFF });
+			static const Elysium::Core::Container::VectorOfByte Preamble = { 0x00, 0x00, 0xFE, 0xFF };
 			return Preamble;
 		}
 		else
 		{
-			static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
-				Elysium::Core::Collections::Template::Array<Elysium::Core::byte>({ 0xFF, 0xFE, 0x00, 0x00 });
+			static const Elysium::Core::Container::VectorOfByte Preamble = { 0xFF, 0xFE, 0x00, 0x00 };
 			return Preamble;
 		}
 	}
 	else
 	{
-		static Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Preamble =
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(0);
+		static const Elysium::Core::Container::VectorOfByte Preamble = Elysium::Core::Container::VectorOfByte(0);
 		return Preamble;
 	}
 }
@@ -92,10 +91,10 @@ const Elysium::Core::uint32_t Elysium::Core::Text::UTF32Encoding::GetByteCount(c
 	return Result;
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::UTF32Encoding::GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
+Elysium::Core::Container::VectorOfByte Elysium::Core::Text::UTF32Encoding::GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const
 {
 	const Elysium::Core::uint32_t RequiredSize = GetByteCount(Input, CharCount, AdditionalCount);
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(RequiredSize, AdditionalCount > 0 ? true : false);
+	Elysium::Core::Container::VectorOfByte Result = Elysium::Core::Container::VectorOfByte(RequiredSize);
 	
 	Elysium::Core::size TargetIndex = 0;
 	if (_BigEndian)

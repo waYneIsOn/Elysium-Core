@@ -188,7 +188,7 @@ void Elysium::Core::Speech::Recognition::SpeechRecognitionEngine::SetInputToWave
 
 	_NativeMemoryStream = InitializeNativeStream();
 
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> PathBytes = _WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
+	Elysium::Core::Container::VectorOfByte PathBytes = _WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
 
 	if (FAILED(Result = _NativeMemoryStream->BindToFile((const wchar_t*)&PathBytes[0], SPFM_OPEN_READONLY, &SPDFID_WaveFormatEx, nullptr, 0)))
 	{

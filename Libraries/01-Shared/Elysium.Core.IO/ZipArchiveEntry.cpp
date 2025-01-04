@@ -172,8 +172,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
     const Elysium::Core::uint32_t ExternalFileAttributes = _Reader->ReadUInt32();
     _RelativeOffsetToFileEntry = _Reader->ReadUInt32();
 
-    Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileNameBuffer =
-        Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileNameLength);
+    Elysium::Core::Container::VectorOfByte FileNameBuffer = Elysium::Core::Container::VectorOfByte(FileNameLength);
     const Elysium::Core::size FileNameBytesRead = _Reader->ReadBytes(&FileNameBuffer[0], FileNameLength);
     if (FileNameBytesRead != FileNameLength)
     {   // ToDo
@@ -188,8 +187,7 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadCentralDirectoryEntry(
 
     if (FileCommentLength > 0)
     {
-        Elysium::Core::Collections::Template::Array<Elysium::Core::byte> FileCommentBuffer =
-            Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileCommentLength);
+        Elysium::Core::Container::VectorOfByte FileCommentBuffer = Elysium::Core::Container::VectorOfByte(FileCommentLength);
         const Elysium::Core::size FileCommentBytesRead = _Reader->ReadBytes(&FileCommentBuffer[0], FileCommentLength);
         if (FileCommentBytesRead != FileCommentLength)
         {   // ToDo
@@ -243,8 +241,8 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadFileEntry()
     const Elysium::Core::uint16_t FileNameLength = _Reader->ReadUInt16();
     const Elysium::Core::uint16_t ExtraFieldLength = _Reader->ReadUInt16();
 
-    Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
-        Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(FileNameLength);
+    Elysium::Core::Container::VectorOfByte Buffer = Elysium::Core::Container::VectorOfByte(FileNameLength);
+    Buffer.Clear();
     const Elysium::Core::size BytesRead = _Reader->ReadBytes(&Buffer[0], FileNameLength);
     if (BytesRead != FileNameLength)
     {   // ToDo

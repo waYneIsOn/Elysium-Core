@@ -710,7 +710,7 @@ const Elysium::Core::Utf8String Elysium::Core::Data::SqlNativeClient::OleDb::Sql
 
 const Elysium::Core::uint64_t Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::GetOrdinal(const Elysium::Core::Utf8String & Name)
 {	
-	Collections::Template::Array<byte> Bytes = _WindowsEncoding.GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
+	Elysium::Core::Container::VectorOfByte Bytes = _WindowsEncoding.GetBytes(&Name[0], Name.GetLength(), sizeof(wchar_t));
 
 	for (unsigned long i = 0; i < _FieldCount; i++)
 	{

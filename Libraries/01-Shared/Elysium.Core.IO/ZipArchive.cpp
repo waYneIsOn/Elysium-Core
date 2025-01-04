@@ -92,8 +92,7 @@ void Elysium::Core::IO::Compression::ZipArchive::ReadEndOfCentralDirectory()
 
     if (CommentLength > 0)
     {
-        Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer = 
-            Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(CommentLength);
+        Elysium::Core::Container::VectorOfByte Buffer = Elysium::Core::Container::VectorOfByte(CommentLength);
         const Elysium::Core::size BytesRead = _Reader.ReadBytes(&Buffer[0], CommentLength);
         if (BytesRead != CommentLength)
         {   // ToDo

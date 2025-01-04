@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 namespace Elysium::Core::Text
@@ -38,16 +38,20 @@ namespace Elysium::Core::Text
 
 	class ELYSIUM_CORE_API Encoding
 	{
-	public:
-		Encoding(const Encoding& Source) = delete;
-		Encoding(Encoding&& Right) noexcept = delete;
-		virtual ~Encoding();
-
-		Encoding& operator=(const Encoding& Source) = delete;
-		Encoding& operator=(Encoding&& Right) noexcept = delete;
 	protected:
 		Encoding();
+
 		Encoding(const Elysium::Core::uint32_t CodePage);
+	public:
+		Encoding(const Encoding& Source) = delete;
+
+		Encoding(Encoding&& Right) noexcept = delete;
+
+		virtual ~Encoding();
+	public:
+		Encoding& operator=(const Encoding& Source) = delete;
+
+		Encoding& operator=(Encoding&& Right) noexcept = delete;
 	public:
 		//static void GetEncoding(int CodePage, Encoding* Output);
 
@@ -59,8 +63,8 @@ namespace Elysium::Core::Text
 		static Encoding& UTF16LE();
 		static Encoding& UTF32BE();
 		static Encoding& UTF32LE();
-
-		static const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Convert(const Encoding& SourceEncoding, const Encoding& TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count);
+	public:
+		static const Elysium::Core::Container::VectorOfByte Convert(const Encoding& SourceEncoding, const Encoding& TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count);
 				
 		virtual const bool GetIsSingleByte() const = 0;
 
@@ -68,13 +72,13 @@ namespace Elysium::Core::Text
 
 		virtual const Elysium::Core::Utf8String& GetEncodingName() const = 0;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetPreamble() const = 0;
+		virtual const Elysium::Core::Container::VectorOfByte& GetPreamble() const = 0;
 
 		//virtual Elysium::Core::uint32_t GetMaxByteCount(Elysium::Core::uint32_t charCount) = 0;
 
 		virtual const Elysium::Core::uint32_t GetByteCount(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const = 0;
 
-		virtual Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const = 0;
+		virtual Elysium::Core::Container::VectorOfByte GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const = 0;
 
 		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 
@@ -83,7 +87,7 @@ namespace Elysium::Core::Text
 		virtual Elysium::Core::Utf8String GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 	private:
 		const Elysium::Core::uint32_t _CodePage;
-
+	private:
 		static ASCIIEncoding _ASCII;
 		static UTF8Encoding _UTF8;
 		static UTF16Encoding _UTF16BE;

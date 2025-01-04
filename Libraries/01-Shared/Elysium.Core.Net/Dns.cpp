@@ -8,18 +8,22 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#ifndef _WS2TCPIP_H_
-#include <Ws2tcpip.h>	// InetPton
-#endif
-
 #ifndef ELYSIUM_CORE_BITCONVERTER
 #include "../Elysium.Core/BitConverter.hpp"
 #endif
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::Utf8String & HostNameOrAddress)
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
+#endif
+
+#ifndef _WS2TCPIP_H_
+#include <Ws2tcpip.h>	// InetPton
+#endif
+
+const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::IPAddress> Elysium::Core::Net::Dns::GetHostAddresses(const Elysium::Core::Utf8String & HostNameOrAddress)
 {
 	const Text::Encoding& WindowsEncoding = Text::Encoding::UTF16LE();
-	Collections::Template::Array<Elysium::Core::byte> Bytes = WindowsEncoding.GetBytes(&HostNameOrAddress[0], HostNameOrAddress.GetLength(), sizeof(char16_t));
+	Elysium::Core::Container::VectorOfByte Bytes = WindowsEncoding.GetBytes(&HostNameOrAddress[0], HostNameOrAddress.GetLength(), sizeof(char16_t));
 
 	addrinfoW ServerInfo = {}, *Addresses;
 	if (GetAddrInfo((const wchar_t*)&Bytes[0], NULL, &ServerInfo, &Addresses) != 0)
@@ -33,7 +37,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>
 		Count++;
 	}
 
-	Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress>(Count);
+	Elysium::Core::Template::Container::Vector<Elysium::Core::Net::IPAddress> Result = Elysium::Core::Template::Container::Vector<Elysium::Core::Net::IPAddress>(Count);
 	for (Elysium::Core::int32_t i = 0; i < Count; i++)
 	{
 		switch (Addresses[i].ai_family)

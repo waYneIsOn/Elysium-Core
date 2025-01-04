@@ -29,6 +29,6 @@ const Elysium::Core::uint16_t Elysium::Core::Net::DnsEndPoint::GetPort() const
 
 const Elysium::Core::Net::SocketAddress Elysium::Core::Net::DnsEndPoint::Serialize() const
 {
-	Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> _Addresses = Dns::GetHostAddresses(_Host);
+	Elysium::Core::Template::Container::Vector<Elysium::Core::Net::IPAddress> _Addresses = Dns::GetHostAddresses(_Host);
 	return SocketAddress(_Addresses[0], _Port);
 }

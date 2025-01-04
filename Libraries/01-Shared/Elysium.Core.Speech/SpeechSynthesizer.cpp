@@ -302,7 +302,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SelectVoice(const Elys
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// ToDo: find a better way to select voice than by iterating through all installed voices!
 
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> NameBytes =
+	Elysium::Core::Container::VectorOfByte NameBytes =
 		_WindowsEncoding.GetBytes(&Name[0], Name.GetLength() + sizeof(char8_t));
 
 	HRESULT Result = S_OK;
@@ -464,7 +464,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SetOutputToWaveFile(co
 		_NativeMemoryStream = InitializeNativeStream();
 	}
 
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> PathBytes = _WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
+	Elysium::Core::Container::VectorOfByte PathBytes = _WindowsEncoding.GetBytes(&Path[0], Path.GetLength() + sizeof(char8_t));
 
 	WAVEFORMATEX NativeFormat = WAVEFORMATEX();
 	NativeFormat.wFormatTag = static_cast<Elysium::Core::uint16_t>(FormatInfo.GetEncodingFormat());
@@ -508,7 +508,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakAsync(const char8
 	}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+	Elysium::Core::Container::VectorOfByte Bytes =
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_ASYNC);
@@ -534,7 +534,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::Speak(const char8_t* T
 	}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+	Elysium::Core::Container::VectorOfByte Bytes =
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_DEFAULT);
@@ -560,7 +560,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsml(const char8_
 	}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+	Elysium::Core::Container::VectorOfByte Bytes =
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML);
@@ -586,7 +586,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakSsmlAsync(const c
 	}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes =
+	Elysium::Core::Container::VectorOfByte Bytes =
 		_WindowsEncoding.GetBytes(&TextToSpeak[0], Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(TextToSpeak) + sizeof(char8_t));
 
 	HRESULT Result = SpeakNatively((wchar_t*)&Bytes[0], SPEAKFLAGS::SPF_IS_XML | SPEAKFLAGS::SPF_ASYNC);

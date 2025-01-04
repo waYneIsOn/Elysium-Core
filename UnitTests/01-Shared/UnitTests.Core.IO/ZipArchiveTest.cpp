@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core/Array.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/VectorOfByte.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/DeflateStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/ZipArchive.hpp"
@@ -21,7 +21,7 @@ namespace UnitTests::Core::IO::Compression
 	public:
 		TEST_METHOD(ReadMinimalisticArchive)
 		{
-			Array<byte> Bytes = { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+			Elysium::Core::Container::VectorOfByte Bytes = { 0x50, 0x4B, 0x05, 0x06, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 			FileStream MinimalisticArchive = FileStream(u8"MinimalisticArchive.zip", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::None);
 			MinimalisticArchive.Write(&Bytes[0], Bytes.GetLength());
 			MinimalisticArchive.SetPosition(0);
@@ -83,7 +83,8 @@ namespace UnitTests::Core::IO::Compression
 			Entry6Stream.CopyTo(TargetStream);
 			Assert::AreEqual(static_cast<Elysium::Core::size>(10323), TargetStream.GetLength());
 
-			Array<byte> Buffer = Array<byte>(TargetStream.GetLength());
+			Elysium::Core::Container::VectorOfByte Buffer = Elysium::Core::Container::VectorOfByte(TargetStream.GetLength());
+			Buffer.Clear();
 			TargetStream.SetPosition(0);
 			Elysium::Core::size BytesRead = TargetStream.Read(&Buffer[0], Buffer.GetLength());
 			Assert::AreEqual(TargetStream.GetLength(), BytesRead);

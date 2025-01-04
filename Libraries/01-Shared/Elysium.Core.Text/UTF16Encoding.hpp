@@ -22,23 +22,28 @@ namespace Elysium::Core::Text
 	{
 	public:
 		UTF16Encoding();
+
 		UTF16Encoding(const bool BigEndian, const bool EncoderShouldEmitIdentifier, const bool ThrowOnInvalidBytes);
+
 		UTF16Encoding(const UTF16Encoding& Source) = delete;
+
 		UTF16Encoding(UTF16Encoding&& Right) noexcept = delete;
+
 		virtual ~UTF16Encoding();
-
+	public:
 		UTF16Encoding& operator=(const UTF16Encoding& Source) = delete;
-		UTF16Encoding& operator=(UTF16Encoding&& Right) noexcept = delete;
 
+		UTF16Encoding& operator=(UTF16Encoding&& Right) noexcept = delete;
+	public:
 		virtual const bool GetIsSingleByte() const override;
 
 		virtual const Elysium::Core::Utf8String& GetEncodingName() const override;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& GetPreamble() const override;
-
+		virtual const Elysium::Core::Container::VectorOfByte& GetPreamble() const override;
+	public:
 		virtual const Elysium::Core::uint32_t GetByteCount(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount) const override;
 
-		virtual Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const override;
+		virtual Elysium::Core::Container::VectorOfByte GetBytes(const char8_t* Input, const Elysium::Core::size CharCount, const Elysium::Core::size AdditionalCount = 0) const override;
 
 		virtual const Elysium::Core::uint32_t GetCharCount(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const override;
 

@@ -42,15 +42,17 @@ Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16LE = UTF
 Elysium::Core::Text::UTF32Encoding Elysium::Core::Text::Encoding::_UTF32BE = UTF32Encoding(true, true, true);
 Elysium::Core::Text::UTF32Encoding Elysium::Core::Text::Encoding::_UTF32LE = UTF32Encoding(false, true, true);
 
-Elysium::Core::Text::Encoding::~Encoding()
-{ }
-
 Elysium::Core::Text::Encoding::Encoding()
 	: Elysium::Core::Text::Encoding(0)
 { }
+
 Elysium::Core::Text::Encoding::Encoding(const Elysium::Core::uint32_t CodePage)
 	: _CodePage(CodePage)
 { }
+
+Elysium::Core::Text::Encoding::~Encoding()
+{ }
+
 /*
 void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 {
@@ -90,7 +92,7 @@ Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32LE()
 	return _UTF32LE;
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Text::Encoding::Convert(const Encoding & SourceEncoding, const Encoding & TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::Text::Encoding::Convert(const Encoding & SourceEncoding, const Encoding & TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count)
 {
 	// ToDo
 	throw 1;

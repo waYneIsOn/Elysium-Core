@@ -44,6 +44,7 @@ namespace UnitTests::Core::Net::Sockets
 			Assert::IsTrue(FtpClientSocket.Poll(1000000, SelectMode::SelectRead));
 
 			Elysium::Core::Template::Container::Vector<Socket*> CheckRead = Elysium::Core::Template::Container::Vector<Socket*>(2);
+			CheckRead.Clear();
 			CheckRead.PushBack(&HttpClientSocket);
 			CheckRead.PushBack(&FtpClientSocket);
 

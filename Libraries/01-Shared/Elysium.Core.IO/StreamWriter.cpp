@@ -28,7 +28,7 @@ void Elysium::Core::IO::StreamWriter::Write(const byte * Value, const Elysium::C
 {
 	if (_OutputStream.GetPosition() == 0)
 	{
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> BOM = _Encoding.GetPreamble();
+		const Elysium::Core::Container::VectorOfByte& BOM = _Encoding.GetPreamble();
 		const Elysium::Core::size BOMLength = BOM.GetLength();
 		if (BOMLength > 0)
 		{

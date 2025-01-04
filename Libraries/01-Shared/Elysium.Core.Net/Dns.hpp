@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -35,7 +35,7 @@ namespace Elysium::Core::Net
 	public:
 		Dns() = delete;
 		
-		static const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::IPAddress> GetHostAddresses(const Elysium::Core::Utf8String& HostNameOrAddress);
+		static const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::IPAddress> GetHostAddresses(const Elysium::Core::Utf8String& HostNameOrAddress);
 		/*
 		static const IPHostEntry GetHostEntry(const IPAddress& Address);
 		static const IPHostEntry GetHostEntry(const Elysium::Core::Utf8String& Address);

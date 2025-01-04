@@ -161,7 +161,7 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 	template <>
 	static std::wstring ToString(const char8_t& q)
 	{
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = AssertExtended::Utf16Encoding.GetBytes(&q, 1, 1);
+		Elysium::Core::Container::VectorOfByte Bytes = AssertExtended::Utf16Encoding.GetBytes(&q, 1, 1);
 
 		return std::wstring((wchar_t*)&Bytes[0], Bytes.GetLength());
 	}
