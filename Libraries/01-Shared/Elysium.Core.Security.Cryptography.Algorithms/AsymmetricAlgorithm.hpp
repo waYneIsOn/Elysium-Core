@@ -24,12 +24,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_KEYSIZES
 #include "KeySizes.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
@@ -37,7 +37,7 @@ namespace Elysium::Core::Security::Cryptography
 	class ELYSIUM_CORE_SECURITY_API AsymmetricAlgorithm
 	{
 	protected:
-		AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue);
+		AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Elysium::Core::Template::Container::Vector<KeySizes>& LegalKeySizesValue);
 	public:
 		AsymmetricAlgorithm(const AsymmetricAlgorithm& Source) = delete;
 
@@ -53,14 +53,14 @@ namespace Elysium::Core::Security::Cryptography
 
 		const virtual Elysium::Core::uint32_t GetKeySize() const;
 
-		//const virtual Collections::Template::Array<KeySizes>& GetLegalKeySizes() const;
+		//const virtual Elysium::Core::Template::Container::Vector<KeySizes>& GetLegalKeySizes() const;
 
 		const virtual Elysium::Core::Utf8String GetSignatureAlgorithm() const = 0;
 
 		//void Clear();
 	protected:
 		Elysium::Core::uint32_t _KeySizeValue;
-		//Collections::Template::Array<KeySizes> _LegalKeySizesValue;
+		//Elysium::Core::Template::Container::Vector<KeySizes> _LegalKeySizesValue;
 	};
 }
 #endif

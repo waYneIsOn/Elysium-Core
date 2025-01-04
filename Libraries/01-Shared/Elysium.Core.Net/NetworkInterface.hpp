@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
@@ -36,24 +32,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "NetworkInterfaceComponent.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
 namespace Elysium::Core::Net::NetworkInformation
 {
 	class ELYSIUM_CORE_NET_API NetworkInterface
 	{
-		friend class Elysium::Core::Collections::Template::Array<NetworkInterface>;
+	protected:
+		NetworkInterface();
 	public:
 		NetworkInterface(const NetworkInterface& Source) = delete;
+
 		NetworkInterface(NetworkInterface&& Right) noexcept = delete;
+
 		virtual ~NetworkInterface();
-
+	public:
 		NetworkInterface& operator=(const NetworkInterface& Source) = delete;
-		NetworkInterface& operator=(NetworkInterface&& Right) noexcept = delete;
 
-		static const Elysium::Core::Collections::Template::Array<NetworkInterface> GetAllNetworkInterfaces();
+		NetworkInterface& operator=(NetworkInterface&& Right) noexcept = delete;
+	public:
+		static const Elysium::Core::Template::Container::Vector<NetworkInterface> GetAllNetworkInterfaces();
 
 		//static const Elysium::Core::int32_t GetLoopbackInterfaceIndex();
 		//static const Elysium::Core::int32_t GetIPv6LoopbackInterfaceIndex();
-
+	public:
 		const Elysium::Core::Utf8String& GetId() const;
 
 		const Elysium::Core::Utf8String& GetName() const;
@@ -67,8 +71,6 @@ namespace Elysium::Core::Net::NetworkInformation
 		const Elysium::Core::int64_t GetSpeed() const;
 
 		//const bool Supports(const NetworkInterfaceComponent NetworkInterfaceComponent) const;
-	protected:
-		NetworkInterface();
 	private:
 		Elysium::Core::Utf8String _Id;
 		Elysium::Core::Utf8String _Name;

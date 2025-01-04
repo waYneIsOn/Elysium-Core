@@ -30,10 +30,14 @@
 #include "NetworkInformationException.hpp"
 #endif
 
+Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface()
+	: _Id(Elysium::Core::Utf8String()), _Name(Elysium::Core::Utf8String()), _Description(Elysium::Core::Utf8String())
+{ }
+
 Elysium::Core::Net::NetworkInformation::NetworkInterface::~NetworkInterface()
 { }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInformation::NetworkInterface> Elysium::Core::Net::NetworkInformation::NetworkInterface::GetAllNetworkInterfaces()
+const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface> Elysium::Core::Net::NetworkInformation::NetworkInterface::GetAllNetworkInterfaces()
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	Sockets::AddressFamily Family = Sockets::AddressFamily::Unspecified;
@@ -74,8 +78,8 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 			NumberOfNetworkInterfaces++;
 		}
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInformation::NetworkInterface> NetworkInterfaces =
-			Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInformation::NetworkInterface>(NumberOfNetworkInterfaces);
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface> NetworkInterfaces =
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface>(NumberOfNetworkInterfaces);
 
 		CurrentAdapterAddress = AdapterAddresses;
 		NumberOfNetworkInterfaces = 0;
@@ -154,7 +158,7 @@ const Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInf
 			AdapterAddresses = nullptr;
 		}
 
-		return Elysium::Core::Collections::Template::Array<Elysium::Core::Net::NetworkInformation::NetworkInterface>(0);
+		return Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface>(0);
 	}
 #else
 #error "undefined os"
@@ -190,7 +194,3 @@ const Elysium::Core::int64_t Elysium::Core::Net::NetworkInformation::NetworkInte
 {
 	return _Speed;
 }
-
-Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface()
-	: _Id(Elysium::Core::Utf8String()), _Name(Elysium::Core::Utf8String()), _Description(Elysium::Core::Utf8String())
-{ }

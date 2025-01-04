@@ -28,19 +28,25 @@ namespace Elysium::Core::Net::Security
 {
 	class ELYSIUM_CORE_NET_API AuthenticatedStream : public IO::Stream
 	{
-	public:
-		virtual ~AuthenticatedStream();
-
-		const IO::Stream& GetInnerStream() const;
-		virtual const bool GetIsAuthenticated() const = 0;
-		virtual const bool GetIsEncrypted() const = 0;
-		virtual const bool GetIsMutuallyAuthenticated() const = 0;
-		virtual const bool GetIsServer() const = 0;
-		virtual const bool GetIsSigned() const = 0;
-		const bool GetLeaveInnerStreamOpen() const;
 	protected:
 		AuthenticatedStream(IO::Stream& InnerStream, const bool LeaveInnerStreamOpen);
+	public:
+		virtual ~AuthenticatedStream();
+	public:
+		const IO::Stream& GetInnerStream() const;
 
+		virtual const bool GetIsAuthenticated() const = 0;
+
+		virtual const bool GetIsEncrypted() const = 0;
+
+		virtual const bool GetIsMutuallyAuthenticated() const = 0;
+
+		virtual const bool GetIsServer() const = 0;
+
+		virtual const bool GetIsSigned() const = 0;
+
+		const bool GetLeaveInnerStreamOpen() const;
+	protected:
 		Elysium::Core::IO::Stream& _InnerStream;
 	private:
 		const bool _LeaveInnerStreamOpen;

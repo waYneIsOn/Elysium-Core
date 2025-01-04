@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
@@ -56,42 +52,46 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Asn1String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
+#endif
+
 namespace Elysium::Core::Security::Cryptography::Encoding::Asn1
 {
 	class ELYSIUM_CORE_SECURITY_API IAsn1Decoder
 	{
 	public:
 		virtual ~IAsn1Decoder() {}
-
-		virtual Asn1Identifier DecodeIdentifier(const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+	public:
+		virtual Asn1Identifier DecodeIdentifier(const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1Identifier DecodeIdentifier(const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1Identifier DecodeIdentifier(IO::Stream& InputStream) = 0;
 
-		virtual Asn1Length DecodeLength(const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1Length DecodeLength(const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1Length DecodeLength(const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1Length DecodeLength(IO::Stream& InputStream) = 0;
 
-		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1ByteArray DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1Boolean DecodeBoolean(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1Integer DecodeInteger(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1ObjectIdentifier DecodeObjectIdentifier(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1String DecodeString(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 
-		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Collections::Template::Array<byte>& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
+		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const Elysium::Core::Container::VectorOfByte& Data, const Elysium::Core::size Offset, const Elysium::Core::size Length) = 0;
 		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, const byte* Data, const Elysium::Core::size Length) = 0;
 		virtual Asn1DateTime DecodeDateTime(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream) = 0;
 	};

@@ -5,6 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
+/*
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 #define ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
 
@@ -263,3 +264,4 @@ namespace Elysium::Core::Collections::Template
 	}
 }
 #endif
+*/

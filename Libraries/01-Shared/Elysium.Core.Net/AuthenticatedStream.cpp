@@ -1,5 +1,9 @@
 #include "AuthenticatedStream.hpp"
 
+Elysium::Core::Net::Security::AuthenticatedStream::AuthenticatedStream(Elysium::Core::IO::Stream& InnerStream, const bool LeaveInnerStreamOpen)
+	: _InnerStream(InnerStream), _LeaveInnerStreamOpen(LeaveInnerStreamOpen)
+{ }
+
 Elysium::Core::Net::Security::AuthenticatedStream::~AuthenticatedStream()
 {
 	if (!_LeaveInnerStreamOpen)
@@ -15,9 +19,4 @@ const Elysium::Core::IO::Stream & Elysium::Core::Net::Security::AuthenticatedStr
 const bool Elysium::Core::Net::Security::AuthenticatedStream::GetLeaveInnerStreamOpen() const
 {
 	return _LeaveInnerStreamOpen;
-}
-
-Elysium::Core::Net::Security::AuthenticatedStream::AuthenticatedStream(Elysium::Core::IO::Stream& InnerStream, const bool LeaveInnerStreamOpen)
-	: _InnerStream(InnerStream), _LeaveInnerStreamOpen(LeaveInnerStreamOpen)
-{
 }

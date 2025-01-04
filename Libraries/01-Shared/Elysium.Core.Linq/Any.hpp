@@ -37,17 +37,5 @@ namespace Elysium::Core::Linq
 		}
 		return false;
 	}
-
-	template<>
-	inline const bool AnyContainer::operator()<Elysium::Core::Collections::Template::Array<int>>(const Elysium::Core::Collections::Template::Array<int>& Container) const
-	{
-		return Container.GetLength() > 0;
-	}
-
-	template<>
-	inline const bool AnyContainer::operator()<const Elysium::Core::Collections::Template::Array<int>>(const Elysium::Core::Collections::Template::Array<int>& Container) const
-	{
-		return Container.GetLength() > 0;
-	}
 }
 #endif

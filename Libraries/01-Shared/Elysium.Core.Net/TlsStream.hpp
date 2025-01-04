@@ -36,6 +36,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "TlsCipherSuite.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
+#endif
 
 
 
@@ -58,44 +61,62 @@ namespace Elysium::Core::Net::Security
 	{
 	public:
 		TlsStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions & AuthenticationOptions);
+		
 		TlsStream(const TlsStream& Source) = delete;
+
 		TlsStream(TlsStream&& Right) noexcept = delete;
+
 		virtual ~TlsStream();
-
+	public:
 		TlsStream& operator=(const TlsStream& Source) = delete;
-		TlsStream& operator=(TlsStream&& Right) noexcept = delete;
 
+		TlsStream& operator=(TlsStream&& Right) noexcept = delete;
+	public:
 		virtual const bool GetCanRead() const override;
+
 		virtual const bool GetCanSeek() const override;
+
 		virtual const bool GetCanTimeout() const override;
+
 		virtual const bool GetCanWrite() const override;
 
 		virtual const Elysium::Core::size GetLength() const override;
 
 		virtual const bool GetIsAuthenticated() const override;
+
 		virtual const bool GetIsEncrypted() const override;
+
 		virtual const bool GetIsMutuallyAuthenticated() const override;
+
 		virtual const bool GetIsServer() const override;
+
 		virtual const bool GetIsSigned() const override;
-
+	public:
 		virtual void SetLength(const Elysium::Core::size Value) override;
-		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
 
+		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
+	public:
 		virtual void Close() override;
+
 		virtual void Flush() override;
+
 		virtual const Elysium::Core::size Seek(const Elysium::Core::int64_t Offset, const IO::SeekOrigin Origin) override;
+
 		virtual const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
+
 		virtual Elysium::Core::byte ReadByte() override;
+
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 
 		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
+		
 		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 
-		Elysium::Core::Template::Container::Vector<Elysium::Core::byte> _ExtraBuffer;
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _InBuffer;
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _OutBuffer;
+		Elysium::Core::Container::VectorOfByte _ExtraBuffer;
+		Elysium::Core::Container::VectorOfByte _InBuffer;
+		Elysium::Core::Container::VectorOfByte _OutBuffer;
 
 		Elysium::Core::Utf8String _TargetHost;
 		Elysium::Core::Security::Authentication::TlsProtocols _TlsProtocols;

@@ -12,27 +12,33 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-#include <iostream>
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "../Elysium.Core.Template/MemCpy.hpp"
+#endif
 
 Elysium::Core::IO::MemoryStream::MemoryStream()
 	: Elysium::Core::IO::Stream()
 { }
+
 Elysium::Core::IO::MemoryStream::MemoryStream(const Elysium::Core::size Capacity)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(Elysium::Core::Container::VectorOfByte(Capacity))
+	_Buffer(Capacity)
 { }
+
 Elysium::Core::IO::MemoryStream::MemoryStream(const byte* Data, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(Elysium::Core::Container::VectorOfByte(Length))
+	_Buffer(Length)
 {
-	std::memcpy(&_Buffer[0], &Data[0], Length);
+	Elysium::Core::Template::Memory::MemCpy(&_Buffer[0], &Data[0], Length);
 }
-Elysium::Core::IO::MemoryStream::MemoryStream(const Collections::Template::Array<byte>& Data, Elysium::Core::size Offset, Elysium::Core::size Length)
+
+Elysium::Core::IO::MemoryStream::MemoryStream(const Elysium::Core::Container::VectorOfByte& Data, Elysium::Core::size Offset, Elysium::Core::size Length)
 	: Elysium::Core::IO::Stream(),
-	_Buffer(Elysium::Core::Container::VectorOfByte(Length))
-{ 
-	std::memcpy(&_Buffer[0], &Data[Offset], Length);
+	_Buffer(Length)
+{
+	Elysium::Core::Template::Memory::MemCpy(&_Buffer[0], &Data[Offset], Length);
 }
+
 Elysium::Core::IO::MemoryStream::~MemoryStream()
 { }
 
@@ -91,6 +97,7 @@ void Elysium::Core::IO::MemoryStream::SetLength(const Elysium::Core::size Value)
 	*/
 	throw NotImplementedException();
 }
+
 void Elysium::Core::IO::MemoryStream::SetPosition(const Elysium::Core::uint64_t Position)
 {
 	if (!GetCanSeek())

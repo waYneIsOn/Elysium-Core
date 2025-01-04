@@ -5,6 +5,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
+/*
 #ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
 #define ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
 
@@ -26,8 +27,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Container
 {
-	template class ELYSIUM_CORE_API Elysium::Core::Collections::Template::Array<Elysium::Core::byte>;
+	//template class ELYSIUM_CORE_API Elysium::Core::Collections::Template::Array<Elysium::Core::byte>;
 
-	using ArrayOfByte = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>;
+	//using ArrayOfByte = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>;
 }
 #endif
+*/

@@ -8,12 +8,20 @@
 #include "../Elysium.Core.Security/AuthenticationException.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEXT_ENCODING
-#include "../Elysium.Core.Text/Encoding.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAIN
 #include "../Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "../Elysium.Core.Template/MemCpy.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
+#include "../Elysium.Core.Template/MemSet.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_ENCODING
+#include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
 #ifndef _NTDEF_
@@ -183,10 +191,10 @@ const Elysium::Core::size Elysium::Core::Net::Security::TlsStream::Read(Elysium:
 	{	// ToDo: throw specific exception
 		throw 1;
 	}
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy((Elysium::Core::byte*)DataBuffer->pvBuffer, Buffer, DataBuffer->cbBuffer);
+	Elysium::Core::Template::Memory::MemCpy(Buffer, (Elysium::Core::byte*)DataBuffer->pvBuffer, DataBuffer->cbBuffer);
 
 	// clear inbuffer after every method-call
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Clear(&_InBuffer[0], _InBuffer.GetLength());
+	Elysium::Core::Template::Memory::MemSet(&_InBuffer[0], 0, _InBuffer.GetLength());
 
 	return DataBuffer->cbBuffer;
 }
@@ -228,7 +236,7 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 	{
 		CurrentMessageSize = (Count - TotalBytesSent < _Sizes.cbMaximumMessage) ? Count - TotalBytesSent : _Sizes.cbMaximumMessage;
 		CurrentMessageSize = CurrentMessageSize < AvailableSize ? CurrentMessageSize : AvailableSize;
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(Buffer, &_OutBuffer[_Sizes.cbHeader], CurrentMessageSize);
+		Elysium::Core::Template::Memory::MemCpy(&_OutBuffer[_Sizes.cbHeader], Buffer, CurrentMessageSize);
 
 		// variable buffer/length (actual data and trailer)
 		SecureBuffers[1].pvBuffer = (void*)&_OutBuffer[_Sizes.cbHeader];
@@ -249,7 +257,7 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 	}
 
 	// clear outbuffer after every method-call
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Clear(&_OutBuffer[0], _OutBuffer.GetLength());
+	Elysium::Core::Template::Memory::MemSet(&_OutBuffer[0], 0, _OutBuffer.GetLength());
 }
 
 void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
@@ -316,7 +324,7 @@ void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
 	}
 
 	// ...
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> TargetHostUTF16LE =
+	Elysium::Core::Container::VectorOfByte TargetHostUTF16LE =
 		Elysium::Core::Text::Encoding::UTF16LE().GetBytes(&_TargetHost[0], _TargetHost.GetLength(), sizeof(char16_t));
 
 	DWORD RequiredContext = ISC_REQ_SEQUENCE_DETECT | ISC_REQ_REPLAY_DETECT | ISC_REQ_CONFIDENTIALITY | ISC_RET_EXTENDED_ERROR | ISC_REQ_ALLOCATE_MEMORY |

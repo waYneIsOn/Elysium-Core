@@ -1,6 +1,6 @@
 #include "AsymmetricAlgorithm.hpp"
 
-Elysium::Core::Security::Cryptography::AsymmetricAlgorithm::AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Collections::Template::Array<KeySizes>& LegalKeySizesValue)
+Elysium::Core::Security::Cryptography::AsymmetricAlgorithm::AsymmetricAlgorithm(const Elysium::Core::uint32_t KeySizeValue, const Elysium::Core::Template::Container::Vector<KeySizes>& LegalKeySizesValue)
 	: _KeySizeValue(KeySizeValue)
 { }
 

@@ -30,8 +30,16 @@
 #include "../Elysium.Core/RingBufferOfInteger.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
 #include "../Elysium.Core/VectorOfInteger.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFSTRING
+#include "../Elysium.Core/VectorOfString.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_ATOMIC

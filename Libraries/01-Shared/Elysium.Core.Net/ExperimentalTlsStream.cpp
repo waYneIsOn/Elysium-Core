@@ -4,10 +4,6 @@
 #include "../Elysium.Core/BitConverter.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_RANDOMNUMBERGENERATOR
-#include "../Elysium.Core.Security.Cryptography.Algorithms/RandomNumberGenerator.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCONTENTTYPE
 #include "TlsContentType.hpp"
 #endif
@@ -22,6 +18,14 @@
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSALERTDESCRIPTION
 #include "TlsAlertDescription.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_RANDOMNUMBERGENERATOR
+#include "../Elysium.Core.Security.Cryptography.Algorithms/RandomNumberGenerator.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "../Elysium.Core.Template/MemCpy.hpp"
 #endif
 
 Elysium::Core::Net::Security::ExperimentalTlsStream::ExperimentalTlsStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions& AuthenticationOptions)
@@ -139,7 +143,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsServer(c
 void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols)
 {
 	// pre-calculate message size
-	const Collections::Template::Array<TlsCipherSuite>& CipherSuites = _AuthenticationOptions.GetAllowedCipherSuites();
+	const Elysium::Core::Template::Container::Vector<TlsCipherSuite>& CipherSuites = _AuthenticationOptions.GetAllowedCipherSuites();
 	const Elysium::Core::size NumberOfCipherSuites = CipherSuites.GetLength();
 	
 	uint16_t HandshakeSize = 0;
@@ -220,7 +224,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
-	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
+	Elysium::Core::Container::VectorOfByte RecordBuffer = Elysium::Core::Container::VectorOfByte(5);
 	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
 	Elysium::Core::size TotalBytesRead = 0;
 	do
@@ -234,7 +238,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
-	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
+	Elysium::Core::Container::VectorOfByte ContentBuffer = Elysium::Core::Container::VectorOfByte(ContentLength);
 	TotalBytesRead = 0;
 	do
 	{
@@ -255,13 +259,14 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&ContentBuffer[4]));
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[6], &_RemoteRandom[0], 32);
+		Elysium::Core::Template::Memory::MemCpy(&_RemoteRandom[0], &ContentBuffer[6], 32);
+
 		const uint8_t SessionIdLength = ContentBuffer[38];
 		if (SessionIdLength != 0x20)
 		{
 			throw 1;
 		}
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[39], &_SessionId[0], SessionIdLength);
+		Elysium::Core::Template::Memory::MemCpy(&_SessionId[0], &ContentBuffer[39], SessionIdLength);
 		_ServerSelectedCipherSuite = static_cast<const TlsCipherSuite>(BitConverter::ToUInt16(&ContentBuffer[71]));
 		_ServerSelectedCompressionMethod = ContentBuffer[72];
 		// ToDo: extensions
@@ -275,7 +280,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates()
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
-	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
+	Elysium::Core::Container::VectorOfByte RecordBuffer = Elysium::Core::Container::VectorOfByte(5);
 	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
 	Elysium::Core::size TotalBytesRead = 0;
 	do
@@ -289,7 +294,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
-	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
+	Elysium::Core::Container::VectorOfByte ContentBuffer = Elysium::Core::Container::VectorOfByte(ContentLength);
 	TotalBytesRead = 0;
 	do
 	{
@@ -357,7 +362,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange()
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
-	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
+	Elysium::Core::Container::VectorOfByte RecordBuffer = Elysium::Core::Container::VectorOfByte(5);
 	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
 	Elysium::Core::size TotalBytesRead = 0;
 	do
@@ -371,7 +376,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
-	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
+	Elysium::Core::Container::VectorOfByte ContentBuffer = Elysium::Core::Container::VectorOfByte(ContentLength);
 	TotalBytesRead = 0;
 	do
 	{
@@ -413,11 +418,11 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 
 
 
-		Collections::Template::Array<byte> PublicKeyBytes = Collections::Template::Array<byte>(LengthOfPublicKey);
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[8], &PublicKeyBytes[0], LengthOfPublicKey);
+		Elysium::Core::Container::VectorOfByte PublicKeyBytes = Elysium::Core::Container::VectorOfByte(LengthOfPublicKey);
+		Elysium::Core::Template::Memory::MemCpy(&PublicKeyBytes[0], &ContentBuffer[8], LengthOfPublicKey);
 
-		Collections::Template::Array<byte> SignatureBytes = Collections::Template::Array<byte>(LengthOfSignature);
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte>::Copy(&ContentBuffer[9 + LengthOfPublicKey], &SignatureBytes[0], LengthOfSignature);
+		Elysium::Core::Container::VectorOfByte SignatureBytes = Elysium::Core::Container::VectorOfByte(LengthOfSignature);
+		Elysium::Core::Template::Memory::MemCpy(&SignatureBytes[0], &ContentBuffer[9 + LengthOfPublicKey], LengthOfSignature);
 
 
 
@@ -434,7 +439,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 {
 	// read tls record header -> 1 byte content type, 2 bytes tls version, 2 bytes length
-	Collections::Template::Array<byte> RecordBuffer = Collections::Template::Array<byte>(5);
+	Elysium::Core::Container::VectorOfByte RecordBuffer = Elysium::Core::Container::VectorOfByte(5);
 	const Elysium::Core::size RecordBufferLength = RecordBuffer.GetLength();
 	Elysium::Core::size TotalBytesRead = 0;
 	do
@@ -448,7 +453,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
-	Collections::Template::Array<byte> ContentBuffer = Collections::Template::Array<byte>(ContentLength);
+	Elysium::Core::Container::VectorOfByte ContentBuffer = Elysium::Core::Container::VectorOfByte(ContentLength);
 	TotalBytesRead = 0;
 	do
 	{

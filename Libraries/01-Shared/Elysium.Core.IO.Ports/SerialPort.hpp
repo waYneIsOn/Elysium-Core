@@ -20,16 +20,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFSTRING
+#include "../Elysium.Core/VectorOfString.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_PORTS_PARITY
 #include "Parity.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_PORTS_STOPBITS
 #include "StopBits.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
 #endif
 
 namespace Elysium::Core::IO::Ports
@@ -39,16 +39,20 @@ namespace Elysium::Core::IO::Ports
 	public:
 		SerialPort(const Elysium::Core::Utf8String& PortName, const Elysium::Core::uint32_t BaudRate, const Elysium::Core::IO::Ports::Parity Parity, 
 			const Elysium::Core::uint32_t DataBits, const Elysium::Core::IO::Ports::StopBits StopBits);
+
 		SerialPort(const SerialPort& Source) = delete;
+
 		SerialPort(SerialPort&& Right) = delete;
+
 		~SerialPort();
-
+	public:
 		SerialPort& operator=(const SerialPort& Source) = delete;
+
 		SerialPort& operator=(SerialPort&& Right) noexcept = delete;
-
+	public:
 		static const Elysium::Core::uint32_t InfiniteTimeout = -1;
-
-		const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String> GetPortNames();
+	public:
+		const Elysium::Core::Container::VectorOfUtf8String GetPortNames();
 	};
 }
 #endif
