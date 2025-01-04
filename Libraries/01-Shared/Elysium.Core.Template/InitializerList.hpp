@@ -12,14 +12,29 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif
 
 namespace Elysium::Core::Template::Container
 {
-	// afaik I can neither implement a custom InitializerList, nor use an implicit cast operator
-	
+	/*
+	* The brace initialization {} is built into c++. A compiler will simply know it has to create a std::initializer_list<T>.
+	* I could, as a result of that, wrap it but never replace it!
+	* 
+	* Therefore at the moment it makes sense to simply use std::initializer_list<T>!
+	* 
+	* @ToDo: look for compiler options
+	*/
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template <class T>
 	using InitializerList = std::initializer_list<T>;
 	
@@ -30,36 +45,58 @@ namespace Elysium::Core::Template::Container
 	public:
 		using ConstPointer = const T*;
 	public:
-		InitializerList() noexcept;
-		InitializerList(ConstPointer First, ConstPointer Last) noexcept;
-		InitializerList(const InitializerList& Source) = delete;
-		InitializerList(InitializerList&& Right) noexcept = delete;
-		~InitializerList() noexcept;
+		constexpr InitializerList() noexcept;
+		
+		template<typename ...Args>
+		constexpr InitializerList(Args... Values) noexcept;
+		
+		constexpr InitializerList(const std::initializer_list<T>& Values) noexcept;
 
-		InitializerList<T>& operator=(const InitializerList& Source) = delete;
-		InitializerList<T>& operator=(InitializerList&& Right) noexcept = delete;
+		constexpr InitializerList(ConstPointer First, ConstPointer Last) noexcept;
 
+		//constexpr InitializerList(const InitializerList& Source) = delete;
+
+		//constexpr InitializerList(InitializerList&& Right) noexcept = delete;
+
+		constexpr ~InitializerList() noexcept;
+	public:
+		//InitializerList<T>& operator=(const InitializerList& Source) = delete;
+
+		//InitializerList<T>& operator=(InitializerList&& Right) noexcept = delete;
+	public:
 		constexpr const Elysium::Core::Template::System::size GetLength() const noexcept;
+	public:
+		constexpr ConstPointer GetBegin() const noexcept;
 
-		constexpr ConstPointer GetFirst() const noexcept;
-		constexpr ConstPointer GetLast() const noexcept;
+		constexpr ConstPointer GetEnd() const noexcept;
 	private:
 		ConstPointer _First;
 		ConstPointer _Last;
 	};
 
 	template<class T>
-	inline InitializerList<T>::InitializerList() noexcept
+	inline constexpr InitializerList<T>::InitializerList() noexcept
 		: _First(nullptr), _Last(nullptr)
 	{ }
-
+	
 	template<class T>
-	inline InitializerList<T>::InitializerList(ConstPointer First, ConstPointer Last) noexcept
-		: _First(First), _Last(Last)
+	template<typename ...Args>
+	inline constexpr InitializerList<T>::InitializerList(Args... Values) noexcept
+		: _First(nullptr), _Last(nullptr)	// @ToDo
+	{ }
+	
+	template<class T>
+	inline constexpr InitializerList<T>::InitializerList(const std::initializer_list<T>& Values) noexcept
+		: _First(Values.begin()), _Last(Values.end())
 	{ }
 
 	template<class T>
-	inline InitializerList<T>::~InitializerList() noexcept
+	inline constexpr InitializerList<T>::InitializerList(ConstPointer First, ConstPointer Last) noexcept
+		: _First(First), _Last(Last)
+	{ }
+	
+	template<class T>
+	inline constexpr InitializerList<T>::~InitializerList() noexcept
 	{ }
 
 	template<class T>
@@ -69,13 +106,13 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class T>
-	inline constexpr InitializerList<T>::ConstPointer InitializerList<T>::GetFirst() const noexcept
+	inline constexpr InitializerList<T>::ConstPointer InitializerList<T>::GetBegin() const noexcept
 	{
 		return _First;
 	}
 
 	template<class T>
-	inline constexpr InitializerList<T>::ConstPointer InitializerList<T>::GetLast() const noexcept
+	inline constexpr InitializerList<T>::ConstPointer InitializerList<T>::GetEnd() const noexcept
 	{
 		return _Last;
 	}

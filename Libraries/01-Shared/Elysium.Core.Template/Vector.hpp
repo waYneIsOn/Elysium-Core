@@ -366,10 +366,14 @@ namespace Elysium::Core::Template::Container
 	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
 		: _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
-		const Elysium::Core::Template::System::size InitializerListLength = InitializerList.size();
-		for (Elysium::Core::Template::System::size i = 0; i < InitializerListLength; i++)
+		Elysium::Core::Template::System::size Index = 0;
+		const T* Iterator = InitializerList.begin();
+		const T* LastElement = InitializerList.end();
+		for (; Iterator != LastElement; ++Iterator)
 		{
-			_Data[i] = InitializerList.begin()[i];
+#pragma warning(disable : 6011)	// _Data won't be nullptr if InitializerList contains elements
+			_Data[Index++] = *Iterator;
+#pragma warning(default : 6011)
 		}
 	}
 
