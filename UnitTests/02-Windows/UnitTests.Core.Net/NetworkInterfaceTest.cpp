@@ -16,7 +16,7 @@ namespace UnitTests::Core::Net::NetworkInformation
 	public:
 		TEST_METHOD(TestGetAllNetworkInterfaces)
 		{
-			const Array<NetworkInterface> NetworkInterfaces = NetworkInterface::GetAllNetworkInterfaces();
+			const Elysium::Core::Template::Container::Vector<NetworkInterface> NetworkInterfaces = NetworkInterface::GetAllNetworkInterfaces();
 			for (Elysium::Core::size i = 0; i < NetworkInterfaces.GetLength(); i++)
 			{
 				const NetworkInterface& NetworkInterface = NetworkInterfaces[i];

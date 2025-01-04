@@ -231,7 +231,7 @@ namespace UnitTests::Core::Security::Cryptography
 					for (Elysium::Core::size i = 0; i < CertificateCount; i++)
 					{
 						const X509Certificate& Certificate = CurrentStore.GetCertificates()[i];
-						const Array<byte> RawData = Certificate.GetRawCertData();
+						const Elysium::Core::Container::VectorOfByte RawData = Certificate.GetRawCertData();
 						MemoryStream InputStream = MemoryStream(RawData, 0, RawData.GetLength());
 
 						Logger::WriteMessage("X509Certificate #");
@@ -1117,7 +1117,7 @@ namespace UnitTests::Core::Security::Cryptography
 						}
 
 						Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
-						const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data = BitString.GetData();
+						const Elysium::Core::Container::VectorOfByte& Data = BitString.GetData();
 
 						Logger::WriteMessage("\tECDSA Public Key (named curve) length: ");
 						Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString((Length.GetEncodedLength() - 1) * 8)[0]);

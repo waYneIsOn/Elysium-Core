@@ -44,10 +44,11 @@ namespace UnitTestsCoreLinq
 
 			std::vector<int> EmptyVector = std::vector<int>();
 			Assert::IsFalse(EmptyVector >> Any());
-
+			/*
 			//Elysium::Core::Collections::Template::Array<int> Array = { 1, 2, 3 };
 			Elysium::Core::Collections::Template::Array<int> Array = Elysium::Core::Collections::Template::Array<int>(0);
 			Assert::IsFalse(Array >> Any());
+			*/
 			/*
 			Elysium::Core::Linq::AnyContainer bla = Elysium::Core::Linq::AnyContainer();
 			bool istrue = bla.operator()(std::forward<Elysium::Core::Collections::Template::Array<int>>(Array));

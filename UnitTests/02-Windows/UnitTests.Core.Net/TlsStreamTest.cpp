@@ -2,6 +2,7 @@
 
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/Exception.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/VectorOfString.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/Socket.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"
@@ -33,7 +34,7 @@ namespace UnitTests::Core::Net::Security
 			TcpSocket.Connect(Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Parse(Elysium::Core::Utf8String(u8"52.6.191.28")), 443));	// https://ulfheim.net/
 			NetworkStream InnerStream = NetworkStream(TcpSocket);
 			
-			const Array<TlsCipherSuite> CipherSuites = Array<TlsCipherSuite>({
+			const Elysium::Core::Template::Container::Vector<TlsCipherSuite> CipherSuites = {
 				/*
 				TlsCipherSuite::TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
 				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
@@ -53,7 +54,7 @@ namespace UnitTests::Core::Net::Security
 				TlsCipherSuite::TLS_RSA_WITH_3DES_EDE_CBC_SHA
 				*/
 				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-				});
+			};
 
 			Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
@@ -65,11 +66,11 @@ namespace UnitTests::Core::Net::Security
 			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
-				const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String>&> UserCertificateSelectionCallback =
+				const Elysium::Core::Container::VectorOfUtf8String&> UserCertificateSelectionCallback =
 				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
-				const Elysium::Core::Collections::Template::Array<Elysium::Core::Utf8String>&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
+				const Elysium::Core::Container::VectorOfUtf8String&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
 
 			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 			
@@ -84,8 +85,7 @@ namespace UnitTests::Core::Net::Security
 				Elysium::Core::Utf8String RequestMessage = Elysium::Core::Utf8String(u8"GET /index.html HTTP/1.1\r\nHost: www.ulfheim.net\r\n\r\n");
 				Stream.Write((byte*)&RequestMessage[0], RequestMessage.GetLength());
 				
-				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Buffer =
-					Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32000);
+				Elysium::Core::Container::VectorOfByte Buffer = Elysium::Core::Container::VectorOfByte(32000);
 				Elysium::Core::size BytesReceived = Stream.Read(&Buffer[0], Buffer.GetLength());
 				Elysium::Core::Utf8String ResponseMessage = Elysium::Core::Utf8String((char8_t*)&Buffer[0], BytesReceived);
 			}
@@ -119,7 +119,7 @@ namespace UnitTests::Core::Net::Security
 			}
 		}
 
-		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Collections::Template::Array<Elysium::Core::Utf8String>& AcceptableIssuers)
+		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Elysium::Core::Container::VectorOfUtf8String& AcceptableIssuers)
 		{
 			// https://docs.microsoft.com/en-us/dotnet/api/system.net.security.localcertificateselectioncallback?view=netcore-3.1
 			if (LocalCertificates.GetCount() > 0 && AcceptableIssuers.GetLength() > 0)
