@@ -60,6 +60,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEAND
+#include "../TypeTraits/HasOperatorBitwiseAnd.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEOR
+#include "../TypeTraits/HasOperatorBitwiseOr.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_UNDERLYINGTYPE
 #include "../TypeTraits.hpp"
 #endif
@@ -76,6 +84,8 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	public:
 		using ConstValue = const T;
 	public:
+		static constexpr const bool IsFlag() noexcept;
+
 		template <T Value>
 		static constexpr const Elysium::Core::Template::Text::String<char8_t> GetNamedValue() noexcept;
 
@@ -113,6 +123,13 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		static constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)>
 			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>);
 	};
+
+	template<Concepts::ReflectableEnumeration T>
+	inline constexpr const bool Enumeration<T>::IsFlag() noexcept
+	{
+		return Elysium::Core::Template::TypeTraits::HasOperatorBitwiseAndValue<T> &&
+			Elysium::Core::Template::TypeTraits::HasOperatorBitwiseOrValue<T>;
+	}
 
 	template<Concepts::ReflectableEnumeration T>
 	template<T Value>

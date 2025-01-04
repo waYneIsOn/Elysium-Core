@@ -20,6 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Disjunction.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEAND
+#include "TypeTraits/HasOperatorBitwiseAnd.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEOR
+#include "TypeTraits/HasOperatorBitwiseOr.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif

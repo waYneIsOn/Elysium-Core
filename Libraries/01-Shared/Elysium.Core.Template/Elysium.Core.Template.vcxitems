@@ -81,6 +81,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Find.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\DeclareValue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Hash.hpp" />
@@ -105,6 +106,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LessOrEqual.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Linq\WhereDeferredIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Logarithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
@@ -146,6 +149,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Truncate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseAnd.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseOr.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp" />

@@ -97,6 +97,18 @@ namespace UnitTests::Core::Template::Reflection
 			Assert::IsTrue(IsScopedEnumeration<SomeInt32EnumStruct>::Value);
 		}
 
+		TEST_METHOD(EnumIsFlag)
+		{
+			//Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::IsFlag());
+			//Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::IsFlag());
+			//Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::IsFlag());
+			//Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::IsFlag());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::IsFlag());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::IsFlag());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt16EnumClass>::IsFlag());
+			//Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::IsFlag());
+		}
+
 		TEST_METHOD(EnumIsDefinedValue)
 		{
 			//Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::IsDefinedValue<GlobalEnum::A>());

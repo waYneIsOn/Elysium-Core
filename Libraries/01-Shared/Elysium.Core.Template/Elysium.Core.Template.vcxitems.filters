@@ -659,6 +659,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCpy.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp">
+      <Filter>Linq</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Linq\WhereDeferredIterator.hpp">
+      <Filter>Linq</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseOr.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\DeclareValue.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseAnd.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
