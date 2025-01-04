@@ -19,11 +19,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
 #include "SignedInteger.hpp"
 #endif
-/*
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
 #include "UnsignedInteger.hpp"
 #endif
-*/
+
 namespace Elysium::Core::Template::Math
 {
 	template<Concepts::FloatingPoint FP>
@@ -37,12 +37,11 @@ namespace Elysium::Core::Template::Math
 	{ 
 		return Value < 0 ? Value * -1 : Value;
 	}
-	/*
+	
 	template<Concepts::UnsignedInteger UI>
 	constexpr UI Absolute(const UI Value) noexcept
 	{
 		return Value;
 	}
-	*/
 }
 #endif

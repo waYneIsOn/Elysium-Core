@@ -129,10 +129,12 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		/// <returns></returns>
 		template <Concepts::ReflectableEnumeration RE = T>
 		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValues() noexcept;
-
-		//static constexpr const Elysium::Core::Template::Text::String<char8_t> GetNamedValues() noexcept;
-
-		//static constexpr const Elysium::Core::Template::Text::String<char8_t> GetUnderlyingValues() noexcept;
+		
+		template <Concepts::ReflectableEnumeration RE = T>
+		static constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>> GetUnderlyingValues() noexcept;
+		
+		template <Concepts::ReflectableEnumeration RE = T>
+		static constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> GetNamedValues() noexcept;
 	private:
 		template <Elysium::Core::Template::Concepts::UnsignedInteger UI>
 		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType();
@@ -249,6 +251,31 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	}
 
 	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration RE>
+	inline constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>> Enumeration<T>::GetUnderlyingValues() noexcept
+	{
+		const Elysium::Core::Template::Container::Vector<T> DefinedValues = GetDefinedValues();
+
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>> Result = 
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>(DefinedValues.GetLength());
+		Result.Clear();
+
+		for (typename Elysium::Core::Template::Container::Vector<T>::ConstIterator Iterator = DefinedValues.GetBegin(); Iterator != DefinedValues.GetEnd(); ++Iterator)
+		{
+			Result.PushBack(static_cast<Elysium::Core::Template::TypeTraits::UnderlyingTypeType<T>>(*Iterator));
+		}
+
+		return Result;
+	}
+	
+	template<Concepts::Enumeration T>
+	template<Concepts::ReflectableEnumeration RE>
+	inline constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> Enumeration<T>::GetNamedValues() noexcept
+	{
+		return Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>>();
+	}
+	
+	template<Concepts::Enumeration T>
 	template<Elysium::Core::Template::Concepts::UnsignedInteger UI>
 	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType()
 	{
@@ -274,6 +301,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
 			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::uint64_t, RangeEnd>();
 
+		// @ToDo: should be able to create vector of defined values without the array (using fold expressions)
 		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
 
 		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
@@ -316,6 +344,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
 			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::int64_t, RangeEnd>();
 
+		// @ToDo: should be able to create vector of defined values without the array (using fold expressions)
 		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
 
 		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
