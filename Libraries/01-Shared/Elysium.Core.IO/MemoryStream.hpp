@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
 #include "../Elysium.Core/VectorOfByte.hpp"
 #endif

@@ -13,7 +13,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
 ;
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::IO;
 using namespace Elysium::Core::Security::Cryptography;
 using namespace Elysium::Core::Security::Cryptography::Encoding::Asn1;

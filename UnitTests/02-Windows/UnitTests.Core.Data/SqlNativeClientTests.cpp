@@ -11,7 +11,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Text/StringBuilder.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Data::Common;
 using namespace Elysium::Core::Data::SqlNativeClient::OleDb;
 using namespace Elysium::Core::Text;

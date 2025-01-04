@@ -11,7 +11,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Elysium::Core::Text;

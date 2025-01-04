@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Encoding.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 namespace Elysium::Core::Text
 {
 	class ELYSIUM_CORE_API ASCIIEncoding final : public Encoding

@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
 #include "System.hpp"
 #endif

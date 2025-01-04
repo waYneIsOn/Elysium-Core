@@ -4,7 +4,6 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Globalization/NumberFormatInfo.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Globalization;
 using namespace Elysium::Core::Template::Container;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

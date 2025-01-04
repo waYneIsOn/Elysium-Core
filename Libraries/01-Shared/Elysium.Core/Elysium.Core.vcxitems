@@ -20,12 +20,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArrayOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfInteger.hpp" />

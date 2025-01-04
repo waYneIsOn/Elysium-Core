@@ -5,7 +5,6 @@
 #endif
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net;
 using namespace Elysium::Core::Net::NetworkInformation;
 

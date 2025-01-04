@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "../Elysium.Core/Array.hpp"
-#endif
-
 namespace Elysium::Core::Linq
 {
 	struct ELYSIUM_CORE_LINQ_API AnyContainer

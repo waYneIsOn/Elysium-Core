@@ -68,19 +68,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsMoveConstructible.hpp"
 #endif
 
-
-
-
-// @ToDo: remove asap
-namespace Elysium::Core::Collections::Template
-{
-	template <Elysium::Core::Template::Concepts::NonConstant T>
-	class Array;
-}
-
-
-
-
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>
@@ -91,8 +78,6 @@ namespace Elysium::Core::Template::Container
 	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
 	class Vector
 	{
-		// @ToDo: remove asap
-		friend class Elysium::Core::Collections::Template::Array<T>;
 	public:
 		using Value = T;
 		using ConstValue = const T;

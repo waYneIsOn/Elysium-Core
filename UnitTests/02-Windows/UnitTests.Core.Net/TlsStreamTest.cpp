@@ -15,7 +15,6 @@
 //#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Exception.hpp"
 
 using namespace Elysium::Core;
-using namespace Elysium::Core::Collections::Template;
 using namespace Elysium::Core::Net::Security;
 using namespace Elysium::Core::Net::Sockets;
 using namespace Elysium::Core::Security::Authentication;

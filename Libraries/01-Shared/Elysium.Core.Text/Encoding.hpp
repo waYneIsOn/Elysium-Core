@@ -64,7 +64,7 @@ namespace Elysium::Core::Text
 		static Encoding& UTF32BE();
 		static Encoding& UTF32LE();
 	public:
-		static const Elysium::Core::Container::VectorOfByte Convert(const Encoding& SourceEncoding, const Encoding& TargetEncoding, const Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count);
+		static const Elysium::Core::Container::VectorOfByte Convert(const Encoding& SourceEncoding, const Encoding& TargetEncoding, const Elysium::Core::Container::VectorOfByte& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count);
 				
 		virtual const bool GetIsSingleByte() const = 0;
 
