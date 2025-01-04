@@ -15,7 +15,7 @@ void Elysium::Core::Security::Cryptography::MD4::HashCore(Elysium::Core::byte * 
 {
 }
 
-const Elysium::Core::Container::ArrayOfByte Elysium::Core::Security::Cryptography::MD4::HashFinal()
+const Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptography::MD4::HashFinal()
 {
-	return Elysium::Core::Container::ArrayOfByte(0);
+	return Elysium::Core::Container::VectorOfByte(0);
 }

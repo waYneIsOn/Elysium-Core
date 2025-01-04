@@ -16,17 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "Array.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_BYTE
-#include "Byte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "../Elysium.Core/Primitives.hpp"
 #endif
+
 
 namespace Elysium::Core
 {
@@ -47,17 +44,17 @@ namespace Elysium::Core
 	public:
 		static const bool GetIsLittleEndian();
 	public:
-		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int16_t Value);
+		static const Elysium::Core::Container::VectorOfByte GetBytes(const Elysium::Core::int16_t Value);
 
-		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int32_t Value);
+		static const Elysium::Core::Container::VectorOfByte GetBytes(const Elysium::Core::int32_t Value);
 
-		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::int64_t Value);
+		static const Elysium::Core::Container::VectorOfByte GetBytes(const Elysium::Core::int64_t Value);
 
-		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint16_t Value);
+		static const Elysium::Core::Container::VectorOfByte GetBytes(const Elysium::Core::uint16_t Value);
 
-		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint32_t Value);
+		static const Elysium::Core::Container::VectorOfByte GetBytes(const Elysium::Core::uint32_t Value);
 
-		static const Collections::Template::Array<Elysium::Core::byte> GetBytes(const Elysium::Core::uint64_t Value);
+		static const Elysium::Core::Container::VectorOfByte GetBytes(const Elysium::Core::uint64_t Value);
 	public:
 		static const Elysium::Core::int16_t ToInt16(const Elysium::Core::byte* Value);
 

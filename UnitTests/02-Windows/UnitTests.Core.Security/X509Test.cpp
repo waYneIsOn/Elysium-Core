@@ -52,7 +52,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 		TEST_METHOD(ReadCertificateFromBlob)
 		{
-			Array<Elysium::Core::byte> RawDataArray = Array<Elysium::Core::byte>({
+			Elysium::Core::Container::VectorOfByte RawDataArray = Elysium::Core::Container::VectorOfByte({
 				0x30, 0x82, 0x05, 0xef, 0x30, 0x82, 0x04, 0xd7,		0xa0, 0x03, 0x02, 0x01, 0x02, 0x02, 0x11, 0x00,
 				0xd7, 0x55, 0x8f, 0xda, 0xf5, 0xf1, 0x10, 0x5b,		0xb2, 0x13, 0x28, 0x2b, 0x70, 0x77, 0x29, 0xa3,
 				0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86,		0xf7, 0x0d, 0x01, 0x01, 0x05, 0x05, 0x00, 0x30,
@@ -357,7 +357,7 @@ namespace UnitTests::Core::Security::Cryptography
 				throw InvalidDataException(u8"CertificateSerialNumber");
 			}
 			Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
-			const Elysium::Core::Container::ArrayOfByte& BitStringData = BitString.GetData();
+			const Elysium::Core::Container::VectorOfByte& BitStringData = BitString.GetData();
 
 			Elysium::Core::String SerialNumber = Elysium::Core::Template::Text::Convert<char>::ToHexString(&BitStringData[0], BitStringData.GetLength());
 
@@ -1193,7 +1193,7 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
-				const Elysium::Core::Container::ArrayOfByte& BitStringData = BitString.GetData();
+				const Elysium::Core::Container::VectorOfByte& BitStringData = BitString.GetData();
 
 				Elysium::Core::String IssuerUniqueID = Elysium::Core::Template::Text::Convert<char>::ToHexString(&BitStringData[0], BitStringData.GetLength());
 
@@ -1221,7 +1221,7 @@ namespace UnitTests::Core::Security::Cryptography
 			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
 			{
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
-				const Elysium::Core::Container::ArrayOfByte& BitStringData = BitString.GetData();
+				const Elysium::Core::Container::VectorOfByte& BitStringData = BitString.GetData();
 
 				Elysium::Core::String SubjectUniqueId = Elysium::Core::Template::Text::Convert<char>::ToHexString(&BitStringData[0], BitStringData.GetLength());
 

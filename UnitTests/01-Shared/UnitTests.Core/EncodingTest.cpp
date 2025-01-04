@@ -72,7 +72,7 @@ namespace UnitTests::Core::Text
 					Input[i] = static_cast<char>(i);
 				}
 
-				Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = ASCIIEncoding.GetBytes(&Input[0], Input.GetLength());
+				Elysium::Core::Container::VectorOfByte Bytes = ASCIIEncoding.GetBytes(&Input[0], Input.GetLength());
 				for (Elysium::Core::size i = 0; i < 128; ++i)
 				{
 					Assert::AreEqual((int)Bytes[i], (int)i);
@@ -122,7 +122,7 @@ namespace UnitTests::Core::Text
 					Assert::AreEqual(static_cast<const char8_t>(0xA4), Input[11]);
 					Assert::AreEqual(static_cast<const char8_t>(0xB9), Input[12]);
 
-					Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = UTF8Encoding.GetBytes(&Input[0], Input.GetLength());
+					Elysium::Core::Container::VectorOfByte Bytes = UTF8Encoding.GetBytes(&Input[0], Input.GetLength());
 					Assert::AreEqual(static_cast<Elysium::Core::size>(Input.GetLength()), Bytes.GetLength());
 					for (Elysium::Core::size i = 0; i < Bytes.GetLength(); ++i)
 					{
@@ -135,7 +135,7 @@ namespace UnitTests::Core::Text
 
 				// UTF-16 BE
 				{
-					Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = UTF16BEEncoding.GetBytes(&Input[0], Input.GetLength());
+					Elysium::Core::Container::VectorOfByte Bytes = UTF16BEEncoding.GetBytes(&Input[0], Input.GetLength());
 					Elysium::Core::Utf8String Output = UTF16BEEncoding.GetString(&Bytes[0], Bytes.GetLength());
 					AssertExtended::AreEqual(Input, Output);
 				}
@@ -146,7 +146,7 @@ namespace UnitTests::Core::Text
 		{
 			const Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF16BE();
 
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(
+			Elysium::Core::Container::VectorOfByte Bytes = Elysium::Core::Container::VectorOfByte(
 				{
 					0x00, 0x74,	// would be 1 byte utf-8
 					0x07, 0xFF, // would be 2 byte utf-8
@@ -159,7 +159,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Utf8String ResultingString = Encoding.GetString(&Bytes[0], Bytes.GetLength());
 			Assert::AreEqual(Bytes.GetLength(), ResultingString.GetLength());
 
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
+			Elysium::Core::Container::VectorOfByte ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
 			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
 			for (Elysium::Core::size i = 0; i < Bytes.GetLength(); i++)
 			{
@@ -171,7 +171,7 @@ namespace UnitTests::Core::Text
 		{
 			const Elysium::Core::Text::Encoding& Encoding = Elysium::Core::Text::Encoding::UTF16LE();
 
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(
+			Elysium::Core::Container::VectorOfByte Bytes = Elysium::Core::Container::VectorOfByte(
 				{
 					0x74, 0x00,	// would be 1 byte utf-8
 					0xFF, 0x07, // would be 2 byte utf-8
@@ -184,7 +184,7 @@ namespace UnitTests::Core::Text
 			Elysium::Core::Utf8String ResultingString = Encoding.GetString(&Bytes[0], Bytes.GetLength());
 			Assert::AreEqual(Bytes.GetLength(), ResultingString.GetLength());
 
-			Elysium::Core::Collections::Template::Array<Elysium::Core::byte> ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
+			Elysium::Core::Container::VectorOfByte ResultingBytes = Encoding.GetBytes(&ResultingString[0], ResultingString.GetLength());
 			Assert::AreEqual(Bytes.GetLength(), ResultingBytes.GetLength());
 			for (Elysium::Core::size i = 0; i < Bytes.GetLength(); i++)
 			{

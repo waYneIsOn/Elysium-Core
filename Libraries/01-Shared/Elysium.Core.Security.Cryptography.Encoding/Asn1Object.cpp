@@ -4,6 +4,10 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
+Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Object::Asn1Object(const Asn1Identifier& Identifier)
+	: _Identifier(Identifier)
+{ }
+
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Object::Asn1Object(const Asn1Object& Source)
 	: _Identifier(Source._Identifier)
 { }
@@ -39,7 +43,3 @@ const Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Identifier & El
 {
 	return _Identifier;
 }
-
-Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1Object::Asn1Object(const Asn1Identifier & Identifier)
-	: _Identifier(Identifier)
-{ }

@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/AsyncResult.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primivites.hpp"
+#ifndef ELYSIUM_CORE_BYTE
+#include "../Elysium.Core/Byte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primivites.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_API

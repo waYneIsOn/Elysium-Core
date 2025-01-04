@@ -162,7 +162,7 @@ namespace UnitTests::Core::Net::Sockets
 			
 			Elysium::Core::Utf8String HelpMessage = u8"HELP\r\n";
 			const Encoding& UTF8Encoding = Encoding::UTF8();
-			Array<byte> Bytes = UTF8Encoding.GetBytes(&HelpMessage[0], HelpMessage.GetLength());
+			Elysium::Core::Container::VectorOfByte Bytes = UTF8Encoding.GetBytes(&HelpMessage[0], HelpMessage.GetLength());
 			Elysium::Core::Template::Memory::UniquePointer<IAsyncResult> SendResult = AsyncClient.BeginSend(&Bytes[0], Bytes.GetLength(), SocketFlags::None,
 				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<BlockingSocketTest, &BlockingSocketTest::SendCallback>(*this), nullptr);
 			SendResult->GetAsyncWaitHandle().WaitOne();

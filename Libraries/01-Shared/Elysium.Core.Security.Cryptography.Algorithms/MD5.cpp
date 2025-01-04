@@ -1,13 +1,14 @@
 #include "MD5.hpp"
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysium::Core::Security::Cryptography::MD5::_S = Elysium::Core::Collections::Template::Array<uint32_t>(
+const Elysium::Core::Container::VectorOfUInt32_t Elysium::Core::Security::Cryptography::MD5::_S = Elysium::Core::Container::VectorOfUInt32_t(
 	{
 		7, 12, 17, 22,	7, 12, 17, 22,	7, 12, 17, 22,	7, 12, 17, 22,
 		5, 9, 14, 20,	5, 9, 14, 20,	5, 9, 14, 20,	5, 9, 14, 20,
 		4, 11, 16, 24,	4, 11, 16, 24,	4, 11, 16, 24,	4, 11, 16, 24,
 		6, 10, 15, 21,	6, 10, 15, 21,	6, 10, 15, 21,	6, 10, 15, 21
 	});
-const Elysium::Core::Collections::Template::Array<Elysium::Core::uint32_t> Elysium::Core::Security::Cryptography::MD5::_K = Elysium::Core::Collections::Template::Array<uint32_t>(
+
+const Elysium::Core::Container::VectorOfUInt32_t Elysium::Core::Security::Cryptography::MD5::_K = Elysium::Core::Container::VectorOfUInt32_t(
 	{
 		0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
 		0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
@@ -42,7 +43,7 @@ void Elysium::Core::Security::Cryptography::MD5::HashCore(Elysium::Core::byte * 
 {
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Security::Cryptography::MD5::HashFinal()
+const Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptography::MD5::HashFinal()
 {
-	return Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(5);
+	return Elysium::Core::Container::VectorOfByte(5);
 }

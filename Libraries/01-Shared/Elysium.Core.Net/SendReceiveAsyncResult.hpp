@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primivites.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
 #include "../Elysium.Core.Template/Delegate.hpp"
 #endif

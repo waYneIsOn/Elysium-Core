@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
+#include "../Elysium.Core/VectorOfInteger.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
@@ -39,12 +43,12 @@ namespace Elysium::Core::Security::Cryptography
 	public:
 		virtual void Initialize() override;
 	private:
-		static const Elysium::Core::Collections::Template::Array<uint32_t> _S;
-		static const Elysium::Core::Collections::Template::Array<uint32_t> _K;
+		static const Elysium::Core::Container::VectorOfUInt32_t _S;
+		static const Elysium::Core::Container::VectorOfUInt32_t _K;
 
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) override;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() override;
+		virtual const Elysium::Core::Container::VectorOfByte HashFinal() override;
 	};
 }
 #endif

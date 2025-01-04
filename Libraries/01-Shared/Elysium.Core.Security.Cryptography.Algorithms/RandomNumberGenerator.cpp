@@ -14,7 +14,7 @@ Elysium::Core::Security::Cryptography::RandomNumberGenerator::RandomNumberGenera
 Elysium::Core::Security::Cryptography::RandomNumberGenerator::~RandomNumberGenerator()
 { }
 
-void Elysium::Core::Security::Cryptography::RandomNumberGenerator::GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data)
+void Elysium::Core::Security::Cryptography::RandomNumberGenerator::GetBytes(Elysium::Core::Container::VectorOfByte& Data)
 {	// adapted from https://stackoverflow.com/questions/2999075/generate-a-random-number-within-range/2999130#2999130
 	static Elysium::Core::byte UpperLimit = 255;
 	Elysium::Core::byte Divisor = RAND_MAX / (UpperLimit + 1);

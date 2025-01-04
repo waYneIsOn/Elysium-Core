@@ -13,57 +13,57 @@ const bool Elysium::Core::BitConverter::GetIsLittleEndian()
 #endif
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::BitConverter::GetBytes(const int16_t Value)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::BitConverter::GetBytes(const int16_t Value)
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8) });
 #else
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
 #endif
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::BitConverter::GetBytes(const int32_t Value)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::BitConverter::GetBytes(const int32_t Value)
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24) });
 #else
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16),	static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16),	static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
 #endif
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::BitConverter::GetBytes(const int64_t Value)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::BitConverter::GetBytes(const int64_t Value)
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24), static_cast<Elysium::Core::byte>(Value >> 32), static_cast<Elysium::Core::byte>(Value >> 40), static_cast<Elysium::Core::byte>(Value >> 48), static_cast<Elysium::Core::byte>(Value >> 56) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24), static_cast<Elysium::Core::byte>(Value >> 32), static_cast<Elysium::Core::byte>(Value >> 40), static_cast<Elysium::Core::byte>(Value >> 48), static_cast<Elysium::Core::byte>(Value >> 56) });
 #else
-	return Collections::Template::Array<Elysium::Core::byte>({	static_cast<Elysium::Core::byte>(Value >> 56),	static_cast<Elysium::Core::byte>(Value >> 48),	static_cast<Elysium::Core::byte>(Value >> 40),	static_cast<Elysium::Core::byte>(Value >> 32),	static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
+	return Elysium::Core::Container::VectorOfByte({	static_cast<Elysium::Core::byte>(Value >> 56),	static_cast<Elysium::Core::byte>(Value >> 48),	static_cast<Elysium::Core::byte>(Value >> 40),	static_cast<Elysium::Core::byte>(Value >> 32),	static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
 #endif
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::BitConverter::GetBytes(const uint16_t Value)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::BitConverter::GetBytes(const uint16_t Value)
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8) });
 #else
-	return Collections::Template::Array<Elysium::Core::byte>({ static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
 #endif
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::BitConverter::GetBytes(const uint32_t Value)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::BitConverter::GetBytes(const uint32_t Value)
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
-	return Collections::Template::Array<byte>({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24) });
 #else
-	return Collections::Template::Array<byte>({	static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16),	static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
+	return Elysium::Core::Container::VectorOfByte({	static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16),	static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
 #endif
 }
 
-const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::BitConverter::GetBytes(const uint64_t Value)
+const Elysium::Core::Container::VectorOfByte Elysium::Core::BitConverter::GetBytes(const uint64_t Value)
 {
 #if defined ELYSIUM_CORE_LITTLEENDIAN
-	return Collections::Template::Array<byte>({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24), static_cast<Elysium::Core::byte>(Value >> 32), static_cast<Elysium::Core::byte>(Value >> 40), static_cast<Elysium::Core::byte>(Value >> 48), static_cast<Elysium::Core::byte>(Value >> 56) });
+	return Elysium::Core::Container::VectorOfByte({ static_cast<Elysium::Core::byte>(Value & 0xFF), static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value >> 16), static_cast<Elysium::Core::byte>(Value >> 24), static_cast<Elysium::Core::byte>(Value >> 32), static_cast<Elysium::Core::byte>(Value >> 40), static_cast<Elysium::Core::byte>(Value >> 48), static_cast<Elysium::Core::byte>(Value >> 56) });
 #else
-	return Collections::Template::Array<byte>({	static_cast<Elysium::Core::byte>(Value >> 56),	static_cast<Elysium::Core::byte>(Value >> 48),	static_cast<Elysium::Core::byte>(Value >> 40),	static_cast<Elysium::Core::byte>(Value >> 32),	static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16),	static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
+	return Elysium::Core::Container::VectorOfByte({	static_cast<Elysium::Core::byte>(Value >> 56),	static_cast<Elysium::Core::byte>(Value >> 48),	static_cast<Elysium::Core::byte>(Value >> 40),	static_cast<Elysium::Core::byte>(Value >> 32),	static_cast<Elysium::Core::byte>(Value >> 24),	static_cast<Elysium::Core::byte>(Value >> 16),	static_cast<Elysium::Core::byte>(Value >> 8), static_cast<Elysium::Core::byte>(Value & 0xFF) });
 #endif
 }
 

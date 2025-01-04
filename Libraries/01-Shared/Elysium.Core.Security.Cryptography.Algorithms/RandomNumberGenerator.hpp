@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_API
@@ -41,7 +41,7 @@ namespace Elysium::Core::Security::Cryptography
 
 		RandomNumberGenerator& operator=(RandomNumberGenerator&& Right) noexcept = delete;
 	public:
-		void GetBytes(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>& Data);
+		void GetBytes(Elysium::Core::Container::VectorOfByte& Data);
 	private:
 	};
 }

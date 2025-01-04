@@ -11,9 +11,10 @@
 Elysium::Core::IO::StreamReader::StreamReader(Stream & InputStream, Text::Encoding& Encoding, const bool DetectEncodingFromByteOrderMarks, const Elysium::Core::int32_t MinimumBufferSize, const bool LeaveOpen)
 	: Elysium::Core::IO::TextReader(),
 	_InputStream(InputStream), _Encoding(Encoding), _DetectEncoding(DetectEncodingFromByteOrderMarks), _LeaveOpen(LeaveOpen),
-	_Buffer(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(MinimumBufferSize == -1 ? DefaultBufferSize : MinimumBufferSize)),
+	_Buffer(MinimumBufferSize == -1 ? DefaultBufferSize : MinimumBufferSize),
 	_BufferWritingPosition(0), _BufferReadingPosition(0)
 { }
+
 Elysium::Core::IO::StreamReader::~StreamReader()
 {
 	if (!_LeaveOpen)

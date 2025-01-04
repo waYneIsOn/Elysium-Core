@@ -121,10 +121,10 @@ const Elysium::Core::Net::Sockets::ProtocolType Elysium::Core::Net::Sockets::Soc
 	return static_cast<Elysium::Core::Net::Sockets::ProtocolType>(proto.iProtocol);
 }
 
-Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Elysium::Core::Net::Sockets::Socket::GetSocketOption(const SocketOptionLevel OptionLevel,
+const Elysium::Core::Container::VectorOfByte Elysium::Core::Net::Sockets::Socket::GetSocketOption(const SocketOptionLevel OptionLevel,
 	const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength)
 {
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Result = Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(OptionLength);
+	Elysium::Core::Container::VectorOfByte Result = Elysium::Core::Container::VectorOfByte(OptionLength);
 
 	if (getsockopt(_WinSocketHandle, static_cast<Elysium::Core::int32_t>(OptionLevel), static_cast<Elysium::Core::int32_t>(OptionName),
 		(char*)&Result[0], (int*)&OptionLength) == SOCKET_ERROR)
@@ -355,7 +355,7 @@ void Elysium::Core::Net::Sockets::Socket::Select(Elysium::Core::Template::Contai
 
 const Elysium::Core::int32_t Elysium::Core::Net::Sockets::Socket::IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength)
 {
-	Elysium::Core::Collections::Template::Array<Elysium::Core::byte> Bytes = BitConverter::GetBytes(OptionInValue);
+	Elysium::Core::Container::VectorOfByte Bytes = BitConverter::GetBytes(OptionInValue);
 	return IOControl(static_cast<const Elysium::Core::int32_t>(ControlCode), &Bytes[0], Bytes.GetLength(), OptionOutValue, OptionOutValueLength);
 }
 

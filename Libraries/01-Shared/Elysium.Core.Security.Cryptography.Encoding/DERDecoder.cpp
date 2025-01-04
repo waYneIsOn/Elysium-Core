@@ -137,7 +137,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Co
 Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1ByteArray Elysium::Core::Security::Cryptography::Encoding::Asn1::DERDecoder::DecodeByteArray(const Asn1Identifier& Asn1Identifier, const Asn1Length& Asn1Length, IO::Stream& InputStream)
 {
 	const Elysium::Core::size Length = Asn1Length.GetLength();
-	Elysium::Core::Collections::Template::Array<byte> Bytes = Elysium::Core::Collections::Template::Array<byte>(Length);
+	Elysium::Core::Container::VectorOfByte Bytes = Elysium::Core::Container::VectorOfByte(Length);
 	Elysium::Core::size TotalBytesRead = 0;
 	do
 	{

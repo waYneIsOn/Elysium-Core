@@ -26,13 +26,10 @@
 
 Elysium::Core::Net::Security::ExperimentalTlsStream::ExperimentalTlsStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions& AuthenticationOptions)
 	: Elysium::Core::Net::Security::AuthenticatedStream(InnerStream, LeaveInnerStreamOpen),
-	_AuthenticationOptions(AuthenticationOptions),
-	_LocalRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
-	_SessionId(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
-	_RemoteRandom(Elysium::Core::Collections::Template::Array<Elysium::Core::byte>(32)),
-	_ServerSelectedCipherSuite(),
+	_AuthenticationOptions(AuthenticationOptions), _LocalRandom(32), _SessionId(32), _RemoteRandom(32), _ServerSelectedCipherSuite(),
 	_ServerSelectedCompressionMethod()
 { }
+
 Elysium::Core::Net::Security::ExperimentalTlsStream::~ExperimentalTlsStream()
 { }
 
@@ -65,18 +62,22 @@ const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetIsAuthenticat
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetIsEncrypted() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetIsMutuallyAuthenticated() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetIsServer() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::ExperimentalTlsStream::GetIsSigned() const
 {
 	return false;
@@ -153,12 +154,15 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 	// ToDo: FOR EACH extension: MessageSize += x;
 
 	// record layer
-	Collections::Template::Array<byte> ProtocolVersion = BitConverter::GetBytes(static_cast<uint16_t>(Elysium::Core::Security::Authentication::TlsProtocols::Tls10));
-	Collections::Template::Array<byte> UpcomingLength = BitConverter::GetBytes(static_cast<uint16_t>(HandshakeSize + 4));	// additional 1 byte handshake type, 3 bytes length of data to follow
+	Elysium::Core::Container::VectorOfByte ProtocolVersion = BitConverter::GetBytes(static_cast<uint16_t>(Elysium::Core::Security::Authentication::TlsProtocols::Tls10));
+	Elysium::Core::Container::VectorOfByte UpcomingLength = BitConverter::GetBytes(static_cast<uint16_t>(HandshakeSize + 4));	// additional 1 byte handshake type, 3 bytes length of data to follow
 	if (BitConverter::GetIsLittleEndian())
 	{
+		/*
+		* @ToDo
 		Collections::Template::Array<byte>::Reverse(ProtocolVersion);	// 0x01 0x03 -> 0x03 0x01
 		Collections::Template::Array<byte>::Reverse(UpcomingLength);
+		*/
 	}
 
 	_InnerStream.WriteByte(static_cast<byte>(TlsContentType::Handshake));
@@ -168,17 +172,20 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 	// handshake layer
 	Elysium::Core::Security::Cryptography::RandomNumberGenerator RNG = Elysium::Core::Security::Cryptography::RandomNumberGenerator();
 
-	Collections::Template::Array<byte> HandshakeLength = BitConverter::GetBytes(static_cast<uint32_t>(HandshakeSize));
-	Collections::Template::Array<byte> ClientVersion = BitConverter::GetBytes(static_cast<uint16_t>(EnabledTlsProtocols));
+	Elysium::Core::Container::VectorOfByte HandshakeLength = BitConverter::GetBytes(static_cast<uint32_t>(HandshakeSize));
+	Elysium::Core::Container::VectorOfByte ClientVersion = BitConverter::GetBytes(static_cast<uint16_t>(EnabledTlsProtocols));
 	RNG.GetBytes(_LocalRandom);
-	Collections::Template::Array<byte> CipherSuitesLength = BitConverter::GetBytes(static_cast<uint16_t>(NumberOfCipherSuites * 2));
+	Elysium::Core::Container::VectorOfByte CipherSuitesLength = BitConverter::GetBytes(static_cast<uint16_t>(NumberOfCipherSuites * 2));
 	if (BitConverter::GetIsLittleEndian())
 	{
+		/*
+		* @ToDo
 		Collections::Template::Array<byte>::Reverse(HandshakeLength);
 		Collections::Template::Array<byte>::Reverse(ClientVersion);
 		Collections::Template::Array<byte>::Reverse(_LocalRandom);
 		Collections::Template::Array<byte>::Reverse(_SessionId);
 		Collections::Template::Array<byte>::Reverse(CipherSuitesLength);
+		*/
 	}
 
 	_InnerStream.WriteByte(static_cast<byte>(TlsHandshakeMessageType::ClientHello));
@@ -190,10 +197,13 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 	_InnerStream.Write(&CipherSuitesLength[0], CipherSuitesLength.GetLength());
 	for (Elysium::Core::size i = 0; i < NumberOfCipherSuites; i++)
 	{
-		Collections::Template::Array<byte> CipherSuite = BitConverter::GetBytes(static_cast<uint16_t>(CipherSuites[i]));
+		Elysium::Core::Container::VectorOfByte CipherSuite = BitConverter::GetBytes(static_cast<uint16_t>(CipherSuites[i]));
 		if (BitConverter::GetIsLittleEndian())
 		{
+			/*
+			* @ToDo
 			Collections::Template::Array<byte>::Reverse(CipherSuite);
+			*/
 		}
 		_InnerStream.Write(&CipherSuite[0], CipherSuite.GetLength());
 	}

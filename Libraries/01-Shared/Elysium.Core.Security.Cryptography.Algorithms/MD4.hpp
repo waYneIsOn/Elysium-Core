@@ -41,7 +41,7 @@ namespace Elysium::Core::Security::Cryptography
 	private:
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) override;
 
-		virtual const Elysium::Core::Container::ArrayOfByte HashFinal() override;
+		virtual const Elysium::Core::Container::VectorOfByte HashFinal() override;
 	};
 }
 #endif

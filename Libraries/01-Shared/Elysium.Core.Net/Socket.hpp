@@ -145,7 +145,7 @@ namespace Elysium::Core::Net::Sockets
 
 		const ProtocolType GetProtocolType() const;
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
+		const Elysium::Core::Container::VectorOfByte GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
 
 		const Elysium::Core::int32_t GetAvailable() const;
 

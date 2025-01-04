@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_STREAM
@@ -49,17 +49,17 @@ namespace Elysium::Core::Security::Cryptography
 
 		virtual const bool GetCanReuseTransform() const;
 
-		Container::ArrayOfByte ComputeHash(Elysium::Core::IO::Stream& InputStream);
+		Elysium::Core::Container::VectorOfByte ComputeHash(Elysium::Core::IO::Stream& InputStream);
 
-		Container::ArrayOfByte ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length);
+		Elysium::Core::Container::VectorOfByte ComputeHash(Elysium::Core::byte* Buffer, const Elysium::Core::size Length);
 
 		virtual void Initialize() = 0;
 	protected:
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) = 0;
 
-		virtual const Elysium::Core::Collections::Template::Array<Elysium::Core::byte> HashFinal() = 0;
+		virtual const Elysium::Core::Container::VectorOfByte HashFinal() = 0;
 	protected:
-		Container::ArrayOfByte _HashValue;
+		Elysium::Core::Container::VectorOfByte _HashValue;
 		int32_t _State;
 	};
 }

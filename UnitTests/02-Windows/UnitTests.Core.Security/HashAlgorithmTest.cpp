@@ -21,10 +21,10 @@ namespace UnitTests::Core::Security::Cryptography
 			const Encoding& UsedEncoding = Encoding::ASCII();
 			MD4 Algorithm = MD4();
 
-			Array<byte> Bytes2 = UsedEncoding.GetBytes(&_Value2[0], _Value2.GetLength());
+			Elysium::Core::Container::VectorOfByte Bytes2 = UsedEncoding.GetBytes(&_Value2[0], _Value2.GetLength());
 
-			//Array<byte> HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
-			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);
+			//Elysium::Core::Container::VectorOfByte HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
+			Elysium::Core::Container::VectorOfByte HashBytes2 = Hash(Algorithm, Bytes2);
 		}
 
 		TEST_METHOD(HashMD5)
@@ -32,16 +32,16 @@ namespace UnitTests::Core::Security::Cryptography
 			const Encoding& UsedEncoding = Encoding::ASCII();
 			MD5 Algorithm = MD5();
 
-			Array<byte> Bytes2 = UsedEncoding.GetBytes(&_Value2[0], _Value2.GetLength());
+			Elysium::Core::Container::VectorOfByte Bytes2 = UsedEncoding.GetBytes(&_Value2[0], _Value2.GetLength());
 
-			//Array<byte> HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
-			Array<byte> HashBytes2 = Hash(Algorithm, Bytes2);
+			//Elysium::Core::Container::VectorOfByte HashBytes1 = Hash(Algorithm, UsedEncoding.GetBytes(_Value1, 0, _Value1.GetLength()));
+			Elysium::Core::Container::VectorOfByte HashBytes2 = Hash(Algorithm, Bytes2);
 		}
 	private:
 		const Elysium::Core::Utf8String _Value1 = u8"";
 		const Elysium::Core::Utf8String _Value2 = u8"bla";
 
-		Array<byte> Hash(HashAlgorithm& Algorithm, Array<byte>& Bytes)
+		Elysium::Core::Container::VectorOfByte Hash(HashAlgorithm& Algorithm, Elysium::Core::Container::VectorOfByte& Bytes)
 		{
 			return Algorithm.ComputeHash(&Bytes[0], Bytes.GetLength());
 		}

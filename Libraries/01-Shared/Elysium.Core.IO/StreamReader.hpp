@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_ARRAYOFBYTE
-#include "../Elysium.Core/ArrayOfByte.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_TEXTREADER
@@ -34,13 +34,17 @@ namespace Elysium::Core::IO
 	{
 	public:
 		StreamReader(Stream& InputStream, Elysium::Core::Text::Encoding& Encoding, const bool DetectEncodingFromByteOrderMarks = true, const Elysium::Core::int32_t MinimumBufferSize = -1, const bool LeaveOpen = false);
+		
 		StreamReader(const StreamReader& Source) = delete;
+
 		StreamReader(StreamReader&& Right) noexcept = delete;
+
 		virtual ~StreamReader();
-
+	public:
 		StreamReader& operator=(const StreamReader& Other) = delete;
-		StreamReader& operator=(StreamReader&& Right) noexcept = delete;
 
+		StreamReader& operator=(StreamReader&& Right) noexcept = delete;
+	public:
 		virtual void Close() override;
 
 		virtual const Elysium::Core::uint32_t Peek() override;
@@ -54,16 +58,16 @@ namespace Elysium::Core::IO
 		virtual Elysium::Core::Utf8String ReadToEnd() override;
 	private:
 		static const Elysium::Core::size DefaultBufferSize = 4096;
-
+	private:
 		Stream& _InputStream;
 		Elysium::Core::Text::Encoding& _Encoding;
 		bool _DetectEncoding;
 		bool _LeaveOpen;
 
-		Elysium::Core::Collections::Template::Array<Elysium::Core::byte> _Buffer;
+		Elysium::Core::Container::VectorOfByte _Buffer;
 		Elysium::Core::uint64_t _BufferWritingPosition;
 		Elysium::Core::uint64_t _BufferReadingPosition;
-
+	private:
 		void FillBuffer(const Elysium::Core::size Count);
 
 		/// <summary>
