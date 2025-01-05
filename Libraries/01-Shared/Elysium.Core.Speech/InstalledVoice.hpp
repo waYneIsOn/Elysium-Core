@@ -29,7 +29,10 @@ namespace Elysium::Core::Speech::Synthesis
 	class ELYSIUM_CORE_SPEECH_API InstalledVoice final
 	{
 		friend class SpeechSynthesizer;
+		friend class Elysium::Core::Template::Container::Vector<InstalledVoice>;
 	private:
+		InstalledVoice();
+
 		InstalledVoice(const bool Enabled, VoiceInfo&& VoiceInfo);
 	public:
 		InstalledVoice(const InstalledVoice& Source) = delete;

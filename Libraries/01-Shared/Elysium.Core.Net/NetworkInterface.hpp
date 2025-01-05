@@ -40,18 +40,21 @@ namespace Elysium::Core::Net::NetworkInformation
 {
 	class ELYSIUM_CORE_NET_API NetworkInterface
 	{
+		friend class Elysium::Core::Template::Container::Vector<NetworkInterface>;
 	protected:
 		NetworkInterface();
-	public:
-		NetworkInterface(const NetworkInterface& Source) = delete;
 
-		NetworkInterface(NetworkInterface&& Right) noexcept = delete;
+		NetworkInterface(const char8_t* Id);
+	public:
+		NetworkInterface(const NetworkInterface& Source);
+
+		NetworkInterface(NetworkInterface&& Right) noexcept;
 
 		virtual ~NetworkInterface();
 	public:
-		NetworkInterface& operator=(const NetworkInterface& Source) = delete;
+		NetworkInterface& operator=(const NetworkInterface& Source);
 
-		NetworkInterface& operator=(NetworkInterface&& Right) noexcept = delete;
+		NetworkInterface& operator=(NetworkInterface&& Right) noexcept;
 	public:
 		static const Elysium::Core::Template::Container::Vector<NetworkInterface> GetAllNetworkInterfaces();
 

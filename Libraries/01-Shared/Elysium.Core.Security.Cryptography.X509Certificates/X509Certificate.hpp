@@ -41,6 +41,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	class ELYSIUM_CORE_SECURITY_API X509Certificate final
 	{
 		friend class X509Chain;
+		friend class Elysium::Core::Template::Container::Vector<X509Certificate>;
 	private:
 		X509Certificate();
 	public:

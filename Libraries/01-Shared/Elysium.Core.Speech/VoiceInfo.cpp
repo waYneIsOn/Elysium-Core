@@ -18,6 +18,10 @@
 #endif
 #endif
 
+Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo()
+	: _VoiceToken(nullptr), _OwnsVoiceToken(false)
+{ }
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 Elysium::Core::Speech::Synthesis::VoiceInfo::VoiceInfo(ISpObjectToken* VoiceToken, const bool OwnsVoiceToken)
 	: _VoiceToken(VoiceToken), _OwnsVoiceToken(OwnsVoiceToken)

@@ -59,6 +59,8 @@ namespace Elysium::Core::Speech::Synthesis
 		friend class InstalledVoice;
 		friend class SpeechSynthesizer;
 	private:
+		VoiceInfo();
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		VoiceInfo(ISpObjectToken* VoiceToken, const bool OwnsVoiceToken);
 #endif

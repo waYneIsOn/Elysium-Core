@@ -105,8 +105,9 @@ namespace Elysium::Core::Template::Memory
 			return nullptr;
 		}
 
-		// @ToDo: this will not call any constructors and might cause problems with certain types. will have to see!
 		void* Data = operator new[](ElementSize * NumberOfElements);
+
+		// @ToDo: this shouldn't really be here!
 		Elysium::Core::Template::Memory::MemSet(Data, 0x00, ElementSize * NumberOfElements);
 		
 		return static_cast<T*>(Data);
@@ -118,11 +119,6 @@ namespace Elysium::Core::Template::Memory
 		if (First == nullptr)
 		{
 			return;
-		}
-
-		for (Elysium::Core::Template::System::size i = 0; i < NumberOfInstantiatedElements; i++)
-		{
-			First[i].~T();
 		}
 
 		operator delete[](First);

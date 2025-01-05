@@ -30,12 +30,85 @@
 #include "NetworkInformationException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Elysium.Core.Template/Move.hpp"
+#endif
+
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface()
-	: _Id(Elysium::Core::Utf8String()), _Name(Elysium::Core::Utf8String()), _Description(Elysium::Core::Utf8String())
+	: _Id(), _Name(), _Description(), _Type(NetworkInterfaceType::Unknown), _Status(OperationalStatus::Unknown), _Speed(),
+	_LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), _SupportsMulticast()
 { }
+
+Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(const char8_t* Id)
+	: _Id(Id), _Name(), _Description(), _Type(NetworkInterfaceType::Unknown), _Status(OperationalStatus::Unknown), _Speed(),
+	_LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), _SupportsMulticast()
+{ }
+
+Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(const NetworkInterface & Source)
+	: _Id(Source._Id), _Name(Source._Name), _Description(Source._Description), _Type(Source._Type), _Status(Source._Status), 
+	_Speed(Source._Speed), _LoopbackInterfaceIndex(Source._LoopbackInterfaceIndex), 
+	_IPv6LoopbackInterfaceIndex(Source._IPv6LoopbackInterfaceIndex), _IsReceiveOnly(Source._IsReceiveOnly), 
+	_SupportsMulticast(Source._SupportsMulticast)
+{ }
+
+Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(NetworkInterface&& Right) noexcept
+	: _Id(), _Name(), _Description(), _Type(NetworkInterfaceType::Unknown), _Status(OperationalStatus::Unknown), _Speed(), 
+	_LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), _SupportsMulticast()
+{
+	*this = Elysium::Core::Template::Functional::Move(Right);
+}
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::~NetworkInterface()
 { }
+
+Elysium::Core::Net::NetworkInformation::NetworkInterface& Elysium::Core::Net::NetworkInformation::NetworkInterface::operator=(const NetworkInterface & Source)
+{
+	if (this != &Source)
+	{
+		_Id = Source._Id;
+		_Name = Source._Name;
+		_Description = Source._Description;
+		_Type = Source._Type;
+		_Status = Source._Status;
+		_Speed = Source._Speed;
+		_LoopbackInterfaceIndex = Source._LoopbackInterfaceIndex;
+		_IPv6LoopbackInterfaceIndex = Source._IPv6LoopbackInterfaceIndex;
+		_IsReceiveOnly = Source._IsReceiveOnly;
+		_SupportsMulticast = Source._SupportsMulticast;
+	}
+	
+	return *this;
+}
+
+Elysium::Core::Net::NetworkInformation::NetworkInterface& Elysium::Core::Net::NetworkInformation::NetworkInterface::operator=(NetworkInterface&& Right) noexcept
+{
+	if (this != &Right)
+	{
+		_Id = Elysium::Core::Template::Functional::Move(Right._Id);
+		_Name = Elysium::Core::Template::Functional::Move(Right._Name);
+		_Description = Elysium::Core::Template::Functional::Move(Right._Description);
+		_Type = Elysium::Core::Template::Functional::Move(Right._Type);
+		_Status = Elysium::Core::Template::Functional::Move(Right._Status);
+		_Speed = Elysium::Core::Template::Functional::Move(Right._Speed);
+		_LoopbackInterfaceIndex = Elysium::Core::Template::Functional::Move(Right._LoopbackInterfaceIndex);
+		_IPv6LoopbackInterfaceIndex = Elysium::Core::Template::Functional::Move(Right._IPv6LoopbackInterfaceIndex);
+		_IsReceiveOnly = Elysium::Core::Template::Functional::Move(Right._IsReceiveOnly);
+		_SupportsMulticast = Elysium::Core::Template::Functional::Move(Right._SupportsMulticast);
+
+		Right._Id = u8"";
+		Right._Name = u8"";
+		Right._Description = u8"";
+		Right._Type = NetworkInterfaceType::Unknown;
+		Right._Status = OperationalStatus::Unknown;
+		Right._Speed = 0;
+		Right._LoopbackInterfaceIndex = 0;
+		Right._IPv6LoopbackInterfaceIndex = 0;
+		Right._IsReceiveOnly = false;
+		Right._SupportsMulticast = false;
+	}
+
+	return *this;
+}
 
 const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface> Elysium::Core::Net::NetworkInformation::NetworkInterface::GetAllNetworkInterfaces()
 {
@@ -45,7 +118,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInfo
 
 	unsigned long BufferSize = 0;
 	unsigned long Result;
-	if (Result = GetAdaptersAddresses(FormatConverter::Convert(Family), FormatConverter::Convert(Flags), nullptr, nullptr, &BufferSize) != ERROR_BUFFER_OVERFLOW)
+	if ((Result = GetAdaptersAddresses(FormatConverter::Convert(Family), FormatConverter::Convert(Flags), nullptr, nullptr, &BufferSize)) != ERROR_BUFFER_OVERFLOW)
 	{
 		throw NetworkInformationException(WSAGetLastError());
 	}
@@ -95,7 +168,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInfo
 
 			NetworkInterfaces[NumberOfNetworkInterfaces]._LoopbackInterfaceIndex = CurrentAdapterAddress->IfIndex;
 			NetworkInterfaces[NumberOfNetworkInterfaces]._IPv6LoopbackInterfaceIndex = CurrentAdapterAddress->Ipv6IfIndex;
-
+			
 			// ToDo: just interpreting wchar_t as char is obviously bs
 			//NetworkInterfaces[NumberOfNetworkInterfaces]._Name = (char*)CurrentAdapterAddress->FriendlyName;
 			//NetworkInterfaces[NumberOfNetworkInterfaces]._Description = (char*)CurrentAdapterAddress->Description;
@@ -158,7 +231,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInfo
 			AdapterAddresses = nullptr;
 		}
 
-		return Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface>(0);
+		return Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface>();
 	}
 #else
 #error "undefined os"

@@ -29,11 +29,12 @@ namespace Elysium::Core::Template::Diagnostics
 	class StackFrame final
 	{
 		friend class StackTrace;
+		friend class Elysium::Core::Template::Container::Vector<StackFrame>;
 	private:
+		StackFrame();
+
 		StackFrame(void* Address, const char8_t* FileName, const System::uint32_t LineNumber, const System::uint32_t ColumnNumber);
 	public:
-		StackFrame() = delete;
-
 		StackFrame(const StackFrame& Source);
 
 		StackFrame(StackFrame&& Right) noexcept;
@@ -57,6 +58,10 @@ namespace Elysium::Core::Template::Diagnostics
 		System::uint32_t _LineNumber;
 		System::uint32_t _ColumnNumber;
 	};
+
+	inline Elysium::Core::Template::Diagnostics::StackFrame::StackFrame()
+		: _Address(), _FileName(), _LineNumber(), _ColumnNumber()
+	{ }
 
 	inline Elysium::Core::Template::Diagnostics::StackFrame::StackFrame(void* Address, const char8_t* FileName, const System::uint32_t LineNumber, const System::uint32_t ColumnNumber)
 		: _Address(Address), _FileName(FileName), _LineNumber(LineNumber), _ColumnNumber(ColumnNumber)

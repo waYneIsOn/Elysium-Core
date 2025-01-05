@@ -16,6 +16,11 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
+Elysium::Core::Threading::Thread::Thread()
+	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo::GetInvariantCulture()),
+	_Parameters()
+{ }
+
 Elysium::Core::Threading::Thread::Thread(const Elysium::Core::Template::Container::Delegate<void>& ThreadStart)
 	: _Id(0), _Handle(nullptr), _Name(), _State(ThreadState::Unstarted), _CurrentCulture(Globalization::CultureInfo::GetInvariantCulture()),
 	_Parameters(ThreadStart)

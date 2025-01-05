@@ -104,6 +104,8 @@ namespace Elysium::Core::Template::Memory
 		}
 
 		void* Data = operator new[](ElementSize* NumberOfElements);
+
+		// @ToDo: this shouldn't really be here!
 		Elysium::Core::Template::Memory::MemSet(Data, 0x00, ElementSize * NumberOfElements);
 
 		return static_cast<T*>(Data);
@@ -115,11 +117,6 @@ namespace Elysium::Core::Template::Memory
 		if (First == nullptr)
 		{
 			return;
-		}
-
-		for (Elysium::Core::Template::System::size i = 0; i < NumberOfInstantiatedElements; i++)
-		{
-			First[i].~T();
 		}
 
 		std::free(First);	// @ToDo: stl remnant
