@@ -144,6 +144,7 @@ namespace Elysium::Core::Template::Diagnostics
 		HANDLE CurrentProcessHandle = GetCurrentProcess();
 
 		Container::Vector<StackFrame> StackFrames = Container::Vector<StackFrame>(1);
+		StackFrames.Clear();
 		Template::System::uint16_t FrameCount;
 
 		// all DbgHelp functions are single threaded, meaning I need to synchronize the following scope
@@ -195,8 +196,12 @@ namespace Elysium::Core::Template::Diagnostics
 					break;
 				}
 
-				StackFrames.PushBack(Elysium::Core::Template::Functional::Move(StackFrame((void*)Line.Address, (const char8_t*)Symbol->Name,
-					Line.LineNumber, 0)));
+				// don't need the stacktrace to contain this method and constructor!
+				if (FrameCount > 1)
+				{
+					StackFrames.PushBack(Elysium::Core::Template::Functional::Move(StackFrame((void*)Line.Address, (const char8_t*)Symbol->Name,
+						Line.LineNumber, 0)));
+				}
 
 				// reset for next frame
 				//memset(&MethodNameBuffer, 0, NumberOfCharacters); // doesn't seem to be necessary as '\0' get's set by UnDecorateSymbolName(...)
