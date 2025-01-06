@@ -22,6 +22,8 @@ namespace UnitTests::Core::IO
 	public:
 		TEST_METHOD(WatchAllChangesInDirectory)
 		{
+			Assert::Fail(L"IOCP implementation is not correct! things run out of scope causing problems!");
+
 			File::Delete(_FilePath);
 			File::Delete(_FilePath2);
 
