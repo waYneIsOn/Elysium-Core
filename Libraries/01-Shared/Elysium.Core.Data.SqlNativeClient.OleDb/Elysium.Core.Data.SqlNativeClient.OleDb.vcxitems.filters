@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeCommand.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeConnection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeDataReader.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeError.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeErrorCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeException.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeParameter.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeParameterCollection.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeSequentialStream.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SqlNativeTransaction.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeCommand.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeConnection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeDataReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeDbType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeError.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeErrorCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeParameter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeParameterCollection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeSequentialStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeTransaction.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfSqlNativeError.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfSqlNativeError.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="$(MSBuildThisFileDirectory)01 - Links.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Container">
+      <UniqueIdentifier>{594aa064-7994-4075-86d3-5104c901686e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{5d9c1b62-abe9-448e-a74f-21e81334f0a0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

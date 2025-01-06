@@ -1,7 +1,7 @@
 #include "SqlNativeErrorCollection.hpp"
 
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::SqlNativeErrorCollection(IUnknown* ErrorObject)
-	: _Errors(Elysium::Core::Template::Container::Vector<SqlNativeError>())
+	: _Errors()
 {
 	HRESULT HResult;
 	ISupportErrorInfo* SupportsErrorInfo;
@@ -136,9 +136,9 @@ Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::SqlNative
 		SupportsErrorInfo->Release();
 	}
 }
+
 Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::~SqlNativeErrorCollection()
-{
-}
+{ }
 
 const Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeError & Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::operator[](Elysium::Core::size i) const
 {
@@ -149,6 +149,7 @@ const Elysium::Core::size Elysium::Core::Data::SqlNativeClient::OleDb::SqlNative
 {
 	return _Errors.GetLength();
 }
+
 const bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::GetIsReadOnly() const
 {
 	return false;
@@ -158,14 +159,17 @@ void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Add(
 {
 	throw 1;
 }
+
 void Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Clear()
 {
 	throw 1;
 }
+
 bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Contains(const SqlNativeError & Item) const
 {
 	throw 1;
 }
+
 bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeErrorCollection::Remove(const SqlNativeError & Item)
 {
 	throw 1;

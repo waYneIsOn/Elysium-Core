@@ -12,16 +12,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_BYTE
+#include "../Elysium.Core/Byte.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API
 #include "API.hpp"
 #endif
 
-#ifndef _XSTRING_
-#include <xstring>
+#ifndef ELYSIUM_CORE_MEMORY_DEFAULTALLOCATOROFSTRING
+#include "../Elysium.Core/DefaultAllocatorOfString.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
+#ifndef _XSTRING_
+#include <xstring>
 #endif
 
 #ifndef GUID_DEFINED
@@ -34,12 +42,28 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 {
 	class ELYSIUM_CORE_DATA_SQLNATIVECLIENT_API SqlNativeError final
 	{
+		friend class Elysium::Core::Template::Container::Vector<SqlNativeError>;
+	private:
+		SqlNativeError();
 	public:
 		SqlNativeError(long ErrorSpecificErrorCode, unsigned long ProviderSpecificErrorCode, GUID ClassId, GUID InterfaceId, long DisplayId,
 			wchar_t* Description, GUID GUID, unsigned long HelpContext, wchar_t* HelpFile, wchar_t* Source,
 			wchar_t* SqlState, long ErrorCode, wchar_t* SSError, wchar_t* Server, wchar_t* Procedure, long Number, byte State, byte ErrorSeverity, unsigned short LineNumber);
-		~SqlNativeError();
 
+		SqlNativeError(const SqlNativeError& Source);
+
+		SqlNativeError(SqlNativeError&& Right) noexcept;
+
+		~SqlNativeError();
+	public:
+		SqlNativeError& operator=(const SqlNativeError& Source);
+
+		SqlNativeError& operator=(SqlNativeError&& Right) noexcept;
+	public:
+		bool operator==(const SqlNativeError& Other) const;
+
+		bool operator!=(const SqlNativeError& Other) const;
+	public:
 		const long& GetErrorSpecificErrorCode() const;
 		const unsigned long& GetProviderSpecificErrorCode() const;
 		const GUID& GetClassId() const;

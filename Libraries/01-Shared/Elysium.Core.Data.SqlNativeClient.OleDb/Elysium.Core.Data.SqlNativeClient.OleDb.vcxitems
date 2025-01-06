@@ -19,7 +19,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfSqlNativeError.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfSqlNativeError.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeConnection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SqlNativeDataReader.hpp" />

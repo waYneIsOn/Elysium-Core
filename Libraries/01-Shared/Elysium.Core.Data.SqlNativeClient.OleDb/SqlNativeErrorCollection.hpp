@@ -20,12 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEERROR
-#include "SqlNativeError.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
+#ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_CONTAINER_VECTOROFSQLNATIVEERROR
+#include "Container/VectorOfSqlNativeError.hpp"
 #endif
 
 #ifndef __sqlncli_h__
@@ -42,19 +38,24 @@ namespace Elysium::Core::Data::SqlNativeClient::OleDb
 	{
 	public:
 		SqlNativeErrorCollection(IUnknown* ErrorObject);
+
 		~SqlNativeErrorCollection();
-
+	public:
 		const SqlNativeError& operator [] (Elysium::Core::size i) const;
-
+	public:
 		const Elysium::Core::size GetLength() const;
-		const bool GetIsReadOnly() const;
 
+		const bool GetIsReadOnly() const;
+	public:
 		void Add(const SqlNativeError& Item);
+
 		void Clear();
+
 		bool Contains(const SqlNativeError& Item) const;
+
 		bool Remove(const SqlNativeError& Item);
 	private:
-		Elysium::Core::Template::Container::Vector<SqlNativeError> _Errors;
+		Container::VectorOfSqlNativeError _Errors;
 	};
 }
 #endif
