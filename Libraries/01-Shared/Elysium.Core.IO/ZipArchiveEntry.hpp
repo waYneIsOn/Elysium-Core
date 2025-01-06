@@ -34,27 +34,45 @@ namespace Elysium::Core::IO::Compression
 
 	class ELYSIUM_CORE_API ZipArchiveEntry final
 	{
-	public:
-		//ZipArchiveEntry(ZipArchive* Archive, Stream& BaseStream);
-		ZipArchiveEntry(ZipArchive* Archive, BinaryReader* Reader);
-		ZipArchiveEntry(const ZipArchiveEntry& Source);
-		ZipArchiveEntry(ZipArchiveEntry&& Right) noexcept;
-		~ZipArchiveEntry();
-
-		ZipArchiveEntry& operator=(const ZipArchiveEntry& Source);
-		ZipArchiveEntry& operator=(ZipArchiveEntry&& Right) noexcept;
-
-		const bool operator==(const ZipArchiveEntry& Other);
-		const bool operator!=(const ZipArchiveEntry& Other);
-
-		const Elysium::Core::IO::Compression::ZipArchive* GetArchive() const;
-		const Elysium::Core::Utf8String& GetFullName() const;
-		const Elysium::Core::Utf8StringView GetName() const;
-
-		Elysium::Core::IO::ReadOnlyStream Open();
+		friend class Elysium::Core::Template::Container::Vector<ZipArchiveEntry>;
 	private:
 		ZipArchiveEntry();
+	public:
+		//ZipArchiveEntry(ZipArchive* Archive, Stream& BaseStream);
 
+		ZipArchiveEntry(ZipArchive* Archive, BinaryReader* Reader);
+
+		ZipArchiveEntry(const ZipArchiveEntry& Source);
+
+		ZipArchiveEntry(ZipArchiveEntry&& Right) noexcept;
+
+		~ZipArchiveEntry();
+	public:
+		ZipArchiveEntry& operator=(const ZipArchiveEntry& Source);
+
+		ZipArchiveEntry& operator=(ZipArchiveEntry&& Right) noexcept;
+	public:
+		const bool operator==(const ZipArchiveEntry& Other);
+
+		const bool operator!=(const ZipArchiveEntry& Other);
+	public:
+		const Elysium::Core::IO::Compression::ZipArchive* GetArchive() const;
+
+		const Elysium::Core::Utf8String& GetFullName() const;
+
+		const Elysium::Core::Utf8StringView GetName() const;
+	public:
+		Elysium::Core::IO::ReadOnlyStream Open();
+	private:
+		void ReadCentralDirectoryEntry();
+		void ReadFileEntry();
+		void ReadExtraField(const Elysium::Core::uint16_t ExtraFieldLength);
+		void ReadDataDescriptor();
+	private:
+		static const Elysium::Core::uint32_t _SignatureCentralDirectoryEntry = 0x02014B50;
+		static const Elysium::Core::uint32_t _SignatureLocalFileHeader = 0x04034B50;
+		static const Elysium::Core::uint32_t _SignatureOptionalDataDescriptor = 0x08074b50;
+	private:
 		ZipArchive* _Archive;
         BinaryReader* _Reader;
 
@@ -62,15 +80,6 @@ namespace Elysium::Core::IO::Compression
 		Elysium::Core::uint32_t _RelativeOffsetToFileEntry = 0;
 		Elysium::Core::uint32_t _RelativeOffsetToCompressedData = 0;
 		Elysium::Core::uint32_t _CompressedSize = 0;
-
-		void ReadCentralDirectoryEntry();
-		void ReadFileEntry();
-		void ReadExtraField(const Elysium::Core::uint16_t ExtraFieldLength);
-		void ReadDataDescriptor();
-
-		static const Elysium::Core::uint32_t _SignatureCentralDirectoryEntry = 0x02014B50;
-		static const Elysium::Core::uint32_t _SignatureLocalFileHeader = 0x04034B50;
-		static const Elysium::Core::uint32_t _SignatureOptionalDataDescriptor = 0x08074b50;
 	};
 }
 #endif

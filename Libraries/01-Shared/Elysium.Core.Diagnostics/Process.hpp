@@ -117,8 +117,8 @@ namespace Elysium::Core::Diagnostics
 		void* _ProcessHandle;
 		void* _ThreadHandle;
 
-		Elysium::Core::Template::Container::Vector<ProcessThread> _Threads;
-		Elysium::Core::Template::Container::Vector<ProcessModule> _Modules;
+		mutable Elysium::Core::Template::Container::Vector<ProcessThread> _Threads;
+		mutable Elysium::Core::Template::Container::Vector<ProcessModule> _Modules;
 	};
 }
 #endif

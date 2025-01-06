@@ -28,19 +28,26 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
+Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry()
+    : _Archive(nullptr), _Reader(nullptr), _FileName()
+{ }
+
 Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry(ZipArchive * Archive, BinaryReader * Reader)
 	: _Archive(Archive), _Reader(Reader), _FileName()
 {
     ReadCentralDirectoryEntry();
 }
+
 Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry(const ZipArchiveEntry & Source)
 	: _Archive(Source._Archive), _Reader(Source._Reader), _FileName(Source._FileName)
 { }
+
 Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry(ZipArchiveEntry&& Right) noexcept
 	: _Archive(nullptr), _Reader(nullptr), _FileName()
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
+
 Elysium::Core::IO::Compression::ZipArchiveEntry::~ZipArchiveEntry()
 { }
 
@@ -293,7 +300,3 @@ void Elysium::Core::IO::Compression::ZipArchiveEntry::ReadExtraField(const Elysi
         const Elysium::Core::uint16_t Value = _Reader->ReadUInt16();
     }
 }
-
-Elysium::Core::IO::Compression::ZipArchiveEntry::ZipArchiveEntry()
-	: _Archive(nullptr), _Reader(nullptr), _FileName()
-{ }

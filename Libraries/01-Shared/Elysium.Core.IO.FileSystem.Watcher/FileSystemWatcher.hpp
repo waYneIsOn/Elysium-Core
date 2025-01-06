@@ -65,6 +65,8 @@ namespace Elysium::Core::IO
 {
 	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER FileSystemWatcher
 	{
+	private:
+		FileSystemWatcher();
 	public:
 		FileSystemWatcher(const char8_t* Path, const char8_t* Filter = u8"*.*", const NotifyFilters NotifyFilters = DefaultNotifyFilters, 
 			const bool IncludeSubdirectories = false);
@@ -92,9 +94,13 @@ namespace Elysium::Core::IO
 		void EndInit();
 	public:
 		Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnChanged;
+
 		Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnCreated;
+
 		Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnDeleted;
+
 		Event<void, const FileSystemWatcher&, const ErrorEventArgs&> OnError;
+
 		Event<void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed;
 	private:
 		void EndInit(const Elysium::Core::IAsyncResult* AsyncResult);

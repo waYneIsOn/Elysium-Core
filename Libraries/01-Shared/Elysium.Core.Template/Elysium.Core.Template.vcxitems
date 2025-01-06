@@ -45,6 +45,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Clear.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Allocatable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp" />

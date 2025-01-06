@@ -12,12 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#include "NonConstant.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
-#include "MemSet.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ALLOCATABLE
+#include "Concepts/Allocatable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -29,7 +25,7 @@ namespace Elysium::Core::Template::Memory
 	/// <summary>
 	/// 
 	/// </summary>
-	template<Elysium::Core::Template::Concepts::NonConstant T>
+	template<Elysium::Core::Template::Concepts::Allocatable T>
 	class DefaultAllocator final
 	{
 	public:
@@ -89,15 +85,15 @@ namespace Elysium::Core::Template::Memory
 		void Deallocate(Pointer First, const Elysium::Core::Template::System::size NumberOfInstantiatedElements);
 	};
 
-	template<Elysium::Core::Template::Concepts::NonConstant T>
+	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline constexpr DefaultAllocator<T>::DefaultAllocator() noexcept
 	{ }
 
-	template<Elysium::Core::Template::Concepts::NonConstant T>
+	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline constexpr DefaultAllocator<T>::~DefaultAllocator()
 	{ }
 
-	template<Elysium::Core::Template::Concepts::NonConstant T>
+	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline constexpr Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer DefaultAllocator<T>::Allocate(const Elysium::Core::Template::System::size NumberOfElements)
 	{
 		if (NumberOfElements == 0)
@@ -107,13 +103,10 @@ namespace Elysium::Core::Template::Memory
 
 		void* Data = operator new[](ElementSize * NumberOfElements);
 
-		// @ToDo: this shouldn't really be here!
-		Elysium::Core::Template::Memory::MemSet(Data, 0x00, ElementSize * NumberOfElements);
-		
 		return static_cast<T*>(Data);
 	}
 
-	template<Elysium::Core::Template::Concepts::NonConstant T>
+	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline void DefaultAllocator<T>::Deallocate(Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer First, const Elysium::Core::Template::System::size NumberOfInstantiatedElements)
 	{
 		if (First == nullptr)

@@ -674,6 +674,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseAnd.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Allocatable.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

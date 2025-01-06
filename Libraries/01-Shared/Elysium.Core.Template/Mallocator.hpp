@@ -12,12 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#include "NonConstant.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
-#include "MemSet.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ALLOCATABLE
+#include "Concepts/Allocatable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -29,7 +25,7 @@ namespace Elysium::Core::Template::Memory
 	/// <summary>
 	/// 
 	/// </summary>
-	template<Concepts::NonConstant T>
+	template<Concepts::Allocatable T>
 	class MAllocator final
 	{
 	private:
@@ -87,15 +83,15 @@ namespace Elysium::Core::Template::Memory
 		void Deallocate(T* First, const System::size NumberOfInstantiatedElements);
 	};
 
-	template<Concepts::NonConstant T>
+	template<Concepts::Allocatable T>
 	inline MAllocator<T>::MAllocator() noexcept
 	{ }
 
-	template<Concepts::NonConstant T>
+	template<Concepts::Allocatable T>
 	inline MAllocator<T>::~MAllocator()
 	{ }
 
-	template<Concepts::NonConstant T>
+	template<Concepts::Allocatable T>
 	inline constexpr T* MAllocator<T>::Allocate(const System::size NumberOfElements)
 	{
 		if (NumberOfElements == 0)
@@ -105,13 +101,10 @@ namespace Elysium::Core::Template::Memory
 
 		void* Data = operator new[](ElementSize* NumberOfElements);
 
-		// @ToDo: this shouldn't really be here!
-		Elysium::Core::Template::Memory::MemSet(Data, 0x00, ElementSize * NumberOfElements);
-
 		return static_cast<T*>(Data);
 	}
 
-	template<Concepts::NonConstant T>
+	template<Concepts::Allocatable T>
 	inline void MAllocator<T>::Deallocate(T* First, const System::size NumberOfInstantiatedElements)
 	{
 		if (First == nullptr)

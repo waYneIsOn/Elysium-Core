@@ -4,7 +4,6 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-
 constexpr Elysium::Core::Diagnostics::ProcessThread::ProcessThread(const Elysium::Core::Template::System::uint32_t Id, const Elysium::Core::Template::System::uint32_t OwnerProcessId, const Elysium::Core::Template::System::int32_t BasePriority, const Elysium::Core::Template::System::int32_t CurrentPriority) noexcept
 	: _Id(Id), _OwnerProcessId(OwnerProcessId), _BasePriority(BasePriority), _CurrentPriority(CurrentPriority)
 { }

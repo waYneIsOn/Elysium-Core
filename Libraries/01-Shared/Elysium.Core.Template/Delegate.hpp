@@ -31,6 +31,7 @@ namespace Elysium::Core::Template::Container
 	class Delegate
 	{
 		friend class Elysium::Core::Threading::Thread;
+		friend class Elysium::Core::Template::Container::Vector<Delegate<ReturnType, Args...>>;
 	private:
 		Delegate();
 	public:

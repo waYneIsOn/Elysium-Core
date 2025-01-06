@@ -280,14 +280,15 @@ namespace Elysium::Core::Template::Text
 		: _InternalString{ 0x00 }
 	{
 		const Elysium::Core::Template::System::size Size = Count * Traits::MinimumByteLength;
-		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + Traits::MinimumByteLength;
-		if (SizeIncludingNullTerminator > MaximumSizeOnHeap)
+		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = Size + Traits::MinimumByteLength;
+		if (SizeIncludingNullTerminationCharacter > MaximumSizeOnHeap)
 		{	// ToDo: what to do? does this even occurre? linked list?
 			//throw 1;
 		}
-		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
+		else if (SizeIncludingNullTerminationCharacter > MaximumSizeOnStack)
 		{
-			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
+			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
+			Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[0], 0, SizeIncludingNullTerminationCharacter);
 			for (System::size i = 0; i < Count; i++)
 			{
 				Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[i * Traits::MinimumByteLength], Value, Traits::MinimumByteLength);
@@ -308,14 +309,15 @@ namespace Elysium::Core::Template::Text
 		: _InternalString{ 0x00 }
 	{
 		const Elysium::Core::Template::System::size Size = Length * Traits::MinimumByteLength;
-		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + Traits::MinimumByteLength;
-		if (SizeIncludingNullTerminator > MaximumSizeOnHeap)
+		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = Size + Traits::MinimumByteLength;
+		if (SizeIncludingNullTerminationCharacter > MaximumSizeOnHeap)
 		{	// ToDo: what to do? does this even occurre? linked list?
 			//throw 1;
 		}
-		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
+		else if (SizeIncludingNullTerminationCharacter > MaximumSizeOnStack)
 		{
-			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
+			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
+			Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[0], 0, SizeIncludingNullTerminationCharacter);
 			_InternalString._Heap._Size = Size;
 			_InternalString._Heap.SetCapacity(Length);
 		}
@@ -933,6 +935,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + Traits::MinimumByteLength;
 
 		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminator);
+		Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[0], 0, SizeIncludingNullTerminator);
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], Value, Size);
 
 		_InternalString._Heap._Size = Size;
@@ -952,6 +955,7 @@ namespace Elysium::Core::Template::Text
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = CharSize + Traits::MinimumByteLength;
 
 		_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
+		Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[0], 0, SizeIncludingNullTerminationCharacter);
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Heap._Data[0], Value, SizeIncludingNullTerminationCharacter);
 
 		_InternalString._Heap._Size = CharSize;
@@ -972,7 +976,7 @@ namespace Elysium::Core::Template::Text
 		{
 			if (_InternalString._Heap._Data != nullptr)
 			{
-				_Allocator.Deallocate(_InternalString._Heap._Data, 0);
+				_Allocator.Deallocate(_InternalString._Heap._Data, _InternalString._Heap.GetCapacity());
 				_InternalString._Heap._Data = nullptr;
 			}
 		}

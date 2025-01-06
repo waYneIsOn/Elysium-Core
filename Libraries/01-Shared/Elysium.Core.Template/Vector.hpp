@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#include "NonConstant.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ALLOCATABLE
+#include "Concepts/Allocatable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
@@ -75,7 +75,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <typeparam name="Allocator"></typeparam>
-	template <Concepts::NonConstant T, class Allocator = Memory::DefaultAllocator<T>>
+	template <Concepts::Allocatable T, class Allocator = Memory::DefaultAllocator<T>>
 	class Vector
 	{
 	public:
@@ -330,6 +330,8 @@ namespace Elysium::Core::Template::Container
 	private:
 		//inline static Allocator _Allocator = Allocator();
 	private:
+		void InPlaceConstruct();
+
 		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity);
 	private:
 		Allocator _Allocator;
@@ -338,25 +340,26 @@ namespace Elysium::Core::Template::Container
 		Pointer _Data;
 	};
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector() noexcept
 		: _Allocator(Allocator()), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
-	{ }
+	{
+		InPlaceConstruct();
+	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
 		: _Allocator(Allocator()), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
-		for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
-		{
-			new (&_Data[i]) T();
-		}
+		InPlaceConstruct();
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
 		: _Allocator(Allocator()), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
+		InPlaceConstruct();
+
 		Elysium::Core::Template::System::size Index = 0;
 		const T* Iterator = InitializerList.begin();
 		const T* LastElement = InitializerList.end();
@@ -368,24 +371,26 @@ namespace Elysium::Core::Template::Container
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector(const Vector& Source)
 		: _Allocator(Allocator()), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
 	{
+		InPlaceConstruct();
+
 		for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
 		{
 			_Data[i] = Source._Data[i];
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Vector(Vector&& Right) noexcept
 		: _Allocator(Allocator()), _Capacity(0), _Length(0), _Data(nullptr)
 	{
 		*this = Functional::Move(Right);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::~Vector()
 	{
 		for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
@@ -393,20 +398,24 @@ namespace Elysium::Core::Template::Container
 			_Data[i].~T();
 		}
 		
-		_Allocator.Deallocate(_Data, _Length);
+		_Allocator.Deallocate(_Data, _Capacity);
+
+		_Data = nullptr;
 	}
 
-	template<Concepts::NonConstant T,  class Allocator>
+	template<Concepts::Allocatable T,  class Allocator>
 	inline constexpr Vector<T, Allocator>& Vector<T, Allocator>::operator=(const Vector& Source)
 	{
 		if (this != &Source)
 		{
 			if (Source._Capacity > _Capacity)
 			{
-				_Allocator.Deallocate(_Data, _Length);
+				_Allocator.Deallocate(_Data, _Capacity);
 
 				_Capacity = Source._Capacity;
 				_Data = _Allocator.Allocate(Source._Capacity);
+
+				InPlaceConstruct();
 			}
 
 			_Length = Source._Length;
@@ -418,12 +427,12 @@ namespace Elysium::Core::Template::Container
 		return *this;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>& Vector<T, Allocator>::operator=(Vector&& Right) noexcept
 	{
 		if (this != &Right)
 		{
-			_Allocator.Deallocate(_Data, _Length);
+			_Allocator.Deallocate(_Data, _Capacity);
 
 			_Capacity = Functional::Move(Right._Capacity);
 			_Length = Functional::Move(Right._Length);
@@ -436,49 +445,49 @@ namespace Elysium::Core::Template::Container
 		return *this;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Reference Vector<T, Allocator>::operator[](const Elysium::Core::Template::System::size Index)
 	{
 		return _Data[Index];
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstReference Vector<T, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const
 	{
 		return _Data[Index];
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr const Elysium::Core::Template::System::size Vector<T, Allocator>::GetMaximumSize()
 	{
 		return static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(T);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr const Elysium::Core::Template::System::size Vector<T, Allocator>::GetCapacity() const noexcept
 	{
 		return _Capacity;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr const Elysium::Core::Template::System::size Vector<T, Allocator>::GetLength() const noexcept
 	{
 		return _Length;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstPointer Vector<T, Allocator>::GetData() const noexcept
 	{
 		return _Data;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr const bool Vector<T, Allocator>::GetIsEmpty() const noexcept
 	{
 		return _Length == 0;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::Reference Vector<T, Allocator>::GetAt(const Elysium::Core::Template::System::size Index)
 	{
 		if (Index >= _Length)
@@ -489,7 +498,7 @@ namespace Elysium::Core::Template::Container
 		return _Data[Index];
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstReference Vector<T, Allocator>::GetAt(const Elysium::Core::Template::System::size Index) const
 	{
 		if (Index >= _Length)
@@ -500,55 +509,55 @@ namespace Elysium::Core::Template::Container
 		return _Data[Index];
 	}
 	
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::FIterator Vector<T, Allocator>::GetBegin() noexcept
 	{
 		return FIterator(&_Data[0]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstIterator Vector<T, Allocator>::GetBegin() const noexcept
 	{
 		return ConstIterator(&_Data[0]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::FIterator Vector<T, Allocator>::GetEnd() noexcept
 	{
 		return FIterator(&_Data[_Length - 1]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstIterator Vector<T, Allocator>::GetEnd() const noexcept
 	{
 		return ConstIterator(&_Data[_Length - 1]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ReverseIterator Vector<T, Allocator>::GetReverseBegin() noexcept
 	{
 		return ReverseIterator(&_Data[_Length - 1]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstReverseIterator Vector<T, Allocator>::GetReverseBegin() const noexcept
 	{
 		return ConstReverseIterator(&_Data[_Length - 1]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ReverseIterator Vector<T, Allocator>::GetReverseEnd() noexcept
 	{
 		return ReverseIterator(&_Data[0]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Vector<T, Allocator>::ConstReverseIterator Vector<T, Allocator>::GetReverseEnd() const noexcept
 	{
 		return ConstReverseIterator(&_Data[0]);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::Assign(ConstValue Value, const Elysium::Core::Template::System::size Length)
 	{
 		const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
@@ -563,18 +572,18 @@ namespace Elysium::Core::Template::Container
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::Clear()
 	{
 		for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
 		{
 			_Data[i].~T();
 		}
-
+		
 		_Length = 0;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::Erase(ConstValue Value)
 	{
 		for (System::size i = 0; i < _Length; i++)
@@ -589,7 +598,7 @@ namespace Elysium::Core::Template::Container
 		return GetEnd();
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
 	{	// @ToDo: have a look at std::vector::erase in regards to returning the last element?
 		if (Index >= _Length)
@@ -611,7 +620,7 @@ namespace Elysium::Core::Template::Container
 		return GetEnd();
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::Insert(const Elysium::Core::Template::System::size Index, ConstValue Value)
 	{
 
@@ -636,7 +645,7 @@ namespace Elysium::Core::Template::Container
 		throw 1;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr void Vector<T, Allocator>::PushBack(ConstReference Item)
 	{
 		if (_Length == _Capacity)
@@ -647,7 +656,7 @@ namespace Elysium::Core::Template::Container
 		_Data[_Length++] = Item;
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr void Vector<T, Allocator>::PushBack(RValueReference Item)
 	{
 		if (_Length == _Capacity)
@@ -658,13 +667,13 @@ namespace Elysium::Core::Template::Container
 		_Data[_Length++] = Functional::Move(Item);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::PushBackRange(const Vector<T>& Source, const Elysium::Core::Template::System::size FirstIndex, const Elysium::Core::Template::System::size Length)
 	{
 		PushBackRange(&Source[FirstIndex], Length);
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 	{
 		const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
@@ -679,7 +688,7 @@ namespace Elysium::Core::Template::Container
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::PopBack()
 	{
 		if (_Length > 0)
@@ -688,7 +697,7 @@ namespace Elysium::Core::Template::Container
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::Reserve(const Elysium::Core::Template::System::size DesiredCapacity)
 	{
 		if (DesiredCapacity > _Capacity)
@@ -696,17 +705,18 @@ namespace Elysium::Core::Template::Container
 			Pointer OldData = _Data;
 			_Capacity = CalculateCapacityGrowth(DesiredCapacity);
 			_Data = _Allocator.Allocate(_Capacity);
+			InPlaceConstruct();
 
 			for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
 			{
 				_Data[i] = Functional::Move(OldData[i]);
 			}
 
-			_Allocator.Deallocate(OldData, _Length);
+			_Allocator.Deallocate(OldData, _Capacity);
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::ShrinkToFit()
 	{
 		if (_Length != _Capacity)
@@ -719,17 +729,27 @@ namespace Elysium::Core::Template::Container
 			Pointer OldData = _Data;
 			_Capacity = _Length;
 			_Data = _Allocator.Allocate(_Capacity);
+			InPlaceConstruct();
 
 			for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
 			{
 				_Data[i] = Functional::Move(OldData[i]);
 			}
 
-			_Allocator.Deallocate(OldData, _Length);
+			_Allocator.Deallocate(OldData, _Capacity);
 		}
 	}
 
-	template<Concepts::NonConstant T, class Allocator>
+	template<Concepts::Allocatable T, class Allocator>
+	inline void Vector<T, Allocator>::InPlaceConstruct()
+	{
+		for (Elysium::Core::Template::System::size i = 0; i < _Capacity; ++i)
+		{
+			new (&_Data[i]) T();
+		}
+	}
+
+	template<Concepts::Allocatable T, class Allocator>
 	inline const Elysium::Core::Template::System::size Vector<T, Allocator>::CalculateCapacityGrowth(const Elysium::Core::Template::System::size DesiredCapacity)
 	{
 		constexpr const Elysium::Core::Template::System::size MaximumSize = GetMaximumSize();

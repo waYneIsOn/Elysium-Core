@@ -40,6 +40,11 @@
 #include "../Elysium.Core.Threading/ThreadPool.hpp"
 #endif
 
+Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher()
+	: _Path(), _Filter(), _NotifyFilters(), _IncludeSubdirectories(), _AddressOfLatestAsyncResult(), _DirectoryHandle(), 
+	_CompletionPortHandle()
+{ }
+
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories)
 	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories),
 	_AddressOfLatestAsyncResult(nullptr), _DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
