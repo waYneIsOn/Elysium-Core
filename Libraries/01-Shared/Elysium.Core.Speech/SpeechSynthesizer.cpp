@@ -680,12 +680,16 @@ HRESULT Elysium::Core::Speech::Synthesis::SpeechSynthesizer::SpeakNatively(const
 
 	if ((Flags & SPEAKFLAGS::SPF_ASYNC) == SPEAKFLAGS::SPF_ASYNC)
 	{
-		// ToDo:
+		// @ToDo:
 		// while this works per se, it causes problems with multiple calls of SpeakAsync(...)!
 		// also all these events will then be processed on a single thread while this does not appear to be the case in .NET.
 		// ergo microsoft might use some other way (freesync notification?) for this in general.
 		Elysium::Core::Threading::Tasks::Task ProcessEventsTask = Elysium::Core::Threading::Tasks::Task(Elysium::Core::Template::Container::Delegate<void>::Bind<SpeechSynthesizer, &SpeechSynthesizer::ProcessEventMessageQueue>(*this));
 		ProcessEventsTask.Start();
+
+		// @ToDo: This task is running out of scope if the spoken sentence is longer! (callback-method cannot be called in that case!)
+		// Therefore I currently solved it by waiting which is not correct due to asynchronicity!
+		ProcessEventsTask.Wait();
 	}
 	else
 	{
@@ -787,7 +791,7 @@ void Elysium::Core::Speech::Synthesis::SpeechSynthesizer::ProcessEventMessageQue
 				const Elysium::Core::int32_t EventId = Event.eEventId;
 				SpClearEvent(&Event);
 				//throw Elysium::Core::NotImplementedException(Elysium::Core::Template::Text::Convert<char8_t>::ToString(EventId));
-				throw 1;	// ToDo
+				throw 1;	// @ToDo
 			}
 			}
 			SpClearEvent(&Event);
