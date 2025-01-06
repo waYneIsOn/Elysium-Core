@@ -143,12 +143,14 @@ namespace Elysium::Core::Template::Container
 		ConstReverseIterator GetReverseEnd() const;
 		*/
 	private:
-		inline static Allocator _Allocator = Allocator();
 		static const System::size CollisionThreshold = 10;
 	private:
+		Allocator _Allocator;
 		System::size _Length;
 		System::size _CollisionCount;
 		Bucket* _Buckets;
+	private:
+		void InPlaceConstruct();
 
 		/// <summary>
 		/// Calculates the next prime number larger or equal desired length.
@@ -185,13 +187,17 @@ namespace Elysium::Core::Template::Container
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::UnorderedMap()
-		: _Length(3), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
-	{ }
+		: _Allocator(Allocator()), _Length(3), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
+	{
+		InPlaceConstruct();
+	}
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::UnorderedMap(const InitializerList<Entry>& List)
-		: _Length(List.size() < 3 ? 3 : CalculateLength(List.size())), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
+		: _Allocator(Allocator()), _Length(List.size() < 3 ? 3 : CalculateLength(List.size())), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
 	{
+		InPlaceConstruct();
+
 		for (const Entry* Iterator = List.begin(); Iterator != List.end(); ++Iterator)
 		{
 			Insert(Iterator->GetKey(), Iterator->GetValue(), false);
@@ -200,19 +206,23 @@ namespace Elysium::Core::Template::Container
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::UnorderedMap(const Elysium::Core::Template::System::size Length)
-		: _Length(CalculateLength(Length)), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
-	{ }
+		: _Allocator(Allocator()), _Length(CalculateLength(Length)), _CollisionCount(0), _Buckets(_Allocator.Allocate(_Length))
+	{
+		InPlaceConstruct();
+	}
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::UnorderedMap(const UnorderedMap& Source)
-		: _Length(Source._Length), _CollisionCount(Source._CollisionCount), _Buckets(_Allocator.Allocate(_Length))
+		: _Allocator(Allocator()), _Length(Source._Length), _CollisionCount(Source._CollisionCount), _Buckets(_Allocator.Allocate(_Length))
 	{
+		InPlaceConstruct();
+
 		Array<Entry>::Copy(Source._Buckets, _Buckets, _Length);
 	}
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::UnorderedMap(UnorderedMap&& Right) noexcept
-		: _Length(0), _CollisionCount(0), _Buckets(nullptr)
+		: _Allocator(Allocator()), _Length(0), _CollisionCount(0), _Buckets(nullptr)
 	{
 		*this = Functional::Move(Right);
 	}
@@ -220,7 +230,13 @@ namespace Elysium::Core::Template::Container
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::~UnorderedMap()
 	{
+		for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+		{
+			_Buckets[i].~Bucket();
+		}
 		_Allocator.Deallocate(_Buckets, _Length);
+
+		_Buckets = nullptr;
 	}
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
@@ -346,6 +362,15 @@ namespace Elysium::Core::Template::Container
 		BucketNodePointer EndBucketHead = EndBucket == nullptr ? nullptr : OutOfBoundsBucket->GetHead();
 
 		return FIterator(EndBucket, EndBucketHead);
+	}
+
+	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
+	inline void UnorderedMap<TKey, TValue, KeyCompare, Allocator>::InPlaceConstruct()
+	{
+		for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+		{
+			new (&_Buckets[i]) Bucket();
+		}
 	}
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
