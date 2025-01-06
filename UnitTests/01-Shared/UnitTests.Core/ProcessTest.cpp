@@ -199,6 +199,10 @@ namespace UnitTests::Core::Diagnostics
 			}
 		}
 
+		// This methods requires user-interaction (clicking on the msgbox). Currently only run it if necessary!
+		BEGIN_TEST_METHOD_ATTRIBUTE(InjectAssemblyIntoNotepad)
+		TEST_IGNORE()
+		END_TEST_METHOD_ATTRIBUTE()
 		TEST_METHOD(InjectAssemblyIntoNotepad)
 		{
 			const char8_t* InjectionAssembly32 = u8"InjectMessageBox32.dll";
@@ -231,7 +235,7 @@ namespace UnitTests::Core::Diagnostics
 					}
 				}
 
-				//Notepad.WaitForExit();
+				Notepad.Kill(false);
 
 				Assert::IsTrue(ContainsInjectedAssembly, L"Injected assembly not found in process.");
 			}
