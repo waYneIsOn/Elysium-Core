@@ -197,7 +197,6 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr const System::size MaximumSizeOnHeap = static_cast<Elysium::Core::Template::System::size>(-1) / 2;
 		inline static constexpr const System::size MaximumLengthOnHeap = MaximumSizeOnHeap / Traits::MinimumByteLength;
 	private:
-		inline static Allocator _Allocator = Allocator();
 
 		inline static constexpr const System::size _HeapStackFlagShift = (sizeof(Elysium::Core::Template::System::size) - 1) * 8;
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
@@ -207,6 +206,7 @@ namespace Elysium::Core::Template::Text
 		// ...
 #endif
 	private:
+		Allocator _Allocator;
 		InternalString _InternalString;
 	};
 
@@ -257,7 +257,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
-		: _InternalString{ 0x00 }
+		: _Allocator(Allocator()), _InternalString{ 0x00 }
 	{
 		const Elysium::Core::Template::System::size Size = Length * Traits::MinimumByteLength;
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminator = Size + Traits::MinimumByteLength;
@@ -277,7 +277,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String(ConstCharacter Value, const System::size Count) noexcept
-		: _InternalString{ 0x00 }
+		: _Allocator(Allocator()), _InternalString{ 0x00 }
 	{
 		const Elysium::Core::Template::System::size Size = Count * Traits::MinimumByteLength;
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = Size + Traits::MinimumByteLength;
@@ -306,7 +306,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String(const Elysium::Core::Template::System::size Length) noexcept
-		: _InternalString{ 0x00 }
+		: _Allocator(Allocator()), _InternalString{ 0x00 }
 	{
 		const Elysium::Core::Template::System::size Size = Length * Traits::MinimumByteLength;
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = Size + Traits::MinimumByteLength;
@@ -329,7 +329,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String(const String& Source)
-		: _InternalString{ 0x00 }
+		: _Allocator(Allocator()), _InternalString{ 0x00 }
 	{
 		if (Source.IsHeapAllocated())
 		{
@@ -360,7 +360,7 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String(String&& Right) noexcept
-		: _InternalString{ 0x00 }
+		: _Allocator(Allocator()), _InternalString{ 0x00 }
 	{
 #pragma warning (disable: 6385 6386)	// I want to copy and set 12/24 bytes
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], &Right._InternalString._Stack._Data[0], sizeof(StackString));

@@ -22,11 +22,11 @@ namespace UnitTests::Core::Template::Text
 			constexpr const Elysium::Core::size Utf16StringSize = sizeof(Elysium::Core::Utf16String);
 			constexpr const Elysium::Core::size Utf32StringSize = sizeof(Elysium::Core::Utf32String);
 
-			Assert::AreEqual(24_ui64, StringSize);
-			Assert::AreEqual(24_ui64, WideStringSize);
-			Assert::AreEqual(24_ui64, Utf8StringSize);
-			Assert::AreEqual(24_ui64, Utf16StringSize);
-			Assert::AreEqual(24_ui64, Utf32StringSize);
+			Assert::AreEqual(32_ui64, StringSize);
+			Assert::AreEqual(32_ui64, WideStringSize);
+			Assert::AreEqual(32_ui64, Utf8StringSize);
+			Assert::AreEqual(32_ui64, Utf16StringSize);
+			Assert::AreEqual(32_ui64, Utf32StringSize);
 
 			Assert::AreEqual(23_ui8, Elysium::Core::String::MaximumSizeOnStack);
 			Assert::AreEqual(23_ui8, Elysium::Core::WideString::MaximumSizeOnStack);
