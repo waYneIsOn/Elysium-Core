@@ -394,4 +394,29 @@ namespace Elysium::Core::Template::Text
 		return CorrespondingString(_Data, _Length);
 	}
 }
+
+constexpr Elysium::Core::Template::Text::StringView<char> operator "" _sv(const char* Value, const Elysium::Core::Template::System::size Length)
+{
+	return Elysium::Core::Template::Text::StringView<char>(Value, Length);
+}
+
+constexpr Elysium::Core::Template::Text::StringView<char8_t> operator "" _sv(const char8_t* Value, const Elysium::Core::Template::System::size Length)
+{
+	return Elysium::Core::Template::Text::StringView<char8_t>(Value, Length);
+}
+
+constexpr Elysium::Core::Template::Text::StringView<wchar_t> operator "" _sv(const wchar_t* Value, const Elysium::Core::Template::System::size Length)
+{
+	return Elysium::Core::Template::Text::StringView<wchar_t>(Value, Length);
+}
+
+constexpr Elysium::Core::Template::Text::StringView<char16_t> operator "" _sv(const char16_t* Value, const Elysium::Core::Template::System::size Length)
+{
+	return Elysium::Core::Template::Text::StringView<char16_t>(Value, Length);
+}
+
+constexpr Elysium::Core::Template::Text::StringView<char32_t> operator "" _sv(const char32_t* Value, const Elysium::Core::Template::System::size Length)
+{
+	return Elysium::Core::Template::Text::StringView<char32_t>(Value, Length);
+}
 #endif

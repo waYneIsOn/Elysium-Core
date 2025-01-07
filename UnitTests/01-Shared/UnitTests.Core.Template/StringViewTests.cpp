@@ -20,5 +20,14 @@ namespace UnitTests::Core::Template::Text
 			constexpr const Elysium::Core::Template::Text::StringView<char16_t> SmallUt168View = u"small";
 			constexpr const Elysium::Core::Template::Text::StringView<char32_t> SmallUtf32View = U"small";
 		}
+
+		TEST_METHOD(Literals)
+		{
+			constexpr const Elysium::Core::Template::Text::StringView<char> SmallView = "small"_sv;
+			constexpr const Elysium::Core::Template::Text::StringView<char8_t> SmallUtf8View = u8"small"_sv;
+			constexpr const Elysium::Core::Template::Text::StringView<wchar_t> SmallWideView = L"small"_sv;
+			constexpr const Elysium::Core::Template::Text::StringView<char16_t> SmallUt168View = u"small"_sv;
+			constexpr const Elysium::Core::Template::Text::StringView<char32_t> SmallUtf32View = U"small"_sv;
+		}
 	};
 }
