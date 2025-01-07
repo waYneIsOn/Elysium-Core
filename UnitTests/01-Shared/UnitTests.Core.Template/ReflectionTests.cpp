@@ -214,7 +214,6 @@ namespace UnitTests::Core::Template::Reflection
 				static_cast<::Template::System::int8_t>(SomeInt8EnumClassValues[0]));
 			Assert::AreEqual(static_cast<::Template::System::int8_t>(SomeInt8EnumClass::A),
 				static_cast<::Template::System::int8_t>(SomeInt8EnumClassValues[1]));
-			
 			/*
 			// SomeInt16EnumClass
 			const ::Template::Container::Vector<SomeInt16EnumClass> SomeInt16EnumClassValues =
