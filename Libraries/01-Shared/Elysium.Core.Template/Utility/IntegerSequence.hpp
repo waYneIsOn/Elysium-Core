@@ -54,17 +54,6 @@ namespace Elysium::Core::Template::Utility
 		if constexpr (Index < sizeof...(Values))
 		{
 			return GetAtRecursive<Index, Values...>();
-			/*
-			if constexpr (Index == 0)
-			{
-				return (Values && ...);	// return first value using fold expression "trick"
-				//return (Values, ...);	// return last value in sequence
-			}
-			else
-			{
-				return IntegerSequence<T, Values...>::template GetAt<Index - 1>();
-			}
-			*/
 		}
 		else
 		{

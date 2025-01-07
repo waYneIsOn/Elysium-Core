@@ -40,10 +40,13 @@ namespace UnitTests::Core::Template::Utility
 		}
 
 		TEST_METHOD(GetAtTests)
-		{ 
+		{
+			using Sequence = typename Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, 4, 5, 6>;
+
 			// invalid indices (index out of range)
 			//constexpr const Elysium::Core::Template::System::uint8_t UInt8SequenceElement4 = _UInt8Sequence.GetAt<4>();
 			//constexpr const Elysium::Core::Template::System::int8_t Int8SequenceElement3 = _Int8Sequence.GetAt<3>();
+			//constexpr const Elysium::Core::Template::System::uint8_t SequenceElement3 = Sequence::GetAt<3>();
 
 			// valid indices
 			constexpr const Elysium::Core::Template::System::uint8_t UInt8SequenceElement0 = _UInt8Sequence.GetAt<0>();
@@ -63,6 +66,15 @@ namespace UnitTests::Core::Template::Utility
 			Assert::AreEqual(255_i8, Int8SequenceElement0);
 			Assert::AreEqual(0_i8, Int8SequenceElement1);
 			Assert::AreEqual(1_i8, Int8SequenceElement2);
+
+			// ...
+			constexpr const Elysium::Core::Template::System::uint8_t SequenceElement0 = Sequence::GetAt<0>();
+			constexpr const Elysium::Core::Template::System::uint8_t SequenceElement1 = Sequence::GetAt<1>();
+			constexpr const Elysium::Core::Template::System::uint8_t SequenceElement2 = Sequence::GetAt<2>();
+
+			Assert::AreEqual(4_ui8, SequenceElement0);
+			Assert::AreEqual(5_ui8, SequenceElement1);
+			Assert::AreEqual(6_ui8, SequenceElement2);
 		}
 	private:
 		static constexpr const Elysium::Core::Template::Utility::IntegerSequence _UInt8Sequence =
