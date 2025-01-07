@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
+#include "../InitializerList.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Move.hpp"
 #endif
@@ -137,18 +141,16 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		static constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> GetNamedValues() noexcept;
 	private:
 		template <Elysium::Core::Template::Concepts::UnsignedInteger UI>
-		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType();
+		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType() noexcept;
 
 		template <Elysium::Core::Template::Concepts::SignedInteger SI>
-		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType();
+		static constexpr const Elysium::Core::Template::Container::Vector<T> GetDefinedValuesUsingUnderlyingType() noexcept;
 
 		template <Elysium::Core::Template::System::uint64_t... Indices>
-		static constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)>
-			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>);
-		
+		static constexpr const Elysium::Core::Template::Container::Vector<T> CollectDefinedValues(const Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>&) noexcept;
+
 		template <Elysium::Core::Template::System::int64_t... Indices>
-		static constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)>
-			GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>);
+		static constexpr const Elysium::Core::Template::Container::Vector<T> CollectDefinedValues(const Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>&) noexcept;
 	};
 
 	template<Concepts::Enumeration T>
@@ -277,7 +279,7 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	
 	template<Concepts::Enumeration T>
 	template<Elysium::Core::Template::Concepts::UnsignedInteger UI>
-	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType()
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType() noexcept
 	{
 		/*
 		* Why use Elysium::Core::Template::System::uint64_t here? (Example: uint8_t)
@@ -301,24 +303,12 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
 			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::uint64_t, RangeEnd>();
 
-		// @ToDo: should be able to create vector of defined values without the array (using fold expressions)
-		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
-
-		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
-		for (Elysium::Core::Template::System::uint64_t i = RangeStart; i < RangeEnd; i++)
-		{
-			if (AreDefinedValues[i])
-			{
-				DefinedValues.PushBack(static_cast<T>(i));
-			}
-		}
-
-		return DefinedValues;
+		return CollectDefinedValues(Sequence);
 	}
 
 	template<Concepts::Enumeration T>
 	template<Elysium::Core::Template::Concepts::SignedInteger SI>
-	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType()
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::GetDefinedValuesUsingUnderlyingType() noexcept
 	{
 		/*
 		* Why use Elysium::Core::Template::System::int64_t here? (Example: int8_t)
@@ -344,33 +334,37 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		constexpr const Elysium::Core::Template::Utility::IntegerSequence Sequence =
 			Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::int64_t, RangeEnd>();
 
-		// @ToDo: should be able to create vector of defined values without the array (using fold expressions)
-		constexpr const Elysium::Core::Template::Container::Array<bool, RangeEnd> AreDefinedValues = GenerateAreDefinedValues(Sequence);
-
-		Elysium::Core::Template::Container::Vector<T> DefinedValues = Elysium::Core::Template::Container::Vector<T>();
-		for (Elysium::Core::Template::System::int64_t i = RangeStart + Offset; i < RangeEnd; i++)
-		{
-			if (AreDefinedValues[i])
-			{
-				DefinedValues.PushBack(static_cast<T>(i));
-			}
-		}
-
-		return DefinedValues;
+		return CollectDefinedValues(Sequence);
 	}
-
+	
 	template<Concepts::Enumeration T>
 	template<Elysium::Core::Template::System::uint64_t ...Indices>
-	inline constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)> Enumeration<T>::GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>)
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::CollectDefinedValues(const Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>&) noexcept
 	{
-		return { (Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>())... };
+		using Sequence = typename Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::uint64_t, Indices...>;
+		
+		Elysium::Core::Template::Container::Vector<T> Result = Elysium::Core::Template::Container::Vector<T>();
+		(void)(..., 
+			(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>() ? 
+				(Result.PushBack(static_cast<T>(Indices)), 0) : 0)
+			);
+
+		return Result;
 	}
 
 	template<Concepts::Enumeration T>
 	template<Elysium::Core::Template::System::int64_t ...Indices>
-	inline constexpr Elysium::Core::Template::Container::Array<bool, sizeof...(Indices)> Enumeration<T>::GenerateAreDefinedValues(Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>)
+	inline constexpr const Elysium::Core::Template::Container::Vector<T> Enumeration<T>::CollectDefinedValues(const Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>&) noexcept
 	{
-		return { (Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>())... };
+		using Sequence = typename Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>;
+		
+		Elysium::Core::Template::Container::Vector<T> Result = Elysium::Core::Template::Container::Vector<T>();
+		(void)(...,
+			(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<T>::IsDefinedValue<static_cast<T>(Indices)>() ?
+				(Result.PushBack(static_cast<T>(Indices)), 0) : 0)
+			);
+
+		return Result;
 	}
 }
 #endif
