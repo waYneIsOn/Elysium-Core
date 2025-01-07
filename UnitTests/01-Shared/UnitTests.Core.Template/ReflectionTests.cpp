@@ -270,12 +270,10 @@ namespace UnitTests::Core::Template::Reflection
 			const ::Template::Container::Vector<::Template::Text::String<char8_t>> SomeUInt8EnumClassValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::GetNamedValues();
 			Assert::AreEqual(2_ui64, SomeUInt8EnumClassValues.GetLength());
-			/*
-			Assert::AreEqual(static_cast<::Template::System::uint8_t>(SomeUInt8EnumClass::B),
-				static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassValues[0]));
-			Assert::AreEqual(static_cast<::Template::System::uint8_t>(SomeUInt8EnumClass::A),
-				static_cast<::Template::System::uint8_t>(SomeUInt8EnumClassValues[1]));
-			*/
+			
+			Assert::AreEqual("B", (char*)&(SomeUInt8EnumClassValues[0])[0]);
+			Assert::AreEqual("A", (char*)&(SomeUInt8EnumClassValues[1])[0]);
+			
 			// SomeEmtpyUInt8EnumClass
 			const ::Template::Container::Vector<::Template::Text::String<char8_t>> SomeEmtpyUint8EnumValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEmtpyUInt8EnumClass>::GetNamedValues();
@@ -285,12 +283,10 @@ namespace UnitTests::Core::Template::Reflection
 			const ::Template::Container::Vector<::Template::Text::String<char8_t>> SomeInt8EnumClassValues =
 				Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::GetNamedValues();
 			Assert::AreEqual(2_ui64, SomeInt8EnumClassValues.GetLength());
-			/*
-			Assert::AreEqual(static_cast<::Template::System::int8_t>(SomeInt8EnumClass::B),
-				static_cast<::Template::System::int8_t>(SomeInt8EnumClassValues[0]));
-			Assert::AreEqual(static_cast<::Template::System::int8_t>(SomeInt8EnumClass::A),
-				static_cast<::Template::System::int8_t>(SomeInt8EnumClassValues[1]));
-			*/
+
+			Assert::AreEqual("B", (char*)&(SomeInt8EnumClassValues[0])[0]);
+			Assert::AreEqual("A", (char*)&(SomeInt8EnumClassValues[1])[0]);
+			
 			// SomeInt16EnumClass (int16_t doesn't currently work - too large)
 			// SomeInt32EnumStruct (int32_t doesn't currently work - too large)
 		}
