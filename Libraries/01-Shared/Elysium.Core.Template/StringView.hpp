@@ -51,27 +51,27 @@ namespace Elysium::Core::Template::Text
 
 		using CorrespondingString = String<C>;
 	public:
-		StringView() noexcept;
+		constexpr StringView() noexcept;
 
-		StringView(const CorrespondingString& Value) noexcept;
+		constexpr StringView(const CorrespondingString& Value) noexcept;
 
-		StringView(ConstCharacterPointer Value) noexcept;
+		constexpr StringView(ConstCharacterPointer Value) noexcept;
 
-		StringView(ConstCharacterPointer Value, const System::size Length) noexcept;
+		constexpr StringView(ConstCharacterPointer Value, const System::size Length) noexcept;
 
-		StringView(const StringView& Source);
+		constexpr StringView(const StringView& Source);
 
-		StringView(StringView&& Right) noexcept;
+		constexpr StringView(StringView&& Right) noexcept;
 
-		~StringView();
+		constexpr ~StringView();
 	public:
-		StringView<C, Traits>& operator=(const StringView& Source);
+		constexpr StringView<C, Traits>& operator=(const StringView& Source);
 
-		StringView<C, Traits>& operator=(StringView&& Right) noexcept;
+		constexpr StringView<C, Traits>& operator=(StringView&& Right) noexcept;
 	public:
-		StringView<C, Traits>::CharacterReference operator[](const System::size Index) noexcept;
+		constexpr StringView<C, Traits>::CharacterReference operator[](const System::size Index) noexcept;
 
-		StringView<C, Traits>::ConstCharacterReference operator[](const System::size Index) const noexcept;
+		constexpr StringView<C, Traits>::ConstCharacterReference operator[](const System::size Index) const noexcept;
 	public:
 		const bool operator==(const StringView& Other) const noexcept;
 
@@ -118,43 +118,43 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::StringView() noexcept
+	inline constexpr StringView<C, Traits>::StringView() noexcept
 		: StringView<C, Traits>(nullptr, 0)
 	{ }
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::StringView(const CorrespondingString & Value) noexcept
+	inline constexpr StringView<C, Traits>::StringView(const CorrespondingString & Value) noexcept
 		: StringView<C, Traits>(Value.GetLength() == 0 ? nullptr : &Value[0], Value.GetLength())
 	{ }
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::StringView(ConstCharacterPointer Value) noexcept
+	inline constexpr StringView<C, Traits>::StringView(ConstCharacterPointer Value) noexcept
 		: StringView<C, Traits>(Value, CharacterTraits<C>::GetLength(Value))
 	{ }
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::StringView(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
+	inline constexpr StringView<C, Traits>::StringView(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length) noexcept
 		: _Data(Value), _Length(Length)
 	{ }
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::StringView(const StringView& Source)
+	inline constexpr StringView<C, Traits>::StringView(const StringView& Source)
 		: _Data(Source._Data), _Length(Source._Length)
 	{ }
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::StringView(StringView&& Right) noexcept
+	inline constexpr StringView<C, Traits>::StringView(StringView&& Right) noexcept
 		: _Data(nullptr), _Length(0)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::~StringView()
+	inline constexpr StringView<C, Traits>::~StringView()
 	{ }
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>& StringView<C, Traits>::operator=(const StringView& Source)
+	inline constexpr StringView<C, Traits>& StringView<C, Traits>::operator=(const StringView& Source)
 	{
 		if (this != &Source)
 		{
@@ -165,7 +165,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>& StringView<C, Traits>::operator=(StringView&& Right) noexcept
+	inline constexpr StringView<C, Traits>& StringView<C, Traits>::operator=(StringView&& Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -179,13 +179,13 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::CharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) noexcept
+	inline constexpr StringView<C, Traits>::CharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) noexcept
 	{
 		return (CharacterReference)_Data[Index];
 	}
 
 	template<Concepts::Character C, class Traits>
-	inline StringView<C, Traits>::ConstCharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) const noexcept
+	inline constexpr StringView<C, Traits>::ConstCharacterReference StringView<C, Traits>::operator[](const Elysium::Core::Template::System::size Index) const noexcept
 	{
 		return _Data[Index];
 	}
