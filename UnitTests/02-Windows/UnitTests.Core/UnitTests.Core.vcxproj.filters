@@ -54,4 +54,9 @@
       <Filter>Ressourcendateien</Filter>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SampleFiles\Lorem Ipsum.txt">
+      <Filter>Ressourcendateien</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

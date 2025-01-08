@@ -24,7 +24,4 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamReaderTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ZipArchiveTest.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="$(MSBuildThisFileDirectory)TestFiles\Lorem Ipsum.txt" />
-  </ItemGroup>
 </Project>

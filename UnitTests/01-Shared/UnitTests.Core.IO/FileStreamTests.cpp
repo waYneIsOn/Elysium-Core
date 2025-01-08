@@ -79,7 +79,7 @@ namespace UnitTests::Core::IO
 		{
 			_CompletionSignal.Reset();
 
-			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
+			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::Asynchronous);
 			FileStream TargetStream = FileStream(u8"AsyncFileStream.txt", FileMode::Create, FileAccess::Write, FileShare::None,
 				4096, FileOptions::Asynchronous);
@@ -99,7 +99,7 @@ namespace UnitTests::Core::IO
 		{
 			_CompletionSignal.Reset();
 
-			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
+			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::None);
 			FileStream TargetStream = FileStream(u8"AsyncFileStream.txt", FileMode::Create, FileAccess::Write, FileShare::None,
 				4096, FileOptions::None);
@@ -117,7 +117,7 @@ namespace UnitTests::Core::IO
 
 		TEST_METHOD(MemoryLeakIfDestructorDoesntWaitOrCancels)
 		{
-			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
+			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::Asynchronous);
 			const Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> ReadResult = SourceStream.BeginRead(&_Buffer[0], _BufferLength,
 				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);

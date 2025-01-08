@@ -31,7 +31,7 @@ namespace UnitTests::Core::IO
 	private:
 		void ReadSomeFile(byte* Buffer, const Elysium::Core::size Count)
 		{
-			FileStream SourceStream = FileStream(u8"TestFiles\\Elysium.Core.IO\\Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None);
+			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None);
 			BinaryReader Reader = BinaryReader(SourceStream, Encoding::UTF8(), false);
 
 			const Elysium::Core::size TotalBytesToRead = SourceStream.GetLength();
