@@ -125,7 +125,7 @@ namespace Elysium::Core::Template::Container
 
 		constexpr ConstReverseIterator GetReverseEnd() const noexcept;
 	private:
-		T _Data[Length];
+		mutable T _Data[Length];
 	};
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
@@ -276,7 +276,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstIterator Elysium::Core::Template::Container::Array<T, Length>::GetBegin() const noexcept
 	{
-		return ConstIterator(const_cast<T*>(&_Data[0]));
+		return ConstIterator(&_Data[0]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
@@ -288,7 +288,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstIterator Elysium::Core::Template::Container::Array<T, Length>::GetEnd() const noexcept
 	{
-		return ConstIterator(const_cast<T*>(&_Data[Length - 1]));
+		return ConstIterator(&_Data[Length - 1]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
@@ -300,7 +300,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseBegin() const noexcept
 	{
-		return ConstReverseIterator(const_cast<T*>(&_Data[Length - 1]));
+		return ConstReverseIterator(&_Data[Length - 1]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
@@ -312,7 +312,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseEnd() const noexcept
 	{
-		return ConstReverseIterator(const_cast<T*>(&_Data[0]));
+		return ConstReverseIterator(&_Data[0]);
 	}
 	/*
 	// @ToDo: implement specialization

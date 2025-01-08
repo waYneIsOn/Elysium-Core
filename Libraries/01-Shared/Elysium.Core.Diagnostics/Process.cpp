@@ -196,15 +196,11 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::Pro
 	{
 		Elysium::Core::Template::Container::Vector<THREADENTRY32> NativeThreads =
 			Elysium::Core::Template::Diagnostics::Process::GetProcessThreads(_ProcessId);
-
-		Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessThread>& Threads =
-			const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessThread>&>(_Threads);
-
 		for (Template::Container::Vector<THREADENTRY32>::FIterator Iterator = NativeThreads.GetBegin(); Iterator != NativeThreads.GetEnd(); ++Iterator)
 		{
 			THREADENTRY32& Entry = *Iterator;
 
-			Threads.PushBack(Elysium::Core::Template::Functional::Move(ProcessThread(Entry.th32ThreadID, Entry.th32OwnerProcessID, Entry.tpBasePri,
+			_Threads.PushBack(Elysium::Core::Template::Functional::Move(ProcessThread(Entry.th32ThreadID, Entry.th32OwnerProcessID, Entry.tpBasePri,
 				Entry.tpBasePri + Entry.tpDeltaPri)));
 		}
 	}
@@ -429,9 +425,7 @@ void Elysium::Core::Diagnostics::Process::LoadModules() const
 		Elysium::Core::Template::Container::Vector<MODULEENTRY32W> NativeModules =
 			Elysium::Core::Template::Diagnostics::Process::GetProcessModules(_ProcessId);
 
-		Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>& Modules = 
-			const_cast<Elysium::Core::Template::Container::Vector<Elysium::Core::Diagnostics::ProcessModule>&>(_Modules);
-		Modules.Reserve(NativeModules.GetLength());
+		_Modules.Reserve(NativeModules.GetLength());
 
 		for (Template::Container::Vector<MODULEENTRY32W>::FIterator Iterator = NativeModules.GetBegin(); Iterator != NativeModules.GetEnd(); ++Iterator)
 		{
@@ -444,7 +438,7 @@ void Elysium::Core::Diagnostics::Process::LoadModules() const
 				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Entry.szExePath,
 					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Entry.szExePath));
 						
-			Modules.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
+			_Modules.PushBack(Elysium::Core::Template::Functional::Move(ProcessModule(Elysium::Core::Template::Functional::Move(Name),
 				Elysium::Core::Template::Functional::Move(FileName), reinterpret_cast<void*>(Entry.modBaseAddr), nullptr, Entry.modBaseSize, 
 				Entry.th32ModuleID)));
 		}
