@@ -13,6 +13,22 @@ namespace UnitTests::Core::Template::Text
 	TEST_CLASS(StringTests)
 	{
 	public:
+		TEST_METHOD(ConstexprSSO)
+		{
+			constexpr const char CharArray[] = "small";
+			constexpr const char8_t Utf8CharArray[] = u8"small";
+			constexpr const wchar_t WideCharArray[] = L"small";
+			constexpr const char16_t Utf16CharArray[] = u"small";
+			constexpr const char32_t Utf32CharArray[] = U"small";
+			/*
+			constexpr const Elysium::Core::Template::Text::String<char> SSOView = "small";
+			constexpr const Elysium::Core::Template::Text::String<char8_t> SSOUtf8View = u8"small";
+			constexpr const Elysium::Core::Template::Text::String<wchar_t> SSOWideView = L"small";
+			constexpr const Elysium::Core::Template::Text::String<char16_t> SSOUtf16View = u"small";
+			constexpr const Elysium::Core::Template::Text::String<char32_t> SSOUtf32View = U"small";
+			*/
+		}
+		
 		TEST_METHOD(SizesAndCapacities)
 		{
 			// sizes

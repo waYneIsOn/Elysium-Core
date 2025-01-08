@@ -56,7 +56,7 @@ namespace Elysium::Core::Template::Text
 			System::size _Size; // 4/8 bytes (stores the number of bytes the string requires)
 			System::size _CapacityAndFlag; // 4/8 bytes (stores 1 bit flag (stack/heap allocated) + 31/63 bit capacity)
 
-			System::size GetCapacity() const noexcept;
+			constexpr const System::size GetCapacity() const noexcept;
 
 			constexpr void SetCapacity(const System::size Value) noexcept;
 		};	// 12/24 bytes
@@ -64,6 +64,7 @@ namespace Elysium::Core::Template::Text
 		struct StackString final
 		{
 			System::byte _Data[sizeof(HeapString) - sizeof(System::byte)]; // 11/23 bytes
+			//C _Data[(sizeof(HeapString) - sizeof(System::byte)) / sizeof(C)]; // 11/23 bytes
 			System::byte _RemainingBytesAndFlag;	// 1 byte -> 1 bit flag (indicating stack/heap allocation) + 7 bit remaining size
 
 			constexpr const System::size GetSize() const noexcept;
@@ -76,6 +77,9 @@ namespace Elysium::Core::Template::Text
 			HeapString _Heap;
 			StackString _Stack;
 		};
+	private:
+		static_assert(sizeof(InternalString) == sizeof(HeapString), 
+			"Elysium::Core::Template::Text::String<C>: sizeof(InternalString) != sizeof(HeapString)");
 	public:
 		constexpr String() noexcept;
 
@@ -93,15 +97,15 @@ namespace Elysium::Core::Template::Text
 
 		constexpr ~String();
 	public:
-		String<C, Traits, Allocator>& operator=(ConstCharacterPointer Value);
+		constexpr String<C, Traits, Allocator>& operator=(ConstCharacterPointer Value);
 
-		String<C, Traits, Allocator>& operator=(const String& Source);
+		constexpr String<C, Traits, Allocator>& operator=(const String& Source);
 
-		String<C, Traits, Allocator>& operator=(String&& Right) noexcept;
+		constexpr String<C, Traits, Allocator>& operator=(String&& Right) noexcept;
 	public:
-		String<C, Traits, Allocator>::CharacterReference operator[](const System::size Index) noexcept;
+		constexpr String<C, Traits, Allocator>::CharacterReference operator[](const System::size Index) noexcept;
 
-		String<C, Traits, Allocator>::ConstCharacterReference operator[](const System::size Index) const noexcept;
+		constexpr String<C, Traits, Allocator>::ConstCharacterReference operator[](const System::size Index) const noexcept;
 	public:
 		const bool operator==(ConstCharacterPointer Other) const;
 
@@ -128,8 +132,6 @@ namespace Elysium::Core::Template::Text
 		const bool operator>=(const String& Other) const;
 	public:
 		static constexpr const bool IsEmpty(const String& Value);
-	public:
-		static const String<C, Traits, Allocator> Empty;
 	public:
 		constexpr const System::size GetLength() const;
 
@@ -179,17 +181,17 @@ namespace Elysium::Core::Template::Text
 
 		//String<C, Allocator>::ConstCharPointer ToCharArray() const;
 	private:
-		void constexpr InitializeHeapString(ConstCharacterPointer Value, const System::size Size);
+		constexpr void InitializeHeapString(ConstCharacterPointer Value, const System::size Size);
 
-		void constexpr InitializeStackString(ConstCharacterPointer Value, const System::size Size);
+		constexpr void InitializeStackString(ConstCharacterPointer Value, const System::size Size);
 		
-		void CopyHeapString(ConstCharacterPointer Value, const System::size CharSize);
+		constexpr void CopyHeapString(ConstCharacterPointer Value, const System::size CharSize);
 
-		void CopyStackString(ConstCharacterPointer Value, const System::size ByteSize);
+		constexpr void CopyStackString(ConstCharacterPointer Value, const System::size ByteSize);
 
-		void DeleteHeapString();
+		constexpr void DeleteHeapString();
 
-		const bool IsHeapAllocated() const;
+		constexpr const bool IsHeapAllocated() const;
 	public:
 		inline static constexpr const System::uint8_t MaximumSizeOnStack = sizeof(HeapString) - 1;
 		inline static constexpr const System::uint8_t MaximumLengthOnStack = MaximumSizeOnStack / Traits::MinimumByteLength;
@@ -211,7 +213,7 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline Elysium::Core::Template::System::size String<C, Traits, Allocator>::HeapString::GetCapacity() const noexcept
+	inline constexpr const Elysium::Core::Template::System::size String<C, Traits, Allocator>::HeapString::GetCapacity() const noexcept
 	{
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		return _CapacityAndFlag & _CapacityExtractMask;
@@ -247,8 +249,10 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String() noexcept
-		: String<C, Traits, Allocator>(nullptr, 0)
-	{ }
+		: _Allocator(Allocator()), _InternalString{ 0x00 }
+	{
+		_InternalString._Stack.SetSize(0);
+	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr String<C, Traits, Allocator>::String(ConstCharacterPointer Value) noexcept
@@ -376,7 +380,7 @@ namespace Elysium::Core::Template::Text
 	}
 	
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline String<C, Traits, Allocator>& String<C, Traits, Allocator>::operator=(ConstCharacterPointer Value)
+	inline constexpr String<C, Traits, Allocator>& String<C, Traits, Allocator>::operator=(ConstCharacterPointer Value)
 	{
 		const bool IsThisHeapAllocated = IsHeapAllocated();
 
@@ -425,7 +429,7 @@ namespace Elysium::Core::Template::Text
 	}
 	
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline String<C, Traits, Allocator>& String<C, Traits, Allocator>::operator=(const String& Source)
+	inline constexpr String<C, Traits, Allocator>& String<C, Traits, Allocator>::operator=(const String& Source)
 	{
 		if (this != &Source)
 		{
@@ -467,7 +471,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline String<C, Traits, Allocator>& String<C, Traits, Allocator>::operator=(String&& Right) noexcept
+	inline constexpr String<C, Traits, Allocator>& String<C, Traits, Allocator>::operator=(String&& Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -486,14 +490,14 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline String<C, Traits, Allocator>::CharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) noexcept
+	inline constexpr String<C, Traits, Allocator>::CharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) noexcept
 	{
 		return IsHeapAllocated() ?
 			_InternalString._Heap._Data[Index] : (CharacterReference)_InternalString._Stack._Data[Index * Traits::MinimumByteLength];
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline String<C, Traits, Allocator>::ConstCharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const noexcept
+	inline constexpr String<C, Traits, Allocator>::ConstCharacterReference String<C, Traits, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const noexcept
 	{
 		return IsHeapAllocated() ? 
 			_InternalString._Heap._Data[Index] : 
@@ -636,10 +640,7 @@ namespace Elysium::Core::Template::Text
 		ConstCharacterPointer CurrentChar = Value.IsHeapAllocated() ? Value._InternalString._Heap._Data : (ConstCharacterPointer)&Value._InternalString._Stack._Data[0];
 		return Traits::IsEmpty(CurrentChar);
 	}
-
-	template <Concepts::Character C, class Traits, class Allocator>
-	inline const String<C, Traits, Allocator> String<C, Traits, Allocator>::Empty = String<C, Traits, Allocator>();
-
+	
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr const Elysium::Core::Template::System::size String<C, Traits, Allocator>::GetLength() const
 	{
@@ -950,7 +951,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline void String<C, Traits, Allocator>::CopyHeapString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size CharSize)
+	inline constexpr void String<C, Traits, Allocator>::CopyHeapString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size CharSize)
 	{
 		const Elysium::Core::Template::System::size SizeIncludingNullTerminationCharacter = CharSize + Traits::MinimumByteLength;
 
@@ -963,14 +964,14 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline void String<C, Traits, Allocator>::CopyStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size ByteSize)
+	inline constexpr void String<C, Traits, Allocator>::CopyStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size ByteSize)
 	{
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, ByteSize);
 		_InternalString._Stack.SetSize(ByteSize);
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline void String<C, Traits, Allocator>::DeleteHeapString()
+	inline constexpr void String<C, Traits, Allocator>::DeleteHeapString()
 	{
 		if (IsHeapAllocated())
 		{
@@ -983,7 +984,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline const bool String<C, Traits, Allocator>::IsHeapAllocated() const
+	inline constexpr const bool String<C, Traits, Allocator>::IsHeapAllocated() const
 	{	// most right bit (0000 000x)
 		return (_InternalString._Stack._RemainingBytesAndFlag & _HeapStackFlagMask) == _HeapStackFlagMask;
 	}

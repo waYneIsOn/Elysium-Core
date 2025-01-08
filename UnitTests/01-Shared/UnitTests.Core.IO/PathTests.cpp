@@ -117,7 +117,7 @@ namespace UnitTests::Core::IO
 		{
 			try
 			{
-				Utf8String EmptyResult = Path::GetExtension(Utf8String::Empty);
+				Utf8String EmptyResult = Path::GetExtension(Utf8String());
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
@@ -220,7 +220,7 @@ namespace UnitTests::Core::IO
 		{
 			try
 			{
-				Utf8String EmptyResult = Path::GetFileName(Utf8String::Empty);
+				Utf8String EmptyResult = Path::GetFileName(Utf8String());
 				Assert::Fail();
 			}
 			catch (ArgumentException&)
@@ -325,7 +325,7 @@ namespace UnitTests::Core::IO
 			// --- GetPath(const T& Path) ---
 			try
 			{
-				Utf8String EmptyResult = Path::GetFullPath(Utf8String::Empty);
+				Utf8String EmptyResult = Path::GetFullPath(Utf8String());
 				Assert::Fail();
 			}
 			catch(ArgumentException&)
@@ -434,7 +434,7 @@ namespace UnitTests::Core::IO
 			bool sdfsdf = false;
 		}
 	private:
-		inline static const Utf8StringView _EmptyView = Utf8StringView(Utf8String::Empty);
+		inline static const Utf8StringView _EmptyView = Utf8StringView();
 
 		inline static const Utf8String _Invalid = u8"C:\\</";
 		inline static const Utf8StringView _InvalidView = Utf8StringView(_Invalid);

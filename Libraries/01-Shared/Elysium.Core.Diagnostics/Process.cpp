@@ -252,7 +252,7 @@ void Elysium::Core::Diagnostics::Process::Close()
 	_HasProcessId = false;
 	_ThreadId = 0;
 	_HasThreadId = false;
-	_MachineName = _MachineName.Empty;
+	_MachineName = u8"";
 	_IsRemoteMachine = false;
 }
 
