@@ -50,21 +50,28 @@ namespace Elysium::Core::Threading::Internal
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
 		OSThreadPool(const Elysium::Core::uint32_t Minimum, const Elysium::Core::uint32_t Maximum);
-		OSThreadPool(const OSThreadPool& Source) = delete;
-		OSThreadPool(OSThreadPool&& Right) noexcept = delete;
-		~OSThreadPool();
 
+		OSThreadPool(const OSThreadPool& Source) = delete;
+
+		OSThreadPool(OSThreadPool&& Right) noexcept = delete;
+
+		~OSThreadPool();
+	public:
 		OSThreadPool& operator=(const OSThreadPool& Source) = delete;
+
 		OSThreadPool& operator=(OSThreadPool&& Right) noexcept = delete;
+	public:
 		/*
 		const Elysium::Core::uint64_t GetCompletedWorkItemCount() const;
 		const Elysium::Core::uint64_t GetPendingWorkItemCount() const;
 		const Elysium::Core::uint32_t GetThreadCount() const;
 		*/
 		void GetAvailableThreads(Elysium::Core::uint32_t& Threads) const;
-		void GetMaxThreads(Elysium::Core::uint32_t& Threads) const;
-		void GetMinThreads(Elysium::Core::uint32_t& Threads) const;
 
+		void GetMaxThreads(Elysium::Core::uint32_t& Threads) const;
+
+		void GetMinThreads(Elysium::Core::uint32_t& Threads) const;
+	public:
 		const bool SetMaxThreads(const Elysium::Core::uint32_t Threads);
 
 		const bool SetMinThreads(const Elysium::Core::uint32_t Threads);

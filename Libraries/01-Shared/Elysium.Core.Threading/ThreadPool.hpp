@@ -54,22 +54,30 @@ namespace Elysium::Core::Threading
 		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
 		ThreadPool() = delete;
-		ThreadPool(const ThreadPool& Source) = delete;
-		ThreadPool(ThreadPool&& Right) noexcept = delete;
-		~ThreadPool() = delete;
 
+		ThreadPool(const ThreadPool& Source) = delete;
+
+		ThreadPool(ThreadPool&& Right) noexcept = delete;
+
+		~ThreadPool() = delete;
+	public:
 		ThreadPool& operator=(const ThreadPool& Source) = delete;
+
 		ThreadPool& operator=(ThreadPool&& Right) noexcept = delete;
+	public:
 		/*
 		static const Elysium::Core::uint64_t GetCompletedWorkItemCount();
 		static const Elysium::Core::uint64_t GetPendingWorkItemCount();
 		static const Elysium::Core::uint32_t GetThreadCount();
 		*/
 		static void GetAvailableThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
-		static void GetMaxThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
-		static void GetMinThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
 
+		static void GetMaxThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
+
+		static void GetMinThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
+	public:
 		static const bool SetMaxThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
+
 		static const bool SetMinThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
 	private:
 #pragma warning (disable: 4251)	// Internal::OSThreadPool won't be used outside ThreadPool
