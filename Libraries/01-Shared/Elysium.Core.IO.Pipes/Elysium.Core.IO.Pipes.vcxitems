@@ -16,5 +16,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PipeAccessRights.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PipeDirection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PipeOptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PipeTransmissionMode.hpp" />
   </ItemGroup>
 </Project>
