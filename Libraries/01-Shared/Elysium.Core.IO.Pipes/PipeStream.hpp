@@ -39,7 +39,7 @@ namespace Elysium::Core::IO::Pipes
 	{
 	protected:
 		constexpr PipeStream(const PipeDirection Direction, const PipeTransmissionMode TransmissionMode, 
-			const Elysium::Core::Template::System::size BufferSize);
+			const Elysium::Core::Template::System::size OutBufferSize);
 	public:
 		constexpr PipeStream(const PipeStream& Source) = delete;
 
