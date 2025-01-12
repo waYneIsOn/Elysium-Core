@@ -36,6 +36,10 @@
 /Libraries/02-Windows/Elysium.Core.IO.FileSystem.Watcher/Debugbin
 /Libraries/02-Windows/Elysium.Core.IO.FileSystem.Watcher/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.IO.Pipes/Debug
+/Libraries/02-Windows/Elysium.Core.IO.Pipes/Debugbin
+/Libraries/02-Windows/Elysium.Core.IO.Pipes/Releasebin
+
 /Libraries/02-Windows/Elysium.Core.IO.Ports/Debug
 /Libraries/02-Windows/Elysium.Core.IO.Ports/Debugbin
 /Libraries/02-Windows/Elysium.Core.IO.Ports/Releasebin
