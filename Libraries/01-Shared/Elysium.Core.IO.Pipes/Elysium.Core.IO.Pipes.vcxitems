@@ -19,6 +19,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeAccessRights.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeDirection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeOptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PipeStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeTransmissionMode.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PipeStream.cpp" />
   </ItemGroup>
 </Project>

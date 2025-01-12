@@ -20,7 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::IO::Ports
+namespace Elysium::Core::IO::Pipes
 {
 	/// <summary>
 	/// Specifies the direction of the pipe.
