@@ -11,8 +11,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_API
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -21,12 +21,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #else
 #define ELYSIUM_CORE_SPEECH_API __declspec(dllimport)
 #endif
-#elif defined ELYSIUM_CORE_OS_ANDROID
-
 #elif defined ELYSIUM_CORE_OS_LINUX
-
-#elif defined ELYSIUM_CORE_OS_MAC
-
+#define ELYSIUM_CORE_SPEECH_API
 #else
 #error "unsupported os"
 #endif

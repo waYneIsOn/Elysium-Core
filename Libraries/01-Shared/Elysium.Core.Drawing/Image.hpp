@@ -20,15 +20,18 @@ namespace Elysium::Core::Drawing
 {
 	class ELYSIUM_CORE_DRAWING_API Image
 	{
-	public:
-		Image(const Image& Source) = delete;
-		Image(Image&& Right) noexcept = delete;
-		virtual ~Image();
-
-		Image& operator=(const Image& Source) = delete;
-		Image& operator=(Image&& Right) noexcept = delete;
 	protected:
 		Image();
+	public:
+		Image(const Image& Source) = delete;
+
+		Image(Image&& Right) noexcept = delete;
+
+		virtual ~Image();
+	public:
+		Image& operator=(const Image& Source) = delete;
+
+		Image& operator=(Image&& Right) noexcept = delete;
 	};
 }
 #endif

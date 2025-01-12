@@ -22,7 +22,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_CORE_API __declspec(dllimport)
 #endif
 #elif defined ELYSIUM_CORE_OS_LINUX
-#define ELYSIUM_CORE_API 
+#define ELYSIUM_CORE_API
 #else
 #error "unsupported os"
 #endif

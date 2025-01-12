@@ -21,12 +21,8 @@ Copyright (c) waYne (CAM). All rights reserved.. All rights reserved.
 #else
 #define ELYSIUM_CORE_IO_PIPES_API __declspec(dllimport)
 #endif
-#elif defined ELYSIUM_CORE_OS_ANDROID
-
 #elif defined ELYSIUM_CORE_OS_LINUX
-
-#elif defined ELYSIUM_CORE_OS_MAC
-
+#define ELYSIUM_CORE_IO_PIPES_API
 #else
 #error "unsupported os"
 #endif
