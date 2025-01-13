@@ -44,6 +44,11 @@ namespace Elysium::Core::Template::Memory
 
 		constexpr UniquePointer<T, Deleter>& operator=(UniquePointer&& Right) noexcept;
 	public:
+		/*
+		template <class... Args>
+		static constexpr UniquePointer<T, Deleter> MakeUnique(Args&&...) noexcept;
+		*/
+	public:
 		constexpr UniquePointer<T, Deleter>::Pointer operator->() const noexcept;
 	public:
 		constexpr UniquePointer<T, Deleter>::Pointer GetUnderlyingPointer() const noexcept;
@@ -93,7 +98,15 @@ namespace Elysium::Core::Template::Memory
 		}
 		return *this;
 	}
-	
+	/*
+	template<class T, class Deleter>
+	template<class ...Args>
+	inline constexpr UniquePointer<T, Deleter> UniquePointer<T, Deleter>::MakeUnique(Args && ...) noexcept
+	{
+		// @ToDo: forward arguments
+		return UniquePointer<T, Deleter>(new T( Args... ));
+	}
+	*/
 	template<class T, class Deleter>
 	inline constexpr UniquePointer<T, Deleter>::Pointer UniquePointer<T, Deleter>::operator->() const noexcept
 	{
