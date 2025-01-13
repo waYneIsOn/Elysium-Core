@@ -680,6 +680,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp">
+      <Filter>RunTimeTypeInformation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

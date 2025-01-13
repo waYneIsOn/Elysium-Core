@@ -34,6 +34,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicPointer.hpp" />

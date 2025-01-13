@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_COMPOSITETYPE
+#include "RunTimeTypeInformation/CompositeType.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_ENUMERATION
 #include "RunTimeTypeInformation/Enumeration.hpp"
 #endif
