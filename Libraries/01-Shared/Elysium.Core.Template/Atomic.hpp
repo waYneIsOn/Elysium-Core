@@ -91,6 +91,10 @@ namespace Elysium::Core::Template::Threading
 		T Load() const volatile noexcept;
 
 		void Store(const T Value) volatile noexcept;
+
+		T Exchange(const T Value) noexcept;
+
+		bool CompareExchangeStrong(T& Expected, const T Desired) noexcept;
 	};
 
 	template<class T>
@@ -139,6 +143,18 @@ namespace Elysium::Core::Template::Threading
 	inline void Atomic<T>::Store(const T Value) volatile noexcept
 	{
 		const_cast<Atomic<T>*>(this)->Base::Store(Value);
+	}
+
+	template<class T>
+	inline T Atomic<T>::Exchange(const T Value) noexcept
+	{
+		return const_cast<Atomic<T>*>(this)->Base::Exchange(Value);
+	}
+
+	template<class T>
+	inline bool Atomic<T>::CompareExchangeStrong(T& Expected, const T Desired) noexcept
+	{
+		return const_cast<Atomic<T>*>(this)->Base::CompareExchangeStrong(Expected, Desired);
 	}
 }
 #endif
