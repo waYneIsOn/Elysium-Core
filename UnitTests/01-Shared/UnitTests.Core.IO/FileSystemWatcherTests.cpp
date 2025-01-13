@@ -22,8 +22,6 @@ namespace UnitTests::Core::IO
 	public:
 		TEST_METHOD(WatchAllChangesInDirectory)
 		{
-			Assert::Fail(L"IOCP implementation is not correct! things run out of scope causing problems!");
-
 			File::Delete(_FilePath);
 			File::Delete(_FilePath2);
 
@@ -33,26 +31,36 @@ namespace UnitTests::Core::IO
 			Watcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			Watcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			Watcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-			Watcher.BeginInit();
-
-			try
+			
+			/*
+			* Make sure this loop runs for a multiple of two!
+			* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
+			* testing what happens when FileSystemWatcher runs out of scope in terms of IOCP.
+			*/
+			for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 			{
-				CreateFileAndWait();
-				ChangeFileAndWait();
-				RenameFileAndWait();
-				DeleteFileAndWait();
+				Watcher.BeginInit();
+
+				try
+				{
+					CreateFileAndWait();
+					ChangeFileAndWait();
+					RenameFileAndWait();
+					DeleteFileAndWait();
+				}
+				catch(const Exception& ex)
+				{
+					Assert::Fail((wchar_t*)&ex.GetExceptionMessage()[0]);
+				}
+
+				// test both with and without calling EndInit()
+				if (i % 2 == 0)
+				{
+					Watcher.EndInit();
+				}
+
+				Logger::WriteMessage(L"----\r\n");
 			}
-			catch(const Exception& ex)
-			{
-				Utf8String sdf = ex.GetExceptionMessage();
-
-				//Logger::WriteMessage("------");
-				Assert::Fail((wchar_t*)&ex.GetExceptionMessage()[0]);
-			}
-
-			//Watcher.EndInit();
-
-			Assert::Fail(L"while this test works, the implemenation of iocp-cancelation is not correct yet (multiple threads deleting FileSystemWatcherAsyncResult for instance)");
 		}
 
 		TEST_METHOD(WatchFile)
@@ -133,16 +141,19 @@ namespace UnitTests::Core::IO
 
 		void FileSystemWatcher_OnChanged(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
+			Logger::WriteMessage(L"FileSystemWatcher_OnChanged\r\n");
 			_ChangedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnCreated(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
+			Logger::WriteMessage(L"FileSystemWatcher_OnCreated\r\n");
 			_CreatedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnDeleted(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
+			Logger::WriteMessage(L"FileSystemWatcher_OnDeleted\r\n");
 			_DeletedResetEvent.Set();
 		}
 
@@ -151,11 +162,13 @@ namespace UnitTests::Core::IO
 			// ToDo:
 			Logger::WriteMessage(L"....");
 
+			Logger::WriteMessage(L"FileSystemWatcher_OnError\r\n");
 			_ErrorResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnRenamed(const FileSystemWatcher& Watcher, const RenamedEventArgs& EventArgs)
 		{
+			Logger::WriteMessage(L"FileSystemWatcher_OnRenamed\r\n");
 			_RenamedResetEvent.Set();
 		}
 	private:

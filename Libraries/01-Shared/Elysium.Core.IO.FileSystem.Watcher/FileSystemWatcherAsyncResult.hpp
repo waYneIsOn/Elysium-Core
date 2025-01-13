@@ -32,12 +32,13 @@ namespace Elysium::Core::IO
 {
 	class FileSystemWatcher;
 
-	class FileSystemWatcherAsyncResult final : public Elysium::Core::Internal::AsyncResult
+	class FileSystemWatcherAsyncResult final
+		: public Elysium::Core::Internal::AsyncResult
 	{
 		friend class FileSystemWatcher;
 	private:
 		FileSystemWatcherAsyncResult(FileSystemWatcher& Watcher, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback,
-			const void* AsyncState, const Elysium::Core::size Position);
+			const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle);
 	public:
 		FileSystemWatcherAsyncResult(const FileSystemWatcherAsyncResult& Source) = delete;
 
@@ -49,7 +50,7 @@ namespace Elysium::Core::IO
 
 		FileSystemWatcherAsyncResult& operator=(FileSystemWatcherAsyncResult&& Right) noexcept = delete;
 	public:
-		FileSystemWatcher& GetWatcher() const;
+		constexpr const FileSystemWatcher& GetWatcher() const;
 	private:
 		inline static constexpr const Elysium::Core::size _InformationBufferSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION) + 256 * sizeof(wchar_t);
 		//inline static constexpr const Elysium::Core::size _InformationBufferSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION);

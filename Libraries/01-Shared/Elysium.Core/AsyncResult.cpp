@@ -1,12 +1,23 @@
 #include "AsyncResult.hpp"
 
-Elysium::Core::Internal::AsyncResult::AsyncResult(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState, const Elysium::Core::size Position)
+#ifndef _THREADPOOLAPISET_H_
+#include <threadpoolapiset.h>
+#endif
+
+Elysium::Core::Internal::AsyncResult::AsyncResult(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle)
 	: _Callback(Callback), _AsyncState(AsyncState),
-	_OperationDoneEvent(false), _ErrorCode(0), _WrappedOverlap(Position, this)
+	_OperationDoneEvent(false), _ErrorCode(0), _WrappedOverlap(Position, this),
+	_CompletionPortHandle(CompletionPortHandle)
 { }
 
 Elysium::Core::Internal::AsyncResult::~AsyncResult()
-{ }
+{
+	if (_CompletionPortHandle != nullptr)
+	{
+		CancelThreadpoolIo(_CompletionPortHandle);
+		_CompletionPortHandle = nullptr;
+	}
+}
 
 const void* Elysium::Core::Internal::AsyncResult::GetAsyncState() const
 {

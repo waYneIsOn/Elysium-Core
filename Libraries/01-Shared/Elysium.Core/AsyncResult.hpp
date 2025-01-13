@@ -47,14 +47,15 @@ namespace Elysium::Core::Net::Sockets
 
 namespace Elysium::Core::Internal
 {
-	class ELYSIUM_CORE_API AsyncResult : public IAsyncResult
+	class ELYSIUM_CORE_API AsyncResult 
+		: public IAsyncResult
 	{
 		friend class IO::FileStream;
 		friend class IO::FileSystemWatcher;
 		friend class Net::Sockets::Socket;
 	protected:
 		AsyncResult(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState,
-			const Elysium::Core::size Position);
+			const Elysium::Core::size Position, PTP_IO CompletionPortHandle);
 	public:
 		AsyncResult(const AsyncResult& Source) = delete;
 
@@ -88,6 +89,10 @@ namespace Elysium::Core::Internal
 		Elysium::Core::Threading::ManualResetEvent _OperationDoneEvent;
 		Elysium::Core::uint16_t _ErrorCode;
 		Elysium::Core::Internal::WrappedOverlap _WrappedOverlap;
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		PTP_IO _CompletionPortHandle;
+#endif
 	};
 }
 #endif

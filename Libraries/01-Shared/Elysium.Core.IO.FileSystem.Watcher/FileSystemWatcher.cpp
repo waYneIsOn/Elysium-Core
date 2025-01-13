@@ -20,14 +20,6 @@
 #include "../Elysium.Core.IO/FileShare.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_FILESYSTEMWATCHERASYNCRESULT
-#include "FileSystemWatcherAsyncResult.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_FILESYSTEMWATCHERASYNCRESULT
-#include "FileSystemWatcherAsyncResult.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_IOEXCEPTION
 #include "../Elysium.Core.IO/IOException.hpp"
 #endif
@@ -41,13 +33,13 @@
 #endif
 
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher()
-	: _Path(), _Filter(), _NotifyFilters(), _IncludeSubdirectories(), _AddressOfLatestAsyncResult(), _DirectoryHandle(), 
-	_CompletionPortHandle()
+	: _Path(), _Filter(), _NotifyFilters(), _IncludeSubdirectories(), _AddressOfLatestAsyncResult(),
+	_DirectoryHandle(), _CompletionPortHandle()
 { }
 
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories)
-	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories),
-	_AddressOfLatestAsyncResult(nullptr), _DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
+	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), _AddressOfLatestAsyncResult(nullptr),
+	_DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
 	_CompletionPortHandle(CreateThreadpoolIo(_DirectoryHandle, &IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
 
@@ -58,6 +50,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	{
 		EndInit();
 
+		//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
 		CloseThreadpoolIo(_CompletionPortHandle);
 		_CompletionPortHandle = nullptr;
 	}
@@ -100,7 +93,8 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 	}
 
 	FileSystemWatcherAsyncResult* AsyncResult = new FileSystemWatcherAsyncResult(*this, 
-		Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileSystemWatcher, &FileSystemWatcher::EndInit>(*this), nullptr, 0x0);
+		Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileSystemWatcher, &FileSystemWatcher::EndInit>(*this),
+		nullptr, 0x0, _CompletionPortHandle);
 	DWORD BytesReturned = 0;
 	
 	StartThreadpoolIo(_CompletionPortHandle);
@@ -111,7 +105,6 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 		Elysium::Core::uint32_t ErrorCode = GetLastError();
 		if (ErrorCode != ERROR_IO_PENDING)
 		{
-			CancelThreadpoolIo(_CompletionPortHandle);
 			delete AsyncResult;
 			throw IOException();
 		}
@@ -129,7 +122,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 
 	if (_AddressOfLatestAsyncResult != nullptr)
 	{
-		CancelThreadpoolIo(_CompletionPortHandle);
+		//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
 		delete _AddressOfLatestAsyncResult;
 		_AddressOfLatestAsyncResult = nullptr;
 	}
@@ -139,7 +132,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 {
 	FileSystemWatcherAsyncResult* AsyncFileWatcherResult = const_cast<FileSystemWatcherAsyncResult*>(static_cast<const FileSystemWatcherAsyncResult*>(AsyncResult));
 	if (AsyncFileWatcherResult == nullptr)
-	{	// ToDo: throw specific exception
+	{	// ToDo: throw specific exception - This should actually never happen!
 		throw 1;
 	}
 
@@ -198,12 +191,15 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 		(Elysium::Core::Threading::ManualResetEvent&)AsyncFileWatcherResult->GetAsyncWaitHandle();
 	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
 
+	// A successful io-operation musn't be canceled!
+	// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when AsyncFileWatcherResult get's destructed!
+	AsyncFileWatcherResult->_CompletionPortHandle = nullptr;
+
 	// make sure to not cause a memory leak
 	delete _AddressOfLatestAsyncResult;
 	_AddressOfLatestAsyncResult = nullptr;
 
 	// run again
-	//EndInit();
 	BeginInit();
 }
 
@@ -228,10 +224,8 @@ HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const c
 
 void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
-	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = (Elysium::Core::Internal::WrappedOverlap*)Overlapped;
-	Elysium::Core::IAsyncResult* AsyncResult = WrappedOverlap->_AsyncResult;
-
-	Elysium::Core::IO::FileSystemWatcherAsyncResult* AsyncFileWatcherResult = dynamic_cast<Elysium::Core::IO::FileSystemWatcherAsyncResult*>(AsyncResult);
+	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = static_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
+	Elysium::Core::IO::FileSystemWatcherAsyncResult* AsyncFileWatcherResult = dynamic_cast<Elysium::Core::IO::FileSystemWatcherAsyncResult*>(WrappedOverlap->_AsyncResult);
 	if (AsyncFileWatcherResult != nullptr)
 	{
 		AsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;

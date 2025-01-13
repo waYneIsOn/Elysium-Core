@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "FileSystemEventArgs.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_FILESYSTEMWATCHERASYNCRESULT
+#include "FileSystemWatcherAsyncResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API
 #include "API.hpp"
 #endif
@@ -46,6 +50,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
 #include "../Elysium.Core.Template/UniquePointer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "../Elysium.Core.Template/Atomic.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -112,12 +120,12 @@ namespace Elysium::Core::IO
 		Utf8String _Path;
 		Utf8String _Filter;
 
-		IAsyncResult* _AddressOfLatestAsyncResult;
-
+		FileSystemWatcherAsyncResult* _AddressOfLatestAsyncResult;
+		
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _DirectoryHandle;
 		PTP_IO _CompletionPortHandle;
-
+	private:
 		static HANDLE CreateNativeDirectoryHandle(const char8_t* Path, const size_t PathLength);
 
 		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult,
