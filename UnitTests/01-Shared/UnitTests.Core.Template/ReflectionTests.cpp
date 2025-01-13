@@ -5,6 +5,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IsScopedEnumeration.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/UnderlyingType.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/CompositeType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
 
 using namespace Elysium::Core;
@@ -68,6 +69,19 @@ namespace UnitTests::Core::Template::Reflection
 		B = 465,
 		C = -21,
 		D = 23904
+	};
+
+	class SimpleClass
+	{
+
+	};
+
+	struct SomeStruct
+	{
+		int _IntField;
+		float _FloatField;
+		SomeInt32EnumStruct _SomeInt32EnumStructField;
+		SimpleClass _SimpleClassField;
 	};
 
 	TEST_CLASS(RunTimeTypeInformation)
@@ -289,6 +303,35 @@ namespace UnitTests::Core::Template::Reflection
 			
 			// SomeInt16EnumClass (int16_t doesn't currently work - too large)
 			// SomeInt32EnumStruct (int32_t doesn't currently work - too large)
+		}
+
+		TEST_METHOD(StructInitialTest)
+		{
+			/*
+			const Elysium::Core::Template::Text::String<char8_t> bla0 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<int>();
+			*/
+			const Elysium::Core::Template::Text::String<char8_t> bla1 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_IntField)>();
+			const Elysium::Core::Template::Text::String<char8_t> bla2 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_FloatField)>();
+			const Elysium::Core::Template::Text::String<char8_t> bla3 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_SomeInt32EnumStructField)>();
+			const Elysium::Core::Template::Text::String<char8_t> bla4 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_SimpleClassField)>();
+
+			/*
+			Logger::WriteMessage((char*)&bla0[0]);
+			Logger::WriteMessage("\r\n");
+			*/
+			Logger::WriteMessage((char*)&bla1[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage((char*)&bla2[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage((char*)&bla3[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage((char*)&bla4[0]);
+			Logger::WriteMessage("\r\n");
 		}
 	};
 }

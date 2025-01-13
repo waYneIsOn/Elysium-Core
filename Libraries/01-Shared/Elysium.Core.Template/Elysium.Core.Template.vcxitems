@@ -33,6 +33,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicIntegral.hpp" />

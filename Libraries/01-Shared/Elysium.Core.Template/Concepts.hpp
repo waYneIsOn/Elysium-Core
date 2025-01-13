@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Character.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_COMPOSITETYPE
+#include "Concepts/CompositeType.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CONSTANT
 #include "Constant.hpp"
 #endif

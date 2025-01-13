@@ -683,6 +683,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp">
       <Filter>RunTimeTypeInformation</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
