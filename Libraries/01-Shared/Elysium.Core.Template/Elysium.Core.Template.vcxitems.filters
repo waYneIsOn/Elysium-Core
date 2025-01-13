@@ -626,13 +626,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryOrder.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicBase.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicBase.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicIntegral.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicIntegral.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicPointer.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicPointer.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp">
@@ -676,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Allocatable.hpp">
       <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp">
+      <Filter>Memory</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

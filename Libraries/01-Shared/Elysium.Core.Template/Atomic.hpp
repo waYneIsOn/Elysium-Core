@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICINTEGRAL
-#include "AtomicIntegral.hpp"
+#include "_AtomicIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICPOINTER
-#include "AtomicPointer.hpp"
+#include "_AtomicPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISBOOLEAN
@@ -90,7 +90,7 @@ namespace Elysium::Core::Template::Threading
 	public:
 		T Load() const volatile noexcept;
 
-		T Store(const T Value) volatile noexcept;
+		void Store(const T Value) volatile noexcept;
 	};
 
 	template<class T>
@@ -136,9 +136,9 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<class T>
-	inline T Atomic<T>::Store(const T Value) volatile noexcept
+	inline void Atomic<T>::Store(const T Value) volatile noexcept
 	{
-		return const_cast<Atomic<T>*>(this)->Base::Store(Value);
+		const_cast<Atomic<T>*>(this)->Base::Store(Value);
 	}
 }
 #endif

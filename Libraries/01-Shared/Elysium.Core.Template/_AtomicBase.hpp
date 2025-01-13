@@ -12,8 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCMP
+#include "MemCmp.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "MemCpy.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMORYORDER
 #include "MemoryOrder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
+#include "Compiler.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
@@ -61,11 +73,17 @@ namespace Elysium::Core::Template::Threading
 	protected:
 		T Load(const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const noexcept;
 		
-		T Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept; private:
+		void Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept; 
+		
+		T Exchange(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
+	
+		bool CompareExchangeStrong(T& Expected, const T Desired, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
 	private:
 		void ValidateMemoryOrderLoad(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept;
 
 		void ValidateMemoryOrderStore(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept;
+
+		void ValidateMemoryOrder(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept;
 	protected:
 		T _Value;
 	private:
@@ -90,7 +108,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
-	inline T _AtomicBase<T, SizeOfT>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
+	inline void _AtomicBase<T, SizeOfT>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
 	{
 		ValidateMemoryOrderStore(Order);
 
@@ -98,8 +116,45 @@ namespace Elysium::Core::Template::Threading
 		T CopiedValue = _Value;
 		_Value = Value;
 		_SlimReaderWriterLock.UnlockExclusive();
+	}
+
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline T _AtomicBase<T, SizeOfT>::Exchange(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
+	{
+		ValidateMemoryOrder(Order);
+
+		_SlimReaderWriterLock.LockExclusive();
+		T CopiedValue = _Value;
+		_Value = Value;
+		_SlimReaderWriterLock.UnlockExclusive();
 
 		return CopiedValue;
+	}
+
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline bool _AtomicBase<T, SizeOfT>::CompareExchangeStrong(T& Expected, const T Desired, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
+	{
+		ValidateMemoryOrder(Order);
+
+		bool Result = false;
+		void* AddressOfValue = static_cast<void*>(Elysium::Core::Template::System::Compiler::AddressOf(_Value));
+		void* AddressOfExpected = static_cast<void*>(Elysium::Core::Template::System::Compiler::AddressOf(Expected));
+
+		_SlimReaderWriterLock.LockExclusive();
+		// @ToDo: MemCpy is possible as long as atomics are only using primitives, enums and pointers
+		Result = Elysium::Core::Template::Memory::MemCmp(AddressOfValue, AddressOfExpected, sizeof(T)) == 0;
+		if (Result)
+		{
+			const void* AddressOfDesired = static_cast<const void*>(Elysium::Core::Template::System::Compiler::AddressOf(Desired));
+			Elysium::Core::Template::Memory::MemCpy(AddressOfValue, AddressOfDesired, sizeof(T));
+		}
+		else
+		{
+			Elysium::Core::Template::Memory::MemCpy(AddressOfExpected, AddressOfValue, sizeof(T));
+		}
+		_SlimReaderWriterLock.UnlockExclusive();
+
+		return Result;
 	}
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
@@ -138,6 +193,19 @@ namespace Elysium::Core::Template::Threading
 		default:
 			// all other memory order values should be ok for storing
 			return;
+		}
+	}
+
+	template<class T, Elysium::Core::Template::System::size SizeOfT>
+	inline void _AtomicBase<T, SizeOfT>::ValidateMemoryOrder(const Elysium::Core::Template::Memory::MemoryOrder Order) const noexcept
+	{
+		if (Order > Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent)
+		{
+#if defined _DEBUG
+			_invalid_parameter(L"Incorrect memory order.", L"", __WFILE__, __LINE__, 0);
+#else
+			_invalid_parameter_noinfo_noreturn();
+#endif
 		}
 	}
 }

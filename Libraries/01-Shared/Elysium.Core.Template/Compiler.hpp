@@ -45,7 +45,12 @@ namespace Elysium::Core::Template::System
 
 		~Compiler() = delete;
 	public:
+		Compiler& operator=(const Compiler& Source) = delete;
 
+		Compiler& operator=(Compiler&& Right) noexcept = delete;
+	public:
+		template <class T>
+		static constexpr T* AddressOf(T& Value) noexcept;
 	public:
 		static constexpr Elysium::Core::Template::System::int32_t GetLine() noexcept;
 
@@ -67,6 +72,12 @@ namespace Elysium::Core::Template::System
 	#error "Unhandled compiler"
 #endif
 	};
+
+	template<class T>
+	inline constexpr T* Compiler::AddressOf(T& Value) noexcept
+	{
+		return __builtin_addressof(Value);
+	}
 
 	inline constexpr Elysium::Core::Template::System::int32_t Elysium::Core::Template::System::Compiler::GetLine() noexcept
 	{

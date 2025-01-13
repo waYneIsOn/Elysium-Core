@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCMP
+#include "MemCmp.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
 #include "MemCpy.hpp"
 #endif
