@@ -25,6 +25,12 @@ enum class GlobalSomeEnumClass
 	B = 1,
 };
 
+class GlobalEmptyClass
+{ };
+
+struct GlobalEmtpyStruct
+{ };
+
 namespace UnitTests::Core::Template::Reflection
 {
 	enum SomeEnum
@@ -71,22 +77,78 @@ namespace UnitTests::Core::Template::Reflection
 		D = 23904
 	};
 
-	class SimpleClass
-	{
+	class EmptyClass
+	{ };
 
-	};
+	struct EmptyStruct
+	{ };
 
 	struct SomeStruct
 	{
 		int _IntField;
 		float _FloatField;
 		SomeInt32EnumStruct _SomeInt32EnumStructField;
-		SimpleClass _SimpleClassField;
+		EmptyClass _EmptyClassField;
 	};
 
 	TEST_CLASS(RunTimeTypeInformation)
 	{
 	public:
+		TEST_METHOD(CompositeTypeGetFullNames)
+		{
+			AssertExtended::AreEqual(u8"GlobalEmptyClass",
+				&Elysium::Core::Template::RunTimeTypeInformation::CompositeType<GlobalEmptyClass>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"GlobalEmtpyStruct",
+				&Elysium::Core::Template::RunTimeTypeInformation::CompositeType<GlobalEmtpyStruct>::GetFullName()[0]);
+
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::EmptyClass",
+				&Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyClass>::GetFullName()[0]);
+			AssertExtended::AreEqual(u8"UnitTests::Core::Template::Reflection::EmptyStruct",
+				&Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyStruct>::GetFullName()[0]);
+		}
+
+		TEST_METHOD(CompositeTypeIsClassOrStruct)
+		{
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<GlobalEmptyClass>::IsClass());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<GlobalEmtpyStruct>::IsClass());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyClass>::IsClass());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyStruct>::IsClass());
+
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<GlobalEmptyClass>::IsStruct());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<GlobalEmtpyStruct>::IsStruct());
+			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyClass>::IsStruct());
+			Assert::IsTrue(Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyStruct>::IsStruct());
+		}
+
+		TEST_METHOD(CompositeTypeInitialTest)
+		{
+			/*
+			const Elysium::Core::Template::Text::String<char8_t> bla0 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<int>();
+			*/
+			const Elysium::Core::Template::Text::String<char8_t> bla1 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_IntField)>();
+			const Elysium::Core::Template::Text::String<char8_t> bla2 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_FloatField)>();
+			const Elysium::Core::Template::Text::String<char8_t> bla3 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_SomeInt32EnumStructField)>();
+			const Elysium::Core::Template::Text::String<char8_t> bla4 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
+				::GetFieldTypeName<decltype(SomeStruct::_EmptyClassField)>();
+
+			/*
+			Logger::WriteMessage((char*)&bla0[0]);
+			Logger::WriteMessage("\r\n");
+			*/
+			Logger::WriteMessage((char*)&bla1[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage((char*)&bla2[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage((char*)&bla3[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage((char*)&bla4[0]);
+			Logger::WriteMessage("\r\n");
+		}
+
 		TEST_METHOD(EnumUnderlyingType)
 		{
 			Assert::IsTrue(IsSameValue<::Template::System::int32_t, UnderlyingTypeType<GlobalEnum>>);
@@ -303,35 +365,6 @@ namespace UnitTests::Core::Template::Reflection
 			
 			// SomeInt16EnumClass (int16_t doesn't currently work - too large)
 			// SomeInt32EnumStruct (int32_t doesn't currently work - too large)
-		}
-
-		TEST_METHOD(StructInitialTest)
-		{
-			/*
-			const Elysium::Core::Template::Text::String<char8_t> bla0 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
-				::GetFieldTypeName<int>();
-			*/
-			const Elysium::Core::Template::Text::String<char8_t> bla1 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
-				::GetFieldTypeName<decltype(SomeStruct::_IntField)>();
-			const Elysium::Core::Template::Text::String<char8_t> bla2 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
-				::GetFieldTypeName<decltype(SomeStruct::_FloatField)>();
-			const Elysium::Core::Template::Text::String<char8_t> bla3 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
-				::GetFieldTypeName<decltype(SomeStruct::_SomeInt32EnumStructField)>();
-			const Elysium::Core::Template::Text::String<char8_t> bla4 = Elysium::Core::Template::RunTimeTypeInformation::CompositeType<SomeStruct>
-				::GetFieldTypeName<decltype(SomeStruct::_SimpleClassField)>();
-
-			/*
-			Logger::WriteMessage((char*)&bla0[0]);
-			Logger::WriteMessage("\r\n");
-			*/
-			Logger::WriteMessage((char*)&bla1[0]);
-			Logger::WriteMessage("\r\n");
-			Logger::WriteMessage((char*)&bla2[0]);
-			Logger::WriteMessage("\r\n");
-			Logger::WriteMessage((char*)&bla3[0]);
-			Logger::WriteMessage("\r\n");
-			Logger::WriteMessage((char*)&bla4[0]);
-			Logger::WriteMessage("\r\n");
 		}
 	};
 }
