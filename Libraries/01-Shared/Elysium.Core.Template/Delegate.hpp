@@ -27,6 +27,219 @@ namespace Elysium::Core::Threading
 
 namespace Elysium::Core::Template::Container
 {
+	/*
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="ReturnType"></typeparam>
+	/// <typeparam name="...Args"></typeparam>
+	template <class ReturnType, class ...Args>
+	class Delegate
+	{
+		friend class Elysium::Core::Threading::Thread;
+		friend class Elysium::Core::Template::Container::Vector<Delegate<ReturnType, Args...>>;
+	public:
+		constexpr Delegate(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept;
+
+		constexpr Delegate(const Delegate& Source) noexcept;
+
+		constexpr Delegate(Delegate&& Right) noexcept;
+
+		constexpr ~Delegate() noexcept;
+	public:
+		constexpr Delegate& operator=(const Delegate& Source) noexcept;
+
+		constexpr Delegate& operator=(Delegate&& Right) noexcept;
+	public:
+		constexpr const bool operator==(const Delegate& Other) noexcept;
+
+		constexpr const bool operator!=(const Delegate& Other) noexcept;
+	public:
+		ReturnType operator()(Args... Parameters) const;
+	private:
+		ReturnType(*_FunctionOrStaticMethod)(Args...);
+	};
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Delegate<ReturnType, Args...>::Delegate(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept
+		: _FunctionOrStaticMethod(FunctionOrStaticMethod)
+	{
+		//static_assert(_FunctionOrStaticMethod == nullptr, 
+		//	"Elysium::Core::Template::Container::Delegate<Type, ReturnType, ...Args>: FunctionOrStaticMethod is nullptr");
+	}
+	
+	template<class ReturnType, class ...Args>
+	inline constexpr Delegate<ReturnType, Args...>::Delegate(const Delegate& Source) noexcept
+		: _FunctionOrStaticMethod(Source._FunctionOrStaticMethod)
+	{ }
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Delegate<ReturnType, Args...>::Delegate(Delegate&& Right) noexcept
+		: _FunctionOrStaticMethod(nullptr)
+	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+	
+	template<class ReturnType, class ...Args>
+	inline constexpr Delegate<ReturnType, Args...>::~Delegate() noexcept
+	{
+		_FunctionOrStaticMethod = nullptr;
+	}
+	
+	template<class ReturnType, class ...Args>
+	inline constexpr Delegate<ReturnType, Args...>& Delegate<ReturnType, Args...>::operator=(const Delegate& Source) noexcept
+	{
+		if (this != &Source)
+		{
+			_FunctionOrStaticMethod = Source._FunctionOrStaticMethod;
+		}
+		return *this;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Delegate<ReturnType, Args...>& Delegate<ReturnType, Args...>::operator=(Delegate&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			_FunctionOrStaticMethod = Elysium::Core::Template::Functional::Move(Right._FunctionOrStaticMethod);
+
+			Right._FunctionOrStaticMethod = nullptr;
+		}
+		return *this;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline constexpr const bool Delegate<ReturnType, Args...>::operator==(const Delegate& Other) noexcept
+	{
+		return _FunctionOrStaticMethod == Other._FunctionOrStaticMethod;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline constexpr const bool Delegate<ReturnType, Args...>::operator!=(const Delegate& Other) noexcept
+	{
+		return _FunctionOrStaticMethod != Other._FunctionOrStaticMethod;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline ReturnType Delegate<ReturnType, Args...>::operator()(Args ...Parameters) const
+	{
+		return (*_FunctionOrStaticMethod)(Parameters...);
+	}
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="Type"></typeparam>
+	/// <typeparam name="ReturnType"></typeparam>
+	/// <typeparam name="...Args"></typeparam>
+	template <class Type, class ReturnType, class ...Args>
+	class Delegate<Type, ReturnType(Args...)>
+	{
+		friend class Elysium::Core::Threading::Thread;
+		friend class Elysium::Core::Template::Container::Vector<Delegate<ReturnType, Args...>>;
+	public:
+		constexpr Delegate(Type* Instance, ReturnType(Type::* Method)(Args...)) noexcept;
+		
+		constexpr Delegate(const Delegate& Source) noexcept;
+
+		constexpr Delegate(Delegate&& Right) noexcept;
+		
+		constexpr ~Delegate() noexcept;
+	public:
+		constexpr Delegate& operator=(const Delegate& Source) noexcept;
+
+		constexpr Delegate& operator=(Delegate&& Right) noexcept;
+	public:
+		constexpr const bool operator==(const Delegate& Other) noexcept;
+
+		constexpr const bool operator!=(const Delegate& Other) noexcept;
+	public:
+		template <ReturnType(Type::* Method)(Args...)>
+		static Delegate Bind(Type& Target);
+	public:
+		ReturnType operator()(Args... Parameters) const;
+	private:
+		Type* _Instance;
+		ReturnType(Type::* _Method)(Args...);
+	};
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr Delegate<Type, ReturnType(Args...)>::Delegate(Type* Instance, ReturnType(Type::* Method)(Args...)) noexcept
+		: _Instance(Instance), _Method(Method)
+	{
+		//static_assert(_Instance == nullptr, "Elysium::Core::Template::Container::Delegate<Type, ReturnType, ...Args>: Instance is nullptr");
+		//static_assert(_Method == nullptr, "Elysium::Core::Template::Container::Delegate<Type, ReturnType, ...Args>: Method is nullptr");
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr Delegate<Type, ReturnType(Args...)>::Delegate(const Delegate& Source) noexcept
+		: _Instance(Source._Instance), _Method(Source._Method)
+	{ }
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr Delegate<Type, ReturnType(Args...)>::Delegate(Delegate&& Right) noexcept
+	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr Delegate<Type, ReturnType(Args...)>::~Delegate() noexcept
+	{
+		_Method = nullptr;
+		_Instance = nullptr;
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr Delegate<Type, ReturnType(Args...)>& Delegate<Type, ReturnType(Args...)>::operator=(const Delegate & Source) noexcept
+	{
+		if (this != &Source)
+		{
+			_Instance = Source._Instance;
+			_Method = Source._Method;
+		}
+		return *this;
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr Delegate<Type, ReturnType(Args...)>& Delegate<Type, ReturnType(Args...)>::operator=(Delegate&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			_Instance = Elysium::Core::Template::Functional::Move(Right._Instance);
+			_Method = Elysium::Core::Template::Functional::Move(Right._Method);
+
+			Right._Instance = nullptr;
+			Right._Method = nullptr;
+		}
+		return *this;
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr const bool Delegate<Type, ReturnType(Args...)>::operator==(const Delegate& Other) noexcept
+	{
+		return _Instance == Other._Instance && _Method == Other._Method;
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline constexpr const bool Delegate<Type, ReturnType(Args...)>::operator!=(const Delegate& Other) noexcept
+	{
+		return _Instance != Other._Instance || _Method != Other._Method;
+	}
+	
+	template<class Type, class ReturnType, class ...Args>
+	template<ReturnType(Type::* Method)(Args...)>
+	inline Delegate<Type, ReturnType(Args...)> Delegate<Type, ReturnType(Args...)>::Bind(Type& Target)
+	{
+		return Delegate(&Target, Method);
+	}
+
+	template<class Type, class ReturnType, class ...Args>
+	inline ReturnType Delegate<Type, ReturnType(Args...)>::operator()(Args ...Parameters) const
+	{
+		return (_Instance->*_Method)(Parameters...);
+	}
+	*/
+	
 	template <class ReturnType, class ...Args>
 	class Delegate
 	{
