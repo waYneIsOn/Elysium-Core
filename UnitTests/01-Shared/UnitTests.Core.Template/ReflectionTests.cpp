@@ -26,7 +26,12 @@ enum class GlobalSomeEnumClass
 };
 
 class GlobalEmptyClass
-{ };
+{ 
+public:
+	void DoNothing() {}
+
+	constexpr void DoNothing() const { }
+};
 
 struct GlobalEmtpyStruct
 { };
@@ -147,6 +152,8 @@ namespace UnitTests::Core::Template::Reflection
 			Logger::WriteMessage("\r\n");
 			Logger::WriteMessage((char*)&bla4[0]);
 			Logger::WriteMessage("\r\n");
+
+			//Elysium::Core::Template::RunTimeTypeInformation::CompositeType<EmptyClass>::GetMethodName<void>(&EmptyClass::DoNothing);
 		}
 
 		TEST_METHOD(EnumUnderlyingType)

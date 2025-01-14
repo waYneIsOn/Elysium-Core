@@ -31,13 +31,13 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	{
 	public:
 		/// <summary>
-		/// Returns whether composite-type is a class or not.
+		/// Returns whether given composite-type is a class or not.
 		/// </summary>
 		/// <returns></returns>
 		static constexpr const bool IsClass() noexcept;
 
 		/// <summary>
-		/// Returns whether composite-type is a struct or not.
+		/// Returns whether given composite-type is a struct or not.
 		/// </summary>
 		/// <returns></returns>
 		static constexpr const bool IsStruct() noexcept;
@@ -50,6 +50,11 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 	public:
 		template <class Field>
 		static constexpr const Elysium::Core::Template::Text::String<char8_t> GetFieldTypeName() noexcept;
+	public:
+		/*
+		template <class ReturnType, class ...Args, ReturnType(T::* Method)(Args...)>
+		static constexpr const Elysium::Core::Template::Text::String<char8_t> GetMethodName() noexcept;
+		*/
 	};
 
 	template<Elysium::Core::Template::Concepts::CompositeType T>
