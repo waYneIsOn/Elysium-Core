@@ -46,6 +46,7 @@ namespace Elysium::Core::Template::TypeTraits
 			!Elysium::Core::Template::TypeTraits::IsFunctionValue<T> &&
 			!Elysium::Core::Template::TypeTraits::IsSameValue<T, decltype([](){})> &&
 			!Elysium::Core::Template::TypeTraits::IsAggregateValue<T>
+		// @ToDo: not sure whether I need to check for more criterias here
 		>
 	{
 	};

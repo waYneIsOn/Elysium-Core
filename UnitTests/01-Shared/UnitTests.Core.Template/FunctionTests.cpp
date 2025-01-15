@@ -37,12 +37,6 @@ namespace UnitTests::Core::Template::Container
 		void operator()(){ }
 	};
 
-	struct ExampleStruct
-	{ 
-		int x;
-		double y;
-	};
-
 	TEST_CLASS(FunctionTests)
 	{
 	public:
@@ -51,20 +45,6 @@ namespace UnitTests::Core::Template::Container
 			ExampleClass ExampleInstance = ExampleClass();
 			auto Lambda = [](const char* Input) -> void { std::cout << "Lambda(" << Input << ")" << std::endl; };
 			auto SimpleLambda = []() -> void {};
-
-
-
-
-
-			//Function LambdaDelegateAutoDeduction0 = SimpleLambda;
-			//Function<void, const char*> LambdaDelegateAutoDeduction1 = Lambda;
-			//Function<void(const char*)> LambdaDelegateAutoDeduction1 = Lambda;
-			//Function LambdaDelegateTemplate = Function<void, const char*>(Lambda);
-			//Function LambdaDelegateTemplateSpecialized = Function<void(const char*)>(Lambda);
-			Function LambdaDelegateTemplateSpecializedThroughDeclType = Function<decltype(Lambda)>(Lambda);
-
-			//LambdaDelegateTemplateSpecializedThroughDeclType("LambdaMethod dfgdfg");
-
 
 			// prepare capture of std::cout
 			std::ostringstream captureStream;
@@ -75,16 +55,19 @@ namespace UnitTests::Core::Template::Container
 			Function GlobalFunctionDelegate = &GlobalFunction;
 			Function FunctionDelegate = &NamespaceFunction;
 			Function StaticMethodDelegate = &ExampleClass::StaticMethod;
-			//Function LambdaDelegate = Function<void, const char*>(Lambda);
-			//Function LambdaDelegate = Function<void(const char*)>(Lambda);
-			Function InstanceMethodDelegate = Function<ExampleClass, void(const char*)>(&ExampleInstance, &ExampleClass::InstanceMethod);
-
+			Function LambdaDelegate0 = Lambda;	// will use ctor(const L&)
+			Function LambdaDelegate1 = 
+				[](const char* Input) -> void { std::cout << "Lambda(" << Input << ")" << std::endl; }; // will use ctor(L&&)
+			Function InstanceMethodDelegate (&ExampleInstance, &ExampleClass::InstanceMethod);
+			
 			GlobalFunctionDelegate("GlobalFunction Input");
 			FunctionDelegate("Function Input");
 			StaticMethodDelegate("StaticMethod Input");
-			//LambdaDelegate("LambdaMethod Input");
+			LambdaDelegate0("LambdaMethod Input0");
+			LambdaDelegate1("LambdaMethod Input1");
+			//LambdaDelegate1("LambdaMethod Input1", "bla");
 			InstanceMethodDelegate("InstanceMethod Input");
-
+			
 			// capture output and use Logger
 			std::cout.rdbuf(originalCoutBuffer);
 			std::string capturedOutput = captureStream.str();
