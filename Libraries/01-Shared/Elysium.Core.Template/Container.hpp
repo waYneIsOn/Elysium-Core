@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DoubleBuffer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FUNCTION
+#include "Container/Function.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_LINKEDLIST
 #include "LinkedList.hpp"
 #endif

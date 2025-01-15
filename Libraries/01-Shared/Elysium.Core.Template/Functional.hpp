@@ -40,6 +40,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Functional/DeclareValue.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_FORWARD
+#include "Functional/Forward.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_HASH
 #include "Hash.hpp"
 #endif

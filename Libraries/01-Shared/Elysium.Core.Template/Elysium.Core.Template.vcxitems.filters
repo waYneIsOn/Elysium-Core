@@ -686,6 +686,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Function.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
