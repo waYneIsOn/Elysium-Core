@@ -38,10 +38,7 @@ namespace Elysium::Core::Template::TypeTraits
 
     template <class T, Elysium::Core::Template::System::size Size>
     inline constexpr bool IsArrayValue<T[Size]> = true;
-    /*
-    template <template<class> class T, class Inner>
-    inline constexpr bool IsArrayValue<T<Inner>> = IsSameValue<Functional::RemoveConstVolatile<T<Inner>>::Type, Elysium::Core::Collections::Template::Array<Inner>>;
-    */
+    
     template <class T>
     struct IsArray : IntegralConstant<bool, IsArrayValue<T>>
     { };

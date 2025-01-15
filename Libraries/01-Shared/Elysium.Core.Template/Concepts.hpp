@@ -60,6 +60,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Integral.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_LAMBDA
+#include "Concepts/Lambda.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
 #include "NonConstant.hpp"
 #endif

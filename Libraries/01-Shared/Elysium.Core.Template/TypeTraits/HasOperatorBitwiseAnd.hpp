@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../IntegralConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
-#include "../IsSame.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_VOIDTYPE
 #include "../VoidType.hpp"
 #endif
@@ -39,7 +35,7 @@ namespace Elysium::Core::Template::TypeTraits
 	struct HasOperatorBitwiseAnd<T, Elysium::Core::Template::TypeTraits::VoidType<decltype
 	(
 		Elysium::Core::Template::Functional::DeclareValue<T>() & Elysium::Core::Template::Functional::DeclareValue<T>()
-		)>>
+	)>>
 		: public IntegralConstant<bool, true>
 	{ };
 

@@ -16,9 +16,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsClass.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISLAMBDA
+#include "../TypeTraits/IsLambda.hpp"
+#endif
+
 namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept CompositeType = TypeTraits::IsClassValue<T>;
+	concept CompositeType = TypeTraits::IsClassValue<T> && !TypeTraits::IsLambdaValue<T>;
 }
 #endif

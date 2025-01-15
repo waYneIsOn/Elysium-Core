@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEOR
-#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEOR
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORCALL
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORCALL
 
 #ifdef _MSC_VER
 #pragma once
@@ -27,19 +27,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T, typename = void>
-	struct HasOperatorBitwiseOr 
+	struct HasOperatorCall
 		: public IntegralConstant<bool, false>
-	{ };
+	{
+	};
 
 	template <class T>
-	struct HasOperatorBitwiseOr<T, Elysium::Core::Template::TypeTraits::VoidType<decltype
+	struct HasOperatorCall<T, Elysium::Core::Template::TypeTraits::VoidType<decltype
 	(
-			Elysium::Core::Template::Functional::DeclareValue<T>() | Elysium::Core::Template::Functional::DeclareValue<T>()
+		&T::operator()
 	)>>
 		: public IntegralConstant<bool, true>
 	{ };
 
 	template <class T>
-	inline constexpr bool HasOperatorBitwiseOrValue = HasOperatorBitwiseOr<T>::Value;
+	inline constexpr bool HasOperatorCallValue = HasOperatorCall<T>::Value;
 }
 #endif

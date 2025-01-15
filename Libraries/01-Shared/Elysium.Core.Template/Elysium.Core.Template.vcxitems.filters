@@ -692,6 +692,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Lambda.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsLambda.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
