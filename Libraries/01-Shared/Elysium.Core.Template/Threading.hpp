@@ -60,6 +60,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SharedMutex.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREAD
+#include "Threading/Thread.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
 #include "WaitHandle.hpp"
 #endif

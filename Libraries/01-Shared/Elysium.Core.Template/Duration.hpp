@@ -27,19 +27,19 @@ namespace Elysium::Core::Template::Chrono
     class Duration
     {
 	public:
-		Duration() = delete;
+		constexpr Duration() = delete;
 
-		Duration(const Representation Value);
+		constexpr Duration(const Representation Value);
 
-		Duration(const Duration& Source);
+		constexpr Duration(const Duration& Source);
 
-		Duration(Duration&& Right) noexcept;
+		constexpr Duration(Duration&& Right) noexcept;
 
-		~Duration();
+		constexpr ~Duration();
 	public:
-		Duration& operator=(const Duration& Source);
+		constexpr Duration& operator=(const Duration& Source);
 
-		Duration& operator=(Duration&& Right) noexcept;
+		constexpr Duration& operator=(Duration&& Right) noexcept;
 	public:
 		constexpr const Representation GetCount() const;
 	private:
@@ -47,27 +47,27 @@ namespace Elysium::Core::Template::Chrono
     };
 
 	template<class Representation, class LocalPeriodInSeconds>
-	inline Duration<Representation, LocalPeriodInSeconds>::Duration(const Representation Value)
+	inline constexpr Duration<Representation, LocalPeriodInSeconds>::Duration(const Representation Value)
 		: _Value(Value)
 	{ }
 
 	template<class Representation, class LocalPeriodInSeconds>
-	inline Duration<Representation, LocalPeriodInSeconds>::Duration(const Duration & Source)
+	inline constexpr Duration<Representation, LocalPeriodInSeconds>::Duration(const Duration & Source)
 		: _Value(Source._Value)
 	{ }
 
 	template<class Representation, class LocalPeriodInSeconds>
-	inline Duration<Representation, LocalPeriodInSeconds>::Duration(Duration && Right) noexcept
+	inline constexpr Duration<Representation, LocalPeriodInSeconds>::Duration(Duration && Right) noexcept
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
 	template<class Representation, class LocalPeriodInSeconds>
-	inline Duration<Representation, LocalPeriodInSeconds>::~Duration()
+	inline constexpr Duration<Representation, LocalPeriodInSeconds>::~Duration()
 	{ }
 
 	template<class Representation, class LocalPeriodInSeconds>
-	inline Duration<Representation, LocalPeriodInSeconds>& Duration<Representation, LocalPeriodInSeconds>::operator=(const Duration & Source)
+	inline constexpr Duration<Representation, LocalPeriodInSeconds>& Duration<Representation, LocalPeriodInSeconds>::operator=(const Duration & Source)
 	{
 		if (this != &Source)
 		{
@@ -77,7 +77,7 @@ namespace Elysium::Core::Template::Chrono
 	}
 
 	template<class Representation, class LocalPeriodInSeconds>
-	inline Duration<Representation, LocalPeriodInSeconds>& Duration<Representation, LocalPeriodInSeconds>::operator=(Duration&& Right) noexcept
+	inline constexpr Duration<Representation, LocalPeriodInSeconds>& Duration<Representation, LocalPeriodInSeconds>::operator=(Duration&& Right) noexcept
 	{
 		if (this != &Right)
 		{

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_DURATION
 #include "Duration.hpp"
 #endif
@@ -28,15 +24,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Ratio.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "OperatingSystem.hpp"
 #endif
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-#ifndef _TIME_H_
-#include <time.h>
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
 #endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+    #ifndef _SYSINFOAPI_H_
+    #include <sysinfoapi.h>
+    #endif
 #else
 #error "unsupported os"
 #endif
@@ -49,41 +48,45 @@ namespace Elysium::Core::Template::Chrono
     class SystemClock final
     {
     public:
-        using Representation = long long;
+        using Representation = Elysium::Core::Template::System::int64_t;
         using Period = Numeric::Ratio<1, 10'000'000>; // 100 nanoseconds
         using Duration = Duration<Representation, Period>;
         using TimePoint = TimePoint<SystemClock>;
     public:
-        SystemClock() = delete;
+        constexpr  SystemClock() = delete;
 
-        SystemClock(const SystemClock& Source) = delete;
+        constexpr SystemClock(const SystemClock& Source) = delete;
 
-        SystemClock(SystemClock&& Right) noexcept = delete;
+        constexpr SystemClock(SystemClock&& Right) noexcept = delete;
 
-        ~SystemClock() = delete;
+        constexpr ~SystemClock() = delete;
     public:
-        SystemClock& operator=(const SystemClock& Source) = delete;
+        constexpr SystemClock& operator=(const SystemClock& Source) = delete;
 
-        SystemClock& operator=(SystemClock&& Right) noexcept = delete;
+        constexpr SystemClock& operator=(SystemClock&& Right) noexcept = delete;
     public:
         inline static constexpr const bool IsSteady = false;
+    public:
+        static const TimePoint Now();
+    };
 
-        inline static const TimePoint GetNow()
-        {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-            FILETIME FileTimeNow;
-            GetSystemTimePreciseAsFileTime(&FileTimeNow);
-            __int64 UnixTicks = ((__int64)FileTimeNow.dwLowDateTime + ((__int64)(FileTimeNow.dwHighDateTime) << 32LL)) -
-                116444736000000000LL;   // as windows ticks start at 01.01.1601 we need to add this value to get to unix' 01.01.1970
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
-            struct timespec now;
-            clock_gettime(CLOCK_MONOTONIC, &now);
-            __int64_t UnixTicks = now.tv_sec * 1000000000LL + now.tv_nsec;
+    inline const Elysium::Core::Template::Chrono::SystemClock::TimePoint Elysium::Core::Template::Chrono::SystemClock::Now()
+    {
+#if defined ELYSIUM_CORE_OS_WINDOWS
+        FILETIME FileTimeNow;
+        GetSystemTimePreciseAsFileTime(&FileTimeNow);
+        __int64 UnixTicks = (FileTimeNow.dwLowDateTime + ((FileTimeNow.dwHighDateTime) << 32LL)) -
+            116444736000000000LL;   // as windows ticks start at 01.01.1601 we need to add this value to get to unix' 01.01.1970
+        /*
+#elif defined ELYSIUM_CORE_OS_ANDROID
+        struct timespec now;
+        clock_gettime(CLOCK_MONOTONIC, &now);
+        __int64_t UnixTicks = now.tv_sec * 1000000000LL + now.tv_nsec;
+        */
 #else
 #error "unsupported os"
 #endif
-            return TimePoint(Duration(UnixTicks));
-        }
-    };
+        return TimePoint(Duration(UnixTicks));
+    }
 }
 #endif

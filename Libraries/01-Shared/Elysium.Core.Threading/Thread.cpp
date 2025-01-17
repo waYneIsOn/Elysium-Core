@@ -73,6 +73,11 @@ bool Elysium::Core::Threading::Thread::operator!=(const Thread & Other) const
 	return &Other != this;
 }
 
+const Elysium::Core::uint32_t Elysium::Core::Threading::Thread::GetCurrentThreadIdX()
+{
+	return ELYSIUM_THREAD_GETCURRENTTHREADID();
+}
+
 const Elysium::Core::Globalization::CultureInfo & Elysium::Core::Threading::Thread::GetCurrentCulture() const
 {
 	// SetThreadUILanguage
@@ -84,9 +89,9 @@ const Elysium::Core::uint32_t Elysium::Core::Threading::Thread::GetThreadId() co
 	return _Id;
 }
 
-const Elysium::Core::uint32_t Elysium::Core::Threading::Thread::GetCurrentThreadIdX()
+void Elysium::Core::Threading::Thread::Sleep(const TimeSpan& Timeout)
 {
-	return ELYSIUM_THREAD_GETCURRENTTHREADID();
+	ELYSIUM_THREAD_SLEEP(static_cast<unsigned long>(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond), false);
 }
 
 void Elysium::Core::Threading::Thread::Start()
@@ -126,11 +131,6 @@ void Elysium::Core::Threading::Thread::Join()
 	_State = ThreadState::WaitSleepJoin;
 	bool SignalReceived = ELYSIUM_SYNCHRONIZATION_PRIMITIVE_WAIT_FOR_SINGLE_OBJECT(_Handle, INFINITE) == WAIT_OBJECT_0;
 	_State = ThreadState::Stopped;
-}
-
-void Elysium::Core::Threading::Thread::Sleep(const TimeSpan & Timeout)
-{
-	ELYSIUM_THREAD_SLEEP(static_cast<unsigned long>(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond), false);
 }
 
 Elysium::Core::Threading::Thread::ThreadParameters::ThreadParameters()

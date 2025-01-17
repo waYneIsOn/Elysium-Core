@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef _INC_TIME
-#include <time.h>
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_DURATION
 #include "Duration.hpp"
 #endif
@@ -31,40 +27,40 @@ namespace Elysium::Core::Template::Chrono
     class TimePoint
     {
 	public:
-		TimePoint() = delete;
+		constexpr TimePoint() = delete;
 
-		TimePoint(const ClockDuration& Duration);
+		constexpr TimePoint(const ClockDuration& Duration);
 
-		TimePoint(const TimePoint& Source) = delete;
+		constexpr TimePoint(const TimePoint& Source) = delete;
 
-		TimePoint(TimePoint&& Right) noexcept = delete;
+		constexpr TimePoint(TimePoint&& Right) noexcept = delete;
 
-		~TimePoint();
+		constexpr ~TimePoint();
 	public:
-		TimePoint& operator=(const TimePoint& Source) = delete;
+		constexpr TimePoint& operator=(const TimePoint& Source) = delete;
 
-		TimePoint& operator=(TimePoint&& Right) noexcept = delete;
+		constexpr TimePoint& operator=(TimePoint&& Right) noexcept = delete;
 	public:
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		const ClockDuration& GetTimeSinceEpoch() const;
+		constexpr const ClockDuration& GetTimeSinceEpoch() const;
     private:
 		ClockDuration _Duration;
     };
 
 	template<class Clock, class ClockDuration>
-	inline TimePoint<Clock, ClockDuration>::TimePoint(const ClockDuration& Duration)
+	inline constexpr TimePoint<Clock, ClockDuration>::TimePoint(const ClockDuration& Duration)
 		: _Duration(Duration)
 	{ }
 
 	template<class Clock, class ClockDuration>
-	inline TimePoint<Clock, ClockDuration>::~TimePoint()
+	inline constexpr TimePoint<Clock, ClockDuration>::~TimePoint()
 	{ }
 
 	template<class Clock, class ClockDuration>
-	inline const ClockDuration& TimePoint<Clock, ClockDuration>::GetTimeSinceEpoch() const
+	inline constexpr const ClockDuration& TimePoint<Clock, ClockDuration>::GetTimeSinceEpoch() const
 	{
 		return _Duration;
 	}

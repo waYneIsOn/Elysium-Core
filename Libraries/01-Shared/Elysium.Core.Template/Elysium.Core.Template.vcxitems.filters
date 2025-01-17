@@ -704,6 +704,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

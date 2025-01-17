@@ -99,7 +99,7 @@ Elysium::Core::DateTime Elysium::Core::DateTime::MinValue()
 Elysium::Core::DateTime Elysium::Core::DateTime::Now()
 {
 	// ToDo: get tick-difference between utc and local time and add it
-	Elysium::Core::int64_t UtcTicks = Elysium::Core::Template::Chrono::SystemClock::GetNow().GetTimeSinceEpoch().GetCount() + 
+	Elysium::Core::int64_t UtcTicks = Elysium::Core::Template::Chrono::SystemClock::Now().GetTimeSinceEpoch().GetCount() +
 		DateTimeUtility::UnixFileTimeOffset;
 
 	return DateTime(UtcTicks, DateTimeKind::Local);
@@ -112,7 +112,7 @@ Elysium::Core::DateTime Elysium::Core::DateTime::Today()
 
 Elysium::Core::DateTime Elysium::Core::DateTime::UtcNow()
 {
-	return DateTime(Elysium::Core::Template::Chrono::SystemClock::GetNow().GetTimeSinceEpoch().GetCount() + DateTimeUtility::UnixFileTimeOffset,
+	return DateTime(Elysium::Core::Template::Chrono::SystemClock::Now().GetTimeSinceEpoch().GetCount() + DateTimeUtility::UnixFileTimeOffset,
 		DateTimeKind::Utc);
 }
 

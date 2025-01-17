@@ -24,6 +24,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Functional/Forward.hpp"
 #endif
 
+namespace Elysium::Core::Template::Threading
+{
+	class Thread;
+}
+
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>
@@ -33,9 +38,9 @@ namespace Elysium::Core::Template::Container
 	template <class T>
 	class Function
 	{
-	public:
+	private:
 		constexpr Function(const T& Input) noexcept;
-
+	public:
 		constexpr Function(const Function& Source) noexcept = delete;
 
 		constexpr Function(Function&& Right) noexcept = delete;
@@ -49,7 +54,9 @@ namespace Elysium::Core::Template::Container
 
 	template<class T>
 	inline constexpr Function<T>::Function(const T& Input) noexcept
-	{ }
+	{
+		// This constructor needs to be here for type deduction to work! It's ok for it to be private though.
+	}
 
 	template<class T>
 	inline constexpr Function<T>::~Function() noexcept
@@ -63,7 +70,7 @@ namespace Elysium::Core::Template::Container
 	template <class ReturnType, class ...Args>
 	class Function<ReturnType(*)(Args...)>
 	{
-		//friend class Elysium::Core::Threading::Thread;
+		friend class Elysium::Core::Template::Threading::Thread;
 		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType, Args...>>;
 	public:
 		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept;
@@ -151,8 +158,8 @@ namespace Elysium::Core::Template::Container
 	template <Elysium::Core::Template::Concepts::Lambda L>
 	class Function<L>
 	{
-		//friend class Elysium::Core::Threading::Thread;
-		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType, Args...>>;
+		friend class Elysium::Core::Template::Threading::Thread;
+		//friend class Elysium::Core::Template::Container::Vector<Function<L>>;
 	public:
 		//using ReturnType = decltype(L);
 		//using Args... = const char*;
@@ -245,8 +252,8 @@ namespace Elysium::Core::Template::Container
 	template <Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
 	class Function<ReturnType(Type::*)(Args...)>
 	{
-		//friend class Elysium::Core::Threading::Thread;
-		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType, Args...>>;
+		friend class Elysium::Core::Template::Threading::Thread;
+		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType(Type::*)(Args...)>>;
 	public:
 		constexpr Function(Type* Instance, ReturnType(Type::* Method)(Args...)) noexcept;
 
@@ -331,7 +338,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	/// <summary>
-	/// Template deduction guide!
+	/// Template deduction guide for an instance-method.
 	/// </summary>
 	template <Elysium::Core::Template::Concepts::CompositeType Type, typename ReturnType, typename... Args>
 	Function(Type* Instance, ReturnType(Type::* Method)(Args...))

@@ -76,19 +76,19 @@ namespace Elysium::Core::Threading
 
 		bool operator!=(const Thread& Other) const;
 	public:
+		static const Elysium::Core::uint32_t GetCurrentThreadIdX();
+	public:
 		const Globalization::CultureInfo& GetCurrentCulture() const;
 
 		const Elysium::Core::uint32_t GetThreadId() const;
-
-		static const Elysium::Core::uint32_t GetCurrentThreadIdX();
-
+	public:
+		static void Sleep(const TimeSpan& Timeout);
+	public:
 		void Start();
 
 		void Start(void* Parameter);
 
 		void Join();
-
-		static void Sleep(const TimeSpan& Timeout);
 
 		//static bool Yield();
 	private:

@@ -39,6 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsLambda.hpp" />

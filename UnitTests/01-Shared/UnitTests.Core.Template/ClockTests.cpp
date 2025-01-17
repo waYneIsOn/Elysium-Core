@@ -17,7 +17,7 @@ namespace UnitTests::Core::Template::Chrono
 	public:
 		TEST_METHOD(CompareSystemClockToSTL)
 		{
-			const SystemClock::TimePoint Now = SystemClock::GetNow();
+			const SystemClock::TimePoint Now = SystemClock::Now();
 			const std::chrono::system_clock::time_point STLNow = std::chrono::system_clock::now();
 
 			const SystemClock::Duration& Duration = Now.GetTimeSinceEpoch();
