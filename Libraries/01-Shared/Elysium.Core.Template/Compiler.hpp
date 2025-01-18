@@ -31,7 +31,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #else
 	#error "Unhandled compiler"
 #endif
-
+/*
+#if defined ELYSIUM_CORE_COMPILER_MSVC
+	#define ELYSIUM_CORE_PATH_LIKELY   [[likely]]
+	#define ELYSIUM_CORE_PATH_UNLIKELY [[unlikely]]
+#elif defined ELYSIUM_CORE_COMPILER_CLANG
+	#define ELYSIUM_CORE_PATH_LIKELY   [[__likely__]]
+	#define ELYSIUM_CORE_PATH_UNLIKELY [[__unlikely__]]
+#else
+	#error "Unhandled compiler"
+#endif
+*/
 namespace Elysium::Core::Template::System
 {
 	class Compiler
