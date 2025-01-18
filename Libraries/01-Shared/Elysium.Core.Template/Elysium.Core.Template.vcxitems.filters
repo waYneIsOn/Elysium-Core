@@ -713,6 +713,27 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimePoint.hpp">
       <Filter>Chrono</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Diathesis.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Language.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Gender.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Script.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Case.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Tense.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\PluralizationRule.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

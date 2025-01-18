@@ -39,6 +39,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Lambda.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Function.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Case.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Diathesis.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Gender.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Language.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\PluralizationRule.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Script.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Tense.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
