@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_RATIO
-#include "Ratio.hpp"
+#include "../Ratio.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
@@ -50,10 +50,11 @@ namespace Elysium::Core::Template::Chrono
     public:
         using Representation = Elysium::Core::Template::System::int64_t;
         using Period = Numeric::Ratio<1, 10'000'000>; // 100 nanoseconds
+
         using Duration = Duration<Representation, Period>;
         using TimePoint = TimePoint<SystemClock>;
     public:
-        constexpr  SystemClock() = delete;
+        constexpr SystemClock() = delete;
 
         constexpr SystemClock(const SystemClock& Source) = delete;
 
@@ -67,16 +68,32 @@ namespace Elysium::Core::Template::Chrono
     public:
         inline static constexpr const bool IsSteady = false;
     public:
-        static const TimePoint Now();
+        static const TimePoint Now() noexcept;
     };
 
-    inline const Elysium::Core::Template::Chrono::SystemClock::TimePoint Elysium::Core::Template::Chrono::SystemClock::Now()
+    inline const Elysium::Core::Template::Chrono::SystemClock::TimePoint Elysium::Core::Template::Chrono::SystemClock::Now() noexcept
     {
 #if defined ELYSIUM_CORE_OS_WINDOWS
+        /*
+        SYSTEMTIME UtcSystemTime;
+        GetSystemTime(&UtcSystemTime);
+
+        SYSTEMTIME LocalSystemTime;
+        GetLocalTime(&LocalSystemTime);
+        */
+        // Value 0 represents 01.01.1970 00:00:00 UTC in unix's epoch, a tick being 100 nanoseconds.
+        // Value 0 represents 01.01.1601 00:00:00 UTC in windows' epoch (gregorian calendar), a tick being 100 nanoseconds.
+        // The following value represents that "unix starting point" in windows' timestamp.
+        static constexpr const Elysium::Core::Template::System::uint64_t WindowsRepresentedUnixStartPoint = 116444736000000000LL;
+
         FILETIME FileTimeNow;
         GetSystemTimePreciseAsFileTime(&FileTimeNow);
-        __int64 UnixTicks = (FileTimeNow.dwLowDateTime + ((FileTimeNow.dwHighDateTime) << 32LL)) -
-            116444736000000000LL;   // as windows ticks start at 01.01.1601 we need to add this value to get to unix' 01.01.1970
+
+        Elysium::Core::Template::System::uint64_t WindowsTicks = 
+            static_cast<Elysium::Core::Template::System::uint64_t>(FileTimeNow.dwLowDateTime) +
+            (static_cast<Elysium::Core::Template::System::uint64_t>(FileTimeNow.dwHighDateTime) << 32LL);
+
+        Elysium::Core::Template::System::uint64_t UnixTicks = WindowsTicks - WindowsRepresentedUnixStartPoint;
         /*
 #elif defined ELYSIUM_CORE_OS_ANDROID
         struct timespec now;

@@ -15,6 +15,20 @@ namespace UnitTests::Core::Template::Chrono
 	TEST_CLASS(ClockTests)
 	{
 	public:
+		TEST_METHOD(CompareSteadyClockToSTL)
+		{
+			const SteadyClock::TimePoint Now = SteadyClock::Now();
+			const std::chrono::steady_clock::time_point STLNow = std::chrono::steady_clock::now();
+
+			const SteadyClock::Duration& Duration = Now.GetTimeSinceEpoch();
+			const std::chrono::steady_clock::duration STLDuration = STLNow.time_since_epoch();
+
+			const SteadyClock::Representation Ticks = Duration.GetCount();
+			const std::chrono::steady_clock::rep STLTick = STLDuration.count();
+
+			Assert::Fail();
+		}
+
 		TEST_METHOD(CompareSystemClockToSTL)
 		{
 			const SystemClock::TimePoint Now = SystemClock::Now();

@@ -33,6 +33,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Lambda.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Function.hpp" />
@@ -79,7 +81,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\Duration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EnumerationOrIntegral.hpp" />
@@ -229,9 +231,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SystemClock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TimePoint.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimePoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UniquePointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)UnsignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf16.hpp" />

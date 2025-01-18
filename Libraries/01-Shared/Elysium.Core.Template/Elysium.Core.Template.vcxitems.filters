@@ -208,15 +208,6 @@
       <Filter>Functional</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SystemClock.hpp">
-      <Filter>Chrono</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TimePoint.hpp">
-      <Filter>Chrono</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Duration.hpp">
-      <Filter>Chrono</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
@@ -706,6 +697,21 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp">
       <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\Duration.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimePoint.hpp">
+      <Filter>Chrono</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
