@@ -29,12 +29,18 @@ namespace Elysium::Core::Template::System
 	typedef unsigned long long uint64_t;
 
 #if ELYSIUM_CORE_BITNESS == 32
+	typedef int32_t intMax_t;
+	typedef uint32_t uintMax_t;
+
 	typedef uint32_t size;
 #elif ELYSIUM_CORE_BITNESS == 64
+	typedef int64_t intMax_t;
+	typedef uint64_t uintMax_t;
+
 	typedef uint64_t size;
 	//typedef unsigned __int64 size;
 #else
-#error "unsupported os"
+#error "unsupported bitness"
 #endif
 
 	/*

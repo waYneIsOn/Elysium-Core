@@ -12,18 +12,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ARITHMETIC
+#include "../Arithmetic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_RATIO
+#include "../Ratio.hpp"
 #endif
 
 namespace Elysium::Core::Template::Chrono
 {
     /// <summary>
-    /// 
+    /// Represents a time interval.
     /// </summary>
     /// <typeparam name="Representation"></typeparam>
     /// <typeparam name="LocalPeriodInSeconds"></typeparam>
-    template <class Representation, class LocalPeriodInSeconds>
+    template <Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds = Numeric::Ratio<1>>
     class Duration
     {
 	public:
@@ -46,27 +54,27 @@ namespace Elysium::Core::Template::Chrono
 		Representation _Value;
     };
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr Duration<Representation, LocalPeriodInSeconds>::Duration(const Representation Value)
 		: _Value(Value)
 	{ }
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr Duration<Representation, LocalPeriodInSeconds>::Duration(const Duration & Source)
 		: _Value(Source._Value)
 	{ }
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr Duration<Representation, LocalPeriodInSeconds>::Duration(Duration && Right) noexcept
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr Duration<Representation, LocalPeriodInSeconds>::~Duration()
 	{ }
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr Duration<Representation, LocalPeriodInSeconds>& Duration<Representation, LocalPeriodInSeconds>::operator=(const Duration & Source)
 	{
 		if (this != &Source)
@@ -76,7 +84,7 @@ namespace Elysium::Core::Template::Chrono
 		return *this;
 	}
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr Duration<Representation, LocalPeriodInSeconds>& Duration<Representation, LocalPeriodInSeconds>::operator=(Duration&& Right) noexcept
 	{
 		if (this != &Right)
@@ -86,7 +94,7 @@ namespace Elysium::Core::Template::Chrono
 		return *this;
 	}
 
-	template<class Representation, class LocalPeriodInSeconds>
+	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class LocalPeriodInSeconds>
 	inline constexpr const Representation Duration<Representation, LocalPeriodInSeconds>::GetCount() const
 	{
 		return _Value;
