@@ -83,7 +83,7 @@ namespace Elysium::Core::Template::Chrono
     {
 #if defined ELYSIUM_CORE_OS_WINDOWS
         // https://learn.microsoft.com/en-us/cpp/standard-library/steady-clock-struct?view=msvc-170
-
+        
         // https://learn.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency
         // states "The frequency of the performance counter is fixed at system boot and is consistent across all processors. 
         // Therefore, the frequency need only be queried upon application initialization, and the result can be cached."
@@ -92,6 +92,12 @@ namespace Elysium::Core::Template::Chrono
         static const Elysium::Core::Template::System::int64_t PerformanceFrequency = GetPerformanceFrequency();
 
         const Elysium::Core::Template::System::int64_t PerformanceCounter = GetPerformanceCounter();
+
+
+
+        // https://github.com/microsoft/STL/issues/3828
+        static constexpr const Elysium::Core::Template::System::int64_t TenMHz = 10'000'000;
+        static constexpr const Elysium::Core::Template::System::int64_t TwentyFourMHz = 24'000'000;
 
 
 #else
