@@ -26,7 +26,17 @@ namespace UnitTests::Core::Template::Chrono
 			const SteadyClock::Representation Ticks = Duration.GetCount();
 			const std::chrono::steady_clock::rep STLTick = STLDuration.count();
 
-			Assert::Fail();
+			// ...
+			DateTime NowFromElysium = DateTime(Ticks);
+			DateTime NowFromSTL = DateTime(STLTick);
+
+			Assert::AreEqual(NowFromSTL.GetDay(), NowFromElysium.GetDay());
+			Assert::AreEqual(NowFromSTL.GetMonth(), NowFromElysium.GetMonth());
+			Assert::AreEqual(NowFromSTL.GetYear(), NowFromElysium.GetYear());
+
+			Assert::AreEqual(NowFromSTL.GetHour(), NowFromElysium.GetHour());
+			Assert::AreEqual(NowFromSTL.GetMinute(), NowFromElysium.GetMinute());
+			Assert::AreEqual(NowFromSTL.GetSecond(), NowFromElysium.GetSecond());
 		}
 
 		TEST_METHOD(CompareSystemClockToSTL)
