@@ -734,6 +734,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\PluralizationRule.hpp">
       <Filter>Globalization\Internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\LanguageType.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\LanguageScope.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\TextDirection.hpp">
+      <Filter>Globalization\Internal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -12,7 +12,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-namespace Elysium::Core::Template::Globalization
+namespace Elysium::Core::Template::Globalization::Internal
 {
 	class Tense
 	{

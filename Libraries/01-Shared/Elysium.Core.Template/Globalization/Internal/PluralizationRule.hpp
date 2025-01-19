@@ -12,10 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-namespace Elysium::Core::Template::Globalization
+namespace Elysium::Core::Template::Globalization::Internal
 {
 	class PluralizationRule
 	{
 	};
+	/*
+	using ZeroSingular = PluralizationRule<Equals, 0>;
+	using ZeroPlural = PluralizationRule<Equals, 0>;
+	using Singular = PluralizationRule<Equals, 1>;
+	using Dual = PluralizationRule<GreaterThan, 1, SmallerThan, 2>;
+
+	using GeneralPlural = PluralizationRule<GreaterThan, 1>;
+	*/
 }
 #endif
