@@ -24,7 +24,7 @@ namespace Elysium::Core::Template::Globalization::Internal
 		// - text: left to right, right to left
 	private:
 		TextDirection _TextDirection;
-		TextDirection _NumberDirection
+		TextDirection _NumberDirection;
 	};
 
 	using Latin = Script;
