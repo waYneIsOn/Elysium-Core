@@ -648,7 +648,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr void Vector<T, Allocator>::PushBack(ConstReference Item)
 	{
-		if (_Length == _Capacity)
+		if (_Length == _Capacity) //ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			Reserve(CalculateCapacityGrowth(_Capacity + 1));
 		}
@@ -659,7 +659,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr void Vector<T, Allocator>::PushBack(RValueReference Item)
 	{
-		if (_Length == _Capacity)
+		if (_Length == _Capacity) //ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			Reserve(CalculateCapacityGrowth(_Capacity + 1));
 		}
