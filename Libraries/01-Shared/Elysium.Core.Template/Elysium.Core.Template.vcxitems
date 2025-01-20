@@ -49,6 +49,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\PluralizationRule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Script.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Tense.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\GreatestCommonDivisor.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\SignOf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />

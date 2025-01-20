@@ -24,12 +24,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Ratio.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_ARCHTECTURE
+#include "../Architecture.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
+#include "../Compiler.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "OperatingSystem.hpp"
+#include "../OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../Primitives.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -50,10 +58,10 @@ namespace Elysium::Core::Template::Chrono
     class SteadyClock final
     {
     public:
-        using Representation = Elysium::Core::Template::System::int64_t;
-        using Period = Numeric::Ratio<1, 1'000'000'000>; // 100 picoseconds
+        using Duration = NanoSeconds;
+        using Representation = Duration::RepresentationType;
+        using Period = Duration::PeriodType;
 
-        using Duration = Duration<Representation, Period>;
         using TimePoint = TimePoint<SteadyClock>;
     public:
         constexpr SteadyClock() = delete;
@@ -82,8 +90,6 @@ namespace Elysium::Core::Template::Chrono
     inline const Elysium::Core::Template::Chrono::SteadyClock::TimePoint Elysium::Core::Template::Chrono::SteadyClock::Now() noexcept
     {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-        // https://learn.microsoft.com/en-us/cpp/standard-library/steady-clock-struct?view=msvc-170
-        
         // https://learn.microsoft.com/en-us/windows/win32/api/profileapi/nf-profileapi-queryperformancefrequency
         // states "The frequency of the performance counter is fixed at system boot and is consistent across all processors. 
         // Therefore, the frequency need only be queried upon application initialization, and the result can be cached."
@@ -93,19 +99,51 @@ namespace Elysium::Core::Template::Chrono
 
         const Elysium::Core::Template::System::int64_t PerformanceCounter = GetPerformanceCounter();
 
-
-
-        // https://github.com/microsoft/STL/issues/3828
+        /*
+        * The following solution has been taken from the following issue
+        * https://github.com/microsoft/STL/issues/3828
+        * and it's current implementation taken and adopted from
+        * https://github.com/microsoft/STL/blob/ab57910040a0ccd9fa36e22536f3fc25a8225ef3/stl/inc/__msvc_chrono.hpp
+        * Copyright (c) Microsoft Corporation.
+        * SPDX-License-Identifier: Apache-2.0 WITH LLVM-exception
+        */
         static constexpr const Elysium::Core::Template::System::int64_t TenMHz = 10'000'000;
         static constexpr const Elysium::Core::Template::System::int64_t TwentyFourMHz = 24'000'000;
 
+#if defined ELYSIUM_CORE_ARCHITECTURE_ANY_X86
+#define ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM
+#define ELYSIUM_CORE_ARCHITECTURE_LIKELY_X86 ELYSIUM_CORE_PATH_LIKELY
+#elif defined ELYSIUM_CORE_ARCHITECTURE_ANY_ARM
+#define ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM ELYSIUM_CORE_PATH_LIKELY
+#define ELYSIUM_CORE_ARCHITECTURE_LIKELY_X86
+#else
+#define ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM
+#define ELYSIUM_CORE_ARCHITECTURE_LIKELY_X64
+#endif
+        if (PerformanceFrequency == TenMHz) ELYSIUM_CORE_ARCHITECTURE_LIKELY_X86
+        { 
+            static_assert(Period::Denominator % TenMHz == 0, "Elysium::Core::Template::Chrono::SteadyClock::Now(): should never fail.");
+            constexpr long long Multiplier = Period::Denominator / TenMHz;
+            return TimePoint(Duration(PerformanceCounter * Multiplier));
+        }
+        else if (PerformanceFrequency == TwentyFourMHz) ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM
+        {
+            const long long Whole = (PerformanceCounter / TwentyFourMHz) * Period::Denominator;
+            const long long Part = (PerformanceCounter % TwentyFourMHz) * Period::Denominator / TwentyFourMHz;
+            return TimePoint(Duration(Whole + Part));
+        }
+        else
+        {
+            const long long Whole = (PerformanceCounter / PerformanceFrequency) * Period::Denominator;
+            const long long Part = (PerformanceCounter % PerformanceFrequency) * Period::Denominator / PerformanceFrequency;
+            return TimePoint(Duration(Whole + Part));
+        }
+#undef ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM
+#undef ELYSIUM_CORE_ARCHITECTURE_LIKELY_X86
 
 #else
 #error "unsupported os"
 #endif
-
-        // @ToDo
-        return TimePoint(Duration(0));
     }
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

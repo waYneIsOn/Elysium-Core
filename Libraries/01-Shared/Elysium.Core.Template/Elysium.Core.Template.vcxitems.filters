@@ -743,6 +743,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\ScriptDirection.hpp">
       <Filter>Globalization\Internal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\SignOf.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\GreatestCommonDivisor.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

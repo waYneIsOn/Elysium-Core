@@ -34,6 +34,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Floor.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_GREATESTCOMMONDIVISOR
+#include "Math/GreatestCommonDivisor.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
 #include "Logarithm.hpp"
 #endif
@@ -48,6 +52,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ROUND
 #include "Round.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_SIGNOF
+#include "Math/SignOf.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE

@@ -50,8 +50,8 @@ namespace Elysium::Core::Template::Chrono
     public:
         using Representation = Elysium::Core::Template::System::int64_t;
         using Period = Numeric::Ratio<1, 10'000'000>; // 100 nanoseconds
-
         using Duration = Duration<Representation, Period>;
+
         using TimePoint = TimePoint<SystemClock>;
     public:
         constexpr SystemClock() = delete;

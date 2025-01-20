@@ -12,6 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
+#include "Absolute.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_GREATESTCOMMONDIVISOR
+#include "Math/GreatestCommonDivisor.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_SIGNOF
+#include "Math/SignOf.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "NumericTraits.hpp"
 #endif
@@ -25,46 +37,50 @@ namespace Elysium::Core::Template::Numeric
 	/// <summary>
 	/// Provides compile-time rational arithemtics support.
 	/// </summary>
-	template <Elysium::Core::Template::System::intMax_t N, Elysium::Core::Template::System::intMax_t D = 1>
+	template <Elysium::Core::Template::System::intMax_t Num, Elysium::Core::Template::System::intMax_t Denom = 1>
 	struct Ratio
 	{
-		static_assert(D != 0, "Elysium::Core::Template::Numeric::Ratio<N, D>: Denominator musn't be 0!");
-		static_assert(NumericTraits<System::intMax_t>::Maximum * -1 <= N, "Elysium::Core::Template::Numeric::Ratio<N, D>: Numerator overflow!");
-		static_assert(NumericTraits<System::intMax_t>::Maximum * -1 <= D, "Elysium::Core::Template::Numeric::Ratio<N, D>: Denominator overflow!");
-	/*
+		static_assert(Denom != 0, "Elysium::Core::Template::Numeric::Ratio<N, D>: Denominator musn't be 0!");
+		static_assert(NumericTraits<System::intMax_t>::Maximum * -1 <= Num, "Elysium::Core::Template::Numeric::Ratio<N, D>: Numerator overflow!");
+		static_assert(NumericTraits<System::intMax_t>::Maximum * -1 <= Denom, "Elysium::Core::Template::Numeric::Ratio<N, D>: Denominator overflow!");
 	public:
-		inline static constexpr const Elysium::Core::Template::System::intMax_t Numerator = 0;
-		inline static constexpr const Elysium::Core::Template::System::intMax_t Denominator = 0;
+		inline static constexpr const Elysium::Core::Template::System::intMax_t Numerator = 
+			Elysium::Core::Template::Math::SignOf(Num) * Elysium::Core::Template::Math::SignOf(Denom) *
+			Elysium::Core::Template::Math::Absolute(Num) / Elysium::Core::Template::Math::GreatestCommonDivisor(Num, Denom);
+		inline static constexpr const Elysium::Core::Template::System::intMax_t Denominator =
+			Elysium::Core::Template::Math::Absolute(Denom) / Elysium::Core::Template::Math::GreatestCommonDivisor(Num, Denom);
 	public:
 		using Type = Ratio<Numerator, Denominator>;
-	*/
 	};
+
 	/*
-	Ratio<1, 1'000'000'000'000'000'000'000'000'000'000> Quecto;
-	Ratio<1, 1'000'000'000'000'000'000'000'000'000> Ronto;
-	Ratio<1, 1'000'000'000'000'000'000'000'000> Yocto;
-	Ratio<1, 1'000'000'000'000'000'000'000> Zepto;
-	Ratio<1, 1'000'000'000'000'000'000> Atto;
-	Ratio<1, 1'000'000'000'000'000> Femto;
-	Ratio<1, 1'000'000'000'000> Pico;
-	Ratio<1, 1'000'000'000> Nano;
-	Ratio<1, 1'000'000> Micro;
-	Ratio<1, 1'000> Milli;
-	Ratio<1, 100> Centi;
-	Ratio<1, 10> Deci;
+	using Quecto = Ratio<1, 1'000'000'000'000'000'000'000'000'000'000>;
+	using Ronto = Ratio<1, 1'000'000'000'000'000'000'000'000'000>;
+	using Yocto = Ratio<1, 1'000'000'000'000'000'000'000'000>;
+	using Zepto = Ratio<1, 1'000'000'000'000'000'000'000>;
+	*/
+	using Atto = Ratio<1, 1'000'000'000'000'000'000>;
+	using Femto = Ratio<1, 1'000'000'000'000'000>;
+	using Pico = Ratio<1, 1'000'000'000'000>;
+	using Nano = Ratio<1, 1'000'000'000>;
+	using Micro = Ratio<1, 1'000'000>;
+	using Milli = Ratio<1, 1'000>;
+	using Centi = Ratio<1, 100>;
+	using Deci = Ratio<1, 10>;
 	
-	Ratio<10, 1> Deca;
-	Ratio<100, 1> Hecto;
-	Ratio<1'000, 1> Kilo;
-	Ratio<1'000'000, 1> Mega;
-	Ratio<1'000'000'000, 1> Giga;
-	Ratio<1'000'000'000'000, 1> Tera;
-	Ratio<1'000'000'000'000'000, 1> Peta;
-	Ratio<1'000'000'000'000'000'000, 1> Exa;
-	Ratio<1'000'000'000'000'000'000'000, 1> Zetta;
-	Ratio<1'000'000'000'000'000'000'000'000, 1> Yotta;
-	Ratio<1'000'000'000'000'000'000'000'000'000, 1> Ronna;
-	Ratio<1'000'000'000'000'000'000'000'000'000'000, 1> Quetta;
+	using Deca = Ratio<10, 1>;
+	using Hecto = Ratio<100, 1>;
+	using Kilo = Ratio<1'000, 1>;
+	using Mega = Ratio<1'000'000, 1>;
+	using Giga = Ratio<1'000'000'000, 1>;
+	using Tera = Ratio<1'000'000'000'000, 1>;
+	using Peta = Ratio<1'000'000'000'000'000, 1>;
+	using Exa = Ratio<1'000'000'000'000'000'000, 1>;
+	/*
+	using Zetta = Ratio<1'000'000'000'000'000'000'000, 1>;
+	using Yotta = Ratio<1'000'000'000'000'000'000'000'000, 1>;
+	using Ronna = Ratio<1'000'000'000'000'000'000'000'000'000, 1>;
+	using Quetta = Ratio<1'000'000'000'000'000'000'000'000'000'000, 1>;
 	*/
 }
 #endif
