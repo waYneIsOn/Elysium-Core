@@ -719,7 +719,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Language.hpp">
       <Filter>Globalization\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Gender.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\GrammaticalGender.hpp">
       <Filter>Globalization\Internal</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Script.hpp">
@@ -740,7 +740,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\LanguageScope.hpp">
       <Filter>Globalization\Internal</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\TextDirection.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\ScriptDirection.hpp">
       <Filter>Globalization\Internal</Filter>
     </ClInclude>
   </ItemGroup>

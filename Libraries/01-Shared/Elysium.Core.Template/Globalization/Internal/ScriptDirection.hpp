@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_INTERNAL_TEXTDIRECTION
-#define ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_INTERNAL_TEXTDIRECTION
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_INTERNAL_SCRIPTDIRECTION
+#define ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_INTERNAL_SCRIPTDIRECTION
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,9 +23,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Globalization::Internal
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class TextDirection : System::uint8_t
+	enum class ScriptDirection : System::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
-	enum class TextDirection
+	enum class ScriptDirection
 #else
 #error "undefined os"
 #endif

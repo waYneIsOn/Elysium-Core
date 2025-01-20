@@ -61,6 +61,5 @@ namespace Elysium::Core::Template::Globalization::Internal
 	{ }
 
 	constexpr Language Abkhazian(u8"Abkhazian", u8"ab");
-
 }
 #endif

@@ -12,18 +12,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
+#include "../../Literals.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS
+#include "../../Operators.hpp"
+#endif
+
 namespace Elysium::Core::Template::Globalization::Internal
 {
+	template <class Operator, Elysium::Core::Template::System::int8_t ComparisonValue>
 	class PluralizationRule
 	{
 	};
-	/*
-	using ZeroSingular = PluralizationRule<Equals, 0>;
-	using ZeroPlural = PluralizationRule<Equals, 0>;
-	using Singular = PluralizationRule<Equals, 1>;
-	using Dual = PluralizationRule<GreaterThan, 1, SmallerThan, 2>;
-
-	using GeneralPlural = PluralizationRule<GreaterThan, 1>;
-	*/
+	
+	using ZeroSingular = PluralizationRule<Elysium::Core::Template::Operators::Equal<Elysium::Core::Template::System::int8_t>, 0_i8>;
+	using ZeroPlural = PluralizationRule<Elysium::Core::Template::Operators::Equal<Elysium::Core::Template::System::int8_t>, 0>;
+	
+	using Singular = PluralizationRule<Elysium::Core::Template::Operators::Equal<Elysium::Core::Template::System::int8_t>, 1>;
+	using GeneralPlural = PluralizationRule<Elysium::Core::Template::Operators::Greater<Elysium::Core::Template::System::int8_t>, 1>;
+	
+	using Dual = PluralizationRule<Elysium::Core::Template::Operators::Equal<Elysium::Core::Template::System::int8_t>, 2>;
 }
 #endif

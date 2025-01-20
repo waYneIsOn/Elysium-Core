@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_INTERNAL_TEXTDIRECTION
-#include "TextDirection.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_INTERNAL_SCRIPTDIRECTION
+#include "ScriptDirection.hpp"
 #endif
 
 namespace Elysium::Core::Template::Globalization::Internal
@@ -21,13 +21,14 @@ namespace Elysium::Core::Template::Globalization::Internal
 	class Script
 	{
 		// https://en.wikipedia.org/wiki/List_of_writing_systems
-		// - text: left to right, right to left
+		// - text can be right to left, while numbers are written left to right etc.
 	private:
-		TextDirection _TextDirection;
-		TextDirection _NumberDirection;
+		ScriptDirection _TextDirection;
+		ScriptDirection _NumberDirection;
 	};
-
+	/*
 	using Latin = Script;
 	using Runic = Script;
+	*/
 }
 #endif

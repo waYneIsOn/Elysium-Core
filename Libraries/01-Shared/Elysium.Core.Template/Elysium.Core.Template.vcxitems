@@ -41,11 +41,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Case.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Diathesis.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Gender.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\GrammaticalGender.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Language.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\LanguageScope.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\LanguageType.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\TextDirection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\ScriptDirection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\PluralizationRule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Script.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Tense.hpp" />
