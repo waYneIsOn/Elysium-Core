@@ -12,16 +12,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
+#include "EnableIf.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ALLOCATABLE
 #include "Concepts/Allocatable.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISARITHMETIC
-#include "Arithmetic.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
-#include "EnableIf.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_TRIVIALLYCOPYABLE
+#include "Concepts/TriviallyCopyable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
@@ -644,15 +644,14 @@ namespace Elysium::Core::Template::Container
 	{
 		if (Index >= _Capacity)
 		{
-			bool sdfsdf = false;
+			throw 1;
 		}
 
 		if (_Length == _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			const Elysium::Core::Template::System::size DesiredCapacity = CalculateCapacityGrowth(_Capacity + 1);
 
-			bool bla = false;
-
+			throw 1;
 			//Reserve(CalculateCapacityGrowth(_Capacity + 1));
 		}
 		else ELYSIUM_CORE_PATH_LIKELY
@@ -830,10 +829,96 @@ namespace Elysium::Core::Template::Container
 		return NewCapacity;
 	}
 	/*
-	template <Elysium::Core::Template::Concepts::Arithmetic A, class Allocator>
-	class Vector<A, Allocator>
-	{ };
-	
+	/// <summary>
+	/// Specialized vector for trivially copyable types.
+	/// </summary>
+	/// <typeparam name="Allocator"></typeparam>
+	/// <typeparam name="T"></typeparam>
+	template <Elysium::Core::Template::Concepts::TriviallyCopyable T, class Allocator>
+	class Vector<T, Allocator>
+	{
+	public:
+		constexpr Vector() noexcept;
+
+		constexpr Vector(const System::size Capacity);
+
+		constexpr Vector(const InitializerList<T>& InitializerList);
+
+		constexpr Vector(const Vector& Source);
+
+		constexpr Vector(Vector&& Right) noexcept;
+
+		constexpr ~Vector();
+	public:
+		constexpr Vector<T, Allocator>& operator=(const Vector& Source);
+
+		constexpr Vector<T, Allocator>& operator=(Vector&& Right) noexcept;
+	private:
+		Allocator _Allocator;
+		System::size _Capacity;
+		System::size _Length;
+		Pointer _Data;
+	};
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>::Vector() noexcept
+		: _Allocator(Allocator()), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
+	{
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
+		: _Allocator(Allocator()), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+	{
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
+		: _Allocator(Allocator()), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+	{
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>::Vector(const Vector& Source)
+		: _Allocator(Allocator()), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
+	{
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>::Vector(Vector&& Right) noexcept
+		: _Allocator(Allocator()), _Capacity(0), _Length(0), _Data(nullptr)
+	{
+		*this = Functional::Move(Right);
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>::~Vector()
+	{
+		_Allocator.Deallocate(_Data, _Capacity);
+		_Data = nullptr;
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>& Vector<T, Allocator>::operator=(const Vector& Source)
+	{
+		if (this != &Source)
+		{
+
+		}
+		return *this;
+	}
+
+	template<Concepts::TriviallyCopyable T, class Allocator>
+	inline constexpr Vector<T, Allocator>& Vector<T, Allocator>::operator=(Vector&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+
+		}
+		return *this;
+	}
+	*/
+	/*
 	template <bool, class Allocator>
 	class Vector<bool, Allocator>
 	{ };

@@ -37,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Lambda.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\TriviallyCopyable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Function.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Case.hpp" />
@@ -59,6 +60,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsLambda.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTriviallyCopyable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicPointer.hpp" />
