@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Concepts/Allocatable.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISARITHMETIC
+#include "Arithmetic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
 #include "EnableIf.hpp"
 #endif
@@ -60,8 +64,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DefaultAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
+#include "Compiler.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVEASSIGNABLE
+#include "IsMoveAssignable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVECONSTRUCTIBLE
@@ -328,8 +340,6 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		void ShrinkToFit();
 	private:
-		//inline static Allocator _Allocator = Allocator();
-	private:
 		void InPlaceConstruct();
 
 		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity);
@@ -561,7 +571,7 @@ namespace Elysium::Core::Template::Container
 	inline void Vector<T, Allocator>::Assign(ConstValue Value, const Elysium::Core::Template::System::size Length)
 	{
 		const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
-		if (RequiredSize > _Capacity)
+		if (RequiredSize > _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			Reserve(CalculateCapacityGrowth(RequiredSize));
 		}
@@ -605,16 +615,25 @@ namespace Elysium::Core::Template::Container
 		{
 			throw Exceptions::IndexOutOfRangeException();
 		}
+		
+		// ensure object destruction
+		_Data[Index].~T();
 
-		// ToDo: I think, in this case we can actually use memcpy - if I'm wrong at some point, use the code below 
-		memcpy(&_Data[Index], &_Data[Index + 1], sizeof(T)* (_Length - Index));
-		/*
-		// move all old elements right of InsertionIndex to _Data using the move constructor
-		for (Elysium::Core::size i = Index; i < _Count; i++)
+		if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
 		{
-			_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
+			for (Elysium::Core::Template::System::size i = Index; i < _Length; ++i)
+			{
+				_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
+			}
 		}
-		*/
+		else
+		{
+			for (Elysium::Core::Template::System::size i = Index; i < _Length; ++i)
+			{
+				_Data[i] = _Data[i + 1];
+			}
+		}
+		
 		_Length--;
 
 		return GetEnd();
@@ -623,32 +642,54 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::Insert(const Elysium::Core::Template::System::size Index, ConstValue Value)
 	{
-
-		/*
-		if (_Size == _Capacity)
-		{	// don't call Reserve(...) here as to reduce the amount of copies/moves
-			Pointer OldData = _Data;
-			_Capacity = CalculateCapacityGrowth(_Capacity + 1);
-			_Data = _Allocator.Allocate(_Capacity);
-
-			Array<T>::Move(OldData, _Data, Index);
-			_Data[Index] = Value;
-			//Array<T>::Move(OldData, _Data, Index);
-
-			_Allocator.Deallocate(OldData, _Size);
-		}
-		else
+		if (Index >= _Capacity)
 		{
-
+			bool sdfsdf = false;
 		}
-		*/
-		throw 1;
+
+		if (_Length == _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
+		{
+			const Elysium::Core::Template::System::size DesiredCapacity = CalculateCapacityGrowth(_Capacity + 1);
+
+			bool bla = false;
+
+			//Reserve(CalculateCapacityGrowth(_Capacity + 1));
+		}
+		else ELYSIUM_CORE_PATH_LIKELY
+		{
+			if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
+			{
+				for (Elysium::Core::Template::System::size i = _Length; i > Index; --i)
+				{
+					_Data[i + 1] = Elysium::Core::Template::Functional::Move(_Data[i]);
+				}
+			}
+			else
+			{
+				for (Elysium::Core::Template::System::size i = _Length; i > Index; --i)
+				{
+					_Data[i + 1] = _Data[i];
+				}
+			}
+
+			// don't need to in-place-construct in between (as long as InPlaceConstruct() creates for whole _Capacity);
+			/*
+			for (Elysium::Core::Template::System::size i = Index - 1; i > _Length; --i)
+			{
+				new (&_Data[i]) T();
+			}
+			*/
+			
+			_Data[Index] = Value;
+
+			_Length += Index > _Length ? Index - _Length : 1;
+		}
 	}
 
 	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr void Vector<T, Allocator>::PushBack(ConstReference Item)
 	{
-		if (_Length == _Capacity) //ELYSIUM_CORE_PATH_UNLIKELY
+		if (_Length == _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			Reserve(CalculateCapacityGrowth(_Capacity + 1));
 		}
@@ -659,7 +700,7 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::Allocatable T, class Allocator>
 	inline constexpr void Vector<T, Allocator>::PushBack(RValueReference Item)
 	{
-		if (_Length == _Capacity) //ELYSIUM_CORE_PATH_UNLIKELY
+		if (_Length == _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			Reserve(CalculateCapacityGrowth(_Capacity + 1));
 		}
@@ -677,7 +718,7 @@ namespace Elysium::Core::Template::Container
 	inline void Vector<T, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 	{
 		const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
-		if (RequiredSize > _Capacity)
+		if (RequiredSize > _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
 			Reserve(CalculateCapacityGrowth(RequiredSize));
 		}
@@ -703,13 +744,23 @@ namespace Elysium::Core::Template::Container
 		if (DesiredCapacity > _Capacity)
 		{
 			Pointer OldData = _Data;
-			_Capacity = CalculateCapacityGrowth(DesiredCapacity);
+			_Capacity = DesiredCapacity;
 			_Data = _Allocator.Allocate(_Capacity);
 			InPlaceConstruct();
 
-			for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+			if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
 			{
-				_Data[i] = Functional::Move(OldData[i]);
+				for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+				{
+					_Data[i] = Functional::Move(OldData[i]);
+				}
+			}
+			else
+			{
+				for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+				{
+					_Data[i] = OldData[i];
+				}
 			}
 
 			_Allocator.Deallocate(OldData, _Capacity);
@@ -721,19 +772,24 @@ namespace Elysium::Core::Template::Container
 	{
 		if (_Length != _Capacity)
 		{
-			/*
-			// option 1: simply set capacity to size (no copies/moves caused but memory partially stays unused until another reallocation happens)
-			_Capacity = _Size;
-			*/
-			// option 2: reallocate (while copies/moves might happen, the memory used is exactly as much as required)
 			Pointer OldData = _Data;
 			_Capacity = _Length;
 			_Data = _Allocator.Allocate(_Capacity);
 			InPlaceConstruct();
 
-			for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+			if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
 			{
-				_Data[i] = Functional::Move(OldData[i]);
+				for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+				{
+					_Data[i] = Functional::Move(OldData[i]);
+				}
+			}
+			else
+			{
+				for (Elysium::Core::Template::System::size i = 0; i < _Length; ++i)
+				{
+					_Data[i] = OldData[i];
+				}
 			}
 
 			_Allocator.Deallocate(OldData, _Capacity);
@@ -743,6 +799,8 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::InPlaceConstruct()
 	{
+		// @ToDo: check whether I can get away with only in place constructing up until _Length 
+		// (and in place construct the rest when necessary)
 		for (Elysium::Core::Template::System::size i = 0; i < _Capacity; ++i)
 		{
 			new (&_Data[i]) T();
@@ -772,9 +830,12 @@ namespace Elysium::Core::Template::Container
 		return NewCapacity;
 	}
 	/*
-	// @ToDo: implement specialization (SOO as well?)
-	template <bool, class Allocator = Memory::DefaultAllocator<bool>>
-	class Vector
+	template <Elysium::Core::Template::Concepts::Arithmetic A, class Allocator>
+	class Vector<A, Allocator>
+	{ };
+	
+	template <bool, class Allocator>
+	class Vector<bool, Allocator>
 	{ };
 	*/
 }

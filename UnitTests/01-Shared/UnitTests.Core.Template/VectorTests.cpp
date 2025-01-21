@@ -208,19 +208,44 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(27_ui32, Instance[7]);
 			Assert::AreEqual(27_ui32, Instance[8]);
 
-			Instance.Insert(6, 33);
+			Instance.Insert(4, 33);
 			Assert::AreEqual(static_cast<Elysium::Core::size>(10), Instance.GetLength());
 			Assert::AreEqual(static_cast<Elysium::Core::size>(16), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
 			Assert::AreEqual(3_ui32, Instance[3]);
-			Assert::AreEqual(27_ui32, Instance[4]);
-			Assert::AreEqual(33_ui32, Instance[5]);
+			Assert::AreEqual(33_ui32, Instance[4]);
+			Assert::AreEqual(27_ui32, Instance[5]);
 			Assert::AreEqual(27_ui32, Instance[6]);
 			Assert::AreEqual(27_ui32, Instance[7]);
 			Assert::AreEqual(27_ui32, Instance[8]);
-			Assert::AreEqual(27_ui32, Instance[9]); 
+			Assert::AreEqual(27_ui32, Instance[9]);
+			Assert::AreEqual(0_ui32, Instance[10]);
+			
+			// insert in between length and capacity
+			Instance.Insert(13, 5448);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(13), Instance.GetLength());
+			Assert::AreEqual(static_cast<Elysium::Core::size>(16), Instance.GetCapacity());
+			Assert::AreEqual(3_ui32, Instance[0]);
+			Assert::AreEqual(4_ui32, Instance[1]);
+			Assert::AreEqual(5_ui32, Instance[2]);
+			Assert::AreEqual(3_ui32, Instance[3]);
+			Assert::AreEqual(33_ui32, Instance[4]);
+			Assert::AreEqual(27_ui32, Instance[5]);
+			Assert::AreEqual(27_ui32, Instance[6]);
+			Assert::AreEqual(27_ui32, Instance[7]);
+			Assert::AreEqual(27_ui32, Instance[8]);
+			Assert::AreEqual(27_ui32, Instance[9]);
+			Assert::AreEqual(0_ui32, Instance[10]);
+			Assert::AreEqual(0_ui32, Instance[11]);
+			Assert::AreEqual(0_ui32, Instance[12]);
+			Assert::AreEqual(5448_ui32, Instance[13]);
+			/*
+			// insert behind capacity
+			Instance.Insert(17, 5448);
+			Assert::Fail();
+			*/
 		}
 	private:
 		void Iterations(Vector<uint32_t>& Instance)
