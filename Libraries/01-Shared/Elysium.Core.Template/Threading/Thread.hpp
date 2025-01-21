@@ -46,7 +46,7 @@ namespace Elysium::Core::Template::Threading
 	public:
 		Thread& operator=(const Thread& Source) = delete;
 
-		Thread& operator=(Thread&& Right) noexcept;
+		Thread& operator=(Thread&& Right) noexcept = delete;
 	public:
 		//static const Elysium::Core::uint32_t GetCurrentThreadId();
 	public:
@@ -56,18 +56,39 @@ namespace Elysium::Core::Template::Threading
 	private:
 		//static void ThreadMain();
 	private:
+		void* _Instance;
 		void  (*_FunctionOrStaticMethod)();
+
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		HANDLE _ThreadHandlke;
+#endif
 	};
 
 	inline constexpr Thread::Thread() noexcept
-		: _FunctionOrStaticMethod(nullptr)
+		: _Instance(nullptr), _FunctionOrStaticMethod(nullptr)
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		, _ThreadHandlke(INVALID_HANDLE_VALUE)
+#endif
 	{ }
 
 	inline constexpr Thread::Thread(const Elysium::Core::Template::Container::Function<void(*)()>&ThreadStart) noexcept
-		: _FunctionOrStaticMethod(ThreadStart._FunctionOrStaticMethod)
+		: _Instance(nullptr), _FunctionOrStaticMethod(ThreadStart._FunctionOrStaticMethod)
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		, _ThreadHandlke(INVALID_HANDLE_VALUE)
+#endif
 	{ }
 
 	inline constexpr Thread::~Thread() noexcept
-	{ }
+	{
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		if (_ThreadHandlke != INVALID_HANDLE_VALUE)
+		{
+
+		}
+#endif
+
+		_FunctionOrStaticMethod = nullptr;
+		_Instance = nullptr;
+	}
 }
 #endif
