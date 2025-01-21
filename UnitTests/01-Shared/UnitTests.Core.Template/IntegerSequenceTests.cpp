@@ -68,13 +68,13 @@ namespace UnitTests::Core::Template::Utility
 			Assert::AreEqual(1_i8, Int8SequenceElement2);
 
 			// ...
-			constexpr const Elysium::Core::Template::System::uint8_t SequenceElement0 = Sequence::template GetAt<0>();
-			constexpr const Elysium::Core::Template::System::uint8_t SequenceElement1 = Sequence::template GetAt<1>();
-			constexpr const Elysium::Core::Template::System::uint8_t SequenceElement2 = Sequence::template GetAt<2>();
+			constexpr const Elysium::Core::Template::System::uint64_t SequenceElement0 = Sequence::template GetAt<0>();
+			constexpr const Elysium::Core::Template::System::uint64_t SequenceElement1 = Sequence::template GetAt<1>();
+			constexpr const Elysium::Core::Template::System::uint64_t SequenceElement2 = Sequence::template GetAt<2>();
 
-			Assert::AreEqual(4_ui8, SequenceElement0);
-			Assert::AreEqual(5_ui8, SequenceElement1);
-			Assert::AreEqual(6_ui8, SequenceElement2);
+			Assert::AreEqual(4_ui64, SequenceElement0);
+			Assert::AreEqual(5_ui64, SequenceElement1);
+			Assert::AreEqual(6_ui64, SequenceElement2);
 		}
 	private:
 		static constexpr const Elysium::Core::Template::Utility::IntegerSequence _UInt8Sequence =
