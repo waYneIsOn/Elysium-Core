@@ -41,8 +41,6 @@ namespace UnitTests::Core::Template::TypeTraits
 
 		TrivialClass(const TrivialClass& Source) = delete;
 
-		//TrivialClass(TrivialClass&& Right) noexcept = delete;
-
 		~TrivialClass() = default;
 	public:
 		/*
@@ -267,8 +265,10 @@ namespace UnitTests::Core::Template::TypeTraits
 
 		TEST_METHOD(IsTrivial)
 		{
-			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::uint8_t>);
-			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::int64_t>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<void*>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::Template::System::uint8_t>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::Template::System::int64_t>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::Template::System::byte>);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<float>);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<double>);
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<bool>);
