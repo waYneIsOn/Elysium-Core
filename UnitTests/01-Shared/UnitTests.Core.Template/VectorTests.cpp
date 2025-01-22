@@ -172,7 +172,7 @@ namespace UnitTests::Core::Template::Container
 			Assert::AreEqual(4_ui32, Instance[1]);
 			Assert::AreEqual(5_ui32, Instance[2]);
 
-			Instance.PushBackRange(SomeOtherInstance, 1, 2);
+			Instance.PushBackRange(&SomeOtherInstance[1], 2);
 			Assert::AreEqual(static_cast<Elysium::Core::size>(5), Instance.GetLength());
 			Assert::AreEqual(static_cast<Elysium::Core::size>(8), Instance.GetCapacity());
 			Assert::AreEqual(3_ui32, Instance[0]);

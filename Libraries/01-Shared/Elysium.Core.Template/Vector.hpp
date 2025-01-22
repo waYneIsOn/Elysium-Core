@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "InitializerList.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
+#include "ArgumentNullException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
 #include "IndexOutOfRangeException.hpp"
 #endif
@@ -291,7 +295,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Index"></param>
 		/// <returns></returns>
-		FIterator EraseAt(const System::size Index);
+		constexpr FIterator EraseAt(const System::size Index);
 
 		/// <summary>
 		/// 
@@ -312,14 +316,6 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Item"></param>
 		constexpr void PushBack(RValueReference Item);
 			//typename Elysium::Core::Template::Common::EnableIf<Elysium::Core::Template::TypeTraits::IsMoveConstructible<T>::Value>::Type* = nullptr;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="Source"></param>
-		/// <param name="FirstIndex"></param>
-		/// <param name="Length"></param>
-		void PushBackRange(const Vector<T>& Source, const System::size FirstIndex, const System::size Length);
 
 		/// <summary>
 		/// 
@@ -612,7 +608,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::Allocatable T, class Allocator>
-	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
+	inline constexpr Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
 	{	// @ToDo: have a look at std::vector::erase in regards to returning the last element?
 		if (Index >= _Length)
 		{
@@ -711,14 +707,14 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::Allocatable T, class Allocator>
-	inline void Vector<T, Allocator>::PushBackRange(const Vector<T>& Source, const Elysium::Core::Template::System::size FirstIndex, const Elysium::Core::Template::System::size Length)
-	{
-		PushBackRange(&Source[FirstIndex], Length);
-	}
-
-	template<Concepts::Allocatable T, class Allocator>
 	inline void Vector<T, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 	{
+		if (FirstItem == nullptr)
+		{
+			//throw Elysium::Core::Template::Exceptions::ArgumentNullException(nameof(FirstItem));
+			throw Elysium::Core::Template::Exceptions::ArgumentNullException();
+		}
+
 		const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
 		if (RequiredSize > _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
@@ -915,7 +911,7 @@ namespace Elysium::Core::Template::Container
 
 		constexpr FIterator Erase(ConstValue Value);
 
-		FIterator EraseAt(const System::size Index);
+		constexpr FIterator EraseAt(const System::size Index);
 
 		void Insert(const System::size Index, ConstValue Value);
 
@@ -923,8 +919,6 @@ namespace Elysium::Core::Template::Container
 
 		constexpr void PushBack(RValueReference Item);
 		
-		void PushBackRange(const Vector<T>& Source, const System::size FirstIndex, const System::size Length);
-
 		void PushBackRange(ConstPointer FirstItem, const System::size Length);
 
 		void PopBack();
@@ -1179,7 +1173,7 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::Trivial T, class Allocator>
-	inline Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
+	inline constexpr Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
 	{
 		if (Index >= _Length)
 		{
@@ -1246,14 +1240,14 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<Concepts::Trivial T, class Allocator>
-	inline void Vector<T, Allocator>::PushBackRange(const Vector<T>& Source, const Elysium::Core::Template::System::size FirstIndex, const Elysium::Core::Template::System::size Length)
-	{
-		PushBackRange(&Source[FirstIndex], Length);
-	}
-
-	template<Concepts::Trivial T, class Allocator>
 	inline void Vector<T, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 	{
+		if (FirstItem == nullptr)
+		{
+			//throw Elysium::Core::Template::Exceptions::ArgumentNullException(nameof(FirstItem));
+			throw Elysium::Core::Template::Exceptions::ArgumentNullException();
+		}
+
 		const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
 		if (RequiredSize > _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 		{
@@ -1327,11 +1321,371 @@ namespace Elysium::Core::Template::Container
 
 		return NewCapacity;
 	}
-	
 	/*
-	template <bool, class Allocator>
+	/// <summary>
+	/// Specialized vector for boolean.
+	/// </summary>
+	/// <typeparam name="Allocator"></typeparam>
+	template <class Allocator>
 	class Vector<bool, Allocator>
-	{ };
+	{
+	public:
+		using Value = bool;
+		using ConstValue = const bool;
+		using Pointer = bool*;
+		using ConstPointer = const bool*;
+		using Reference = bool&;
+		using ConstReference = const bool&;
+		using RValueReference = bool&&;
+
+		using IteratorPointer = bool*;
+		using IteratorReference = bool&;
+		using ConstIteratorReference = const bool&;
+	public:
+		using FIterator = Iterator::ForwardIterator<Vector<bool, Allocator>>;
+		using ConstIterator = Iterator::ConstForwardIterator<Vector<bool, Allocator>>;
+
+		using ReverseIterator = Iterator::BackwardIterator<Vector<bool, Allocator>>;
+		using ConstReverseIterator = Iterator::ConstBackwardIterator<Vector<bool, Allocator>>;
+	public:
+		constexpr Vector() noexcept;
+
+		constexpr Vector(const System::size Capacity);
+
+		constexpr Vector(const InitializerList<bool>& InitializerList);
+
+		constexpr Vector(const Vector& Source);
+
+		constexpr Vector(Vector&& Right) noexcept;
+
+		constexpr ~Vector();
+	public:
+		constexpr Vector<bool, Allocator>& operator=(const Vector& Source);
+
+		constexpr Vector<bool, Allocator>& operator=(Vector&& Right) noexcept;
+	public:
+		constexpr Reference operator[](const System::size Index);
+
+		constexpr ConstReference operator[](const System::size Index) const;
+	public:
+		static constexpr const System::size GetMaximumSize();
+
+		constexpr const System::size GetCapacity() const noexcept;
+
+		constexpr const System::size GetLength() const noexcept;
+
+		constexpr ConstPointer GetData() const noexcept;
+
+		constexpr const bool GetIsEmpty() const noexcept;
+
+		constexpr Reference GetAt(const System::size Index);
+
+		constexpr ConstReference GetAt(const System::size Index) const;
+	public:
+		constexpr FIterator GetBegin() noexcept;
+
+		constexpr ConstIterator GetBegin() const noexcept;
+
+		constexpr FIterator GetEnd() noexcept;
+
+		constexpr ConstIterator GetEnd() const noexcept;
+
+		constexpr ReverseIterator GetReverseBegin() noexcept;
+
+		constexpr ConstReverseIterator GetReverseBegin() const noexcept;
+
+		constexpr ReverseIterator GetReverseEnd() noexcept;
+
+		constexpr ConstReverseIterator GetReverseEnd() const noexcept;
+	public:
+		void Assign(ConstValue Value, const System::size Length);
+
+		void Clear();
+
+		constexpr FIterator Erase(ConstValue Value);
+
+		constexpr FIterator EraseAt(const System::size Index);
+
+		void Insert(const System::size Index, ConstValue Value);
+
+		constexpr void PushBack(ConstReference Item);
+
+		constexpr void PushBack(RValueReference Item);
+
+		void PushBackRange(const Vector<bool>& Source, const System::size FirstIndex, const System::size Length);
+
+		void PushBackRange(ConstPointer FirstItem, const System::size Length);
+
+		void PopBack();
+
+		void Reserve(const System::size DesiredCapacity);
+
+		void ShrinkToFit();
+	private:
+		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity);
+	private:
+		Allocator _Allocator;
+		System::size _Capacity;
+		System::size _Length;
+		Pointer _Data;
+	};
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Vector() noexcept
+		: _Allocator(Allocator()), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
+	{
+
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
+		: _Allocator(Allocator()), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+	{
+
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Vector(const InitializerList<bool>& InitializerList)
+		: _Allocator(Allocator()), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+	{
+
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Vector(const Vector& Source)
+		: _Allocator(Allocator()), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
+	{
+
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Vector(Vector&& Right) noexcept
+		: _Allocator(Allocator()), _Capacity(0), _Length(0), _Data(nullptr)
+	{
+		*this = Functional::Move(Right);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::~Vector()
+	{
+		_Allocator.Deallocate(_Data, _Capacity);
+		_Data = nullptr;
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>& Vector<bool, Allocator>::operator=(const Vector& Source)
+	{
+		if (this != &Source)
+		{
+
+		}
+		return *this;
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>& Vector<bool, Allocator>::operator=(Vector&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+
+		}
+		return *this;
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Reference Vector<bool, Allocator>::operator[](const Elysium::Core::Template::System::size Index)
+	{
+		return _Data[Index];
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstReference Vector<bool, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const
+	{
+		return _Data[Index];
+	}
+
+	template<class Allocator>
+	inline constexpr const Elysium::Core::Template::System::size Vector<bool, Allocator>::GetMaximumSize()
+	{
+		return static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(bool);
+	}
+
+	template<class Allocator>
+	inline constexpr const Elysium::Core::Template::System::size Vector<bool, Allocator>::GetCapacity() const noexcept
+	{
+		return _Capacity;
+	}
+
+	template<class Allocator>
+	inline constexpr const Elysium::Core::Template::System::size Vector<bool, Allocator>::GetLength() const noexcept
+	{
+		return _Length;
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstPointer Vector<bool, Allocator>::GetData() const noexcept
+	{
+		return _Data;
+	}
+
+	template<class Allocator>
+	inline constexpr const bool Vector<bool, Allocator>::GetIsEmpty() const noexcept
+	{
+		return _Length == 0;
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::Reference Vector<bool, Allocator>::GetAt(const Elysium::Core::Template::System::size Index)
+	{
+		if (Index >= _Length)
+		{
+			throw Exceptions::IndexOutOfRangeException();
+		}
+
+		return _Data[Index];
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstReference Vector<bool, Allocator>::GetAt(const Elysium::Core::Template::System::size Index) const
+	{
+		if (Index >= _Length)
+		{
+			throw Exceptions::IndexOutOfRangeException();
+		}
+
+		return _Data[Index];
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::FIterator Vector<bool, Allocator>::GetBegin() noexcept
+	{
+		return FIterator(&_Data[0]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstIterator Vector<bool, Allocator>::GetBegin() const noexcept
+	{
+		return ConstIterator(&_Data[0]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::FIterator Vector<bool, Allocator>::GetEnd() noexcept
+	{
+		return FIterator(&_Data[_Length - 1]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstIterator Vector<bool, Allocator>::GetEnd() const noexcept
+	{
+		return ConstIterator(&_Data[_Length - 1]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ReverseIterator Vector<bool, Allocator>::GetReverseBegin() noexcept
+	{
+		return ReverseIterator(&_Data[_Length - 1]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstReverseIterator Vector<bool, Allocator>::GetReverseBegin() const noexcept
+	{
+		return ConstReverseIterator(&_Data[_Length - 1]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ReverseIterator Vector<bool, Allocator>::GetReverseEnd() noexcept
+	{
+		return ReverseIterator(&_Data[0]);
+	}
+
+	template<class Allocator>
+	inline constexpr Vector<bool, Allocator>::ConstReverseIterator Vector<bool, Allocator>::GetReverseEnd() const noexcept
+	{
+		return ConstReverseIterator(&_Data[0]);
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::Assign(ConstValue Value, const Elysium::Core::Template::System::size Length)
+	{
+
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::Clear()
+	{
+		_Length = 0;
+	}
+
+	template<class Allocator>
+	inline constexpr Container::Vector<bool, Allocator>::FIterator Container::Vector<bool, Allocator>::Erase(ConstValue Value)
+	{
+		for (System::size i = 0; i < _Length; i++)
+		{
+			if (_Data[i] == Value)
+			{
+				return EraseAt(i);
+			}
+		}
+
+		// ToDo: have a look at std::vector::erase in regards to returning the last element?
+		return GetEnd();
+	}
+
+	template<class Allocator>
+	inline constexpr Container::Vector<bool, Allocator>::FIterator Container::Vector<bool, Allocator>::EraseAt(const System::size Index)
+	{
+
+		// ToDo: have a look at std::vector::erase in regards to returning the last element?
+		return GetEnd();
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::Insert(const Elysium::Core::Template::System::size Index, ConstValue Value)
+	{
+
+	}
+
+	template<class Allocator>
+	inline constexpr void Vector<bool, Allocator>::PushBack(ConstReference Item)
+	{
+
+	}
+
+	template<class Allocator>
+	inline constexpr void Vector<bool, Allocator>::PushBack(RValueReference Item)
+	{
+
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
+	{
+
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::PopBack()
+	{
+
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::Reserve(const Elysium::Core::Template::System::size DesiredCapacity)
+	{
+
+	}
+
+	template<class Allocator>
+	inline void Vector<bool, Allocator>::ShrinkToFit()
+	{
+
+	}
+
+	template<class Allocator>
+	inline const Elysium::Core::Template::System::size Vector<bool, Allocator>::CalculateCapacityGrowth(const Elysium::Core::Template::System::size DesiredCapacity)
+	{
+		return 0;
+	}
 	*/
 }
 #endif
