@@ -80,6 +80,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SignedInteger.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_TRIVIAL
+#include "Concepts/Trivial.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_TRIVIALLYCOPYABLE
 #include "Concepts/TriviallyCopyable.hpp"
 #endif

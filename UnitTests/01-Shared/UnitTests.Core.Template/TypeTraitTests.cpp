@@ -32,6 +32,31 @@ namespace UnitTests::Core::Template::TypeTraits
 	struct SomeStruct
 	{ };
 
+	class TrivialClass
+	{
+	public:
+		TrivialClass() = default;
+
+		TrivialClass(float x) :_X(x) {}
+
+		TrivialClass(const TrivialClass& Source) = delete;
+
+		//TrivialClass(TrivialClass&& Right) noexcept = delete;
+
+		~TrivialClass() = default;
+	public:
+		/*
+		TrivialClass& operator=(const TrivialClass& Source) = default;
+
+		TrivialClass& operator=(TrivialClass&& Right) noexcept = delete;
+		*/
+		TrivialClass& operator=(const TrivialClass& Source) = delete;
+
+		TrivialClass& operator=(TrivialClass&& Right) noexcept = default;
+	private:
+		double _X;
+	};
+
 	TEST_CLASS(TypeTraitTests)
 	{
 	public:
@@ -238,6 +263,19 @@ namespace UnitTests::Core::Template::TypeTraits
 
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsSame<Elysium::Core::uint8_t, unsigned char>());
 			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsSame<void, void>());
+		}
+
+		TEST_METHOD(IsTrivial)
+		{
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::uint8_t>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Elysium::Core::int64_t>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<float>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<double>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<bool>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<EnumerationClass>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<Colour>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<SomeStruct>);
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsTrivialValue<TrivialClass>);
 		}
 
 		TEST_METHOD(IsValue)

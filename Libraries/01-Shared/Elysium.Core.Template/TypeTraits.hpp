@@ -156,6 +156,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsSignedInteger.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISTRIVIAL
+#include "TypeTraits/IsTrivial.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISTRIVIALLYCOPYABLE
 #include "TypeTraits/IsTriviallyCopyable.hpp"
 #endif
