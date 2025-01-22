@@ -34,7 +34,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeleterTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)VectorTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VectorOfTrivialTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)VectorUInt32Tests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SortingAlgorithmTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeTraitTests.cpp" />
