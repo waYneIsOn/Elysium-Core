@@ -141,7 +141,7 @@ namespace Elysium::Core::Template::Threading
 		void* AddressOfExpected = static_cast<void*>(Elysium::Core::Template::System::Compiler::AddressOf(Expected));
 
 		_SlimReaderWriterLock.LockExclusive();
-		// @ToDo: MemCpy is possible as long as atomics are only using primitives, enums and pointers
+		// @ToDo: MemCmp is possible as long as atomics are only using trivial types like primitives, enums, pointers etc.
 		Result = Elysium::Core::Template::Memory::MemCmp(AddressOfValue, AddressOfExpected, sizeof(T)) == 0;
 		if (Result)
 		{
