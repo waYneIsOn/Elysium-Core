@@ -55,7 +55,7 @@ namespace UnitTests::Core::Template::Container
 
 		TEST_METHOD(IterationsThroughPopulated)
 		{
-			Vector<bool> Instance = { true, false, true, false, true };
+			Vector<bool> Instance = { false, true, false, true, false };
 			Iterations(Instance);
 		}
 
@@ -254,23 +254,23 @@ namespace UnitTests::Core::Template::Container
 			// iterate using index/operator
 			for (Elysium::Core::size i = 0; i < Instance.GetLength(); i++)
 			{
-				//const bool& Element = Instance[i];
-				//Assert::AreEqual(static_cast<float>(i), Element.X);
+				const bool& Element = !Instance[i];
+				Assert::AreEqual(i % 2 == 0, Element);
 			}
 
 			// iterate using index/method
 			for (Elysium::Core::size i = 0; i < Instance.GetLength(); i++)
 			{
-				//bool& Element = Instance.GetAt(i);
-				//Assert::AreEqual(static_cast<float>(i), Element.X);
+				const bool& Element = !Instance[i];
+				Assert::AreEqual(i % 2 == 0, Element);
 			}
 
 			// iterate using ForwardIterator-class
 			uint32_t i = 0;
 			for (Vector<bool>::FIterator Iterator = Instance.GetBegin(); Iterator != Instance.GetEnd(); ++Iterator)
 			{
-				//bool& Element = *Iterator;
-				//Assert::AreEqual(static_cast<float>(i++), Element.X);
+				const bool& Element = !*Iterator;
+				Assert::AreEqual(i++ % 2 == 0, Element);
 			}
 			Assert::AreEqual(static_cast<uint32_t>(Length), i);
 
@@ -278,16 +278,16 @@ namespace UnitTests::Core::Template::Container
 			i = 0;
 			for (Vector<bool>::ConstIterator Iterator = ConstInstance.GetBegin(); Iterator != ConstInstance.GetEnd(); ++Iterator)
 			{
-				//const bool& Element = *Iterator;
-				//Assert::AreEqual(static_cast<float>(i++), Element.X);
+				const bool& Element = !*Iterator;
+				Assert::AreEqual(i++ % 2 == 0, Element);
 			}
 			Assert::AreEqual(static_cast<uint32_t>(Length), i);
 
 			// iterate using BackwardIterator-class
 			for (Vector<bool>::ReverseIterator Iterator = Instance.GetReverseBegin(); Iterator != Instance.GetReverseEnd(); --Iterator)
 			{
-				//bool& Element = *Iterator;
-				//Assert::AreEqual(static_cast<float>(--i), Element.X);
+				const bool& Element = !*Iterator;
+				Assert::AreEqual(--i % 2 == 0, Element);
 			}
 			Assert::AreEqual(0_ui32, i);
 
@@ -295,8 +295,8 @@ namespace UnitTests::Core::Template::Container
 			i = static_cast<uint32_t>(Length);
 			for (Vector<bool>::ConstReverseIterator Iterator = ConstInstance.GetReverseBegin(); Iterator != ConstInstance.GetReverseEnd(); --Iterator)
 			{
-				//const bool& Element = *Iterator;
-				//Assert::AreEqual(static_cast<float>(--i), Element.X);
+				const bool& Element = !*Iterator;
+				Assert::AreEqual(--i % 2 == 0, Element);
 			}
 			Assert::AreEqual(0_ui32, i);
 		}
