@@ -49,10 +49,10 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	if (_CompletionPortHandle != nullptr)
 	{
 		EndInit();
-
-		//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
+		/*
 		CloseThreadpoolIo(_CompletionPortHandle);
 		_CompletionPortHandle = nullptr;
+		*/
 	}
 
 	if (_DirectoryHandle != INVALID_HANDLE_VALUE)
@@ -88,7 +88,7 @@ const Elysium::Core::Utf8String& Elysium::Core::IO::FileSystemWatcher::GetFilter
 void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 {
 	if (_AddressOfLatestAsyncResult.Load() != nullptr)
-	{	// already initialized
+	{	// already initialized (check is necessary since this method is public)
 		return;
 	}
 
@@ -116,7 +116,7 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 void Elysium::Core::IO::FileSystemWatcher::EndInit()
 {
 	if (_AddressOfLatestAsyncResult.Load() == nullptr)
-	{	// already uninitialized
+	{	// already uninitialized (this check is necessary since this method is public)
 		return;
 	}
 
