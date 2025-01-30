@@ -46,22 +46,21 @@ Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, con
 Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	if (_CompletionPortHandle != nullptr)
-	{
-		EndInit();
-		/*
-		// apparently closing threadpool io and then the handle caused my issue.
-		// it seems to be ok to close the handle though (which automatically closes threadpool io as well and therefore not causing e memory leak)
-		// @ToDo: read documentation on whether this is correct!
-		CloseThreadpoolIo(_CompletionPortHandle);
-		_CompletionPortHandle = nullptr;
-		*/
-	}
+	EndInit();
 
 	if (_DirectoryHandle != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(_DirectoryHandle);
 		_DirectoryHandle = INVALID_HANDLE_VALUE;
+	}
+
+	if (_CompletionPortHandle != nullptr)
+	{
+		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
+		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
+		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
+		CloseThreadpoolIo(_CompletionPortHandle);
+		_CompletionPortHandle = nullptr;
 	}
 #else
 #error "undefined os"
