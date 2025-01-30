@@ -58,7 +58,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	{
 		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
 		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
-		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
+		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
 		CloseThreadpoolIo(_CompletionPortHandle);
 		_CompletionPortHandle = nullptr;
 	}
