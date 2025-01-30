@@ -50,6 +50,9 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	{
 		EndInit();
 		/*
+		// apparently closing threadpool io and then the handle caused my issue.
+		// it seems to be ok to close the handle though (which automatically closes threadpool io as well and therefore not causing e memory leak)
+		// @ToDo: read documentation on whether this is correct!
 		CloseThreadpoolIo(_CompletionPortHandle);
 		_CompletionPortHandle = nullptr;
 		*/
