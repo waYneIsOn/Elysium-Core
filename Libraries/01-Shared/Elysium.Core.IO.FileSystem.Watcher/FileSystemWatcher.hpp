@@ -120,7 +120,7 @@ namespace Elysium::Core::IO
 		Utf8String _Path;
 		Utf8String _Filter;
 
-		FileSystemWatcherAsyncResult* _AddressOfLatestAsyncResult;
+		Elysium::Core::Template::Threading::Atomic<FileSystemWatcherAsyncResult*> _AddressOfLatestAsyncResult;
 		
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _DirectoryHandle;

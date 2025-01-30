@@ -87,7 +87,7 @@ const Elysium::Core::Utf8String& Elysium::Core::IO::FileSystemWatcher::GetFilter
 
 void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 {
-	if (_AddressOfLatestAsyncResult != nullptr)
+	if (_AddressOfLatestAsyncResult.Load() != nullptr)
 	{	// already initialized
 		return;
 	}
@@ -110,22 +110,20 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 		}
 	}
 
-	_AddressOfLatestAsyncResult = AsyncResult;
+	_AddressOfLatestAsyncResult.Exchange(AsyncResult);
 }
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit()
 {
-	if (_AddressOfLatestAsyncResult == nullptr)
+	if (_AddressOfLatestAsyncResult.Load() == nullptr)
 	{	// already uninitialized
 		return;
 	}
 
-	if (_AddressOfLatestAsyncResult != nullptr)
-	{
-		//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
-		delete _AddressOfLatestAsyncResult;
-		_AddressOfLatestAsyncResult = nullptr;
-	}
+	//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
+	FileSystemWatcherAsyncResult* AsyncResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
+	AsyncResult->_WrappedOverlap._AsyncResult = nullptr;
+	delete AsyncResult;
 }
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncResult* AsyncResult)
@@ -196,8 +194,9 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 	AsyncFileWatcherResult->_CompletionPortHandle = nullptr;
 
 	// make sure to not cause a memory leak
-	delete _AddressOfLatestAsyncResult;
-	_AddressOfLatestAsyncResult = nullptr;
+	FileSystemWatcherAsyncResult* PreviousAsyncResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
+	PreviousAsyncResult->_WrappedOverlap._AsyncResult = nullptr;
+	delete PreviousAsyncResult;
 
 	// run again
 	BeginInit();
