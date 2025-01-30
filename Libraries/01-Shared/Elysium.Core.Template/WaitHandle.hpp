@@ -112,10 +112,10 @@ namespace Elysium::Core::Template::Threading
 	inline void WaitHandle::Close()
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		if (_Handle != nullptr)
+		if (_Handle != INVALID_HANDLE_VALUE)
 		{
 			CloseHandle(_Handle);
-			_Handle = nullptr;
+			_Handle = INVALID_HANDLE_VALUE;
 		}
 #elif defined ELYSIUM_CORE_OS_LINUX
 		pthread_mutex_destroy(&_Handle);
