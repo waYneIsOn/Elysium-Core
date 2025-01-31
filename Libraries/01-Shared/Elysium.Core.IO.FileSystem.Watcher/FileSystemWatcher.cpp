@@ -53,7 +53,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 		CloseHandle(_DirectoryHandle);
 		_DirectoryHandle = INVALID_HANDLE_VALUE;
 	}
-
+	
 	if (_CompletionPortHandle != nullptr)
 	{
 		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
@@ -94,6 +94,11 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 		return;
 	}
 
+	if (_DirectoryHandle == INVALID_HANDLE_VALUE)
+	{
+		return;
+	}
+
 	FileSystemWatcherAsyncResult* AsyncResult = new FileSystemWatcherAsyncResult(*this, 
 		Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileSystemWatcher, &FileSystemWatcher::EndInit>(*this),
 		nullptr, 0x0, _CompletionPortHandle);
@@ -122,7 +127,6 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 		return;
 	}
 
-	//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
 	FileSystemWatcherAsyncResult* AsyncResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
 	AsyncResult->_WrappedOverlap._AsyncResult = nullptr;
 	delete AsyncResult;
@@ -130,7 +134,12 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncResult* AsyncResult)
 {
-	FileSystemWatcherAsyncResult* AsyncFileWatcherResult = const_cast<FileSystemWatcherAsyncResult*>(static_cast<const FileSystemWatcherAsyncResult*>(AsyncResult));
+	//FileSystemWatcherAsyncResult* AsyncFileWatcherResult = const_cast<FileSystemWatcherAsyncResult*>(static_cast<const FileSystemWatcherAsyncResult*>(AsyncResult));
+	
+	// do NOT use the input of this function! It's just there for compatibility-reasons
+	// @ToDo: should probably change the input and delegate in general
+	FileSystemWatcherAsyncResult* AsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
+	//assert(AsyncFileWatcherResult != nullptr, "Elysium::Core::IO::FileSystemWatcher::EndInit(...): FileSystemWatcherAsyncResult is nullptr.");
 	if (AsyncFileWatcherResult == nullptr)
 	{	// ToDo: throw specific exception - This should actually never happen!
 		throw 1;
@@ -143,7 +152,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 
 	// ...
 	Elysium::Core::size Offset = 0;
-	wchar_t* OldName;
+	wchar_t* OldName = nullptr;
 	do
 	{
 		const FILE_NOTIFY_EXTENDED_INFORMATION& Info = (FILE_NOTIFY_EXTENDED_INFORMATION&)AsyncFileWatcherResult->_InformationBuffer[Offset];
@@ -163,22 +172,35 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 			}
 		}
 
-		// ToDo: strings
+		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName, 
+			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Info.FileName));
+
+		Utf8String FullPath = Utf8String(_Path.GetLength() + FileName.GetLength() + sizeof(char8_t));
+
 		switch (Info.Action)
 		{
 		case FILE_ACTION_ADDED:
-			OnCreated(*this, FileSystemEventArgs(WatcherChangeTypes::Created, nullptr, nullptr));
+			OnCreated(*this, FileSystemEventArgs(WatcherChangeTypes::Created, Elysium::Core::Template::Functional::Move(FullPath),
+				Elysium::Core::Template::Functional::Move(FileName)));
 			break;
 		case FILE_ACTION_REMOVED:
-			OnDeleted(*this, FileSystemEventArgs(WatcherChangeTypes::Deleted, nullptr, nullptr));
+			OnDeleted(*this, FileSystemEventArgs(WatcherChangeTypes::Deleted,Elysium::Core::Template::Functional::Move(FullPath),
+				Elysium::Core::Template::Functional::Move(FileName)));
 			break;
 		case FILE_ACTION_MODIFIED:
-			OnChanged(*this, FileSystemEventArgs(WatcherChangeTypes::Changed, nullptr, nullptr));
+			OnChanged(*this, FileSystemEventArgs(WatcherChangeTypes::Changed, Elysium::Core::Template::Functional::Move(FullPath),
+				Elysium::Core::Template::Functional::Move(FileName)));
 			break;
 		case FILE_ACTION_RENAMED_OLD_NAME:
+			OldName = const_cast<wchar_t*>(Info.FileName);
 			break;
 		case FILE_ACTION_RENAMED_NEW_NAME:
-			OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, nullptr, nullptr, nullptr));
+		{
+			Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
+				Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
+			OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
+				Elysium::Core::Template::Functional::Move(FileName), Elysium::Core::Template::Functional::Move(OldFileName)));
+		}
 			break;
 		default:
 			break;
@@ -196,9 +218,8 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 	AsyncFileWatcherResult->_CompletionPortHandle = nullptr;
 
 	// make sure to not cause a memory leak
-	FileSystemWatcherAsyncResult* PreviousAsyncResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-	PreviousAsyncResult->_WrappedOverlap._AsyncResult = nullptr;
-	delete PreviousAsyncResult;
+	AsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
+	delete AsyncFileWatcherResult;
 
 	// run again
 	BeginInit();
@@ -226,7 +247,8 @@ HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const c
 void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
 	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = static_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
-	Elysium::Core::IO::FileSystemWatcherAsyncResult* AsyncFileWatcherResult = dynamic_cast<Elysium::Core::IO::FileSystemWatcherAsyncResult*>(WrappedOverlap->_AsyncResult);
+	Elysium::Core::IO::FileSystemWatcherAsyncResult* AsyncFileWatcherResult = 
+		dynamic_cast<Elysium::Core::IO::FileSystemWatcherAsyncResult*>(WrappedOverlap->_AsyncResult);
 	if (AsyncFileWatcherResult != nullptr)
 	{
 		AsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;

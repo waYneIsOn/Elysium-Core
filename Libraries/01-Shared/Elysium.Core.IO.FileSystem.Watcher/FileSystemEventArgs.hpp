@@ -32,11 +32,12 @@ namespace Elysium::Core::IO
 {
 	class FileSystemWatcher;
 
-	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER FileSystemEventArgs : public EventArgs
+	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER FileSystemEventArgs 
+		: public EventArgs
 	{
 		friend class FileSystemWatcher;
 	protected:
-		FileSystemEventArgs(const WatcherChangeTypes ChangeType, const char8_t* FullPath, const char8_t* Name);
+		FileSystemEventArgs(const WatcherChangeTypes ChangeType, Elysium::Core::Utf8String&& FullPath, Elysium::Core::Utf8String&& Name);
 	public:
 		FileSystemEventArgs(const FileSystemEventArgs& Source) = delete;
 
@@ -50,9 +51,9 @@ namespace Elysium::Core::IO
 	public:
 		const WatcherChangeTypes GetChangeType() const;
 
-		const Utf8String GetFullPath() const;
+		const Utf8String& GetFullPath() const;
 
-		const Utf8String GetName() const;
+		const Utf8String& GetName() const;
 	private:
 		WatcherChangeTypes _ChangeType;
 		Utf8String _FullPath;

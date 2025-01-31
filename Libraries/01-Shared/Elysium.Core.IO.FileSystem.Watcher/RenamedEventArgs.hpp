@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EVENTARGS
-#include "../Elysium.Core/EventArgs.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_IO_FILESYSTEMEVENTARGS
+#include "FileSystemEventArgs.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API
@@ -32,11 +32,12 @@ namespace Elysium::Core::IO
 {
 	class FileSystemWatcher;
 
-	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER RenamedEventArgs : public EventArgs
+	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER RenamedEventArgs 
+		: public FileSystemEventArgs
 	{
 		friend class FileSystemWatcher;
 	protected:
-		RenamedEventArgs(const WatcherChangeTypes ChangeType, const char8_t* Directory, const char8_t* Name, const char8_t* OldName);
+		RenamedEventArgs(const WatcherChangeTypes ChangeType, Utf8String&& FullPath, Utf8String&& Name, Utf8String&& OldName);
 	public:
 		RenamedEventArgs(const RenamedEventArgs& Source) = delete;
 
@@ -48,10 +49,11 @@ namespace Elysium::Core::IO
 
 		RenamedEventArgs& operator=(RenamedEventArgs&& Right) noexcept = delete;
 	public:
-		//const Exception& GetException() const;
+		//const Utf8String& GetOldFullPath() const;
+
+		const Utf8String& GetOldName() const;
 	private:
-		//Utf8String _OldFullPath;
-		//Utf8String _OldName;
+		Utf8String _OldName;
 	};
 }
 #endif

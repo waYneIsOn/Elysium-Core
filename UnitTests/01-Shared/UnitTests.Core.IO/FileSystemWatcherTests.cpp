@@ -7,11 +7,13 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcher.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcherAsyncResult.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
 using namespace Elysium::Core::Template::Container;
+using namespace Elysium::Core::Template::RunTimeTypeInformation;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -141,34 +143,97 @@ namespace UnitTests::Core::IO
 
 		void FileSystemWatcher_OnChanged(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
-			Logger::WriteMessage(L"FileSystemWatcher_OnChanged\r\n");
+			Logger::WriteMessage("FileSystemWatcher_OnChanged\r\n");
+
+			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+			//const Utf8String ChangeTypeName = Enumeration<WatcherChangeTypes>::GetNamedValue<ChangeType>();
+
+			const Utf8String FullPath = EventArgs.GetFullPath();
+			Logger::WriteMessage("\tFullPath: ");
+			Logger::WriteMessage((char*)&FullPath[0]);
+			Logger::WriteMessage("\r\n");
+
+			const Utf8String FileName = EventArgs.GetName();
+			Logger::WriteMessage("\tFileName: ");
+			Logger::WriteMessage((char*)&FileName[0]);
+			Logger::WriteMessage("\r\n");
+
 			_ChangedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnCreated(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
-			Logger::WriteMessage(L"FileSystemWatcher_OnCreated\r\n");
+			Logger::WriteMessage("FileSystemWatcher_OnCreated\r\n");
+
+			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+
+			const Utf8String FullPath = EventArgs.GetFullPath();
+			Logger::WriteMessage("\tFullPath: ");
+			Logger::WriteMessage((char*)&FullPath[0]);
+			Logger::WriteMessage("\r\n");
+
+			const Utf8String FileName = EventArgs.GetName();
+			Logger::WriteMessage("\tFileName: ");
+			Logger::WriteMessage((char*)&FileName[0]);
+			Logger::WriteMessage("\r\n");
+
 			_CreatedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnDeleted(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
-			Logger::WriteMessage(L"FileSystemWatcher_OnDeleted\r\n");
+			Logger::WriteMessage("FileSystemWatcher_OnDeleted\r\n");
+
+			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+
+			const Utf8String FullPath = EventArgs.GetFullPath();
+			Logger::WriteMessage("\tFullPath: ");
+			Logger::WriteMessage((char*)&FullPath[0]);
+			Logger::WriteMessage("\r\n");
+
+			const Utf8String FileName = EventArgs.GetName();
+			Logger::WriteMessage("\tFileName: ");
+			Logger::WriteMessage((char*)&FileName[0]);
+			Logger::WriteMessage("\r\n");
+
 			_DeletedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnError(const FileSystemWatcher& Watcher, const ErrorEventArgs& EventArgs)
 		{
 			// ToDo:
-			Logger::WriteMessage(L"....");
+			Logger::WriteMessage("....");
 
-			Logger::WriteMessage(L"FileSystemWatcher_OnError\r\n");
+			Logger::WriteMessage("FileSystemWatcher_OnError\r\n");
 			_ErrorResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnRenamed(const FileSystemWatcher& Watcher, const RenamedEventArgs& EventArgs)
 		{
-			Logger::WriteMessage(L"FileSystemWatcher_OnRenamed\r\n");
+			Logger::WriteMessage("FileSystemWatcher_OnRenamed\r\n");
+
+			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+
+			const Utf8String FullPath = EventArgs.GetFullPath();
+			Logger::WriteMessage("\tFullPath: ");
+			Logger::WriteMessage((char*)&FullPath[0]);
+			Logger::WriteMessage("\r\n");
+
+			const Utf8String FileName = EventArgs.GetName();
+			Logger::WriteMessage("\tFileName: ");
+			Logger::WriteMessage((char*)&FileName[0]);
+			Logger::WriteMessage("\r\n");
+			/*
+			const Utf8String OldFullPath = EventArgs.GetOldFullPath();
+			Logger::WriteMessage("\tOldFullPath: ");
+			Logger::WriteMessage((char*)&OldFullPath[0]);
+			Logger::WriteMessage("\r\n");
+			*/
+			const Utf8String OldFileName = EventArgs.GetOldName();
+			Logger::WriteMessage("\tOldName: ");
+			Logger::WriteMessage((char*)&OldFileName[0]);
+			Logger::WriteMessage("\r\n");
+			
 			_RenamedResetEvent.Set();
 		}
 	private:
