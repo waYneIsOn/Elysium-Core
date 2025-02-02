@@ -134,15 +134,14 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncResult* AsyncResult)
 {
+	// do NOT use the input of this function! It's just there for compatibility-reasons
+	// @ToDo: should probably change the input and delegate in general (as sockets, files, pipes etc. will probably have the same problem)
 	//FileSystemWatcherAsyncResult* AsyncFileWatcherResult = const_cast<FileSystemWatcherAsyncResult*>(static_cast<const FileSystemWatcherAsyncResult*>(AsyncResult));
 	
-	// do NOT use the input of this function! It's just there for compatibility-reasons
-	// @ToDo: should probably change the input and delegate in general
 	FileSystemWatcherAsyncResult* AsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-	//assert(AsyncFileWatcherResult != nullptr, "Elysium::Core::IO::FileSystemWatcher::EndInit(...): FileSystemWatcherAsyncResult is nullptr.");
 	if (AsyncFileWatcherResult == nullptr)
-	{	// ToDo: throw specific exception - This should actually never happen!
-		throw 1;
+	{	// This should probably only be possible if EndInit() has been called.
+		return;
 	}
 
 	if (AsyncFileWatcherResult->GetErrorCode() != NO_ERROR)
@@ -162,6 +161,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 			// - a remote directory is being monitored and the connection is lost
 			// - etc.
 			DWORD LastError = GetLastError();
+			// @ToDo:
 			if (LastError == 0)
 			{
 				//Error(*this, ErrorEventArgs(...));
