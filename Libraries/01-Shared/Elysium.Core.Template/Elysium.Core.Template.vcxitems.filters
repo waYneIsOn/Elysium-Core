@@ -227,9 +227,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryPool.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp">
       <Filter>Container</Filter>
     </ClInclude>
@@ -767,6 +764,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Trivial.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\Arena.hpp">
+      <Filter>Memory\Scoped</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -873,6 +876,9 @@
     </Filter>
     <Filter Include="Linq">
       <UniqueIdentifier>{0058495a-1c2b-4b5a-ae29-2c846496b44b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory\Scoped">
+      <UniqueIdentifier>{d2c054f8-154e-4ed2-83da-1cc21227666b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

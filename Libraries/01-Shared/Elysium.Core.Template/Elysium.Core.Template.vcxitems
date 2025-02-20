@@ -54,6 +54,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\GreatestCommonDivisor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\SignOf.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\Arena.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
@@ -232,7 +234,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />

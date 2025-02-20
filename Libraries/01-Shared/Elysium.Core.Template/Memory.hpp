@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MemSet.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED
+#include "Memory/Scoped.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SHAREDPOINTER
 #include "SharedPointer.hpp"
 #endif
