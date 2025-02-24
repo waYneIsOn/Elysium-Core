@@ -770,6 +770,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaPage.hpp">
+      <Filter>Memory\Scoped</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaOptions.hpp">
+      <Filter>Memory\Scoped</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaVirtualPage.hpp">
+      <Filter>Memory\Scoped</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

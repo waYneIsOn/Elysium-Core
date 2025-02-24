@@ -99,7 +99,8 @@ namespace Elysium::Core::Template::Memory
 			return nullptr;
 		}
 
-		void* Data = operator new[](ElementSize* NumberOfElements);
+		//void* Data = operator new[](ElementSize* NumberOfElements);
+		void* Data = malloc(ElementSize * NumberOfElements);
 
 		return static_cast<T*>(Data);
 	}
@@ -112,7 +113,7 @@ namespace Elysium::Core::Template::Memory
 			return;
 		}
 
-		std::free(First);	// @ToDo: stl remnant
+		free(First);
 		First = nullptr;
 	}
 }

@@ -56,6 +56,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\Arena.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaOptions.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaPage.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaVirtualPage.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />

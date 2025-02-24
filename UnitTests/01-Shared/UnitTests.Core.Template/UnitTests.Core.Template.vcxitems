@@ -17,6 +17,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ActivatorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AllocatorTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ArenaTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArrayTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClockTests.cpp" />
