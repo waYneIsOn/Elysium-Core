@@ -24,8 +24,4 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Scoped/ArenaPage.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENAVIRTUALPAGE
-#include "Scoped/ArenaVirtualPage.hpp"
-#endif
-
 #endif

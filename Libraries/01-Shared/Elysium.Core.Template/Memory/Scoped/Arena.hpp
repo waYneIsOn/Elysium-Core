@@ -12,6 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_TRIVIAL
+#include "../../Concepts/Trivial.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
+#include "../../MemSet.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENAOPTIONS
 #include "ArenaOptions.hpp"
 #endif
@@ -20,10 +28,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ArenaPage.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../OperatingSystem.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "Primitives.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef _PROCESSTHREADSAPI_H_
+	#include <processthreadsapi.h>
+	#endif
+#endif
 namespace Elysium::Core::Template::Memory::Scoped
 {
 	class Arena
@@ -43,35 +60,53 @@ namespace Elysium::Core::Template::Memory::Scoped
 	public:
 		const Elysium::Core::Template::System::size GetTotalSize() const;
 	public:
-		template <class T>
-		T* Push(Elysium::Core::Template::System::size NumberOfElements = 1) noexcept;
+		void* Push(const Elysium::Core::Template::System::size Size, 
+			const Elysium::Core::Template::System::size AlignSize = alignof(Elysium::Core::Template::System::size)) noexcept;
 
-		template <class T>
-		void Pop(Elysium::Core::Template::System::size NumberOfElements = 1) noexcept;
+		template <Elysium::Core::Template::Concepts::Trivial T>
+		T* Push(const Elysium::Core::Template::System::size NumberOfElements = 1) noexcept;
 
+		void Pop(const Elysium::Core::Template::System::size Size, 
+			const Elysium::Core::Template::System::size AlignSize = alignof(Elysium::Core::Template::System::size)) noexcept;
+		
+		template <Elysium::Core::Template::Concepts::Trivial T>
+		void Pop(const Elysium::Core::Template::System::size NumberOfElements = 1) noexcept;
+		
 		void Clear() noexcept;
 
 		//void Reset();
 	private:
+		ArenaPage* CreatePage(const Elysium::Core::Template::System::size PageSize, ArenaPage* PreviousPage = nullptr) noexcept;
+	private:
 		const ArenaOptions _Options;
-		ArenaPage* _First;
-		ArenaPage* _Last;
+		ArenaPage* _CurrentPage;
 	};
 
 	inline Arena::Arena(const ArenaOptions& Options) noexcept
-		: _Options(Options), _First(new ArenaPage(Options._CapacityPerPage)), _Last(_First)
+		: _Options(Options), _CurrentPage(CreatePage(_Options._InitialPageSize))
 	{ }
 
 	inline Arena::~Arena() noexcept
 	{
 		Clear();
+
+		ArenaPage* CurrentPage = _CurrentPage;
+		ArenaPage* ToBeDeleted = nullptr;
+		while (CurrentPage != nullptr)
+		{
+			ToBeDeleted = CurrentPage;
+
+			CurrentPage = CurrentPage->_NextPage;
+
+			delete ToBeDeleted;
+		}
 	}
 
 	inline const Elysium::Core::Template::System::size Arena::GetTotalSize() const
 	{
 		Elysium::Core::Template::System::size TotalSize = 0;
 
-		ArenaPage* CurrentPage = _First;
+		ArenaPage* CurrentPage = _CurrentPage;
 		while (CurrentPage != nullptr)
 		{
 			TotalSize += CurrentPage->_CurrentOffset;
@@ -81,13 +116,9 @@ namespace Elysium::Core::Template::Memory::Scoped
 		return TotalSize;
 	}
 
-	template<class T>
-	inline T* Arena::Push(Elysium::Core::Template::System::size NumberOfElements) noexcept
+	inline void* Arena::Push(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize) noexcept
 	{
-		static const Elysium::Core::Template::System::size AlignSize = alignof(T);
-		static const Elysium::Core::Template::System::size Size = sizeof(T);
-
-		if (NumberOfElements == 0)
+		if (Size == 0)
 		{
 			return nullptr;
 		}
@@ -98,18 +129,47 @@ namespace Elysium::Core::Template::Memory::Scoped
 			return nullptr;
 		}
 
-		const Elysium::Core::Template::System::size AllocationSize = NumberOfElements * Size;
+		ArenaPage* CurrentPage = _CurrentPage;
+		Elysium::Core::Template::System::byte* CurrentAddress = &CurrentPage->_Data[CurrentPage->_CurrentOffset];
 
-		return static_cast<T*>(_Last->Push(AllocationSize, AlignSize));
+		// use a bithack to calculate modulus "reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) % AlignSize"
+		const Elysium::Core::Template::System::uint64_t Padding =
+			(~reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) + 1) & (AlignSize - 1);
+
+		CurrentAddress += Padding;
+		if (CurrentAddress + Size > &CurrentPage->_Data[CurrentPage->_Capacity])
+		{	// @ToDo: resize strategy?
+			return nullptr;
+		}
+
+		CurrentPage->_CurrentOffset += (Padding + Size);
+
+		return CurrentAddress;
 	}
 
-	template<class T>
-	inline void Arena::Pop(Elysium::Core::Template::System::size NumberOfElements) noexcept
+	template<Elysium::Core::Template::Concepts::Trivial T>
+	inline T* Arena::Push(const Elysium::Core::Template::System::size NumberOfElements) noexcept
 	{
-		static const Elysium::Core::Template::System::size AlignSize = alignof(T);
-		static const Elysium::Core::Template::System::size Size = sizeof(T);
+		static constexpr const Elysium::Core::Template::System::size AlignSize = alignof(T);
+		static constexpr const Elysium::Core::Template::System::size Size = sizeof(T);
 
-		if (NumberOfElements == 0)
+		const Elysium::Core::Template::System::size AllocationSize = Size * NumberOfElements;
+
+		void* Data = Push(AllocationSize, AlignSize);
+		if (Data == nullptr)
+		{
+			return nullptr;
+		}
+		
+		// always necessary, memory could have been used before!
+		Elysium::Core::Template::Memory::MemSet(Data, 0, AllocationSize);
+
+		return reinterpret_cast<T*>(Data);
+	}
+
+	inline void Arena::Pop(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize) noexcept
+	{
+		if (Size == 0)
 		{
 			return;
 		}
@@ -120,19 +180,97 @@ namespace Elysium::Core::Template::Memory::Scoped
 			return;
 		}
 
-		const Elysium::Core::Template::System::size AllocationSize = NumberOfElements * Size;
+		ArenaPage* CurrentPage = _CurrentPage;
+		Elysium::Core::Template::System::byte* CurrentAddress = &CurrentPage->_Data[CurrentPage->_CurrentOffset];
 
-		_Last->Pop(AllocationSize, AlignSize);
+		// use a bithack to calculate modulus "reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) % AlignSize"
+		const Elysium::Core::Template::System::uint64_t Padding =
+			(~reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) + 1) & (AlignSize - 1);
+
+		CurrentAddress -= Padding;
+		if (CurrentAddress - Size < CurrentPage->_Data)
+		{	// @ToDo: this seems like an actual error on the user's part!
+			return;
+		}
+
+		CurrentPage->_CurrentOffset -= (Padding + Size);
+	}
+
+	template<Elysium::Core::Template::Concepts::Trivial T>
+	inline void Arena::Pop(const Elysium::Core::Template::System::size NumberOfElements) noexcept
+	{
+		static constexpr const Elysium::Core::Template::System::size AlignSize = alignof(T);
+		static constexpr const Elysium::Core::Template::System::size Size = sizeof(T);
+
+		Pop(Size * NumberOfElements, AlignSize);
 	}
 
 	inline void Arena::Clear() noexcept
 	{
-		ArenaPage* CurrentPage = _First;
+		ArenaPage* CurrentPage = _CurrentPage;
 		while (CurrentPage != nullptr)
 		{
-			CurrentPage->Clear();
+			if (CurrentPage->_Data != nullptr)
+			{
+				if (_Options._UseVirtualPaging)
+				{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+					BOOL Result = VirtualFreeEx(GetCurrentProcess(), CurrentPage->_Data, 0, MEM_RELEASE);
+					if (Result == FALSE)
+					{
+						// @ToDo: assert
+						throw 1;
+					}
+#else
+#error "unhandled operating system"
+#endif
+				}
+				else
+				{
+					delete[] CurrentPage->_Data;
+				}
+				CurrentPage->_Data = nullptr;
+			}
+
 			CurrentPage = CurrentPage->_NextPage;
 		}
+	}
+
+	inline ArenaPage* Arena::CreatePage(const Elysium::Core::Template::System::size PageSize, ArenaPage* PreviousPage) noexcept
+	{
+		void* Data = nullptr;
+
+		if (_Options._UseVirtualPaging)
+		{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			Data = VirtualAllocEx(GetCurrentProcess(), 0, PageSize, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+#else
+#error "unhandled operating system"
+#endif
+		}
+		else
+		{
+			Data = new Elysium::Core::Template::System::byte[PageSize];
+		}
+
+		if (Data == nullptr)
+		{
+			// @ToDo: assert
+			throw 1;
+		}
+
+		if (_Options._ClearMemory)
+		{
+			Elysium::Core::Template::Memory::MemSet(Data, 0, PageSize);
+		}
+
+		ArenaPage* Page = new ArenaPage();
+		Page->_Data = reinterpret_cast<Elysium::Core::Template::System::byte*>(Data);
+		Page->_Capacity = PageSize;
+		Page->_CurrentOffset = 0;
+		Page->_NextPage = PreviousPage;
+
+		return Page;
 	}
 }
 #endif
