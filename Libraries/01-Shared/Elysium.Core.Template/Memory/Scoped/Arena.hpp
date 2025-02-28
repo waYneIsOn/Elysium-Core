@@ -36,7 +36,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef _ASSERT_OK
 #include <cassert>
+#endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	#ifndef _PROCESSTHREADSAPI_H_
