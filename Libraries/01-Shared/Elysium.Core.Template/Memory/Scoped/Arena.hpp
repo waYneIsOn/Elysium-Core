@@ -36,6 +36,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#include <cassert>
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	#ifndef _PROCESSTHREADSAPI_H_
 	#include <processthreadsapi.h>
@@ -128,6 +130,9 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 		ArenaPage* DestroyPage(ArenaPage* Page) noexcept;
 	private:
+		void* PushInternally(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize,
+			Elysium::Core::Template::System::size RecursionDepth);
+	private:
 		const ArenaOptions _Options;
 		ArenaPage* _CurrentPage;
 	};
@@ -189,44 +194,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 	inline void* Arena::Push(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize) noexcept
 	{
-		if (Size == 0)
-		{
-			return nullptr;
-		}
-
-		if (AlignSize == 0 ||
-			(AlignSize & (AlignSize - 1)) == 1)	// is power of two
-		{
-			return nullptr;
-		}
-
-		ArenaPage* CurrentPage = _CurrentPage;
-		Elysium::Core::Template::System::byte* CurrentAddress = &CurrentPage->_Data[CurrentPage->_CurrentOffset];
-
-		// use a bithack to calculate modulus "reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) % AlignSize"
-		const Elysium::Core::Template::System::size Padding =
-			(~reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) + 1) & (AlignSize - 1);
-		const Elysium::Core::Template::System::size AdditionalSize = Padding + Size;
-
-		if (CurrentAddress + AdditionalSize > &CurrentPage->_Data[CurrentPage->_Capacity])
-		{	
-			// I need to regard _CurrentPage as being "fully used", simply because "allocating" x numbers of elements on this page
-			// and the rest on the next page simply won't work!
-			// @ToDo: can think about splitting "memory-push" and "-usage" into seperate methods to make it possible to not "waste" memory.
-			// As it stands it's the user's responsibiliy to manage memory.
-			_CurrentPage->_CurrentOffset = _CurrentPage->_Capacity;
-
-			const Elysium::Core::Template::System::size PageSize = AdditionalSize > _Options._InitialPageSize ? 
-				AdditionalSize : _Options._InitialPageSize;
-			_CurrentPage = CreatePage(PageSize, _CurrentPage);
-
-			// @ToDo: add "void PushInternally(...)" which checks the depth of the recurions making sure it only happens once!
-			return Push(Size, AlignSize);
-		}
-
-		CurrentPage->_CurrentOffset += AdditionalSize;
-
-		return CurrentAddress;
+		return PushInternally(Size, AlignSize, 0);
 	}
 
 	template<Elysium::Core::Template::Concepts::Trivial T>
@@ -237,7 +205,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 		const Elysium::Core::Template::System::size AllocationSize = Size * NumberOfElements;
 
-		void* Data = Push(AllocationSize, AlignSize);
+		void* Data = PushInternally(AllocationSize, AlignSize, 0);
 		if (Data == nullptr)
 		{
 			return nullptr;
@@ -393,6 +361,49 @@ namespace Elysium::Core::Template::Memory::Scoped
 		delete Page;
 
 		return NextPage;
+	}
+
+	inline void* Arena::PushInternally(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize, Elysium::Core::Template::System::size RecursionDepth)
+	{
+		assert("Elysium::Core::Template::Memory::Scoped::Arena: " && RecursionDepth < 2);
+
+		if (Size == 0)
+		{
+			return nullptr;
+		}
+
+		if (AlignSize == 0 ||
+			(AlignSize & (AlignSize - 1)) == 1)	// is power of two
+		{
+			return nullptr;
+		}
+
+		ArenaPage* CurrentPage = _CurrentPage;
+		Elysium::Core::Template::System::byte* CurrentAddress = &CurrentPage->_Data[CurrentPage->_CurrentOffset];
+
+		// use a bithack to calculate modulus "reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) % AlignSize"
+		const Elysium::Core::Template::System::size Padding =
+			(~reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) + 1) & (AlignSize - 1);
+		const Elysium::Core::Template::System::size AdditionalSize = Padding + Size;
+
+		if (CurrentAddress + AdditionalSize > &CurrentPage->_Data[CurrentPage->_Capacity])
+		{
+			// I need to regard _CurrentPage as being "fully used", simply because "allocating" x numbers of elements on this page
+			// and the rest on the next page simply won't work!
+			// @ToDo: can think about splitting "memory-push" and "-usage" into seperate methods to make it possible to not "waste" memory.
+			// As it stands it's the user's responsibiliy to manage memory.
+			_CurrentPage->_CurrentOffset = _CurrentPage->_Capacity;
+
+			const Elysium::Core::Template::System::size PageSize = AdditionalSize > _Options._InitialPageSize ?
+				AdditionalSize : _Options._InitialPageSize;
+			_CurrentPage = CreatePage(PageSize, _CurrentPage);
+
+			return PushInternally(Size, AlignSize, ++RecursionDepth);
+		}
+
+		CurrentPage->_CurrentOffset += AdditionalSize;
+
+		return CurrentAddress;
 	}
 }
 #endif
