@@ -75,37 +75,167 @@ namespace UnitTests::Core::Template::Memory::Scoped
 	public:
 		TEST_METHOD(OddSizes)
 		{
-			constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions Options = Elysium::Core::Template::Memory::Scoped::ArenaOptions(23, 1,
-				false, false);
-			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
-			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
+			// "large" arena
+			{
+				constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions LargeOptions =
+					Elysium::Core::Template::Memory::Scoped::ArenaOptions(1024, 1, false, false);
+				Elysium::Core::Template::Memory::Scoped::Arena LargeArena = Elysium::Core::Template::Memory::Scoped::Arena(LargeOptions);
 
-			// assign more bytes at once than defined page-size
-			void* AllocatedMemory0 = ArenaAllocator.Push(24);
-			Assert::IsNotNull(AllocatedMemory0);
+				// ...
+				void* AllocatedMemory1 = LargeArena.Push(3, 4);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(3_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory1);
 
-			Assert::Fail();
+				// ...
+				void* AllocatedMemory2 = LargeArena.Push(21, 4);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(25_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory2);
+
+				// ...
+				void* AllocatedMemory3 = LargeArena.Push(1, 4);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(29_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory3);
+
+				// ...
+				void* AllocatedMemory4 = LargeArena.Push(2, 4);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(34_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory3);
+
+				// ...
+				LargeArena.Clear();
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(0_ui64, LargeArena.GetSize());
+
+				// ...
+				void* AllocatedMemory5 = LargeArena.Push(3, 1);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(3_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory5);
+
+				// ...
+				void* AllocatedMemory6 = LargeArena.Push(21, 1);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(24_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory6);
+
+				// ...
+				void* AllocatedMemory7 = LargeArena.Push(1000, 1);
+				Assert::AreEqual(1_ui64, LargeArena.GetNumberOfPages());
+				Assert::AreEqual(1024_ui64, LargeArena.GetCapacity());
+				Assert::AreEqual(1024_ui64, LargeArena.GetSize());
+				Assert::IsNotNull(AllocatedMemory7);
+			}
+
+			// small arena
+			{
+				constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions SmallOptions =
+					Elysium::Core::Template::Memory::Scoped::ArenaOptions(1, 1, false, false);
+				Elysium::Core::Template::Memory::Scoped::Arena SmallArena = Elysium::Core::Template::Memory::Scoped::Arena(SmallOptions);
+				Assert::AreEqual(1_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(1_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(0_ui64, SmallArena.GetSize());
+
+				// pop a single element (to ensure nothing happens)
+				SmallArena.Pop<TrivialStruct>();
+				Assert::AreEqual(1_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(1_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(0_ui64, SmallArena.GetSize());
+
+				// reset the arena
+				SmallArena.Reset();
+				Assert::AreEqual(1_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(1_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(0_ui64, SmallArena.GetSize());
+
+				// push no elements
+				Elysium::Core::Template::System::int32_t* AllocatedInstanceSmall0 = SmallArena.Push<Elysium::Core::Template::System::int32_t>(0);
+				Assert::AreEqual(1_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(1_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(0_ui64, SmallArena.GetSize());
+				Assert::IsNull(AllocatedInstanceSmall0);
+
+				// push three bytes (NO alignment!)
+				void* AllocatedMemorySmall0 = SmallArena.Push(3, 3);
+				Assert::AreEqual(1_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(1_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(0_ui64, SmallArena.GetSize());
+				Assert::IsNull(AllocatedMemorySmall0);
+
+				// push three bytes (forcing "resize")
+				void* AllocatedMemorySmall1 = SmallArena.Push(3);
+				Assert::AreEqual(2_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(4_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(4_ui64, SmallArena.GetSize());
+				Assert::IsNotNull(AllocatedMemorySmall1);
+
+				// assign more bytes at once than defined page-size (forcing "resize")
+				void* AllocatedMemorySmall2 = SmallArena.Push(25);
+				Assert::AreEqual(3_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(29_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(29_ui64, SmallArena.GetSize());
+				Assert::IsNotNull(AllocatedMemorySmall2);
+
+				// push one byte (forcing "resize")
+				void* AllocatedMemorySmall3 = SmallArena.Push(1);
+				Assert::AreEqual(4_ui64, SmallArena.GetNumberOfPages());
+				Assert::AreEqual(30_ui64, SmallArena.GetCapacity());
+				Assert::AreEqual(30_ui64, SmallArena.GetSize());
+				Assert::IsNotNull(AllocatedMemorySmall3);
+			}
 		}
 
 		TEST_METHOD(ComplexTypeOnly)
 		{
+			auto siiiii = sizeof(NonTrivialClass);
+			auto aliiiiii = sizeof(NonTrivialClass);
+
 			constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions Options = Elysium::Core::Template::Memory::Scoped::ArenaOptions(
-				sizeof(NonTrivialClass), 1,
-				false, false);
+				sizeof(NonTrivialClass) * 2, 1, false, false);
 			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
 			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
+			Assert::AreEqual(2_ui64, ArenaAllocator.GetCapacity());
+			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());
 
 			// push a single element
-			void* AllocatedMemory0 = ArenaAllocator.Push(sizeof(NonTrivialClass));
+			void* AllocatedMemory0 = ArenaAllocator.Push(sizeof(NonTrivialClass), alignof(NonTrivialClass));
+			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
+			Assert::AreEqual(2_ui64, ArenaAllocator.GetCapacity());
+			Assert::AreEqual(1_ui64, ArenaAllocator.GetSize());
+			Assert::IsNotNull(AllocatedMemory0);
 			NonTrivialClass* AllocatedInstance0 = ::new (AllocatedMemory0) NonTrivialClass();
+			Assert::IsFalse(AllocatedInstance0->_IsDestructed);
 
-			// push a single element (forcing "resize")
-			void* AllocatedMemory1 = ArenaAllocator.Push(sizeof(NonTrivialClass));
+			// push another element
+			void* AllocatedMemory1 = ArenaAllocator.Push(sizeof(NonTrivialClass), alignof(NonTrivialClass));
+			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
+			Assert::AreEqual(2_ui64, ArenaAllocator.GetCapacity());
+			Assert::AreEqual(2_ui64, ArenaAllocator.GetSize());
+			Assert::IsNotNull(AllocatedMemory1);
 			NonTrivialClass* AllocatedInstance1 = ::new (AllocatedMemory1) NonTrivialClass();
+			Assert::IsFalse(AllocatedInstance1->_IsDestructed);
 
+			// clear the arena (causing a memory leak if NonTrivialClass owns heap allocated memory)
+			ArenaAllocator.Clear();
+			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
+			Assert::AreEqual(2_ui64, ArenaAllocator.GetCapacity());
+			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());
 
-			bool bla = false;
-			Assert::Fail();
+			// fix the memory leak (which can be done in this case)
+			AllocatedInstance0->~NonTrivialClass();
+			AllocatedInstance1->~NonTrivialClass();
+			Assert::IsTrue(AllocatedInstance0->_IsDestructed);
+			Assert::IsTrue(AllocatedInstance1->_IsDestructed);
 		}
 
 		TEST_METHOD(IntegersOnly)
@@ -117,6 +247,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
 			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
 			Assert::AreEqual(80_ui64, ArenaAllocator.GetCapacity());
+			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());
 
 			// pop a single element (to ensure nothing happens)
 			ArenaAllocator.Pop<Elysium::Core::Template::System::int32_t>();
@@ -212,6 +343,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
 			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
 			Assert::AreEqual(160_ui64, ArenaAllocator.GetCapacity());
+			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());
 
 			// pop a single element (to ensure nothing happens)
 			ArenaAllocator.Pop<TrivialStruct>();

@@ -124,7 +124,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 		void Clear() noexcept;
 
 		/// <summary>
-		/// Destroys all pages except the first one which will be cleared, keeping it's allocated memory.
+		/// Destroys all pages except the first one, which will be cleared, keeping it's allocated memory.
 		/// </summary>
 		void Reset() noexcept;
 	private:
@@ -226,8 +226,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 			return;
 		}
 
-		if (AlignSize == 0 ||
-			(AlignSize & (AlignSize - 1)) == 1)	// is power of two
+		if (AlignSize == 0 || (AlignSize & (AlignSize - 1)) != 0)	// is power of two
 		{
 			return;
 		}
@@ -235,16 +234,25 @@ namespace Elysium::Core::Template::Memory::Scoped
 		ArenaPage* CurrentPage = _CurrentPage;
 		Elysium::Core::Template::System::byte* CurrentAddress = &CurrentPage->_Data[CurrentPage->_CurrentOffset];
 
-		// use a bithack to calculate modulus "reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) % AlignSize"
-		const Elysium::Core::Template::System::uint64_t Padding =
-			(~reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) + 1) & (AlignSize - 1);
+		// use a bithack for padding ("normal" calculation below for debug-assertion)
+		const Elysium::Core::Template::System::size Padding =
+			(~reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) + 1) & (AlignSize - 1);
+		const Elysium::Core::Template::System::size AdditionalSize = Padding + Size;
 
-		if (CurrentAddress - Padding - Size < CurrentPage->_Data)
+#ifdef _DEBUG
+		const Elysium::Core::Template::System::size DebugPaddingStep1 =
+			reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) % AlignSize;
+		const Elysium::Core::Template::System::size DebugPadding = DebugPaddingStep1 == 0 ? DebugPaddingStep1 :
+			AlignSize - DebugPaddingStep1;
+		assert("Elysium::Core::Template::Memory::Scoped::Arena.Pop(...): " && DebugPadding == Padding);
+#endif
+
+		if (CurrentAddress - AdditionalSize < CurrentPage->_Data)
 		{	// @ToDo: this seems like an actual error on the user's part!
 			return;
 		}
 
-		CurrentPage->_CurrentOffset -= (Padding + Size);
+		CurrentPage->_CurrentOffset -= AdditionalSize;
 	}
 
 	template<Elysium::Core::Template::Concepts::Trivial T>
@@ -367,26 +375,33 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 	inline void* Arena::PushInternally(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize, Elysium::Core::Template::System::size RecursionDepth)
 	{
-		assert("Elysium::Core::Template::Memory::Scoped::Arena: " && RecursionDepth < 2);
+		assert("Elysium::Core::Template::Memory::Scoped::Arena.PushInternally(...): " && RecursionDepth < 2);
 
 		if (Size == 0)
 		{
 			return nullptr;
 		}
 
-		if (AlignSize == 0 ||
-			(AlignSize & (AlignSize - 1)) == 1)	// is power of two
+		if (AlignSize == 0 || (AlignSize & (AlignSize - 1)) != 0)	// is power of two
 		{
 			return nullptr;
 		}
 
 		ArenaPage* CurrentPage = _CurrentPage;
 		Elysium::Core::Template::System::byte* CurrentAddress = &CurrentPage->_Data[CurrentPage->_CurrentOffset];
-
-		// use a bithack to calculate modulus "reinterpret_cast<Elysium::Core::Template::System::uint64_t>(CurrentAddress) % AlignSize"
+		
+		// use a bithack for padding ("normal" calculation below for debug-assertion)
 		const Elysium::Core::Template::System::size Padding =
-			(~reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) + 1) & (AlignSize - 1);
+			(~reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) + 1)& (AlignSize - 1);
 		const Elysium::Core::Template::System::size AdditionalSize = Padding + Size;
+
+#ifdef _DEBUG
+		const Elysium::Core::Template::System::size DebugPaddingStep1 = 
+			reinterpret_cast<Elysium::Core::Template::System::size>(CurrentAddress) % AlignSize;
+		const Elysium::Core::Template::System::size DebugPadding = DebugPaddingStep1 == 0 ? DebugPaddingStep1 :
+			AlignSize - DebugPaddingStep1;
+		assert("Elysium::Core::Template::Memory::Scoped::Arena.PushInternally(...): " && DebugPadding == Padding);
+#endif
 
 		if (CurrentAddress + AdditionalSize > &CurrentPage->_Data[CurrentPage->_Capacity])
 		{
@@ -394,10 +409,14 @@ namespace Elysium::Core::Template::Memory::Scoped
 			// and the rest on the next page simply won't work!
 			// @ToDo: can think about splitting "memory-push" and "-usage" into seperate methods to make it possible to not "waste" memory.
 			// As it stands it's the user's responsibiliy to manage memory.
+			// @ToDo: alternatively I could set a flag that a page has "skipped" memory and check whether I can push there later
 			_CurrentPage->_CurrentOffset = _CurrentPage->_Capacity;
 
-			const Elysium::Core::Template::System::size PageSize = AdditionalSize > _Options._InitialPageSize ?
-				AdditionalSize : _Options._InitialPageSize;
+			// Creating a new page means having to allocate enough memory for given Size plus necessary padding.
+			// Most modern systems will return a "power of two" based address meaning no padding will be required on the new page.
+			// @ToDo: If I'm ever in a situation where RecursionDepth equals 2, I need to check for this again!
+			const Elysium::Core::Template::System::size PageSize = Size > _Options._InitialPageSize ?
+				Size : _Options._InitialPageSize;
 			_CurrentPage = CreatePage(PageSize, _CurrentPage);
 
 			return PushInternally(Size, AlignSize, ++RecursionDepth);

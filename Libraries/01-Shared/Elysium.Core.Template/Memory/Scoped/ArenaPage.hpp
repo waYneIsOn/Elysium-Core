@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Memory::Scoped
 		ArenaPage& operator=(const ArenaPage& Source) = delete;
 
 		ArenaPage& operator=(ArenaPage&& Right) noexcept = delete;
-	public:
-		//bool IsFull() const noexcept;
 	private:
 		Elysium::Core::Template::System::byte* _Data;
 		Elysium::Core::Template::System::size _Capacity;
