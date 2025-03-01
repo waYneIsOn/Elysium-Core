@@ -317,9 +317,13 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 		if (Data == nullptr)
 		{
-			// @ToDo: assert
-			bool bla = false;
+			assert("Elysium::Core::Template::Memory::Scoped::Arena.CreatePage(...): Couldn't allocate any memory.");
 		}
+
+#ifdef _DEBUG
+		assert("Elysium::Core::Template::Memory::Scoped::Arena.CreatePage(...): " && 
+			(reinterpret_cast<Elysium::Core::Template::System::size>(Data) % 8) == 0);
+#endif
 
 		if (_Options._ClearMemory)
 		{
