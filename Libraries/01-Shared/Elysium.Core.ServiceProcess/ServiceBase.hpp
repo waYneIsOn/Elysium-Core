@@ -30,7 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::ServiceProcess
 {
-	class ELYSIUM_CORE_SERVICEPROCESS_SERVICEBASE ServiceBase
+	class ELYSIUM_CORE_SERVICEPROCESS_API ServiceBase
 	{
 	protected:
 		constexpr ServiceBase() = default;
