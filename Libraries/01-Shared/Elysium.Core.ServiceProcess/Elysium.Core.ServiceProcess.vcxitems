@@ -24,7 +24,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ServiceControllerStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ServiceStartMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ServiceType.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SessionChangeDescription.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SessionChangeReason.hpp" />
   </ItemGroup>
   <ItemGroup>

@@ -13,36 +13,33 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::ServiceProcess::ServiceBase::ServiceBase()
-{
-}
-Elysium::Core::ServiceProcess::ServiceBase::~ServiceBase()
-{
-}
-
-Elysium::Core::size _ServiceCount;
+Elysium::Core::Template::System::size _ServiceCount;
 std::vector<Elysium::Core::ServiceProcess::ServiceBase*> _Services;
 
-void Elysium::Core::ServiceProcess::ServiceBase::Run(const ServiceBase * Service)
+constexpr Elysium::Core::ServiceProcess::ServiceBase::~ServiceBase()
+{ }
+
+void Elysium::Core::ServiceProcess::ServiceBase::Run(const ServiceBase& Service)
 {
 	const ServiceBase* Services[1];
-	Services[0] = Service;
+	Services[0] = &Service;
 
 	Run(1, Services);
 }
-void Elysium::Core::ServiceProcess::ServiceBase::Run(Elysium::Core::size ServiceCount, const ServiceBase * Services[])
+
+void Elysium::Core::ServiceProcess::ServiceBase::Run(const Elysium::Core::Template::System::size ServiceCount, const ServiceBase * Services[])
 {
 	// ...
 	_ServiceCount = ServiceCount;
 	_Services = std::vector<ServiceBase*>(ServiceCount);
-	for (Elysium::Core::size i = 0; i < ServiceCount; i++)
+	for (Elysium::Core::Template::System::size i = 0; i < ServiceCount; i++)
 	{
 		_Services[i] = (ServiceBase*)Services[i];
 	}
 
 	// prepare all required service table entries
 	std::vector<SERVICE_TABLE_ENTRY> ServiceTable(ServiceCount);
-	for (Elysium::Core::size i = 0; i < ServiceCount; i++)
+	for (Elysium::Core::Template::System::size i = 0; i < ServiceCount; i++)
 	{
 		ServiceTable[i].lpServiceName = (wchar_t*)Services[i]->GetServiceName();
 		ServiceTable[i].lpServiceProc = (LPSERVICE_MAIN_FUNCTION)MainCallback;
@@ -54,6 +51,7 @@ void Elysium::Core::ServiceProcess::ServiceBase::Run(Elysium::Core::size Service
 		//SvcReportEvent(TEXT("StartServiceCtrlDispatcher"));
 	}
 }
+
 void Elysium::Core::ServiceProcess::ServiceBase::Stop()
 {
 	throw NotImplementedException(u8"Elysium::Core::ServiceProcess::ServiceBase::Stop");
@@ -63,35 +61,37 @@ bool Elysium::Core::ServiceProcess::ServiceBase::GetAutoLog() const
 {
 	return _AutoLog;
 }
+
 const wchar_t * Elysium::Core::ServiceProcess::ServiceBase::GetServiceName() const
 {
 	return _Name;
 }
 
-void Elysium::Core::ServiceProcess::ServiceBase::SetAutoLog(bool Value)
+void Elysium::Core::ServiceProcess::ServiceBase::SetAutoLog(const bool Value)
 {
 	_AutoLog = Value;
 }
+
 void Elysium::Core::ServiceProcess::ServiceBase::SetServiceName(const wchar_t * Name)
 {
 	_Name = (wchar_t*)Name;
 }
 
-void Elysium::Core::ServiceProcess::ServiceBase::RequestAdditionalTime(int Milliseconds)
+void Elysium::Core::ServiceProcess::ServiceBase::RequestAdditionalTime(const Elysium::Core::Template::System::int32_t Milliseconds)
 {
 	throw NotImplementedException();
 }
-void Elysium::Core::ServiceProcess::ServiceBase::ServiceMainCallback(unsigned long ArgumentCount, wchar_t * Arguments[])
+
+void Elysium::Core::ServiceProcess::ServiceBase::ServiceMainCallback(const unsigned long ArgumentCount, const wchar_t * Arguments[])
 {
 	// ...
 }
-
 
 SERVICE_STATUS          gSvcStatus;
 SERVICE_STATUS_HANDLE   gSvcStatusHandle;
 HANDLE                  ghSvcStopEvent = NULL;
 
-void Elysium::Core::ServiceProcess::ServiceBase::MainCallback(unsigned long ArgumentCount, wchar_t * Arguments[])
+void Elysium::Core::ServiceProcess::ServiceBase::MainCallback(const unsigned long ArgumentCount, const wchar_t * Arguments[])
 {
 	// forward the callback to each service
 	for (unsigned long i = 0; i < _ServiceCount; i++)
@@ -155,7 +155,8 @@ void Elysium::Core::ServiceProcess::ServiceBase::MainCallback(unsigned long Argu
 		}
 	}
 }
-void Elysium::Core::ServiceProcess::ServiceBase::ReportServiceStatus(unsigned long CurrentState, unsigned long Win32ExitCode, unsigned long WaitHint)
+
+void Elysium::Core::ServiceProcess::ServiceBase::ReportServiceStatus(const unsigned long CurrentState, const unsigned long Win32ExitCode, const unsigned long WaitHint)
 {
 	static DWORD dwCheckPoint = 1;
 
@@ -185,7 +186,8 @@ void Elysium::Core::ServiceProcess::ServiceBase::ReportServiceStatus(unsigned lo
 	// Report the status of the service to the SCM.
 	SetServiceStatus(gSvcStatusHandle, &gSvcStatus);
 }
-void __stdcall Elysium::Core::ServiceProcess::ServiceBase::ServiceControlHandler(unsigned long ControlCode)
+
+void __stdcall Elysium::Core::ServiceProcess::ServiceBase::ServiceControlHandler(const unsigned long ControlCode)
 {
 	/*
 	#define SERVICE_CONTROL_PARAMCHANGE            0x00000006

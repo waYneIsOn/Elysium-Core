@@ -9,7 +9,7 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceControllerStatus ServiceControllerStatus)
+Elysium::Core::Template::System::int32_t Elysium::Core::ServiceProcess::FormatConverter::Translate(const ServiceControllerStatus ServiceControllerStatus)
 {
 	switch (ServiceControllerStatus)
 	{
@@ -28,11 +28,12 @@ int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceControllerS
 	case ServiceControllerStatus::StopPending:
 		return SERVICE_STOP_PENDING;
 	default:
-		throw NotImplementedException(u8"unhandled ServiceControllerStatus");
+		throw NotImplementedException(u8"Unhandled ServiceControllerStatus.");
 	}
 }
-int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceType ServiceType)
-{	// ToDo: ServiceType is a flag - a simple switch case won't cut it!!
+
+Elysium::Core::Template::System::int32_t Elysium::Core::ServiceProcess::FormatConverter::Translate(const ServiceType ServiceType)
+{	// @ToDo: ServiceType is a flag - a simple switch case won't cut it!!
 	switch (ServiceType)
 	{
 	case ServiceType::KernelDriver:
@@ -50,6 +51,6 @@ int Elysium::Core::ServiceProcess::FormatConverter::Translate(ServiceType Servic
 	case ServiceType::InteractiveProcess:
 		return SERVICE_INTERACTIVE_PROCESS;
 	default:
-		throw NotImplementedException(u8"unhandled ServiceType");
+		throw NotImplementedException(u8"Unhandled ServiceType.");
 	}
 }

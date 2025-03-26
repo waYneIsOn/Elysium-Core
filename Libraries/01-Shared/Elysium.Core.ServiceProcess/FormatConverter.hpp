@@ -40,6 +40,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SessionChangeReason.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../Elysium.Core.Template/Primitives.hpp"
+#endif
+
 namespace Elysium::Core::ServiceProcess
 {
 	class FormatConverter
@@ -49,13 +53,19 @@ namespace Elysium::Core::ServiceProcess
 
 		~FormatConverter() = delete;
 	public:
-		//static int Translate(PowerBroadcastStatus PowerBroadcastStatus);
-		//static int Translate(ServiceAccount ServiceAccount);
-		//static int Translate(ServiceControllerPermissionAccess ServiceControllerPermissionAccess);
-		static int Translate(ServiceControllerStatus ServiceControllerStatus);
-		//static int Translate(ServiceStartMode ServiceStartMode);
-		static int Translate(ServiceType ServiceType);
-		//static int Translate(SessionChangeReason SessionChangeReason);
+		//static Elysium::Core::Template::System::int32_t Translate(PowerBroadcastStatus PowerBroadcastStatus);
+		
+		//static Elysium::Core::Template::System::int32_t Translate(ServiceAccount ServiceAccount);
+		
+		//static Elysium::Core::Template::System::int32_t Translate(ServiceControllerPermissionAccess ServiceControllerPermissionAccess);
+
+		static Elysium::Core::Template::System::int32_t Translate(const ServiceControllerStatus ServiceControllerStatus);
+
+		//static Elysium::Core::Template::System::int32_t Translate(ServiceStartMode ServiceStartMode);
+
+		static Elysium::Core::Template::System::int32_t Translate(const ServiceType ServiceType);
+
+		//static Elysium::Core::Template::System::int32_t Translate(SessionChangeReason SessionChangeReason);
 	};
 }
 #endif

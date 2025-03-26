@@ -11,7 +11,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM
 #include "../Elysium.Core.Template/System.hpp"
 #endif
 
