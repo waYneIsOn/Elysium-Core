@@ -177,6 +177,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO.Pipes", "Li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO.Pipes", "Libraries\02-Windows\Elysium.Core.IO.Pipes\Elysium.Core.IO.Pipes.vcxproj", "{8F30833B-B280-47A6-94B0-2E59C1F909CB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CommandLine", "Libraries\01-Shared\Elysium.Core.CommandLine\Elysium.Core.CommandLine.vcxitems", "{7DDDE4CA-3810-4A87-95DD-50A88C352777}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CommandLine", "Libraries\02-Windows\Elysium.Core.CommandLine\Elysium.Core.CommandLine.vcxproj", "{B3DBFE06-10CA-4D3F-932D-2806BC449C68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -520,6 +524,22 @@ Global
 		{8F30833B-B280-47A6-94B0-2E59C1F909CB}.Release|x64.Build.0 = Release|x64
 		{8F30833B-B280-47A6-94B0-2E59C1F909CB}.Release|x86.ActiveCfg = Release|Win32
 		{8F30833B-B280-47A6-94B0-2E59C1F909CB}.Release|x86.Build.0 = Release|Win32
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|ARM.ActiveCfg = Debug|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|ARM.Build.0 = Debug|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|ARM64.ActiveCfg = Debug|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|ARM64.Build.0 = Debug|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|x64.ActiveCfg = Debug|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|x64.Build.0 = Debug|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|x86.ActiveCfg = Debug|Win32
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Debug|x86.Build.0 = Debug|Win32
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|ARM.ActiveCfg = Release|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|ARM.Build.0 = Release|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|ARM64.ActiveCfg = Release|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|ARM64.Build.0 = Release|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|x64.ActiveCfg = Release|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|x64.Build.0 = Release|x64
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|x86.ActiveCfg = Release|Win32
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -608,6 +628,8 @@ Global
 		{E6F3C33A-47E6-4F23-9B28-B1F9157C74C2} = {CA240A44-4043-4989-B3A0-8BA28C0E0663}
 		{6A9C9A9C-7DE1-4E5A-AB81-BFC4DEE4E2D8} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{8F30833B-B280-47A6-94B0-2E59C1F909CB} = {1030673B-B627-44FE-A2AE-327B6146535E}
+		{7DDDE4CA-3810-4A87-95DD-50A88C352777} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{B3DBFE06-10CA-4D3F-932D-2806BC449C68} = {1030673B-B627-44FE-A2AE-327B6146535E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}
@@ -658,6 +680,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems*{74fbb0fc-33b2-4419-9c86-5f7511eea181}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Drawing\Elysium.Core.Drawing.vcxitems*{7669cb16-51a8-4fa1-8d54-36aff69a2754}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{7d30fe61-9249-4556-b392-29563d82e150}*SharedItemsImports = 4
+		Libraries\01-Shared\Elysium.Core.CommandLine\Elysium.Core.CommandLine.vcxitems*{7ddde4ca-3810-4a87-95dd-50a88c352777}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTests.Core.Speech\UnitTests.Core.Speech.vcxitems*{7f0bbb62-bb87-4e71-84fa-ba711f06251a}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Linq\Elysium.Core.Linq.vcxitems*{7f54a7d9-3259-424a-8713-07095e9a8f44}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Text.RegularExpressions\Elysium.Core.Text.RegularExpressions.vcxitems*{81bc69ac-724d-4a7f-ae92-08b66d25d0bf}*SharedItemsImports = 9
@@ -676,6 +699,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Pkcs\Elysium.Core.Security.Cryptography.Pkcs.vcxitems*{b24d2a65-dd25-4f56-8ca1-6068eaa0c9e5}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{b29c5cf1-d637-47aa-aae6-cbb9028ba3d3}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Globalization\Elysium.Core.Globalization.vcxitems*{b3021f5d-6bba-449c-9742-38d64fc3854e}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.CommandLine\Elysium.Core.CommandLine.vcxitems*{b3dbfe06-10ca-4d3f-932d-2806bc449c68}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems*{b7b28110-f6fa-4554-b115-bae4337debc2}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems*{b8fd36bf-ecb1-433f-a981-47834d8a65ab}*SharedItemsImports = 9
 		UnitTests\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems*{be1492a2-fd64-4dda-8ffd-7433f3d78eb6}*SharedItemsImports = 4
