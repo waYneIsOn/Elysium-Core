@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentDescriptor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Parser.hpp" />
   </ItemGroup>
   <ItemGroup>
