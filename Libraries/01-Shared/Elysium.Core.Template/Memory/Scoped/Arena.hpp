@@ -41,6 +41,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+
+#ifndef _WINDOWS_
+#define _WINSOCKAPI_ // don't include winsock
+#include <Windows.h>
+#endif
+
+	#ifndef _MEMORYAPI_H_
+	#include <memoryapi.h>
+	#endif
+
 	#ifndef _PROCESSTHREADSAPI_H_
 	#include <processthreadsapi.h>
 	#endif
