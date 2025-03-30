@@ -1,7 +1,12 @@
 #include "CppUnitTest.h"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/ArgumentDescriptor.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Parser.hpp"
+
+#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Argument.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Command.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Option.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/RootCommand.hpp"
+
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
 
 using namespace Elysium::Core::CommandLine;
@@ -12,8 +17,43 @@ namespace UnitTests::Core::CommandLine
 	TEST_CLASS(CommandLineTests)
 	{
 	public:
-		TEST_METHOD(CmdLineParserTest)
+		TEST_METHOD(BlaTests)
 		{
+			RootCommand Root = RootCommand(nullptr);
+
+			Command SudoCommand = Command(u8"sudo");
+
+			Command AptGetCommand = Command(u8"apt-get");
+			Command UpdateCommand = Command(u8"update");
+			Command UpgradeCommand = Command(u8"upgrade");
+
+			Command AptCommand = Command(u8"apt");
+			Command ListCommand = Command(u8"list");
+			Option<void> UpgradeableOption = Option<void>(u8"--upgradable");
+
+			ListCommand.Add<void>(UpgradeableOption);
+			AptCommand.Add(ListCommand);
+			AptGetCommand.Add(UpdateCommand);
+			AptGetCommand.Add(UpgradeCommand);
+			SudoCommand.Add(AptCommand);
+			SudoCommand.Add(AptGetCommand);
+			Root.Add(SudoCommand);
+
+			//Option<int> IntOption = Option<int>(u8"");
+		}
+
+		TEST_METHOD(zzzzsdfsdfdTests)
+		{
+			/*
+			* @ToDo: Types
+			*	- Commands
+			*	- Subcommands
+			*	- Options
+			*	- Arguments
+			*
+			*	- Aliases (-i and --Install)
+			*/
+
 			/*
 			* @ToDo: Handle all argument types
 			*	- simple flag (-i) :: DONE (ArgumentDescriptor<void>)
@@ -34,18 +74,18 @@ namespace UnitTests::Core::CommandLine
 			*	-h			-> HelpFlagDescriptor
 			*	/h			-> HelpFlagDescriptor
 			*	--Help		-> HelpFlagDescriptor
-			* 
+			*
 			*	-i			-> InstallFlagDescriptor
 			*	/i			-> InstallFlagDescriptor
 			*	--Install	-> InstallFlagDescriptor
-			* 
+			*
 			*	-u			-> UninstallFlagDescriptor
 			*	/u			-> UninstallFlagDescriptor
 			*	--Uninstall	-> UninstallFlagDescriptor
-			* 
+			*
 			*	-c			-> ConsoleFlagDescriptor
-			* 
-			*	
+			*
+			*
 			*/
 
 			// define flag descriptors
@@ -60,6 +100,10 @@ namespace UnitTests::Core::CommandLine
 			ArgumentDescriptor<void> UninstallFlagDescriptor = ArgumentDescriptor<void>(u8"-u", u8"Uninstall",
 				u8"Starts the uninstallation process of the service.");
 			Assert::IsTrue(UninstallFlagDescriptor.IsFlag());
+
+			ArgumentDescriptor<bool> QuietFlagDescriptor = ArgumentDescriptor<bool>(u8"-q", u8"Quiet",
+				u8"...");
+			Assert::IsTrue(QuietFlagDescriptor.IsFlag());
 
 			ArgumentDescriptor<void> ConsoleFlagDescriptor = ArgumentDescriptor<void>(u8"-c", u8"Console",
 				u8"Runs the service as a normal console application.");
@@ -79,10 +123,9 @@ namespace UnitTests::Core::CommandLine
 			ArgumentDescriptor<char*, char*> CopyFileDescriptor = ArgumentDescriptor<char*, char*>(u8"--cp", u8"Copy",
 				u8"Copies given source file to given target.");
 			//Assert::IsFalse(CopyFileDescriptor.IsFlag());
-				
-			 
+
+
 			// ...
-			Parser CmdLineParser = Parser(u8"MyProgram.exe");
 
 
 			bool bla = false;

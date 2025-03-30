@@ -29,7 +29,7 @@ namespace Elysium::Core::CommandLine
 	class ELYSIUM_CORE_COMMANDLINE_API Parser
 	{
 	public:
-		constexpr Parser(const char8_t* Program);
+		constexpr Parser() = default;
 
 		constexpr Parser(const Parser& Source) = delete;
 
@@ -45,7 +45,6 @@ namespace Elysium::Core::CommandLine
 
 		//void Parse(const Elysium::Core::Template::System::int32_t ArgumentCount, char* ArgumentVector[]);
 	private:
-		Elysium::Core::Utf8String _Program;
 	};
 }
 #endif

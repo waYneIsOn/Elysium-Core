@@ -17,7 +17,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)StackTraceTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AtomicTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CommandLineTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.hpp" />

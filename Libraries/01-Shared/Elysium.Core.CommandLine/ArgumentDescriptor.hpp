@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISBOOLEAN
+#include "../Elysium.Core.Template/IsBoolean.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISVOID
 #include "../Elysium.Core.Template/IsVoid.hpp"
 #endif
@@ -61,7 +65,8 @@ namespace Elysium::Core::CommandLine
 	{
 		// @ToDo: "T...[0]" seems to be only useable in C++26 and onwards. 
 		// probably will need to implement TupleElement for parameter pack indexing
-		return sizeof...(T) == 1 && Elysium::Core::Template::TypeTraits::IsVoidValue<T...[0]>;
+		return sizeof...(T) == 1 && 
+			(Elysium::Core::Template::TypeTraits::IsBooleanValue<T...[0]> || Elysium::Core::Template::TypeTraits::IsVoidValue<T...[0]>);
 	}
 }
 #endif

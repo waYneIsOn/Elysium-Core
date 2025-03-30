@@ -15,7 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AtomicTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)CommandLineTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CultureInfoTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EncodingTest.cpp" />
