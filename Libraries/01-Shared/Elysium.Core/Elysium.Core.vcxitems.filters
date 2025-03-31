@@ -16,6 +16,9 @@
     <Filter Include="Container">
       <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Memory\Scoped">
+      <UniqueIdentifier>{17ef5459-6732-4d2c-b55b-693b7de51c19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
@@ -111,6 +114,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidAtomicIASyncResultReference.hpp">
       <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Arena.hpp">
+      <Filter>Memory\Scoped</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

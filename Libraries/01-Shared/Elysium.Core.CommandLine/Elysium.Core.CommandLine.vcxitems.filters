@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentArity.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Command.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RootCommand.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Symbol.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentArity.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Argument.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Command.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Option.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RootCommand.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Symbol.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Parsing">
+      <UniqueIdentifier>{9c250ced-9456-44eb-a41a-2394e10c6df7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

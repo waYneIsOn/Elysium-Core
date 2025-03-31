@@ -6,8 +6,28 @@
 #include "../Elysium.Core/Byte.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_RINGBUFFEROFINTEGER
+#include "../Elysium.Core/RingBufferOfInteger.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
+#include "../Elysium.Core/VectorOfByte.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
+#include "../Elysium.Core/VectorOfInteger.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFSTRING
+#include "../Elysium.Core/VectorOfString.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_INTERNAL_WINSYMBOLS
 #include "../Elysium.Core.Diagnostics/WinSymbols.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_MEMORY_SCOPED_ARENA
+#include "../Elysium.Core/Arena.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
@@ -24,22 +44,6 @@
 
 #ifndef ELYSIUM_CORE_REFLECTION_TYPE
 #include "../Elysium.Core.Reflection/Type.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_CONTAINER_RINGBUFFEROFINTEGER
-#include "../Elysium.Core/RingBufferOfInteger.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
-#include "../Elysium.Core/VectorOfByte.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFINTEGER
-#include "../Elysium.Core/VectorOfInteger.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_CONTAINER_VECTOROFSTRING
-#include "../Elysium.Core/VectorOfString.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_ATOMIC

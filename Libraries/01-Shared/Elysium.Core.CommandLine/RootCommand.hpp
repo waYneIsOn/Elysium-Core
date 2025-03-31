@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_MEMORY_SCOPED_ARENA
+#include "../Elysium.Core/Arena.hpp"
+#endif
+
 namespace Elysium::Core::CommandLine
 {
 	/// <summary>
@@ -48,6 +52,10 @@ namespace Elysium::Core::CommandLine
 		constexpr RootCommand& operator=(RootCommand&& Right) noexcept = delete;
 	private:
 		static const char8_t* _ExecutableName;
+	private:
+		Elysium::Core::Memory::Scoped::Arena _CommandArena;
+		Elysium::Core::Memory::Scoped::Arena _ArgumentArena;
+		Elysium::Core::Memory::Scoped::Arena _OptionArena;
 	};
 }
 #endif

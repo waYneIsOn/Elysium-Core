@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Arena.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />

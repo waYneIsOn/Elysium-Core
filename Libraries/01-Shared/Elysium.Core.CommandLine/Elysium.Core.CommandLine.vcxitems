@@ -17,16 +17,15 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Argument.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentDescriptor.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentArity.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Command.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Option.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Parser.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RootCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Symbol.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ArgumentArity.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Command.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Parser.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RootCommand.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Symbol.cpp" />
   </ItemGroup>

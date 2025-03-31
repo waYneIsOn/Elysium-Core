@@ -31,7 +31,7 @@ namespace Elysium::Core::CommandLine
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	template <class T>
-	class Option final
+	class Option
 		: public Symbol
 	{
 	public:
@@ -49,6 +49,7 @@ namespace Elysium::Core::CommandLine
 
 		constexpr Option& operator=(Option&& Right) noexcept = delete;
 	private:
+
 	};
 
 	template<class T>

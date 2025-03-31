@@ -1,8 +1,7 @@
 #include "CppUnitTest.h"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/ArgumentDescriptor.hpp"
-
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Argument.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/ArgumentArity.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Command.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Option.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/RootCommand.hpp"
@@ -19,31 +18,30 @@ namespace UnitTests::Core::CommandLine
 	public:
 		TEST_METHOD(BlaTests)
 		{
-			RootCommand Root = RootCommand(nullptr);
+			RootCommand Root = RootCommand(u8"Runs application bla.exe");
+			Command& SudoCommand = Root.AddSubCommand(u8"sudo");
 
-			Command SudoCommand = Command(u8"sudo");
+			// bla.exe sudo -u "user@domain"
+			Option<char8_t*> UsernameOption = Option<char8_t*>(u8"-u", u8"Represents the user the command is supposed to be executed as.");
 
-			Command AptGetCommand = Command(u8"apt-get");
-			Command UpdateCommand = Command(u8"update");
-			Command UpgradeCommand = Command(u8"upgrade");
+			// bla.exe sudo 42 "foo bar"
+			// @ToDo: global arguments????
+			Argument<int> DelayArgument = Argument<int>(u8"delay", nullptr);	// 42
+			Argument<char8_t*> MessageArgument = Argument<char8_t*>(u8"message", nullptr);	// "foo bar"
 
-			Command AptCommand = Command(u8"apt");
-			Command ListCommand = Command(u8"list");
-			Option<void> UpgradeableOption = Option<void>(u8"--upgradable");
+			// bla.exe sudo apt-get update
+			// bla.exe sudo apt-get upgrade
+			Command& AptGetCommand = SudoCommand.AddSubCommand(u8"apt-get", nullptr);
+			Command& UpdateCommand = SudoCommand.AddSubCommand(u8"update", nullptr);
+			Command& UpgradeCommand = SudoCommand.AddSubCommand(u8"upgrade", nullptr);
 
-			ListCommand.Add<void>(UpgradeableOption);
-			AptCommand.Add(ListCommand);
-			AptGetCommand.Add(UpdateCommand);
-			AptGetCommand.Add(UpgradeCommand);
-			SudoCommand.Add(AptCommand);
-			SudoCommand.Add(AptGetCommand);
-			Root.Add(SudoCommand);
+			/*
+			// bla.exe sudo apt list --upgradable
+			Command& AptCommand = SudoCommand.AddSubCommand(u8"apt", nullptr);
+			Command& ListCommand = SudoCommand.AddSubCommand(u8"list", nullptr);
+			Option<bool> UpgradeableOption = Option<bool>(u8"--upgradable");
+			*/
 
-			//Option<int> IntOption = Option<int>(u8"");
-		}
-
-		TEST_METHOD(zzzzsdfsdfdTests)
-		{
 			/*
 			* @ToDo: Types
 			*	- Commands
@@ -87,48 +85,6 @@ namespace UnitTests::Core::CommandLine
 			*
 			*
 			*/
-
-			// define flag descriptors
-			ArgumentDescriptor<void> HelpFlagDescriptor = ArgumentDescriptor<void>(u8"-h", u8"Help",
-				u8"Lists all available arguments and their descriptions.");
-			Assert::IsTrue(HelpFlagDescriptor.IsFlag());
-
-			ArgumentDescriptor<void> InstallFlagDescriptor = ArgumentDescriptor<void>(u8"-i", u8"Install",
-				u8"Starts the installation process of the service.");
-			Assert::IsTrue(InstallFlagDescriptor.IsFlag());
-
-			ArgumentDescriptor<void> UninstallFlagDescriptor = ArgumentDescriptor<void>(u8"-u", u8"Uninstall",
-				u8"Starts the uninstallation process of the service.");
-			Assert::IsTrue(UninstallFlagDescriptor.IsFlag());
-
-			ArgumentDescriptor<bool> QuietFlagDescriptor = ArgumentDescriptor<bool>(u8"-q", u8"Quiet",
-				u8"...");
-			Assert::IsTrue(QuietFlagDescriptor.IsFlag());
-
-			ArgumentDescriptor<void> ConsoleFlagDescriptor = ArgumentDescriptor<void>(u8"-c", u8"Console",
-				u8"Runs the service as a normal console application.");
-			Assert::IsTrue(ConsoleFlagDescriptor.IsFlag());
-
-			ArgumentDescriptor<void> RequiredFlagDescriptor = ArgumentDescriptor<void>(u8"--rf", u8"RequiredFlag",
-				u8"While a required flag makes no sense in the real world (as it should simple be set by the application), I still want to test it as well.",
-				true);
-			Assert::IsTrue(RequiredFlagDescriptor.IsFlag());
-
-			// define arguments with a single value
-			ArgumentDescriptor<Elysium::Core::Template::System::int8_t> ConfigFileDescriptor =
-				ArgumentDescriptor<Elysium::Core::Template::System::int8_t>(u8"--cfg", u8"Config", u8"Defines the FQPN to the configuration file.");
-			Assert::IsFalse(ConfigFileDescriptor.IsFlag());
-
-			// define arguments with a multiple values
-			ArgumentDescriptor<char*, char*> CopyFileDescriptor = ArgumentDescriptor<char*, char*>(u8"--cp", u8"Copy",
-				u8"Copies given source file to given target.");
-			//Assert::IsFalse(CopyFileDescriptor.IsFlag());
-
-
-			// ...
-
-
-			bool bla = false;
 		}
 	};
 }

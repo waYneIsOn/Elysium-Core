@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_COMMANDLINE_ARGUMENT
+#include "Argument.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_COMMANDLINE_OPTION
 #include "Option.hpp"
 #endif
@@ -28,10 +32,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
-#include "../Elysium.Core.Template/Memory/Scoped/Arena.hpp"
-#endif
-
 namespace Elysium::Core::CommandLine
 {
 	/// <summary>
@@ -42,9 +42,9 @@ namespace Elysium::Core::CommandLine
 	{
 	public:
 		constexpr Command() = delete;
-
-		Command(const char8_t* Name, const char8_t* Description = nullptr);
-
+	protected:
+		Command(const char8_t* Name, const char8_t* Description);
+	public:
 		constexpr Command(const Command& Source) = delete;
 
 		constexpr Command(Command&& Right) noexcept = delete;
@@ -56,14 +56,32 @@ namespace Elysium::Core::CommandLine
 		constexpr Command& operator=(Command&& Right) noexcept = delete;
 	public:
 		void AddAlias(const char8_t* Alias);
+	public:
+		Command& AddSubCommand(const char8_t* Name, const char8_t* Description = nullptr) noexcept;
+		/*
+		template <class T>
+		Argument<T>& AddArgument();
 
+		template <class T>
+		Option<T>& AddOption();
+		*/
+	public:
 		void Add(const Command& SubCommand);
+
+		template <class T>
+		void Add(const Argument<T>& Argument);
 
 		template <class T>
 		void Add(const Option<T>& Option);
 	private:
-		Elysium::Core::Template::Memory::Scoped::Arena _OptionsArena;
+
 	};
+
+	template<class T>
+	inline void Command::Add(const Argument<T>& Argument)
+	{
+		// @ToDo
+	}
 
 	template<class T>
 	inline void Command::Add(const Option<T>& Option)
