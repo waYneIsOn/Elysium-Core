@@ -14,7 +14,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
-#include "IntegralConstant.hpp"
+#include "../IntegralConstant.hpp"
 #endif
 
 namespace Elysium::Core::Template::TypeTraits
