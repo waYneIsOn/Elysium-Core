@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::CommandLine
 {
 	/// <summary>
-	/// 
+	/// Defines the arity of an option or argument.
 	/// </summary>
 	class ELYSIUM_CORE_COMMANDLINE_API ArgumentArity
 	{
@@ -42,6 +42,14 @@ namespace Elysium::Core::CommandLine
 		constexpr ArgumentArity& operator=(const ArgumentArity& Source) = delete;
 
 		constexpr ArgumentArity& operator=(ArgumentArity&& Right) noexcept = delete;
+	public:
+		Elysium::Core::Template::System::uint32_t GetMinimumNumberOfValues();
+
+		Elysium::Core::Template::System::uint32_t GetMaximumNumberOfValues();
+	public:
+		void SetMinimumNumberOfValues(const Elysium::Core::Template::System::uint32_t Value);
+
+		void SetMaximumNumberOfValues(const Elysium::Core::Template::System::uint32_t Value);
 	private:
 		Elysium::Core::Template::System::uint32_t _MinimumNumberOfValues;
 		Elysium::Core::Template::System::uint32_t _MaximumNumberOfValues;

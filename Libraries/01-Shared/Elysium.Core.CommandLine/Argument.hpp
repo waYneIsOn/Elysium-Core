@@ -24,25 +24,35 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ArgumentArity.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
-#endif
-
 namespace Elysium::Core::CommandLine
 {
 	/// <summary>
 	/// 
 	/// </summary>
+	class IArgument
+	{
+	public:
+		constexpr virtual ~IArgument() = default;
+	};
+
+	template <class T>
+	class Option;
+
+	/// <summary>
+	/// A symbol defining a value that can be passed on the command line to a command or option.
+	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	template <class T>
 	class Argument final
-		: public Symbol
+		: public IArgument, Symbol
 	{
+		friend class Command;
+		friend class Option<T>;
 	public:
 		constexpr Argument() = delete;
-
+	private:
 		constexpr Argument(const char8_t* Name, const char8_t* Description = nullptr);
-
+	public:
 		constexpr Argument(const Argument& Source) = delete;
 
 		constexpr Argument(Argument&& Right) noexcept = delete;
@@ -58,7 +68,7 @@ namespace Elysium::Core::CommandLine
 		const ArgumentArity& GetArity() const;
 	private:
 		ArgumentArity _Arity;
-		//T _DefaultValue;
+		//T _Value;
 	};
 
 	template<class T>

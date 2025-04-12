@@ -28,14 +28,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Symbol.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
+#include "../Elysium.Core.Template/UnorderedMap.hpp"
 #endif
 
 namespace Elysium::Core::CommandLine
 {
+	class RootCommand;
+
 	/// <summary>
-	/// 
+	/// Represents a specific action that the application performs.
 	/// </summary>
 	class ELYSIUM_CORE_COMMANDLINE_API Command
 		: public Symbol
@@ -43,13 +45,13 @@ namespace Elysium::Core::CommandLine
 	public:
 		constexpr Command() = delete;
 	protected:
-		Command(const char8_t* Name, const char8_t* Description);
+		Command(RootCommand& RootCommand, const char8_t* Name, const char8_t* Description);
 	public:
 		constexpr Command(const Command& Source) = delete;
 
 		constexpr Command(Command&& Right) noexcept = delete;
 		
-		constexpr virtual ~Command() = default;
+		virtual ~Command() noexcept;
 	public:
 		constexpr Command& operator=(const Command& Source) = delete;
 
@@ -58,35 +60,50 @@ namespace Elysium::Core::CommandLine
 		void AddAlias(const char8_t* Alias);
 	public:
 		Command& AddSubCommand(const char8_t* Name, const char8_t* Description = nullptr) noexcept;
-		/*
+		
 		template <class T>
-		Argument<T>& AddArgument();
+		Argument<T>& AddArgument(const char8_t* Name, const char8_t* Description = nullptr) noexcept;
+		
+		template <class ...T>
+		Option<T...>& AddOption(const char8_t* Name, const char8_t* Description = nullptr) noexcept;
+	protected:
+		void CleanUpArguments();
 
-		template <class T>
-		Option<T>& AddOption();
-		*/
-	public:
-		void Add(const Command& SubCommand);
+		void CleanupOptions();
 
-		template <class T>
-		void Add(const Argument<T>& Argument);
-
-		template <class T>
-		void Add(const Option<T>& Option);
+		void CleanUpSubCommands();
 	private:
+		void* AllocatedMemoryForArgument(const Elysium::Core::Template::System::size Size);
 
+		void* AllocatedMemoryForOption(const Elysium::Core::Template::System::size Size);
+	private:
+		RootCommand& _RootCommand;
+
+		Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, IArgument*> _Arguments;
+		Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, IOption*> _Options;
+		Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Utf8String, Command*> _SubCommands;
 	};
 
 	template<class T>
-	inline void Command::Add(const Argument<T>& Argument)
+	inline Argument<T>& Command::AddArgument(const char8_t* Name, const char8_t* Description) noexcept
 	{
-		// @ToDo
+		void* AllocatedMemory = AllocatedMemoryForArgument(sizeof(Argument<T>));
+		Argument<T>* Argument = ::new (AllocatedMemory) Elysium::Core::CommandLine::Argument<T>(Name, Description);
+
+		_Arguments.Set(Argument->GetName(), Argument);
+
+		return *Argument;
 	}
 
-	template<class T>
-	inline void Command::Add(const Option<T>& Option)
+	template<class ...T>
+	inline Option<T...>& Command::AddOption(const char8_t* Name, const char8_t* Description) noexcept
 	{
-		// @ToDo
+		void* AllocatedMemory = AllocatedMemoryForOption(sizeof(Option<T...>));
+		Option<T...>* Option = ::new (AllocatedMemory) Elysium::Core::CommandLine::Option<T...>(Name, Description);
+
+		_Options.Set(Option->GetName(), Option);
+
+		return *Option;
 	}
 }
 #endif

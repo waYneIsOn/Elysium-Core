@@ -18,9 +18,57 @@ namespace UnitTests::Core::CommandLine
 	public:
 		TEST_METHOD(BlaTests)
 		{
-			RootCommand Root = RootCommand(u8"Runs application bla.exe");
-			Command& SudoCommand = Root.AddSubCommand(u8"sudo");
+			/*
+			CommandLine:
+				MyApplication.exe --Silent true compress fast --SourceDirectory "../some folder" --TargetArchive "some.zip"
+				MyApplication.exe compress fast --SourceDirectory "../some folder" 1024 --TargetArchive "some.zip" --Silent true
 
+			- RootCommand "MyApplication.exe"
+				- Global Option "--Silent" ("true" being it's Argument (=value?))
+				- Command "compress"
+					- Command "fast"
+					- Option for compress "--SourceDirectory"
+						- Argument<Utf8StringView> "../some folder"
+					- Option for compress "--TargetArchive" ("some.zip" being it's  value).
+						- Argument<Utf8StringView> "some.zip"
+			*/
+			RootCommand Root = RootCommand(u8"Runs application MyApplication.exe");
+
+			Option<bool>& GlobalOptionSilent = Root.AddOption<bool>(u8"--Silent", u8"Runs the application in silent mode.");
+
+			Command& SubCommandSudo = Root.AddSubCommand(u8"sudo", u8"Substitute user do.");
+
+			Command& SubSubCommandCompress = SubCommandSudo.AddSubCommand(u8"compress", u8"...");
+
+			Option<Elysium::Core::Template::Text::StringView<char8_t>>& OptionSourceDirectory = 
+				SubSubCommandCompress.AddOption<Elysium::Core::Template::Text::StringView<char8_t>>(u8"--SourceDirectory", u8"");
+			OptionSourceDirectory.GetArity().SetMinimumNumberOfValues(1);
+			OptionSourceDirectory.GetArity().SetMaximumNumberOfValues(1);
+			
+			Option<Elysium::Core::Template::Text::StringView<char8_t>>& OptionTargetArchive =
+				SubSubCommandCompress.AddOption<Elysium::Core::Template::Text::StringView<char8_t>>(u8"--TargetArchive", u8"");
+			OptionTargetArchive.GetArity().SetMinimumNumberOfValues(1);
+			OptionTargetArchive.GetArity().SetMaximumNumberOfValues(1);
+
+			Command& CommandCompressionStrengthFast = SubSubCommandCompress.AddSubCommand(u8"fast", u8"...");
+			Command& CommandCompressionStrengthNormal = SubSubCommandCompress.AddSubCommand(u8"normal", u8"...");
+			Command& CommandCompressionStrengthOptimal = SubSubCommandCompress.AddSubCommand(u8"optimal", u8"...");
+			
+
+
+			Argument<bool>& TestArg = SubCommandSudo.AddArgument<bool>(u8"test");
+
+
+
+
+
+
+
+
+
+
+
+			/*
 			// bla.exe sudo -u "user@domain"
 			Option<char8_t*> UsernameOption = Option<char8_t*>(u8"-u", u8"Represents the user the command is supposed to be executed as.");
 
@@ -34,7 +82,7 @@ namespace UnitTests::Core::CommandLine
 			Command& AptGetCommand = SudoCommand.AddSubCommand(u8"apt-get", nullptr);
 			Command& UpdateCommand = SudoCommand.AddSubCommand(u8"update", nullptr);
 			Command& UpgradeCommand = SudoCommand.AddSubCommand(u8"upgrade", nullptr);
-
+			*/
 			/*
 			// bla.exe sudo apt list --upgradable
 			Command& AptCommand = SudoCommand.AddSubCommand(u8"apt", nullptr);
@@ -82,9 +130,30 @@ namespace UnitTests::Core::CommandLine
 			*	--Uninstall	-> UninstallFlagDescriptor
 			*
 			*	-c			-> ConsoleFlagDescriptor
-			*
-			*
 			*/
 		}
+	private:
+		void PrepareGenericService()
+		{
+			RootCommand Root = RootCommand(u8"Runs service MyService.exe");
+			Command& InstallCommand = Root.AddSubCommand(u8"--install", u8"Runs the installation process.");
+			InstallCommand.AddAlias(u8"-i");
+			InstallCommand.AddAlias(u8"/i");
+
+			Command& UninstallCommand = Root.AddSubCommand(u8"--uninstall", u8"Runs the uninstallation process.");
+			UninstallCommand.AddAlias(u8"-u");
+			UninstallCommand.AddAlias(u8"/u");
+
+			Command& ConsoleCommand = Root.AddSubCommand(u8"--console", u8"Runs the service as a normal console application.");
+			ConsoleCommand.AddAlias(u8"-c");
+			ConsoleCommand.AddAlias(u8"/c");
+
+			Command& Dunno = ConsoleCommand.AddSubCommand(u8"--bla", u8"...");
+
+			//return Root;
+		}
+		
+	private:
+		//RootCommand _Root;
 	};
 }

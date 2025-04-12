@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_VERSION
+#include "../Elysium.Core/Version.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_MEMORY_SCOPED_ARENA
 #include "../Elysium.Core/Arena.hpp"
 #endif
@@ -31,11 +35,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::CommandLine
 {
 	/// <summary>
-	/// 
+	/// Represents the main action that the application performs.
 	/// </summary>
 	class ELYSIUM_CORE_COMMANDLINE_API RootCommand final
 		: public Command
 	{
+		friend class Command;
 	public:
 		constexpr RootCommand() = delete;
 
@@ -45,13 +50,15 @@ namespace Elysium::Core::CommandLine
 
 		constexpr RootCommand(RootCommand&& Right) noexcept = delete;
 
-		constexpr virtual ~RootCommand() = default;
+		virtual ~RootCommand() noexcept;
 	public:
 		constexpr RootCommand& operator=(const RootCommand& Source) = delete;
 
 		constexpr RootCommand& operator=(RootCommand&& Right) noexcept = delete;
 	private:
 		static const char8_t* _ExecutableName;
+
+		static const Elysium::Core::Version _Version;
 	private:
 		Elysium::Core::Memory::Scoped::Arena _CommandArena;
 		Elysium::Core::Memory::Scoped::Arena _ArgumentArena;

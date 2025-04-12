@@ -36,11 +36,15 @@ namespace Elysium::Core::CommandLine
 
 		constexpr Symbol(Symbol&& Right) noexcept = delete;
 
-		constexpr virtual ~Symbol() = default;
+		virtual ~Symbol() noexcept;
 	public:
 		constexpr Symbol& operator=(const Symbol& Source) = delete;
 
 		constexpr Symbol& operator=(Symbol&& Right) noexcept = delete;
+	public:
+		const Elysium::Core::Utf8String& GetName() const noexcept;
+
+		const Elysium::Core::Utf8String& GetDescription() const noexcept;
 	private:
 		Elysium::Core::Utf8String _Name;
 		Elysium::Core::Utf8String _Description;
