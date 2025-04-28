@@ -44,6 +44,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "EnumerationOrIntegral.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLAGENUMERATION
+#include "Concepts/FlagEnumeration.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
 #include "Hashable.hpp"
 #endif

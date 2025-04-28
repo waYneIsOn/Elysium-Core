@@ -776,6 +776,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaOptions.hpp">
       <Filter>Memory\Scoped</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FlagEnumeration.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

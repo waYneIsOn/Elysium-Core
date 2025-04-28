@@ -36,6 +36,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FlagEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Lambda.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Trivial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\TriviallyCopyable.hpp" />
