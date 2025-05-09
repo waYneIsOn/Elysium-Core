@@ -21,14 +21,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Functional/DeclareValue.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEAND
-#include "../TypeTraits/HasOperatorBitwiseAnd.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORBITWISEOR
-#include "../TypeTraits/HasOperatorBitwiseOr.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "IntegralConstant.hpp"
 #endif
@@ -48,7 +40,7 @@ namespace Elysium::Core::Template::TypeTraits
 	struct IsFlagEnumeration<T, 
 		Common::EnableIfType<
 			__is_enum(T) &&
-			TypeTraits::IsSameValue<decltype(Functional::DeclareValue<T>()& Functional::DeclareValue<T>()), T> &&
+			TypeTraits::IsSameValue<decltype(Functional::DeclareValue<T>() & Functional::DeclareValue<T>()), T> &&
 			TypeTraits::IsSameValue<decltype(Functional::DeclareValue<T>() | Functional::DeclareValue<T>()), T>
 		>
 	>
