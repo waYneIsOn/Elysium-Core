@@ -65,6 +65,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFlagEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsLambda.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTrivial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTriviallyCopyable.hpp" />

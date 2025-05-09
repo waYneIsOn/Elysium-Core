@@ -93,12 +93,6 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		using ConstValue = const T;
 	public:
 		/// <summary>
-		/// Returns whether bitwise-and- as well as bitwise-or-operators exist for given type.
-		/// </summary>
-		/// <returns></returns>
-		static constexpr const bool IsFlag() noexcept;
-	public:
-		/// <summary>
 		/// Returns the full name of given type (namespace and enumeration-name).
 		/// </summary>
 		/// <returns></returns>
@@ -164,13 +158,6 @@ namespace Elysium::Core::Template::RunTimeTypeInformation
 		template <Elysium::Core::Template::System::int64_t... Indices>
 		static constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Text::String<char8_t>> CollectNamedValues(const Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::int64_t, Indices...>&) noexcept;
 	};
-
-	template<Concepts::Enumeration T>
-	inline constexpr const bool Enumeration<T>::IsFlag() noexcept
-	{
-		return Elysium::Core::Template::TypeTraits::HasOperatorBitwiseAndValue<T> &&
-			Elysium::Core::Template::TypeTraits::HasOperatorBitwiseOrValue<T>;
-	}
 
 	template<Concepts::Enumeration T>
 	inline constexpr const Elysium::Core::Template::Text::String<char8_t> Enumeration<T>::GetFullName() noexcept

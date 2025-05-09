@@ -25,7 +25,8 @@ namespace Elysium::Core::Template::TypeTraits
 	inline constexpr bool IsSameValue<T, T> = true;
 	
 	template <class TFirst, class TSecond>
-	struct IsSame : public IntegralConstant<bool, IsSameValue<TFirst, TSecond>>
+	struct IsSame 
+		: IntegralConstant<bool, IsSameValue<TFirst, TSecond>>
 	{ };
 }
 #endif

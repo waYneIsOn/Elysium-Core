@@ -20,6 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#define ELYSIUM_CORE_OS_ANDROID
 #elif defined _MAC || defined macintosh || defined Macintosh || (defined __APPLE__ && defined __MACH__)
 	#define ELYSIUM_CORE_OS_MAC
+#elif defined __PS3
+	#define ELYSIUM_CORE_OS_PS3
 #else
 	#error "unsupported os"
 #endif

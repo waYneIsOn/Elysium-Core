@@ -14,7 +14,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::TypeTraits
 {
-	template <class... Types>
+	template <class... T>
 	using VoidType = void;
 }
 #endif

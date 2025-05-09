@@ -88,6 +88,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsEnumeration.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLAGENUMERATION
+#include "TypeTraits/IsFlagEnumeration.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
 #include "IsFloatingPoint.hpp"
 #endif

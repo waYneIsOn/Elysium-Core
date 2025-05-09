@@ -7,6 +7,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/UnderlyingType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/CompositeType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsFlagEnumeration.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::TypeTraits;
@@ -81,6 +82,25 @@ namespace UnitTests::Core::Template::Reflection
 		C = -21,
 		D = 23904
 	};
+
+	enum class SomeFlagEnum
+	{
+		Zero = 0,
+		One = 1,
+		Two = 2,
+		Four = 4,
+		Eight = 8
+	};
+
+	inline SomeFlagEnum operator|(const SomeFlagEnum Left, const SomeFlagEnum Right)
+	{
+		return static_cast<SomeFlagEnum>(static_cast<int>(Left) | static_cast<int>(Right));
+	}
+
+	inline SomeFlagEnum operator&(const SomeFlagEnum Left, const SomeFlagEnum Right)
+	{
+		return static_cast<SomeFlagEnum>(static_cast<int>(Left) & static_cast<int>(Right));
+	}
 
 	class EmptyClass
 	{ };
@@ -182,14 +202,16 @@ namespace UnitTests::Core::Template::Reflection
 
 		TEST_METHOD(EnumIsFlag)
 		{
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalEnum>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<GlobalSomeEnumClass>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnum>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeEnumClass>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeUInt8EnumClass>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt8EnumClass>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt16EnumClass>::IsFlag());
-			Assert::IsFalse(Elysium::Core::Template::RunTimeTypeInformation::Enumeration<SomeInt32EnumStruct>::IsFlag());
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<GlobalEnum>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<GlobalSomeEnumClass>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeEnum>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeEnumClass>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeUInt8EnumClass>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeInt8EnumClass>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeInt16EnumClass>);
+			Assert::IsFalse(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeInt32EnumStruct>);
+
+			Assert::IsTrue(Elysium::Core::Template::TypeTraits::IsFlagEnumerationValue<SomeFlagEnum>);
 		}
 
 		TEST_METHOD(EnumGetFullNames)

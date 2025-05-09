@@ -779,6 +779,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FlagEnumeration.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFlagEnumeration.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

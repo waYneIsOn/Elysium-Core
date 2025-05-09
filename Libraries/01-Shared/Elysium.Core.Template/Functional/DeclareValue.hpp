@@ -19,7 +19,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Functional
 {
 	template <class T>
-	Elysium::Core::Template::Functional::AddRightValueReference<T> DeclareValue() noexcept
+	Elysium::Core::Template::Functional::AddRightValueReferenceType<T> DeclareValue() noexcept
 	{
 		static_assert(false, "Elysium::Core::Template::Functional<T>::DeclareValue()");
 	}
