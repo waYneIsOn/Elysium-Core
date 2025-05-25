@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Constant.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_DERIVEDFROM
+#include "Concepts/DerivedFrom.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ENUMERATION
 #include "Concepts/Enumeration.hpp"
 #endif
