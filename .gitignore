@@ -12,6 +12,11 @@
 /Libraries/04-Android/Elysium.Core/Debugbin
 /Libraries/04-Android/Elysium.Core/Releasebin
 
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis/Debug
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis/Debugbin
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis/Releasebin
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis/x64
+
 /Libraries/02-Windows/Elysium.Core.CommandLine/Debug
 /Libraries/02-Windows/Elysium.Core.CommandLine/Debugbin
 /Libraries/02-Windows/Elysium.Core.CommandLine/Releasebin
