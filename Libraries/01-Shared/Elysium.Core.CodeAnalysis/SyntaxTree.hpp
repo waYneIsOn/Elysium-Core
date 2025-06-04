@@ -20,6 +20,20 @@ namespace Elysium::Core::CommandLine
 {
 	class ELYSIUM_CORE_CODEANALYSIS_API SyntaxTree
 	{
+	protected:
+		constexpr SyntaxTree();
+	public:
+		constexpr SyntaxTree(const SyntaxTree& Source) = delete;
+
+		constexpr SyntaxTree(SyntaxTree&& Right) noexcept = delete;
+
+		virtual ~SyntaxTree() noexcept;
+	public:
+		constexpr SyntaxTree& operator=(const SyntaxTree& Source) = delete;
+
+		constexpr SyntaxTree& operator=(SyntaxTree&& Right) noexcept = delete;
+	private:
+
 	};
 }
 #endif

@@ -177,9 +177,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="UnitTests.Core.CodeAnalysis.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.CodeAnalysis\Elysium.Core.CodeAnalysis.vcxproj">
       <Project>{17640935-65eb-4ddc-a81c-fd6b943aff1b}</Project>
     </ProjectReference>
