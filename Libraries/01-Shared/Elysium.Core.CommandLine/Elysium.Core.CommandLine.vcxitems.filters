@@ -14,6 +14,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Option.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RootCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Symbol.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parsing\TokenType.hpp">
+      <Filter>Parsing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Parsing">

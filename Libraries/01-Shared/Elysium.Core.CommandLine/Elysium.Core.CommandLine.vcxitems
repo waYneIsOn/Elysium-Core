@@ -20,6 +20,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentArity.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Command.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Option.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Parsing\TokenType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RootCommand.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Symbol.hpp" />
   </ItemGroup>

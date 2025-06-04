@@ -35,28 +35,27 @@ namespace UnitTests::Core::CommandLine
 			RootCommand Root = RootCommand(u8"Runs application MyApplication.exe");
 
 			Option<bool>& GlobalOptionSilent = Root.AddOption<bool>(u8"--Silent", u8"Runs the application in silent mode.");
+			//GlobalOptionSilent.AddAlias()
 
-			Command& SubCommandSudo = Root.AddSubCommand(u8"sudo", u8"Substitute user do.");
-
-			Command& SubSubCommandCompress = SubCommandSudo.AddSubCommand(u8"compress", u8"...");
+			Command& SubCommandCompress = Root.AddSubCommand(u8"compress", u8"...");
 
 			Option<Elysium::Core::Template::Text::StringView<char8_t>>& OptionSourceDirectory = 
-				SubSubCommandCompress.AddOption<Elysium::Core::Template::Text::StringView<char8_t>>(u8"--SourceDirectory", u8"");
+				SubCommandCompress.AddOption<Elysium::Core::Template::Text::StringView<char8_t>>(u8"--SourceDirectory", u8"");
 			OptionSourceDirectory.GetArity().SetMinimumNumberOfValues(1);
 			OptionSourceDirectory.GetArity().SetMaximumNumberOfValues(1);
 			
 			Option<Elysium::Core::Template::Text::StringView<char8_t>>& OptionTargetArchive =
-				SubSubCommandCompress.AddOption<Elysium::Core::Template::Text::StringView<char8_t>>(u8"--TargetArchive", u8"");
+				SubCommandCompress.AddOption<Elysium::Core::Template::Text::StringView<char8_t>>(u8"--TargetArchive", u8"");
 			OptionTargetArchive.GetArity().SetMinimumNumberOfValues(1);
 			OptionTargetArchive.GetArity().SetMaximumNumberOfValues(1);
 
-			Command& CommandCompressionStrengthFast = SubSubCommandCompress.AddSubCommand(u8"fast", u8"...");
-			Command& CommandCompressionStrengthNormal = SubSubCommandCompress.AddSubCommand(u8"normal", u8"...");
-			Command& CommandCompressionStrengthOptimal = SubSubCommandCompress.AddSubCommand(u8"optimal", u8"...");
+			Command& CommandCompressionStrengthFast = SubCommandCompress.AddSubCommand(u8"fast", u8"...");
+			Command& CommandCompressionStrengthNormal = SubCommandCompress.AddSubCommand(u8"normal", u8"...");
+			Command& CommandCompressionStrengthOptimal = SubCommandCompress.AddSubCommand(u8"optimal", u8"...");
 			
 
 
-			Argument<bool>& TestArg = SubCommandSudo.AddArgument<bool>(u8"test");
+			Argument<bool>& TestArg = SubCommandCompress.AddArgument<bool>(u8"test");
 
 
 
