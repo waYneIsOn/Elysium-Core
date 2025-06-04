@@ -1,10 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{0d1f4ba1-a822-4e59-b960-052df16daf1b}</ItemsProjectGuid>
-    <ItemsRootNamespace>Elysium::Core::CodeAnalysis</ItemsRootNamespace>
+    <ItemsProjectGuid>{c0d372d4-a901-442e-b407-660c861d0b2e}</ItemsProjectGuid>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -13,12 +12,5 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SyntaxTree.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SyntaxTree.cpp" />
   </ItemGroup>
 </Project>

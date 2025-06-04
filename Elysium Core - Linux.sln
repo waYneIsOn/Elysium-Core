@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - libraries", "01 - libraries", "{E1BE999E-098C-4E1C-AA12-CD2F62312AD8}"
 EndProject
@@ -61,10 +61,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Json", "Librar
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security", "Libraries\01-Shared\Elysium.Core.Security\Elysium.Core.Security.vcxitems", "{B7B28110-F6FA-4554-B115-BAE4337DEBC2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Xml", "Libraries\01-Shared\Elysium.Core.Xml\Elysium.Core.Xml.vcxitems", "{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Html", "Libraries\01-Shared\Elysium.Core.Html\Elysium.Core.Html.vcxitems", "{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Web", "Libraries\01-Shared\Elysium.Core.Web\Elysium.Core.Web.vcxitems", "{B8FD36BF-ECB1-433F-A981-47834D8A65AB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.Security.Cryptography.Algorithms", "Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems", "{96932FCB-7D28-4130-90F2-9CC5216C7540}"
@@ -102,6 +98,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.IO.FileSystem.Watcher", "Libraries\01-Shared\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxitems", "{73EFFDFC-A77C-4BD2-8F16-B500AF772E84}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.CommandLine", "UnitTests\01-Shared\UnitTests.Core.CommandLine\UnitTests.Core.CommandLine.vcxitems", "{A882E51B-A974-4F20-ACA1-0FEC68C75AF2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CodeAnalysis", "Libraries\01-Shared\Elysium.Core.CodeAnalysis\Elysium.Core.CodeAnalysis.vcxitems", "{0D1F4BA1-A822-4E59-B960-052DF16DAF1B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CommandLine", "Libraries\01-Shared\Elysium.Core.CommandLine\Elysium.Core.CommandLine.vcxitems", "{7DDDE4CA-3810-4A87-95DD-50A88C352777}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests.Core.CodeAnalysis", "UnitTests\01-Shared\UnitTests.Core.CodeAnalysis\UnitTests.Core.CodeAnalysis.vcxitems", "{C0D372D4-A901-442E-B407-660C861D0B2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,8 +145,6 @@ Global
 		{A4B705A1-60E7-4BB9-BA2A-A012FAF826FD} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{A8EC7CEA-4204-4384-A93B-CB59901202B3} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{B7B28110-F6FA-4554-B115-BAE4337DEBC2} = {8C483853-54B5-40FB-B14B-28383747B06B}
-		{98E6F0E2-D2C3-46AD-AAFF-E6AE02EC11E7} = {8C483853-54B5-40FB-B14B-28383747B06B}
-		{E02B4F08-16E6-45BA-AA47-72D24D6EBD2E} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{B8FD36BF-ECB1-433F-A981-47834D8A65AB} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{96932FCB-7D28-4130-90F2-9CC5216C7540} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{0BD00C32-9322-44BC-BDE1-9C6F8C1818DA} = {8C483853-54B5-40FB-B14B-28383747B06B}
@@ -164,6 +164,9 @@ Global
 		{7F0BBB62-BB87-4E71-84FA-BA711F06251A} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 		{73EFFDFC-A77C-4BD2-8F16-B500AF772E84} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{A882E51B-A974-4F20-ACA1-0FEC68C75AF2} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
+		{0D1F4BA1-A822-4E59-B960-052DF16DAF1B} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{7DDDE4CA-3810-4A87-95DD-50A88C352777} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{C0D372D4-A901-442E-B407-660C861D0B2E} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}

@@ -86,6 +86,10 @@
 /UnitTests/02-Windows/UnitTests.Core/Debugbin
 /UnitTests/02-Windows/UnitTests.Core/Releasebin
 
+/UnitTests/02-Windows/UnitTests.Core.CodeAnalysis/Debug
+/UnitTests/02-Windows/UnitTests.Core.CodeAnalysis/Debugbin
+/UnitTests/02-Windows/UnitTests.Core.CodeAnalysis/Releasebin
+
 /UnitTests/02-Windows/UnitTests.Core.Data/Debug
 /UnitTests/02-Windows/UnitTests.Core.Data/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Data/Releasebin

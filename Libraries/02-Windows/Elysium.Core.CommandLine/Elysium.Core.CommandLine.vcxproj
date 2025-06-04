@@ -22,7 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{b3dbfe06-10ca-4d3f-932d-2806bc449c68}</ProjectGuid>
-    <RootNamespace>ElysiumCoreCommandLine</RootNamespace>
+    <RootNamespace>Elysium::Core::CommandLine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
