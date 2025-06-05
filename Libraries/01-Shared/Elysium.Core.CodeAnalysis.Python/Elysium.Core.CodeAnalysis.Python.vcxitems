@@ -3,7 +3,8 @@
   <PropertyGroup Label="Globals">
     <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <HasSharedItems>true</HasSharedItems>
-    <ItemsProjectGuid>{c0d372d4-a901-442e-b407-660c861d0b2e}</ItemsProjectGuid>
+    <ItemsProjectGuid>{aa626cc7-533b-4f66-a7ea-7b73ff53d75b}</ItemsProjectGuid>
+    <ItemsRootNamespace>Elysium::Core::CodeAnalysis::Python</ItemsRootNamespace>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
@@ -12,9 +13,5 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CSharpSyntaxTreeTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)PythonSyntaxTreeTests.cpp" />
   </ItemGroup>
 </Project>

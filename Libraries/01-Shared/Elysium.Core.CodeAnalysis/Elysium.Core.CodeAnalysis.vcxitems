@@ -17,10 +17,12 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SyntaxNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SyntaxToken.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SyntaxTree.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)SyntaxNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SyntaxToken.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SyntaxTree.cpp" />
   </ItemGroup>
 </Project>

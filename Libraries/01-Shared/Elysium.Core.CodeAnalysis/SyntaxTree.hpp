@@ -21,7 +21,7 @@ namespace Elysium::Core::CommandLine
 	class ELYSIUM_CORE_CODEANALYSIS_API SyntaxTree
 	{
 	protected:
-		constexpr SyntaxTree();
+		constexpr SyntaxTree() = default;
 	public:
 		constexpr SyntaxTree(const SyntaxTree& Source) = delete;
 

@@ -21,7 +21,7 @@ namespace Elysium::Core::CommandLine
 	class ELYSIUM_CORE_CODEANALYSIS_API SyntaxNode
 	{
 	protected:
-		constexpr SyntaxNode();
+		constexpr SyntaxNode() = default;
 	public:
 		constexpr SyntaxNode(const SyntaxNode& Source) = delete;
 
