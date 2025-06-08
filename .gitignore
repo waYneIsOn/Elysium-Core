@@ -17,6 +17,16 @@
 /Libraries/02-Windows/Elysium.Core.CodeAnalysis/Releasebin
 /Libraries/02-Windows/Elysium.Core.CodeAnalysis/x64
 
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.CSharp/Debug
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.CSharp/Debugbin
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.CSharp/Releasebin
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.CSharp/x64
+
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.Python/Debug
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.Python/Debugbin
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.Python/Releasebin
+/Libraries/02-Windows/Elysium.Core.CodeAnalysis.Python/x64
+
 /Libraries/02-Windows/Elysium.Core.CommandLine/Debug
 /Libraries/02-Windows/Elysium.Core.CommandLine/Debugbin
 /Libraries/02-Windows/Elysium.Core.CommandLine/Releasebin

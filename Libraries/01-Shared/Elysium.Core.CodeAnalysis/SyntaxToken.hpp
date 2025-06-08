@@ -16,7 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-namespace Elysium::Core::CommandLine
+namespace Elysium::Core::CodeAnalysis
 {
 	class ELYSIUM_CORE_CODEANALYSIS_API SyntaxToken
 	{

@@ -1,5 +1,5 @@
 #include "SyntaxToken.hpp"
 
-Elysium::Core::CommandLine::SyntaxToken::~SyntaxToken() noexcept
+Elysium::Core::CodeAnalysis::SyntaxToken::~SyntaxToken() noexcept
 {
 }

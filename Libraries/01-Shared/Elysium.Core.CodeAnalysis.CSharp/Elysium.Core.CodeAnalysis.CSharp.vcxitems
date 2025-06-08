@@ -14,4 +14,14 @@
   <ItemGroup>
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Syntax\CSharpSyntaxNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Syntax\SyntaxFactory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Syntax\SyntaxKind.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Syntax\CSharpSyntaxNode.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Syntax\SyntaxFactory.cpp" />
+  </ItemGroup>
 </Project>

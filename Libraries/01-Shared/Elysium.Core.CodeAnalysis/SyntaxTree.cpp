@@ -1,5 +1,5 @@
 #include "SyntaxTree.hpp"
 
-Elysium::Core::CommandLine::SyntaxTree::~SyntaxTree() noexcept
+Elysium::Core::CodeAnalysis::SyntaxTree::~SyntaxTree() noexcept
 {
 }

@@ -195,6 +195,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CodeAnalysis.P
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CodeAnalysis.CSharp", "Libraries\01-Shared\Elysium.Core.CodeAnalysis.CSharp\Elysium.Core.CodeAnalysis.CSharp.vcxitems", "{DB454E32-2A4E-490A-BAA4-7170AC2BDA79}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CodeAnalysis.CSharp", "Libraries\02-Windows\Elysium.Core.CodeAnalysis.CSharp\Elysium.Core.CodeAnalysis.CSharp.vcxproj", "{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Elysium.Core.CodeAnalysis.Python", "Libraries\02-Windows\Elysium.Core.CodeAnalysis.Python\Elysium.Core.CodeAnalysis.Python.vcxproj", "{F3F71B97-22D1-4B33-B678-BBE86E8AD811}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|ARM = Debug|ARM
@@ -586,6 +590,38 @@ Global
 		{A8BBFD27-1145-46EC-962B-214BCDE96233}.Release|x64.Build.0 = Release|x64
 		{A8BBFD27-1145-46EC-962B-214BCDE96233}.Release|x86.ActiveCfg = Release|Win32
 		{A8BBFD27-1145-46EC-962B-214BCDE96233}.Release|x86.Build.0 = Release|Win32
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|ARM.ActiveCfg = Debug|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|ARM.Build.0 = Debug|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|ARM64.ActiveCfg = Debug|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|ARM64.Build.0 = Debug|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|x64.ActiveCfg = Debug|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|x64.Build.0 = Debug|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|x86.ActiveCfg = Debug|Win32
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Debug|x86.Build.0 = Debug|Win32
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|ARM.ActiveCfg = Release|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|ARM.Build.0 = Release|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|ARM64.ActiveCfg = Release|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|ARM64.Build.0 = Release|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|x64.ActiveCfg = Release|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|x64.Build.0 = Release|x64
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|x86.ActiveCfg = Release|Win32
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C}.Release|x86.Build.0 = Release|Win32
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|ARM.ActiveCfg = Debug|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|ARM.Build.0 = Debug|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|ARM64.ActiveCfg = Debug|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|ARM64.Build.0 = Debug|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|x64.ActiveCfg = Debug|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|x64.Build.0 = Debug|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|x86.ActiveCfg = Debug|Win32
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Debug|x86.Build.0 = Debug|Win32
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|ARM.ActiveCfg = Release|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|ARM.Build.0 = Release|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|ARM64.ActiveCfg = Release|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|ARM64.Build.0 = Release|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|x64.ActiveCfg = Release|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|x64.Build.0 = Release|x64
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|x86.ActiveCfg = Release|Win32
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -683,6 +719,8 @@ Global
 		{C0D372D4-A901-442E-B407-660C861D0B2E} = {3E9C7F7C-27D8-4867-AD12-F5E59FD5ED2F}
 		{AA626CC7-533B-4F66-A7EA-7B73FF53D75B} = {8C483853-54B5-40FB-B14B-28383747B06B}
 		{DB454E32-2A4E-490A-BAA4-7170AC2BDA79} = {8C483853-54B5-40FB-B14B-28383747B06B}
+		{7232B38B-10E2-4EA8-B1E5-A7AD382BB21C} = {1030673B-B627-44FE-A2AE-327B6146535E}
+		{F3F71B97-22D1-4B33-B678-BBE86E8AD811} = {1030673B-B627-44FE-A2AE-327B6146535E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AA08059-DCCC-424A-B02C-2C605758B058}
@@ -693,8 +731,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.CodeAnalysis\Elysium.Core.CodeAnalysis.vcxitems*{0d1f4ba1-a822-4e59-b960-052df16daf1b}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.ServiceProcess\Elysium.Core.ServiceProcess.vcxitems*{10f92d9c-832e-4ddd-b353-f3d89548cce6}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Speech\Elysium.Core.Speech.vcxitems*{11d14e12-794f-4621-bc39-28ee90471599}*SharedItemsImports = 9
-		Libraries\01-Shared\Elysium.Core.CodeAnalysis.CSharp\Elysium.Core.CodeAnalysis.CSharp.vcxitems*{17640935-65eb-4ddc-a81c-fd6b943aff1b}*SharedItemsImports = 4
-		Libraries\01-Shared\Elysium.Core.CodeAnalysis.Python\Elysium.Core.CodeAnalysis.Python.vcxitems*{17640935-65eb-4ddc-a81c-fd6b943aff1b}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.CodeAnalysis\Elysium.Core.CodeAnalysis.vcxitems*{17640935-65eb-4ddc-a81c-fd6b943aff1b}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Json\Elysium.Core.Json.vcxitems*{1ae389e0-479e-43d0-9299-77821b53db54}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems*{1c9d9572-a652-4285-8a6b-25e83ef859c5}*SharedItemsImports = 9
@@ -733,6 +769,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Data.AdoClient\Elysium.Core.Data.AdoClient.vcxitems*{6a52f036-6569-4db6-bad5-d50ff58f39ee}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO.Pipes\Elysium.Core.IO.Pipes.vcxitems*{6a9c9a9c-7de1-4e5a-ab81-bfc4dee4e2d8}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems*{7101efb4-615b-4d59-9334-2a2694ca6e1d}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.CodeAnalysis.CSharp\Elysium.Core.CodeAnalysis.CSharp.vcxitems*{7232b38b-10e2-4ea8-b1e5-a7ad382bb21c}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Encoding\Elysium.Core.Security.Cryptography.Encoding.vcxitems*{72c118aa-b5cd-484f-ae38-5ed19ce85580}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxitems*{73effdfc-a77c-4bd2-8f16-b500af772e84}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data.TdsClient\Elysium.Core.Data.TdsClient.vcxitems*{74fbb0fc-33b2-4419-9c86-5f7511eea181}*SharedItemsImports = 9
@@ -776,6 +813,7 @@ Global
 		Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.vcxitems*{e6f3c33a-47e6-4f23-9b28-b1f9157c74c2}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core\Elysium.Core.vcxitems*{e6f3c33a-47e6-4f23-9b28-b1f9157c74c2}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{ee7a43c1-c408-4688-920f-5878c6e6a7c7}*SharedItemsImports = 9
+		Libraries\01-Shared\Elysium.Core.CodeAnalysis.Python\Elysium.Core.CodeAnalysis.Python.vcxitems*{f3f71b97-22d1-4b33-b678-bbe86e8ad811}*SharedItemsImports = 4
 		UnitTests\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems*{f52a3c96-76e1-45a4-a93c-c997dc583e91}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Math\Elysium.Core.Math.vcxitems*{f612b617-2b63-4644-852f-642827a6ba4f}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Security.Cryptography.Algorithms\Elysium.Core.Security.Cryptography.Algorithms.vcxitems*{fa0b07a3-7128-43a4-a62a-94f398ef37e4}*SharedItemsImports = 4
