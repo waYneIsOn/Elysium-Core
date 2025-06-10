@@ -42,6 +42,7 @@ namespace Elysium::Core::Template::Text
 	class String final
 	{
 	public:
+		using Character = C;
 		using ConstCharacter = const C;
 		using CharacterPointer = C*;
 		using ConstCharacterPointer = const C*;

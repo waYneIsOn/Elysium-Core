@@ -85,7 +85,20 @@ namespace Elysium::Core::Template::System
 
 		~OperatingSystem() = delete;
 	public:
+		OperatingSystem& operator=(const OperatingSystem& Source) noexcept;
 
+		OperatingSystem& operator=(OperatingSystem&& Right) noexcept;
+		/*
+	public:
+		const PlatformID GetPlatform() const;
+
+		const Version& GetVersion() const;
+	public:
+		const bool IsWindows() const;
+	private:
+		PlatformID _PlatformId;
+		Version _Version;
+		*/
 	};
 }
 #endif

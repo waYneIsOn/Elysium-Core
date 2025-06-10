@@ -61,8 +61,8 @@ namespace Elysium::Core
 		Environment& operator=(Environment&& Right) noexcept = delete;
 	public:
 		static const Elysium::Core::Utf8String CurrentDirectory();
-		
-		static const bool CurrentDirectory(const Elysium::Core::Utf8String& Value);
+
+		static void CurrentDirectory(const Elysium::Core::Utf8String::ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
 	public:
 		inline static const Elysium::Core::Utf8String NewLine = Elysium::Core::Utf8String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
 	public:

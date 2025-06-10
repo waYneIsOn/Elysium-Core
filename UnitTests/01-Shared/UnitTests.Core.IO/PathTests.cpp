@@ -316,11 +316,11 @@ namespace UnitTests::Core::IO
 
 		TEST_METHOD(GetFullPathTests)
 		{
-			const bool SetCurrentDirectoryResult = Environment::CurrentDirectory(u8"C:\\test\\");
-			Assert::IsTrue(SetCurrentDirectoryResult);
+			const Elysium::Core::Utf8String Directory = u8"C:\\test\\";
+			Environment::CurrentDirectory(&Directory[0], Directory.GetLength());
 
 			const Utf8String CurrentDirectory = Environment::CurrentDirectory();
-			AssertExtended::AreEqual(u8"C:\\test", CurrentDirectory);
+			AssertExtended::AreEqual(Directory, CurrentDirectory);
 
 			// --- GetPath(const T& Path) ---
 			try

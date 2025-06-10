@@ -4,13 +4,17 @@
 #include "SystemException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEXT_UTF8ENCODING
+#include "UTF8Encoding.hpp"
+#endif
+
 #ifndef _THREAD_
 #include <thread>
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
+#define WIN32_LEAN_AND_MEAN	// exclude cryptography, dde, rpc, shell, winsock and other apis
 #include <Windows.h>
 #endif
 #endif
@@ -18,19 +22,37 @@
 const Elysium::Core::Utf8String Elysium::Core::Environment::CurrentDirectory()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	char Buffer[MAX_PATH];	// ToDo: long names (MAX_PATH)
-	unsigned long Length = GetCurrentDirectoryA(MAX_PATH, &Buffer[0]);
+	wchar_t CurrentDirectory[MAX_PATH];
+	DWORD Length = GetCurrentDirectoryW(MAX_PATH, &CurrentDirectory[0]);
 
-	return Elysium::Core::Utf8String((Elysium::Core::Utf8String::ConstCharacterPointer)Buffer, Length);
+	if (Length == 0 || Length >= MAX_PATH)
+	{	// @ToDo: use long path functionality (got to figure out which one exactly)
+		throw SystemException();
+	}
+
+	return _InternalEncoding.GetString(reinterpret_cast<Elysium::Core::Template::System::byte*>(&CurrentDirectory), Length * sizeof(wchar_t));
 #else
 #error "unsupported os"
 #endif
 }
 
-const bool Elysium::Core::Environment::CurrentDirectory(const Elysium::Core::Utf8String& Value)
+void Elysium::Core::Environment::CurrentDirectory(const Elysium::Core::Utf8String::ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length)
 {
-	int Result = SetCurrentDirectoryA((char*)&Value[0]);
-	return Result == 1;
+	if (Length >= MAX_PATH)
+	{
+		bool bla = false;
+	}
+
+	Elysium::Core::Container::VectorOfByte Bytes = _InternalEncoding.GetBytes(&Value[0], Length,
+		sizeof(Elysium::Core::Utf16String::ConstCharacter));
+
+	Elysium::Core::Utf8String Test = _InternalEncoding.GetString(&Bytes[0], Bytes.GetLength());
+
+	BOOL Result = SetCurrentDirectoryW(reinterpret_cast<wchar_t*>(&Bytes[0]));
+	if (Result == FALSE)
+	{	// @ToDo: use long path functionality (got to figure out which one exactly)
+		throw SystemException();
+	}
 }
 
 const bool Elysium::Core::Environment::Is64BitProcess()
@@ -50,18 +72,15 @@ const Elysium::Core::Utf8String Elysium::Core::Environment::MachineName()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	// https://docs.microsoft.com/en-GB/troubleshoot/windows-server/identity/naming-conventions-for-computer-domain-site-ou
-	//static const Elysium::Core::uint8_t NetBiosMax = MAX_COMPUTERNAME_LENGTH + 1;
-	//static const Elysium::Core::uint8_t DnsMax = 63;
 	wchar_t MachineName[MAX_COMPUTERNAME_LENGTH + 1];
-	unsigned long BufferCount = sizeof(MachineName);
-	if (GetComputerName(MachineName, &BufferCount))
-	{
-		return _InternalEncoding.GetString((Elysium::Core::byte*)&MachineName, BufferCount * sizeof(wchar_t));
-	}
-	else
+	DWORD BufferCount = sizeof(MachineName) / sizeof(wchar_t);
+
+	if (!GetComputerName(MachineName, &BufferCount))
 	{
 		throw SystemException();
 	}
+
+	return _InternalEncoding.GetString(reinterpret_cast<Elysium::Core::byte*>(&MachineName), BufferCount * sizeof(wchar_t));
 #else
 #error "unsupported os"
 #endif
@@ -70,41 +89,98 @@ const Elysium::Core::Utf8String Elysium::Core::Environment::MachineName()
 const Elysium::Core::OperatingSystem Elysium::Core::Environment::OSVersion()
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	// ToDos:
-	//		- use preprocessor for different os
-	//		- don't return fixed platform-id like PlatformID::WindowsDesktop (I'll just leave this in until I've decided on all values of PlatformID)
-	//		- the behaviour of GetVersionEx(...) has changed with windows 8.1 -> make sure to handle everything correctly
-	//		- windows phone and WindowsCE?
-	// https://www.codeproject.com/Articles/678606/Part1-Overcoming-Windows-8-1s-deprecation-of-GetVe
-	// https://blog.yaakov.online/finding-operating-system-version/
+	// // https://learn.microsoft.com/en-us/windows/win32/api/versionhelpers/
+	static DWORDLONG const dwlConditionMask = VerSetConditionMask(
+		VerSetConditionMask(
+			VerSetConditionMask(
+				0, VER_MAJORVERSION, VER_GREATER_EQUAL),
+			VER_MINORVERSION, VER_GREATER_EQUAL),
+		VER_SERVICEPACKMAJOR, VER_GREATER_EQUAL);
 
-	OSVERSIONINFOEX VersionInfo;
-	VersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-	POSVERSIONINFO pVersionInfo = (POSVERSIONINFO)&VersionInfo;
-
-#pragma warning (disable : 4996)	// disable deprecation warning
-	bool Result = GetVersionEx(pVersionInfo);
-#pragma warning (default : 4996)
-	if (Result)
+	OSVERSIONINFOEXW VersionInfo = { sizeof(VersionInfo), 0, 0, 0, 0, {0}, 0, 0, 0, VER_NT_WORKSTATION };
+	BOOL VerifyInfoResult = FALSE;
+	/*
+	VersionInfo.dwMajorVersion = Elysium::Core::Template::Numeric::NumericTraits<WORD>::Maximum;
+	VersionInfo.dwMinorVersion = Elysium::Core::Template::Numeric::NumericTraits<WORD>::Maximum;;
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
 	{
-		if (VersionInfo.wProductType == VER_NT_WORKSTATION)
-		{	// desktop os
-			return OperatingSystem(PlatformID::WindowsDesktop, Version((Elysium::Core::uint16_t)VersionInfo.dwMajorVersion, 
-				(Elysium::Core::uint16_t)VersionInfo.dwMinorVersion, (Elysium::Core::uint16_t)VersionInfo.dwBuildNumber));
-		}
-		else
-		{	// server os
-			return OperatingSystem(PlatformID::WindowsServer, Version((Elysium::Core::uint16_t)VersionInfo.dwMajorVersion, 
-				(Elysium::Core::uint16_t)VersionInfo.dwMinorVersion, (Elysium::Core::uint16_t)VersionInfo.dwBuildNumber));
-		}
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
 	}
-	else
+	*/
+	VersionInfo.dwMajorVersion = HIBYTE(_WIN32_WINNT_WINTHRESHOLD);
+	VersionInfo.dwMinorVersion = LOBYTE(_WIN32_WINNT_WINTHRESHOLD);
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
 	{
-		throw SystemException();
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion), 
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
+	}
+
+	VersionInfo.dwMajorVersion = HIBYTE(_WIN32_WINNT_WINBLUE);
+	VersionInfo.dwMinorVersion = LOBYTE(_WIN32_WINNT_WINBLUE);
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
+	{
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
+	}
+
+	VersionInfo.dwMajorVersion = HIBYTE(_WIN32_WINNT_WIN8);
+	VersionInfo.dwMinorVersion = LOBYTE(_WIN32_WINNT_WIN8);
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
+	{
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
+	}
+
+	VersionInfo.dwMajorVersion = HIBYTE(_WIN32_WINNT_WIN7);
+	VersionInfo.dwMinorVersion = LOBYTE(_WIN32_WINNT_WIN7);
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
+	{
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
+	}
+
+	VersionInfo.dwMajorVersion = HIBYTE(_WIN32_WINNT_VISTA);
+	VersionInfo.dwMinorVersion = LOBYTE(_WIN32_WINNT_VISTA);
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
+	{
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
+	}
+
+	VersionInfo.dwMajorVersion = HIBYTE(_WIN32_WINNT_WINXP);
+	VersionInfo.dwMinorVersion = LOBYTE(_WIN32_WINNT_WINXP);
+	if ((VerifyInfoResult = VerifyVersionInfoW(&VersionInfo, VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR, dwlConditionMask)) == TRUE)
+	{
+		return OperatingSystem(VersionInfo.wProductType == VER_NT_WORKSTATION ? PlatformID::WindowsDesktop : PlatformID::WindowsServer,
+			Version(
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMajorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwMinorVersion),
+				static_cast<Elysium::Core::uint16_t>(VersionInfo.dwBuildNumber)));
 	}
 #else
 #error "unsupported os"
 #endif
+
+	return OperatingSystem(PlatformID::Unknown, Version(0, 0, 0));
 }
 
 const Elysium::Core::uint32_t Elysium::Core::Environment::ProcessorCount()
