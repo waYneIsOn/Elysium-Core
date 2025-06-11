@@ -29,23 +29,37 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API OperatingSystem final
 	{
 	public:
-		OperatingSystem(const PlatformID& PlatformID, const Version& Version) noexcept;
+		constexpr OperatingSystem(const PlatformID& PlatformID, const Version& Version) noexcept
+			: _PlatformId(PlatformID), _Version(Version)
+		{ }
 
-		OperatingSystem(const OperatingSystem& Source) noexcept;
+		constexpr OperatingSystem(const OperatingSystem& Source) noexcept
+			: _PlatformId(Source._PlatformId), _Version(Source._Version)
+		{ }
 
-		OperatingSystem(OperatingSystem&& Right) noexcept;
+		constexpr OperatingSystem(OperatingSystem&& Right) noexcept;
 
-		~OperatingSystem() noexcept;
+		constexpr ~OperatingSystem() noexcept = default;
 	public:
-		OperatingSystem& operator=(const OperatingSystem& Source) noexcept;
+		constexpr OperatingSystem& operator=(const OperatingSystem& Source) noexcept;
 
-		OperatingSystem& operator=(OperatingSystem&& Right) noexcept;
+		constexpr OperatingSystem& operator=(OperatingSystem&& Right) noexcept;
 	public:
-		const PlatformID GetPlatform() const;
+		constexpr const PlatformID GetPlatform() const noexcept
+		{
+			return _PlatformId;
+		}
 
-		const Version& GetVersion() const;
+		constexpr const Version& GetVersion() const noexcept
+		{
+			return _Version;
+		}
 	public:
-		const bool IsWindows() const;
+		constexpr const bool IsWindows() const noexcept
+		{
+			return _PlatformId == PlatformID::WindowsCE || _PlatformId == PlatformID::WindowsDesktop || _PlatformId == PlatformID::WindowsPhone ||
+				_PlatformId == PlatformID::WindowsServer;
+		}
 	private:
 		PlatformID _PlatformId;
 		Version _Version;

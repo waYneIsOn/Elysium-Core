@@ -357,7 +357,8 @@ namespace Elysium::Core::Template::Text::Unicode
 	template<Concepts::Character C>
 	inline String<wchar_t> Utf16::SafeToWideString(const C* Data, const System::size Length) noexcept
 	{	// ToDo: throw NotImplementedException($"Unhandled Character {typeof(C).FullName}");
-		throw 1;
+		// cannot throw exception here though due to noexcept!
+		return String<wchar_t>();
 	}
 }
 #endif

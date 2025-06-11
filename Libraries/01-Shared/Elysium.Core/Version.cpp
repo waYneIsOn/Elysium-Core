@@ -8,93 +8,6 @@
 #include "../Elysium.Core.Template/Vector.hpp"
 #endif
 
-constexpr Elysium::Core::Version::Version()
-	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
-{ }
-
-constexpr Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor)
-	: _Major(Major), _Minor(Minor), _Build(Undefined), _Revision(Undefined)
-{ }
-
-constexpr Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build)
-	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Undefined)
-{ }
-
-constexpr Elysium::Core::Version::Version(const Elysium::Core::uint16_t& Major, const Elysium::Core::uint16_t& Minor, const Elysium::Core::uint16_t& Build, const Elysium::Core::uint16_t& Revision)
-	: _Major(Major), _Minor(Minor), _Build(Build), _Revision(Revision)
-{ }
-
-constexpr Elysium::Core::Version::Version(const Version & Source)
-	: _Major(Source._Major), _Minor(Source._Minor), _Build(Source._Build), _Revision(Source._Revision)
-{ }
-
-constexpr Elysium::Core::Version::Version(Version && Right) noexcept
-	: _Major(Undefined), _Minor(Undefined), _Build(Undefined), _Revision(Undefined)
-{
-	*this = Elysium::Core::Template::Functional::Move(Right);
-}
-
-constexpr Elysium::Core::Version::~Version()
-{ }
-
-constexpr Elysium::Core::Version & Elysium::Core::Version::operator=(const Version & Other)
-{
-	if (this != &Other)
-	{
-		_Major = Other._Major;
-		_Minor = Other._Minor;
-		_Build = Other._Build;
-		_Revision = Other._Revision;
-	}
-	return *this;
-}
-
-constexpr Elysium::Core::Version & Elysium::Core::Version::operator=(Version && Right) noexcept
-{
-	if (this != &Right)
-	{
-		_Major = Elysium::Core::Template::Functional::Move(Right._Major);
-		_Minor = Elysium::Core::Template::Functional::Move(Right._Minor);
-		_Build = Elysium::Core::Template::Functional::Move(Right._Build);
-		_Revision = Elysium::Core::Template::Functional::Move(Right._Revision);
-
-		Right._Major = Undefined;
-		Right._Minor = Undefined;
-		Right._Build = Undefined;
-		Right._Revision = Undefined;
-	}
-	return *this;
-}
-
-bool Elysium::Core::Version::operator==(const Version & Other) const
-{
-	return Compare(Other) == 0_ui8;
-}
-
-bool Elysium::Core::Version::operator!=(const Version & Other) const
-{
-	return Compare(Other) != 0_ui8;
-}
-
-bool Elysium::Core::Version::operator<(const Version & Other) const
-{
-	return Compare(Other) < 0_ui8;
-}
-
-bool Elysium::Core::Version::operator>(const Version & Other) const
-{
-	return Compare(Other) > 0_ui8;
-}
-
-bool Elysium::Core::Version::operator<=(const Version & Other) const
-{
-	return Compare(Other) <= 0_ui8;
-}
-
-bool Elysium::Core::Version::operator>=(const Version & Other) const
-{
-	return Compare(Other) >= 0_ui8;
-}
 /*
 Elysium::Core::IO::Stream & Elysium::Core::operator<<(Elysium::Core::IO::Stream & Target, const Elysium::Core::Version & Version)
 {
@@ -154,26 +67,6 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8StringView Input)
 	}
 }
 
-const Elysium::Core::uint16_t Elysium::Core::Version::GetMajor() const
-{
-	return _Major;
-}
-
-const Elysium::Core::uint16_t Elysium::Core::Version::GetMinor() const
-{
-	return _Minor;
-}
-
-const Elysium::Core::uint16_t Elysium::Core::Version::GetBuild() const
-{
-	return _Build;
-}
-
-const Elysium::Core::uint16_t Elysium::Core::Version::GetRevision() const
-{
-	return _Revision;
-}
-
 const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 {
 	Elysium::Core::size DelimiterLength = Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
@@ -184,7 +77,7 @@ const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 	const Elysium::Core::Utf8String Minor = Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Minor);
 	const Elysium::Core::size MinorLength = Minor.GetLength();
 
-	if (_Build != Undefined)
+	if (_Build != 0xFFFF)
 	{
 		DelimiterLength += Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
 	}
@@ -192,7 +85,7 @@ const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 		Elysium::Core::Utf8String() : Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Build);
 	const Elysium::Core::size BuildLength = Build.GetLength();
 
-	if (_Revision != Undefined)
+	if (_Revision != 0xFFFF)
 	{
 		DelimiterLength += Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
 	}
@@ -231,62 +124,4 @@ const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 	}
 
 	return Result;
-}
-
-const Elysium::Core::uint8_t Elysium::Core::Version::Compare(const Version & Other) const
-{
-	if (this == &Other)
-	{
-		return 0;
-	}
-
-	if (_Major != Other._Major)
-	{
-		if (_Major > Other._Major)
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
-	}
-
-	if (_Minor != Other._Minor)
-	{
-		if (_Minor > Other._Minor)
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
-	}
-
-	if (_Build != Other._Build)
-	{
-		if (_Build > Other._Build)
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
-	}
-
-	if (_Revision != Other._Revision)
-	{
-		if (_Revision > Other._Revision)
-		{
-			return 1;
-		}
-		else
-		{
-			return -1;
-		}
-	}
-
-	return 0;
 }

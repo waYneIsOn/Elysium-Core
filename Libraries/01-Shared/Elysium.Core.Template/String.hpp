@@ -43,7 +43,7 @@ namespace Elysium::Core::Template::Text
 	{
 	public:
 		using Character = C;
-		using ConstCharacter = const C;
+		using ConstCharacter = C const;
 		using CharacterPointer = C*;
 		using ConstCharacterPointer = const C*;
 		using CharacterReference = C&;

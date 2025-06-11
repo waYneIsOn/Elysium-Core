@@ -853,7 +853,7 @@ namespace Elysium::Core::Template::Text
 		{
 			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersPreFloatingPart) - Index - 1_ui8));
-			System::int16_t NumericalValue = IntegerPart / BaseValue;
+			System::int16_t NumericalValue = static_cast<System::int16_t>(IntegerPart / BaseValue);
 
 			if (NumericalValue < 10)
 			{
@@ -880,7 +880,7 @@ namespace Elysium::Core::Template::Text
 		{
 			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersFloatingPart) - Index - 1_ui8));
-			System::int16_t NumericalValue = FloatingPart / BaseValue;
+			System::int16_t NumericalValue = static_cast<System::int16_t>(IntegerPart / BaseValue);
 
 			if (NumericalValue < 10)
 			{
