@@ -62,13 +62,29 @@ namespace Elysium::Core::Template::System
 		template <class T>
 		static constexpr T* AddressOf(T& Value) noexcept;
 	public:
+		/// <summary>
+		/// Returns the current line of the source code.
+		/// </summary>
+		/// <returns></returns>
 		static constexpr Elysium::Core::Template::System::int32_t GetLine() noexcept;
 
+		/// <summary>
+		/// Returns the current column of the source code.
+		/// </summary>
+		/// <returns></returns>
 		static constexpr Elysium::Core::Template::System::int32_t GetColumn() noexcept;
 
-		static constexpr char8_t* GetFileName() noexcept;
+		/// <summary>
+		/// Returns the current file-name of the source code.
+		/// </summary>
+		/// <returns></returns>
+		static constexpr const char* GetFileName() noexcept;
 
-		static constexpr char8_t* GetFunctionName() noexcept;
+		/// <summary>
+		/// Returns the current function-name of the source code.
+		/// </summary>
+		/// <returns></returns>
+		static constexpr const char* GetFunctionName() noexcept;
 	public:
 #if defined ELYSIUM_CORE_COMPILER_MSVC
 		inline static constexpr const char8_t* Name = u8"Microsoft Visual C++";
@@ -92,7 +108,6 @@ namespace Elysium::Core::Template::System
 	inline constexpr Elysium::Core::Template::System::int32_t Elysium::Core::Template::System::Compiler::GetLine() noexcept
 	{
 #if defined ELYSIUM_CORE_COMPILER_MSVC
-		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
 		return __builtin_LINE();
 #else
 #error "unsupported compiler"
@@ -102,28 +117,31 @@ namespace Elysium::Core::Template::System
 	inline constexpr Elysium::Core::Template::System::int32_t Compiler::GetColumn() noexcept
 	{
 #if defined ELYSIUM_CORE_COMPILER_MSVC
-		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
 		return __builtin_COLUMN();
 #else
 #error "unsupported compiler"
 #endif
 	}
 
-	inline constexpr char8_t* Compiler::GetFileName() noexcept
+	inline constexpr const char* Compiler::GetFileName() noexcept
 	{
 #if defined ELYSIUM_CORE_COMPILER_MSVC
-		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
-		return (char8_t*)__builtin_FILE();
+		constexpr const char* NativeFileName = __builtin_FILE();
+
+		//return (char8_t*)NativeFileName;
+		return NativeFileName;
 #else
 #error "unsupported compiler"
 #endif
 	}
 
-	inline constexpr char8_t* Compiler::GetFunctionName() noexcept
+	inline constexpr const char* Compiler::GetFunctionName() noexcept
 	{
 #if defined ELYSIUM_CORE_COMPILER_MSVC
-		// @ToDo: under which conditions does this function throw? what does it throw? can I catch it?
-		return (char8_t*)__builtin_FUNCTION();
+		constexpr const char* NativeFunctionName = __builtin_FILE();
+
+		//return (char8_t*)NativeFunctionName;
+		return NativeFunctionName;
 #else
 #error "unsupported compiler"
 #endif

@@ -52,7 +52,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 		StackTrace(StackTrace&& Right) noexcept = delete;
 
-		~StackTrace() noexcept;
+		~StackTrace() noexcept = default;
 	public:
 		StackTrace& operator=(const StackTrace& Source) = delete;
 
@@ -71,9 +71,6 @@ namespace Elysium::Core::Template::Diagnostics
 
 	inline StackTrace::StackTrace(const System::uint16_t MaximumFramesToCapture) noexcept
 		: _StackFrames(CaptureStackFrames(MaximumFramesToCapture))
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::StackTrace::~StackTrace()
 	{ }
 
 	inline const Elysium::Core::Template::Container::Vector<StackFrame>& Elysium::Core::Template::Diagnostics::StackTrace::GetFrames() const noexcept
