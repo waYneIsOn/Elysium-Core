@@ -138,7 +138,7 @@ namespace Elysium::Core::Template::System
 	inline constexpr const char* Compiler::GetFunctionName() noexcept
 	{
 #if defined ELYSIUM_CORE_COMPILER_MSVC
-		constexpr const char* NativeFunctionName = __builtin_FILE();
+		constexpr const char* NativeFunctionName = __builtin_FUNCTION();
 
 		//return (char8_t*)NativeFunctionName;
 		return NativeFunctionName;
