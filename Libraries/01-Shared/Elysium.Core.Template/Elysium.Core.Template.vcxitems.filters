@@ -788,6 +788,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\DerivedFrom.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
