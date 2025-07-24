@@ -46,6 +46,25 @@ namespace Elysium::Core::Template::Text::Unicode
 		Utf16& operator=(Utf16&& Right) noexcept = delete;
 	public:
 		/// <summary>
+		/// Returns the length required to convert given wchar_t* to C* while not performing any checks on the inputs integrity.
+		/// </summary>
+		/// <typeparam name="C"></typeparam>
+		/// <param name="Data"></param>
+		/// <returns></returns>
+		template <Concepts::Character C>
+		static constexpr System::size GetRequiredLengthOfSafeWideString(const wchar_t* Data, const System::size Length) noexcept;
+
+		/// <summary>
+		/// Returns the length required to convert given C* to wchar_t* while not performing any checks on the inputs integrity.
+		/// </summary>
+		/// <typeparam name="C"></typeparam>
+		/// <param name="Data"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		template <Concepts::Character C>
+		static constexpr System::size GetRequiredLengthForSafeWideString(const C* Data, const System::size Length) noexcept;
+	public:
+		/// <summary>
 		/// Encodes given WideString to desired String while assuming the input to be correct and therefore performing no checks on it.
 		/// Therefore a usage example is a WideString received from the operating system where the correctness can be expected.
 		/// </summary>
@@ -63,46 +82,61 @@ namespace Elysium::Core::Template::Text::Unicode
 		/// <returns></returns>
 		template <Concepts::Character C>
 		static String<wchar_t> SafeToWideString(const C* Data, const System::size Length) noexcept;
+	public:
+		/*
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="C"></typeparam>
+		/// <param name="Data"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		template <Concepts::Character C>
+		static String<C> FromWideString(const wchar_t* Data, const System::size Length);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="C"></typeparam>
+		/// <param name="Data"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		template <Concepts::Character C>
+		static String<wchar_t> ToWideString(const C* Data, const System::size Length);
+		*/
 	};
 
 	template<>
-	inline String<char> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<char>(const wchar_t* Data, const System::size Length) noexcept
 	{
-		System::uint32_t CodePoint = 0;
 		System::uint32_t RequiredLength = 0;
 		for (System::size i = 0; i < Length; ++i)
 		{
 			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
-				RequiredLength++;
-				i++;	// skip low surrogate
+				++RequiredLength;
+				++i;	// skip low surrogate
 			}
 			else
 			{
-				RequiredLength++;
+				++RequiredLength;
 			}
 		}
 
-		String<char> Result = String<char>(RequiredLength);
-		for (System::size i = 0; i < Length; ++i)
-		{
-			// ToDo
-		}
-		
-		return Result;
+		return RequiredLength;
 	}
 
 	template<>
-	inline String<char8_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<char8_t>(const wchar_t* Data, const System::size Length) noexcept
 	{
-		char32_t CodePoint;
+		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
 		System::size RequiredLength = 0;
 		for (System::size i = 0; i < Length; ++i)
 		{
 			CodePoint = CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
 			if (CodePoint < 0x80)			// 0 - 127
 			{
-				RequiredLength++;
+				++RequiredLength;
 			}
 			else if (CodePoint < 0x800)		// 128 - 2047
 			{
@@ -113,21 +147,212 @@ namespace Elysium::Core::Template::Text::Unicode
 				RequiredLength += 3;
 				if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 				{
-					i++;	// skip low surrogate
+					++i;	// skip low surrogate
 				}
 			}
 			else if (CodePoint < 0x110000)	// 65536 - 1114111
 			{
 				RequiredLength += 4;
-				i++;	// skip low surrogate (no check required as a number in this range will have to be represented by a high- and low-surrogate)
+				++i;	// skip low surrogate (no check required as a number in this range will have to be represented by a high- and low-surrogate)
+			}
+			else
+			{
+				// ToDo: this should never happen!
+				//assert(false);
 			}
 		}
 
+		return RequiredLength;
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<char16_t>(const wchar_t* Data, const System::size Length) noexcept
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		return Length;
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<char32_t>(const wchar_t* Data, const System::size Length) noexcept
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		System::size RequiredLength = 0;
+		for (System::size i = 0; i < Length; ++i)
+		{
+			++RequiredLength;
+			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			{
+				++i;	// skip low surrogate
+			}
+		}
+
+		return RequiredLength;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		return Length;	// wchar_t is 4 bytes on linux and mapped to UTF-32
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<wchar_t>(const wchar_t* Data, const System::size Length) noexcept
+	{
+		return Length;
+	}
+
+	template<Concepts::Character C>
+	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		return -1;
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthForSafeWideString(const char* Data, const System::size Length) noexcept
+	{
+		return Length;
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthForSafeWideString(const char8_t* Data, const System::size Length) noexcept
+	{
+		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
+		System::size RequiredLength = 0;
+		for (System::size i = 0; i < Length; ++i)
+		{
+			switch (CharacterTraits<char8_t>::GetByteCount(Data[i]))
+			{
+			case 1:		// 0xxx xxxx										->	0xxx xxxx
+				++RequiredLength;
+				break;
+			case 2:		// 110y yyyy	10xx xxxx							->	0000 0yyy	yyxx xxxx
+				++RequiredLength;
+				++i;
+				break;
+			case 3:		// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
+				CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
+				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
+				{
+					RequiredLength += 4;
+					i += 3;
+				}
+				else
+				{
+					RequiredLength += 2;
+					i += 2;
+				}
+				break;
+			case 4:		// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
+				RequiredLength += 4;
+				i += 3;
+				break;
+			default:	// 10xx xxxx (trail byte. determination not possible)
+				// ToDo: this should never happen!
+				//assert(false);
+				break;
+			}
+		}
+
+		return RequiredLength;
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthForSafeWideString(const char16_t* Data, const System::size Length) noexcept
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		return Length;
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthForSafeWideString(const char32_t* Data, const System::size Length) noexcept
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		System::size RequiredLength = 0;
+		char32_t CodePoint;
+		for (System::size i = 0; i < Length; ++i)
+		{
+			CodePoint = Data[i];
+			if (CodePoint <= 0xFFFF)
+			{	// basic multilingual plane (BMP)
+				++RequiredLength;
+			}
+			else if (CodePoint <= 0x10FFFF)
+			{	// surrogate pair
+				RequiredLength += 2;
+			}
+		}
+
+		return RequiredLength;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		return Length;	// wchar_t is 4 bytes on linux and mapped to UTF-32
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline constexpr System::size Utf16::GetRequiredLengthForSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		return Length;
+	}
+
+	template<Concepts::Character C>
+	inline constexpr System::size Utf16::GetRequiredLengthForSafeWideString(const C* Data, const System::size Length) noexcept
+	{
+		return -1;
+	}
+
+	template<>
+	inline String<char> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		static constexpr const char InvalidCharacterRepresentation = '?';
+
+		const System::uint32_t RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
+
+		String<char> Result = String<char>(RequiredLength);
+		for (System::size i = 0; i < Length; ++i)
+		{
+			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			{
+				Result[i] = InvalidCharacterRepresentation;
+				++i;	// skip low surrogate
+			}
+			else if (Data[i] > 0x80)
+			{
+				Result[i] = InvalidCharacterRepresentation;
+			}
+			else
+			{
+				Result[i] = Data[i];
+			}
+
+			++i;
+		}
+		
+		return Result;
+	}
+
+	template<>
+	inline String<char8_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		const System::uint32_t RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
+
 		String<char8_t> Result = String<char8_t>(RequiredLength);
+		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
 		System::byte* Byte1 = nullptr;
 		System::byte* Byte2 = nullptr;
 		System::byte* Byte3 = nullptr;
-		System::uint32_t CharacterIndex = 0;
+		System::size CharacterIndex = 0;
+
 		for (System::size i = 0; i < Length; ++i)
 		{
 			CodePoint = CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
@@ -156,7 +381,7 @@ namespace Elysium::Core::Template::Text::Unicode
 				Result[CharacterIndex++] = 0x80 | (*Byte1 & 0x3F);
 				if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 				{
-					i++;	// skip low surrogate
+					++i;	// skip low surrogate
 				}
 			}
 			else if (CodePoint < 0x110000)	// 65536 - 1114111
@@ -170,7 +395,12 @@ namespace Elysium::Core::Template::Text::Unicode
 				Result[CharacterIndex++] = 0x80 | ((*Byte3 & 0x03) << 4) | (*Byte2 >> 4);
 				Result[CharacterIndex++] = 0x80 | ((*Byte2 & 0x0F) << 2) | (*Byte1 >> 6);
 				Result[CharacterIndex++] = 0x80 | (*Byte1 & 0x3F);
-				i++;	// skip low surrogate (no check required as a number in this range will have to be represented by a high- and low-surrogate)
+				++i;	// skip low surrogate (no check required as a number in this range will have to be represented by a high- and low-surrogate)
+			}
+			else
+			{
+				// ToDo: this should never happen!
+				//assert(false);
 			}
 		}
 
@@ -180,29 +410,22 @@ namespace Elysium::Core::Template::Text::Unicode
 	template<>
 	inline String<char16_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		String<char16_t> Result = String<char16_t>(Length);
 #if defined ELYSIUM_CORE_OS_WINDOWS
+		String<char16_t> Result = String<char16_t>(Length);
 		memcpy(&Result[0], Data, Length * CharacterTraits<wchar_t>::MinimumByteLength);
-#else
-		// ToDo: on other operating systems char16_t might not be the same as wchar_t!
-#error "undefined os"
-#endif
 
 		return Result;
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
 	}
 
 	template<>
 	inline String<char32_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		System::size RequiredLength = 0;
-		for (System::size i = 0; i < Length; ++i) 
-		{
-			RequiredLength++;
-			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
-			{
-				i++;	// skip low surrogate
-			}
-		}
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		const System::size RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
 
 		String<char32_t> Result = String<char32_t>(RequiredLength);
 		for (System::size i = 0; i < Length; ++i)
@@ -210,17 +433,28 @@ namespace Elysium::Core::Template::Text::Unicode
 			Result[i] = CharacterTraits<wchar_t>::ConvertToUtf32(&Data[i]);
 			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
-				i++;	// skip low surrogate
+				++i;	// skip low surrogate
 			}
 		}
 
 		return Result;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		return String<char32_t>(Data, Length);	// wchar_t is 4 bytes on linux and mapped to UTF-32
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline String<wchar_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		return String<wchar_t>(Data, Length);
 	}
 
 	template<Concepts::Character C>
 	inline String<C> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
-	{	// ToDo: throw NotImplementedException($"Unhandled Character {typeof(C).FullName}");
-		// cannot throw exception here though due to noexcept!
+	{
 		return String<C>();
 	}
 
@@ -239,44 +473,11 @@ namespace Elysium::Core::Template::Text::Unicode
 	template<>
 	inline String<wchar_t> Utf16::SafeToWideString(const char8_t* Data, const System::size Length) noexcept
 	{
-		char32_t CodePoint;
-		System::size RequiredLength = 0;
-		for (System::size i = 0; i < Length; ++i)
-		{
-			switch (CharacterTraits<char8_t>::GetByteCount(Data[i]))
-			{
-			case 1:		// 0xxx xxxx										->	0xxx xxxx
-				RequiredLength++;
-				break;
-			case 2:		// 110y yyyy	10xx xxxx							->	0000 0yyy	yyxx xxxx
-				RequiredLength++;
-				i++;
-				break;
-			case 3:		// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
-				CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
-				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
-				{
-					RequiredLength += 4;
-					i += 3;
-				}
-				else
-				{
-					RequiredLength += 2;
-					i += 2;
-				}
-				break;
-			case 4:		// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
-				RequiredLength += 4;
-				i += 3;
-				break;
-			default:	// 10xx xxxx (trail byte. determination not possible)
-				// ToDo: this should never happen!
-				break;
-			}
-		}
+		const System::uint32_t RequiredLength = GetRequiredLengthForSafeWideString<char8_t>(Data, Length);
 
 		String<wchar_t> Result = String<wchar_t>(RequiredLength);
 		System::size TargetIndex = 0;
+		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
 		System::byte* CodePointBytes;
 		for (System::size i = 0; i < Length; ++i)
 		{
@@ -347,6 +548,7 @@ namespace Elysium::Core::Template::Text::Unicode
 				break;
 			default:	// 10xx xxxx (trail byte. determination not possible)
 				// ToDo: this should never happen!
+				//assert(false);
 				break;
 			}
 		}
@@ -354,10 +556,76 @@ namespace Elysium::Core::Template::Text::Unicode
 		return Result;
 	}
 
+	template<>
+	inline String<wchar_t> Utf16::SafeToWideString(const char16_t* Data, const System::size Length) noexcept
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		String<wchar_t> Result = String<wchar_t>(Length);
+		memcpy(&Result[0], Data, Length * CharacterTraits<char16_t>::MinimumByteLength);
+
+		return Result;
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline String<wchar_t> Utf16::SafeToWideString(const char32_t* Data, const System::size Length) noexcept
+	{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+		const System::uint32_t RequiredLength = GetRequiredLengthForSafeWideString<char32_t>(Data, Length);
+
+		String<wchar_t> Result = String<wchar_t>(RequiredLength);
+		char32_t CodePoint;
+		for (System::size i = 0; i < Length; ++i)
+		{
+			CodePoint = Data[i];
+			if (CodePoint <= 0xFFFF)
+			{	// basic multilingual plane (BMP)
+				Result[i] = CodePoint;
+				/*
+				if (CodePoint >= 0xD800 && CodePoint <= 0xDFFF)
+				{
+					// ToDo: this should never happen!
+					//assert(false);
+				}
+				*/
+			}
+			else if (CodePoint <= 0x10FFFF)
+			{	// surrogate pair
+				CodePoint -= 0x10000;
+
+				Result[i] = 0xD800 + ((CodePoint >> 10) & 0x3FF);
+				Result[++i] = 0xDC00 + (CodePoint & 0x3FF);	// @ToDo: ++i PROBLEM! <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			}
+			/*
+			else
+			{
+				// ToDo: this should never happen!
+				//assert(false);
+			}
+			*/
+		}
+
+		return Result;
+#elif defined ELYSIUM_CORE_OS_LINUX
+		return String<wchar_t>(Data, Length);	// wchar_t is 4 bytes on linux and mapped to UTF-32
+#else
+		// @ToDo: on other operating systems char16_t might not be the same as wchar_t!
+#error "undefined os"
+#endif
+	}
+
+	template<>
+	inline String<wchar_t> Utf16::SafeToWideString(const wchar_t* Data, const System::size Length) noexcept
+	{
+		return String<wchar_t>(Data, Length);
+	}
+
 	template<Concepts::Character C>
 	inline String<wchar_t> Utf16::SafeToWideString(const C* Data, const System::size Length) noexcept
-	{	// ToDo: throw NotImplementedException($"Unhandled Character {typeof(C).FullName}");
-		// cannot throw exception here though due to noexcept!
+	{
 		return String<wchar_t>();
 	}
 }

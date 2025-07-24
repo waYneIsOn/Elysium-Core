@@ -56,7 +56,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the minimum number of bytes required to represent a single character.
 		/// </summary>
-		inline static constexpr const System::size MinimumByteLength = sizeof(C);
+		inline static constexpr const System::uint8_t MinimumByteLength = sizeof(C);
 
 		/// <summary>
 		/// Returns '\0' as specified character-type.
@@ -118,7 +118,7 @@ namespace Elysium::Core::Template::Text
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		//static constexpr const char32_t ConvertFromUtf32(ConstPointer Value) noexcept;
+		static constexpr const System::uint8_t ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept;
 		
 		/// <summary>
 		/// Returns the unicode code point representation.
@@ -407,7 +407,8 @@ namespace Elysium::Core::Template::Text
 	/// https://www.asciitable.com/
 	/// </summary>
 	template <>
-	struct CharacterTraits<char> : public CharacterTraitsBase<char, System::int8_t>
+	struct CharacterTraits<char> 
+		: public CharacterTraitsBase<char, System::int8_t>
 	{
 	public:
 		/// <summary>
@@ -427,14 +428,15 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		inline static constexpr const System::size MaximumByteLength = sizeof(char);
+		inline static constexpr const System::uint8_t MaximumByteLength = sizeof(char);
 	};
 
 	/// <summary>
 	/// https://en.wikipedia.org/wiki/UTF-8
 	/// </summary>
 	template <>
-	struct CharacterTraits<char8_t> : public CharacterTraitsBase<char8_t, System::uint8_t>
+	struct CharacterTraits<char8_t> 
+		: public CharacterTraitsBase<char8_t, System::uint8_t>
 	{
 	public:
 		/// <summary>
@@ -454,7 +456,13 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		inline static constexpr const System::size MaximumByteLength = 4;
+		inline static constexpr const Elysium::Core::Template::System::uint8_t MaximumByteLength = 4;
+
+		/// <summary>
+		/// Represents the value used if the length of a byte-sequence cannot be derived from a lead byte
+		/// (ie. the value being an invalid utf-8 string)
+		/// </summary>
+		inline static constexpr const Elysium::Core::Template::System::uint8_t InvalidByteCount = -1_ui8;
 	public:
 		/// <summary>
 		/// 
@@ -482,7 +490,8 @@ namespace Elysium::Core::Template::Text
 	/// https://en.wikipedia.org/wiki/UTF-16
 	/// </summary>
 	template <>
-	struct CharacterTraits<char16_t> : public CharacterTraitsBase<char16_t, System::uint16_t>
+	struct CharacterTraits<char16_t> 
+		: public CharacterTraitsBase<char16_t, System::uint16_t>
 	{
 	private:
 		/// <summary>
@@ -512,7 +521,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		inline static constexpr const System::size MaximumByteLength = 4;
+		inline static constexpr const System::uint8_t MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// 
@@ -544,7 +553,8 @@ namespace Elysium::Core::Template::Text
 	/// https://en.wikipedia.org/wiki/UTF-32
 	/// </summary>
 	template <>
-	struct CharacterTraits<char32_t> : public CharacterTraitsBase<char32_t, System::uint32_t>
+	struct CharacterTraits<char32_t> 
+		: public CharacterTraitsBase<char32_t, System::uint32_t>
 	{
 	public:
 		/// <summary>
@@ -564,14 +574,15 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		inline static constexpr const System::size MaximumByteLength = sizeof(System::uint32_t);
+		inline static constexpr const System::uint8_t MaximumByteLength = sizeof(System::uint32_t);
 	};
 	
 	/// <summary>
 	/// https://en.wikipedia.org/wiki/UTF-16
 	/// </summary>
 	template <>
-	struct CharacterTraits<wchar_t> : public CharacterTraitsBase<wchar_t, System::uint16_t>
+	struct CharacterTraits<wchar_t> 
+		: public CharacterTraitsBase<wchar_t, System::uint16_t>
 	{
 	private:
 		/// <summary>
@@ -601,7 +612,7 @@ namespace Elysium::Core::Template::Text
 		/// <summary>
 		/// Returns the maximum number of bytes which can represent a single character.
 		/// </summary>
-		inline static constexpr const System::size MaximumByteLength = 4;
+		inline static constexpr const System::uint8_t MaximumByteLength = 4;
 	public:
 		/// <summary>
 		/// 
@@ -630,6 +641,131 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<>
+	inline constexpr const System::uint8_t CharacterTraitsBase<char, System::int8_t>::ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept
+	{
+		if (Buffer == nullptr)
+		{
+			return 0;
+		}
+
+		// @ToDo
+		return 0;
+	}
+
+	template<>
+	inline constexpr const System::uint8_t CharacterTraitsBase<char8_t, System::uint8_t>::ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept
+	{
+		if (Buffer == nullptr)
+		{
+			return 0;
+		}
+
+		if (Value < 0x80)
+		{
+			if (BufferLength < CharacterTraits<char8_t>::MinimumByteLength)
+			{
+				return 0;
+			}
+
+			Buffer[0] = static_cast<char8_t>(Value);
+
+			return 1;
+		}
+		else if (Value < 0x800)
+		{
+			if (BufferLength < CharacterTraits<char8_t>::MinimumByteLength * 2)
+			{
+				return 0;
+			}
+
+			Buffer[0] = static_cast<char8_t>(0xc0 + (Value >> 6));
+			Buffer[1] = static_cast<char8_t>(0x80 + ((Value >> 12) & 0x3F));
+			Buffer[2] = static_cast<char8_t>(0x80 + ((Value >> 6) & 0x3F));
+
+			return 2;
+		}
+		else if (Value < 0x10000)
+		{
+			if (BufferLength < CharacterTraits<char8_t>::MinimumByteLength * 3)
+			{
+				return 0;
+			}
+
+			Buffer[0] = static_cast<char8_t>(0xc0 + (Value >> 6));
+			Buffer[1] = static_cast<char8_t>(0x80 + ((Value >> 12) & 0x3F));
+			Buffer[2] = static_cast<char8_t>(0x80 + ((Value >> 6) & 0x3F));
+
+			return 3;
+		}
+		else if (Value < 0x10FFFF)
+		{
+			if (BufferLength < CharacterTraits<char8_t>::MinimumByteLength * 4)
+			{
+				return 0;
+			}
+
+			Buffer[0] = static_cast<char8_t>(0xc0 + (Value >> 6));
+			Buffer[1] = static_cast<char8_t>(0x80 + ((Value >> 12) & 0x3F));
+			Buffer[2] = static_cast<char8_t>(0x80 + ((Value >> 6) & 0x3F));
+			Buffer[3] = static_cast<char8_t>(0x80 + (Value & 0x3F));
+
+			return 4;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	template<>
+	inline constexpr const System::uint8_t CharacterTraitsBase<char16_t, System::uint16_t>::ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept
+	{
+		if (Buffer == nullptr)
+		{
+			return 0;
+		}
+
+		// @ToDo
+		return 0;
+	}
+
+	template<>
+	inline constexpr const System::uint8_t CharacterTraitsBase<char32_t, System::uint32_t>::ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept
+	{
+		if (Buffer == nullptr)
+		{
+			return 0;
+		}
+
+		if (BufferLength < CharacterTraits<char32_t>::MaximumByteLength)
+		{
+			return 0;
+		}
+
+		Buffer[0] = Value;
+
+		return 1;
+	}
+
+	template<>
+	inline constexpr const System::uint8_t CharacterTraitsBase<wchar_t, System::uint16_t>::ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept
+	{
+		if (Buffer == nullptr)
+		{
+			return 0;
+		}
+
+		// @ToDo
+		return 0;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const System::uint8_t CharacterTraitsBase<C, I>::ConvertFromUtf32(char32_t Value, Pointer Buffer, Elysium::Core::Template::System::uint8_t BufferLength) noexcept
+	{
+		return 0;
+	}
+	
+	template<>
 	inline constexpr const char32_t CharacterTraitsBase<char, System::int8_t>::ConvertToUtf32(ConstPointer Value) noexcept
 	{
 		return char32_t(Value[0]);
@@ -649,7 +785,7 @@ namespace Elysium::Core::Template::Text
 		case 4:		// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
 			return char32_t(((Value[0] & 0x07) << 18) | ((Value[1] & 0x3F) << 12) | ((Value[2] & 0x3F) << 6) | (Value[3] & 0x3F));
 		default:	// 10xx xxxx (trail byte. determination not possible)
-			return static_cast<char32_t>(-1);
+			return CharacterTraits<char8_t>::InvalidByteCount;
 		}
 	}
 
@@ -706,19 +842,52 @@ namespace Elysium::Core::Template::Text
 	{
 		return -1_ui32;
 	}
+	
+	template<>
+	inline constexpr const bool CharacterTraitsBase<char, System::int8_t>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{	// @ToDo: think about whether only 0 - 127 is valid!
+		return true;
+	}
 
 	template<>
 	inline constexpr const bool CharacterTraitsBase<char8_t, System::uint8_t>::IsValid(ConstPointer Value, System::size Length) noexcept
 	{
-		System::size ByteCount;
-		for (System::size i = 0; i < Length; i++)
+		if (nullptr == Value || 0 == Length)
 		{
-			ByteCount = CharacterTraits<char8_t>::GetByteCount(Value[i]);
-			if (ByteCount > Length)
+			return true;
+		}
+
+		char32_t CodePoint;
+		char8_t Buffer[CharacterTraits<char8_t>::MaximumByteLength] = { 0 };
+		System::uint8_t ByteCount;
+		for (System::size i = 0; i < Length; ++i)
+		{
+			CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Value[i]);
+
+			// the following code points are invalid
+			// (don't need to check for -1 (duh) as it is larger than 0x10FFFF which are undefined codepoints in unicode)
+			if (CodePoint > 0x10FFFF)
 			{
 				return false;
 			}
 
+			// ...
+			ByteCount = CharacterTraits<char8_t>::GetByteCount(Value[i]);
+			if (ByteCount == CharacterTraits<char8_t>::InvalidByteCount || ByteCount > Length)
+			{
+				return false;
+			}
+
+			// check for overlong representation
+			System::uint8_t ConvertedByteCount = 
+				CharacterTraits<char8_t>::ConvertFromUtf32(CodePoint, &Buffer[0], CharacterTraits<char8_t>::MaximumByteLength);
+
+			if (ConvertedByteCount < ByteCount)
+			{
+				return false;
+			}
+
+			// ensure leadbyte (and the correct number of trailing bytes)
 			if (!CharacterTraits<char8_t>::IsLeadByte(Value[i]))
 			{
 				return false;
@@ -726,11 +895,12 @@ namespace Elysium::Core::Template::Text
 
 			for (System::size j = 0; j < ByteCount - 1; j++)
 			{
-				if (!CharacterTraits<char8_t>::IsTrailByte(Value[i++]))
+				if (!CharacterTraits<char8_t>::IsTrailByte(Value[++i]))
 				{
 					return false;
 				}
 			}
+
 		}
 
 		return true;
@@ -739,12 +909,17 @@ namespace Elysium::Core::Template::Text
 	template<>
 	inline constexpr const bool CharacterTraitsBase<char16_t, System::uint16_t>::IsValid(ConstPointer Value, System::size Length) noexcept
 	{
+		if (nullptr == Value || 0 == Length)
+		{
+			return true;
+		}
+		
 		if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
 		{
 			return false;
 		}
 
-		for (System::size i = 0; i < Length; i++)
+		for (System::size i = 0; i < Length; ++i)
 		{
 			if (CharacterTraits<char16_t>::IsHighSurrogate(Value[i]))
 			{
@@ -759,15 +934,46 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<>
+	inline constexpr const bool CharacterTraitsBase<char32_t, System::uint32_t>::IsValid(ConstPointer Value, System::size Length) noexcept
+	{
+		return true;
+	}
+
+	template<>
 	inline constexpr const bool CharacterTraitsBase<wchar_t, System::uint16_t>::IsValid(ConstPointer Value, System::size Length) noexcept
 	{
+		if (nullptr == Value || 0 == Length)
+		{
+			return true;
+		}
+
 		if (CharacterTraits<wchar_t>::IsLowSurrogate(Value[0]))
 		{
 			return false;
 		}
 
-		for (System::size i = 0; i < Length; i++)
+		char32_t CodePoint;
+		for (System::size i = 0; i < Length; ++i)
 		{
+			CodePoint = Value[i];
+			if (CodePoint <= 0xFFFF)
+			{	// basic multilingual plane (BMP)
+				if (CodePoint >= 0xD800 && CodePoint <= 0xDFFF)
+				{
+					return false;
+				}
+			}
+			else if (CodePoint <= 0x10FFFF)
+			{	// surrogate pair
+				++i;
+			}
+			//else if (CodePoint > 0x10FFFF)
+			else
+			{
+				return false;
+			}
+
+			/*
 			if (CharacterTraits<wchar_t>::IsHighSurrogate(Value[i]))
 			{
 				if (i + 1 > Length || CharacterTraits<wchar_t>::IsLowSurrogate(Value[i + 1]))
@@ -775,6 +981,11 @@ namespace Elysium::Core::Template::Text
 					return false;
 				}
 			}
+			else
+			{
+				
+			}
+			*/
 		}
 
 		return true;
@@ -782,8 +993,8 @@ namespace Elysium::Core::Template::Text
 
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::IsValid(ConstPointer Value, System::size Length) noexcept
-	{	// char and char32_t will always be valid
-		return true;
+	{
+		return false;
 	}
 
 	template<>
@@ -1232,7 +1443,7 @@ namespace Elysium::Core::Template::Text
 	inline constexpr const Elysium::Core::Template::System::size CharacterTraitsBase<C, I>::LastIndexOf(ConstPointer Start, const Elysium::Core::Template::System::size Length, ConstValue Value) noexcept
 	{
 		Pointer CharacterPointer = nullptr;
-		for (Elysium::Core::Template::System::size i = Length; i > 0; i--)
+		for (Elysium::Core::Template::System::size i = Length; i > 0; --i)
 		{
 			if (Start[i - 1] == Value)
 			{
@@ -1262,7 +1473,7 @@ namespace Elysium::Core::Template::Text
 			return false;
 		}
 
-		for (System::size i = 0; i < SequenceLength; i++)
+		for (System::size i = 0; i < SequenceLength; ++i)
 		{
 			if (Start[i] != Sequence[i])
 			{
@@ -1288,7 +1499,7 @@ namespace Elysium::Core::Template::Text
 		
 		// @ToDo: should I do this in reverse order (back to front)?
 		const System::size Offset = Length - SequenceLength;
-		for (System::size i = 0; i < SequenceLength; i++)
+		for (System::size i = 0; i < SequenceLength; ++i)
 		{
 			if (Start[i + Offset] != Sequence[i])
 			{
@@ -1316,7 +1527,7 @@ namespace Elysium::Core::Template::Text
 	{
 		if (Value >> 6_ui8 == 0x02_ui8)
 		{	// 10xx xxxx (trail byte, ergo no way to tell how many bytes are used for a character)
-			return -1_ui8;
+			return CharacterTraits<char8_t>::InvalidByteCount;
 		}
 		else if (Value >> 7_ui8 == 0x00_ui8)
 		{	// 0xxx xxxx
@@ -1335,8 +1546,8 @@ namespace Elysium::Core::Template::Text
 			return 4_ui8;
 		}
 		else
-		{	// should obviously never happen
-			return -1_ui8;
+		{	// should obviously never happen in a valid utf-8 string
+			return CharacterTraits<char8_t>::InvalidByteCount;
 		}
 	}
 

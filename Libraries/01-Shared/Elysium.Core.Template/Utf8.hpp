@@ -28,6 +28,24 @@ namespace Elysium::Core::Template::Text::Unicode
 		Utf8& operator=(const Utf8& Source) = delete;
 
 		Utf8& operator=(Utf8&& Right) noexcept = delete;
+		/*
+	public:
+		template <Concepts::Character C>
+		static constexpr System::size GetRequiredLengthFromSafeUtf8String(const C* Data) noexcept;
+	public:
+		template <Concepts::Character C>
+		static String<C> FromSafeUtf8String(const char8_t* Data, const System::size Length) noexcept;
+
+		template <Concepts::Character C>
+		static String<char8_t> SafeToUtf8String(const C* Data, const System::size Length) noexcept;
+	public:
+		
+		template <Concepts::Character C>
+		static String<C> FromUtf8String(const char8_t* Data, const System::size Length) noexcept;
+
+		template <Concepts::Character C>
+		static String<char8_t> ToUtf8String(const C* Data, const System::size Length) noexcept;
+		*/
 	};
 }
 #endif
