@@ -23,12 +23,13 @@ Elysium::Core::IO::Stream & Elysium::Core::operator>>(Elysium::Core::IO::Stream 
 	return Source;
 }
 */
-Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8String& Input)
+
+Elysium::Core::Version Elysium::Core::Version::Parse(Elysium::Core::Utf8String::ConstCharacterPointer Input)
 {
-	return Parse(Utf8StringView(Input));
+	return Parse(Elysium::Core::Utf8StringView(Input));
 }
 
-Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8StringView Input)
+Elysium::Core::Version Elysium::Core::Version::Parse(const Elysium::Core::Utf8StringView Input)
 {
 	Template::Container::Vector<Utf8StringView> Numbers = Input.Split(Delimiter);
 
@@ -67,7 +68,7 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const Utf8StringView Input)
 	}
 }
 
-const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
+Elysium::Core::Utf8String Elysium::Core::Version::ToString() const
 {
 	Elysium::Core::size DelimiterLength = Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
 
@@ -77,7 +78,7 @@ const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 	const Elysium::Core::Utf8String Minor = Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Minor);
 	const Elysium::Core::size MinorLength = Minor.GetLength();
 
-	if (_Build != 0xFFFF)
+	if (_Build != Undefined)
 	{
 		DelimiterLength += Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
 	}
@@ -85,7 +86,7 @@ const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 		Elysium::Core::Utf8String() : Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Build);
 	const Elysium::Core::size BuildLength = Build.GetLength();
 
-	if (_Revision != 0xFFFF)
+	if (_Revision != Undefined)
 	{
 		DelimiterLength += Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
 	}
@@ -124,4 +125,17 @@ const Elysium::Core::Utf8String Elysium::Core::Version::ToString()
 	}
 
 	return Result;
+}
+
+Elysium::Core::Utf8String Elysium::Core::Version::ToString(const Elysium::Core::Template::System::uint8_t Fields) const
+{
+	if (Fields == 0 || Fields > 4)
+	{
+		return Elysium::Core::Utf8String();
+	}
+
+	
+
+
+	return Elysium::Core::Utf8String();
 }
