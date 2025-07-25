@@ -680,7 +680,6 @@ namespace Elysium::Core::Template::Text
 
 			Buffer[0] = static_cast<char8_t>(0xc0 + (Value >> 6));
 			Buffer[1] = static_cast<char8_t>(0x80 + ((Value >> 12) & 0x3F));
-			Buffer[2] = static_cast<char8_t>(0x80 + ((Value >> 6) & 0x3F));
 
 			return 2;
 		}
@@ -781,7 +780,7 @@ namespace Elysium::Core::Template::Text
 		case 2:		// 110y yyyy	10xx xxxx							->	0000 0yyy	yyxx xxxx
 			return char32_t(((Value[0] & 0x1F) << 6) | (Value[1] & 0x3F));
 		case 3:		// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
-			return char32_t(((Value[0] & 0x0F) << 12) | ((Value[1] & 0x3F) << 6) | (Value[3] & 0x3F));
+			return char32_t(((Value[0] & 0x0F) << 12) | ((Value[1] & 0x3F) << 6) | (Value[2] & 0x3F));
 		case 4:		// 1111 0aaa	10zz zzzz	10yy yyyyy	10xx xxxx	->	000a aazz	zzzz yyyy	yyxx xxxx
 			return char32_t(((Value[0] & 0x07) << 18) | ((Value[1] & 0x3F) << 12) | ((Value[2] & 0x3F) << 6) | (Value[3] & 0x3F));
 		default:	// 10xx xxxx (trail byte. determination not possible)
@@ -864,35 +863,14 @@ namespace Elysium::Core::Template::Text
 		{
 			CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Value[i]);
 
-			// the following code points are invalid
-			// (don't need to check for -1 (duh) as it is larger than 0x10FFFF which are undefined codepoints in unicode)
-			if (CodePoint > 0x10FFFF)
-			{
-				return false;
-			}
-
-			// ...
+			// validate byte count (will also validate lead-byte)
 			ByteCount = CharacterTraits<char8_t>::GetByteCount(Value[i]);
 			if (ByteCount == CharacterTraits<char8_t>::InvalidByteCount || ByteCount > Length)
 			{
 				return false;
 			}
 
-			// check for overlong representation
-			System::uint8_t ConvertedByteCount = 
-				CharacterTraits<char8_t>::ConvertFromUtf32(CodePoint, &Buffer[0], CharacterTraits<char8_t>::MaximumByteLength);
-
-			if (ConvertedByteCount < ByteCount)
-			{
-				return false;
-			}
-
-			// ensure leadbyte (and the correct number of trailing bytes)
-			if (!CharacterTraits<char8_t>::IsLeadByte(Value[i]))
-			{
-				return false;
-			}
-
+			// validate trail bytes
 			for (System::size j = 0; j < ByteCount - 1; j++)
 			{
 				if (!CharacterTraits<char8_t>::IsTrailByte(Value[++i]))
@@ -901,6 +879,29 @@ namespace Elysium::Core::Template::Text
 				}
 			}
 
+			// validate code points
+			if (CodePoint > 0x10FFFF)
+			{
+				return false;
+			}
+
+			// check for overlong representation
+			if (CodePoint <= 0x7F && ByteCount != 1)
+			{
+				return false;
+			}
+			else if (CodePoint > 0x7F && CodePoint <= 0x7FF && ByteCount != 2)
+			{
+				return false;
+			}
+			else if (CodePoint > 0x7FF && CodePoint <= 0xFFFF && ByteCount != 3)
+			{
+				return false;
+			}
+			else if (CodePoint > 0xFFFF && CodePoint <= 0x10FFFF && ByteCount != 4)
+			{
+				return false;
+			}
 		}
 
 		return true;
