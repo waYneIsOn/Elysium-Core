@@ -526,7 +526,8 @@ namespace UnitTests::Core::Template::Text
 			Assert::IsFalse(CharacterTraits<char8_t>::IsValid(Old0, CharacterTraits<char8_t>::GetLength(Old0)));
 			Assert::IsFalse(CharacterTraits<char8_t>::IsValid(Old1, CharacterTraits<char8_t>::GetLength(Old1)));
 
-			// BOM handling	- @ToDo: bom is only valid at the beginning, not in the middle. think about how I want to handle this!
+			// BOM is correct at the start of a file. therefore it should be handled (and possibly stripped) when reading a file.
+			// If a BOM occurres within the actual text, it's invalid, meaning the following test is correct!
 			constexpr const char8_t BOM[] = { 0xEF, 0xBB, 0xBF };
 			Assert::IsFalse(CharacterTraits<char8_t>::IsValid(BOM, CharacterTraits<char8_t>::GetLength(BOM)));
 		}
