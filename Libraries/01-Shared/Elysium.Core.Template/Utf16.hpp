@@ -32,6 +32,14 @@ namespace Elysium::Core::Template::Text::Unicode
 {
 	class Utf16 final
 	{
+	/*
+	public:
+		using Type = wchar_t;
+		using Pointer = wchar_t*;
+		using ConstType = const wchar_t;
+		using ConstPointer = const wchar_t*;
+		using ConstReference = const wchar_t&;
+	*/
 	public:
 		constexpr Utf16() noexcept = delete;
 
