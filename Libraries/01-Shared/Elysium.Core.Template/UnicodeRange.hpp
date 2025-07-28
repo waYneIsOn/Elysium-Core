@@ -16,10 +16,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "UnicodeCharacter.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "CharacterTraits.hpp"
 #endif
@@ -32,45 +28,68 @@ namespace Elysium::Core::Template::Text::Unicode
 	public:
 		using ConstCharacter = const UC;
 	public:
-		constexpr UnicodeRange(ConstCharacter FirstCharacter, ConstCharacter LastCharacter) noexcept;
+		constexpr UnicodeRange(char32_t FirstCodePoint, char32_t LastCodePoint) noexcept;
 
 		constexpr UnicodeRange(const UnicodeRange& Source) = delete;
 
 		constexpr UnicodeRange(UnicodeRange&& Right) noexcept = delete;
 
-		constexpr ~UnicodeRange();
+		constexpr ~UnicodeRange() noexcept = default;
 	public:
 		UnicodeRange& operator=(const UnicodeRange& Source) = delete;
 
 		UnicodeRange& operator=(UnicodeRange&& Right) noexcept = delete;
 	public:
-		constexpr const System::uint32_t GetFirstCodePoint() const;
+		constexpr const char32_t GetFirstCodePoint() const noexcept;
 
-		constexpr const System::uint32_t GetLength() const;
+		constexpr const char32_t GetLastCodePoint() const noexcept;
+
+		constexpr const char32_t GetLength() const noexcept;
+	/*
+	public:
+		constexpr const ConstCharacter GetFirstCharacter() const;
+
+		constexpr const ConstCharacter GetLastCharacter() const;
+	*/
 	private:
-		ConstCharacter _FirstCharacter;
-		ConstCharacter _LastCharacter;
+		char32_t _FirstCodePoint;
+		char32_t _LastCodePoint;
 	};
 
 	template<Concepts::UnicodeCharacter UC>
-	inline constexpr UnicodeRange<UC>::UnicodeRange(ConstCharacter FirstCharacter, ConstCharacter LastCharacter) noexcept
-		: _FirstCharacter(FirstCharacter), _LastCharacter(LastCharacter)
+	inline constexpr UnicodeRange<UC>::UnicodeRange(char32_t FirstCodePoint, char32_t LastCodePoint) noexcept
+		: _FirstCodePoint(FirstCodePoint), _LastCodePoint(LastCodePoint)
 	{ }
 
 	template<Concepts::UnicodeCharacter UC>
-	inline constexpr UnicodeRange<UC>::~UnicodeRange() noexcept
-	{ }
-
-	template<Concepts::UnicodeCharacter UC>
-	constexpr const System::uint32_t UnicodeRange<UC>::GetFirstCodePoint() const
+	constexpr const char32_t UnicodeRange<UC>::GetFirstCodePoint() const noexcept
 	{
-		return CharacterTraits<UC>::ConvertToUtf32(&_FirstCharacter);
+		return _FirstCodePoint;
 	}
 
 	template<Concepts::UnicodeCharacter UC>
-	constexpr const System::uint32_t UnicodeRange<UC>::GetLength() const
+	inline constexpr const char32_t UnicodeRange<UC>::GetLastCodePoint() const noexcept
 	{
-		return _LastCharacter - _FirstCharacter;
+		return _LastCodePoint;
 	}
+
+	template<Concepts::UnicodeCharacter UC>
+	constexpr const char32_t UnicodeRange<UC>::GetLength() const noexcept
+	{
+		return _LastCodePoint - _FirstCodePoint;
+	}
+	/*
+	template<Concepts::UnicodeCharacter UC>
+	inline constexpr const UnicodeRange<UC>::ConstCharacter UnicodeRange<UC>::GetFirstCharacter() const
+	{
+		return CharacterTraits<UC>::ConvertFromUtf32();
+	}
+
+	template<Concepts::UnicodeCharacter UC>
+	inline constexpr const UnicodeRange<UC>::ConstCharacter UnicodeRange<UC>::GetLastCharacter() const
+	{
+		return ConstCharacter();
+	}
+	*/
 }
 #endif

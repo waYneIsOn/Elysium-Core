@@ -32,14 +32,19 @@ namespace Elysium::Core::Template::Text::Unicode
 {
 	class Utf16 final
 	{
-	/*
 	public:
+		using Type = char16_t;
+		using Pointer = char16_t*;
+		using ConstType = const char16_t;
+		using ConstPointer = const char16_t*;
+		using ConstReference = const char16_t&;
+		/*
 		using Type = wchar_t;
 		using Pointer = wchar_t*;
 		using ConstType = const wchar_t;
 		using ConstPointer = const wchar_t*;
 		using ConstReference = const wchar_t&;
-	*/
+		*/
 	public:
 		constexpr Utf16() noexcept = delete;
 
@@ -52,6 +57,35 @@ namespace Elysium::Core::Template::Text::Unicode
 		Utf16& operator=(const Utf16& Source) = delete;
 
 		Utf16& operator=(Utf16&& Right) noexcept = delete;
+	public:
+		inline static constexpr const Type ByteOrderMarkLittleEndian[] = { 0xFE, 0xFF };
+
+		inline static constexpr const Type ByteOrderMarkBigEndian[] = { 0xFF, 0xFE };
+	public:
+		/// <summary>
+		/// Returns whether given text is valid little endian utf-16.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		static constexpr const bool IsValidLittleEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept;
+
+		/// <summary>
+		/// Indicates whether given text is valid big endian utf-16.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <param name="Length"></param>
+		/// <returns></returns>
+		static constexpr const bool IsValidBigEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept;
+	/*
+	public:
+		/// <summary>
+		/// Returns the unicode code point representation.
+		/// </summary>
+		/// <param name="Value"></param>
+		/// <returns></returns>
+		static constexpr const char32_t ConvertToUtf32(ConstPointer Value) noexcept;
+	*/
 	public:
 		/// <summary>
 		/// Returns the length required to convert given wchar_t* to C* while not performing any checks on the inputs integrity.
@@ -113,6 +147,58 @@ namespace Elysium::Core::Template::Text::Unicode
 		static String<wchar_t> ToWideString(const C* Data, const System::size Length);
 		*/
 	};
+
+	inline constexpr const bool Elysium::Core::Template::Text::Unicode::Utf16::IsValidLittleEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept
+	{
+		if (nullptr == Value || 0 == Length)
+		{
+			return true;
+		}
+
+		if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
+		{
+			return false;
+		}
+
+		for (System::size i = 0; i < Length; ++i)
+		{
+			if (CharacterTraits<char16_t>::IsHighSurrogate(Value[i]))
+			{
+				if (i + 1 > Length || CharacterTraits<char16_t>::IsLowSurrogate(Value[i + 1]))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+	
+	inline constexpr const bool Elysium::Core::Template::Text::Unicode::Utf16::IsValidBigEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept
+	{
+		if (nullptr == Value || 0 == Length)
+		{
+			return true;
+		}
+
+		if (CharacterTraits<char16_t>::IsHighSurrogate(Value[0]))
+		{
+			return false;
+		}
+
+		for (System::size i = 0; i < Length; ++i)
+		{
+			if (CharacterTraits<char16_t>::IsLowSurrogate(Value[i]))
+			{
+				if (i + 1 > Length || CharacterTraits<char16_t>::IsHighSurrogate(Value[i + 1]))
+				{
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 	template<>
 	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<char>(const wchar_t* Data, const System::size Length) noexcept

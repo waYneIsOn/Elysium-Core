@@ -35,6 +35,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ObjectTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeleterTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utf16Tests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Utf8Tests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VectorOfBoolTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VectorOfNonTrivialTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VectorOfTrivialTests.cpp" />

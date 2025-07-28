@@ -28,9 +28,9 @@ namespace Elysium::Core::Template::Text::Unicode
 	public:
 		constexpr UnicodeRanges() noexcept = delete;
 
-		constexpr UnicodeRanges(const UnicodeRange& Source) = delete;
+		constexpr UnicodeRanges(const UnicodeRange<UC>& Source) = delete;
 
-		constexpr UnicodeRanges(UnicodeRange&& Right) noexcept = delete;
+		constexpr UnicodeRanges(UnicodeRange<UC>&& Right) noexcept = delete;
 
 		constexpr ~UnicodeRanges() = delete;
 	public:
@@ -38,331 +38,329 @@ namespace Elysium::Core::Template::Text::Unicode
 
 		UnicodeRanges& operator=(UnicodeRanges&& Right) noexcept = delete;
 	public:
-		constexpr const UnicodeRange<UC> All = UnicodeRange<UC>('\u0000', '\uFFFFFF');
+		inline static constexpr const UnicodeRange<UC> All = UnicodeRange<UC>(0x0000, 0x10FFFF);
 
-		constexpr const UnicodeRange<UC> AlphabeticPresentationForms = UnicodeRange<UC>('\uFB00', '\uFB4F');
+		inline static constexpr const UnicodeRange<UC> AlphabeticPresentationForms = UnicodeRange<UC>(0xFB00, 0xFB4F);
 
-		constexpr const UnicodeRange<UC> Arabic = UnicodeRange<UC>('\u0600', '\u06FF');
+		inline static constexpr const UnicodeRange<UC> Arabic = UnicodeRange<UC>(0x0600, 0x06FF);
 
-		constexpr const UnicodeRange<UC> ArabicExtendedA = UnicodeRange<UC>('\u08A0', '\u08FF');
+		inline static constexpr const UnicodeRange<UC> ArabicExtendedA = UnicodeRange<UC>(0x08A0, 0x08FF);
 
-		constexpr const UnicodeRange<UC> ArabicExtendedB = UnicodeRange<UC>('\u0870', '\u089F');
+		inline static constexpr const UnicodeRange<UC> ArabicExtendedB = UnicodeRange<UC>(0x0870, 0x089F);
 
-		constexpr const UnicodeRange<UC> ArabicPresentationFormsA = UnicodeRange<UC>('\uFB50', '\uFDFF');
+		inline static constexpr const UnicodeRange<UC> ArabicPresentationFormsA = UnicodeRange<UC>(0xFB50, 0xFDFF);
 
-		constexpr const UnicodeRange<UC> ArabicPresentationFormsB = UnicodeRange<UC>('\uFE70', '\uFEFF');
+		inline static constexpr const UnicodeRange<UC> ArabicPresentationFormsB = UnicodeRange<UC>(0xFE70, 0xFEFF);
 
-		constexpr const UnicodeRange<UC> ArabicSupplement = UnicodeRange<UC>('\u0750', '\u077F');
+		inline static constexpr const UnicodeRange<UC> ArabicSupplement = UnicodeRange<UC>(0x0750, 0x077F);
 
-		constexpr const UnicodeRange<UC> Armenian = UnicodeRange<UC>('\u0530', '\u058F');
+		inline static constexpr const UnicodeRange<UC> Armenian = UnicodeRange<UC>(0x0530, 0x058F);
 
-		constexpr const UnicodeRange<UC> Arrows = UnicodeRange<UC>('\u2190', '\u21FF');
+		inline static constexpr const UnicodeRange<UC> Arrows = UnicodeRange<UC>(0x2190, 0x21FF);
 
-		constexpr const UnicodeRange<UC> Balinese = UnicodeRange<UC>('\u1B00', '\u1B7F');
+		inline static constexpr const UnicodeRange<UC> Balinese = UnicodeRange<UC>(0x1B00, 0x1B7F);
 
-		constexpr const UnicodeRange<UC> Bamum = UnicodeRange<UC>('\u1B00', '\u1B7F');
+		//inline static constexpr const UnicodeRange<UC> Bamum = UnicodeRange<UC>(0x1B00, 0x1B7F);	// same as Balinese
 
-		constexpr const UnicodeRange<UC> BasicLatin = UnicodeRange<UC>('\u0021', '\u007F');
+		inline static constexpr const UnicodeRange<UC> BasicLatin = UnicodeRange<UC>(0x0021, 0x007F);
 
-		constexpr const UnicodeRange<UC> Batak = UnicodeRange<UC>('\u1BC0', '\u1BFF');
+		inline static constexpr const UnicodeRange<UC> Batak = UnicodeRange<UC>(0x1BC0, 0x1BFF);
 
-		constexpr const UnicodeRange<UC> Bengali = UnicodeRange<UC>('\u0980', '\u09FF');
+		inline static constexpr const UnicodeRange<UC> Bengali = UnicodeRange<UC>(0x0980, 0x09FF);
 
-		constexpr const UnicodeRange<UC> BlockElements = UnicodeRange<UC>('\u2580', '\u259F');
+		inline static constexpr const UnicodeRange<UC> BlockElements = UnicodeRange<UC>(0x2580, 0x259F);
 
-		constexpr const UnicodeRange<UC> Bopomofo = UnicodeRange<UC>('\u3100', '\u312F');
+		inline static constexpr const UnicodeRange<UC> Bopomofo = UnicodeRange<UC>(0x3100, 0x312F);
 
-		constexpr const UnicodeRange<UC> BopomofoExtended = UnicodeRange<UC>('\u31A0', '\u31BF');
+		inline static constexpr const UnicodeRange<UC> BopomofoExtended = UnicodeRange<UC>(0x31A0, 0x31BF);
 
-		constexpr const UnicodeRange<UC> BoxDrawing = UnicodeRange<UC>('\u2500', '\u257F');
+		inline static constexpr const UnicodeRange<UC> BoxDrawing = UnicodeRange<UC>(0x2500, 0x257F);
 
-		constexpr const UnicodeRange<UC> BraillePatterns = UnicodeRange<UC>('\u2800', '\u28FF');
+		inline static constexpr const UnicodeRange<UC> BraillePatterns = UnicodeRange<UC>(0x2800, 0x28FF);
 
-		constexpr const UnicodeRange<UC> Buginese = UnicodeRange<UC>('\u1A00', '\u1A1F');
+		inline static constexpr const UnicodeRange<UC> Buginese = UnicodeRange<UC>(0x1A00, 0x1A1F);
 
-		constexpr const UnicodeRange<UC> Buhid = UnicodeRange<UC>('\u1740', '\u175F');
+		inline static constexpr const UnicodeRange<UC> Buhid = UnicodeRange<UC>(0x1740, 0x175F);
 
-		constexpr const UnicodeRange<UC> Cham = UnicodeRange<UC>('\uAA00', '\uAA5F');
+		inline static constexpr const UnicodeRange<UC> Cham = UnicodeRange<UC>(0xAA00, 0xAA5F);
 
-		constexpr const UnicodeRange<UC> Cham = UnicodeRange<UC>('\uAA00', '\uAA5F');
-		
-		constexpr const UnicodeRange<UC> Cherokee = UnicodeRange<UC>('\u13A0', '\u13FF');
+		inline static constexpr const UnicodeRange<UC> Cherokee = UnicodeRange<UC>(0x13A0, 0x13FF);
 
-		constexpr const UnicodeRange<UC> CherokeeSupplement = UnicodeRange<UC>('\uAB70', '\uABBF');
+		inline static constexpr const UnicodeRange<UC> CherokeeSupplement = UnicodeRange<UC>(0xAB70, 0xABBF);
 
-		constexpr const UnicodeRange<UC> CjkCompatibility = UnicodeRange<UC>('\u3300', '\u33FF');
+		inline static constexpr const UnicodeRange<UC> CjkCompatibility = UnicodeRange<UC>(0x3300, 0x33FF);
 
-		constexpr const UnicodeRange<UC> CjkCompatibilityForms = UnicodeRange<UC>('\uFE30', '\uFE4F');
+		inline static constexpr const UnicodeRange<UC> CjkCompatibilityForms = UnicodeRange<UC>(0xFE30, 0xFE4F);
 
-		constexpr const UnicodeRange<UC> CjkCompatibilityIdeographs = UnicodeRange<UC>('\uF900', '\uFAD9');
-		
-		constexpr const UnicodeRange<UC> CjkRadicalsSupplement = UnicodeRange<UC>('\u2E80', '\u2EFF');
-		
-		constexpr const UnicodeRange<UC> CjkStrokes = UnicodeRange<UC>('\u31C0', '\u31EF');
+		inline static constexpr const UnicodeRange<UC> CjkCompatibilityIdeographs = UnicodeRange<UC>(0xF900, 0xFAD9);
 
-		constexpr const UnicodeRange<UC> CjkSymbolsandPunctuation = UnicodeRange<UC>('\u3000', '\u303F');
-		
-		constexpr const UnicodeRange<UC> CjkUnifiedIdeographs = UnicodeRange<UC>('\u4E00', '\u9FCC');
-		
-		constexpr const UnicodeRange<UC> CjkUnifiedIdeographsExtensionA = UnicodeRange<UC>('\u3400', '\u4DB5');
-		
-		constexpr const UnicodeRange<UC> CombiningDiacriticalMarks = UnicodeRange<UC>('\u0300', '\u036F');
+		inline static constexpr const UnicodeRange<UC> CjkRadicalsSupplement = UnicodeRange<UC>(0x2E80, 0x2EFF);
 
-		constexpr const UnicodeRange<UC> CombiningDiacriticalMarksExtended = UnicodeRange<UC>('\u1AB0', '\u1AFF');
+		inline static constexpr const UnicodeRange<UC> CjkStrokes = UnicodeRange<UC>(0x31C0, 0x31EF);
 
-		constexpr const UnicodeRange<UC> CombiningDiacriticalMarksforSymbols = UnicodeRange<UC>('\u20D0', '\u20FF');
+		inline static constexpr const UnicodeRange<UC> CjkSymbolsandPunctuation = UnicodeRange<UC>(0x3000, 0x303F);
 
-		constexpr const UnicodeRange<UC> CombiningDiacriticalMarksSupplement = UnicodeRange<UC>('\u1DC0', '\u1DFF');
-		
-		constexpr const UnicodeRange<UC> CombiningHalfMarks = UnicodeRange<UC>('\uFE20', '\uFE2F');
-		
-		constexpr const UnicodeRange<UC> CommonIndicNumberForms = UnicodeRange<UC>('\uA830', '\uA83F');
+		inline static constexpr const UnicodeRange<UC> CjkUnifiedIdeographs = UnicodeRange<UC>(0x4E00, 0x9FCC);
 
-		constexpr const UnicodeRange<UC> ControlPictures = UnicodeRange<UC>('\u2400', '\u243F');
-		
-		constexpr const UnicodeRange<UC> Coptic = UnicodeRange<UC>('\u2C80', '\u2CFF');
+		inline static constexpr const UnicodeRange<UC> CjkUnifiedIdeographsExtensionA = UnicodeRange<UC>(0x3400, 0x4DB5);
 
-		constexpr const UnicodeRange<UC> CurrencySymbols = UnicodeRange<UC>('\u20A0', '\u20CF');
+		inline static constexpr const UnicodeRange<UC> CombiningDiacriticalMarks = UnicodeRange<UC>(0x0300, 0x036F);
 
-		constexpr const UnicodeRange<UC> Cyrillic = UnicodeRange<UC>('\u0400', '\u04FF');
-		
-		constexpr const UnicodeRange<UC> CyrillicExtendedA = UnicodeRange<UC>('\u2DE0', '\u2DFF');
+		inline static constexpr const UnicodeRange<UC> CombiningDiacriticalMarksExtended = UnicodeRange<UC>(0x1AB0, 0x1AFF);
 
-		constexpr const UnicodeRange<UC> CyrillicExtendedB = UnicodeRange<UC>('\uA640', '\uA69F');
+		inline static constexpr const UnicodeRange<UC> CombiningDiacriticalMarksforSymbols = UnicodeRange<UC>(0x20D0, 0x20FF);
 
-		constexpr const UnicodeRange<UC> CyrillicExtendedC = UnicodeRange<UC>('\u1C80', '\u1C8F');
+		inline static constexpr const UnicodeRange<UC> CombiningDiacriticalMarksSupplement = UnicodeRange<UC>(0x1DC0, 0x1DFF);
 
-		constexpr const UnicodeRange<UC> CyrillicSupplement = UnicodeRange<UC>('\u0500', '\u052F');
+		inline static constexpr const UnicodeRange<UC> CombiningHalfMarks = UnicodeRange<UC>(0xFE20, 0xFE2F);
 
-		constexpr const UnicodeRange<UC> Devanagari = UnicodeRange<UC>('\u0900', '\u097F');
-		
-		constexpr const UnicodeRange<UC> DevanagariExtended = UnicodeRange<UC>('\uA8E0', '\uA8FF');
-		
-		constexpr const UnicodeRange<UC> Dingbats = UnicodeRange<UC>('\u2700', '\u27BF');
-		
-		constexpr const UnicodeRange<UC> EnclosedAlphanumerics = UnicodeRange<UC>('\u2460', '\u24FF');
-		
-		constexpr const UnicodeRange<UC> EnclosedCjkLettersandMonths = UnicodeRange<UC>('\u3200', '\u32FF');
-		
-		constexpr const UnicodeRange<UC> Ethiopic = UnicodeRange<UC>('\u1200', '\u137C');
+		inline static constexpr const UnicodeRange<UC> CommonIndicNumberForms = UnicodeRange<UC>(0xA830, 0xA83F);
 
-		constexpr const UnicodeRange<UC> EthiopicExtended = UnicodeRange<UC>('\u2D80', '\u2DDF');
+		inline static constexpr const UnicodeRange<UC> ControlPictures = UnicodeRange<UC>(0x2400, 0x243F);
 
-		constexpr const UnicodeRange<UC> EthiopicExtendedA = UnicodeRange<UC>('\uAB00', '\uAB2F');
+		inline static constexpr const UnicodeRange<UC> Coptic = UnicodeRange<UC>(0x2C80, 0x2CFF);
 
-		constexpr const UnicodeRange<UC> EthiopicSupplement = UnicodeRange<UC>('\u1380', '\u1399');
+		inline static constexpr const UnicodeRange<UC> CurrencySymbols = UnicodeRange<UC>(0x20A0, 0x20CF);
 
-		constexpr const UnicodeRange<UC> GeneralPunctuation = UnicodeRange<UC>('\u2000', '\u206F');
-		
-		constexpr const UnicodeRange<UC> GeometricShapes = UnicodeRange<UC>('\u25A0', '\u25FF');
-		
-		constexpr const UnicodeRange<UC> Georgian = UnicodeRange<UC>('\u10A0', '\u10FF');
+		inline static constexpr const UnicodeRange<UC> Cyrillic = UnicodeRange<UC>(0x0400, 0x04FF);
 
-		constexpr const UnicodeRange<UC> GeorgianExtended = UnicodeRange<UC>('\u1C90', '\u1CBF');
+		inline static constexpr const UnicodeRange<UC> CyrillicExtendedA = UnicodeRange<UC>(0x2DE0, 0x2DFF);
 
-		constexpr const UnicodeRange<UC> GeorgianSupplement = UnicodeRange<UC>('\u2D00', '\u2D2F');
-		
-		constexpr const UnicodeRange<UC> Glagolitic = UnicodeRange<UC>('\u2C00', '\u2C5F');
+		inline static constexpr const UnicodeRange<UC> CyrillicExtendedB = UnicodeRange<UC>(0xA640, 0xA69F);
 
-		constexpr const UnicodeRange<UC> GreekandCoptic = UnicodeRange<UC>('\u0370', '\u03FF');
-		
-		constexpr const UnicodeRange<UC> GreekExtended = UnicodeRange<UC>('\u1F00', '\u1FFF');
-		
-		constexpr const UnicodeRange<UC> Gujarati = UnicodeRange<UC>('\u0A81', '\u0AFF');
+		inline static constexpr const UnicodeRange<UC> CyrillicExtendedC = UnicodeRange<UC>(0x1C80, 0x1C8F);
 
-		constexpr const UnicodeRange<UC> Gurmukhi = UnicodeRange<UC>('\u0A01', '\u0A7F');
+		inline static constexpr const UnicodeRange<UC> CyrillicSupplement = UnicodeRange<UC>(0x0500, 0x052F);
 
-		constexpr const UnicodeRange<UC> HalfwidthandFullwidthForms = UnicodeRange<UC>('\uFF00', '\uFFEE');
-		
-		constexpr const UnicodeRange<UC> HangulCompatibilityJamo = UnicodeRange<UC>('\u3131', '\u318F');
-		
-		constexpr const UnicodeRange<UC> HangulJamo = UnicodeRange<UC>('\u1100', '\u11FF');
+		inline static constexpr const UnicodeRange<UC> Devanagari = UnicodeRange<UC>(0x0900, 0x097F);
 
-		constexpr const UnicodeRange<UC> HangulJamoExtendedA = UnicodeRange<UC>('\uA960', '\u0A9F');
-		
-		constexpr const UnicodeRange<UC> HangulJamoExtendedB = UnicodeRange<UC>('\uD7B0', '\uD7FF');
+		inline static constexpr const UnicodeRange<UC> DevanagariExtended = UnicodeRange<UC>(0xA8E0, 0xA8FF);
 
-		constexpr const UnicodeRange<UC> HangulSyllables = UnicodeRange<UC>('\uAC00', '\uD7AF');
+		inline static constexpr const UnicodeRange<UC> Dingbats = UnicodeRange<UC>(0x2700, 0x27BF);
 
-		constexpr const UnicodeRange<UC> Hanunoo = UnicodeRange<UC>('\u1720', '\u173F');
-		
-		constexpr const UnicodeRange<UC> Hebrew = UnicodeRange<UC>('\u0590', '\u05FF');
+		inline static constexpr const UnicodeRange<UC> EnclosedAlphanumerics = UnicodeRange<UC>(0x2460, 0x24FF);
 
-		constexpr const UnicodeRange<UC> Hiragana = UnicodeRange<UC>('\u3040', '\u309F');
+		inline static constexpr const UnicodeRange<UC> EnclosedCjkLettersandMonths = UnicodeRange<UC>(0x3200, 0x32FF);
 
-		constexpr const UnicodeRange<UC> IdeographicDescriptionCharacters = UnicodeRange<UC>('\u2FF0', '\u2FFF');
-		
-		constexpr const UnicodeRange<UC> IpaExtensions = UnicodeRange<UC>('\u0250', '\u02AF');
+		inline static constexpr const UnicodeRange<UC> Ethiopic = UnicodeRange<UC>(0x1200, 0x137C);
 
-		constexpr const UnicodeRange<UC> Javanese = UnicodeRange<UC>('\uA980', '\uA9DF');
+		inline static constexpr const UnicodeRange<UC> EthiopicExtended = UnicodeRange<UC>(0x2D80, 0x2DDF);
 
-		constexpr const UnicodeRange<UC> Kanbun = UnicodeRange<UC>('\u3190', '\u319F');
-		
-		constexpr const UnicodeRange<UC> KangxiRadicals = UnicodeRange<UC>('\u2F00', '\u2FDF');
-		
-		constexpr const UnicodeRange<UC> Kannada = UnicodeRange<UC>('\u0C81', '\u0CFF');
+		inline static constexpr const UnicodeRange<UC> EthiopicExtendedA = UnicodeRange<UC>(0xAB00, 0xAB2F);
 
-		constexpr const UnicodeRange<UC> Katakana = UnicodeRange<UC>('\u30A0', '\u30FF');
-		
-		constexpr const UnicodeRange<UC> KatakanaPhoneticExtensions = UnicodeRange<UC>('\u31F0', '\u31FF');
+		inline static constexpr const UnicodeRange<UC> EthiopicSupplement = UnicodeRange<UC>(0x1380, 0x1399);
 
-		constexpr const UnicodeRange<UC> KayahLi = UnicodeRange<UC>('\uA900', '\uA92F');
+		inline static constexpr const UnicodeRange<UC> GeneralPunctuation = UnicodeRange<UC>(0x2000, 0x206F);
 
-		constexpr const UnicodeRange<UC> Khmer = UnicodeRange<UC>('\u1780', '\u17FF');
+		inline static constexpr const UnicodeRange<UC> GeometricShapes = UnicodeRange<UC>(0x25A0, 0x25FF);
 
-		constexpr const UnicodeRange<UC> KhmerSymbols = UnicodeRange<UC>('\u19E0', '\u19FF');
+		inline static constexpr const UnicodeRange<UC> Georgian = UnicodeRange<UC>(0x10A0, 0x10FF);
 
-		constexpr const UnicodeRange<UC> Lao = UnicodeRange<UC>('\u0E80', '\u0EDF');
-		
-		constexpr const UnicodeRange<UC> Latin1Supplement = UnicodeRange<UC>('\u00A1', '\u00FF');
+		inline static constexpr const UnicodeRange<UC> GeorgianExtended = UnicodeRange<UC>(0x1C90, 0x1CBF);
 
-		constexpr const UnicodeRange<UC> LatinExtendedA = UnicodeRange<UC>('\u0100', '\u017F');
-		
-		constexpr const UnicodeRange<UC> LatinExtendedAdditional = UnicodeRange<UC>('\u1E00', '\u1EFF');
+		inline static constexpr const UnicodeRange<UC> GeorgianSupplement = UnicodeRange<UC>(0x2D00, 0x2D2F);
 
-		constexpr const UnicodeRange<UC> LatinExtendedB = UnicodeRange<UC>('\u0180', '\u024F');
+		inline static constexpr const UnicodeRange<UC> Glagolitic = UnicodeRange<UC>(0x2C00, 0x2C5F);
 
-		constexpr const UnicodeRange<UC> LatinExtendedC = UnicodeRange<UC>('\u2C60', '\u2C7F');
+		inline static constexpr const UnicodeRange<UC> GreekandCoptic = UnicodeRange<UC>(0x0370, 0x03FF);
 
-		constexpr const UnicodeRange<UC> LatinExtendedD = UnicodeRange<UC>('\uA720', '\uA7FF');
+		inline static constexpr const UnicodeRange<UC> GreekExtended = UnicodeRange<UC>(0x1F00, 0x1FFF);
 
-		constexpr const UnicodeRange<UC> LatinExtendedE = UnicodeRange<UC>('\uAB30', '\uAB6F');
+		inline static constexpr const UnicodeRange<UC> Gujarati = UnicodeRange<UC>(0x0A81, 0x0AFF);
 
-		constexpr const UnicodeRange<UC> Lepcha = UnicodeRange<UC>('\u1C00', '\u1C4F');
-		
-		constexpr const UnicodeRange<UC> LetterlikeSymbols = UnicodeRange<UC>('\u2100', '\u214F');
-		
-		constexpr const UnicodeRange<UC> Limbu = UnicodeRange<UC>('\u1900', '\u194F');
+		inline static constexpr const UnicodeRange<UC> Gurmukhi = UnicodeRange<UC>(0x0A01, 0x0A7F);
 
-		constexpr const UnicodeRange<UC> Lisu = UnicodeRange<UC>('\uA4D0', '\uA4FF');
+		inline static constexpr const UnicodeRange<UC> HalfwidthandFullwidthForms = UnicodeRange<UC>(0xFF00, 0xFFEE);
 
-		constexpr const UnicodeRange<UC> Malayalam = UnicodeRange<UC>('\u0D00', '\u0D7F');
-		
-		constexpr const UnicodeRange<UC> Mandaic = UnicodeRange<UC>('\u0840', '\u085F');
+		inline static constexpr const UnicodeRange<UC> HangulCompatibilityJamo = UnicodeRange<UC>(0x3131, 0x318F);
 
-		constexpr const UnicodeRange<UC> MathematicalOperators = UnicodeRange<UC>('\u2200', '\u22FF');
+		inline static constexpr const UnicodeRange<UC> HangulJamo = UnicodeRange<UC>(0x1100, 0x11FF);
 
-		constexpr const UnicodeRange<UC> MeeteiMayek = UnicodeRange<UC>('\uABC0', '\uABFF');
+		inline static constexpr const UnicodeRange<UC> HangulJamoExtendedA = UnicodeRange<UC>(0xA960, 0x0A9F);
 
-		constexpr const UnicodeRange<UC> MeeteiMayekExtensions = UnicodeRange<UC>('\uAAE0', '\uAAFF');
-		
-		constexpr const UnicodeRange<UC> MiscellaneousMathematicalSymbolsA = UnicodeRange<UC>('\u27C0', '\u27EF');
+		inline static constexpr const UnicodeRange<UC> HangulJamoExtendedB = UnicodeRange<UC>(0xD7B0, 0xD7FF);
 
-		constexpr const UnicodeRange<UC> MiscellaneousMathematicalSymbolsB = UnicodeRange<UC>('\u2980', '\u29FF');
+		inline static constexpr const UnicodeRange<UC> HangulSyllables = UnicodeRange<UC>(0xAC00, 0xD7AF);
 
-		constexpr const UnicodeRange<UC> MiscellaneousSymbols = UnicodeRange<UC>('\u2600', '\u26FF');
-		
-		constexpr const UnicodeRange<UC> MiscellaneousSymbolsandArrows = UnicodeRange<UC>('\u2B00', '\u2BFF');
+		inline static constexpr const UnicodeRange<UC> Hanunoo = UnicodeRange<UC>(0x1720, 0x173F);
 
-		constexpr const UnicodeRange<UC> MiscellaneousTechnical = UnicodeRange<UC>('\u2300', '\u23FF');
+		inline static constexpr const UnicodeRange<UC> Hebrew = UnicodeRange<UC>(0x0590, 0x05FF);
 
-		constexpr const UnicodeRange<UC> ModifierToneLetters = UnicodeRange<UC>('\uA700', '\uA71F');
+		inline static constexpr const UnicodeRange<UC> Hiragana = UnicodeRange<UC>(0x3040, 0x309F);
 
-		constexpr const UnicodeRange<UC> Mongolian = UnicodeRange<UC>('\u1800', '\u18AF');
-		
-		constexpr const UnicodeRange<UC> Myanmar = UnicodeRange<UC>('\u1000', '\u109F');
+		inline static constexpr const UnicodeRange<UC> IdeographicDescriptionCharacters = UnicodeRange<UC>(0x2FF0, 0x2FFF);
 
-		constexpr const UnicodeRange<UC> MyanmarExtendedA = UnicodeRange<UC>('\uAA60', '\uAA7F');
+		inline static constexpr const UnicodeRange<UC> IpaExtensions = UnicodeRange<UC>(0x0250, 0x02AF);
 
-		constexpr const UnicodeRange<UC> MyanmarExtendedB = UnicodeRange<UC>('\uA9E0', '\uA9FF');
+		inline static constexpr const UnicodeRange<UC> Javanese = UnicodeRange<UC>(0xA980, 0xA9DF);
 
-		constexpr const UnicodeRange<UC> NewTaiLue = UnicodeRange<UC>('\u1980', '\u19DF');
-		
-		constexpr const UnicodeRange<UC> NKo = UnicodeRange<UC>('\u07C0', '\u07FF');
+		inline static constexpr const UnicodeRange<UC> Kanbun = UnicodeRange<UC>(0x3190, 0x319F);
 
-		//constexpr const UnicodeRange<UC> None = UnicodeRange<UC>('\uAA00', '\uAA5F');
-		
-		constexpr const UnicodeRange<UC> NumberForms = UnicodeRange<UC>('\u2150', '\u218F');
+		inline static constexpr const UnicodeRange<UC> KangxiRadicals = UnicodeRange<UC>(0x2F00, 0x2FDF);
 
-		constexpr const UnicodeRange<UC> Ogham = UnicodeRange<UC>('\u1680', '\u169F');
-		
-		constexpr const UnicodeRange<UC> OlChiki = UnicodeRange<UC>('\u1C50', '\u1C7F');
+		inline static constexpr const UnicodeRange<UC> Kannada = UnicodeRange<UC>(0x0C81, 0x0CFF);
 
-		constexpr const UnicodeRange<UC> OpticalCharacterRecognition = UnicodeRange<UC>('\u2440', '\u245F');
-		
-		constexpr const UnicodeRange<UC> Oriya = UnicodeRange<UC>('\u0B00', '\u0B7F');
+		inline static constexpr const UnicodeRange<UC> Katakana = UnicodeRange<UC>(0x30A0, 0x30FF);
 
-		constexpr const UnicodeRange<UC> Phagspa = UnicodeRange<UC>('\uA840', '\uA87F');
+		inline static constexpr const UnicodeRange<UC> KatakanaPhoneticExtensions = UnicodeRange<UC>(0x31F0, 0x31FF);
 
-		constexpr const UnicodeRange<UC> PhoneticExtensions = UnicodeRange<UC>('\u1D00', '\u1D7F');
+		inline static constexpr const UnicodeRange<UC> KayahLi = UnicodeRange<UC>(0xA900, 0xA92F);
 
-		constexpr const UnicodeRange<UC> PhoneticExtensionsSupplement = UnicodeRange<UC>('\u1D80', '\u1DBF');
-		
-		constexpr const UnicodeRange<UC> Rejang = UnicodeRange<UC>('\uA930', '\uA95F');
+		inline static constexpr const UnicodeRange<UC> Khmer = UnicodeRange<UC>(0x1780, 0x17FF);
 
-		constexpr const UnicodeRange<UC> Runic = UnicodeRange<UC>('\u16A0', '\u16FF');
+		inline static constexpr const UnicodeRange<UC> KhmerSymbols = UnicodeRange<UC>(0x19E0, 0x19FF);
 
-		constexpr const UnicodeRange<UC> Samaritan = UnicodeRange<UC>('\u0800', '\u083F');
-		
-		constexpr const UnicodeRange<UC> Saurashtra = UnicodeRange<UC>('\uA880', '\uA8DF');
+		inline static constexpr const UnicodeRange<UC> Lao = UnicodeRange<UC>(0x0E80, 0x0EDF);
 
-		constexpr const UnicodeRange<UC> Sinhala = UnicodeRange<UC>('\u0D80', '\u0DFF');
+		inline static constexpr const UnicodeRange<UC> Latin1Supplement = UnicodeRange<UC>(0x00A1, 0x00FF);
 
-		constexpr const UnicodeRange<UC> SmallFormVariants = UnicodeRange<UC>('\uFE50', '\uFE6F');
+		inline static constexpr const UnicodeRange<UC> LatinExtendedA = UnicodeRange<UC>(0x0100, 0x017F);
 
-		constexpr const UnicodeRange<UC> SpacingModifierLetters = UnicodeRange<UC>('\u02B0', '\u02FF');
+		inline static constexpr const UnicodeRange<UC> LatinExtendedAdditional = UnicodeRange<UC>(0x1E00, 0x1EFF);
 
-		constexpr const UnicodeRange<UC> Specials = UnicodeRange<UC>('\uFFF0', '\uFFFF');
-		
-		constexpr const UnicodeRange<UC> Sundanese = UnicodeRange<UC>('\u1B80', '\u1BBF');
+		inline static constexpr const UnicodeRange<UC> LatinExtendedB = UnicodeRange<UC>(0x0180, 0x024F);
 
-		constexpr const UnicodeRange<UC> SundaneseSupplement = UnicodeRange<UC>('\u1CC0', '\u1CCF');
+		inline static constexpr const UnicodeRange<UC> LatinExtendedC = UnicodeRange<UC>(0x2C60, 0x2C7F);
 
-		constexpr const UnicodeRange<UC> SuperscriptsandSubscripts = UnicodeRange<UC>('\u2070', '\u209F');
+		inline static constexpr const UnicodeRange<UC> LatinExtendedD = UnicodeRange<UC>(0xA720, 0xA7FF);
 
-		constexpr const UnicodeRange<UC> SupplementalArrowsA = UnicodeRange<UC>('\u27F0', '\u27FF');
+		inline static constexpr const UnicodeRange<UC> LatinExtendedE = UnicodeRange<UC>(0xAB30, 0xAB6F);
 
-		constexpr const UnicodeRange<UC> SupplementalArrowsB = UnicodeRange<UC>('\u2900', '\u297F');
-		
-		constexpr const UnicodeRange<UC> SupplementalMathematicalOperators = UnicodeRange<UC>('\u2A00', '\u2AFF');
+		inline static constexpr const UnicodeRange<UC> Lepcha = UnicodeRange<UC>(0x1C00, 0x1C4F);
 
-		constexpr const UnicodeRange<UC> SupplementalPunctuation = UnicodeRange<UC>('\u2E00', '\u2E7F');
+		inline static constexpr const UnicodeRange<UC> LetterlikeSymbols = UnicodeRange<UC>(0x2100, 0x214F);
 
-		constexpr const UnicodeRange<UC> SylotiNagri = UnicodeRange<UC>('\uA800', '\uA82F');
+		inline static constexpr const UnicodeRange<UC> Limbu = UnicodeRange<UC>(0x1900, 0x194F);
 
-		constexpr const UnicodeRange<UC> Syriac = UnicodeRange<UC>('\u0700', '\u074F');
-		
-		constexpr const UnicodeRange<UC> SyriacSupplement = UnicodeRange<UC>('\u0860', '\u086F');
+		inline static constexpr const UnicodeRange<UC> Lisu = UnicodeRange<UC>(0xA4D0, 0xA4FF);
 
-		constexpr const UnicodeRange<UC> Tagalog = UnicodeRange<UC>('\u1700', '\u171F');
+		inline static constexpr const UnicodeRange<UC> Malayalam = UnicodeRange<UC>(0x0D00, 0x0D7F);
 
-		constexpr const UnicodeRange<UC> Tagbanwa = UnicodeRange<UC>('\u1760', '\u177F');
-		
-		constexpr const UnicodeRange<UC> TaiLe = UnicodeRange<UC>('\u1950', '\u197F');
+		inline static constexpr const UnicodeRange<UC> Mandaic = UnicodeRange<UC>(0x0840, 0x085F);
 
-		constexpr const UnicodeRange<UC> TaiTham = UnicodeRange<UC>('\u1A20', '\u1AAF');
-		
-		constexpr const UnicodeRange<UC> TaiViet = UnicodeRange<UC>('\uAA80', '\uAADF');
+		inline static constexpr const UnicodeRange<UC> MathematicalOperators = UnicodeRange<UC>(0x2200, 0x22FF);
 
-		constexpr const UnicodeRange<UC> Tamil = UnicodeRange<UC>('\u0B80', '\u0BFF');
+		inline static constexpr const UnicodeRange<UC> MeeteiMayek = UnicodeRange<UC>(0xABC0, 0xABFF);
 
-		constexpr const UnicodeRange<UC> Telugu = UnicodeRange<UC>('\u0C00', '\u0C7F');
-		
-		constexpr const UnicodeRange<UC> Thaana = UnicodeRange<UC>('\u0780', '\u07BF');
+		inline static constexpr const UnicodeRange<UC> MeeteiMayekExtensions = UnicodeRange<UC>(0xAAE0, 0xAAFF);
 
-		constexpr const UnicodeRange<UC> Thai = UnicodeRange<UC>('\u0E00', '\u0E7F');
-		
-		constexpr const UnicodeRange<UC> Tibetan = UnicodeRange<UC>('\u0F00', '\u0FFF');
+		inline static constexpr const UnicodeRange<UC> MiscellaneousMathematicalSymbolsA = UnicodeRange<UC>(0x27C0, 0x27EF);
 
-		constexpr const UnicodeRange<UC> Tifinagh = UnicodeRange<UC>('\u2D30', '\u2D7F');
-		
-		constexpr const UnicodeRange<UC> UnifiedCanadianAboriginalSyllabics = UnicodeRange<UC>('\u1400', '\u167F');
+		inline static constexpr const UnicodeRange<UC> MiscellaneousMathematicalSymbolsB = UnicodeRange<UC>(0x2980, 0x29FF);
 
-		constexpr const UnicodeRange<UC> UnifiedCanadianAboriginalSyllabicsExtended = UnicodeRange<UC>('\u18B0', '\u18FF');
+		inline static constexpr const UnicodeRange<UC> MiscellaneousSymbols = UnicodeRange<UC>(0x2600, 0x26FF);
 
-		constexpr const UnicodeRange<UC> Vai = UnicodeRange<UC>('\uA500', '\uA63F');
+		inline static constexpr const UnicodeRange<UC> MiscellaneousSymbolsandArrows = UnicodeRange<UC>(0x2B00, 0x2BFF);
 
-		constexpr const UnicodeRange<UC> VariationSelectors = UnicodeRange<UC>('\uFE00', '\uFE0F');
-		
-		constexpr const UnicodeRange<UC> VedicExtensions = UnicodeRange<UC>('\u1CD0', '\u1CFF');
+		inline static constexpr const UnicodeRange<UC> MiscellaneousTechnical = UnicodeRange<UC>(0x2300, 0x23FF);
 
-		constexpr const UnicodeRange<UC> VerticalForms = UnicodeRange<UC>('\uFE10', '\uFE1F');
+		inline static constexpr const UnicodeRange<UC> ModifierToneLetters = UnicodeRange<UC>(0xA700, 0xA71F);
 
-		constexpr const UnicodeRange<UC> YijingHexagramSymbols = UnicodeRange<UC>('\u4DC0', '\u4DFF');
+		inline static constexpr const UnicodeRange<UC> Mongolian = UnicodeRange<UC>(0x1800, 0x18AF);
 
-		constexpr const UnicodeRange<UC> YiRadicals = UnicodeRange<UC>('\uA490', '\uA4CF');
+		inline static constexpr const UnicodeRange<UC> Myanmar = UnicodeRange<UC>(0x1000, 0x109F);
 
-		constexpr const UnicodeRange<UC> YiSyllables = UnicodeRange<UC>('\uA000', '\uA48F');
+		inline static constexpr const UnicodeRange<UC> MyanmarExtendedA = UnicodeRange<UC>(0xAA60, 0xAA7F);
+
+		inline static constexpr const UnicodeRange<UC> MyanmarExtendedB = UnicodeRange<UC>(0xA9E0, 0xA9FF);
+
+		inline static constexpr const UnicodeRange<UC> NewTaiLue = UnicodeRange<UC>(0x1980, 0x19DF);
+
+		inline static constexpr const UnicodeRange<UC> NKo = UnicodeRange<UC>(0x07C0, 0x07FF);
+
+		//inline static constexpr const UnicodeRange<UC> None = UnicodeRange<UC>(0xAA00, 0xAA5F);
+
+		inline static constexpr const UnicodeRange<UC> NumberForms = UnicodeRange<UC>(0x2150, 0x218F);
+
+		inline static constexpr const UnicodeRange<UC> Ogham = UnicodeRange<UC>(0x1680, 0x169F);
+
+		inline static constexpr const UnicodeRange<UC> OlChiki = UnicodeRange<UC>(0x1C50, 0x1C7F);
+
+		inline static constexpr const UnicodeRange<UC> OpticalCharacterRecognition = UnicodeRange<UC>(0x2440, 0x245F);
+
+		inline static constexpr const UnicodeRange<UC> Oriya = UnicodeRange<UC>(0x0B00, 0x0B7F);
+
+		inline static constexpr const UnicodeRange<UC> Phagspa = UnicodeRange<UC>(0xA840, 0xA87F);
+
+		inline static constexpr const UnicodeRange<UC> PhoneticExtensions = UnicodeRange<UC>(0x1D00, 0x1D7F);
+
+		inline static constexpr const UnicodeRange<UC> PhoneticExtensionsSupplement = UnicodeRange<UC>(0x1D80, 0x1DBF);
+
+		inline static constexpr const UnicodeRange<UC> Rejang = UnicodeRange<UC>(0xA930, 0xA95F);
+
+		inline static constexpr const UnicodeRange<UC> Runic = UnicodeRange<UC>(0x16A0, 0x16FF);
+
+		inline static constexpr const UnicodeRange<UC> Samaritan = UnicodeRange<UC>(0x0800, 0x083F);
+
+		inline static constexpr const UnicodeRange<UC> Saurashtra = UnicodeRange<UC>(0xA880, 0xA8DF);
+
+		inline static constexpr const UnicodeRange<UC> Sinhala = UnicodeRange<UC>(0x0D80, 0x0DFF);
+
+		inline static constexpr const UnicodeRange<UC> SmallFormVariants = UnicodeRange<UC>(0xFE50, 0xFE6F);
+
+		inline static constexpr const UnicodeRange<UC> SpacingModifierLetters = UnicodeRange<UC>(0x02B0, 0x02FF);
+
+		inline static constexpr const UnicodeRange<UC> Specials = UnicodeRange<UC>(0xFFF0, 0xFFFF);
+
+		inline static constexpr const UnicodeRange<UC> Sundanese = UnicodeRange<UC>(0x1B80, 0x1BBF);
+
+		inline static constexpr const UnicodeRange<UC> SundaneseSupplement = UnicodeRange<UC>(0x1CC0, 0x1CCF);
+
+		inline static constexpr const UnicodeRange<UC> SuperscriptsandSubscripts = UnicodeRange<UC>(0x2070, 0x209F);
+
+		inline static constexpr const UnicodeRange<UC> SupplementalArrowsA = UnicodeRange<UC>(0x27F0, 0x27FF);
+
+		inline static constexpr const UnicodeRange<UC> SupplementalArrowsB = UnicodeRange<UC>(0x2900, 0x297F);
+
+		inline static constexpr const UnicodeRange<UC> SupplementalMathematicalOperators = UnicodeRange<UC>(0x2A00, 0x2AFF);
+
+		inline static constexpr const UnicodeRange<UC> SupplementalPunctuation = UnicodeRange<UC>(0x2E00, 0x2E7F);
+
+		inline static constexpr const UnicodeRange<UC> SylotiNagri = UnicodeRange<UC>(0xA800, 0xA82F);
+
+		inline static constexpr const UnicodeRange<UC> Syriac = UnicodeRange<UC>(0x0700, 0x074F);
+
+		inline static constexpr const UnicodeRange<UC> SyriacSupplement = UnicodeRange<UC>(0x0860, 0x086F);
+
+		inline static constexpr const UnicodeRange<UC> Tagalog = UnicodeRange<UC>(0x1700, 0x171F);
+
+		inline static constexpr const UnicodeRange<UC> Tagbanwa = UnicodeRange<UC>(0x1760, 0x177F);
+
+		inline static constexpr const UnicodeRange<UC> TaiLe = UnicodeRange<UC>(0x1950, 0x197F);
+
+		inline static constexpr const UnicodeRange<UC> TaiTham = UnicodeRange<UC>(0x1A20, 0x1AAF);
+
+		inline static constexpr const UnicodeRange<UC> TaiViet = UnicodeRange<UC>(0xAA80, 0xAADF);
+
+		inline static constexpr const UnicodeRange<UC> Tamil = UnicodeRange<UC>(0x0B80, 0x0BFF);
+
+		inline static constexpr const UnicodeRange<UC> Telugu = UnicodeRange<UC>(0x0C00, 0x0C7F);
+
+		inline static constexpr const UnicodeRange<UC> Thaana = UnicodeRange<UC>(0x0780, 0x07BF);
+
+		inline static constexpr const UnicodeRange<UC> Thai = UnicodeRange<UC>(0x0E00, 0x0E7F);
+
+		inline static constexpr const UnicodeRange<UC> Tibetan = UnicodeRange<UC>(0x0F00, 0x0FFF);
+
+		inline static constexpr const UnicodeRange<UC> Tifinagh = UnicodeRange<UC>(0x2D30, 0x2D7F);
+
+		inline static constexpr const UnicodeRange<UC> UnifiedCanadianAboriginalSyllabics = UnicodeRange<UC>(0x1400, 0x167F);
+
+		inline static constexpr const UnicodeRange<UC> UnifiedCanadianAboriginalSyllabicsExtended = UnicodeRange<UC>(0x18B0, 0x18FF);
+
+		inline static constexpr const UnicodeRange<UC> Vai = UnicodeRange<UC>(0xA500, 0xA63F);
+
+		inline static constexpr const UnicodeRange<UC> VariationSelectors = UnicodeRange<UC>(0xFE00, 0xFE0F);
+
+		inline static constexpr const UnicodeRange<UC> VedicExtensions = UnicodeRange<UC>(0x1CD0, 0x1CFF);
+
+		inline static constexpr const UnicodeRange<UC> VerticalForms = UnicodeRange<UC>(0xFE10, 0xFE1F);
+
+		inline static constexpr const UnicodeRange<UC> YijingHexagramSymbols = UnicodeRange<UC>(0x4DC0, 0x4DFF);
+
+		inline static constexpr const UnicodeRange<UC> YiRadicals = UnicodeRange<UC>(0xA490, 0xA4CF);
+
+		inline static constexpr const UnicodeRange<UC> YiSyllables = UnicodeRange<UC>(0xA000, 0xA48F);
 	};
 }
 #endif

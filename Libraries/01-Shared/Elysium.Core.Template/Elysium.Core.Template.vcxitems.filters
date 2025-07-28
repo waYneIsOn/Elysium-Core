@@ -791,6 +791,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointer.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf32.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

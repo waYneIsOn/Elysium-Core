@@ -36,8 +36,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "StringView.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF8
 #include "Utf8.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
+#include "Utf16.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF32
+#include "Text/Unicode/Utf32.hpp"
 #endif
 
 #endif
