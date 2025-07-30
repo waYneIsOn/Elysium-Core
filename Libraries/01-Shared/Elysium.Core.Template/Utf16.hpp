@@ -58,25 +58,18 @@ namespace Elysium::Core::Template::Text::Unicode
 
 		Utf16& operator=(Utf16&& Right) noexcept = delete;
 	public:
-		inline static constexpr const Type ByteOrderMarkLittleEndian[] = { 0xFE, 0xFF };
+		inline static constexpr const Type ByteOrderMarkLittleEndian[] = { 0xFE, 0xFF, 0x00, 0x00 };
 
-		inline static constexpr const Type ByteOrderMarkBigEndian[] = { 0xFF, 0xFE };
+		inline static constexpr const Type ByteOrderMarkBigEndian[] = { 0xFF, 0xFE, 0x00, 0x00 };
 	public:
 		/// <summary>
-		/// Returns whether given text is valid little endian utf-16.
+		/// Returns whether given text is valid utf-16.
+		/// (Make sure to use correct byte-order when calling this method!)
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <param name="Length"></param>
 		/// <returns></returns>
-		static constexpr const bool IsValidLittleEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept;
-
-		/// <summary>
-		/// Indicates whether given text is valid big endian utf-16.
-		/// </summary>
-		/// <param name="Value"></param>
-		/// <param name="Length"></param>
-		/// <returns></returns>
-		static constexpr const bool IsValidBigEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept;
+		static constexpr const bool IsValid(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept;
 	/*
 	public:
 		/// <summary>
@@ -148,13 +141,14 @@ namespace Elysium::Core::Template::Text::Unicode
 		*/
 	};
 
-	inline constexpr const bool Elysium::Core::Template::Text::Unicode::Utf16::IsValidLittleEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept
+	inline constexpr const bool Elysium::Core::Template::Text::Unicode::Utf16::IsValid(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept
 	{
 		if (nullptr == Value || 0 == Length)
 		{
 			return true;
 		}
 
+		// ensure first char isn't a low surrogate
 		if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
 		{
 			return false;
@@ -164,42 +158,17 @@ namespace Elysium::Core::Template::Text::Unicode
 		{
 			if (CharacterTraits<char16_t>::IsHighSurrogate(Value[i]))
 			{
-				if (i + 1 > Length || CharacterTraits<char16_t>::IsLowSurrogate(Value[i + 1]))
+				if (++i > Length || !CharacterTraits<char16_t>::IsLowSurrogate(Value[i]))
 				{
 					return false;
 				}
 			}
+			// else it's a char in bmp (basic multilingual plane)
 		}
 
 		return true;
 	}
 	
-	inline constexpr const bool Elysium::Core::Template::Text::Unicode::Utf16::IsValidBigEndian(ConstPointer Value, Elysium::Core::Template::System::size Length) noexcept
-	{
-		if (nullptr == Value || 0 == Length)
-		{
-			return true;
-		}
-
-		if (CharacterTraits<char16_t>::IsHighSurrogate(Value[0]))
-		{
-			return false;
-		}
-
-		for (System::size i = 0; i < Length; ++i)
-		{
-			if (CharacterTraits<char16_t>::IsLowSurrogate(Value[i]))
-			{
-				if (i + 1 > Length || CharacterTraits<char16_t>::IsHighSurrogate(Value[i + 1]))
-				{
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
 	template<>
 	inline constexpr System::size Utf16::GetRequiredLengthOfSafeWideString<char>(const wchar_t* Data, const System::size Length) noexcept
 	{
@@ -410,7 +379,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	{
 		static constexpr const char InvalidCharacterRepresentation = '?';
 
-		const System::uint32_t RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
+		const System::size RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
 
 		String<char> Result = String<char>(RequiredLength);
 		for (System::size i = 0; i < Length; ++i)
@@ -438,7 +407,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	template<>
 	inline String<char8_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		const System::uint32_t RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
+		const System::size RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
 
 		String<char8_t> Result = String<char8_t>(RequiredLength);
 		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
@@ -567,7 +536,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	template<>
 	inline String<wchar_t> Utf16::SafeToWideString(const char8_t* Data, const System::size Length) noexcept
 	{
-		const System::uint32_t RequiredLength = GetRequiredLengthForSafeWideString<char8_t>(Data, Length);
+		const System::size RequiredLength = GetRequiredLengthForSafeWideString<char8_t>(Data, Length);
 
 		String<wchar_t> Result = String<wchar_t>(RequiredLength);
 		System::size TargetIndex = 0;
@@ -668,7 +637,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	inline String<wchar_t> Utf16::SafeToWideString(const char32_t* Data, const System::size Length) noexcept
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		const System::uint32_t RequiredLength = GetRequiredLengthForSafeWideString<char32_t>(Data, Length);
+		const System::size RequiredLength = GetRequiredLengthForSafeWideString<char32_t>(Data, Length);
 
 		String<wchar_t> Result = String<wchar_t>(RequiredLength);
 		char32_t CodePoint;
@@ -677,7 +646,7 @@ namespace Elysium::Core::Template::Text::Unicode
 			CodePoint = Data[i];
 			if (CodePoint <= 0xFFFF)
 			{	// basic multilingual plane (BMP)
-				Result[i] = CodePoint;
+				Result[i] = static_cast<wchar_t>(CodePoint);
 				/*
 				if (CodePoint >= 0xD800 && CodePoint <= 0xDFFF)
 				{

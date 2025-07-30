@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsUnicodeCharacterValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, wchar_t, char8_t, char16_t, char32_t>;
+    inline constexpr bool IsUnicodeCharacterValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, char8_t, char16_t, char32_t, wchar_t>;
 
     template <class T>
     struct IsUnicodeCharacter : IntegralConstant<bool, IsUnicodeCharacterValue<T>>

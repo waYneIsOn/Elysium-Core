@@ -113,14 +113,14 @@ namespace Elysium::Core::Template::Text::Unicode
 			// validate trail bytes
 			for (System::size j = 0; j < ByteCount - 1; j++)
 			{
-				if (!CharacterTraits<Type>::IsTrailByte(Value[++i]))
+				if (++i > Length || !CharacterTraits<Type>::IsTrailByte(Value[i]))
 				{
 					return false;
 				}
 			}
 
 			// validate code points
-			if (CodePoint > UnicodeRanges<Type>::All.GetLastCodePoint())
+			if (CodePoint > UnicodeRanges<Type>::All._LastCodePoint)
 			{
 				return false;
 			}

@@ -28,7 +28,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	public:
 		using ConstCharacter = const UC;
 	public:
-		constexpr UnicodeRange(char32_t FirstCodePoint, char32_t LastCodePoint) noexcept;
+		constexpr UnicodeRange(const char32_t FirstCodePoint, const char32_t LastCodePoint) noexcept;
 
 		constexpr UnicodeRange(const UnicodeRange& Source) = delete;
 
@@ -40,10 +40,6 @@ namespace Elysium::Core::Template::Text::Unicode
 
 		UnicodeRange& operator=(UnicodeRange&& Right) noexcept = delete;
 	public:
-		constexpr const char32_t GetFirstCodePoint() const noexcept;
-
-		constexpr const char32_t GetLastCodePoint() const noexcept;
-
 		constexpr const char32_t GetLength() const noexcept;
 	/*
 	public:
@@ -51,27 +47,15 @@ namespace Elysium::Core::Template::Text::Unicode
 
 		constexpr const ConstCharacter GetLastCharacter() const;
 	*/
-	private:
-		char32_t _FirstCodePoint;
-		char32_t _LastCodePoint;
+	public:
+		const char32_t _FirstCodePoint;
+		const char32_t _LastCodePoint;
 	};
 
 	template<Concepts::UnicodeCharacter UC>
-	inline constexpr UnicodeRange<UC>::UnicodeRange(char32_t FirstCodePoint, char32_t LastCodePoint) noexcept
+	inline constexpr UnicodeRange<UC>::UnicodeRange(const char32_t FirstCodePoint, const char32_t LastCodePoint) noexcept
 		: _FirstCodePoint(FirstCodePoint), _LastCodePoint(LastCodePoint)
 	{ }
-
-	template<Concepts::UnicodeCharacter UC>
-	constexpr const char32_t UnicodeRange<UC>::GetFirstCodePoint() const noexcept
-	{
-		return _FirstCodePoint;
-	}
-
-	template<Concepts::UnicodeCharacter UC>
-	inline constexpr const char32_t UnicodeRange<UC>::GetLastCodePoint() const noexcept
-	{
-		return _LastCodePoint;
-	}
 
 	template<Concepts::UnicodeCharacter UC>
 	constexpr const char32_t UnicodeRange<UC>::GetLength() const noexcept
