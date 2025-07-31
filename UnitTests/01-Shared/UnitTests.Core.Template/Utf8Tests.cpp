@@ -131,6 +131,15 @@ namespace UnitTests::Core::Template::Text::Unicode
 
 		TEST_METHOD(IsValid)
 		{
+			// empty
+			constexpr const char8_t* NonEmpty = u8"some text";
+			Assert::IsTrue(Utf8::IsValid(NonEmpty, CharacterTraits<char8_t>::GetLength(NonEmpty)));
+			Assert::IsTrue(Utf8::IsValid(NonEmpty, 0));
+
+			// null
+			Assert::IsTrue(Utf8::IsValid(nullptr, 0));
+			Assert::IsTrue(Utf8::IsValid(nullptr, 123));
+
 			// BOM
 			constexpr const Elysium::Core::Template::System::size BOMLength = CharacterTraits<char8_t>::GetLength(Utf8::ByteOrderMark);
 			Assert::AreEqual(3_ui64, BOMLength);

@@ -149,16 +149,16 @@ namespace Elysium::Core::Template::Text::Unicode
 		}
 
 		// ensure first char isn't a low surrogate
-		if (CharacterTraits<char16_t>::IsLowSurrogate(Value[0]))
+		if (CharacterTraits<Type>::IsLowSurrogate(Value[0]))
 		{
 			return false;
 		}
 
 		for (System::size i = 0; i < Length; ++i)
 		{
-			if (CharacterTraits<char16_t>::IsHighSurrogate(Value[i]))
+			if (CharacterTraits<Type>::IsHighSurrogate(Value[i]))
 			{
-				if (++i > Length || !CharacterTraits<char16_t>::IsLowSurrogate(Value[i]))
+				if (++i > Length || !CharacterTraits<Type>::IsLowSurrogate(Value[i]))
 				{
 					return false;
 				}

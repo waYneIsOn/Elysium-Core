@@ -486,7 +486,7 @@ namespace Elysium::Core::Template::Text
 	struct CharacterTraits<char16_t> 
 		: public CharacterTraitsBase<char16_t, System::uint16_t>
 	{
-	private:
+	public:
 		/// <summary>
 		/// https://learn.microsoft.com/en-us/windows/win32/api/winnls/nf-winnls-is_high_surrogate
 		/// </summary>
