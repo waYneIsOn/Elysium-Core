@@ -49,7 +49,7 @@
 #ifndef ELYSIUM_CORE_THREADING_ATOMIC
 #include "../Elysium.Core.Threading/Atomic.hpp"
 #endif
-
+/*
 inline static const Elysium::Core::Reflection::Assembly ReflectedAssembly =
 Elysium::Core::Reflection::Assembly(Elysium::Core::Reflection::AssemblyName(u8"Elysium.Core", Elysium::Core::Version(0, 1)));
 
@@ -130,7 +130,7 @@ Elysium::Core::Reflection::Type(ModuleCore, u8"Utf32String");
 
 inline static const Elysium::Core::Reflection::Module ModuleCoreCollections =
 Elysium::Core::Reflection::Module(ReflectedAssembly, u8"Elysium::Core::Collections");
-
+*/
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
     switch (ul_reason_for_call)

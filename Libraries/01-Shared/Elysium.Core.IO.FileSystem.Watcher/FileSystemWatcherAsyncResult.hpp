@@ -37,7 +37,7 @@ namespace Elysium::Core::IO
 	{
 		friend class FileSystemWatcher;
 	private:
-		FileSystemWatcherAsyncResult(FileSystemWatcher& Watcher, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback,
+		FileSystemWatcherAsyncResult(FileSystemWatcher& Watcher, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
 			const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle);
 	public:
 		FileSystemWatcherAsyncResult(const FileSystemWatcherAsyncResult& Source) = delete;

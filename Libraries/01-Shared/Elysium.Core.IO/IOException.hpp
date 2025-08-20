@@ -26,7 +26,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO
 {
-	class ELYSIUM_CORE_API IOException : public SystemException
+	class ELYSIUM_CORE_API IOException 
+		: public SystemException
 	{
 	public:
 		IOException();
@@ -34,6 +35,8 @@ namespace Elysium::Core::IO
 		IOException(const char8_t* Message);
 
 		IOException(Elysium::Core::Utf8String&& Message);
+
+		IOException(const Elysium::Core::Template::System::uint32_t ErrorCode);
 
 		virtual ~IOException();
 	};

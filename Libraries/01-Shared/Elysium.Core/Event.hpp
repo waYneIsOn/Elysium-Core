@@ -40,7 +40,7 @@ namespace Elysium::Core
 
 		Event(Event&& Right) noexcept = delete;
 
-		~Event();
+		~Event() = default;
 	public:
 		Event& operator=(const Event& Source) = delete;
 
@@ -58,10 +58,6 @@ namespace Elysium::Core
 	template<class ReturnType, class ...Args>
 	inline Event<ReturnType, Args...>::Event()
 		: _HandlerList()
-	{ }
-
-	template<class ReturnType, class ...Args>
-	inline Event<ReturnType, Args...>::~Event()
 	{ }
 
 	template<class ReturnType, class ...Args>

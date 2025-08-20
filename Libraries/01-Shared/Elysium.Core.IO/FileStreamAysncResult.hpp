@@ -40,7 +40,7 @@ namespace Elysium::Core::IO
 	{
 		friend class FileStream;
 	private:
-		FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback,
+		FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
 			const void* AsyncState, const Elysium::Core::size Position);
 	public:
 		FileStreamAsyncResult(const FileStreamAsyncResult& Source) = delete;

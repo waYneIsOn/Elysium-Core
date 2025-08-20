@@ -223,7 +223,7 @@ void Elysium::Core::IO::FileStream::Write(const Elysium::Core::byte* Buffer, con
 	} while (TotalBytesWritten != Count);
 }
 
-Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::FileStream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State)
 {
 	if (_CompletionPortHandle == nullptr)
 	{	// the file wasn't opened in a way to support io completion ports
@@ -276,7 +276,7 @@ void Elysium::Core::IO::FileStream::EndWrite(const Elysium::Core::IAsyncResult* 
 	AsyncFileStreamResult->GetFileStream()._Position += AsyncFileStreamResult->GetBytesTransferred();
 }
 
-Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::FileStream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State)
 {
 	if (Buffer == nullptr)
 	{
@@ -355,6 +355,7 @@ void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTAN
 	ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
 	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = (Elysium::Core::Internal::WrappedOverlap*)Overlapped;
+	/*
 	Elysium::Core::IAsyncResult* AsyncResult = WrappedOverlap->_AsyncResult;
 
 	Elysium::Core::IO::FileStreamAsyncResult* AsyncFileStreamResult = dynamic_cast<Elysium::Core::IO::FileStreamAsyncResult*>(AsyncResult);
@@ -363,8 +364,9 @@ void Elysium::Core::IO::FileStream::IOCompletionPortCallback(PTP_CALLBACK_INSTAN
 		AsyncFileStreamResult->_BytesTransferred = NumberOfBytesTransferred;
 		AsyncFileStreamResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
 		
-		const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback = AsyncFileStreamResult->GetCallback();
+		const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = AsyncFileStreamResult->GetCallback();
 		Callback(AsyncFileStreamResult);
 	}
+	*/
 }
 #endif

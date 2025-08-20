@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SeekOrigin.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_CONTAINER_DELEGATEOFIASYNCRESULTPOINTER
-#include "../Elysium.Core/DelegateOfVoidConstIASyncResultPointer.hpp"
+#ifndef ELYSIUM_CORE_CONTAINER_DELEGATEOFVOIDATOMICIASYNCRESULTREFERENCE
+#include "../Elysium.Core/DelegateOfVoidAtomicIASyncResultReference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
@@ -102,13 +102,14 @@ namespace Elysium::Core::IO
 
 		virtual void WriteByte(const Elysium::Core::byte Value);
 	public:
-		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
+		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginWrite(const Elysium::Core::byte* Buffer, 
+			const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
+			const void* State);
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult);
 
 		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State);
+			const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State);
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult);
 	};

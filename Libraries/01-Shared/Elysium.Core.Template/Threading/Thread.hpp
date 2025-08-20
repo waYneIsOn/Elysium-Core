@@ -60,28 +60,28 @@ namespace Elysium::Core::Template::Threading
 		void  (*_FunctionOrStaticMethod)();
 
 #ifdef ELYSIUM_CORE_OS_WINDOWS
-		HANDLE _ThreadHandlke;
+		HANDLE _ThreadHandle;
 #endif
 	};
 
 	inline constexpr Thread::Thread() noexcept
 		: _Instance(nullptr), _FunctionOrStaticMethod(nullptr)
 #ifdef ELYSIUM_CORE_OS_WINDOWS
-		, _ThreadHandlke(INVALID_HANDLE_VALUE)
+		, _ThreadHandle(INVALID_HANDLE_VALUE)
 #endif
 	{ }
 
 	inline constexpr Thread::Thread(const Elysium::Core::Template::Container::Function<void(*)()>&ThreadStart) noexcept
 		: _Instance(nullptr), _FunctionOrStaticMethod(ThreadStart._FunctionOrStaticMethod)
 #ifdef ELYSIUM_CORE_OS_WINDOWS
-		, _ThreadHandlke(INVALID_HANDLE_VALUE)
+		, _ThreadHandle(INVALID_HANDLE_VALUE)
 #endif
 	{ }
 
 	inline constexpr Thread::~Thread() noexcept
 	{
 #ifdef ELYSIUM_CORE_OS_WINDOWS
-		if (_ThreadHandlke != INVALID_HANDLE_VALUE)
+		if (_ThreadHandle != INVALID_HANDLE_VALUE)
 		{
 
 		}

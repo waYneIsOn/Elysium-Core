@@ -144,13 +144,14 @@ namespace Elysium::Core::IO
 
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 	public:
-		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State) override;
+		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginWrite(const Elysium::Core::byte* Buffer, 
+			const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
+			const void* State) override;
 
 		virtual void EndWrite(const Elysium::Core::IAsyncResult* AsyncResult) override;
 
 		virtual Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size,
-			const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State) override;
+			const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State) override;
 
 		virtual const Elysium::Core::size EndRead(const Elysium::Core::IAsyncResult* AsyncResult) override;
 	private:

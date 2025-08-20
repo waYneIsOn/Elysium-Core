@@ -50,7 +50,8 @@ namespace Elysium::Core::Template::Exceptions
 	/// <summary>
 	/// Serves as the base class for system exceptions namespace.
 	/// </summary>
-	class SystemException : public Exception
+	class SystemException 
+		: public Exception
 	{
 	public:
 		SystemException();
@@ -58,6 +59,8 @@ namespace Elysium::Core::Template::Exceptions
 		SystemException(const char8_t* Message);
 
 		SystemException(Text::String<char8_t>&& Message);
+
+		SystemException(const System::uint32_t ErrorCode);
 
 		SystemException(const SystemException& Source);
 
@@ -83,9 +86,15 @@ namespace Elysium::Core::Template::Exceptions
 		_ErrorCode(GetLastError())
 	{ }
 
+	inline SystemException::SystemException(const System::uint32_t ErrorCode)
+		: Elysium::Core::Template::Exceptions::Exception(u8""),
+		_ErrorCode(ErrorCode)
+	{ }
+
 	inline SystemException::SystemException(const SystemException& Source)
 		: _ErrorCode(Source._ErrorCode)
 	{ }
+	
 
 	inline Elysium::Core::Template::Exceptions::SystemException::~SystemException()
 	{ }

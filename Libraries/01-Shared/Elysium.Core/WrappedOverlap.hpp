@@ -16,16 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IASYNCRESULT
-#include "IAsyncResult.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_PRIMITIVES
 #include "Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEM
 #include "System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_CONTAINER_DELEGATEOFVOIDATOMICIASYNCRESULTREFERENCE
+#include "DelegateOfVoidAtomicIASyncResultReference.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -40,20 +40,20 @@ namespace Elysium::Core::Internal
 	class ELYSIUM_CORE_API WrappedOverlap final
 	{
 	public:
-		WrappedOverlap(const Elysium::Core::size Position, IAsyncResult* AsyncResult);
+		WrappedOverlap(const Elysium::Core::size Position, void* AsyncResult);
 
 		WrappedOverlap(const WrappedOverlap& Source) = delete;
 
 		WrappedOverlap(WrappedOverlap&& Right) noexcept = delete;
 
-		~WrappedOverlap();
+		~WrappedOverlap() noexcept = default;
 	public:
 		WrappedOverlap& operator=(const WrappedOverlap& Source) = delete;
 
 		WrappedOverlap& operator=(WrappedOverlap&& Right) noexcept = delete;
 	public:
 		OVERLAPPED _Overlapped;
-		IAsyncResult* _AsyncResult;
+		void* _AsyncResult;
 	};
 }
 #endif

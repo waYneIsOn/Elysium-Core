@@ -806,7 +806,6 @@ Global
 		Libraries\01-Shared\Elysium.Core.Net\Elysium.Core.Net.vcxitems*{d1dfde03-a987-4ee3-9fe9-007fd7e8648e}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.IO.Ports\Elysium.Core.IO.Ports.vcxitems*{d43640fc-6fbe-4503-9fea-4128b67190b5}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxitems*{d4f510ca-0532-4c90-811b-752b92393b68}*SharedItemsImports = 4
-		Libraries\01-Shared\Elysium.Core.Threading\Elysium.Core.Threading.vcxitems*{d4f510ca-0532-4c90-811b-752b92393b68}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.Data\Elysium.Core.Data.vcxitems*{d72c0184-b715-4762-9004-ace86b3e15fb}*SharedItemsImports = 4
 		Libraries\01-Shared\Elysium.Core.CodeAnalysis.CSharp\Elysium.Core.CodeAnalysis.CSharp.vcxitems*{db454e32-2a4e-490a-baa4-7170ac2bda79}*SharedItemsImports = 9
 		Libraries\01-Shared\Elysium.Core.Data.SqlNativeClient.ODBC\Elysium.Core.Data.SqlNativeClient.ODBC.vcxitems*{dda554ce-e73b-4fcb-9da0-ec45214c84df}*SharedItemsImports = 9

@@ -123,7 +123,7 @@ void Elysium::Core::IO::Stream::WriteByte(const Elysium::Core::byte Value)
 	Write(&Value, 1);
 }
 
-Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::Stream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::Stream::BeginWrite(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State)
 {
 	if (Buffer == nullptr)
 	{
@@ -159,7 +159,7 @@ void Elysium::Core::IO::Stream::EndWrite(const Elysium::Core::IAsyncResult* Asyn
 	}
 }
 
-Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::Stream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* State)
+Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> Elysium::Core::IO::Stream::BeginRead(const Elysium::Core::byte* Buffer, const Elysium::Core::size Size, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State)
 {
 	throw 1;
 }

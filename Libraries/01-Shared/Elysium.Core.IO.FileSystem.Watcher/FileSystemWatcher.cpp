@@ -40,7 +40,7 @@ Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher()
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories)
 	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), _AddressOfLatestAsyncResult(nullptr),
 	_DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
-	_CompletionPortHandle(CreateThreadpoolIo(_DirectoryHandle, &IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
+	_CompletionPortHandle(CreateThreadpoolIo(_DirectoryHandle, IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
 
 Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
@@ -48,20 +48,26 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	EndInit();
 
+	if (_CompletionPortHandle != nullptr)
+	{
+		// cancel new callbacks from coming in
+		CancelThreadpoolIo(_CompletionPortHandle);
+		 
+		// Ensure no callbacks are still active
+		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
+		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
+		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
+
+		CloseThreadpoolIo(_CompletionPortHandle);
+		_CompletionPortHandle = nullptr;
+	}
+
 	if (_DirectoryHandle != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(_DirectoryHandle);
 		_DirectoryHandle = INVALID_HANDLE_VALUE;
 	}
-	
-	if (_CompletionPortHandle != nullptr)
-	{
-		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
-		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
-		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
-		CloseThreadpoolIo(_CompletionPortHandle);
-		_CompletionPortHandle = nullptr;
-	}
+
 #else
 #error "undefined os"
 #endif
@@ -89,64 +95,93 @@ const Elysium::Core::Utf8String& Elysium::Core::IO::FileSystemWatcher::GetFilter
 
 void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 {
-	if (_AddressOfLatestAsyncResult.Load() != nullptr)
+	if (nullptr != _AddressOfLatestAsyncResult.Load())
 	{	// already initialized (check is necessary since this method is public)
 		return;
 	}
 
-	if (_DirectoryHandle == INVALID_HANDLE_VALUE)
+	if (INVALID_HANDLE_VALUE == _DirectoryHandle)
 	{
 		return;
 	}
 
-	FileSystemWatcherAsyncResult* AsyncResult = new FileSystemWatcherAsyncResult(*this, 
-		Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileSystemWatcher, &FileSystemWatcher::EndInit>(*this),
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = new FileSystemWatcherAsyncResult(*this,
+		Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileSystemWatcher, &FileSystemWatcher::EndInit>(*this),
 		nullptr, 0x0, _CompletionPortHandle);
+
+	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = &_AddressOfLatestAsyncResult;
+	_AddressOfLatestAsyncResult.Exchange(RawAsyncFileWatcherResult);
+
 	DWORD BytesReturned = 0;
-	
+
 	StartThreadpoolIo(_CompletionPortHandle);
-	if (ReadDirectoryChangesExW(_DirectoryHandle, &AsyncResult->_InformationBuffer[0], AsyncResult->_InformationBufferSize, _IncludeSubdirectories,
-		static_cast<DWORD>(_NotifyFilters), &BytesReturned, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap, nullptr,
-		READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation) == FALSE)
+	if (FALSE == ReadDirectoryChangesExW(_DirectoryHandle, &RawAsyncFileWatcherResult->_InformationBuffer[0],
+		RawAsyncFileWatcherResult->_InformationBufferSize, _IncludeSubdirectories, static_cast<DWORD>(_NotifyFilters), &BytesReturned,
+		(LPOVERLAPPED)&RawAsyncFileWatcherResult->_WrappedOverlap, nullptr,
+		READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation))
 	{
-		Elysium::Core::uint32_t ErrorCode = GetLastError();
-		if (ErrorCode != ERROR_IO_PENDING)
+		DWORD ErrorCode = GetLastError();
+		if (ERROR_IO_PENDING != ErrorCode)
 		{
-			delete AsyncResult;
-			throw IOException();
+			_AddressOfLatestAsyncResult.Exchange(nullptr);
+			delete RawAsyncFileWatcherResult;
+
+			throw IOException(ErrorCode);
 		}
 	}
-
-	_AddressOfLatestAsyncResult.Exchange(AsyncResult);
 }
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit()
 {
-	if (_AddressOfLatestAsyncResult.Load() == nullptr)
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
+	if (RawAsyncFileWatcherResult == nullptr)
 	{	// already uninitialized (this check is necessary since this method is public)
 		return;
 	}
+	
+	// stop current io (causes another callback with IoResult being ERROR_OPERATION_ABORTED)
+	if (FALSE == CancelIoEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped))
+	{
+		DWORD ErrorCode = GetLastError();
+		bool bla = false;
+	}
+	
+	// wait for current io to complete
+	DWORD BytesTransferred = 0;
+	if (FALSE == GetOverlappedResultEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped, &BytesTransferred,
+		INFINITE, TRUE))
+	{
+		DWORD ErrorCode = GetLastError();
+		switch (ErrorCode)
+		{
+		case ERROR_OPERATION_ABORTED:
+			// expected
+			break;
+		case ERROR_IO_PENDING:
+			// @ToDo: wait longer? (instead of throwing an exception!)
+			throw IOException(ErrorCode);
+		default:
+			throw IOException(ErrorCode);
+		}
+	}
 
-	FileSystemWatcherAsyncResult* AsyncResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-	AsyncResult->_WrappedOverlap._AsyncResult = nullptr;
-	delete AsyncResult;
+	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
+	delete RawAsyncFileWatcherResult;
 }
 
-void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncResult* AsyncResult)
+void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& AsyncResult)
 {
-	// do NOT use the input of this function! It's just there for compatibility-reasons
-	// @ToDo: should probably change the input and delegate in general (as sockets, files, pipes etc. will probably have the same problem)
-	//FileSystemWatcherAsyncResult* AsyncFileWatcherResult = const_cast<FileSystemWatcherAsyncResult*>(static_cast<const FileSystemWatcherAsyncResult*>(AsyncResult));
-	
-	FileSystemWatcherAsyncResult* AsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-	if (AsyncFileWatcherResult == nullptr)
-	{	// This should probably only be possible if EndInit() has been called.
+	IAsyncResult* RawAsyncResult = AsyncResult.Exchange(nullptr);
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = static_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
+	if (RawAsyncFileWatcherResult == nullptr)
+	{	// This should probably only happen if EndInit() has been called.
 		return;
 	}
 
-	if (AsyncFileWatcherResult->GetErrorCode() != NO_ERROR)
+	if (RawAsyncFileWatcherResult->GetErrorCode() != NO_ERROR)
 	{
-		throw IOException(AsyncFileWatcherResult->GetErrorCode());
+		const Elysium::Core::uint16_t ErrorCode = RawAsyncFileWatcherResult->GetErrorCode();
+		throw IOException(ErrorCode);
 	}
 
 	// ...
@@ -154,7 +189,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 	wchar_t* OldName = nullptr;
 	do
 	{
-		const FILE_NOTIFY_EXTENDED_INFORMATION& Info = (FILE_NOTIFY_EXTENDED_INFORMATION&)AsyncFileWatcherResult->_InformationBuffer[Offset];
+		const FILE_NOTIFY_EXTENDED_INFORMATION& Info = (FILE_NOTIFY_EXTENDED_INFORMATION&)RawAsyncFileWatcherResult->_InformationBuffer[Offset];
 		if (Info.Action == 0)
 		{	// an error can occurre if:
 			// - the buffer is too small to capture all events (FileSystemWatcherAsyncResult::_InformationBufferSize).
@@ -175,6 +210,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName, 
 			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Info.FileName));
 
+		// @ToDo: populate FullPath
 		Utf8String FullPath = Utf8String(_Path.GetLength() + FileName.GetLength() + sizeof(char8_t));
 
 		switch (Info.Action)
@@ -203,6 +239,8 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 		}
 			break;
 		default:
+			// @ToDo: some sort of notification about the unhandled event-type
+			// simply call OnError(...)?
 			break;
 		}
 		
@@ -210,16 +248,16 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 	} while (Offset > 0);
 
 	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
-		(Elysium::Core::Threading::ManualResetEvent&)AsyncFileWatcherResult->GetAsyncWaitHandle();
+		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
 	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
 
 	// A successful io-operation musn't be canceled!
-	// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when AsyncFileWatcherResult get's destructed!
-	AsyncFileWatcherResult->_CompletionPortHandle = nullptr;
+	// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when RawAsyncFileWatcherResult get's destructed!
+	RawAsyncFileWatcherResult->_CompletionPortHandle = nullptr;
 
 	// make sure to not cause a memory leak
-	AsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
-	delete AsyncFileWatcherResult;
+	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
+	delete RawAsyncFileWatcherResult;
 
 	// run again
 	BeginInit();
@@ -228,14 +266,16 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(const Elysium::Core::IAsyncRe
 #if defined ELYSIUM_CORE_OS_WINDOWS
 HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const char8_t* Path, const size_t PathLength)
 {
-	// ToDo: don't assume correct input (Utf16::SafeToWideString)
+	// @ToDo: don't assume correct input (Utf16::SafeToWideString)
 	Elysium::Core::WideString WindowsPath = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(Path, PathLength);
 
 	// ...
-	HANDLE DirectoryHandle = CreateFile((wchar_t*)&WindowsPath[0], static_cast<Elysium::Core::uint32_t>(FileAccess::Read),
-		static_cast<Elysium::Core::uint32_t>(FileShare::ReadWrite),
+	HANDLE DirectoryHandle = CreateFile((wchar_t*)&WindowsPath[0], FILE_LIST_DIRECTORY,
+		FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
 		nullptr, // default security
-		static_cast<Elysium::Core::uint32_t>(FileMode::Open), static_cast<Elysium::Core::uint32_t>(FileOptions::Asynchronous | FileOptions::BackupSemantics), nullptr);
+		OPEN_EXISTING,
+		FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED,
+		nullptr);
 	if (DirectoryHandle == INVALID_HANDLE_VALUE)
 	{
 		throw IOException();
@@ -246,16 +286,37 @@ HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const c
 
 void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
-	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = static_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
-	Elysium::Core::IO::FileSystemWatcherAsyncResult* AsyncFileWatcherResult = 
-		dynamic_cast<Elysium::Core::IO::FileSystemWatcherAsyncResult*>(WrappedOverlap->_AsyncResult);
-	if (AsyncFileWatcherResult != nullptr)
+	if (Context == nullptr || Overlapped == nullptr)
 	{
-		AsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;
-		AsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
+		return;
+	}
 
-		const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback = AsyncFileWatcherResult->GetCallback();
-		Callback(AsyncFileWatcherResult);
+	switch (IoResult)
+	{
+	case NO_ERROR:
+		// "default" result - nothing to do here
+		break;
+	case ERROR_OPERATION_ABORTED:
+		// ...
+		return;
+	default:
+		break;
+	}
+
+	FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
+
+	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = reinterpret_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
+	Elysium::Core::Template::Threading::Atomic<IAsyncResult*>* AsyncResult = 
+		reinterpret_cast<Elysium::Core::Template::Threading::Atomic<IAsyncResult*>*>(WrappedOverlap->_AsyncResult);
+	if (AsyncResult != nullptr)
+	{
+		IAsyncResult* RawAsyncResult = AsyncResult->Load();
+		FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
+		const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = RawAsyncFileWatcherResult->GetCallback();
+		RawAsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;
+		RawAsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
+
+		Callback(*AsyncResult);
 	}
 }
 #endif

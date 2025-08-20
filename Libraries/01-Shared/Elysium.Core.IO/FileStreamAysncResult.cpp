@@ -16,7 +16,7 @@
 #include "../Elysium.Core.Threading/OSThreadPool.hpp"
 #endif
 
-Elysium::Core::IO::FileStreamAsyncResult::FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState, const Elysium::Core::size Position)
+Elysium::Core::IO::FileStreamAsyncResult::FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState, const Elysium::Core::size Position)
 	: Elysium::Core::Internal::AsyncResult(Callback, AsyncState, Position, nullptr),
 	_Stream(Stream), _BytesTransferred(0)
 { }

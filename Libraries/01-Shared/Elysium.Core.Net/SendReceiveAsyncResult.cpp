@@ -4,7 +4,7 @@
 #include "Socket.hpp"
 #endif
 
-Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState)
+Elysium::Core::Net::Sockets::SendReceiveAsyncResult::SendReceiveAsyncResult(Elysium::Core::Net::Sockets::Socket& Socket, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState)
 	: Elysium::Core::Internal::AsyncResult(Callback, AsyncState, 0x00, nullptr),
 	_Socket(Socket), _WSABuffer()
 { }

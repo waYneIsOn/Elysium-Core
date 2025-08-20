@@ -4,19 +4,25 @@
 #include <threadpoolapiset.h>
 #endif
 
-Elysium::Core::Internal::AsyncResult::AsyncResult(const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Callback, const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle)
+Elysium::Core::Internal::AsyncResult::AsyncResult(const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle)
 	: _Callback(Callback), _AsyncState(AsyncState),
-	_OperationDoneEvent(false), _ErrorCode(0), _WrappedOverlap(Position, this),
+	_OperationDoneEvent(false), _ErrorCode(0), _WrappedOverlap(Position, nullptr),
 	_CompletionPortHandle(CompletionPortHandle)
 { }
 
 Elysium::Core::Internal::AsyncResult::~AsyncResult()
 {
+	/*
 	if (_CompletionPortHandle != nullptr)
 	{
-		CancelThreadpoolIo(_CompletionPortHandle);
+		// stop threadpool callback
+		//CancelThreadpoolIo(_CompletionPortHandle);
+
+		//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
+
 		_CompletionPortHandle = nullptr;
 	}
+	*/
 }
 
 const void* Elysium::Core::Internal::AsyncResult::GetAsyncState() const
@@ -39,7 +45,7 @@ const bool Elysium::Core::Internal::AsyncResult::GetIsCompleted() const
 	throw 1;
 }
 
-const Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer& Elysium::Core::Internal::AsyncResult::GetCallback() const
+const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Elysium::Core::Internal::AsyncResult::GetCallback() const
 {
 	return _Callback;
 }

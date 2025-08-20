@@ -36,7 +36,7 @@ namespace Elysium::Core::Template::Memory
 	public:
 		constexpr ObserverPointer() noexcept = default;
 		
-		//constexpr ObserverPointer(Pointer Data) noexcept;
+		constexpr ObserverPointer(Pointer Data) noexcept;
 
 		constexpr ObserverPointer(const ObserverPointer& Source) = default;
 
@@ -56,5 +56,10 @@ namespace Elysium::Core::Template::Memory
 	private:
 		Pointer _Data;
 	};
+
+	template<typename T>
+	inline constexpr ObserverPointer<T>::ObserverPointer(Pointer Data) noexcept
+		: _Data(Data)
+	{ }
 }
 #endif

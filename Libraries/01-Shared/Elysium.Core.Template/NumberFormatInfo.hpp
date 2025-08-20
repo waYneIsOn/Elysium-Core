@@ -85,11 +85,11 @@ namespace Elysium::Core::Template::Globalization
 	public:
 		constexpr NumberFormatInfo(const System::uint32_t LocaleId, const bool ReadOnly) noexcept;
 
-		NumberFormatInfo(const NumberFormatInfo& Source) noexcept;
+		constexpr NumberFormatInfo(const NumberFormatInfo& Source) noexcept;
 
-		NumberFormatInfo(NumberFormatInfo&& Right) noexcept;
+		constexpr NumberFormatInfo(NumberFormatInfo&& Right) noexcept;
 
-		~NumberFormatInfo() noexcept;
+		constexpr ~NumberFormatInfo() noexcept = default;
 	public:
 		NumberFormatInfo<C>& operator=(const NumberFormatInfo& Source) noexcept;
 
@@ -201,20 +201,16 @@ namespace Elysium::Core::Template::Globalization
 	{ }
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const NumberFormatInfo& Source) noexcept
+	inline constexpr Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(const NumberFormatInfo& Source) noexcept
 		: _LocaleId(Source._LocaleId), _IsReadOnly(Source._IsReadOnly)
 	{ }
 
 	template<Concepts::Character C>
-	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(NumberFormatInfo && Right) noexcept
+	inline constexpr Elysium::Core::Template::Globalization::NumberFormatInfo<C>::NumberFormatInfo(NumberFormatInfo && Right) noexcept
 		: _LocaleId(0), _IsReadOnly(false)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
-
-	template<Concepts::Character C>
-	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>::~NumberFormatInfo() noexcept
-	{ }
 
 	template<Concepts::Character C>
 	inline Elysium::Core::Template::Globalization::NumberFormatInfo<C>& Elysium::Core::Template::Globalization::NumberFormatInfo<C>::operator=(const NumberFormatInfo& Source) noexcept

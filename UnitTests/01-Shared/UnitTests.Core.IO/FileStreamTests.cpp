@@ -120,7 +120,7 @@ namespace UnitTests::Core::IO
 			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::Asynchronous);
 			const Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> ReadResult = SourceStream.BeginRead(&_Buffer[0], _BufferLength,
-				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
+				Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
 			ReadResult->GetAsyncWaitHandle().WaitOne();
 		}
 	private:
@@ -139,7 +139,7 @@ namespace UnitTests::Core::IO
 			if (_TotalBytesWritten < _BytesToRead)
 			{
 				Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> ReadResult = _SourceStream->BeginRead(&_Buffer[0], _BufferLength,
-					Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::ReadWriteCallback>(*this), nullptr);
+					Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileStreamTests, &FileStreamTests::ReadWriteCallback>(*this), nullptr);
 				ReadResult->GetAsyncWaitHandle().WaitOne();
 			}
 			else
@@ -148,32 +148,38 @@ namespace UnitTests::Core::IO
 			}
 		}
 
-		void ReadCallback(const Elysium::Core::IAsyncResult* Result)
+		void ReadCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
 		{
+			/*
 			const FileStreamAsyncResult* ReadResult = dynamic_cast<const FileStreamAsyncResult*>(Result);
 			FileStream& SourceStream = ReadResult->GetFileStream();
 			size BytesRead = SourceStream.EndRead(ReadResult);
+			*/
 		}
 
-		void ReadWriteCallback(const Elysium::Core::IAsyncResult* Result)
+		void ReadWriteCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
 		{
+			/*
 			const FileStreamAsyncResult* ReadResult = dynamic_cast<const FileStreamAsyncResult*>(Result);
 			FileStream& SourceStream = ReadResult->GetFileStream();
 			size BytesRead = SourceStream.EndRead(ReadResult);
 
 			Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> WriteResult = _TargetStream->BeginWrite(&_Buffer[0], BytesRead,
-				Elysium::Core::Container::DelegateOfVoidConstIASyncResultPointer::Bind<FileStreamTests, &FileStreamTests::WriteReadCallback>(*this), nullptr);
+				Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileStreamTests, &FileStreamTests::WriteReadCallback>(*this), nullptr);
 			WriteResult->GetAsyncWaitHandle().WaitOne();
+			*/
 		}
 
-		void WriteReadCallback(const Elysium::Core::IAsyncResult* Result)
+		void WriteReadCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
 		{
+			/*
 			const FileStreamAsyncResult* WriteResult = dynamic_cast<const FileStreamAsyncResult*>(Result);
 			FileStream& TargetStream = WriteResult->GetFileStream();
 			TargetStream.EndWrite(WriteResult);
 			_TotalBytesWritten += WriteResult->GetBytesTransferred();
 
 			StartAsyncReadWrite();
+			*/
 		}
 	};
 }

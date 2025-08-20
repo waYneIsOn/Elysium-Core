@@ -25,13 +25,13 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API IAsyncResult
 	{
 	protected:
-		IAsyncResult();
+		IAsyncResult() = default;
 	public:
 		IAsyncResult(const IAsyncResult& Source) = delete;
 
 		IAsyncResult(IAsyncResult&& Right) noexcept = delete;
 
-		virtual ~IAsyncResult();
+		virtual ~IAsyncResult() = default;
 	public:
 		IAsyncResult& operator=(const IAsyncResult& Source) = delete;
 
