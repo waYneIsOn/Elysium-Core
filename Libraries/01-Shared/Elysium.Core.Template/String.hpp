@@ -146,6 +146,8 @@ namespace Elysium::Core::Template::Text
 	public:
 		constexpr const bool StartsWith(ConstCharacterPointer Value) const;
 
+		//constexpr const bool EndsWith(ConstCharacter Value) const;
+
 		constexpr const bool EndsWith(ConstCharacterPointer Value) const;
 
 		constexpr System::size GetHashCode() const;

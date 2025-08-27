@@ -34,13 +34,13 @@ namespace Elysium::Core
 	class Event final
 	{
 	public:
-		Event();
+		constexpr Event() noexcept = default;
 
 		Event(const Event& Source) = delete;
 
 		Event(Event&& Right) noexcept = delete;
 
-		~Event() = default;
+		constexpr ~Event() noexcept = default;
 	public:
 		Event& operator=(const Event& Source) = delete;
 
@@ -54,11 +54,6 @@ namespace Elysium::Core
 	private:
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Container::Delegate<ReturnType, Args...>> _HandlerList;
 	};
-
-	template<class ReturnType, class ...Args>
-	inline Event<ReturnType, Args...>::Event()
-		: _HandlerList()
-	{ }
 
 	template<class ReturnType, class ...Args>
 	inline const Event<ReturnType, Args...> & Event<ReturnType, Args...>::operator+=(const Elysium::Core::Template::Container::Delegate<ReturnType, Args...>& Handler)
@@ -82,7 +77,7 @@ namespace Elysium::Core
 			_HandlerList[i](EventArgs...);
 		}
 		
-		// ToDo
+		// @ToDo
 		return ReturnType();
 	}
 }

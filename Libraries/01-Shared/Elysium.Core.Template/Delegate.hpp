@@ -246,13 +246,13 @@ namespace Elysium::Core::Template::Container
 		friend class Elysium::Core::Threading::Thread;
 		friend class Elysium::Core::Template::Container::Vector<Delegate<ReturnType, Args...>>;
 	private:
-		Delegate();
+		constexpr Delegate() noexcept = default;
 	public:
 		Delegate(const Delegate& Source);
 
 		Delegate(Delegate&& Right) noexcept;
 
-		~Delegate();
+		constexpr ~Delegate() noexcept = default;
 	public:
 		Delegate& operator=(const Delegate& Source);
 
@@ -281,11 +281,6 @@ namespace Elysium::Core::Template::Container
 	};
 
 	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>::Delegate()
-		: _Target(nullptr), _Method(nullptr)
-	{ }
-	
-	template<class ReturnType, class ...Args>
 	inline Delegate<ReturnType, Args...>::Delegate(const Delegate& Source)
 		: _Target(Source._Target), _Method(Source._Method)
 	{ }
@@ -296,11 +291,6 @@ namespace Elysium::Core::Template::Container
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
-
-	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>::~Delegate()
-	{ }
-
 	template<class ReturnType, class ...Args>
 	inline Delegate<ReturnType, Args...>& Delegate<ReturnType, Args...>::operator=(const Delegate& Source)
 	{

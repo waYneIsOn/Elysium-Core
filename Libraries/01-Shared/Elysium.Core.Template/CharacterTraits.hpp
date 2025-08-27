@@ -371,7 +371,7 @@ namespace Elysium::Core::Template::Text
 		/// <param name="SequenceLength"></param>
 		/// <returns></returns>
 		static constexpr const bool StartsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept;
-
+		
 		/// <summary>
 		/// 
 		/// </summary>
@@ -1321,7 +1321,7 @@ namespace Elysium::Core::Template::Text
 
 		return true;
 	}
-
+	
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::EndsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept
 	{

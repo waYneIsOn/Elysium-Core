@@ -44,7 +44,7 @@ namespace Elysium::Core::Template::Threading
 
 		SharedMutex(SharedMutex&& Right) noexcept = delete;
 
-		~SharedMutex() noexcept;
+		constexpr ~SharedMutex() noexcept = default;
 	public:
 		SharedMutex& operator=(const SharedMutex& Source) = delete;
 
@@ -79,9 +79,6 @@ namespace Elysium::Core::Template::Threading
 	{ }
 #error "unsupported os"
 #endif
-
-	inline SharedMutex::~SharedMutex() noexcept
-	{ }
 
 	inline bool SharedMutex::TryLockExlusive() noexcept
 	{

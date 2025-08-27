@@ -36,7 +36,7 @@ namespace Elysium::Core::Template::Memory
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
-		constexpr DefaultAllocator() noexcept;
+		constexpr DefaultAllocator() noexcept = default;
 
 		/// <summary>
 		/// 
@@ -53,7 +53,7 @@ namespace Elysium::Core::Template::Memory
 		/// <summary>
 		/// Destroys this instance.
 		/// </summary>
-		constexpr ~DefaultAllocator();
+		constexpr ~DefaultAllocator() noexcept = default;
 	public:
 		/// <summary>
 		/// 
@@ -84,14 +84,6 @@ namespace Elysium::Core::Template::Memory
 		/// <param name="NumberOfInstantiatedElements">Number of elements the destructors needs to be called for.</param>
 		void Deallocate(Pointer First, const Elysium::Core::Template::System::size NumberOfInstantiatedElements);
 	};
-
-	template<Elysium::Core::Template::Concepts::Allocatable T>
-	inline constexpr DefaultAllocator<T>::DefaultAllocator() noexcept
-	{ }
-
-	template<Elysium::Core::Template::Concepts::Allocatable T>
-	inline constexpr DefaultAllocator<T>::~DefaultAllocator()
-	{ }
 
 	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline constexpr Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer DefaultAllocator<T>::Allocate(const Elysium::Core::Template::System::size NumberOfElements)

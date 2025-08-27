@@ -620,20 +620,20 @@ namespace Elysium::Core::Template::Container
 
 		if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
 		{
-			for (Elysium::Core::Template::System::size i = Index; i < _Length; ++i)
+			for (Elysium::Core::Template::System::size i = Index + 1; i < _Length; ++i)
 			{
-				_Data[i] = Elysium::Core::Template::Functional::Move(_Data[i + 1]);
+				_Data[i - 1] = Elysium::Core::Template::Functional::Move(_Data[i]);
 			}
 		}
 		else
 		{
-			for (Elysium::Core::Template::System::size i = Index; i < _Length; ++i)
+			for (Elysium::Core::Template::System::size i = Index + 1; i < _Length; ++i)
 			{
-				_Data[i] = _Data[i + 1];
+				_Data[i - 1] = _Data[i];
 			}
 		}
 		
-		_Length--;
+		--_Length;
 
 		return GetEnd();
 	}
