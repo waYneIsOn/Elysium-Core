@@ -1,4 +1,4 @@
-#include "CppUnitTest.h"
+#include <CppUnitTest.h>
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
@@ -6,9 +6,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcher.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcherAsyncResult.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/FileSystem.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp""
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
@@ -24,18 +25,21 @@ namespace UnitTests::Core::IO
 	TEST_CLASS(FileSystemWatcherTests)
 	{
 	public:
-		TEST_METHOD(WatchAllChangesRegardingDirectory)
+		TEST_METHOD(WatchAllChanges)
 		{
-			File::Delete(_FilePath);
-			File::Delete(_FilePath2);
+			File::Delete(_FilePath0);
+			File::Delete(_FilePath1);
 
-			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_Directory);
+			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
+			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
 			DirectoryWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
 			DirectoryWatcher.OnCreated += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnCreated>(*this);
 			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-			
+
 			/*
 			* Make sure this loop runs for a multiple of two!
 			* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -47,10 +51,14 @@ namespace UnitTests::Core::IO
 				
 				try
 				{
-					CreateFileAndWait();
-					ChangeFileAndWait();
-					RenameFileAndWait();
-					DeleteFileAndWait();
+					CreateFileAndWait(true);
+					ChangeFileAndWait(true);
+					RenameFileAndWait(true);
+					DeleteFileAndWait(true);
+
+					CreateFolderAndWait(true);
+					RenameFolderAndWait(true);
+					DeleteFolderAndWait(true);
 				}
 				catch(const Exception& ex)
 				{
@@ -65,29 +73,23 @@ namespace UnitTests::Core::IO
 
 				Logger::WriteMessage(L"----\r\n");
 			}
-			/*
-			// @ToDo: this causes heap corruption I will have to look into!!!
-			DirectoryWatcher.OnChanged -= Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
-			DirectoryWatcher.OnCreated -= Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnCreated>(*this);
-			DirectoryWatcher.OnDeleted -= Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
-			DirectoryWatcher.OnError -= Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
-			DirectoryWatcher.OnRenamed -= Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-			*/
 		}
 
-		TEST_METHOD(WatchAllChangesRegardingFile)
+		TEST_METHOD(WatchFilteredChanges)
 		{
-			//File::Delete(_FilePath3);
+			File::Delete(_FilePath0);
+			File::Delete(_FilePath1);
 
-			FileSystemWatcher FileWatcher = FileSystemWatcher(_Directory, u8"file3.txt");
+			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
+			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+
+			FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"*.txt");
 			FileWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
 			FileWatcher.OnCreated += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnCreated>(*this);
 			FileWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			FileWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			FileWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
 			
-			const char8_t* SomeText = u8"bla";
-
 			/*
 			* Make sure this loop runs for a multiple of two!
 			* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -97,14 +99,21 @@ namespace UnitTests::Core::IO
 			{
 				FileWatcher.BeginInit();
 
-
-
-				/*
-				FileStream TargetFileStream = FileStream(_FilePath3, FileMode::Append, FileAccess::Write);
-				TargetFileStream.Write((byte*)SomeText, 3);
-				*/
-
-
+				try
+				{
+					CreateFileAndWait(false);
+					ChangeFileAndWait(false);
+					RenameFileAndWait(false);
+					DeleteFileAndWait(false);
+					
+					CreateFolderAndWait(false);
+					RenameFolderAndWait(false);
+					DeleteFolderAndWait(false);
+				}
+				catch (const Exception& ex)
+				{
+					Assert::Fail((wchar_t*)&ex.GetExceptionMessage()[0]);
+				}
 
 				// test both with and without calling EndInit()
 				if (i % 2 == 0)
@@ -127,7 +136,7 @@ namespace UnitTests::Core::IO
 			{
 				for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 				{
-					FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_Directory);
+					FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
 					Logger::WriteMessage(L"\tBeginInit()\r\n");
 					DirectoryWatcher.BeginInit();
 
@@ -149,7 +158,7 @@ namespace UnitTests::Core::IO
 			{
 				for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 				{
-					FileSystemWatcher FileWatcher = FileSystemWatcher(_Directory, u8"file3.txt");
+					FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"file3.txt");
 					Logger::WriteMessage(L"\tBeginInit()\r\n");
 					FileWatcher.BeginInit();
 
@@ -169,7 +178,7 @@ namespace UnitTests::Core::IO
 			
 			Logger::WriteMessage(L"end of test");
 		}
-
+		
 		TEST_METHOD(ProvokeBufferOverflow)
 		{
 			// if the internal buffer is too small and many changes happen in a short time, the buffer can overflow.
@@ -178,77 +187,94 @@ namespace UnitTests::Core::IO
 			Assert::Fail();
 		}
 	private:
-		void CreateFileAndWait()
+		void CreateFileAndWait(const bool WaitOnEvent)
 		{
-			FileStream TargetFileStream = FileStream(_FilePath, FileMode::CreateNew, FileAccess::Write);
-			if(!_CreatedResetEvent.WaitOne(1000))
+			FileStream TargetFileStream = FileStream(_FilePath0, FileMode::CreateNew, FileAccess::Write);
+			if(WaitOnEvent && !_CreatedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File creation event was not triggered within a second.");
 			}
 			_CreatedResetEvent.Reset();
 		}
 
-		void ChangeFileAndWait()
+		void ChangeFileAndWait(const bool WaitOnEvent)
 		{
 			byte Buffer[1024] = { 0 };
 
-			FileStream TargetFileStream = FileStream(_FilePath, FileMode::Open, FileAccess::Write);
+			FileStream TargetFileStream = FileStream(_FilePath0, FileMode::Open, FileAccess::Write);
 			TargetFileStream.Write(Buffer, 1024);
 			TargetFileStream.Flush();
-			if (!_ChangedResetEvent.WaitOne(1000))
+			if (WaitOnEvent && !_ChangedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File change event was not triggered within a second.");
 			}
 			_ChangedResetEvent.Reset();
 		}
 
-		void RenameFileAndWait()
+		void RenameFileAndWait(const bool WaitOnEvent)
 		{
-			File::Move(_FilePath, _FilePath2, false);
-			if (!_RenamedResetEvent.WaitOne(1000))
+			File::Move(_FilePath0, _FilePath1, false);
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File rename event was not triggered within a second.");
 			}
 			_RenamedResetEvent.Reset();
 
-			File::Move(_FilePath2, _FilePath, false);
-			if (!_RenamedResetEvent.WaitOne(1000))
+			File::Move(_FilePath1, _FilePath0, false);
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File rename event was not triggered within a second.");
 			}
 			_RenamedResetEvent.Reset();
 		}
 
-		void DeleteFileAndWait()
+		void DeleteFileAndWait(const bool WaitOnEvent)
 		{
-			File::Delete(_FilePath);
-			if (!_DeletedResetEvent.WaitOne(1000))
+			File::Delete(_FilePath0);
+			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File deletion event was not triggered within a second.");
 			}
 			_DeletedResetEvent.Reset();
 		}
 
-		void CreateFolderAndWait()
+		void CreateFolderAndWait(const bool WaitOnEvent)
 		{
-
+			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::CreateFolder(_DirectoryPath0);
+			if (WaitOnEvent && !_CreatedResetEvent.WaitOne(1000))
+			{
+				Assert::Fail(L"Folder creation event was not triggered within a second.");
+			}
+			_CreatedResetEvent.Reset();
 		}
 
-		void ChangeFolderAndWait()
+		void RenameFolderAndWait(const bool WaitOnEvent)
 		{
+			bool RenameFolderResult1 = Elysium::Core::Template::IO::FileSystem::RenameFolder(_DirectoryPath0, _DirectoryPath1);
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
+			{
+				Assert::Fail(L"File rename event was not triggered within a second.");
+			}
+			_RenamedResetEvent.Reset();
 
+			bool RenameFolderResult2 = Elysium::Core::Template::IO::FileSystem::RenameFolder(_DirectoryPath1, _DirectoryPath0);
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
+			{
+				Assert::Fail(L"File rename event was not triggered within a second.");
+			}
+			_RenamedResetEvent.Reset();
 		}
 
-		void RenameFolderAndWait()
+		void DeleteFolderAndWait(const bool WaitOnEvent)
 		{
-
+			bool RemoveFolderResult = Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
+			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000))
+			{
+				Assert::Fail(L"Folder deletion event was not triggered within a second.");
+			}
+			_DeletedResetEvent.Reset();
 		}
-
-		void DeleteFolderAndWait()
-		{
-
-		}
-
+	private:
 		void FileSystemWatcher_OnChanged(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
 			Logger::WriteMessage("FileSystemWatcher_OnChanged\r\n");
@@ -341,18 +367,26 @@ namespace UnitTests::Core::IO
 			Logger::WriteMessage("\tOldName: ");
 			Logger::WriteMessage((char*)&OldFileName[0]);
 			Logger::WriteMessage("\r\n");
-			
+
 			_RenamedResetEvent.Set();
 		}
 	private:
-		inline static constexpr const char8_t* _Directory = u8"C:\\test";	// @ToDo: use Directory::CurrentDirectory()
-		inline static constexpr const char8_t* _FilePath = u8"C:\\test\\file.txt";
-		inline static constexpr const char8_t* _FilePath2 = u8"C:\\test\\file2.txt";
+		inline static constexpr const char8_t* _BaseDirectory = u8"C:\\test";	// @ToDo: use Directory::CurrentDirectory()
+		inline static constexpr const char8_t* _FilePath0 = u8"C:\\test\\file.txt";
+		inline static constexpr const char8_t* _FilePath1 = u8"C:\\test\\file2.log";
+
+		inline static constexpr const char8_t* _DirectoryPath0 = u8"C:\\test\\subfolder";
+		inline static constexpr const char8_t* _DirectoryPath1 = u8"C:\\test\\subfolder_renamed";
 	private:
 		ManualResetEvent _ChangedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _CreatedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _DeletedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _ErrorResetEvent = ManualResetEvent(false);
 		ManualResetEvent _RenamedResetEvent = ManualResetEvent(false);
+		/*
+		ManualResetEvent _CreatedDirectoryResetEvent = ManualResetEvent(false);
+		ManualResetEvent _RenamedDirectoryResetEvent = ManualResetEvent(false);
+		ManualResetEvent _DeletedDirectoryResetEvent = ManualResetEvent(false);
+		*/
 	};
 }

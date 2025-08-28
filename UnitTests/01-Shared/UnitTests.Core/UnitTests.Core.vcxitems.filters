@@ -12,19 +12,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JsonTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ProcessTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RegionInfoTest.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ForceMakeShared.cpp">
-      <Filter>Tricks</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)StackTraceTest.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AtomicTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)VersionTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)ChangingJsonVisitor.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Tricks">
-      <UniqueIdentifier>{3dc4a763-9f73-400e-a5f9-453a7b5ac0ce}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>

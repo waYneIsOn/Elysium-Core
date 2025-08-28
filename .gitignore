@@ -132,6 +132,10 @@
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Debugbin
 /UnitTests/02-Windows/UnitTests.Core.Reflection/Releasebin
 
+/UnitTests/02-Windows/UnitTests.Independent/Debug
+/UnitTests/02-Windows/UnitTests.Independent/Debugbin
+/UnitTests/02-Windows/UnitTests.Independent/Releasebin
+
 /TestApplications/04-Android/Android1/Android1.NativeActivity/ARM/Debug
 /TestApplications/04-Android/Android1/Android1.NativeActivity/ARM64/Debug
 /TestApplications/04-Android/Android1/Android1.NativeActivity/Debugbin

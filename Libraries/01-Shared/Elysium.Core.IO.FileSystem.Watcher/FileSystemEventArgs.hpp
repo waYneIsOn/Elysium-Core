@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API
 #include "API.hpp"
 #endif

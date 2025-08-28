@@ -395,7 +395,7 @@ namespace Elysium::Core::Template::Text::Unicode
 			}
 			else
 			{
-				Result[i] = Data[i];
+				Result[i] = static_cast<char>(Data[i]);
 			}
 
 			++i;

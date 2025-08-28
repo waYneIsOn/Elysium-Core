@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,10 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{35E6A008-A909-453D-90F4-8EBE79BB86CE}</ProjectGuid>
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{73CC6F47-B66C-0721-BB19-447ED4925D7D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>UnitTestsCore</RootNamespace>
+    <RootNamespace>UnitTestsIndependent</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectSubType>NativeUnitTestProject</ProjectSubType>
   </PropertyGroup>
@@ -61,12 +61,6 @@
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
   <ImportGroup Label="Shared">
-    <Import Project="..\..\01-Shared\UnitTests.Core\UnitTests.Core.vcxitems" Label="Shared" />
-    <Import Project="..\..\01-Shared\UnitTestExtensions\UnitTestExtensions.vcxitems" Label="Shared" />
-    <Import Project="..\..\01-Shared\UnitTests.Core.Template\UnitTests.Core.Template.vcxitems" Label="Shared" />
-    <Import Project="..\..\01-Shared\UnitTests.Core.IO\UnitTests.Core.IO.vcxitems" Label="Shared" />
-    <Import Project="..\..\01-Shared\UnitTests.Core.Reflection\UnitTests.Core.Reflection.vcxitems" Label="Shared" />
-    <Import Project="..\..\01-Shared\UnitTests.Core.CommandLine\UnitTests.Core.CommandLine.vcxitems" Label="Shared" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -92,12 +86,12 @@
     <IntDir>$(Configuration)bin\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(Configuration)bin\$(Platform)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(Configuration)bin\$(Platform)\</IntDir>
   </PropertyGroup>
@@ -105,125 +99,81 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
-      <PrecompiledHeaderFile />
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PreBuildEvent>
-      <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DateTimeTest.cpp" />
-    <ClCompile Include="DecimalTest.cpp" />
-    <ClCompile Include="EnvironmentTest.cpp" />
-    <ClCompile Include="NumericTest.cpp" />
-    <ClCompile Include="ReflectionTest.cpp" />
-    <ClCompile Include="StringTest.cpp" />
-    <ClCompile Include="TaskTest.cpp" />
-    <ClCompile Include="ThreadPoolTest.cpp" />
-    <ClCompile Include="ThreadTest.cpp" />
-    <ClCompile Include="TimeSpanTest.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.CommandLine\Elysium.Core.CommandLine.vcxproj">
-      <Project>{b3dbfe06-10ca-4d3f-932d-2806bc449c68}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxproj">
-      <Project>{d4f510ca-0532-4c90-811b-752b92393b68}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Json\Elysium.Core.Json.vcxproj">
-      <Project>{1ae389e0-479e-43d0-9299-77821b53db54}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Math\Elysium.Core.Math.vcxproj">
-      <Project>{adb5d221-a0f1-4eee-9101-8988fdf910b8}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">
-      <Project>{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SampleFiles\InjectMessageBox32.dll" />
-    <None Include="SampleFiles\InjectMessageBox64.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="SampleFiles\Lorem Ipsum.txt" />
+    <ClCompile Include="DesignatedInitializer.cpp" />
+    <ClCompile Include="ForceMakeShared.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

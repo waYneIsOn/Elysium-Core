@@ -24,6 +24,10 @@
 #include "../Elysium.Core.IO/IOException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "../Elysium.Core.Template/MemCpy.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
 #include "../Elysium.Core.Template/Utf16.hpp"
 #endif
@@ -124,6 +128,17 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 		if (ERROR_IO_PENDING != ErrorCode)
 		{
 			_AddressOfLatestAsyncResult.Exchange(nullptr);
+
+			// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
+			// - To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
+			// An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with
+			// an error code other than ERROR_IO_PENDING).
+			// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
+			// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
+			// @ToDo:
+			// doing it like this might cause the handle to get canceled twice (destructor!) - need to check!
+			CancelThreadpoolIo(_CompletionPortHandle);
+
 			delete RawAsyncFileWatcherResult;
 
 			throw IOException(ErrorCode);
@@ -169,6 +184,46 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 	delete RawAsyncFileWatcherResult;
 }
 
+const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* RelativePath)
+{
+	const char8_t* Expression = &_Filter[0];
+
+	// @ToDo: check whether the os will ever give use an empty relative path as this check could be removed!
+	if (Expression == nullptr || RelativePath == nullptr)
+	{
+		return false;
+	}
+
+	if (Expression[0] == u8'*')
+	{
+		const Elysium::Core::Template::System::size ExpressionLength = _Filter.GetLength();
+		if (ExpressionLength == 1)
+		{	// special case "*"
+			return true;
+		}
+
+		// @ToDo: implement this fully and correctly!
+		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/0b034646-4e23-4874-8488-2adac231ff23
+		const char8_t* Asterisk = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(&Expression[1], ExpressionLength - 1, u8'*');
+		if (Asterisk != nullptr)
+		{
+			const Elysium::Core::Template::System::size RelativePathLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(RelativePath);
+			if (RelativePathLength < ExpressionLength - 1)
+			{
+				return false;
+			}
+
+			// ...
+
+			return true;
+		}
+	}
+
+	// @ToDo: ...
+
+	return false;
+}
+
 void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& AsyncResult)
 {
 	IAsyncResult* RawAsyncResult = AsyncResult.Exchange(nullptr);
@@ -210,32 +265,47 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName, 
 			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Info.FileName));
 
-		// @ToDo: populate FullPath
+		// @ToDo: populate FullPath (don't just concatenate strings!)
 		Utf8String FullPath = Utf8String(_Path.GetLength() + FileName.GetLength() + sizeof(char8_t));
+		Elysium::Core::Template::Memory::MemCpy(&FullPath[0], &_Path[0], _Path.GetLength());
+		FullPath[_Path.GetLength()] = u8'\\';
+		Elysium::Core::Template::Memory::MemCpy(&FullPath[_Path.GetLength() + 1], &FileName[0], FileName.GetLength());
 
 		switch (Info.Action)
 		{
 		case FILE_ACTION_ADDED:
-			OnCreated(*this, FileSystemEventArgs(WatcherChangeTypes::Created, Elysium::Core::Template::Functional::Move(FullPath),
-				Elysium::Core::Template::Functional::Move(FileName)));
+			if (IsInterested(&FileName[0]))
+			{
+				OnCreated(*this, FileSystemEventArgs(WatcherChangeTypes::Created, Elysium::Core::Template::Functional::Move(FullPath),
+					Elysium::Core::Template::Functional::Move(FileName)));
+			}
 			break;
 		case FILE_ACTION_REMOVED:
-			OnDeleted(*this, FileSystemEventArgs(WatcherChangeTypes::Deleted,Elysium::Core::Template::Functional::Move(FullPath),
-				Elysium::Core::Template::Functional::Move(FileName)));
+			if (IsInterested(&FileName[0]))
+			{
+				OnDeleted(*this, FileSystemEventArgs(WatcherChangeTypes::Deleted, Elysium::Core::Template::Functional::Move(FullPath),
+					Elysium::Core::Template::Functional::Move(FileName)));
+			}
 			break;
 		case FILE_ACTION_MODIFIED:
-			OnChanged(*this, FileSystemEventArgs(WatcherChangeTypes::Changed, Elysium::Core::Template::Functional::Move(FullPath),
-				Elysium::Core::Template::Functional::Move(FileName)));
+			if (IsInterested(&FileName[0]))
+			{
+				OnChanged(*this, FileSystemEventArgs(WatcherChangeTypes::Changed, Elysium::Core::Template::Functional::Move(FullPath),
+					Elysium::Core::Template::Functional::Move(FileName)));
+			}
 			break;
 		case FILE_ACTION_RENAMED_OLD_NAME:
 			OldName = const_cast<wchar_t*>(Info.FileName);
 			break;
 		case FILE_ACTION_RENAMED_NEW_NAME:
 		{
-			Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
-				Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
-			OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
-				Elysium::Core::Template::Functional::Move(FileName), Elysium::Core::Template::Functional::Move(OldFileName)));
+			if (IsInterested(&FileName[0]))
+			{
+				Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
+					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
+				OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
+					Elysium::Core::Template::Functional::Move(FileName), Elysium::Core::Template::Functional::Move(OldFileName)));
+			}
 		}
 			break;
 		default:

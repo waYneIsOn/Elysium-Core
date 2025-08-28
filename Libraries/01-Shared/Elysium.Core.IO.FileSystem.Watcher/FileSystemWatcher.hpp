@@ -111,6 +111,8 @@ namespace Elysium::Core::IO
 
 		Event<void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed;
 	private:
+		const bool IsInterested(const char8_t* RelativePath);
+
 		void EndInit(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& AsyncResult);
 	private:
 		inline static const NotifyFilters DefaultNotifyFilters = NotifyFilters::LastWrite | NotifyFilters::FileName | NotifyFilters::DirectoryName;
