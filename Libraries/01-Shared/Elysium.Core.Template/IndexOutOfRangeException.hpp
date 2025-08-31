@@ -29,7 +29,8 @@ namespace Elysium::Core::Template::Exceptions
 	/// <summary>
 	/// The exception that is thrown when an attempt is made to access an element of an array or collection with an index that is outside its bounds.
 	/// </summary>
-	class IndexOutOfRangeException : public SystemException
+	class IndexOutOfRangeException 
+		: public SystemException
 	{
 	public:
 		IndexOutOfRangeException();
@@ -56,6 +57,7 @@ namespace Elysium::Core::Template::Exceptions
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::IndexOutOfRangeException::IndexOutOfRangeException(const IndexOutOfRangeException& Source)
+		: Elysium::Core::Template::Exceptions::SystemException::SystemException(Source)
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::IndexOutOfRangeException::~IndexOutOfRangeException()

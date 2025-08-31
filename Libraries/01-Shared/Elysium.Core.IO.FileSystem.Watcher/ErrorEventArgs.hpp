@@ -24,29 +24,40 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
+#include "../Elysium.Core.Template/SystemException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_INTERNALBUFFEROVERFLOWEXCEPTION
+#include "../Elysium.Core.Template/Exceptions/IO/InternalBufferOverflowException.hpp"
+#endif
+
 namespace Elysium::Core::IO
 {
 	class FileSystemWatcher;
 
-	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER ErrorEventArgs : public EventArgs
+	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER ErrorEventArgs 
+		: public EventArgs
 	{
 		friend class FileSystemWatcher;
 	protected:
-		//ErrorEventArgs(Exception&& Exception);
+		ErrorEventArgs(Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException&& Exception);
 	public:
+		ErrorEventArgs() = delete;
+
 		ErrorEventArgs(const ErrorEventArgs& Source) = delete;
 
 		ErrorEventArgs(ErrorEventArgs&& Right) noexcept = delete;
 
-		virtual ~ErrorEventArgs();
+		virtual ~ErrorEventArgs() noexcept = default;
 	public:
 		ErrorEventArgs& operator=(const ErrorEventArgs& Source) = delete;
 
 		ErrorEventArgs& operator=(ErrorEventArgs&& Right) noexcept = delete;
 	public:
-		//const Exception& GetException() const;
+		const Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException& GetException() const;
 	private:
-		//Exception _Exception;
+		const Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException _Exception;
 	};
 }
 #endif

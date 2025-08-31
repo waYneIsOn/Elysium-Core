@@ -10,21 +10,6 @@ Elysium::Core::Internal::AsyncResult::AsyncResult(const Elysium::Core::Container
 	_CompletionPortHandle(CompletionPortHandle)
 { }
 
-Elysium::Core::Internal::AsyncResult::~AsyncResult()
-{
-	/*
-	if (_CompletionPortHandle != nullptr)
-	{
-		// stop threadpool callback
-		//CancelThreadpoolIo(_CompletionPortHandle);
-
-		//WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
-
-		_CompletionPortHandle = nullptr;
-	}
-	*/
-}
-
 const void* Elysium::Core::Internal::AsyncResult::GetAsyncState() const
 {
 	return _AsyncState;

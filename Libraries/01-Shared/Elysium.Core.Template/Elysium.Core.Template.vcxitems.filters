@@ -794,6 +794,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf32.hpp">
       <Filter>Text\Unicode</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\InternalBufferOverflowException.hpp">
+      <Filter>Exceptions\IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -903,6 +906,9 @@
     </Filter>
     <Filter Include="Memory\Scoped">
       <UniqueIdentifier>{d2c054f8-154e-4ed2-83da-1cc21227666b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions\IO">
+      <UniqueIdentifier>{e78a6b2b-3aab-4af4-82d1-02c97d26d0d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

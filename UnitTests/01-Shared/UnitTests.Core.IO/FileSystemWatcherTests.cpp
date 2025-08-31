@@ -182,9 +182,76 @@ namespace UnitTests::Core::IO
 		TEST_METHOD(ProvokeBufferOverflow)
 		{
 			// if the internal buffer is too small and many changes happen in a short time, the buffer can overflow.
-			// let me try to provoke this problem here so I can use an according buffer size.
 			// (the buffer should not be too large as it uses non-paged memory that cannot be swapped out to disk!!!!)
-			Assert::Fail();
+
+			// prepare everything required for the test
+			constexpr const Elysium::Core::Template::System::size NumberOfFiles = 1000;
+			constexpr const char8_t* FileExtension = u8".txt";
+
+			const Elysium::Core::Template::System::size DirectoryLength =
+				Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_ErrorDirectory);
+
+			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
+			{
+				const Elysium::Core::Template::Text::String<char8_t> Index = Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
+
+				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(
+					DirectoryLength + sizeof(char8_t) + Index.GetLength() + sizeof(char8_t) * 4);
+				Elysium::Core::Template::Memory::MemCpy(&FileName[0], &_ErrorDirectory[0], DirectoryLength);
+				FileName[DirectoryLength] = u8'\\';
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t)], &Index[0], Index.GetLength());
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()],
+					FileExtension, sizeof(char8_t) * 4);
+
+				File::Delete(&FileName[0]);
+			}
+
+			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::CreateFolder(_ErrorDirectory);
+			Assert::IsTrue(CreateFolderResult);
+
+			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
+			{
+				const Elysium::Core::Template::Text::String<char8_t> Index = 
+					Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
+
+				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(
+					DirectoryLength + sizeof(char8_t) + Index.GetLength() + sizeof(char8_t) * 4);
+				Elysium::Core::Template::Memory::MemCpy(&FileName[0], &_ErrorDirectory[0], DirectoryLength);
+				FileName[DirectoryLength] = u8'\\';
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t)], &Index[0], Index.GetLength());
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()], 
+					FileExtension, sizeof(char8_t) * 4);
+
+				FileStream TargetFileStream = FileStream(FileName, FileMode::CreateNew, FileAccess::Write);
+			}
+
+			// run the actual test
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory);
+			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
+			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
+			DirectoryWatcher.BeginInit();
+
+			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
+			{
+				const Elysium::Core::Template::Text::String<char8_t> Index = Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
+
+				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(
+					DirectoryLength + sizeof(char8_t) + Index.GetLength() + sizeof(char8_t) * 4);
+				Elysium::Core::Template::Memory::MemCpy(&FileName[0], &_ErrorDirectory[0], DirectoryLength);
+				FileName[DirectoryLength] = u8'\\';
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t)], &Index[0], Index.GetLength());
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()],
+					FileExtension, sizeof(char8_t) * 4);
+
+				File::Delete(&FileName[0]);
+			}
+
+			// give it a maximum of 30s for the error to occcure
+			const bool WaitResult = _ErrorResetEvent.WaitOne(30000);
+			//Assert::IsTrue(WaitResult);
+
+			// wait just a little bit longer to possibly catch a few more callbacks and see more in the test-logs
+			Elysium::Core::Threading::Thread::Sleep(TimeSpan::FromSeconds(20));
 		}
 	private:
 		void CreateFileAndWait(const bool WaitOnEvent)
@@ -335,10 +402,19 @@ namespace UnitTests::Core::IO
 
 		void FileSystemWatcher_OnError(const FileSystemWatcher& Watcher, const ErrorEventArgs& EventArgs)
 		{
-			// ToDo:
-			Logger::WriteMessage("....");
-
 			Logger::WriteMessage("FileSystemWatcher_OnError\r\n");
+
+			const Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException& Exception = EventArgs.GetException();
+			const Elysium::Core::Template::System::uint32_t ErrorCode = Exception.GetErrorCode();
+			const Elysium::Core::Template::Text::String<char8_t>& Message = Exception.GetExceptionMessage();
+
+			Logger::WriteMessage("\tErrorCode: ");
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char>::ToString(ErrorCode)[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage("\tMessage: ");
+			Logger::WriteMessage((char*)&Message[0]);
+			Logger::WriteMessage("\r\n");
+
 			_ErrorResetEvent.Set();
 		}
 
@@ -377,16 +453,14 @@ namespace UnitTests::Core::IO
 
 		inline static constexpr const char8_t* _DirectoryPath0 = u8"C:\\test\\subfolder";
 		inline static constexpr const char8_t* _DirectoryPath1 = u8"C:\\test\\subfolder_renamed";
+
+		inline static constexpr const char8_t* _ErrorDirectory = u8"C:\\test\\bufferoverflow";	// @ToDo: use Directory::CurrentDirectory() + "\bufferoverflow"
 	private:
+		// don't have access to FileSystemWatcher's internal IAsyncResult
 		ManualResetEvent _ChangedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _CreatedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _DeletedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _ErrorResetEvent = ManualResetEvent(false);
 		ManualResetEvent _RenamedResetEvent = ManualResetEvent(false);
-		/*
-		ManualResetEvent _CreatedDirectoryResetEvent = ManualResetEvent(false);
-		ManualResetEvent _RenamedDirectoryResetEvent = ManualResetEvent(false);
-		ManualResetEvent _DeletedDirectoryResetEvent = ManualResetEvent(false);
-		*/
 	};
 }

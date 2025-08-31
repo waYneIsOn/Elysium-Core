@@ -42,6 +42,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Trivial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\TriviallyCopyable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Function.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\InternalBufferOverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Forward.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Case.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\Internal\Diathesis.hpp" />

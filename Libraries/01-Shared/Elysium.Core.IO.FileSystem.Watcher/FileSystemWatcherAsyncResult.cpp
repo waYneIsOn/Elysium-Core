@@ -9,9 +9,6 @@ Elysium::Core::IO::FileSystemWatcherAsyncResult::FileSystemWatcherAsyncResult(Fi
 	_Watcher(Watcher), _BytesTransferred(0), _InformationBuffer()
 { }
 
-Elysium::Core::IO::FileSystemWatcherAsyncResult::~FileSystemWatcherAsyncResult()
-{ }
-
 constexpr const Elysium::Core::IO::FileSystemWatcher& Elysium::Core::IO::FileSystemWatcherAsyncResult::GetWatcher() const
 {
 	return _Watcher;

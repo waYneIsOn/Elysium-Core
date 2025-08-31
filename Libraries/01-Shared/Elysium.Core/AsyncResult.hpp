@@ -69,7 +69,7 @@ namespace Elysium::Core::Internal
 
 		AsyncResult(AsyncResult&& Right) noexcept = delete;
 
-		virtual ~AsyncResult();
+		virtual ~AsyncResult() = default;
 	public:
 		AsyncResult& operator=(const AsyncResult& Source) = delete;
 

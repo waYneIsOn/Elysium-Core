@@ -122,6 +122,8 @@ namespace Elysium::Core::IO
 		Utf8String _Path;
 		Utf8String _Filter;
 
+		Elysium::Core::Template::Threading::Atomic<bool> _IsDestructing = false;
+
 		Elysium::Core::Template::Threading::Atomic<FileSystemWatcherAsyncResult*> _AddressOfLatestAsyncResult;
 		
 #if defined ELYSIUM_CORE_OS_WINDOWS

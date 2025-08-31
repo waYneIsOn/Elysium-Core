@@ -23,49 +23,72 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Exceptions
 {
 	/// <summary>
-	/// Represents errors that occur during application execution.
+	/// Represents errors that occure during application execution.
 	/// </summary>
 	class Exception
 	{
 	public:
-		Exception(const char8_t* Message = nullptr);
+		constexpr Exception(const char8_t* Message = nullptr);
 
-		Exception(Text::String<char8_t>&& Message);
+		constexpr Exception(Text::String<char8_t>&& Message);
 
-		Exception(const Exception& Source);
+		constexpr Exception(const Exception& Source);
 
-		Exception(Exception&& Right) noexcept = delete;
+		constexpr Exception(Exception&& Right) noexcept;
 
-		virtual ~Exception();
+		constexpr virtual ~Exception() = default;
 	public:
-		Exception& operator=(const Exception& Source) = delete;
+		constexpr Exception& operator=(const Exception& Source);
 
-		Exception& operator=(Exception&& Right) noexcept = delete;
+		constexpr Exception& operator=(Exception&& Right) noexcept;
 	public:
 		const Text::String<char8_t>& GetExceptionMessage() const noexcept;
 
 		const Text::String<char8_t>& GetStackTrace() const noexcept;
 	private:
-		Text::String<char8_t> CaptureStackTrace();
+		constexpr Text::String<char8_t> CaptureStackTrace();
 	private:
 		Text::String<char8_t> _Message;
 		Text::String<char8_t> _StackTrace;
 	};
 
-	inline Elysium::Core::Template::Exceptions::Exception::Exception(const char8_t* Message)
+	inline constexpr Exception::Exception(const char8_t* Message)
 		: _Message(Message), _StackTrace(CaptureStackTrace())
 	{ }
 
-	inline Exception::Exception(Text::String<char8_t> && Message)
+	inline constexpr Exception::Exception(Text::String<char8_t> && Message)
 		: _Message(Functional::Move(Message)), _StackTrace(CaptureStackTrace())
 	{ }
 
-	inline Exception::Exception(const Exception & Source)
+	inline constexpr Exception::Exception(const Exception & Source)
 		: _Message(Source._Message), _StackTrace(Source._StackTrace)
 	{ }
 
-	inline Elysium::Core::Template::Exceptions::Exception::~Exception()
-	{ }
+	inline constexpr Exception::Exception(Exception&& Right) noexcept
+		: _Message(), _StackTrace()
+	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+
+	inline constexpr Exception& Elysium::Core::Template::Exceptions::Exception::operator=(const Exception& Source)
+	{
+		if (this != &Source)
+		{
+			_Message = Source._Message;
+			_StackTrace = Source._StackTrace;
+		}
+		return *this;
+	}
+
+	inline constexpr Exception& Elysium::Core::Template::Exceptions::Exception::operator=(Exception&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			_Message = Elysium::Core::Template::Functional::Move(Right._Message);
+			_StackTrace = Elysium::Core::Template::Functional::Move(Right._StackTrace);
+		}
+		return *this;
+	}
 
 	inline const Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetExceptionMessage() const noexcept
 	{
@@ -77,7 +100,7 @@ namespace Elysium::Core::Template::Exceptions
 		return _StackTrace;
 	}
 
-	inline Text::String<char8_t> Exception::CaptureStackTrace()
+	inline constexpr Text::String<char8_t> Exception::CaptureStackTrace()
 	{	// ToDo: capture stacktrace as string like .net does
 		return Text::String<char8_t>();
 	}

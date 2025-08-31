@@ -80,6 +80,7 @@ namespace Elysium::Core::Template::IO
 		if (Result == FALSE)
 		{
 			DWORD ErrorCode = GetLastError();
+			// @ToDo
 			bool bla = false;
 		}
 
@@ -114,6 +115,7 @@ namespace Elysium::Core::Template::IO
 		if (Result == FALSE)
 		{
 			DWORD ErrorCode = GetLastError();
+			// @ToDo
 			bool bla = false;
 		}
 
@@ -135,14 +137,28 @@ namespace Elysium::Core::Template::IO
 
 		Elysium::Core::Template::Text::String<wchar_t> WindowsPath =
 			Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(Path, PathLength);
-
-		BOOL Result = RemoveDirectoryW(&WindowsPath[0]);
+		
+		// will only delete if empty
+		BOOL Result = RemoveDirectoryW(&WindowsPath[0]);	
 		if (Result == FALSE)
 		{
 			DWORD ErrorCode = GetLastError();
+			// @ToDo
 			bool bla = false;
 		}
-
+		/*
+		SHFILEOPSTRUCTW fileOp = { 0 };
+		fileOp.wFunc = FO_DELETE;
+		fileOp.pFrom = &WindowsPath[0];
+		fileOp.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT;
+		int Result = SHFileOperationW(&fileOp);
+		if (Result != 0)
+		{
+			// <winerror.h>
+			// 2 = ERROR_FILE_NOT_FOUND
+			bool bla = false;
+		}
+		*/
 		return true;
 	}
 }

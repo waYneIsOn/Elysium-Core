@@ -72,4 +72,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SystemException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_INTERNALBUFFEROVERFLOWEXCEPTION
+#include "Exceptions/IO/InternalBufferOverflowException.hpp"
+#endif
+
 #endif

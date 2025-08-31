@@ -49,6 +49,8 @@ Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, con
 
 Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 {
+	_IsDestructing = true;
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	EndInit();
 
@@ -56,7 +58,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	{
 		// cancel new callbacks from coming in
 		CancelThreadpoolIo(_CompletionPortHandle);
-		 
+
 		// Ensure no callbacks are still active
 		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
 		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
@@ -71,7 +73,6 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 		CloseHandle(_DirectoryHandle);
 		_DirectoryHandle = INVALID_HANDLE_VALUE;
 	}
-
 #else
 #error "undefined os"
 #endif
@@ -236,7 +237,21 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 	if (RawAsyncFileWatcherResult->GetErrorCode() != NO_ERROR)
 	{
 		const Elysium::Core::uint16_t ErrorCode = RawAsyncFileWatcherResult->GetErrorCode();
+
+		// cleanup
+		RawAsyncFileWatcherResult->_CompletionPortHandle = nullptr;
+		RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
+		delete RawAsyncFileWatcherResult;
+
 		throw IOException(ErrorCode);
+	}
+
+
+	// ...
+	bool PotentialBufferOverflow = false;
+	if (RawAsyncFileWatcherResult->_BytesTransferred == FileSystemWatcherAsyncResult::_InformationBufferSize)
+	{	// might be a buffer overflow
+		PotentialBufferOverflow = true;
 	}
 
 	// ...
@@ -245,23 +260,22 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 	do
 	{
 		const FILE_NOTIFY_EXTENDED_INFORMATION& Info = (FILE_NOTIFY_EXTENDED_INFORMATION&)RawAsyncFileWatcherResult->_InformationBuffer[Offset];
-		if (Info.Action == 0)
-		{	// an error can occurre if:
-			// - the buffer is too small to capture all events (FileSystemWatcherAsyncResult::_InformationBufferSize).
-			// - a remote directory is being monitored and the connection is lost
-			// - etc.
-			DWORD LastError = GetLastError();
-			// @ToDo:
-			if (LastError == 0)
-			{
-				//Error(*this, ErrorEventArgs(...));
-			}
-			else
-			{
-				//Error(*this, ErrorEventArgs(...));
-			}
+		
+		// pre-validate
+		if (Info.Action == 0 || Info.FileNameLength == 0)
+		{
+			PotentialBufferOverflow = true;
+			//break;
+		}
+		
+		if (Info.NextEntryOffset == 0)
+		{	// yes, this can occurre resulting in an endless loop
+			// @ToDo: is my parsing incorrect/misaligned?
+			bool bla = false;
+			//break;
 		}
 
+		// ...		
 		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName, 
 			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Info.FileName));
 
@@ -269,10 +283,23 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 		Utf8String FullPath = Utf8String(_Path.GetLength() + FileName.GetLength() + sizeof(char8_t));
 		Elysium::Core::Template::Memory::MemCpy(&FullPath[0], &_Path[0], _Path.GetLength());
 		FullPath[_Path.GetLength()] = u8'\\';
-		Elysium::Core::Template::Memory::MemCpy(&FullPath[_Path.GetLength() + 1], &FileName[0], FileName.GetLength());
+		Elysium::Core::Template::Memory::MemCpy(&FullPath[_Path.GetLength() + sizeof(char8_t)], &FileName[0], FileName.GetLength());
 
 		switch (Info.Action)
 		{
+		case 0:
+		{
+			// this is undocumented but can appear!
+			// there's some suggestion that it can appear sporadically and should be ignored.
+			// it seems to occurre when to many changes happen (with the buffer not necessarily overflowing!!!)
+			/*
+			DWORD ErrorCode = GetLastError();
+
+			OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
+				Elysium::Core::Template::Exceptions::SystemException(21))));
+			*/
+		}
+			break;
 		case FILE_ACTION_ADDED:
 			if (IsInterested(&FileName[0]))
 			{
@@ -313,10 +340,29 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 			// simply call OnError(...)?
 			break;
 		}
-		
-		Offset = Info.NextEntryOffset;
+
+		Offset += Info.NextEntryOffset;
+		//Offset = Info.NextEntryOffset;
+
+		// post-validate
+		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred || Info.NextEntryOffset == 0)
+		{
+			PotentialBufferOverflow = true;
+			break;
+		}
 	} while (Offset > 0);
 
+	// ...
+	if (PotentialBufferOverflow)
+	{
+		// afaik there's no default windows error code for this -> .NET uses error code 0x80131671
+		// @ToDo: actually check this
+		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
+			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671, 
+				u8"Too many changes at once in directory: ..."))));	// @ToDo: use _Path
+	}
+
+	// ...
 	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
 		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
 	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
@@ -330,7 +376,10 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 	delete RawAsyncFileWatcherResult;
 
 	// run again
-	BeginInit();
+	if (!_IsDestructing)
+	{
+		BeginInit();
+	}
 }
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -363,10 +412,10 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 
 	switch (IoResult)
 	{
-	case NO_ERROR:
+	case NO_ERROR:	// 0
 		// "default" result - nothing to do here
 		break;
-	case ERROR_OPERATION_ABORTED:
+	case ERROR_OPERATION_ABORTED:	// 995
 		// ...
 		return;
 	default:
