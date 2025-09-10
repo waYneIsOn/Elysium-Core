@@ -76,8 +76,7 @@ namespace Elysium::Core::IO
 		/// </summary>
 		//inline static constexpr const Elysium::Core::size _InformationBufferSize = _SafeInformationBufferSize;
 
-		inline static constexpr const Elysium::Core::size _InformationBufferSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION) +
-			256 * sizeof(wchar_t);
+		inline static constexpr const Elysium::Core::size _InformationBufferSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION) + 256 * sizeof(wchar_t);
 	private:
 		FileSystemWatcher& _Watcher;
 		Elysium::Core::size _BytesTransferred;

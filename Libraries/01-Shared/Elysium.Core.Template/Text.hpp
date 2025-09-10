@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Encoding.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_FORMAT
+#include "Text/Format.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
 #include "String.hpp"
 #endif

@@ -181,9 +181,6 @@ namespace UnitTests::Core::IO
 		
 		TEST_METHOD(ProvokeBufferOverflow)
 		{
-			// if the internal buffer is too small and many changes happen in a short time, the buffer can overflow.
-			// (the buffer should not be too large as it uses non-paged memory that cannot be swapped out to disk!!!!)
-
 			// prepare everything required for the test
 			constexpr const Elysium::Core::Template::System::size NumberOfFiles = 1000;
 			constexpr const char8_t* FileExtension = u8".txt";
@@ -231,6 +228,7 @@ namespace UnitTests::Core::IO
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.BeginInit();
 
+			// it's not even necessary to have multiple threads deleting files as long as the buffer isn't too large (<= 4kb)
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
 			{
 				const Elysium::Core::Template::Text::String<char8_t> Index = Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
@@ -248,9 +246,9 @@ namespace UnitTests::Core::IO
 
 			// give it a maximum of 30s for the error to occcure
 			const bool WaitResult = _ErrorResetEvent.WaitOne(30000);
-			//Assert::IsTrue(WaitResult);
+			Assert::IsTrue(WaitResult);
 
-			// wait just a little bit longer to possibly catch a few more callbacks and see more in the test-logs
+			// wait just a little bit longer to maybe catch a few more errors and get a (somewhat) complete picture.
 			Elysium::Core::Threading::Thread::Sleep(TimeSpan::FromSeconds(20));
 		}
 	private:
@@ -400,24 +398,6 @@ namespace UnitTests::Core::IO
 			_DeletedResetEvent.Set();
 		}
 
-		void FileSystemWatcher_OnError(const FileSystemWatcher& Watcher, const ErrorEventArgs& EventArgs)
-		{
-			Logger::WriteMessage("FileSystemWatcher_OnError\r\n");
-
-			const Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException& Exception = EventArgs.GetException();
-			const Elysium::Core::Template::System::uint32_t ErrorCode = Exception.GetErrorCode();
-			const Elysium::Core::Template::Text::String<char8_t>& Message = Exception.GetExceptionMessage();
-
-			Logger::WriteMessage("\tErrorCode: ");
-			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char>::ToString(ErrorCode)[0]);
-			Logger::WriteMessage("\r\n");
-			Logger::WriteMessage("\tMessage: ");
-			Logger::WriteMessage((char*)&Message[0]);
-			Logger::WriteMessage("\r\n");
-
-			_ErrorResetEvent.Set();
-		}
-
 		void FileSystemWatcher_OnRenamed(const FileSystemWatcher& Watcher, const RenamedEventArgs& EventArgs)
 		{
 			Logger::WriteMessage("FileSystemWatcher_OnRenamed\r\n");
@@ -446,6 +426,25 @@ namespace UnitTests::Core::IO
 
 			_RenamedResetEvent.Set();
 		}
+
+		void FileSystemWatcher_OnError(const FileSystemWatcher& Watcher, const ErrorEventArgs& EventArgs)
+		{
+			Logger::WriteMessage("FileSystemWatcher_OnError\r\n");
+
+			const Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException& Exception = EventArgs.GetException();
+			const Elysium::Core::Template::System::uint32_t ErrorCode = Exception.GetErrorCode();
+			const Elysium::Core::Template::Text::String<char8_t>& Message = Exception.GetExceptionMessage();
+
+			Logger::WriteMessage("\tErrorCode: ");
+			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char>::ToString(ErrorCode)[0]);
+			Logger::WriteMessage("\r\n");
+			Logger::WriteMessage("\tMessage: ");
+			Logger::WriteMessage((char*)&Message[0]);
+			Logger::WriteMessage("\r\n");
+
+			_ErrorResetEvent.Set();
+		}
+
 	private:
 		inline static constexpr const char8_t* _BaseDirectory = u8"C:\\test";	// @ToDo: use Directory::CurrentDirectory()
 		inline static constexpr const char8_t* _FilePath0 = u8"C:\\test\\file.txt";

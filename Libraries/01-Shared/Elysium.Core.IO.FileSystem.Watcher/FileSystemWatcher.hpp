@@ -115,6 +115,8 @@ namespace Elysium::Core::IO
 
 		void EndInit(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& AsyncResult);
 	private:
+		static void CleanupAsyncResultAfterSuccess(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult);
+	private:
 		inline static const NotifyFilters DefaultNotifyFilters = NotifyFilters::LastWrite | NotifyFilters::FileName | NotifyFilters::DirectoryName;
 	private:
 		NotifyFilters _NotifyFilters;

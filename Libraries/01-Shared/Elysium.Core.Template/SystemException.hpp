@@ -70,15 +70,15 @@ namespace Elysium::Core::Template::Exceptions
 
 		constexpr virtual ~SystemException() override = default;
 	public:
-		//constexpr SystemException& operator=(const SystemException& Source);
+		constexpr SystemException& operator=(const SystemException& Source);
 
-		//constexpr SystemException& operator=(SystemException&& Right) noexcept;
+		constexpr SystemException& operator=(SystemException&& Right) noexcept;
 	public:
 		constexpr const System::uint32_t GetErrorCode() const noexcept;
 	private:
 		Elysium::Core::Template::Text::String<char8_t> GetLastErrorMessage(DWORD ErrorCode);
 	private:
-		const System::uint32_t _ErrorCode;
+		System::uint32_t _ErrorCode;
 	};
 
 	inline Elysium::Core::Template::Exceptions::SystemException::SystemException(const char8_t* Message)
@@ -103,8 +103,33 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline constexpr SystemException::SystemException(SystemException&& Right) noexcept
 		: Elysium::Core::Template::Exceptions::Exception(Elysium::Core::Template::Functional::Move(Right)),
-		_ErrorCode(Right._ErrorCode)
+		_ErrorCode()
 	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+
+	inline constexpr SystemException& SystemException::operator=(const SystemException& Source)
+	{
+		if (this != &Source)
+		{
+			//Elysium::Core::Template::Exceptions::Exception::operator=(Source);
+
+			_ErrorCode = Source._ErrorCode;
+		}
+		return *this;
+	}
+
+	inline constexpr SystemException& SystemException::operator=(SystemException&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			//Elysium::Core::Template::Exceptions::Exception::operator=(Right);
+
+			_ErrorCode = Right._ErrorCode;
+			
+			Right._ErrorCode = 0;
+		}
+		return *this;
 	}
 
 	inline constexpr const System::uint32_t Elysium::Core::Template::Exceptions::SystemException::GetErrorCode() const noexcept

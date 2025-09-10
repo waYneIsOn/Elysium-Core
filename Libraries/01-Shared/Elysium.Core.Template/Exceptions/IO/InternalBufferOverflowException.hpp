@@ -39,14 +39,26 @@ namespace Elysium::Core::Template::Exceptions::IO
 		constexpr InternalBufferOverflowException(InternalBufferOverflowException&& Right) noexcept;
 
 		constexpr virtual ~InternalBufferOverflowException() override = default;
-	};
+	public:
+		constexpr InternalBufferOverflowException& operator=(const InternalBufferOverflowException& Source) = delete;
 
+		constexpr InternalBufferOverflowException& operator=(InternalBufferOverflowException&& Right) noexcept;
+	};
+	
 	inline constexpr InternalBufferOverflowException::InternalBufferOverflowException(const System::uint32_t ErrorCode, const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException::SystemException(ErrorCode, Message)
 	{ }
 
 	inline constexpr InternalBufferOverflowException::InternalBufferOverflowException(InternalBufferOverflowException&& Right) noexcept
 		: Elysium::Core::Template::Exceptions::SystemException::SystemException(Elysium::Core::Template::Functional::Move(Right))
-	{ }
+	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+
+	inline constexpr InternalBufferOverflowException& InternalBufferOverflowException::operator=(InternalBufferOverflowException&& Right) noexcept
+	{
+		//Elysium::Core::Template::Exceptions::SystemException::operator=(Right);
+		return *this;
+	}
 }
 #endif

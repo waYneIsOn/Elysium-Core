@@ -136,8 +136,6 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 			// an error code other than ERROR_IO_PENDING).
 			// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
 			// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
-			// @ToDo:
-			// doing it like this might cause the handle to get canceled twice (destructor!) - need to check!
 			CancelThreadpoolIo(_CompletionPortHandle);
 
 			delete RawAsyncFileWatcherResult;
@@ -159,7 +157,12 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 	if (FALSE == CancelIoEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped))
 	{
 		DWORD ErrorCode = GetLastError();
-		bool bla = false;
+
+		// 1168 (0x490): Element not found
+
+		//CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
+
+		return;
 	}
 	
 	// wait for current io to complete
@@ -254,28 +257,75 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 		PotentialBufferOverflow = true;
 	}
 
+
+
+	std::u8string TempErrorMessage;
+
+
 	// ...
+	constexpr const Elysium::Core::Template::System::size InfoBlockSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION);
 	Elysium::Core::size Offset = 0;
 	wchar_t* OldName = nullptr;
 	do
 	{
 		const FILE_NOTIFY_EXTENDED_INFORMATION& Info = (FILE_NOTIFY_EXTENDED_INFORMATION&)RawAsyncFileWatcherResult->_InformationBuffer[Offset];
 		
-		// pre-validate
-		if (Info.Action == 0 || Info.FileNameLength == 0)
-		{
-			PotentialBufferOverflow = true;
-			//break;
-		}
-		
-		if (Info.NextEntryOffset == 0)
-		{	// yes, this can occurre resulting in an endless loop
-			// @ToDo: is my parsing incorrect/misaligned?
-			bool bla = false;
+		if (RawAsyncFileWatcherResult->_BytesTransferred == 0)
+		{	// @Info: This is a weird one to me. Why does the callback get triggered when there are no bytes?
 			//break;
 		}
 
-		// ...		
+
+
+
+
+		if (Info.Action == 0)
+		{
+			PotentialBufferOverflow = true;
+			TempErrorMessage += u8"Info.Action == 0\r\n";
+		}
+		if (Info.FileNameLength == 0)
+		{
+			PotentialBufferOverflow = true;
+			TempErrorMessage += u8"Info.FileNameLength == 0\r\n";
+		}
+
+
+
+
+
+
+		// validate premature end of buffer
+		if (Offset + InfoBlockSize > RawAsyncFileWatcherResult->_BytesTransferred)
+		{
+			PotentialBufferOverflow = true;
+			TempErrorMessage += u8"InfoBlockSize exceeds buffer.\r\n";
+			break;
+		}
+		
+		// validate FileNameLength
+		const Elysium::Core::Template::System::size CurrentInfoSize = 
+			InfoBlockSize - sizeof(wchar_t) + (Info.FileNameLength / sizeof(wchar_t));
+		if (CurrentInfoSize + Offset > RawAsyncFileWatcherResult->_BytesTransferred)
+		{
+			PotentialBufferOverflow = true;
+			TempErrorMessage += u8"Info.FileNameLength exceeds buffer.\r\n";
+			break;
+		}
+
+
+
+
+
+
+
+		
+		
+
+
+		
+
+		// ...
 		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName, 
 			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Info.FileName));
 
@@ -342,10 +392,34 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 		}
 
 		Offset += Info.NextEntryOffset;
-		//Offset = Info.NextEntryOffset;
+
+
+
+
+
+
+		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred)
+		{
+			TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
+			PotentialBufferOverflow = true;
+		}
+		if (Info.NextEntryOffset == 0)
+		{
+			TempErrorMessage += u8"Info.NextEntryOffset == 0\r\n";
+			PotentialBufferOverflow = true;
+		}
+
+
+
+
+
 
 		// post-validate
-		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred || Info.NextEntryOffset == 0)
+		if (Info.NextEntryOffset == 0)
+		{	// this doesn't seem to indicate a buffer overflow but the last entry?
+			break;
+		}
+		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred)
 		{
 			PotentialBufferOverflow = true;
 			break;
@@ -357,16 +431,19 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 	{
 		// afaik there's no default windows error code for this -> .NET uses error code 0x80131671
 		// @ToDo: actually check this
+		/*
 		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
-			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671, 
+			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
 				u8"Too many changes at once in directory: ..."))));	// @ToDo: use _Path
+		*/
+		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
+			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
+				&TempErrorMessage[0]))));
 	}
+}
 
-	// ...
-	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
-		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
-	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
-
+void Elysium::Core::IO::FileSystemWatcher::CleanupAsyncResultAfterSuccess(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult)
+{
 	// A successful io-operation musn't be canceled!
 	// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when RawAsyncFileWatcherResult get's destructed!
 	RawAsyncFileWatcherResult->_CompletionPortHandle = nullptr;
@@ -374,12 +451,6 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 	// make sure to not cause a memory leak
 	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
 	delete RawAsyncFileWatcherResult;
-
-	// run again
-	if (!_IsDestructing)
-	{
-		BeginInit();
-	}
 }
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -406,9 +477,42 @@ HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const c
 void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
 	if (Context == nullptr || Overlapped == nullptr)
-	{
+	{	// there obviously is nothing I need to cleanup here, if this scenario occurres (which it shouldn't!)
 		return;
 	}
+
+	if (NumberOfBytesTransferred == 0)
+	{
+		bool bla = false;
+	}
+
+	// ...
+	FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
+	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = reinterpret_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
+
+	if (WrappedOverlap->_AsyncResult == nullptr)
+	{
+		// run again
+		if (!Watcher->_IsDestructing)
+		{
+			Watcher->BeginInit();
+		}
+		return;
+	}
+
+	Elysium::Core::Template::Threading::Atomic<IAsyncResult*>* AsyncResult =
+		reinterpret_cast<Elysium::Core::Template::Threading::Atomic<IAsyncResult*>*>(WrappedOverlap->_AsyncResult);
+	if (AsyncResult == nullptr)
+	{
+		// run again
+		if (!Watcher->_IsDestructing)
+		{
+			Watcher->BeginInit();
+		}
+		return;
+	}
+
+
 
 	switch (IoResult)
 	{
@@ -417,25 +521,40 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		break;
 	case ERROR_OPERATION_ABORTED:	// 995
 		// ...
+		// @ToDo: cleanup
+		//CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
 		return;
 	default:
 		break;
 	}
 
-	FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
-
-	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = reinterpret_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
-	Elysium::Core::Template::Threading::Atomic<IAsyncResult*>* AsyncResult = 
-		reinterpret_cast<Elysium::Core::Template::Threading::Atomic<IAsyncResult*>*>(WrappedOverlap->_AsyncResult);
-	if (AsyncResult != nullptr)
+	//if (AsyncResult != nullptr)
 	{
+		//IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);
 		IAsyncResult* RawAsyncResult = AsyncResult->Load();
 		FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
 		const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = RawAsyncFileWatcherResult->GetCallback();
 		RawAsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;
 		RawAsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
 
-		Callback(*AsyncResult);
+		if (NumberOfBytesTransferred > 0)
+		{
+			Callback(*AsyncResult);
+		}
+
+		Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
+			(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
+		bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
+
+		CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
+
+		//IAsyncResult* RawAsyncResult2 = AsyncResult->Exchange(nullptr);
+
+		// run again
+		if (!Watcher->_IsDestructing)
+		{
+			Watcher->BeginInit();
+		}
 	}
 }
 #endif

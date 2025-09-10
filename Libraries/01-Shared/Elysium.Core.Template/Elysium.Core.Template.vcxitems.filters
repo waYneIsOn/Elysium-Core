@@ -797,6 +797,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\InternalBufferOverflowException.hpp">
       <Filter>Exceptions\IO</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

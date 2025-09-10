@@ -63,6 +63,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaPage.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
