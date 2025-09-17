@@ -223,6 +223,10 @@ namespace UnitTests::Core::IO
 			}
 
 			// run the actual test
+			/*
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory, u8".", FileSystemWatcher::DefaultNotifyFilters,
+				false, 25);
+			*/
 			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory);
 			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);

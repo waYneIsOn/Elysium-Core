@@ -37,12 +37,13 @@
 #endif
 
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher()
-	: _Path(), _Filter(), _NotifyFilters(), _IncludeSubdirectories(), _AddressOfLatestAsyncResult(),
-	_DirectoryHandle(), _CompletionPortHandle()
+	: _Path(), _Filter(), _NotifyFilters(), _IncludeSubdirectories(), _AddressOfLatestAsyncResult(nullptr),
+	_InternalBufferSize(_SafeInformationBufferSize), _DirectoryHandle(), _CompletionPortHandle()
 { }
 
-Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories)
-	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), _AddressOfLatestAsyncResult(nullptr),
+Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories, const Elysium::Core::Template::System::size InternalBufferSize)
+	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), 
+	_AddressOfLatestAsyncResult(nullptr), _InternalBufferSize(InternalBufferSize),
 	_DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
 	_CompletionPortHandle(CreateThreadpoolIo(_DirectoryHandle, IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
@@ -110,7 +111,7 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 		return;
 	}
 
-	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = new FileSystemWatcherAsyncResult(
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = new FileSystemWatcherAsyncResult(_InternalBufferSize,
 		Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileSystemWatcher, &FileSystemWatcher::Process>(*this),
 		nullptr, 0x0, _CompletionPortHandle);
 
@@ -121,7 +122,7 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 
 	StartThreadpoolIo(_CompletionPortHandle);
 	if (FALSE == ReadDirectoryChangesExW(_DirectoryHandle, &RawAsyncFileWatcherResult->_InformationBuffer[0],
-		RawAsyncFileWatcherResult->_InformationBufferSize, _IncludeSubdirectories, static_cast<DWORD>(_NotifyFilters), &BytesReturned,
+		RawAsyncFileWatcherResult->_InformationBuffer.GetLength(), _IncludeSubdirectories, static_cast<DWORD>(_NotifyFilters), &BytesReturned,
 		(LPOVERLAPPED)&RawAsyncFileWatcherResult->_WrappedOverlap, nullptr,
 		READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation))
 	{
@@ -252,7 +253,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 
 	// ...
 	bool PotentialBufferOverflow = false;
-	if (RawAsyncFileWatcherResult->_BytesTransferred == FileSystemWatcherAsyncResult::_InformationBufferSize)
+	if (RawAsyncFileWatcherResult->_BytesTransferred == RawAsyncFileWatcherResult->_InformationBuffer.GetLength())
 	{	// might be a buffer overflow
 		PotentialBufferOverflow = true;
 	}

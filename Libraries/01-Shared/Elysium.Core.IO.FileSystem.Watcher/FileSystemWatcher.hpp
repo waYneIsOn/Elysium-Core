@@ -77,7 +77,7 @@ namespace Elysium::Core::IO
 		FileSystemWatcher();
 	public:
 		FileSystemWatcher(const char8_t* Path, const char8_t* Filter = u8"*.*", const NotifyFilters NotifyFilters = DefaultNotifyFilters, 
-			const bool IncludeSubdirectories = false);
+			const bool IncludeSubdirectories = false, const Elysium::Core::Template::System::size InternalBufferSize = _SafeInformationBufferSize);
 
 		FileSystemWatcher(const FileSystemWatcher& Source) = delete;
 
@@ -116,18 +116,41 @@ namespace Elysium::Core::IO
 		void Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult);
 	private:
 		static void CleanupAsyncResultAfterSuccess(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult);
-	private:
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
 		inline static const NotifyFilters DefaultNotifyFilters = NotifyFilters::LastWrite | NotifyFilters::FileName | NotifyFilters::DirectoryName;
+		
+		/// <summary>
+		/// 4kb is the default memory page size on windows (x86 and x64).
+		/// This should be used with a low event volume where the use of minimal memory suffices.
+		/// </summary>
+		inline static constexpr const Elysium::Core::size _MinimumInformationBufferSize = 4096;
+
+		/// <summary>
+		/// 64kb appears to be the safe upper bound for compatibility across all filesystems on windows.
+		/// This appears to be the sweet spot in regards to safety, compatibility and efficiency.
+		/// (Chromium, VS Code etc. appear to be using this value - with overflow detection/resilience logic.)
+		/// </summary>
+		inline static constexpr const Elysium::Core::size _SafeInformationBufferSize = 65536;
+
+		/// <summary>
+		/// 128-256kb works but might be risky in some filesystems.
+		/// This can be used for high frequency event volume.
+		/// </summary>
+		inline static constexpr const Elysium::Core::size _MaximumInformationBufferSize = 262144;
 	private:
 		NotifyFilters _NotifyFilters;
 		bool _IncludeSubdirectories;
 		Utf8String _Path;
 		Utf8String _Filter;
 
+		Elysium::Core::Template::System::size _InternalBufferSize;
+
 		Elysium::Core::Template::Threading::Atomic<bool> _IsDestructing = false;
 
 		Elysium::Core::Template::Threading::Atomic<FileSystemWatcherAsyncResult*> _AddressOfLatestAsyncResult;
-		
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _DirectoryHandle;
 		PTP_IO _CompletionPortHandle;
