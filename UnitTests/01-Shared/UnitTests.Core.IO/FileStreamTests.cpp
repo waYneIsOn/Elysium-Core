@@ -148,7 +148,7 @@ namespace UnitTests::Core::IO
 			}
 		}
 
-		void ReadCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void ReadCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 			/*
 			const FileStreamAsyncResult* ReadResult = dynamic_cast<const FileStreamAsyncResult*>(Result);
@@ -157,7 +157,7 @@ namespace UnitTests::Core::IO
 			*/
 		}
 
-		void ReadWriteCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void ReadWriteCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 			/*
 			const FileStreamAsyncResult* ReadResult = dynamic_cast<const FileStreamAsyncResult*>(Result);
@@ -170,7 +170,7 @@ namespace UnitTests::Core::IO
 			*/
 		}
 
-		void WriteReadCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void WriteReadCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 			/*
 			const FileStreamAsyncResult* WriteResult = dynamic_cast<const FileStreamAsyncResult*>(Result);

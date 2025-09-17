@@ -24,6 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#ifndef CONCURRENCYSAL_H
 	#include <concurrencysal.h>
 	#endif
+
+#include <cassert>
 #else
 #error "unsupported os"
 #endif
@@ -38,7 +40,7 @@ namespace Elysium::Core::Template::Threading
 	class SharedMutex
 	{
 	public:
-		SharedMutex() noexcept;
+		constexpr SharedMutex() noexcept;
 
 		SharedMutex(const SharedMutex& Source) = delete;
 
@@ -69,11 +71,13 @@ namespace Elysium::Core::Template::Threading
 #endif
 	};
 
-	inline Elysium::Core::Template::Threading::SharedMutex::SharedMutex() noexcept
+	inline constexpr Elysium::Core::Template::Threading::SharedMutex::SharedMutex() noexcept
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		: _Handle()
+		: _Handle(SRWLOCK_INIT)
 	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-initializesrwlock
-		InitializeSRWLock(&_Handle);
+		//InitializeSRWLock(&_Handle);
+
+		assert(_Handle.Ptr == nullptr);
 	}
 #else
 	{ }
@@ -94,6 +98,10 @@ namespace Elysium::Core::Template::Threading
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive
+		_Analysis_assume_lock_released_(_Handle);
+
+		SRWLOCK* Test = &_Handle;
+
 		AcquireSRWLockExclusive(&_Handle);
 #else
 #error "unsupported os"

@@ -113,7 +113,7 @@ namespace Elysium::Core::IO
 	private:
 		const bool IsInterested(const char8_t* RelativePath);
 
-		void EndInit(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& AsyncResult);
+		void Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult);
 	private:
 		static void CleanupAsyncResultAfterSuccess(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult);
 	private:

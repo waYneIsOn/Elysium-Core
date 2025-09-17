@@ -48,11 +48,11 @@ namespace Elysium::Core::Template::Memory
 
 		constexpr ObserverPointer<T>& operator=(ObserverPointer&& Right) noexcept = default;
 	public:
-		//constexpr UniquePointer<T, Deleter>::Pointer operator->() const noexcept;
+		//constexpr ObserverPointer<T>::Pointer operator->() const noexcept;
 	public:
-		//constexpr UniquePointer<T, Deleter>::Pointer GetUnderlyingPointer() const noexcept;
+		constexpr ObserverPointer<T>::Pointer GetUnderlyingPointer() const noexcept;
 
-		//constexpr UniquePointer<T, Deleter>::Pointer Release() noexcept;
+		//constexpr ObserverPointer<T>::Pointer Release() noexcept;
 	private:
 		Pointer _Data;
 	};
@@ -61,5 +61,11 @@ namespace Elysium::Core::Template::Memory
 	inline constexpr ObserverPointer<T>::ObserverPointer(Pointer Data) noexcept
 		: _Data(Data)
 	{ }
+
+	template<class T>
+	inline constexpr ObserverPointer<T>::Pointer ObserverPointer<T>::GetUnderlyingPointer() const noexcept
+	{
+		return _Data;
+	}
 }
 #endif

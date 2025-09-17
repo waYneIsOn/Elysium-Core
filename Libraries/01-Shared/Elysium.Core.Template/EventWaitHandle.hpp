@@ -36,17 +36,17 @@ namespace Elysium::Core::Template::Threading
 		: public WaitHandle
 	{
 	public:
-		EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const char8_t* Name);
+		constexpr EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const char8_t* Name);
 
-		EventWaitHandle(const EventWaitHandle& Source) = delete;
+		constexpr EventWaitHandle(const EventWaitHandle& Source) = delete;
 
-		EventWaitHandle(EventWaitHandle&& Right) noexcept = delete;
+		constexpr EventWaitHandle(EventWaitHandle&& Right) noexcept = delete;
 
-		virtual ~EventWaitHandle();
+		constexpr virtual ~EventWaitHandle() = default;
 	public:
-		EventWaitHandle& operator=(const EventWaitHandle& Source) = delete;
+		constexpr EventWaitHandle& operator=(const EventWaitHandle& Source) = delete;
 
-		EventWaitHandle& operator=(EventWaitHandle&& Right) noexcept = delete;
+		constexpr EventWaitHandle& operator=(EventWaitHandle&& Right) noexcept = delete;
 	public:
 		/// <summary>
 		/// Sets the state of the event to signaled, allowing one or more waiting threads to proceed.
@@ -61,11 +61,8 @@ namespace Elysium::Core::Template::Threading
 		const bool Reset();
 	};
 	
-	inline Elysium::Core::Template::Threading::EventWaitHandle::EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const char8_t* Name)
+	inline constexpr Elysium::Core::Template::Threading::EventWaitHandle::EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const char8_t* Name)
 		: WaitHandle(CreateEventW(nullptr, AutomaticallyReset, InitialState, nullptr))
-	{ }
-
-	inline Elysium::Core::Template::Threading::EventWaitHandle::~EventWaitHandle()
 	{ }
 
 	inline const bool Elysium::Core::Template::Threading::EventWaitHandle::Set()

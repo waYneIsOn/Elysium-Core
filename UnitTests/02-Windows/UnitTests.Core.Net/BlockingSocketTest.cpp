@@ -211,7 +211,7 @@ namespace UnitTests::Core::Net::Sockets
 			//AsyncServer.Shutdown(SocketShutdown::Both);	// ToDo: this throws an exception as a listening socket will never get into a "connected-state"
 		}
 	private:
-		void AcceptCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void AcceptCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 			/*
 			Elysium::Core::Net::Sockets::AcceptAsyncResult* AsyncAcceptResult = (Elysium::Core::Net::Sockets::AcceptAsyncResult*)Result;
@@ -221,17 +221,17 @@ namespace UnitTests::Core::Net::Sockets
 			*/
 		}
 		
-		void ConnectCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void ConnectCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 
 		}
 
-		void DisconnectCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void DisconnectCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 
 		}
 
-		void ReceiveCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void ReceiveCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 			//StateObject state = (StateObject)ar.AsyncState;
 			//Socket client = state.workSocket;
@@ -244,7 +244,7 @@ namespace UnitTests::Core::Net::Sockets
 			*/
 		}
 
-		void SendCallback(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& Result)
+		void SendCallback(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> Result)
 		{
 			/*
 			const SendReceiveAsyncResult* AsyncResult = (const SendReceiveAsyncResult*)Result;

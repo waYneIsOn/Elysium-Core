@@ -24,16 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
-#include "../Elysium.Core.Template/Atomic.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_OBSERVERPOINTER
+#include "../Elysium.Core.Template/Memory/ObserverPointer.hpp"
 #endif
 
 namespace Elysium::Core::Container
 {
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Delegate<void,
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>&>;
+		Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult>>;
 
 	using DelegateOfVoidAtomicIASyncResultReference = Elysium::Core::Template::Container::Delegate<void,
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>&>;
+		Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult>>;
 }
 #endif

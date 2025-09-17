@@ -37,7 +37,7 @@ namespace Elysium::Core::IO
 	{
 		friend class FileSystemWatcher;
 	private:
-		FileSystemWatcherAsyncResult(FileSystemWatcher& Watcher, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
+		FileSystemWatcherAsyncResult(const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
 			const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle);
 	public:
 		FileSystemWatcherAsyncResult(const FileSystemWatcherAsyncResult& Source) = delete;
@@ -49,8 +49,6 @@ namespace Elysium::Core::IO
 		FileSystemWatcherAsyncResult& operator=(const FileSystemWatcherAsyncResult& Source) = delete;
 
 		FileSystemWatcherAsyncResult& operator=(FileSystemWatcherAsyncResult&& Right) noexcept = delete;
-	public:
-		constexpr const FileSystemWatcher& GetWatcher() const;
 	private:
 		/// <summary>
 		/// 4kb is the default memory page size on windows (x86 and x64).
@@ -78,7 +76,6 @@ namespace Elysium::Core::IO
 
 		inline static constexpr const Elysium::Core::size _InformationBufferSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION) + 256 * sizeof(wchar_t);
 	private:
-		FileSystemWatcher& _Watcher;
 		Elysium::Core::size _BytesTransferred;
 
 		Elysium::Core::byte _InformationBuffer[_InformationBufferSize];

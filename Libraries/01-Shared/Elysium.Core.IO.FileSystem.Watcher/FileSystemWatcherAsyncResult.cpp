@@ -4,12 +4,8 @@
 #include "FileSystemWatcher.hpp"
 #endif
 
-Elysium::Core::IO::FileSystemWatcherAsyncResult::FileSystemWatcherAsyncResult(FileSystemWatcher& Watcher, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle)
+Elysium::Core::IO::FileSystemWatcherAsyncResult::FileSystemWatcherAsyncResult(const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState, const Elysium::Core::size Position, PTP_IO CompletionPortHandle)
 	: Elysium::Core::Internal::AsyncResult(Callback, AsyncState, Position, CompletionPortHandle),
-	_Watcher(Watcher), _BytesTransferred(0), _InformationBuffer()
+	_BytesTransferred(0), _InformationBuffer()
 { }
 
-constexpr const Elysium::Core::IO::FileSystemWatcher& Elysium::Core::IO::FileSystemWatcherAsyncResult::GetWatcher() const
-{
-	return _Watcher;
-}

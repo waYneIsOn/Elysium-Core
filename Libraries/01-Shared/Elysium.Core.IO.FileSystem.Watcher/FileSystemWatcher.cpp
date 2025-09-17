@@ -110,8 +110,8 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 		return;
 	}
 
-	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = new FileSystemWatcherAsyncResult(*this,
-		Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileSystemWatcher, &FileSystemWatcher::EndInit>(*this),
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = new FileSystemWatcherAsyncResult(
+		Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileSystemWatcher, &FileSystemWatcher::Process>(*this),
 		nullptr, 0x0, _CompletionPortHandle);
 
 	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = &_AddressOfLatestAsyncResult;
@@ -228,9 +228,9 @@ const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* Rel
 	return false;
 }
 
-void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Threading::Atomic<Elysium::Core::IAsyncResult*>& AsyncResult)
+void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult)
 {
-	IAsyncResult* RawAsyncResult = AsyncResult.Exchange(nullptr);
+	IAsyncResult* RawAsyncResult = AsyncResult.GetUnderlyingPointer();
 	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = static_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
 	if (RawAsyncFileWatcherResult == nullptr)
 	{	// This should probably only happen if EndInit() has been called.
@@ -280,12 +280,12 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 
 
 		if (Info.Action == 0)
-		{
+		{	// Undocumented action
 			PotentialBufferOverflow = true;
 			TempErrorMessage += u8"Info.Action == 0\r\n";
 		}
 		if (Info.FileNameLength == 0)
-		{
+		{	// 
 			PotentialBufferOverflow = true;
 			TempErrorMessage += u8"Info.FileNameLength == 0\r\n";
 		}
@@ -404,7 +404,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 			PotentialBufferOverflow = true;
 		}
 		if (Info.NextEntryOffset == 0)
-		{
+		{	// this case does not appear to be an error but the last entry
 			TempErrorMessage += u8"Info.NextEntryOffset == 0\r\n";
 			PotentialBufferOverflow = true;
 		}
@@ -440,6 +440,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit(Elysium::Core::Template::Thre
 			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
 				&TempErrorMessage[0]))));
 	}
+	
 }
 
 void Elysium::Core::IO::FileSystemWatcher::CleanupAsyncResultAfterSuccess(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult)
@@ -512,8 +513,8 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		return;
 	}
 
-
-
+	// It's very important to check IoResult right here! In case it's ERROR_OPERATION_ABORTED,
+	// exchanging "IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);" might cause problems!
 	switch (IoResult)
 	{
 	case NO_ERROR:	// 0
@@ -528,33 +529,42 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		break;
 	}
 
-	//if (AsyncResult != nullptr)
+
+	// exchange the AsyncResult immediately before beginning the next "cycle" - even before processing the currently received information
+	IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
+	
+	if (!Watcher->_IsDestructing)
 	{
-		//IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);
-		IAsyncResult* RawAsyncResult = AsyncResult->Load();
-		FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
-		const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = RawAsyncFileWatcherResult->GetCallback();
-		RawAsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;
-		RawAsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
-
-		if (NumberOfBytesTransferred > 0)
-		{
-			Callback(*AsyncResult);
-		}
-
-		Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
-			(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
-		bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
-
-		CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
-
-		//IAsyncResult* RawAsyncResult2 = AsyncResult->Exchange(nullptr);
-
-		// run again
-		if (!Watcher->_IsDestructing)
-		{
-			Watcher->BeginInit();
-		}
+		Watcher->BeginInit();
 	}
+	
+	// start processing
+	if (RawAsyncFileWatcherResult == nullptr)
+	{	// @ToDo: this sometimes happens - possibly error in my code
+		return;
+	}
+	
+	const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = RawAsyncFileWatcherResult->GetCallback();
+	RawAsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;
+	RawAsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
+
+	if (0 < NumberOfBytesTransferred)// && ERROR_OPERATION_ABORTED != IoResult)
+	{
+		Callback(RawAsyncResult);
+	}
+
+	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
+		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
+	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
+
+	CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
+	/*
+	// run again
+	if (!Watcher->_IsDestructing)
+	{
+		Watcher->BeginInit();
+	}
+	*/
 }
 #endif

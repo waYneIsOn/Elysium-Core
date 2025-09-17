@@ -37,24 +37,21 @@ namespace Elysium::Core::Template::Threading
 		: public EventWaitHandle
 	{
 	public:
-		ManualResetEvent(const bool InitialState);
+		constexpr ManualResetEvent(const bool InitialState);
 
-		ManualResetEvent(const ManualResetEvent& Source) = delete;
+		constexpr ManualResetEvent(const ManualResetEvent& Source) = delete;
 
-		ManualResetEvent(ManualResetEvent&& Right) noexcept = delete;
+		constexpr ManualResetEvent(ManualResetEvent&& Right) noexcept = delete;
 
-		virtual ~ManualResetEvent();
+		constexpr virtual ~ManualResetEvent() = default;
 	public:
-		ManualResetEvent& operator=(const ManualResetEvent& Source) = delete;
+		constexpr ManualResetEvent& operator=(const ManualResetEvent& Source) = delete;
 
-		ManualResetEvent& operator=(ManualResetEvent&& Right) noexcept = delete;
+		constexpr ManualResetEvent& operator=(ManualResetEvent&& Right) noexcept = delete;
 	};
 
-	inline Elysium::Core::Template::Threading::ManualResetEvent::ManualResetEvent(const bool InitialState)
+	inline constexpr Elysium::Core::Template::Threading::ManualResetEvent::ManualResetEvent(const bool InitialState)
 		: EventWaitHandle(false, InitialState, nullptr)
-	{ }
-
-	inline Elysium::Core::Template::Threading::ManualResetEvent::~ManualResetEvent()
 	{ }
 }
 #endif

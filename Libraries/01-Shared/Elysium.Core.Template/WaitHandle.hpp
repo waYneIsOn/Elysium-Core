@@ -42,29 +42,29 @@ namespace Elysium::Core::Template::Threading
 	{
 	protected:
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		WaitHandle(HANDLE Handle);
+		constexpr WaitHandle(HANDLE Handle);
 #elif defined ELYSIUM_CORE_OS_LINUX
 		WaitHandle(pthread_mutex_t Handle);
 #else
 #error "unsupported os"
 #endif
 	public:
-		WaitHandle() = delete;
+		constexpr WaitHandle() = delete;
 
-		WaitHandle(const WaitHandle& Source) = delete;
+		constexpr WaitHandle(const WaitHandle& Source) = delete;
 
-		WaitHandle(WaitHandle&& Right) noexcept = delete;
+		constexpr WaitHandle(WaitHandle&& Right) noexcept = delete;
 
-		~WaitHandle();
+		constexpr virtual ~WaitHandle();
 	public:
-		WaitHandle& operator=(const WaitHandle& Source) = delete;
+		constexpr WaitHandle& operator=(const WaitHandle& Source) = delete;
 
-		WaitHandle& operator=(WaitHandle&& Right) noexcept = delete;
+		constexpr WaitHandle& operator=(WaitHandle&& Right) noexcept = delete;
 	public:
 		/// <summary>
 		/// Releases all resources held by the current WaitHandle.
 		/// </summary>
-		virtual void Close();
+		virtual constexpr void Close();
 
 		/// <summary>
 		/// Blocks the current thread until the current instance receives a signal, using a 32-bit unsigned integer to specify the time interval and 
@@ -90,7 +90,7 @@ namespace Elysium::Core::Template::Threading
 	};
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	inline Elysium::Core::Template::Threading::WaitHandle::WaitHandle(HANDLE Handle)
+	inline constexpr Elysium::Core::Template::Threading::WaitHandle::WaitHandle(HANDLE Handle)
 		: _Handle(Handle)
 	{ }
 #elif defined ELYSIUM_CORE_OS_LINUX
@@ -104,12 +104,12 @@ namespace Elysium::Core::Template::Threading
 #error "unsupported os"
 #endif
 
-	inline Elysium::Core::Template::Threading::WaitHandle::~WaitHandle()
+	inline constexpr Elysium::Core::Template::Threading::WaitHandle::~WaitHandle()
 	{
 		Close();
 	}
 
-	inline void WaitHandle::Close()
+	inline constexpr void WaitHandle::Close()
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		if (_Handle != INVALID_HANDLE_VALUE)
