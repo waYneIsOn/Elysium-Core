@@ -100,7 +100,10 @@ namespace Elysium::Core::Template::Threading
 		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive
 		_Analysis_assume_lock_released_(_Handle);
 
+
+
 		SRWLOCK* Test = &_Handle;
+
 
 		AcquireSRWLockExclusive(&_Handle);
 #else

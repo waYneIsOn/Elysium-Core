@@ -111,6 +111,8 @@ namespace Elysium::Core::IO
 
 		Event<void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed;
 	private:
+		void EndInit(const bool CleanUpAsyncResult);
+
 		const bool IsInterested(const char8_t* RelativePath);
 
 		void Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult);

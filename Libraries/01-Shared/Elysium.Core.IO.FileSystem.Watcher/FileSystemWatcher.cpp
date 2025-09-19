@@ -53,7 +53,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	_IsDestructing = true;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	EndInit();
+	EndInit(false);
 
 	if (_CompletionPortHandle != nullptr)
 	{
@@ -65,6 +65,14 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
 		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
 
+		// clean up AsyncResult now
+		FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
+		if (nullptr != RawAsyncFileWatcherResult)
+		{	// already uninitialized
+			CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
+		}
+
+		// clean up
 		CloseThreadpoolIo(_CompletionPortHandle);
 		_CompletionPortHandle = nullptr;
 	}
@@ -148,24 +156,30 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit()
 {
+	EndInit(true);
+}
+
+void Elysium::Core::IO::FileSystemWatcher::EndInit(const bool CleanUpAsyncResult)
+{
 	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-	if (RawAsyncFileWatcherResult == nullptr)
+	if (nullptr == RawAsyncFileWatcherResult)
 	{	// already uninitialized (this check is necessary since this method is public)
 		return;
 	}
-	
+
 	// stop current io (causes another callback with IoResult being ERROR_OPERATION_ABORTED)
 	if (FALSE == CancelIoEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped))
 	{
 		DWORD ErrorCode = GetLastError();
 
 		// 1168 (0x490): Element not found
-
+		
+		// @ToDo: can I simply cleanup here?
 		//CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
 
 		return;
 	}
-	
+
 	// wait for current io to complete
 	DWORD BytesTransferred = 0;
 	if (FALSE == GetOverlappedResultEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped, &BytesTransferred,
@@ -185,8 +199,19 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 		}
 	}
 
-	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
-	delete RawAsyncFileWatcherResult;
+	if (CleanUpAsyncResult)
+	{
+		// cleaning up right away causes problems in destructor (race conditions)
+		// - RawAsyncFileWatcherResult gets deleted
+		// - Callback accesses it to Exchange
+		//		-> accessing deleted memory
+		/*
+		RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
+		delete RawAsyncFileWatcherResult;
+		*/
+
+		CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
+	}
 }
 
 const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* RelativePath)
@@ -250,6 +275,13 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		throw IOException(ErrorCode);
 	}
 
+	if (RawAsyncFileWatcherResult->_BytesTransferred == 0)
+	{	// this seems to be the case when buffer size is smaller than a single message (case: buffer overflow)
+		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
+			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
+				u8"InternalBufferSize is too small."))));
+		return;
+	}
 
 	// ...
 	bool PotentialBufferOverflow = false;
@@ -401,13 +433,13 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 
 		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred)
 		{
-			TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
-			PotentialBufferOverflow = true;
+			//TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
+			//PotentialBufferOverflow = true;
 		}
 		if (Info.NextEntryOffset == 0)
 		{	// this case does not appear to be an error but the last entry
-			TempErrorMessage += u8"Info.NextEntryOffset == 0\r\n";
-			PotentialBufferOverflow = true;
+			//TempErrorMessage += u8"Info.NextEntryOffset == 0\r\n";
+			//PotentialBufferOverflow = true;
 		}
 
 
@@ -446,6 +478,11 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 
 void Elysium::Core::IO::FileSystemWatcher::CleanupAsyncResultAfterSuccess(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult)
 {
+	if (nullptr == RawAsyncFileWatcherResult)
+	{	// @ToDo: make sure this doesn't happen so I can remove this check!
+		throw 1;
+	}
+
 	// A successful io-operation musn't be canceled!
 	// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when RawAsyncFileWatcherResult get's destructed!
 	RawAsyncFileWatcherResult->_CompletionPortHandle = nullptr;
@@ -483,16 +520,11 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		return;
 	}
 
-	if (NumberOfBytesTransferred == 0)
-	{
-		bool bla = false;
-	}
-
 	// ...
 	FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
 	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = reinterpret_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
 
-	if (WrappedOverlap->_AsyncResult == nullptr)
+	if (nullptr == WrappedOverlap->_AsyncResult)
 	{
 		// run again
 		if (!Watcher->_IsDestructing)
@@ -504,7 +536,7 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 
 	Elysium::Core::Template::Threading::Atomic<IAsyncResult*>* AsyncResult =
 		reinterpret_cast<Elysium::Core::Template::Threading::Atomic<IAsyncResult*>*>(WrappedOverlap->_AsyncResult);
-	if (AsyncResult == nullptr)
+	if (nullptr == AsyncResult)
 	{
 		// run again
 		if (!Watcher->_IsDestructing)
@@ -514,58 +546,45 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		return;
 	}
 
-	// It's very important to check IoResult right here! In case it's ERROR_OPERATION_ABORTED,
-	// exchanging "IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);" might cause problems!
+	// exchange the AsyncResult immediately before beginning the next "cycle" - even before processing the currently received information
+	IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);
+	if (nullptr == RawAsyncResult)
+	{	// @ToDo: this sometimes happens - possibly error in my code?
+		return;
+	}
+
+	if (!Watcher->_IsDestructing)
+	{
+		Watcher->BeginInit();
+	}
+
+
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
+
+	// ...
 	switch (IoResult)
 	{
 	case NO_ERROR:	// 0
 		// "default" result - nothing to do here
 		break;
 	case ERROR_OPERATION_ABORTED:	// 995
-		// ...
-		// @ToDo: cleanup
-		//CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
+		// EndInit(...) has been called (either through public method or destructor)
+		CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
 		return;
 	default:
 		break;
 	}
 
-
-	// exchange the AsyncResult immediately before beginning the next "cycle" - even before processing the currently received information
-	IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);
-	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
-	
-	if (!Watcher->_IsDestructing)
-	{
-		Watcher->BeginInit();
-	}
-	
-	// start processing
-	if (RawAsyncFileWatcherResult == nullptr)
-	{	// @ToDo: this sometimes happens - possibly error in my code
-		return;
-	}
-	
 	const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = RawAsyncFileWatcherResult->GetCallback();
 	RawAsyncFileWatcherResult->_BytesTransferred = NumberOfBytesTransferred;
 	RawAsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
 
-	if (0 < NumberOfBytesTransferred)// && ERROR_OPERATION_ABORTED != IoResult)
-	{
-		Callback(RawAsyncResult);
-	}
+	Callback(RawAsyncResult);
 
 	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
 		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
 	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
 
 	CleanupAsyncResultAfterSuccess(RawAsyncFileWatcherResult);
-	/*
-	// run again
-	if (!Watcher->_IsDestructing)
-	{
-		Watcher->BeginInit();
-	}
-	*/
 }
 #endif

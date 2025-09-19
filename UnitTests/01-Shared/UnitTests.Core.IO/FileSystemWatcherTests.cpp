@@ -178,11 +178,31 @@ namespace UnitTests::Core::IO
 			
 			Logger::WriteMessage(L"end of test");
 		}
-		
+
 		TEST_METHOD(ProvokeBufferOverflow)
 		{
+			File::Delete(_FilePathBufferOverflow);
+
+			{
+				FileStream TargetFileStream = FileStream(_FilePathBufferOverflow, FileMode::CreateNew, FileAccess::Write);
+			}
+
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory, u8"*.*", FileSystemWatcher::DefaultNotifyFilters,
+				false, 90);
+			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
+			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
+			DirectoryWatcher.BeginInit();
+
+			File::Delete(_FilePathBufferOverflow);
+
+			const bool WaitResult = _ErrorResetEvent.WaitOne(1000);
+			Assert::IsTrue(WaitResult);
+		}
+		
+		TEST_METHOD(ProvokeOtherErrors)
+		{
 			// prepare everything required for the test
-			constexpr const Elysium::Core::Template::System::size NumberOfFiles = 1000;
+			constexpr const Elysium::Core::Template::System::size NumberOfFiles = 1;
 			constexpr const char8_t* FileExtension = u8".txt";
 
 			const Elysium::Core::Template::System::size DirectoryLength =
@@ -223,16 +243,13 @@ namespace UnitTests::Core::IO
 			}
 
 			// run the actual test
-			/*
-			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory, u8".", FileSystemWatcher::DefaultNotifyFilters,
-				false, 25);
-			*/
-			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory);
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory, u8"*.*", FileSystemWatcher::DefaultNotifyFilters,
+				false, 90);
 			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.BeginInit();
 
-			// it's not even necessary to have multiple threads deleting files as long as the buffer isn't too large (<= 4kb)
+			// it's not even necessary to have multiple threads deleting files as long as the buffer is small enough
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
 			{
 				const Elysium::Core::Template::Text::String<char8_t> Index = Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
@@ -448,7 +465,6 @@ namespace UnitTests::Core::IO
 
 			_ErrorResetEvent.Set();
 		}
-
 	private:
 		inline static constexpr const char8_t* _BaseDirectory = u8"C:\\test";	// @ToDo: use Directory::CurrentDirectory()
 		inline static constexpr const char8_t* _FilePath0 = u8"C:\\test\\file.txt";
@@ -457,7 +473,9 @@ namespace UnitTests::Core::IO
 		inline static constexpr const char8_t* _DirectoryPath0 = u8"C:\\test\\subfolder";
 		inline static constexpr const char8_t* _DirectoryPath1 = u8"C:\\test\\subfolder_renamed";
 
-		inline static constexpr const char8_t* _ErrorDirectory = u8"C:\\test\\bufferoverflow";	// @ToDo: use Directory::CurrentDirectory() + "\bufferoverflow"
+		inline static constexpr const char8_t* _ErrorDirectory = u8"C:\\test\\othererrors";	// @ToDo: use Directory::CurrentDirectory() + "\bufferoverflow"
+
+		inline static constexpr const char8_t* _FilePathBufferOverflow = u8"C:\\test\\bufferoverflow.txt";
 	private:
 		// don't have access to FileSystemWatcher's internal IAsyncResult
 		ManualResetEvent _ChangedResetEvent = ManualResetEvent(false);
