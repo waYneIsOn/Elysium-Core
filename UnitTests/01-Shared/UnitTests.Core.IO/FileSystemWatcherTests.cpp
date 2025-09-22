@@ -270,7 +270,7 @@ namespace UnitTests::Core::IO
 			Assert::IsTrue(WaitResult);
 
 			// wait just a little bit longer to maybe catch a few more errors and get a (somewhat) complete picture.
-			Elysium::Core::Threading::Thread::Sleep(TimeSpan::FromSeconds(20));
+			//Elysium::Core::Threading::Thread::Sleep(TimeSpan::FromSeconds(20));
 		}
 	private:
 		void CreateFileAndWait(const bool WaitOnEvent)
