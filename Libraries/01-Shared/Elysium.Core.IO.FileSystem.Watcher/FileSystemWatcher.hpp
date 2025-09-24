@@ -115,7 +115,7 @@ namespace Elysium::Core::IO
 
 		void Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult);
 
-		static void CleanUp(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult);
+		static void CleanUp(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult, const bool WasSuccessful);
 	public:
 		/// <summary>
 		/// 
@@ -148,12 +148,14 @@ namespace Elysium::Core::IO
 
 		Elysium::Core::Template::System::size _InternalBufferSize;
 
-		Elysium::Core::Template::Threading::Atomic<bool> _IsDestructing = false;
+
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::size> _InFlightIos = false;
+		Elysium::Core::Template::Threading::Atomic<bool> _IsEnding = false;
 
 		Elysium::Core::Template::Threading::Atomic<FileSystemWatcherAsyncResult*> _AddressOfLatestAsyncResult;
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _DirectoryHandle;
-		PTP_IO _CompletionPortHandle;
+		PTP_IO _CompletionPort;
 	private:
 		static HANDLE CreateNativeDirectoryHandle(const char8_t* Path, const size_t PathLength);
 

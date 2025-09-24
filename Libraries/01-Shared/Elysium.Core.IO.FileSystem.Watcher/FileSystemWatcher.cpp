@@ -38,50 +38,48 @@
 
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher()
 	: _Path(), _Filter(), _NotifyFilters(), _IncludeSubdirectories(), _AddressOfLatestAsyncResult(nullptr),
-	_InternalBufferSize(_SafeInformationBufferSize), _DirectoryHandle(), _CompletionPortHandle()
+	_InternalBufferSize(_SafeInformationBufferSize), _DirectoryHandle(INVALID_HANDLE_VALUE), _CompletionPort(nullptr)
 { }
 
 Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories, const Elysium::Core::Template::System::size InternalBufferSize)
 	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), 
 	_AddressOfLatestAsyncResult(nullptr), _InternalBufferSize(InternalBufferSize),
 	_DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
-	_CompletionPortHandle(CreateThreadpoolIo(_DirectoryHandle, IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
+	_CompletionPort(CreateThreadpoolIo(_DirectoryHandle, IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
 { }
 
 Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 {
-	_IsDestructing = true;
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	EndInit();
 
-	if (nullptr != _CompletionPortHandle)
+	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
+
+	if (nullptr != _CompletionPort)
 	{
-		// cancel new callbacks from coming in
-		CancelThreadpoolIo(_CompletionPortHandle);
-
-		// Ensure no callbacks are still active
-		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
-		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
-		WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
-
-		// clean up AsyncResult now
-		FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-		if (nullptr != RawAsyncFileWatcherResult)
-		{	// already uninitialized
-			CleanUp(RawAsyncFileWatcherResult);
+		// CloseThreadpoolIo(...) can be unsafe if there are no-inflight ios
+		// (It basically should only be called once for each StartThreadpoolIo(...) that hasn't resulted in a callback
+		if (0_ui64 != _InFlightIos)
+		{
+			CloseThreadpoolIo(_CompletionPort);
+			_CompletionPort = nullptr;
 		}
-		
-		// clean up
-		CloseThreadpoolIo(_CompletionPortHandle);
-		_CompletionPortHandle = nullptr;
-		
+	}
+
+	if (0_ui64 != _InFlightIos)
+	{	// should be 0 at this point
+		bool bla = false;
 	}
 
 	if (INVALID_HANDLE_VALUE != _DirectoryHandle)
 	{
 		CloseHandle(_DirectoryHandle);
 		_DirectoryHandle = INVALID_HANDLE_VALUE;
+	}
+
+	if (nullptr != RawAsyncFileWatcherResult)
+	{	// already uninitialized
+		CleanUp(RawAsyncFileWatcherResult, false);
 	}
 #else
 #error "undefined os"
@@ -110,13 +108,13 @@ const Elysium::Core::Utf8String& Elysium::Core::IO::FileSystemWatcher::GetFilter
 
 void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 {
-	if (nullptr != _AddressOfLatestAsyncResult.Load())
-	{	// already initialized (check is necessary since this method is public)
+	if (_IsEnding)
+	{
 		return;
 	}
 
-	if (_IsDestructing)
-	{
+	if (nullptr != _AddressOfLatestAsyncResult.Load())
+	{	// already initialized (check is necessary since this method is public)
 		return;
 	}
 
@@ -127,14 +125,15 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 
 	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = new FileSystemWatcherAsyncResult(_InternalBufferSize,
 		Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileSystemWatcher, &FileSystemWatcher::Process>(*this),
-		nullptr, 0x0, _CompletionPortHandle);
+		nullptr, 0x0, _CompletionPort);
 
 	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = &_AddressOfLatestAsyncResult;
 	_AddressOfLatestAsyncResult.Exchange(RawAsyncFileWatcherResult);
 
 	DWORD BytesReturned = 0;
 
-	StartThreadpoolIo(_CompletionPortHandle);
+	StartThreadpoolIo(_CompletionPort);
+	++_InFlightIos;
 	if (FALSE == ReadDirectoryChangesExW(_DirectoryHandle, &RawAsyncFileWatcherResult->_InformationBuffer[0],
 		RawAsyncFileWatcherResult->_InformationBuffer.GetLength(), _IncludeSubdirectories, static_cast<DWORD>(_NotifyFilters), &BytesReturned,
 		(LPOVERLAPPED)&RawAsyncFileWatcherResult->_WrappedOverlap, nullptr,
@@ -146,58 +145,55 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 			_AddressOfLatestAsyncResult.Exchange(nullptr);
 
 			// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
-			// - To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
-			// An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with
+			// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
+			// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with
 			// an error code other than ERROR_IO_PENDING).
 			// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
 			// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
-			CancelThreadpoolIo(_CompletionPortHandle);
+			CancelThreadpoolIo(_CompletionPort);
+			--_InFlightIos;
 
 			delete RawAsyncFileWatcherResult;
 
 			throw IOException(ErrorCode);
 		}
 	}
+
 }
 
 void Elysium::Core::IO::FileSystemWatcher::EndInit()
 {
-	FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = _AddressOfLatestAsyncResult.Exchange(nullptr);
-	if (nullptr == RawAsyncFileWatcherResult)
-	{	// already uninitialized (this check is necessary since this method is public)
-		return;
+	_IsEnding = true;
+
+	if (1_ui64 < _InFlightIos)
+	{	// @ToDo: value needs to be either 0 (all callbacks fired) or 1 (still waiting for a callback)
+		bool bla = false;
 	}
 
-	// stop current io (causes another callback with IoResult being ERROR_OPERATION_ABORTED)
-	if (FALSE == CancelIoEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped))
+	if (1_ui64 == _InFlightIos)
 	{
-		DWORD ErrorCode = GetLastError();
-
-		if (1168 != ErrorCode)
-		{	// 1168 (0x490): Element not found
-			// (never encountered any other error here so far)
-			CleanUp(RawAsyncFileWatcherResult);
-			throw IOException(ErrorCode);
-		}
-	}
-
-	// wait for current io to complete
-	DWORD BytesTransferred = 0;
-	if (FALSE == GetOverlappedResultEx(_DirectoryHandle, &RawAsyncFileWatcherResult->_WrappedOverlap._Overlapped, &BytesTransferred,
-		INFINITE, TRUE))
-	{
-		DWORD ErrorCode = GetLastError();
-		switch (ErrorCode)
+		if (nullptr != _CompletionPort)
 		{
-		case ERROR_OPERATION_ABORTED:
-			// 995 - expected
-			break;
-		case ERROR_IO_PENDING:
-			// 997L - shouldn't occurre as long as I wait INFINITE
-			throw IOException(ErrorCode);
-		default:
-			throw IOException(ErrorCode);
+			// cancel pending threadpool io (prohibites new callbacks from coming in)
+			CancelThreadpoolIo(_CompletionPort);
+
+			// Wait for any callbacks that are currently executing
+			// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
+			// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
+			WaitForThreadpoolIoCallbacks(_CompletionPort, FALSE);
 		}
+
+		--_InFlightIos;
+	}
+
+	if (nullptr != _CompletionPort)
+	{
+		/*
+		// Wait for any callbacks that are currently executing
+		// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-closethreadpoolio
+		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
+		WaitForThreadpoolIoCallbacks(_CompletionPort, FALSE);
+		*/
 	}
 }
 
@@ -255,7 +251,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 	{
 		const Elysium::Core::uint16_t ErrorCode = RawAsyncFileWatcherResult->GetErrorCode();
 
-		CleanUp(RawAsyncFileWatcherResult);
+		CleanUp(RawAsyncFileWatcherResult, false);
 
 		// @ToDo: add error code
 		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
@@ -465,16 +461,21 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 	
 }
 
-void Elysium::Core::IO::FileSystemWatcher::CleanUp(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult)
+void Elysium::Core::IO::FileSystemWatcher::CleanUp(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult, const bool WasSuccessful)
 {
 	if (nullptr == RawAsyncFileWatcherResult)
 	{	// @ToDo: make sure this doesn't happen so I can remove this check!
 		throw 1;
 	}
-
-	// A successful io-operation musn't be canceled!
-	// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when RawAsyncFileWatcherResult get's destructed!
-	RawAsyncFileWatcherResult->_CompletionPortHandle = nullptr;
+	
+	RawAsyncFileWatcherResult->_OperationDoneEvent.Set();
+	
+	if (WasSuccessful)
+	{
+		// A successful io-operation musn't be canceled!
+		// Make sure to not cause CancelThreadpoolIo(_CompletionPortHandle) when RawAsyncFileWatcherResult get's destructed!
+		RawAsyncFileWatcherResult->_CompletionPortHandle = nullptr;
+	}
 
 	// make sure to not cause a memory leak
 	RawAsyncFileWatcherResult->_WrappedOverlap._AsyncResult = nullptr;
@@ -505,18 +506,23 @@ HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const c
 void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
 	if (Context == nullptr || Overlapped == nullptr)
-	{	// there obviously is nothing I need to cleanup, if this scenario occurres (which it shouldn't!)
-		return;
+	{	// this scenario shouldn't occurre at all?!
+		throw 1;
 	}
 
 	// ...
 	FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
 	Elysium::Core::Internal::WrappedOverlap* WrappedOverlap = reinterpret_cast<Elysium::Core::Internal::WrappedOverlap*>(Overlapped);
 
+	if (0_ui64 == Watcher->_InFlightIos)
+	{
+		bool bla = false;
+	}
+
 	if (nullptr == WrappedOverlap->_AsyncResult)
 	{
-		// run again
-		if (!Watcher->_IsDestructing)
+		Watcher->_InFlightIos.operator--();
+		if (!Watcher->_IsEnding)
 		{
 			Watcher->BeginInit();
 		}
@@ -527,23 +533,20 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		reinterpret_cast<Elysium::Core::Template::Threading::Atomic<IAsyncResult*>*>(WrappedOverlap->_AsyncResult);
 	if (nullptr == AsyncResult)
 	{
-		// run again
-		if (!Watcher->_IsDestructing)
+		Watcher->_InFlightIos.operator--();
+		if (!Watcher->_IsEnding)
 		{
 			Watcher->BeginInit();
 		}
 		return;
 	}
+
 	// exchange the AsyncResult immediately before beginning the next "cycle" - even before processing the currently received information
 	IAsyncResult* RawAsyncResult = AsyncResult->Exchange(nullptr);
 	if (nullptr == RawAsyncResult)
 	{	// @ToDo: this sometimes happens - possibly error in my code?
+		Watcher->_InFlightIos.operator--();
 		return;
-	}
-
-	if (!Watcher->_IsDestructing)
-	{
-		Watcher->BeginInit();
 	}
 
 	// ...
@@ -556,8 +559,9 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		// EndInit(...) has been called (either through public method or destructor)
 	{
 		FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult = reinterpret_cast<FileSystemWatcherAsyncResult*>(RawAsyncResult);
-		CleanUp(RawAsyncFileWatcherResult);
+		CleanUp(RawAsyncFileWatcherResult, true);
 	}
+		Watcher->_InFlightIos.operator--();
 		return;
 	default:
 		break;
@@ -574,6 +578,12 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();
 	bool GetAsyncWaitHandleSetResult = AsyncWaitHandle.Set();
 
-	CleanUp(RawAsyncFileWatcherResult);
+	CleanUp(RawAsyncFileWatcherResult, true);
+
+	Watcher->_InFlightIos.operator--();
+	if (!Watcher->_IsEnding)
+	{
+		Watcher->BeginInit();
+	}
 }
 #endif

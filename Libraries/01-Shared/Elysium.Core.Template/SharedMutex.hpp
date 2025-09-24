@@ -42,15 +42,15 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr SharedMutex() noexcept;
 
-		SharedMutex(const SharedMutex& Source) = delete;
+		constexpr SharedMutex(const SharedMutex& Source) = delete;
 
-		SharedMutex(SharedMutex&& Right) noexcept = delete;
+		constexpr SharedMutex(SharedMutex&& Right) noexcept = delete;
 
 		constexpr ~SharedMutex() noexcept = default;
 	public:
-		SharedMutex& operator=(const SharedMutex& Source) = delete;
+		constexpr SharedMutex& operator=(const SharedMutex& Source) = delete;
 
-		SharedMutex& operator=(SharedMutex&& Right) noexcept = delete;
+		constexpr SharedMutex& operator=(SharedMutex&& Right) noexcept = delete;
 	public:
 		bool TryLockExlusive() noexcept;
 
@@ -103,6 +103,7 @@ namespace Elysium::Core::Template::Threading
 
 
 		SRWLOCK* Test = &_Handle;
+
 
 
 		AcquireSRWLockExclusive(&_Handle);

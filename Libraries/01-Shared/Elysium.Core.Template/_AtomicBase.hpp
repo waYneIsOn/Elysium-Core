@@ -61,15 +61,15 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr _AtomicBase(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
-		_AtomicBase(const _AtomicBase& Source) = delete;
+		constexpr _AtomicBase(const _AtomicBase& Source) = delete;
 
-		_AtomicBase(_AtomicBase&& Right) noexcept = delete;
+		constexpr _AtomicBase(_AtomicBase&& Right) noexcept = delete;
 
-		~_AtomicBase() = default;
+		constexpr ~_AtomicBase() = default;
 	public:
-		_AtomicBase& operator=(const _AtomicBase& Source) = delete;
+		constexpr _AtomicBase& operator=(const _AtomicBase& Source) = delete;
 
-		_AtomicBase& operator=(_AtomicBase&& Right) noexcept = delete;
+		constexpr _AtomicBase& operator=(_AtomicBase&& Right) noexcept = delete;
 	protected:
 		T Load(const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const noexcept;
 		
@@ -92,7 +92,7 @@ namespace Elysium::Core::Template::Threading
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>
 	inline constexpr _AtomicBase<T, SizeOfT>::_AtomicBase(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
-		: _Value(Value)
+		: _Value(Value), _SlimReaderWriterLock()
 	{ }
 
 	template<class T, Elysium::Core::Template::System::size SizeOfT>

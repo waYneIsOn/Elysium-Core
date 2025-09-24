@@ -47,11 +47,11 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr _AtomicPointer(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
-		_AtomicPointer(const _AtomicPointer& Source) = delete;
+		constexpr _AtomicPointer(const _AtomicPointer& Source) = delete;
 
-		_AtomicPointer(_AtomicPointer&& Right) noexcept = delete;
+		constexpr _AtomicPointer(_AtomicPointer&& Right) noexcept = delete;
 
-		~_AtomicPointer() = default;
+		constexpr ~_AtomicPointer() = default;
 	public:
 		T operator++() noexcept;
 

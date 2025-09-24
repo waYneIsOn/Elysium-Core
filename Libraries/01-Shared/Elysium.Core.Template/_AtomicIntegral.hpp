@@ -51,15 +51,19 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
-		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
+		constexpr _AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
+		constexpr _AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~_AtomicIntegral() = default;
+		constexpr ~_AtomicIntegral() = default;
 	public:
 		T operator++() noexcept;
 
 		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
+
+		T operator--() noexcept;
+
+		T operator--(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
@@ -83,6 +87,20 @@ namespace Elysium::Core::Template::Threading
 		return static_cast<T>(Result);
 	}
 
+	template<class T>
+	inline T _AtomicIntegral<T, 1>::operator--() noexcept
+	{
+		return static_cast<T>(_InterlockedExchangeAdd8(&reinterpret_cast<volatile Elysium::Core::Template::System::int8_t&>(this->_Value), -1));
+	}
+
+	template<class T>
+	inline T _AtomicIntegral<T, 1>::operator--(Elysium::Core::Template::System::int32_t) noexcept
+	{
+		T Result = static_cast<T>(_InterlockedExchangeAdd8(&reinterpret_cast<volatile Elysium::Core::Template::System::int8_t&>(this->_Value), -1));
+		++Result;
+		return static_cast<T>(Result);
+	}
+
 	template <class T>
 	class _AtomicIntegral<T, 2>
 		: public _AtomicBase<T, 2>
@@ -92,15 +110,19 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
-		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
+		constexpr _AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
+		constexpr _AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~_AtomicIntegral() = default;
+		constexpr ~_AtomicIntegral() = default;
 	public:
 		T operator++() noexcept;
 
 		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
+
+		T operator--() noexcept;
+
+		T operator--(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
@@ -124,6 +146,20 @@ namespace Elysium::Core::Template::Threading
 		return static_cast<T>(Result);
 	}
 
+	template<class T>
+	inline T _AtomicIntegral<T, 2>::operator--() noexcept
+	{
+		return static_cast<T>(_InterlockedDecrement16(&reinterpret_cast<volatile Elysium::Core::Template::System::int16_t&>(this->_Value)));
+	}
+
+	template<class T>
+	inline T _AtomicIntegral<T, 2>::operator--(Elysium::Core::Template::System::int32_t) noexcept
+	{
+		T Result = static_cast<T>(_InterlockedDecrement16(&reinterpret_cast<volatile Elysium::Core::Template::System::int16_t&>(this->_Value)));
+		++Result;
+		return static_cast<T>(Result);
+	}
+
 	template <class T>
 	class _AtomicIntegral<T, 4>
 		: public _AtomicBase<T, 4>
@@ -133,15 +169,19 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
-		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
+		constexpr _AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
+		constexpr _AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~_AtomicIntegral() = default;
+		constexpr ~_AtomicIntegral() = default;
 	public:
 		T operator++() noexcept;
 
 		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
+
+		T operator--() noexcept;
+
+		T operator--(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
@@ -165,6 +205,20 @@ namespace Elysium::Core::Template::Threading
 		return static_cast<T>(Result);
 	}
 
+	template<class T>
+	inline T _AtomicIntegral<T, 4>::operator--() noexcept
+	{
+		return static_cast<T>(_InterlockedDecrement(&reinterpret_cast<volatile long&>(this->_Value)));
+	}
+
+	template<class T>
+	inline T _AtomicIntegral<T, 4>::operator--(Elysium::Core::Template::System::int32_t) noexcept
+	{
+		T Result = static_cast<T>(_InterlockedDecrement(&reinterpret_cast<volatile long&>(this->_Value)));
+		++Result;
+		return static_cast<T>(Result);
+	}
+
 	template <class T>
 	class _AtomicIntegral<T, 8>
 		: public _AtomicBase<T, 8>
@@ -174,15 +228,19 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr _AtomicIntegral(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
 
-		_AtomicIntegral(const _AtomicIntegral& Source) = delete;
+		constexpr _AtomicIntegral(const _AtomicIntegral& Source) = delete;
 
-		_AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
+		constexpr _AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
-		~_AtomicIntegral() = default;
+		constexpr ~_AtomicIntegral() = default;
 	public:
 		T operator++() noexcept;
 
 		T operator++(Elysium::Core::Template::System::int32_t) noexcept;
+
+		T operator--() noexcept;
+
+		T operator--(Elysium::Core::Template::System::int32_t) noexcept;
 
 		// @ToDo
 	};
@@ -203,6 +261,20 @@ namespace Elysium::Core::Template::Threading
 	{
 		T Result = static_cast<T>(_InterlockedIncrement64(&reinterpret_cast<volatile Elysium::Core::Template::System::int64_t&>(this->_Value)));
 		--Result;
+		return static_cast<T>(Result);
+	}
+
+	template<class T>
+	inline T _AtomicIntegral<T, 8>::operator--() noexcept
+	{
+		return static_cast<T>(_InterlockedDecrement64(&reinterpret_cast<volatile Elysium::Core::Template::System::int64_t&>(this->_Value)));
+	}
+
+	template<class T>
+	inline T _AtomicIntegral<T, 8>::operator--(Elysium::Core::Template::System::int32_t) noexcept
+	{
+		T Result = static_cast<T>(_InterlockedDecrement64(&reinterpret_cast<volatile Elysium::Core::Template::System::int64_t&>(this->_Value)));
+		++Result;
 		return static_cast<T>(Result);
 	}
 }

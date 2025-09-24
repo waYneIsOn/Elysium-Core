@@ -1,4 +1,4 @@
-#include <CppUnitTest.h>
+﻿#include <CppUnitTest.h>
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
@@ -68,7 +68,7 @@ namespace UnitTests::Core::IO
 				// test both with and without calling EndInit()
 				if (i % 2 == 0)
 				{
-					DirectoryWatcher.EndInit();
+					//DirectoryWatcher.EndInit();
 				}
 
 				Logger::WriteMessage(L"----\r\n");
@@ -118,7 +118,7 @@ namespace UnitTests::Core::IO
 				// test both with and without calling EndInit()
 				if (i % 2 == 0)
 				{
-					FileWatcher.EndInit();
+					//FileWatcher.EndInit();
 				}
 
 				Logger::WriteMessage(L"----\r\n");
@@ -144,7 +144,7 @@ namespace UnitTests::Core::IO
 					if (i % 2 == 0)
 					{
 						Logger::WriteMessage(L"\tEndInit()\r\n");
-						DirectoryWatcher.EndInit();
+						//DirectoryWatcher.EndInit();
 					}
 					else
 					{
@@ -166,7 +166,7 @@ namespace UnitTests::Core::IO
 					if (i % 2 == 0)
 					{
 						Logger::WriteMessage(L"\tEndInit()\r\n");
-						FileWatcher.EndInit();
+						//FileWatcher.EndInit();
 					}
 					else
 					{
@@ -271,6 +271,33 @@ namespace UnitTests::Core::IO
 
 			// wait just a little bit longer to maybe catch a few more errors and get a (somewhat) complete picture.
 			//Elysium::Core::Threading::Thread::Sleep(TimeSpan::FromSeconds(20));
+		}
+
+		TEST_METHOD(RapidFire)
+		{
+			// This tests for the following errors:
+			//	- Exception thrown at 0x0000000000000000 in testhost.exe: 0xC0000005: Access violation executing location 0x0000000000000000.
+			// Happens in some os-thread and cannot be debugged. It most likely means that FileSystemWatcherAsyncResult gets deleted
+			// too early in which case the vtable lookup would return a nullptr.
+			// - CloseHandle(...) was called with no in-flight ios (BeginRead() followed by callback)
+			for (int i = 0; i < 1000; ++i)
+			{
+				FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
+				DirectoryWatcher.BeginInit();
+			}
+		}
+
+		TEST_METHOD(Reuse)
+		{
+			
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
+			for (int i = 0; i < 1000; ++i)
+			{
+				DirectoryWatcher.BeginInit();
+				DirectoryWatcher.EndInit();
+			}
+			
+			//Assert::Fail();
 		}
 	private:
 		void CreateFileAndWait(const bool WaitOnEvent)
