@@ -74,7 +74,7 @@ namespace Elysium::Core::Template::Threading
 
 		Atomic(Atomic&& Right) noexcept = delete;
 
-		~Atomic() = default;
+		constexpr ~Atomic() = default;
 	public:
 		Atomic& operator=(const Atomic& Source) = delete;
 
@@ -88,13 +88,13 @@ namespace Elysium::Core::Template::Threading
 
 		T operator=(const T Value) noexcept;
 	public:
-		T Load() const volatile noexcept;
+		T Load(const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) const volatile noexcept;
 
-		void Store(const T Value) volatile noexcept;
+		void Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) volatile noexcept;
 
-		T Exchange(const T Value) noexcept;
+		T Exchange(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
 
-		bool CompareExchangeStrong(T& Expected, const T Desired) noexcept;
+		bool CompareExchangeStrong(T& Expected, const T Desired, const Elysium::Core::Template::Memory::MemoryOrder Order = Elysium::Core::Template::Memory::MemoryOrder::SequentiallyConsistent) noexcept;
 	};
 
 	template<class T>
@@ -134,27 +134,27 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template<class T>
-	inline T Atomic<T>::Load() const volatile noexcept
+	inline T Atomic<T>::Load(const Elysium::Core::Template::Memory::MemoryOrder Order) const volatile noexcept
 	{
-		return const_cast<const Atomic<T>*>(this)->Base::Load();
+		return const_cast<const Atomic<T>*>(this)->Base::Load(Order);
 	}
 
 	template<class T>
-	inline void Atomic<T>::Store(const T Value) volatile noexcept
+	inline void Atomic<T>::Store(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) volatile noexcept
 	{
-		const_cast<Atomic<T>*>(this)->Base::Store(Value);
+		const_cast<Atomic<T>*>(this)->Base::Store(Value, Order);
 	}
 
 	template<class T>
-	inline T Atomic<T>::Exchange(const T Value) noexcept
+	inline T Atomic<T>::Exchange(const T Value, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
 	{
-		return const_cast<Atomic<T>*>(this)->Base::Exchange(Value);
+		return const_cast<Atomic<T>*>(this)->Base::Exchange(Value, Order);
 	}
 
 	template<class T>
-	inline bool Atomic<T>::CompareExchangeStrong(T& Expected, const T Desired) noexcept
+	inline bool Atomic<T>::CompareExchangeStrong(T& Expected, const T Desired, const Elysium::Core::Template::Memory::MemoryOrder Order) noexcept
 	{
-		return const_cast<Atomic<T>*>(this)->Base::CompareExchangeStrong(Expected, Desired);
+		return const_cast<Atomic<T>*>(this)->Base::CompareExchangeStrong(Expected, Desired, Order);
 	}
 }
 #endif

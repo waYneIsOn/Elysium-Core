@@ -102,10 +102,6 @@ namespace Elysium::Core::Template::Threading
 
 
 
-		SRWLOCK* Test = &_Handle;
-
-
-
 		AcquireSRWLockExclusive(&_Handle);
 #else
 #error "unsupported os"

@@ -21,9 +21,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifdef ELYSIUM_CORE_OS_WINDOWS
+/*
 	#ifndef _WINDOWS_
 	#define _WINSOCKAPI_ // don't include winsock
 	#include <Windows.h>
+	#endif
+*/
+	#ifndef _PROCESSTHREADSAPI_H_
+	#include <processthreadsapi.h>
 	#endif
 #else
 #error "unsupported os"
@@ -53,6 +58,8 @@ namespace Elysium::Core::Template::Threading
 		//const Elysium::Core::uint32_t GetThreadId() const;
 	public:
 		//static void Sleep(const TimeSpan& Timeout);
+
+		static void YieldX() noexcept;
 	private:
 		//static void ThreadMain();
 	private:
@@ -89,6 +96,19 @@ namespace Elysium::Core::Template::Threading
 
 		_FunctionOrStaticMethod = nullptr;
 		_Instance = nullptr;
+	}
+
+	inline void Elysium::Core::Template::Threading::Thread::YieldX() noexcept
+	{
+		BOOL Result = SwitchToThread();
+		if (0 != Result)
+		{
+			// call caused the operating system to switch execution to another thread
+		}
+		else
+		{
+			// no switch
+		}
 	}
 }
 #endif

@@ -97,7 +97,7 @@ namespace Elysium::Core::IO
 
 		const Utf8String& GetFilter() const;
 	public:
-		void BeginInit();
+		void BeginInit() noexcept;
 
 		void EndInit();
 	public:
@@ -145,19 +145,19 @@ namespace Elysium::Core::IO
 		bool _IncludeSubdirectories;
 		Utf8String _Path;
 		Utf8String _Filter;
-
 		Elysium::Core::Template::System::size _InternalBufferSize;
 
-
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::size> _InFlightIos = false;
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint8_t> _InFlightIos = 0;
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint8_t> _RunningCallbacks = 0;
 		Elysium::Core::Template::Threading::Atomic<bool> _IsEnding = false;
 
 		Elysium::Core::Template::Threading::Atomic<FileSystemWatcherAsyncResult*> _AddressOfLatestAsyncResult;
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _DirectoryHandle;
 		PTP_IO _CompletionPort;
 	private:
-		static HANDLE CreateNativeDirectoryHandle(const char8_t* Path, const size_t PathLength);
+		HANDLE CreateNativeDirectoryHandle(const char8_t* Path, const size_t PathLength);
 
 		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult,
 			ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);

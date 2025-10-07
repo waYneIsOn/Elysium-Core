@@ -134,7 +134,7 @@ namespace UnitTests::Core::Threading
 			// sleep for a bit just to make sure T has locked the mutex
 			Thread::Sleep(TimeSpan::FromSeconds(1));
 			_Mutex.WaitOne();
-			_Mutex.Release();
+			_Mutex.Unlock();
 
 			TimeSpan ElapsedTime = DateTime::Now() - Start;
 			double ElapsedSecondsTotal = ElapsedTime.GetTotalSeconds();
@@ -266,7 +266,7 @@ namespace UnitTests::Core::Threading
 		{
 			_Mutex.WaitOne();
 			Thread::Sleep(TimeSpan::FromSeconds(5));
-			_Mutex.Release();
+			_Mutex.Unlock();
 		}
 
 		void RunCriticalSection()

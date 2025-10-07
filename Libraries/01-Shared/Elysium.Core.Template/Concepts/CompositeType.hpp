@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCLASS
-#include "IsClass.hpp"
+#include "../IsClass.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISLAMBDA

@@ -42,23 +42,29 @@ namespace Elysium::Core::Template::Threading
 		: public WaitHandle
 	{
 	public:
-		Mutex(const bool InitiallyOwned = false, const char8_t* Name = nullptr);
+		constexpr Mutex(const bool InitiallyOwned = false, const char8_t* Name = nullptr);
 
-		Mutex(const Mutex& Source) = delete;
+		constexpr Mutex(const Mutex& Source) = delete;
 
-		Mutex(Mutex&& Right) noexcept = delete;
+		constexpr Mutex(Mutex&& Right) noexcept = delete;
 
-		~Mutex();
+		constexpr virtual ~Mutex() override;
 	public:
-		Mutex& operator=(const Mutex& Source) = delete;
+		constexpr Mutex& operator=(const Mutex& Source) = delete;
 
-		Mutex& operator=(Mutex&& Right) noexcept = delete;
+		constexpr Mutex& operator=(Mutex&& Right) noexcept = delete;
 	public:
-		void Release();
+		void Lock();
+
+		//bool TryLock();
+
+		void Unlock();
+	private:
+
 	};
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	inline Elysium::Core::Template::Threading::Mutex::Mutex(const bool InitiallyOwned, const char8_t* Name)
+	inline constexpr Elysium::Core::Template::Threading::Mutex::Mutex(const bool InitiallyOwned, const char8_t* Name)
 		: WaitHandle(CreateMutexW(nullptr, InitiallyOwned == true ? TRUE : FALSE, nullptr))
 	{ }
 #elif defined ELYSIUM_CORE_OS_LINUX
@@ -74,15 +80,53 @@ namespace Elysium::Core::Template::Threading
 #error "unsupported os"
 #endif
 
-	inline Elysium::Core::Template::Threading::Mutex::~Mutex()
+	inline constexpr Elysium::Core::Template::Threading::Mutex::~Mutex()
 	{
 		// @ToDo: Parent destructor will call Close(). Do I need to release here beforehand though? need to write specific test!
 	}
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	inline void Elysium::Core::Template::Threading::Mutex::Release()
+	inline void Elysium::Core::Template::Threading::Mutex::Lock()
+	{
+		DWORD WaitResult = WaitForSingleObject(_Handle, INFINITE);
+		
+		if (WAIT_OBJECT_0 == WaitResult)
+		{
+			bool bla = false;
+		}
+		else if (WAIT_ABANDONED == WaitResult)
+		{
+			bool blub = false;
+		}
+	}
+	/*
+	inline bool Elysium::Core::Template::Threading::Mutex::TryLock()
+	{
+		DWORD WaitResult = WaitForSingleObject(_Handle, INFINITE);
+
+		if (WAIT_OBJECT_0 == WaitResult)
+		{
+			bool bla = false;
+		}
+		else if (WAIT_ABANDONED == WaitResult)
+		{
+			bool blub = false;
+		}
+	}
+	*/
+	inline void Elysium::Core::Template::Threading::Mutex::Unlock()
 	{
 		BOOL WasReleased = ReleaseMutex(_Handle);
+
+		if (0 != WasReleased)
+		{	// success
+			bool bla = false;
+		}
+		else
+		{
+			DWORD LastError = GetLastError();
+			bool blub = false;
+		}
 	}
 #elif defined ELYSIUM_CORE_OS_LINUX
 	inline void Elysium::Core::Template::Threading::Mutex::Release()
