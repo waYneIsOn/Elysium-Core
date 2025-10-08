@@ -1,5 +1,6 @@
 ﻿#include <CppUnitTest.h>
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../UnitTestExtensions/ThreadsafeLogger.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/File.hpp"
@@ -19,10 +20,12 @@ using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Core::Template::RunTimeTypeInformation;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
+/*
 int CurrentDebugFlags = _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);	// dump memory leaks
+int DumpMemoryLeaks = _CrtDumpMemoryLeaks();
 //long BreakAllocResult = _CrtSetBreakAlloc(566623);	// Set breakpoint for specific allocation number
-
+long BreakAllocResult = _CrtSetBreakAlloc(166);	// Set breakpoint for specific allocation number
+*/
 namespace UnitTests::Core::IO
 {
 	TEST_CLASS(FileSystemWatcherTests)
@@ -30,7 +33,7 @@ namespace UnitTests::Core::IO
 	public:
 		TEST_METHOD(A_RunAllTestMultipleTimesToProvokeCodeErrors)
 		{
-			for (int i = 0; i < 100; i++)
+			for (int i = 0; i < 1000; i++)
 			{
 				try
 				{
@@ -113,6 +116,7 @@ namespace UnitTests::Core::IO
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
 
+			DirectoryWatcher.BeginInit();
 			/*
 			* Make sure this loop runs for a multiple of two!
 			* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -120,7 +124,7 @@ namespace UnitTests::Core::IO
 			*/
 			for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 			{
-				DirectoryWatcher.BeginInit();
+				//DirectoryWatcher.BeginInit();
 
 				try
 				{
@@ -144,7 +148,7 @@ namespace UnitTests::Core::IO
 					//DirectoryWatcher.EndInit();
 				}
 
-				Logger::WriteMessage(L"----\r\n");
+				ThreadsafeLogger::WriteMessage(L"----\r\n");
 			}
 		}
 
@@ -194,7 +198,7 @@ namespace UnitTests::Core::IO
 					//FileWatcher.EndInit();
 				}
 
-				Logger::WriteMessage(L"----\r\n");
+				ThreadsafeLogger::WriteMessage(L"----\r\n");
 			}
 		}
 
@@ -202,54 +206,54 @@ namespace UnitTests::Core::IO
 		{
 			const Elysium::Core::uint32_t ExecutingThreadId = Elysium::Core::Threading::Thread::GetCurrentThreadIdX();
 
-			Logger::WriteMessage(L"Main thread: ");
-			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(ExecutingThreadId)[0]);
-			Logger::WriteMessage(L"\r\nwatching directory:\r\n");
+			ThreadsafeLogger::WriteMessage(L"Main thread: ");
+			ThreadsafeLogger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(ExecutingThreadId)[0]);
+			ThreadsafeLogger::WriteMessage(L"\r\nwatching directory:\r\n");
 
 			{
 				for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 				{
 					FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
-					Logger::WriteMessage(L"\tBeginInit()\r\n");
+					ThreadsafeLogger::WriteMessage(L"\tBeginInit()\r\n");
 					DirectoryWatcher.BeginInit();
 
 					// test both with and without calling EndInit()
 					if (i % 2 == 0)
 					{
-						Logger::WriteMessage(L"\tEndInit()\r\n");
+						ThreadsafeLogger::WriteMessage(L"\tEndInit()\r\n");
 						//DirectoryWatcher.EndInit();
 					}
 					else
 					{
-						Logger::WriteMessage(L"\trunning out of scope\r\n");
+						ThreadsafeLogger::WriteMessage(L"\trunning out of scope\r\n");
 					}
-					Logger::WriteMessage(L"\t----\r\n");
+					ThreadsafeLogger::WriteMessage(L"\t----\r\n");
 				}
 			}
 
-			Logger::WriteMessage(L"\r\nwatching file:\r\n");
+			ThreadsafeLogger::WriteMessage(L"\r\nwatching file:\r\n");
 			{
 				for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 				{
 					FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"file3.txt");
-					Logger::WriteMessage(L"\tBeginInit()\r\n");
+					ThreadsafeLogger::WriteMessage(L"\tBeginInit()\r\n");
 					FileWatcher.BeginInit();
 
 					// test both with and without calling EndInit()
 					if (i % 2 == 0)
 					{
-						Logger::WriteMessage(L"\tEndInit()\r\n");
+						ThreadsafeLogger::WriteMessage(L"\tEndInit()\r\n");
 						//FileWatcher.EndInit();
 					}
 					else
 					{
-						Logger::WriteMessage(L"\trunning out of scope\r\n");
+						ThreadsafeLogger::WriteMessage(L"\trunning out of scope\r\n");
 					}
-					Logger::WriteMessage(L"\t----\r\n");
+					ThreadsafeLogger::WriteMessage(L"\t----\r\n");
 				}
 			}
 
-			Logger::WriteMessage(L"end of test");
+			ThreadsafeLogger::WriteMessage(L"end of test");
 		}
 
 		void NonUTProvokeBufferOverflow()
@@ -446,111 +450,106 @@ namespace UnitTests::Core::IO
 	private:
 		void FileSystemWatcher_OnChanged(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
-			/*
-			Logger::WriteMessage("FileSystemWatcher_OnChanged\r\n");
+			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnChanged\r\n");
 
 			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 			//const Utf8String ChangeTypeName = Enumeration<WatcherChangeTypes>::GetNamedValue<ChangeType>();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
-			Logger::WriteMessage("\tFullPath: ");
-			Logger::WriteMessage((char*)&FullPath[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tFullPath: ");
+			ThreadsafeLogger::WriteMessage((char*)&FullPath[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 
 			const Utf8String FileName = EventArgs.GetName();
-			Logger::WriteMessage("\tFileName: ");
-			Logger::WriteMessage((char*)&FileName[0]);
-			Logger::WriteMessage("\r\n");
-			*/
+			ThreadsafeLogger::WriteMessage("\tFileName: ");
+			ThreadsafeLogger::WriteMessage((char*)&FileName[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
+			
 			_ChangedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnCreated(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
-			/*
-			Logger::WriteMessage("FileSystemWatcher_OnCreated\r\n");
+			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnCreated\r\n");
 
 			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
-			Logger::WriteMessage("\tFullPath: ");
-			Logger::WriteMessage((char*)&FullPath[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tFullPath: ");
+			ThreadsafeLogger::WriteMessage((char*)&FullPath[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 
 			const Utf8String FileName = EventArgs.GetName();
-			Logger::WriteMessage("\tFileName: ");
-			Logger::WriteMessage((char*)&FileName[0]);
-			Logger::WriteMessage("\r\n");
-			*/
+			ThreadsafeLogger::WriteMessage("\tFileName: ");
+			ThreadsafeLogger::WriteMessage((char*)&FileName[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
+			
 			_CreatedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnDeleted(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
 		{
-			/*
-			Logger::WriteMessage("FileSystemWatcher_OnDeleted\r\n");
+			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnDeleted\r\n");
 
 			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
-			Logger::WriteMessage("\tFullPath: ");
-			Logger::WriteMessage((char*)&FullPath[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tFullPath: ");
+			ThreadsafeLogger::WriteMessage((char*)&FullPath[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 
 			const Utf8String FileName = EventArgs.GetName();
-			Logger::WriteMessage("\tFileName: ");
-			Logger::WriteMessage((char*)&FileName[0]);
-			Logger::WriteMessage("\r\n");
-			*/
+			ThreadsafeLogger::WriteMessage("\tFileName: ");
+			ThreadsafeLogger::WriteMessage((char*)&FileName[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
+
 			_DeletedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnRenamed(const FileSystemWatcher& Watcher, const RenamedEventArgs& EventArgs)
 		{
-			/*
-			Logger::WriteMessage("FileSystemWatcher_OnRenamed\r\n");
+			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnRenamed\r\n");
 
 			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
-			Logger::WriteMessage("\tFullPath: ");
-			Logger::WriteMessage((char*)&FullPath[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tFullPath: ");
+			ThreadsafeLogger::WriteMessage((char*)&FullPath[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 
 			const Utf8String FileName = EventArgs.GetName();
-			Logger::WriteMessage("\tFileName: ");
-			Logger::WriteMessage((char*)&FileName[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tFileName: ");
+			ThreadsafeLogger::WriteMessage((char*)&FileName[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 			/*
 			const Utf8String OldFullPath = EventArgs.GetOldFullPath();
-			Logger::WriteMessage("\tOldFullPath: ");
-			Logger::WriteMessage((char*)&OldFullPath[0]);
-			Logger::WriteMessage("\r\n");
-			*-/
-			const Utf8String OldFileName = EventArgs.GetOldName();
-			Logger::WriteMessage("\tOldName: ");
-			Logger::WriteMessage((char*)&OldFileName[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tOldFullPath: ");
+			ThreadsafeLogger::WriteMessage((char*)&OldFullPath[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 			*/
+			const Utf8String OldFileName = EventArgs.GetOldName();
+			ThreadsafeLogger::WriteMessage("\tOldName: ");
+			ThreadsafeLogger::WriteMessage((char*)&OldFileName[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
+			
 			_RenamedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnError(const FileSystemWatcher& Watcher, const ErrorEventArgs& EventArgs)
 		{
-			/*
-			Logger::WriteMessage("FileSystemWatcher_OnError\r\n");
+			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnError\r\n");
 
 			const Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException& Exception = EventArgs.GetException();
 			const Elysium::Core::Template::System::uint32_t ErrorCode = Exception.GetErrorCode();
 			const Elysium::Core::Template::Text::String<char8_t>& Message = Exception.GetExceptionMessage();
 
-			Logger::WriteMessage("\tErrorCode: ");
-			Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char>::ToString(ErrorCode)[0]);
-			Logger::WriteMessage("\r\n");
-			Logger::WriteMessage("\tMessage: ");
-			Logger::WriteMessage((char*)&Message[0]);
-			Logger::WriteMessage("\r\n");
-			*/
+			ThreadsafeLogger::WriteMessage("\tErrorCode: ");
+			ThreadsafeLogger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char>::ToString(ErrorCode)[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\tMessage: ");
+			ThreadsafeLogger::WriteMessage((char*)&Message[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
+			
 			_ErrorResetEvent.Set();
 		}
 	private:

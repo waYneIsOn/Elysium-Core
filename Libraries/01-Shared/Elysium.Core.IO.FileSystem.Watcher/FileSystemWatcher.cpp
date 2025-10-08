@@ -371,7 +371,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		{
 			// this is undocumented but can appear!
 			// there's some suggestion that it can appear sporadically and should be ignored.
-			// it seems to occurre when to many changes happen (with the buffer not necessarily overflowing!!!)
+			// it seems to occurre when too many changes happen (with the buffer not necessarily overflowing!!!)
 			/*
 			DWORD ErrorCode = GetLastError();
 
@@ -402,14 +402,17 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			}
 			break;
 		case FILE_ACTION_RENAMED_OLD_NAME:
-			OldName = const_cast<wchar_t*>(Info.FileName);
+			//OldName = const_cast<wchar_t*>(Info.FileName);
 			break;
 		case FILE_ACTION_RENAMED_NEW_NAME:
 		{
 			if (IsInterested(&FileName[0]))
 			{
+				/*
 				Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
 					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
+				*/
+				Utf8String OldFileName = u8"OldFileName";
 				OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName), Elysium::Core::Template::Functional::Move(OldFileName)));
 			}
@@ -452,6 +455,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred)
 		{
 			PotentialBufferOverflow = true;
+			TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
 			break;
 		}
 	} while (Offset > 0);
@@ -468,7 +472,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		*/
 		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
 			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
-				&TempErrorMessage[0]))));
+			&TempErrorMessage[0]))));
 	}
 	
 }
@@ -535,11 +539,11 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 	}
 
 	if (nullptr == WrappedOverlap->_AsyncResult)
-	{	// @ToDo: this doesn't seem to occurre anymore. leave the check in for now
+	{	// @ToDo
 		Watcher->_InFlightIos.operator--();
 		if (!Watcher->_IsEnding)
 		{
-			//Watcher->BeginInit();
+			Watcher->BeginInit();
 		}
 		bool bla = false;
 		Watcher->_RunningCallbacks.operator--();
@@ -553,7 +557,7 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		Watcher->_InFlightIos.operator--();
 		if (!Watcher->_IsEnding)
 		{
-			//Watcher->BeginInit();
+			Watcher->BeginInit();
 		}
 		bool bla = false;
 		Watcher->_RunningCallbacks.operator--();
@@ -566,7 +570,7 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 		Watcher->_InFlightIos.operator--();
 		if (!Watcher->_IsEnding)
 		{
-			//Watcher->BeginInit();
+			Watcher->BeginInit();
 		}
 		bool bla = false;
 		Watcher->_RunningCallbacks.operator--();

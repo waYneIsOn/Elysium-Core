@@ -15,5 +15,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CppUnitTestFrameworkExtension.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadsafeLogger.hpp" />
   </ItemGroup>
 </Project>
