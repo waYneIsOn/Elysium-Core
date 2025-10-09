@@ -172,6 +172,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CatchAnythingThrown.cpp" />
     <ClCompile Include="DesignatedInitializer.cpp" />
     <ClCompile Include="ForceMakeShared.cpp" />
   </ItemGroup>

@@ -973,8 +973,8 @@ namespace Elysium::Core::Template::Text
 	{
 		//assert(ByteSize <= sizeof(_InternalString._Stack._Data));
 		
-		// clear previous memory (just to be sure)
-		Elysium::Core::Template::Memory::MemSet(&_InternalString._Stack._Data[0], 0, sizeof(StackString));
+		// clear previous memory just to be sure
+		//Elysium::Core::Template::Memory::MemSet(&_InternalString._Stack._Data[0], 0, sizeof(StackString));
 
 		// ...
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, ByteSize);

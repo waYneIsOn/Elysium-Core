@@ -21,5 +21,8 @@
     <ClCompile Include="DesignatedInitializer.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="CatchAnythingThrown.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
