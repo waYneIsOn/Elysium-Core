@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../UnitTestExtensions/ThreadsafeLogger.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/COMException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
@@ -49,9 +50,9 @@ namespace UnitTests::Core::Speech
 			try
 			{
 				const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
-				Logger::WriteMessage("-----\r\n");
-				Logger::WriteMessage(&CurrentThreadId[0]);
-				Logger::WriteMessage(" Main thread\r\n-----\r\n");
+				ThreadsafeLogger::WriteMessage("-----\r\n");
+				ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+				ThreadsafeLogger::WriteMessage(" Main thread\r\n-----\r\n");
 
 				DictationGrammar DictatedGrammar = DictationGrammar(); // uri=grammar:dictation rule=
 
@@ -70,8 +71,8 @@ namespace UnitTests::Core::Speech
 			}
 			catch (Elysium::Core::Runtime::InteropServices::COMException& ex)
 			{
-				Logger::WriteMessage("COMException: ");
-				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				ThreadsafeLogger::WriteMessage("COMException: ");
+				ThreadsafeLogger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
 				Assert::Fail();
 			}
 		}
@@ -81,9 +82,9 @@ namespace UnitTests::Core::Speech
 			try
 			{
 				const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
-				Logger::WriteMessage("-----\r\n");
-				Logger::WriteMessage(&CurrentThreadId[0]);
-				Logger::WriteMessage(" Main thread\r\n-----\r\n");
+				ThreadsafeLogger::WriteMessage("-----\r\n");
+				ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+				ThreadsafeLogger::WriteMessage(" Main thread\r\n-----\r\n");
 
 				Grammar EnglishUsGrammar = Grammar(u8"Path", u8"RuleName");
 				EnglishUsGrammar.SetName(u8"Name");
@@ -106,8 +107,8 @@ namespace UnitTests::Core::Speech
 			}
 			catch (Elysium::Core::Runtime::InteropServices::COMException& ex)
 			{
-				Logger::WriteMessage("COMException: ");
-				Logger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
+				ThreadsafeLogger::WriteMessage("COMException: ");
+				ThreadsafeLogger::WriteMessage((char*)&ex.GetExceptionMessage()[0]);
 				Assert::Fail();
 			}
 		}
@@ -121,10 +122,10 @@ namespace UnitTests::Core::Speech
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::uint32_t AudioLevel = EventArgs.GetAudioLevel();
 
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Audio level updated: ");
-			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(AudioLevel)[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Audio level updated: ");
+			ThreadsafeLogger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(AudioLevel)[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 
 		static void SpeechRecognitionEngine_OnAudioSignalProblemOccurred(const SpeechRecognitionEngine& Engine, const AudioSignalProblemOccurredEventArgs& EventArgs)
@@ -132,37 +133,37 @@ namespace UnitTests::Core::Speech
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const AudioSignalProblem Problem = EventArgs.GetAudioSignalProblem();
 
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Audio problem occurred: ");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Audio problem occurred: ");
 			switch (Problem)
 			{
 			case AudioSignalProblem::None:
-				Logger::WriteMessage("None ");
+				ThreadsafeLogger::WriteMessage("None ");
 				break;
 			case AudioSignalProblem::TooNoisy:
-				Logger::WriteMessage("TooNoisy ");
+				ThreadsafeLogger::WriteMessage("TooNoisy ");
 				break;
 			case AudioSignalProblem::NoSignal:
-				Logger::WriteMessage("NoSignal ");
+				ThreadsafeLogger::WriteMessage("NoSignal ");
 				break;
 			case AudioSignalProblem::TooLoud:
-				Logger::WriteMessage("TooLoud ");
+				ThreadsafeLogger::WriteMessage("TooLoud ");
 				break;
 			case AudioSignalProblem::TooSoft:
-				Logger::WriteMessage("TooSoft ");
+				ThreadsafeLogger::WriteMessage("TooSoft ");
 				break;
 			case AudioSignalProblem::TooFast:
-				Logger::WriteMessage("TooFast ");
+				ThreadsafeLogger::WriteMessage("TooFast ");
 				break;
 			case AudioSignalProblem::TooSlow:
-				Logger::WriteMessage("TooSlow ");
+				ThreadsafeLogger::WriteMessage("TooSlow ");
 				break;
 			default:
-				Logger::WriteMessage("unhandled ");
+				ThreadsafeLogger::WriteMessage("unhandled ");
 				break;
 			}
-			Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(EventArgs.GetAudioLevel())[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(EventArgs.GetAudioLevel())[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 
 		static void SpeechRecognitionEngine_OnAudioStateChanged(const SpeechRecognitionEngine& Engine, const AudioStateChangedEventArgs& EventArgs)
@@ -170,34 +171,34 @@ namespace UnitTests::Core::Speech
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const AudioState State = EventArgs.GetAudioState();
 
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Audio state changed: ");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Audio state changed: ");
 			switch (State)
 			{
 			case AudioState::Stopped:
-				Logger::WriteMessage("stopped");
+				ThreadsafeLogger::WriteMessage("stopped");
 				break;
 			case AudioState::Silence:
-				Logger::WriteMessage("silence");
+				ThreadsafeLogger::WriteMessage("silence");
 				break;
 			case AudioState::Speech:
-				Logger::WriteMessage("speech");
+				ThreadsafeLogger::WriteMessage("speech");
 				break;
 			default:
-				Logger::WriteMessage("unhandled");
+				ThreadsafeLogger::WriteMessage("unhandled");
 				break;
 			}
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 
 		static void SpeechRecognitionEngine_OnLoadGrammarCompleted(const SpeechRecognitionEngine& Engine, const LoadGrammarCompletedEventArgs& EventArgs)
 		{
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Grammar loaded: ");
-			//Logger::WriteMessage(...);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Grammar loaded: ");
+			//ThreadsafeLogger::WriteMessage(...);
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 
 		static void SpeechRecognitionEngine_OnSpeechDetected(const SpeechRecognitionEngine& Engine, const SpeechDetectedEventArgs& EventArgs)
@@ -205,10 +206,10 @@ namespace UnitTests::Core::Speech
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::TimeSpan& AudioPosition = EventArgs.GetAudioPosition();
 
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Speech detected: ");
-			//Logger::WriteMessage((char*)&AudioPosition.ToString()[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Speech detected: ");
+			//ThreadsafeLogger::WriteMessage((char*)&AudioPosition.ToString()[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 
 		static void SpeechRecognitionEngine_OnSpeechHypothesized(const SpeechRecognitionEngine& Engine, const SpeechHypothesizedEventArgs& EventArgs)
@@ -216,10 +217,10 @@ namespace UnitTests::Core::Speech
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::Utf8String& Text = EventArgs.GetResult().GetText();
 
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Speech hypothesized: ");
-			Logger::WriteMessage((char*)&Text[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Speech hypothesized: ");
+			ThreadsafeLogger::WriteMessage((char*)&Text[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 
 		static void SpeechRecognitionEngine_OnSpeechRecognized(const SpeechRecognitionEngine& Engine, const SpeechRecognizedEventArgs& EventArgs)
@@ -227,10 +228,10 @@ namespace UnitTests::Core::Speech
 			const Elysium::Core::String CurrentThreadId = Elysium::Core::Template::Text::Convert<char>::ToString(Thread::GetCurrentThreadIdX());
 			const Elysium::Core::Utf8String& Text = EventArgs.GetResult().GetText();
 
-			Logger::WriteMessage(&CurrentThreadId[0]);
-			Logger::WriteMessage(" Speech recognized: ");
-			Logger::WriteMessage((char*)&Text[0]);
-			Logger::WriteMessage("\r\n");
+			ThreadsafeLogger::WriteMessage(&CurrentThreadId[0]);
+			ThreadsafeLogger::WriteMessage(" Speech recognized: ");
+			ThreadsafeLogger::WriteMessage((char*)&Text[0]);
+			ThreadsafeLogger::WriteMessage("\r\n");
 		}
 	};
 }

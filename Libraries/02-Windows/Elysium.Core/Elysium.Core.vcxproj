@@ -132,6 +132,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Advapi32.lib;Cabinet.lib;UserEnv.Lib;Dbghelp.lib</AdditionalDependencies>
+      <GenerateMapFile>false</GenerateMapFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

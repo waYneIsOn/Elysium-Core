@@ -86,7 +86,7 @@ namespace Elysium::Core::Template::Diagnostics
 
 		// https://learn.microsoft.com/en-us/windows/win32/api/dbghelp/ns-dbghelp-stackframe
 		STACKFRAME64 NativeStackFrame;
-		memset(&NativeStackFrame, 0, sizeof(STACKFRAME64));
+		Elysium::Core::Template::Memory::MemSet(&NativeStackFrame, 0, sizeof(STACKFRAME64));
 		NativeStackFrame.AddrPC.Mode = AddrModeFlat;
 		NativeStackFrame.AddrStack.Mode = AddrModeFlat;
 		NativeStackFrame.AddrFrame.Mode = AddrModeFlat;
@@ -123,7 +123,7 @@ namespace Elysium::Core::Template::Diagnostics
 		Template::System::byte SymbolBuffer[SymbolBufferSize];
 
 		IMAGEHLP_SYMBOL64* Symbol = (IMAGEHLP_SYMBOL64*)&SymbolBuffer;
-		memset(Symbol, 0, sizeof(SymbolBufferSize));
+		Elysium::Core::Template::Memory::MemSet(Symbol, 0, sizeof(SymbolBufferSize));
 		Symbol->SizeOfStruct = sizeof(IMAGEHLP_SYMBOL64);
 		Symbol->MaxNameLength = MaxFunctionNameLength * sizeof(wchar_t);
 
@@ -201,7 +201,7 @@ namespace Elysium::Core::Template::Diagnostics
 				}
 
 				// reset for next frame
-				//memset(&MethodNameBuffer, 0, NumberOfCharacters); // doesn't seem to be necessary as '\0' get's set by UnDecorateSymbolName(...)
+				//Elysium::Core::Template::Memory::MemSet((&MethodNameBuffer, 0, NumberOfCharacters); // doesn't seem to be necessary as '\0' get's set by UnDecorateSymbolName(...)
 				Line.Address = 0;
 				Line.LineNumber = -1;
 			}

@@ -949,6 +949,8 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr void String<C, Traits, Allocator>::InitializeStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Size)
 	{
+		//assert(Size <= sizeof(_InternalString._Stack._Data));
+
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, Size);
 		_InternalString._Stack.SetSize(Size);
 	}
@@ -969,6 +971,12 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr void String<C, Traits, Allocator>::CopyStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size ByteSize)
 	{
+		//assert(ByteSize <= sizeof(_InternalString._Stack._Data));
+		
+		// clear previous memory (just to be sure)
+		Elysium::Core::Template::Memory::MemSet(&_InternalString._Stack._Data[0], 0, sizeof(StackString));
+
+		// ...
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, ByteSize);
 		_InternalString._Stack.SetSize(ByteSize);
 	}

@@ -21,14 +21,14 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 		static void WriteMessage(const wchar_t* message)
 		{
 			_Mutex.Lock();
-			Logger::WriteMessage(message);
+			//Logger::WriteMessage(message);
 			_Mutex.Unlock();
 		}
 
 		static void WriteMessage(const char* message)
 		{
 			_Mutex.Lock();
-			Logger::WriteMessage(message);
+			//Logger::WriteMessage(message);
 			_Mutex.Unlock();
 		}
 	private:

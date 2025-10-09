@@ -28,7 +28,7 @@ Elysium::Core::Net::SocketAddress::SocketAddress(const IPAddress& Address, const
 Elysium::Core::Net::SocketAddress::SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily, const Elysium::Core::uint8_t Size)
 	: _Size(Size < WriteableOffset ? WriteableOffset : Size)
 {
-	memset(&_Data[0], 0, _Size);
+	Elysium::Core::Template::Memory::MemSet(&_Data[0], 0, _Size);
 
 #ifdef BIGENDIAN
 	_Data[0] = static_cast<char>(static_cast<Elysium::Core::uint16_t>(AddressFamily) >> 8);

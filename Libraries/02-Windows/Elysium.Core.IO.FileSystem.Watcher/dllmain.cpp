@@ -17,13 +17,13 @@
 #ifndef ELYSIUM_CORE_REFLECTION_TYPE
 #include "../Elysium.Core.Reflection/Type.hpp"
 #endif
-
+/*
 inline static const Elysium::Core::Reflection::Assembly ReflectedAssembly =
 Elysium::Core::Reflection::Assembly(Elysium::Core::Reflection::AssemblyName(u8"Elysium.Core.IO.FileSystem.Watcher", Elysium::Core::Version(0, 1)));
 
 inline static const Elysium::Core::Reflection::Module ModuleCoreData =
 Elysium::Core::Reflection::Module(ReflectedAssembly, u8"Elysium::Core::IO::FileSystem::Watcher");
-
+*/
 BOOL APIENTRY DllMain(HMODULE hModule,
 	DWORD  ul_reason_for_call,
 	LPVOID lpReserved

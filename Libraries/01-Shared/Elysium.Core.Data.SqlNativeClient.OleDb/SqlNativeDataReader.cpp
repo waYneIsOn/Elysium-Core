@@ -73,7 +73,7 @@ const bool Elysium::Core::Data::SqlNativeClient::OleDb::SqlNativeDataReader::Rea
 	HRESULT HResult;
 
 	// clear the buffers
-	memset(_RowDataBuffer, 0, _RowsetByteLength);
+	Elysium::Core::Template::Memory::MemSet(_RowDataBuffer, 0, _RowsetByteLength);
 
 	// release the previous row (if we've obtained one)
 	if (_NumberOfRowsObtained > 0)

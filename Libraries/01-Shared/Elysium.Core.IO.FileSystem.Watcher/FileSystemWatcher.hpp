@@ -97,7 +97,7 @@ namespace Elysium::Core::IO
 
 		const Utf8String& GetFilter() const;
 	public:
-		void BeginInit() noexcept;
+		void BeginInit();
 
 		void EndInit();
 	public:

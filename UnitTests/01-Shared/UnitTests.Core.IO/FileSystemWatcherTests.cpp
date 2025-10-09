@@ -20,8 +20,9 @@ using namespace Elysium::Core::Template::Container;
 using namespace Elysium::Core::Template::RunTimeTypeInformation;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+//int CurrentDebugFlags = _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);	// dump memory leaks
 /*
-int CurrentDebugFlags = _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);	// dump memory leaks
 int DumpMemoryLeaks = _CrtDumpMemoryLeaks();
 //long BreakAllocResult = _CrtSetBreakAlloc(566623);	// Set breakpoint for specific allocation number
 long BreakAllocResult = _CrtSetBreakAlloc(166);	// Set breakpoint for specific allocation number
@@ -31,11 +32,21 @@ namespace UnitTests::Core::IO
 	TEST_CLASS(FileSystemWatcherTests)
 	{
 	public:
+		TEST_METHOD(DoNothing)
+		{
+
+		}
+
+		BEGIN_TEST_METHOD_ATTRIBUTE(A_RunAllTestMultipleTimesToProvokeCodeErrors)
+			TEST_METHOD_ATTRIBUTE(L"Category", L"LongRunning")
+		END_TEST_METHOD_ATTRIBUTE()
 		TEST_METHOD(A_RunAllTestMultipleTimesToProvokeCodeErrors)
 		{
-			for (int i = 0; i < 1000; i++)
+			//for (int i = 0; i < 100; ++i)
+			for (int i = 0; i < 1000; ++i)
+			//for (int i = 0; i < 5000; ++i)
 			{
-				try
+				//try
 				{
 					NonUTWatchAllChanges();
 					NonUTWatchFilteredChanges();
@@ -45,10 +56,12 @@ namespace UnitTests::Core::IO
 					NonUTRapidFire();
 					NonUTReuse();
 				}
+				/*
 				catch (...)
 				{
 					Assert::Fail(L"caught unknown exception");
 				}
+				*/
 			}
 		}
 
@@ -116,7 +129,6 @@ namespace UnitTests::Core::IO
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
 
-			DirectoryWatcher.BeginInit();
 			/*
 			* Make sure this loop runs for a multiple of two!
 			* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -124,7 +136,7 @@ namespace UnitTests::Core::IO
 			*/
 			for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 			{
-				//DirectoryWatcher.BeginInit();
+				DirectoryWatcher.BeginInit();
 
 				try
 				{
@@ -356,14 +368,14 @@ namespace UnitTests::Core::IO
 			for (int i = 0; i < 1000; ++i)
 			{
 				DirectoryWatcher.BeginInit();
-				DirectoryWatcher.EndInit();
+				//DirectoryWatcher.EndInit();
 			}
 		}
 	private:
 		void CreateFileAndWait(const bool WaitOnEvent)
 		{
 			FileStream TargetFileStream = FileStream(_FilePath0, FileMode::CreateNew, FileAccess::Write);
-			if(WaitOnEvent && !_CreatedResetEvent.WaitOne(1000 * 10))
+			if(WaitOnEvent && !_CreatedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File creation event was not triggered within given time limit.");
 			}
@@ -377,7 +389,7 @@ namespace UnitTests::Core::IO
 			FileStream TargetFileStream = FileStream(_FilePath0, FileMode::Open, FileAccess::Write);
 			TargetFileStream.Write(Buffer, 1024);
 			TargetFileStream.Flush();
-			if (WaitOnEvent && !_ChangedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_ChangedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File change event was not triggered within given time limit.");
 			}
@@ -387,14 +399,14 @@ namespace UnitTests::Core::IO
 		void RenameFileAndWait(const bool WaitOnEvent)
 		{
 			File::Move(_FilePath0, _FilePath1, false);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
 			}
 			_RenamedResetEvent.Reset();
 
 			File::Move(_FilePath1, _FilePath0, false);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
 			}
@@ -404,7 +416,7 @@ namespace UnitTests::Core::IO
 		void DeleteFileAndWait(const bool WaitOnEvent)
 		{
 			File::Delete(_FilePath0);
-			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File deletion event was not triggered within given time limit.");
 			}
@@ -414,7 +426,7 @@ namespace UnitTests::Core::IO
 		void CreateFolderAndWait(const bool WaitOnEvent)
 		{
 			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::CreateFolder(_DirectoryPath0);
-			if (WaitOnEvent && !_CreatedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_CreatedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"Folder creation event was not triggered within given time limit.");
 			}
@@ -424,14 +436,14 @@ namespace UnitTests::Core::IO
 		void RenameFolderAndWait(const bool WaitOnEvent)
 		{
 			bool RenameFolderResult1 = Elysium::Core::Template::IO::FileSystem::RenameFolder(_DirectoryPath0, _DirectoryPath1);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
 			}
 			_RenamedResetEvent.Reset();
 
 			bool RenameFolderResult2 = Elysium::Core::Template::IO::FileSystem::RenameFolder(_DirectoryPath1, _DirectoryPath0);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
 			}
@@ -441,7 +453,7 @@ namespace UnitTests::Core::IO
 		void DeleteFolderAndWait(const bool WaitOnEvent)
 		{
 			bool RemoveFolderResult = Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000 * 10))
+			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000))
 			{
 				Assert::Fail(L"Folder deletion event was not triggered within given time limit.");
 			}

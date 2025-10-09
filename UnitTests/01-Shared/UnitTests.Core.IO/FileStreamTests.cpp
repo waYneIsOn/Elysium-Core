@@ -7,6 +7,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/IOException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/MemSet.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
@@ -33,7 +34,7 @@ namespace UnitTests::Core::IO
 			InputOutputStream.Close();
 
 			// check the written data by using another stream (reading multiple times)
-			memset(&DataToRead[0], 0x00, 9);
+			Elysium::Core::Template::Memory::MemSet(&DataToRead[0], 0x00, 9);
 			FileStream OutputStream = FileStream(u8"FS1.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
 			BytesRead = OutputStream.Read(&DataToRead[0], 4);
 			Assert::AreEqual((Elysium::Core::size)4, BytesRead);
@@ -60,7 +61,7 @@ namespace UnitTests::Core::IO
 			Assert::AreEqual((Elysium::Core::size)9, DestinationStream.GetLength());
 
 			// read from memory stream to make sure all bytes were written correctly
-			memset(&DataToRead[0], 0x00, 9);
+			Elysium::Core::Template::Memory::MemSet(&DataToRead[0], 0x00, 9);
 			DestinationStream.SetPosition(0);
 			BytesRead = DestinationStream.Read(&DataToRead[0], 9);
 			Assert::AreEqual((Elysium::Core::size)9, BytesRead);

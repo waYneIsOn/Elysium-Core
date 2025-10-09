@@ -1,7 +1,7 @@
 #ifndef _WINDOWS_
 #include <Windows.h>
 #endif
-
+/*
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
 #include "../Elysium.Core.Reflection/AppDomain.hpp"
 #endif
@@ -23,7 +23,7 @@ Elysium::Core::Reflection::Assembly(Elysium::Core::Reflection::AssemblyName(u8"E
 
 inline static const Elysium::Core::Reflection::Module ModuleCoreData =
 Elysium::Core::Reflection::Module(ReflectedAssembly, u8"Elysium::Core::Data::TdsClient");
-
+*/
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
     switch (ul_reason_for_call)

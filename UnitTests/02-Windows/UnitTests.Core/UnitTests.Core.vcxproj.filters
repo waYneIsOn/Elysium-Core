@@ -45,6 +45,9 @@
     <ClCompile Include="ThreadPoolTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SampleFiles\InjectMessageBox32.dll">

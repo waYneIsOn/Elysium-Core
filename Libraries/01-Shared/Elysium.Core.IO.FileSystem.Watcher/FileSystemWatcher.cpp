@@ -60,7 +60,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 	if (nullptr != _CompletionPort)
 	{
 		// CloseThreadpoolIo(...) can be unsafe if there are no in-flight ios as it runs asynchronously.
-		//(It basically should only be called once for each StartThreadpoolIo(...) that hasn't resulted in a callback.
+		// It basically should only be called once for each StartThreadpoolIo(...) that hasn't resulted in a callback.
 		if (0_ui64 != _InFlightIos)
 		{
 			CloseThreadpoolIo(_CompletionPort);
@@ -106,20 +106,12 @@ const Elysium::Core::Utf8String& Elysium::Core::IO::FileSystemWatcher::GetFilter
 	return _Filter;
 }
 
-void Elysium::Core::IO::FileSystemWatcher::BeginInit() noexcept
+void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 {
-	if (0_ui64 != _InFlightIos || _IsEnding)
-	{
-		return;
-	}
-
-	if (nullptr != _AddressOfLatestAsyncResult.Load())
-	{	// already initialized (check is necessary since this method is public)
-		return;
-	}
-
-	if (INVALID_HANDLE_VALUE == _DirectoryHandle)
-	{
+	++_InFlightIos;
+	if (1_ui64 != _InFlightIos || _IsEnding || nullptr != _AddressOfLatestAsyncResult.Load())
+	{	// already initialized
+		--_InFlightIos;
 		return;
 	}
 
@@ -133,7 +125,6 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit() noexcept
 	DWORD BytesReturned = 0;
 
 	StartThreadpoolIo(_CompletionPort);
-	++_InFlightIos;
 	if (FALSE == ReadDirectoryChangesExW(_DirectoryHandle, &RawAsyncFileWatcherResult->_InformationBuffer[0],
 		RawAsyncFileWatcherResult->_InformationBuffer.GetLength(), _IncludeSubdirectories, static_cast<DWORD>(_NotifyFilters), &BytesReturned,
 		(LPOVERLAPPED)&RawAsyncFileWatcherResult->_WrappedOverlap, nullptr,
@@ -142,20 +133,6 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit() noexcept
 		DWORD ErrorCode = GetLastError();
 		if (ERROR_IO_PENDING != ErrorCode)
 		{
-
-
-
-
-			// seen error "6 - ERROR_INVALID_HANDLE" here
-			// CancelThreadpoolIo(_CompletionPort); crashes sometimes in that scenario
-			// BeginInit() was called from callback
-			// error probably happend since main thread destructed instance of FileSystemWatcher
-
-
-
-
-
-
 			// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
 			// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
 			// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with
@@ -167,7 +144,7 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit() noexcept
 
 			delete RawAsyncFileWatcherResult;
 
-			//throw IOException(ErrorCode);
+			throw IOException(ErrorCode);
 		}
 	}
 }
@@ -198,12 +175,16 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 		// "You should close the associated file handle and wait for all outstanding overlapped I/O operations to complete before calling this function."
 		WaitForThreadpoolIoCallbacks(_CompletionPort, FALSE);
 
-		_InFlightIos = 0;
+		--_InFlightIos;
 	}
 
 	// @ToDo: make sure this doesn't happen so I can remove this check
 	if (0_ui64 != _InFlightIos)
 	{	// should be 0 at this point
+
+
+
+
 		bool bla = false;
 		//throw 1;
 	}
@@ -289,7 +270,10 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 
 
 
+
 	std::u8string TempErrorMessage;
+
+
 
 
 	// ...
@@ -521,11 +505,6 @@ HANDLE Elysium::Core::IO::FileSystemWatcher::CreateNativeDirectoryHandle(const c
 
 void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 {
-	if (Context == nullptr || Overlapped == nullptr)
-	{	// this scenario shouldn't occurre at all?!
-		throw 1;
-	}
-
 	// ...
 	FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
 	Watcher->_RunningCallbacks.operator++();
@@ -541,6 +520,18 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 	if (nullptr == WrappedOverlap->_AsyncResult)
 	{	// @ToDo
 		Watcher->_InFlightIos.operator--();
+
+
+
+
+		if (0_ui64 != Watcher->_InFlightIos)
+		{
+			bool bla = false;
+		}
+
+
+
+
 		if (!Watcher->_IsEnding)
 		{
 			Watcher->BeginInit();
@@ -555,6 +546,18 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 	if (nullptr == AsyncResult)
 	{	// @ToDo: this doesn't seem to occurre anymore. leave the check in for now
 		Watcher->_InFlightIos.operator--();
+
+
+
+
+		if (0_ui64 != Watcher->_InFlightIos)
+		{
+			bool bla = false;
+		}
+
+
+
+
 		if (!Watcher->_IsEnding)
 		{
 			Watcher->BeginInit();
@@ -568,6 +571,18 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 	if (nullptr == RawAsyncResult)
 	{	// @ToDo: this sometimes happens - possibly error in my code?
 		Watcher->_InFlightIos.operator--();
+
+
+
+
+		if (0_ui64 != Watcher->_InFlightIos)
+		{
+			bool bla = false;
+		}
+
+
+
+
 		if (!Watcher->_IsEnding)
 		{
 			Watcher->BeginInit();
@@ -618,7 +633,30 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 
 	CleanUp(RawAsyncFileWatcherResult, true);
 
+
+
+
+
+	if (1_ui64 != Watcher->_InFlightIos)
+	{
+		bool bla = false;
+	}
+
+
+
 	Watcher->_InFlightIos.operator--();
+
+
+
+
+	if (0_ui64 != Watcher->_InFlightIos)
+	{
+		bool bla = false;
+	}
+
+
+
+
 	if (!Watcher->_IsEnding)
 	{
 		Watcher->BeginInit();

@@ -116,7 +116,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateMapFile>true</GenerateMapFile>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
@@ -193,6 +194,7 @@
   <ItemGroup>
     <ClCompile Include="DateTimeTest.cpp" />
     <ClCompile Include="DecimalTest.cpp" />
+    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="EnvironmentTest.cpp" />
     <ClCompile Include="NumericTest.cpp" />
     <ClCompile Include="ReflectionTest.cpp" />
@@ -211,9 +213,6 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Json\Elysium.Core.Json.vcxproj">
       <Project>{1ae389e0-479e-43d0-9299-77821b53db54}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Math\Elysium.Core.Math.vcxproj">
-      <Project>{adb5d221-a0f1-4eee-9101-8988fdf910b8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core\Elysium.Core.vcxproj">
       <Project>{4307fe45-8bdf-4850-9bf0-129b2dca2eb7}</Project>

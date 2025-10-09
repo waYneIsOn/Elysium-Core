@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <MSTest>
+    <TestCaseFilter>TestCategory=LongRunning</TestCaseFilter>
+  </MSTest>
+  <RunConfiguration>
+    <!-- Increase overall test session timeout (30 minutes in ms) -->
+    <TestSessionTimeout>1800000</TestSessionTimeout>
+
+    <!-- Increase per-test timeout (30 minutes in ms) -->
+    <TestTimeout>1800000</TestTimeout>
+  </RunConfiguration>
+</RunSettings>

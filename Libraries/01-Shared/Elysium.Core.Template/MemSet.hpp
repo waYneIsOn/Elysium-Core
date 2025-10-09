@@ -16,42 +16,53 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "OperatingSystem.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+
+#ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
+#endif
+//WINBASEAPI VOID WINAPI RtlFillMemory(_Out_ VOID UNALIGNED* Destination,	_In_  SIZE_T Length, _In_  BYTE Fill);
+#else
+/*
 #ifndef _CSTRING_
-#include <xstring> // @ToDo: stl remnant
+#include <cstring>
+#endif
+*/
+// c runtime memset
+extern "C" void* __cdecl memset(void* dest, int c, size_t count);
 #endif
 
 namespace Elysium::Core::Template::Memory
 {
-	/*
-	template <class T>
-	void* MemSet(void* Destination, Elysium::Core::Template::System::int32_t Value, Elysium::Core::Template::System::size Size);
-
-	template<class T>
-	void* MemSet(void* Destination, Elysium::Core::Template::System::int32_t Value, Elysium::Core::Template::System::size Size)
-	{	// @ToDo: this method probably should be more optimized!
-		Elysium::Core::Template::System::byte* CastDestination = reinterpret_cast<Elysium::Core::Template::System::byte*>(Destination);
-		for (Elysium::Core::Template::System::size i = 0; i != Size; ++i)
-		{
-			CastDestination[i] = Value;
-		}
-
-		return Destination;
-	}
-	*/
-	
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	inline void* MemSet(void* Destination, Elysium::Core::Template::System::int32_t Value, Elysium::Core::Template::System::size Size)
-	{	// @ToDo: stl remnant
-		return std::memset(Destination, Value, Size);
-		/*
-		// @ToDo: this method probably should be more optimized!
-		Elysium::Core::Template::System::byte* CastDestination = reinterpret_cast<Elysium::Core::Template::System::byte*>(Destination);
-		for (Elysium::Core::Template::System::size i = 0; i != Size; ++i)
+	{
+		OutputDebugStringA("MemSet hit\n");
+
+		void* caller = _ReturnAddress();  // x64: use _ReturnAddress()
+		char buffer[128];
+		sprintf_s(buffer, "MemSet called from address: %p\n", caller);
+		OutputDebugStringA(buffer);
+
+		if (IsBadWritePtr(Destination, Size))
 		{
-			CastDestination[i] = Value;
+			__debugbreak(); // or force a crash here
 		}
 
+		RtlFillMemory(Destination, Size, static_cast<Elysium::Core::Template::System::byte>(Value));
 		return Destination;
-		*/
 	}
+#else
+	inline void* MemSet(void* Destination, Elysium::Core::Template::System::int32_t Value, Elysium::Core::Template::System::size Size)
+	{
+		return memset(Destination, Value, Size);
+	}
+#endif
 }
 #endif

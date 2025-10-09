@@ -31,7 +31,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Reflection
 {
 	class Module;
-
+	
 	class ELYSIUM_CORE_API Assembly final
 	{
 		friend class Module;
