@@ -16,5 +16,31 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AppDomain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfAssemblyPointer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfModulePointer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfTypePointer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfAssemblyPointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfModulePointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfTypePointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Container">
+      <UniqueIdentifier>{ad1e9a4d-3c13-47b4-92e9-90dde364521d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{caff6504-ea38-4a2e-8c21-ecb8bc95e5c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

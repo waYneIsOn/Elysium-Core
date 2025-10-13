@@ -775,35 +775,5 @@ namespace UnitTests::Core::Template::Text
 			Assert::AreEqual(11_ui64, SourceStackUtf16CharArray.GetCapacity());
 			Assert::AreEqual(5_ui64, SourceStackUtf32CharArray.GetCapacity());
 		}
-
-		TEST_METHOD(StaticMethods)
-		{
-			// this is true as a nullptr will result in a stack-string
-			Assert::IsTrue(Elysium::Core::String::IsEmpty(nullptr));
-
-			Assert::IsTrue(Elysium::Core::String::IsEmpty(1));
-			Assert::IsTrue(Elysium::Core::WideString::IsEmpty(1));
-			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(1));
-			Assert::IsTrue(Elysium::Core::Utf16String::IsEmpty(1));
-			Assert::IsTrue(Elysium::Core::Utf32String::IsEmpty(1));
-
-			Assert::IsTrue(Elysium::Core::String::IsEmpty(""));
-			Assert::IsTrue(Elysium::Core::WideString::IsEmpty(L""));
-			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(u8""));
-			Assert::IsTrue(Elysium::Core::Utf16String::IsEmpty(u""));
-			Assert::IsTrue(Elysium::Core::Utf32String::IsEmpty(U""));
-
-			Assert::IsFalse(Elysium::Core::String::IsEmpty("xyz"));
-			Assert::IsFalse(Elysium::Core::WideString::IsEmpty(L"xyz"));
-			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(u8"xyz"));
-			Assert::IsFalse(Elysium::Core::Utf16String::IsEmpty(u"xyz"));
-			Assert::IsFalse(Elysium::Core::Utf32String::IsEmpty(U"xyz"));
-
-			Assert::IsFalse(Elysium::Core::String::IsEmpty("this string is too large to fit onto stack"));
-			Assert::IsFalse(Elysium::Core::WideString::IsEmpty(L"this string is too large to fit onto stack"));
-			Assert::IsFalse(Elysium::Core::Utf8String::IsEmpty(u8"this string is too large to fit onto stack"));
-			Assert::IsFalse(Elysium::Core::Utf16String::IsEmpty(u"this string is too large to fit onto stack"));
-			Assert::IsFalse(Elysium::Core::Utf32String::IsEmpty(U"this string is too large to fit onto stack"));
-		}
 	};
 }

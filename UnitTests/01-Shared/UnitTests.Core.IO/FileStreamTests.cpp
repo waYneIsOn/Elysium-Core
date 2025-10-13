@@ -78,7 +78,7 @@ namespace UnitTests::Core::IO
 
 		TEST_METHOD(AsyncReadAndWriteThroughIOThreads)
 		{
-			_CompletionSignal.Reset();
+			CompletionSignal().Reset();
 
 			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::Asynchronous);
@@ -93,12 +93,12 @@ namespace UnitTests::Core::IO
 			StartAsyncReadWrite();
 
 			// wait for completion
-			_CompletionSignal.WaitOne();
+			CompletionSignal().WaitOne();
 		}
 
 		TEST_METHOD(AsyncReadAndWriteThroughWorkerThreads)
 		{
-			_CompletionSignal.Reset();
+			CompletionSignal().Reset();
 
 			FileStream SourceStream = FileStream(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None,
 				4096, FileOptions::None);
@@ -113,7 +113,7 @@ namespace UnitTests::Core::IO
 			StartAsyncReadWrite();
 
 			// wait for completion
-			_CompletionSignal.WaitOne();
+			CompletionSignal().WaitOne();
 		}
 
 		TEST_METHOD(MemoryLeakIfDestructorDoesntWaitOrCancels)
@@ -125,7 +125,12 @@ namespace UnitTests::Core::IO
 			ReadResult->GetAsyncWaitHandle().WaitOne();
 		}
 	private:
-		inline static ManualResetEvent _CompletionSignal = ManualResetEvent(false);
+		//inline static ManualResetEvent _CompletionSignal = ManualResetEvent(false);
+		static ManualResetEvent& CompletionSignal()
+		{
+			static ManualResetEvent _CompletionSignal = ManualResetEvent(false);
+			return _CompletionSignal;
+		}
 		static const size _BufferLength = 255;
 		byte _Buffer[_BufferLength];
 
@@ -145,7 +150,7 @@ namespace UnitTests::Core::IO
 			}
 			else
 			{
-				_CompletionSignal.Set();
+				CompletionSignal().Set();
 			}
 		}
 

@@ -18,7 +18,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AppDomain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Assembly.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AssemblyName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfAssemblyPointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfModulePointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\VectorOfTypePointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FieldAttributes.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfAssemblyPointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfModulePointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocatorOfTypePointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Module.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessorArchitecture.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Type.hpp" />

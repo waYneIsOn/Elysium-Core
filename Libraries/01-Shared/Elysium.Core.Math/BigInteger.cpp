@@ -12,10 +12,6 @@
 #include "../Elysium.Core.Template/Copy.hpp"
 #endif
 
-const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_bnMinInt = Elysium::Core::Math::Numerics::BigInteger(-1, Elysium::Core::Container::VectorOfUInt32_t({ _uMaskHighBit }));
-const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_MinusOneInt = Elysium::Core::Math::Numerics::BigInteger(-1);
-const Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInteger::_ZeroInt = Elysium::Core::Math::Numerics::BigInteger(0);
-
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::int32_t Sign, const Elysium::Core::Container::VectorOfUInt32_t& Value)
 	: _Sign(Sign), _Bits(Value)
 { }
@@ -31,7 +27,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::Conta
 
 	if (Length == 0)
 	{
-		*this = BigInteger(_ZeroInt);
+		*this = ZeroInt();
 	}
 	else if (Length == 1 && Value[0] < _uMaskHighBit)
 	{	// values like (Int32.MaxValue+1) are stored as "0x80000000" and as such cannot be packed into _sign
@@ -41,7 +37,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::Conta
 		// Although Int32.MinValue fits in _sign, we represent this case differently for negate
 		if (_Sign == Elysium::Core::UInt32::GetMinValue())
 		{
-			*this = BigInteger(_bnMinInt);
+			*this = MinusOneInt();
 		}
 	}
 	else
@@ -65,7 +61,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(Elysium::Core::Container::
 
 	if (DWordCount == 0)
 	{
-		*this = _ZeroInt;
+		*this = ZeroInt();
 	}
 	else if (DWordCount == 1)
 	{
@@ -77,7 +73,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(Elysium::Core::Container::
 		}
 		else if (static_cast<Elysium::Core::int32_t>(Value[0]) == Elysium::Core::Int32::GetMinValue())
 		{
-			*this = _bnMinInt;
+			*this = MinInt();
 		}
 		else
 		{
@@ -117,11 +113,11 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(Elysium::Core::Container::
 			{	// the number is represented by a single dword
 				if (Value[0] == 1)
 				{
-					*this = _MinusOneInt;
+					*this = MinusOneInt();
 				}
 				else if (Value[0] == _uMaskHighBit)
 				{
-					*this = _bnMinInt;
+					*this = MinInt();
 				}
 				else
 				{
@@ -151,7 +147,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::int32
 {
 	if (Value == Elysium::Core::Int32::GetMinValue())
 	{
-		*this = BigInteger(_bnMinInt);
+		*this = MinInt();
 	}
 	else
 	{
@@ -225,7 +221,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::Conta
 
 		if (_Sign == Elysium::Core::Int32::GetMinValue())
 		{
-			*this = _bnMinInt;
+			*this = MinInt();
 		}
 	}
 	else
@@ -277,7 +273,7 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::Conta
 
 		if (IsZero)
 		{
-			*this = BigInteger(_ZeroInt);
+			*this = ZeroInt();
 		}
 		else if (IsNegative)
 		{
@@ -294,11 +290,11 @@ Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::Conta
 			{
 				if (Val[0] == 1)
 				{
-					*this = BigInteger(_MinusOneInt);
+					*this = MinusOneInt();
 				}
 				else if (Val[0] == _uMaskHighBit)
 				{
-					*this = BigInteger(_bnMinInt);
+					*this = MinInt();
 				}
 				else
 				{
@@ -434,7 +430,7 @@ Elysium::Core::Math::Numerics::BigInteger Elysium::Core::Math::Numerics::BigInte
 	{
 		if (Shift >= (_CBITUINT * Length))
 		{
-			return _MinusOneInt;
+			return MinusOneInt();
 		}
 
 		Elysium::Core::Container::VectorOfUInt32_t Temp = Elysium::Core::Container::VectorOfUInt32_t(Length);
@@ -643,4 +639,22 @@ const Elysium::Core::Container::VectorOfUInt32_t Elysium::Core::Math::Numerics::
 	}
 
 	return Trimmed;
+}
+
+const Elysium::Core::Math::Numerics::BigInteger& Elysium::Core::Math::Numerics::BigInteger::MinInt()
+{
+	static const Elysium::Core::Math::Numerics::BigInteger Value = Elysium::Core::Math::Numerics::BigInteger(-1, Elysium::Core::Container::VectorOfUInt32_t({ _uMaskHighBit }));
+	return Value;
+}
+
+const Elysium::Core::Math::Numerics::BigInteger& Elysium::Core::Math::Numerics::BigInteger::MinusOneInt()
+{
+	static const Elysium::Core::Math::Numerics::BigInteger Value = Elysium::Core::Math::Numerics::BigInteger(-1);
+	return Value;
+}
+
+const Elysium::Core::Math::Numerics::BigInteger& Elysium::Core::Math::Numerics::BigInteger::ZeroInt()
+{
+	static const Elysium::Core::Math::Numerics::BigInteger Value = Elysium::Core::Math::Numerics::BigInteger(0);
+	return Value;
 }

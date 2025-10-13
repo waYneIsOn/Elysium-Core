@@ -4,8 +4,6 @@
 #include "Assembly.hpp"
 #endif
 
-Elysium::Core::Reflection::AppDomain Elysium::Core::Reflection::AppDomain::_CurrentDomain = Elysium::Core::Reflection::AppDomain();
-
 constexpr Elysium::Core::Reflection::AppDomain::AppDomain()
 	: _RegisteredAssemblies()
 { }
@@ -13,14 +11,15 @@ constexpr Elysium::Core::Reflection::AppDomain::AppDomain()
 constexpr Elysium::Core::Reflection::AppDomain::~AppDomain()
 { }
 
-const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Assembly*> Elysium::Core::Reflection::AppDomain::GetAssemblies() const
+const Elysium::Core::Reflection::Container::VectorOfConstAssemblyPointer Elysium::Core::Reflection::AppDomain::GetAssemblies() const
 {
 	return _RegisteredAssemblies;
 }
 
 Elysium::Core::Reflection::AppDomain& Elysium::Core::Reflection::AppDomain::GetCurrentDomain()
 {
-	return _CurrentDomain;
+	static Elysium::Core::Reflection::AppDomain CurrentDomain = Elysium::Core::Reflection::AppDomain();
+	return CurrentDomain;
 }
 
 constexpr void Elysium::Core::Reflection::AppDomain::Add(const Elysium::Core::Reflection::Assembly& Assembly)

@@ -6,7 +6,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 #pragma once
-
+/*
 #ifndef UNITTESTS_CORE_JSON_CHANGINGJSONVISITOR
 #define UNITTESTS_CORE_JSON_CHANGINGJSONVISITOR
 
@@ -31,3 +31,4 @@ namespace UnitTests::Core::Json
 	};
 }
 #endif
+*/

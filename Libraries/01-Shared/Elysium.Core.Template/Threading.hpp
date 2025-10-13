@@ -17,15 +17,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICBASE
-#include "AtomicBase.hpp"
+#include "_AtomicBase.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICENUM
+#include "Threading/_AtomicEnum.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICINTEGRAL
-#include "AtomicIntegral.hpp"
+#include "_AtomicIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICPOINTER
-#include "AtomicPointer.hpp"
+#include "_AtomicPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_AUTORESETEVENT

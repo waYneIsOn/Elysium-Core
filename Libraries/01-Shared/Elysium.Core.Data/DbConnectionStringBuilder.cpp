@@ -34,7 +34,8 @@ Elysium::Core::Utf8String Elysium::Core::Data::Common::DbConnectionStringBuilder
 		const Elysium::Core::Utf8String& Key = Item.GetKey();
 		const Elysium::Core::Utf8String& Value = Item.GetValue();
 
-		if (!Elysium::Core::Utf8String::IsEmpty(Key) && !Elysium::Core::Utf8String::IsEmpty(Value))
+		if (!Elysium::Core::Utf8String::CharacterTraits::IsEmpty(&Key[0]) && 
+			!Elysium::Core::Utf8String::CharacterTraits::IsEmpty(&Value[0]))
 		{
 			ConnectionStringBuilder.Append(&Key[0]);
 			ConnectionStringBuilder.Append(u8"=");

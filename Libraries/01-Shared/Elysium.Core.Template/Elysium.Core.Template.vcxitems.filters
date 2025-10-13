@@ -296,9 +296,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Action.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp">
       <Filter>Container</Filter>
     </ClInclude>
@@ -799,6 +796,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp">
       <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp">
+      <Filter>Threading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

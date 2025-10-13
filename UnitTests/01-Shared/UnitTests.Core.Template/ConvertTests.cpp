@@ -50,7 +50,7 @@ namespace UnitTests::Core::Template::Text
 			{
 				for (Elysium::Core::Template::System::size j = 0_ui64; j < 4_ui64; j++)
 				{
-					Elysium::Core::Template::System::uint8_t Value = i;
+					Elysium::Core::Template::System::uint8_t Value = static_cast<Elysium::Core::Template::System::uint8_t>(i);
 					Elysium::Core::Template::Text::String<wchar_t> WideString = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(Value, Bases[j]);
 
 					//Assert::AreEqual(1_ui64, WideString.GetLength(), &WideString[0]);
@@ -65,10 +65,10 @@ namespace UnitTests::Core::Template::Text
 
 			for (Elysium::Core::Template::System::size i = 0_ui64; i < 9_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint8_t ValueU8 = i;
-				Elysium::Core::Template::System::uint16_t ValueU16 = i;
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint8_t ValueU8 = static_cast<Elysium::Core::Template::System::uint8_t>(i);
+				Elysium::Core::Template::System::uint16_t ValueU16 = static_cast<Elysium::Core::Template::System::uint16_t>(i);
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU8 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU8);
 				Elysium::Core::Template::Text::String<wchar_t> StringU16 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU16);
@@ -86,10 +86,10 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::Template::System::size i = 10_ui64; i < 99_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint8_t ValueU8 = i;
-				Elysium::Core::Template::System::uint16_t ValueU16 = i;
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint8_t ValueU8 = static_cast<Elysium::Core::Template::System::uint8_t>(i);
+				Elysium::Core::Template::System::uint16_t ValueU16 = static_cast<Elysium::Core::Template::System::uint16_t>(i);
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU8 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU8);
 				Elysium::Core::Template::Text::String<wchar_t> StringU16 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU16);
@@ -107,7 +107,7 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::Template::System::size i = 100_ui64; i < 256_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint8_t ValueU8 = i;
+				Elysium::Core::Template::System::uint8_t ValueU8 = static_cast<Elysium::Core::Template::System::uint8_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU8 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU8);
 
@@ -116,9 +116,9 @@ namespace UnitTests::Core::Template::Text
 
 			for (Elysium::Core::Template::System::size i = 100_ui64; i < 999_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint16_t ValueU16 = i;
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint16_t ValueU16 = static_cast<Elysium::Core::Template::System::uint16_t>(i);
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU16 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU16);
 				Elysium::Core::Template::Text::String<wchar_t> StringU32 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU32);
@@ -134,9 +134,9 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::Template::System::size i = 1000_ui64; i < 9999_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint16_t ValueU16 = i;
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint16_t ValueU16 = static_cast<Elysium::Core::Template::System::uint16_t>(i);
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU16 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU16);
 				Elysium::Core::Template::Text::String<wchar_t> StringU32 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU32);
@@ -152,7 +152,7 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::Template::System::size i = 10000_ui64; i < 65535_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint16_t ValueU16 = i;
+				Elysium::Core::Template::System::uint16_t ValueU16 = static_cast<Elysium::Core::Template::System::uint16_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU16 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU16);
 
@@ -161,8 +161,8 @@ namespace UnitTests::Core::Template::Text
 
 			for (Elysium::Core::Template::System::size i = 10000_ui64; i < 99999_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU32 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU32);
 				Elysium::Core::Template::Text::String<wchar_t> StringU64 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU64);
@@ -176,8 +176,8 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::Template::System::size i = 100000_ui64; i < 999999_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU32 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU32);
 				Elysium::Core::Template::Text::String<wchar_t> StringU64 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU64);
@@ -195,8 +195,8 @@ namespace UnitTests::Core::Template::Text
 		{
 			for (Elysium::Core::Template::System::size i = 1000000_ui64; i < 9999999_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU32 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU32);
 				Elysium::Core::Template::Text::String<wchar_t> StringU64 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU64);
@@ -217,8 +217,8 @@ namespace UnitTests::Core::Template::Text
 
 			for (Elysium::Core::Template::System::size i = 10000000_ui64; i < 99999999_ui64; i++)
 			{
-				Elysium::Core::Template::System::uint32_t ValueU32 = i;
-				Elysium::Core::Template::System::uint64_t ValueU64 = i;
+				Elysium::Core::Template::System::uint32_t ValueU32 = static_cast<Elysium::Core::Template::System::uint32_t>(i);
+				Elysium::Core::Template::System::uint64_t ValueU64 = static_cast<Elysium::Core::Template::System::uint64_t>(i);
 
 				Elysium::Core::Template::Text::String<wchar_t> StringU32 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU32);
 				Elysium::Core::Template::Text::String<wchar_t> StringU64 = Elysium::Core::Template::Text::Convert<wchar_t>::ToString(ValueU64);

@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 
 #ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #endif
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

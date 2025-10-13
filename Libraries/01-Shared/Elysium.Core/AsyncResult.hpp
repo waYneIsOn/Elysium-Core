@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DelegateOfVoidConstIASyncResultPointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_MEMORY_OBSERVERPOINTEROFTPIO
+#include "Memory/ObserverPointerOfTPIO.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INTERNAL_WRAPPEDOVERLAP
 #include "WrappedOverlap.hpp"
 #endif
@@ -99,7 +103,7 @@ namespace Elysium::Core::Internal
 		Elysium::Core::Internal::WrappedOverlap _WrappedOverlap;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		Elysium::Core::Template::Memory::ObserverPointer<TP_IO> _CompletionPortHandle;
+		Elysium::Core::Memory::ObserverPointerOfTPIO _CompletionPortHandle;
 #endif
 	};
 }

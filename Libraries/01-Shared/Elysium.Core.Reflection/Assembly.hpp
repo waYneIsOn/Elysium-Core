@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AssemblyName.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
+#ifndef ELYSIUM_CORE_REFLECTION_CONTAINER_VECTOROFMODULEPOINTER
+#include "Container/VectorOfModulePointer.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
@@ -62,11 +62,11 @@ namespace Elysium::Core::Reflection
 	public:
 		const Elysium::Core::Utf8String& GetFullName() const;
 	public:
-		const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Module*> GetModules() const;
+		const Container::VectorOfConstModulePointer GetModules() const;
 	private:
 		Elysium::Core::Reflection::AssemblyName _AssemblyName;
 
-		Elysium::Core::Template::Container::Vector<const Module*> _Modules;
+		Container::VectorOfConstModulePointer _Modules;
 
 		constexpr void Add(Elysium::Core::Reflection::Module& Module);
 

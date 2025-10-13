@@ -34,8 +34,6 @@ namespace Elysium::Core::Data
 		DBNull& operator=(DBNull&& Right) noexcept = delete;
 	public:
 		static const DBNull& GetValue();
-	private:
-		static const DBNull _Value;
 	};
 }
 #endif

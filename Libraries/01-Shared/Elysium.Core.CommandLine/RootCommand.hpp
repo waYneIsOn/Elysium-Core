@@ -56,9 +56,9 @@ namespace Elysium::Core::CommandLine
 
 		constexpr RootCommand& operator=(RootCommand&& Right) noexcept = delete;
 	private:
-		static const char8_t* _ExecutableName;
+		inline static constexpr const char8_t* _ExecutableName = u8"ExecutableName.exe";	// @ToDo: Elysium::Core::Reflection::Assembly;
 
-		static const Elysium::Core::Version _Version;
+		//inline static constexpr const Elysium::Core::Version _Version = Elysium::Core::Version(0, 1);	// @ToDo: read from Elysium::Core::Reflection::Assembly -> AssemblyName
 	private:
 		Elysium::Core::Memory::Scoped::Arena _CommandArena;
 		Elysium::Core::Memory::Scoped::Arena _ArgumentArena;

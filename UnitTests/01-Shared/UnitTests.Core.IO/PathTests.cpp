@@ -147,16 +147,16 @@ namespace UnitTests::Core::IO
 			catch (ArgumentException&)
 			{ }
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FolderOnly)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_FolderOnly)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FolderOnlyView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FolderOnlyAlternative)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_FolderOnlyAlternative)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FolderOnlyAlternativeView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_RelativeFolder)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_RelativeFolder)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_RelativeFolderView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_RelativeAlternativeFolder)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_RelativeAlternativeFolder)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_RelativeAlternativeFolderView)));
 
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_FileOnly));
@@ -186,10 +186,10 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UriFileAlternative));
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UriFileAlternativeView).ToString());
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FullPath)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_FullPath)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FullPathView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_FullPathAlternative)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_FullPathAlternative)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_FullPathAlternativeView)));
 
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFile));
@@ -198,10 +198,10 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFileAlternative));
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_DosFileAlternativeView).ToString());
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_DosPath)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_DosPath)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_DosPathView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetExtension(_UncPath)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetExtension(_UncPath)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetExtension(_UncPathView)));
 
 			AssertExtended::AreEqual(u8".txt", Path::GetExtension(_UncFile));
@@ -250,16 +250,16 @@ namespace UnitTests::Core::IO
 			catch (ArgumentException&)
 			{ }
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FolderOnly)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_FolderOnly)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FolderOnlyView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FolderOnlyAlternative)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_FolderOnlyAlternative)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FolderOnlyAlternativeView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeFolder)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_RelativeFolder)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeFolderView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeAlternativeFolder)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_RelativeAlternativeFolder)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeAlternativeFolderView)));
 
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_FileOnly));
@@ -289,10 +289,10 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UriFileAlternative));
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UriFileAlternativeView));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FullPath)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_FullPath)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FullPathView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_FullPathAlternative)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_FullPathAlternative)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_FullPathAlternativeView)));
 
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFile));
@@ -301,10 +301,10 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFileAlternative));
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_DosFileAlternativeView));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_DosPath)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_DosPath)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_DosPathView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_UncPath)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_UncPath)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_UncPathView)));
 
 			AssertExtended::AreEqual(u8"file.txt", Path::GetFileName(_UncFile));
@@ -361,10 +361,10 @@ namespace UnitTests::Core::IO
 			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", Path::GetFullPath(_FolderOnlyAlternative));
 			AssertExtended::AreEqual(u8"C:\\test\\tmp\\", Path::GetFullPath(_FolderOnlyAlternativeView));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeFolder)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_RelativeFolder)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeFolderView)));
 
-			Assert::IsTrue(Utf8String::IsEmpty(Path::GetFileName(_RelativeAlternativeFolder)));
+			Assert::IsTrue(Utf8String::CharacterTraits::IsEmpty(&Path::GetFileName(_RelativeAlternativeFolder)[0]));
 			Assert::IsTrue(Utf8StringView::IsNullOrEmtpy(Path::GetFileName(_RelativeAlternativeFolderView)));
 
 			AssertExtended::AreEqual(u8"C:\\test\\file.txt", Path::GetFullPath(_FileOnly));

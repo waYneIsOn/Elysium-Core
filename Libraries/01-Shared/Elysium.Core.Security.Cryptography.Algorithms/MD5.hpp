@@ -43,9 +43,9 @@ namespace Elysium::Core::Security::Cryptography
 	public:
 		virtual void Initialize() override;
 	private:
-		static const Elysium::Core::Container::VectorOfUInt32_t _S;
-		static const Elysium::Core::Container::VectorOfUInt32_t _K;
-
+		static const Elysium::Core::Container::VectorOfUInt32_t& S();
+		static const Elysium::Core::Container::VectorOfUInt32_t& M();
+	private:
 		virtual void HashCore(Elysium::Core::byte* Array, const Elysium::Core::size Length) override;
 
 		virtual const Elysium::Core::Container::VectorOfByte HashFinal() override;

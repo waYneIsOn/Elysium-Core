@@ -34,6 +34,7 @@ namespace UnitTests::Core::Threading
 			Assert::AreEqual(25, _CalculatedValue);
 			Assert::IsFalse(std::this_thread::get_id() == _WorkerThreadId);
 		}
+
 		TEST_METHOD(ParameterizedThreadStartThread)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
@@ -125,6 +126,7 @@ namespace UnitTests::Core::Threading
 			Assert::AreEqual(10, ElapsedTime.GetSeconds());
 			Assert::IsTrue(ElapsedSecondsTotal > 10.0 && ElapsedSecondsTotal < 11.0);
 		}
+
 		TEST_METHOD(MutexWaitOne)
 		{
 			DateTime Start = DateTime::Now();
@@ -141,7 +143,7 @@ namespace UnitTests::Core::Threading
 			Assert::AreEqual(5, ElapsedTime.GetSeconds());
 			Assert::IsTrue(ElapsedSecondsTotal > 5.0 && ElapsedSecondsTotal < 6.0);
 		}
-
+		
 		TEST_METHOD(CriticalSectionTest)
 		{
 			DateTime Start = DateTime::Now();

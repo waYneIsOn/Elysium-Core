@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Environment.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
@@ -16,11 +16,11 @@ namespace UnitTests::Core
 		{
 			Elysium::Core::Utf8String EmptyString1 = Elysium::Core::Utf8String();
 			Assert::AreEqual((Elysium::Core::size)0, EmptyString1.GetLength());
-			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(EmptyString1));
+			Assert::IsTrue(Elysium::Core::Utf8String::CharacterTraits::IsEmpty(&EmptyString1[0]));
 
 			Elysium::Core::Utf8String EmptyString2 = u8"";
 			Assert::AreEqual((Elysium::Core::size)0, EmptyString2.GetLength());
-			Assert::IsTrue(Elysium::Core::Utf8String::IsEmpty(EmptyString2));
+			Assert::IsTrue(Elysium::Core::Utf8String::CharacterTraits::IsEmpty(&EmptyString2[0]));
 
 			Elysium::Core::Utf8String LString = Elysium::Core::Utf8String(5);
 			Assert::AreEqual(5_ui64, LString.GetLength());

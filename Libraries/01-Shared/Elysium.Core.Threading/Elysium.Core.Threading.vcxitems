@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Task.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskCreationOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TaskStatus.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tasks\AtomicOfTaskStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />

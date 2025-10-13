@@ -3,7 +3,6 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Reflection/AppDomain.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Activator.hpp"
 
 using namespace Elysium::Core;

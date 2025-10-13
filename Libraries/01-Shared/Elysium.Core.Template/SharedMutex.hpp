@@ -98,7 +98,7 @@ namespace Elysium::Core::Template::Threading
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-acquiresrwlockexclusive
-		_Analysis_assume_lock_released_(_Handle);
+		//_Analysis_assume_lock_released_(_Handle);
 
 
 

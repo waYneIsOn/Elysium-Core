@@ -49,7 +49,6 @@ namespace Elysium::Core
 		const bool operator<=(const Guid& Other);
 		const bool operator>=(const Guid& Other);
 
-		static const Guid& Empty();
 		static Guid NewGuid();
 		static Guid Parse(const char8_t* Input);
 
@@ -61,7 +60,7 @@ namespace Elysium::Core
 
 		Guid();
 
-		static Guid _EmptyGuid;
+		//static Guid _EmptyGuid;
 
 		static void ParseN(const char8_t* Input, Elysium::Core::byte* Data);
 		static void ParseD(const char8_t* Input, Elysium::Core::byte* Data);

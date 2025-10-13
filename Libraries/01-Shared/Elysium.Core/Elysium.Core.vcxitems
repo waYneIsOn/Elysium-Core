@@ -32,6 +32,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidAtomicIASyncResultReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidConstIASyncResultPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointerOfTPIO.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RingBufferOfInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)COMException.hpp" />
@@ -99,5 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Container\Action.hpp" />
   </ItemGroup>
 </Project>

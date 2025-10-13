@@ -22,5 +22,11 @@
     <Filter Include="Parsing">
       <UniqueIdentifier>{9c250ced-9456-44eb-a41a-2394e10c6df7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Container">
+      <UniqueIdentifier>{1c8134ce-0357-4607-bd95-134dc81a7a73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{3b9cd0f8-d223-4e8c-95f0-fc279e129b49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

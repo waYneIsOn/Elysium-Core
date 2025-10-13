@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AtomicUsable.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICENUM
+#include "Threading/_AtomicEnum.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICINTEGRAL
 #include "_AtomicIntegral.hpp"
 #endif
@@ -26,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISBOOLEAN
 #include "IsBoolean.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISENUMERATION
+#include "IsEnumeration.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWDEFAULTCONSTRUCTIBLE
@@ -48,16 +56,21 @@ namespace Elysium::Core::Template::Threading
 {
 	template<class T>
 	using SelectAtomicBase = typename TypeTraits::Select<TypeTraits::IsPointerValue<T>>::template
-		Apply
-		<
+	Apply
+	<
 		_AtomicPointer<T>,
 		typename TypeTraits::Select<TypeTraits::IsBooleanValue<T>>::template
+		Apply
+		<
+			_AtomicBase<T, sizeof(T)>,
+			typename TypeTraits::Select<TypeTraits::IsEnumerationValue<T>>::template
 			Apply
 			<
-				_AtomicBase<T, sizeof(T)>,
+				_AtomicEnum<T>,
 				_AtomicIntegral<T>
 			>
-		>;
+		>
+	>;
 	
 	template <class T>
 	class Atomic

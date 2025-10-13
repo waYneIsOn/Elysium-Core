@@ -126,8 +126,8 @@ void Elysium::Core::IO::FileSystemWatcher::BeginInit()
 
 	StartThreadpoolIo(_CompletionPort);
 	if (FALSE == ReadDirectoryChangesExW(_DirectoryHandle, &RawAsyncFileWatcherResult->_InformationBuffer[0],
-		RawAsyncFileWatcherResult->_InformationBuffer.GetLength(), _IncludeSubdirectories, static_cast<DWORD>(_NotifyFilters), &BytesReturned,
-		(LPOVERLAPPED)&RawAsyncFileWatcherResult->_WrappedOverlap, nullptr,
+		static_cast<DWORD>(RawAsyncFileWatcherResult->_InformationBuffer.GetLength()), _IncludeSubdirectories, 
+		static_cast<DWORD>(_NotifyFilters), &BytesReturned, (LPOVERLAPPED)&RawAsyncFileWatcherResult->_WrappedOverlap, nullptr,
 		READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation))
 	{
 		DWORD ErrorCode = GetLastError();

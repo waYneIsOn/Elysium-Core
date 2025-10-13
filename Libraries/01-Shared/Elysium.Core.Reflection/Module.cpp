@@ -34,7 +34,7 @@ const Elysium::Core::Utf8String& Elysium::Core::Reflection::Module::GetName() co
 	return _Name;
 }
 
-const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Type*> Elysium::Core::Reflection::Module::GetTypes() const
+const Elysium::Core::Reflection::Container::VectorOfConstTypePointer Elysium::Core::Reflection::Module::GetTypes() const
 {
 	return _Types;
 }

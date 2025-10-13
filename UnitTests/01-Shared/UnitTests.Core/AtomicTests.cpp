@@ -127,10 +127,10 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 			{
 				Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::uint32_t, Elysium::Core::uint32_t>>* Node = *Iterator;
 				Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::uint32_t, Elysium::Core::uint32_t>& Item = Node->GetItem();
-				/*
-				Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(Item.GetValue())[0]);
-				Logger::WriteMessage("\r\n");
-				*/
+				
+				//Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(Item.GetValue())[0]);
+				//Logger::WriteMessage("\r\n");
+				
 				Assert::AreEqual(Index, Item.GetValue());
 				Index++;
 			}

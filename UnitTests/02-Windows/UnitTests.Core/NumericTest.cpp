@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../../../Libraries/01-Shared/Elysium.Core/Integer.hpp"

@@ -12,7 +12,7 @@
 #include "OperationCanceledException.hpp"
 #endif
 
-Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Template::Container::Action<>& Action)
+Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Container::Action& Action)
 	: Elysium::Core::IAsyncResult(),
 	_Action(Action), _Id(Interlocked::Increment(&_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None),
 	_WaitEvent(AutoResetEvent(false)), _Status(TaskStatus::Created), _Exception(nullptr),
@@ -102,7 +102,7 @@ void Elysium::Core::Threading::Tasks::Task::RunSynchronously()
 	}
 	catch (Exception& Ex)
 	{
-		// ToDo: store exception
+		// @ToDo: store exception
 		_Status = TaskStatus::Faulted;
 	}
 

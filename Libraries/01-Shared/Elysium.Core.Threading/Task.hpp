@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ACTION
-#include "../Elysium.Core.Template/Action.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_AGGREGATEEXCEPTION
 #include "../Elysium.Core/AggregateException.hpp"
 #endif
@@ -32,8 +28,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/System.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_ACTION
+#include "../Elysium.Core/Container/Action.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
 #include "../Elysium.Core.Template/Atomic.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_ATOMIC
+#include "Atomic.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_AUTORESETEVENT
@@ -42,6 +46,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_THREADING_SYSTEM
 #include "System.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_THREADING_TASKS_ATOMICOFTASKSTATUS
+#include "Tasks/AtomicOfTaskStatus.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_TASKS_TASKCREATIONOPTIONS
@@ -61,7 +69,7 @@ namespace Elysium::Core::Threading::Tasks
 	class ELYSIUM_CORE_API Task final : public IAsyncResult
 	{
 	public:
-		Task(const Elysium::Core::Template::Container::Action<>& Action);
+		Task(const Elysium::Core::Container::Action& Action);
 
 		Task(const Task& Source) = delete;
 
@@ -103,12 +111,12 @@ namespace Elysium::Core::Threading::Tasks
 	private:
 		inline static Elysium::Core::int32_t _TaskIdCounter = 0;
 
-		const Elysium::Core::Template::Container::Action<> _Action;
+		const Elysium::Core::Container::Action _Action;
 		const Elysium::Core::int32_t _Id;
 		const TaskCreationOptions _CreationOptions;
 		AutoResetEvent _WaitEvent;
 
-		Elysium::Core::Template::Threading::Atomic<TaskStatus> _Status;
+		AtomicOfTaskStatus _Status;
 		Elysium::Core::Template::Threading::Atomic<AggregateException*> _Exception;
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

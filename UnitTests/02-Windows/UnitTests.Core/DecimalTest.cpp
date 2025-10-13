@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/Decimal.hpp"
 
 using namespace Elysium::Core;

@@ -48,6 +48,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tasks\AtomicOfTaskStatus.hpp">
+      <Filter>Tasks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tasks">

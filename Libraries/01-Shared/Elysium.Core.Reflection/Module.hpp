@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
+#ifndef ELYSIUM_CORE_REFLECTION_CONTAINER_VECTOROFTYPEPOINTER
+#include "Container/VectorOfTypePointer.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
@@ -55,14 +55,14 @@ namespace Elysium::Core::Reflection
 
 		const Elysium::Core::Utf8String& GetName() const;
 
-		const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Type*> GetTypes() const;
+		const Container::VectorOfConstTypePointer GetTypes() const;
 	public:
 		const Elysium::Core::size GetHashCode() const;
 	private:
 		const Assembly& _Assembly;
 		const Utf8String _Name;
 
-		Elysium::Core::Template::Container::Vector<const Type*> _Types;
+		Container::VectorOfConstTypePointer _Types;
 
 		constexpr void Add(const Elysium::Core::Reflection::Type& Type);
 		constexpr void Remove(const Elysium::Core::Reflection::Type& Type);

@@ -1,11 +1,5 @@
 #include "RootCommand.hpp"
 
-const char8_t* Elysium::Core::CommandLine::RootCommand::_ExecutableName = 
-	u8"ExecutableName.exe";	// @ToDo: Elysium::Core::Reflection::Assembly
-
-const Elysium::Core::Version Elysium::Core::CommandLine::RootCommand::_Version =
-	Elysium::Core::Version(0, 1);	// @ToDo: read from Elysium::Core::Reflection::Assembly -> AssemblyName
-
 Elysium::Core::CommandLine::RootCommand::RootCommand(const char8_t* Description)
 	: Elysium::Core::CommandLine::Command::Command(*this, _ExecutableName, Description),
 	_CommandArena(Elysium::Core::Template::Memory::Scoped::ArenaOptions::ArenaOptions(sizeof(Command) * 16, 1, false, false)),

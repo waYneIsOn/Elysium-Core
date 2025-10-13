@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 
 #ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TIMESPAN
@@ -24,6 +24,7 @@ namespace UnitTests::Core
 			TimeSpan TSClone = TimeSpan(TS0);
 			Assert::AreEqual(40, TSClone.GetSeconds());
 		}
+
 		TEST_METHOD(FromX)
 		{
 			TimeSpan TSTicks = TimeSpan::FromTicks(25000000000);
@@ -45,6 +46,7 @@ namespace UnitTests::Core
 			Assert::AreEqual(105, Sum.GetSeconds());
 			*/
 		}
+
 		TEST_METHOD(Operators)
 		{
 			TimeSpan TSSeconds = TimeSpan::FromSeconds(15);

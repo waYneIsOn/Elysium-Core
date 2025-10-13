@@ -118,6 +118,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Arena.hpp">
       <Filter>Memory\Scoped</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointerOfTPIO.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
@@ -146,5 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Container\Action.hpp">
+      <Filter>Container</Filter>
+    </None>
   </ItemGroup>
 </Project>

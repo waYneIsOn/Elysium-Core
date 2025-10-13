@@ -34,7 +34,7 @@ namespace Elysium::Core::Json
 	{
 	public:
 		virtual ~JsonWriter() {}
-
+	public:
 		void WriteStartObject();
 		void WriteEndObject();
 
@@ -60,7 +60,6 @@ namespace Elysium::Core::Json
 
 		virtual void WriteString(const char8_t Value) = 0;
 		virtual void WriteString(const Utf8String& Value) = 0;
-
 	private:
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 		enum class JsonWriterState : uint32_t
@@ -88,11 +87,13 @@ namespace Elysium::Core::Json
 		JsonWriterState _State;
 		uint16_t _Depth;
 		const JsonIOSettings _IOSettings;
-
+	private:
 		static const JsonWriterState _StateLookupTable[9][9];
-
+	private:
 		void PrepareWritingValue();
+
 		void ValidateAndSet(JsonWriter::JsonWriterState AspiredState);
+
 		void WriteEscapedString(const Utf8String& Value);
 	};
 }

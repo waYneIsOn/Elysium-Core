@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Task.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
@@ -33,6 +33,7 @@ namespace UnitTests::Core::Threading
 			Assert::IsTrue(std::this_thread::get_id() == _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsCompletedSuccessfully());
 		}
+
 		TEST_METHOD(RunSynchronouslyCancelled)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
@@ -44,6 +45,7 @@ namespace UnitTests::Core::Threading
 			Assert::IsTrue(std::this_thread::get_id() == _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsCanceled());
 		}
+
 		TEST_METHOD(RunSynchronouslyFaulted)
 		{
 			_WorkerThreadId = std::this_thread::get_id();
@@ -68,6 +70,7 @@ namespace UnitTests::Core::Threading
 			Assert::IsTrue(std::this_thread::get_id() != _WorkerThreadId);
 			Assert::IsTrue(SimpleTask.GetIsCompletedSuccessfully());
 		}
+
 		TEST_METHOD(RunAsynchronouslyAndAwaitLongRunning)
 		{
 			_WorkerThreadId = std::this_thread::get_id();

@@ -24,7 +24,7 @@
 #include <cstring>
 #endif
 
-Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid();
+//Elysium::Core::Guid Elysium::Core::Guid::_EmptyGuid = Elysium::Core::Guid();
 
 Elysium::Core::Guid::Guid(const Elysium::Core::byte B[16])
 	: _Data(0)
@@ -96,10 +96,6 @@ const bool Elysium::Core::Guid::operator>=(const Guid & Other)
 	return _Data >= Other._Data;
 }
 
-const Elysium::Core::Guid & Elysium::Core::Guid::Empty()
-{
-	return _EmptyGuid;
-}
 Elysium::Core::Guid Elysium::Core::Guid::NewGuid()
 {
 	// ToDo:

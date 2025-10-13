@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
 
-#include "CppUnitTestFrameworkExtension.hpp"
+#include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

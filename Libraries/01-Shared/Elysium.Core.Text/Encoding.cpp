@@ -35,13 +35,6 @@
 #include <uchar.h>
 #endif
 
-Elysium::Core::Text::ASCIIEncoding Elysium::Core::Text::Encoding::_ASCII = ASCIIEncoding();
-Elysium::Core::Text::UTF8Encoding Elysium::Core::Text::Encoding::_UTF8 = UTF8Encoding(true, true);
-Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16BE = UTF16Encoding(true, true, true);
-Elysium::Core::Text::UTF16Encoding Elysium::Core::Text::Encoding::_UTF16LE = UTF16Encoding(false, true, true);
-Elysium::Core::Text::UTF32Encoding Elysium::Core::Text::Encoding::_UTF32BE = UTF32Encoding(true, true, true);
-Elysium::Core::Text::UTF32Encoding Elysium::Core::Text::Encoding::_UTF32LE = UTF32Encoding(false, true, true);
-
 Elysium::Core::Text::Encoding::Encoding()
 	: Elysium::Core::Text::Encoding(0)
 { }
@@ -61,35 +54,49 @@ void Elysium::Core::Text::Encoding::GetEncoding(int CodePage, Encoding * Output)
 */
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::Default()
 {
-	return _UTF8;
+	static Elysium::Core::Text::UTF8Encoding Encoding = UTF8Encoding(true, true);
+	return Encoding;
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::ASCII()
 {
-	return _ASCII;
+	static Elysium::Core::Text::ASCIIEncoding Encoding = ASCIIEncoding();
+	return Encoding;
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()
 {
 	throw NotImplementedException(u8"const Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF7()");
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF8()
 {
-	return _UTF8;
+	static Elysium::Core::Text::UTF8Encoding Encoding = UTF8Encoding(true, true);
+	return Encoding;
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF16BE()
 {
-	return _UTF16BE;
+	static Elysium::Core::Text::UTF16Encoding Encoding = UTF16Encoding(true, true, true);
+	return Encoding;
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF16LE()
 {
-	return _UTF16LE;
+	static Elysium::Core::Text::UTF16Encoding Encoding = UTF16Encoding(false, true, true);
+	return Encoding;
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32BE()
 {
-	return _UTF32BE;
+	static Elysium::Core::Text::UTF32Encoding Encoding = UTF32Encoding(true, true, true);
+	return Encoding;
 }
+
 Elysium::Core::Text::Encoding & Elysium::Core::Text::Encoding::UTF32LE()
 {
-	return _UTF32LE;
+	static Elysium::Core::Text::UTF32Encoding Encoding = UTF32Encoding(false, true, true);
+	return Encoding;
 }
 
 const Elysium::Core::Container::VectorOfByte Elysium::Core::Text::Encoding::Convert(const Encoding & SourceEncoding, const Encoding & TargetEncoding, const Elysium::Core::Container::VectorOfByte& Bytes, const Elysium::Core::size Index, const Elysium::Core::size Count)

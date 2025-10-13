@@ -41,6 +41,8 @@ namespace Elysium::Core::Math::Numerics
 	class ELYSIUM_CORE_MATH_API BigInteger final
 	{
 	public:
+		BigInteger() = delete;
+
 		BigInteger(const Elysium::Core::int32_t Sign, const Elysium::Core::Container::VectorOfUInt32_t& Value);
 
 		BigInteger(const Elysium::Core::Container::VectorOfUInt32_t& Value, const bool IsNegative);
@@ -89,10 +91,12 @@ namespace Elysium::Core::Math::Numerics
 		inline static constexpr const Elysium::Core::uint32_t _uMaskHighBit = static_cast<Elysium::Core::uint32_t>(Elysium::Core::UInt32::GetMinValue());
 		inline static constexpr const Elysium::Core::int32_t _CBITUINT = 32;
 		inline static constexpr const Elysium::Core::int32_t _CBitUint32 = 32;
+	private:
+		static const Elysium::Core::Math::Numerics::BigInteger& MinInt();
 
-		static const BigInteger _bnMinInt;
-		static const BigInteger _MinusOneInt;
-		static const BigInteger _ZeroInt;
+		static const Elysium::Core::Math::Numerics::BigInteger& MinusOneInt();
+
+		static const Elysium::Core::Math::Numerics::BigInteger& ZeroInt();
 	private:
 		Elysium::Core::int32_t _Sign;
 		Elysium::Core::Container::VectorOfUInt32_t _Bits;

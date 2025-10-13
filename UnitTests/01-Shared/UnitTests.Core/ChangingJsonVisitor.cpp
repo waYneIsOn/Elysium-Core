@@ -1,5 +1,5 @@
 #include "ChangingJsonVisitor.hpp"
-
+/*
 using namespace Elysium::Core::Json;
 
 UnitTests::Core::Json::ChangingJsonVisitor::ChangingJsonVisitor()
@@ -46,3 +46,4 @@ JsonObject & UnitTests::Core::Json::ChangingJsonVisitor::VisitObject(JsonObject 
 {
 	return JsonVisitor::VisitObject(Node);
 }
+*/

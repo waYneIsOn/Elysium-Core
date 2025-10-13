@@ -132,8 +132,6 @@ namespace Elysium::Core::Template::Text
 
 		const bool operator>=(const String& Other) const;
 	public:
-		static constexpr const bool IsEmpty(const String& Value);
-	public:
 		constexpr const System::size GetLength() const;
 
 		constexpr const System::size GetCapacity() const;
@@ -202,7 +200,6 @@ namespace Elysium::Core::Template::Text
 		inline static constexpr const System::size MaximumSizeOnHeap = static_cast<Elysium::Core::Template::System::size>(-1) / 2;
 		inline static constexpr const System::size MaximumLengthOnHeap = MaximumSizeOnHeap / Traits::MinimumByteLength;
 	private:
-
 		inline static constexpr const System::size _HeapStackFlagShift = (sizeof(Elysium::Core::Template::System::size) - 1) * 8;
 #ifdef ELYSIUM_CORE_LITTLEENDIAN
 		inline static constexpr const System::size _HeapStackFlagMask = 0x01;
@@ -636,13 +633,6 @@ namespace Elysium::Core::Template::Text
 		//return Traits::Compare(_Data, Other._Data, Other._Length) >= 0;
 		return operator>=(&Other[0]);
 	}
-
-	template<Concepts::Character C, class Traits, class Allocator>
-	inline constexpr const bool String<C, Traits, Allocator>::IsEmpty(const String& Value)
-	{
-		ConstCharacterPointer CurrentChar = Value.IsHeapAllocated() ? Value._InternalString._Heap._Data : (ConstCharacterPointer)&Value._InternalString._Stack._Data[0];
-		return Traits::IsEmpty(CurrentChar);
-	}
 	
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr const Elysium::Core::Template::System::size String<C, Traits, Allocator>::GetLength() const
@@ -816,7 +806,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline const Elysium::Core::Template::System::size String<C, Traits, Allocator>::IndexOf(const String<C, Traits, Allocator>& Sequence, const Elysium::Core::Template::System::size StartIndex) const
 	{
-		if (IsEmpty(Sequence))
+		if (Traits::IsEmpty(&Sequence[0]))
 		{
 			return static_cast<Elysium::Core::Template::System::size>(-1);
 		}
@@ -894,7 +884,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline const Elysium::Core::Template::System::size String<C, Traits, Allocator>::LastIndexOf(const String<C, Traits, Allocator>& Sequence, const Elysium::Core::Template::System::size StartIndex) const
 	{
-		if (IsEmpty(Sequence))
+		if (Traits::IsEmpty(&Sequence[0]))
 		{
 			return static_cast<Elysium::Core::Template::System::size>(-1);
 		}

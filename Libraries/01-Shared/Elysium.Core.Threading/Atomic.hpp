@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_THREADING_SHAREDMUTEX
+#include "SharedMutex.hpp"
+#endif
+
 namespace Elysium::Core::Threading
 {
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Threading::Atomic<void*>;

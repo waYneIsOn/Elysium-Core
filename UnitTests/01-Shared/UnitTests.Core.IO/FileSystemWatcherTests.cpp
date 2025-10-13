@@ -46,22 +46,13 @@ namespace UnitTests::Core::IO
 			for (int i = 0; i < 1000; ++i)
 			//for (int i = 0; i < 5000; ++i)
 			{
-				//try
-				{
-					NonUTWatchAllChanges();
-					NonUTWatchFilteredChanges();
-					NonUTWatchZeroChanges();
-					NonUTProvokeBufferOverflow();
-					NonUTProvokeOtherErrors();
-					NonUTRapidFire();
-					NonUTReuse();
-				}
-				/*
-				catch (...)
-				{
-					Assert::Fail(L"caught unknown exception");
-				}
-				*/
+				NonUTWatchAllChanges();
+				NonUTWatchFilteredChanges();
+				NonUTWatchZeroChanges();
+				NonUTProvokeBufferOverflow();
+				NonUTProvokeOtherErrors();
+				NonUTRapidFire();
+				NonUTReuse();
 			}
 		}
 

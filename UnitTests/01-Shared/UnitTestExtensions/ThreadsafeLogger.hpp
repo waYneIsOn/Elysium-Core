@@ -20,19 +20,23 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 	public:
 		static void WriteMessage(const wchar_t* message)
 		{
-			_Mutex.Lock();
+			GetMutex().Lock();
 			Logger::WriteMessage(message);
-			_Mutex.Unlock();
+			GetMutex().Unlock();
 		}
 
 		static void WriteMessage(const char* message)
 		{
-			_Mutex.Lock();
+			GetMutex().Lock();
 			Logger::WriteMessage(message);
-			_Mutex.Unlock();
+			GetMutex().Unlock();
 		}
 	private:
-		inline static Elysium::Core::Template::Threading::Mutex _Mutex = Elysium::Core::Template::Threading::Mutex();
+		static Elysium::Core::Template::Threading::Mutex& GetMutex()
+		{
+			static Elysium::Core::Template::Threading::Mutex Value = Elysium::Core::Template::Threading::Mutex();
+			return Value;
+		}
 	};
 }
 #endif

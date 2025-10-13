@@ -20,12 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
-#include "../Elysium.Core.Template/UnorderedMap.hpp"
+#ifndef ELYSIUM_CORE_REFLECTION_CONTAINER_VECTOROFASSEMBLYPOINTER
+#include "Container/VectorOfAssemblyPointer.hpp"
 #endif
 
 namespace Elysium::Core::Reflection
@@ -48,7 +44,7 @@ namespace Elysium::Core::Reflection
 
 		constexpr AppDomain& operator=(AppDomain&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::Template::Container::Vector<const Elysium::Core::Reflection::Assembly*> GetAssemblies() const;
+		const Container::VectorOfConstAssemblyPointer GetAssemblies() const;
 	public:
 		static AppDomain& GetCurrentDomain();
 	/*
@@ -57,9 +53,7 @@ namespace Elysium::Core::Reflection
 		static const Type& GetTypeOf();
 	*/
 	private:
-		static Elysium::Core::Reflection::AppDomain _CurrentDomain;
-	private:
-		Elysium::Core::Template::Container::Vector<const Assembly*> _RegisteredAssemblies;
+		Container::VectorOfConstAssemblyPointer _RegisteredAssemblies;
 		//Elysium::Core::Template::Container::HashTable<Module*, Assembly*> _ModuleAssemblyMap;
 		//Elysium::Core::Template::Container::HashTable<Type*, Module*> _TypeModuleTable;
 		//Elysium::Core::Template::Container::HashTable<Elysium::Core::uint64_t*, Type*> _TypeIdTypeTable;

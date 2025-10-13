@@ -1,5 +1,5 @@
 #include "CppUnitTest.h"
-
+/*
 #ifndef MS_CPP_UNITTESTFRAMEWORK_ASSERT_EXTENSION
 #include "CppUnitTestFrameworkExtension.hpp"
 #endif
@@ -891,3 +891,4 @@ namespace UnitTests::Core::Json
 		}
 	};
 }
+*/

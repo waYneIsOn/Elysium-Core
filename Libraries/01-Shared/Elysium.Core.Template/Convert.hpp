@@ -959,7 +959,7 @@ namespace Elysium::Core::Template::Text
 		{
 			System::int16_t BaseValue = static_cast<Elysium::Core::Template::System::int16_t>(Math::Power(ToBase,
 				static_cast<double>(RequiredNumberOfCharactersHighPart) - Index - 1_ui8));
-			System::int16_t NumericalValue = HighPart / BaseValue;
+			System::int16_t NumericalValue = static_cast<System::int16_t>(HighPart) / BaseValue;
 
 			if (NumericalValue < 10)
 			{
@@ -991,13 +991,13 @@ namespace Elysium::Core::Template::Text
 			if (NumericalValue < 10)
 			{
 				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersHighPart] =
-					NumericalValue + CharacterTraits<C>::ZeroCharacter;
+					static_cast<C>(NumericalValue + CharacterTraits<C>::ZeroCharacter);
 				Index++;
 			}
 			else
 			{
 				Result[Index + NegativeSignLength + DecimalSeparatorLength + RequiredNumberOfCharactersHighPart] =
-					NumericalValue - 10 + CharacterTraits<C>::UpperACharacter;
+					static_cast<C>(NumericalValue - 10 + CharacterTraits<C>::UpperACharacter);
 				Index++;
 			}
 

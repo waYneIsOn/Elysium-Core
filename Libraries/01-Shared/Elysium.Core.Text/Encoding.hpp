@@ -87,13 +87,6 @@ namespace Elysium::Core::Text
 		virtual Elysium::Core::Utf8String GetString(const Elysium::Core::byte* Bytes, const Elysium::Core::size ByteCount) const = 0;
 	private:
 		const Elysium::Core::uint32_t _CodePage;
-	private:
-		static ASCIIEncoding _ASCII;
-		static UTF8Encoding _UTF8;
-		static UTF16Encoding _UTF16BE;
-		static UTF16Encoding _UTF16LE;
-		static UTF32Encoding _UTF32BE;
-		static UTF32Encoding _UTF32LE;
 	};
 }
 #endif
