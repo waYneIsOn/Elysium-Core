@@ -101,7 +101,7 @@ namespace Elysium::Core::Diagnostics
 	private:
 		void LoadModules() const;
 	private:
-		inline static const char8_t* _LocalMachineName = u8".";
+		inline static constexpr const char8_t* _LocalMachineName = u8".";
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _Name;
 

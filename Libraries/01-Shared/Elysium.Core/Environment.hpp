@@ -64,7 +64,7 @@ namespace Elysium::Core
 
 		static void CurrentDirectory(const Elysium::Core::Utf8String::ConstCharacterPointer Value, const Elysium::Core::Template::System::size Length);
 	public:
-		inline static const Elysium::Core::Utf8String NewLine = Elysium::Core::Utf8String(Template::Text::CharacterTraits<char8_t>::NewLineCharacters);
+		inline static constexpr Elysium::Core::Utf8String::ConstCharacterPointer NewLine = Template::Text::CharacterTraits<Elysium::Core::Utf8String::Character>::NewLineCharacters;
 	public:
 		/// <summary>
 		/// 

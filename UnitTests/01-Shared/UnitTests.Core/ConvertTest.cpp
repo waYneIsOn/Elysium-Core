@@ -919,7 +919,7 @@ namespace UnitTests::Core
 			}
 		}
 	private:
-		inline static const Elysium::Core::uint8_t NumberOfBases = 4;
-		inline static const Elysium::Core::uint8_t Bases[NumberOfBases] = { 2, 8, 10, 16 };
+		inline static constexpr const Elysium::Core::uint8_t NumberOfBases = 4;
+		inline static constexpr const Elysium::Core::uint8_t Bases[NumberOfBases] = { 2, 8, 10, 16 };
 	};
 }

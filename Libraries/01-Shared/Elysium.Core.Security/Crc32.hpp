@@ -44,7 +44,7 @@ namespace Elysium::Core::Security::Cryptography::Checksum
 		static const Elysium::Core::uint32_t CalculateBytewise(const Elysium::Core::byte* Data, const Elysium::Core::size Length);
 	private:
 		// Todd K. Moon, "Error Correction Coding. Mathematical Methods and Algorithms", Wiley, 2005, ISBN 0-471-64800-0
-		inline static const Elysium::Core::uint32_t _LookupTable[] =
+		inline static constexpr const Elysium::Core::uint32_t _LookupTable[] =
 		{
 			0x00000000, 0x77073096, 0xEE0E612C, 0x990951BA,
 			0x076DC419, 0x706AF48F, 0xE963A535, 0x9E6495A3,

@@ -74,12 +74,12 @@ namespace Elysium::Core::IO
 		Security = 0x100,
 	};
 
-	inline NotifyFilters operator|(const NotifyFilters Left, const NotifyFilters Right)
+	inline constexpr NotifyFilters operator|(const NotifyFilters Left, const NotifyFilters Right)
 	{
 		return static_cast<NotifyFilters>(static_cast<uint16_t>(Left) | static_cast<uint16_t>(Right));
 	}
 
-	inline NotifyFilters operator&(const NotifyFilters Left, const NotifyFilters Right)
+	inline constexpr NotifyFilters operator&(const NotifyFilters Left, const NotifyFilters Right)
 	{
 		return static_cast<NotifyFilters>(static_cast<uint16_t>(Left) & static_cast<uint16_t>(Right));
 	}

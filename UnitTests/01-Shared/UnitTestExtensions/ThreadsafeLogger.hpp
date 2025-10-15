@@ -20,16 +20,16 @@ namespace Microsoft::VisualStudio::CppUnitTestFramework
 	public:
 		static void WriteMessage(const wchar_t* message)
 		{
-			GetMutex().Lock();
-			Logger::WriteMessage(message);
-			GetMutex().Unlock();
+			//GetMutex().Lock();
+			//Logger::WriteMessage(message);
+			//GetMutex().Unlock();
 		}
 
 		static void WriteMessage(const char* message)
 		{
-			GetMutex().Lock();
-			Logger::WriteMessage(message);
-			GetMutex().Unlock();
+			//GetMutex().Lock();
+			//Logger::WriteMessage(message);
+			//GetMutex().Unlock();
 		}
 	private:
 		static Elysium::Core::Template::Threading::Mutex& GetMutex()

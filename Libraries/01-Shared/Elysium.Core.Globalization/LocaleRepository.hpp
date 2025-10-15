@@ -43,13 +43,17 @@ namespace Elysium::Core::Globalization::Internal::Fallback
 	{
 	public:
 		LocaleRepository() = delete;
-		LocaleRepository(const LocaleRepository& Source) = delete;
-		LocaleRepository(LocaleRepository&& Right) noexcept = delete;
-		~LocaleRepository() = delete;
-		
-		LocaleRepository& operator=(const LocaleRepository& Source) = delete;
-		LocaleRepository& operator=(LocaleRepository&& Right) noexcept = delete;
 
+		LocaleRepository(const LocaleRepository& Source) = delete;
+
+		LocaleRepository(LocaleRepository&& Right) noexcept = delete;
+
+		~LocaleRepository() = delete;
+	public:
+		LocaleRepository& operator=(const LocaleRepository& Source) = delete;
+
+		LocaleRepository& operator=(LocaleRepository&& Right) noexcept = delete;
+	public:
 		static const Elysium::Core::int32_t GetIdFromName(const Elysium::Core::Utf8String& Name);
 
 		static const Elysium::Core::Utf8String GetNameFromId(const Elysium::Core::int32_t Name);

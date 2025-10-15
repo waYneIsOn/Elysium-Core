@@ -33,9 +33,9 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 		constexpr ArenaOptions& operator=(ArenaOptions&& Right) noexcept = delete;
 	public:
-		inline static const Elysium::Core::Template::System::size DefaultCapacityPerPage = 1024;
+		inline static constexpr const Elysium::Core::Template::System::size DefaultCapacityPerPage = 1024;
 
-		inline static const Elysium::Core::Template::System::size DefaultNumberOfPreallocatedPages = 1;
+		inline static constexpr const Elysium::Core::Template::System::size DefaultNumberOfPreallocatedPages = 1;
 	private:
 		Elysium::Core::Template::System::size _InitialPageSize;
 		Elysium::Core::Template::System::size _NumberOfPreallocatedPages;

@@ -28,13 +28,13 @@ namespace Elysium::Core::Template::Utility
 	public:
 		typedef IntegerSequence<T, 
 			Values...,
-			sizeof...(Values) + Values...,
-			2 * sizeof...(Values) + Values...,
-			3 * sizeof...(Values) + Values...,
-			4 * sizeof...(Values) + Values...,
-			5 * sizeof...(Values) + Values...,
-			6 * sizeof...(Values) + Values...,
-			7 * sizeof...(Values) + Values...,
+			static_cast<T>(sizeof...(Values) + Values)...,
+			static_cast<T>(2 * sizeof...(Values) + Values)...,
+			static_cast<T>(3 * sizeof...(Values) + Values)...,
+			static_cast<T>(4 * sizeof...(Values) + Values)...,
+			static_cast<T>(5 * sizeof...(Values) + Values)...,
+			static_cast<T>(6 * sizeof...(Values) + Values)...,
+			static_cast<T>(7 * sizeof...(Values) + Values)...,
 			AdditionalValues...> Type;
 	};
 }

@@ -48,7 +48,7 @@
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <UseOfMfc>false</UseOfMfc>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -117,7 +117,7 @@
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
       <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>

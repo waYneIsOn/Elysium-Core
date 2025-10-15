@@ -52,8 +52,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/UniquePointer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
-#include "../Elysium.Core.Template/Atomic.hpp"
+#ifndef ELYSIUM_CORE_THREADING_ATOMIC
+#include "../Elysium.Core.Threading/Atomic.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -71,6 +71,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO
 {
+	class FileSystemWatcher;
+	/*
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>;
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>;
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>;
+	*-/
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Event<void, const FileSystemWatcher&, const FileSystemEventArgs&>;
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Event<void, const FileSystemWatcher&, const ErrorEventArgs&>;
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Event<void, const FileSystemWatcher&, const RenamedEventArgs&>;
+	*/
 	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER FileSystemWatcher
 	{
 	private:
@@ -120,7 +130,7 @@ namespace Elysium::Core::IO
 		/// <summary>
 		/// 
 		/// </summary>
-		inline static const NotifyFilters DefaultNotifyFilters = NotifyFilters::LastWrite | NotifyFilters::FileName | NotifyFilters::DirectoryName;
+		inline static constexpr const NotifyFilters DefaultNotifyFilters = NotifyFilters::LastWrite | NotifyFilters::FileName | NotifyFilters::DirectoryName;
 		
 		/// <summary>
 		/// 4kb is the default memory page size on windows (x86 and x64).

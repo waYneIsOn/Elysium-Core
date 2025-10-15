@@ -36,6 +36,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CharacterTraits.hpp"
 #endif
 
+#include <cassert>
+
 namespace Elysium::Core::Template::Text
 {
 	template <Concepts::Character C, class Traits = CharacterTraits<C>, class Allocator = Memory::DefaultAllocator<C>>
@@ -62,7 +64,7 @@ namespace Elysium::Core::Template::Text
 			constexpr void SetCapacity(const System::size Value) noexcept;
 		};	// 12/24 bytes
 
-		struct StackString final
+		struct alignas(alignof(HeapString)) StackString final
 		{
 			System::byte _Data[sizeof(HeapString) - sizeof(System::byte)]; // 11/23 bytes
 			//C _Data[(sizeof(HeapString) - sizeof(System::byte)) / sizeof(C)]; // 11/23 bytes
@@ -77,10 +79,20 @@ namespace Elysium::Core::Template::Text
 		{
 			HeapString _Heap;
 			StackString _Stack;
-		};
+		} alignas(alignof(HeapString));
 	private:
-		static_assert(sizeof(InternalString) == sizeof(HeapString), 
+		static_assert(sizeof(StackString) == sizeof(HeapString),
+			"Elysium::Core::Template::Text::String<C>: sizeof(StackString) != sizeof(HeapString)");
+		static_assert(alignof(StackString) == alignof(HeapString),
+			"Elysium::Core::Template::Text::String<C>: alignof(StackString) != alignof(HeapString)");
+
+		static_assert(sizeof(InternalString) == sizeof(HeapString),
 			"Elysium::Core::Template::Text::String<C>: sizeof(InternalString) != sizeof(HeapString)");
+		static_assert(alignof(InternalString) == alignof(HeapString),
+			"Elysium::Core::Template::Text::String<C>: alignof(InternalString) != alignof(HeapString)");
+
+		//static_assert(alignof(String<C, Traits, Allocator>) >= alignof(InternalString));
+		//static_assert(sizeof(String<C, Traits, Allocator>) % alignof(InternalString) == 0);
 	public:
 		constexpr String() noexcept;
 
@@ -271,10 +283,12 @@ namespace Elysium::Core::Template::Text
 		}
 		else if (SizeIncludingNullTerminator > MaximumSizeOnStack)
 		{
+			_InternalString._Heap = HeapString{};	// explicitly active correct union member
 			InitializeHeapString(Value, Size);
 		}
 		else
 		{
+			_InternalString._Stack = StackString{};	// explicitly active correct union member
 			InitializeStackString(Value, Size);
 		}
 	}
@@ -291,6 +305,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else if (SizeIncludingNullTerminationCharacter > MaximumSizeOnStack)
 		{
+			_InternalString._Heap = HeapString{};	// explicitly active correct union member
 			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
 			Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[0], 0, SizeIncludingNullTerminationCharacter);
 			for (System::size i = 0; i < Count; i++)
@@ -303,6 +318,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else
 		{
+			_InternalString._Stack = StackString{};	// explicitly active correct union member
 			Elysium::Core::Template::Memory::MemSet(&_InternalString._Stack._Data[0], Value, Count);
 			_InternalString._Stack.SetSize(Size);
 		}
@@ -320,6 +336,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else if (SizeIncludingNullTerminationCharacter > MaximumSizeOnStack)
 		{
+			_InternalString._Heap = HeapString{};	// explicitly active correct union member
 			_InternalString._Heap._Data = _Allocator.Allocate(SizeIncludingNullTerminationCharacter);
 			Elysium::Core::Template::Memory::MemSet(&_InternalString._Heap._Data[0], 0, SizeIncludingNullTerminationCharacter);
 			_InternalString._Heap._Size = Size;
@@ -327,6 +344,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else
 		{
+			_InternalString._Stack = StackString{};	// explicitly active correct union member
 			_InternalString._Stack.SetSize(Size);
 		}
 	}
@@ -939,8 +957,9 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr void String<C, Traits, Allocator>::InitializeStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Size)
 	{
-		//assert(Size <= sizeof(_InternalString._Stack._Data));
-
+		assert(Value != nullptr);
+		assert(Size <= sizeof(_InternalString._Stack._Data));
+		
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, Size);
 		_InternalString._Stack.SetSize(Size);
 	}

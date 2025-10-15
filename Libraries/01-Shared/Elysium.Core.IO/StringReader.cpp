@@ -45,7 +45,8 @@ Elysium::Core::Utf8String Elysium::Core::IO::StringReader::ReadLine()
 	else
 	{
 		Elysium::Core::size Position = _Position;
-		_Position += IndexOfNewLine + Elysium::Core::Environment::NewLine.GetLength();
+		_Position += IndexOfNewLine +
+			Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Elysium::Core::Environment::NewLine);
 		return Elysium::Core::Utf8String(&_Input[Position], IndexOfNewLine);
 	}
 }

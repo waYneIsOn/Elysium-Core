@@ -36,41 +36,84 @@ namespace Elysium::Core::Diagnostics
 {
 	class ELYSIUM_CORE_API Stopwatch final
 	{
-	private:
-		static const bool SetupGetIsHighResolution();
-		static const Elysium::Core::int64_t SetupGetFrequency();
-		static const double SetupGetTickFrequency();
 	public:
-		Stopwatch();
-		Stopwatch(const Stopwatch& Source) = delete;
-		Stopwatch(Stopwatch&& Right) noexcept = delete;
-		~Stopwatch();
+		constexpr Stopwatch() = default;
 
-		Stopwatch& operator=(const Stopwatch& Source) = delete;
-		Stopwatch& operator=(Stopwatch&& Right) noexcept = delete;
+		constexpr Stopwatch(const Stopwatch& Source) = delete;
 
-		inline static const bool IsHighResolution = SetupGetIsHighResolution();
-		inline static const Elysium::Core::int64_t Frequency = SetupGetFrequency();
+		constexpr Stopwatch(Stopwatch&& Right) noexcept = delete;
 
+		constexpr ~Stopwatch() = default;
+	public:
+		constexpr Stopwatch& operator=(const Stopwatch& Source) = delete;
+
+		constexpr Stopwatch& operator=(Stopwatch&& Right) noexcept = delete;
+	public:
 		TimeSpan GetElapsed() const;
+
 		const bool GetIsRunning() const;
 
 		void Start();
+
 		void Stop();
+
 		void Reset();
 	private:
-		inline static const Elysium::Core::int64_t TicksPerMilliseond = 10000;
-		inline static const Elysium::Core::int64_t TicksPerSecond = TicksPerMilliseond * 1000;
-		inline static const double TickFrequency = SetupGetTickFrequency();
+		static const bool SetupIsHighResolution();
 
+		static const Elysium::Core::int64_t SetupGetFrequency();
+
+		static const double SetupTickFrequency();
+	public:
+		inline static const bool IsHighResolution = SetupIsHighResolution();
+
+		inline static const Elysium::Core::int64_t Frequency = SetupGetFrequency();
+	private:
+		inline static constexpr const Elysium::Core::int64_t _TicksPerMilliseond = 10000;
+		inline static constexpr const Elysium::Core::int64_t _TicksPerSecond = _TicksPerMilliseond * 1000;
+		inline static const double _TickFrequency = SetupTickFrequency();
+	private:
 		Elysium::Core::int64_t _Elapsed = 0;
 		Elysium::Core::int64_t _StartTimeStamp = 0;
 		bool _IsRunning = false;
-
+	private:
 		static const Elysium::Core::int64_t GetTimestamp();
+	private:
+		constexpr const Elysium::Core::int64_t GetRawElapsedTicks() const;
 
-		const Elysium::Core::int64_t GetRawElapsedTicks() const;
-		const Elysium::Core::int64_t GetElapsedDateTimeTicks() const;
+		constexpr const Elysium::Core::int64_t GetElapsedDateTimeTicks() const;
 	};
+
+	inline const bool Elysium::Core::Diagnostics::Stopwatch::SetupIsHighResolution()
+	{
+		LARGE_INTEGER Timestamp;
+		return QueryPerformanceFrequency(&Timestamp) != 0;
+	}
+
+	inline const Elysium::Core::int64_t Elysium::Core::Diagnostics::Stopwatch::SetupGetFrequency()
+	{
+		LARGE_INTEGER Timestamp;
+		if (QueryPerformanceFrequency(&Timestamp) == 0)
+		{
+			return _TicksPerSecond;
+		}
+		else
+		{
+			return Timestamp.QuadPart;
+		}
+	}
+
+	inline const double Elysium::Core::Diagnostics::Stopwatch::SetupTickFrequency()
+	{
+		LARGE_INTEGER Timestamp;
+		if (QueryPerformanceFrequency(&Timestamp) == 0)
+		{
+			return 1.0f;
+		}
+		else
+		{
+			return static_cast<double>(_TicksPerSecond / Timestamp.QuadPart);
+		}
+	}
 }
 #endif

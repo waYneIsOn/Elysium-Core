@@ -45,9 +45,9 @@ namespace Elysium::Core::Security::Cryptography
 		//static OidNode FromOidValue(const Elysium::Core::Utf8String& OidValue, const OidGroup Group);
 	private:
 		/*
-		inline static const OidNode _InternationalTelecommunication = OidNode(0, u8"itu-t");
-		inline static const OidNode _InternationalOrganizationForStandardization = OidNode(1, u8"iso");
-		inline static const OidNode _AreasOfJointWork = OidNode(2, u8"joint-iso-itu-t");
+		inline static constexpr const OidNode _InternationalTelecommunication = OidNode(0, u8"itu-t");
+		inline static constexpr const OidNode _InternationalOrganizationForStandardization = OidNode(1, u8"iso");
+		inline static constexpr const OidNode _AreasOfJointWork = OidNode(2, u8"joint-iso-itu-t");
 		*/
 	};
 }

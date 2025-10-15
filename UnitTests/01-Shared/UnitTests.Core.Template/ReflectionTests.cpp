@@ -54,7 +54,7 @@ namespace UnitTests::Core::Template::Reflection
 
 	enum class SomeUInt8EnumClass : ::Template::System::uint8_t
 	{
-		A = -1,
+		A = static_cast<::Template::System::uint8_t>(-1),
 		B = 1
 	};
 
