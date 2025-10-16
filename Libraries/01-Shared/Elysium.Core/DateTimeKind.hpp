@@ -23,7 +23,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class DateTimeKind : Template::System::uint8_t
+	enum class DateTimeKind 
+		: Template::System::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class DateTimeKind
 #else

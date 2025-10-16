@@ -2,6 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../UnitTestExtensions/ThreadsafeLogger.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/File.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
@@ -33,12 +34,14 @@ namespace UnitTests::Core::IO
 	{
 	public:
 		BEGIN_TEST_METHOD_ATTRIBUTE(A_RunAllTestMultipleTimesToProvokeCodeErrors)
-			TEST_METHOD_ATTRIBUTE(L"Timeout", L"3600000")
 			TEST_METHOD_ATTRIBUTE(L"Category", L"LongRunning")
 		END_TEST_METHOD_ATTRIBUTE()
 		TEST_METHOD(A_RunAllTestMultipleTimesToProvokeCodeErrors)
 		{
-			for (int i = 0; i < 5000; ++i)
+			const DateTime Now = DateTime::UtcNow();
+			const DateTime End = DateTime::UtcNow() + TimeSpan::FromHours(3);
+
+			while (DateTime::UtcNow() < End)
 			{
 				NonUTWatchAllChanges();
 				NonUTWatchFilteredChanges();

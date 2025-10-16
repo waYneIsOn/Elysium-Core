@@ -86,7 +86,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BitConverter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DateTime.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
@@ -94,7 +93,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperatingSystem.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SystemSpecific.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TimeSpan.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Version.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WrappedOverlap.cpp" />
   </ItemGroup>

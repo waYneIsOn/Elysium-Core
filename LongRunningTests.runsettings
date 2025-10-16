@@ -5,9 +5,11 @@
   </MSTest>
   <RunConfiguration>
     <!-- Increase overall test session timeout (60 minutes in ms) -->
-    <TestSessionTimeout>3600000</TestSessionTimeout>
+    <!-- <TestSessionTimeout>3600000</TestSessionTimeout> -->
+    <TestSessionTimeout>14400000</TestSessionTimeout>
 
     <!-- Increase per-test timeout (60 minutes in ms) -->
-    <TestTimeout>3600000</TestTimeout>
+    <!-- <TestTimeout>3600000</TestTimeout> -->
+    <TestTimeout>14400000</TestTimeout>
   </RunConfiguration>
 </RunSettings>

@@ -47,7 +47,7 @@ namespace Elysium::Core::Reflection
 		constexpr Assembly& operator=(const Assembly& Source) = delete;
 
 		constexpr Assembly& operator=(Assembly&& Right) noexcept = delete;
-
+	public:
 		bool operator==(const Assembly& Other) const;
 
 		bool operator!=(const Assembly& Other) const;
