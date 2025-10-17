@@ -381,6 +381,36 @@ namespace Elysium::Core::Template::Text
 		/// <param name="SequenceLength"></param>
 		/// <returns></returns>
 		static constexpr const bool EndsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Start"></param>
+		/// <param name="Length"></param>
+		/// <param name="Sequence"></param>
+		/// <param name="SequenceLength"></param>
+		/// <returns></returns>
+		static constexpr const bool ContainsAny(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Left"></param>
+		/// <param name="LeftLength"></param>
+		/// <param name="Right"></param>
+		/// <param name="RightLength"></param>
+		/// <returns></returns>
+		static constexpr const bool EqualsCaseSensitive(ConstPointer Left, const System::size LeftLength, ConstPointer Right, const System::size RightLength) noexcept;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="Left"></param>
+		/// <param name="LeftLength"></param>
+		/// <param name="Right"></param>
+		/// <param name="RightLength"></param>
+		/// <returns></returns>
+		static constexpr const bool EqualsCaseInsensitive(ConstPointer Left, const System::size LeftLength, ConstPointer Right, const System::size RightLength) noexcept;
 	};
 
 	/// <summary>
@@ -1325,7 +1355,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, Concepts::Integer I>
 	inline constexpr const bool CharacterTraitsBase<C, I>::EndsWith(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept
 	{
-		if (Start == nullptr || Sequence == nullptr)
+		if (nullptr == Start || nullptr == Sequence)
 		{
 			return false;
 		}
@@ -1347,7 +1377,85 @@ namespace Elysium::Core::Template::Text
 		
 		return true;
 	}
-	
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::ContainsAny(ConstPointer Start, const System::size Length, ConstPointer Sequence, const System::size SequenceLength) noexcept
+	{
+		if (nullptr == Start || nullptr == Sequence)
+		{
+			return false;
+		}
+
+		if (0 == Length || 0 == SequenceLength)
+		{
+			return false;
+		}
+
+		for (System::size i = 0; i < Length; ++i)
+		{
+			for (System::size j = 0; j < SequenceLength; ++j)
+			{
+				if (Start[i] == Sequence[j])
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::EqualsCaseSensitive(ConstPointer Left, const System::size LeftLength, ConstPointer Right, const System::size RightLength) noexcept
+	{
+		if ((nullptr == Left && nullptr == Right) || (0 == LeftLength && 0 == RightLength))
+		{
+			return true;
+		}
+
+		if (LeftLength != RightLength)
+		{
+			return false;
+		}
+
+		for (System::size i = 0; i < LeftLength; ++i)
+		{
+			if (Left[i] != Right[i])
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	template<Concepts::Character C, Concepts::Integer I>
+	inline constexpr const bool CharacterTraitsBase<C, I>::EqualsCaseInsensitive(ConstPointer Left, const System::size LeftLength, ConstPointer Right, const System::size RightLength) noexcept
+	{
+		if ((nullptr == Left && nullptr == Right) || (0 == LeftLength && 0 == RightLength))
+		{
+			return true;
+		}
+
+		if (LeftLength != RightLength)
+		{
+			return false;
+		}
+
+		for (System::size i = 0; i < LeftLength; ++i)
+		{
+			CharacterTraitsBase<C, I>::ConstValue LowerLeft = CharacterTraitsBase<C, I>::ToLower(Left[i]);
+			CharacterTraitsBase<C, I>::ConstValue LowerRight = CharacterTraitsBase<C, I>::ToLower(Right[i]);
+
+			if (LowerLeft != LowerRight)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	inline constexpr const bool CharacterTraits<char8_t>::IsLeadByte(CharacterTraits<char8_t>::ConstValue Value) noexcept
 	{	// In UTF-8 a leading byte will always look like this: 0xxx xxxx, 110x xxxx, 1110 xxxx or 1111 0xxx
 		// instead of checking all these conditions I can simply make sure it's not a trailing byte

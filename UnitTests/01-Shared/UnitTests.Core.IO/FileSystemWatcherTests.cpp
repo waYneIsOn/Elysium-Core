@@ -106,6 +106,7 @@ namespace UnitTests::Core::IO
 		{
 			File::Delete(_FilePath0);
 			File::Delete(_FilePath1);
+			File::Delete(_OtherFilePath0);
 
 			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
 			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
@@ -126,21 +127,17 @@ namespace UnitTests::Core::IO
 			{
 				DirectoryWatcher.BeginInit();
 
-				try
-				{
-					CreateFileAndWait(true);
-					ChangeFileAndWait(true);
-					RenameFileAndWait(true);
-					DeleteFileAndWait(true);
+				CreateFileAndWait(true);
+				ChangeFileAndWait(true);
+				RenameFileAndWait(true);
+				DeleteFileAndWait(true);
 
-					CreateFolderAndWait(true);
-					RenameFolderAndWait(true);
-					DeleteFolderAndWait(true);
-				}
-				catch (const Exception& ex)
-				{
-					Assert::Fail((wchar_t*)&ex.GetExceptionMessage()[0]);
-				}
+				CreateFolderAndWait(true);
+				RenameFolderAndWait(true);
+				DeleteFolderAndWait(true);
+
+				CreateOtherFileAndWait(true);
+				DeleteOtherFileAndWait(true);
 
 				// test both with and without calling EndInit()
 				if (i % 2 == 0)
@@ -156,6 +153,7 @@ namespace UnitTests::Core::IO
 		{
 			File::Delete(_FilePath0);
 			File::Delete(_FilePath1);
+			File::Delete(_OtherFilePath0);
 
 			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
 			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
@@ -176,21 +174,17 @@ namespace UnitTests::Core::IO
 			{
 				FileWatcher.BeginInit();
 
-				try
-				{
-					CreateFileAndWait(false);
-					ChangeFileAndWait(false);
-					RenameFileAndWait(false);
-					DeleteFileAndWait(false);
+				CreateFileAndWait(true);
+				ChangeFileAndWait(true);
+				RenameFileAndWait(true);
+				DeleteFileAndWait(true);
 
-					CreateFolderAndWait(false);
-					RenameFolderAndWait(false);
-					DeleteFolderAndWait(false);
-				}
-				catch (const Exception& ex)
-				{
-					Assert::Fail((wchar_t*)&ex.GetExceptionMessage()[0]);
-				}
+				CreateFolderAndWait(false);
+				RenameFolderAndWait(false);
+				DeleteFolderAndWait(false);
+
+				CreateOtherFileAndWait(false);
+				DeleteOtherFileAndWait(false);
 
 				// test both with and without calling EndInit()
 				if (i % 2 == 0)
@@ -360,92 +354,167 @@ namespace UnitTests::Core::IO
 			}
 		}
 	private:
-		void CreateFileAndWait(const bool WaitOnEvent)
+		void CreateFileAndWait(const bool ShouldTrigger)
 		{
 			FileStream TargetFileStream = FileStream(_FilePath0, FileMode::CreateNew, FileAccess::Write);
-			if(WaitOnEvent && !_CreatedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult = _CreatedResetEvent.WaitOne(1000);
+			if(ShouldTrigger && !WaitResult)
 			{
-				//Assert::Fail(L"File creation event was not triggered within given time limit.");
+				Assert::Fail(L"File creation event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"File creation event was triggered within given time limit and should have been filtered out.");
 			}
 			_CreatedResetEvent.Reset();
 		}
 
-		void ChangeFileAndWait(const bool WaitOnEvent)
+		void ChangeFileAndWait(const bool ShouldTrigger)
 		{
 			byte Buffer[1024] = { 0 };
 
 			FileStream TargetFileStream = FileStream(_FilePath0, FileMode::Open, FileAccess::Write);
 			TargetFileStream.Write(Buffer, 1024);
 			TargetFileStream.Flush();
-			if (WaitOnEvent && !_ChangedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult = _ChangedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult)
 			{
-				//Assert::Fail(L"File change event was not triggered within given time limit.");
+				Assert::Fail(L"File change event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"File change event was triggered within given time limit and should have been filtered out.");
 			}
 			_ChangedResetEvent.Reset();
 		}
 
-		void RenameFileAndWait(const bool WaitOnEvent)
+		void RenameFileAndWait(const bool ShouldTrigger)
 		{
 			File::Move(_FilePath0, _FilePath1, false);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult0 = _RenamedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult0)
 			{
-				//Assert::Fail(L"File rename event was not triggered within given time limit.");
+				Assert::Fail(L"File rename event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult0)
+			{
+				Assert::Fail(L"File rename event was triggered within given time limit and should have been filtered out.");
 			}
 			_RenamedResetEvent.Reset();
 
 			File::Move(_FilePath1, _FilePath0, false);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult1 = _RenamedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult1)
 			{
-				//Assert::Fail(L"File rename event was not triggered within given time limit.");
+				Assert::Fail(L"File rename event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult1)
+			{
+				Assert::Fail(L"File rename event was triggered within given time limit and should have been filtered out.");
 			}
 			_RenamedResetEvent.Reset();
 		}
 
-		void DeleteFileAndWait(const bool WaitOnEvent)
+		void DeleteFileAndWait(const bool ShouldTrigger)
 		{
 			File::Delete(_FilePath0);
-			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult = _DeletedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult)
 			{
-				//Assert::Fail(L"File deletion event was not triggered within given time limit.");
+				Assert::Fail(L"File deletion event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"File deletion event was triggered within given time limit and should have been filtered out.");
 			}
 			_DeletedResetEvent.Reset();
 		}
 
-		void CreateFolderAndWait(const bool WaitOnEvent)
+		void CreateFolderAndWait(const bool ShouldTrigger)
 		{
 			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::CreateFolder(_DirectoryPath0);
-			if (WaitOnEvent && !_CreatedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult = _CreatedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult)
 			{
-				//Assert::Fail(L"Folder creation event was not triggered within given time limit.");
+				Assert::Fail(L"Folder creation event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"Folder creation event was triggered within given time limit and should have been filtered out.");
 			}
 			_CreatedResetEvent.Reset();
 		}
 
-		void RenameFolderAndWait(const bool WaitOnEvent)
+		void RenameFolderAndWait(const bool ShouldTrigger)
 		{
 			bool RenameFolderResult1 = Elysium::Core::Template::IO::FileSystem::RenameFolder(_DirectoryPath0, _DirectoryPath1);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult0 = _RenamedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult0)
 			{
-				//Assert::Fail(L"File rename event was not triggered within given time limit.");
+				Assert::Fail(L"File rename event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult0)
+			{
+				Assert::Fail(L"File rename event was triggered within given time limit and should have been filtered out.");
 			}
 			_RenamedResetEvent.Reset();
 
 			bool RenameFolderResult2 = Elysium::Core::Template::IO::FileSystem::RenameFolder(_DirectoryPath1, _DirectoryPath0);
-			if (WaitOnEvent && !_RenamedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult1 = _RenamedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult1)
 			{
-				//Assert::Fail(L"File rename event was not triggered within given time limit.");
+				Assert::Fail(L"File rename event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult1)
+			{
+				Assert::Fail(L"File rename event was triggered within given time limit and should have been filtered out.");
 			}
 			_RenamedResetEvent.Reset();
 		}
 
-		void DeleteFolderAndWait(const bool WaitOnEvent)
+		void DeleteFolderAndWait(const bool ShouldTrigger)
 		{
 			bool RemoveFolderResult = Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-			if (WaitOnEvent && !_DeletedResetEvent.WaitOne(1000 * 10))
+			const bool WaitResult = _DeletedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult)
 			{
-				//Assert::Fail(L"Folder deletion event was not triggered within given time limit.");
+				Assert::Fail(L"Folder deletion event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"Folder deletion event not triggered within given time limit and should have been filtered out.");
 			}
 			_DeletedResetEvent.Reset();
+		}
+
+		void CreateOtherFileAndWait(const bool ShouldTrigger)
+		{
+			FileStream TargetFileStream = FileStream(_OtherFilePath0, FileMode::CreateNew, FileAccess::Write);
+			const bool WaitResult = _OtherCreatedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult)
+			{
+				Assert::Fail(L"Other file creation event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"Other file creation event was triggered within given time limit and should have been filtered out.");
+			}
+			_OtherCreatedResetEvent.Reset();
+		}
+
+		void DeleteOtherFileAndWait(const bool ShouldTrigger)
+		{
+			File::Delete(_OtherFilePath0);
+			const bool WaitResult = _OtherDeletedResetEvent.WaitOne(1000);
+			if (ShouldTrigger && !WaitResult)
+			{
+				Assert::Fail(L"Other file deletion event was not triggered within given time limit.");
+			}
+			else if (!ShouldTrigger && WaitResult)
+			{
+				Assert::Fail(L"Other file deletion event not triggered within given time limit and should have been filtered out.");
+			}
+			_OtherDeletedResetEvent.Reset();
 		}
 	private:
 		void FileSystemWatcher_OnChanged(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
@@ -485,6 +554,7 @@ namespace UnitTests::Core::IO
 			ThreadsafeLogger::WriteMessage("\r\n");
 			
 			_CreatedResetEvent.Set();
+			_OtherCreatedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnDeleted(const FileSystemWatcher& Watcher, const FileSystemEventArgs& EventArgs)
@@ -504,6 +574,7 @@ namespace UnitTests::Core::IO
 			ThreadsafeLogger::WriteMessage("\r\n");
 
 			_DeletedResetEvent.Set();
+			_OtherDeletedResetEvent.Set();
 		}
 
 		void FileSystemWatcher_OnRenamed(const FileSystemWatcher& Watcher, const RenamedEventArgs& EventArgs)
@@ -555,10 +626,12 @@ namespace UnitTests::Core::IO
 	private:
 		inline static constexpr const char8_t* _BaseDirectory = u8"C:\\test";	// @ToDo: use Directory::CurrentDirectory()
 		inline static constexpr const char8_t* _FilePath0 = u8"C:\\test\\file.txt";
-		inline static constexpr const char8_t* _FilePath1 = u8"C:\\test\\file2.log";
+		inline static constexpr const char8_t* _FilePath1 = u8"C:\\test\\file2.txt";
 
 		inline static constexpr const char8_t* _DirectoryPath0 = u8"C:\\test\\subfolder";
 		inline static constexpr const char8_t* _DirectoryPath1 = u8"C:\\test\\subfolder_renamed";
+
+		inline static constexpr const char8_t* _OtherFilePath0 = u8"C:\\test\\file.log";
 
 		inline static constexpr const char8_t* _ErrorDirectory = u8"C:\\test\\othererrors";	// @ToDo: use Directory::CurrentDirectory() + "\bufferoverflow"
 
@@ -570,5 +643,8 @@ namespace UnitTests::Core::IO
 		ManualResetEvent _DeletedResetEvent = ManualResetEvent(false);
 		ManualResetEvent _ErrorResetEvent = ManualResetEvent(false);
 		ManualResetEvent _RenamedResetEvent = ManualResetEvent(false);
+
+		ManualResetEvent _OtherCreatedResetEvent = ManualResetEvent(false);
+		ManualResetEvent _OtherDeletedResetEvent = ManualResetEvent(false);
 	};
 }

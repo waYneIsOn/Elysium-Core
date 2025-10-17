@@ -192,42 +192,45 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 
 const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* RelativePath)
 {
-	const char8_t* Expression = &_Filter[0];
+	// 2.1.4.4 Algorithm for Determining if a FileName Is in an Expression
+	// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/0b034646-4e23-4874-8488-2adac231ff23
 
 	// @ToDo: check whether the os will ever give use an empty relative path as this check could be removed!
-	if (Expression == nullptr || RelativePath == nullptr)
+	if (0 == _Filter.GetLength() || nullptr == RelativePath)
 	{
 		return false;
 	}
 
-	if (Expression[0] == u8'*')
+	const char8_t* Expression = &_Filter[0];
+	if (u8'*' == Expression[0])
 	{
 		const Elysium::Core::Template::System::size ExpressionLength = _Filter.GetLength();
-		if (ExpressionLength == 1)
+		if (1 == ExpressionLength)
 		{	// special case "*"
 			return true;
 		}
 
-		// @ToDo: implement this fully and correctly!
-		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/0b034646-4e23-4874-8488-2adac231ff23
-		const char8_t* Asterisk = Elysium::Core::Template::Text::CharacterTraits<char8_t>::Find(&Expression[1], ExpressionLength - 1, u8'*');
-		if (Asterisk != nullptr)
+		const Elysium::Core::Template::System::size RelativePathLength = 
+			Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(RelativePath);
+
+		bool ContainsFurtherWildcards = Elysium::Core::Template::Text::CharacterTraits<char8_t>::ContainsAny(
+			&Expression[1], ExpressionLength - sizeof(char8_t), u8"\"<>*?", 4);
+		if (!ContainsFurtherWildcards)
 		{
-			const Elysium::Core::Template::System::size RelativePathLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(RelativePath);
-			if (RelativePathLength < ExpressionLength - 1)
+			if (RelativePathLength < (ExpressionLength - sizeof(char8_t)))
 			{
 				return false;
 			}
 
-			// ...
-
-			return true;
+			// @ToDo: case insensitivity
+			return Elysium::Core::Template::Text::CharacterTraits<char8_t>::EndsWith(RelativePath, RelativePathLength,
+				&Expression[1], ExpressionLength - sizeof(char8_t));
 		}
 	}
 
 	// @ToDo: ...
 
-	return false;
+	return true;
 }
 
 void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult)
@@ -339,9 +342,12 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 
 		
 
-		// ...
-		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName, 
-			Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(Info.FileName));
+		// Do NOT count the length of Info.FileName but use Info.FileNameLength!!!
+		// I've seen cases of Info.FileName being "file.txth" with Info.FileNameLength being 16 (ie. wchar_t[8]) while
+		// counting the number of characters would obviously result in wchar_t[9] giving incorrect results!
+		// @ToDo: make sure this is "normal" and I am not causing some buffer corruption!!!
+		Utf8String FileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(Info.FileName,
+			Info.FileNameLength / sizeof(wchar_t));
 
 		// @ToDo: populate FullPath (don't just concatenate strings!)
 		Utf8String FullPath = Utf8String(_Path.GetLength() + FileName.GetLength() + sizeof(char8_t));
@@ -386,17 +392,14 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			}
 			break;
 		case FILE_ACTION_RENAMED_OLD_NAME:
-			//OldName = const_cast<wchar_t*>(Info.FileName);
+			OldName = const_cast<wchar_t*>(Info.FileName);
 			break;
 		case FILE_ACTION_RENAMED_NEW_NAME:
 		{
 			if (IsInterested(&FileName[0]))
 			{
-				/*
 				Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
 					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
-				*/
-				Utf8String OldFileName = u8"OldFileName";
 				OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName), Elysium::Core::Template::Functional::Move(OldFileName)));
 			}
@@ -625,7 +628,17 @@ void Elysium::Core::IO::FileSystemWatcher::IOCompletionPortCallback(PTP_CALLBACK
 	RawAsyncFileWatcherResult->_ErrorCode = static_cast<Elysium::Core::uint16_t>(IoResult);
 
 	const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback = RawAsyncFileWatcherResult->GetCallback();
-	Callback(RawAsyncResult);
+	try
+	{
+		Callback(RawAsyncResult);
+	}
+	catch (...)
+	{	// @ToDo:
+		// cannot simply "invoke" CallError! if the exception was thrown inside it's handler, this will result in an infinite loop!
+		// just log the error somehow?
+		bool bla = false;
+	}
+
 
 	Elysium::Core::Threading::ManualResetEvent& AsyncWaitHandle =
 		(Elysium::Core::Threading::ManualResetEvent&)RawAsyncFileWatcherResult->GetAsyncWaitHandle();

@@ -15,6 +15,7 @@
 
 namespace Microsoft::VisualStudio::CppUnitTestFramework
 {
+	// @ToDo: still clashes with Assert::Fail(...) obviously!
 	class ThreadsafeLogger
 	{
 	public:
