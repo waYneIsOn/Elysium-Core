@@ -190,45 +190,57 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 	}
 }
 
-const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* RelativePath)
+const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* RelativePath, const bool CaseInsensitive)
 {
 	// 2.1.4.4 Algorithm for Determining if a FileName Is in an Expression
 	// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-fsa/0b034646-4e23-4874-8488-2adac231ff23
+	// - "Filename cannot contain any wildcard characters". The OS is not going to provide any wildcard chars so no check is required
+	// - 
 
-	// @ToDo: check whether the os will ever give use an empty relative path as this check could be removed!
-	if (0 == _Filter.GetLength() || nullptr == RelativePath)
+	// @ToDo: case insensitivity. use ToUpper like windows does in most cases (at least to my knowledge)
+	const char8_t* Expression = CaseInsensitive ? &_Filter[0] : &_Filter[0];
+	const char8_t* FileName = CaseInsensitive ? RelativePath : RelativePath;
+
+	// special cases
+	if (nullptr == Expression)
 	{
-		return false;
+		return nullptr == FileName;
 	}
 
-	const char8_t* Expression = &_Filter[0];
-	if (u8'*' == Expression[0])
+	// .NET sees "*.*" as "any directory" (further filtering works through NotifyFilters)
+	// @ToDo: do I want my filtering to behave in that way?
+	if (nullptr == FileName)
+	{	
+		return u8"*" == Expression || u8"*.*" == Expression;
+	}
+
+	if (u8"*" == Expression || u8"*.*" == Expression)
 	{
-		const Elysium::Core::Template::System::size ExpressionLength = _Filter.GetLength();
-		if (1 == ExpressionLength)
-		{	// special case "*"
-			return true;
-		}
+		return true;
+	}
 
-		const Elysium::Core::Template::System::size RelativePathLength = 
-			Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(RelativePath);
-
-		bool ContainsFurtherWildcards = Elysium::Core::Template::Text::CharacterTraits<char8_t>::ContainsAny(
-			&Expression[1], ExpressionLength - sizeof(char8_t), u8"\"<>*?", 4);
-		if (!ContainsFurtherWildcards)
+	const Elysium::Core::Template::System::size ExpressionLength = _Filter.GetLength();
+	bool ContainsFurtherWildcards = Elysium::Core::Template::Text::CharacterTraits<char8_t>::ContainsAny(
+		&Expression[1], ExpressionLength - sizeof(char8_t), u8"\"<>*?", 4);
+	if (u8'*' == Expression[0] && !ContainsFurtherWildcards)
+	{
+		const Elysium::Core::Template::System::size RelativePathLength =
+			Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(FileName);
+		if (RelativePathLength < (ExpressionLength - sizeof(char8_t)))
 		{
-			if (RelativePathLength < (ExpressionLength - sizeof(char8_t)))
-			{
-				return false;
-			}
-
-			// @ToDo: case insensitivity
-			return Elysium::Core::Template::Text::CharacterTraits<char8_t>::EndsWith(RelativePath, RelativePathLength,
-				&Expression[1], ExpressionLength - sizeof(char8_t));
+			return false;
 		}
+
+		return Elysium::Core::Template::Text::CharacterTraits<char8_t>::EndsWith(FileName, RelativePathLength,
+			&Expression[1], ExpressionLength - sizeof(char8_t));
 	}
 
-	// @ToDo: ...
+	// @ToDo: actual matching logic
+
+
+
+
+
 
 	return true;
 }
@@ -271,13 +283,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		PotentialBufferOverflow = true;
 	}
 
-
-
-
-	std::u8string TempErrorMessage;
-
-
-
+	//std::u8string TempErrorMessage;
 
 	// ...
 	constexpr const Elysium::Core::Template::System::size InfoBlockSize = sizeof(FILE_NOTIFY_EXTENDED_INFORMATION);
@@ -291,11 +297,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		{	// @Info: This is a weird one to me. Why does the callback get triggered when there are no bytes?
 			//break;
 		}
-
-
-
-
-		
+		/*
 		if (Info.Action == 0)
 		{	// Undocumented action
 			PotentialBufferOverflow = true;
@@ -306,17 +308,13 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			PotentialBufferOverflow = true;
 			TempErrorMessage += u8"Info.FileNameLength == 0\r\n";
 		}
-		
-
-
-
-
+		*/
 
 		// validate premature end of buffer
 		if (Offset + InfoBlockSize > RawAsyncFileWatcherResult->_BytesTransferred)
 		{
 			PotentialBufferOverflow = true;
-			TempErrorMessage += u8"InfoBlockSize exceeds buffer.\r\n";
+			//TempErrorMessage += u8"InfoBlockSize exceeds buffer.\r\n";
 			break;
 		}
 		
@@ -326,21 +324,9 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		if (CurrentInfoSize + Offset > RawAsyncFileWatcherResult->_BytesTransferred)
 		{
 			PotentialBufferOverflow = true;
-			TempErrorMessage += u8"Info.FileNameLength exceeds buffer.\r\n";
+			//TempErrorMessage += u8"Info.FileNameLength exceeds buffer.\r\n";
 			break;
 		}
-
-
-
-
-
-
-
-		
-		
-
-
-		
 
 		// Do NOT count the length of Info.FileName but use Info.FileNameLength!!!
 		// I've seen cases of Info.FileName being "file.txth" with Info.FileNameLength being 16 (ie. wchar_t[8]) while
@@ -371,21 +357,21 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		}
 			break;
 		case FILE_ACTION_ADDED:
-			if (IsInterested(&FileName[0]))
+			if (IsInterested(&FileName[0], true))
 			{
 				OnCreated(*this, FileSystemEventArgs(WatcherChangeTypes::Created, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName)));
 			}
 			break;
 		case FILE_ACTION_REMOVED:
-			if (IsInterested(&FileName[0]))
+			if (IsInterested(&FileName[0], true))
 			{
 				OnDeleted(*this, FileSystemEventArgs(WatcherChangeTypes::Deleted, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName)));
 			}
 			break;
 		case FILE_ACTION_MODIFIED:
-			if (IsInterested(&FileName[0]))
+			if (IsInterested(&FileName[0], true))
 			{
 				OnChanged(*this, FileSystemEventArgs(WatcherChangeTypes::Changed, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName)));
@@ -396,7 +382,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			break;
 		case FILE_ACTION_RENAMED_NEW_NAME:
 		{
-			if (IsInterested(&FileName[0]))
+			if (IsInterested(&FileName[0], true))
 			{
 				Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
 					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
@@ -411,13 +397,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			break;
 		}
 
-		Offset += Info.NextEntryOffset;
-
-
-
-
-
-
+		/*
 		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred)
 		{
 			//TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
@@ -428,21 +408,19 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			//TempErrorMessage += u8"Info.NextEntryOffset == 0\r\n";
 			//PotentialBufferOverflow = true;
 		}
-
-
-
-
-
+		*/
 
 		// post-validate
 		if (Info.NextEntryOffset == 0)
 		{	// this doesn't seem to indicate a buffer overflow but the last entry?
 			break;
 		}
+
+		Offset += Info.NextEntryOffset;
 		if (Offset >= RawAsyncFileWatcherResult->_BytesTransferred)
 		{
 			PotentialBufferOverflow = true;
-			TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
+			//TempErrorMessage += u8"Offset >= RawAsyncFileWatcherResult->_BytesTransferred\r\n";
 			break;
 		}
 	} while (Offset > 0);
@@ -452,16 +430,15 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 	{
 		// afaik there's no default windows error code for this -> .NET uses error code 0x80131671
 		// @ToDo: actually check this
-		/*
 		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
 			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
 				u8"Too many changes at once in directory: ..."))));	// @ToDo: use _Path
-		*/
+		/*
 		OnError(*this, ErrorEventArgs(Elysium::Core::Template::Functional::Move(
 			Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException(0x80131671,
 			&TempErrorMessage[0]))));
+		*/
 	}
-	
 }
 
 void Elysium::Core::IO::FileSystemWatcher::CleanUp(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult, const bool WasSuccessful)
