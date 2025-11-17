@@ -301,7 +301,7 @@ void Elysium::Core::Diagnostics::Process::InjectAssembly(const char8_t* Assembly
 		Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(AssemblyFPQN));
 	const Elysium::Core::Template::System::size AssemblyNameSize = (AssemblyName.GetLength() + 1) * sizeof(wchar_t);
 
-	HMODULE Kernel32Handle = GetModuleHandleA("Kernel32.dll");
+	const HMODULE Kernel32Handle = GetModuleHandleA("Kernel32.dll");
 	if (Kernel32Handle == nullptr)
 	{
 		throw Elysium::Core::Template::Exceptions::SystemException();
