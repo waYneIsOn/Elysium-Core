@@ -36,11 +36,6 @@
 #include "../Elysium.Core.Threading/Task.hpp"
 #endif
 
-constexpr Elysium::Core::IO::Stream::Stream()
-{ }
-
-constexpr Elysium::Core::IO::Stream::~Stream()
-{ }
 /*
 Elysium::Core::IO::Stream& Elysium::Core::IO::Stream::operator<<(const Elysium::Core::byte Value)
 {

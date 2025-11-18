@@ -112,6 +112,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Path.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)File.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Directory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HandleInheritability.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Compression">

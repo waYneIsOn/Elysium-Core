@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_PIPIES_PIPEDIRECTION
-#define ELYSIUM_CORE_IO_PIPIES_PIPEDIRECTION
+#ifndef ELYSIUM_CORE_IO_PIPES_PIPEDIRECTION
+#define ELYSIUM_CORE_IO_PIPES_PIPEDIRECTION
 
 #ifdef _MSC_VER
 #pragma once
@@ -45,7 +45,7 @@ namespace Elysium::Core::IO::Pipes
 		/// <summary>
 		/// Specifies that the pipe direction is two-way.
 		/// </summary>
-		InOut= 3
+		InOut = 3
 	};
 }
 #endif

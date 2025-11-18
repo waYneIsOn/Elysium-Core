@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
-#include "String.hpp"
+#include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SYSTEMEXCEPTION

@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)HandleInheritability.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />

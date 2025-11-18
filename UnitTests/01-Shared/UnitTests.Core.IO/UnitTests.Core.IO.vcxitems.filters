@@ -10,5 +10,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileSystemWatcherTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PathTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NamedPipeTests.cpp" />
   </ItemGroup>
 </Project>

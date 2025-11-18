@@ -46,7 +46,7 @@ namespace Elysium::Core::Net::Sockets
 		virtual void SetReadTimeout(const Elysium::Core::uint32_t Value) override;
 		virtual void SetWriteTimeout(const Elysium::Core::uint32_t Value) override;
 
-		virtual void Close()  override;
+		virtual void Close() override;
 		virtual void Flush() override;
 		virtual const Elysium::Core::size Seek(const __int64 Offset, const Elysium::Core::IO::SeekOrigin Origin) override;
 		virtual const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;

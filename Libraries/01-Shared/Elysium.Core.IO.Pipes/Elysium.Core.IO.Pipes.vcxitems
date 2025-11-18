@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)API.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NamedPipeClientStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NamedPipeServerStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeAccessRights.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeDirection.hpp" />
@@ -24,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PipeTransmissionMode.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)NamedPipeClientStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NamedPipeServerStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PipeStream.cpp" />
   </ItemGroup>

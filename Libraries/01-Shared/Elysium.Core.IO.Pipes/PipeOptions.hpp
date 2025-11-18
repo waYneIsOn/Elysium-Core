@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_PIPIES_PIPEOPTIONS
-#define ELYSIUM_CORE_IO_PIPIES_PIPEOPTIONS
+#ifndef ELYSIUM_CORE_IO_PIPES_PIPEOPTIONS
+#define ELYSIUM_CORE_IO_PIPES_PIPEOPTIONS
 
 #ifdef _MSC_VER
 #pragma once

@@ -25,6 +25,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)HashAlgorithmType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCredentialException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ISaslMechanism.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Principal\TokenImpersonationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsProtocols.hpp" />
   </ItemGroup>

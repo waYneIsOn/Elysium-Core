@@ -13,6 +13,9 @@
     <Filter Include="Cryptography\Checksum">
       <UniqueIdentifier>{2f7a0b5a-f6e8-463e-80e1-6310724c959c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Principal">
+      <UniqueIdentifier>{e4ccabd6-2c1d-4c8d-bc45-dc27e53d16f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)CryptographicException.cpp">
@@ -65,6 +68,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Crc32.hpp">
       <Filter>Cryptography\Checksum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Principal\TokenImpersonationLevel.hpp">
+      <Filter>Principal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -41,13 +41,13 @@ namespace Elysium::Core::IO
 	class ELYSIUM_CORE_API Stream
 	{
 	protected:
-		constexpr Stream();
+		Stream() noexcept = default;
 	public:
 		Stream(const Stream& Source) = delete;
 
 		Stream(Stream&& Right) noexcept = delete;
 
-		constexpr virtual ~Stream();
+		constexpr virtual ~Stream() = default;
 	public:
 		Stream& operator=(const Stream& Source) = delete;
 

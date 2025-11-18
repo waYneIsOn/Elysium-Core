@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_PIPIES_NAMEDPIPESERVERSTREAM
-#define ELYSIUM_CORE_IO_PIPIES_NAMEDPIPESERVERSTREAM
+#ifndef ELYSIUM_CORE_IO_PIPES_NAMEDPIPESERVERSTREAM
+#define ELYSIUM_CORE_IO_PIPES_NAMEDPIPESERVERSTREAM
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,41 +16,63 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_STRING
-#include "../Elysium.Core/String.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_PIPIES_PIPEOPTIONS
-#include "PipeOptions.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_PIPIES_PIPESTREAM
+#ifndef ELYSIUM_CORE_IO_PIPES_PIPESTREAM
 #include "PipeStream.hpp"
+#endif
+
+#ifndef _WINBASE_
+#include <WinBase.h>
 #endif
 
 namespace Elysium::Core::IO::Pipes
 {
-	class NamedPipeServerStream
+	class ELYSIUM_CORE_IO_PIPES_API NamedPipeServerStream final
 		: public PipeStream
 	{
 	public:
-		constexpr NamedPipeServerStream(const Elysium::Core::Utf8String PipeName, const PipeDirection Direction,
-			const Elysium::Core::Template::System::int32_t MaxNumberOfServerInstances,	const PipeTransmissionMode TransmissionMode,
-			const PipeOptions Options, const Elysium::Core::Template::System::size InBufferSize, 
-			const Elysium::Core::Template::System::size OutBufferSize);
+		NamedPipeServerStream(Elysium::Core::Utf8String::ConstCharacterPointer PipeName,
+			const PipeDirection Direction = PipeDirection::InOut,
+			const Elysium::Core::Template::System::uint8_t MaxNumberOfServerInstances = 1,
+			const PipeTransmissionMode TransmissionMode = PipeTransmissionMode::Byte, const PipeOptions Options = PipeOptions::None,
+			const Elysium::Core::Template::System::size InBufferSize = 0, const Elysium::Core::Template::System::size OutBufferSize = 0);
 
-		constexpr NamedPipeServerStream(const NamedPipeServerStream& Source) = delete;
+		NamedPipeServerStream(const NamedPipeServerStream& Source) = delete;
 
-		constexpr NamedPipeServerStream(NamedPipeServerStream&& Right) = delete;
+		NamedPipeServerStream(NamedPipeServerStream&& Right) = delete;
 
-		constexpr virtual ~NamedPipeServerStream();
+		virtual ~NamedPipeServerStream() noexcept;
 	public:
 		NamedPipeServerStream& operator=(const NamedPipeServerStream& Source) = delete;
 
 		NamedPipeServerStream& operator=(NamedPipeServerStream&& Right) noexcept = delete;
 	public:
-		static constexpr const Elysium::Core::Template::System::int32_t MaxAllowedServerInstances = -1;
+		static constexpr const Elysium::Core::Template::System::uint8_t MaxAllowedServerInstances = -1;
+	public:
+		void WaitForConnection();
+
+		void Disconnect();
+	public:
+		virtual void Close() override;
+
+		virtual void Flush() override;
+
+		virtual const Elysium::Core::size Seek(const Elysium::Core::int64_t Offset, const Elysium::Core::IO::SeekOrigin Origin) override;
+
+		virtual const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
+
+		virtual Elysium::Core::byte ReadByte() override;
+
+		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 	private:
+		Elysium::Core::Utf8String BuildFQPipeName(Elysium::Core::Utf8String::ConstCharacterPointer PipeName);
+
+		HANDLE CreateNativeNamedPipeHandle(const Elysium::Core::Utf8String& PipeName, const PipeDirection Direction,
+			const Elysium::Core::Template::System::uint8_t MaxNumberOfServerInstances, const PipeTransmissionMode TransmissionMode,
+			const PipeOptions Options, const Elysium::Core::Template::System::size InBufferSize,
+			const Elysium::Core::Template::System::size OutBufferSize, const PipeAccessRights AdditionalAccessRights);
+	private:
+		HANDLE _NativeNamedPipeHandle;
+
 		const PipeOptions _Options;
 	};
 }

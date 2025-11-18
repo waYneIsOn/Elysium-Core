@@ -116,7 +116,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.IO.Pipes.lib;Elysium.Core.Json.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateMapFile>false</GenerateMapFile>
     </Link>
     <PreBuildEvent>
@@ -137,7 +137,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.IO.Pipes.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
@@ -161,7 +161,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.IO.Pipes.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
@@ -185,7 +185,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(VCInstallDir)UnitTest\lib;..\..\..\..\bin\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Elysium.Core.lib;Elysium.Core.CommandLine.lib;Elysium.Core.IO.FileSystem.Watcher.lib;Elysium.Core.IO.Pipes.lib;Elysium.Core.Json.lib;Elysium.Core.Math.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>xcopy "$(ProjectDir)SampleFiles\*.*" "$(SolutionDir)..\bin\Debug\x64" /Y /I /E</Command>
@@ -210,6 +210,9 @@
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.IO.FileSystem.Watcher\Elysium.Core.IO.FileSystem.Watcher.vcxproj">
       <Project>{d4f510ca-0532-4c90-811b-752b92393b68}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.IO.Pipes\Elysium.Core.IO.Pipes.vcxproj">
+      <Project>{8f30833b-b280-47a6-94b0-2e59c1f909cb}</Project>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Json\Elysium.Core.Json.vcxproj">
       <Project>{1ae389e0-479e-43d0-9299-77821b53db54}</Project>
