@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include <WinBase.h>
 #endif
 
+#ifndef _NAMEDPIPE_H_
+#include <namedpipeapi.h>
+#endif
+
 namespace Elysium::Core::IO::Pipes
 {
 	class ELYSIUM_CORE_IO_PIPES_API NamedPipeServerStream final

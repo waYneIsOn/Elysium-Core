@@ -55,6 +55,11 @@ namespace UnitTests::Core::IO::Pipes
 				ClientThread.Join();
 			}
 		}
+
+		TEST_METHOD(AsyncIOCPBla)
+		{
+			Assert::Fail();
+		}
 	private:
 		static void RunServer()
 		{

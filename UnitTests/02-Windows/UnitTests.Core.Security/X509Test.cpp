@@ -241,7 +241,7 @@ namespace UnitTests::Core::Security::Cryptography
 						Asn1Length Length = Asn1Length(0, 0);
 						ReadCertificate(Decoder, InputStream, Identifier, Length);
 
-						Logger::WriteMessage("\r\n");
+						Logger::WriteMessage("--------------------\r\n");
 
 						Count++;
 					}
@@ -718,11 +718,13 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage("Validity:\r\n");
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime)
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime &&
+				Identifier.GetUniversalTag() != Asn1UniversalTag::GeneralizedTime)
 			{
 				Logger::WriteMessage("Error: ValidityNotBefore\r\n");
 				throw InvalidDataException(u8"ValidityNotBefore");
 			}
+
 			Asn1DateTime ValidityNotBefore = Decoder.DecodeDateTime(Identifier, Length, InputStream);
 			const Elysium::Core::DateTime& ValidityNotBeforeValue = ValidityNotBefore.GetValue();
 			Logger::WriteMessage("\tNotBefore: ");
@@ -740,7 +742,8 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage(" UTC\r\n");
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime)
+			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime &&
+				Identifier.GetUniversalTag() != Asn1UniversalTag::GeneralizedTime)
 			{
 				Logger::WriteMessage("Error: ValidityNotAfter\r\n");
 				throw InvalidDataException(u8"ValidityNotAfter");

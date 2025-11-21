@@ -64,16 +64,18 @@ namespace Elysium::Core
 		constexpr DateTime(const Elysium::Core::Template::System::int64_t Ticks, const Elysium::Core::DateTimeKind Kind) noexcept;
 		
 		constexpr DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month,
-			const Elysium::Core::Template::System::int32_t Day) noexcept;
+			const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::DateTimeKind Kind = DateTimeKind::Unspecified) noexcept;
 		
 		constexpr DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month,
 			const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::Template::System::int32_t Hour,
-			const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second) noexcept;
+			const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second, 
+			const Elysium::Core::DateTimeKind Kind = DateTimeKind::Unspecified) noexcept;
 		
 		constexpr DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month,
 			const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::Template::System::int32_t Hour, 
 			const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second, 
-			const Elysium::Core::Template::System::int32_t Millisecond) noexcept;
+			const Elysium::Core::Template::System::int32_t Millisecond, 
+			const Elysium::Core::DateTimeKind Kind = DateTimeKind::Unspecified) noexcept;
 		
 		constexpr DateTime(const DateTime& Source) noexcept;
 
@@ -153,16 +155,16 @@ namespace Elysium::Core
 		: _Ticks(Ticks), _Kind(Kind)
 	{ }
 
-	inline constexpr Elysium::Core::DateTime::DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month, const Elysium::Core::Template::System::int32_t Day) noexcept
-		: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day))
+	inline constexpr Elysium::Core::DateTime::DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month, const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::DateTimeKind Kind) noexcept
+		: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day), Kind)
 	{ }
 
-	inline constexpr Elysium::Core::DateTime::DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month, const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::Template::System::int32_t Hour, const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second) noexcept
-		: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second))
+	inline constexpr Elysium::Core::DateTime::DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month, const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::Template::System::int32_t Hour, const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second, const Elysium::Core::DateTimeKind Kind) noexcept
+		: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second), Kind)
 	{ }
 
-	inline constexpr Elysium::Core::DateTime::DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month, const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::Template::System::int32_t Hour, const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second, const Elysium::Core::Template::System::int32_t Millisecond) noexcept
-		: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second) + Millisecond * DateTimeUtility::TicksPerMillisecond)
+	inline constexpr Elysium::Core::DateTime::DateTime(const Elysium::Core::Template::System::int32_t Year, const Elysium::Core::Template::System::int32_t Month, const Elysium::Core::Template::System::int32_t Day, const Elysium::Core::Template::System::int32_t Hour, const Elysium::Core::Template::System::int32_t Minute, const Elysium::Core::Template::System::int32_t Second, const Elysium::Core::Template::System::int32_t Millisecond, const Elysium::Core::DateTimeKind Kind) noexcept
+		: Elysium::Core::DateTime::DateTime(DateToTicks(Year, Month, Day) + TimeToTicks(Hour, Minute, Second) + Millisecond * DateTimeUtility::TicksPerMillisecond, Kind)
 	{ }
 
 	inline constexpr Elysium::Core::DateTime::DateTime(const DateTime& Source) noexcept

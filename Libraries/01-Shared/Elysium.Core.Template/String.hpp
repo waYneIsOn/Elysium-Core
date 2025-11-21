@@ -957,7 +957,7 @@ namespace Elysium::Core::Template::Text
 	template<Concepts::Character C, class Traits, class Allocator>
 	inline constexpr void String<C, Traits, Allocator>::InitializeStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Size)
 	{
-		assert(Value != nullptr);
+		//assert(Value != nullptr);	// it obviously can be nullptr as long as Size equals 0!
 		assert(Size <= sizeof(_InternalString._Stack._Data));
 		
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, Size);

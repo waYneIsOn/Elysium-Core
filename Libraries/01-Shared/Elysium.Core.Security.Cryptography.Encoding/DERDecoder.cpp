@@ -412,21 +412,18 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 				{
 				case 11:
 					return Asn1DateTime(Asn1Identifier, DateTime(
-						Year > 1950 ? Year : Year + 100,
-						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[2], 2, 10),
-						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[4], 2, 10),
+						Year > 1950 ? Year : Year + 100, Month, Day,
 						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[6], 2, 10),
 						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[8], 2, 10),
-						0
+						0, DateTimeKind::Utc
 					));
 				case 13:
 					return Asn1DateTime(Asn1Identifier, DateTime(
-						Year > 1950 ? Year : Year + 100,
-						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[2], 2, 10),
-						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[4], 2, 10),
+						Year > 1950 ? Year : Year + 100, Month, Day,
 						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[6], 2, 10),
 						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[8], 2, 10),
-						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[10], 2, 10)
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[10], 2, 10), 
+						DateTimeKind::Utc
 					));
 				default:
 					// ToDo: while this shouldn't ever happen, throw a specific exception as data is invalid
@@ -435,7 +432,7 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 			}
 			else
 			{	// "YYMMDDhhmm[ss](+|-)hhmm"
-				// ToDo:
+				// @ToDo:
 				throw 1;
 			}
 		}
@@ -446,7 +443,32 @@ Elysium::Core::Security::Cryptography::Encoding::Asn1::Asn1DateTime Elysium::Cor
 			* UTC time:						YYYYMMDDHH[MM[SS[.fff]]]Z
 			* difference local/utc time:	YYYYMMDDHH[MM[SS[.fff]]]+-HHMM
 			*/
-			throw 1;
+			const Elysium::Core::Utf8String Value = Elysium::Core::Text::Encoding::UTF8().GetString(&Bytes[0], Length);
+			if (Value.EndsWith(u8"Z"))
+			{
+				const Elysium::Core::int32_t Year = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[0], 4, 10);
+				const Elysium::Core::int32_t Month = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[4], 2, 10);
+				const Elysium::Core::int32_t Day = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[6], 2, 10);
+				const Elysium::Core::int32_t Hour = Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[8], 2, 10);
+				switch (Value.GetLength())
+				{	// YYYYMMDDhhmmssZ
+				case 15:
+					return Asn1DateTime(Asn1Identifier, DateTime(
+						Year, Month, Day, Hour,
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[10], 2, 10), 
+						Elysium::Core::Template::Text::Convert<char8_t>::ToInt32(&Value[12], 2, 10),
+						DateTimeKind::Utc
+					));
+				default:
+					// @ToDo
+					throw 1;
+				}
+			}
+			else
+			{
+				// @ToDo:
+				throw 1;
+			}
 		}
 		default:
 			throw NotImplementedException(u8"Unhandled Asn1UniversalTag for DateTime.");
