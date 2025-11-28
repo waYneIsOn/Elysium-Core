@@ -21,22 +21,31 @@
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
+#include "../Elysium.Core.Template/Utf16.hpp"
+#endif
+
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
 #endif
+
+#ifndef __NCRYPT_H__
+#include <ncrypt.h>
 #endif
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate()
-	: _CertificateContext()
+#endif
+
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate() 
+	: _CertificateContext(nullptr), _OwnsPrivateKeyHandle(false), _PrivateKeyHandle(0), _KeySpecifications(-1)
 { }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext)
-	: _CertificateContext(CertDuplicateCertificateContext(CertificateContext))
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(PCCERT_CONTEXT CertificateContext, HCRYPTPROV_OR_NCRYPT_KEY_HANDLE PrivateKeyHandle, const bool OwnsPrivateKeyHandle, const DWORD KeySpecifications)
+	: _CertificateContext(CertDuplicateCertificateContext(CertificateContext)), _OwnsPrivateKeyHandle(OwnsPrivateKeyHandle), _PrivateKeyHandle(PrivateKeyHandle), _KeySpecifications(KeySpecifications)
 { }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(const X509Certificate & Source)
-	: _CertificateContext(CertDuplicateCertificateContext(Source._CertificateContext))
+	: _CertificateContext(CertDuplicateCertificateContext(Source._CertificateContext)), _OwnsPrivateKeyHandle(Source._OwnsPrivateKeyHandle), _PrivateKeyHandle(CopyPrivateKeyHandle(Source)), _KeySpecifications(Source._KeySpecifications)
 { }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Certificate(X509Certificate && Right) noexcept
@@ -46,7 +55,25 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::X509Ce
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::~X509Certificate()
 {
-	if (_CertificateContext != nullptr)
+	if (_OwnsPrivateKeyHandle && 0 != _PrivateKeyHandle)
+	{
+		switch (_KeySpecifications)
+		{
+		case 0: // CNG key
+			NCryptFreeObject(_PrivateKeyHandle);
+			break;
+		case AT_KEYEXCHANGE: // CryptoAPI key
+			[[__fallthrough__]]
+		case AT_SIGNATURE:
+			CryptReleaseContext(_PrivateKeyHandle, 0);
+			break;
+		default:
+			// @ToDo: really nothing to do here?
+			break;
+		}
+	}
+	
+	if (nullptr != _CertificateContext)
 	{
 		CertFreeCertificateContext(_CertificateContext);
 		_CertificateContext = nullptr;
@@ -58,6 +85,9 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysi
 	if (this != &Source)
 	{
 		_CertificateContext = CertDuplicateCertificateContext(Source._CertificateContext);
+		_OwnsPrivateKeyHandle = Source._OwnsPrivateKeyHandle;
+		_PrivateKeyHandle = CopyPrivateKeyHandle(Source);
+		_KeySpecifications = Source._KeySpecifications;
 	}
 	return *this;
 }
@@ -67,8 +97,14 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysi
 	if (this != &Right)
 	{
 		_CertificateContext = Elysium::Core::Template::Functional::Move(Right._CertificateContext);
+		_OwnsPrivateKeyHandle = Right._OwnsPrivateKeyHandle;
+		_PrivateKeyHandle = Right._PrivateKeyHandle;
+		_KeySpecifications = Right._KeySpecifications;
 
 		Right._CertificateContext = nullptr;
+		Right._OwnsPrivateKeyHandle = false;
+		Right._PrivateKeyHandle = 0;
+		Right._KeySpecifications = -1;
 	}
 	return *this;
 }
@@ -80,7 +116,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Certific
 		return true;
 	}
 
-	return _CertificateContext == Other._CertificateContext;
+	return _CertificateContext == Other._CertificateContext && _PrivateKeyHandle == Other._PrivateKeyHandle;
 }
 
 const Elysium::Core::Utf8String Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::GetIssuer() const
@@ -154,12 +190,53 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
 {
-	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, RawData, DataLength);
-	if (CertificateContextPointer == nullptr)
+	PCCERT_CONTEXT CertificateContext = nullptr;
+	HCRYPTPROV_OR_NCRYPT_KEY_HANDLE PrivateKeyHandle = 0;
+	DWORD KeySpecifications = 0;
+	BOOL FreeKey = FALSE;
+
+	CRYPT_DATA_BLOB CryptDataBlob = CRYPT_DATA_BLOB();
+	CryptDataBlob.pbData = (BYTE*)RawData;
+	CryptDataBlob.cbData = DataLength;
+
+	// @ToDo: input isn't safe
+	Elysium::Core::WideString Pwd = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&Password[0], Password.GetLength());
+
+	HCERTSTORE InMemoryCertificateStore = PFXImportCertStore(&CryptDataBlob, &Pwd[0], CRYPT_EXPORTABLE);
+	if (nullptr != InMemoryCertificateStore) 
+	{	// pfx?
+		PCCERT_CONTEXT CertificateContextIteration = nullptr;
+		while ((CertificateContextIteration = CertEnumCertificatesInStore(InMemoryCertificateStore, CertificateContextIteration)) != nullptr)
+		{
+			CertificateContext = CertDuplicateCertificateContext(CertificateContextIteration);
+			
+			// get private key handle
+			BOOL Result = CryptAcquireCertificatePrivateKey(CertificateContext,
+				CRYPT_ACQUIRE_SILENT_FLAG | CRYPT_ACQUIRE_ALLOW_NCRYPT_KEY_FLAG, nullptr, &PrivateKeyHandle, 
+				&KeySpecifications, &FreeKey);
+			if (FALSE == Result)
+			{	// @ToDo
+				bool sdf = false;
+			}
+		}
+
+		BOOL CloseCertificateStoreResult = CertCloseStore(InMemoryCertificateStore, 0);
+		if (FALSE == CloseCertificateStoreResult)
+		{
+			// @ToDo: throw what?
+			bool bla = false;
+		}
+	}
+	else
+	{	// pem?
+		CertificateContext = CertCreateCertificateContext(X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, RawData, DataLength);
+	}
+
+	if (CertificateContext == nullptr)
 	{
 		throw CryptographicException();
 	}
-	return X509Certificate(CertificateContextPointer);
+	return X509Certificate(CertificateContext, PrivateKeyHandle, FreeKey == TRUE ? true : false, KeySpecifications);
 }
 
 Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
@@ -195,4 +272,58 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	}
 
 	return LoadFromBlob(Buffer, Password, Flags);
+}
+
+HCRYPTPROV_OR_NCRYPT_KEY_HANDLE Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::CopyPrivateKeyHandle(const X509Certificate& Source)
+{
+	if (0 == _PrivateKeyHandle)
+	{
+		return 0;
+	}
+
+	HCRYPTPROV_OR_NCRYPT_KEY_HANDLE KeyHandleCopy = 0;
+	switch (_KeySpecifications)
+	{
+	case 0: // CNG key
+		if (CryptContextAddRef(Source._PrivateKeyHandle, nullptr, 0))
+		{
+			KeyHandleCopy = Source._PrivateKeyHandle; // now you have a reference you can free independently
+		}
+		break;
+	case AT_KEYEXCHANGE: // CryptoAPI key
+		[[__fallthrough__]]
+	case AT_SIGNATURE:
+	{
+		DWORD RequiredSize = 0;
+		SECURITY_STATUS Status = NCryptExportKey(Source._PrivateKeyHandle, 0, BCRYPT_OPAQUE_KEY_BLOB, nullptr, nullptr, 0, 
+			&RequiredSize, 0);
+		if (ERROR_SUCCESS != Status)
+		{
+			// @Todo
+			throw 1;
+		}
+
+		Elysium::Core::Container::VectorOfByte Data = Elysium::Core::Container::VectorOfByte(RequiredSize);
+		Status = NCryptExportKey(Source._PrivateKeyHandle, 0, BCRYPT_OPAQUE_KEY_BLOB, nullptr, &Data[0], RequiredSize,
+			&RequiredSize, 0);
+		if (ERROR_SUCCESS != Status)
+		{
+			// @Todo
+			throw 1;
+		}
+
+		Status = NCryptImportKey(0, 0, BCRYPT_OPAQUE_KEY_BLOB, nullptr, &KeyHandleCopy, &Data[0], RequiredSize, 0);
+		if (ERROR_SUCCESS != Status)
+		{
+			// @Todo
+			throw 1;
+		}
+	}
+	break;
+	default:
+		// @ToDo
+		throw 1;
+	}
+
+	return KeyHandleCopy;
 }

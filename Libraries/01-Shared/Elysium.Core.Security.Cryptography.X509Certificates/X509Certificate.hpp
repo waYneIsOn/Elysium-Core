@@ -36,16 +36,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "X509KeyStorageFlags.hpp"
 #endif
 
+namespace Elysium::Core::Net::Security
+{
+	class TlsStream;
+}
+
 namespace Elysium::Core::Security::Cryptography::X509Certificates
 {
 	class ELYSIUM_CORE_SECURITY_API X509Certificate final
 	{
 		friend class X509Chain;
 		friend class Elysium::Core::Template::Container::Vector<X509Certificate>;
+		friend class Elysium::Core::Net::Security::TlsStream;
 	private:
 		X509Certificate();
 	public:
-		X509Certificate(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContext);
+		X509Certificate(PCCERT_CONTEXT CertificateContext, HCRYPTPROV_OR_NCRYPT_KEY_HANDLE PrivateKeyHandle = 0, 
+			const bool OwnsPrivateKeyHandle = false, const DWORD KeySpecifications = -1);
 
 		X509Certificate(const X509Certificate& Source);
 
@@ -74,8 +81,16 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
 		
 		static X509Certificate LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	private:
-		ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER _CertificateContext = nullptr;
+		HCRYPTPROV_OR_NCRYPT_KEY_HANDLE CopyPrivateKeyHandle(const X509Certificate& Source);
+	private:
+		PCCERT_CONTEXT _CertificateContext = nullptr;
+
+		bool _OwnsPrivateKeyHandle;
+		HCRYPTPROV_OR_NCRYPT_KEY_HANDLE _PrivateKeyHandle;
+		DWORD _KeySpecifications;
+#endif
 	};
 }
 #endif
