@@ -60,12 +60,24 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::~X509C
 		switch (_KeySpecifications)
 		{
 		case 0: // CNG key
-			NCryptFreeObject(_PrivateKeyHandle);
+		{
+			SECURITY_STATUS Result = NCryptFreeObject(_PrivateKeyHandle);
+			if (SEC_E_OK != Result)
+			{	// @ToDo:
+				throw 1;
+			}
+		}
 			break;
 		case AT_KEYEXCHANGE: // CryptoAPI key
 			[[__fallthrough__]]
 		case AT_SIGNATURE:
-			CryptReleaseContext(_PrivateKeyHandle, 0);
+		{
+			SECURITY_STATUS Result = CryptReleaseContext(_PrivateKeyHandle, 0);
+			if (SEC_E_OK != Result)
+			{	// @ToDo:
+				throw 1;
+			}
+		}
 			break;
 		default:
 			// @ToDo: really nothing to do here?
