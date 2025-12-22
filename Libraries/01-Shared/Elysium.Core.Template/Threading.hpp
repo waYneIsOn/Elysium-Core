@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "AutoResetEvent.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CALLONCE
+#include "Threading/CallOnce.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CRITICALSECTION
 #include "CriticalSection.hpp"
 #endif
