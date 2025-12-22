@@ -64,6 +64,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />

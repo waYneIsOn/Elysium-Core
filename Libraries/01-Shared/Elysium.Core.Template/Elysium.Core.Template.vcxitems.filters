@@ -800,6 +800,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

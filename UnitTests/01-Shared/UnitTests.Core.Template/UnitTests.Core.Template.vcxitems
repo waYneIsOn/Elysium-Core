@@ -19,6 +19,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AllocatorTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArenaTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ArrayTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CallOnceTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CharacterTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ClockTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTests.cpp" />
