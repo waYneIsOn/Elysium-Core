@@ -10,7 +10,6 @@
       <Filter>Tasks</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OSThreadPool.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
@@ -42,7 +41,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OSThreadPool.hpp">
       <Filter>Internal</Filter>
     </ClInclude>

@@ -51,9 +51,10 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	private:
 		X509Certificate();
 	public:
+#if defined ELYSIUM_CORE_OS_WINDOWS
 		X509Certificate(PCCERT_CONTEXT CertificateContext, HCRYPTPROV_OR_NCRYPT_KEY_HANDLE PrivateKeyHandle = 0, 
 			const bool OwnsPrivateKeyHandle = false, const DWORD KeySpecifications = -1);
-
+#endif
 		X509Certificate(const X509Certificate& Source);
 
 		X509Certificate(X509Certificate&& Right) noexcept;
@@ -85,7 +86,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	private:
 		HCRYPTPROV_OR_NCRYPT_KEY_HANDLE CopyPrivateKeyHandle(const X509Certificate& Source);
 	private:
-		PCCERT_CONTEXT _CertificateContext = nullptr;
+		PCCERT_CONTEXT _CertificateContext;
 
 		bool _OwnsPrivateKeyHandle;
 		HCRYPTPROV_OR_NCRYPT_KEY_HANDLE _PrivateKeyHandle;

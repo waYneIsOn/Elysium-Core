@@ -5,7 +5,7 @@
 #endif
 
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException()
-	: Elysium::Core::SystemException(u8"AuthenticationException")
+	: Elysium::Core::SystemException(GetLastError())
 { }
 
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(const char8_t * Message)
@@ -14,7 +14,4 @@ Elysium::Core::Security::Authentication::AuthenticationException::Authentication
 
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(Utf8String&& Message)
 	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
-Elysium::Core::Security::Authentication::AuthenticationException::~AuthenticationException()
 { }

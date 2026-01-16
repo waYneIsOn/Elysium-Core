@@ -3,6 +3,7 @@
 Elysium::Core::IO::Compression::HuffmanCoding::HuffmanTree::HuffmanTree()
 	: _Root(0x00)
 { }
+
 Elysium::Core::IO::Compression::HuffmanCoding::HuffmanTree::~HuffmanTree()
 { }
 

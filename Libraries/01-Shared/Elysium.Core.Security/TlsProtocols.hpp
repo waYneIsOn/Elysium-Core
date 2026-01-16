@@ -23,7 +23,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Security::Authentication
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class TlsProtocols : Elysium::Core::uint16_t
+	enum class TlsProtocols 
+		: Elysium::Core::uint16_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class TlsProtocols
 #else
@@ -41,11 +42,12 @@ namespace Elysium::Core::Security::Authentication
 	
 	inline TlsProtocols operator|(const TlsProtocols Left, const TlsProtocols Right)
 	{
-		return static_cast<TlsProtocols>(static_cast<int>(Left) | static_cast<int>(Right));
+		return static_cast<TlsProtocols>(static_cast<Elysium::Core::uint16_t>(Left) | static_cast<Elysium::Core::uint16_t>(Right));
 	}
+
 	inline TlsProtocols operator&(const TlsProtocols Left, const TlsProtocols Right)
 	{
-		return static_cast<TlsProtocols>(static_cast<int>(Left) & static_cast<int>(Right));
+		return static_cast<TlsProtocols>(static_cast<Elysium::Core::uint16_t>(Left) & static_cast<Elysium::Core::uint16_t>(Right));
 	}
 }
 #endif

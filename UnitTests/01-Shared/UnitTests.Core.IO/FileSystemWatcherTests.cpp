@@ -52,7 +52,7 @@ namespace UnitTests::Core::IO
 				NonUTReuse();
 			}
 		}
-
+		
 		TEST_METHOD(WatchAllChanges)
 		{
 			NonUTWatchAllChanges();

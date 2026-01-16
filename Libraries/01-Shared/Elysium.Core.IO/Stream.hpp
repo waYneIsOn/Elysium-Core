@@ -47,7 +47,7 @@ namespace Elysium::Core::IO
 
 		Stream(Stream&& Right) noexcept = delete;
 
-		constexpr virtual ~Stream() = default;
+		virtual ~Stream() = default;
 	public:
 		Stream& operator=(const Stream& Source) = delete;
 

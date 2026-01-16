@@ -34,14 +34,19 @@ namespace Elysium::Core::IO::Compression::HuffmanCoding
 	{
 	public:
 		HuffmanTree();
+
 		HuffmanTree(const HuffmanTree& Source) = delete;
+
 		HuffmanTree(HuffmanTree&& Right) noexcept = delete;
+
 		~HuffmanTree();
-
+	public:
 		HuffmanTree& operator=(const HuffmanTree& Source) = delete;
-		HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
 
+		HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
+	public:
 		HuffmanNode& GetRootNode();
+
 		const HuffmanNode& GetRootNode() const;
 	private:
 		HuffmanNode _Root;

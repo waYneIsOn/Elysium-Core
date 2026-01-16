@@ -58,7 +58,7 @@ namespace UnitTests::Core::Template::Container
 			Function LambdaDelegate0 = Lambda;	// will use ctor(const L&)
 			Function LambdaDelegate1 = 
 				[](const char* Input) -> void { std::cout << "Lambda(" << Input << ")" << std::endl; }; // will use ctor(L&&)
-			Function InstanceMethodDelegate (&ExampleInstance, &ExampleClass::InstanceMethod);
+			Function InstanceMethodDelegate = &ExampleClass::InstanceMethod;
 			
 			GlobalFunctionDelegate("GlobalFunction Input");
 			FunctionDelegate("Function Input");
@@ -66,7 +66,7 @@ namespace UnitTests::Core::Template::Container
 			LambdaDelegate0("LambdaMethod Input0");
 			LambdaDelegate1("LambdaMethod Input1");
 			//LambdaDelegate1("LambdaMethod Input1", "bla");
-			InstanceMethodDelegate("InstanceMethod Input");
+			InstanceMethodDelegate(ExampleInstance, "InstanceMethod Input");
 			
 			// capture output and use Logger
 			std::cout.rdbuf(originalCoutBuffer);

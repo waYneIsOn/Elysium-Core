@@ -34,7 +34,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tasks\AtomicOfTaskStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPool.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
@@ -46,6 +45,5 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPoolWorkQueue.cpp" />
   </ItemGroup>
 </Project>

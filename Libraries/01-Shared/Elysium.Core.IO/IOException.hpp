@@ -38,7 +38,7 @@ namespace Elysium::Core::IO
 
 		IOException(const Elysium::Core::Template::System::uint32_t ErrorCode);
 
-		virtual ~IOException();
+		virtual ~IOException() = default;
 	};
 }
 #endif

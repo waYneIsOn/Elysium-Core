@@ -68,6 +68,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />

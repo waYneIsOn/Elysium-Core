@@ -26,7 +26,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Security::Authentication
 {
-	class ELYSIUM_CORE_SECURITY_API AuthenticationException : public SystemException
+	class ELYSIUM_CORE_SECURITY_API AuthenticationException
+		: public SystemException
 	{
 	public:
 		AuthenticationException();
@@ -35,7 +36,7 @@ namespace Elysium::Core::Security::Authentication
 
 		AuthenticationException(Elysium::Core::Utf8String&& Message);
 
-		virtual ~AuthenticationException();
+		virtual ~AuthenticationException() = default;
 	};
 }
 #endif

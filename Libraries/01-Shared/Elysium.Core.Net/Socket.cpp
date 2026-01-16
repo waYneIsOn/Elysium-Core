@@ -497,7 +497,8 @@ const Elysium::Core::size Elysium::Core::Net::Sockets::Socket::Receive(const Ely
 	Elysium::Core::int32_t BytesReceived = 0;
 	SocketFlags Flags = SocketFlags::None;
 
-	if (Elysium::Core::int32_t Result = WSARecv(_WinSocketHandle, (LPWSABUF)&WSABuffer, 1, (LPDWORD)&BytesReceived, (LPDWORD)&Flags, nullptr, nullptr) == SOCKET_ERROR)
+	Elysium::Core::int32_t Result = WSARecv(_WinSocketHandle, (LPWSABUF)&WSABuffer, 1, (LPDWORD)&BytesReceived, (LPDWORD)&Flags, nullptr, nullptr);
+	if (Result == SOCKET_ERROR)
 	{
 		throw SocketException();
 	}

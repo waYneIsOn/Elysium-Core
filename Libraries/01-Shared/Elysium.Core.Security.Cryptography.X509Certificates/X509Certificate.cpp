@@ -212,9 +212,9 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	CryptDataBlob.cbData = DataLength;
 
 	// @ToDo: input isn't safe
-	Elysium::Core::WideString Pwd = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&Password[0], Password.GetLength());
+	Elysium::Core::WideString Utf16Password = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&Password[0], Password.GetLength());
 
-	HCERTSTORE InMemoryCertificateStore = PFXImportCertStore(&CryptDataBlob, &Pwd[0], CRYPT_EXPORTABLE);
+	HCERTSTORE InMemoryCertificateStore = PFXImportCertStore(&CryptDataBlob, &Utf16Password[0], CRYPT_EXPORTABLE);
 	if (nullptr != InMemoryCertificateStore) 
 	{	// pfx?
 		PCCERT_CONTEXT CertificateContextIteration = nullptr;

@@ -31,28 +31,24 @@ namespace Elysium::Core::Template::Container
 	class PriorityQueue
 	{
 	public:
-		PriorityQueue();
+		constexpr PriorityQueue();
 
-		PriorityQueue(const PriorityQueue& Source) = delete;
+		constexpr PriorityQueue(const PriorityQueue& Source) = delete;
 
-		PriorityQueue(PriorityQueue&& Right) noexcept = delete;
+		constexpr PriorityQueue(PriorityQueue&& Right) noexcept = delete;
 
-		~PriorityQueue();
+		constexpr ~PriorityQueue() = default;
 	public:
-		PriorityQueue& operator=(const PriorityQueue& Source) = delete;
+		constexpr PriorityQueue& operator=(const PriorityQueue& Source) = delete;
 
-		PriorityQueue& operator=(PriorityQueue&& Right) noexcept = delete;
+		constexpr PriorityQueue& operator=(PriorityQueue&& Right) noexcept = delete;
 	private:
 		Container _Container;
 	};
 
 	template<class T, Elysium::Core::Template::Concepts::SequenceContainer Container, class Compare>
-	inline PriorityQueue<T, Container, Compare>::PriorityQueue()
+	inline constexpr PriorityQueue<T, Container, Compare>::PriorityQueue()
 		: _Container()
-	{ }
-
-	template<class T, Elysium::Core::Template::Concepts::SequenceContainer Container, class Compare>
-	inline PriorityQueue<T, Container, Compare>::~PriorityQueue()
 	{ }
 }
 #endif

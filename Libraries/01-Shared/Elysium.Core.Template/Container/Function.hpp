@@ -38,29 +38,19 @@ namespace Elysium::Core::Template::Container
 	template <class T>
 	class Function
 	{
-	private:
-		constexpr Function(const T& Input) noexcept;
 	public:
+		constexpr Function(const T& Input) noexcept = delete;
+
 		constexpr Function(const Function& Source) noexcept = delete;
 
 		constexpr Function(Function&& Right) noexcept = delete;
 
-		constexpr ~Function() noexcept;
+		constexpr ~Function() noexcept = default;
 	public:
 		constexpr Function& operator=(const Function& Source) noexcept = delete;
 
 		constexpr Function& operator=(Function&& Right) noexcept = delete;
 	};
-
-	template<class T>
-	inline constexpr Function<T>::Function(const T& Input) noexcept
-	{
-		// This constructor needs to be here for type deduction to work! It's ok for it to be private though.
-	}
-
-	template<class T>
-	inline constexpr Function<T>::~Function() noexcept
-	{ }
 
 	/// <summary>
 	/// Typesafe container for a function or static-method.
@@ -79,7 +69,7 @@ namespace Elysium::Core::Template::Container
 
 		constexpr Function(Function&& Right) noexcept;
 
-		constexpr ~Function() noexcept;
+		constexpr ~Function() noexcept = default;
 	public:
 		constexpr Function& operator=(const Function& Source) noexcept;
 
@@ -114,12 +104,6 @@ namespace Elysium::Core::Template::Container
 		: _FunctionOrStaticMethod(nullptr)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
-
-	template<class ReturnType, class ...Args>
-	inline constexpr Function<ReturnType(*)(Args...)>::~Function() noexcept
-	{
-		_FunctionOrStaticMethod = nullptr;
 	}
 
 	template<class ReturnType, class ...Args>
@@ -172,7 +156,7 @@ namespace Elysium::Core::Template::Container
 
 		constexpr Function(Function&& Right) noexcept;
 
-		constexpr ~Function() noexcept;
+		constexpr ~Function() noexcept = default;
 	public:
 		constexpr Function& operator=(const Function& Source) noexcept;
 
@@ -210,10 +194,6 @@ namespace Elysium::Core::Template::Container
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	
-	template<Elysium::Core::Template::Concepts::Lambda L>
-	inline constexpr Function<L>::~Function() noexcept
-	{ }
-
 	template<Elysium::Core::Template::Concepts::Lambda L>
 	inline constexpr Function<L>& Function<L>::operator=(const Function& Source) noexcept
 	{
@@ -255,13 +235,13 @@ namespace Elysium::Core::Template::Container
 		friend class Elysium::Core::Template::Threading::Thread;
 		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType(Type::*)(Args...)>>;
 	public:
-		constexpr Function(Type* Instance, ReturnType(Type::* Method)(Args...)) noexcept;
+		constexpr Function(ReturnType(Type::* Method)(Args...)) noexcept;
 
 		constexpr Function(const Function& Source) noexcept;
 
 		constexpr Function(Function&& Right) noexcept;
 
-		constexpr ~Function() noexcept;
+		constexpr ~Function() noexcept = default;
 	public:
 		constexpr Function& operator=(const Function& Source) noexcept;
 
@@ -271,15 +251,14 @@ namespace Elysium::Core::Template::Container
 
 		constexpr const bool operator!=(const Function& Other) noexcept = delete;
 	public:
-		ReturnType operator()(Args... Parameters) const;
+		ReturnType operator()(Type& Instance, Args... Parameters) const;
 	private:
-		Type* _Instance;
 		ReturnType (Type::* _Method)(Args...);
 	};
 
 	template<Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
-	inline constexpr Function<ReturnType(Type::*)(Args...)>::Function(Type* Instance, ReturnType(Type::* Method)(Args...)) noexcept
-		: _Instance(Instance), _Method(Method)
+	inline constexpr Function<ReturnType(Type::*)(Args...)>::Function(ReturnType(Type::* Method)(Args...)) noexcept
+		: _Method(Method)
 	{
 		/*
 		assert(Instance == nullptr, "Elysium::Core::Template::Container::Function<Type, ReturnType, ...Args>: Instance is nullptr");
@@ -289,29 +268,21 @@ namespace Elysium::Core::Template::Container
 
 	template<Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
 	inline constexpr Function<ReturnType(Type::*)(Args...)>::Function(const Function& Source) noexcept
-		: _Instance(Source._Instance), _Method(Source._Method)
+		: _Method(Source._Method)
 	{ }
 
 	template<Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
 	inline constexpr Function<ReturnType(Type::*)(Args...)>::Function(Function&& Right) noexcept
-		: _Instance(nullptr), _Method(nullptr)
+		: _Method(nullptr)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 	
 	template<Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
-	inline constexpr Function<ReturnType(Type::*)(Args...)>::~Function() noexcept
-	{
-		_Method = nullptr;
-		_Instance = nullptr;
-	}
-
-	template<Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
 	inline constexpr Function<ReturnType(Type::*)(Args...)>& Function<ReturnType(Type::*)(Args...)>::operator=(const Function& Source) noexcept
 	{
 		if (this != &Source)
 		{
-			_Instance = Source._Instance;
 			_Method = Source._Method;
 		}
 		return *this;
@@ -322,19 +293,17 @@ namespace Elysium::Core::Template::Container
 	{
 		if (this != &Right)
 		{
-			_Instance = Elysium::Core::Template::Functional::Move(Right._Instance);
 			_Method = Elysium::Core::Template::Functional::Move(Right._Method);
 
-			Right._Instance = nullptr;
 			Right._Method = nullptr;
 		}
 		return *this;
 	}
 	
 	template<Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
-	inline ReturnType Function<ReturnType(Type::*)(Args...)>::operator()(Args ...Parameters) const
+	inline ReturnType Function<ReturnType(Type::*)(Args...)>::operator()(Type& Instance, Args ...Parameters) const
 	{
-		return (_Instance->*_Method)(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+		return (Instance.*_Method)(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
 	}
 
 	/// <summary>

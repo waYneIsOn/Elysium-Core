@@ -46,34 +46,34 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		using ConstSymbolPointer = const S*;
 	public:
-		HuffmanTree();
+		constexpr HuffmanTree();
 
-		HuffmanTree(const HuffmanTree& Source) = delete;
+		constexpr HuffmanTree(const HuffmanTree& Source) = delete;
 
-		HuffmanTree(HuffmanTree&& Right) noexcept = delete;
+		constexpr HuffmanTree(HuffmanTree&& Right) noexcept = delete;
 
-		~HuffmanTree();
+		constexpr ~HuffmanTree();
 	public:
-		HuffmanTree& operator=(const HuffmanTree& Source) = delete;
+		constexpr HuffmanTree& operator=(const HuffmanTree& Source) = delete;
 
-		HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
+		constexpr HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
 	public:
-		static HuffmanTree<S, F> Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length);
+		static const HuffmanTree<S, F> Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length);
 	private:
 		Node _Root;
 	};
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>::HuffmanTree()
+	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>::HuffmanTree()
 		: _Root()
 	{ }
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>::~HuffmanTree()
+	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>::~HuffmanTree()
 	{ }
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	inline Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F> HuffmanTree<S, F>::Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length)
+	inline const Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F> HuffmanTree<S, F>::Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length)
 	{
 		// count occurrences for each symbol
 		constexpr const F OccurrencesLength = Elysium::Core::Template::Numeric::NumericTraits<S>::Maximum + 1;

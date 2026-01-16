@@ -112,6 +112,10 @@ Elysium::Core::byte Elysium::Core::Net::Sockets::NetworkStream::ReadByte()
 {
 	byte Buffer;
 	Elysium::Core::size BytesRead = _Socket.Receive(&Buffer, 1);
+	if(0 == BytesRead)
+	{	// @ToDo: endofstreamexception???
+		bool sdf = false;
+	}
 
 	return static_cast<int32_t>(Buffer);
 }

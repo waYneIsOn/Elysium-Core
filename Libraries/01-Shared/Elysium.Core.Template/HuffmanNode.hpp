@@ -30,17 +30,17 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	{
 		friend class HuffmanTree<S, F>;
 	public:
-		HuffmanNode(const S Symbol = 0x00, const F Frequency = 0, const bool IsInternalNode = false);
+		constexpr HuffmanNode(const S Symbol = 0x00, const F Frequency = 0, const bool IsInternalNode = false);
 
-		HuffmanNode(const HuffmanNode& Source) = delete;
+		constexpr HuffmanNode(const HuffmanNode& Source) = delete;
 
-		HuffmanNode(HuffmanNode&& Right) noexcept = delete;
+		constexpr HuffmanNode(HuffmanNode&& Right) noexcept = delete;
 
-		~HuffmanNode();
+		constexpr ~HuffmanNode();
 	public:
-		HuffmanNode& operator=(const HuffmanNode& Source) = delete;
+		constexpr HuffmanNode& operator=(const HuffmanNode& Source) = delete;
 
-		HuffmanNode& operator=(HuffmanNode&& Right) noexcept = delete;
+		constexpr HuffmanNode& operator=(HuffmanNode&& Right) noexcept = delete;
 	public:
 
 	private:
@@ -53,12 +53,12 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	};
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::HuffmanNode(const S Symbol, const F Frequency, const bool IsInternalNode)
+	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::HuffmanNode(const S Symbol, const F Frequency, const bool IsInternalNode)
 		: _Symbol(Symbol), _Frequency(Frequency), _IsInternalNode(IsInternalNode), _Left(nullptr), _Right(nullptr)
 	{ }
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::~HuffmanNode()
+	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::~HuffmanNode()
 	{ }
 }
 #endif

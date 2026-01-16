@@ -20,12 +20,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IntegerSequence.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_MAKEINTEGERSEQUENCE
+#include "__MakeIntegerSequence.hpp"
+#endif
+
 namespace Elysium::Core::Template::Utility
 {
 	template<Elysium::Core::Template::System::size... Indices>
 	using IndexSequence = Elysium::Core::Template::Utility::IntegerSequence<Elysium::Core::Template::System::size, Indices...>;
 
 	template<Elysium::Core::Template::System::size Length>
-	using MakeIndexSequence = MakeIntegerSequence<Elysium::Core::Template::System::size, Length>;
+	using MakeIndexSequence = Elysium::Core::Template::Utility::MakeIntegerSequence<Elysium::Core::Template::System::size, Length>;
 }
 #endif

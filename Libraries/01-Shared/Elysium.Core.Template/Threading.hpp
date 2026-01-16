@@ -48,6 +48,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "EventWaitHandle.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_FIBER
+#include "Threading/Fiber.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MANUALRESETEVENT
 #include "ManualResetEvent.hpp"
 #endif
@@ -70,6 +74,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREAD
 #include "Threading/Thread.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREADPOOL
+#include "Threading/ThreadPool.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
