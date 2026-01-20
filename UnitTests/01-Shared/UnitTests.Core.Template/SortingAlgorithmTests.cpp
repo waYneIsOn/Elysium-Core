@@ -20,7 +20,7 @@ namespace UnitTests::Core::Template::Algorithms
 	{
 		bool operator()(const T<T1, T2>& Value1, const T<T1, T2>& Value2) const
 		{
-			return Value1.GetItem1() > Value2.GetItem1();
+			return Value1.GetFirst() > Value2.GetFirst();
 		}
 	};
 
@@ -29,7 +29,7 @@ namespace UnitTests::Core::Template::Algorithms
 	{
 		bool operator()(const T<T1, T2>& Value1, const T<T1, T2>& Value2) const
 		{
-			return Value1.GetItem2() < Value2.GetItem2();
+			return Value1.GetAt<1>() < Value2.GetAt<1>();
 		}
 	};
 
@@ -72,17 +72,17 @@ namespace UnitTests::Core::Template::Algorithms
 			Tuple2Item1Greater<Tuple, int, int> Comparer1 = Tuple2Item1Greater<Tuple, int, int>();
 			BubbleSort(&UnsortedData[0], 3, Comparer1);
 
-			Assert::AreEqual(-5, UnsortedData[0].GetItem1());
-			Assert::AreEqual(3, UnsortedData[1].GetItem1());
-			Assert::AreEqual(21, UnsortedData[2].GetItem1());
+			Assert::AreEqual(-5, UnsortedData[0].GetFirst());
+			Assert::AreEqual(3, UnsortedData[1].GetFirst());
+			Assert::AreEqual(21, UnsortedData[2].GetFirst());
 
 			// sort by item2 descending
 			Tuple2Item2Less<Tuple, int, int> Comparer2 = Tuple2Item2Less<Tuple, int, int>();
 			BubbleSort(&UnsortedData[0], &UnsortedData[2], Comparer2);
 
-			Assert::AreEqual(67, UnsortedData[0].GetItem2());
-			Assert::AreEqual(9, UnsortedData[1].GetItem2());
-			Assert::AreEqual(5, UnsortedData[2].GetItem2());
+			Assert::AreEqual(67, UnsortedData[0].GetAt<1>());
+			Assert::AreEqual(9, UnsortedData[1].GetAt<1>());
+			Assert::AreEqual(5, UnsortedData[2].GetAt<1>());
 		}
 
 		TEST_METHOD(QuickSortBytes)

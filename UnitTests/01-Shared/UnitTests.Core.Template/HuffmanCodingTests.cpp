@@ -22,7 +22,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 			HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t> Tree =
 				HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>::Build(Input, InputLength);
-
+			
 			Assert::Fail();
 		}
 	private:

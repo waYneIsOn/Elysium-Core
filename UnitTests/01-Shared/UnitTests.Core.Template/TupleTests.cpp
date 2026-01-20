@@ -13,10 +13,23 @@ namespace UnitTests::Core::Template::Container
 	TEST_CLASS(TupleTests)
 	{
 	public:
+		/*
+		TEST_METHOD(ConstTupleTest)
+		{
+			constexpr const Tuple<int, bool, char, uint16_t> Instance = Tuple<int, bool, char, uint16_t>
+				(21, false, 'x', 47);
+
+			//int& FirstItem = Instance.GetFirst();
+
+			// @ToDo: left values, right values etc.
+			Assert::Fail();
+		}
+		*/
 		TEST_METHOD(Tuple1Test)
 		{
 			Tuple<int> Instance = Tuple<int>(13);
-			int& Item1 = Instance.GetItem1();
+			
+			int& Item1 = Instance.GetFirst();
 
 			Assert::AreEqual(13, Item1);
 
@@ -27,8 +40,9 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(Tuple2Test)
 		{
 			Tuple<int, int> Instance = Tuple<int, int>(13, 25);
-			int& Item1 = Instance.GetItem1();
-			int& Item2 = Instance.GetItem2();
+			
+			int& Item1 = Instance.GetFirst();
+			int& Item2 = Instance.GetAt<1>();
 
 			Assert::AreEqual(13, Item1);
 			Assert::AreEqual(25, Item2);
@@ -40,9 +54,10 @@ namespace UnitTests::Core::Template::Container
 		TEST_METHOD(Tuple3Test)
 		{
 			Tuple<int, int, int> Instance = Tuple<int, int, int>(13, 25, -5);
-			int& Item1 = Instance.GetItem1();
-			int& Item2 = Instance.GetItem2();
-			int& Item3 = Instance.GetItem3();
+			
+			int& Item1 = Instance.GetFirst();
+			int& Item2 = Instance.GetAt<1>();
+			int& Item3 = Instance.GetAt<2>();
 
 			Assert::AreEqual(13, Item1);
 			Assert::AreEqual(25, Item2);

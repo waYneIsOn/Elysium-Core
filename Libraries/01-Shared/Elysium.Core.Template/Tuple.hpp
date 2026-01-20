@@ -33,8 +33,8 @@ namespace Elysium::Core::Template::Container
 	/// <summary>
 	/// 
 	/// </summary>
-	/// <typeparam name="...TRest"></typeparam>
-	template <Concepts::MoveAssignableAndConstructible ...TRest>
+	/// <typeparam name="...Args"></typeparam>
+	template <Concepts::MoveAssignableAndConstructible ...Args>
 	class Tuple;
 
 	/// <summary>
@@ -52,9 +52,9 @@ namespace Elysium::Core::Template::Container
 
 		constexpr ~Tuple() = default;
 	public:
-		Tuple<>& operator=(const Tuple<>& Source) = default;
+		constexpr Tuple<>& operator=(const Tuple<>& Source) = default;
 
-		Tuple<>& operator=(Tuple<>&& Right) noexcept = default;
+		constexpr Tuple<>& operator=(Tuple<>&& Right) noexcept = default;
 	public:
 		inline static constexpr const Elysium::Core::Template::System::size NumberOfElements = 0;
 	};
@@ -79,16 +79,22 @@ namespace Elysium::Core::Template::Container
 
 		constexpr ~Tuple() = default;
 	public:
-		Tuple<First, Rest...>& operator=(const Tuple<First, Rest...>& Source) = default;
+		constexpr Tuple<First, Rest...>& operator=(const Tuple<First, Rest...>& Source) = default;
 
-		Tuple<First, Rest...>& operator=(Tuple<First, Rest...>&& Right) noexcept = default;
+		constexpr Tuple<First, Rest...>& operator=(Tuple<First, Rest...>&& Right) noexcept = default;
 	public:
 		inline static constexpr const Elysium::Core::Template::System::size NumberOfElements = 1 + sizeof...(Rest);
 	public:
-		First& GetFirst() noexcept;
+		constexpr First& GetFirst() noexcept;
 
-		const First& GetFirst() const noexcept;
-	private:
+		constexpr const First& GetFirst() const noexcept;
+	public:
+		template<Elysium::Core::Template::System::size I>
+		auto& GetAt();
+
+		template<Elysium::Core::Template::System::size I>
+		auto& GetAt() const;
+	public:
 		First _Element;
 	};
 
@@ -99,15 +105,45 @@ namespace Elysium::Core::Template::Container
 	{ }
 
 	template<class First, class ...Rest>
-	inline First& Tuple<First, Rest...>::GetFirst() noexcept
+	inline constexpr First& Tuple<First, Rest...>::GetFirst() noexcept
 	{
 		return _Element;
 	}
 
 	template<class First, class ...Rest>
-	inline const First& Tuple<First, Rest...>::GetFirst() const noexcept
+	inline constexpr const First& Tuple<First, Rest...>::GetFirst() const noexcept
 	{
 		return _Element;
+	}
+
+	template<class First, class ...Rest>
+	template<Elysium::Core::Template::System::size I>
+	inline auto& Tuple<First, Rest...>::GetAt()
+	{
+		if constexpr (I == 0) 
+		{
+			return _Element;
+		}
+		else 
+		{
+			Tuple<Rest...>& RemainingTuple = *this;
+			return RemainingTuple.template GetAt<I - 1>();
+		}
+	}
+
+	template<class First, class ...Rest>
+	template<Elysium::Core::Template::System::size I>
+	inline auto& Tuple<First, Rest...>::GetAt() const
+	{
+		if constexpr (I == 0)
+		{
+			return _Element;
+		}
+		else
+		{
+			const Tuple<Rest...>& RemainingTuple = *this;
+			return RemainingTuple.template GetAt<I - 1>();
+		}
 	}
 }
 #endif

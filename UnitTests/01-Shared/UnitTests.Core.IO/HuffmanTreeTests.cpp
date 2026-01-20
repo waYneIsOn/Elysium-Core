@@ -22,7 +22,7 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 	{
 		bool operator()(const T<T1, T2>& Value1, const T<T1, T2>& Value2) const
 		{
-			return Value1.GetItem2() > Value2.GetItem2();
+			return Value1.GetAt<1>() > Value2.GetAt<1>();
 		}
 	};
 
@@ -253,12 +253,12 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 				Tuple<char8_t, int32_t>(0xF8, 0), Tuple<char8_t, int32_t>(0xF9, 0), Tuple<char8_t, int32_t>(0xFA, 0), Tuple<char8_t, int32_t>(0xFB, 0),
 				Tuple<char8_t, int32_t>(0xFC, 0), Tuple<char8_t, int32_t>(0xFD, 0), Tuple<char8_t, int32_t>(0xFE, 0), Tuple<char8_t, int32_t>(0xFF, 0),
 			};
-
+			
 			Elysium::Core::Utf8String Input = u8">This is some< test הצ?`ßהצü.";
 			for (Elysium::Core::size i = 0; i < Input.GetLength(); i++)
 			{
 				Elysium::Core::byte CurrentByte = Input[i];
-				SymbolFrequencies[CurrentByte].GetItem2()++;
+				SymbolFrequencies[CurrentByte].GetAt<1>()++;
 			}
 
 			TupleSymbolFrequencyComparer<Tuple, char8_t, int32_t> Comparer = TupleSymbolFrequencyComparer<Tuple, char8_t, int32_t>();
@@ -267,7 +267,7 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 			Elysium::Core::size FirstSymbolWithFrequency = -1;
 			for (Elysium::Core::size i = 0; i < 255; i++)
 			{
-				if (SymbolFrequencies[i].GetItem2() > 0)
+				if (SymbolFrequencies[i].GetAt<1>() > 0)
 				{
 					FirstSymbolWithFrequency = i;
 					break;
@@ -278,7 +278,6 @@ namespace UnitTests::Core::IO::Compression::HuffmanCoding
 			{
 				Assert::Fail(L"No symbols with frequency found. Input must have been empty.");
 			}
-
 
 
 
