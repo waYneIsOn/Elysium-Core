@@ -88,7 +88,23 @@ namespace Elysium::Core::Template::Threading
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		template <class FunctionType, class... Args>
 		static DWORD StartInternally(void* Parameters) noexcept;
-		
+
+		/// <summary>
+		/// Invokes given parameterless function.
+		/// </summary>
+		/// <typeparam name="FunctionType"></typeparam>
+		/// <param name="Tuple"></param>
+		template <class FunctionType>
+		static void InvokeFunction(Elysium::Core::Template::Container::Tuple<FunctionType>& Tuple);
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <typeparam name="...Args"></typeparam>
+		/// <typeparam name="FunctionType"></typeparam>
+		/// <typeparam name="...Index"></typeparam>
+		/// <param name="Tuple"></param>
+		/// <param name=""></param>
 		template <class FunctionType, class... Args, Elysium::Core::Template::System::size... Index>
 		static void InvokeFunction(Elysium::Core::Template::Container::Tuple<FunctionType, Args...>& Tuple, Elysium::Core::Template::Utility::IndexSequence<Index...>);
 #endif
@@ -220,9 +236,27 @@ namespace Elysium::Core::Template::Threading
 		Tuple* RawInput = static_cast<Tuple*>(Parameters);
 		const Elysium::Core::Template::Memory::UniquePointer<Tuple> CleanUpInput = RawInput;
 		
-		InvokeFunction(*RawInput, Elysium::Core::Template::Utility::MakeIndexSequence<sizeof...(Args)>{});
+		if constexpr (sizeof...(Args) == 0)
+		{
+			InvokeFunction(*RawInput);
+		}
+		else if constexpr (sizeof...(Args) > 0)
+		{
+			InvokeFunction(*RawInput, Elysium::Core::Template::Utility::MakeIndexSequence<sizeof...(Args)>{});
+		}
+		else
+		{	// Shouldn't ever happen but make sure to force an error regardless!
+			static_assert(false, "Elysium::Core::Template::Threading::Thread::StartInternally(...): Negative number of parameters!");
+		}
 		
 		return 0;
+	}
+
+	template<class FunctionType>
+	inline void Thread::InvokeFunction(Elysium::Core::Template::Container::Tuple<FunctionType>& Tuple)
+	{
+		FunctionType& Function = Tuple.GetFirst();
+		Function();
 	}
 
 	template<class FunctionType, class ...Args, Elysium::Core::Template::System::size ...Index>

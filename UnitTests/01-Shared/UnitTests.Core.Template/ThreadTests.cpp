@@ -61,7 +61,7 @@ namespace UnitTests::Core::Template::Threading
 				Elysium::Core::Template::Container::Function FreeFunction = &Function;
 				Elysium::Core::Template::Container::Function FreeFunctionWithParams = &FunctionX;
 
-				//Thread0.Start(Elysium::Core::Template::Functional::Move(FreeFunction));
+				Thread0.Start(Elysium::Core::Template::Functional::Move(FreeFunction));
 				Thread1.Start(Elysium::Core::Template::Functional::Move(FreeFunctionWithParams), ">> free function with params\r\n");
 			}
 
@@ -73,7 +73,7 @@ namespace UnitTests::Core::Template::Threading
 				Elysium::Core::Template::Container::Function StaticMethod = &XY::StaticMethod;
 				Elysium::Core::Template::Container::Function StaticMethodWithParams = &XY::StaticMethodX;
 
-				//Thread0.Start(Elysium::Core::Template::Functional::Move(StaticMethod));
+				Thread0.Start(Elysium::Core::Template::Functional::Move(StaticMethod));
 				Thread1.Start(Elysium::Core::Template::Functional::Move(StaticMethodWithParams), ">> static method with params\r\n");
 			}
 
