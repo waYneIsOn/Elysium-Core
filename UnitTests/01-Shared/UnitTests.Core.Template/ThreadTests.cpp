@@ -32,12 +32,22 @@ namespace UnitTests::Core::Template::Threading
 			ThreadsafeLogger::WriteMessage(Text);
 		}
 	public:
-		inline void InstanceMethod()
+		inline void InstanceMethod() noexcept
 		{
 			ThreadsafeLogger::WriteMessage("parameterless instance method\r\n");
 		}
 
-		inline void InstanceMethodX(const char* Text)
+		inline void ConstInstanceMethod() const noexcept
+		{
+			ThreadsafeLogger::WriteMessage("const parameterless instance method\r\n");
+		}
+
+		inline void InstanceMethodX(const char* Text) noexcept
+		{
+			ThreadsafeLogger::WriteMessage(Text);
+		}
+
+		inline void ConstInstanceMethodX(const char* Text) const noexcept
 		{
 			ThreadsafeLogger::WriteMessage(Text);
 		}
@@ -57,7 +67,7 @@ namespace UnitTests::Core::Template::Threading
 				Elysium::Core::Template::Container::Function FreeFunctionWithParams = &FunctionX;
 
 				Thread0.Start(Elysium::Core::Template::Functional::Move(FreeFunction));
-				//Thread1.Start(Elysium::Core::Template::Functional::Move(FreeFunctionWithParams), ">> free function with params\r\n");
+				Thread1.Start(Elysium::Core::Template::Functional::Move(FreeFunctionWithParams), ">> free function with params\r\n");
 			}
 
 			// static methods
@@ -78,12 +88,32 @@ namespace UnitTests::Core::Template::Threading
 
 				Elysium::Core::Template::Threading::Thread Thread0 = Elysium::Core::Template::Threading::Thread();
 				Elysium::Core::Template::Threading::Thread Thread1 = Elysium::Core::Template::Threading::Thread();
+				Elysium::Core::Template::Threading::Thread Thread2 = Elysium::Core::Template::Threading::Thread();
+				Elysium::Core::Template::Threading::Thread Thread3 = Elysium::Core::Template::Threading::Thread();
 
 				Elysium::Core::Template::Container::Function InstanceMethod = &XY::InstanceMethod;
+				Elysium::Core::Template::Container::Function ConstInstanceMethod = &XY::ConstInstanceMethod;
 				Elysium::Core::Template::Container::Function InstanceMethodWithParams = &XY::InstanceMethodX;
+				Elysium::Core::Template::Container::Function ConstInstanceMethodWithParams = &XY::ConstInstanceMethodX;
 
-				//Thread0.Start(Elysium::Core::Template::Functional::Move(InstanceMethod), Instance);
-				//Thread1.Start(Elysium::Core::Template::Functional::Move(InstanceMethodWithParams), Instance, ">> instance method with params\r\n");
+				Thread0.Start(Elysium::Core::Template::Functional::Move(InstanceMethod), Instance);
+				//Thread1.Start(Elysium::Core::Template::Functional::Move(InstanceMethod), ConstInstanceMethod);
+				Thread2.Start(Elysium::Core::Template::Functional::Move(InstanceMethodWithParams), Instance, ">> instance method with params\r\n");
+				//Thread3.Start(Elysium::Core::Template::Functional::Move(ConstInstanceMethodWithParams), Instance, ">> const instance method with params\r\n");
+			}
+
+			// lambdas
+			{
+				Elysium::Core::Template::Threading::Thread Thread0 = Elysium::Core::Template::Threading::Thread();
+				Elysium::Core::Template::Threading::Thread Thread1 = Elysium::Core::Template::Threading::Thread();
+
+				Elysium::Core::Template::Container::Function Lambda0 = []() 
+					{ ThreadsafeLogger::WriteMessage("parameterless lambda\r\n"); };
+				Elysium::Core::Template::Container::Function Lambda1 = [](const char* Text)
+					{ ThreadsafeLogger::WriteMessage(Text); };
+
+				Thread0.Start(Elysium::Core::Template::Functional::Move(Lambda0));
+				Thread1.Start(Elysium::Core::Template::Functional::Move(Lambda1), ">> lambda with params\r\n");
 			}
 		}
 	};

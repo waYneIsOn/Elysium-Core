@@ -82,6 +82,9 @@ namespace Elysium::Core::Template::Threading
 		
 		template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
 		void Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>&& ThreadStart, Type& Instance, Args... Parameters);
+		
+		template <Elysium::Core::Template::Concepts::Lambda L, class... Args>
+		void Start(Elysium::Core::Template::Container::Function<L>&& ThreadStart, Args... Parameters);
 	public:
 		void Join();
 	private:
@@ -201,6 +204,26 @@ namespace Elysium::Core::Template::Threading
 		// https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread
 		_ThreadHandle = CreateThread(nullptr, 0,
 			&StartInternally<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)noexcept>, Type&, Args...>,
+			PackedParameters, 0, &_ThreadId);
+#endif
+	}
+
+	template <Elysium::Core::Template::Concepts::Lambda L, class... Args>
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<L>&& ThreadStart, Args... Parameters)
+	{
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		if (nullptr != _ThreadHandle)
+		{
+			return;
+		}
+
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<L>, Args...>;
+
+		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart),
+			Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+
+		_ThreadHandle = CreateThread(nullptr, 0,
+			&StartInternally<Elysium::Core::Template::Container::Function<L>, Args...>,
 			PackedParameters, 0, &_ThreadId);
 #endif
 	}
