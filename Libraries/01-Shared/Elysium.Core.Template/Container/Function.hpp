@@ -39,6 +39,9 @@ namespace Elysium::Core::Template::Container
 	class Function
 	{
 	public:
+		static constexpr bool IsConst = false;
+		static constexpr bool IsNoexcept = false;
+	public:
 		constexpr Function(const T& Input) noexcept = delete;
 
 		constexpr Function(const Function& Source) noexcept = delete;
@@ -62,6 +65,9 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType, Args...>>;
+	public:
+		static constexpr bool IsConst = false;
+		static constexpr bool IsNoexcept = false;
 	public:
 		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept;
 
@@ -133,6 +139,97 @@ namespace Elysium::Core::Template::Container
 	{
 		return _FunctionOrStaticMethod(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
 	}
+
+
+
+
+
+
+
+
+	
+	/// <summary>
+	/// Typesafe container for a function or static-method that is marked as noexcept.
+	/// </summary>
+	/// <typeparam name="ReturnType"></typeparam>
+	/// <typeparam name="...Args"></typeparam>
+	template <class ReturnType, class ...Args>
+	class Function<ReturnType(*)(Args...) noexcept>
+	{
+		friend class Elysium::Core::Template::Threading::Thread;
+		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType, Args...>>;
+	public:
+		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...)noexcept ) noexcept;
+
+		constexpr Function(const Function& Source) noexcept;
+
+		constexpr Function(Function&& Right) noexcept;
+
+		constexpr ~Function() noexcept = default;
+	public:
+		constexpr Function& operator=(const Function& Source) noexcept;
+
+		constexpr Function& operator=(Function&& Right) noexcept;
+	public:
+		constexpr const bool operator==(const Function& Other) noexcept = delete;
+
+		constexpr const bool operator!=(const Function& Other) noexcept = delete;
+	public:
+		ReturnType operator()(Args... Parameters) const noexcept;
+	private:
+		ReturnType(*_FunctionOrStaticMethod)(Args...) noexcept;
+	};
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Function<ReturnType(*)(Args...)noexcept>::Function(ReturnType(*FunctionOrStaticMethod)(Args...) noexcept) noexcept
+		: _FunctionOrStaticMethod(FunctionOrStaticMethod)
+	{ }
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Function<ReturnType(*)(Args...)noexcept>::Function(const Function& Source) noexcept
+		: _FunctionOrStaticMethod(Source._FunctionOrStaticMethod)
+	{ }
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Function<ReturnType(*)(Args...)noexcept>::Function(Function&& Right) noexcept
+		: _FunctionOrStaticMethod(nullptr)
+	{
+		*this = Elysium::Core::Template::Functional::Move(Right);
+	}
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Function<ReturnType(*)(Args...)noexcept>& Function<ReturnType(*)(Args...)noexcept>::operator=(const Function& Source) noexcept
+	{
+		if (this != &Source)
+		{
+			_FunctionOrStaticMethod = Source._FunctionOrStaticMethod;
+		}
+		return *this;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline constexpr Function<ReturnType(*)(Args...)noexcept>& Function<ReturnType(*)(Args...)noexcept>::operator=(Function&& Right) noexcept
+	{
+		if (this != &Right)
+		{
+			_FunctionOrStaticMethod = Elysium::Core::Template::Functional::Move(Right._FunctionOrStaticMethod);
+
+			Right._FunctionOrStaticMethod = nullptr;
+		}
+		return *this;
+	}
+
+	template<class ReturnType, class ...Args>
+	inline ReturnType Function<ReturnType(*)(Args...)noexcept>::operator()(Args ...Parameters) const noexcept
+	{
+		return _FunctionOrStaticMethod(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+	}
+	
+
+
+
+
+
 
 	/// <summary>
 	/// Typesafe container specialization for a lambda-expression.

@@ -78,10 +78,10 @@ namespace Elysium::Core::Template::Threading
 		static void Yield() noexcept;
 	public:
 		template <class... Args>
-		void Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters);
+		void Start(Elysium::Core::Template::Container::Function<void(*)(Args...) noexcept>&& ThreadStart, Args... Parameters);
 		
 		template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
-		void Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>&& ThreadStart, Type& Instance, Args... Parameters);
+		void Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>&& ThreadStart, Type& Instance, Args... Parameters);
 	public:
 		void Join();
 	private:
@@ -127,7 +127,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template <class... Args>
-	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters)
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(*)(Args...) noexcept>&& ThreadStart, Args... Parameters)
 	{
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		if (nullptr != _ThreadHandle)
@@ -146,19 +146,19 @@ namespace Elysium::Core::Template::Threading
 		* if it's unclear, what's happening here!
 		*/
 
-		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(*)(Args...)>, Args...>;
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(*)(Args...) noexcept>, Args...>;
 
 		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart),
 			Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
 
 		_ThreadHandle = CreateThread(nullptr, 0,
-			&StartInternally<Elysium::Core::Template::Container::Function<void(*)(Args...)>, Args...>,
+			&StartInternally<Elysium::Core::Template::Container::Function<void(*)(Args...)noexcept>, Args...>,
 			PackedParameters, 0, &_ThreadId);
 #endif
 	}
 
 	template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
-	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>&& ThreadStart, Type& Instance, Args... Parameters)
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>&& ThreadStart, Type& Instance, Args... Parameters)
 	{
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		if (nullptr != _ThreadHandle)
@@ -191,7 +191,7 @@ namespace Elysium::Core::Template::Threading
 		*		  StartInternally(...)'s responsibility to clean up that data.
 		*/
 
-		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>,
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>,
 			Type&, Args...>;
 
 		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart), 
@@ -200,7 +200,7 @@ namespace Elysium::Core::Template::Threading
 
 		// https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread
 		_ThreadHandle = CreateThread(nullptr, 0,
-			&StartInternally<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>, Type&, Args...>,
+			&StartInternally<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)noexcept>, Type&, Args...>,
 			PackedParameters, 0, &_ThreadId);
 #endif
 	}

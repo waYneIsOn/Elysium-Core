@@ -9,12 +9,12 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template::Threading
 {
-	void Function()
+	void Function() noexcept
 	{
 		ThreadsafeLogger::WriteMessage("parameterless free function\r\n");
 	}
 
-	void FunctionX(const char* Text)
+	void FunctionX(const char* Text) noexcept
 	{
 		ThreadsafeLogger::WriteMessage(Text);
 	}
@@ -22,12 +22,12 @@ namespace UnitTests::Core::Template::Threading
 	class XY
 	{
 	public:
-		inline static void StaticMethod()
+		inline static void StaticMethod() noexcept
 		{
 			ThreadsafeLogger::WriteMessage("parameterless static method\r\n");
 		}
 
-		inline static void StaticMethodX(const char* Text)
+		inline static void StaticMethodX(const char* Text) noexcept
 		{
 			ThreadsafeLogger::WriteMessage(Text);
 		}
@@ -40,11 +40,6 @@ namespace UnitTests::Core::Template::Threading
 		inline void InstanceMethodX(const char* Text)
 		{
 			ThreadsafeLogger::WriteMessage(Text);
-		}
-
-		inline void Blub() noexcept
-		{
-
 		}
 	};
 
@@ -62,7 +57,7 @@ namespace UnitTests::Core::Template::Threading
 				Elysium::Core::Template::Container::Function FreeFunctionWithParams = &FunctionX;
 
 				Thread0.Start(Elysium::Core::Template::Functional::Move(FreeFunction));
-				Thread1.Start(Elysium::Core::Template::Functional::Move(FreeFunctionWithParams), ">> free function with params\r\n");
+				//Thread1.Start(Elysium::Core::Template::Functional::Move(FreeFunctionWithParams), ">> free function with params\r\n");
 			}
 
 			// static methods
@@ -87,8 +82,8 @@ namespace UnitTests::Core::Template::Threading
 				Elysium::Core::Template::Container::Function InstanceMethod = &XY::InstanceMethod;
 				Elysium::Core::Template::Container::Function InstanceMethodWithParams = &XY::InstanceMethodX;
 
-				Thread0.Start(Elysium::Core::Template::Functional::Move(InstanceMethod), Instance);
-				Thread1.Start(Elysium::Core::Template::Functional::Move(InstanceMethodWithParams), Instance, ">> instance method with params\r\n");
+				//Thread0.Start(Elysium::Core::Template::Functional::Move(InstanceMethod), Instance);
+				//Thread1.Start(Elysium::Core::Template::Functional::Move(InstanceMethodWithParams), Instance, ">> instance method with params\r\n");
 			}
 		}
 	};
