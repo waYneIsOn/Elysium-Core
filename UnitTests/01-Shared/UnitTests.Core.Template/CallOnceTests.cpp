@@ -1,11 +1,10 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../UnitTestExtensions/ThreadsafeLogger.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/CallOnce.hpp"
-#include "../UnitTestExtensions/ThreadsafeLogger.hpp"
 
-#include <iostream>
 #include <thread>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

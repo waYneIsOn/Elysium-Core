@@ -156,7 +156,7 @@ void Elysium::Core::IO::FileSystemWatcher::EndInit()
 	// wait for running callbacks
 	while (0 < _RunningCallbacks)
 	{
-		Elysium::Core::Template::Threading::Thread::YieldX();
+		Elysium::Core::Template::Threading::Thread::Yield();
 	}
 	
 	// @ToDo: make sure this doesn't happen so I can remove this check

@@ -16,38 +16,54 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Container/Function.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
+#include "../Tuple.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_FORWARD
+#include "../Functional/Forward.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
+#include "../UniquePointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "../OperatingSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_INDEXSEQUENCE
+#include "../Utility/IndexSequence.hpp"
+#endif
+
+
 #ifdef ELYSIUM_CORE_OS_WINDOWS
-/*
-	#ifndef _WINDOWS_
-	#define _WINSOCKAPI_ // don't include winsock
-	#include <Windows.h>
+	#ifndef _INC_PROCESS
+	#include <process.h>
 	#endif
-*/
-	#ifndef _PROCESSTHREADSAPI_H_
-	#include <processthreadsapi.h>
-	#endif
+
+#undef Yield
 #else
 #error "unsupported os"
 #endif
+
+extern "C" 
+{
+	void __cdecl _Thrd_yield() noexcept;
+}
 
 namespace Elysium::Core::Template::Threading
 {
 	class Thread final
 	{
-	private:
-		constexpr Thread() noexcept;
 	public:
-		constexpr Thread(const Elysium::Core::Template::Container::Function<void(*)()>& ThreadStart) noexcept;
+		Thread() noexcept = default;
 
-		constexpr Thread(const Thread& Source) = delete;
+		Thread(const Thread& Source) = delete;
 
-		constexpr Thread(Thread&& Right) noexcept = delete;
+		Thread(Thread&& Right) noexcept = delete;
 
-		constexpr ~Thread() noexcept;
+		~Thread() noexcept;
 	public:
 		Thread& operator=(const Thread& Source) = delete;
 
@@ -59,56 +75,163 @@ namespace Elysium::Core::Template::Threading
 	public:
 		//static void Sleep(const TimeSpan& Timeout);
 
-		static void YieldX() noexcept;
+		static void Yield() noexcept;
+	public:
+		template <class... Args>
+		void Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters);
+		
+		template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
+		void Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>&& ThreadStart, Type& Instance, Args... Parameters);
+	public:
+		void Join();
 	private:
-		//static void ThreadMain();
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		template <class FunctionType, class... Args>
+		static DWORD StartInternally(void* Parameters) noexcept;
+		
+		template <class FunctionType, class... Args, Elysium::Core::Template::System::size... Index>
+		static void InvokeFunction(Elysium::Core::Template::Container::Tuple<FunctionType, Args...>& Tuple, Elysium::Core::Template::Utility::IndexSequence<Index...>);
+#endif
 	private:
-		void* _Instance;
-		void  (*_FunctionOrStaticMethod)();
+		unsigned long _ThreadId;
 
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _ThreadHandle;
 #endif
 	};
 
-	inline constexpr Thread::Thread() noexcept
-		: _Instance(nullptr), _FunctionOrStaticMethod(nullptr)
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-		, _ThreadHandle(INVALID_HANDLE_VALUE)
-#endif
-	{ }
-
-	inline constexpr Thread::Thread(const Elysium::Core::Template::Container::Function<void(*)()>&ThreadStart) noexcept
-		: _Instance(nullptr), _FunctionOrStaticMethod(ThreadStart._FunctionOrStaticMethod)
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-		, _ThreadHandle(INVALID_HANDLE_VALUE)
-#endif
-	{ }
-
-	inline constexpr Thread::~Thread() noexcept
+	inline Thread::~Thread() noexcept
 	{
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-		if (_ThreadHandle != INVALID_HANDLE_VALUE)
-		{
-
-		}
-#endif
-
-		_FunctionOrStaticMethod = nullptr;
-		_Instance = nullptr;
+		Join();
 	}
 
-	inline void Elysium::Core::Template::Threading::Thread::YieldX() noexcept
+	inline void Elysium::Core::Template::Threading::Thread::Yield() noexcept
 	{
-		BOOL Result = SwitchToThread();
-		if (0 != Result)
-		{
-			// call caused the operating system to switch execution to another thread
-		}
-		else
-		{
-			// no switch
-		}
+		_Thrd_yield();
 	}
+
+	template <class... Args>
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters)
+	{
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		if (nullptr != _ThreadHandle)
+		{
+			return;
+		}
+
+		if(nullptr == ThreadStart._FunctionOrStaticMethod)
+		{	// @ToDo:
+			throw 1;
+		}
+
+		/*
+		* As starting a thread from an instance method is slightly more complex than starting from a static method/free function
+		* in the way I have written my classes (Thread and Function), please read the comment in the other Thread::Start(...) method
+		* if it's unclear, what's happening here!
+		*/
+
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(*)(Args...)>, Args...>;
+
+		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart),
+			Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+
+		_ThreadHandle = CreateThread(nullptr, 0,
+			&StartInternally<Elysium::Core::Template::Container::Function<void(*)(Args...)>, Args...>,
+			PackedParameters, 0, &_ThreadId);
+#endif
+	}
+
+	template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>&& ThreadStart, Type& Instance, Args... Parameters)
+	{
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		if (nullptr != _ThreadHandle)
+		{
+			return;
+		}
+
+		if (nullptr == ThreadStart._Method)
+		{	// @ToDo:
+			throw 1;
+		}
+
+		/*
+		* Granted, I didn't have a lot of contiguous time working on this but looking at how long it took me to implement 
+		* this particular "setup", the time I spent clearly sheds a light on my current knowledge of templates (or the lack thereof), 
+		* meaning I should probably explain to my future self what's going on here ^^
+		* - CreateThread(...) expects a function like so: DWORD SomeFunction(void*)
+		* - I want to be able to use any function/static method like "void AnyFunction(WhateverArguments)" however.
+		* - Also I want to be able to use any member-method like "void MyClass::AnyMethod(WhateverArguments)".
+		* - To make up for the difference in return type and signatures, a wrapper/trampoline is required: StartInternally(...)!
+		* - It has the "correct" signature and input (function + args) for the OS to be used to start a thread and the
+		*	parameters - due to the "templated form" - inside of that static method can be used precisely as required.
+		* - Since this wrapper does neither know about the return type (even though it could bc of limiting it to void) and 
+		*	signature, nor the actual arguments, some consideration has to be taken about how to provide that input and make it usable:
+		*		- ALL input (function, optionally instance and parmeters) need to be stored in a single "package" so it makes sense
+		*		  to use Elysium::Core::Template::Container::Tuple<...> for it.
+		*		- The first parameter of that tuple - the functiopn - needs to be callable no matter the signature.
+		*		- Finally CreateThread(...) only tells the OS to start a thread but doesn't wait for that to actually happen.
+		*		  Hence given input (function and parameters) need to be stored on the heap meaning it's
+		*		  StartInternally(...)'s responsibility to clean up that data.
+		*/
+
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>,
+			Type&, Args...>;
+
+		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart), 
+			Elysium::Core::Template::Functional::Forward<Type&>(Instance),
+			Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+
+		// https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createthread
+		_ThreadHandle = CreateThread(nullptr, 0,
+			&StartInternally<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>, Type&, Args...>,
+			PackedParameters, 0, &_ThreadId);
+#endif
+	}
+
+	inline void Elysium::Core::Template::Threading::Thread::Join()
+	{
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+		if (nullptr != _ThreadHandle)
+		{
+			//terminate();
+			bool SignalReceived = WaitForSingleObject(_ThreadHandle, INFINITE) == WAIT_OBJECT_0;
+			_ThreadHandle = nullptr;
+		}
+#endif
+	}
+
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+	template<class FunctionType, class ...Args>
+	inline DWORD Thread::StartInternally(void* Parameters) noexcept
+	{
+		/*
+		* Tuple contains the following elements:
+		* - Elysium::Core::Template::Container::Function.
+		* - [OPTIONALLY] A pointer to the instance of the method that should be called.
+		* - All parameters required to call the underlying function.
+		*
+		* Since I'm using Elysium::Core::Template::Container::Tuple<...> to wrap these values, I need to invoke the function
+		* using a helper-function - Thread::InvokeFunction(...) - and an IndexSequence.
+		*/
+
+		using Tuple = Elysium::Core::Template::Container::Tuple<FunctionType, Args...>;
+
+		Tuple* RawInput = static_cast<Tuple*>(Parameters);
+		const Elysium::Core::Template::Memory::UniquePointer<Tuple> CleanUpInput = RawInput;
+		
+		InvokeFunction(*RawInput, Elysium::Core::Template::Utility::MakeIndexSequence<sizeof...(Args)>{});
+		
+		return 0;
+	}
+
+	template<class FunctionType, class ...Args, Elysium::Core::Template::System::size ...Index>
+	inline void Thread::InvokeFunction(Elysium::Core::Template::Container::Tuple<FunctionType, Args...>& Tuple,
+		Elysium::Core::Template::Utility::IndexSequence<Index...>)
+	{
+		FunctionType& Function = Tuple.GetFirst();
+		Function(Tuple.GetAt<Index + 1>()...);
+	}
+#endif
 }
 #endif

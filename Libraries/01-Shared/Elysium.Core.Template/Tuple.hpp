@@ -89,11 +89,11 @@ namespace Elysium::Core::Template::Container
 
 		constexpr const First& GetFirst() const noexcept;
 	public:
-		template<Elysium::Core::Template::System::size I>
+		template<Elysium::Core::Template::System::size Index>
 		auto& GetAt();
-
-		template<Elysium::Core::Template::System::size I>
-		auto& GetAt() const;
+		
+		template<Elysium::Core::Template::System::size Index>
+		const auto& GetAt() const;
 	public:
 		First _Element;
 	};
@@ -117,32 +117,40 @@ namespace Elysium::Core::Template::Container
 	}
 
 	template<class First, class ...Rest>
-	template<Elysium::Core::Template::System::size I>
+	template<Elysium::Core::Template::System::size Index>
 	inline auto& Tuple<First, Rest...>::GetAt()
 	{
-		if constexpr (I == 0) 
+		if constexpr (NumberOfElements < Index)
+		{
+			static_assert(false, "Elysium::Core::Template::Container::Tuple<...>::GetAt(): Index out of range!");
+		}
+		else if constexpr (Index == 0)
 		{
 			return _Element;
 		}
-		else 
+		else
 		{
 			Tuple<Rest...>& RemainingTuple = *this;
-			return RemainingTuple.template GetAt<I - 1>();
+			return RemainingTuple.template GetAt<Index - 1>();
 		}
 	}
-
+	
 	template<class First, class ...Rest>
-	template<Elysium::Core::Template::System::size I>
-	inline auto& Tuple<First, Rest...>::GetAt() const
+	template<Elysium::Core::Template::System::size Index>
+	inline const auto& Tuple<First, Rest...>::GetAt() const
 	{
-		if constexpr (I == 0)
+		if constexpr (NumberOfElements < Index)
+		{
+			static_assert(false, "Elysium::Core::Template::Container::Tuple<...>::GetAt() const: Index out of range!");
+		}
+		else if constexpr (Index == 0)
 		{
 			return _Element;
 		}
 		else
 		{
 			const Tuple<Rest...>& RemainingTuple = *this;
-			return RemainingTuple.template GetAt<I - 1>();
+			return RemainingTuple.template GetAt<Index - 1>();
 		}
 	}
 }
