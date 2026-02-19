@@ -132,6 +132,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsMoveConstructible.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWINVOCABLE
+#include "TypeTraits/IsNoThrowInvocable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWDEFAULTCONSTRUCTIBLE
 #include "IsNothrowDefaultConstructible.hpp"
 #endif
