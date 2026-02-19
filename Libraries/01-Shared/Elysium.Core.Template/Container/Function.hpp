@@ -69,6 +69,13 @@ namespace Elysium::Core::Template::Container
 	public:
 		using Pointer = ReturnType(*)(Args...);
 	public:
+		inline static constexpr const bool IsMemberFunction = false;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -115,6 +122,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(*)(Args...) noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = false;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...) noexcept) noexcept;
 
@@ -165,6 +179,13 @@ namespace Elysium::Core::Template::Container
 		friend class Elysium::Core::Template::Threading::Thread;
 		//friend class Elysium::Core::Template::Container::Vector<Function<ReturnType(Type::*)(Args...)>>;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...)) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -209,6 +230,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...)&>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...)&) noexcept;
 
@@ -255,6 +283,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...)&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -299,6 +334,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) noexcept) noexcept;
 
@@ -345,6 +387,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...)& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -389,6 +438,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) && noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...)&& noexcept) noexcept;
 
@@ -435,6 +491,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -479,6 +542,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) const&>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const&) noexcept;
 
@@ -525,6 +595,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -569,6 +646,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) const noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const noexcept) noexcept;
 
@@ -615,6 +699,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = true1;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -659,6 +750,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) const&& noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = false;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const&& noexcept) noexcept;
 
@@ -705,6 +803,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -749,6 +854,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) volatile&>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile&) noexcept;
 
@@ -795,6 +907,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -839,6 +958,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) volatile noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile noexcept) noexcept;
 
@@ -885,6 +1011,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -929,6 +1062,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) volatile&& noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = false;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile&& noexcept) noexcept;
 
@@ -975,6 +1115,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1019,6 +1166,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) const volatile&>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile&) noexcept;
 
@@ -1065,6 +1219,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = false;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1109,6 +1270,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) const volatile noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile noexcept) noexcept;
 
@@ -1155,6 +1323,13 @@ namespace Elysium::Core::Template::Container
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
 	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = true;
+		inline static constexpr const bool IsRValue = false;
+		inline static constexpr const bool IsNoThrowInvocable = true;
+	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1199,6 +1374,13 @@ namespace Elysium::Core::Template::Container
 	class Function<ReturnType(Type::*)(Args...) const volatile&& noexcept>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
+	public:
+		inline static constexpr const bool IsMemberFunction = true;
+		inline static constexpr const bool IsConst = true;
+		inline static constexpr const bool IsVolatile = true;
+		inline static constexpr const bool IsLValue = false;
+		inline static constexpr const bool IsRValue = true;
+		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile&& noexcept) noexcept;
 
