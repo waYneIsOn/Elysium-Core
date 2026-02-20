@@ -232,11 +232,11 @@ namespace UnitTests::Core::Template::Container
 			Function InstanceConstVolatileNoexceptDelegate = &ExampleClass::InstanceConstVolatileNoexcept;
 			Function InstanceConstVolatileLValueNoexceptDelegate = &ExampleClass::InstanceConstVolatileLValueNoexcept;
 			Function InstanceConstVolatileRValueNoexceptDelegate = &ExampleClass::InstanceConstVolatileRValueNoexcept;
-
+			
 			Function LambdaDelegate0 = Lambda;	// will use ctor(const L&)
 			Function LambdaDelegate1 = 
 				[](const char* Input) -> void { std::cout << "Lambda(" << Input << ")" << std::endl; }; // will use ctor(L&&)
-
+			
 			// ...
 			GlobalFunctionDelegate("GlobalFunction Input");
 			GlobalNoexceptDelegate("GlobalNoexcept Input");

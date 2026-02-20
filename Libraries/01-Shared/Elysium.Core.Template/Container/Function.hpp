@@ -702,7 +702,7 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsMemberFunction = true;
 		inline static constexpr const bool IsConst = true;
 		inline static constexpr const bool IsVolatile = false;
-		inline static constexpr const bool IsLValue = true1;
+		inline static constexpr const bool IsLValue = true;
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
@@ -1415,13 +1415,14 @@ namespace Elysium::Core::Template::Container
 	{
 		return (Elysium::Core::Template::Functional::Move(Instance).*_Method)(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
 	}
-
+	
 	/// <summary>
 	/// Typesafe container specialization for a lambda-expression.
 	/// </summary>
 	/// <typeparam name="ReturnType"></typeparam>
 	/// <typeparam name="...Args"></typeparam>
-	template <Elysium::Core::Template::Concepts::Lambda L>
+	template <class L>
+		requires Elysium::Core::Template::Concepts::Lambda<L>
 	class Function<L>
 	{
 		friend class Elysium::Core::Template::Threading::Thread;
@@ -1430,9 +1431,13 @@ namespace Elysium::Core::Template::Container
 		//using ReturnType = decltype(L);
 		//using Args... = const char*;
 	public:
-		constexpr Function(const L& LambdaExpression) noexcept;
+		constexpr Function(const L& LambdaExpression) noexcept
+			: _LambdaExpression(LambdaExpression)
+		{ }
 
-		constexpr Function(L&& LambdaExpression) noexcept;
+		constexpr Function(L&& LambdaExpression) noexcept
+			: _LambdaExpression(Elysium::Core::Template::Functional::Forward<L>(LambdaExpression))
+		{ }
 
 		constexpr Function(const Function& Source) noexcept = default;
 
@@ -1449,28 +1454,14 @@ namespace Elysium::Core::Template::Container
 		constexpr const bool operator!=(const Function& Other) noexcept = delete;
 	public:
 		template <class... Args>
-		decltype(auto) operator()(Args&&... Parameters);
+		decltype(auto) operator()(Args&&... Parameters)
+		{
+			return _LambdaExpression(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+		}
 	private:
 		L _LambdaExpression;
 	};
 
-	template<Elysium::Core::Template::Concepts::Lambda L>
-	inline constexpr Function<L>::Function(const L& LambdaExpression) noexcept
-		: _LambdaExpression(LambdaExpression)
-	{ }
-
-	template<Elysium::Core::Template::Concepts::Lambda L>
-	inline constexpr Function<L>::Function(L&& LambdaExpression) noexcept
-		: _LambdaExpression(Elysium::Core::Template::Functional::Forward<L>(LambdaExpression))
-	{ }
-
-	template<Elysium::Core::Template::Concepts::Lambda L>
-	template<typename ...Args>
-	inline decltype(auto) Function<L>::operator()(Args && ...Parameters)
-	{
-		return _LambdaExpression(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
-	}
-	
 	/// <summary>
 	/// Template deduction guide for an instance-method.
 	/// </summary>
