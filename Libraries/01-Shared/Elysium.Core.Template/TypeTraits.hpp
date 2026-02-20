@@ -68,6 +68,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsClass.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCOMPLETELYDEFINED
+#include "TypeTraits/IsCompletelyDefined.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
 #include "IsConstant.hpp"
 #endif

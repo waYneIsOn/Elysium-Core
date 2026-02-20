@@ -812,6 +812,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsNoThrowInvocable.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCompletelyDefined.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

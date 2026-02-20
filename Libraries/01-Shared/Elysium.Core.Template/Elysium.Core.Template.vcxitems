@@ -73,6 +73,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCompletelyDefined.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsDerivedFrom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFlagEnumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsLambda.hpp" />
