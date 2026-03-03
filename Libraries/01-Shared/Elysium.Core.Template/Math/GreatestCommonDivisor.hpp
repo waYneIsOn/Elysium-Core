@@ -29,7 +29,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
-#include "../Compiler.hpp"
+#include "../System/Compiler.hpp"
 #endif
 
 namespace Elysium::Core::Template::Math

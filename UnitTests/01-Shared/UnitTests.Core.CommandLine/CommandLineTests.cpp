@@ -6,7 +6,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/Option.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.CommandLine/RootCommand.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 
 using namespace Elysium::Core::CommandLine;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

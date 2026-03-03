@@ -144,7 +144,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)AsyncResult.cpp">
       <Filter>Internal</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Module.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />

@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Literals.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Literals.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Memory/Scoped/Arena.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

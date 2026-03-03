@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "../Elysium.Core.Template/System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::CommandLine

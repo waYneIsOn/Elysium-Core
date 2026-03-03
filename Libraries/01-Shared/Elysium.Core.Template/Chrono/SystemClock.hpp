@@ -33,9 +33,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+/*
     #ifndef _SYSINFOAPI_H_
     #include <sysinfoapi.h>
     #endif
+*/
 #else
 #error "unsupported os"
 #endif

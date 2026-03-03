@@ -40,8 +40,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "TimeSpan.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CHRONO
-#include "../Elysium.Core.Template/Chrono.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_SYSTEMCLOCK
+#include "../Elysium.Core.Template/Chrono/SystemClock.hpp"
+//import Elysium.Core.Template.Chrono;
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE

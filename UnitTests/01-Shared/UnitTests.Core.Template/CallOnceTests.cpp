@@ -4,8 +4,7 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/CallOnce.hpp"
-
-#include <thread>
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Thread.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -16,21 +15,35 @@ namespace UnitTests::Core::Template::Threading
 	public:
 		TEST_METHOD(SimpleTest)
 		{
-			std::thread SimpleThread0(CallOnceTests::SimpleDoOnce);
-			std::thread SimpleThread1(CallOnceTests::SimpleDoOnce);
+			//Elysium::Core::Template::Threading::Thread SimpleThread0(CallOnceTests::SimpleDoOnce);
+			//Elysium::Core::Template::Threading::Thread SimpleThread1(CallOnceTests::SimpleDoOnce);
+			Elysium::Core::Template::Threading::Thread SimpleThread0;
+			Elysium::Core::Template::Threading::Thread SimpleThread1;
 
-			SimpleThread0.join();
-			SimpleThread1.join();
+			SimpleThread0.Start(Elysium::Core::Template::Container::Function(&CallOnceTests::SimpleDoOnce));
+			SimpleThread0.Start(Elysium::Core::Template::Container::Function(&CallOnceTests::SimpleDoOnce));
 			
-			std::thread Thread0(CallOnceTests::DoOnce, true);
-			std::thread Thread1(CallOnceTests::DoOnce, true);
-			std::thread Thread2(CallOnceTests::DoOnce, false);
-			std::thread Thread3(CallOnceTests::DoOnce, true);
+			SimpleThread0.Join();
+			SimpleThread1.Join();
 
-			Thread0.join();
-			Thread1.join();
-			Thread2.join();
-			Thread3.join();
+			//Elysium::Core::Template::Threading::Thread Thread0(CallOnceTests::DoOnce, true);
+			//Elysium::Core::Template::Threading::Thread Thread1(CallOnceTests::DoOnce, true);
+			//Elysium::Core::Template::Threading::Thread Thread2(CallOnceTests::DoOnce, false);
+			//Elysium::Core::Template::Threading::Thread Thread3(CallOnceTests::DoOnce, true);
+			Elysium::Core::Template::Threading::Thread Thread0;
+			Elysium::Core::Template::Threading::Thread Thread1;
+			Elysium::Core::Template::Threading::Thread Thread2;
+			Elysium::Core::Template::Threading::Thread Thread3;
+
+			Thread0.Start(Elysium::Core::Template::Container::Function(&CallOnceTests::DoOnce), true);
+			Thread1.Start(Elysium::Core::Template::Container::Function(&CallOnceTests::DoOnce), true);
+			Thread2.Start(Elysium::Core::Template::Container::Function(&CallOnceTests::DoOnce), false);
+			Thread3.Start(Elysium::Core::Template::Container::Function(&CallOnceTests::DoOnce), true);
+
+			Thread0.Join();
+			Thread1.Join();
+			Thread2.Join();
+			Thread3.Join();
 		}
 	private:
 		static void SimpleDoOnce()

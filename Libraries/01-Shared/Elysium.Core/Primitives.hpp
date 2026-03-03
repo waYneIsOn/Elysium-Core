@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
-#include "../Elysium.Core.Template/Literals.hpp"
+#include "../Elysium.Core.Template/System/Literals.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "../Elysium.Core.Template/System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core

@@ -77,11 +77,19 @@ namespace Elysium::Core::Template::Threading
 
 		static void Yield() noexcept;
 	public:
+		/*
+		template <class F, class... Args>
+			requires Elysium::Core::Template::Concepts::Something<T>
+		void Start(F&& Function, Args&& Parameters)
+		{
+
+		}
+		*/
 		template <class... Args>
-		void Start(Elysium::Core::Template::Container::Function<void(*)(Args...) noexcept>&& ThreadStart, Args... Parameters);
+		void Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters);
 		
 		template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
-		void Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>&& ThreadStart, Type& Instance, Args... Parameters);
+		void Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>&& ThreadStart, Type& Instance, Args... Parameters);
 		
 		template <Elysium::Core::Template::Concepts::Lambda L, class... Args>
 		void Start(Elysium::Core::Template::Container::Function<L>&& ThreadStart, Args... Parameters);
@@ -130,7 +138,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template <class... Args>
-	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(*)(Args...) noexcept>&& ThreadStart, Args... Parameters)
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters)
 	{
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		if (nullptr != _ThreadHandle)
@@ -149,7 +157,7 @@ namespace Elysium::Core::Template::Threading
 		* if it's unclear, what's happening here!
 		*/
 
-		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(*)(Args...) noexcept>, Args...>;
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(*)(Args...)>, Args...>;
 
 		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart),
 			Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
@@ -161,7 +169,7 @@ namespace Elysium::Core::Template::Threading
 	}
 
 	template <Elysium::Core::Template::Concepts::CompositeType Type, class ...Args>
-	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>&& ThreadStart, Type& Instance, Args... Parameters)
+	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>&& ThreadStart, Type& Instance, Args... Parameters)
 	{
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		if (nullptr != _ThreadHandle)
@@ -194,7 +202,7 @@ namespace Elysium::Core::Template::Threading
 		*		  StartInternally(...)'s responsibility to clean up that data.
 		*/
 
-		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(Type::*)(Args...) noexcept>,
+		using Tuple = Elysium::Core::Template::Container::Tuple<Elysium::Core::Template::Container::Function<void(Type::*)(Args...)>,
 			Type&, Args...>;
 
 		Tuple* PackedParameters = new Tuple(Elysium::Core::Template::Functional::Move(ThreadStart), 

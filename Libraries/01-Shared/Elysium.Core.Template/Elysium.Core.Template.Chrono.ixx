@@ -1,17 +1,9 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.Chrono;
 
-Copyright (c) waYne (CAM). All rights reserved.
+import <Windows.h>;
 
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_CHRONO
-#define ELYSIUM_CORE_TEMPLATE_CHRONO
-
-#ifdef _MSC_VER
-#pragma once
-#endif
-
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_DURATION
 #include "Chrono/Duration.hpp"
 #endif
@@ -31,5 +23,4 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_TIMEPOINT
 #include "Chrono/TimePoint.hpp"
 #endif
-
-#endif
+}

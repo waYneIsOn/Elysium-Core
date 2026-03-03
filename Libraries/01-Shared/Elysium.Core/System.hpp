@@ -9,7 +9,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_CORE_SYSTEM
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../Elysium.Core.Template/OperatingSystem.hpp"
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #endif

@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/DefaultDeleter.hpp"
 
 using namespace Elysium::Core;

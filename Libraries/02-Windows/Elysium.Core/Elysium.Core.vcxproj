@@ -182,6 +182,14 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Elysium.Core.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Update="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.Chrono.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
+    <ClCompile Update="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core\Elysium.Core.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

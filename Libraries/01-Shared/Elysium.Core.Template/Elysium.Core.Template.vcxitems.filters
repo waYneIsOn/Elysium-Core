@@ -207,14 +207,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp">
       <Filter>Functional</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Numeric.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
@@ -278,20 +276,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OperatingSystem.hpp">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Literals.hpp">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Compiler.hpp">
-      <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp">
       <Filter>Text</Filter>
@@ -376,7 +362,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
@@ -635,9 +620,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsBoolean.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Architecture.hpp">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MemSet.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
@@ -815,6 +797,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCompletelyDefined.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Compiler.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Literals.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\OperatingSystem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Primitives.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -928,5 +915,10 @@
     <Filter Include="Exceptions\IO">
       <UniqueIdentifier>{e78a6b2b-3aab-4af4-82d1-02c97d26d0d5}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Chrono.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Numeric.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.System.ixx" />
   </ItemGroup>
 </Project>

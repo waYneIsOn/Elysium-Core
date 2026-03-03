@@ -86,6 +86,12 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
+    <ClCompile Update="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.Chrono.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
+    <ClCompile Update="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core\Elysium.Core.ixx">
+      <FileType>Document</FileType>
+    </ClCompile>
   </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <PreBuildEvent>

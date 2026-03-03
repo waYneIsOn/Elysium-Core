@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_PRIMITIVES
-#include "../Elysium.Core.Template/Primitives.hpp"
+#include "../Elysium.Core.Template/System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_SHAREDMUTEX

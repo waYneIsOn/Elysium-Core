@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Literals.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/System/Literals.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Utility/IntegerSequence.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

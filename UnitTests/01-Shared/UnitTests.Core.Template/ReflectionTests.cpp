@@ -3,7 +3,7 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IsSame.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IsScopedEnumeration.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/UnderlyingType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/CompositeType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"

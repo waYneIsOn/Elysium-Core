@@ -2,7 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/String.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

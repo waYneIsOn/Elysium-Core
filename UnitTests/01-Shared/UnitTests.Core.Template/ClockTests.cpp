@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Chrono.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Chrono/SteadyClock.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 
 #include <chrono>

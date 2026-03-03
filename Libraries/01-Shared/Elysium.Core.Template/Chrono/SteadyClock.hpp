@@ -25,25 +25,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_ARCHTECTURE
-#include "../Architecture.hpp"
+#include "../System/Architecture.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
-#include "../Compiler.hpp"
+#include "../System/Compiler.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../OperatingSystem.hpp"
+#include "../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "../Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+/*
     #ifndef _PROFILEAPI_H_
     #include <profileapi.h>
     #endif
+*/
 /*
     #ifndef _SYSINFOAPI_H_
     #include <sysinfoapi.h>
