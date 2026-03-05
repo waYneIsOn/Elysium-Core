@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HUFFMANCODEABLE
-#include "Concepts/HuffmanCodeable.hpp"
+#include "../../../Concepts/HuffmanCodeable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
-#include "UnsignedInteger.hpp"
+#include "../../../UnsignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding

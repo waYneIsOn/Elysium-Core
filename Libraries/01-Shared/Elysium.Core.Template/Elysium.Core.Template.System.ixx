@@ -21,4 +21,5 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "System/Primitives.hpp"
 #endif
+
 }

@@ -51,7 +51,7 @@ namespace Elysium::Core::Template::Text
 
 		using CorrespondingString = String<C>;
 	public:
-		constexpr StringView() noexcept;
+		constexpr StringView() noexcept = default;
 
 		constexpr StringView(const CorrespondingString& Value) noexcept;
 
@@ -63,7 +63,7 @@ namespace Elysium::Core::Template::Text
 
 		constexpr StringView(StringView&& Right) noexcept;
 
-		constexpr ~StringView();
+		constexpr ~StringView() = default;
 	public:
 		constexpr StringView<C, Traits>& operator=(const StringView& Source);
 
@@ -118,11 +118,6 @@ namespace Elysium::Core::Template::Text
 	};
 
 	template<Concepts::Character C, class Traits>
-	inline constexpr StringView<C, Traits>::StringView() noexcept
-		: StringView<C, Traits>(nullptr, 0)
-	{ }
-
-	template<Concepts::Character C, class Traits>
 	inline constexpr StringView<C, Traits>::StringView(const CorrespondingString & Value) noexcept
 		: StringView<C, Traits>(Value.GetLength() == 0 ? nullptr : &Value[0], Value.GetLength())
 	{ }
@@ -148,10 +143,6 @@ namespace Elysium::Core::Template::Text
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
-
-	template<Concepts::Character C, class Traits>
-	inline constexpr StringView<C, Traits>::~StringView()
-	{ }
 
 	template<Concepts::Character C, class Traits>
 	inline constexpr StringView<C, Traits>& StringView<C, Traits>::operator=(const StringView& Source)

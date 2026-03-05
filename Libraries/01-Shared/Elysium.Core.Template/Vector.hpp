@@ -88,6 +88,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsMoveConstructible.hpp"
 #endif
 
+#ifndef _NEW_
+#include <new>
+#endif
+
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>

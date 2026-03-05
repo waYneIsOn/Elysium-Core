@@ -79,7 +79,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp">
       <Filter>Algorithms\Sorting</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveConstructible.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -464,13 +463,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Ceiling.hpp">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FileSystem.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -535,9 +527,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp">
       <Filter>Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp">
       <Filter>Concepts</Filter>
@@ -798,10 +787,28 @@
       <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\Compiler.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\Literals.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\OperatingSystem.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\Primitives.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Compiler.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Literals.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\OperatingSystem.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Primitives.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanNode.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanTree.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -920,5 +927,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Chrono.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Numeric.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.System.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.HuffmanCoding.ixx" />
   </ItemGroup>
 </Project>

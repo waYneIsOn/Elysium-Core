@@ -3,7 +3,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/CharacterTraits.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/HuffmanTree.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanTree.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 
 using namespace Elysium::Core;

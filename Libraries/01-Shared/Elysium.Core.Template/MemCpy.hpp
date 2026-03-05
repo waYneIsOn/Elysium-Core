@@ -16,15 +16,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
-#ifndef _CSTRING_
-#include <xstring>	// @ToDo: stl remnant
-#endif
+extern "C" void* __cdecl memcpy(void* Destination, const void* Source, size_t Size);
 
 namespace Elysium::Core::Template::Memory
 {
 	inline void* MemCpy(void* Destination, const void* Source, Elysium::Core::Template::System::size Size)
-	{	// @ToDo: stl remnant
-	    return std::memcpy(Destination, Source, Size);
+	{	// @ToDo: libc
+	    return memcpy(Destination, Source, Size);
         /*
         static constexpr const Elysium::Core::Template::System::uint8_t ChunkSize = 8;
 

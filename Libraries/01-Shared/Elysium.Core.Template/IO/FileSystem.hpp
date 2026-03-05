@@ -13,25 +13,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "OperatingSystem.hpp"
+#include "../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF8
-#include "Utf8.hpp"
+#include "../Utf8.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
-#include "Utf16.hpp"
+#include "../Utf16.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+/*
 	#ifndef _WINBASE_
 	#include <WinBase.h>
 	#endif
+*/
 #else
 #error "unsupported os regarding filesystem"
 #endif

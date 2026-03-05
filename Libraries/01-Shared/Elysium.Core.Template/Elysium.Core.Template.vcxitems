@@ -124,7 +124,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)FileSystem.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Find.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp" />
@@ -135,14 +135,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanNode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)HuffmanTree.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanNode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Integral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsBoolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp" />
@@ -301,6 +300,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Chrono.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.HuffmanCoding.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Numeric.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.System.ixx" />
   </ItemGroup>

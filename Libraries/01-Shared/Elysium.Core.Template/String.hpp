@@ -36,8 +36,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "CharacterTraits.hpp"
 #endif
 
-#include <cassert>
-
 namespace Elysium::Core::Template::Text
 {
 	template <Concepts::Character C, class Traits = CharacterTraits<C>, class Allocator = Memory::DefaultAllocator<C>>
@@ -958,7 +956,7 @@ namespace Elysium::Core::Template::Text
 	inline constexpr void String<C, Traits, Allocator>::InitializeStackString(ConstCharacterPointer Value, const Elysium::Core::Template::System::size Size)
 	{
 		//assert(Value != nullptr);	// it obviously can be nullptr as long as Size equals 0!
-		assert(Size <= sizeof(_InternalString._Stack._Data));
+		//assert(Size <= sizeof(_InternalString._Stack._Data));
 		
 		Elysium::Core::Template::Memory::MemCpy(&_InternalString._Stack._Data[0], Value, Size);
 		_InternalString._Stack.SetSize(Size);
