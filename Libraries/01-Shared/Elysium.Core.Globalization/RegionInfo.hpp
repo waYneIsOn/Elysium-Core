@@ -25,7 +25,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_REGIONINFO
-#include "../Elysium.Core.Template/RegionInfo.hpp"
+#include "../Elysium.Core.Template/Globalization/RegionInfo.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

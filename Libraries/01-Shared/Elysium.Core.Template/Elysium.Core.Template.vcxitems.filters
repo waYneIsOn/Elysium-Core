@@ -72,13 +72,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSigned.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EnableIf.hpp">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Common.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BubbleSort.hpp">
-      <Filter>Algorithms\Sorting</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveConstructible.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -102,12 +95,6 @@
       <Filter>Operators</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)QuickSort.hpp">
-      <Filter>Algorithms\Sorting</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BlockSort.hpp">
-      <Filter>Algorithms\Sorting</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveConstructible.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
@@ -184,7 +171,6 @@
       <Filter>Iterator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp">
       <Filter>Text</Filter>
     </ClInclude>
@@ -290,24 +276,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Math.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp">
       <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Absolute.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Logarithm.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Floor.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Power.hpp">
-      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp">
       <Filter>Concepts</Filter>
@@ -324,9 +297,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp">
       <Filter>Operators</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NumberFormatInfo.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRange.hpp">
       <Filter>Text\Unicode</Filter>
     </ClInclude>
@@ -342,34 +312,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DigitShapes.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp">
       <Filter>Text\Unicode</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf16.hpp">
       <Filter>Text\Unicode</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CultureInfo.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CultureTypes.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RegionInfo.hpp">
-      <Filter>Globalization</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StackTrace.hpp">
-      <Filter>Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StackFrame.hpp">
-      <Filter>Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Process.hpp">
-      <Filter>Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp">
@@ -395,15 +343,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp">
       <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Factorial.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessStartInfo.hpp">
-      <Filter>Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessWindowStyle.hpp">
-      <Filter>Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp">
       <Filter>Exceptions</Filter>
@@ -451,22 +390,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Truncate.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Round.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MidpointRounding.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Ceiling.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IsScopedEnumeration.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -488,12 +414,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Clear.hpp">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Copy.hpp">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
@@ -503,7 +423,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IntegerSequence.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Utility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IndexSequence.hpp">
       <Filter>Utility</Filter>
     </ClInclude>
@@ -518,15 +437,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__Repeat.hpp">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessAccess.hpp">
-      <Filter>Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessThread.hpp">
-      <Filter>Diagnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProcessModule.hpp">
-      <Filter>Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp">
       <Filter>Concepts</Filter>
@@ -597,14 +507,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Find.hpp">
-      <Filter>Algorithms</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Arithmetic.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp">
-      <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsBoolean.hpp">
       <Filter>TypeTraits</Filter>
@@ -786,10 +690,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCompletelyDefined.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms.hpp">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Compiler.hpp">
       <Filter>System</Filter>
     </ClInclude>
@@ -802,12 +702,108 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Primitives.hpp">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanNode.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanTree.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Ceiling.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Decimal.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Factorial.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Floor.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Logarithm.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\MidpointRounding.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Power.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Round.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Truncate.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Sorting/BlockSort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Sorting/BubbleSort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Sorting/QuickSort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Clear.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Copy.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Find.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Common/EnableIf.hpp">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/Process.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessAccess.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessModule.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessStartInfo.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessThread.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessWindowStyle.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackFrame.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackTrace.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/DigitShapes.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureTypes.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/NumberFormatInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/RegionInfo.hpp">
+      <Filter>Globalization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -930,5 +926,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.HuffmanCoding.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Math.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Utility.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Algorithms.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Common.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Diagnostics.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.RunTimeTypeInformation.ixx" />
   </ItemGroup>
 </Project>

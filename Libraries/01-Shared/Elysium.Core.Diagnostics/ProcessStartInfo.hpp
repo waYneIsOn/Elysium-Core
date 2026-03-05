@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSSTARTINFO
-#include "../Elysium.Core.Template/ProcessStartInfo.hpp"
+#include "../Elysium.Core.Template/Diagnostics/ProcessStartInfo.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics

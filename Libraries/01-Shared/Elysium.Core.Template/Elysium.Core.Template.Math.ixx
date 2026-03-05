@@ -1,37 +1,29 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.Math;
 
-Copyright (c) waYne (CAM). All rights reserved.
+import <cmath>;
 
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_MATH
-#define ELYSIUM_CORE_TEMPLATE_MATH
-
-#ifdef _MSC_VER
-#pragma once
-#endif
-
-// ToDo: all classes, methods etc. here can be heavily improved!
+export
+{
+// @ToDo: all classes, methods etc. here can be heavily improved!
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
-#include "Absolute.hpp"
+#include "Math/Absolute.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_CEILING
-#include "Ceiling.hpp"
+#include "Math/Ceiling.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_DECIMAL
-#include "Decimal.hpp"
+#include "Math/Decimal.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FACTORIAL
-#include "Factorial.hpp"
+#include "Math/Factorial.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
-#include "Floor.hpp"
+#include "Math/Floor.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_GREATESTCOMMONDIVISOR
@@ -39,19 +31,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
-#include "Logarithm.hpp"
+#include "Math/Logarithm.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIDPOINTROUNDING
-#include "MidpointRounding.hpp"
+#include "Math/MidpointRounding.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
-#include "Power.hpp"
+#include "Math/Power.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ROUND
-#include "Round.hpp"
+#include "Math/Round.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_SIGNOF
@@ -59,7 +51,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
-#include "Truncate.hpp"
+#include "Math/Truncate.hpp"
 #endif
-
-#endif
+}

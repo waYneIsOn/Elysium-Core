@@ -25,7 +25,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKFRAME
-#include "../Elysium.Core.Template/StackFrame.hpp"
+#include "../Elysium.Core.Template/Diagnostics/StackFrame.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics

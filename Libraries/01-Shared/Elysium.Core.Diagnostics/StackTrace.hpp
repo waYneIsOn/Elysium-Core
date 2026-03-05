@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKTRACE
-#include "../Elysium.Core.Template/StackTrace.hpp"
+#include "../Elysium.Core.Template/Diagnostics/StackTrace.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics

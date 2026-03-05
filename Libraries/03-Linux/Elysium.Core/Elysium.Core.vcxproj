@@ -93,6 +93,11 @@
       <FileType>Document</FileType>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Update="D:\GitHub\Repos\Elysium-Core\Libraries\01-Shared\Elysium.Core.Template\Elysium.Core.Template.Globalization.ixx">
+      <FileType>Document</FileType>
+    </ClInclude>
+  </ItemGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <PreBuildEvent>
       <Command>

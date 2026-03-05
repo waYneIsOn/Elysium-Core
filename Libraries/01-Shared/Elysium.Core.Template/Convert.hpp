@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
-#include "NumberFormatInfo.hpp"
+#include "Globalization/NumberFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
@@ -25,27 +25,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_CEILING
-#include "Ceiling.hpp"
+#include "Math/Ceiling.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
-#include "Floor.hpp"
+#include "Math/Floor.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
-#include "Logarithm.hpp"
+#include "Math/Logarithm.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_DECIMAL
-#include "Decimal.hpp"
+#include "Math/Decimal.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
-#include "Power.hpp"
+#include "Math/Power.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
-#include "Truncate.hpp"
+#include "Math/Truncate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS

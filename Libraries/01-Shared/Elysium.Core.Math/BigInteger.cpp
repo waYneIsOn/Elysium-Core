@@ -9,7 +9,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ALGORITHMS_COPY
-#include "../Elysium.Core.Template/Copy.hpp"
+#include "../Elysium.Core.Template/Algorithms/Copy.hpp"
 #endif
 
 Elysium::Core::Math::Numerics::BigInteger::BigInteger(const Elysium::Core::int32_t Sign, const Elysium::Core::Container::VectorOfUInt32_t& Value)

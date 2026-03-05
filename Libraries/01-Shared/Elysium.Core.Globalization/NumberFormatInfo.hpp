@@ -29,7 +29,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
-#include "../Elysium.Core.Template/NumberFormatInfo.hpp"
+#include "../Elysium.Core.Template/Globalization/NumberFormatInfo.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

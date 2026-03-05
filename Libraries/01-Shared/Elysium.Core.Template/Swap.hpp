@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "MoveAssignableAndConstructible.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "Move.hpp"
+#endif
+
 namespace Elysium::Core::Template::Functional
 {
 	template <Concepts::MoveAssignableAndConstructible T>

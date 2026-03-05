@@ -20,8 +20,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Numeric.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COMMON
-#include "../Elysium.Core.Template/Common.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
+#include "../Elysium.Core.Template/Common/EnableIf.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS

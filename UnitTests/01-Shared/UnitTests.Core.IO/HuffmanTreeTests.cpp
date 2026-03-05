@@ -3,7 +3,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/HuffmanTree.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BubbleSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Tuple.hpp"
 
 using namespace Elysium::Core;

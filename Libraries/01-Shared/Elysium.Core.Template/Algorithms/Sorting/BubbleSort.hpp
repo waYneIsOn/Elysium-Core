@@ -13,23 +13,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
-#include "Pointer.hpp"
+#include "../../Pointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
-#include "RemovePointer.hpp"
+#include "../../RemovePointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
-#include "Swap.hpp"
+#include "../../Swap.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_GREATER
-#include "Greater.hpp"
+#include "../../Greater.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Algorithms::Sorting

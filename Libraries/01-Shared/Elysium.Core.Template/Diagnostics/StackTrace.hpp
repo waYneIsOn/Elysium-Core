@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "Vector.hpp"
+#include "../Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKFRAME
@@ -21,11 +21,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CRITICALSECTION
-#include "CriticalSection.hpp"
+#include "../CriticalSection.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

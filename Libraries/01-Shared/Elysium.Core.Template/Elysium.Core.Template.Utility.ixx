@@ -1,17 +1,19 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.Utility;
 
-Copyright (c) waYne (CAM). All rights reserved.
+import <InitializerList.hpp>;
 
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_UTILITY
-#define ELYSIUM_CORE_TEMPLATE_UTILITY
-
-#ifdef _MSC_VER
-#pragma once
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "System/OperatingSystem.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+import <Windows.h>;
+#else
+#error "unsupported os regarding filesystem"
+#endif
+
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_INDEXSEQUENCE
 #include "Utility/IndexSequence.hpp"
 #endif
@@ -27,5 +29,4 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_REPEAT
 #include "Utility/__Repeat.hpp"
 #endif
-
-#endif
+}

@@ -1,11 +1,11 @@
 #include "Process.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESS
-#include "../Elysium.Core.Template/Process.hpp"
+#include "../Elysium.Core.Template/Diagnostics/Process.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSACCESS
-#include "../Elysium.Core.Template/ProcessAccess.hpp"
+#include "../Elysium.Core.Template/Diagnostics/ProcessAccess.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION

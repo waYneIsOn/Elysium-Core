@@ -1,11 +1,13 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Byte.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Algorithms.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Greater.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Less.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Tuple.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Byte.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BlockSort.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BubbleSort.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/QuickSort.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Greater.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Less.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Tuple.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template;

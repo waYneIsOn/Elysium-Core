@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CULTURETYPES
-#include "../Elysium.Core.Template/CultureTypes.hpp"
+#include "../Elysium.Core.Template/Globalization/CultureTypes.hpp"
 #endif
 
 namespace Elysium::Core::Globalization

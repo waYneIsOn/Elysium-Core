@@ -1,17 +1,19 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.RunTimeTypeInformation;
 
-Copyright (c) waYne (CAM). All rights reserved.
+import <InitializerList.hpp>;
 
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION
-#define ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION
-
-#ifdef _MSC_VER
-#pragma once
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "System/OperatingSystem.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+import <Windows.h>;
+#else
+#error "unsupported os regarding filesystem"
+#endif
+
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_COMPOSITETYPE
 #include "RunTimeTypeInformation/CompositeType.hpp"
 #endif
@@ -23,5 +25,4 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_SOURCELOCATION
 #include "RunTimeTypeInformation/SourceLocation.hpp"
 #endif
-
-#endif
+}

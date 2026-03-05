@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
+#include "../InvalidOperationException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
@@ -33,11 +33,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
-#include "Floor.hpp"
+#include "../Math/Floor.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
-#include "Logarithm.hpp"
+#include "../Math/Logarithm.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER

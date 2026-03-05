@@ -33,7 +33,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_CULTUREINFO
-#include "../Elysium.Core.Template/CultureInfo.hpp"
+#include "../Elysium.Core.Template/Globalization/CultureInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
