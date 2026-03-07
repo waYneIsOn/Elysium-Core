@@ -88,13 +88,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Less.hpp">
-      <Filter>Operators</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Greater.hpp">
-      <Filter>Operators</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Operators.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveConstructible.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
@@ -158,19 +151,6 @@
       <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)BackwardIterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ConstBackwardIterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ConstForwardIterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ForwardIterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp">
       <Filter>Text</Filter>
     </ClInclude>
@@ -197,15 +177,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp">
       <Filter>Numeric</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListForwardIterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ConstLinkedListForwardIterator.hpp">
-      <Filter>Iterator</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMapForwardIterator.hpp">
-      <Filter>Iterator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp">
       <Filter>Memory</Filter>
@@ -284,18 +255,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GreaterOrEqual.hpp">
-      <Filter>Operators</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LessOrEqual.hpp">
-      <Filter>Operators</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Equal.hpp">
-      <Filter>Operators</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NotEqual.hpp">
-      <Filter>Operators</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRange.hpp">
       <Filter>Text\Unicode</Filter>
@@ -805,6 +764,45 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/RegionInfo.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators/Equal.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators/Greater.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators/GreaterOrEqual.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators/Less.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators/LessOrEqual.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Operators/NotEqual.hpp">
+      <Filter>Operators</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/BackwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/ConstBackwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/ConstForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/ConstLinkedListForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/ForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/LinkedListForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/UnorderedMapForwardIterator.hpp">
+      <Filter>Iterator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -932,5 +930,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Common.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Diagnostics.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.RunTimeTypeInformation.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Operators.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Iterator.ixx" />
   </ItemGroup>
 </Project>

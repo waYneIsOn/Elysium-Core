@@ -29,19 +29,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
-#include "BackwardIterator.hpp"
+#include "Iterator/BackwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
-#include "ConstBackwardIterator.hpp"
+#include "Iterator/ConstBackwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
-#include "ConstForwardIterator.hpp"
+#include "Iterator/ConstForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
-#include "ForwardIterator.hpp"
+#include "Iterator/ForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
