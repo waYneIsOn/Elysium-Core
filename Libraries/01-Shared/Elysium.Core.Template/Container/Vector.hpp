@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
-#include "Common/EnableIf.hpp"
+#include "../Common/EnableIf.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ALLOCATABLE
-#include "Concepts/Allocatable.hpp"
+#include "../Concepts/Allocatable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_TRIVIAL
-#include "Concepts/Trivial.hpp"
+#include "../Concepts/Trivial.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
@@ -33,59 +33,59 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
-#include "Exceptions/ArgumentNullException.hpp"
+#include "../Exceptions/ArgumentNullException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
-#include "Exceptions/IndexOutOfRangeException.hpp"
+#include "../Exceptions/IndexOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OUTOFMEMORYEXCEPTION
-#include "Exceptions/OutOfMemoryException.hpp"
+#include "../Exceptions/OutOfMemoryException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Functional/Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
-#include "Iterator/BackwardIterator.hpp"
+#include "../Iterator/BackwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
-#include "Iterator/ConstBackwardIterator.hpp"
+#include "../Iterator/ConstBackwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
-#include "Iterator/ConstForwardIterator.hpp"
+#include "../Iterator/ConstForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
-#include "Iterator/ForwardIterator.hpp"
+#include "../Iterator/ForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
-#include "Memory/DefaultAllocator.hpp"
+#include "../Memory/DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
-#include "Memory/MemSet.hpp"
+#include "../Memory/MemSet.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
-#include "System/Compiler.hpp"
+#include "../System/Compiler.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVEASSIGNABLE
-#include "TypeTraits/IsMoveAssignable.hpp"
+#include "../TypeTraits/IsMoveAssignable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVECONSTRUCTIBLE
-#include "TypeTraits/IsMoveConstructible.hpp"
+#include "../TypeTraits/IsMoveConstructible.hpp"
 #endif
 
 #ifndef _NEW_

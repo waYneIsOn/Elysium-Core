@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Vector.hpp"
+#include "../Container/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESSACCESS
@@ -25,15 +25,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "../CharacterTraits.hpp"
+#include "../Text/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "../String.hpp"
+#include "../Text/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
-#include "../Utf16.hpp"
+#include "../Text/Unicode/Utf16.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS	

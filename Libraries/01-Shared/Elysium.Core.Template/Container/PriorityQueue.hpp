@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SEQUENCECONTAINER
-#include "SequenceContainer.hpp"
+#include "../Concepts/SequenceContainer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_LESS
-#include "Operators/Less.hpp"
+#include "../Operators/Less.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container

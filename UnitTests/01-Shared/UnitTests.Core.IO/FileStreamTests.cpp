@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Byte.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Delegate.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/IAsyncResult.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/IOException.hpp"

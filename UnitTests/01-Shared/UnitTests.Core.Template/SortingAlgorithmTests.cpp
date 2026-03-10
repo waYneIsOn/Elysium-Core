@@ -5,9 +5,9 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BlockSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BubbleSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/QuickSort.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Tuple.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Operators/Greater.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Operators/Less.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Tuple.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template;

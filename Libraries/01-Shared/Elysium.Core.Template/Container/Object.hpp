@@ -13,27 +13,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASMETHOD
-#include "Concepts/HasMethod.hpp"
+#include "../Concepts/HasMethod.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
-#include "Concepts/Integer.hpp"
+#include "../Concepts/Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
-#include "Concepts/Pointer.hpp"
+#include "../Concepts/Pointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_VALUE
-#include "Concepts/Value.hpp"
+#include "../Concepts/Value.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "Text/String.hpp"
+#include "../Text/String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container

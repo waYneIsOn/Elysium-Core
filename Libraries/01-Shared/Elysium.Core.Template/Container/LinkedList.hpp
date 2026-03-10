@@ -17,23 +17,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTLINKEDLISTFORWARDITERATOR
-#include "Iterator/ConstLinkedListForwardIterator.hpp"
+#include "../Iterator/ConstLinkedListForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_UNORDEREDMAPFORWARDITERATOR
-#include "Iterator/UnorderedMapForwardIterator.hpp"
+#include "../Iterator/UnorderedMapForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_LINKEDLISTFORWARDITERATOR
-#include "Iterator/LinkedListForwardIterator.hpp"
+#include "../Iterator/LinkedListForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
-#include "DefaultAllocator.hpp"
+#include "../Memory/DefaultAllocator.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container

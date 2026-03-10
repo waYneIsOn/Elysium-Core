@@ -21,11 +21,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
-#include "../Elysium.Core.Template/Delegate.hpp"
+#include "../Elysium.Core.Template/Container/Delegate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
+#include "../Elysium.Core.Template/Container/Vector.hpp"
 #endif
 
 namespace Elysium::Core

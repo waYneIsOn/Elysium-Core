@@ -2,8 +2,8 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Container/Object.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Functional/AddLeftValueReference.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Object.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Text/String.hpp"
 
 using namespace Elysium::Core::Template::Container;

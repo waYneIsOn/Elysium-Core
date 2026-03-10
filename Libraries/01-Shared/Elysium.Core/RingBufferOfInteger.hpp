@@ -25,7 +25,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_RINGBUFFER
-#include "../Elysium.Core.Template/RingBuffer.hpp"
+#include "../Elysium.Core.Template/Container/RingBuffer.hpp"
 #endif
 
 namespace Elysium::Core::Container

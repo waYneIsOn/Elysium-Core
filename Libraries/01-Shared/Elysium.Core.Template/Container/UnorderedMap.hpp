@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "../Elysium.Core/ArgumentException.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTEXCEPTION
+#include "../Exceptions/ArgumentException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
-#include "Concepts/Hashable.hpp"
+#include "../Concepts/Hashable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
@@ -41,27 +41,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Functional/Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_UNORDEREDMAPFORWARDITERATOR
-#include "Iterator/UnorderedMapForwardIterator.hpp"
+#include "../Iterator/UnorderedMapForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
-#include "Memory/DefaultAllocator.hpp"
+#include "../Memory/DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
-#include "Numeric/NumericTraits.hpp"
+#include "../Numeric/NumericTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_LESS
-#include "Operators/Less.hpp"
+#include "../Operators/Less.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container
@@ -432,7 +432,7 @@ namespace Elysium::Core::Template::Container
 		{
 			if (Add)
 			{
-				throw Elysium::Core::ArgumentException(u8"An element with the same key already exists.");
+				throw Elysium::Core::Template::Exceptions::ArgumentException(u8"An element with the same key already exists.");
 			}
 
 			Entry* ExistingItem = FindEntry(Node, Key);
@@ -443,7 +443,7 @@ namespace Elysium::Core::Template::Container
 				_CollisionCount++;
 				if (_CollisionCount > CollisionThreshold)
 				{	// ToDo: implement resize!
-					//throw Elysium::Core::ArgumentException(u8"Resize is required.");
+					//throw Elysium::Core::Template::Exceptions::ArgumentException(u8"Resize is required.");
 				}
 			}
 			else

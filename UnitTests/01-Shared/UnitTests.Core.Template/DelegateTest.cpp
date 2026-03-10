@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Delegate.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core::Template::Container;

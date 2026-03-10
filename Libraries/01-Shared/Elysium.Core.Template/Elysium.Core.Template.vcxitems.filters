@@ -4,37 +4,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConstant.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DoubleBuffer.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SameAs.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
@@ -63,45 +32,6 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PriorityQueue.hpp">
-      <Filter>Container\Adopter</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Stack.hpp">
-      <Filter>Container\Adopter</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Queue.hpp">
-      <Filter>Container\Adopter</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Vector.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedListNode.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LinkedList.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnorderedMap.hpp">
-      <Filter>Container\UnorderedAssociative</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OrderedMap.hpp">
-      <Filter>Container\OrderedAssociative</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RedBlackTree.hpp">
-      <Filter>Container\OrderedAssociative</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RingBuffer.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp">
@@ -791,6 +721,70 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Numeric\Ratio.hpp">
       <Filter>Numeric</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\SameAs.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\SequenceContainer.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MAllocator.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultDeleter.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Array.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Delegate.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleBuffer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\InitializerList.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\KeyValuePair.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\LinkedList.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\LinkedListNode.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Object.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\OrderedMap.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\PriorityQueue.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RedBlackTree.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Stack.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Tuple.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\UnorderedMap.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Variant.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Vector.hpp">
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

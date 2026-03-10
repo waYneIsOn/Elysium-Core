@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
-#include "../Tuple.hpp"
+#include "../Container/Tuple.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_FORWARD
@@ -29,7 +29,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../OperatingSystem.hpp"
+#include "../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_INDEXSEQUENCE

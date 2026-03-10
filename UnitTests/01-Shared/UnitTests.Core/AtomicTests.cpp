@@ -2,13 +2,14 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/UnorderedMap.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Container/UnorderedMap.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Container/Vector.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+using namespace Elysium::Core::Template::Exceptions;
 
 namespace UnitTests::Core::Threading::SynchronizationPrimitives
 {
@@ -106,7 +107,7 @@ namespace UnitTests::Core::Threading::SynchronizationPrimitives
 					{
 						UniqueValues.Add(Value, Value);
 					}
-					catch (const Elysium::Core::ArgumentException& ex)
+					catch (const ArgumentException& ex)
 					{
 						Logger::WriteMessage("Duplicate value ");
 						Logger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(Value)[0]);

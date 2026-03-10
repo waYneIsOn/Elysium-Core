@@ -5,7 +5,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/DnsEndPoint.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/IPEndPoint.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Text/Encoding.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Delegate.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ThreadPool.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"

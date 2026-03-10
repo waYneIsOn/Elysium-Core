@@ -9,7 +9,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEARRAY
-#include "../Elysium.Core.Template/Vector.hpp"
+#include "../Elysium.Core.Template/Container/Vector.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

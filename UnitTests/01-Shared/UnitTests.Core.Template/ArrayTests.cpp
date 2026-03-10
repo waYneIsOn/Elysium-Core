@@ -2,7 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Primitives.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Array.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Array.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

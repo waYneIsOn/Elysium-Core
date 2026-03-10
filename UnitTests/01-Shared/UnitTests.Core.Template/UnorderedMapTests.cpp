@@ -2,10 +2,11 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/String.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/UnorderedMap.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Container/UnorderedMap.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::Container;
+using namespace Elysium::Core::Template::Exceptions;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template::Container

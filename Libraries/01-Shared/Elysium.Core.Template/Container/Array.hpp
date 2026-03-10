@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#include "Concepts/NonConstant.hpp"
+#include "../Concepts/NonConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_INITIALIZERLIST
@@ -21,31 +21,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
-#include "Exceptions/IndexOutOfRangeException.hpp"
+#include "../Exceptions/IndexOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Functional/Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
-#include "Iterator/BackwardIterator.hpp"
+#include "../Iterator/BackwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTBACKWARDITERATOR
-#include "Iterator/ConstBackwardIterator.hpp"
+#include "../Iterator/ConstBackwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_CONSTFORWARDITERATOR
-#include "Iterator/ConstForwardIterator.hpp"
+#include "../Iterator/ConstForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_FORWARDITERATOR
-#include "Iterator/ForwardIterator.hpp"
+#include "../Iterator/ForwardIterator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container

@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
-#include "Hashable.hpp"
+#include "../Concepts/Hashable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container

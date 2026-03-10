@@ -31,20 +31,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "ProcessModule.hpp"
 #endif
 
-
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_PROCESSTHREAD
 #include "ProcessThread.hpp"
 #endif
 
-
-
-
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Vector.hpp"
+#include "../Elysium.Core.Template/Container/Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
-#include "../Elysium.Core.Template/NumericTraits.hpp"
+#include "../Elysium.Core.Template/Numeric/NumericTraits.hpp"
 #endif
 
 namespace Elysium::Core::Diagnostics

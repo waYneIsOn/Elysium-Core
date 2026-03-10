@@ -102,6 +102,14 @@ export
 #include "Concepts/Reference.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SAMEAS
+#include "Concepts/SameAs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SEQUENCECONTAINER
+#include "Concepts/SequenceContainer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
 #include "Concepts/SignedInteger.hpp"
 #endif
