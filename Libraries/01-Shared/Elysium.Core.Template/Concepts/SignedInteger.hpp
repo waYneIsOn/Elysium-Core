@@ -5,20 +5,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
-#include "IsConstant.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNEDINTEGER
+#include "../TypeTraits/IsSignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept NonConstant = !TypeTraits::IsConstantValue<T>;
+	concept SignedInteger = TypeTraits::IsSignedIntegerValue<T>;
 }
 #endif

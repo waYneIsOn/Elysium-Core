@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVEASSIGNABLEANDCONSTRUCTIBLE
-#include "MoveAssignableAndConstructible.hpp"
+#include "../Concepts/MoveAssignableAndConstructible.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
-#include "Pointer.hpp"
+#include "../Concepts/Pointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
-#include "Swap.hpp"
+#include "../Functional/Swap.hpp"
 #endif
 
 namespace Elysium::Core::Template::Functional

@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGER
-#include "TypeTraits/IsInteger.hpp"
+#include "../TypeTraits/IsInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMEMBERFUNCTIONPOINTER
-#include "TypeTraits/IsMemberFunctionPointer.hpp"
+#include "../TypeTraits/IsMemberFunctionPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
-#include "TypeTraits/IntegralConstant.hpp"
+#include "../TypeTraits/IntegralConstant.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

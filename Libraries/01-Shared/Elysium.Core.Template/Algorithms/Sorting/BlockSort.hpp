@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
-#include "../../Pointer.hpp"
+#include "../../Concepts/Pointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_GREATER

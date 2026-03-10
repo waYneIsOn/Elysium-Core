@@ -5,20 +5,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVEASSIGNABLE
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVEASSIGNABLE
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVEASSIGNABLE
-#include "IsMoveAssignable.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISUNSIGNEDINTEGER
+#include "../TypeTraits/IsUnsignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts
 {
-    template <class T>
-    concept MoveAssignable = TypeTraits::IsMoveAssignableValue<T>;
+	template<class T>
+	concept UnsignedInteger = TypeTraits::IsUnsignedIntegerValue<T>;
 }
 #endif

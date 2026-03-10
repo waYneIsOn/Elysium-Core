@@ -13,35 +13,35 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ARITHMETIC
-#include "Arithmetic.hpp"
+#include "../Concepts/Arithmetic.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
-#include "Math/Absolute.hpp"
+#include "../Math/Absolute.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
-#include "Math/Power.hpp"
+#include "../Math/Power.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
-#include "Math/Truncate.hpp"
+#include "../Math/Truncate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
-#include "System/Literals.hpp"
+#include "../System/Literals.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "System/OperatingSystem.hpp"
+#include "../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNED
-#include "TypeTraits/IsSigned.hpp"
+#include "../TypeTraits/IsSigned.hpp"
 #endif
 
 namespace Elysium::Core::Template::Numeric

@@ -1,31 +1,21 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.Concepts;
 
-Copyright (c) waYne (CAM). All rights reserved.
-
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS
-
-#ifdef _MSC_VER
-#pragma once
-#endif
-
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ALLOCATABLE
 #include "Concepts/Allocatable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ARITHMETIC
-#include "Arithmetic.hpp"
+#include "Concepts/Arithmetic.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ATOMICUSABLE
-#include "AtomicUsable.hpp"
+#include "Concepts/AtomicUsable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "Concepts/Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_COMPOSITETYPE
@@ -33,7 +23,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CONSTANT
-#include "Constant.hpp"
+#include "Concepts/Constant.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_COPYASSIGNABLEANDCONSTRUCTIBLE
+#include "Concepts/CopyAssignableAndConstructible.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_DERIVEDFROM
@@ -45,15 +39,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ENUMERATIONORINTEGRAL
-#include "EnumerationOrIntegral.hpp"
+#include "Concepts/EnumerationOrIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLAGENUMERATION
 #include "Concepts/FlagEnumeration.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLOATINGPOINT
+#include "Concepts/FloatingPoint.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASHABLE
-#include "Hashable.hpp"
+#include "Concepts/Hashable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASMETHOD
+#include "Concepts/HasMethod.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HUFFMANCODEABLE
@@ -61,11 +63,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
-#include "Integer.hpp"
+#include "Concepts/Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGRAL
-#include "Integral.hpp"
+#include "Concepts/Integral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_LAMBDA
@@ -76,20 +78,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Concepts/MemberFunctionPointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVEASSIGNABLE
+#include "Concepts/MoveAssignable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVEASSIGNABLEANDCONSTRUCTIBLE
+#include "Concepts/MoveAssignableAndConstructible.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVECONSTRUCTIBLE
+#include "Concepts/MoveConstructible.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#include "NonConstant.hpp"
+#include "Concepts/NonConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
-#include "Pointer.hpp"
+#include "Concepts/Pointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_REFERENCE
-#include "Reference.hpp"
+#include "Concepts/Reference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
-#include "SignedInteger.hpp"
+#include "Concepts/SignedInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_TRIVIAL
@@ -101,15 +115,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNICODECHARACTER
-#include "UnicodeCharacter.hpp"
+#include "Concepts/UnicodeCharacter.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
-#include "UnsignedInteger.hpp"
+#include "Concepts/UnsignedInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_VALUE
-#include "Value.hpp"
+#include "Concepts/Value.hpp"
 #endif
-
-#endif
+}

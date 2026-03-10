@@ -5,20 +5,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCHARACTER
-#include "TypeTraits/IsCharacter.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISPOINTER
+#include "../TypeTraits/IsPointer.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept Character = TypeTraits::IsCharacterValue<T>;
+	concept Pointer = TypeTraits::IsPointerValue<T>;
 }
 #endif

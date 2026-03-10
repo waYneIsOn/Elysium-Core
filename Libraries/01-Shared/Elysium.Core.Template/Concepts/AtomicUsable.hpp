@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGRAL
-#include "TypeTraits/IsIntegral.hpp"
+#include "../TypeTraits/IsIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISPOINTER
-#include "TypeTraits/IsPointer.hpp"
+#include "../TypeTraits/IsPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_SELECT
-#include "TypeTraits/Select.hpp"
+#include "../TypeTraits/Select.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
-#include "../../../UnsignedInteger.hpp"
+#include "../../../Concepts/UnsignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding

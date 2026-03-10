@@ -5,20 +5,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLOATINGPOINT
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLOATINGPOINT
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CONSTANT
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_CONSTANT
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
-#include "TypeTraits/IsFloatingPoint.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
+#include "../TypeTraits/IsConstant.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept FloatingPoint = TypeTraits::IsFloatingPointValue<T>;
+	concept Constant = TypeTraits::IsConstantValue<T>;
 }
 #endif

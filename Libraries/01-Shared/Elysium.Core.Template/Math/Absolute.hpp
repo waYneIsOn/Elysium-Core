@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLOATINGPOINT
-#include "FloatingPoint.hpp"
+#include "../Concepts/FloatingPoint.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
-#include "SignedInteger.hpp"
+#include "../Concepts/SignedInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER
-#include "UnsignedInteger.hpp"
+#include "../Concepts/UnsignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::Math

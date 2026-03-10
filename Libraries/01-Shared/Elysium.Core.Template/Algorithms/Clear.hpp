@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_COPYASSIGNABLEANDCONSTRUCTIBLE
-#include "../CopyAssignableAndConstructible.hpp"
+#include "../Concepts/CopyAssignableAndConstructible.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
-#include "../Pointer.hpp"
+#include "../Concepts/Pointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_REFERENCE
-#include "../Reference.hpp"
+#include "../Concepts/Reference.hpp"
 #endif
 
 

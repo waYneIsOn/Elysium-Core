@@ -5,20 +5,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVECONSTRUCTIBLE
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_MOVECONSTRUCTIBLE
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVECONSTRUCTIBLE
-#include "IsMoveConstructible.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCHARACTER
+#include "../TypeTraits/IsCharacter.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts
 {
-    template <class T>
-    concept MoveConstructible = TypeTraits::IsMoveConstructibleValue<T>;
+	template<class T>
+	concept Character = TypeTraits::IsCharacterValue<T>;
 }
 #endif

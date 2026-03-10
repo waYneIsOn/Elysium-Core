@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
-#include "Math/Absolute.hpp"
+#include "../Math/Absolute.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_GREATESTCOMMONDIVISOR
-#include "Math/GreatestCommonDivisor.hpp"
+#include "../Math/GreatestCommonDivisor.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_SIGNOF
-#include "Math/SignOf.hpp"
+#include "../Math/SignOf.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
@@ -29,7 +29,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Numeric

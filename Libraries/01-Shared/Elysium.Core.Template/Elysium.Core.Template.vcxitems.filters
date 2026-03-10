@@ -4,28 +4,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConstant.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NonConstant.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp">
       <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MoveConstructible.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignable.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignableAndConstructible.hpp">
-      <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
       <Filter>Container</Filter>
@@ -36,37 +17,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
-      <Filter>Numeric</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp">
-      <Filter>Numeric</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Value.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Reference.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SameAs.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
@@ -77,21 +34,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp">
       <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnsignedInteger.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp">
-      <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp">
       <Filter>Exceptions</Filter>
@@ -113,12 +55,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IndexSequence.hpp">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Integral.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EnumerationOrIntegral.hpp">
-      <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__MakeIntegerSequence.hpp">
       <Filter>Utility</Filter>
@@ -166,15 +102,6 @@
       <Filter>Container\Sequence</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AtomicUsable.hpp">
-      <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Arithmetic.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp">
@@ -793,6 +720,78 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\StringBuilder.hpp">
       <Filter>Text</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Arithmetic.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\AtomicUsable.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Character.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Constant.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Interlocked.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\SharedMutex.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\EnumerationOrIntegral.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FloatingPoint.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Hashable.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasMethod.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Integer.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Integral.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\MoveAssignable.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\MoveAssignableAndConstructible.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\MoveConstructible.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\NonConstant.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Pointer.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Reference.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\SignedInteger.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\UnicodeCharacter.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\UnsignedInteger.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Value.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Numeric\NumericTraits.hpp">
+      <Filter>Numeric</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Numeric\Ratio.hpp">
+      <Filter>Numeric</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -931,5 +930,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Exceptions.IO.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.Unicode.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Concepts.ixx" />
   </ItemGroup>
 </Project>
