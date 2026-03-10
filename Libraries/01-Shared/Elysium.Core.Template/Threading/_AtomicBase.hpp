@@ -13,23 +13,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCMP
-#include "../MemCmp.hpp"
+#include "../Memory/MemCmp.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
-#include "MemCpy.hpp"
+#include "../Memory/MemCpy.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMORYORDER
-#include "../MemoryOrder.hpp"
+#include "../Memory/MemoryOrder.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
-#include "System/Compiler.hpp"
+#include "../System/Compiler.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_SHAREDMUTEX
@@ -37,11 +37,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CONDITIONAL
-#include "../Conditional.hpp"
+#include "../TypeTraits/Conditional.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISREFERENCE
-#include "IsReference.hpp"
+#include "../TypeTraits/IsReference.hpp"
 #endif
 
 #ifndef __WFILE__

@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Common/EnableIf.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS
-#include "../Elysium.Core.Template/TypeTraits.hpp"
-#endif
-
 namespace Elysium::Core
 {
 	template<class T>

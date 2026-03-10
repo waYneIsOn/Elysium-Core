@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCHARACTER
-#include "IsCharacter.hpp"
+#include "TypeTraits/IsCharacter.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

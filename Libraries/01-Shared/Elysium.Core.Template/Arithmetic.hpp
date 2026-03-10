@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISARITHMETIC
-#include "IsArithemtic.hpp"
+#include "TypeTraits/IsArithemtic.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CONDITIONAL
-#include "Conditional.hpp"
+#include "TypeTraits/Conditional.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
-#include "IsConstant.hpp"
+#include "TypeTraits/IsConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISVOLATILE
-#include "IsVolatile.hpp"
+#include "TypeTraits/IsVolatile.hpp"
 #endif
 
 namespace Elysium::Core::Template::Functional

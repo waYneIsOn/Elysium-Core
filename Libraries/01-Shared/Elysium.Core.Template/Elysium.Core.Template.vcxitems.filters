@@ -1,85 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Conditional.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Disjunction.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IntegralConstant.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsAnyOf.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsArithemtic.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsArray.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsClass.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IsConstant.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsEnumeration.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsFloatingPoint.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsFunction.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsFundamental.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsIntegral.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsNullPointer.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsPointer.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsReference.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsSame.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsUnion.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsVoid.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsVolatile.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Constant.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NonConstant.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsSigned.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveConstructible.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsMoveAssignable.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)VoidType.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Pointer.hpp">
       <Filter>Concepts</Filter>
@@ -132,25 +62,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsCharacter.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Integer.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsInteger.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocator.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Memory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp">
       <Filter>Text</Filter>
     </ClInclude>
@@ -159,15 +79,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp">
       <Filter>Text</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UniquePointer.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SharedPointer.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)WeakPointer.hpp">
-      <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp">
       <Filter>Functional</Filter>
@@ -178,17 +89,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NumericTraits.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Activator.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Value.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsValue.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reference.hpp">
       <Filter>Concepts</Filter>
@@ -217,14 +122,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SameAs.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsMemberFunctionPointer.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)InvokeResult.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp">
       <Filter>Text</Filter>
@@ -244,14 +143,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)UnsignedInteger.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsUnsignedInteger.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsSignedInteger.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp">
       <Filter>Concepts</Filter>
@@ -267,9 +160,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsUnicodeCharacter.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp">
       <Filter>Text\Unicode</Filter>
@@ -327,17 +217,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnderlyingType.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsScopedEnumeration.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsConvertible.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp">
       <Filter>RunTimeTypeInformation</Filter>
@@ -350,12 +231,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyAssignable.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsCopyConstructible.hpp">
-      <Filter>TypeTraits</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\IntegerSequence.hpp">
       <Filter>Utility</Filter>
@@ -420,29 +295,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicUsable.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsNoThrowDefaultConstructible.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Select.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemoryOrder.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Arithmetic.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IsBoolean.hpp">
-      <Filter>TypeTraits</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemSet.hpp">
-      <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemCpy.hpp">
-      <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp">
       <Filter>Linq</Filter>
@@ -461,9 +318,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Allocatable.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MemCmp.hpp">
-      <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp">
       <Filter>RunTimeTypeInformation</Filter>
@@ -563,9 +417,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\Arena.hpp">
       <Filter>Memory\Scoped</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped.hpp">
-      <Filter>Memory</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaPage.hpp">
       <Filter>Memory\Scoped</Filter>
@@ -802,6 +653,150 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Activator.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocator.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemCmp.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemCpy.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemoryOrder.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemSet.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\SharedPointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\UniquePointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\WeakPointer.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\Conditional.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\Disjunction.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IntegralConstant.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\InvokeResult.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAnyOf.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsArithemtic.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsArray.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsBoolean.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCharacter.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsClass.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsConvertible.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCopyAssignable.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCopyConstructible.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsEnumeration.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFloatingPoint.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFunction.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFundamental.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsInteger.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsIntegral.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsMemberFunctionPointer.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsMoveAssignable.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsMoveConstructible.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsNoThrowDefaultConstructible.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsNullPointer.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsPointer.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsReference.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsSame.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsScopedEnumeration.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsSigned.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsSignedInteger.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsUnicodeCharacter.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsUnion.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsUnsignedInteger.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsValue.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsVoid.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsVolatile.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\Select.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\UnderlyingType.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\VoidType.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -932,5 +927,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Operators.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Iterator.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Threading.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Memory.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Memory.Scoped.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.TypeTraits.ixx" />
   </ItemGroup>
 </Project>

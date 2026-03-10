@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGER
-#include "IsInteger.hpp"
+#include "TypeTraits/IsInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

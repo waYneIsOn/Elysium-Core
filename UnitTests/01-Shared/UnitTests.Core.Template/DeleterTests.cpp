@@ -2,7 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/DefaultDeleter.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Memory/DefaultDeleter.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::Memory;

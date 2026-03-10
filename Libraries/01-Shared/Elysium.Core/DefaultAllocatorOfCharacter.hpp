@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
-#include "../Elysium.Core.Template/DefaultAllocator.hpp"
+#include "../Elysium.Core.Template/Memory/DefaultAllocator.hpp"
 #endif
 
 namespace Elysium::Core::Memory

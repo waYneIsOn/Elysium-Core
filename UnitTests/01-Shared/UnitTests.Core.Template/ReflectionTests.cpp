@@ -1,10 +1,10 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IsSame.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IsScopedEnumeration.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsSame.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsScopedEnumeration.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/UnderlyingType.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/UnderlyingType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/CompositeType.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsFlagEnumeration.hpp"

@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISENUMERATION
-#include "IsEnumeration.hpp"
+#include "TypeTraits/IsEnumeration.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISINTEGRAL
-#include "IsIntegral.hpp"
+#include "TypeTraits/IsIntegral.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

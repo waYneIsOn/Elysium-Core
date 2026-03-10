@@ -1,11 +1,15 @@
 #include "DbConnectionStringBuilder.hpp"
 
-#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
-#include "../Elysium.Core.Text/StringBuilder.hpp"
+#ifndef ELYSIUM_CORE_PRIMITIVES
+#include "../Elysium.Core/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "../Elysium.Core/StringView.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEXT_STRINGBUILDER
+#include "../Elysium.Core.Text/StringBuilder.hpp"
 #endif
 
 Elysium::Core::Data::Common::DbConnectionStringBuilder::DbConnectionStringBuilder()

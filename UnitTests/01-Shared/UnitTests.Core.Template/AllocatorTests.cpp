@@ -2,8 +2,8 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Primitives.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/DefaultAllocator.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/MAllocator.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Memory/DefaultAllocator.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Memory/MAllocator.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Template::Container;

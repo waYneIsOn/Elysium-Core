@@ -33,7 +33,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
-#include "../Elysium.Core.Template/UniquePointer.hpp"
+#include "../Elysium.Core.Template/Memory/UniquePointer.hpp"
 #endif
 
 namespace Elysium::Core::IO

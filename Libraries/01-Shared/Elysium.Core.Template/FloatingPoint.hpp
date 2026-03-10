@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
-#include "IsFloatingPoint.hpp"
+#include "TypeTraits/IsFloatingPoint.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

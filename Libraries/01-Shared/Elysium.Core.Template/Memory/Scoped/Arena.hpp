@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
-#include "../../MemSet.hpp"
+#include "../MemSet.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENAOPTIONS
@@ -29,11 +29,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../../OperatingSystem.hpp"
+#include "../../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../../System/Primitives.hpp"
 #endif
 
 #ifndef _ASSERT_OK
@@ -41,11 +41,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
-#endif
+/*
+	#ifndef _WINDOWS_
+	//#define _WINSOCKAPI_ // don't include winsock
+	#define WIN32_LEAN_AND_MEAN
+	#include <Windows.h>
+	#endif
 
 	#ifndef _MEMORYAPI_H_
 	#include <memoryapi.h>
@@ -54,6 +55,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#ifndef _PROCESSTHREADSAPI_H_
 	#include <processthreadsapi.h>
 	#endif
+*/
 #endif
 
 namespace Elysium::Core::Template::Memory::Scoped

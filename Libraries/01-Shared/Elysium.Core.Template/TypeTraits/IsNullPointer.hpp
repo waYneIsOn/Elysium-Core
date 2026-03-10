@@ -25,17 +25,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "IsSame.hpp"
 #endif
 
-#ifndef _INC_STDDEF
-#ifndef __cplusplus
-#define __cplusplus
-#endif
-#include <stddef.h>
-#endif
-
 namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T>
-	inline constexpr bool IsNullPointerValue = IsSameValue<Functional::RemoveConstVolatileType<T>, std::nullptr_t>;
+	inline constexpr bool IsNullPointerValue = IsSameValue<Functional::RemoveConstVolatileType<T>, 
+		decltype(__nullptr)	// std::nullptr_t
+	>;
 
 	template <class T>
 	struct IsNullPointer : public IntegralConstant<bool, IsNullPointerValue<T>>

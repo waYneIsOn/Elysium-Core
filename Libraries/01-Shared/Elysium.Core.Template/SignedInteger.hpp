@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNEDINTEGER
-#include "IsSignedInteger.hpp"
+#include "TypeTraits/IsSignedInteger.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

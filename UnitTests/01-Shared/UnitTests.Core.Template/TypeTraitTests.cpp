@@ -1,7 +1,15 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/TypeTraits.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/Primitives.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/InvokeResult.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsArray.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsClass.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsEnumeration.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsMemberFunctionPointer.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsNullPointer.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsPointer.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsValue.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/TypeTraits/IsVoid.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace Elysium::Core::Template::TypeTraits;

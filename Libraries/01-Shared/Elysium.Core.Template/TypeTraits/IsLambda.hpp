@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
-#include "../IntegralConstant.hpp"
+#include "IntegralConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISAGGREGATE
@@ -25,15 +25,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCLASS
-#include "../IsClass.hpp"
+#include "IsClass.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFUNCTION
-#include "../IsFunction.hpp"
+#include "IsFunction.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
-#include "../IsSame.hpp"
+#include "IsSame.hpp"
 #endif
 
 namespace Elysium::Core::Template::TypeTraits

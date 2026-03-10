@@ -41,7 +41,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSIGNED
-#include "IsSigned.hpp"
+#include "TypeTraits/IsSigned.hpp"
 #endif
 
 namespace Elysium::Core::Template::Numeric

@@ -81,11 +81,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVEASSIGNABLE
-#include "IsMoveAssignable.hpp"
+#include "TypeTraits/IsMoveAssignable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVECONSTRUCTIBLE
-#include "IsMoveConstructible.hpp"
+#include "TypeTraits/IsMoveConstructible.hpp"
 #endif
 
 #ifndef _NEW_

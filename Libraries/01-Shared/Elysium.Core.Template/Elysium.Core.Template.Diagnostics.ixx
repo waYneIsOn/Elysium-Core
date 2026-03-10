@@ -14,21 +14,8 @@ export module Elysium.Core.Template.Diagnostics;
 //import <DbgHelp.h>;
 //import <Psapi.h>;
 //import <TlHelp32.h>;
-
-//#pragma warning(disable:5244)
-//#pragma warning(default:5244)
 #else
 #error "unsupported os"
-#endif
-
-#ifndef _INITIALIZER_LIST_
-//#include <initializer_list>
-//import <initializer_list>;
-#endif
-
-#ifndef _NEW_
-//#include <new>;
-//import <new>;
 #endif
 
 export

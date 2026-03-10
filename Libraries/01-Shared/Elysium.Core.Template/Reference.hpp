@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISREFERENCE
-#include "IsReference.hpp"
+#include "TypeTraits/IsReference.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts
