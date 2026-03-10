@@ -735,9 +735,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultDeleter.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Array.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Delegate.hpp">
       <Filter>Container</Filter>
     </ClInclude>
@@ -750,41 +747,44 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\KeyValuePair.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\LinkedList.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\LinkedListNode.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Object.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\OrderedMap.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\PriorityQueue.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RedBlackTree.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Stack.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Tuple.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\UnorderedMap.hpp">
-      <Filter>Container</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Variant.hpp">
       <Filter>Container</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\PriorityQueue.hpp">
+      <Filter>Container\Adopter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Stack.hpp">
+      <Filter>Container\Adopter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Array.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Vector.hpp">
-      <Filter>Container</Filter>
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\LinkedListNode.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\LinkedList.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\UnorderedMap.hpp">
+      <Filter>Container\UnorderedAssociative</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\OrderedMap.hpp">
+      <Filter>Container\OrderedAssociative</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RedBlackTree.hpp">
+      <Filter>Container\OrderedAssociative</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp">
+      <Filter>Container\Sequence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
