@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Exceptions
@@ -29,7 +29,8 @@ namespace Elysium::Core::Template::Exceptions
 	/// <summary>
 	/// The exception that is thrown for errors in an arithmetic, casting, or conversion operation.
 	/// </summary>
-	class ArithmeticException : public SystemException
+	class ArithmeticException 
+		: public SystemException
 	{
 	public:
 		ArithmeticException();

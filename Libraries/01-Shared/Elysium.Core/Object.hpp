@@ -41,7 +41,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_REMOVEREFERENCE
-#include "../Elysium.Core.Template/RemoveReference.hpp"
+#include "../Elysium.Core.Template/Functional/RemoveReference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT

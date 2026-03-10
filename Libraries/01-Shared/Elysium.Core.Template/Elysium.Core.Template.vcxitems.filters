@@ -27,28 +27,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MoveAssignableAndConstructible.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Functional.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Swap.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Move.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveVolatile.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConst.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveConstVolatile.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemovePointer.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RemoveReference.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InitializerList.hpp">
       <Filter>Container</Filter>
     </ClInclude>
@@ -80,9 +58,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp">
       <Filter>Text</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Reverse.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
     </ClInclude>
@@ -97,24 +72,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reference.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddConstant.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddConstantVolatile.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddLeftValueReference.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddReference.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddRightValueReference.hpp">
-      <Filter>Functional</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddVolatile.hpp">
-      <Filter>Functional</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)HasMethod.hpp">
       <Filter>Concepts</Filter>
@@ -171,50 +128,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DivideByZeroException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IndexOutOfRangeException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidOperationException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp">
-      <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp">
@@ -225,9 +139,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp">
       <Filter>RunTimeTypeInformation</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Hash.hpp">
-      <Filter>Functional</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\ReflectableEnumeration.hpp">
       <Filter>Concepts</Filter>
@@ -797,6 +708,93 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\VoidType.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddConstant.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddConstantVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddLeftValueReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddRightValueReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Hash.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Move.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\RemoveConst.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\RemoveConstVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\RemovePointer.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\RemoveReference.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\RemoveVolatile.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Reverse.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Swap.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\AggregateException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentNullException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentOutOfRangeException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArithmeticException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\DivideByZeroException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IndexOutOfRangeException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Exception.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\InvalidCastException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\NotImplementedException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\NotSupportedException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\OutOfMemoryException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\OverflowException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SystemException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -930,5 +928,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Memory.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Memory.Scoped.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.TypeTraits.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Functional.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Exceptions.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Exceptions.IO.ixx" />
   </ItemGroup>
 </Project>

@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_EXCEPTION
-#include "../Elysium.Core.Template/Exception.hpp"
+#include "../Elysium.Core.Template/Exceptions/Exception.hpp"
 #endif
 
 namespace Elysium::Core

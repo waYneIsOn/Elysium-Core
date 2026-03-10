@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OUTOFMEMORYEXCEPTION
-#include "../Elysium.Core.Template/OutOfMemoryException.hpp"
+#include "../Elysium.Core.Template/Exceptions/OutOfMemoryException.hpp"
 #endif
 
 namespace Elysium::Core

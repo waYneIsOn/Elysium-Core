@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Exceptions
@@ -30,7 +30,8 @@ namespace Elysium::Core::Template::Exceptions
 	/// The exception that is thrown when an invoked method is not supported, or when there is an attempt to read, seek, or write to a stream that does 
 	/// not support the invoked functionality.
 	/// </summary>
-	class NotSupportedException : public SystemException
+	class NotSupportedException 
+		: public SystemException
 	{
 	public:
 		NotSupportedException();

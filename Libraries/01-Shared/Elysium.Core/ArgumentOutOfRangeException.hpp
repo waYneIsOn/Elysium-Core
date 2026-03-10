@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTOUTOFRANGEEXCEPTION
-#include "../Elysium.Core.Template/ArgumentOutOfRangeException.hpp"
+#include "../Elysium.Core.Template/Exceptions/ArgumentOutOfRangeException.hpp"
 #endif
 
 namespace Elysium::Core

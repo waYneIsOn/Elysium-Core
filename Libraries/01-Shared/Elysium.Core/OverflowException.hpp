@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OVERFLOWEXCEPTION
-#include "../Elysium.Core.Template/OverflowException.hpp"
+#include "../Elysium.Core.Template/Exceptions/OverflowException.hpp"
 #endif
 
 namespace Elysium::Core

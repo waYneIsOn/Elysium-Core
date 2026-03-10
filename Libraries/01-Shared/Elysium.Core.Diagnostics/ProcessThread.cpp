@@ -1,7 +1,7 @@
 #include "ProcessThread.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#include "../Elysium.Core.Template/Functional/Move.hpp"
 #endif
 
 constexpr Elysium::Core::Diagnostics::ProcessThread::ProcessThread(const Elysium::Core::Template::System::uint32_t Id, const Elysium::Core::Template::System::uint32_t OwnerProcessId, const Elysium::Core::Template::System::int32_t BasePriority, const Elysium::Core::Template::System::int32_t CurrentPriority) noexcept

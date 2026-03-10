@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
-#include "../Elysium.Core.Template/InvalidOperationException.hpp"
+#include "../Elysium.Core.Template/Exceptions/InvalidOperationException.hpp"
 #endif
 
 namespace Elysium::Core

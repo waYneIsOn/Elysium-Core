@@ -1,7 +1,7 @@
 #include "SpeechRecognizedEventArgs.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#include "../Elysium.Core.Template/Functional/Move.hpp"
 #endif
 
 Elysium::Core::Speech::Recognition::SpeechRecognizedEventArgs::SpeechRecognizedEventArgs(RecognitionResult&& Result)

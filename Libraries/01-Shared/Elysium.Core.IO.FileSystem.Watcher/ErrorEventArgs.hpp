@@ -25,7 +25,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
-#include "../Elysium.Core.Template/SystemException.hpp"
+#include "../Elysium.Core.Template/Exceptions/SystemException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_INTERNALBUFFEROVERFLOWEXCEPTION

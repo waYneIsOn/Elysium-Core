@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_AGGREGATEEXCEPTION
-#include "../Elysium.Core.Template/AggregateException.hpp"
+#include "../Elysium.Core.Template/Exceptions/AggregateException.hpp"
 #endif
 
 namespace Elysium::Core

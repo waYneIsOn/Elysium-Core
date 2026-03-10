@@ -1,7 +1,7 @@
 #include "ProcessModule.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#include "../Elysium.Core.Template/Functional/Move.hpp"
 #endif
 
 constexpr Elysium::Core::Diagnostics::ProcessModule::ProcessModule(Elysium::Core::Template::Text::String<char8_t>&& Name, Elysium::Core::Template::Text::String<char8_t>&& FileName, void* BaseAddress, void* EntryPoint, const Elysium::Core::Template::System::uint32_t SizeOfImage, const Elysium::Core::Template::System::uint32_t Id) noexcept

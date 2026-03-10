@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
-#include "../Elysium.Core.Template/ArgumentNullException.hpp"
+#include "../Elysium.Core.Template/Exceptions/ArgumentNullException.hpp"
 #endif
 
 namespace Elysium::Core

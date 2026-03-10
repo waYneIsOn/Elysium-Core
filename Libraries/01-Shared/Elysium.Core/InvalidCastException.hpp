@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDCASTEXCEPTION
-#include "../Elysium.Core.Template/InvalidCastException.hpp"
+#include "../Elysium.Core.Template/Exceptions/InvalidCastException.hpp"
 #endif
 
 namespace Elysium::Core

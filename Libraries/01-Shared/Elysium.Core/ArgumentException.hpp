@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTEXCEPTION
-#include "../Elysium.Core.Template/ArgumentException.hpp"
+#include "../Elysium.Core.Template/Exceptions/ArgumentException.hpp"
 #endif
 
 namespace Elysium::Core

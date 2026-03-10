@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_NOTIMPLEMENTEDEXCEPTION
-#include "../Elysium.Core.Template/NotImplementedException.hpp"
+#include "../Elysium.Core.Template/Exceptions/NotImplementedException.hpp"
 #endif
 
 namespace Elysium::Core

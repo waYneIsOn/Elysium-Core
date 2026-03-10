@@ -1,39 +1,29 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.Functional;
 
-Copyright (c) waYne (CAM). All rights reserved.
-
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL
-#define ELYSIUM_CORE_TEMPLATE_FUNCTIONAL
-
-#ifdef _MSC_VER
-#pragma once
-#endif
-
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDCONSTANT
-#include "AddConstant.hpp"
+#include "Functional/AddConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDCONSTANTVOLATILE
-#include "AddConstantVolatile.hpp"
+#include "Functional/AddConstantVolatile.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDLEFTVALUEREFERENCE
-#include "AddLeftValueReference.hpp"
+#include "Functional/AddLeftValueReference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDREFERENCE
-#include "AddReference.hpp"
+#include "Functional/AddReference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDRIGHTVALUEREFERENCE
-#include "AddRightValueReference.hpp"
+#include "Functional/AddRightValueReference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDVOLATILE
-#include "AddVolatile.hpp"
+#include "Functional/AddVolatile.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_DECLAREVALUE
@@ -45,39 +35,38 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_HASH
-#include "Hash.hpp"
+#include "Functional/Hash.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONST
-#include "RemoveConst.hpp"
+#include "Functional/RemoveConst.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
-#include "RemoveConstVolatile.hpp"
+#include "Functional/RemoveConstVolatile.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
-#include "RemovePointer.hpp"
+#include "Functional/RemovePointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVEREFERENCE
-#include "RemoveReference.hpp"
+#include "Functional/RemoveReference.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVEVOLATILE
-#include "RemoveVolatile.hpp"
+#include "Functional/RemoveVolatile.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
-#include "Reverse.hpp"
+#include "Functional/Reverse.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
-#include "Swap.hpp"
+#include "Functional/Swap.hpp"
 #endif
-
-#endif
+}

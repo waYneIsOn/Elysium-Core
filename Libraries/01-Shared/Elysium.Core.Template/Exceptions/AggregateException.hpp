@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Exceptions
@@ -29,7 +29,8 @@ namespace Elysium::Core::Template::Exceptions
 	/// <summary>
 	/// Represents one or more errors that occur during application execution.
 	/// </summary>
-	class AggregateException : public Exception
+	class AggregateException 
+		: public Exception
 	{
 	public:
 		AggregateException();

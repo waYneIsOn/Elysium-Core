@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_NOTSUPPORTEDEXCEPTION
-#include "../Elysium.Core.Template/NotSupportedException.hpp"
+#include "../Elysium.Core.Template/Exceptions/NotSupportedException.hpp"
 #endif
 
 namespace Elysium::Core

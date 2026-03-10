@@ -1,79 +1,78 @@
-/*
-===========================================================================
+export module Elysium.Core.Template.Exceptions;
 
-Copyright (c) waYne (CAM). All rights reserved.
-
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS
-#define ELYSIUM_CORE_TEMPLATE_EXCEPTIONS
-
-#ifdef _MSC_VER
-#pragma once
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "System/OperatingSystem.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
+//#include <Windows.h>;
+import <Windows.h>;
+#endif
+#else
+#error "unsupported os"
+#endif
+
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_AGGREGATEEXCEPTION
-#include "AggregateException.hpp"
+#include "Exceptions/AggregateException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTEXCEPTION
-#include "ArgumentException.hpp"
+#include "Exceptions/ArgumentException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTNULLEXCEPTION
-#include "ArgumentNullException.hpp"
+#include "Exceptions/ArgumentNullException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARGUMENTOUTOFRANGEEXCEPTION
-#include "ArgumentOutOfRangeException.hpp"
+#include "Exceptions/ArgumentOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_ARITHMETICEXCEPTION
-#include "ArithmeticException.hpp"
+#include "Exceptions/ArithmeticException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_DIVIDEBYZEROEXCEPTION
-#include "DivideByZeroException.hpp"
+#include "Exceptions/DivideByZeroException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_EXCEPTION
-#include "Exception.hpp"
+#include "Exceptions/Exception.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INDEXOUTOFRANGEEXCEPTION
-#include "IndexOutOfRangeException.hpp"
+#include "Exceptions/IndexOutOfRangeException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDCASTEXCEPTION
-#include "InvalidCastException.hpp"
+#include "Exceptions/InvalidCastException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_INVALIDOPERATIONEXCEPTION
-#include "InvalidOperationException.hpp"
+#include "Exceptions/InvalidOperationException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_NOTIMPLEMENTEDEXCEPTION
-#include "NotImplementedException.hpp"
+#include "Exceptions/NotImplementedException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_NOTSUPPORTEDEXCEPTION
-#include "NotSupportedException.hpp"
+#include "Exceptions/NotSupportedException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OUTOFMEMORYEXCEPTION
-#include "OutOfMemoryException.hpp"
+#include "Exceptions/OutOfMemoryException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_OVERFLOWEXCEPTION
-#include "OverflowException.hpp"
+#include "Exceptions/OverflowException.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
-#include "SystemException.hpp"
+#include "Exceptions/SystemException.hpp"
 #endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_INTERNALBUFFEROVERFLOWEXCEPTION
-#include "Exceptions/IO/InternalBufferOverflowException.hpp"
-#endif
-
-#endif
+}

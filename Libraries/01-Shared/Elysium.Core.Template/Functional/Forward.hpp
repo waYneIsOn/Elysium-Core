@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVEREFERENCE
-#include "../RemoveReference.hpp"
+#include "../Functional/RemoveReference.hpp"
 #endif
 
 namespace Elysium::Core::Template::Functional

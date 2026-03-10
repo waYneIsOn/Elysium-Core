@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Exceptions
@@ -29,7 +29,8 @@ namespace Elysium::Core::Template::Exceptions
 	/// <summary>
 	/// The exception that is thrown when one of the arguments provided to a method is not valid.
 	/// </summary>
-	class ArgumentNullException : public ArgumentException
+	class ArgumentNullException 
+		: public ArgumentException
 	{
 	public:
 		ArgumentNullException();

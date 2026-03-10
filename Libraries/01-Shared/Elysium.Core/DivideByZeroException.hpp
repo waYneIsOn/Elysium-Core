@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_DIVIDEBYZEROEXCEPTION
-#include "../Elysium.Core.Template/DivideByZeroException.hpp"
+#include "../Elysium.Core.Template/Exceptions/DivideByZeroException.hpp"
 #endif
 
 namespace Elysium::Core

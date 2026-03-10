@@ -2,7 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../UnitTestExtensions/ThreadsafeLogger.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Exception.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Exceptions/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Thread.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
