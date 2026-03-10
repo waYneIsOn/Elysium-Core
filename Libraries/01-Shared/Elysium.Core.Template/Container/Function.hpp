@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Functional/Forward.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../Functional/Move.hpp"
+#endif
+
 namespace Elysium::Core::Template::Threading
 {
 	class Thread;

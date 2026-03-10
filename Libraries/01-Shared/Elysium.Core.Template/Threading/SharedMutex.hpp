@@ -17,6 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef _WINDOWS_
+	#define WIN32_LEAN_AND_MEAN
+	#include <Windows.h>
+	#endif
+	
 	#ifndef _SYNCHAPI_H_
 	#include <synchapi.h>
 	#endif

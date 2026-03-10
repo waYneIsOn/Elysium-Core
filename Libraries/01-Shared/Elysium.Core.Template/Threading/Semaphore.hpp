@@ -20,11 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "WaitHandle.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_SEMAPHOREFULLEXCEPTION
-// ToDo
-#include "../Elysium.Core.Threading/SemaphoreFullException.hpp"
-#endif
-
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
@@ -75,7 +70,7 @@ namespace Elysium::Core::Template::Threading
 		}
 		else
 		{
-			throw Elysium::Core::Threading::SemaphoreFullException();
+			throw 1; // @ToDo: throw Elysium::Core::Template::Threading::SemaphoreFullException();
 		}
 	}
 }

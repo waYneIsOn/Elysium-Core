@@ -1,4 +1,3 @@
-/*
 export module Elysium.Core.Template.Threading;
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
@@ -106,4 +105,3 @@ export
 #include "Threading/WaitHandle.hpp"
 #endif
 }
-*/
