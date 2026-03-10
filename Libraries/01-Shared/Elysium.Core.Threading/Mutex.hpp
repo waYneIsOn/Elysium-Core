@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MUTEX
-#include "../Elysium.Core.Template/Mutex.hpp"
+#include "../Elysium.Core.Template/Threading/Mutex.hpp"
 #endif
 
 namespace Elysium::Core::Threading

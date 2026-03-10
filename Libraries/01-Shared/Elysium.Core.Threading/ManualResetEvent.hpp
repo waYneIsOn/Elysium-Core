@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MANUALRESETEVENT
-#include "../Elysium.Core.Template/ManualResetEvent.hpp"
+#include "../Elysium.Core.Template/Threading/ManualResetEvent.hpp"
 #endif
 
 namespace Elysium::Core::Threading

@@ -293,14 +293,54 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		constexpr FIterator Erase(ConstValue Value);
+		constexpr FIterator Erase(ConstValue Value)
+		{
+			for (System::size i = 0; i < _Length; i++)
+			{
+				if (_Data[i] == Value)
+				{
+					return EraseAt(i);
+				}
+			}
+
+			// ToDo: have a look at std::vector::erase in regards to returning the last element?
+			return GetEnd();
+		}
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="Index"></param>
 		/// <returns></returns>
-		constexpr FIterator EraseAt(const System::size Index);
+		constexpr FIterator EraseAt(const System::size Index)
+		{	// @ToDo: have a look at std::vector::erase in regards to returning the last element?
+			if (Index >= _Length)
+			{
+				throw Exceptions::IndexOutOfRangeException();
+			}
+
+			// ensure object destruction
+			_Data[Index].~T();
+
+			if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
+			{
+				for (Elysium::Core::Template::System::size i = Index + 1; i < _Length; ++i)
+				{
+					_Data[i - 1] = Elysium::Core::Template::Functional::Move(_Data[i]);
+				}
+			}
+			else
+			{
+				for (Elysium::Core::Template::System::size i = Index + 1; i < _Length; ++i)
+				{
+					_Data[i - 1] = _Data[i];
+				}
+			}
+
+			--_Length;
+
+			return GetEnd();
+		}
 
 		/// <summary>
 		/// 
@@ -622,54 +662,6 @@ namespace Elysium::Core::Template::Container
 		}
 		
 		_Length = 0;
-	}
-
-	template<class T, class Allocator>
-		requires Elysium::Core::Template::Concepts::Allocatable<T>
-	inline constexpr Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::Erase(ConstValue Value)
-	{
-		for (System::size i = 0; i < _Length; i++)
-		{
-			if (_Data[i] == Value)
-			{
-				return EraseAt(i);
-			}
-		}
-
-		// ToDo: have a look at std::vector::erase in regards to returning the last element?
-		return GetEnd();
-	}
-
-	template<class T, class Allocator>
-		requires Elysium::Core::Template::Concepts::Allocatable<T>
-	inline constexpr Container::Vector<T, Allocator>::FIterator Container::Vector<T, Allocator>::EraseAt(const System::size Index)
-	{	// @ToDo: have a look at std::vector::erase in regards to returning the last element?
-		if (Index >= _Length)
-		{
-			throw Exceptions::IndexOutOfRangeException();
-		}
-		
-		// ensure object destruction
-		_Data[Index].~T();
-
-		if constexpr (Elysium::Core::Template::TypeTraits::IsMoveAssignableValue<T>)
-		{
-			for (Elysium::Core::Template::System::size i = Index + 1; i < _Length; ++i)
-			{
-				_Data[i - 1] = Elysium::Core::Template::Functional::Move(_Data[i]);
-			}
-		}
-		else
-		{
-			for (Elysium::Core::Template::System::size i = Index + 1; i < _Length; ++i)
-			{
-				_Data[i - 1] = _Data[i];
-			}
-		}
-		
-		--_Length;
-
-		return GetEnd();
 	}
 
 	template<class T, class Allocator>

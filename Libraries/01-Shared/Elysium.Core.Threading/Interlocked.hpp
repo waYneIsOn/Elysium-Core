@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_INTERLOCKED
-#include "../Elysium.Core.Template/Interlocked.hpp"
+#include "../Elysium.Core.Template/Threading/Interlocked.hpp"
 #endif
 
 namespace Elysium::Core::Threading

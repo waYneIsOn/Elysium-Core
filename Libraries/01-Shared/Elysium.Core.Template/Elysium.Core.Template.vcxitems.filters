@@ -278,29 +278,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Utf16.hpp">
       <Filter>Text\Unicode</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp">
@@ -439,9 +417,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicUsable.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
@@ -453,15 +428,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryOrder.hpp">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicBase.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicIntegral.hpp">
-      <Filter>Threading</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicPointer.hpp">
-      <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp">
       <Filter>Threading</Filter>
@@ -803,6 +769,39 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/UnorderedMapForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicBase.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -932,5 +931,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.RunTimeTypeInformation.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Operators.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Iterator.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Threading.ixx" />
   </ItemGroup>
 </Project>

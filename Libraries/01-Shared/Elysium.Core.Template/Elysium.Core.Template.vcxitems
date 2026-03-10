@@ -31,7 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Array.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp" />
@@ -80,11 +80,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsNoThrowInvocable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTrivial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTriviallyCopyable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicIntegral.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicBase.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)_AtomicPointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicBase.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)AtomicUsable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)AutoResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BidirectionallyLinkedList.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Ceiling.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp" />
@@ -98,7 +98,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/ConstLinkedListForwardIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Copy.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureTypes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Decimal.hpp" />
@@ -118,7 +118,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EnumerationOrIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators/Equal.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Factorial.hpp" />
@@ -152,12 +152,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\WhereDeferredIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Logarithm.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemCpy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemoryOrder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MemSet.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\MidpointRounding.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators/NotEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)NotSupportedException.hpp" />
@@ -179,7 +179,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Select.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Semaphore.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SequenceContainer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SignedInteger.hpp" />
@@ -187,7 +187,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Truncate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseAnd.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseOr.hpp" />
@@ -285,7 +284,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tuple.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VoidType.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)WeakPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__MakeIntegerSequence.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Utility\__Repeat.hpp" />
@@ -304,6 +303,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Operators.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.RunTimeTypeInformation.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.System.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Threading.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Utility.ixx" />
   </ItemGroup>
 </Project>

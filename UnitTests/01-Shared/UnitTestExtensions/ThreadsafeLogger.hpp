@@ -6,7 +6,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MUTEX
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Mutex.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Mutex.hpp"
 #endif
 
 #ifndef MS_CPP_UNITTESTFRAMEWORK_LOGGER

@@ -5,7 +5,11 @@ export module Elysium.Core.Template.IO;
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-import <Windows.h>;
+	#ifndef _WINDOWS_
+	#define WIN32_LEAN_AND_MEAN
+	//#include <Windows.h>;
+	import <Windows.h>;
+#endif
 #else
 #error "unsupported os regarding filesystem"
 #endif

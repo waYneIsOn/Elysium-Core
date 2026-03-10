@@ -24,8 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 	#ifndef CONCURRENCYSAL_H
 	#include <concurrencysal.h>
 	#endif
-
-#include <cassert>
 #else
 #error "unsupported os"
 #endif
@@ -77,7 +75,7 @@ namespace Elysium::Core::Template::Threading
 	{	// https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-initializesrwlock
 		//InitializeSRWLock(&_Handle);
 
-		assert(_Handle.Ptr == nullptr);
+		//assert(_Handle.Ptr == nullptr);
 	}
 #else
 	{ }

@@ -25,12 +25,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CRITICALSECTION
-#include "../CriticalSection.hpp"
+#include "../Threading/CriticalSection.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	#ifndef _WINDOWS_
-	#define _WINSOCKAPI_ // don't include winsock
+	//#define _WINSOCKAPI_ // don't include winsock
+	#define WIN32_LEAN_AND_MEAN
 	#include <Windows.h>
 	#endif
 

@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_SEMAPHORE
-#include "../Elysium.Core.Template/Semaphore.hpp"
+#include "../Elysium.Core.Template/Threading/Semaphore.hpp"
 #endif
 
 namespace Elysium::Core::Threading

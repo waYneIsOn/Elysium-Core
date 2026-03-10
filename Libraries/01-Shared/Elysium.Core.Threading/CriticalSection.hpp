@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CRITICALSECTION
-#include "../Elysium.Core.Template/CriticalSection.hpp"
+#include "../Elysium.Core.Template/Threading/CriticalSection.hpp"
 #endif
 
 namespace Elysium::Core::Threading

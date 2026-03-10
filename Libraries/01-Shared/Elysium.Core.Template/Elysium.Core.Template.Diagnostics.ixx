@@ -1,15 +1,34 @@
 export module Elysium.Core.Template.Diagnostics;
 
-import <InitializerList.hpp>;
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-import <Windows.h>;
+	#ifndef _WINDOWS_
+	#define WIN32_LEAN_AND_MEAN
+	//#include <Windows.h>;
+	import <Windows.h>;
+	#endif
+
+//import <DbgHelp.h>;
+//import <Psapi.h>;
+//import <TlHelp32.h>;
+
+//#pragma warning(disable:5244)
+//#pragma warning(default:5244)
 #else
-#error "unsupported os regarding filesystem"
+#error "unsupported os"
+#endif
+
+#ifndef _INITIALIZER_LIST_
+//#include <initializer_list>
+//import <initializer_list>;
+#endif
+
+#ifndef _NEW_
+//#include <new>;
+//import <new>;
 #endif
 
 export

@@ -1,23 +1,41 @@
 /*
-===========================================================================
+export module Elysium.Core.Template.Threading;
 
-Copyright (c) waYne (CAM). All rights reserved.
-
-===========================================================================
-*/
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING
-#define ELYSIUM_CORE_TEMPLATE_THREADING
-
-#ifdef _MSC_VER
-#pragma once
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "System/OperatingSystem.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
-#include "Atomic.hpp"
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef _WINDOWS_
+	#define WIN32_LEAN_AND_MEAN
+	//#include <Windows.h>;
+	import <Windows.h>;
+	#endif
+#else
+#error "unsupported os"
 #endif
 
+import <cassert>;
+
+#ifndef _NEW_
+//#include <new>;
+import <new>;
+#endif
+
+#ifndef _INC_PROCESS
+//#include <process.h>;
+import <process.h>;
+#endif
+
+#ifndef _XSTRING_
+//#include <xstring>;	// @ToDo: remove asap (MemCmp!!!)
+import <xstring>;	// @ToDo: remove asap (MemCmp!!!)
+#endif
+
+export
+{
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICBASE
-#include "_AtomicBase.hpp"
+#include "Threading/_AtomicBase.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICENUM
@@ -25,15 +43,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICINTEGRAL
-#include "_AtomicIntegral.hpp"
+#include "Threading/_AtomicIntegral.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICPOINTER
-#include "_AtomicPointer.hpp"
+#include "Threading/_AtomicPointer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "Threading/Atomic.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_AUTORESETEVENT
-#include "AutoResetEvent.hpp"
+#include "Threading/AutoResetEvent.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CALLONCE
@@ -41,11 +63,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_CRITICALSECTION
-#include "CriticalSection.hpp"
+#include "Threading/CriticalSection.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE
-#include "EventWaitHandle.hpp"
+#include "Threading/EventWaitHandle.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_FIBER
@@ -53,23 +75,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MANUALRESETEVENT
-#include "ManualResetEvent.hpp"
+#include "Threading/ManualResetEvent.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_INTERLOCKED
-#include "Interlocked.hpp"
+#include "Threading/Interlocked.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MUTEX
-#include "Mutex.hpp"
+#include "Threading/Mutex.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_SEMAPHORE
-#include "Semaphore.hpp"
+#include "Threading/Semaphore.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_SHAREDMUTEX
-#include "SharedMutex.hpp"
+#include "Threading/SharedMutex.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREAD
@@ -81,7 +103,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
-#include "WaitHandle.hpp"
+#include "Threading/WaitHandle.hpp"
 #endif
-
-#endif
+}
+*/

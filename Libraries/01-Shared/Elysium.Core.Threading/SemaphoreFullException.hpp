@@ -34,7 +34,7 @@ namespace Elysium::Core::Threading
 
 		SemaphoreFullException(Elysium::Core::Utf8String&& Message);
 
-		virtual ~SemaphoreFullException();
+		constexpr virtual ~SemaphoreFullException() = default;
 	};
 }
 #endif

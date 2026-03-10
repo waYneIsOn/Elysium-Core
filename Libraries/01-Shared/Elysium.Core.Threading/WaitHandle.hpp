@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE
-#include "../Elysium.Core.Template/WaitHandle.hpp"
+#include "../Elysium.Core.Template/Threading/WaitHandle.hpp"
 #endif
 
 namespace Elysium::Core::Threading

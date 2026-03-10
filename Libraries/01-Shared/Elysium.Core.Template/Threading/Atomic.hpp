@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ATOMICUSABLE
-#include "AtomicUsable.hpp"
+#include "../AtomicUsable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICENUM
-#include "Threading/_AtomicEnum.hpp"
+#include "_AtomicEnum.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICINTEGRAL
@@ -29,27 +29,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISBOOLEAN
-#include "IsBoolean.hpp"
+#include "../IsBoolean.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISENUMERATION
-#include "IsEnumeration.hpp"
+#include "../IsEnumeration.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISNOTHROWDEFAULTCONSTRUCTIBLE
-#include "IsNothrowDefaultConstructible.hpp"
+#include "../IsNothrowDefaultConstructible.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISPOINTER
-#include "IsPointer.hpp"
+#include "../IsPointer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_SELECT
-#include "Select.hpp"
+#include "../Select.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Threading

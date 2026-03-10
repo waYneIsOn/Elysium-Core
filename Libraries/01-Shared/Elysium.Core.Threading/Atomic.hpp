@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
-#include "../Elysium.Core.Template/Atomic.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../Elysium.Core.Template/System/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_PRIMITIVES
-#include "../Elysium.Core.Template/System/Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "../Elysium.Core.Template/Threading/Atomic.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_SHAREDMUTEX

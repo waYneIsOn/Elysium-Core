@@ -33,7 +33,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
-#include "../Elysium.Core.Template/Atomic.hpp"
+#include "../Elysium.Core.Template/Threading/Atomic.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_ATOMIC
