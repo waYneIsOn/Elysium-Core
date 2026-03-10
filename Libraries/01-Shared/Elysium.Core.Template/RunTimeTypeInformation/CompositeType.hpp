@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "../CharacterTraits.hpp"
+#include "../Text/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "../String.hpp"
+#include "../Text/String.hpp"
 #endif
 
 namespace Elysium::Core::Template::RunTimeTypeInformation

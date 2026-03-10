@@ -9,7 +9,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Speech/SpeechAudioFormatInfo.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Speech/SpeechRecognitionEngine.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Speech/SpeechSynthesizer.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
 using namespace Elysium::Core;

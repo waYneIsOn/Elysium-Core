@@ -13,23 +13,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "../Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
-#include "EnableIf.hpp"
+#include "../Common/EnableIf.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
-#include "Swap.hpp"
+#include "../Functional/Swap.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "OperatingSystem.hpp"
+#include "../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
@@ -41,7 +41,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
-#include "IsSame.hpp"
+#include "../TypeTraits/IsSame.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text

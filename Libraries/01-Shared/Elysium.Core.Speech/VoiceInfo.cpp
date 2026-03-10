@@ -1,15 +1,15 @@
 #include "VoiceInfo.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#include "../Elysium.Core.Template/Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "../Elysium.Core.Template/CharacterTraits.hpp"
+#include "../Elysium.Core.Template/Text/CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
-#include "../Elysium.Core.Template/Convert.hpp"
+#include "../Elysium.Core.Template/Text/Convert.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

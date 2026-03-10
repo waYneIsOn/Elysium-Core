@@ -13,7 +13,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
-#include "../Elysium.Core.Template/Convert.hpp"
+#include "../Elysium.Core.Template/Text/Convert.hpp"
 #endif
 
 Elysium::Core::Json::JsonArray::JsonArray()

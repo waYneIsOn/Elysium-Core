@@ -8,7 +8,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcher.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcherAsyncResult.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Delegate.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/FileSystem.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"

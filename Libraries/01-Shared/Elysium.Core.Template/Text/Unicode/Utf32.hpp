@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "CharacterTraits.hpp"
+#include "../CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UNICODERANGES
-#include "../../UnicodeRanges.hpp"
+#include "UnicodeRanges.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text::Unicode

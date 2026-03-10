@@ -17,7 +17,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
-#include "../Elysium.Core.Template/Convert.hpp"
+#include "../Elysium.Core.Template/Text/Convert.hpp"
 #endif
 
 Elysium::Core::Data::TdsClient::TdsConnection::TdsConnection(const TdsVersion Version, const Elysium::Core::Utf8String& ConnectionString, const Elysium::Core::uint32_t ConnectionTimeout)

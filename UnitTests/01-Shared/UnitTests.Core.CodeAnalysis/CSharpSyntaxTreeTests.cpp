@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.CodeAnalysis/SyntaxTree.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/String.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/String.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

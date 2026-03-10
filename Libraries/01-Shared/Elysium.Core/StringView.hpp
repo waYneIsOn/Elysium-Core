@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGVIEW
-#include "../Elysium.Core.Template/StringView.hpp"
+#include "../Elysium.Core.Template/Text/StringView.hpp"
 #endif
 
 namespace Elysium::Core

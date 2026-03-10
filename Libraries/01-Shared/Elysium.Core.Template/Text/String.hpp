@@ -13,23 +13,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "../Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
-#include "Memory/DefaultAllocator.hpp"
+#include "../Memory/DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
-#include "Memory/MemCpy.hpp"
+#include "../Memory/MemCpy.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMSET
-#include "Memory/MemSet.hpp"
+#include "../Memory/MemSet.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS

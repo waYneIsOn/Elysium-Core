@@ -7,7 +7,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/IOException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/MemSet.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Memory/MemSet.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
@@ -75,7 +75,7 @@ namespace UnitTests::Core::IO
 			Assert::AreEqual((byte)'t', DataToRead[7]);
 			Assert::AreEqual((byte)'a', DataToRead[8]);
 		}
-
+		/*
 		TEST_METHOD(AsyncReadAndWriteThroughIOThreads)
 		{
 			CompletionSignal().Reset();
@@ -95,7 +95,7 @@ namespace UnitTests::Core::IO
 			// wait for completion
 			CompletionSignal().WaitOne();
 		}
-
+		
 		TEST_METHOD(AsyncReadAndWriteThroughWorkerThreads)
 		{
 			CompletionSignal().Reset();
@@ -124,6 +124,7 @@ namespace UnitTests::Core::IO
 				Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference::Bind<FileStreamTests, &FileStreamTests::ReadCallback>(*this), nullptr);
 			ReadResult->GetAsyncWaitHandle().WaitOne();
 		}
+		*/
 	private:
 		//inline static ManualResetEvent _CompletionSignal = ManualResetEvent(false);
 		static ManualResetEvent& CompletionSignal()

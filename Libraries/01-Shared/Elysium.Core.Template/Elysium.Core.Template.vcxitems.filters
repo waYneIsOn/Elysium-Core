@@ -36,10 +36,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)KeyValuePair.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Text.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CharacterTraits.hpp">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Character.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
@@ -48,15 +44,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MAllocator.hpp">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp">
-      <Filter>Text</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp">
-      <Filter>Text</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StringBuilder.hpp">
-      <Filter>Text</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Ratio.hpp">
       <Filter>Numeric</Filter>
@@ -82,17 +69,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Hashable.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Convert.hpp">
-      <Filter>Text</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Delegate.hpp">
       <Filter>Container</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultDeleter.hpp">
       <Filter>Memory</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Encoding.hpp">
-      <Filter>Text</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Variant.hpp">
       <Filter>Container</Filter>
@@ -106,24 +87,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FloatingPoint.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRange.hpp">
-      <Filter>Text\Unicode</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCategory.hpp">
-      <Filter>Text\Unicode</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeRanges.hpp">
-      <Filter>Text\Unicode</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnicodeCharacter.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Utf8.hpp">
-      <Filter>Text\Unicode</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Text.Unicode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Utf16.hpp">
-      <Filter>Text\Unicode</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp">
       <Filter>Threading</Filter>
@@ -795,6 +760,39 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SystemException.hpp">
       <Filter>Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\UnicodeCategory.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\UnicodeRange.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\UnicodeRanges.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf8.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf16.hpp">
+      <Filter>Text\Unicode</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\CharacterTraits.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Convert.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\Encoding.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\String.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\StringView.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Text\StringBuilder.hpp">
+      <Filter>Text</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -931,5 +929,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Functional.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Exceptions.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Exceptions.IO.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.Unicode.ixx" />
   </ItemGroup>
 </Project>

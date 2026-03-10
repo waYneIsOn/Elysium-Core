@@ -2,7 +2,7 @@
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/Exception.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Diagnostics/StackTrace.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 
 using namespace Elysium::Core;
 using namespace Elysium::Core::Diagnostics;

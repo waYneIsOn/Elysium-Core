@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/Decimal.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

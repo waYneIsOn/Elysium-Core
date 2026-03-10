@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "../Elysium.Core.Template/String.hpp"
+#include "../Elysium.Core.Template/Text/String.hpp"
 #endif
 
 namespace Elysium::Core

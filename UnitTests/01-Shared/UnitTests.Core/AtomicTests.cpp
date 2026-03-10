@@ -4,7 +4,7 @@
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/UnorderedMap.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Vector.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 

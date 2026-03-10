@@ -13,47 +13,47 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "../Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_GLOBALIZATION_NUMBERFORMATINFO
-#include "Globalization/NumberFormatInfo.hpp"
+#include "../Globalization/NumberFormatInfo.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
-#include "Absolute.hpp"
+#include "../Math/Absolute.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_CEILING
-#include "Math/Ceiling.hpp"
+#include "../Math/Ceiling.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_FLOOR
-#include "Math/Floor.hpp"
+#include "../Math/Floor.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_LOGARITHM
-#include "Math/Logarithm.hpp"
+#include "../Math/Logarithm.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_DECIMAL
-#include "Math/Decimal.hpp"
+#include "../Math/Decimal.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_POWER
-#include "Math/Power.hpp"
+#include "../Math/Power.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
-#include "Math/Truncate.hpp"
+#include "../Math/Truncate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
-#include "NumericTraits.hpp"
+#include "../NumericTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS

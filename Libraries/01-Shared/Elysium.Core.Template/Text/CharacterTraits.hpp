@@ -13,27 +13,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "../Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
-#include "Integer.hpp"
+#include "../Integer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
-#include "NumericTraits.hpp"
+#include "../NumericTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
-#include "Literals.hpp"
+#include "../System/Literals.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "OperatingSystem.hpp"
+#include "../System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text

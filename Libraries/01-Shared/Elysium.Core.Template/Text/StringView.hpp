@@ -13,19 +13,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "../Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "Vector.hpp"
+#include "../Vector.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS

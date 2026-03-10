@@ -13,7 +13,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
-#include "../Elysium.Core.Template/Utf16.hpp"
+#include "../Elysium.Core.Template/Text/Unicode/Utf16.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

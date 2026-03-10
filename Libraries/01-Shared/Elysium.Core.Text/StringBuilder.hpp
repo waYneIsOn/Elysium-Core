@@ -25,7 +25,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGBUILDER
-#include "../Elysium.Core.Template/StringBuilder.hpp"
+#include "../Elysium.Core.Template/Text/StringBuilder.hpp"
 #endif
 
 namespace Elysium::Core::Text

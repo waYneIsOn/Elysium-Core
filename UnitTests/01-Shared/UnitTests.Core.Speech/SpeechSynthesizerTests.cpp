@@ -5,7 +5,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/MemoryStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Speech/SpeechSynthesizer.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

@@ -17,7 +17,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "../String.hpp"
+#include "../Text/String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Exceptions
@@ -30,7 +30,7 @@ namespace Elysium::Core::Template::Exceptions
 	public:
 		constexpr Exception(const char8_t* Message = nullptr);
 
-		constexpr Exception(Text::String<char8_t>&& Message);
+		constexpr Exception(Elysium::Core::Template::Text::String<char8_t>&& Message);
 
 		constexpr Exception(const Exception& Source);
 
@@ -42,14 +42,14 @@ namespace Elysium::Core::Template::Exceptions
 
 		constexpr Exception& operator=(Exception&& Right) noexcept;
 	public:
-		const Text::String<char8_t>& GetExceptionMessage() const noexcept;
+		const Elysium::Core::Template::Text::String<char8_t>& GetExceptionMessage() const noexcept;
 
-		const Text::String<char8_t>& GetStackTrace() const noexcept;
+		const Elysium::Core::Template::Text::String<char8_t>& GetStackTrace() const noexcept;
 	private:
-		constexpr Text::String<char8_t> CaptureStackTrace();
+		constexpr Elysium::Core::Template::Text::String<char8_t> CaptureStackTrace();
 	private:
-		Text::String<char8_t> _Message;
-		Text::String<char8_t> _StackTrace;
+		Elysium::Core::Template::Text::String<char8_t> _Message;
+		Elysium::Core::Template::Text::String<char8_t> _StackTrace;
 	};
 
 	inline constexpr Exception::Exception(const char8_t* Message)
@@ -90,19 +90,19 @@ namespace Elysium::Core::Template::Exceptions
 		return *this;
 	}
 
-	inline const Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetExceptionMessage() const noexcept
+	inline const Elysium::Core::Template::Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetExceptionMessage() const noexcept
 	{
 		return _Message;
 	}
 	
-	inline const Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetStackTrace() const noexcept
+	inline const Elysium::Core::Template::Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetStackTrace() const noexcept
 	{
 		return _StackTrace;
 	}
 
-	inline constexpr Text::String<char8_t> Exception::CaptureStackTrace()
+	inline constexpr Elysium::Core::Template::Text::String<char8_t> Exception::CaptureStackTrace()
 	{	// ToDo: capture stacktrace as string like .net does
-		return Text::String<char8_t>();
+		return Elysium::Core::Template::Text::String<char8_t>();
 	}
 }
 #endif

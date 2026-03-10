@@ -1,9 +1,9 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/String.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/String.hpp"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

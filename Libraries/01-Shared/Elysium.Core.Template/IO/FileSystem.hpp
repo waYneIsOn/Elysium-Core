@@ -17,15 +17,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "../String.hpp"
+#include "../Text/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF8
-#include "../Utf8.hpp"
+#include "../Text/Unicode/Utf8.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
-#include "../Utf16.hpp"
+#include "../Text/Unicode/Utf16.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

@@ -3,7 +3,7 @@
 #include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Environment.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
 
 using namespace Elysium::Core;

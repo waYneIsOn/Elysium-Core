@@ -13,19 +13,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_CHARACTER
-#include "Character.hpp"
+#include "../../Character.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
-#include "CharacterTraits.hpp"
+#include "../CharacterTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Text::Unicode
@@ -107,7 +107,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		/// <param name="Size"></param>
 		/// <returns></returns>
 		template <Concepts::Character C>
-		static String<C> FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept;
+		static Elysium::Core::Template::Text::String<C> FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept;
 
 		/// <summary>
 		/// Encodes given String<C> to WideString while assuming the input to be correct and therefore performing no checks on it.
@@ -116,7 +116,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		/// <param name="Length"></param>
 		/// <returns></returns>
 		template <Concepts::Character C>
-		static String<wchar_t> SafeToWideString(const C* Data, const System::size Length) noexcept;
+		static Elysium::Core::Template::Text::String<wchar_t> SafeToWideString(const C* Data, const System::size Length) noexcept;
 	public:
 		/*
 		/// <summary>
@@ -149,16 +149,16 @@ namespace Elysium::Core::Template::Text::Unicode
 		}
 
 		// ensure first char isn't a low surrogate
-		if (CharacterTraits<Type>::IsLowSurrogate(Value[0]))
+		if (Elysium::Core::Template::Text::CharacterTraits<Type>::IsLowSurrogate(Value[0]))
 		{
 			return false;
 		}
 
 		for (System::size i = 0; i < Length; ++i)
 		{
-			if (CharacterTraits<Type>::IsHighSurrogate(Value[i]))
+			if (Elysium::Core::Template::Text::CharacterTraits<Type>::IsHighSurrogate(Value[i]))
 			{
-				if (++i > Length || !CharacterTraits<Type>::IsLowSurrogate(Value[i]))
+				if (++i > Length || !Elysium::Core::Template::Text::CharacterTraits<Type>::IsLowSurrogate(Value[i]))
 				{
 					return false;
 				}
@@ -175,7 +175,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		System::uint32_t RequiredLength = 0;
 		for (System::size i = 0; i < Length; ++i)
 		{
-			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
 				++RequiredLength;
 				++i;	// skip low surrogate
@@ -196,7 +196,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		System::size RequiredLength = 0;
 		for (System::size i = 0; i < Length; ++i)
 		{
-			CodePoint = CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
+			CodePoint = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
 			if (CodePoint < 0x80)			// 0 - 127
 			{
 				++RequiredLength;
@@ -208,7 +208,7 @@ namespace Elysium::Core::Template::Text::Unicode
 			else if (CodePoint < 0x10000)	// 2048 - 65535
 			{
 				RequiredLength += 3;
-				if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+				if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 				{
 					++i;	// skip low surrogate
 				}
@@ -247,7 +247,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		for (System::size i = 0; i < Length; ++i)
 		{
 			++RequiredLength;
-			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
 				++i;	// skip low surrogate
 			}
@@ -287,7 +287,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		System::size RequiredLength = 0;
 		for (System::size i = 0; i < Length; ++i)
 		{
-			switch (CharacterTraits<char8_t>::GetByteCount(Data[i]))
+			switch (Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetByteCount(Data[i]))
 			{
 			case 1:		// 0xxx xxxx										->	0xxx xxxx
 				++RequiredLength;
@@ -297,7 +297,7 @@ namespace Elysium::Core::Template::Text::Unicode
 				++i;
 				break;
 			case 3:		// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
-				CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
+				CodePoint = Elysium::Core::Template::Text::CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
 				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
 				{
 					RequiredLength += 4;
@@ -375,7 +375,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<char> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<char> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
 		static constexpr const char InvalidCharacterRepresentation = '?';
 
@@ -384,7 +384,7 @@ namespace Elysium::Core::Template::Text::Unicode
 		String<char> Result = String<char>(RequiredLength);
 		for (System::size i = 0; i < Length; ++i)
 		{
-			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
 				Result[i] = InvalidCharacterRepresentation;
 				++i;	// skip low surrogate
@@ -405,7 +405,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<char8_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<char8_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
 		const System::size RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
 
@@ -418,7 +418,7 @@ namespace Elysium::Core::Template::Text::Unicode
 
 		for (System::size i = 0; i < Length; ++i)
 		{
-			CodePoint = CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
+			CodePoint = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::ConvertToUtf32((wchar_t*)&Data[i]);
 			if (CodePoint < 0x80)			// 0 - 127
 			{
 				// 0xxx xxxx									->	0xxx xxxx
@@ -442,7 +442,7 @@ namespace Elysium::Core::Template::Text::Unicode
 				Result[CharacterIndex++] = 0xE0 | (*Byte2 >> 4);
 				Result[CharacterIndex++] = 0x80 | ((*Byte2 & 0x0F) << 2) | (*Byte1 >> 6);
 				Result[CharacterIndex++] = 0x80 | (*Byte1 & 0x3F);
-				if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+				if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 				{
 					++i;	// skip low surrogate
 				}
@@ -471,11 +471,11 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<char16_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<char16_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		String<char16_t> Result = String<char16_t>(Length);
-		memcpy(&Result[0], Data, Length * CharacterTraits<wchar_t>::MinimumByteLength);
+		memcpy(&Result[0], Data, Length * Elysium::Core::Template::Text::CharacterTraits<wchar_t>::MinimumByteLength);
 
 		return Result;
 #else
@@ -485,7 +485,7 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<char32_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<char32_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		const System::size RequiredLength = GetRequiredLengthOfSafeWideString<wchar_t>(Data, Length);
@@ -493,8 +493,8 @@ namespace Elysium::Core::Template::Text::Unicode
 		String<char32_t> Result = String<char32_t>(RequiredLength);
 		for (System::size i = 0; i < Length; ++i)
 		{
-			Result[i] = CharacterTraits<wchar_t>::ConvertToUtf32(&Data[i]);
-			if (CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
+			Result[i] = Elysium::Core::Template::Text::CharacterTraits<wchar_t>::ConvertToUtf32(&Data[i]);
+			if (Elysium::Core::Template::Text::CharacterTraits<wchar_t>::IsHighSurrogate(Data[i]))
 			{
 				++i;	// skip low surrogate
 			}
@@ -510,21 +510,21 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<wchar_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		return String<wchar_t>(Data, Length);
+		return Elysium::Core::Template::Text::String<wchar_t>(Data, Length);
 	}
 
 	template<Concepts::Character C>
-	inline String<C> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<C> Utf16::FromSafeWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		return String<C>();
+		return Elysium::Core::Template::Text::String<C>();
 	}
 
 	template<>
-	inline String<wchar_t> Utf16::SafeToWideString(const char* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::SafeToWideString(const char* Data, const System::size Length) noexcept
 	{
-		String<wchar_t> Result = String<wchar_t>(Length);
+		Elysium::Core::Template::Text::String<wchar_t> Result = Elysium::Core::Template::Text::String<wchar_t>(Length);
 		for (System::size i = 0; i < Length; i++)
 		{
 			Result[i] = Data[i];
@@ -534,11 +534,11 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<wchar_t> Utf16::SafeToWideString(const char8_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::SafeToWideString(const char8_t* Data, const System::size Length) noexcept
 	{
 		const System::size RequiredLength = GetRequiredLengthForSafeWideString<char8_t>(Data, Length);
 
-		String<wchar_t> Result = String<wchar_t>(RequiredLength);
+		Elysium::Core::Template::Text::String<wchar_t> Result = Elysium::Core::Template::Text::String<wchar_t>(RequiredLength);
 		System::size TargetIndex = 0;
 		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
 		System::byte* CodePointBytes;
@@ -547,7 +547,7 @@ namespace Elysium::Core::Template::Text::Unicode
 			const wchar_t& CurrentTargetChar = Result[TargetIndex];
 			const char8_t& CurrentChar = Data[i];
 
-			switch (CharacterTraits<char8_t>::GetByteCount(Data[i]))
+			switch (Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetByteCount(Data[i]))
 			{
 			case 1:		// 0xxx xxxx										->	0xxx xxxx
 				Result[TargetIndex++] = Data[i];
@@ -561,7 +561,7 @@ namespace Elysium::Core::Template::Text::Unicode
 				i++;
 				break;
 			case 3:		// 1110 zzzz	10yy yyyy	10xx xxxx				->	zzzz yyyy	yyxx xxxx
-				CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
+				CodePoint = Elysium::Core::Template::Text::CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
 				if (CodePoint >= 0xD800 && CodePoint <= 0xDBFF)
 				{
 					/*
@@ -597,7 +597,7 @@ namespace Elysium::Core::Template::Text::Unicode
 				W1 = 1101 10aa	bbxx xxxx      // 0xD800 + yyyyyyyyyy
 				W2 = 1101 11yy	zzzz zzzz      // 0xDC00 + xxxxxxxxxx
 				*/
-				CodePoint = CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
+				CodePoint = Elysium::Core::Template::Text::CharacterTraits<char8_t>::ConvertToUtf32(&Data[i]);
 				CodePoint -= 0x10000;
 				CodePointBytes = (System::byte*)&CodePoint;
 				/*
@@ -620,11 +620,11 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<wchar_t> Utf16::SafeToWideString(const char16_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::SafeToWideString(const char16_t* Data, const System::size Length) noexcept
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
-		String<wchar_t> Result = String<wchar_t>(Length);
-		memcpy(&Result[0], Data, Length * CharacterTraits<char16_t>::MinimumByteLength);
+		Elysium::Core::Template::Text::String<wchar_t> Result = Elysium::Core::Template::Text::String<wchar_t>(Length);
+		memcpy(&Result[0], Data, Length * Elysium::Core::Template::Text::CharacterTraits<char16_t>::MinimumByteLength);
 
 		return Result;
 #else
@@ -634,12 +634,12 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<wchar_t> Utf16::SafeToWideString(const char32_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::SafeToWideString(const char32_t* Data, const System::size Length) noexcept
 	{
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		const System::size RequiredLength = GetRequiredLengthForSafeWideString<char32_t>(Data, Length);
 
-		String<wchar_t> Result = String<wchar_t>(RequiredLength);
+		Elysium::Core::Template::Text::String<wchar_t> Result = Elysium::Core::Template::Text::String<wchar_t>(RequiredLength);
 		char32_t CodePoint;
 		for (System::size i = 0; i < Length; ++i)
 		{
@@ -681,15 +681,15 @@ namespace Elysium::Core::Template::Text::Unicode
 	}
 
 	template<>
-	inline String<wchar_t> Utf16::SafeToWideString(const wchar_t* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::SafeToWideString(const wchar_t* Data, const System::size Length) noexcept
 	{
-		return String<wchar_t>(Data, Length);
+		return Elysium::Core::Template::Text::String<wchar_t>(Data, Length);
 	}
 
 	template<Concepts::Character C>
-	inline String<wchar_t> Utf16::SafeToWideString(const C* Data, const System::size Length) noexcept
+	inline Elysium::Core::Template::Text::String<wchar_t> Utf16::SafeToWideString(const C* Data, const System::size Length) noexcept
 	{
-		return String<wchar_t>();
+		return Elysium::Core::Template::Text::String<wchar_t>();
 	}
 }
 #endif

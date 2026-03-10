@@ -3,7 +3,7 @@
 
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core/Primitives.hpp"
 #include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Functional/Move.hpp"
-#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/String.hpp"
+#include "../../../../Elysium-Core/Libraries/01-Shared/Elysium.Core.Template/Text/String.hpp"
 
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

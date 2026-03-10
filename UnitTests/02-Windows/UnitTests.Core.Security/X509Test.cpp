@@ -10,7 +10,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Convert.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 ;
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
