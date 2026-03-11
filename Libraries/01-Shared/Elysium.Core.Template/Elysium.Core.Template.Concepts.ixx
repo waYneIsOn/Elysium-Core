@@ -1,3 +1,5 @@
+module;
+
 export module Elysium.Core.Template.Concepts;
 
 export

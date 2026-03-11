@@ -1,8 +1,6 @@
-export module Elysium.Core.Template.Memory;
+module;
 
-#ifndef _CSTRING_
-import <xstring>;	// @ToDo: Elysium::Core::Template::Memory::MemCmp(...)
-#endif
+export module Elysium.Core.Template.Memory;
 
 export
 {

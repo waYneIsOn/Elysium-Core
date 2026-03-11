@@ -20,7 +20,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVEREFERENCE
 #include "Functional/RemoveReference.hpp"
 #endif
-
+/*
+#ifndef ELYSIUM_CORE_TEMPLATE_EXPORT_MODULE
+import Elysium.Core.Template.Functional;
+#endif
+*/
 namespace Elysium::Core::Template::Memory
 {
 	/*
@@ -32,11 +36,13 @@ namespace Elysium::Core::Template::Memory
 	class ObserverPointer
 	{
 	public:
-		using Pointer = Functional::RemoveReferenceType<T>*;
+		using Pointer = Elysium::Core::Template::Functional::RemoveReferenceType<T>*;
 	public:
 		constexpr ObserverPointer() noexcept = default;
 		
-		constexpr ObserverPointer(Pointer Data) noexcept;
+		constexpr ObserverPointer(Pointer Data) noexcept
+			: _Data(Data)
+		{ }
 
 		constexpr ObserverPointer(const ObserverPointer& Source) = default;
 
@@ -50,22 +56,14 @@ namespace Elysium::Core::Template::Memory
 	public:
 		//constexpr ObserverPointer<T>::Pointer operator->() const noexcept;
 	public:
-		constexpr ObserverPointer<T>::Pointer GetUnderlyingPointer() const noexcept;
+		constexpr ObserverPointer<T>::Pointer GetUnderlyingPointer() const noexcept
+		{
+			return _Data;
+		}
 
 		//constexpr ObserverPointer<T>::Pointer Release() noexcept;
 	private:
 		Pointer _Data;
 	};
-
-	template<typename T>
-	inline constexpr ObserverPointer<T>::ObserverPointer(Pointer Data) noexcept
-		: _Data(Data)
-	{ }
-
-	template<class T>
-	inline constexpr ObserverPointer<T>::Pointer ObserverPointer<T>::GetUnderlyingPointer() const noexcept
-	{
-		return _Data;
-	}
 }
 #endif

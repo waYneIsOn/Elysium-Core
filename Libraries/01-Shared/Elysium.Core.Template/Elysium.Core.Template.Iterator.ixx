@@ -1,9 +1,11 @@
-export module Elysium.Core.Template.Iterator;
+module;
 
 #ifndef _NEW_
-//#include <new>;
-import <new>;
+#include <new>
+//import <new>;
 #endif
+
+export module Elysium.Core.Template.Iterator;
 
 export
 {

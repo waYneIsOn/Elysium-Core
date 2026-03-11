@@ -1,3 +1,9 @@
+module;
+
+#ifndef _INITIALIZER_LIST_
+#include <initializer_list>
+#endif
+
 export module Elysium.Core.Template.System;
 
 export

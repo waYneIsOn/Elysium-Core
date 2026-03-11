@@ -1,22 +1,43 @@
-export module Elysium.Core.Template.Diagnostics;
+module;
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	#ifndef _WINDOWS_
-	#define WIN32_LEAN_AND_MEAN
-	//#include <Windows.h>;
-	import <Windows.h>;
-	#endif
+#ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+//import <Windows.h>;
+#endif
 
+#ifndef _DBGHELP_
+#include <DbgHelp.h>
 //import <DbgHelp.h>;
-//import <Psapi.h>;
+#endif
+
+#ifndef _INC_TOOLHELP32
+#include <tlhelp32.h>
 //import <TlHelp32.h>;
+#endif
+
+#ifndef _PSAPI_H_
+#include <Psapi.h>
+//import <Psapi.h>;
+#endif
 #else
 #error "unsupported os"
 #endif
+
+#ifndef _NEW_
+#include <new>
+#endif
+
+#ifndef _INITIALIZER_LIST_
+#include <initializer_list>
+#endif
+
+export module Elysium.Core.Template.Diagnostics;
 
 export
 {

@@ -1,3 +1,5 @@
+module;
+
 export module Elysium.Core.Template.Functional;
 
 export

@@ -1,35 +1,37 @@
-export module Elysium.Core.Template.Threading;
+module;
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	#ifndef _WINDOWS_
-	#define WIN32_LEAN_AND_MEAN
-	//#include <Windows.h>;
-	import <Windows.h>;
-	#endif
+#ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+//import <Windows.h>;
+#endif
 #else
 #error "unsupported os"
 #endif
 
-import <cassert>;
+#include <cassert>
+//import <cassert>;
 
 #ifndef _NEW_
-//#include <new>;
-import <new>;
+#include <new>
+//import <new>;
 #endif
 
 #ifndef _INC_PROCESS
-//#include <process.h>;
-import <process.h>;
+#include <process.h>
+//import <process.h>;
 #endif
 
-#ifndef _XSTRING_
-//#include <xstring>;	// @ToDo: remove asap (MemCmp!!!)
-import <xstring>;	// @ToDo: remove asap (MemCmp!!!)
+#ifndef _INITIALIZER_LIST_
+#include <initializer_list>
 #endif
+
+export module Elysium.Core.Template.Threading;
 
 export
 {

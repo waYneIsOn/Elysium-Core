@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef _CMATH_
-// ToDo: implement myself and remove
+// @ToDo: implement myself and remove
 #include <cmath>
 #endif
 

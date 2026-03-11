@@ -1,28 +1,30 @@
-export module Elysium.Core.Template.RunTimeTypeInformation;
+module;
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	#ifndef _WINDOWS_
-	#define WIN32_LEAN_AND_MEAN
-	//#include <Windows.h>;
-	import <Windows.h>;
-	#endif
+#ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+//import <Windows.h>;
+#endif
 #else
 #error "unsupported os regarding filesystem"
 #endif
 
 #ifndef _INITIALIZER_LIST_
-//#include <initializer_list>
-import <initializer_list>;
+#include <initializer_list>
+//import <initializer_list>;
 #endif
 
 #ifndef _NEW_
-//#include <new>;
-import <new>;
+#include <new>
+//import <new>;
 #endif
+
+export module Elysium.Core.Template.RunTimeTypeInformation;
 
 export
 {

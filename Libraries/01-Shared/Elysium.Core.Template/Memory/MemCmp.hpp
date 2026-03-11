@@ -16,15 +16,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
-#ifndef _CSTRING_
-#include <xstring>	// @ToDo: stl remnant
-#endif
+extern "C" int __cdecl memcmp(void const* Buffer1, void const* Buffer2, size_t Size);
 
 namespace Elysium::Core::Template::Memory
 {
 	inline Elysium::Core::Template::System::int32_t MemCmp(const void* Destination, const void* Source, Elysium::Core::Template::System::size Size)
-	{	// @ToDo: stl remnant
-		return std::memcmp(Destination, Source, Size);
+	{	// @ToDo: libc
+		return memcmp(Destination, Source, Size);
 	}
 }
 #endif

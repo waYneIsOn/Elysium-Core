@@ -1,9 +1,11 @@
-export module Elysium.Core.Template.Math;
+module;
 
 #ifndef _CMATH_
-//#include <cmath>;
-import <cmath>;
+#include <cmath>
+//import <cmath>;
 #endif
+
+export module Elysium.Core.Template.Math;
 
 export
 {
