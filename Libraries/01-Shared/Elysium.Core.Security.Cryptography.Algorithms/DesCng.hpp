@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
@@ -24,10 +20,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SymmetricAlgorithmCng.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 namespace Elysium::Core::Security::Cryptography::Windows
 {
-	class ELYSIUM_CORE_SECURITY_API DesCng final : public SymmetricAlgorithmCng
+	class ELYSIUM_CORE_SECURITY_API DesCng final 
+		: public SymmetricAlgorithmCng
 	{
 	public:
 		DesCng();

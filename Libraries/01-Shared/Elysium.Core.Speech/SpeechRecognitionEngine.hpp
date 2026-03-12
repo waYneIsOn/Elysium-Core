@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TIMESPAN
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
@@ -46,6 +42,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_SPEECH_RECOGNITION_SPEECHRECOGNITIONENGINEEVENTS
 #include "SpeechRecognitionEngineEvents.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING

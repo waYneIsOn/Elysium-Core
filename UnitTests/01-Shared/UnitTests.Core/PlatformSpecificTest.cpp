@@ -1,7 +1,7 @@
 #include "CppUnitTest.h"
 
 #include "../../../Libraries/01-Shared/Elysium.Core/Primitives.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core/System.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/OperatingSystem.hpp"
 
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

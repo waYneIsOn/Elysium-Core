@@ -20,10 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TIMESPAN
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
@@ -94,6 +90,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../Elysium.Core.Template/Vector.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEXT_ENCODING

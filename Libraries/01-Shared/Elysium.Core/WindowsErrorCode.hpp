@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -42,7 +42,8 @@ namespace Elysium::Core::Internal
 	/// https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes--9000-11999-
 	/// https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes--12000-15999-
 	/// </summary>
-	enum class WindowsErrorCode : Elysium::Core::uint16_t
+	enum class WindowsErrorCode 
+		: Elysium::Core::uint16_t
 	{
 		/// <summary>
 		/// The operation completed successfully.

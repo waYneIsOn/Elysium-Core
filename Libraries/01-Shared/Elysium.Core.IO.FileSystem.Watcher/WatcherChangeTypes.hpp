@@ -16,14 +16,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 namespace Elysium::Core::IO
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class WatcherChangeTypes : Elysium::Core::uint8_t
+	enum class WatcherChangeTypes 
+		: Elysium::Core::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class WatcherChangeTypes
 #else

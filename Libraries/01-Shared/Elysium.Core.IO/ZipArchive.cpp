@@ -1,11 +1,11 @@
 #include "ZipArchive.hpp"
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_INVALIDDATAEXCEPTION
 #include "InvalidDataException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 Elysium::Core::IO::Compression::ZipArchive::ZipArchive(Elysium::Core::IO::Stream& Stream, const Elysium::Core::IO::Compression::ZipArchiveMode Mode, const bool LeaveOpen, Elysium::Core::Text::Encoding& EntryNameEncoding)

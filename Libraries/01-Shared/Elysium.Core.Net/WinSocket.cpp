@@ -20,7 +20,7 @@ void Elysium::Core::Net::Sockets::Internal::WinSocket::Initialize()
 		}
 		else
 		{
-			// ToDo: I might obviously not be dealing with an error here but with an older api version. ergo I will have to deal with it at some point
+			// @ToDo: I might obviously not be dealing with an error here but with an older api version. ergo I will have to deal with it at some point
 			//Elysium::Core::int32_t ErrorCode = WSAGetLastError();
 			Shutdown();
 		}

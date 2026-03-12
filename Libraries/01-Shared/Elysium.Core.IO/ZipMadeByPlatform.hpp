@@ -16,15 +16,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 namespace Elysium::Core::IO::Compression::Zip
 {
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
-	enum class ZipMadeByPlatform : Elysium::Core::uint16_t
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class ZipMadeByPlatform 
+		: Elysium::Core::uint16_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class ZipMadeByPlatform
 #else
 #error "undefined os"

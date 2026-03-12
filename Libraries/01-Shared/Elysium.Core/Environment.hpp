@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS

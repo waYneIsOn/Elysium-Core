@@ -24,16 +24,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/IAsyncResult.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_CONTAINER_ACTION
 #include "../Elysium.Core/Container/Action.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
 #include "../Elysium.Core.Template/Threading/Atomic.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_ATOMIC

@@ -23,11 +23,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_STRINGVIEW
 #include "StringView.hpp"
 #endif
-
+/*
 #ifndef ELYSIUM_CORE_IO_STREAM
 #include "../Elysium.Core.IO/Stream.hpp"
 #endif
-
+*/
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
@@ -95,7 +95,7 @@ namespace Elysium::Core
 
 		Elysium::Core::Utf8String ToString(const Elysium::Core::Template::System::uint8_t Fields) const;
 	private:
-		constexpr const Elysium::Core::uint8_t Compare(const Version& Other) const noexcept;
+		constexpr const Elysium::Core::Template::System::uint8_t Compare(const Version& Other) const noexcept;
 	private:
 		inline static constexpr Elysium::Core::Template::System::uint16_t const Undefined = -1_ui16;
 
@@ -212,7 +212,7 @@ namespace Elysium::Core
 		return _Revision;
 	}
 
-	inline constexpr const Elysium::Core::uint8_t Elysium::Core::Version::Compare(const Version& Other) const noexcept
+	inline constexpr const Elysium::Core::Template::System::uint8_t Elysium::Core::Version::Compare(const Version& Other) const noexcept
 	{
 		if (this == &Other)
 		{

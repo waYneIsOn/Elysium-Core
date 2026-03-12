@@ -7,7 +7,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 */
 #ifndef ELYSIUM_CORE_SPAN
 #define ELYSIUM_CORE_SPAN
-
+/*
 #ifdef _MSC_VER
 #pragma once
 #endif
@@ -21,11 +21,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_PRIMITIVES
-#include "Primitives.hpp"
+#include "../Elysium.Core.Template/System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_COLLECTIONS_TEMPLATE_ARRAY
-#include "Array.hpp"
+#include "../Elysium.Core.Template/Container/Array.hpp"
 #endif
 
 namespace Elysium::Core
@@ -35,16 +35,21 @@ namespace Elysium::Core
 	{
 	public:
 		Span(const T& StartElement, const Elysium::Core::uint64_t Length);
+
 		Span(const Span& Source) = delete;
+
 		Span(Span&& Right) noexcept = delete;
-		~Span();
 
+		~Span() = default;
+	public:
 		Span& operator=(const Span& Source) = delete;
+
 		Span& operator=(Span&& Right) noexcept = delete;
-
+	public:
 		T& operator[](const Elysium::Core::uint64_t Index);
-		const T& operator[](const Elysium::Core::uint64_t Index) const;
 
+		const T& operator[](const Elysium::Core::uint64_t Index) const;
+	public:
 		const Elysium::Core::uint64_t GetLength() const;
 
 		const bool GetIsEmpty() const;
@@ -64,10 +69,6 @@ namespace Elysium::Core
 	template<typename T>
 	inline Span<T>::Span(const T& StartElement, const Elysium::Core::uint64_t Length)
 		: _Length(Length), _Data((T*)&StartElement)
-	{ }
-
-	template<typename T>
-	inline Span<T>::~Span()
 	{ }
 
 	template<typename T>
@@ -132,4 +133,5 @@ namespace Elysium::Core
 		throw 1;
 	}
 }
+*/
 #endif

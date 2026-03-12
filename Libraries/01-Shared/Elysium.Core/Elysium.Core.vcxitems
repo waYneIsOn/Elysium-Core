@@ -71,7 +71,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)System.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemSpecific.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />

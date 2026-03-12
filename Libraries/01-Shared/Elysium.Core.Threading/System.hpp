@@ -12,15 +12,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 
 #ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
+#define WIN32_LEAN_AND_MEAN
+//#include <Windows.h>
 #endif
 
 // Any synchronization primitive
@@ -131,14 +131,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_IOCOMPLETIONPORT_POST_QUEUED_COMPLETION_STATUS PostQueuedCompletionStatus
 #define ELYSIUM_IOCOMPLETIONPORT_GET_QUEUED_COMPLETION_STATUS GetQueuedCompletionStatus
 */
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 
 // Any synchronization primitive
 #define ELYSIUM_SYNCHRONIZATION_PRIMITIVE_HANDLE void*
 
-#elif defined(ELYSIUM_CORE_OS_LINUX)
+#elif defined ELYSIUM_CORE_OS_LINUX
 
-#elif defined(ELYSIUM_CORE_OS_MAC)
+#elif defined ELYSIUM_CORE_OS_MAC
 
 #else
 #error "unsupported os"

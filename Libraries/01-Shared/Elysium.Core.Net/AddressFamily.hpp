@@ -16,14 +16,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 namespace Elysium::Core::Net::Sockets
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class AddressFamily : Elysium::Core::uint16_t
+	enum class AddressFamily 
+		: Elysium::Core::uint16_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class AddressFamily
 #else

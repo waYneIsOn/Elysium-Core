@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TIMESPAN
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
@@ -102,6 +98,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
 #include "../Elysium.Core.Template/Memory/UniquePointer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS

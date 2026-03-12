@@ -31,9 +31,9 @@ Elysium::Core::Version Elysium::Core::Version::Parse(Elysium::Core::Utf8String::
 
 Elysium::Core::Version Elysium::Core::Version::Parse(const Elysium::Core::Utf8StringView Input)
 {
-	Template::Container::Vector<Utf8StringView> Numbers = Input.Split(Delimiter);
+	Elysium::Core::Template::Container::Vector<Utf8StringView> Numbers = Input.Split(Delimiter);
 
-	const Elysium::Core::size NumberCount = Numbers.GetLength();
+	const Elysium::Core::Template::System::size NumberCount = Numbers.GetLength();
 	if (NumberCount > 0)
 	{
 		return Version(Elysium::Core::Template::Text::Convert<char8_t>::ToUInt16(&Numbers[0][0], Numbers[0].GetLength(), 10), 0);
@@ -70,13 +70,13 @@ Elysium::Core::Version Elysium::Core::Version::Parse(const Elysium::Core::Utf8St
 
 Elysium::Core::Utf8String Elysium::Core::Version::ToString() const
 {
-	Elysium::Core::size DelimiterLength = Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
+	Elysium::Core::Template::System::size DelimiterLength = Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength;
 
 	const Elysium::Core::Utf8String Major = Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Major);
-	const Elysium::Core::size MajorLength = Major.GetLength();
+	const Elysium::Core::Template::System::size MajorLength = Major.GetLength();
 
 	const Elysium::Core::Utf8String Minor = Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Minor);
-	const Elysium::Core::size MinorLength = Minor.GetLength();
+	const Elysium::Core::Template::System::size MinorLength = Minor.GetLength();
 
 	if (_Build != Undefined)
 	{
@@ -84,7 +84,7 @@ Elysium::Core::Utf8String Elysium::Core::Version::ToString() const
 	}
 	const Elysium::Core::Utf8String Build = DelimiterLength == Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength * 2 ?
 		Elysium::Core::Utf8String() : Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Build);
-	const Elysium::Core::size BuildLength = Build.GetLength();
+	const Elysium::Core::Template::System::size BuildLength = Build.GetLength();
 
 	if (_Revision != Undefined)
 	{
@@ -92,25 +92,25 @@ Elysium::Core::Utf8String Elysium::Core::Version::ToString() const
 	}
 	const Elysium::Core::Utf8String Revision = DelimiterLength == Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength * 3 ?
 		Elysium::Core::Utf8String() : Elysium::Core::Template::Text::Convert<char8_t>::ToString(_Revision);
-	const Elysium::Core::size RevisionLength = Revision.GetLength();
+	const Elysium::Core::Template::System::size RevisionLength = Revision.GetLength();
 
-	const Elysium::Core::size RequiredLength = DelimiterLength + MajorLength + MinorLength + BuildLength + RevisionLength;
+	const Elysium::Core::Template::System::size RequiredLength = DelimiterLength + MajorLength + MinorLength + BuildLength + RevisionLength;
 
 	Elysium::Core::Utf8String Result = Elysium::Core::Utf8String(RequiredLength);
-	Elysium::Core::size ResultIndex = 0;
-	for (Elysium::Core::size i = 0; i < MajorLength; i++)
+	Elysium::Core::Template::System::size ResultIndex = 0;
+	for (Elysium::Core::Template::System::size i = 0; i < MajorLength; i++)
 	{
 		Result[ResultIndex++] = Major[i];
 	}
 	Result[ResultIndex++] = Delimiter;
-	for (Elysium::Core::size i = 0; i < MinorLength; i++)
+	for (Elysium::Core::Template::System::size i = 0; i < MinorLength; i++)
 	{
 		Result[ResultIndex++] = Minor[i];
 	}
 	if (DelimiterLength > Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength)
 	{
 		Result[ResultIndex++] = Delimiter;
-		for (Elysium::Core::size i = 0; i < BuildLength; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < BuildLength; i++)
 		{
 			Result[ResultIndex++] = Build[i];
 		}
@@ -118,7 +118,7 @@ Elysium::Core::Utf8String Elysium::Core::Version::ToString() const
 	if (DelimiterLength > Elysium::Core::Utf8String::CharacterTraits::MinimumByteLength * 2)
 	{
 		Result[ResultIndex++] = Delimiter;
-		for (Elysium::Core::size i = 0; i < RevisionLength; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < RevisionLength; i++)
 		{
 			Result[ResultIndex++] = Revision[i];
 		}

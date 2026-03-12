@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
@@ -26,7 +26,8 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	/// Specifies the location of the X.509 certificate store.
 	/// </summary>
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class StoreLocation : Elysium::Core::uint8_t
+	enum class StoreLocation 
+		: Elysium::Core::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class StoreLocation
 #else

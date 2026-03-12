@@ -1,15 +1,15 @@
 #include "UTF16Encoding.hpp"
 
+#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
+#include "../Elysium.Core/ArgumentException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_INTEGER
 #include "Integer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_ARGUMENTEXCEPTION
-#include "../Elysium.Core/ArgumentException.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 Elysium::Core::Text::UTF16Encoding::UTF16Encoding()

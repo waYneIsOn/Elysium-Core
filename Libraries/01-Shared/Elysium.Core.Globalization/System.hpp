@@ -8,11 +8,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_GLOBALIZATION_SYSTEM
 #define ELYSIUM_CORE_GLOBALIZATION_SYSTEM
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
-#if defined(ELYSIUM_CORE_OS_WINDOWS)
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
 #define _WINSOCKAPI_ // don't include winsock
 #include <Windows.h>
@@ -21,7 +21,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT LOCALE_INVARIANT
 #define ELYSIUM_CORE_GLOBALIZATION_LOCALE_CUSTOM_DEFAULT LOCALE_CUSTOM_DEFAULT
 
-#elif defined(ELYSIUM_CORE_OS_ANDROID)
+#elif defined ELYSIUM_CORE_OS_ANDROID
 #define ELYSIUM_CORE_GLOBALIZATION_LOCALE_INVARIANT 127
 #define ELYSIUM_CORE_GLOBALIZATION_LOCALE_CUSTOM_DEFAULT -1
 

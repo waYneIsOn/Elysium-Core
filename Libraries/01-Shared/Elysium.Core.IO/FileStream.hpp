@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_FILEACCESS
 #include "FileAccess.hpp"
 #endif
@@ -60,12 +56,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEXT_UTF16ENCODING
 #include "../Elysium.Core.Text/UTF16Encoding.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
 

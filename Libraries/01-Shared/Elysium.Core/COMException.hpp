@@ -15,8 +15,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -29,7 +29,8 @@ namespace Elysium::Core::Runtime::InteropServices
 	/// <summary>
 	/// The exception that is thrown when an unrecognized HRESULT is returned from a COM method call.
 	/// </summary>
-	class ELYSIUM_CORE_API COMException : public ExternalException
+	class ELYSIUM_CORE_API COMException
+		: public ExternalException
 	{
 	public:
 		COMException();
