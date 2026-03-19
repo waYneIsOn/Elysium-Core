@@ -39,6 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Threading.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OSThreadPool.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />

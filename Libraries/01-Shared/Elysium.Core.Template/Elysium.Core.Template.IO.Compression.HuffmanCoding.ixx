@@ -8,29 +8,21 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
 #endif
 
 #include <cassert>
-//import <cassert>;
 
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
-//import <initializer_list>;
 #endif
 
 #ifndef _NEW_
 #include <new>
-//import <new>;
 #endif
 
-export module Elysium.Core.Template.IO.Compression.HuffmanCoding;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANNODE
 #include "IO/Compression/HuffmanCoding/HuffmanNode.hpp"
 #endif
@@ -38,4 +30,11 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANTREE
 #include "IO/Compression/HuffmanCoding/HuffmanTree.hpp"
 #endif
+
+export module Elysium.Core.Template.IO.Compression.HuffmanCoding;
+
+export
+{
+	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode;
+	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree;
 }

@@ -78,7 +78,7 @@ namespace Elysium::Core::Template::System
 
 		OperatingSystem(OperatingSystem&& Right) noexcept = delete;
 
-		~OperatingSystem() = delete;
+		constexpr ~OperatingSystem() = delete;
 	public:
 		OperatingSystem& operator=(const OperatingSystem& Source) noexcept;
 

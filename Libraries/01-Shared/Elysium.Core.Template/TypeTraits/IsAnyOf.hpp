@@ -28,5 +28,10 @@ namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T, class... Other>
 	inline constexpr bool IsAnyOfValue = DisjunctionValue<IsSame<T, Other>...>;
+
+	template <class T, class... Other>
+	struct IsAnyOf
+		: public IntegralConstant<bool, IsAnyOfValue<T>>
+	{ };
 }
 #endif

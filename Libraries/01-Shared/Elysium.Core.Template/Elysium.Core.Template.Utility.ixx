@@ -8,7 +8,6 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
@@ -16,18 +15,12 @@ module;
 
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
-//import <initializer_list>;
 #endif
 
 #ifndef _NEW_
 #include <new>
-//import <new>;
 #endif
 
-export module Elysium.Core.Template.Utility;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_INDEXSEQUENCE
 #include "Utility/IndexSequence.hpp"
 #endif
@@ -43,4 +36,13 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_REPEAT
 #include "Utility/__Repeat.hpp"
 #endif
+
+export module Elysium.Core.Template.Utility;
+
+export
+{
+	using Elysium::Core::Template::Utility::IndexSequence;
+	using Elysium::Core::Template::Utility::IntegerSequence;
+	using Elysium::Core::Template::Utility::MakeIntegerSequence;
+	using Elysium::Core::Template::Utility::__Repeat;
 }

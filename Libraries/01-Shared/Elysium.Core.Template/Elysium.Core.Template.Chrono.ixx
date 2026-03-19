@@ -8,16 +8,11 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
 #endif
 
-export module Elysium.Core.Template.Chrono;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_DURATION
 #include "Chrono/Duration.hpp"
 #endif
@@ -37,4 +32,14 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_TIMEPOINT
 #include "Chrono/TimePoint.hpp"
 #endif
+
+export module Elysium.Core.Template.Chrono;
+
+export
+{
+	using Elysium::Core::Template::Chrono::Duration;
+	using Elysium::Core::Template::Chrono::HighResolutionClock;
+	using Elysium::Core::Template::Chrono::SteadyClock;
+	using Elysium::Core::Template::Chrono::SystemClock;
+	using Elysium::Core::Template::Chrono::TimePoint;
 }

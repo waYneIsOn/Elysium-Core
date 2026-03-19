@@ -8,7 +8,6 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
@@ -16,7 +15,6 @@ module;
 
 #ifndef _ASSERT_OK
 #include <cassert>
-//import <cassert>;
 #define _ASSERT_OK	// defined so Elysium::Core::Template::Memory::Scoped::Arena include works without warning C5244
 #endif
 
@@ -24,10 +22,6 @@ module;
 #include <initializer_list>
 #endif
 
-export module Elysium.Core.Template.Memory.Scoped;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
 #include "Memory/Scoped/Arena.hpp"
 #endif
@@ -39,4 +33,12 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENAPAGE
 #include "Memory/Scoped/ArenaPage.hpp"
 #endif
+
+export module Elysium.Core.Template.Memory.Scoped;
+
+export
+{
+	using Elysium::Core::Template::Memory::Scoped::Arena;
+	using Elysium::Core::Template::Memory::Scoped::ArenaOptions;
+	using Elysium::Core::Template::Memory::Scoped::ArenaPage;
 }

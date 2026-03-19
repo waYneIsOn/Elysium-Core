@@ -1026,6 +1026,16 @@ namespace Elysium::Core::Template::Container
 
 			return _Data[Index];
 		}
+
+		constexpr Reference GetUnsafeAt(const System::size Index)
+		{
+			return _Data[Index];
+		}
+
+		constexpr ConstReference GetUnsafeAt(const System::size Index) const
+		{
+			return _Data[Index];
+		}
 	public:
 		constexpr FIterator GetBegin() noexcept
 		{

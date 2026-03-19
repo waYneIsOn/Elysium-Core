@@ -25,7 +25,7 @@ namespace Elysium::Core::Template::TypeTraits
     /// <summary>
     /// As a default nothing is no throw invocable.
     /// </summary>
-    template <class>
+    template <class...>
     inline constexpr bool IsNoThrowInvocableValue = false;
 
     /// <summary>
@@ -151,10 +151,9 @@ namespace Elysium::Core::Template::TypeTraits
     /// <typeparam name="Type"></typeparam>
     template <Elysium::Core::Template::Concepts::CompositeType Type, class ReturnType, class ...Args>
     inline constexpr bool IsNoThrowInvocableValue<ReturnType(Type::*)(Args...) const volatile && noexcept> = true;
-    /*
+    
     template <class ReturnType, class ...Args>
     struct IsNoThrowInvocable : IntegralConstant<bool, IsNoThrowInvocableValue<ReturnType, Args...>>
     { };
-    */
 }
 #endif

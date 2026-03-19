@@ -8,17 +8,18 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_INTERNALBUFFEROVERFLOWEXCEPTION
+#include "Exceptions/IO/InternalBufferOverflowException.hpp"
 #endif
 
 export module Elysium.Core.Template.Exceptions.IO;
 
 export
 {
-#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_INTERNALBUFFEROVERFLOWEXCEPTION
-#include "Exceptions/IO/InternalBufferOverflowException.hpp"
-#endif
+	using Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException;
 }

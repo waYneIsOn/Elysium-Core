@@ -73,9 +73,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsCompletelyDefined.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsDerivedFrom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFlagEnumeration.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsForwardDeclared.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsLambda.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsNoThrowInvocable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTrivial.hpp" />
@@ -281,6 +281,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Algorithms.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Algorithms.Sorting.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Chrono.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Common.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Concepts.ixx" />

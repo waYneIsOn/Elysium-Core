@@ -2,13 +2,8 @@ module;
 
 #ifndef _NEW_
 #include <new>
-//import <new>;
 #endif
 
-export module Elysium.Core.Template.Iterator;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_BACKWARDITERATOR
 #include "Iterator/BackwardIterator.hpp"
 #endif
@@ -36,4 +31,16 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_ITERATOR_UNORDEREDMAPFORWARDITERATOR
 #include "Iterator/UnorderedMapForwardIterator.hpp"
 #endif
+
+export module Elysium.Core.Template.Iterator;
+
+export
+{
+	using Elysium::Core::Template::Iterator::BackwardIterator;
+	using Elysium::Core::Template::Iterator::ConstBackwardIterator;
+	using Elysium::Core::Template::Iterator::ConstForwardIterator;
+	using Elysium::Core::Template::Iterator::ConstLinkedListForwardIterator;
+	using Elysium::Core::Template::Iterator::ForwardIterator;
+	using Elysium::Core::Template::Iterator::LinkedListForwardIterator;
+	using Elysium::Core::Template::Iterator::UnorderedMapForwardIterator;
 }

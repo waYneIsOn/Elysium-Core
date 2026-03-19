@@ -1,9 +1,5 @@
 module;
 
-export module Elysium.Core.Template.Memory;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_ACTIVATOR
 #include "Memory/Activator.hpp"
 #endif
@@ -51,4 +47,21 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_WEAKPOINTER
 #include "Memory/WeakPointer.hpp"
 #endif
+
+export module Elysium.Core.Template.Memory;
+
+export
+{
+	using Elysium::Core::Template::Memory::Activator;
+	using Elysium::Core::Template::Memory::DefaultAllocator;
+	using Elysium::Core::Template::Memory::DefaultDeleter;
+	using Elysium::Core::Template::Memory::MAllocator;
+	using Elysium::Core::Template::Memory::MemCmp;
+	using Elysium::Core::Template::Memory::MemCpy;
+	using Elysium::Core::Template::Memory::MemoryOrder;
+	using Elysium::Core::Template::Memory::MemSet;
+	using Elysium::Core::Template::Memory::ObserverPointer;
+	//using Elysium::Core::Template::Memory::SharedPointer;
+	using Elysium::Core::Template::Memory::UniquePointer;
+	//using Elysium::Core::Template::Memory::WeakPointer;
 }

@@ -41,6 +41,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Path.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)File.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Directory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.IO.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)FileAccess.hpp" />

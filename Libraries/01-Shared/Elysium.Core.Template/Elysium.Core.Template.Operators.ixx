@@ -1,9 +1,5 @@
 module;
 
-export module Elysium.Core.Template.Operators;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_EQUAL
 #include "Operators/Equal.hpp"
 #endif
@@ -28,4 +24,14 @@ export
 #include "Operators/NotEqual.hpp"
 #endif
 
+export module Elysium.Core.Template.Operators;
+
+export
+{
+	using Elysium::Core::Template::Operators::Equal;
+	using Elysium::Core::Template::Operators::Greater;
+	using Elysium::Core::Template::Operators::GreaterOrEqual;
+	using Elysium::Core::Template::Operators::Less;
+	using Elysium::Core::Template::Operators::LessOrEqual;
+	using Elysium::Core::Template::Operators::NotEqual;
 }

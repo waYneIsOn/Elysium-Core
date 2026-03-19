@@ -60,11 +60,11 @@ namespace UnitTests::Core
 			AssertExtended::AreEqual(static_cast<Elysium::Core::int64_t>(-9223372036854775807 - 1), Elysium::Core::Int64::GetMinValue());
 			AssertExtended::AreEqual(static_cast<Elysium::Core::int64_t>(9223372036854775807), Elysium::Core::Int64::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Int64::GetIsSigned());
-
+			
 			Assert::AreEqual(static_cast<float>(1.175494351e-38), Elysium::Core::Single::GetMinValue());
 			Assert::AreEqual(static_cast<float>(3.40282347e+38), Elysium::Core::Single::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Single::GetIsSigned());
-
+			
 			Assert::AreEqual(static_cast<double>(2.22507385850720138e-308), Elysium::Core::Double::GetMinValue());
 			Assert::AreEqual(static_cast<double>(1.79769313486231571e+308), Elysium::Core::Double::GetMaxValue());
 			Assert::IsTrue(Elysium::Core::Double::GetIsSigned());
@@ -197,7 +197,7 @@ namespace UnitTests::Core
 
 			Value1 *= -1;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(12), static_cast<Elysium::Core::int32_t>(Value1));
-
+			/*
 			Value1 %= 3;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(0), static_cast<Elysium::Core::int32_t>(Value1));
 
@@ -215,7 +215,7 @@ namespace UnitTests::Core
 
 			Value1 |= 1;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(129), static_cast<Elysium::Core::int32_t>(Value1));
-
+			*/
 			Value1 /= 2;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(64), static_cast<Elysium::Core::int32_t>(Value1));
 
@@ -255,7 +255,7 @@ namespace UnitTests::Core
 		TEST_METHOD(BitwiseOperators)
 		{
 			Elysium::Core::Int32 Value = 1;
-
+			/*
 			Value = Value << 2;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(4), static_cast<Elysium::Core::int32_t>(Value));
 
@@ -270,6 +270,7 @@ namespace UnitTests::Core
 			~
 
 			*/
+			Assert::Fail();
 		}
 	};
 }

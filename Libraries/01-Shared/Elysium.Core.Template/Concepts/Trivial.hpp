@@ -12,8 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCOMPLETELYDEFINED
-#include "../TypeTraits/IsCompletelyDefined.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFORWARDDECLARED
+#include "../TypeTraits/IsForwardDeclared.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISTRIVIAL
@@ -23,7 +23,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Concepts
 {
     template <class T>
-    //concept Trivial = TypeTraits::IsCompletelyDefinedValue<T> && TypeTraits::IsTrivialValue<T>;
+    //concept Trivial = !TypeTraits::IsForwardDeclaredValue<T> && TypeTraits::IsTrivialValue<T>;
     concept Trivial = TypeTraits::IsTrivialValue<T>;
 }
 #endif

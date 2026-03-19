@@ -8,17 +8,18 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os regarding filesystem"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM
+#include "IO/FileSystem.hpp"
 #endif
 
 export module Elysium.Core.Template.IO;
 
 export
 {
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM
-#include "IO/FileSystem.hpp"
-#endif
+	using Elysium::Core::Template::IO::FileSystem;
 }

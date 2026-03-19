@@ -8,33 +8,28 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
 #endif
 
+#ifndef _ASSERT_OK
 #include <cassert>
-//import <cassert>;
+#define _ASSERT_OK	// defined so Elysium::Core::Template::Memory::Scoped::Arena include works without warning C5244
+#endif
 
 #ifndef _NEW_
 #include <new>
-//import <new>;
 #endif
 
 #ifndef _INC_PROCESS
 #include <process.h>
-//import <process.h>;
 #endif
 
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
 #endif
 
-export module Elysium.Core.Template.Threading;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMICBASE
 #include "Threading/_AtomicBase.hpp"
 #endif
@@ -106,4 +101,27 @@ export
 #ifndef ELYSIUM_CORE_THREADING_WAITHANDLE
 #include "Threading/WaitHandle.hpp"
 #endif
+
+export module Elysium.Core.Template.Threading;
+
+export
+{
+	using Elysium::Core::Template::Threading::_AtomicBase;
+	using Elysium::Core::Template::Threading::_AtomicEnum;
+	using Elysium::Core::Template::Threading::_AtomicIntegral;
+	using Elysium::Core::Template::Threading::_AtomicPointer;
+	using Elysium::Core::Template::Threading::Atomic;
+	using Elysium::Core::Template::Threading::AutoResetEvent;
+	using Elysium::Core::Template::Threading::CallOnce;
+	using Elysium::Core::Template::Threading::CriticalSection;
+	using Elysium::Core::Template::Threading::EventWaitHandle;
+	using Elysium::Core::Template::Threading::Fiber;
+	using Elysium::Core::Template::Threading::ManualResetEvent;
+	using Elysium::Core::Template::Threading::Interlocked;
+	using Elysium::Core::Template::Threading::Mutex;
+	using Elysium::Core::Template::Threading::Semaphore;
+	using Elysium::Core::Template::Threading::SharedMutex;
+	using Elysium::Core::Template::Threading::Thread;
+	using Elysium::Core::Template::Threading::ThreadPool;
+	using Elysium::Core::Template::Threading::WaitHandle;
 }

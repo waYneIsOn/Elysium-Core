@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef _LIMITS_
-#include <limits>
-#endif
-
 #ifndef ELYSIUM_CORE_OVERFLOWEXCEPTION
 #include "OverflowException.hpp"
 #endif
@@ -24,53 +20,80 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "DivideByZeroException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_ARITHMETIC
+#include "../Elysium.Core.Template/Concepts/Arithmetic.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../Elysium.Core.Template/Functional/Move.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
+#include "../Elysium.Core.Template/Numeric/NumericTraits.hpp"
+#endif
+
 namespace Elysium::Core
 {
-	template<class T, typename Enabled = void>
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
 	class Numeric
 	{
 	public:
-		Numeric();
+		constexpr Numeric() = default;
+
 		Numeric(const T Value);
+
 		Numeric(const Numeric& Source);
+
 		Numeric(Numeric&& Right) noexcept;
-		~Numeric();
 
+		constexpr ~Numeric() = default;
+	public:
 		Numeric& operator=(const Numeric& Source);
-		Numeric& operator=(const T Value);
-		Numeric& operator=(Numeric&& Right) noexcept;
 
+		Numeric& operator=(const T Value);
+
+		Numeric& operator=(Numeric&& Right) noexcept;
+	public:
 		static constexpr const T GetMinValue() noexcept;
+
 		static constexpr const T GetMaxValue() noexcept;
 
 		static constexpr const bool GetIsSigned() noexcept;
-
+	public:
 		explicit operator T();
-
+	public:
 		bool operator==(const Numeric& Other) const;
+
 		bool operator!=(const Numeric& Other) const;
+
 		bool operator<(const Numeric& Other) const;
+
 		bool operator>(const Numeric& Other) const;
+
 		bool operator<=(const Numeric& Other) const;
+
 		bool operator>=(const Numeric& Other) const;
-
+	public:
 		bool operator==(const T Other) const;
-		bool operator!=(const T Other) const;
-		bool operator<(const T Other) const;
-		bool operator>(const T Other) const;
-		bool operator<=(const T Other) const;
-		bool operator>=(const T Other) const;
 
+		bool operator!=(const T Other) const;
+
+		bool operator<(const T Other) const;
+
+		bool operator>(const T Other) const;
+
+		bool operator<=(const T Other) const;
+
+		bool operator>=(const T Other) const;
+	public:
 		Numeric& operator++();
+
 		Numeric operator++(int);
 
 		Numeric& operator--();
-		Numeric operator--(int);
 
+		Numeric operator--(int);
+	public:
 		Numeric& operator+=(const Numeric& Other);
 		Numeric& operator+=(const T Other);
 
@@ -82,7 +105,7 @@ namespace Elysium::Core
 
 		Numeric& operator/=(const Numeric& Other);
 		Numeric& operator/=(const T Other);
-
+		/*
 		Numeric& operator%=(const Numeric& Other);
 		Numeric& operator%=(const T Other);
 
@@ -100,7 +123,8 @@ namespace Elysium::Core
 
 		Numeric& operator^=(const Numeric& Other);
 		Numeric& operator^=(const T Other);
-
+		*/
+	public:
 		Numeric operator+(const Numeric& Other);
 		Numeric operator+(const T Other);
 
@@ -112,7 +136,7 @@ namespace Elysium::Core
 
 		Numeric operator/(const Numeric& Other);
 		Numeric operator/(const T Other);
-
+		/*
 		Numeric operator%(const Numeric& Other);
 		Numeric operator%(const T VOtheralue);
 
@@ -130,38 +154,30 @@ namespace Elysium::Core
 
 		Numeric operator^(const Numeric& Other);
 		Numeric operator^(const T Other);
+		*/
 	private:
 		T _Value;
 	};
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled>::Numeric()
-		: _Value(0)
-	{ }
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled>::Numeric(const T Value)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T>::Numeric(const T Value)
 		: _Value(Value)
-	{ }
+	{}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled>::Numeric(const Numeric & Source)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T>::Numeric(const Numeric & Source)
 		: _Value(Source._Value)
 	{ }
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled>::Numeric(Numeric && Right) noexcept
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T>::Numeric(Numeric && Right) noexcept
 		: _Value(0)
 	{
 		*this = Elysium::Core::Template::Functional::Move(Right);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled>::~Numeric()
-	{ }
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator=(const Numeric & Source)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator=(const Numeric & Source)
 	{
 		if (this != &Source)
 		{
@@ -171,16 +187,16 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator=(const T Value)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator=(const T Value)
 	{
 		_Value = Value;
 
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator=(Numeric && Right) noexcept
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator=(Numeric && Right) noexcept
 	{
 		if (this != &Right)
 		{
@@ -190,104 +206,104 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline constexpr const T Numeric<T, Enabled>::GetMinValue() noexcept
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline constexpr const T Numeric<T>::GetMinValue() noexcept
 	{
-		return (std::numeric_limits<T>::min)();
+		return Elysium::Core::Template::Numeric::NumericTraits<T>::Minimum;
 	}
 
-	template<class T, typename Enabled>
-	inline constexpr const T Numeric<T, Enabled>::GetMaxValue() noexcept
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline constexpr const T Numeric<T>::GetMaxValue() noexcept
 	{
-		return (std::numeric_limits<T>::max)();
+		return Elysium::Core::Template::Numeric::NumericTraits<T>::Maximum;
 	}
 
-	template<class T, typename Enabled>
-	inline constexpr const bool Numeric<T, Enabled>::GetIsSigned() noexcept
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline constexpr const bool Numeric<T>::GetIsSigned() noexcept
 	{
-		return Elysium::Core::Template::TypeTraits::IsSigned<T>();
+		return Elysium::Core::Template::Numeric::NumericTraits<T>::IsSigned;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled>::operator T()
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T>::operator T()
 	{
 		return _Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator==(const Numeric & Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator==(const Numeric & Other) const
 	{
 		return _Value == Other._Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator!=(const Numeric & Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator!=(const Numeric & Other) const
 	{
 		return _Value != Other._Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator<(const Numeric & Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator<(const Numeric & Other) const
 	{
 		return _Value < Other._Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator>(const Numeric & Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator>(const Numeric & Other) const
 	{
 		return _Value > Other._Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator<=(const Numeric & Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator<=(const Numeric & Other) const
 	{
 		return _Value <= Other._Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator>=(const Numeric & Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator>=(const Numeric & Other) const
 	{
 		return _Value >= Other._Value;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator==(const T Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator==(const T Other) const
 	{
 		return _Value == Other;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator!=(const T Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator!=(const T Other) const
 	{
 		return _Value != Other;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator<(const T Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator<(const T Other) const
 	{
 		return _Value < Other;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator>(const T Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator>(const T Other) const
 	{
 		return _Value > Other;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator<=(const T Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator<=(const T Other) const
 	{
 		return _Value <= Other;
 	}
 
-	template<class T, typename Enabled>
-	inline bool Numeric<T, Enabled>::operator>=(const T Other) const
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline bool Numeric<T>::operator>=(const T Other) const
 	{
 		return _Value >= Other;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator++()
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator++()
 	{
 		if (_Value == GetMaxValue())
 		{
@@ -299,16 +315,16 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator++(int)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator++(int)
 	{
-		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
+		Numeric<T> Result = Numeric<T>(*this);
 		++(*this);
 		return Result;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator--()
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator--()
 	{
 		if (_Value == GetMinValue())
 		{
@@ -320,22 +336,22 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator--(int)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator--(int)
 	{
-		Numeric<T, Enabled> Result = Numeric<T, Enabled>(*this);
+		Numeric<T> Result = Numeric<T>(*this);
 		--(*this);
 		return Result;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator+=(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator+=(const Numeric & Other)
 	{
 		return this->operator+=(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator+=(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator+=(const T Other)
 	{
 		if (Other > 0 && _Value > GetMaxValue() - Other)
 		{
@@ -351,14 +367,14 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator-=(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator-=(const Numeric & Other)
 	{
 		return this->operator-=(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator-=(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator-=(const T Other)
 	{
 		if (Other < 0 && _Value > GetMaxValue() + Other)
 		{
@@ -374,14 +390,14 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator*=(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator*=(const Numeric & Other)
 	{
 		return this->operator*=(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator*=(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator*=(const T Other)
 	{
 		if (_Value == -1 && Other == GetMinValue())
 		{
@@ -405,14 +421,14 @@ namespace Elysium::Core
 		return *this;
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator/=(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator/=(const Numeric & Other)
 	{
 		return this->operator/=(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator/=(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator/=(const T Other)
 	{
 		if (_Value == GetMinValue() && Other == -1)
 		{
@@ -431,99 +447,99 @@ namespace Elysium::Core
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator%=(const Numeric & Other)
+	/*
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator%=(const Numeric & Other)
 	{
 		return this->operator%=(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator%=(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator%=(const T Other)
 	{
 		_Value %= Other;
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator<<=(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator<<=(const Numeric & Other)
 	{
 		return this->operator<<=(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator<<=(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator<<=(const T Other)
 	{
 		_Value <<= Other;
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator>>=(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator>>=(const Numeric & Other)
 	{
 		return this->operator>>=(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator>>=(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator>>=(const T Other)
 	{
 		_Value >>= Other;
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator&=(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator&=(const Numeric & Other)
 	{
 		return this->operator&=(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator&=(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator&=(const T Other)
 	{
 		_Value &= Other;
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator|=(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator|=(const Numeric & Other)
 	{
 		return this->operator|=(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator|=(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator|=(const T Other)
 	{
 		_Value |= Other;
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator^=(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator^=(const Numeric & Other)
 	{
 		return this->operator^=(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> & Numeric<T, Enabled>::operator^=(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> & Numeric<T>::operator^=(const T Other)
 	{
 		_Value ^= Other;
 
 		return *this;
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator+(const Numeric & Other)
+	*/
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator+(const Numeric & Other)
 	{
 		return this->operator+(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator+(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator+(const T Other)
 	{
 		if (Other > 0 && _Value > GetMaxValue() - Other)
 		{
@@ -537,14 +553,14 @@ namespace Elysium::Core
 		return Numeric(_Value + Other);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator-(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator-(const Numeric & Other)
 	{
 		return this->operator-(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator-(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator-(const T Other)
 	{
 		if (Other < 0 && _Value > GetMaxValue() + Other)
 		{
@@ -558,14 +574,14 @@ namespace Elysium::Core
 		return Numeric(_Value - Other);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator*(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator*(const Numeric & Other)
 	{
 		return this->operator*(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator*(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator*(const T Other)
 	{
 		if (_Value == -1 && Other == GetMinValue())
 		{
@@ -587,14 +603,14 @@ namespace Elysium::Core
 		return Numeric(_Value * Other);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator/(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator/(const Numeric & Other)
 	{
 		return this->operator/(Other._Value);
 	}
 
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator/(const T Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator/(const T Other)
 	{
 		if (_Value == GetMinValue() && Other == -1)
 		{
@@ -612,95 +628,77 @@ namespace Elysium::Core
 		return Numeric(_Value / Other);
 	}
 	/*
-	template<class T>
-	inline Numeric<T, std::enable_if<std::is_signed<T>::value, T>> Numeric<T, std::enable_if<std::is_signed<T>::value, T>>::operator/(const T Other)
-	{
-		if (_Value == GetMinValue() && Other == -1)
-		{
-			throw OverflowException();
-		}
-		if (_Value == -1 && Other == GetMinValue())
-		{
-			throw OverflowException();
-		}
-		if (Other == 0)
-		{
-			throw DivideByZeroException();
-		}
-
-		return Numeric(_Value / Other);
-	}
-	*/
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator%(const Numeric & Other)
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator%(const Numeric & Other)
 	{
 		return this->operator%(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator%(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator%(const T Other)
 	{
 		return Numeric(_Value % Other);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator<<(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator<<(const Numeric & Other)
 	{
 		return this->operator<<(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator<<(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator<<(const T Other)
 	{
 		return Numeric(_Value << Other);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator>>(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator>>(const Numeric & Other)
 	{
 		return this->operator>>(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator>>(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator>>(const T Other)
 	{
 		return Numeric(_Value >> Other);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator&(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator&(const Numeric & Other)
 	{
 		return this->operator&(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator&(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator&(const T Other)
 	{
 		return Numeric(_Value & Other);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator|(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator|(const Numeric & Other)
 	{
 		return this->operator|(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator|(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator|(const T Other)
 	{
 		return Numeric(_Value | Other);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator^(const Numeric & Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator^(const Numeric & Other)
 	{
 		return this->operator^(Other._Value);
 	}
-
-	template<class T, typename Enabled>
-	inline Numeric<T, Enabled> Numeric<T, Enabled>::operator^(const T Other)
+	
+	template<Elysium::Core::Template::Concepts::Arithmetic T>
+	inline Numeric<T> Numeric<T>::operator^(const T Other)
 	{
 		return Numeric(_Value ^ Other);
 	}
+	*/
 }
 #endif

@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)AggregateException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Arena.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentNullException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ArgumentOutOfRangeException.hpp" />
@@ -68,7 +67,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlatformID.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StringView.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemException.hpp" />
@@ -86,6 +84,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)COMException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Console.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DateTimeOffset.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Container.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Internal.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Memory.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Runtime.InteropServices.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Runtime.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />

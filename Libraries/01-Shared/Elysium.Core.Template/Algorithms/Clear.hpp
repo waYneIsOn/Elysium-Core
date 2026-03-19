@@ -24,7 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Concepts/Reference.hpp"
 #endif
 
-
 namespace Elysium::Core::Template::Algorithms
 {
 	template <class Source>

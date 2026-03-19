@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Version.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MEMORY_SCOPED_ARENA
-#include "../Elysium.Core/Arena.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
+#include "../Elysium.Core.Template/Memory/Scoped/Arena.hpp"
 #endif
 
 namespace Elysium::Core::CommandLine
@@ -60,9 +60,9 @@ namespace Elysium::Core::CommandLine
 
 		//inline static constexpr const Elysium::Core::Version _Version = Elysium::Core::Version(0, 1);	// @ToDo: read from Elysium::Core::Reflection::Assembly -> AssemblyName
 	private:
-		Elysium::Core::Memory::Scoped::Arena _CommandArena;
-		Elysium::Core::Memory::Scoped::Arena _ArgumentArena;
-		Elysium::Core::Memory::Scoped::Arena _OptionArena;
+		Elysium::Core::Template::Memory::Scoped::Arena _CommandArena;
+		Elysium::Core::Template::Memory::Scoped::Arena _ArgumentArena;
+		Elysium::Core::Template::Memory::Scoped::Arena _OptionArena;
 	};
 }
 #endif

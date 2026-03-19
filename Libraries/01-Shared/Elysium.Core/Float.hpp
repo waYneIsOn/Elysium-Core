@@ -16,14 +16,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Numeric.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COMMON_ENABLEIF
+#include "../Elysium.Core.Template/Common/EnableIf.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFLOATINGPOINT
+#include "../Elysium.Core.Template/TypeTraits/IsFloatingPoint.hpp"
+#endif
+
 namespace Elysium::Core
 {
-	template<class T>
-	class Numeric<T, std::enable_if<std::is_floating_point<T>::value, T>>
-	{ };
+	template class ELYSIUM_CORE_API Numeric<float>;
+	template class ELYSIUM_CORE_API Numeric<double>;
+	//template class ELYSIUM_CORE_API Numeric<Decimal>;
 
-	typedef Numeric<float> Single;
-	typedef Numeric<double> Double;
-	//typedef Numeric<Decimal> Decimal;
+	using Single = Numeric<float>;
+	using Double = Numeric<double>;
+	//using Decimal = Numeric<Decimal>;
 }
 #endif

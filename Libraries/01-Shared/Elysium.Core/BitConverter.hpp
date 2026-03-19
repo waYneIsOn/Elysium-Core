@@ -24,7 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/Primitives.hpp"
 #endif
 
-
 namespace Elysium::Core
 {
 	class ELYSIUM_CORE_API BitConverter 
@@ -58,7 +57,7 @@ namespace Elysium::Core
 	public:
 		static const Elysium::Core::int16_t ToInt16(const Elysium::Core::byte* Value);
 
-		static const Elysium::Core::int32_t ToInt24(const Elysium::Core::byte* Value);	// ToDo: return custom uint24_t-type?
+		static const Elysium::Core::int32_t ToInt24(const Elysium::Core::byte* Value);	// @ToDo: return "custom" uint24_t-type?
 
 		static const Elysium::Core::int32_t ToInt32(const Elysium::Core::byte* Value);
 
@@ -66,7 +65,7 @@ namespace Elysium::Core
 
 		static const Elysium::Core::uint16_t ToUInt16(const Elysium::Core::byte* Value);
 
-		static const Elysium::Core::uint32_t ToUInt24(const Elysium::Core::byte* Value);	// ToDo: return custom uint24_t-type?
+		static const Elysium::Core::uint32_t ToUInt24(const Elysium::Core::byte* Value);	// @ToDo: return "custom" uint24_t-type?
 
 		static const Elysium::Core::uint32_t ToUInt32(const Elysium::Core::byte* Value);
 

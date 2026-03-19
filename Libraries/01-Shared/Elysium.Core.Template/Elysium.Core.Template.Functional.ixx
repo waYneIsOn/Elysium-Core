@@ -1,9 +1,5 @@
 module;
 
-export module Elysium.Core.Template.Functional;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_ADDCONSTANT
 #include "Functional/AddConstant.hpp"
 #endif
@@ -71,4 +67,26 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
 #include "Functional/Swap.hpp"
 #endif
+
+export module Elysium.Core.Template.Functional;
+
+export
+{
+	using Elysium::Core::Template::Functional::AddConstant;
+	using Elysium::Core::Template::Functional::AddConstantVolatile;
+	using Elysium::Core::Template::Functional::AddLeftValueReference;
+	using Elysium::Core::Template::Functional::AddReference;
+	using Elysium::Core::Template::Functional::AddRightValueReference;
+	using Elysium::Core::Template::Functional::AddVolatile;
+	using Elysium::Core::Template::Functional::DeclareValue;
+	using Elysium::Core::Template::Functional::Forward;
+	using Elysium::Core::Template::Functional::Hash;
+	using Elysium::Core::Template::Functional::Move;
+	using Elysium::Core::Template::Functional::RemoveConst;
+	using Elysium::Core::Template::Functional::RemoveConstVolatile;
+	using Elysium::Core::Template::Functional::RemovePointer;
+	using Elysium::Core::Template::Functional::RemoveReference;
+	using Elysium::Core::Template::Functional::RemoveVolatile;
+	using Elysium::Core::Template::Functional::Reverse;
+	using Elysium::Core::Template::Functional::Swap;
 }

@@ -4,10 +4,6 @@ module;
 #include <initializer_list>
 #endif
 
-export module Elysium.Core.Template.Numeric;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "Numeric/NumericTraits.hpp"
 #endif
@@ -15,4 +11,11 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_RATIO
 #include "Numeric/Ratio.hpp"
 #endif
+
+export module Elysium.Core.Template.Numeric;
+
+export
+{
+	using Elysium::Core::Template::Numeric::NumericTraits;
+	using Elysium::Core::Template::Numeric::Ratio;
 }

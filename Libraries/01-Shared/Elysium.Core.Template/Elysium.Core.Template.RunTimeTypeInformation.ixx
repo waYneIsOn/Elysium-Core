@@ -8,7 +8,6 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os regarding filesystem"
@@ -16,18 +15,12 @@ module;
 
 #ifndef _INITIALIZER_LIST_
 #include <initializer_list>
-//import <initializer_list>;
 #endif
 
 #ifndef _NEW_
 #include <new>
-//import <new>;
 #endif
 
-export module Elysium.Core.Template.RunTimeTypeInformation;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_COMPOSITETYPE
 #include "RunTimeTypeInformation/CompositeType.hpp"
 #endif
@@ -39,4 +32,12 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_RUNTIMETYPEINFORMATION_SOURCELOCATION
 #include "RunTimeTypeInformation/SourceLocation.hpp"
 #endif
+
+export module Elysium.Core.Template.RunTimeTypeInformation;
+
+export
+{
+	using Elysium::Core::Template::RunTimeTypeInformation::CompositeType;
+	using Elysium::Core::Template::RunTimeTypeInformation::Enumeration;
+	using Elysium::Core::Template::RunTimeTypeInformation::SourceLocation;
 }

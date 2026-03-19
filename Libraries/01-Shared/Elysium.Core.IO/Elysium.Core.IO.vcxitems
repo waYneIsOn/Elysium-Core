@@ -60,6 +60,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Directory.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.IO.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EndOfStreamException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)File.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />

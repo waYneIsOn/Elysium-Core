@@ -8,7 +8,6 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
@@ -27,10 +26,6 @@ module;
 #include <new>
 #endif
 
-export module Elysium.Core.Template.Text;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CHARACTERTRAITS
 #include "Text/CharacterTraits.hpp"
 #endif
@@ -58,4 +53,16 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGVIEW
 #include "Text/StringView.hpp"
 #endif
+
+export module Elysium.Core.Template.Text;
+
+export
+{
+	using Elysium::Core::Template::Text::CharacterTraits;
+	using Elysium::Core::Template::Text::Convert;
+	using Elysium::Core::Template::Text::Encoding;
+	//using Elysium::Core::Template::Text::Format;
+	using Elysium::Core::Template::Text::String;
+	using Elysium::Core::Template::Text::StringBuilder;
+	using Elysium::Core::Template::Text::StringView;
 }

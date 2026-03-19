@@ -2,15 +2,9 @@ module;
 
 #ifndef _CMATH_
 #include <cmath>
-//import <cmath>;
 #endif
 
-export module Elysium.Core.Template.Math;
-
-export
-{
 // @ToDo: all classes, methods etc. here can be heavily improved!
-
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
 #include "Math/Absolute.hpp"
 #endif
@@ -58,4 +52,21 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_TRUNCATE
 #include "Math/Truncate.hpp"
 #endif
+
+export module Elysium.Core.Template.Math;
+
+export
+{
+	using Elysium::Core::Template::Math::Absolute;
+	using Elysium::Core::Template::Math::Ceiling;
+	using Elysium::Core::Template::Math::Decimal;
+	using Elysium::Core::Template::Math::Factorial;
+	using Elysium::Core::Template::Math::Floor;
+	using Elysium::Core::Template::Math::GreatestCommonDivisor;
+	using Elysium::Core::Template::Math::Logarithm;
+	using Elysium::Core::Template::Math::MidpointRounding;
+	using Elysium::Core::Template::Math::Power;
+	using Elysium::Core::Template::Math::Round;
+	using Elysium::Core::Template::Math::SignOf;
+	using Elysium::Core::Template::Math::Truncate;
 }

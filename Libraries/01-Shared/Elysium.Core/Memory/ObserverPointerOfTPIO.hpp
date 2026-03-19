@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_OBSERVERPOINTER
+#include "../../Elysium.Core.Template/Memory/ObserverPointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "../../Elysium.Core.Template/OperatingSystem.hpp"
 #endif

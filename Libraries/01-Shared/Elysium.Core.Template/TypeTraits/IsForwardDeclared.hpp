@@ -6,8 +6,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 ===========================================================================
 */
 
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCOMPLETELYDEFINED
-#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCOMPLETELYDEFINED
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFORWARDDECLARED
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISFORWARDDECLARED
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,12 +24,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template<class T, Elysium::Core::Template::System::size = sizeof(T)>
-    Elysium::Core::Template::TypeTraits::IntegralConstant<bool, true> IsCompletelyDefinedImplementation(int);
+    Elysium::Core::Template::TypeTraits::IntegralConstant<bool, false> IsForwardDeclaredImplementation(int);
 
     template<class T>
-    Elysium::Core::Template::TypeTraits::IntegralConstant<bool, false> IsCompletelyDefinedImplementation(...);
+    Elysium::Core::Template::TypeTraits::IntegralConstant<bool, true> IsForwardDeclaredImplementation(...);
 
     template<class T>
-    inline constexpr bool IsCompletelyDefinedValue = decltype(IsCompletelyDefinedImplementation<T>(0))::Value;
+    inline constexpr bool IsForwardDeclaredValue = decltype(IsForwardDeclaredImplementation<T>(0))::Value;
+
+    template <class T, class... Other>
+    struct IsForwardDeclared
+        : public IntegralConstant<bool, IsForwardDeclaredValue<T>>
+    {};
 }
 #endif
+#pragma once

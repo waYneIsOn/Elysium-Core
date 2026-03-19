@@ -1,9 +1,5 @@
 module;
 
-export module Elysium.Core.Template.Concepts;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_ARRAY
 #include "Container/Array.hpp"
 #endif
@@ -75,4 +71,22 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "Container/Vector.hpp"
 #endif
+
+export module Elysium.Core.Template.Container;
+
+export
+{
+	using Elysium::Core::Template::Container::KeyValuePair;
+	using Elysium::Core::Template::Container::LinkedList;
+	using Elysium::Core::Template::Container::LinkedListNode;
+	using Elysium::Core::Template::Container::Object;
+	//using Elysium::Core::Template::Container::OrderedMap;
+	using Elysium::Core::Template::Container::PriorityQueue;
+	//using Elysium::Core::Template::Container::RedBlackTree;
+	using Elysium::Core::Template::Container::RingBuffer;
+	//using Elysium::Core::Template::Container::Stack;
+	using Elysium::Core::Template::Container::Tuple;
+	using Elysium::Core::Template::Container::UnorderedMap;
+	//using Elysium::Core::Template::Container::Variant;
+	using Elysium::Core::Template::Container::Vector;
 }

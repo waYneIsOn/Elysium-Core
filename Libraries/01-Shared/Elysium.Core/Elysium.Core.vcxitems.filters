@@ -16,9 +16,6 @@
     <Filter Include="Container">
       <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Memory\Scoped">
-      <UniqueIdentifier>{17ef5459-6732-4d2c-b55b-693b7de51c19}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
@@ -71,7 +68,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SystemSpecific.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Primitives.hpp" />
@@ -114,9 +110,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DelegateOfVoidAtomicIASyncResultReference.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Arena.hpp">
-      <Filter>Memory\Scoped</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointerOfTPIO.hpp">
       <Filter>Memory</Filter>
     </ClInclude>
@@ -144,6 +137,11 @@
       <Filter>Internal</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Container.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Memory.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Runtime.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Runtime.InteropServices.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Internal.ixx" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="$(MSBuildThisFileDirectory)Elysium.Core.natvis" />

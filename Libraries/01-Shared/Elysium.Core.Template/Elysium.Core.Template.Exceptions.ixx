@@ -8,16 +8,11 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 #else
 #error "unsupported os"
 #endif
 
-export module Elysium.Core.Template.Exceptions;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_AGGREGATEEXCEPTION
 #include "Exceptions/AggregateException.hpp"
 #endif
@@ -77,4 +72,24 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
 #include "Exceptions/SystemException.hpp"
 #endif
+
+export module Elysium.Core.Template.Exceptions;
+
+export
+{
+	using Elysium::Core::Template::Exceptions::AggregateException;
+	using Elysium::Core::Template::Exceptions::ArgumentException;
+	using Elysium::Core::Template::Exceptions::ArgumentNullException;
+	using Elysium::Core::Template::Exceptions::ArgumentOutOfRangeException;
+	using Elysium::Core::Template::Exceptions::ArithmeticException;
+	using Elysium::Core::Template::Exceptions::DivideByZeroException;
+	using Elysium::Core::Template::Exceptions::Exception;
+	using Elysium::Core::Template::Exceptions::IndexOutOfRangeException;
+	using Elysium::Core::Template::Exceptions::InvalidCastException;
+	using Elysium::Core::Template::Exceptions::InvalidOperationException;
+	using Elysium::Core::Template::Exceptions::NotImplementedException;
+	using Elysium::Core::Template::Exceptions::NotSupportedException;
+	using Elysium::Core::Template::Exceptions::OutOfMemoryException;
+	using Elysium::Core::Template::Exceptions::OverflowException;
+	using Elysium::Core::Template::Exceptions::SystemException;
 }

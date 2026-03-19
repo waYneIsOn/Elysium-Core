@@ -8,22 +8,18 @@ module;
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
-//import <Windows.h>;
 #endif
 
 #ifndef _DBGHELP_
 #include <DbgHelp.h>
-//import <DbgHelp.h>;
 #endif
 
 #ifndef _INC_TOOLHELP32
 #include <tlhelp32.h>
-//import <TlHelp32.h>;
 #endif
 
 #ifndef _PSAPI_H_
 #include <Psapi.h>
-//import <Psapi.h>;
 #endif
 #else
 #error "unsupported os"
@@ -37,10 +33,6 @@ module;
 #include <initializer_list>
 #endif
 
-export module Elysium.Core.Template.Diagnostics;
-
-export
-{
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_PROCESS
 #include "Diagnostics/Process.hpp"
 #endif
@@ -72,4 +64,17 @@ export
 #ifndef ELYSIUM_CORE_TEMPLATE_DIAGNOSTICS_STACKTRACE
 #include "Diagnostics/StackTrace.hpp"
 #endif
+
+export module Elysium.Core.Template.Diagnostics;
+
+export
+{
+	using Elysium::Core::Template::Diagnostics::Process;
+	using Elysium::Core::Template::Diagnostics::ProcessAccess;
+	//using Elysium::Core::Template::Diagnostics::ProcessModule;
+	using Elysium::Core::Template::Diagnostics::ProcessStartInfo;
+	//using Elysium::Core::Template::Diagnostics::ProcessThread;
+	using Elysium::Core::Template::Diagnostics::ProcessWindowStyle;
+	using Elysium::Core::Template::Diagnostics::StackFrame;
+	using Elysium::Core::Template::Diagnostics::StackTrace;
 }

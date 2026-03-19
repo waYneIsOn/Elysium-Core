@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISCONSTANT
-#include "../IsConstant.hpp"
+#include "../TypeTraits/IsConstant.hpp"
 #endif
 
 namespace Elysium::Core::Template::Concepts

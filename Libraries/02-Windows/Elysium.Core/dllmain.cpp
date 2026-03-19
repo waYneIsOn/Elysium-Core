@@ -26,8 +26,8 @@
 #include "../Elysium.Core.Diagnostics/WinSymbols.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_MEMORY_SCOPED_ARENA
-#include "../Elysium.Core/Arena.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
+#include "../../01-Shared/Elysium.Core.Template/Memory/Scoped/Arena.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
