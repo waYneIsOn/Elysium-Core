@@ -786,6 +786,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsForwardDeclared.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp">
+      <Filter>Functional</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

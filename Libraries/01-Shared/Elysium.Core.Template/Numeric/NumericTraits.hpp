@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Concepts/Arithmetic.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_BITCAST
+#include "../Functional/BitCast.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_ABSOLUTE
 #include "../Math/Absolute.hpp"
 #endif
@@ -62,26 +66,6 @@ namespace Elysium::Core::Template::Numeric
 		/// 
 		/// </summary>
 		static constexpr const bool IsSigned = Elysium::Core::Template::TypeTraits::IsSignedValue<T>;
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr ConstValue Minimum = Elysium::Core::Template::TypeTraits::IsFloatingPointValue<T> ?
-			// @ToDo
-			// 4 byte: sign 0, exponent 00-00-00-01			[8	- 1000], mantissa all 0s (23)
-			// 8 byte: sign 0, exponent 00-00-00-00-00-1	[11	- 1011], mantissa all 0s (52)
-			0 :
-			(IsSigned ? static_cast<ConstValue>(1_ui64 << (ByteLength * 8 - 1)) : 0);
-
-		/// <summary>
-		/// 
-		/// </summary>
-		static constexpr ConstValue Maximum = Elysium::Core::Template::TypeTraits::IsFloatingPointValue<T> ?
-			// @ToDo
-			// 4 byte: 
-			// 8 byte: 
-			0 :
-			(IsSigned ? static_cast<ConstValue>(((1_ui64 << (ByteLength * 8 - 1)) + 1) * -1) : -1);
 	public:
 		/// <summary>
 		/// 
@@ -99,6 +83,20 @@ namespace Elysium::Core::Template::Numeric
 	class _NumericTraitsBaseInteger
 		: public _NumericTraitsBase<T>
 	{
+	public:
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr _NumericTraitsBase<T>::ConstValue Minimum = _NumericTraitsBase<T>::IsSigned ? 
+			static_cast<_NumericTraitsBase<T>::ConstValue>(1_ui64 << (_NumericTraitsBase<T>::ByteLength * 8 - 1)) :
+			0;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		static constexpr _NumericTraitsBase<T>::ConstValue Maximum = _NumericTraitsBase<T>::IsSigned ? 
+			static_cast<_NumericTraitsBase<T>::ConstValue>(((1_ui64 << (_NumericTraitsBase<T>::ByteLength * 8 - 1)) + 1) * -1) : 
+			-1;
 	public:
 		/// <summary>
 		/// 
@@ -139,6 +137,7 @@ namespace Elysium::Core::Template::Numeric
 
 			return Result;
 		}
+
 	};
 
 	template <Elysium::Core::Template::Concepts::FloatingPoint T>
@@ -146,7 +145,30 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBase<T>
 	{
 	public:
+		static constexpr auto Test0 = 1_ui32 << 23;
 
+		static constexpr auto Test1 = 1_ui64 << 52;
+	public:
+#pragma warning(push)
+#pragma warning(disable: 4244)	// cast works correctly
+		/// <summary>
+		/// Sign:		0 ie. positive
+		/// Exponent:	1 ie. smallest non-zero exponent 
+		/// Mantissa:	all zeroes
+		/// </summary>
+		static constexpr _NumericTraitsBase<T>::ConstValue Minimum = _NumericTraitsBase<T>::ByteLength == 4_ui8 ?
+			Elysium::Core::Template::Functional::BitCast<const float>(1_ui32 << 23) :
+			Elysium::Core::Template::Functional::BitCast<const double>(1_ui64 << 52);
+		
+		/// <summary>
+		/// Sign:		0 ie. positive
+		/// Exponent:	all ones except last bit (all ones ie. max is reserverd for infinite/NaN)
+		/// Mantissa:	all ones
+		/// </summary>
+		static constexpr _NumericTraitsBase<T>::ConstValue Maximum = _NumericTraitsBase<T>::ByteLength == 4_ui8 ?
+			Elysium::Core::Template::Functional::BitCast<const float>((254_ui32 << 23) | (1_ui32 << 23) - 1) :
+			Elysium::Core::Template::Functional::BitCast<const double>((2046_ui64 << 52) | ((1_ui64 << 52) - 1));
+#pragma warning(pop)
 	};
 	
 	// ------------------------------------------------------------------------------------------------------------------------------

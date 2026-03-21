@@ -24,6 +24,10 @@ module;
 #include "Functional/AddVolatile.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_BITCAST
+#include "Functional/BitCast.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_DECLAREVALUE
 #include "Functional/DeclareValue.hpp"
 #endif

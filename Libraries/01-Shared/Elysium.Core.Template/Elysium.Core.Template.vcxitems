@@ -17,6 +17,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Activator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddConstant.hpp" />
