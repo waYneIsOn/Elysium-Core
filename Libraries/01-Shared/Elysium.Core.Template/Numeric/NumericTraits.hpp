@@ -153,7 +153,7 @@ namespace Elysium::Core::Template::Numeric
 #pragma warning(disable: 4244)	// cast works correctly
 		/// <summary>
 		/// Sign:		0 ie. positive
-		/// Exponent:	1 ie. smallest non-zero exponent 
+		/// Exponent:	1 ie. smallest non-zero exponent
 		/// Mantissa:	all zeroes
 		/// </summary>
 		static constexpr _NumericTraitsBase<T>::ConstValue Minimum = _NumericTraitsBase<T>::ByteLength == 4_ui8 ?

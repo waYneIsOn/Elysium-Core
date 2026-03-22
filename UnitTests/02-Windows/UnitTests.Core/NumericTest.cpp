@@ -1,13 +1,9 @@
 #include "CppUnitTest.h"
 #include "../../01-Shared/UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#ifndef ELYSIUM_CORE_INTEGER
 #include "../../../Libraries/01-Shared/Elysium.Core/Integer.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_FLOAT
 #include "../../../Libraries/01-Shared/Elysium.Core/Float.hpp"
-#endif
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Literals.hpp"
 
 using namespace Elysium::Core;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -216,6 +212,8 @@ namespace UnitTests::Core
 			Value1 |= 1;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(129), static_cast<Elysium::Core::int32_t>(Value1));
 			*/
+			Value1 = 129;
+
 			Value1 /= 2;
 			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(64), static_cast<Elysium::Core::int32_t>(Value1));
 
@@ -254,15 +252,16 @@ namespace UnitTests::Core
 
 		TEST_METHOD(BitwiseOperators)
 		{
-			Elysium::Core::Int32 Value = 1;
-			/*
-			Value = Value << 2;
-			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(4), static_cast<Elysium::Core::int32_t>(Value));
+			constexpr const Elysium::Core::Int32 Value0 = 1;
+			constexpr const Elysium::Core::Int32 Value1 = Value0 << 2;
+			constexpr const Elysium::Core::Int32 Value2 = Value1 >> 1;
 
-			Value = Value >> 1;
-			Assert::AreEqual(static_cast<Elysium::Core::int32_t>(2), static_cast<Elysium::Core::int32_t>(Value));
-			/*
+			constexpr const Elysium::Core::Template::System::int32_t sdfgsdf = 
+				static_cast<const Elysium::Core::Template::System::int32_t>(Value2);
 
+			Assert::AreEqual(4_i32, static_cast<const Elysium::Core::Template::System::int32_t>(Value1));
+			Assert::AreEqual(2_i32, static_cast<const Elysium::Core::Template::System::int32_t>(Value2));
+			/*
 			remaining:
 			&
 			|
@@ -270,7 +269,6 @@ namespace UnitTests::Core
 			~
 
 			*/
-			Assert::Fail();
 		}
 	};
 }

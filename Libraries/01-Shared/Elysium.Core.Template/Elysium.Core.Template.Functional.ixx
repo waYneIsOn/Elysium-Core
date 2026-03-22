@@ -82,6 +82,7 @@ export
 	using Elysium::Core::Template::Functional::AddReference;
 	using Elysium::Core::Template::Functional::AddRightValueReference;
 	using Elysium::Core::Template::Functional::AddVolatile;
+	using Elysium::Core::Template::Functional::BitCast;
 	using Elysium::Core::Template::Functional::DeclareValue;
 	using Elysium::Core::Template::Functional::Forward;
 	using Elysium::Core::Template::Functional::Hash;
