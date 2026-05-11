@@ -8,8 +8,16 @@ module;
 #include "Container/Delegate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DOUBLEENDEDQUEUE
+#include "Container/DoubleEndedQueue.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DOUBLEBUFFER
 #include "Container/DoubleBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIFOQUEUE
+#include "Container/Adopter/FiFoQueue.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FUNCTION
@@ -76,6 +84,10 @@ export module Elysium.Core.Template.Container;
 
 export
 {
+	using Elysium::Core::Template::Container::Array;
+	using Elysium::Core::Template::Container::Delegate;
+	using Elysium::Core::Template::Container::DoubleEndedQueue;
+	using Elysium::Core::Template::Container::FiFoQueue;
 	using Elysium::Core::Template::Container::KeyValuePair;
 	using Elysium::Core::Template::Container::LinkedList;
 	using Elysium::Core::Template::Container::LinkedListNode;

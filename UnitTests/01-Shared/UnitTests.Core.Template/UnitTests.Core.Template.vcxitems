@@ -24,6 +24,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ClockTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ConvertTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DelegateTest.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)DoubleEndedQueueTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)FiFoQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FunctionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanCodingTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IntegerSequenceTests.cpp" />

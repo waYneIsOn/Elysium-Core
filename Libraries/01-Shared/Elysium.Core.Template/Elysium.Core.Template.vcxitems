@@ -15,6 +15,9 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\FiFoQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
@@ -240,7 +243,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\RedBlackTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Reference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\Reverse.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\SameAs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\SharedPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Stack.hpp" />

@@ -935,7 +935,7 @@ namespace Elysium::Core::Template::Container
 			_Data = nullptr;
 		}
 	public:
-		constexpr Vector<T, Allocator>& operator=(const Vector& Source)
+		inline constexpr Vector<T, Allocator>& operator=(const Vector& Source)
 		{
 			if (this != &Source)
 			{
@@ -955,7 +955,7 @@ namespace Elysium::Core::Template::Container
 			return *this;
 		}
 
-		constexpr Vector<T, Allocator>& operator=(Vector&& Right) noexcept
+		inline constexpr Vector<T, Allocator>& operator=(Vector&& Right) noexcept
 		{
 			if (this != &Right)
 			{
@@ -972,52 +972,42 @@ namespace Elysium::Core::Template::Container
 			return *this;
 		}
 	public:
-		constexpr Reference operator[](const System::size Index)
+		inline constexpr Reference operator[](const System::size Index)
 		{
 			return _Data[Index];
 		}
 
-		constexpr ConstReference operator[](const System::size Index) const
+		inline constexpr ConstReference operator[](const System::size Index) const
 		{
 			return _Data[Index];
 		}
 	public:
-		static constexpr const System::size GetMaximumSize()
+		inline static constexpr const System::size GetMaximumSize()
 		{
 			return static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(T);
 		}
-
-		constexpr const System::size GetCapacity() const noexcept
+	public:
+		inline constexpr const System::size GetCapacity() const noexcept
 		{
 			return _Capacity;
 		}
 
-		constexpr const System::size GetLength() const noexcept
+		inline constexpr const System::size GetLength() const noexcept
 		{
 			return _Length;
 		}
 
-		constexpr ConstPointer GetData() const noexcept
+		inline constexpr ConstPointer GetData() const noexcept
 		{
 			return _Data;
 		}
 
-		constexpr const bool GetIsEmpty() const noexcept
+		inline constexpr const bool GetIsEmpty() const noexcept
 		{
-			return _Length == 0;
+			return 0 == _Length;
 		}
 
-		constexpr Reference GetAt(const System::size Index)
-		{
-			if (Index >= _Length)
-			{
-				throw Exceptions::IndexOutOfRangeException();
-			}
-
-			return _Data[Index];
-		}
-
-		constexpr ConstReference GetAt(const System::size Index) const
+		inline constexpr Reference GetAt(const System::size Index)
 		{
 			if (Index >= _Length)
 			{
@@ -1027,57 +1017,67 @@ namespace Elysium::Core::Template::Container
 			return _Data[Index];
 		}
 
-		constexpr Reference GetUnsafeAt(const System::size Index)
+		inline constexpr ConstReference GetAt(const System::size Index) const
+		{
+			if (Index >= _Length)
+			{
+				throw Exceptions::IndexOutOfRangeException();
+			}
+
+			return _Data[Index];
+		}
+
+		inline constexpr Reference GetUnsafeAt(const System::size Index)
 		{
 			return _Data[Index];
 		}
 
-		constexpr ConstReference GetUnsafeAt(const System::size Index) const
+		inline constexpr ConstReference GetUnsafeAt(const System::size Index) const
 		{
 			return _Data[Index];
 		}
 	public:
-		constexpr FIterator GetBegin() noexcept
+		inline constexpr FIterator GetBegin() noexcept
 		{
 			return FIterator(&_Data[0]);
 		}
 
-		constexpr ConstIterator GetBegin() const noexcept
+		inline constexpr ConstIterator GetBegin() const noexcept
 		{
 			return ConstIterator(&_Data[0]);
 		}
 
-		constexpr FIterator GetEnd() noexcept
+		inline constexpr FIterator GetEnd() noexcept
 		{
 			return FIterator(&_Data[_Length - 1]);
 		}
 
-		constexpr ConstIterator GetEnd() const noexcept
+		inline constexpr ConstIterator GetEnd() const noexcept
 		{
 			return ConstIterator(&_Data[_Length - 1]);
 		}
 
-		constexpr ReverseIterator GetReverseBegin() noexcept
+		inline constexpr ReverseIterator GetReverseBegin() noexcept
 		{
 			return ReverseIterator(&_Data[_Length - 1]);
 		}
 
-		constexpr ConstReverseIterator GetReverseBegin() const noexcept
+		inline constexpr ConstReverseIterator GetReverseBegin() const noexcept
 		{
 			return ConstReverseIterator(&_Data[_Length - 1]);
 		}
 
-		constexpr ReverseIterator GetReverseEnd() noexcept
+		inline constexpr ReverseIterator GetReverseEnd() noexcept
 		{
 			return ReverseIterator(&_Data[0]);
 		}
 
-		constexpr ConstReverseIterator GetReverseEnd() const noexcept
+		inline constexpr ConstReverseIterator GetReverseEnd() const noexcept
 		{
 			return ConstReverseIterator(&_Data[0]);
 		}
 	public:
-		void Assign(ConstValue Value, const System::size Length)
+		inline void Assign(ConstValue Value, const System::size Length)
 		{
 			const Elysium::Core::Template::System::size RequiredSize = _Length + Length;
 			if (RequiredSize > _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
@@ -1091,12 +1091,12 @@ namespace Elysium::Core::Template::Container
 			}
 		}
 
-		void Clear()
+		inline void Clear()
 		{
 			_Length = 0;
 		}
 
-		constexpr FIterator Erase(ConstValue Value)
+		inline constexpr FIterator Erase(ConstValue Value)
 		{
 			for (System::size i = 0; i < _Length; i++)
 			{
@@ -1110,7 +1110,7 @@ namespace Elysium::Core::Template::Container
 			return GetEnd();
 		}
 
-		constexpr FIterator EraseAt(const System::size Index)
+		inline constexpr FIterator EraseAt(const System::size Index)
 		{
 			if (Index >= _Length)
 			{
@@ -1128,7 +1128,7 @@ namespace Elysium::Core::Template::Container
 			return GetEnd();
 		}
 
-		void Insert(const System::size Index, ConstValue Value)
+		inline void Insert(const System::size Index, ConstValue Value)
 		{
 			if (Index >= _Capacity)
 			{
@@ -1154,7 +1154,7 @@ namespace Elysium::Core::Template::Container
 			}
 		}
 
-		constexpr void PushBack(ConstReference Item)
+		inline constexpr void PushBack(ConstReference Item)
 		{
 			if (_Length == _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 			{
@@ -1164,7 +1164,7 @@ namespace Elysium::Core::Template::Container
 			Elysium::Core::Template::Memory::MemCpy(&_Data[_Length++], &Item, sizeof(T));
 		}
 
-		constexpr void PushBack(RValueReference Item)
+		inline constexpr void PushBack(RValueReference Item)
 		{
 			if (_Length == _Capacity) ELYSIUM_CORE_PATH_UNLIKELY
 			{
@@ -1173,7 +1173,7 @@ namespace Elysium::Core::Template::Container
 			Elysium::Core::Template::Memory::MemCpy(&_Data[_Length++], &Item, sizeof(T));
 		}
 		
-		void PushBackRange(ConstPointer FirstItem, const System::size Length)
+		inline void PushBackRange(ConstPointer FirstItem, const System::size Length)
 		{
 			if (FirstItem == nullptr)
 			{
@@ -1191,7 +1191,7 @@ namespace Elysium::Core::Template::Container
 			_Length += Length;
 		}
 
-		void PopBack()
+		inline void PopBack()
 		{
 			if (_Length > 0)
 			{
@@ -1199,7 +1199,7 @@ namespace Elysium::Core::Template::Container
 			}
 		}
 
-		void Reserve(const System::size DesiredCapacity)
+		inline void Reserve(const Elysium::Core::Template::System::size DesiredCapacity)
 		{
 			if (DesiredCapacity > _Capacity)
 			{
@@ -1214,7 +1214,7 @@ namespace Elysium::Core::Template::Container
 			}
 		}
 
-		void ShrinkToFit()
+		inline void ShrinkToFit()
 		{
 			if (_Length != _Capacity)
 			{
@@ -1229,7 +1229,7 @@ namespace Elysium::Core::Template::Container
 			}
 		}
 	private:
-		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity)
+		inline const Elysium::Core::Template::System::size CalculateCapacityGrowth(const Elysium::Core::Template::System::size DesiredCapacity)
 		{
 			constexpr const Elysium::Core::Template::System::size MaximumSize = GetMaximumSize();
 			if (_Capacity == MaximumSize)

@@ -28,10 +28,15 @@ namespace Elysium::Core::Template::Container
 {
 	template<class T, Elysium::Core::Template::Concepts::SequenceContainer Container = Elysium::Core::Template::Container::Vector<T>, 
 		class Compare = Elysium::Core::Template::Operators::Less<typename Container::Value>>
+		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	class PriorityQueue
 	{
 	public:
-		constexpr PriorityQueue();
+		using Value = Container::Value;
+		using ConstPointer = Container::ConstPointer;
+		using ConstReference = Container::ConstReference;
+	public:
+		constexpr PriorityQueue() = default;
 
 		constexpr PriorityQueue(const PriorityQueue& Source) = delete;
 
@@ -42,13 +47,57 @@ namespace Elysium::Core::Template::Container
 		constexpr PriorityQueue& operator=(const PriorityQueue& Source) = delete;
 
 		constexpr PriorityQueue& operator=(PriorityQueue&& Right) noexcept = delete;
-	private:
-		Container _Container;
-	};
+	public:
+		inline constexpr const bool GetIsEmpty() const noexcept (noexcept(_Container.GetIsEmpty()))
+		{
+			return _Container.GetIsEmpty();
+		}
 
-	template<class T, Elysium::Core::Template::Concepts::SequenceContainer Container, class Compare>
-	inline constexpr PriorityQueue<T, Container, Compare>::PriorityQueue()
-		: _Container()
-	{ }
+		inline constexpr const Elysium::Core::Template::System::size GetLength() const noexcept(noexcept(_Container.GetLength()))
+		{
+			return _Container.GetLength();
+		}
+	public:
+		/*
+		inline constexpr Reference Front()
+		{
+			return _Container.Front();
+		}
+
+		inline constexpr ConstReference Front() const
+		{
+			return _Container.Front();
+		}
+		*/
+	public:
+		inline void Push(ConstReference Item)
+		{
+			_Container.PushBack(Item);
+		}
+
+		inline void PushRange(ConstPointer FirstItem, const System::size Length)
+		{
+			_Container.PushBackRange(FirstItem, Length);
+		}
+		/*
+		inline void Emplace()
+		{
+
+		}
+		*/
+		inline void Pop()
+		{
+			_Container.PopBack();
+		}
+		/*
+		inline void Swap()
+		{
+
+		}
+		*/
+	private:
+		Container _Container{};
+		Compare _Compare{};
+	};
 }
 #endif

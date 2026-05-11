@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_NONCONSTANT
-#include "Concepts/NonConstant.hpp"
+#include "../Concepts/NonConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_DEFAULTALLOCATOR
-#include "Memory/DefaultAllocator.hpp"
+#include "../Memory/DefaultAllocator.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "System/Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Container
