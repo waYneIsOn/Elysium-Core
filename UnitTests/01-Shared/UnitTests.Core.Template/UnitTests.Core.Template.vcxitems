@@ -30,6 +30,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanCodingTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IntegerSequenceTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PriorityQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReflectionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StringViewTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ThreadTests.cpp" />

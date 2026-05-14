@@ -227,6 +227,26 @@ namespace Elysium::Core::Template::Container
 		/// <param name="Index"></param>
 		/// <returns></returns>
 		constexpr ConstReference GetAt(const System::size Index) const;
+
+		inline constexpr Reference GetFront()
+		{
+			if (0 == _Length)
+			{
+				throw Exceptions::IndexOutOfRangeException();
+			}
+
+			return _Data[0];
+		}
+
+		inline constexpr ConstReference GetFront() const
+		{
+			if (0 == _Length)
+			{
+				throw Exceptions::IndexOutOfRangeException();
+			}
+
+			return _Data[0];
+		}
 	public:
 		/// <summary>
 		/// Returns a forward-iterator pointing towards the first element.
@@ -1035,6 +1055,26 @@ namespace Elysium::Core::Template::Container
 		inline constexpr ConstReference GetUnsafeAt(const System::size Index) const
 		{
 			return _Data[Index];
+		}
+
+		inline constexpr Reference GetFront()
+		{
+			if (0 == _Length)
+			{
+				throw Exceptions::IndexOutOfRangeException();
+			}
+
+			return _Data[0];
+		}
+
+		inline constexpr ConstReference GetFront() const
+		{
+			if (0 == _Length)
+			{
+				throw Exceptions::IndexOutOfRangeException();
+			}
+
+			return _Data[0];
 		}
 	public:
 		inline constexpr FIterator GetBegin() noexcept
