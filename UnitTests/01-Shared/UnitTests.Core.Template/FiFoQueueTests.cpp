@@ -19,7 +19,8 @@ namespace UnitTests::Core::Template::Container::Adopter
 			FiFoQueue<Elysium::Core::Template::System::uint8_t> InitializerListQueue = { 1_ui8, 2_ui8, 3_ui8 };
 			Assert::IsFalse(InitializerListQueue.GetIsEmpty());
 			Assert::AreEqual(3_ui64, InitializerListQueue.GetLength());
-			const Elysium::Core::Template::System::uint8_t& Firstsdf = InitializerListQueue.GetFront();
+			const Elysium::Core::Template::System::uint8_t& ILQueueFront = InitializerListQueue.GetFront();
+			Assert::AreEqual(1_ui8, ILQueueFront);
 
 			FiFoQueue<Elysium::Core::Template::System::uint8_t> Queue = FiFoQueue<Elysium::Core::Template::System::uint8_t>();
 			Assert::IsFalse(Queue.GetIsEmpty());

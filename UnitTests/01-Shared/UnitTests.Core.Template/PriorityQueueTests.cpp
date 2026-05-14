@@ -17,6 +17,12 @@ namespace UnitTests::Core::Template::Container::Adopter
 	public:
 		TEST_METHOD(SimpleTest)
 		{
+			PriorityQueue<Elysium::Core::Template::System::uint8_t> InitializerListQueue = { 3_ui8, 1_ui8, 2_ui8 };
+			Assert::IsFalse(InitializerListQueue.GetIsEmpty());
+			Assert::AreEqual(3_ui64, InitializerListQueue.GetLength());
+			const Elysium::Core::Template::System::uint8_t& ILQueueTop = InitializerListQueue.GetTop();
+			Assert::AreEqual(1_ui8, ILQueueTop);
+
 			PriorityQueue<Elysium::Core::Template::System::uint8_t> Queue = PriorityQueue<Elysium::Core::Template::System::uint8_t>();
 			Assert::IsTrue(Queue.GetIsEmpty());
 			Assert::AreEqual(0_ui64, Queue.GetLength());

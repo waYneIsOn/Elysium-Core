@@ -59,6 +59,16 @@ namespace Elysium::Core::Template::Container
 	public:
 		constexpr PriorityQueue() = default;
 
+		constexpr PriorityQueue(const InitializerList<T>& InitializerList) noexcept
+		{
+			const T* Iterator = InitializerList.begin();
+			const T* LastElement = InitializerList.end();
+			for (; Iterator != LastElement; ++Iterator)
+			{
+				Push(*Iterator);
+			}
+		}
+
 		constexpr PriorityQueue(const PriorityQueue& Source) = delete;
 
 		constexpr PriorityQueue(PriorityQueue&& Right) noexcept = delete;
