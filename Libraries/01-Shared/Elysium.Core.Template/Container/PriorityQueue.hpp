@@ -169,18 +169,16 @@ namespace Elysium::Core::Template::Container
 				Elysium::Core::Template::System::size RightChildIndex = LeftChildIndex + 1;
 				Elysium::Core::Template::System::size NextIndex = CurrentIndex;
 				
-				T& LeftItem = _Container.GetUnsafeAt(LeftChildIndex);
-				T& RightItem = _Container.GetUnsafeAt(RightChildIndex);
-				T& NextItem = _Container.GetUnsafeAt(NextIndex);
-
-				if (LeftChildIndex < ContainerLengthAfterRemoval && _Compare(NextItem, LeftItem))
-				//if (LeftChildIndex < ContainerLengthAfterRemoval && !_Compare(LeftItem, NextItem))
+				if (LeftChildIndex < ContainerLengthAfterRemoval && 
+					_Compare(_Container.GetUnsafeAt(NextIndex), _Container.GetUnsafeAt(LeftChildIndex)))
+				//if (LeftChildIndex < ContainerLengthAfterRemoval && !_Compare(_Container.GetUnsafeAt(LeftChildIndex), _Container.GetUnsafeAt(NextIndex)))
 				{
 					NextIndex = LeftChildIndex;
 				}
 
-				if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(NextItem, RightItem))
-				//if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(RightItem, NextItem))
+				if (RightChildIndex < ContainerLengthAfterRemoval &&
+					_Compare(_Container.GetUnsafeAt(NextIndex), _Container.GetUnsafeAt(RightChildIndex)))
+				//if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(_Container.GetUnsafeAt(RightChildIndex), _Container.GetUnsafeAt(NextIndex)))
 				{
 					NextIndex = RightChildIndex;
 				}

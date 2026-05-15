@@ -36,8 +36,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			: _Symbol(Symbol), _Frequency(Frequency), _Left(nullptr), _Right(nullptr)
 		{ }
 	private:
-		inline constexpr HuffmanNode(const F Frequency, HuffmanNode* Left, HuffmanNode* Right)
-			: _Symbol(0x00), _Frequency(Frequency), _Left(Left), _Right(Right)
+		inline constexpr HuffmanNode(HuffmanNode* Left, HuffmanNode* Right)
+			: _Symbol(0x00), _Frequency(Left->_Frequency + Right->_Frequency), _Left(Left), _Right(Right)
 		{ }
 	public:
 		constexpr HuffmanNode(const HuffmanNode& Source) = delete;

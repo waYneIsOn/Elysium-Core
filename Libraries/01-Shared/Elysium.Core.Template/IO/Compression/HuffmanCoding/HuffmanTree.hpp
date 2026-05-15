@@ -86,8 +86,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	/// Specialization used for when compression is based on bytes allowing for using an array.
 	/// </summary>
 	template<>
-	class HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>
-		: public HuffmanTreeBase<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>
+	class HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
+		: public HuffmanTreeBase<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
 	{
 	private:
 		inline constexpr HuffmanTree(Node* Root)
@@ -120,32 +120,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		inline static const HuffmanTree Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length,
 			bool SwapLeftAndRight = false)
 		{
-			/*
-			using TemporarySymbolFrequencyMap = Elysium::Core::Template::Container::UnorderedMap<Symbol, Frequency>;
-
-			TemporarySymbolFrequencyMap SymbolFrequencyMap = TemporarySymbolFrequencyMap();
-			// @ToDo lol!!!!
-			for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
-			{
-				SymbolFrequencyMap.Set(Input[i], 0);
-			}
-			for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
-			{
-				++SymbolFrequencyMap[Input[i]];
-			}
-
-			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, CompareNodes> Heap{};
-			for (TemporarySymbolFrequencyMap::FIterator Iterator = SymbolFrequencyMap.GetBegin(); Iterator != SymbolFrequencyMap.GetEnd(); ++Iterator)
-			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Symbol, Frequency>>* Element = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<Symbol, Frequency>& Item = Element->GetItem();
-
-				const Symbol& Key = Item.GetKey();
-				const Frequency& Value = Item.GetValue();
-
-				Heap.Push(new Node(Item.GetKey(), Item.GetValue()));
-			}
-			*/
 			// count occurrences/frequency for each symbol
 			constexpr const Frequency OccurrencesLength = 256;
 			Frequency Occurrences[OccurrencesLength] = { 0 };
@@ -155,17 +129,15 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 
 			// create leaf nodes
-			//Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, CompareNodes> Heap{};
-			std::priority_queue<Node*, std::vector<Node*>, CompareNodes> Heap{};
+			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, CompareNodes> Heap{};
 			for (Frequency i = 0; i < OccurrencesLength; ++i)
 			{
 				if (Occurrences[i] > 0)
 				{
-					//Heap.Push(new Node(i, Occurrences[i]));
-					Heap.push(new Node(i, Occurrences[i]));
+					Heap.Push(new Node(i, Occurrences[i]));
 				}
 			}
-			/*
+			
 			// build the tree
 			while (Heap.GetLength() > 1)
 			{
@@ -177,36 +149,15 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 				if (SwapLeftAndRight)
 				{
-				Heap.Push(new Node(Left->_Frequency + Right->_Frequency, Right, Left));
+					Heap.Push(new Node(Right, Left));
 				}
 				else
 				{
-				Heap.Push(new Node(Left->_Frequency + Right->_Frequency, Left, Right));
+					Heap.Push(new Node(Left, Right));
 				}
 			}
 
 			return HuffmanTree(Heap.GetTop());
-			*/
-			// build the tree
-			while (Heap.size() > 1)
-			{
-				Node* Left = Heap.top();
-				Heap.pop();
-
-				Node* Right = Heap.top();
-				Heap.pop();
-
-				if (SwapLeftAndRight)
-				{
-					Heap.push(new Node(Left->_Frequency + Right->_Frequency, Right, Left));
-				}
-				else
-				{
-					Heap.push(new Node(Left->_Frequency + Right->_Frequency, Left, Right));
-				}
-			}
-
-			return HuffmanTree(Heap.top());
 		}
 	public:
 		inline CodeLengthsMap GenerateCodeLengths()

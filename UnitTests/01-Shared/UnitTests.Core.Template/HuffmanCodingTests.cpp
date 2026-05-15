@@ -39,8 +39,8 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::System::byte* Input = reinterpret_cast<const Elysium::Core::Template::System::byte*>(_LoremIpsum);
 			const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(_LoremIpsum);
 
-			HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t> Tree =
-				HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>::Build(Input, InputLength);
+			HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size> Tree =
+				HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::Build(Input, InputLength);
 			PrintTree(Tree._Root);
 			Logger::WriteMessage("-------------------\r\n");
 			/*
@@ -65,15 +65,15 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			}
 			Logger::WriteMessage("-------------------\r\n");
 			*/
-			HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>::CodeLengthsMap CodeLengths =
+			HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::CodeLengthsMap CodeLengths =
 				Tree.GenerateCodeLengths();
 
 			Elysium::Core::Template::Container::Vector<HuffmanSymbol> Symbols;
-			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>::FIterator Iterator = CodeLengths.GetBegin();
+			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::FIterator Iterator = CodeLengths.GetBegin();
 				Iterator != CodeLengths.GetEnd(); ++Iterator)
 			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>& Item = Node->GetItem();
+				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>>* Node = *Iterator;
+				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>& Item = Node->GetItem();
 				
 				Symbols.PushBack(HuffmanSymbol(Item.GetKey(), Item.GetValue()));
 			}
@@ -139,7 +139,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			}
 		}
 	private:
-		void PrintTree(const HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>::Node* CurrentNode)
+		void PrintTree(const HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::Node* CurrentNode)
 		{
 			if (nullptr == CurrentNode)
 			{
