@@ -80,7 +80,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 			HuffmanSymbol& First = *Symbols.GetBegin();
 			HuffmanSymbol& Last = *Symbols.GetEnd();
-			//Elysium::Core::Template::Algorithms::Sorting::BubbleSort<HuffmanSymbol*>(&First, &Last);
+			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<HuffmanSymbol*>(&First, &Last);
 
 			for (Elysium::Core::Template::System::size i = 0; i < Symbols.GetLength(); ++i)
 			{
