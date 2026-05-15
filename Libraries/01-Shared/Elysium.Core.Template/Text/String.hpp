@@ -150,7 +150,7 @@ namespace Elysium::Core::Template::Text
 
 		String<C, Traits, Allocator>::ConstCharacterReference At(const System::size Index) const;
 	public:
-		void Resize(System::size Index);
+		void Resize(System::size DesiredLength);
 	public:
 		constexpr const bool StartsWith(ConstCharacterPointer Value) const;
 
@@ -710,7 +710,7 @@ namespace Elysium::Core::Template::Text
 	}
 
 	template<Concepts::Character C, class Traits, class Allocator>
-	inline void String<C, Traits, Allocator>::Resize(System::size Index)
+	inline void String<C, Traits, Allocator>::Resize(System::size DesiredLength)
 	{
 		throw 1;
 	}

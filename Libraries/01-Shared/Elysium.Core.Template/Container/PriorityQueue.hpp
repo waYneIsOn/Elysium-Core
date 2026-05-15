@@ -119,6 +119,7 @@ namespace Elysium::Core::Template::Container
 				T& ParentItem = _Container.GetUnsafeAt(ParentIndex);
 
 				if (!_Compare(ParentItem, CurrentItem))
+				//if (_Compare(CurrentItem, ParentItem))
 				{
 					return;
 				}
@@ -173,11 +174,13 @@ namespace Elysium::Core::Template::Container
 				T& NextItem = _Container.GetUnsafeAt(NextIndex);
 
 				if (LeftChildIndex < ContainerLengthAfterRemoval && _Compare(NextItem, LeftItem))
+				//if (LeftChildIndex < ContainerLengthAfterRemoval && !_Compare(LeftItem, NextItem))
 				{
 					NextIndex = LeftChildIndex;
 				}
 
 				if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(NextItem, RightItem))
+				//if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(RightItem, NextItem))
 				{
 					NextIndex = RightChildIndex;
 				}

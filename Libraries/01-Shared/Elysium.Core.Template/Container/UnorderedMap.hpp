@@ -268,7 +268,7 @@ namespace Elysium::Core::Template::Container
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
 		Entry* ExistingItem = FindEntry(Node, Key);
-		if (ExistingItem == nullptr)
+		if (nullptr == ExistingItem)
 		{
 			// ToDo: throw Elysium::Core::KeyNotFoundException
 			throw 1;
@@ -286,7 +286,7 @@ namespace Elysium::Core::Template::Container
 
 		LinkedListNode<Entry>* Node = TargetBucket.GetHead();
 		Entry* ExistingItem = FindEntry(Node, Key);
-		if (ExistingItem == nullptr)
+		if (nullptr == ExistingItem)
 		{
 			// ToDo: throw Elysium::Core::KeyNotFoundException
 			throw 1;
@@ -465,7 +465,7 @@ namespace Elysium::Core::Template::Container
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue, class KeyCompare, class Allocator>
 	inline UnorderedMap<TKey, TValue, KeyCompare, Allocator>::Entry* UnorderedMap<TKey, TValue, KeyCompare, Allocator>::FindEntry(LinkedListNode<Entry>* CurrentNode, const TKey& Key) const
 	{
-		while (CurrentNode != nullptr)
+		while (nullptr != CurrentNode)
 		{
 			UnorderedMap<TKey, TValue, KeyCompare, Allocator>::Entry& Entry = CurrentNode->GetItem();
 			if (Entry.GetKey() == Key)

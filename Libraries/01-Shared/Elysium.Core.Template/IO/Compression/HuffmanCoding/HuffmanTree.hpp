@@ -28,74 +28,176 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Container/PriorityQueue.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_UNORDEREDMAP
+#include "../../../Container/UnorderedMap.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "../../../Numeric/NumericTraits.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
+#include "../../../System/Compiler.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../../System/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
+#include "../../../Text/String.hpp"
+#endif
+
+#include <queue>
+
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	class HuffmanTree
+	class HuffmanTreeBase
 	{
-	private:
+	public:
 		using Node = HuffmanNode<S, F>;
 
+		using CodeMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::Text::String<char8_t>>;
+
+		using Symbol = S;
 		using ConstSymbolPointer = const S*;
+
+		using Frequency = F;
+	protected:
+		constexpr HuffmanTreeBase() = default;
 	public:
-		constexpr HuffmanTree();
+		constexpr HuffmanTreeBase(const HuffmanTreeBase& Source) = delete;
 
-		constexpr HuffmanTree(const HuffmanTree& Source) = delete;
+		constexpr HuffmanTreeBase(HuffmanTreeBase&& Right) noexcept = delete;
 
-		constexpr HuffmanTree(HuffmanTree&& Right) noexcept = delete;
-
-		constexpr ~HuffmanTree();
+		constexpr virtual ~HuffmanTreeBase() = default;
 	public:
-		constexpr HuffmanTree& operator=(const HuffmanTree& Source) = delete;
+		constexpr HuffmanTreeBase& operator=(const HuffmanTreeBase& Source) = delete;
 
-		constexpr HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
-	public:
-		static const HuffmanTree<S, F> Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length);
+		constexpr HuffmanTreeBase& operator=(HuffmanTreeBase&& Right) noexcept = delete;
 	private:
-		Node _Root;
+		//Node _Root{};
 	};
 
-	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>::HuffmanTree()
-		: _Root()
-	{ }
-
-	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>::~HuffmanTree()
-	{ }
-
-	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	inline const Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F> HuffmanTree<S, F>::Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length)
+	/// <summary>
+	/// Specialization used for when compression is based on bytes allowing for using an array.
+	/// </summary>
+	template<>
+	class HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>
+		: public HuffmanTreeBase<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint32_t>
 	{
-		// count occurrences for each symbol
-		constexpr const F OccurrencesLength = Elysium::Core::Template::Numeric::NumericTraits<S>::Maximum + 1;
-		F Occurrences[OccurrencesLength] = { 0 };
-		for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
+	private:
+		inline constexpr HuffmanTree(Node* Root)
+			: _Root(Root)
+		{ }
+	public:
+		inline constexpr virtual ~HuffmanTree()
 		{
-			Occurrences[Input[i]]++;
-		}
-
-		// create leaf nodes
-		//Elysium::Core::Template::Container::Adopter::PriorityQueue<Node*, Container::Vector<Node*>> Heap;
-		for (F i = 0; i < OccurrencesLength; i++)
-		{
-			if (Occurrences[i] > 0)
+			if (nullptr != _Root)
 			{
-				//Heap.Push(new Node<S, F>());
+				delete _Root;
+				_Root = nullptr;
 			}
 		}
+	private:
+		struct CompareNodes
+		{
+			bool operator()(Node* Left, Node* Right)
+			{
+				/*
+				if (Left->_Frequency == Right->_Frequency)
+				{
+					return Left->_Symbol > Right->_Symbol;
+				}
+				*/
+				return Left->_Frequency > Right->_Frequency;
+			}
+		};
+	public:
+		inline static const HuffmanTree Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length)
+		{
+			// count occurrences/frequency for each symbol
+			constexpr const Frequency OccurrencesLength = 256;
+			Frequency Occurrences[OccurrencesLength] = { 0 };
+			for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
+			{
+				++Occurrences[Input[i]];
+			}
 
-		// ...
+			// create leaf nodes
+			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, CompareNodes> Heap{};
+			for (Frequency i = 0; i < OccurrencesLength; ++i)
+			{
+				if (Occurrences[i] > 0)
+				{
+					Heap.Push(new Node(i, Occurrences[i]));
+				}
+			}
+			
+			// build the tree
+			while (Heap.GetLength() > 1)
+			{
+				Node* Left = Heap.GetTop();
+				Heap.Pop();
 
-		return Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree<S, F>();
-	}
+				Node* Right = Heap.GetTop();
+				Heap.Pop();
+
+				Heap.Push(new Node(Left->_Frequency + Right->_Frequency, Left, Right));
+			}
+
+			return HuffmanTree(Heap.GetTop());
+		}
+	public:
+		inline CodeMap GenerateCodes()
+		{
+			// @ToDo: use length of tree to preallocate
+			CodeMap Result = CodeMap();
+
+			GenerateCodesRecursively(_Root, u8"", Result);
+
+			return Result;
+		}
+	private:
+		inline void GenerateCodesRecursively(const Node* Current, const Elysium::Core::Template::Text::String<char8_t>& CurrentCode,
+			CodeMap& Codes)
+		{
+			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
+			{
+				return;
+			}
+
+			// we're only looking for leaf-nodes here obviously
+			if (nullptr == Current->_Left && nullptr == Current->_Right)
+			{
+				Codes.Set(Current->_Symbol, CurrentCode);
+				return;
+			}
+
+			const Elysium::Core::Template::System::size CurrentCodeLength = CurrentCode.GetLength();
+
+			Elysium::Core::Template::Text::String<char8_t> LeftCode =
+				Elysium::Core::Template::Text::String<char8_t>(CurrentCodeLength + sizeof(char8_t));
+			for (Elysium::Core::Template::System::size i = 0; i < CurrentCodeLength; ++i)
+			{
+				LeftCode[i] = CurrentCode[i];
+			}
+			LeftCode[CurrentCodeLength] = u8'0';
+			GenerateCodesRecursively(Current->_Left, LeftCode, Codes);
+
+			Elysium::Core::Template::Text::String<char8_t> RightCode =
+				Elysium::Core::Template::Text::String<char8_t>(CurrentCodeLength + sizeof(char8_t));
+			for (Elysium::Core::Template::System::size i = 0; i < CurrentCodeLength; ++i)
+			{
+				RightCode[i] = CurrentCode[i];
+			}
+			RightCode[CurrentCodeLength] = u8'1';
+			GenerateCodesRecursively(Current->_Right, RightCode, Codes);
+		}
+	//private:
+	public:
+		Node* _Root;
+	};
 }
 #endif

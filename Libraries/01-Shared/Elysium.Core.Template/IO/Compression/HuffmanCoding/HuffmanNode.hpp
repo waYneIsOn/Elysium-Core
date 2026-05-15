@@ -30,35 +30,46 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	{
 		friend class HuffmanTree<S, F>;
 	public:
-		constexpr HuffmanNode(const S Symbol = 0x00, const F Frequency = 0, const bool IsInternalNode = false);
+		constexpr HuffmanNode() = delete;
 
+		inline constexpr HuffmanNode(const S Symbol, const F Frequency)
+			: _Symbol(Symbol), _Frequency(Frequency), _Left(nullptr), _Right(nullptr)
+		{ }
+	private:
+		inline constexpr HuffmanNode(const F Frequency, HuffmanNode* Left, HuffmanNode* Right)
+			: _Symbol(0x00), _Frequency(Frequency), _Left(Left), _Right(Right)
+		{ }
+	public:
 		constexpr HuffmanNode(const HuffmanNode& Source) = delete;
 
 		constexpr HuffmanNode(HuffmanNode&& Right) noexcept = delete;
 
-		constexpr ~HuffmanNode();
+		inline constexpr ~HuffmanNode()
+		{
+			if (nullptr != _Left)
+			{
+				delete _Left;
+				_Left = nullptr;
+			}
+
+			if (nullptr != _Right)
+			{
+				delete _Right;
+				_Right = nullptr;
+			}
+		}
 	public:
 		constexpr HuffmanNode& operator=(const HuffmanNode& Source) = delete;
 
 		constexpr HuffmanNode& operator=(HuffmanNode&& Right) noexcept = delete;
+	//private:
 	public:
-
-	private:
 		S _Symbol;
 		F _Frequency;
-		bool _IsInternalNode;
+		//bool _IsInternalNode;	// can simple be derived by doing: nullptr == _Left && nullptr == _Right
 
 		HuffmanNode* _Left;
 		HuffmanNode* _Right;
 	};
-
-	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::HuffmanNode(const S Symbol, const F Frequency, const bool IsInternalNode)
-		: _Symbol(Symbol), _Frequency(Frequency), _IsInternalNode(IsInternalNode), _Left(nullptr), _Right(nullptr)
-	{ }
-
-	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	inline constexpr Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode<S, F>::~HuffmanNode()
-	{ }
 }
 #endif
