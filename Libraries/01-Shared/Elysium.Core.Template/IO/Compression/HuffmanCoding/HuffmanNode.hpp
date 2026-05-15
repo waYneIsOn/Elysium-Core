@@ -66,7 +66,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	public:
 		S _Symbol;
 		F _Frequency;
-		//bool _IsInternalNode;	// can simple be derived by doing: nullptr == _Left && nullptr == _Right
 
 		HuffmanNode* _Left;
 		HuffmanNode* _Right;
