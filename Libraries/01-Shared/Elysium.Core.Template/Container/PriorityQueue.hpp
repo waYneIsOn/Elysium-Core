@@ -108,7 +108,7 @@ namespace Elysium::Core::Template::Container
 			// - Start with current index being the last one (as it's the new item that needs to be compared to others)
 			// - As long as the current index is not zero (that would mean the first item is the most valuable one), do the following:
 			//		- Grab the parent to compare it to the current item.
-			//		- If the current item is more valuable, cancel the loop.
+			//		- If current item is less valuable, cancel the loop.
 			//		- Otherwise swap both items and update the current index.
 			Elysium::Core::Template::System::size CurrentIndex = _Container.GetLength() - 1;
 			while (CurrentIndex > 0)
@@ -118,9 +118,9 @@ namespace Elysium::Core::Template::Container
 				T& CurrentItem = _Container.GetUnsafeAt(CurrentIndex);
 				T& ParentItem = _Container.GetUnsafeAt(ParentIndex);
 
-				if (!_Compare(CurrentItem, ParentItem))
+				if (!_Compare(ParentItem, CurrentItem))
 				{
-					break;
+					return;
 				}
 
 				Elysium::Core::Template::Functional::Swap(CurrentItem, ParentItem);
@@ -157,9 +157,8 @@ namespace Elysium::Core::Template::Container
 			// I need to "sift down" by doing the following steps:
 			// - Start with current index being 0 (as it's the new item that needs to be compared to others)
 			// - Grab the current, left and right child items
-			// - Compare current and left item. If the left child is more valuable, update next index.
-			// - Compare current and right item. If the right child is more valuable, update next index.
-			// - Compare current and right item. If the right child is more valuable, update next index.
+			// - Compare current and left item. If the left child is less valuable, update next index.
+			// - Compare current and right item. If the right child is less valuable, update next index.
 			// - If next index equals current index, cancel the loop.
 			// - Swap current and next item and update current index.
 			Elysium::Core::Template::System::size CurrentIndex = 0;
@@ -173,12 +172,12 @@ namespace Elysium::Core::Template::Container
 				T& RightItem = _Container.GetUnsafeAt(RightChildIndex);
 				T& NextItem = _Container.GetUnsafeAt(NextIndex);
 
-				if (LeftChildIndex < ContainerLengthAfterRemoval && _Compare(LeftItem, NextItem))
+				if (LeftChildIndex < ContainerLengthAfterRemoval && _Compare(NextItem, LeftItem))
 				{
 					NextIndex = LeftChildIndex;
 				}
 
-				if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(RightItem, NextItem))
+				if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(NextItem, RightItem))
 				{
 					NextIndex = RightChildIndex;
 				}

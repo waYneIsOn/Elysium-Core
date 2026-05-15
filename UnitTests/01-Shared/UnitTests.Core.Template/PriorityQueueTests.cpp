@@ -21,7 +21,7 @@ namespace UnitTests::Core::Template::Container::Adopter
 			Assert::IsFalse(InitializerListQueue.GetIsEmpty());
 			Assert::AreEqual(3_ui64, InitializerListQueue.GetLength());
 			const Elysium::Core::Template::System::uint8_t& ILQueueTop = InitializerListQueue.GetTop();
-			Assert::AreEqual(1_ui8, ILQueueTop);
+			Assert::AreEqual(3_ui8, ILQueueTop);
 
 			PriorityQueue<Elysium::Core::Template::System::uint8_t> Queue = PriorityQueue<Elysium::Core::Template::System::uint8_t>();
 			Assert::IsTrue(Queue.GetIsEmpty());
@@ -38,7 +38,7 @@ namespace UnitTests::Core::Template::Container::Adopter
 			Assert::AreEqual(3_ui64, Queue.GetLength());
 
 			const Elysium::Core::Template::System::uint8_t& First = Queue.GetTop();
-			Assert::AreEqual(1_ui8, First);
+			Assert::AreEqual(3_ui8, First);
 			Queue.Pop();
 			Assert::IsFalse(Queue.GetIsEmpty());
 			Assert::AreEqual(2_ui64, Queue.GetLength());
@@ -50,7 +50,7 @@ namespace UnitTests::Core::Template::Container::Adopter
 			Assert::AreEqual(1_ui64, Queue.GetLength());
 
 			const Elysium::Core::Template::System::uint8_t& Third = Queue.GetTop();
-			Assert::AreEqual(3_ui8, First);
+			Assert::AreEqual(1_ui8, First);
 			Queue.Pop();
 			Assert::IsTrue(Queue.GetIsEmpty());
 			Assert::AreEqual(0_ui64, Queue.GetLength());
