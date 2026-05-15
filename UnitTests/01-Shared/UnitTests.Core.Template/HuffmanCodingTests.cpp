@@ -20,6 +20,16 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 		Elysium::Core::Template::System::byte _Symbol;
 		Elysium::Core::Template::System::uint32_t _Length;
 
+		friend bool operator<(const HuffmanSymbol& Left, const HuffmanSymbol& Right)
+		{
+			if (Left._Length == Right._Length)
+			{
+				return Left._Symbol > Right._Symbol;
+			}
+
+			return Left._Length > Right._Length;
+		}
+
 		friend bool operator>(const HuffmanSymbol& Left, const HuffmanSymbol& Right)
 		{
 			if (Left._Length == Right._Length)
@@ -65,6 +75,16 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			}
 			Logger::WriteMessage("-------------------\r\n");
 			*/
+
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+			// https://www.rfc-editor.org/rfc/rfc1951
+
 			HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::CodeLengthsMap CodeLengths =
 				Tree.GenerateCodeLengths();
 
@@ -99,24 +119,36 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 			Logger::WriteMessage("-------------------\r\n");
 
+
+
+
+
+
+
 			Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, std::string> Codes;
 			Elysium::Core::Template::System::size CurrentCode = 0;
 			Elysium::Core::Template::System::size PreviousLength = 0;
 			for (Elysium::Core::Template::System::size i = 0; i < Symbols.GetLength(); ++i)
 			{
+				const char Symbol = Symbols[i]._Symbol;
+
+
 				CurrentCode <<= (Symbols[i]._Length - PreviousLength);
+				PreviousLength = Symbols[i]._Length;
 
-				std::string code;
+				Elysium::Core::Template::System::size Temp = CurrentCode;
 
-				for (int l = Symbols[i]._Length - 1; l >= 0; --l)
+				std::string CodeResult(Symbols[i]._Length, '0');
+				for (int l = Symbols[i]._Length - 1; l >= 0; --l)	// highest bit first
+				//for(int l = 0; l < Symbols[i]._Length; ++l)	// lowest bit first
 				{
-					code.push_back(((CurrentCode >> l) & 1) ? '1' : '0');
+					CodeResult[l] = (Temp & 1) ? '1' : '0';
+					Temp >>= 1;
 				}
 
-				Codes.Set(Symbols[i]._Symbol, code);
+				Codes.Set(Symbols[i]._Symbol, CodeResult);
 
 				CurrentCode++;
-				PreviousLength = Symbols[i]._Length;
 			}
 
 
@@ -163,5 +195,6 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 		}
 	private:
 		inline static constexpr const char* _LoremIpsum = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.";
+		//inline static constexpr const char* _LoremIpsum = "AAAAAAABBBCCCCDDEEEEE";
 	};
 }

@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Operators/Greater.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_LESS
+#include "../../Operators/Less.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -90,13 +94,15 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	template <Concepts::Pointer T>
 	constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count)
 	{
-		BubbleSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
+		//BubbleSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
+		BubbleSort<T>(First, Count, Operators::Less<Functional::RemovePointerType<T>>());
 	}
 
 	template <Concepts::Pointer T>
 	constexpr void BubbleSort(const T First, const T Last)
 	{
-		BubbleSort<T>(First, Last, Operators::Greater<Functional::RemovePointerType<T>>());
+		//BubbleSort<T>(First, Last, Operators::Greater<Functional::RemovePointerType<T>>());
+		BubbleSort<T>(First, Last, Operators::Less<Functional::RemovePointerType<T>>());
 	}
 }
 #endif
