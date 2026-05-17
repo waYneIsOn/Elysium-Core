@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Activator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddConstant.hpp" />
@@ -294,6 +295,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Functional.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.HuffmanCoding.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.LempelZiv.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Iterator.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Math.ixx" />

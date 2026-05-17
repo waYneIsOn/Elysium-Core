@@ -29,6 +29,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FunctionTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanCodingTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IntegerSequenceTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)LZ77Tests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PriorityQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReflectionTests.cpp" />

@@ -119,26 +119,19 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 			Logger::WriteMessage("-------------------\r\n");
 
-
-
-
-
-
-
-			Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, std::string> Codes;
+			Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>> Codes;
 			Elysium::Core::Template::System::size CurrentCode = 0;
 			Elysium::Core::Template::System::size PreviousLength = 0;
 			for (Elysium::Core::Template::System::size i = 0; i < Symbols.GetLength(); ++i)
 			{
 				const char Symbol = Symbols[i]._Symbol;
 
-
 				CurrentCode <<= (Symbols[i]._Length - PreviousLength);
 				PreviousLength = Symbols[i]._Length;
 
 				Elysium::Core::Template::System::size Temp = CurrentCode;
 
-				std::string CodeResult(Symbols[i]._Length, '0');
+				Elysium::Core::Template::Text::String<char> CodeResult = Elysium::Core::Template::Text::String<char>('0', Symbols[i]._Length);
 				for (int l = Symbols[i]._Length - 1; l >= 0; --l)	// highest bit first
 				//for(int l = 0; l < Symbols[i]._Length; ++l)	// lowest bit first
 				{
@@ -151,17 +144,16 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				CurrentCode++;
 			}
 
-
-			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, std::string>::FIterator Iterator = Codes.GetBegin();
+			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>>::FIterator Iterator = Codes.GetBegin();
 				Iterator != Codes.GetEnd(); ++Iterator)
 			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, std::string>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, std::string>& Item = Node->GetItem();
+				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>>>* Node = *Iterator;
+				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>>& Item = Node->GetItem();
 
 				const char Symbol = Item.GetKey();
 				char PrintableSymbol[2] = { Symbol, 0x00 };
 
-				const std::string& Code = Item.GetValue();
+				const Elysium::Core::Template::Text::String<char>& Code = Item.GetValue();
 
 				Logger::WriteMessage("Code: ");
 				Logger::WriteMessage(PrintableSymbol);

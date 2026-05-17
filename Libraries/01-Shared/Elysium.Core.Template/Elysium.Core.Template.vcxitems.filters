@@ -795,6 +795,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp">
       <Filter>Container\Sequence</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp">
+      <Filter>IO\Compression\LempelZiv</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -908,6 +911,9 @@
     <Filter Include="Exceptions\IO">
       <UniqueIdentifier>{e78a6b2b-3aab-4af4-82d1-02c97d26d0d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IO\Compression\LempelZiv">
+      <UniqueIdentifier>{a0d463d2-9843-4411-9c8a-8c3e0266aab1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Chrono.ixx" />
@@ -935,5 +941,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.Unicode.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Concepts.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Algorithms.Sorting.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.LempelZiv.ixx" />
   </ItemGroup>
 </Project>

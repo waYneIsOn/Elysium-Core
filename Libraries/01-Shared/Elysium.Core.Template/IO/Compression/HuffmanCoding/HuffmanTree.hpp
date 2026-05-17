@@ -48,8 +48,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Text/String.hpp"
 #endif
 
-#include <queue>
-
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
