@@ -168,16 +168,19 @@ namespace Elysium::Core::Template::Container
 				Elysium::Core::Template::System::size LeftChildIndex = (2 * CurrentIndex) + 1;
 				Elysium::Core::Template::System::size RightChildIndex = LeftChildIndex + 1;
 				Elysium::Core::Template::System::size NextIndex = CurrentIndex;
-				
+
+				const T& LeftChild = _Container.GetUnsafeAt(LeftChildIndex);
+				const T& RightChild = _Container.GetUnsafeAt(RightChildIndex);
+
 				if (LeftChildIndex < ContainerLengthAfterRemoval && 
-					_Compare(_Container.GetUnsafeAt(NextIndex), _Container.GetUnsafeAt(LeftChildIndex)))
+					_Compare(_Container.GetUnsafeAt(NextIndex), LeftChild))
 				//if (LeftChildIndex < ContainerLengthAfterRemoval && !_Compare(_Container.GetUnsafeAt(LeftChildIndex), _Container.GetUnsafeAt(NextIndex)))
 				{
 					NextIndex = LeftChildIndex;
 				}
 
 				if (RightChildIndex < ContainerLengthAfterRemoval &&
-					_Compare(_Container.GetUnsafeAt(NextIndex), _Container.GetUnsafeAt(RightChildIndex)))
+					_Compare(_Container.GetUnsafeAt(NextIndex), RightChild))
 				//if (RightChildIndex < ContainerLengthAfterRemoval && _Compare(_Container.GetUnsafeAt(RightChildIndex), _Container.GetUnsafeAt(NextIndex)))
 				{
 					NextIndex = RightChildIndex;

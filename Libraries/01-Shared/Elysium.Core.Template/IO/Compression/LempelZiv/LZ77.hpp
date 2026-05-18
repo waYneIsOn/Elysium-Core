@@ -25,12 +25,17 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 	public:
 		static void Compress(ConstPointer Input, const Elysium::Core::Template::System::size Length)
 		{
+			if (nullptr == Input || 0 == Length)
+			{
+				return;
+			}
+
 			Elysium::Core::Template::System::size RemainingBufferLength = 0;
 
 			while (RemainingBufferLength > 0)
 			{
 				bool DictionaryMatchFound = false;
-				if(DictionaryMatchFound)
+				if (DictionaryMatchFound)
 				{
 
 				}
@@ -44,5 +49,12 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 		Elysium::Core::Template::System::uint8_t _BufferSize = 63;
 		Elysium::Core::Template::System::uint16_t _DictionarySize = 32767;
 	};
+	/*
+	template<>
+	class LZ77<Elysium::Core::Template::System::byte>
+	{
+
+	};
+	*/
 }
 #endif

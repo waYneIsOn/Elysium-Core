@@ -798,6 +798,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp">
       <Filter>IO\Compression\LempelZiv</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanEncoder.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanDecoder.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

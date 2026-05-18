@@ -88,7 +88,7 @@ namespace Elysium::Core::Template::Memory
 	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline constexpr Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer DefaultAllocator<T>::Allocate(const Elysium::Core::Template::System::size NumberOfElements)
 	{
-		if (NumberOfElements == 0)
+		if (0 == NumberOfElements)
 		{
 			return nullptr;
 		}
@@ -101,7 +101,7 @@ namespace Elysium::Core::Template::Memory
 	template<Elysium::Core::Template::Concepts::Allocatable T>
 	inline void DefaultAllocator<T>::Deallocate(Elysium::Core::Template::Memory::DefaultAllocator<T>::Pointer First, const Elysium::Core::Template::System::size NumberOfInstantiatedElements)
 	{
-		if (First == nullptr)
+		if (nullptr == First)
 		{
 			return;
 		}

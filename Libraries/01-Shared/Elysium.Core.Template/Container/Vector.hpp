@@ -794,6 +794,7 @@ namespace Elysium::Core::Template::Container
 		if (DesiredCapacity > _Capacity)
 		{
 			Pointer OldData = _Data;
+			Elysium::Core::Template::System::size OldCapacity = _Capacity;
 			_Capacity = DesiredCapacity;
 			_Data = _Allocator.Allocate(_Capacity);
 			InPlaceConstruct();
@@ -813,7 +814,7 @@ namespace Elysium::Core::Template::Container
 				}
 			}
 
-			_Allocator.Deallocate(OldData, _Capacity);
+			_Allocator.Deallocate(OldData, OldCapacity);
 		}
 	}
 
@@ -1235,7 +1236,7 @@ namespace Elysium::Core::Template::Container
 		{
 			if (_Length > 0)
 			{
-				Elysium::Core::Template::Memory::MemSet(&_Data[_Length--], 0, sizeof(T));
+				Elysium::Core::Template::Memory::MemSet(&_Data[--_Length], 0, sizeof(T));
 			}
 		}
 
@@ -1244,13 +1245,14 @@ namespace Elysium::Core::Template::Container
 			if (DesiredCapacity > _Capacity)
 			{
 				Pointer OldData = _Data;
+				Elysium::Core::Template::System::size OldCapacity = _Capacity;
 				_Capacity = DesiredCapacity;
 				_Data = _Allocator.Allocate(_Capacity);
 
 				Elysium::Core::Template::Memory::MemSet(_Data, 0, _Capacity * sizeof(T));
 				Elysium::Core::Template::Memory::MemCpy(_Data, OldData, _Length * sizeof(T));
 
-				_Allocator.Deallocate(OldData, _Capacity);
+				_Allocator.Deallocate(OldData, OldCapacity);
 			}
 		}
 

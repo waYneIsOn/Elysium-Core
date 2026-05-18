@@ -23,6 +23,14 @@ module;
 #include <new>
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANDECODER
+#include "IO/Compression/HuffmanCoding/HuffmanDecoder.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANENCODER
+#include "IO/Compression/HuffmanCoding/HuffmanEncoder.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANNODE
 #include "IO/Compression/HuffmanCoding/HuffmanNode.hpp"
 #endif
@@ -35,6 +43,8 @@ export module Elysium.Core.Template.IO.Compression.HuffmanCoding;
 
 export
 {
+	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanDecoder;
+	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanEncoder;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree;
 }
