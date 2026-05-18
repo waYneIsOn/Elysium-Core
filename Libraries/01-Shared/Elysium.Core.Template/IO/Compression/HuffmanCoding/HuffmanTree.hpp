@@ -57,10 +57,10 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	class HuffmanDecoder;
 	
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
-	class HuffmanTreeBase
+	class HuffmanTree
 	{
-		friend class HuffmanEncoder<S, F>;
-		friend class HuffmanDecoder<S, F>;
+		friend class HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
+		friend class HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
 		using Node = HuffmanNode<S, F>;
 
@@ -72,57 +72,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		using CodeLengthsMap = Elysium::Core::Template::Container::UnorderedMap<S, F>;
 
 		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::Text::String<char>>;
-	protected:
-		constexpr HuffmanTreeBase() = default;
-	public:
-		constexpr HuffmanTreeBase(const HuffmanTreeBase& Source) = delete;
-
-		constexpr HuffmanTreeBase(HuffmanTreeBase&& Right) noexcept = delete;
-
-		constexpr virtual ~HuffmanTreeBase() = default;
-	public:
-		constexpr HuffmanTreeBase& operator=(const HuffmanTreeBase& Source) = delete;
-
-		constexpr HuffmanTreeBase& operator=(HuffmanTreeBase&& Right) noexcept = delete;
-	public:
-		struct SymbolCodeLengthPair
-		{
-			S Symbol;
-			Elysium::Core::Template::System::uint8_t CodeLength;
-
-			friend bool operator<(const SymbolCodeLengthPair& Left, const SymbolCodeLengthPair& Right)
-			{
-				if (Left.CodeLength == Right.CodeLength)
-				{
-					return Left.Symbol > Right.Symbol;
-				}
-
-				return Left.CodeLength > Right.CodeLength;
-			}
-		};
-
-		struct SymbolCodePair
-		{
-			S Symbol;
-			Elysium::Core::Template::Text::String<char> LeBlangth;
-		};
-	};
-
-	/// <summary>
-	/// Specialization used for when compression is based on bytes allowing for using an array.
-	/// </summary>
-	template<>
-	class HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
-		: public HuffmanTreeBase<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
-	{
-		friend class HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
-		friend class HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
 		constexpr HuffmanTree() = default;
-	private:
-		inline constexpr HuffmanTree(const Elysium::Core::Template::System::size NumberOfLeafNodes, Node* Root)
-			: _NumberOfLeafNodes(NumberOfLeafNodes), _Root(Root)
-		{ }
 	public:
 		inline constexpr virtual ~HuffmanTree()
 		{
@@ -137,43 +88,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 				_Root = nullptr;
 			}
 		}
-
-
-
-
-	public:
-		inline SymbolCodeMap GenerateCanonicalCodes(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
-		{
-			SymbolCodeMap Result = SymbolCodeMap();
-			Elysium::Core::Template::System::size CurrentCode = 0;
-			Elysium::Core::Template::System::size PreviousLength = 0;
-			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
-			{
-				const char Symbol = SymbolCodeLengths[i].Symbol;
-
-				CurrentCode <<= (SymbolCodeLengths[i].CodeLength - PreviousLength);
-				PreviousLength = SymbolCodeLengths[i].CodeLength;
-
-				Elysium::Core::Template::System::size Temp = CurrentCode;
-
-				Elysium::Core::Template::Text::String<char> CodeResult = Elysium::Core::Template::Text::String<char>('0', SymbolCodeLengths[i].CodeLength);
-				for (int l = SymbolCodeLengths[i].CodeLength - 1; l >= 0; --l)	// highest bit first
-				//for(int l = 0; l < SymbolCodeLengths[i].CodeLength; ++l)	// lowest bit first
-				{
-					CodeResult[l] = (Temp & 1) ? '1' : '0';
-					Temp >>= 1;
-				}
-
-				Result.Set(SymbolCodeLengths[i].Symbol, CodeResult);
-
-				CurrentCode++;
-			}
-
-			return Result;
-		}
-	//private:
-	public:
-		Elysium::Core::Template::System::uint8_t _NumberOfLeafNodes;	// used to precalculate size of CodeLengthsMap
+	private:
 		Node* _Root;
 	};
 }

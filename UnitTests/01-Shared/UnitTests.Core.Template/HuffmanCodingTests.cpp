@@ -44,8 +44,8 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			// Assuming the fixed/predefined symbols and their code-lengths are sorted already, that leaves only the last step:
 			// 5.) Generate canonical codes from that ordering
 			
-			Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair> FixedSymbolCodeLengths = 
-				Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair>(4);
+			Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair> FixedSymbolCodeLengths =
+				Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>(4);
 			FixedSymbolCodeLengths[0].Symbol = 'A';
 			FixedSymbolCodeLengths[0].CodeLength = 2;
 			FixedSymbolCodeLengths[1].Symbol = 'B';
@@ -57,12 +57,15 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			PrintCodeLengths(FixedSymbolCodeLengths);
 			// -----------------------
 
-			BinaryHuffmanTree Tree{};
-			BinaryHuffmanTree::SymbolCodeMap SymbolCodes = Tree.GenerateCanonicalCodes(FixedSymbolCodeLengths);
+			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
+			BinaryHuffmanTree::SymbolCodeMap SymbolCodes = Encoder.GenerateCanonicalCodes(FixedSymbolCodeLengths);
 			PrintCodes(SymbolCodes);
 			// -----------------------
 			
-			Assert::Fail();
+
+
+
+
 
 
 			constexpr const char* Text = "AACCCDDDBBB";
@@ -70,30 +73,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Text);
 		}
 	private:
-		void PrintTree(const HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::Node* CurrentNode)
-		{
-			if (nullptr == CurrentNode)
-			{
-				return;
-			}
-
-			if (!CurrentNode->_Left && !CurrentNode->_Right)
-			{
-				char PrintableSymbol[2] = { CurrentNode->_Symbol, 0x00 };
-				Elysium::Core::Template::Text::String<char> Frequency = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentNode->_Frequency);
-
-				Logger::WriteMessage("Frequency: ");
-				Logger::WriteMessage(PrintableSymbol);
-				Logger::WriteMessage(" - ");
-				Logger::WriteMessage(&Frequency[0]);
-				Logger::WriteMessage("\r\n");
-			}
-
-			PrintTree(CurrentNode->_Left);
-			PrintTree(CurrentNode->_Right);
-		}
-
-		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair>& SymbolCodeLengths)
+		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>& SymbolCodeLengths)
 		{
 			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
 			{

@@ -49,7 +49,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		using Tree = HuffmanTree<S, F>;
 
 		using Node = HuffmanNode<S, F>;
-
+	public:
 		// limit code-length to 255 by using uint8_t
 		using CodeLengthsMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::System::uint8_t>;
 
@@ -68,7 +68,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		constexpr HuffmanEncoder& operator=(const HuffmanEncoder& Source) = delete;
 
 		constexpr HuffmanEncoder& operator=(HuffmanEncoder&& Right) noexcept = delete;
-	private:
+	public:
 		struct SymbolCodeLengthPair
 		{
 			S Symbol;
@@ -149,6 +149,36 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			SymbolCodeMap SymbolCodes = GenerateCanonicalCodes(SymbolCodeLengths);
 
 			return SymbolCodes;
+		}
+
+		inline SymbolCodeMap GenerateCanonicalCodes(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
+		{
+			SymbolCodeMap Result = SymbolCodeMap();
+			Elysium::Core::Template::System::size CurrentCode = 0;
+			Elysium::Core::Template::System::size PreviousLength = 0;
+			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
+			{
+				const char Symbol = SymbolCodeLengths[i].Symbol;
+
+				CurrentCode <<= (SymbolCodeLengths[i].CodeLength - PreviousLength);
+				PreviousLength = SymbolCodeLengths[i].CodeLength;
+
+				Elysium::Core::Template::System::size Temp = CurrentCode;
+
+				Elysium::Core::Template::Text::String<char> CodeResult = Elysium::Core::Template::Text::String<char>('0', SymbolCodeLengths[i].CodeLength);
+				for (int l = SymbolCodeLengths[i].CodeLength - 1; l >= 0; --l)	// highest bit first
+					//for(int l = 0; l < SymbolCodeLengths[i].CodeLength; ++l)	// lowest bit first
+				{
+					CodeResult[l] = (Temp & 1) ? '1' : '0';
+					Temp >>= 1;
+				}
+
+				Result.Set(SymbolCodeLengths[i].Symbol, CodeResult);
+
+				CurrentCode++;
+			}
+
+			return Result;
 		}
 	private:
 		struct NodeComparison
@@ -263,36 +293,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 			DeriveCodeLengthsRecursively(Current->_Left, Depth + 1, CodeLengths);
 			DeriveCodeLengthsRecursively(Current->_Right, Depth + 1, CodeLengths);
-		}
-
-		inline SymbolCodeMap GenerateCanonicalCodes(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
-		{
-			SymbolCodeMap Result = SymbolCodeMap();
-			Elysium::Core::Template::System::size CurrentCode = 0;
-			Elysium::Core::Template::System::size PreviousLength = 0;
-			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
-			{
-				const char Symbol = SymbolCodeLengths[i].Symbol;
-
-				CurrentCode <<= (SymbolCodeLengths[i].CodeLength - PreviousLength);
-				PreviousLength = SymbolCodeLengths[i].CodeLength;
-
-				Elysium::Core::Template::System::size Temp = CurrentCode;
-
-				Elysium::Core::Template::Text::String<char> CodeResult = Elysium::Core::Template::Text::String<char>('0', SymbolCodeLengths[i].CodeLength);
-				for (int l = SymbolCodeLengths[i].CodeLength - 1; l >= 0; --l)	// highest bit first
-					//for(int l = 0; l < SymbolCodeLengths[i].CodeLength; ++l)	// lowest bit first
-				{
-					CodeResult[l] = (Temp & 1) ? '1' : '0';
-					Temp >>= 1;
-				}
-
-				Result.Set(SymbolCodeLengths[i].Symbol, CodeResult);
-
-				CurrentCode++;
-			}
-
-			return Result;
 		}
 	private:
 		HuffmanTree<S, F> _Tree{ };
