@@ -804,6 +804,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanDecoder.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanFrequencyTable.hpp">
+      <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

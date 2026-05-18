@@ -51,8 +51,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	class HuffmanEncoder;
+
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	class HuffmanDecoder;
+	
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanTreeBase
 	{
+		friend class HuffmanEncoder<S, F>;
+		friend class HuffmanDecoder<S, F>;
 	public:
 		using Node = HuffmanNode<S, F>;
 
@@ -107,6 +115,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	class HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
 		: public HuffmanTreeBase<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
 	{
+		friend class HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
+		friend class HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
 		constexpr HuffmanTree() = default;
 	private:
@@ -116,91 +126,22 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	public:
 		inline constexpr virtual ~HuffmanTree()
 		{
+			Clear();
+		}
+	public:
+		inline constexpr void Clear()
+		{
 			if (nullptr != _Root)
 			{
 				delete _Root;
 				_Root = nullptr;
 			}
 		}
-	private:
-		struct NodeComparison
-		{
-			bool operator()(Node* Left, Node* Right)
-			{
-				if (Left->_Frequency == Right->_Frequency)
-				{
-					return Left->_Symbol > Right->_Symbol;
-				}
-				
-				return Left->_Frequency > Right->_Frequency;
-			}
-		};
+
+
+
+
 	public:
-		inline static const HuffmanTree Build(ConstSymbolPointer Input, const Elysium::Core::Template::System::size Length,
-			bool SwapLeftAndRight = false)
-		{
-			// 1.) Simply count occurrences/frequency for each symbol
-			constexpr const Frequency OccurrencesLength = 256;
-			Frequency Occurrences[OccurrencesLength] = { 0 };
-			for (Elysium::Core::Template::System::size i = 0; i < Length; i++)
-			{
-				++Occurrences[Input[i]];
-			}
-
-			// 2.) Create leaf nodes and then build the tree
-			Elysium::Core::Template::System::uint8_t NumberOfLeafNodes = 0;
-			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, NodeComparison> Heap{};
-			for (Frequency i = 0; i < OccurrencesLength; ++i)
-			{
-				if (Occurrences[i] > 0)
-				{
-					++NumberOfLeafNodes;
-					Heap.Push(new Node(i, Occurrences[i]));
-				}
-			}
-			
-			while (Heap.GetLength() > 1)
-			{
-				Node* Left = Heap.GetTop();
-				Heap.Pop();
-
-				Node* Right = Heap.GetTop();
-				Heap.Pop();
-
-				if (SwapLeftAndRight)
-				{
-					Heap.Push(new Node(Right, Left));
-				}
-				else
-				{
-					Heap.Push(new Node(Left, Right));
-				}
-			}
-
-			Node* Root = Heap.GetTop();
-			Heap.Pop();
-
-			return HuffmanTree(NumberOfLeafNodes, Root);
-		}
-	public:
-		inline CodeLengthsMap DeriveCodeLengths()
-		{
-			CodeLengthsMap Result = CodeLengthsMap(_NumberOfLeafNodes);
-
-			GenerateCodeLengthsRecursively(_Root, 0, Result);
-
-			return Result;
-		}
-		
-		inline SymbolCodeMap GenerateNonCanonicalCodes()
-		{
-			SymbolCodeMap Result = SymbolCodeMap(_NumberOfLeafNodes);
-
-			GenerateNonCanonicalCodesRecursively(_Root, "", Result);
-
-			return Result;
-		}
-		
 		inline SymbolCodeMap GenerateCanonicalCodes(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
 		{
 			SymbolCodeMap Result = SymbolCodeMap();
@@ -229,61 +170,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 
 			return Result;
-		}
-	private:
-		inline static void GenerateCodeLengthsRecursively(const Node* Current, const Elysium::Core::Template::System::uint8_t Depth,
-			CodeLengthsMap& CodeLengths)
-		{
-			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
-			{
-				return;
-			}
-
-			// we're only looking for leaf-nodes here obviously
-			if (nullptr == Current->_Left && nullptr == Current->_Right)
-			{
-				CodeLengths.Set(Current->_Symbol, Depth);
-				return;
-			}
-
-			GenerateCodeLengthsRecursively(Current->_Left, Depth + 1, CodeLengths);
-			GenerateCodeLengthsRecursively(Current->_Right, Depth + 1, CodeLengths);
-		}
-		
-		inline static void GenerateNonCanonicalCodesRecursively(const Node* Current, const Elysium::Core::Template::Text::String<char>& CurrentCode,
-			SymbolCodeMap& Codes)
-		{
-			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
-			{
-				return;
-			}
-
-			// we're only looking for leaf-nodes here obviously
-			if (nullptr == Current->_Left && nullptr == Current->_Right)
-			{
-				Codes.Set(Current->_Symbol, CurrentCode);
-				return;
-			}
-
-			const Elysium::Core::Template::System::size CurrentCodeLength = CurrentCode.GetLength();
-
-			Elysium::Core::Template::Text::String<char> LeftCode =
-				Elysium::Core::Template::Text::String<char>(CurrentCodeLength + sizeof(char));
-			for (Elysium::Core::Template::System::size i = 0; i < CurrentCodeLength; ++i)
-			{
-				LeftCode[i] = CurrentCode[i];
-			}
-			LeftCode[CurrentCodeLength] = u8'0';
-			GenerateNonCanonicalCodesRecursively(Current->_Left, LeftCode, Codes);
-
-			Elysium::Core::Template::Text::String<char> RightCode =
-				Elysium::Core::Template::Text::String<char>(CurrentCodeLength + sizeof(char));
-			for (Elysium::Core::Template::System::size i = 0; i < CurrentCodeLength; ++i)
-			{
-				RightCode[i] = CurrentCode[i];
-			}
-			RightCode[CurrentCodeLength] = u8'1';
-			GenerateNonCanonicalCodesRecursively(Current->_Right, RightCode, Codes);
 		}
 	//private:
 	public:

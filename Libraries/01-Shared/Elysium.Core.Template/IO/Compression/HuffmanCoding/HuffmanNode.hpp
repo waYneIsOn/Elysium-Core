@@ -23,11 +23,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	class HuffmanEncoder;
+
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
+	class HuffmanDecoder;
+
+	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanTree;
 
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanNode
 	{
+		friend class HuffmanEncoder<S, F>;
+		friend class HuffmanDecoder<S, F>;
 		friend class HuffmanTree<S, F>;
 	public:
 		constexpr HuffmanNode() = delete;

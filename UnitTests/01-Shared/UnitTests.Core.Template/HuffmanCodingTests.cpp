@@ -2,7 +2,6 @@
 
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BubbleSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Vector.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanEncoder.hpp"
@@ -20,7 +19,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 {
 	TEST_CLASS(HuffmanCodingTests)
 	{
-		//using BinaryHuffmanX = ;
+		using BinaryHuffmanEncoder = HuffmanEncoder< Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 
 		using BinaryHuffmanTree = HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
@@ -29,66 +28,13 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::System::byte* Input = reinterpret_cast<const Elysium::Core::Template::System::byte*>(_LoremIpsum);
 			const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(_LoremIpsum);
 
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-			// https://www.rfc-editor.org/rfc/rfc1951
-
-			/*
-			* Steps to do "tree-based" huffman coding (used in ...):
-			* 1.) Count occurrences of each symbol
-			* 2.) Generate huffman tree
-			* 3.) Generate codes directly
-			* 
-			* Steps to do "canonical" huffman coding (used in deflate, jpg (can use arithmetic huffman coding but rarely used bc of patents), brotli, bzip2 etc.):
-			* 1.) Count occurrences of each symbol
-			* 2.) Generate huffman tree (NOTE: conceptual tree! it does not need to exist) @ToDo: skip that part and derive code-lengths directly from occurrences!
-			* 3.) Derive code-lengths for each symbol from that tree
-			* 4.) Sort that symbol/code-length pair
-			* 5.) Generate codes from that ordered data
-			*/
-
-			BinaryHuffmanTree Tree = BinaryHuffmanTree::Build(Input, InputLength, true);
-			PrintTree(Tree._Root);
+			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
+			BinaryHuffmanEncoder::SymbolCodeMap TreeBasedCodes = Encoder.CreateTreeBased(Input, InputLength);
+			PrintCodes(TreeBasedCodes);
 			Logger::WriteMessage("-------------------\r\n");
-			
-			BinaryHuffmanTree::CodeLengthsMap CodeLengths = Tree.DeriveCodeLengths();
-			
 
-
-
-			Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair> SymbolCodeLengths;
-			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>::FIterator Iterator = CodeLengths.GetBegin();
-				Iterator != CodeLengths.GetEnd(); ++Iterator)
-			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>& Item = Node->GetItem();
-				
-				SymbolCodeLengths.PushBack(BinaryHuffmanTree::SymbolCodeLengthPair(Item.GetKey(), Item.GetValue()));
-			}
-			
-			BinaryHuffmanTree::SymbolCodeLengthPair& First = *SymbolCodeLengths.GetBegin();
-			BinaryHuffmanTree::SymbolCodeLengthPair& Last = *SymbolCodeLengths.GetEnd();
-			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<BinaryHuffmanTree::SymbolCodeLengthPair*>(&First, &Last);
-
-
-
-
-			PrintCodeLengths(SymbolCodeLengths);
-			// -----------------------
-			
-			BinaryHuffmanTree::SymbolCodeMap SymbolCodes = Tree.GenerateCanonicalCodes(SymbolCodeLengths);
-			PrintCodes(SymbolCodes);
-			// -----------------------
-			/*
-			BinaryHuffmanTree::SymbolCodeMap NonCanonicalCodes = Tree.GenerateNonCanonicalCodes();
-			PrintCodes(NonCanonicalCodes);
-			// -----------------------
-			*/
+			BinaryHuffmanEncoder::SymbolCodeMap CanonicalCodes = Encoder.CreateCanonical(Input, InputLength);
+			PrintCodes(CanonicalCodes);
 		}
 
 		TEST_METHOD(UseFixedHuffmanCodes)
@@ -97,27 +43,26 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			// So nothing really changes except that I can skip the first three steps.
 			// Assuming the fixed/predefined symbols and their code-lengths are sorted already, that leaves only the last step:
 			// 5.) Generate canonical codes from that ordering
-
-			Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair> SymbolCodeLengths = 
+			
+			Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair> FixedSymbolCodeLengths = 
 				Elysium::Core::Template::Container::Vector<BinaryHuffmanTree::SymbolCodeLengthPair>(4);
-			SymbolCodeLengths[0].Symbol = 'A';
-			SymbolCodeLengths[0].CodeLength = 2;
-			SymbolCodeLengths[1].Symbol = 'B';
-			SymbolCodeLengths[1].CodeLength = 3;
-			SymbolCodeLengths[2].Symbol = 'C';
-			SymbolCodeLengths[2].CodeLength = 3;
-			SymbolCodeLengths[3].Symbol = 'D';
-			SymbolCodeLengths[3].CodeLength = 3;
-
-			PrintCodeLengths(SymbolCodeLengths);
+			FixedSymbolCodeLengths[0].Symbol = 'A';
+			FixedSymbolCodeLengths[0].CodeLength = 2;
+			FixedSymbolCodeLengths[1].Symbol = 'B';
+			FixedSymbolCodeLengths[1].CodeLength = 3;
+			FixedSymbolCodeLengths[2].Symbol = 'C';
+			FixedSymbolCodeLengths[2].CodeLength = 3;
+			FixedSymbolCodeLengths[3].Symbol = 'D';
+			FixedSymbolCodeLengths[3].CodeLength = 3;
+			PrintCodeLengths(FixedSymbolCodeLengths);
 			// -----------------------
 
 			BinaryHuffmanTree Tree{};
-			BinaryHuffmanTree::SymbolCodeMap SymbolCodes = Tree.GenerateCanonicalCodes(SymbolCodeLengths);
+			BinaryHuffmanTree::SymbolCodeMap SymbolCodes = Tree.GenerateCanonicalCodes(FixedSymbolCodeLengths);
 			PrintCodes(SymbolCodes);
 			// -----------------------
-
-
+			
+			Assert::Fail();
 
 
 			constexpr const char* Text = "AACCCDDDBBB";
@@ -186,7 +131,6 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				Logger::WriteMessage(&Code[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			Logger::WriteMessage("-------------------\r\n");
 		}
 	private:
 		inline static constexpr const char* _LoremIpsum = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.";
