@@ -28,13 +28,46 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::System::byte* Input = reinterpret_cast<const Elysium::Core::Template::System::byte*>(_LoremIpsum);
 			const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(_LoremIpsum);
 
-			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
-			BinaryHuffmanEncoder::SymbolCodeMap TreeBasedCodes = Encoder.CreateTreeBased(Input, InputLength);
-			PrintCodes(TreeBasedCodes);
-			Logger::WriteMessage("-------------------\r\n");
+			const Elysium::Core::Template::System::size InputSize = InputLength * 8;
+			const Elysium::Core::Template::Text::String<char> PrintableInputSize = Elysium::Core::Template::Text::Convert<char>::ToString(InputSize);
 
-			BinaryHuffmanEncoder::SymbolCodeMap CanonicalCodes = Encoder.CreateCanonical(Input, InputLength);
-			PrintCodes(CanonicalCodes);
+			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
+
+			{
+				BinaryHuffmanEncoder::SymbolCodeMap TreeBasedCodes = Encoder.CreateTreeBased(Input, InputLength);
+				PrintCodes(TreeBasedCodes);
+				const Elysium::Core::Template::System::size CompressedSize = Encoder.CalculateCompressedSize(Input, InputLength, TreeBasedCodes);
+				const double CompressionRatio = static_cast<double>(CompressedSize) / InputSize * 100.0;
+
+				const Elysium::Core::Template::Text::String<char> PrintableCompressionRatio = Elysium::Core::Template::Text::Convert<char>::ToString(CompressionRatio);
+				const Elysium::Core::Template::Text::String<char> PrintableCompressedSize = Elysium::Core::Template::Text::Convert<char>::ToString(CompressedSize);
+
+				Logger::WriteMessage("\r\nCompression ratio: ");
+				Logger::WriteMessage(&PrintableCompressionRatio[0]);
+				Logger::WriteMessage("% (");
+				Logger::WriteMessage(&PrintableInputSize[0]);
+				Logger::WriteMessage(" -> ");
+				Logger::WriteMessage(&PrintableCompressedSize[0]);
+				Logger::WriteMessage(" bytes)\r\n-------------------\r\n");
+			}
+
+			{
+				BinaryHuffmanEncoder::SymbolCodeMap CanonicalCodes = Encoder.CreateCanonical(Input, InputLength);
+				PrintCodes(CanonicalCodes);
+				const Elysium::Core::Template::System::size CompressedSize = Encoder.CalculateCompressedSize(Input, InputLength, CanonicalCodes);
+				const double CompressionRatio = static_cast<double>(CompressedSize) / InputSize * 100.0;
+
+				const Elysium::Core::Template::Text::String<char> PrintableCompressionRatio = Elysium::Core::Template::Text::Convert<char>::ToString(CompressionRatio);
+				const Elysium::Core::Template::Text::String<char> PrintableCompressedSize = Elysium::Core::Template::Text::Convert<char>::ToString(CompressedSize);
+
+				Logger::WriteMessage("\r\nCompression ratio: ");
+				Logger::WriteMessage(&PrintableCompressionRatio[0]);
+				Logger::WriteMessage("% (");
+				Logger::WriteMessage(&PrintableInputSize[0]);
+				Logger::WriteMessage(" -> ");
+				Logger::WriteMessage(&PrintableCompressedSize[0]);
+				Logger::WriteMessage(" bytes)\r\n-------------------\r\n");
+			}
 		}
 
 		TEST_METHOD(UseFixedHuffmanCodes)
@@ -58,19 +91,31 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			// -----------------------
 
 			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
-			BinaryHuffmanTree::SymbolCodeMap SymbolCodes = Encoder.GenerateCanonicalCodes(FixedSymbolCodeLengths);
+			BinaryHuffmanEncoder::SymbolCodeMap SymbolCodes = Encoder.CreateFromSymbolCodeLengths(FixedSymbolCodeLengths);
 			PrintCodes(SymbolCodes);
 			// -----------------------
 			
-
-
-
-
-
-
 			constexpr const char* Text = "AACCCDDDBBB";
 			const Elysium::Core::Template::System::byte* Input = reinterpret_cast<const Elysium::Core::Template::System::byte*>(Text);
 			const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Text);
+
+			const Elysium::Core::Template::System::size InputSize = InputLength * 8;
+			const Elysium::Core::Template::Text::String<char> PrintableInputSize = Elysium::Core::Template::Text::Convert<char>::ToString(InputSize);
+			// -----------------------
+
+			const Elysium::Core::Template::System::size CompressedSize = Encoder.CalculateCompressedSize(Input, InputLength, SymbolCodes);
+			const double CompressionRatio = static_cast<double>(CompressedSize) / InputSize * 100.0;
+
+			const Elysium::Core::Template::Text::String<char> PrintableCompressionRatio = Elysium::Core::Template::Text::Convert<char>::ToString(CompressionRatio);
+			const Elysium::Core::Template::Text::String<char> PrintableCompressedSize = Elysium::Core::Template::Text::Convert<char>::ToString(CompressedSize);
+
+			Logger::WriteMessage("\r\nCompression ratio: ");
+			Logger::WriteMessage(&PrintableCompressionRatio[0]);
+			Logger::WriteMessage("% (");
+			Logger::WriteMessage(&PrintableInputSize[0]);
+			Logger::WriteMessage(" -> ");
+			Logger::WriteMessage(&PrintableCompressedSize[0]);
+			Logger::WriteMessage(" bytes)\r\n-------------------\r\n");
 		}
 	private:
 		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>& SymbolCodeLengths)
@@ -92,24 +137,29 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			Logger::WriteMessage("-------------------\r\n");
 		}
 
-		void PrintCodes(BinaryHuffmanTree::SymbolCodeMap& Codes)
+		void PrintCodes(BinaryHuffmanEncoder::SymbolCodeMap& Codes)
 		{
-			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>>::FIterator Iterator = Codes.GetBegin();
+			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, HuffmanCode>::FIterator Iterator = Codes.GetBegin();
 				Iterator != Codes.GetEnd(); ++Iterator)
 			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, Elysium::Core::Template::Text::String<char>>& Item = Node->GetItem();
+				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, HuffmanCode>>* Node = *Iterator;
+				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, HuffmanCode>& Item = Node->GetItem();
 
 				const char Symbol = Item.GetKey();
 				char PrintableSymbol[2] = { Symbol, 0x00 };
 
-				const Elysium::Core::Template::Text::String<char>& Code = Item.GetValue();
+				const HuffmanCode& Code = Item.GetValue();
+				const Elysium::Core::Template::Text::String<char> PrintableCode = Elysium::Core::Template::Text::Convert<char>::ToString(Code._Bits, 2);
+
+				const Elysium::Core::Template::Text::String<char> PrintableCodeLength = Elysium::Core::Template::Text::Convert<char>::ToString(Code._Length);
 
 				Logger::WriteMessage("Code: ");
 				Logger::WriteMessage(PrintableSymbol);
 				Logger::WriteMessage(" - ");
-				Logger::WriteMessage(&Code[0]);
-				Logger::WriteMessage("\r\n");
+				Logger::WriteMessage(&PrintableCode[0]);
+				Logger::WriteMessage(" (");
+				Logger::WriteMessage(&PrintableCodeLength[0]);
+				Logger::WriteMessage(")\r\n");
 			}
 		}
 	private:

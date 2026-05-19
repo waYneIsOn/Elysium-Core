@@ -17,9 +17,14 @@ module;
 #include "IO/FileSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_STREAM
+#include "IO/Stream.hpp"
+#endif
+
 export module Elysium.Core.Template.IO;
 
 export
 {
 	using Elysium::Core::Template::IO::FileSystem;
+	using Elysium::Core::Template::IO::Stream;
 }

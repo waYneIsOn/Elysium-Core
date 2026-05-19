@@ -28,6 +28,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Container/PriorityQueue.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_STREAM
+#include "../../Stream.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANCODE
+#include "HuffmanCode.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANFREQUENCYTABLE
 #include "HuffmanFrequencyTable.hpp"
 #endif
@@ -49,13 +57,13 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		using Tree = HuffmanTree<S, F>;
 
 		using Node = HuffmanNode<S, F>;
-	public:
+
 		// limit code-length to 255 by using uint8_t
 		using CodeLengthsMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::System::uint8_t>;
 
 		using CodeLengthsMapFIterator = CodeLengthsMap::FIterator;
 	public:
-		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::Text::String<char>>;
+		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, HuffmanCode>;
 	public:
 		constexpr HuffmanEncoder() = default;
 
@@ -97,8 +105,16 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			
 			// Step 3: create codes directly
 			SymbolCodeMap SymbolCodes = SymbolCodeMap(CountedNumberOfLeafNodes);
-			GenerateTreeBasedCodesRecursively(_Tree._Root, "", SymbolCodes);
-			
+			if (nullptr == _Tree._Root->_Left && nullptr == _Tree._Root->_Right)
+			{	// special case if input only contains a single symbol
+				SymbolCodes.Set(_Tree._Root->_Symbol, HuffmanCode(0b0, 1));
+			}
+			else
+			{
+				HuffmanCode StartCode = HuffmanCode(0b0, 0);
+				GenerateTreeBasedCodesRecursively(_Tree._Root, StartCode, SymbolCodes);
+			}
+						
 			return SymbolCodes;
 		}
 
@@ -146,39 +162,48 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 
 			// Step 6: Generate codes from that data
-			SymbolCodeMap SymbolCodes = GenerateCanonicalCodes(SymbolCodeLengths);
+			SymbolCodeMap SymbolCodes = CreateFromSymbolCodeLengths(SymbolCodeLengths);
 
 			return SymbolCodes;
 		}
 
-		inline SymbolCodeMap GenerateCanonicalCodes(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
+		inline SymbolCodeMap CreateFromSymbolCodeLengths(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
 		{
-			SymbolCodeMap Result = SymbolCodeMap();
+			SymbolCodeMap Codes = SymbolCodeMap();
 			Elysium::Core::Template::System::size CurrentCode = 0;
-			Elysium::Core::Template::System::size PreviousLength = 0;
+			Elysium::Core::Template::System::size CurrentCodeLength = SymbolCodeLengths[0].CodeLength;
 			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
 			{
 				const char Symbol = SymbolCodeLengths[i].Symbol;
 
-				CurrentCode <<= (SymbolCodeLengths[i].CodeLength - PreviousLength);
-				PreviousLength = SymbolCodeLengths[i].CodeLength;
-
-				Elysium::Core::Template::System::size Temp = CurrentCode;
-
-				Elysium::Core::Template::Text::String<char> CodeResult = Elysium::Core::Template::Text::String<char>('0', SymbolCodeLengths[i].CodeLength);
-				for (int l = SymbolCodeLengths[i].CodeLength - 1; l >= 0; --l)	// highest bit first
-					//for(int l = 0; l < SymbolCodeLengths[i].CodeLength; ++l)	// lowest bit first
+				if (SymbolCodeLengths[i].CodeLength > CurrentCodeLength)
 				{
-					CodeResult[l] = (Temp & 1) ? '1' : '0';
-					Temp >>= 1;
+					CurrentCode <<= (SymbolCodeLengths[i].CodeLength - CurrentCodeLength);
+					CurrentCodeLength = SymbolCodeLengths[i].CodeLength;
 				}
 
-				Result.Set(SymbolCodeLengths[i].Symbol, CodeResult);
-
-				CurrentCode++;
+				Codes.Set(SymbolCodeLengths[i].Symbol, HuffmanCode(CurrentCode, SymbolCodeLengths[i].CodeLength));
+				++CurrentCode;
 			}
 
-			return Result;
+			return Codes;
+		}
+		
+		inline const Elysium::Core::Template::System::size CalculateCompressedSize(const S* Data, const Elysium::Core::Template::System::size Length, const SymbolCodeMap& SymbolCodes)
+		{
+			Elysium::Core::Template::System::size CompressedLength = 0;
+			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
+			{
+				const HuffmanCode& CurrentCode = SymbolCodes[Data[i]];
+
+				CompressedLength += CurrentCode._Length;
+			}
+			return CompressedLength;
+		}
+
+		inline void Compress(Stream& TargetStream)
+		{
+			
 		}
 	private:
 		struct NodeComparison
@@ -242,7 +267,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			return Root;
 		}
 
-		inline void GenerateTreeBasedCodesRecursively(const Node* Current, const Elysium::Core::Template::Text::String<char>& CurrentCode, SymbolCodeMap& Codes)
+		inline void GenerateTreeBasedCodesRecursively(const Node* Current, HuffmanCode& CurrentCode, SymbolCodeMap& Codes)
 		{
 			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
 			{
@@ -256,24 +281,10 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 				return;
 			}
 
-			const Elysium::Core::Template::System::size CurrentCodeLength = CurrentCode.GetLength();
-
-			Elysium::Core::Template::Text::String<char> LeftCode =
-				Elysium::Core::Template::Text::String<char>(CurrentCodeLength + sizeof(char));
-			for (Elysium::Core::Template::System::size i = 0; i < CurrentCodeLength; ++i)
-			{
-				LeftCode[i] = CurrentCode[i];
-			}
-			LeftCode[CurrentCodeLength] = u8'0';
+			HuffmanCode LeftCode = HuffmanCode(CurrentCode._Bits << 1, CurrentCode._Length + 1);
 			GenerateTreeBasedCodesRecursively(Current->_Left, LeftCode, Codes);
 
-			Elysium::Core::Template::Text::String<char> RightCode =
-				Elysium::Core::Template::Text::String<char>(CurrentCodeLength + sizeof(char));
-			for (Elysium::Core::Template::System::size i = 0; i < CurrentCodeLength; ++i)
-			{
-				RightCode[i] = CurrentCode[i];
-			}
-			RightCode[CurrentCodeLength] = u8'1';
+			HuffmanCode RightCode = HuffmanCode((CurrentCode._Bits << 1) | 1, CurrentCode._Length + 1);
 			GenerateTreeBasedCodesRecursively(Current->_Right, RightCode, Codes);
 		}
 

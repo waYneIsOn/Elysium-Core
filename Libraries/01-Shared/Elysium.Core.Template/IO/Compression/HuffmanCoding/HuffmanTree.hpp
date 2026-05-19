@@ -62,19 +62,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		friend class HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 		friend class HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
-		using Node = HuffmanNode<S, F>;
-
-		using Symbol = S;
-		using ConstSymbolPointer = const S*;
-
-		using Frequency = F;
-
-		using CodeLengthsMap = Elysium::Core::Template::Container::UnorderedMap<S, F>;
-
-		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::Text::String<char>>;
-	public:
 		constexpr HuffmanTree() = default;
-	public:
+
 		inline constexpr virtual ~HuffmanTree()
 		{
 			Clear();
@@ -89,7 +78,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 		}
 	private:
-		Node* _Root;
+		HuffmanNode<S, F>* _Root;
 	};
 }
 #endif
