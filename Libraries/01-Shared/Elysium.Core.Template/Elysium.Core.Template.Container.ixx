@@ -61,7 +61,7 @@ module;
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
-#include "Container/Stack.hpp"
+#include "Container/Adopter/Stack.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
@@ -96,7 +96,7 @@ export
 	using Elysium::Core::Template::Container::PriorityQueue;
 	//using Elysium::Core::Template::Container::RedBlackTree;
 	using Elysium::Core::Template::Container::RingBuffer;
-	//using Elysium::Core::Template::Container::Stack;
+	using Elysium::Core::Template::Container::Stack;
 	using Elysium::Core::Template::Container::Tuple;
 	using Elysium::Core::Template::Container::UnorderedMap;
 	//using Elysium::Core::Template::Container::Variant;

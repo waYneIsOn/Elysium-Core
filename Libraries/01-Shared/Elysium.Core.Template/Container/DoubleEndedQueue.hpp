@@ -54,12 +54,16 @@ namespace Elysium::Core::Template::Container
 		using RValueReference = T&&;
 	public:
 		constexpr DoubleEndedQueue() noexcept
-			: _Allocator(), _Capacity(1), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
-		{ }
+			: _Allocator(), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
+		{ 
+			InPlaceConstruct();
+		}
 
 		constexpr DoubleEndedQueue(const Elysium::Core::Template::System::size Capacity) noexcept
 			: _Allocator(), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
-		{}
+		{
+			InPlaceConstruct();
+		}
 
 		constexpr DoubleEndedQueue(const InitializerList<T>& InitializerList) noexcept
 			: _Allocator(Allocator()), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))

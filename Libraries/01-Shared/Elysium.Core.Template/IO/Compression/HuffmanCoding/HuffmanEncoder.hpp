@@ -48,6 +48,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HuffmanTree.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
+#include "../../../Container/Adopter/Stack.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
+#include "../../../Memory/Scoped/Arena.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 {
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
@@ -111,8 +119,46 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 			else
 			{
-				HuffmanCode StartCode = HuffmanCode(0b0, 0);
-				GenerateTreeBasedCodesRecursively(_Tree._Root, StartCode, SymbolCodes);
+				if (nullptr == _Tree._Root) ELYSIUM_CORE_PATH_UNLIKELY
+				{
+					return SymbolCodes;
+				}
+
+				struct StackFrame
+				{
+					const Node* Node;
+					HuffmanCode Code;
+				};
+
+				Elysium::Core::Template::Container::Stack<StackFrame> Stack{};
+				Stack.Push({_Tree._Root, HuffmanCode(0b0, 0)});
+				
+				while(!Stack.GetIsEmpty())
+				{
+					const StackFrame CurrentFrame = Stack.GetTop();
+					Stack.Pop();
+
+					const Node* Current = CurrentFrame.Node;
+					const HuffmanCode& CurrentCode = CurrentFrame.Code;
+
+					if (nullptr == Current->_Left && nullptr == Current->_Right)
+					{
+						SymbolCodes.Set(Current->_Symbol, CurrentCode);
+						continue;
+					}
+
+					if (nullptr != Current->_Left)
+					{
+						HuffmanCode LeftCode(CurrentCode._Bits << 1, CurrentCode._Length + 1);
+						Stack.Push({ Current->_Left, LeftCode });
+					}
+
+					if (nullptr != Current->_Right)
+					{
+						HuffmanCode RightCode((CurrentCode._Bits << 1) | 1, CurrentCode._Length + 1);
+						Stack.Push({ Current->_Right, RightCode });
+					}
+				}
 			}
 						
 			return SymbolCodes;
@@ -133,9 +179,12 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 
 
+
 			// Step 3: Derive code-lengths for each symbol and sort them
 			// @ToDo: simplify this step!
 			CodeLengthsMap CodeLengths = CodeLengthsMap(CountedNumberOfLeafNodes);
+
+			// @ToDo: implement this method iteratively
 			DeriveCodeLengthsRecursively(_Tree._Root, 0, CodeLengths);
 
 			Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair> SymbolCodeLengths;
@@ -232,6 +281,9 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		inline Node* CreateTree(const HuffmanFrequencyTable<S, F>& Frequencies, const bool InvertLeftAndRight, Elysium::Core::Template::System::uint8_t& CountedNumberOfLeafNodes)
 		{
+			// @ToDo: use an arena instead of randomly creating nodes on the heap
+			// this obviously needs adjustments on the arena itself (PushBack(...), GetFront() etc.)
+
 			const F OccurrencesLength = Frequencies.GetLength();
 			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, NodeComparison> Heap{};
 			for (F i = 0; i < OccurrencesLength; ++i)
@@ -267,27 +319,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			return Root;
 		}
 
-		inline void GenerateTreeBasedCodesRecursively(const Node* Current, HuffmanCode& CurrentCode, SymbolCodeMap& Codes)
-		{
-			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
-			{
-				return;
-			}
-
-			// we're only looking for leaf-nodes here obviously
-			if (nullptr == Current->_Left && nullptr == Current->_Right)
-			{
-				Codes.Set(Current->_Symbol, CurrentCode);
-				return;
-			}
-
-			HuffmanCode LeftCode = HuffmanCode(CurrentCode._Bits << 1, CurrentCode._Length + 1);
-			GenerateTreeBasedCodesRecursively(Current->_Left, LeftCode, Codes);
-
-			HuffmanCode RightCode = HuffmanCode((CurrentCode._Bits << 1) | 1, CurrentCode._Length + 1);
-			GenerateTreeBasedCodesRecursively(Current->_Right, RightCode, Codes);
-		}
-
 		inline void DeriveCodeLengthsRecursively(const Node* Current, const Elysium::Core::Template::System::uint8_t Depth, CodeLengthsMap& CodeLengths)
 		{
 			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
@@ -306,6 +337,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			DeriveCodeLengthsRecursively(Current->_Right, Depth + 1, CodeLengths);
 		}
 	private:
+		//Elysium::Core::Template::Memory::Scoped::Arena _Arena{};
 		HuffmanTree<S, F> _Tree{ };
 	};
 }

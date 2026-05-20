@@ -66,17 +66,19 @@ namespace Elysium::Core::Template::Memory::Scoped
 	class Arena
 	{
 	public:
-		Arena(const ArenaOptions& Options) noexcept;
+		constexpr Arena() = delete;
 
-		Arena(const Arena&& Source) = delete;
+		constexpr Arena(const ArenaOptions& Options) noexcept;
 
-		Arena(Arena&& Right) = delete;
+		constexpr Arena(const Arena&& Source) = delete;
 
-		~Arena() noexcept;
+		constexpr Arena(Arena&& Right) = delete;
+
+		constexpr ~Arena() noexcept;
 	public:
-		Arena& operator=(const Arena& Source) = delete;
+		constexpr Arena& operator=(const Arena& Source) = delete;
 
-		Arena& operator=(Arena&& Right) noexcept = delete;
+		constexpr Arena& operator=(Arena&& Right) noexcept = delete;
 	public:
 		/// <summary>
 		/// Returns the number of pages currently allocated.
@@ -151,11 +153,11 @@ namespace Elysium::Core::Template::Memory::Scoped
 		ArenaPage* _CurrentPage;
 	};
 
-	inline Arena::Arena(const ArenaOptions& Options) noexcept
+	inline constexpr Arena::Arena(const ArenaOptions& Options) noexcept
 		: _Options(Options), _CurrentPage(CreatePage(_Options._InitialPageSize))
 	{ }
 
-	inline Arena::~Arena() noexcept
+	inline constexpr Arena::~Arena() noexcept
 	{
 		ArenaPage* CurrentPage = _CurrentPage;
 		while (CurrentPage != nullptr)

@@ -48,7 +48,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				Logger::WriteMessage(&PrintableInputSize[0]);
 				Logger::WriteMessage(" -> ");
 				Logger::WriteMessage(&PrintableCompressedSize[0]);
-				Logger::WriteMessage(" bytes)\r\n-------------------\r\n");
+				Logger::WriteMessage(" bits)\r\n-------------------\r\n");
 			}
 
 			{
@@ -66,7 +66,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				Logger::WriteMessage(&PrintableInputSize[0]);
 				Logger::WriteMessage(" -> ");
 				Logger::WriteMessage(&PrintableCompressedSize[0]);
-				Logger::WriteMessage(" bytes)\r\n-------------------\r\n");
+				Logger::WriteMessage(" bits)\r\n-------------------\r\n");
 			}
 		}
 
@@ -115,7 +115,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			Logger::WriteMessage(&PrintableInputSize[0]);
 			Logger::WriteMessage(" -> ");
 			Logger::WriteMessage(&PrintableCompressedSize[0]);
-			Logger::WriteMessage(" bytes)\r\n-------------------\r\n");
+			Logger::WriteMessage(" bits)\r\n-------------------\r\n");
 		}
 	private:
 		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>& SymbolCodeLengths)

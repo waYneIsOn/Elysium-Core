@@ -23,7 +23,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	public:
 		constexpr HuffmanCode() = default;
 
-		inline constexpr HuffmanCode(const Elysium::Core::Template::System::uint64_t Bits, const Elysium::Core::Template::System::uint8_t Length)
+		inline constexpr HuffmanCode(const Elysium::Core::Template::System::uint32_t Bits, const Elysium::Core::Template::System::uint8_t Length)
 			: _Bits(Bits), _Length(Length)
 		{ }
 

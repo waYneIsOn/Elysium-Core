@@ -756,9 +756,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\PriorityQueue.hpp">
       <Filter>Container\Adopter</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Stack.hpp">
-      <Filter>Container\Adopter</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Array.hpp">
       <Filter>Container\Sequence</Filter>
     </ClInclude>
@@ -812,6 +809,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanCode.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp">
+      <Filter>Container\Adopter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
