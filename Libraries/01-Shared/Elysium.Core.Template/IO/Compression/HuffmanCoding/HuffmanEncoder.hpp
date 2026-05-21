@@ -131,7 +131,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 				};
 
 				Elysium::Core::Template::Container::Stack<StackFrame> Stack{};
-				Stack.Push({_Tree._Root, HuffmanCode(0b0, 0)});
+				Stack.Push({ _Tree._Root, HuffmanCode(0b0, 0) });
 				
 				while(!Stack.GetIsEmpty())
 				{
@@ -169,24 +169,60 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			// Step 1: count occurrences for each symbol
 			HuffmanFrequencyTable<S, F> Frequencies = CountOcccurrences(Data, Length);
 
+			// @ToDo: I am currently doing a "classic huffman tree" here. There are algorithms that can calculate CodeLengths more or less directly from Frequencies - make those available!
+			// Examples:
+			//	- two-queue linear huffman https://www.geeksforgeeks.org/dsa/efficient-huffman-coding-for-sorted-input-greedy-algo-4/
+			//	- in-place huffman https://experiencestack.co/in-place-huffman-codes-ff7d5305d019
+			//  - Package-Merge Algorithm (used by deflate, so required anyways!!!) https://en.wikipedia.org/wiki/Package-merge_algorithm <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+			//	- etc.
+
 			// Step 2: generate huffman tree
 			Elysium::Core::Template::System::uint8_t CountedNumberOfLeafNodes = 0;	// used later on to pre-allocate the required amount of elements
 			_Tree.Clear();
 			_Tree._Root = CreateTree(Frequencies, InvertLeftAndRight, CountedNumberOfLeafNodes);
 
-
-
-
-
-
-
 			// Step 3: Derive code-lengths for each symbol and sort them
-			// @ToDo: simplify this step!
+			// @ToDo: pretty sure this step can be simplified by a lot (currently: unordered_map into vector into sort)
 			CodeLengthsMap CodeLengths = CodeLengthsMap(CountedNumberOfLeafNodes);
+			if (nullptr != _Tree._Root) ELYSIUM_CORE_PATH_LIKELY
+			{
+				struct StackFrame
+				{
+					const Node* Node;
+					Elysium::Core::Template::System::uint8_t Depth;
+				};
+				
+				Elysium::Core::Template::Container::Stack<StackFrame> Stack{};
+				Stack.Push({ _Tree._Root, 0_ui8 });
 
-			// @ToDo: implement this method iteratively
-			DeriveCodeLengthsRecursively(_Tree._Root, 0, CodeLengths);
+				while (!Stack.GetIsEmpty())
+				{
+					const StackFrame CurrentFrame = Stack.GetTop();
+					Stack.Pop();
 
+					const Node* Current = CurrentFrame.Node;
+					const Elysium::Core::Template::System::uint8_t CurrentDepth = CurrentFrame.Depth;
+
+					if (nullptr == Current->_Left && nullptr == Current->_Right)
+					{
+						CodeLengths.Set(Current->_Symbol, CurrentDepth);
+						continue;
+					}
+
+					if (nullptr != Current->_Left)
+					{
+						const Elysium::Core::Template::System::uint8_t LeftDepth = CurrentDepth + 1_ui8;
+						Stack.Push({ Current->_Left, LeftDepth });
+					}
+
+					if (nullptr != Current->_Left)
+					{
+						const Elysium::Core::Template::System::uint8_t RightDepth = CurrentDepth + 1_ui8;
+						Stack.Push({ Current->_Right, RightDepth });
+					}
+				}
+			}
+			
 			Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair> SymbolCodeLengths;
 			for (CodeLengthsMapFIterator Iterator = CodeLengths.GetBegin(); Iterator != CodeLengths.GetEnd(); ++Iterator)
 			{
@@ -205,11 +241,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			SymbolCodeLengthPair& Last = *SymbolCodeLengths.GetEnd();
 			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<SymbolCodeLengthPair*>(&First, &Last);
 			
-
-
-
-
-
 			// Step 6: Generate codes from that data
 			SymbolCodeMap SymbolCodes = CreateFromSymbolCodeLengths(SymbolCodeLengths);
 
@@ -317,24 +348,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			Heap.Pop();
 			
 			return Root;
-		}
-
-		inline void DeriveCodeLengthsRecursively(const Node* Current, const Elysium::Core::Template::System::uint8_t Depth, CodeLengthsMap& CodeLengths)
-		{
-			if (nullptr == Current) ELYSIUM_CORE_PATH_UNLIKELY
-			{
-				return;
-			}
-
-			// we're only looking for leaf-nodes here obviously
-			if (nullptr == Current->_Left && nullptr == Current->_Right)
-			{
-				CodeLengths.Set(Current->_Symbol, Depth);
-				return;
-			}
-
-			DeriveCodeLengthsRecursively(Current->_Left, Depth + 1, CodeLengths);
-			DeriveCodeLengthsRecursively(Current->_Right, Depth + 1, CodeLengths);
 		}
 	private:
 		//Elysium::Core::Template::Memory::Scoped::Arena _Arena{};
