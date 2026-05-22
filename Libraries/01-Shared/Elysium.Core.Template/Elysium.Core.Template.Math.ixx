@@ -33,6 +33,10 @@ module;
 #include "Math/Logarithm.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_MAX
+#include "Math/Max.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIDPOINTROUNDING
 #include "Math/MidpointRounding.hpp"
 #endif
@@ -65,6 +69,7 @@ export
 	using Elysium::Core::Template::Math::GreatestCommonDivisor;
 	using Elysium::Core::Template::Math::Logarithm;
 	using Elysium::Core::Template::Math::MidpointRounding;
+	using Elysium::Core::Template::Math::Max;
 	using Elysium::Core::Template::Math::Power;
 	using Elysium::Core::Template::Math::Round;
 	using Elysium::Core::Template::Math::SignOf;

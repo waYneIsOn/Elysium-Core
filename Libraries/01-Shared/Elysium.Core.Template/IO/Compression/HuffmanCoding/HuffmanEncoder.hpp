@@ -281,10 +281,55 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			return CompressedLength;
 		}
 
-		inline void Compress(Stream& TargetStream)
+		// @ToDo: make it possible to write directly to a stream
+		inline const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Compress(const S* Data, const Elysium::Core::Template::System::size Length, 
+			const SymbolCodeMap& SymbolCodes)
 		{
-			
+			Elysium::Core::Template::System::size CompressedLength = CalculateCompressedSize(Data, Length, SymbolCodes) / 8 + 1;
+
+			Elysium::Core::Template::System::uint64_t Buffer = 0;
+			Elysium::Core::Template::System::uint8_t BitCount = 0;
+
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Result = 
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>(CompressedLength);
+			Result.Clear();
+			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
+			{
+				const S& CurrentInput = Data[i];
+				const HuffmanCode& CurrentCode = SymbolCodes[CurrentInput];
+
+				Buffer <<= CurrentCode._Length;
+				Buffer |= CurrentCode._Bits;
+
+				BitCount += CurrentCode._Length;
+
+				while (BitCount >= 8)
+				{
+					BitCount -= 8;
+					Elysium::Core::Template::System::byte Byte = (Buffer >> BitCount) & 0xFF;
+
+					Result.PushBack(Byte);
+				}
+			}
+
+			if (BitCount > 0)
+			{
+				Elysium::Core::Template::System::byte Byte = (Buffer << (8 - BitCount)) & 0xFF;
+
+				Result.PushBack(Byte);
+
+				BitCount = 0;
+			}
+
+			return Result;
 		}
+		/*
+		// @ToDo
+		inline void Compress(Stream& TargetStream, const S* Data, const Elysium::Core::Template::System::size Length)
+		{
+
+		}
+		*/
 	private:
 		struct NodeComparison
 		{

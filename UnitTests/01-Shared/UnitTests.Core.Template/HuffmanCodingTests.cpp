@@ -4,9 +4,8 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Vector.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanDecoder.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanEncoder.hpp"
-
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanTree.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
@@ -19,9 +18,8 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 {
 	TEST_CLASS(HuffmanCodingTests)
 	{
-		using BinaryHuffmanEncoder = HuffmanEncoder< Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
-
-		using BinaryHuffmanTree = HuffmanTree<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
+		using BinaryHuffmanEncoder = HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
+		using BinaryHuffmanDecoder = HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
 		TEST_METHOD(UseCalculatedHuffmanCodes)
 		{
@@ -49,6 +47,39 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				Logger::WriteMessage(" -> ");
 				Logger::WriteMessage(&PrintableCompressedSize[0]);
 				Logger::WriteMessage(" bits)\r\n-------------------\r\n");
+
+				// ...
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> CompressedData = Encoder.Compress(Input, InputLength, TreeBasedCodes);
+				for (Elysium::Core::Template::System::size i = 0; i < CompressedData.GetLength(); ++i)
+				{
+					const Elysium::Core::Template::System::byte CurrentByte = CompressedData[i];
+					const Elysium::Core::Template::Text::String<char> PrintableByte = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentByte, 2);
+					const Elysium::Core::Template::Text::String<char> PrintableByteDecimal = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentByte, 10);
+					/*
+					Logger::WriteMessage(&PrintableByte[0]);
+					Logger::WriteMessage(" (");
+					Logger::WriteMessage(&PrintableByteDecimal[0]);
+					Logger::WriteMessage(")\r\n");
+					*/
+				}
+				//Logger::WriteMessage("-------------------\r\n");
+				
+				// ...
+				BinaryHuffmanDecoder Decoder = BinaryHuffmanDecoder();
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
+					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, TreeBasedCodes);
+				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
+				Logger::WriteMessage("Output: ");
+				Logger::WriteMessage(DecompressedText);
+				Logger::WriteMessage("\r\n-------------------");
+
+				const Elysium::Core::Template::System::size DecompressedTextLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(DecompressedText);
+				Assert::AreEqual(InputLength, DecompressedTextLength);
+
+				for (Elysium::Core::Template::System::size i = 0; i < DecompressedTextLength; ++i)
+				{
+					Assert::AreEqual(_LoremIpsum[i], DecompressedText[i]);
+				}
 			}
 
 			{
@@ -67,6 +98,39 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				Logger::WriteMessage(" -> ");
 				Logger::WriteMessage(&PrintableCompressedSize[0]);
 				Logger::WriteMessage(" bits)\r\n-------------------\r\n");
+
+				// ...
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> CompressedData = Encoder.Compress(Input, InputLength, CanonicalCodes);
+				for (Elysium::Core::Template::System::size i = 0; i < CompressedData.GetLength(); ++i)
+				{
+					const Elysium::Core::Template::System::byte CurrentByte = CompressedData[i];
+					const Elysium::Core::Template::Text::String<char> PrintableByte = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentByte, 2);
+					const Elysium::Core::Template::Text::String<char> PrintableByteDecimal = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentByte, 10);
+					/*
+					Logger::WriteMessage(&PrintableByte[0]);
+					Logger::WriteMessage(" (");
+					Logger::WriteMessage(&PrintableByteDecimal[0]);
+					Logger::WriteMessage(")\r\n");
+					*/
+				}
+				//Logger::WriteMessage("-------------------\r\n");
+				
+				// ...
+				BinaryHuffmanDecoder Decoder = BinaryHuffmanDecoder();
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
+					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, CanonicalCodes);
+				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
+				Logger::WriteMessage("Output: ");
+				Logger::WriteMessage(DecompressedText);
+				Logger::WriteMessage("\r\n-------------------");
+
+				const Elysium::Core::Template::System::size DecompressedTextLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(DecompressedText);
+				Assert::AreEqual(InputLength, DecompressedTextLength);
+
+				for (Elysium::Core::Template::System::size i = 0; i < DecompressedTextLength; ++i)
+				{
+					Assert::AreEqual(_LoremIpsum[i], DecompressedText[i]);
+				}
 			}
 		}
 
@@ -99,6 +163,9 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::System::byte* Input = reinterpret_cast<const Elysium::Core::Template::System::byte*>(Text);
 			const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Text);
 
+			Logger::WriteMessage("-------------------\r\nInput: ");
+			Logger::WriteMessage(Text);
+
 			const Elysium::Core::Template::System::size InputSize = InputLength * 8;
 			const Elysium::Core::Template::Text::String<char> PrintableInputSize = Elysium::Core::Template::Text::Convert<char>::ToString(InputSize);
 			// -----------------------
@@ -116,6 +183,38 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			Logger::WriteMessage(" -> ");
 			Logger::WriteMessage(&PrintableCompressedSize[0]);
 			Logger::WriteMessage(" bits)\r\n-------------------\r\n");
+
+			// ...
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> CompressedData = Encoder.Compress(Input, InputLength, SymbolCodes);
+			for (Elysium::Core::Template::System::size i = 0; i < CompressedData.GetLength(); ++i)
+			{
+				const Elysium::Core::Template::System::byte CurrentByte = CompressedData[i];
+				const Elysium::Core::Template::Text::String<char> PrintableByte = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentByte, 2);
+				const Elysium::Core::Template::Text::String<char> PrintableByteDecimal = Elysium::Core::Template::Text::Convert<char>::ToString(CurrentByte, 10);
+
+				Logger::WriteMessage(&PrintableByte[0]);
+				Logger::WriteMessage(" (");
+				Logger::WriteMessage(&PrintableByteDecimal[0]);
+				Logger::WriteMessage(")\r\n");
+			}
+			Logger::WriteMessage("-------------------\r\n");
+			
+			// ...
+			BinaryHuffmanDecoder Decoder = BinaryHuffmanDecoder();
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
+				Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, SymbolCodes);
+			const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
+			Logger::WriteMessage("Output: ");
+			Logger::WriteMessage(DecompressedText);
+			Logger::WriteMessage("\r\n-------------------");
+
+			const Elysium::Core::Template::System::size DecompressedTextLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(DecompressedText);
+			Assert::AreEqual(InputLength, DecompressedTextLength);
+
+			for (Elysium::Core::Template::System::size i = 0; i < DecompressedTextLength; ++i)
+			{
+				Assert::AreEqual(Text[i], DecompressedText[i]);
+			}
 		}
 	private:
 		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>& SymbolCodeLengths)

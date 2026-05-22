@@ -36,6 +36,11 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanDecoder;
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="S"></typeparam>
+	/// <typeparam name="F"></typeparam>
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanFrequencyTable
 	{
@@ -81,6 +86,9 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		Elysium::Core::Template::Container::UnorderedMap<S, F> _Occurrences{};
 	};
 
+	/// <summary>
+	/// Specialization since with byte and size one can use a fixed-size array internally.
+	/// </summary>
 	template<>
 	class HuffmanFrequencyTable<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>
 	{

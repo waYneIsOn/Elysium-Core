@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORCALL
-#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORCALL
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORGREATEROREQUAL
+#define ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORGREATEROREQUAL
 
 #ifdef _MSC_VER
 #pragma once
@@ -27,20 +27,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
 	template <class T, typename = void>
-	struct HasOperatorCall
+	struct HasOperatorGreaterOrEqual
 		: public IntegralConstant<bool, false>
-	{
-	};
+	{};
 
 	template <class T>
-	struct HasOperatorCall<T, Elysium::Core::Template::TypeTraits::VoidType<decltype
+	struct HasOperatorGreaterOrEqual<T, Elysium::Core::Template::TypeTraits::VoidType<decltype
 	(
-		&T::operator()
+		Elysium::Core::Template::Functional::DeclareValue<T>() >= Elysium::Core::Template::Functional::DeclareValue<T>()
 	)>>
 		: public IntegralConstant<bool, true>
 	{ };
 
 	template <class T>
-	inline constexpr bool HasOperatorCallValue = HasOperatorCall<T>::Value;
+	inline constexpr bool HasOperatorGreaterOrEqualValue = HasOperatorGreaterOrEqual<T>::Value;
 }
 #endif

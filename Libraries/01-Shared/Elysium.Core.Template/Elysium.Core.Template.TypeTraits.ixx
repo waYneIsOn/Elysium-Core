@@ -20,6 +20,10 @@ module;
 #include "TypeTraits/HasOperatorCall.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_HASOPERATORGREATEROREQUAL
+#include "TypeTraits/HasOperatorGreaterOrEqual.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
 #include "TypeTraits/IntegralConstant.hpp"
 #endif
@@ -218,6 +222,7 @@ export
 	using Elysium::Core::Template::TypeTraits::HasOperatorBitwiseAnd;
 	using Elysium::Core::Template::TypeTraits::HasOperatorBitwiseOr;
 	using Elysium::Core::Template::TypeTraits::HasOperatorCall;
+	using Elysium::Core::Template::TypeTraits::HasOperatorGreaterOrEqual;
 	using Elysium::Core::Template::TypeTraits::IntegralConstant;
 	using Elysium::Core::Template::TypeTraits::InvokeResult;
 	using Elysium::Core::Template::TypeTraits::IsAggregate;

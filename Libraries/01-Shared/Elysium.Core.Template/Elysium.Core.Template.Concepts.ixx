@@ -56,6 +56,10 @@ module;
 #include "Concepts/HasMethod.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASOPERATORGREATEROREQUAL
+#include "Concepts/HasOperatorGreaterOrEqual.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HUFFMANCODEABLE
 #include "Concepts/HuffmanCodeable.hpp"
 #endif
@@ -150,6 +154,7 @@ export
 	using Elysium::Core::Template::Concepts::FloatingPoint;
 	using Elysium::Core::Template::Concepts::Hashable;
 	using Elysium::Core::Template::Concepts::HasMethod;
+	using Elysium::Core::Template::Concepts::HasOperatorGreaterOrEqual;
 	using Elysium::Core::Template::Concepts::HuffmanCodeable;
 	using Elysium::Core::Template::Concepts::Integer;
 	using Elysium::Core::Template::Concepts::Integral;

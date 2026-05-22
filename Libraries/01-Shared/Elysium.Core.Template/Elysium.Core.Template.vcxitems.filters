@@ -813,6 +813,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp">
       <Filter>Container\Adopter</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Max.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorGreaterOrEqual.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

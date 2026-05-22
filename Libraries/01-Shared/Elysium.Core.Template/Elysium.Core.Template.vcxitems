@@ -15,6 +15,7 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\FiFoQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Stream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Max.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Activator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddConstant.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddConstantVolatile.hpp" />
@@ -83,6 +85,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorGreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsDerivedFrom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsFlagEnumeration.hpp" />
