@@ -44,8 +44,16 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HuffmanNode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLCODELENGTHPAIR
+#include "HuffmanSymbolCodeLengthPair.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANTREE
 #include "HuffmanTree.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANUTILITY
+#include "HuffmanUtility.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
@@ -71,7 +79,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		using CodeLengthsMapFIterator = CodeLengthsMap::FIterator;
 	public:
-		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, HuffmanCode>;
+		using SymbolCodeMap = HuffmanUtility<S>::SymbolCodeMap;
 	public:
 		constexpr HuffmanEncoder() = default;
 
@@ -84,22 +92,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		constexpr HuffmanEncoder& operator=(const HuffmanEncoder& Source) = delete;
 
 		constexpr HuffmanEncoder& operator=(HuffmanEncoder&& Right) noexcept = delete;
-	public:
-		struct SymbolCodeLengthPair
-		{
-			S Symbol;
-			Elysium::Core::Template::System::uint8_t CodeLength;
-
-			friend bool operator<(const SymbolCodeLengthPair& Left, const SymbolCodeLengthPair& Right)
-			{
-				if (Left.CodeLength == Right.CodeLength)
-				{
-					return Left.Symbol > Right.Symbol;
-				}
-
-				return Left.CodeLength > Right.CodeLength;
-			}
-		};
 	public:
 		inline SymbolCodeMap CreateTreeBased(const S* Data, const Elysium::Core::Template::System::size Length, const bool InvertLeftAndRight = false)
 		{
@@ -223,13 +215,13 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 				}
 			}
 			
-			Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair> SymbolCodeLengths;
+			Elysium::Core::Template::Container::Vector<HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>> SymbolCodeLengths;
 			for (CodeLengthsMapFIterator Iterator = CodeLengths.GetBegin(); Iterator != CodeLengths.GetEnd(); ++Iterator)
 			{
 				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<S, Elysium::Core::Template::System::uint8_t>>* Node = *Iterator;
 				const Elysium::Core::Template::Container::KeyValuePair<S, Elysium::Core::Template::System::uint8_t>& Item = Node->GetItem();
 
-				SymbolCodeLengths.PushBack(SymbolCodeLengthPair(Item.GetKey(), Item.GetValue()));
+				SymbolCodeLengths.PushBack(HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>(Item.GetKey(), Item.GetValue()));
 			}
 
 			// Step 4: discard tree (only symbol/code-lengths are necessarys at this point)
@@ -237,36 +229,14 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 			// Step 5: Sort that symbol/code-length pair
 			// @ToDo: simplify this step together with step 3!
-			SymbolCodeLengthPair& First = *SymbolCodeLengths.GetBegin();
-			SymbolCodeLengthPair& Last = *SymbolCodeLengths.GetEnd();
-			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<SymbolCodeLengthPair*>(&First, &Last);
+			HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>& First = *SymbolCodeLengths.GetBegin();
+			HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>& Last = *SymbolCodeLengths.GetEnd();
+			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>*>(&First, &Last);
 			
 			// Step 6: Generate codes from that data
-			SymbolCodeMap SymbolCodes = CreateFromSymbolCodeLengths(SymbolCodeLengths);
+			SymbolCodeMap SymbolCodes = HuffmanUtility<S>::CreateFromSymbolCodeLengths(SymbolCodeLengths);
 
 			return SymbolCodes;
-		}
-
-		inline SymbolCodeMap CreateFromSymbolCodeLengths(const Elysium::Core::Template::Container::Vector<SymbolCodeLengthPair>& SymbolCodeLengths)
-		{
-			SymbolCodeMap Codes = SymbolCodeMap();
-			Elysium::Core::Template::System::size CurrentCode = 0;
-			Elysium::Core::Template::System::size CurrentCodeLength = SymbolCodeLengths[0].CodeLength;
-			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
-			{
-				const char Symbol = SymbolCodeLengths[i].Symbol;
-
-				if (SymbolCodeLengths[i].CodeLength > CurrentCodeLength)
-				{
-					CurrentCode <<= (SymbolCodeLengths[i].CodeLength - CurrentCodeLength);
-					CurrentCodeLength = SymbolCodeLengths[i].CodeLength;
-				}
-
-				Codes.Set(SymbolCodeLengths[i].Symbol, HuffmanCode(CurrentCode, SymbolCodeLengths[i].CodeLength));
-				++CurrentCode;
-			}
-
-			return Codes;
 		}
 		
 		inline const Elysium::Core::Template::System::size CalculateCompressedSize(const S* Data, const Elysium::Core::Template::System::size Length, const SymbolCodeMap& SymbolCodes)
@@ -281,7 +251,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			return CompressedLength;
 		}
 
-		// @ToDo: make it possible to write directly to a stream
 		inline const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Compress(const S* Data, const Elysium::Core::Template::System::size Length, 
 			const SymbolCodeMap& SymbolCodes)
 		{

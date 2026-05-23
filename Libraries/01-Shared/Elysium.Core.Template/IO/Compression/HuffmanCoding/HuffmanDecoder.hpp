@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Concepts/UnsignedInteger.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_QUEUE_VECTOR
+#include "../../../Container/Vector.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANCODE
 #include "HuffmanCode.hpp"
 #endif
@@ -32,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HuffmanTree.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANUTILITY
+#include "HuffmanUtility.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MAX
 #include "../../../Math/Max.hpp"
 #endif
@@ -41,8 +49,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	template<Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::Concepts::UnsignedInteger F>
 	class HuffmanDecoder
 	{
-		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, HuffmanCode>;
-
+	public:
+		using SymbolCodeMap = HuffmanUtility<S>::SymbolCodeMap;
 	private:
 		using SymbolCodeMapFIterator = SymbolCodeMap::FIterator;
 
@@ -61,7 +69,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		constexpr HuffmanDecoder& operator=(HuffmanDecoder&& Right) noexcept = delete;
 	public:
 		inline const Elysium::Core::Template::Container::Vector<S> Decompress(const Elysium::Core::Template::System::byte* CompressedData, const Elysium::Core::Template::System::size Length,
-			const Elysium::Core::Template::System::size UncompressedLength, SymbolCodeMap& SymbolCodes)
+			const Elysium::Core::Template::System::size UncompressedLength, SymbolCodeMap& SymbolCodes, const Elysium::Core::Template::System::uint8_t LookupTableSize = 15)
 		{
 			// @Note: most algorithms either store "UncompressedLength" or some other way of "termination logic" (like EOB - end of block) in the header.
 			// For now I will implement the approach of having access to the uncompressed length, I will need to implement other methods as well though!
@@ -83,7 +91,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 				MaxCodeLength = Elysium::Core::Template::Math::Max(MaxCodeLength, CurrentCode._Length);
 
-				const Elysium::Core::Template::System::uint64_t PackedKey = HuffmanCode::GetPackedKey(CurrentCode._Bits, CurrentCode._Length);
+				const Elysium::Core::Template::System::uint64_t PackedKey = HuffmanUtility<S>::GetPackedKey(CurrentCode._Bits, CurrentCode._Length);
 
 				PackedCodeSymbols.Set(PackedKey, CurrentSymbol);
 			}
@@ -106,10 +114,11 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 				bool Found = false;
 
+				// @ToDo: this incrementally looks for the PackedKey to retrieve a symbol on a bit-by-bit basis -> horseshit -> improve!!!
 				for (Elysium::Core::Template::System::uint8_t TryCodeLength = 1; TryCodeLength <= MaxCodeLength; ++TryCodeLength)
 				{
 					Elysium::Core::Template::System::uint32_t CurrentCode = (Buffer >> (BitCount - TryCodeLength)) & ((1_ui32 << TryCodeLength) - 1);
-					const Elysium::Core::Template::System::uint64_t PackedKey = HuffmanCode::GetPackedKey(CurrentCode, TryCodeLength);
+					const Elysium::Core::Template::System::uint64_t PackedKey = HuffmanUtility<S>::GetPackedKey(CurrentCode, TryCodeLength);
 
 					try
 					{
@@ -131,6 +140,15 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 
 			return Result;
+		}
+
+		inline const Elysium::Core::Template::Container::Vector<S> Decompress(const Elysium::Core::Template::System::byte* CompressedData, const Elysium::Core::Template::System::size Length,
+			const Elysium::Core::Template::System::size UncompressedLength, const Elysium::Core::Template::Container::Vector<HuffmanSymbolCodeLengthPair<S>>& SymbolCodeLengths,
+			const Elysium::Core::Template::System::uint8_t LookupTableSize = 15)
+		{
+			SymbolCodeMap SymbolCodes = HuffmanUtility<S>::CreateFromSymbolCodeLengths(SymbolCodeLengths);
+
+			return Decompress(CompressedData, Length, UncompressedLength, SymbolCodes, LookupTableSize);
 		}
 	};
 }

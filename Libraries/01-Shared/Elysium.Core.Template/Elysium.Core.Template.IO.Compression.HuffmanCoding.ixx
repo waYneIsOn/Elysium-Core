@@ -43,8 +43,16 @@ module;
 #include "IO/Compression/HuffmanCoding/HuffmanNode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLCODELENGTHPAIR
+#include "IO/Compression/HuffmanCoding/HuffmanSymbolCodeLengthPair.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANTREE
 #include "IO/Compression/HuffmanCoding/HuffmanTree.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANUTILITY
+#include "IO/Compression/HuffmanCoding/HuffmanUtility.hpp"
 #endif
 
 export module Elysium.Core.Template.IO.Compression.HuffmanCoding;
@@ -56,5 +64,7 @@ export
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanEncoder;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanFrequencyTable;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanNode;
+	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanSymbolCodeLengthPair;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree;
+	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanUtility;
 }

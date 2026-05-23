@@ -20,6 +20,8 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 	{
 		using BinaryHuffmanEncoder = HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 		using BinaryHuffmanDecoder = HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
+		using BinaryHuffmanSymbolCodeLengthPair = HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>;
+		using BinaryHuffmanUtility = HuffmanUtility<Elysium::Core::Template::System::byte>;
 	public:
 		TEST_METHOD(UseCalculatedHuffmanCodes)
 		{
@@ -141,21 +143,19 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			// Assuming the fixed/predefined symbols and their code-lengths are sorted already, that leaves only the last step:
 			// 5.) Generate canonical codes from that ordering
 			
-			Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair> FixedSymbolCodeLengths =
-				Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>(4);
-			FixedSymbolCodeLengths[0].Symbol = 'A';
-			FixedSymbolCodeLengths[0].CodeLength = 2;
-			FixedSymbolCodeLengths[1].Symbol = 'B';
-			FixedSymbolCodeLengths[1].CodeLength = 3;
-			FixedSymbolCodeLengths[2].Symbol = 'C';
-			FixedSymbolCodeLengths[2].CodeLength = 3;
-			FixedSymbolCodeLengths[3].Symbol = 'D';
-			FixedSymbolCodeLengths[3].CodeLength = 3;
+			Elysium::Core::Template::Container::Vector<BinaryHuffmanSymbolCodeLengthPair> FixedSymbolCodeLengths =
+				Elysium::Core::Template::Container::Vector<BinaryHuffmanSymbolCodeLengthPair>(4);
+			FixedSymbolCodeLengths[0]._Symbol = 'A';
+			FixedSymbolCodeLengths[0]._CodeLength = 2;
+			FixedSymbolCodeLengths[1]._Symbol = 'B';
+			FixedSymbolCodeLengths[1]._CodeLength = 3;
+			FixedSymbolCodeLengths[2]._Symbol = 'C';
+			FixedSymbolCodeLengths[2]._CodeLength = 3;
+			FixedSymbolCodeLengths[3]._Symbol = 'D';
+			FixedSymbolCodeLengths[3]._CodeLength = 3;
 			PrintCodeLengths(FixedSymbolCodeLengths);
-			// -----------------------
 
-			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
-			BinaryHuffmanEncoder::SymbolCodeMap SymbolCodes = Encoder.CreateFromSymbolCodeLengths(FixedSymbolCodeLengths);
+			BinaryHuffmanEncoder::SymbolCodeMap SymbolCodes = BinaryHuffmanUtility::CreateFromSymbolCodeLengths(FixedSymbolCodeLengths);
 			PrintCodes(SymbolCodes);
 			// -----------------------
 			
@@ -170,6 +170,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::Text::String<char> PrintableInputSize = Elysium::Core::Template::Text::Convert<char>::ToString(InputSize);
 			// -----------------------
 
+			BinaryHuffmanEncoder Encoder = BinaryHuffmanEncoder();
 			const Elysium::Core::Template::System::size CompressedSize = Encoder.CalculateCompressedSize(Input, InputLength, SymbolCodes);
 			const double CompressionRatio = static_cast<double>(CompressedSize) / InputSize * 100.0;
 
@@ -201,31 +202,52 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 			
 			// ...
 			BinaryHuffmanDecoder Decoder = BinaryHuffmanDecoder();
-			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
-				Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, SymbolCodes);
-			const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
-			Logger::WriteMessage("Output: ");
-			Logger::WriteMessage(DecompressedText);
-			Logger::WriteMessage("\r\n-------------------");
 
-			const Elysium::Core::Template::System::size DecompressedTextLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(DecompressedText);
-			Assert::AreEqual(InputLength, DecompressedTextLength);
-
-			for (Elysium::Core::Template::System::size i = 0; i < DecompressedTextLength; ++i)
 			{
-				Assert::AreEqual(Text[i], DecompressedText[i]);
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
+					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, SymbolCodes);
+				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
+				Logger::WriteMessage("Output: ");
+				Logger::WriteMessage(DecompressedText);
+				Logger::WriteMessage("\r\n-------------------");
+
+				const Elysium::Core::Template::System::size DecompressedTextLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(DecompressedText);
+				Assert::AreEqual(InputLength, DecompressedTextLength);
+
+				for (Elysium::Core::Template::System::size i = 0; i < DecompressedTextLength; ++i)
+				{
+					Assert::AreEqual(Text[i], DecompressedText[i]);
+				}
+				Logger::WriteMessage("-------------------\r\n");
+			}
+
+			{
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
+					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, FixedSymbolCodeLengths);
+				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
+				Logger::WriteMessage("Output: ");
+				Logger::WriteMessage(DecompressedText);
+				Logger::WriteMessage("\r\n-------------------");
+
+				const Elysium::Core::Template::System::size DecompressedTextLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(DecompressedText);
+				Assert::AreEqual(InputLength, DecompressedTextLength);
+
+				for (Elysium::Core::Template::System::size i = 0; i < DecompressedTextLength; ++i)
+				{
+					Assert::AreEqual(Text[i], DecompressedText[i]);
+				}
 			}
 		}
 	private:
-		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanEncoder::SymbolCodeLengthPair>& SymbolCodeLengths)
+		void PrintCodeLengths(const Elysium::Core::Template::Container::Vector<BinaryHuffmanSymbolCodeLengthPair>& SymbolCodeLengths)
 		{
 			for (Elysium::Core::Template::System::size i = 0; i < SymbolCodeLengths.GetLength(); ++i)
 			{
-				const char Symbol = SymbolCodeLengths[i].Symbol;
+				const char Symbol = SymbolCodeLengths[i]._Symbol;
 				char PrintableSymbol[2] = { Symbol, 0x00 };
 
 				const Elysium::Core::Template::Text::String<char>& CodeLength =
-					Elysium::Core::Template::Text::Convert<char>::ToString(SymbolCodeLengths[i].CodeLength);
+					Elysium::Core::Template::Text::Convert<char>::ToString(SymbolCodeLengths[i]._CodeLength);
 
 				Logger::WriteMessage("CodeLengths: ");
 				Logger::WriteMessage(PrintableSymbol);

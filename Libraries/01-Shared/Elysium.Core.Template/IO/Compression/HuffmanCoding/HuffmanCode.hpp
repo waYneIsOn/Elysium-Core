@@ -40,18 +40,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		constexpr HuffmanCode& operator=(HuffmanCode&& Right) noexcept = default;
 	public:
-		/// <summary>
-		/// Packs fields into a single key to help prevent hash-collisions during decoding.
-		/// </summary>
-		/// <param name="Bits"></param>
-		/// <param name="Length"></param>
-		/// <returns></returns>
-		inline static constexpr const Elysium::Core::Template::System::uint64_t GetPackedKey(const Elysium::Core::Template::System::uint32_t Bits,
-			Elysium::Core::Template::System::uint8_t Length)
-		{
-			return (static_cast<Elysium::Core::Template::System::uint64_t>(Length) << 32 | Bits);
-		}
-	public:
 		Elysium::Core::Template::System::uint32_t _Bits{};	// most algorithms limit codes to 16 bit or less, bzip2 limits it to 20 bit. so in most real world cases 32 bit should be enough!
 		Elysium::Core::Template::System::uint8_t _Length{};
 	};
