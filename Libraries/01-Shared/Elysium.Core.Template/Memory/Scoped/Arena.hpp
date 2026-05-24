@@ -66,7 +66,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 	class Arena
 	{
 	public:
-		constexpr Arena() = delete;
+		constexpr Arena() = default;
 
 		constexpr Arena(const ArenaOptions& Options) noexcept;
 
@@ -97,6 +97,12 @@ namespace Elysium::Core::Template::Memory::Scoped
 		/// </summary>
 		/// <returns></returns>
 		const Elysium::Core::Template::System::size GetSize() const;
+	public:
+		/// <summary>
+		/// Updates options resulting in the whole arena being reset.
+		/// </summary>
+		/// <param name="Value"></param>
+		void SetOptions(const ArenaOptions& Value);
 	public:
 		/// <summary>
 		/// 
@@ -149,8 +155,8 @@ namespace Elysium::Core::Template::Memory::Scoped
 		void* PushInternally(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize,
 			Elysium::Core::Template::System::size RecursionDepth);
 	private:
-		const ArenaOptions _Options;
-		ArenaPage* _CurrentPage;
+		ArenaOptions _Options{};
+		ArenaPage* _CurrentPage{};
 	};
 
 	inline constexpr Arena::Arena(const ArenaOptions& Options) noexcept
@@ -160,7 +166,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 	inline constexpr Arena::~Arena() noexcept
 	{
 		ArenaPage* CurrentPage = _CurrentPage;
-		while (CurrentPage != nullptr)
+		while (nullptr != CurrentPage)
 		{
 			CurrentPage = DestroyPage(CurrentPage);
 		}
@@ -171,7 +177,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 		Elysium::Core::Template::System::size NumberOfPages = 0;
 
 		ArenaPage* CurrentPage = _CurrentPage;
-		while (CurrentPage != nullptr)
+		while (nullptr != CurrentPage)
 		{
 			++NumberOfPages;
 			CurrentPage = CurrentPage->_NextPage;
@@ -185,7 +191,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 		Elysium::Core::Template::System::size TotalCapacity = 0;
 
 		ArenaPage* CurrentPage = _CurrentPage;
-		while (CurrentPage != nullptr)
+		while (nullptr != CurrentPage)
 		{
 			TotalCapacity += CurrentPage->_Capacity;
 			CurrentPage = CurrentPage->_NextPage;
@@ -199,13 +205,21 @@ namespace Elysium::Core::Template::Memory::Scoped
 		Elysium::Core::Template::System::size TotalSize = 0;
 
 		ArenaPage* CurrentPage = _CurrentPage;
-		while (CurrentPage != nullptr)
+		while (nullptr != CurrentPage)
 		{
 			TotalSize += CurrentPage->_CurrentOffset;
 			CurrentPage = CurrentPage->_NextPage;
 		}
 
 		return TotalSize;
+	}
+
+	inline void Arena::SetOptions(const ArenaOptions& Value)
+	{
+		_Options = Value;
+		Reset();
+
+		_CurrentPage = CreatePage(_Options._InitialPageSize);
 	}
 
 	inline void* Arena::Push(const Elysium::Core::Template::System::size Size, const Elysium::Core::Template::System::size AlignSize) noexcept
@@ -222,7 +236,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 		const Elysium::Core::Template::System::size AllocationSize = Size * NumberOfElements;
 
 		void* Data = PushInternally(AllocationSize, AlignSize, 0);
-		if (Data == nullptr)
+		if (nullptr == Data)
 		{
 			return nullptr;
 		}
@@ -281,7 +295,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 	inline void Arena::Clear() noexcept
 	{
 		ArenaPage* CurrentPage = _CurrentPage;
-		while (CurrentPage != nullptr)
+		while (nullptr != CurrentPage)
 		{
 			CurrentPage->_CurrentOffset = 0;
 			CurrentPage = CurrentPage->_NextPage;
@@ -292,6 +306,10 @@ namespace Elysium::Core::Template::Memory::Scoped
 	{
 		// only clear the first page
 		ArenaPage* CurrentPage = _CurrentPage;
+		if (nullptr == CurrentPage)
+		{
+			return;
+		}
 		CurrentPage->_CurrentOffset = 0;
 
 		ArenaPage* PreviousPage = CurrentPage;
@@ -299,7 +317,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 		PreviousPage->_NextPage = nullptr;
 
 		// destroy all other pages
-		while (CurrentPage != nullptr)
+		while (nullptr != CurrentPage)
 		{
 			CurrentPage = DestroyPage(CurrentPage);
 		}

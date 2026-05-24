@@ -146,6 +146,12 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			const Elysium::Core::Template::System::size UncompressedLength, const Elysium::Core::Template::Container::Vector<HuffmanSymbolCodeLengthPair<S>>& SymbolCodeLengths,
 			const Elysium::Core::Template::System::uint8_t LookupTableSize = 15)
 		{
+			/*
+			// @ToDo: do I just want to assume sorted code lengths? will depend on input from how well known algorithms store things!
+			HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>& First = *SymbolCodeLengths.GetBegin();
+			HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>& Last = *SymbolCodeLengths.GetEnd();
+			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>*>(&First, &Last);
+			*/
 			SymbolCodeMap SymbolCodes = HuffmanUtility<S>::CreateFromSymbolCodeLengths(SymbolCodeLengths);
 
 			return Decompress(CompressedData, Length, UncompressedLength, SymbolCodes, LookupTableSize);

@@ -18,29 +18,29 @@ namespace Elysium::Core::Template::Memory::Scoped
 	{
 		friend class Arena;
 	public:
-		constexpr ArenaOptions() noexcept = delete;
+		constexpr ArenaOptions() noexcept = default;
 
 		constexpr ArenaOptions(Elysium::Core::Template::System::size InitialPageSize,
 			Elysium::Core::Template::System::size NumberOfPreallocatedPages, bool UseVirtualPaging = false, bool ClearMemory = false) noexcept;
 
-		constexpr ArenaOptions(const ArenaOptions& Source) noexcept;
+		constexpr ArenaOptions(const ArenaOptions& Source) noexcept = default;
 
-		constexpr ArenaOptions(ArenaOptions&& Right) = delete;
+		constexpr ArenaOptions(ArenaOptions&& Right) = default;
 
 		constexpr ~ArenaOptions() noexcept = default;
 	public:
-		constexpr ArenaOptions& operator=(const ArenaOptions& Source) noexcept = delete;
+		constexpr ArenaOptions& operator=(const ArenaOptions& Source) noexcept = default;
 
-		constexpr ArenaOptions& operator=(ArenaOptions&& Right) noexcept = delete;
+		constexpr ArenaOptions& operator=(ArenaOptions&& Right) noexcept = default;
 	public:
 		inline static constexpr const Elysium::Core::Template::System::size DefaultCapacityPerPage = 1024;
 
 		inline static constexpr const Elysium::Core::Template::System::size DefaultNumberOfPreallocatedPages = 1;
 	private:
-		Elysium::Core::Template::System::size _InitialPageSize;
-		Elysium::Core::Template::System::size _NumberOfPreallocatedPages;
-		bool _UseVirtualPaging;
-		bool _ClearMemory;
+		Elysium::Core::Template::System::size _InitialPageSize{};
+		Elysium::Core::Template::System::size _NumberOfPreallocatedPages{};
+		bool _UseVirtualPaging{};
+		bool _ClearMemory{};
 	};
 
 	inline constexpr ArenaOptions::ArenaOptions(Elysium::Core::Template::System::size InitialPageSize,
@@ -48,11 +48,6 @@ namespace Elysium::Core::Template::Memory::Scoped
 		: _InitialPageSize(InitialPageSize == 0 ? DefaultCapacityPerPage : InitialPageSize),
 		_NumberOfPreallocatedPages(NumberOfPreallocatedPages == 0 ? DefaultNumberOfPreallocatedPages : NumberOfPreallocatedPages), 
 		_UseVirtualPaging(UseVirtualPaging), _ClearMemory(ClearMemory)
-	{ }
-
-	inline constexpr ArenaOptions::ArenaOptions(const ArenaOptions& Source) noexcept
-		: _InitialPageSize(Source._InitialPageSize), _NumberOfPreallocatedPages(Source._NumberOfPreallocatedPages),
-		_UseVirtualPaging(Source._UseVirtualPaging), _ClearMemory(Source._ClearMemory)
 	{ }
 }
 #endif

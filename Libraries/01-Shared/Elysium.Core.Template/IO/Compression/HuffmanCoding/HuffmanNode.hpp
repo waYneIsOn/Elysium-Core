@@ -52,26 +52,12 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		constexpr HuffmanNode(HuffmanNode&& Right) noexcept = delete;
 
-		inline constexpr ~HuffmanNode()
-		{
-			if (nullptr != _Left)
-			{
-				delete _Left;
-				_Left = nullptr;
-			}
-
-			if (nullptr != _Right)
-			{
-				delete _Right;
-				_Right = nullptr;
-			}
-		}
+		constexpr ~HuffmanNode() = default;
 	public:
 		constexpr HuffmanNode& operator=(const HuffmanNode& Source) = delete;
 
 		constexpr HuffmanNode& operator=(HuffmanNode&& Right) noexcept = delete;
-	//private:
-	public:
+	private:
 		S _Symbol;
 		F _Frequency;
 

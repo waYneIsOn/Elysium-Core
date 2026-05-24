@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Container/UnorderedMap.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
+#include "../../../Memory/Scoped/Arena.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
 #include "../../../Numeric/NumericTraits.hpp"
 #endif
@@ -64,21 +68,29 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	public:
 		constexpr HuffmanTree() = default;
 
-		inline constexpr virtual ~HuffmanTree()
-		{
-			Clear();
-		}
+		constexpr HuffmanTree(const HuffmanTree& Source) = delete;
+
+		constexpr HuffmanTree(HuffmanTree&& Right) noexcept = delete;
+
+		constexpr ~HuffmanTree() = default;
 	public:
-		inline constexpr void Clear()
+		constexpr HuffmanTree& operator=(const HuffmanTree& Source) = delete;
+
+		constexpr HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
+	public:
+		inline void Rebuild()
 		{
-			if (nullptr != _Root)
-			{
-				delete _Root;
-				_Root = nullptr;
-			}
+
+		}
+
+		inline void Clear()
+		{
+			_Root = nullptr;
+			_NodeArena.Clear();
 		}
 	private:
-		HuffmanNode<S, F>* _Root;
+		Elysium::Core::Template::Memory::Scoped::Arena _NodeArena{};
+		HuffmanNode<S, F>* _Root{};
 	};
 }
 #endif
