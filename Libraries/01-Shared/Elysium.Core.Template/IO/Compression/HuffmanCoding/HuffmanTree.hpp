@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Concepts/HuffmanCodeable.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANFREQUENCYTABLE
+#include "HuffmanFrequencyTable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANNODE
 #include "HuffmanNode.hpp"
 #endif
@@ -66,6 +70,10 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		friend class HuffmanEncoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 		friend class HuffmanDecoder<Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size>;
 	public:
+		using Node = HuffmanNode<S, F>;
+	private:
+		using NodePointer = HuffmanNode<S, F>*;
+	public:
 		constexpr HuffmanTree() = default;
 
 		constexpr HuffmanTree(const HuffmanTree& Source) = delete;
@@ -77,20 +85,83 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		constexpr HuffmanTree& operator=(const HuffmanTree& Source) = delete;
 
 		constexpr HuffmanTree& operator=(HuffmanTree&& Right) noexcept = delete;
-	public:
-		inline void Rebuild()
+	private:
+		struct NodeComparison
 		{
+			bool operator()(Node* Left, Node* Right)
+			{
+				if (Left->_Frequency == Right->_Frequency)
+				{
+					return Left->_Symbol > Right->_Symbol;
+				}
 
+				return Left->_Frequency > Right->_Frequency;
+			}
+		};
+	public:
+		inline void Rebuild(const HuffmanFrequencyTable<S, F>& Frequencies, const bool InvertLeftAndRight, Elysium::Core::Template::System::uint8_t& CountedNumberOfLeafNodes)
+		{
+			const F OccurrencesLength = Frequencies.GetLength();
+			for (F i = 0; i < OccurrencesLength; ++i)
+			{
+				if (Frequencies[i] > 0)
+				{
+					++CountedNumberOfLeafNodes;
+				}
+			}
+
+			//Discard();	// @ToDo: since _NodeArena.SetOptions(...) resets the arena and _Root gets set later on, this should not be necessary here -> make sure!
+			_NodeArena.SetOptions(Elysium::Core::Template::Memory::Scoped::ArenaOptions(CountedNumberOfLeafNodes, 1));
+
+			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, NodeComparison> Heap{};
+			for (F i = 0; i < OccurrencesLength; ++i)
+			{
+				if (Frequencies[i] > 0)
+				{
+					void* Data = _NodeArena.Push(sizeof(Node));
+					Node* CurrentNode = reinterpret_cast<Node*>(Data);
+					CurrentNode->_Symbol = i;
+					CurrentNode->_Frequency = Frequencies[i];
+					CurrentNode->_Left = nullptr;
+					CurrentNode->_Right = nullptr;
+
+					Heap.Push(CurrentNode);
+				}
+			}
+
+			while (Heap.GetLength() > 1)
+			{
+				Node* Left = Heap.GetTop();
+				Heap.Pop();
+
+				Node* Right = Heap.GetTop();
+				Heap.Pop();
+
+				if (InvertLeftAndRight)
+				{
+					Heap.Push(new Node(Left, Right));
+				}
+				else
+				{
+					Heap.Push(new Node(Right, Left));
+				}
+			}
+
+			Node* Root = Heap.GetTop();
+			Heap.Pop();
+
+			// ...
+			_Root = Root;
 		}
 
-		inline void Clear()
+		inline void Discard()
 		{
 			_Root = nullptr;
 			_NodeArena.Clear();
 		}
 	private:
 		Elysium::Core::Template::Memory::Scoped::Arena _NodeArena{};
-		HuffmanNode<S, F>* _Root{};
+		NodePointer _Root{};
 	};
 }
 #endif

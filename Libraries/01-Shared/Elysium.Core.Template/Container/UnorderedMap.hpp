@@ -90,10 +90,10 @@ namespace Elysium::Core::Template::Container
 		using BucketNodePointer = LinkedListNode<Entry>*;
 
 		using FIterator = Iterator::UnorderedMapForwardIterator<UnorderedMap<TKey, TValue, KeyCompare, Allocator>>;
-		//using ConstIterator = Iterator::ConstForwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
+		//using ConstIterator = Iterator::ConstForwardIterator<UnorderedMap<TKey, TValue, KeyCompare, Allocator>>;
 		/*
-		using ReverseIterator = Iterator::BackwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
-		using ConstReverseIterator = Iterator::ConstBackwardIterator<HashTable<TKey, TValue, KeyCompare, Allocator>>;
+		using ReverseIterator = Iterator::BackwardIterator<UnorderedMap<TKey, TValue, KeyCompare, Allocator>>;
+		using ConstReverseIterator = Iterator::ConstBackwardIterator<UnorderedMap<TKey, TValue, KeyCompare, Allocator>>;
 		*/
 	public:
 		UnorderedMap();

@@ -72,7 +72,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	private:
 		using Tree = HuffmanTree<S, F>;
 
-		using Node = HuffmanNode<S, F>;
+		using Node = Tree::Node;
 
 		// limit code-length to 255 by using uint8_t
 		using CodeLengthsMap = Elysium::Core::Template::Container::UnorderedMap<S, Elysium::Core::Template::System::uint8_t>;
@@ -100,7 +100,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 			// Step 2: generate huffman tree
 			Elysium::Core::Template::System::uint8_t CountedNumberOfLeafNodes = 0;	// used later on to pre-allocate the required amount of elements
-			CreateTree(Frequencies, InvertLeftAndRight, CountedNumberOfLeafNodes);
+			_Tree.Rebuild(Frequencies, InvertLeftAndRight, CountedNumberOfLeafNodes);
 			
 			// Step 3: create codes directly
 			SymbolCodeMap SymbolCodes = SymbolCodeMap(CountedNumberOfLeafNodes);
@@ -169,7 +169,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 			// Step 2: generate huffman tree
 			Elysium::Core::Template::System::uint8_t CountedNumberOfLeafNodes = 0;	// used later on to pre-allocate the required amount of elements
-			CreateTree(Frequencies, InvertLeftAndRight, CountedNumberOfLeafNodes);
+			_Tree.Rebuild(Frequencies, InvertLeftAndRight, CountedNumberOfLeafNodes);
 
 			// Step 3: Derive code-lengths for each symbol and sort them
 			// @ToDo: pretty sure this step can be simplified by a lot (currently: unordered_map into vector into sort)
@@ -223,7 +223,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 
 			// Step 4: discard tree (only symbol/code-lengths are necessarys at this point)
-			_Tree.Clear();
+			_Tree.Discard();
 
 			// Step 5: Sort that symbol/code-length pair
 			// @ToDo: simplify this step together with step 3!
@@ -298,19 +298,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		}
 		*/
 	private:
-		struct NodeComparison
-		{
-			bool operator()(Node* Left, Node* Right)
-			{
-				if (Left->_Frequency == Right->_Frequency)
-				{
-					return Left->_Symbol > Right->_Symbol;
-				}
-
-				return Left->_Frequency > Right->_Frequency;
-			}
-		};
-	private:
 		inline HuffmanFrequencyTable<S, F> CountOcccurrences(const S* Data, const Elysium::Core::Template::System::size Length)
 		{
 			HuffmanFrequencyTable<S, F> Result{};
@@ -320,61 +307,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			}
 
 			return Result;
-		}
-
-		inline void CreateTree(const HuffmanFrequencyTable<S, F>& Frequencies, const bool InvertLeftAndRight, Elysium::Core::Template::System::uint8_t& CountedNumberOfLeafNodes)
-		{
-			const F OccurrencesLength = Frequencies.GetLength();
-			for (F i = 0; i < OccurrencesLength; ++i)
-			{
-				if (Frequencies[i] > 0)
-				{
-					++CountedNumberOfLeafNodes;
-				}
-			}
-
-			_Tree.Clear();
-			_Tree._NodeArena.SetOptions(Elysium::Core::Template::Memory::Scoped::ArenaOptions(CountedNumberOfLeafNodes, 1));
-
-			Elysium::Core::Template::Container::PriorityQueue<Node*, Container::Vector<Node*>, NodeComparison> Heap{};
-			for (F i = 0; i < OccurrencesLength; ++i)
-			{
-				if (Frequencies[i] > 0)
-				{
-					void* Data = _Tree._NodeArena.Push(sizeof(Node));
-					Node* CurrentNode = reinterpret_cast<Node*>(Data);
-					CurrentNode->_Symbol = i;
-					CurrentNode->_Frequency = Frequencies[i];
-					CurrentNode->_Left = nullptr;
-					CurrentNode->_Right = nullptr;
-
-					Heap.Push(CurrentNode);
-				}
-			}
-			
-			while (Heap.GetLength() > 1)
-			{
-				Node* Left = Heap.GetTop();
-				Heap.Pop();
-
-				Node* Right = Heap.GetTop();
-				Heap.Pop();
-
-				if (InvertLeftAndRight)
-				{
-					Heap.Push(new Node(Left, Right));
-				}
-				else
-				{
-					Heap.Push(new Node(Right, Left));
-				}
-			}
-
-			Node* Root = Heap.GetTop();
-			Heap.Pop();
-			
-			// ...
-			_Tree._Root = Root;
 		}
 	private:
 		HuffmanTree<S, F> _Tree{ };

@@ -69,7 +69,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				// ...
 				BinaryHuffmanDecoder Decoder = BinaryHuffmanDecoder();
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
-					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, TreeBasedCodes);
+					Decoder.DecompressMSB(&CompressedData[0], CompressedData.GetLength(), InputLength, TreeBasedCodes);
 				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
 				Logger::WriteMessage("Output: ");
 				Logger::WriteMessage(DecompressedText);
@@ -120,7 +120,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 				// ...
 				BinaryHuffmanDecoder Decoder = BinaryHuffmanDecoder();
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
-					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, CanonicalCodes);
+					Decoder.DecompressMSB(&CompressedData[0], CompressedData.GetLength(), InputLength, CanonicalCodes);
 				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
 				Logger::WriteMessage("Output: ");
 				Logger::WriteMessage(DecompressedText);
@@ -205,7 +205,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 			{
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
-					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, SymbolCodes);
+					Decoder.DecompressMSB(&CompressedData[0], CompressedData.GetLength(), InputLength, SymbolCodes);
 				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
 				Logger::WriteMessage("Output: ");
 				Logger::WriteMessage(DecompressedText);
@@ -223,7 +223,7 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 			{
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> DecompressedData =
-					Decoder.Decompress(&CompressedData[0], CompressedData.GetLength(), InputLength, FixedSymbolCodeLengths);
+					Decoder.DecompressMSB(&CompressedData[0], CompressedData.GetLength(), InputLength, FixedSymbolCodeLengths);
 				const char* DecompressedText = reinterpret_cast<const char*>(&DecompressedData[0]);
 				Logger::WriteMessage("Output: ");
 				Logger::WriteMessage(DecompressedText);

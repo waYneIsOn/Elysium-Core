@@ -26,7 +26,7 @@ namespace Elysium::Core::Template::Math
 	/// <param name="Right"></param>
 	/// <returns></returns>
 	template<Elysium::Core::Template::Concepts::HasOperatorGreaterOrEqual T>
-	constexpr T Max(const T Left, const T Right) noexcept(noexcept(Left >= Right))
+	inline constexpr T Max(const T Left, const T Right) noexcept(noexcept(Left >= Right))
 	{
 		if (Left >= Right)
 		{
