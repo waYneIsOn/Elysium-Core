@@ -75,6 +75,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 0;	// EVERYTHING goes into subtables
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 1;
 
+		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 3;
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 5;
 
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 8;
@@ -152,17 +153,6 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			Elysium::Core::Template::Memory::Scoped::Arena SubtableArena(Elysium::Core::Template::Memory::Scoped::ArenaOptions(sizeof(TableEntry) * TotalNumberOfSubtableEntries, 1));
 			TableEntry* SubtableCursor = SubtableArena.Push<TableEntry>(TotalNumberOfSubtableEntries);
 
-
-
-
-
-			TableEntry* xxxxx = SubtableCursor;
-
-
-
-
-
-
 			for (Elysium::Core::Template::System::size i = 0; i < (1_ui64 << _FastTableBits); ++i)
 			{
 				if (0 == MaxRemainingBitsPerSubtable[i])
@@ -210,17 +200,11 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 					Elysium::Core::Template::System::uint8_t RemainingBits = CurrentLength - _FastTableBits;
 					Elysium::Core::Template::System::uint32_t SubTableIndex = CurrentCode & ((1_ui32 << RemainingBits) - 1_ui32);
 
-					//Subtable[SubTableIndex] = { CurrentSymbol, CurrentLength, true, nullptr, 0 };
+					Elysium::Core::Template::System::uint8_t SubtableBits = FastTable[FastTableIndex]._SubTableLength;
+					Elysium::Core::Template::System::uint8_t SuffixBits = SubtableBits - RemainingBits;
 
-
-
-
-
-					Elysium::Core::Template::System::uint8_t subtableBits = FastTable[FastTableIndex]._SubTableLength;
-					Elysium::Core::Template::System::uint8_t suffixBits = subtableBits - RemainingBits;
-
-					Elysium::Core::Template::System::uint32_t Start = SubTableIndex << suffixBits;
-					Elysium::Core::Template::System::uint32_t End = 1 << suffixBits;
+					Elysium::Core::Template::System::uint32_t Start = SubTableIndex << SuffixBits;
+					Elysium::Core::Template::System::uint32_t End = 1 << SuffixBits;
 
 					for (Elysium::Core::Template::System::uint32_t i = 0; i < End; ++i)
 					{
