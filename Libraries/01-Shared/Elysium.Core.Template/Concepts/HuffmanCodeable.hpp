@@ -26,8 +26,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Concepts
 {
+    // @ToDo: instead of adding further types, just make sure the types fit - as in: certain comparison-operators are available etc.
     template<class T>
     concept HuffmanCodeable = Elysium::Core::Template::TypeTraits::IsAnyOfValue<Functional::RemoveConstVolatileType<T>,
-        Elysium::Core::Template::System::byte>;
+        Elysium::Core::Template::System::byte, Elysium::Core::Template::System::uint16_t, Elysium::Core::Template::System::uint32_t, Elysium::Core::Template::System::uint64_t>;
+
 }
 #endif

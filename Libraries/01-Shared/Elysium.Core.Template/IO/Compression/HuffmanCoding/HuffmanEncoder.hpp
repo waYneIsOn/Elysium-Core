@@ -79,6 +79,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		using CodeLengthsMapFIterator = CodeLengthsMap::FIterator;
 	public:
+		using Symbol = HuffmanSymbolTraits<S>::Symbol;
+
 		using SymbolCodeMap = HuffmanUtility<S>::SymbolCodeMap;
 	public:
 		constexpr HuffmanEncoder() = default;

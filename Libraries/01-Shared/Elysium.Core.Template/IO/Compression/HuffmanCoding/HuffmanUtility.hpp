@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HuffmanSymbolCodeLengthPair.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLTRAITS
+#include "HuffmanSymbolTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../../System/Primitives.hpp"
 #endif
@@ -38,7 +42,9 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	class HuffmanUtility
 	{
 	public:
-		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<S, HuffmanCode>;
+		using Symbol = HuffmanSymbolTraits<S>::Symbol;
+
+		using SymbolCodeMap = Elysium::Core::Template::Container::UnorderedMap<Symbol, HuffmanCode>;
 	public:
 		constexpr HuffmanUtility() = delete;
 

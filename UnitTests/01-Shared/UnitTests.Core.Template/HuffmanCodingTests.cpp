@@ -260,11 +260,11 @@ namespace UnitTests::Core::Template::IO::Compression::HuffmanCoding
 
 		void PrintCodes(BinaryHuffmanEncoder::SymbolCodeMap& Codes)
 		{
-			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::byte, HuffmanCode>::FIterator Iterator = Codes.GetBegin();
+			for (Elysium::Core::Template::Container::UnorderedMap<Elysium::Core::Template::System::uint16_t, HuffmanCode>::FIterator Iterator = Codes.GetBegin();
 				Iterator != Codes.GetEnd(); ++Iterator)
 			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, HuffmanCode>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte, HuffmanCode>& Item = Node->GetItem();
+				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::uint16_t, HuffmanCode>>* Node = *Iterator;
+				const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::uint16_t, HuffmanCode>& Item = Node->GetItem();
 
 				const char Symbol = Item.GetKey();
 				char PrintableSymbol[2] = { Symbol, 0x00 };

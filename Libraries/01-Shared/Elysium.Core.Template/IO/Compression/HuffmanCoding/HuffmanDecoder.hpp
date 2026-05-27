@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HuffmanNode.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLTRAITS
+#include "HuffmanSymbolTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANTREE
 #include "HuffmanTree.hpp"
 #endif
@@ -54,6 +58,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 	class HuffmanDecoder
 	{
 	public:
+		using Symbol = HuffmanUtility<S>::Symbol;
+
 		using SymbolCodeMap = HuffmanUtility<S>::SymbolCodeMap;
 	private:
 		using SymbolCodeMapFIterator = SymbolCodeMap::FIterator;
@@ -119,8 +125,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			Elysium::Core::Template::System::uint8_t MaxRemainingBitsPerSubtable[1 << _FastTableBits] = {};
 			for (SymbolCodeMapFIterator Iterator = SymbolCodes.GetBegin(); Iterator != SymbolCodes.GetEnd(); ++Iterator)
 			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<S, HuffmanCode>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<S, HuffmanCode>& Item = Node->GetItem();
+				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Symbol, HuffmanCode>>* Node = *Iterator;
+				const Elysium::Core::Template::Container::KeyValuePair<Symbol, HuffmanCode>& Item = Node->GetItem();
 
 				const HuffmanCode& CurrentHuffmanCode = Item.GetValue();
 
@@ -172,8 +178,8 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			// Step 3: Fully popoulate all tables (MSB)
 			for (SymbolCodeMapFIterator Iterator = SymbolCodes.GetBegin(); Iterator != SymbolCodes.GetEnd(); ++Iterator)
 			{
-				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<S, HuffmanCode>>* Node = *Iterator;
-				const Elysium::Core::Template::Container::KeyValuePair<S, HuffmanCode>& Item = Node->GetItem();
+				const Elysium::Core::Template::Container::LinkedListNode<Elysium::Core::Template::Container::KeyValuePair<Symbol, HuffmanCode>>* Node = *Iterator;
+				const Elysium::Core::Template::Container::KeyValuePair<Symbol, HuffmanCode>& Item = Node->GetItem();
 
 				const S& CurrentSymbol = Item.GetKey();
 				const HuffmanCode& CurrentHuffmanCode = Item.GetValue();
@@ -222,13 +228,20 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 			for (Elysium::Core::Template::System::size i = 0; i < UncompressedLength; ++i)
 			{
 				// Once there are 56 bits in an uint64_t another shift by eight bits is still possible. Afterwards it would result in an overflow.
-				// Obviously if there is no more data available, stopping the buffer-population is logical as well.
-				while (BitCount <= 56 && InputPosition < Length)
+				while (BitCount <= 56)
 				{
-					Buffer = (Buffer << 8) | CompressedData[InputPosition++];
-					BitCount += 8;
+					if (InputPosition < Length)
+					{
+						Buffer = (Buffer << 8) | CompressedData[InputPosition++];
+						BitCount += 8;
+					}
+					else
+					{	// Obviously at the EOF/EOB the buffer still needs to be populated correctly!
+						Buffer = (Buffer << 8) | 0x0;
+						BitCount += 8;
+					}
 				}
-
+				
 				const Elysium::Core::Template::System::uint64_t Mask = (1_ui64 << _FastTableBits) - 1_ui64;
 				const Elysium::Core::Template::System::size FastTableIndex = (BitCount >= _FastTableBits) ? 
 					(Buffer >> (BitCount - _FastTableBits)) & Mask :
@@ -244,9 +257,9 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 				}
 				else
 				{
-					const uint32_t RemainingBits = FastTableEntry._SubTableLength;
+					const Elysium::Core::Template::System::uint32_t RemainingBits = FastTableEntry._SubTableLength;
 
-					const uint32_t SubTableIndex = (Buffer >> (BitCount - _FastTableBits - RemainingBits)) & ((1_ui64 << RemainingBits) - 1_ui64);
+					const Elysium::Core::Template::System::uint32_t SubTableIndex = (Buffer >> (BitCount - _FastTableBits - RemainingBits)) & ((1_ui64 << RemainingBits) - 1_ui64);
 					const TableEntry& SubTableEntry = FastTableEntry._Subtable[SubTableIndex];
 
 					if (!SubTableEntry._IsLeaf)
