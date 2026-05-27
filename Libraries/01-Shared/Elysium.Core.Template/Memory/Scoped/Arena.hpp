@@ -413,12 +413,12 @@ namespace Elysium::Core::Template::Memory::Scoped
 	{
 		assert("Elysium::Core::Template::Memory::Scoped::Arena.PushInternally(...): " && RecursionDepth < 2);
 
-		if (Size == 0)
+		if (0 == Size)
 		{
 			return nullptr;
 		}
 
-		if (AlignSize == 0 || (AlignSize & (AlignSize - 1)) != 0)	// is power of two
+		if (0 == AlignSize || 0 != (AlignSize & (AlignSize - 1)))	// is power of two
 		{
 			return nullptr;
 		}
