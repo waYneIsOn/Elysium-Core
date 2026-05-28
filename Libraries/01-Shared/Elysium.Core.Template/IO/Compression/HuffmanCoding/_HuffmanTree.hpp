@@ -17,11 +17,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANFREQUENCYTABLE
-#include "HuffmanFrequencyTable.hpp"
+#include "_HuffmanFrequencyTable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANNODE
-#include "HuffmanNode.hpp"
+#include "_HuffmanNode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_UNSIGNEDINTEGER

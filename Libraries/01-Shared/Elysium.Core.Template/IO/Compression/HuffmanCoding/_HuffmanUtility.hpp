@@ -25,11 +25,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLCODELENGTHPAIR
-#include "HuffmanSymbolCodeLengthPair.hpp"
+#include "_HuffmanSymbolCodeLengthPair.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLTRAITS
-#include "HuffmanSymbolTraits.hpp"
+#include "_HuffmanSymbolTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES

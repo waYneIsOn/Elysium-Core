@@ -37,27 +37,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANCODE
-#include "HuffmanCode.hpp"
+#include "_HuffmanCode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANFREQUENCYTABLE
-#include "HuffmanFrequencyTable.hpp"
+#include "_HuffmanFrequencyTable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANNODE
-#include "HuffmanNode.hpp"
+#include "_HuffmanNode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLCODELENGTHPAIR
-#include "HuffmanSymbolCodeLengthPair.hpp"
+#include "_HuffmanSymbolCodeLengthPair.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANTREE
-#include "HuffmanTree.hpp"
+#include "_HuffmanTree.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANUTILITY
-#include "HuffmanUtility.hpp"
+#include "_HuffmanUtility.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_STACK
@@ -299,6 +299,11 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		}
 		*/
+	public:
+		inline void Encode()
+		{
+			// input: symbol and target to write the encoded symbol to (bitstream or w/e)
+		}
 	private:
 		inline HuffmanFrequencyTable<S, F> CountOcccurrences(const S* Data, const Elysium::Core::Template::System::size Length)
 		{

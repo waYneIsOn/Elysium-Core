@@ -22,7 +22,7 @@ module;
 #ifndef _NEW_
 #include <new>
 #endif
-
+/*
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANCODE
 #include "IO/Compression/HuffmanCoding/HuffmanCode.hpp"
 #endif
@@ -58,11 +58,12 @@ module;
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANUTILITY
 #include "IO/Compression/HuffmanCoding/HuffmanUtility.hpp"
 #endif
-
+*/
 export module Elysium.Core.Template.IO.Compression.HuffmanCoding;
 
 export
 {
+	/*
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanCode;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanDecoder;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanEncoder;
@@ -72,4 +73,5 @@ export
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanSymbolTraits;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanTree;
 	using Elysium::Core::Template::IO::Compression::HuffmanCoding::HuffmanUtility;
+	*/
 }

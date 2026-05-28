@@ -208,10 +208,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Primitives.hpp">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanNode.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanNode.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO/Compression/HuffmanCoding/HuffmanTree.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanTree.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp">
@@ -795,19 +795,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp">
       <Filter>IO\Compression\LempelZiv</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanEncoder.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanDecoder.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanDecoder.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanFrequencyTable.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanFrequencyTable.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Stream.hpp">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanCode.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp">
@@ -822,14 +822,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanUtility.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanUtility.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanSymbolCodeLengthPair.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolCodeLengthPair.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\HuffmanSymbolTraits.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolTraits.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp">
+      <Filter>IO\Compression\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp">
+      <Filter>IO\Compression\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp">
+      <Filter>IO\Compression\Deflate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -946,6 +955,9 @@
     </Filter>
     <Filter Include="IO\Compression\LempelZiv">
       <UniqueIdentifier>{a0d463d2-9843-4411-9c8a-8c3e0266aab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Deflate">
+      <UniqueIdentifier>{872e4d0e-f7b8-4b0f-9114-494499757d82}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

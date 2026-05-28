@@ -25,23 +25,23 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANCODE
-#include "HuffmanCode.hpp"
+#include "_HuffmanCode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANNODE
-#include "HuffmanNode.hpp"
+#include "_HuffmanNode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANSYMBOLTRAITS
-#include "HuffmanSymbolTraits.hpp"
+#include "_HuffmanSymbolTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANTREE
-#include "HuffmanTree.hpp"
+#include "_HuffmanTree.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANUTILITY
-#include "HuffmanUtility.hpp"
+#include "_HuffmanUtility.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MAX
@@ -78,7 +78,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 		constexpr HuffmanDecoder& operator=(HuffmanDecoder&& Right) noexcept = delete;
 	private:
-		inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 0;	// EVERYTHING goes into subtables
+		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 0;	// EVERYTHING goes into subtables
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 1;
 
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 3;
@@ -87,7 +87,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 8;
 
 		// @Note: should be in the range of 8 to 12 bits resulting in 256 to 4096 entries normally fitting into L1 cache.
-		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 9;
+		inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 9;
 
 		//inline static constexpr const Elysium::Core::Template::System::uint8_t _FastTableBits = 12;
 	public:

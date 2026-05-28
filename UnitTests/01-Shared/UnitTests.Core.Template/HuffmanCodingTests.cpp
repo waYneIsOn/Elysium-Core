@@ -4,8 +4,8 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Vector.hpp"
 
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanDecoder.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/HuffmanEncoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/_HuffmanDecoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Compression/HuffmanCoding/_HuffmanEncoder.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
