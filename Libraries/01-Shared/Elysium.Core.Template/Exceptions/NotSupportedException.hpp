@@ -38,8 +38,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		NotSupportedException(const char8_t* Message);
 
-		NotSupportedException(Text::String<char8_t>&& Message);
-
 		virtual ~NotSupportedException();
 	};
 
@@ -49,10 +47,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::NotSupportedException::NotSupportedException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::NotSupportedException::NotSupportedException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::NotSupportedException::~NotSupportedException()

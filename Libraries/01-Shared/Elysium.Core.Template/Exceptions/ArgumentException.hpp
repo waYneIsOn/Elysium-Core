@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		ArgumentException(const char8_t* Message);
 
-		ArgumentException(Text::String<char8_t>&& Message);
-
 		virtual ~ArgumentException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::ArgumentException::ArgumentException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::ArgumentException::ArgumentException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::ArgumentException::~ArgumentException()

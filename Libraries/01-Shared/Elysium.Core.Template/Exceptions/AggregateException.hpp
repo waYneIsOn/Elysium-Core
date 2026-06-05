@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		AggregateException(const char8_t* Message);
 
-		AggregateException(Text::String<char8_t>&& Message);
-
 		virtual ~AggregateException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::AggregateException::AggregateException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::Exception(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::AggregateException::AggregateException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::Exception(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::AggregateException::~AggregateException()

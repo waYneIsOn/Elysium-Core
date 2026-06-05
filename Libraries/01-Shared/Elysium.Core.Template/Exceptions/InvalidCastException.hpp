@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		InvalidCastException(const char8_t* Message);
 
-		InvalidCastException(Text::String<char8_t>&& Message);
-
 		virtual ~InvalidCastException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::InvalidCastException::InvalidCastException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::InvalidCastException::InvalidCastException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::InvalidCastException::~InvalidCastException()

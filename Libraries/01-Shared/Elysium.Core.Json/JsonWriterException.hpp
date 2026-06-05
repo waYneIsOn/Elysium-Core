@@ -23,8 +23,6 @@ namespace Elysium::Core::Json
 	public:
 		JsonWriterException();
 
-		JsonWriterException(Elysium::Core::Utf8String&& Message);
-
 		virtual ~JsonWriterException();
 	};
 }

@@ -34,8 +34,6 @@ namespace Elysium::Core::IO
 
 		IOException(const char8_t* Message);
 
-		IOException(Elysium::Core::Utf8String&& Message);
-
 		IOException(const Elysium::Core::Template::System::uint32_t ErrorCode);
 
 		virtual ~IOException() = default;

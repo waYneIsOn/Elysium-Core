@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		InvalidOperationException(const char8_t* Message);
 
-		InvalidOperationException(Text::String<char8_t>&& Message);
-
 		virtual ~InvalidOperationException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::InvalidOperationException::InvalidOperationException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::InvalidOperationException::InvalidOperationException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::InvalidOperationException::~InvalidOperationException()

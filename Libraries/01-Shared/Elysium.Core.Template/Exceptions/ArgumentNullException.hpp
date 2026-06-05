@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		ArgumentNullException(const char8_t* Message);
 
-		ArgumentNullException(Text::String<char8_t>&& Message);
-
 		virtual ~ArgumentNullException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::ArgumentNullException::ArgumentNullException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::ArgumentException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::ArgumentNullException::ArgumentNullException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::ArgumentException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::ArgumentNullException::~ArgumentNullException()

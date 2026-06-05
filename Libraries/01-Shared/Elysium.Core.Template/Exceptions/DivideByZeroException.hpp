@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		DivideByZeroException(const char8_t* Message);
 
-		DivideByZeroException(Text::String<char8_t>&& Message);
-
 		virtual ~DivideByZeroException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::DivideByZeroException::DivideByZeroException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::ArithmeticException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::DivideByZeroException::DivideByZeroException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::ArithmeticException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::DivideByZeroException::~DivideByZeroException()

@@ -33,8 +33,6 @@ namespace Elysium::Core::IO
 
 		InvalidDataException(const char8_t* Message);
 
-		InvalidDataException(Elysium::Core::Utf8String&& Message);
-
 		InvalidDataException(const InvalidDataException& Source);
 
 		virtual ~InvalidDataException();

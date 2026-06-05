@@ -25,9 +25,7 @@ namespace Elysium::Core::Json
 	class ELYSIUM_CORE_JSON_API JsonReaderException final : public JsonException
 	{
 	public:
-		JsonReaderException();
-
-		JsonReaderException(Elysium::Core::Utf8String&& Message);
+		JsonReaderException(const char8_t* Message = nullptr);
 
 		virtual ~JsonReaderException();
 	};

@@ -19,7 +19,7 @@ Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException()
 { }
 
 Elysium::Core::Runtime::InteropServices::ExternalException::ExternalException(const Elysium::Core::int32_t ErrorCode)
-	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(GetErrorMessage(ErrorCode))), _ErrorCode(ErrorCode)
+	: Elysium::Core::Exception(&GetErrorMessage(ErrorCode)[0]), _ErrorCode(ErrorCode)
 { }
 
 Elysium::Core::Runtime::InteropServices::ExternalException::~ExternalException()

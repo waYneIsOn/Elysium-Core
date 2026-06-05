@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		NotImplementedException(const char8_t* Message);
 
-		NotImplementedException(Text::String<char8_t>&& Message);
-
 		virtual ~NotImplementedException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::NotImplementedException::NotImplementedException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::NotImplementedException::NotImplementedException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::NotImplementedException::~NotImplementedException()

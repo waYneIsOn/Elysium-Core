@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		ArithmeticException(const char8_t* Message);
 
-		ArithmeticException(Text::String<char8_t>&& Message);
-
 		virtual ~ArithmeticException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::ArithmeticException::ArithmeticException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::ArithmeticException::ArithmeticException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::ArithmeticException::~ArithmeticException()

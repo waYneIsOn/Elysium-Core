@@ -12,9 +12,5 @@ Elysium::Core::IO::EndOfStreamException::EndOfStreamException(const char8_t* Mes
 	: Elysium::Core::IO::IOException(Message)
 { }
 
-Elysium::Core::IO::EndOfStreamException::EndOfStreamException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::IO::IOException(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
 Elysium::Core::IO::EndOfStreamException::~EndOfStreamException()
 { }

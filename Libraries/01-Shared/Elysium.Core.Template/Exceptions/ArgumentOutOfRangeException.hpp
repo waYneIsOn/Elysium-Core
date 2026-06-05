@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		ArgumentOutOfRangeException(const char8_t* Message);
 
-		ArgumentOutOfRangeException(Text::String<char8_t>&& Message);
-
 		virtual ~ArgumentOutOfRangeException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::ArgumentOutOfRangeException::ArgumentOutOfRangeException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::ArgumentException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::ArgumentOutOfRangeException::ArgumentOutOfRangeException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::ArgumentException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::ArgumentOutOfRangeException::~ArgumentOutOfRangeException()

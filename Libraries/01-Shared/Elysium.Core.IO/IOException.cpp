@@ -12,10 +12,6 @@ Elysium::Core::IO::IOException::IOException(const char8_t* Message)
 	: Elysium::Core::SystemException(Message)
 { }
 
-Elysium::Core::IO::IOException::IOException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
 Elysium::Core::IO::IOException::IOException(const Elysium::Core::Template::System::uint32_t ErrorCode)
 	: Elysium::Core::SystemException(ErrorCode)
 { }

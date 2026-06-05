@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		OutOfMemoryException(const char8_t* Message);
 
-		OutOfMemoryException(Text::String<char8_t>&& Message);
-
 		virtual ~OutOfMemoryException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::OutOfMemoryException::OutOfMemoryException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::OutOfMemoryException::OutOfMemoryException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::OutOfMemoryException::~OutOfMemoryException()

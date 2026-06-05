@@ -25,8 +25,6 @@ namespace Elysium::Core::IO
 
 		EndOfStreamException(const char8_t* Message);
 
-		EndOfStreamException(Elysium::Core::Utf8String&& Message);
-
 		virtual ~EndOfStreamException();
 	};
 }

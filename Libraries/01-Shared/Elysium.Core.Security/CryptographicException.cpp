@@ -12,9 +12,5 @@ Elysium::Core::Security::Cryptography::CryptographicException::CryptographicExce
 	: Elysium::Core::SystemException(Message)
 { }
 
-Elysium::Core::Security::Cryptography::CryptographicException::CryptographicException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
 Elysium::Core::Security::Cryptography::CryptographicException::~CryptographicException()
 { }

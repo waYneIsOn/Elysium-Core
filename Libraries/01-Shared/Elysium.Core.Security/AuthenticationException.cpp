@@ -11,7 +11,3 @@ Elysium::Core::Security::Authentication::AuthenticationException::Authentication
 Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(const char8_t * Message)
 	: Elysium::Core::SystemException(Message)
 { }
-
-Elysium::Core::Security::Authentication::AuthenticationException::AuthenticationException(Utf8String&& Message)
-	: Elysium::Core::SystemException(Elysium::Core::Template::Functional::Move(Message))
-{ }

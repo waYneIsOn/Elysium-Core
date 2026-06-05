@@ -4,12 +4,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Json::JsonReaderException::JsonReaderException()
-	: Elysium::Core::Json::JsonException()
-{ }
-
-Elysium::Core::Json::JsonReaderException::JsonReaderException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::Json::JsonException(Elysium::Core::Template::Functional::Move(Message))
+Elysium::Core::Json::JsonReaderException::JsonReaderException(const char8_t* Message)
+	: Elysium::Core::Json::JsonException(Message)
 { }
 
 Elysium::Core::Json::JsonReaderException::~JsonReaderException()

@@ -12,10 +12,6 @@ Elysium::Core::IO::InvalidDataException::InvalidDataException(const char8_t* Mes
 	: Elysium::Core::Exception(Message)
 { }
 
-Elysium::Core::IO::InvalidDataException::InvalidDataException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
 Elysium::Core::IO::InvalidDataException::InvalidDataException(const InvalidDataException & Source)
 { }
 

@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		IndexOutOfRangeException(const char8_t* Message);
 
-		IndexOutOfRangeException(Text::String<char8_t>&& Message);
-
 		IndexOutOfRangeException(const IndexOutOfRangeException& Source);
 
 		virtual ~IndexOutOfRangeException();
@@ -50,10 +48,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::IndexOutOfRangeException::IndexOutOfRangeException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::SystemException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::IndexOutOfRangeException::IndexOutOfRangeException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::SystemException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::IndexOutOfRangeException::IndexOutOfRangeException(const IndexOutOfRangeException& Source)

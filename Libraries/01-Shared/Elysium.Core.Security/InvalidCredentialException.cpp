@@ -12,9 +12,5 @@ Elysium::Core::Security::Authentication::InvalidCredentialException::InvalidCred
 	: Elysium::Core::Security::Authentication::AuthenticationException(Message)
 { }
 
-Elysium::Core::Security::Authentication::InvalidCredentialException::InvalidCredentialException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::Security::Authentication::AuthenticationException(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
 Elysium::Core::Security::Authentication::InvalidCredentialException::~InvalidCredentialException()
 { }

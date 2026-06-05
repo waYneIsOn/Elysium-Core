@@ -37,8 +37,6 @@ namespace Elysium::Core::Template::Exceptions
 
 		OverflowException(const char8_t* Message);
 
-		OverflowException(Text::String<char8_t>&& Message);
-
 		virtual ~OverflowException();
 	};
 
@@ -48,10 +46,6 @@ namespace Elysium::Core::Template::Exceptions
 
 	inline Elysium::Core::Template::Exceptions::OverflowException::OverflowException(const char8_t* Message)
 		: Elysium::Core::Template::Exceptions::ArithmeticException(Message)
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::OverflowException::OverflowException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::ArithmeticException(Functional::Move(Message))
 	{ }
 
 	inline Elysium::Core::Template::Exceptions::OverflowException::~OverflowException()

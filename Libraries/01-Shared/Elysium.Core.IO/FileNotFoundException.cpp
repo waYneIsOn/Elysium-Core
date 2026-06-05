@@ -12,9 +12,5 @@ Elysium::Core::IO::FileNotFoundException::FileNotFoundException(const char8_t* M
 	: Elysium::Core::IO::IOException(Message)
 { }
 
-Elysium::Core::IO::FileNotFoundException::FileNotFoundException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::IO::IOException(Elysium::Core::Template::Functional::Move(Message))
-{ }
-
 Elysium::Core::IO::FileNotFoundException::~FileNotFoundException()
 { }

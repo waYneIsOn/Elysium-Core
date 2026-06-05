@@ -28,81 +28,59 @@ namespace Elysium::Core::Template::Exceptions
 	class Exception
 	{
 	public:
-		constexpr Exception(const char8_t* Message = nullptr);
+		inline constexpr Exception(const char8_t* Message = nullptr)
+			: _Message(Message), _StackTrace(CaptureStackTrace())
+		{ }
 
-		constexpr Exception(Elysium::Core::Template::Text::String<char8_t>&& Message);
+		inline constexpr Exception(const Exception& Source)
+			: _Message(Source._Message), _StackTrace(Source._StackTrace)
+		{ }
 
-		constexpr Exception(const Exception& Source);
+		inline constexpr Exception(Exception&& Right) noexcept
+			: _Message(), _StackTrace()
+		{
+			*this = Elysium::Core::Template::Functional::Move(Right);
+		}
 
-		constexpr Exception(Exception&& Right) noexcept;
-
-		constexpr virtual ~Exception() = default;
+		virtual ~Exception() = default;
 	public:
-		constexpr Exception& operator=(const Exception& Source);
+		inline constexpr Exception& operator=(const Exception& Source)
+		{
+			if (this != &Source)
+			{
+				_Message = Source._Message;
+				_StackTrace = Source._StackTrace;
+			}
+			return *this;
+		}
 
-		constexpr Exception& operator=(Exception&& Right) noexcept;
+		inline constexpr Exception& operator=(Exception&& Right) noexcept
+		{
+			if (this != &Right)
+			{
+				_Message = Elysium::Core::Template::Functional::Move(Right._Message);
+				_StackTrace = Elysium::Core::Template::Functional::Move(Right._StackTrace);
+			}
+			return *this;
+		}
 	public:
-		const Elysium::Core::Template::Text::String<char8_t>& GetExceptionMessage() const noexcept;
+		inline const Elysium::Core::Template::Text::String<char8_t>& GetExceptionMessage() const noexcept
+		{
+			return _Message;
+		}
 
-		const Elysium::Core::Template::Text::String<char8_t>& GetStackTrace() const noexcept;
+		inline const Elysium::Core::Template::Text::String<char8_t>& GetStackTrace() const noexcept
+		{
+			return _StackTrace;
+		}
 	private:
-		constexpr Elysium::Core::Template::Text::String<char8_t> CaptureStackTrace();
+		inline constexpr Elysium::Core::Template::Text::String<char8_t> CaptureStackTrace()
+		{	// @ToDo: capture stacktrace as string like .net does
+			return Elysium::Core::Template::Text::String<char8_t>();
+		}
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _Message;
 		Elysium::Core::Template::Text::String<char8_t> _StackTrace;
 	};
-
-	inline constexpr Exception::Exception(const char8_t* Message)
-		: _Message(Message), _StackTrace(CaptureStackTrace())
-	{ }
-
-	inline constexpr Exception::Exception(Text::String<char8_t> && Message)
-		: _Message(Functional::Move(Message)), _StackTrace(CaptureStackTrace())
-	{ }
-
-	inline constexpr Exception::Exception(const Exception & Source)
-		: _Message(Source._Message), _StackTrace(Source._StackTrace)
-	{ }
-
-	inline constexpr Exception::Exception(Exception&& Right) noexcept
-		: _Message(), _StackTrace()
-	{
-		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
-
-	inline constexpr Exception& Elysium::Core::Template::Exceptions::Exception::operator=(const Exception& Source)
-	{
-		if (this != &Source)
-		{
-			_Message = Source._Message;
-			_StackTrace = Source._StackTrace;
-		}
-		return *this;
-	}
-
-	inline constexpr Exception& Elysium::Core::Template::Exceptions::Exception::operator=(Exception&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-			_Message = Elysium::Core::Template::Functional::Move(Right._Message);
-			_StackTrace = Elysium::Core::Template::Functional::Move(Right._StackTrace);
-		}
-		return *this;
-	}
-
-	inline const Elysium::Core::Template::Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetExceptionMessage() const noexcept
-	{
-		return _Message;
-	}
-	
-	inline const Elysium::Core::Template::Text::String<char8_t>& Elysium::Core::Template::Exceptions::Exception::GetStackTrace() const noexcept
-	{
-		return _StackTrace;
-	}
-
-	inline constexpr Elysium::Core::Template::Text::String<char8_t> Exception::CaptureStackTrace()
-	{	// ToDo: capture stacktrace as string like .net does
-		return Elysium::Core::Template::Text::String<char8_t>();
-	}
 }
 #endif

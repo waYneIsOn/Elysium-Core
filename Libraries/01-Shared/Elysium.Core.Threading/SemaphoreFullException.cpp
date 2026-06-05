@@ -7,7 +7,3 @@
 Elysium::Core::Threading::SemaphoreFullException::SemaphoreFullException()
 	: Elysium::Core::Exception(u8"SemaphoreFullException")
 { }
-
-Elysium::Core::Threading::SemaphoreFullException::SemaphoreFullException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
-{ }

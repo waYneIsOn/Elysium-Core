@@ -4,12 +4,8 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::Json::JsonException::JsonException()
-	: Elysium::Core::Exception()
-{ }
-
-Elysium::Core::Json::JsonException::JsonException(Elysium::Core::Utf8String&& Message)
-	: Elysium::Core::Exception(Elysium::Core::Template::Functional::Move(Message))
+Elysium::Core::Json::JsonException::JsonException(const char8_t* Message)
+	: Elysium::Core::Exception(Message)
 { }
 
 Elysium::Core::Json::JsonException::~JsonException()

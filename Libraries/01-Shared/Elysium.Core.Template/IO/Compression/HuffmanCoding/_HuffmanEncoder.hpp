@@ -32,10 +32,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Functional/Move.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_STREAM
-#include "../../Stream.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_HUFFMANCODING_HUFFMANCODE
 #include "_HuffmanCode.hpp"
 #endif

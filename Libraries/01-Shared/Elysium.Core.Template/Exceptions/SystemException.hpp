@@ -59,104 +59,81 @@ namespace Elysium::Core::Template::Exceptions
 		: public Exception
 	{
 	public:
-		SystemException(const char8_t* Message = nullptr);
+		inline constexpr SystemException(const char8_t* Message = nullptr)
+			: Elysium::Core::Template::Exceptions::Exception(Message),
+			_ErrorCode(GetLastError())
+		{ }
 
-		SystemException(Text::String<char8_t>&& Message);
+		inline constexpr SystemException(const System::uint32_t ErrorCode, const char8_t* Message = nullptr)
+			: Elysium::Core::Template::Exceptions::Exception(nullptr == Message ? &GetLastErrorMessage(ErrorCode)[0] : Message),
+			_ErrorCode(ErrorCode)
+		{ }
 
-		constexpr SystemException(const System::uint32_t ErrorCode, const char8_t* Message = nullptr);
+		inline constexpr SystemException(const SystemException& Source)
+			: Elysium::Core::Template::Exceptions::Exception(Source),
+			_ErrorCode(Source._ErrorCode)
+		{ }
 
-		constexpr SystemException(const SystemException& Source);
+		inline constexpr SystemException(SystemException&& Right) noexcept
+			: Elysium::Core::Template::Exceptions::Exception(Elysium::Core::Template::Functional::Move(Right)),
+			_ErrorCode()
+		{
+			*this = Elysium::Core::Template::Functional::Move(Right);
+		}
 
-		constexpr SystemException(SystemException&& Right) noexcept;
-
-		constexpr virtual ~SystemException() override = default;
+		virtual ~SystemException() override = default;
 	public:
-		constexpr SystemException& operator=(const SystemException& Source);
+		inline constexpr SystemException& operator=(const SystemException& Source)
+		{
+			if (this != &Source)
+			{
+				//Elysium::Core::Template::Exceptions::Exception::operator=(Source);
 
-		constexpr SystemException& operator=(SystemException&& Right) noexcept;
+				_ErrorCode = Source._ErrorCode;
+			}
+			return *this;
+		}
+
+		inline constexpr SystemException& operator=(SystemException&& Right) noexcept
+		{
+			if (this != &Right)
+			{
+				//Elysium::Core::Template::Exceptions::Exception::operator=(Right);
+
+				_ErrorCode = Right._ErrorCode;
+
+				Right._ErrorCode = 0;
+			}
+			return *this;
+		}
 	public:
-		constexpr const System::uint32_t GetErrorCode() const noexcept;
+		inline constexpr const System::uint32_t GetErrorCode() const noexcept
+		{
+			return _ErrorCode;
+		}
 	private:
-		Elysium::Core::Template::Text::String<char8_t> GetLastErrorMessage(DWORD ErrorCode);
+		inline Elysium::Core::Template::Text::String<char8_t> GetLastErrorMessage(DWORD ErrorCode)
+		{
+			if (ErrorCode == 0)
+			{
+				return Elysium::Core::Template::Text::String<char8_t>();
+			}
+
+			LPWSTR MessageBuffer = nullptr;
+
+			Elysium::Core::Template::System::size MessageLength = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+				FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+				reinterpret_cast<LPWSTR>(&MessageBuffer), 0, nullptr);
+
+			Elysium::Core::Template::Text::String<char8_t> Result =
+				Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(MessageBuffer, MessageLength);
+
+			LocalFree(MessageBuffer);
+
+			return Result;
+		}
 	private:
 		System::uint32_t _ErrorCode;
 	};
-
-	inline Elysium::Core::Template::Exceptions::SystemException::SystemException(const char8_t* Message)
-		: Elysium::Core::Template::Exceptions::Exception(Message),
- 		_ErrorCode(GetLastError())
-	{ }
-
-	inline Elysium::Core::Template::Exceptions::SystemException::SystemException(Text::String<char8_t>&& Message)
-		: Elysium::Core::Template::Exceptions::Exception(Functional::Move(Message)),
-		_ErrorCode(GetLastError())
-	{ }
-
-	inline constexpr SystemException::SystemException(const System::uint32_t ErrorCode, const char8_t* Message)
-		: Elysium::Core::Template::Exceptions::Exception(Message == nullptr ? 
-			Elysium::Core::Template::Functional::Move(GetLastErrorMessage(ErrorCode)) : Message),
-		_ErrorCode(ErrorCode)
-	{ }
-
-	inline constexpr SystemException::SystemException(const SystemException& Source)
-		: _ErrorCode(Source._ErrorCode)
-	{ }
-
-	inline constexpr SystemException::SystemException(SystemException&& Right) noexcept
-		: Elysium::Core::Template::Exceptions::Exception(Elysium::Core::Template::Functional::Move(Right)),
-		_ErrorCode()
-	{
-		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
-
-	inline constexpr SystemException& SystemException::operator=(const SystemException& Source)
-	{
-		if (this != &Source)
-		{
-			//Elysium::Core::Template::Exceptions::Exception::operator=(Source);
-
-			_ErrorCode = Source._ErrorCode;
-		}
-		return *this;
-	}
-
-	inline constexpr SystemException& SystemException::operator=(SystemException&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-			//Elysium::Core::Template::Exceptions::Exception::operator=(Right);
-
-			_ErrorCode = Right._ErrorCode;
-			
-			Right._ErrorCode = 0;
-		}
-		return *this;
-	}
-
-	inline constexpr const System::uint32_t Elysium::Core::Template::Exceptions::SystemException::GetErrorCode() const noexcept
-	{
-		return _ErrorCode;
-	}
-
-	inline Elysium::Core::Template::Text::String<char8_t> SystemException::GetLastErrorMessage(DWORD ErrorCode)
-	{
-		if (ErrorCode == 0)
-		{
-			return Elysium::Core::Template::Text::String<char8_t>();
-		}
-
-		LPWSTR MessageBuffer = nullptr;
-
-		Elysium::Core::Template::System::size MessageLength = FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, ErrorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			reinterpret_cast<LPWSTR>(&MessageBuffer), 0, nullptr);
-
-		Elysium::Core::Template::Text::String<char8_t> Result =
-			Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(MessageBuffer, MessageLength);
-
-		LocalFree(MessageBuffer);
-
-		return Result;
-	}
 }
 #endif
