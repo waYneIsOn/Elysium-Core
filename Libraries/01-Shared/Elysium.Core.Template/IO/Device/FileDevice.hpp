@@ -100,7 +100,13 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const
 		{
-			return 0;
+			LARGE_INTEGER Size;
+			if (!GetFileSizeEx(_FileHandle, &Size))
+			{
+				throw Elysium::Core::Template::Exceptions::IO::IOException();
+			}
+
+			return Size.QuadPart;
 		}
 
 		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
@@ -110,6 +116,7 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
+			//Seek(Position, SeekOrigin::Begin);
 			_Position = Position;
 		}
 	public:
@@ -130,25 +137,66 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			return 0;
+			if (nullptr == Buffer || 0 == Count)
+			{
+				//return 0;
+				throw 1;
+				//throw ArgumentNullException(u8"Buffer");
+			}
+
+			Elysium::Core::uint32_t BytesRead = 0;
+			if (!ReadFile(_FileHandle, Buffer, static_cast<DWORD>(Count), (unsigned long*)&BytesRead, nullptr))
+			{
+				throw Elysium::Core::Template::Exceptions::IO::IOException();
+			}
+			_Position += BytesRead;
+
+			return BytesRead;
 		}
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
+			if (nullptr == Buffer || 0 == Count)
+			{
+				return;
+				//throw ArgumentNullException(u8"Buffer");
+			}
+			/*
+			if (Buffer == nullptr)
+			{
+				throw 1;
+				//throw ArgumentNullException(u8"Buffer");
+			}
 
+			if (Count == 0)
+			{
+				return;
+			}
+			*/
+			Elysium::Core::uint32_t TotalBytesWritten = 0;
+			Elysium::Core::uint32_t BytesWritten = 0;
+			do
+			{
+				if (!WriteFile(_FileHandle, &Buffer[TotalBytesWritten], static_cast<unsigned long>(Count - TotalBytesWritten), (unsigned long*)&BytesWritten, nullptr))
+				{
+					throw Elysium::Core::Template::Exceptions::IO::IOException();
+				}
+				TotalBytesWritten += BytesWritten;
+				_Position += BytesWritten;
+			} while (TotalBytesWritten != Count);
 		}
 
 		inline void Flush(const bool FlushToDisk = true)
 		{
-			/*
-			if (FlushToDisk)
+			if (!FlushToDisk)
 			{
-				if (!FlushFileBuffers(_FileHandle))
-				{
-					throw Elysium::Core::Template::Exceptions::IO::IOException();
-				}
+				return;
 			}
-			*/
+
+			if (!FlushFileBuffers(_FileHandle))
+			{
+				throw Elysium::Core::Template::Exceptions::IO::IOException();
+			}
 		}
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS

@@ -57,7 +57,7 @@ namespace UnitTests::Core::Template::IO
 
 				FileStream Stream(Sink, Source);
 
-				//WriteAndReadBack(Stream, false);
+				WriteAndReadBack(Stream, false);
 			}
 			
 			{
@@ -71,7 +71,7 @@ namespace UnitTests::Core::Template::IO
 
 				BufferedFileStream Stream(BufferedSink, BufferedSource);
 
-				//WriteAndReadBack(Stream, true);
+				WriteAndReadBack(Stream, true);
 			}
 		}
 
@@ -112,6 +112,7 @@ namespace UnitTests::Core::Template::IO
 
 			for (Elysium::Core::Template::System::size i = 0; i < 1; ++i)
 			{
+				Stream.SetPosition(0);
 				Stream.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(Input), InputLength);
 				if (FlushRequired)
 				{
