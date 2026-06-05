@@ -804,7 +804,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanFrequencyTable.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Stream.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp">
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp">
@@ -839,6 +839,69 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp">
       <Filter>IO\Compression\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BinaryStreamReader.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BinaryStreamWriter.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\FileSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\SocketSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\MemorySink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\MemorySource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\FixedSizeBuffer.hpp">
+      <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\BufferedSource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Min.hpp">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\NamedPipeSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileMode.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileAccess.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileShare.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileOptions.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp">
+      <Filter>Exceptions\IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -958,6 +1021,15 @@
     </Filter>
     <Filter Include="IO\Compression\Deflate">
       <UniqueIdentifier>{872e4d0e-f7b8-4b0f-9114-494499757d82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Source">
+      <UniqueIdentifier>{aaa7de5d-b513-461d-9522-dc9e76d4dd9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Sink">
+      <UniqueIdentifier>{8ff56131-d93c-4245-8ec0-4622f09e49a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Device">
+      <UniqueIdentifier>{64562093-82f4-4f8a-8324-30206ddbb818}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

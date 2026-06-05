@@ -27,7 +27,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)DoubleEndedQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FiFoQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FunctionTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)HuffmanCodingTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CompositionalStreamTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)_HuffmanCodingTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IntegerSequenceTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LZ77Tests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />

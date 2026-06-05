@@ -17,9 +17,14 @@ module;
 #include "Exceptions/IO/InternalBufferOverflowException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_IOEXCEPTION
+#include "Exceptions/IO/IOException.hpp"
+#endif
+
 export module Elysium.Core.Template.Exceptions.IO;
 
 export
 {
 	using Elysium::Core::Template::Exceptions::IO::InternalBufferOverflowException;
+	using Elysium::Core::Template::Exceptions::IO::IOException;
 }

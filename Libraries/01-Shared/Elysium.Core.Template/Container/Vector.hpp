@@ -1216,7 +1216,7 @@ namespace Elysium::Core::Template::Container
 		
 		inline void PushBackRange(ConstPointer FirstItem, const System::size Length)
 		{
-			if (FirstItem == nullptr)
+			if (nullptr == FirstItem)
 			{
 				//throw Elysium::Core::Template::Exceptions::ArgumentNullException(nameof(FirstItem));
 				throw Elysium::Core::Template::Exceptions::ArgumentNullException();

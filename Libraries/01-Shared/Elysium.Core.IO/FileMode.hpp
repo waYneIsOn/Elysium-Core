@@ -12,35 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../Elysium.Core.Template/OperatingSystem.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILEMODE
+#include "../Elysium.Core.Template/IO/FileMode.hpp"
 #endif
 
 namespace Elysium::Core::IO
 {
-#if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class FileMode : Elysium::Core::uint32_t
-#elif defined ELYSIUM_CORE_OS_ANDROID
-	enum class FileMode
-#else
-#error "undefined os"
-#endif
-	{
-		CreateNew = 1,
-
-		Create = 2,
-
-		Open = 3,
-
-		OpenOrCreate = 4,
-
-		Truncate = 5,
-
-		Append = 6
-	};
+	using FileMode = Elysium::Core::Template::IO::FileMode;
 }
 #endif

@@ -1,0 +1,138 @@
+#include "CppUnitTest.h"
+#include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/FileDevice.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/MemoryDevice.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/BufferedSink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/FileSink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/BufferedSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/MemorySource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
+
+using namespace Elysium::Core::Template::IO;
+using namespace Elysium::Core::Template::IO::Device;
+using namespace Elysium::Core::Template::IO::Sink;
+using namespace Elysium::Core::Template::IO::Source;
+using namespace Microsoft::VisualStudio::CppUnitTestFramework;
+
+namespace UnitTests::Core::Template::IO
+{
+	TEST_CLASS(CompositionalStreamTests)
+	{
+		using MemoryStream = InOutStream<MemorySink, MemorySource>;
+		using BufferedMemoryStream = InOutStream<BufferedSink<MemorySink>, BufferedSource<MemorySource>>;
+
+		using FileStream = InOutStream<FileSink, FileSource>;
+		using BufferedFileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>>;
+	public:
+		TEST_METHOD(ToDoEnforcePolicy)
+		{
+			// @ToDo: create some kind of StreamPolicy to ensure certain types of streams require the same device for sink and source while
+			// certain ones will have to have different devices for sink and source and others will be able to have both options.
+			// (preferably at compile-time)
+			
+			MemoryDevice SinkDevice(1024);
+			MemorySink Sink(SinkDevice);
+
+			MemoryDevice SourceDevice(1024);
+			MemorySource Source(SourceDevice);
+
+			MemoryStream Stream(Sink, Source);
+
+			Assert::Fail(L"enforce policy!!!!");
+		}
+	public:
+		TEST_METHOD(FileStreamTest)
+		{			
+			{
+				FileDevice WriteDevice(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileSink Sink(WriteDevice);
+
+				FileDevice ReadDevice(u8"C:\\test\\bla.txt", FileMode::Open, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileSource Source(ReadDevice);
+
+				FileStream Stream(Sink, Source);
+
+				//WriteAndReadBack(Stream, false);
+			}
+			
+			{
+				FileDevice WriteDevice(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileSink Sink(WriteDevice);
+				BufferedSink<FileSink> BufferedSink(Sink);
+
+				FileDevice ReadDevice(u8"C:\\test\\bla.txt", FileMode::Open, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileSource Source(ReadDevice);
+				BufferedSource<FileSource> BufferedSource(Source);
+
+				BufferedFileStream Stream(BufferedSink, BufferedSource);
+
+				//WriteAndReadBack(Stream, true);
+			}
+		}
+
+		TEST_METHOD(MemoryStreamTest)
+		{
+			{
+				MemoryDevice Device(1);
+				MemorySink Sink(Device);
+				MemorySource Source(Device);
+				MemoryStream Stream(Sink, Source);
+
+				WriteAndReadBack(Stream, false);
+			}
+			
+			{
+				MemoryDevice Device(1024);
+
+				MemorySink Sink(Device);
+				BufferedSink<MemorySink> BufferedSink(Sink);
+
+				MemorySource Source(Device);
+				BufferedSource<MemorySource> BufferedSource(Source);
+
+				BufferedMemoryStream Stream(BufferedSink, BufferedSource);
+
+				WriteAndReadBack(Stream, true);
+			}
+		}
+	private:
+		// @ToDo: create a concept for Streams to use here!
+		// inline void WriteAndReadBack(Elysium::Core::Template::Concepts::Streamable auto& Stream)
+
+		template <class S>
+		inline void WriteAndReadBack(S& Stream, const bool FlushRequired)
+		{
+			constexpr const char* Input = "simple text";
+			constexpr const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Input);
+
+			for (Elysium::Core::Template::System::size i = 0; i < 1; ++i)
+			{
+				Stream.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(Input), InputLength);
+				if (FlushRequired)
+				{
+					Stream.Flush();
+				}
+
+				Stream.SetPosition(0);
+				Elysium::Core::Template::System::byte Buffer[InputLength + sizeof(char)] = {};
+				Elysium::Core::Template::System::size TotalBytesRead = 0;
+				while (TotalBytesRead < InputLength)
+				{
+					Elysium::Core::Template::System::size BytesRead = Stream.Read(&Buffer[TotalBytesRead], InputLength - TotalBytesRead);
+					TotalBytesRead += BytesRead;
+				}
+
+				const char* Output = reinterpret_cast<const char*>(&Buffer[0]);
+				const Elysium::Core::Template::System::size OutputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Output);
+
+				Assert::AreEqual(InputLength, OutputLength);
+				Assert::AreEqual(&Input[0], &Output[0]);
+			}
+		}
+	};
+}

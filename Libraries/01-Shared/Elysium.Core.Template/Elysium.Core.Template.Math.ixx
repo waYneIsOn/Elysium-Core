@@ -37,6 +37,10 @@ module;
 #include "Math/Max.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
+#include "Math/Min.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIDPOINTROUNDING
 #include "Math/MidpointRounding.hpp"
 #endif
@@ -70,6 +74,7 @@ export
 	using Elysium::Core::Template::Math::Logarithm;
 	using Elysium::Core::Template::Math::MidpointRounding;
 	using Elysium::Core::Template::Math::Max;
+	using Elysium::Core::Template::Math::Min;
 	using Elysium::Core::Template::Math::Power;
 	using Elysium::Core::Template::Math::Round;
 	using Elysium::Core::Template::Math::SignOf;
