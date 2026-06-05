@@ -33,9 +33,7 @@ namespace Elysium::Core::Template::IO::Device
 
 		inline constexpr MemoryDevice(const Elysium::Core::Template::System::size Capacity) noexcept
 			: _Buffer(Capacity), _Position(0)
-		{
-			//_Buffer.Clear();
-		}
+		{ }
 
 		constexpr MemoryDevice(const MemoryDevice& Source) = delete;
 
@@ -47,9 +45,14 @@ namespace Elysium::Core::Template::IO::Device
 
 		constexpr MemoryDevice& operator=(MemoryDevice&& Right) noexcept = delete;
 	public:
-		inline constexpr const bool operator==(const MemoryDevice& Other) noexcept
+		inline constexpr const bool operator==(const MemoryDevice& Other) const noexcept
 		{
 			return &_Buffer == &Other._Buffer;
+		}
+
+		inline constexpr const bool operator!=(const MemoryDevice& Other) const noexcept
+		{
+			return &_Buffer != &Other._Buffer;
 		}
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const

@@ -23,11 +23,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Source
 {
 	// @ToDo: concept for sources!
-	template <class S>
+	template <class InnerSource>
 	class BufferedSource
 	{
 	public:
-		inline constexpr BufferedSource(S& InnerSource, const Elysium::Core::Template::System::size BufferSize = 2) noexcept
+		using DeviceType = InnerSource::DeviceType;
+	public:
+		inline constexpr BufferedSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
 			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource)
 		{ }
 
@@ -52,6 +54,11 @@ namespace Elysium::Core::Template::IO::Source
 		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
 		{
 			return _InnerSource.GetPosition();
+		}
+
+		inline constexpr const DeviceType& GetDevice() const
+		{
+			return _InnerSource.GetDevice();
 		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
@@ -91,7 +98,7 @@ namespace Elysium::Core::Template::IO::Source
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::System::size _Position;
 		Elysium::Core::Template::System::size _EndPosition;
-		S& _InnerSource;
+		InnerSource& _InnerSource;
 	};
 }
 #endif

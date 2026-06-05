@@ -21,9 +21,11 @@ namespace Elysium::Core::Template::IO::Source
 	class FileSource
 	{
 	public:
+		using DeviceType = Elysium::Core::Template::IO::Device::FileDevice;
+	public:
 		constexpr FileSource() noexcept = delete;
 
-		inline constexpr FileSource(Elysium::Core::Template::IO::Device::FileDevice& Device) noexcept
+		inline constexpr FileSource(DeviceType& Device) noexcept
 			: _Device(Device)
 		{ }
 
@@ -36,6 +38,11 @@ namespace Elysium::Core::Template::IO::Source
 		constexpr FileSource& operator=(const FileSource& Source) = delete;
 
 		constexpr FileSource& operator=(FileSource&& Right) noexcept = delete;
+	public:
+		inline constexpr const DeviceType& GetDevice() const
+		{
+			return _Device;
+		}
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const
 		{
@@ -57,7 +64,7 @@ namespace Elysium::Core::Template::IO::Source
 			return _Device.Read(Buffer, Count);
 		}
 	private:
-		Elysium::Core::Template::IO::Device::FileDevice& _Device;
+		DeviceType& _Device;
 	};
 }
 #endif

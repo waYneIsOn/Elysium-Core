@@ -29,13 +29,31 @@ namespace Elysium::Core::Template::IO
 
 		constexpr OutStream(OutStream&& Right) noexcept = delete;
 
-		virtual ~OutStream() = default;
+		inline ~OutStream()
+		{
+			Flush();
+			Close();
+		}
 	public:
 		constexpr OutStream& operator=(const OutStream& Source) = delete;
 
 		constexpr OutStream& operator=(OutStream&& Right) noexcept = delete;
 	public:
-
+		inline void Close()
+		{
+			if constexpr (requires { _Sink.Close(); })
+			{
+				_Sink.Close();
+			}
+		}
+	public:
+		inline void Flush()
+		{
+			if constexpr (requires { _Sink.Flush(); })
+			{
+				_Sink.Flush();
+			}
+		}
 	private:
 		Sink& _Sink;
 	};

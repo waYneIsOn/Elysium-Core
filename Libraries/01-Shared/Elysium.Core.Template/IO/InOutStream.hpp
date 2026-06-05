@@ -14,16 +14,36 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO
 {
-	// @ToDo: concept for sinks and sources!
-	template<class Sink, class Source>
+	struct DeviceIndependent
+	{
+		inline static constexpr bool RequireShared = false;
+	};
+
+	struct DeviceCoupled
+	{
+		inline static constexpr bool RequireShared = true;
+	};
+
+	// @ToDo: concept for sinks, sources and policies!
+	template<class Sink, class Source, class Policy = DeviceIndependent>
 	class InOutStream
 	{
 	public:
 		constexpr InOutStream() noexcept = delete;
 
-		inline constexpr InOutStream(Sink& Sink, Source& Source) noexcept
+		inline constexpr InOutStream(Sink& Sink, Source& Source)
 			: _Sink(Sink), _Source(Source)
-		{ }
+		{
+			if constexpr (Policy::RequireShared)
+			{
+				const Sink::DeviceType& SinkDevice = _Sink.GetDevice();
+				const Source::DeviceType& SourceDevice = _Source.GetDevice();
+				if (SinkDevice != SourceDevice)
+				{	// @ToDo: throw specific exception (Elysium::Core::Template::Security::Policy::PolicyException???)
+					throw 1;
+				}
+			}
+		}
 
 		constexpr InOutStream(const InOutStream& Source) = delete;
 
@@ -67,7 +87,7 @@ namespace Elysium::Core::Template::IO
 			}
 		}
 	public:
-		inline const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
+		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			return _Source.Read(Buffer, Count);
 		}
@@ -88,10 +108,16 @@ namespace Elysium::Core::Template::IO
 		Sink& _Sink;
 		Source& _Source;
 	};
-	
 	/*
-	using FileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>>;
-	using MemoryStream = InOutStream<BufferedSink<MemorySink>, BufferedSource<MemorySource>>;
+	using FileStream = InOutStream<FileSink, FileSource>;
+	using BufferedFileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>>;
+
+	using MemoryStream = InOutStream<MemorySink, MemorySource>;
+	using BufferedMemoryStream = InOutStream<BufferedSink<MemorySink>, BufferedSource<MemorySource>>;
+
+
+
+
 	using NetworkStream = InOutStream<BufferedSink<SocketSink>, BufferedSource<SocketSource>>;
 
 	using GZipFileStream = InOutStream<BufferedSink<GZipSink<FileSink>>, BufferedSource<GZipSource<FileSource>>>;

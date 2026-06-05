@@ -31,11 +31,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Sink
 {
 	// @ToDo: concept for sinks!
-	template <class S>
+	template <class InnerSink>
 	class BufferedSink
 	{
 	public:
-		inline constexpr BufferedSink(S& InnerSink, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
+		using DeviceType = InnerSink::DeviceType;
+	public:
+		inline constexpr BufferedSink(InnerSink& InnerSink, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
 			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _Position(0), _InnerSink(InnerSink)
 		{ }
 
@@ -60,6 +62,11 @@ namespace Elysium::Core::Template::IO::Sink
 		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
 		{
 			return _InnerSink.GetPosition();
+		}
+
+		inline constexpr const DeviceType& GetDevice() const
+		{
+			return _InnerSink.GetDevice();
 		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
@@ -125,7 +132,7 @@ namespace Elysium::Core::Template::IO::Sink
 	private:
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::System::size _Position;
-		S& _InnerSink;
+		InnerSink& _InnerSink;
 	};
 }
 #endif

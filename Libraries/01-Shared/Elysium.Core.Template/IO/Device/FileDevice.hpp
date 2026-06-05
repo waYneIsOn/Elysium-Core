@@ -78,9 +78,9 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		constexpr FileDevice() noexcept = delete;
 
-		inline constexpr FileDevice(const char8_t* FQFN, const FileMode Mode, const FileAccess Access = FileAccess::Read | FileAccess::Write, const FileShare Share = FileShare::None,
-			const Elysium::Core::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None) noexcept
-			: _FQFN(FQFN), _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options))
+		inline constexpr FileDevice(const char8_t* Path, const FileMode Mode, const FileAccess Access = FileAccess::Read | FileAccess::Write, const FileShare Share = FileShare::None,
+			const Elysium::Core::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None)
+			: _FQFN(GetFQFN(Path)), _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options))
 		{ }
 
 		constexpr FileDevice(const FileDevice& Source) = delete;
@@ -97,9 +97,16 @@ namespace Elysium::Core::Template::IO::Device
 
 		constexpr FileDevice& operator=(FileDevice&& Right) noexcept = delete;
 	public:
-		inline constexpr const bool operator==(const FileDevice& Other) noexcept
+		inline constexpr const bool operator==(const FileDevice& Other) const noexcept
 		{
-			return &_FQFN == &Other._FQFN;
+			// @ToDo: invariant comparison!
+			return _FQFN == Other._FQFN;
+		}
+
+		inline constexpr const bool operator!=(const FileDevice& Other) const noexcept
+		{
+			// @ToDo: invariant comparison!
+			return _FQFN != Other._FQFN;
 		}
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const
@@ -221,6 +228,13 @@ namespace Elysium::Core::Template::IO::Device
 			}
 		}
 	private:
+		inline Elysium::Core::Template::Text::String<char8_t> GetFQFN(const char8_t* Path)
+		{
+			Elysium::Core::Template::Text::String<char8_t> Result;
+
+			return Path;
+		}
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline HANDLE CreateNativeFileHandle(const Elysium::Core::Template::Text::String<char8_t>& FQFN, const FileMode Mode, const FileAccess Access, const FileShare Share,
 			const FileOptions Options)

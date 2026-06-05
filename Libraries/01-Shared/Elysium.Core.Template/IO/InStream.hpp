@@ -22,20 +22,29 @@ namespace Elysium::Core::Template::IO
 		constexpr InStream() noexcept = delete;
 
 		inline constexpr InStream(Source& Source) noexcept
-			: _Sink(_Source)
+			: _Source(_Source)
 		{ }
 
 		constexpr InStream(const InStream& Source) = delete;
 
 		constexpr InStream(InStream&& Right) noexcept = delete;
 
-		virtual ~InStream() = default;
+		~InStream()
+		{
+			Close();
+		}
 	public:
 		constexpr InStream& operator=(const InStream& Source) = delete;
 
 		constexpr InStream& operator=(InStream&& Right) noexcept = delete;
 	public:
-
+		inline void Close()
+		{
+			if constexpr (requires { _Source.Close(); })
+			{
+				_Source.Close();
+			}
+		}
 	private:
 		Source& _Source;
 	};

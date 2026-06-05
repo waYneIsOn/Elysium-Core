@@ -23,27 +23,51 @@ namespace UnitTests::Core::Template::IO
 {
 	TEST_CLASS(CompositionalStreamTests)
 	{
-		using MemoryStream = InOutStream<MemorySink, MemorySource>;
-		using BufferedMemoryStream = InOutStream<BufferedSink<MemorySink>, BufferedSource<MemorySource>>;
+		using MemoryStream = InOutStream<MemorySink, MemorySource, DeviceCoupled>;
+		using BufferedMemoryStream = InOutStream<BufferedSink<MemorySink>, BufferedSource<MemorySource>, DeviceCoupled>;
 
-		using FileStream = InOutStream<FileSink, FileSource>;
-		using BufferedFileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>>;
+		using FileStream = InOutStream<FileSink, FileSource, DeviceCoupled>;
+		using BufferedFileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>, DeviceCoupled>;
 	public:
-		TEST_METHOD(ToDoEnforcePolicy)
+		TEST_METHOD(PolicyTest)
 		{
-			// @ToDo: create some kind of StreamPolicy to ensure certain types of streams require the same device for sink and source while
-			// certain ones will have to have different devices for sink and source and others will be able to have both options.
-			// (preferably at compile-time)
-			
-			MemoryDevice SinkDevice(1024);
-			MemorySink Sink(SinkDevice);
+			try
+			{
+				MemoryDevice SinkDevice(1024);
+				MemorySink Sink(SinkDevice);
 
-			MemoryDevice SourceDevice(1024);
-			MemorySource Source(SourceDevice);
+				MemoryDevice InvalidSourceDevice(1024);
+				MemorySource Source(InvalidSourceDevice);
 
-			MemoryStream Stream(Sink, Source);
+				MemoryStream Stream(Sink, Source);
 
-			Assert::Fail(L"enforce policy!!!!");
+				Assert::Fail();
+			}
+			catch(...)
+			{  }
+
+			try
+			{
+				FileDevice SinkDevice(u8"some file.txt", FileMode::Create);
+				FileSink Sink(SinkDevice);
+
+				FileDevice InvalidSourceDevice(u8"some other file.txt", FileMode::Create);
+				FileSource Source(InvalidSourceDevice);
+
+				FileStream Stream(Sink, Source);
+
+				Assert::Fail();
+			}
+			catch (...)
+			{ }
+			/*
+			try
+			{
+				Assert::Fail();
+			}
+			catch(...)
+			{ }
+			*/
 		}
 	public:
 		TEST_METHOD(FileStreamTest)
@@ -78,7 +102,7 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(MemoryStreamTest)
 		{
 			{
-				MemoryDevice Device(1);
+				MemoryDevice Device(1024);
 				MemorySink Sink(Device);
 				MemorySource Source(Device);
 				MemoryStream Stream(Sink, Source);

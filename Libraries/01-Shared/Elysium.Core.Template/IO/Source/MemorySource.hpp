@@ -21,9 +21,11 @@ namespace Elysium::Core::Template::IO::Source
 	class MemorySource
 	{
 	public:
+		using DeviceType = Elysium::Core::Template::IO::Device::MemoryDevice;
+	public:
 		constexpr MemorySource() noexcept = delete;
 
-		inline constexpr MemorySource(Elysium::Core::Template::IO::Device::MemoryDevice& Device) noexcept
+		inline constexpr MemorySource(DeviceType& Device) noexcept
 			: _Device(Device)
 		{ }
 
@@ -46,6 +48,11 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			return _Device.GetPosition();
 		}
+
+		inline constexpr const DeviceType& GetDevice() const
+		{
+			return _Device;
+		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
@@ -57,7 +64,7 @@ namespace Elysium::Core::Template::IO::Source
 			return _Device.Read(Buffer, Count);
 		}
 	private:
-		Elysium::Core::Template::IO::Device::MemoryDevice& _Device;
+		DeviceType& _Device;
 	};
 }
 #endif

@@ -840,12 +840,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp">
       <Filter>IO\Compression\Deflate</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BinaryStreamReader.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BinaryStreamWriter.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp">
       <Filter>IO</Filter>
     </ClInclude>

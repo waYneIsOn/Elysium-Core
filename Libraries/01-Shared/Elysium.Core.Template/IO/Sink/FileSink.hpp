@@ -21,9 +21,11 @@ namespace Elysium::Core::Template::IO::Sink
 	class FileSink
 	{
 	public:
+		using DeviceType = Elysium::Core::Template::IO::Device::FileDevice;
+	public:
 		constexpr FileSink() noexcept = delete;
 
-		inline constexpr FileSink(Elysium::Core::Template::IO::Device::FileDevice& Device) noexcept
+		inline constexpr FileSink(DeviceType& Device) noexcept
 			: _Device(Device)
 		{ }
 
@@ -36,6 +38,11 @@ namespace Elysium::Core::Template::IO::Sink
 		constexpr FileSink& operator=(const FileSink& Source) = delete;
 
 		constexpr FileSink& operator=(FileSink&& Right) noexcept = delete;
+	public:
+		inline constexpr const DeviceType& GetDevice() const
+		{
+			return _Device;
+		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
@@ -52,7 +59,7 @@ namespace Elysium::Core::Template::IO::Sink
 			_Device.Flush(FlushToDisk);
 		}
 	private:
-		Elysium::Core::Template::IO::Device::FileDevice& _Device;
+		DeviceType& _Device;
 	};
 }
 #endif

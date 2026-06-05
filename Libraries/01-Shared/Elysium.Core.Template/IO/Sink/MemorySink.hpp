@@ -21,9 +21,11 @@ namespace Elysium::Core::Template::IO::Sink
 	class MemorySink
 	{
 	public:
+		using DeviceType = Elysium::Core::Template::IO::Device::MemoryDevice;
+	public:
 		constexpr MemorySink() noexcept = delete;
 
-		inline constexpr MemorySink(Elysium::Core::Template::IO::Device::MemoryDevice& Device) noexcept
+		inline constexpr MemorySink(DeviceType& Device) noexcept
 			: _Device(Device)
 		{ }
 
@@ -46,6 +48,11 @@ namespace Elysium::Core::Template::IO::Sink
 		{
 			return _Device.GetPosition();
 		}
+
+		inline constexpr const DeviceType& GetDevice() const
+		{
+			return _Device;
+		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
@@ -57,7 +64,7 @@ namespace Elysium::Core::Template::IO::Sink
 			_Device.Write(Buffer, Count);
 		}
 	private:
-		Elysium::Core::Template::IO::Device::MemoryDevice& _Device;
+		DeviceType& _Device;
 	};
 }
 #endif

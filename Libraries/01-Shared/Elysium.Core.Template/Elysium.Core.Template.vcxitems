@@ -25,8 +25,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BinaryStreamReader.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BinaryStreamWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp" />
