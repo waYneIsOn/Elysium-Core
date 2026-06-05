@@ -34,7 +34,7 @@ namespace Elysium::Core::Template::IO::Device
 		inline constexpr MemoryDevice(const Elysium::Core::Template::System::size Capacity) noexcept
 			: _Buffer(Capacity), _Position(0)
 		{
-			_Buffer.Clear();
+			//_Buffer.Clear();
 		}
 
 		constexpr MemoryDevice(const MemoryDevice& Source) = delete;
@@ -81,8 +81,10 @@ namespace Elysium::Core::Template::IO::Device
 			{
 				return;
 			}
-
-			_Buffer.PushBackRange(Buffer, Count);
+			
+			_Buffer.Reserve(_Position + Count);
+			Elysium::Core::Template::Memory::MemCpy(&_Buffer[_Position], Buffer, Count);
+			
 			_Position += Count;
 		}
 	private:

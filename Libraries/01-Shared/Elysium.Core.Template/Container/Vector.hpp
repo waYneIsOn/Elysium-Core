@@ -189,7 +189,7 @@ namespace Elysium::Core::Template::Container
 		/// </summary>
 		/// <returns></returns>
 		static constexpr const System::size GetMaximumSize();
-
+	public:
 		/// <summary>
 		/// Gets the total number of elements the internal data structure can hold without resizing.
 		/// </summary>

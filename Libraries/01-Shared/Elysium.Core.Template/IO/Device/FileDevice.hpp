@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../FileShare.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_SEEKORIGIN
+#include "../SeekOrigin.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
 #include "../../Memory/MemCpy.hpp"
 #endif
@@ -116,8 +120,7 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
-			//Seek(Position, SeekOrigin::Begin);
-			_Position = Position;
+			Seek(Position, SeekOrigin::Begin);
 		}
 	public:
 		inline void Close()
@@ -135,6 +138,23 @@ namespace Elysium::Core::Template::IO::Device
 			_FileHandle = INVALID_HANDLE_VALUE;
 		}
 	public:
+		inline constexpr const Elysium::Core::Template::System::size Seek(const Elysium::Core::Template::System::int64_t Offset, const SeekOrigin Origin)
+		{
+			LARGE_INTEGER InternalPosition = LARGE_INTEGER();
+			InternalPosition.QuadPart = Offset;
+
+			LARGE_INTEGER NewPosition;
+
+			if (!SetFilePointerEx(_FileHandle, InternalPosition, &NewPosition, static_cast<unsigned long>(Origin)))
+			{
+				throw Elysium::Core::Template::Exceptions::IO::IOException();
+			}
+
+			_Position = NewPosition.QuadPart;
+
+			return _Position;
+		}
+
 		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			if (nullptr == Buffer || 0 == Count)
@@ -184,6 +204,8 @@ namespace Elysium::Core::Template::IO::Device
 				TotalBytesWritten += BytesWritten;
 				_Position += BytesWritten;
 			} while (TotalBytesWritten != Count);
+
+			_Position += TotalBytesWritten;
 		}
 
 		inline void Flush(const bool FlushToDisk = true)

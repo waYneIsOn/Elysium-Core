@@ -36,7 +36,7 @@ namespace Elysium::Core::Template::IO::Sink
 	{
 	public:
 		inline constexpr BufferedSink(S& InnerSink, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
-			: _Buffer(BufferSize), _Position(0), _InnerSink(InnerSink)
+			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _Position(0), _InnerSink(InnerSink)
 		{ }
 
 		constexpr BufferedSink(const BufferedSink& Source) = delete;
@@ -64,8 +64,8 @@ namespace Elysium::Core::Template::IO::Sink
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
-			_Position = Position;
 			_InnerSink.SetPosition(Position);
+			_Position = Position;
 		}
 	public:
 		inline void Close()

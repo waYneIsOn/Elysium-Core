@@ -903,6 +903,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp">
       <Filter>Exceptions\IO</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\SeekOrigin.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

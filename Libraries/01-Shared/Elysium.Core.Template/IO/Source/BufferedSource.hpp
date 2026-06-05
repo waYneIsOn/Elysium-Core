@@ -28,7 +28,7 @@ namespace Elysium::Core::Template::IO::Source
 	{
 	public:
 		inline constexpr BufferedSource(S& InnerSource, const Elysium::Core::Template::System::size BufferSize = 2) noexcept
-			: _Buffer(BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource)
+			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource)
 		{ }
 
 		constexpr BufferedSource(const BufferedSource& Source) = delete;
@@ -56,8 +56,9 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
-			_Position = Position;
 			_InnerSource.SetPosition(Position);
+			_Position = 0;
+			_EndPosition = 0;
 		}
 	public:
 		inline void Close()

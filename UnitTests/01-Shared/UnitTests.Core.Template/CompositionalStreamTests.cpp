@@ -107,11 +107,29 @@ namespace UnitTests::Core::Template::IO
 		template <class S>
 		inline void WriteAndReadBack(S& Stream, const bool FlushRequired)
 		{
+			constexpr const char* TempInput = "this is a text longer than what eventually is in the stream";
+			constexpr const Elysium::Core::Template::System::size TempInputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(TempInput);
+
 			constexpr const char* Input = "simple text";
 			constexpr const Elysium::Core::Template::System::size InputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Input);
 
-			for (Elysium::Core::Template::System::size i = 0; i < 1; ++i)
+			constexpr const char* CombinedInput = "simple textext longer than what eventually is in the stream";
+			constexpr const Elysium::Core::Template::System::size CombinedInputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(CombinedInput);
+
+			Assert::IsTrue(TempInputLength > InputLength);
+			Assert::AreEqual(CombinedInputLength, TempInputLength);
+
+			Elysium::Core::Template::System::byte Buffer[CombinedInputLength + sizeof(char)] = {};
+
+			for (Elysium::Core::Template::System::size i = 0; i < 2; ++i)
 			{
+				Stream.SetPosition(0);
+				Stream.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(TempInput), TempInputLength);
+				if (FlushRequired)
+				{
+					Stream.Flush();
+				}
+
 				Stream.SetPosition(0);
 				Stream.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(Input), InputLength);
 				if (FlushRequired)
@@ -120,19 +138,18 @@ namespace UnitTests::Core::Template::IO
 				}
 
 				Stream.SetPosition(0);
-				Elysium::Core::Template::System::byte Buffer[InputLength + sizeof(char)] = {};
 				Elysium::Core::Template::System::size TotalBytesRead = 0;
-				while (TotalBytesRead < InputLength)
+				while (TotalBytesRead < CombinedInputLength)
 				{
-					Elysium::Core::Template::System::size BytesRead = Stream.Read(&Buffer[TotalBytesRead], InputLength - TotalBytesRead);
+					Elysium::Core::Template::System::size BytesRead = Stream.Read(&Buffer[TotalBytesRead], CombinedInputLength - TotalBytesRead);
 					TotalBytesRead += BytesRead;
 				}
 
 				const char* Output = reinterpret_cast<const char*>(&Buffer[0]);
 				const Elysium::Core::Template::System::size OutputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(Output);
 
-				Assert::AreEqual(InputLength, OutputLength);
-				Assert::AreEqual(&Input[0], &Output[0]);
+				Assert::AreEqual(TempInputLength, OutputLength);
+				Assert::AreEqual(&CombinedInput[0], &Output[0]);
 			}
 		}
 	};

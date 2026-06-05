@@ -47,6 +47,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\FileSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\MemorySink.hpp" />
