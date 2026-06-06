@@ -232,6 +232,7 @@ namespace Elysium::Core::Template::IO::Device
 		{
 			Elysium::Core::Template::Text::String<char8_t> Result;
 
+			// @ToDo
 			return Path;
 		}
 

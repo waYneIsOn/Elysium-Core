@@ -47,11 +47,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\DeflateSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\FileSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\MemorySink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\NamedPipeSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\SocketSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\BufferedSource.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\MemorySource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />

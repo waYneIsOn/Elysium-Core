@@ -5,9 +5,11 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/FileDevice.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/MemoryDevice.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/BufferedSink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/DeflateSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/FileSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/BufferedSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/DeflateSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/MemorySource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
@@ -28,6 +30,9 @@ namespace UnitTests::Core::Template::IO
 
 		using FileStream = InOutStream<FileSink, FileSource, DeviceCoupled>;
 		using BufferedFileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>, DeviceCoupled>;
+
+		using DeflateStream = InOutStream<DeflateSink<MemorySink>, DeflateSource<FileSource>, DeviceCoupled>;
+		using BufferedDeflateStream = InOutStream<BufferedSink<DeflateSink<MemorySink>>, BufferedSource<DeflateSource<FileSource>>, DeviceCoupled>;
 	public:
 		TEST_METHOD(PolicyTest)
 		{
@@ -70,6 +75,20 @@ namespace UnitTests::Core::Template::IO
 			*/
 		}
 	public:
+		TEST_METHOD(DeflateStreamTest)
+		{
+			{
+				FileDevice WriteDevice(u8"C:\\test\\deflate.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileSink Sink(WriteDevice);
+
+				MemoryDevice Device(1024);
+				MemorySource Source(Device);
+				//DeflateStream
+
+				Assert::Fail();
+			}
+		}
+
 		TEST_METHOD(FileStreamTest)
 		{			
 			{

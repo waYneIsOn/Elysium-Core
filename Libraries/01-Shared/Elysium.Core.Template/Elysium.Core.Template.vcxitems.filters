@@ -900,6 +900,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\SeekOrigin.hpp">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\DeflateSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
