@@ -51,7 +51,7 @@ namespace Elysium::Core::Template::Iterator
 	template <class Collection>
 	const bool ConstLinkedListForwardIterator<Collection>::operator!=(const ConstLinkedListForwardIterator& Other) const
 	{
-		return _Current != nullptr && _Current <= Other._Current;
+		return _Current != nullptr && _Current < Other._Current;
 	}
 
 	template<class Collection>

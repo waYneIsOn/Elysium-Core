@@ -56,7 +56,7 @@ namespace Elysium::Core::Template::Iterator
 	template <class Collection>
 	inline constexpr const bool ConstForwardIterator<Collection>::operator!=(const ConstForwardIterator& Other) const
 	{
-		return _Current <= Other._Current;
+		return _Current < Other._Current;
 	}
 
 	template<class Collection>

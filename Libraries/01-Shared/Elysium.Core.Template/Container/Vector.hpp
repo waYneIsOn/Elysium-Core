@@ -184,11 +184,9 @@ namespace Elysium::Core::Template::Container
 		/// <returns></returns>
 		constexpr ConstReference operator[](const System::size Index) const;
 	public:
-		/// <summary>
-		/// Gets the maximum size the internal data structure can hold.
-		/// </summary>
-		/// <returns></returns>
-		static constexpr const System::size GetMaximumSize();
+		inline static constexpr const Elysium::Core::Template::System::size ElementSize = sizeof(T);
+
+		inline static constexpr const Elysium::Core::Template::System::size MaximumSize = static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(T);
 	public:
 		/// <summary>
 		/// Gets the total number of elements the internal data structure can hold without resizing.
@@ -311,9 +309,32 @@ namespace Elysium::Core::Template::Container
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="Begin"></param>
+		/// <param name="End"></param>
+		/// <returns></returns>
+		inline constexpr FIterator Erase(FIterator First, FIterator Last)
+		{
+			FIterator NewEnd = Elysium::Core::Template::Functional::Move(Last, GetEnd(), First);
+			_Length -= Last - First;
+
+			/*
+			while (First != Last)
+			{
+				//destroy_range(new_end, end());  // call destructors on leftover elements
+				//end_ = new_end;                 // shrink size
+				
+				--Last;
+			}
+			*/
+			return First;
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="Value"></param>
 		/// <returns></returns>
-		constexpr FIterator Erase(ConstValue Value)
+		inline constexpr FIterator Erase(ConstValue Value)
 		{
 			for (System::size i = 0; i < _Length; i++)
 			{
@@ -323,7 +344,7 @@ namespace Elysium::Core::Template::Container
 				}
 			}
 
-			// ToDo: have a look at std::vector::erase in regards to returning the last element?
+			// @ToDo: have a look at std::vector::erase in regards to returning the last element?
 			return GetEnd();
 		}
 
@@ -543,13 +564,6 @@ namespace Elysium::Core::Template::Container
 
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
-	inline constexpr const Elysium::Core::Template::System::size Vector<T, Allocator>::GetMaximumSize()
-	{
-		return static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(T);
-	}
-
-	template<class T, class Allocator>
-		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr const Elysium::Core::Template::System::size Vector<T, Allocator>::GetCapacity() const noexcept
 	{
 		return _Capacity;
@@ -618,28 +632,28 @@ namespace Elysium::Core::Template::Container
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::FIterator Vector<T, Allocator>::GetEnd() noexcept
 	{
-		return FIterator(&_Data[_Length - 1]);
+		return FIterator(&_Data[_Length]);
 	}
 
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::ConstIterator Vector<T, Allocator>::GetEnd() const noexcept
 	{
-		return ConstIterator(&_Data[_Length - 1]);
+		return ConstIterator(&_Data[_Length]);
 	}
 
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::ReverseIterator Vector<T, Allocator>::GetReverseBegin() noexcept
 	{
-		return ReverseIterator(&_Data[_Length - 1]);
+		return ReverseIterator(&_Data[_Length]);
 	}
 
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::ConstReverseIterator Vector<T, Allocator>::GetReverseBegin() const noexcept
 	{
-		return ConstReverseIterator(&_Data[_Length - 1]);
+		return ConstReverseIterator(&_Data[_Length]);
 	}
 
 	template<class T, class Allocator>
@@ -864,7 +878,6 @@ namespace Elysium::Core::Template::Container
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline const Elysium::Core::Template::System::size Vector<T, Allocator>::CalculateCapacityGrowth(const Elysium::Core::Template::System::size DesiredCapacity)
 	{
-		constexpr const Elysium::Core::Template::System::size MaximumSize = GetMaximumSize();
 		if (_Capacity == MaximumSize)
 		{
 			throw Exceptions::OutOfMemoryException();
@@ -1003,10 +1016,9 @@ namespace Elysium::Core::Template::Container
 			return _Data[Index];
 		}
 	public:
-		inline static constexpr const System::size GetMaximumSize()
-		{
-			return static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(T);
-		}
+		inline static constexpr const Elysium::Core::Template::System::size ElementSize = sizeof(T);
+
+		inline static constexpr const Elysium::Core::Template::System::size MaximumSize = static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(T);
 	public:
 		inline constexpr const System::size GetCapacity() const noexcept
 		{
@@ -1090,22 +1102,22 @@ namespace Elysium::Core::Template::Container
 
 		inline constexpr FIterator GetEnd() noexcept
 		{
-			return FIterator(&_Data[_Length - 1]);
+			return FIterator(&_Data[_Length]);
 		}
 
 		inline constexpr ConstIterator GetEnd() const noexcept
 		{
-			return ConstIterator(&_Data[_Length - 1]);
+			return ConstIterator(&_Data[_Length]);
 		}
 
 		inline constexpr ReverseIterator GetReverseBegin() noexcept
 		{
-			return ReverseIterator(&_Data[_Length - 1]);
+			return ReverseIterator(&_Data[_Length]);
 		}
 
 		inline constexpr ConstReverseIterator GetReverseBegin() const noexcept
 		{
-			return ConstReverseIterator(&_Data[_Length - 1]);
+			return ConstReverseIterator(&_Data[_Length]);
 		}
 
 		inline constexpr ReverseIterator GetReverseEnd() noexcept
@@ -1135,6 +1147,19 @@ namespace Elysium::Core::Template::Container
 		inline void Clear()
 		{
 			_Length = 0;
+		}
+
+		inline constexpr FIterator Erase(FIterator First, FIterator Last)
+		{
+			FIterator NewEnd = Elysium::Core::Template::Functional::Move(Last, GetEnd(), First);
+			//std::destroy(NewEnd, GetEnd());
+			for (; NewEnd != GetEnd(); ++NewEnd)
+			{
+				(*First).~T();
+			}
+			_Length -= Last - First;
+
+			return First;
 		}
 
 		inline constexpr FIterator Erase(ConstValue Value)
@@ -1273,7 +1298,6 @@ namespace Elysium::Core::Template::Container
 	private:
 		inline const Elysium::Core::Template::System::size CalculateCapacityGrowth(const Elysium::Core::Template::System::size DesiredCapacity)
 		{
-			constexpr const Elysium::Core::Template::System::size MaximumSize = GetMaximumSize();
 			if (_Capacity == MaximumSize)
 			{
 				throw Exceptions::OutOfMemoryException();
@@ -1298,469 +1322,5 @@ namespace Elysium::Core::Template::Container
 		System::size _Length;
 		Pointer _Data;
 	};
-	/*
-	/// <summary>
-	/// Specialized vector for boolean.
-	/// </summary>
-	/// <typeparam name="Allocator"></typeparam>
-	template <class Allocator>
-	class Vector<bool, Allocator>
-	{
-	public:
-		using Value = bool;
-		using ConstValue = const bool;
-		using Pointer = bool*;
-		using ConstPointer = const bool*;
-		using Reference = bool&;
-		using ConstReference = const bool&;
-		using RValueReference = bool&&;
-
-		using IteratorPointer = bool*;
-		using IteratorReference = bool&;
-		using ConstIteratorReference = const bool&;
-	public:
-		using FIterator = Iterator::ForwardIterator<Vector<bool, Allocator>>;
-		using ConstIterator = Iterator::ConstForwardIterator<Vector<bool, Allocator>>;
-
-		using ReverseIterator = Iterator::BackwardIterator<Vector<bool, Allocator>>;
-		using ConstReverseIterator = Iterator::ConstBackwardIterator<Vector<bool, Allocator>>;
-	private:
-		struct HeapVector final
-		{
-			Vector<bool, Allocator>::Pointer _Data; // 4/8 bytes
-			System::size _Size; // 4/8 bytes (stores the number of bytes the string requires)
-			System::size _CapacityAndFlag; // 4/8 bytes (stores 1 bit flag (stack/heap allocated) + 31/63 bit capacity)
-
-			constexpr const System::size GetCapacity() const noexcept;
-
-			constexpr void SetCapacity(const System::size Value) noexcept;
-		};	// 12/24 bytes
-
-		struct StackVector final
-		{
-			System::byte _Data[sizeof(HeapVector) - sizeof(System::byte)]; // 11/23 bytes
-			System::byte _RemainingBytesAndFlag;	// 1 byte -> 1 bit flag (indicating stack/heap allocation) + 7 bit remaining size
-
-			constexpr const System::size GetSize() const noexcept;
-
-			constexpr void SetSize(const System::size Value) noexcept;
-		};	// 12/24 bytes
-
-		union InternalVector
-		{
-			HeapVector _Heap;
-			StackVector _Stack;
-		};
-	private:
-		static_assert(sizeof(InternalVector) == sizeof(HeapVector),
-			"Elysium::Core::Template::Container::Vector<bool, Allocator>: sizeof(InternalVector) != sizeof(HeapVector)");
-	public:
-		constexpr Vector() noexcept;
-
-		constexpr Vector(const System::size Capacity);
-
-		constexpr Vector(const InitializerList<bool>& InitializerList);
-
-		constexpr Vector(const Vector& Source);
-
-		constexpr Vector(Vector&& Right) noexcept;
-
-		constexpr ~Vector();
-	public:
-		constexpr Vector<bool, Allocator>& operator=(const Vector& Source);
-
-		constexpr Vector<bool, Allocator>& operator=(Vector&& Right) noexcept;
-	public:
-		constexpr Reference operator[](const System::size Index);
-
-		constexpr ConstReference operator[](const System::size Index) const;
-	public:
-		static constexpr const System::size GetMaximumSize();
-
-		constexpr const System::size GetCapacity() const noexcept;
-
-		constexpr const System::size GetLength() const noexcept;
-
-		constexpr ConstPointer GetData() const noexcept;
-
-		constexpr const bool GetIsEmpty() const noexcept;
-
-		constexpr Reference GetAt(const System::size Index);
-
-		constexpr ConstReference GetAt(const System::size Index) const;
-	public:
-		constexpr FIterator GetBegin() noexcept;
-
-		constexpr ConstIterator GetBegin() const noexcept;
-
-		constexpr FIterator GetEnd() noexcept;
-
-		constexpr ConstIterator GetEnd() const noexcept;
-
-		constexpr ReverseIterator GetReverseBegin() noexcept;
-
-		constexpr ConstReverseIterator GetReverseBegin() const noexcept;
-
-		constexpr ReverseIterator GetReverseEnd() noexcept;
-
-		constexpr ConstReverseIterator GetReverseEnd() const noexcept;
-	public:
-		void Assign(ConstValue Value, const System::size Length);
-
-		void Clear();
-
-		constexpr FIterator Erase(ConstValue Value);
-
-		constexpr FIterator EraseAt(const System::size Index);
-
-		void Insert(const System::size Index, ConstValue Value);
-
-		constexpr void PushBack(ConstReference Item);
-
-		constexpr void PushBack(RValueReference Item);
-
-		void PushBackRange(ConstPointer FirstItem, const System::size Length);
-
-		void PopBack();
-
-		void Reserve(const System::size DesiredCapacity);
-
-		void ShrinkToFit();
-	private:
-		constexpr const bool IsHeapAllocated() const;
-
-		void DeleteHeapVector();
-
-		const System::size CalculateCapacityGrowth(const System::size DesiredCapacity);
-	public:
-		inline static constexpr const System::uint8_t MaximumSizeOnStack = sizeof(HeapVector) - 1;
-		inline static constexpr const System::uint8_t MaximumLengthOnStack = MaximumSizeOnStack / sizeof(bool);
-
-		inline static constexpr const System::size MaximumSizeOnHeap = static_cast<Elysium::Core::Template::System::size>(-1) / 2;
-		inline static constexpr const System::size MaximumLengthOnHeap = MaximumSizeOnHeap / sizeof(bool);
-	private:
-
-		inline static constexpr const System::size _HeapStackFlagShift = (sizeof(Elysium::Core::Template::System::size) - 1) * 8;
-#ifdef ELYSIUM_CORE_LITTLEENDIAN
-		inline static constexpr const System::size _HeapStackFlagMask = 0x01;
-		inline static constexpr const System::size _CapacityExtractMask = ~(System::size(_HeapStackFlagMask) << _HeapStackFlagShift);
-#else
-		// ...
-#endif
-	private:
-		Allocator _Allocator;
-		InternalVector _InternalVector;
-	};
-
-	template<class Allocator>
-	inline constexpr const System::size Vector<bool, Allocator>::HeapVector::GetCapacity() const noexcept
-	{
-#ifdef ELYSIUM_CORE_LITTLEENDIAN
-		return _CapacityAndFlag & _CapacityExtractMask;
-#else
-		throw 1;
-#endif
-	}
-
-	template<class Allocator>
-	inline constexpr void Vector<bool, Allocator>::HeapVector::SetCapacity(const System::size Value) noexcept
-	{
-#ifdef ELYSIUM_CORE_LITTLEENDIAN
-		// most right bit of first byte (0000 000x) is stack/heap-flag
-		_CapacityAndFlag = _HeapStackFlagMask << _HeapStackFlagShift |	// make sure stack-flag is set to one
-			Value;
-#else
-		throw 1;
-#endif
-	}
-
-	template<class Allocator>
-	inline constexpr const System::size Vector<bool, Allocator>::StackVector::GetSize() const noexcept
-	{	// most right bit (0000 000x) is stack/heap-flag, all other bits represent the remaining bytes
-		return sizeof(HeapString) - 1 - (_RemainingBytesAndFlag >> 1);
-	}
-
-	template<class Allocator>
-	inline constexpr void Vector<bool, Allocator>::StackVector::SetSize(const System::size Value) noexcept
-	{	// seven most left bits represent the remaining bytes, most right bit represents stack-bitflag (0000 000F)
-		_RemainingBytesAndFlag = 0x00 |	// make sure stack-flag is set to zero
-			static_cast<Elysium::Core::Template::System::byte>(((sizeof(HeapString) - 1 - Value) << 1));
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Vector() noexcept
-		: _Allocator(Allocator()), _InternalVector{ 0x00 }
-	{
-		_InternalString._Stack.SetSize(0);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
-		: _Allocator(Allocator()), _InternalVector{ 0x00 }
-	{
-
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Vector(const InitializerList<bool>& InitializerList)
-		: _Allocator(Allocator()), _InternalVector{ 0x00 }
-	{
-
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Vector(const Vector& Source)
-		: _Allocator(Allocator()), _InternalVector{ 0x00 }
-	{
-
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Vector(Vector&& Right) noexcept
-		: _Allocator(Allocator()), _InternalVector{ 0x00 }
-	{
-		*this = Functional::Move(Right);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::~Vector()
-	{
-		DeleteHeapVector();
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>& Vector<bool, Allocator>::operator=(const Vector& Source)
-	{
-		if (this != &Source)
-		{
-
-		}
-		return *this;
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>& Vector<bool, Allocator>::operator=(Vector&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-
-		}
-		return *this;
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Reference Vector<bool, Allocator>::operator[](const Elysium::Core::Template::System::size Index)
-	{
-		//return IsHeapAllocated() ? _InternalVector._Heap._Data[Index] : _InternalString._Stack._Data[Index];
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstReference Vector<bool, Allocator>::operator[](const Elysium::Core::Template::System::size Index) const
-	{
-		//return IsHeapAllocated() ? _InternalVector._Heap._Data[Index] : _InternalString._Stack._Data[Index];
-	}
-
-	template<class Allocator>
-	inline constexpr const Elysium::Core::Template::System::size Vector<bool, Allocator>::GetMaximumSize()
-	{
-		//return static_cast<Elysium::Core::Template::System::size>(-1) / sizeof(bool);
-	}
-
-	template<class Allocator>
-	inline constexpr const Elysium::Core::Template::System::size Vector<bool, Allocator>::GetCapacity() const noexcept
-	{
-		//return _Capacity;
-	}
-
-	template<class Allocator>
-	inline constexpr const Elysium::Core::Template::System::size Vector<bool, Allocator>::GetLength() const noexcept
-	{
-		//return _Length;
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstPointer Vector<bool, Allocator>::GetData() const noexcept
-	{
-		//return _Data;
-	}
-
-	template<class Allocator>
-	inline constexpr const bool Vector<bool, Allocator>::GetIsEmpty() const noexcept
-	{
-		//return _Length == 0;
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::Reference Vector<bool, Allocator>::GetAt(const Elysium::Core::Template::System::size Index)
-	{
-		if (Index >= _Length)
-		{
-			throw Exceptions::IndexOutOfRangeException();
-		}
-
-		//return _Data[Index];
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstReference Vector<bool, Allocator>::GetAt(const Elysium::Core::Template::System::size Index) const
-	{
-		if (Index >= _Length)
-		{
-			throw Exceptions::IndexOutOfRangeException();
-		}
-
-		//return _Data[Index];
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::FIterator Vector<bool, Allocator>::GetBegin() noexcept
-	{
-		//return FIterator(&_Data[0]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstIterator Vector<bool, Allocator>::GetBegin() const noexcept
-	{
-		//return ConstIterator(&_Data[0]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::FIterator Vector<bool, Allocator>::GetEnd() noexcept
-	{
-		//return FIterator(&_Data[_Length - 1]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstIterator Vector<bool, Allocator>::GetEnd() const noexcept
-	{
-		//return ConstIterator(&_Data[_Length - 1]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ReverseIterator Vector<bool, Allocator>::GetReverseBegin() noexcept
-	{
-		//return ReverseIterator(&_Data[_Length - 1]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstReverseIterator Vector<bool, Allocator>::GetReverseBegin() const noexcept
-	{
-		//return ConstReverseIterator(&_Data[_Length - 1]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ReverseIterator Vector<bool, Allocator>::GetReverseEnd() noexcept
-	{
-		//return ReverseIterator(&_Data[0]);
-	}
-
-	template<class Allocator>
-	inline constexpr Vector<bool, Allocator>::ConstReverseIterator Vector<bool, Allocator>::GetReverseEnd() const noexcept
-	{
-		//return ConstReverseIterator(&_Data[0]);
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::Assign(ConstValue Value, const Elysium::Core::Template::System::size Length)
-	{
-
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::Clear()
-	{
-		//_Length = 0;
-	}
-
-	template<class Allocator>
-	inline constexpr Container::Vector<bool, Allocator>::FIterator Container::Vector<bool, Allocator>::Erase(ConstValue Value)
-	{
-		for (System::size i = 0; i < _Length; i++)
-		{
-			if (_Data[i] == Value)
-			{
-				return EraseAt(i);
-			}
-		}
-		
-		// ToDo: have a look at std::vector::erase in regards to returning the last element?
-		return GetEnd();
-	}
-
-	template<class Allocator>
-	inline constexpr Container::Vector<bool, Allocator>::FIterator Container::Vector<bool, Allocator>::EraseAt(const System::size Index)
-	{
-
-		// ToDo: have a look at std::vector::erase in regards to returning the last element?
-		return GetEnd();
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::Insert(const Elysium::Core::Template::System::size Index, ConstValue Value)
-	{
-
-	}
-
-	template<class Allocator>
-	inline constexpr void Vector<bool, Allocator>::PushBack(ConstReference Item)
-	{
-
-	}
-
-	template<class Allocator>
-	inline constexpr void Vector<bool, Allocator>::PushBack(RValueReference Item)
-	{
-
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
-	{
-
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::PopBack()
-	{
-
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::Reserve(const Elysium::Core::Template::System::size DesiredCapacity)
-	{
-
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::ShrinkToFit()
-	{
-
-	}
-
-	template<class Allocator>
-	inline constexpr const bool Vector<bool, Allocator>::IsHeapAllocated() const
-	{	// most right bit (0000 000x)
-		return (_InternalVector._Stack._RemainingBytesAndFlag & _HeapStackFlagMask) == _HeapStackFlagMask;
-	}
-
-	template<class Allocator>
-	inline void Vector<bool, Allocator>::DeleteHeapVector()
-	{
-		if (IsHeapAllocated())
-		{
-			if (_InternalVector._Heap._Data != nullptr)
-			{
-				_Allocator.Deallocate(_InternalVector._Heap._Data, _InternalVector._Heap.GetCapacity());
-				_InternalVector._Heap._Data = nullptr;
-			}
-		}
-	}
-
-	template<class Allocator>
-	inline const Elysium::Core::Template::System::size Vector<bool, Allocator>::CalculateCapacityGrowth(const Elysium::Core::Template::System::size DesiredCapacity)
-	{
-		return 0;
-	}
-	*/
 }
 #endif

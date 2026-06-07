@@ -17,12 +17,25 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "RemoveReference.hpp"
 #endif
 
+#include <utility>
+
 namespace Elysium::Core::Template::Functional
 {
     template<class T>
     inline constexpr RemoveReferenceType<T>&& Move(T&& Value) noexcept
     {
         return static_cast<RemoveReferenceType<T>&&>(Value);
+    }
+
+    template <class InIterator, class OutIterator>
+    inline constexpr OutIterator Move(InIterator First, InIterator Last, OutIterator Destination) noexcept
+    {
+        for (; First != Last; ++Destination, ++First)
+        {
+            *Destination = Move(*First);
+        }
+
+        return Destination;
     }
 }
 #endif

@@ -246,13 +246,13 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::Reference Array<T, Length>::GetBack()
 	{
-		return _Data[Length - 1];
+		return _Data[Length];
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstReference Array<T, Length>::GetBack() const
 	{
-		return _Data[Length - 1];
+		return _Data[Length];
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
@@ -282,25 +282,25 @@ namespace Elysium::Core::Template::Container
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::FIterator Elysium::Core::Template::Container::Array<T, Length>::GetEnd() noexcept
 	{
-		return FIterator(&_Data[Length - 1]);
+		return FIterator(&_Data[Length]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstIterator Elysium::Core::Template::Container::Array<T, Length>::GetEnd() const noexcept
 	{
-		return ConstIterator(&_Data[Length - 1]);
+		return ConstIterator(&_Data[Length]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseBegin() noexcept
 	{
-		return ReverseIterator(&_Data[Length - 1]);
+		return ReverseIterator(&_Data[Length]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
 	inline constexpr Array<T, Length>::ConstReverseIterator Elysium::Core::Template::Container::Array<T, Length>::GetReverseBegin() const noexcept
 	{
-		return ConstReverseIterator(&_Data[Length - 1]);
+		return ConstReverseIterator(&_Data[Length]);
 	}
 
 	template<Concepts::NonConstant T, Elysium::Core::Template::System::size Length>
