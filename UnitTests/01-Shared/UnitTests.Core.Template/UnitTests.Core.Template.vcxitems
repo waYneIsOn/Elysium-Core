@@ -30,7 +30,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CompositionalStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)_HuffmanCodingTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IntegerSequenceTests.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)LZ77Tests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PriorityQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReflectionTests.cpp" />
@@ -53,6 +52,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TupleTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TypeTraitTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FunctionalTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)_LZ77Tests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)__RepeatTests.cpp" />
   </ItemGroup>
 </Project>

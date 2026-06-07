@@ -35,7 +35,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolCodeLengthPair.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanUtility.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Decoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Encoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77Token.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileAccess.hpp" />

@@ -792,9 +792,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp">
       <Filter>Container\Sequence</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77.hpp">
-      <Filter>IO\Compression\LempelZiv</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
@@ -905,6 +902,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp">
       <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77Token.hpp">
+      <Filter>IO\Compression\LempelZiv</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Encoder.hpp">
+      <Filter>IO\Compression\LempelZiv</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Decoder.hpp">
+      <Filter>IO\Compression\LempelZiv</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

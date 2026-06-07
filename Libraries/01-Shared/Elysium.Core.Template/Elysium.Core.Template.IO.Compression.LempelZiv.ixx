@@ -13,13 +13,9 @@ module;
 #error "unsupported os"
 #endif
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_LEMPELZIV_LZ77
-#include "IO/Compression/LempelZiv/LZ77.hpp"
-#endif
-
-export module Elysium.Core.Template.IO.Compression.LempelZiv77;
+export module Elysium.Core.Template.IO.Compression.LempelZiv;
 
 export
 {
-	using Elysium::Core::Template::IO::Compression::LempelZiv::LZ77;
+
 }
