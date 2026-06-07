@@ -46,19 +46,19 @@ namespace UnitTests::Core::Template::Algorithms
 			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
 			BubbleSort(&UnsortedData[0], 4);
 
-			Assert::AreEqual(static_cast<byte>(1), UnsortedData[0]);
-			Assert::AreEqual(static_cast<byte>(1), UnsortedData[1]);
-			Assert::AreEqual(static_cast<byte>(2), UnsortedData[2]);
-			Assert::AreEqual(static_cast<byte>(3), UnsortedData[3]);
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[0]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[3]);
 			
 			// test function with signature "const T First, const T Last"
 			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
 			BubbleSort(&UnsortedData[0], &UnsortedData[3]);
 
-			Assert::AreEqual(static_cast<byte>(1), UnsortedData[0]);
-			Assert::AreEqual(static_cast<byte>(1), UnsortedData[1]);
-			Assert::AreEqual(static_cast<byte>(2), UnsortedData[2]);
-			Assert::AreEqual(static_cast<byte>(3), UnsortedData[3]);
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[0]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[3]);
 		}
 
 		TEST_METHOD(BubbleSortTuple)

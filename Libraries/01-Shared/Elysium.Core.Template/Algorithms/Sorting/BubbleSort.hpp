@@ -39,17 +39,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Concepts::Pointer T, class Compare>
-	constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer)
+	inline constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer)
 	{
-		if (First == nullptr || Count < 2)
+		if (nullptr == First || 2 > Count)
 		{
 			return;
 		}
 
 		const Elysium::Core::Template::System::size ReducedCount = Count - 1;
-		for (Elysium::Core::Template::System::size i = 0; i < ReducedCount; i++)
+		for (Elysium::Core::Template::System::size i = 0; i < ReducedCount; ++i)
 		{
-			for (Elysium::Core::Template::System::size j = 0; j < ReducedCount; j++)
+			for (Elysium::Core::Template::System::size j = 0; j < ReducedCount; ++j)
 			{
 				if (Comparer.operator()(First[j], First[j + 1]))
 				{
@@ -60,12 +60,13 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	}
 
 	template <Concepts::Pointer T, class Compare>
-	constexpr void BubbleSort(const T First, const T Last, const Compare Comparer)
+	inline constexpr void BubbleSort(const T First, const T Last, const Compare Comparer)
 	{
-		if (First == nullptr || Last == nullptr)
+		if (nullptr == First || nullptr == Last)
 		{
 			return;
 		}
+
 		if (First >= Last)
 		{
 			return;
@@ -86,23 +87,32 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 			CurrentOuter++;
 		}
 		*/
-		// ToDo: need to make use of size of T or implement it directly using pointer
+		// @ToDo: need to make use of size of T or implement it directly using pointer
 		const Elysium::Core::Template::System::size Count = Last - First + 1;
 		BubbleSort(First, Count, Comparer);
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count)
+	inline constexpr void BubbleSort(const T First, const Elysium::Core::Template::System::size Count)
 	{
-		//BubbleSort<T>(First, Count, Operators::Greater<Functional::RemovePointerType<T>>());
 		BubbleSort<T>(First, Count, Operators::Less<Functional::RemovePointerType<T>>());
 	}
 
 	template <Concepts::Pointer T>
-	constexpr void BubbleSort(const T First, const T Last)
+	inline constexpr void BubbleSort(const T First, const T Last)
 	{
-		//BubbleSort<T>(First, Last, Operators::Greater<Functional::RemovePointerType<T>>());
 		BubbleSort<T>(First, Last, Operators::Less<Functional::RemovePointerType<T>>());
+	}
+
+	// @ToDo: concept
+	template <class Iterator>
+	inline constexpr void BubbleSort(Iterator First, Iterator Last)
+	{
+		const Elysium::Core::Template::System::size Count = Last - First;
+		const Iterator::CollectionReference DereferencedIterator = *First;
+		const Iterator::CollectionPointer ElementAddress = &DereferencedIterator;
+
+		BubbleSort(ElementAddress, Count);
 	}
 }
 #endif
