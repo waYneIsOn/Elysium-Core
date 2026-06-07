@@ -315,17 +315,12 @@ namespace Elysium::Core::Template::Container
 		inline constexpr FIterator Erase(FIterator First, FIterator Last)
 		{
 			FIterator NewEnd = Elysium::Core::Template::Functional::Move(Last, GetEnd(), First);
+			for (; NewEnd != GetEnd(); ++NewEnd)
+			{
+				(*First).~T();
+			}
 			_Length -= Last - First;
 
-			/*
-			while (First != Last)
-			{
-				//destroy_range(new_end, end());  // call destructors on leftover elements
-				//end_ = new_end;                 // shrink size
-				
-				--Last;
-			}
-			*/
 			return First;
 		}
 
@@ -1152,7 +1147,6 @@ namespace Elysium::Core::Template::Container
 		inline constexpr FIterator Erase(FIterator First, FIterator Last)
 		{
 			FIterator NewEnd = Elysium::Core::Template::Functional::Move(Last, GetEnd(), First);
-			//std::destroy(NewEnd, GetEnd());
 			for (; NewEnd != GetEnd(); ++NewEnd)
 			{
 				(*First).~T();
