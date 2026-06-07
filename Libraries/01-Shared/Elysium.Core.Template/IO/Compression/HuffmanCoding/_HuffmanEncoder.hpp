@@ -225,9 +225,7 @@ namespace Elysium::Core::Template::IO::Compression::HuffmanCoding
 
 			// Step 5: Sort that symbol/code-length pair
 			// @ToDo: simplify this step together with step 3!
-			HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>& First = *SymbolCodeLengths.GetBegin();
-			HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>& Last = *SymbolCodeLengths.GetEnd();
-			Elysium::Core::Template::Algorithms::Sorting::BubbleSort<HuffmanSymbolCodeLengthPair<Elysium::Core::Template::System::byte>*>(&First, &Last);
+			Elysium::Core::Template::Algorithms::Sorting::BubbleSort(SymbolCodeLengths.GetBegin(), SymbolCodeLengths.GetEnd());
 			
 			// Step 6: Generate codes from that data
 			SymbolCodeMap SymbolCodes = HuffmanUtility<S>::CreateFromSymbolCodeLengths(SymbolCodeLengths);
