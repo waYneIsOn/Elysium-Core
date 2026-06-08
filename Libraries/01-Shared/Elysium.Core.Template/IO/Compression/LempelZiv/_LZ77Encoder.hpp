@@ -48,7 +48,7 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 
 		constexpr LZ77Encoder& operator=(LZ77Encoder&& Right) noexcept = delete;
 	private:
-		inline static constexpr const Elysium::Core::Template::System::size MaxWindow = 32 * 1024;	// 32 kb is the maximum allowed windows size in DEFLATE
+		inline static constexpr const Elysium::Core::Template::System::size MaxWindow = 32768;	// 32 kb is the maximum allowed windows size in DEFLATE
 		inline static constexpr const Elysium::Core::Template::System::uint8_t MinMatch = 3;	// DEFLATE uses a minumum of 3 - every smaller match is not worth encoding
 		inline static constexpr const Elysium::Core::Template::System::uint16_t MaxMatch = 258;	// 258 seems to be efficient and again is the standard in DEFLATE
 	public:

@@ -43,6 +43,13 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 		constexpr LZ77Decoder& operator=(const LZ77Decoder& Source) = delete;
 
 		constexpr LZ77Decoder& operator=(LZ77Decoder&& Right) noexcept = delete;
+	private:
+		// @ToDo: make all these values flexible. deflate introduces "limits" that a generic lz77-implementation does not have
+		// for instance CurrentToken._Length could be 1 or 2 (no compression obviously) in generic lz77, while deflate only allows greater or equal 3
+
+		inline static constexpr const Elysium::Core::Template::System::size MaxWindow = 32768;
+		inline static constexpr const Elysium::Core::Template::System::uint8_t MinLength = 3;
+		inline static constexpr const Elysium::Core::Template::System::size MaxLength = 258;
 	public:
 		inline Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Read(const Elysium::Core::Template::Container::Vector<Token>& Tokens)
 		{
@@ -57,15 +64,29 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 				}
 				else
 				{
-					Elysium::Core::Template::System::size StartIndex = Result.GetLength() - CurrentToken._Distance;
+					if (0 == CurrentToken._Distance || CurrentToken._Distance > Result.GetLength() || MaxWindow < CurrentToken._Distance)
+					{	// @ToDo: throw specific exception (invalid distance)
+						throw 1;
+					}
+
+					if (MinLength > CurrentToken._Length || MaxLength < CurrentToken._Length)
+					{	// @ToDo: throw specific exception
+						throw 1;
+					}
 
 					// this line is very important as &Result[StartIndex] after a re-allocation due to resizing the vector will obviously point to crap data
 					Result.Reserve(Result.GetLength() + CurrentToken._Length);
-					Result.PushBackRange(&Result[StartIndex], CurrentToken._Length);
+					for (Elysium::Core::Template::System::size j = 0; j < CurrentToken._Length; ++j)
+					{
+						Elysium::Core::Template::System::size StartIndex = Result.GetLength() - CurrentToken._Distance;
+						if (StartIndex > Result.GetLength())
+						{	// @ToDo: throw specific exception (underflow)
+							throw 1;
+						}
+						Result.PushBack(Result[StartIndex]);
+					}
 				}
 			}
-
-			Result.PushBack(0x00);
 
 			return Result;
 		}
