@@ -56,6 +56,9 @@
     <None Include="SampleFiles\InjectMessageBox64.dll">
       <Filter>Ressourcendateien</Filter>
     </None>
+    <None Include="SampleFiles\Lorem Ipsum.gz">
+      <Filter>Ressourcendateien</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="SampleFiles\Lorem Ipsum.txt">

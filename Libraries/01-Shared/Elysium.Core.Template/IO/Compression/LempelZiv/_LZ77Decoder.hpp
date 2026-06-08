@@ -61,21 +61,39 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 				if (0 == CurrentToken._Length)
 				{
 					Result.PushBack(CurrentToken._Literal);
+					continue;
+				}
+				
+				if (0 == CurrentToken._Distance || CurrentToken._Distance > Result.GetLength() || MaxWindow < CurrentToken._Distance)
+				{	// @ToDo: throw specific exception (invalid distance)
+					throw 1;
+				}
+
+				if (MinLength > CurrentToken._Length || MaxLength < CurrentToken._Length)
+				{	// @ToDo: throw specific exception
+					throw 1;
+				}
+
+				// this line is very important as &Result[StartIndex] after a re-allocation due to resizing the vector will obviously point to crap data
+				Result.Reserve(Result.GetLength() + CurrentToken._Length);
+
+				for (Elysium::Core::Template::System::size j = 0; j < CurrentToken._Length; ++j)
+				{
+					Elysium::Core::Template::System::size StartIndex = Result.GetLength() - CurrentToken._Distance;
+					if (StartIndex > Result.GetLength())
+					{	// @ToDo: throw specific exception (underflow)
+						throw 1;
+					}
+					Result.PushBack(Result[StartIndex]);
+				}
+				/*
+				// optimization (once vector is removed)
+				if (CurrentToken._Distance > CurrentToken._Length) ELYSIUM_CORE_PATH_LIKELY
+				{	// non-overlapping -> fast path
+					//memcpy(out + pos, out + pos - CurrentToken._Distance, CurrentToken._Length);
 				}
 				else
-				{
-					if (0 == CurrentToken._Distance || CurrentToken._Distance > Result.GetLength() || MaxWindow < CurrentToken._Distance)
-					{	// @ToDo: throw specific exception (invalid distance)
-						throw 1;
-					}
-
-					if (MinLength > CurrentToken._Length || MaxLength < CurrentToken._Length)
-					{	// @ToDo: throw specific exception
-						throw 1;
-					}
-
-					// this line is very important as &Result[StartIndex] after a re-allocation due to resizing the vector will obviously point to crap data
-					Result.Reserve(Result.GetLength() + CurrentToken._Length);
+				{	// overlapping -> slow path
 					for (Elysium::Core::Template::System::size j = 0; j < CurrentToken._Length; ++j)
 					{
 						Elysium::Core::Template::System::size StartIndex = Result.GetLength() - CurrentToken._Distance;
@@ -86,6 +104,7 @@ namespace Elysium::Core::Template::IO::Compression::LempelZiv
 						Result.PushBack(Result[StartIndex]);
 					}
 				}
+				*/
 			}
 
 			return Result;

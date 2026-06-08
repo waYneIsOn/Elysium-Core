@@ -10,6 +10,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/BufferedSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/DeflateSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/GZipSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/MemorySource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
@@ -33,6 +34,8 @@ namespace UnitTests::Core::Template::IO
 
 		using DeflateStream = InOutStream<DeflateSink<MemorySink>, DeflateSource<FileSource>, DeviceCoupled>;
 		using BufferedDeflateStream = InOutStream<BufferedSink<DeflateSink<MemorySink>>, BufferedSource<DeflateSource<FileSource>>, DeviceCoupled>;
+
+		using GZipStream = InOutStream<MemorySink, GZipSource<DeflateSource<FileSource>>>;
 	public:
 		TEST_METHOD(PolicyTest)
 		{
@@ -83,7 +86,42 @@ namespace UnitTests::Core::Template::IO
 
 				MemoryDevice Device(1024);
 				MemorySource Source(Device);
-				//DeflateStream
+				//DeflateStream Stream(Sink, Source);
+
+				Assert::Fail();
+			}
+		}
+
+		TEST_METHOD(GZipStreamTest)
+		{
+			{
+				MemoryDevice WriteDevice(1024);
+				MemorySink Sink(WriteDevice);
+
+				FileDevice ReadDevice(u8"Lorem Ipsum.gz", FileMode::Open, FileAccess::Read | FileAccess::Write);
+				FileSource Source(ReadDevice);
+				DeflateSource DeflateSource(Source);
+				GZipSource GZipSource(DeflateSource);
+
+				GZipStream Stream(Sink, GZipSource);
+
+				// @ToDo: all the reading currently works through source -> needs to be done through stream
+				Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader Header = GZipSource.ReadHeader();
+				GZipSource.ReadOptionalHeader(Header);
+
+				while (GZipSource.ReadBlock())
+				{
+
+				}
+
+				//Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter Footer = GZipSource.ReadFooter();
+
+
+
+				/*
+				Elysium::Core::Template::System::byte Buffer[1024] = {};
+				Stream.Read(&Buffer[0], 1024);
+				*/
 
 				Assert::Fail();
 			}

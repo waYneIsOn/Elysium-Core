@@ -222,10 +222,14 @@ namespace Elysium::Core::Template::IO::Device
 				return;
 			}
 
+			// @ToDo: early exit if no write permission was requested
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
 			if (!FlushFileBuffers(_FileHandle))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();
 			}
+#endif
 		}
 	private:
 		inline Elysium::Core::Template::Text::String<char8_t> GetFQFN(const char8_t* Path)

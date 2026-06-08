@@ -28,6 +28,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipFooter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp" />
@@ -57,6 +59,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\BufferedSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\GZipSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\MemorySource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Max.hpp" />
