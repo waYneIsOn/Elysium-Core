@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
-#include "../../Container/FixedSizeBuffer.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -30,8 +26,8 @@ namespace Elysium::Core::Template::IO::Source
 		using DeviceType = InnerSource::DeviceType;
 	public:
 		inline constexpr DeflateSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
-			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource)
-		{}
+			: _InnerSource(InnerSource)
+		{ }
 
 		constexpr DeflateSource(const DeflateSource& Source) = delete;
 
@@ -64,8 +60,6 @@ namespace Elysium::Core::Template::IO::Source
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
 			_InnerSource.SetPosition(Position);
-			_Position = 0;
-			_EndPosition = 0;
 		}
 	public:
 		inline void Close()
@@ -76,28 +70,13 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
-		inline const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
+		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			if (_Position == _EndPosition)
-			{
-				Elysium::Core::Template::System::size BytesToBuffer = Elysium::Core::Template::Math::Min(_Buffer.GetCapacity(), _InnerSource.GetLength());
+			const Elysium::Core::Template::System::size BytesRead = _InnerSource.Read(&Buffer[0], Count);
 
-				_Position = 0;
-				_EndPosition = _InnerSource.Read(&_Buffer[_Position], BytesToBuffer);
-			}
-
-			Elysium::Core::Template::System::size BytesToRead = Elysium::Core::Template::Math::Min(_Buffer.GetCapacity(), Count);
-
-			Elysium::Core::Template::Memory::MemCpy(Buffer, &_Buffer[_Position], BytesToRead);
-
-			_Position += BytesToRead;
-
-			return BytesToRead;
+			return BytesRead;
 		}
 	private:
-		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
-		Elysium::Core::Template::System::size _Position;
-		Elysium::Core::Template::System::size _EndPosition;
 		InnerSource& _InnerSource;
 	};
 }

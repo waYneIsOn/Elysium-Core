@@ -80,7 +80,10 @@ namespace Elysium::Core::Template::IO::Device
 
 		inline constexpr FileDevice(const char8_t* Path, const FileMode Mode, const FileAccess Access = FileAccess::Read | FileAccess::Write, const FileShare Share = FileShare::None,
 			const Elysium::Core::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None)
-			: _FQFN(GetFQFN(Path)), _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options))
+			: _FQFN(GetFQFN(Path)), _Position(0)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			, _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options))
+#endif
 		{ }
 
 		constexpr FileDevice(const FileDevice& Source) = delete;

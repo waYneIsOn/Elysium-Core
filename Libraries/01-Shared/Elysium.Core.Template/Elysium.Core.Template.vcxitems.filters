@@ -921,6 +921,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipFooter.hpp">
       <Filter>IO\Compression\Format\GZip</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp">
+      <Filter>IO\Compression\Format\GZip</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlock.hpp">
+      <Filter>IO\Compression\Format\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecompressor.hpp">
+      <Filter>IO\Compression\Algorithm\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp">
+      <Filter>IO\Compression\Format\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Views\Span.hpp">
+      <Filter>Container\Views</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1049,26 +1064,29 @@
     <Filter Include="IO\Device">
       <UniqueIdentifier>{64562093-82f4-4f8a-8324-30206ddbb818}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IO\Compression\Algorithms">
-      <UniqueIdentifier>{7d02f9f4-0feb-4fb1-92d3-25b3e49531a8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IO\Compression\Format">
       <UniqueIdentifier>{674fa9f5-d278-4b78-a056-c9af02c0a69d}</UniqueIdentifier>
     </Filter>
     <Filter Include="IO\Compression\Format\GZip">
       <UniqueIdentifier>{1ee9ced1-c9c6-4a57-add1-9aa73da427ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IO\Compression\Algorithms\Deflate">
-      <UniqueIdentifier>{c446e383-e127-446c-94b7-7e7dbc6da4c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO\Compression\Algorithms\HuffmanCoding">
-      <UniqueIdentifier>{365f940a-6dba-40de-ba38-4ec7ac9d08d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO\Compression\Algorithms\LempelZiv">
-      <UniqueIdentifier>{f98b1db6-3a18-4886-9979-f8e6feec8cee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IO\Compression\Format\ZLib">
       <UniqueIdentifier>{764d790f-52c4-416b-92a1-109e0123f1bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Format\Deflate">
+      <UniqueIdentifier>{6d973af5-54df-498e-8694-cf9f1f86851d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Algorithm">
+      <UniqueIdentifier>{7d02f9f4-0feb-4fb1-92d3-25b3e49531a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Algorithm\Deflate">
+      <UniqueIdentifier>{c446e383-e127-446c-94b7-7e7dbc6da4c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Algorithm\HuffmanCoding">
+      <UniqueIdentifier>{365f940a-6dba-40de-ba38-4ec7ac9d08d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Algorithm\LempelZiv">
+      <UniqueIdentifier>{f98b1db6-3a18-4886-9979-f8e6feec8cee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
