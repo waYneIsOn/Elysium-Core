@@ -434,7 +434,7 @@ namespace Elysium::Core::Template::Container
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::Vector() noexcept
-		: _Allocator(Allocator()), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
+		: _Allocator(), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
 	{
 		InPlaceConstruct();
 	}
@@ -442,7 +442,7 @@ namespace Elysium::Core::Template::Container
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::Vector(const Elysium::Core::Template::System::size Capacity)
-		: _Allocator(Allocator()), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+		: _Allocator(), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
 		InPlaceConstruct();
 	}
@@ -450,7 +450,7 @@ namespace Elysium::Core::Template::Container
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::Vector(const InitializerList<T>& InitializerList)
-		: _Allocator(Allocator()), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+		: _Allocator(), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 	{
 		InPlaceConstruct();
 
@@ -468,7 +468,7 @@ namespace Elysium::Core::Template::Container
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::Vector(const Vector& Source)
-		: _Allocator(Allocator()), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
+		: _Allocator(), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
 	{
 		InPlaceConstruct();
 
@@ -481,7 +481,7 @@ namespace Elysium::Core::Template::Container
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
 	inline constexpr Vector<T, Allocator>::Vector(Vector&& Right) noexcept
-		: _Allocator(Allocator()), _Capacity(0), _Length(0), _Data(nullptr)
+		: _Allocator(), _Capacity(0), _Length(0), _Data(nullptr)
 	{
 		*this = Functional::Move(Right);
 	}
@@ -921,19 +921,19 @@ namespace Elysium::Core::Template::Container
 		using ConstReverseIterator = Iterator::ConstBackwardIterator<Vector<T, Allocator>>;
 	public:
 		constexpr Vector() noexcept
-			: _Allocator(Allocator()), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
+			: _Allocator(), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
 		{
 			Elysium::Core::Template::Memory::MemSet(_Data, 0, _Capacity * sizeof(T));
 		}
 
 		constexpr Vector(const System::size Capacity)
-			: _Allocator(Allocator()), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+			: _Allocator(), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 		{
 			Elysium::Core::Template::Memory::MemSet(_Data, 0, _Capacity * sizeof(T));
 		}
 
 		constexpr Vector(const InitializerList<T>& InitializerList)
-			: _Allocator(Allocator()), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
+			: _Allocator(), _Capacity(InitializerList.size() == 0 ? 1 : InitializerList.size()), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
 		{
 			if (InitializerList.size() == 0) ELYSIUM_CORE_PATH_UNLIKELY
 			{
@@ -947,13 +947,13 @@ namespace Elysium::Core::Template::Container
 		}
 
 		constexpr Vector(const Vector& Source)
-			: _Allocator(Allocator()), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
+			: _Allocator(), _Capacity(Source._Capacity), _Length(Source._Length), _Data(_Allocator.Allocate(_Capacity))
 		{
 			Elysium::Core::Template::Memory::MemCpy(_Data, Source._Data, _Capacity * sizeof(T));
 		}
 
 		constexpr Vector(Vector&& Right) noexcept
-			: _Allocator(Allocator()), _Capacity(0), _Length(0), _Data(nullptr)
+			: _Allocator(), _Capacity(0), _Length(0), _Data(nullptr)
 		{
 			*this = Functional::Move(Right);
 		}
