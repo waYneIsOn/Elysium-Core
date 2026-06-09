@@ -921,7 +921,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp">
       <Filter>IO\Compression\Format\GZip</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlock.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp">
       <Filter>IO\Compression\Format\Deflate</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp">
@@ -929,6 +929,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\Span.hpp">
       <Filter>Container\View</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp">
+      <Filter>IO\Compression\Format\Deflate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

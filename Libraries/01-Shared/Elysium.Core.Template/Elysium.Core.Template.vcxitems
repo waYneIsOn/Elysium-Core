@@ -29,8 +29,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipFooter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp" />

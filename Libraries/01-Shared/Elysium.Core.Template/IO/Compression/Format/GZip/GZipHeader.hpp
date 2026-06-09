@@ -43,42 +43,42 @@ namespace Elysium::Core::Template::IO::Compression::Format::GZip
 	public:
 		inline const bool GetReserved7() const
 		{
-			return (_Flags >> 7) & 1;
+			return (_Flags >> 7) & 0x01;
 		}
 
 		inline const bool GetReserved6() const
 		{
-			return (_Flags >> 6) & 1;
+			return (_Flags >> 6) & 0x01;
 		}
 
 		inline const bool GetReserved5() const
 		{
-			return (_Flags >> 5) & 1;
+			return (_Flags >> 5) & 0x01;
 		}
 
 		inline const bool GetCommentExists() const
 		{
-			return (_Flags >> 4) & 1;
+			return (_Flags >> 4) & 0x01;
 		}
 
 		inline const bool GetNameExists() const
 		{
-			return (_Flags >> 3) & 1;
+			return (_Flags >> 3) & 0x01;
 		}
 
 		inline const bool GetExtraExists() const
 		{
-			return (_Flags >> 2) & 1;
+			return (_Flags >> 2) & 0x01;
 		}
 
 		inline const bool GetHeaderCrcExists() const
 		{
-			return (_Flags >> 1) & 1;
+			return (_Flags >> 1) & 0x01;
 		}
 
 		inline const bool GetTextExists() const
 		{
-			return (_Flags >> 0) & 1;
+			return (_Flags >> 0) & 0x01;
 		}
 	};
 }

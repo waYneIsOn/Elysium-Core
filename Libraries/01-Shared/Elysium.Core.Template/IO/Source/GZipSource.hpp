@@ -128,63 +128,21 @@ namespace Elysium::Core::Template::IO::Source
 				{
 					static constexpr const Elysium::Core::Template::System::size ReservedBytes = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
 
+					RefillInternalBuffer(_Buffer.GetLength());
+
+					Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> ReadableSpan = 
+						_Buffer.RequestReadableSpan();
+
+					DataView.SetData(ReadableSpan.GetKey());
+					DataView.SetLength(ReadableSpan.GetValue() - ReservedBytes);
+
+					_Buffer.CommitReadableSpan(ReadableSpan.GetValue() - ReservedBytes);
 
 
 
 
 
 					return true;
-				}
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter:
-				{
-					ReadFooter();
-				}
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::Done:
-					return false;
-				default:
-					// @ToDo: throw specific exception
-					throw 1;
-				}
-			}
-
-			return false;
-		}
-
-		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
-		{
-			const bool sdfds = false;
-		}
-
-		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
-		{
-			Elysium::Core::Template::System::size TotalBytesWritten = 0;
-
-			while (0 == TotalBytesWritten)
-			{
-				switch (_State)
-				{
-				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingHeader:
-				{
-					const Elysium::Core::Template::System::size BytesProcessed = ReadHeader();
-
-					_Buffer.Pop(BytesProcessed);
-					_Position -= BytesProcessed;
-
-					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
-				}
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock:
-				{
-					static constexpr const Elysium::Core::Template::System::size ReservedBytes = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
-
-
-
-
-
-
-					return 0;
 					/*
 					Elysium::Core::Template::System::size BytesCopied = 0;
 
@@ -219,14 +177,19 @@ namespace Elysium::Core::Template::IO::Source
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::Done:
-					return 0;
+					return false;
 				default:
 					// @ToDo: throw specific exception
 					throw 1;
 				}
 			}
 
-			return TotalBytesWritten;
+			return false;
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			throw 1;
 		}
 	private:
 		inline const Elysium::Core::Template::System::size ReadHeader()
@@ -382,7 +345,7 @@ namespace Elysium::Core::Template::IO::Source
 			assert(Required <= _Buffer.GetCapacity());
 			assert(_EndPosition + Required <= _Buffer.GetCapacity());
 
-			if (Required <= _EndPosition - _Position)
+			if (Required <= _EndPosition - _Position || _Buffer.GetLength() >= Required)
 			{	// there are enough bytes in the internal buffer already
 				return 0;
 			}
@@ -396,15 +359,15 @@ namespace Elysium::Core::Template::IO::Source
 				const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(WriteableSpan.GetValue(), Span.GetLength());
 				Elysium::Core::Template::Memory::MemCpy(WriteableSpan.GetKey(), Span.GetData(), BytesToCopy);
 				_InnerSource.AdvanceReadingBlock(BytesToCopy);
+				_Buffer.CommitWritableSpan(BytesToCopy);
 
 				TotalBytesRead += BytesToCopy;
-				if (TotalBytesRead > Required)
+
+				if (_Buffer.GetLength() >= Required)
 				{
 					break;
 				}
 			}
-
-			_Buffer.CommitWritableSpan(TotalBytesRead);
 
 			return TotalBytesRead;
 		}

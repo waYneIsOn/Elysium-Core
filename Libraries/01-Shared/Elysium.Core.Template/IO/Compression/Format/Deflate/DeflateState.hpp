@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
-#define ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATESTATE
+#define ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATESTATE
 
 #ifdef _MSC_VER
 #pragma once
@@ -23,21 +23,25 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class DeflateBlockType
+	enum class DeflateState
 		: Elysium::Core::Template::System::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
-	enum class DeflateBlockType
+	enum class DeflateState
 #else
 #error "undefined os"
 #endif
 	{
-		Uncompressed = 0,
+		ReadingHeader = 0,
 
-		FixedHuffman = 1,
+		CopyingUncompressed = 1,
 
-		DynamicHuffman = 2,
+		DecodingFixedHuffman = 2,
 
-		Invalid = 3
+		DecodingDynamicHuffman = 3,
+
+		DecodingInvalidReserved = 4,
+
+		Done = 5
 	};
 }
 #endif

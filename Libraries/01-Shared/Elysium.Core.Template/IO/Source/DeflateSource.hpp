@@ -12,6 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKHEADER
+#include "../Compression/Format/Deflate/DeflateBlockHeader.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATESTATE
+#include "../Compression/Format/Deflate/DeflateState.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -26,7 +34,7 @@ namespace Elysium::Core::Template::IO::Source
 		using DeviceType = InnerSource::DeviceType;
 	public:
 		inline constexpr DeflateSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
-			: _InnerSource(InnerSource)
+			: _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingHeader), _InnerSource(InnerSource)
 		{ }
 
 		constexpr DeflateSource(const DeflateSource& Source) = delete;
@@ -72,9 +80,40 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> DeflateDataView{};
-			_InnerSource.ReadBlock(DeflateDataView);
+			while (true)
+			{
+				switch (_State)
+				{
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingHeader:
+				{
+					Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> DeflateDataView{};
+					_InnerSource.ReadBlock(DeflateDataView);
 
+					Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader* Header =
+						reinterpret_cast<Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader*>(DeflateDataView.GetData());
+
+					const bool IsFinalBlock = Header->GetIsFinalBlock();
+					const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType BlockType = Header->GetCompressionMethod();
+
+					return false;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::CopyingUncompressed:
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingFixedHuffman:
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingDynamicHuffman:
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingInvalidReserved:
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done:
+					return 0;
+				default:
+					// @ToDo
+					throw 1;
+				}
+			}
+			
 			return false;
 		}
 
@@ -83,6 +122,8 @@ namespace Elysium::Core::Template::IO::Source
 			_InnerSource.AdvanceReadingBlock(Length);
 		}
 	private:
+		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState _State;
+
 		InnerSource& _InnerSource;
 	};
 }
