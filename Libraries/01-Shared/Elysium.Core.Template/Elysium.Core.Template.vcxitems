@@ -21,12 +21,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\FixedSizeBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Views\Span.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp" />
@@ -61,7 +60,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\MemorySink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\NamedPipeSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\SocketSink.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\BufferedSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\GZipSource.hpp" />

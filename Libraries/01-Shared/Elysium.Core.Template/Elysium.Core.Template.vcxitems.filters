@@ -861,9 +861,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\FixedSizeBuffer.hpp">
       <Filter>Container\Sequence</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\BufferedSource.hpp">
-      <Filter>IO\Source</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp">
       <Filter>IO\Device</Filter>
     </ClInclude>
@@ -927,14 +924,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlock.hpp">
       <Filter>IO\Compression\Format\Deflate</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecompressor.hpp">
-      <Filter>IO\Compression\Algorithm\Deflate</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp">
       <Filter>IO\Compression\Format\Deflate</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Views\Span.hpp">
-      <Filter>Container\Views</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\Span.hpp">
+      <Filter>Container\View</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1034,9 +1028,6 @@
     <Filter Include="Container\OrderedAssociative">
       <UniqueIdentifier>{da767481-3335-4bb6-bd9c-672fbefce859}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Container\Views">
-      <UniqueIdentifier>{18f5be00-8725-48bf-93ae-c76cabcde751}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Threading\Tasks">
       <UniqueIdentifier>{a5f154e2-9cdf-416f-be1e-ee2e29b2a129}</UniqueIdentifier>
     </Filter>
@@ -1087,6 +1078,9 @@
     </Filter>
     <Filter Include="IO\Compression\Algorithm\LempelZiv">
       <UniqueIdentifier>{f98b1db6-3a18-4886-9979-f8e6feec8cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Container\View">
+      <UniqueIdentifier>{11a167d4-344f-4818-9e54-a963797626d0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

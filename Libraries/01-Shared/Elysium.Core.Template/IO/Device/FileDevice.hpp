@@ -189,20 +189,8 @@ namespace Elysium::Core::Template::IO::Device
 			if (nullptr == Buffer || 0 == Count)
 			{
 				return;
-				//throw ArgumentNullException(u8"Buffer");
 			}
-			/*
-			if (Buffer == nullptr)
-			{
-				throw 1;
-				//throw ArgumentNullException(u8"Buffer");
-			}
-
-			if (Count == 0)
-			{
-				return;
-			}
-			*/
+			
 			Elysium::Core::uint32_t TotalBytesWritten = 0;
 			Elysium::Core::uint32_t BytesWritten = 0;
 			do
@@ -214,8 +202,6 @@ namespace Elysium::Core::Template::IO::Device
 				TotalBytesWritten += BytesWritten;
 				_Position += BytesWritten;
 			} while (TotalBytesWritten != Count);
-
-			_Position += TotalBytesWritten;
 		}
 
 		inline void Flush(const bool FlushToDisk = true)
@@ -228,6 +214,11 @@ namespace Elysium::Core::Template::IO::Device
 			// @ToDo: early exit if no write permission was requested
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+			if (INVALID_HANDLE_VALUE == _FileHandle)
+			{
+				return;
+			}
+
 			if (!FlushFileBuffers(_FileHandle))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();

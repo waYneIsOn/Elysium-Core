@@ -413,6 +413,22 @@ namespace Elysium::Core::Template::Container
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="Length"></param>
+		inline void Resize(const Elysium::Core::Template::System::size Length)
+		{
+			if (Length < _Length)
+			{
+				_Length = Length;
+			}
+			else if (Length >= _Length)
+			{
+				Reserve(Length);
+			}
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="DesiredCapacity"></param>
 		void Reserve(const System::size DesiredCapacity);
 
@@ -1256,6 +1272,18 @@ namespace Elysium::Core::Template::Container
 			if (_Length > 0)
 			{
 				Elysium::Core::Template::Memory::MemSet(&_Data[--_Length], 0, sizeof(T));
+			}
+		}
+
+		inline void Resize(const Elysium::Core::Template::System::size Length)
+		{
+			if (Length < _Length)
+			{
+				_Length = Length;
+			}
+			else if (Length >= _Length)
+			{
+				Reserve(Length);
 			}
 		}
 

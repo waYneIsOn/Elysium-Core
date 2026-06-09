@@ -59,9 +59,14 @@ namespace Elysium::Core::Template::IO::Source
 			_Device.SetPosition(Position);
 		}
 	public:
-		inline const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
+		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			return _Device.Read(Buffer, Count);
+			return _Device.ReadBlock(DataView);
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			_Device.AdvanceReadingBlock(Length);
 		}
 	private:
 		DeviceType& _Device;

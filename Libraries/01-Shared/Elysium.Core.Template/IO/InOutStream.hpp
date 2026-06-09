@@ -12,6 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VIEW_SPAN
+#include "../Container/View/Span.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../System/Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO
 {
 	struct DeviceIndependent
@@ -87,9 +95,14 @@ namespace Elysium::Core::Template::IO
 			}
 		}
 	public:
-		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
+		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			return _Source.Read(Buffer, Count);
+			return _Source.ReadBlock(DataView);
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			_Source.AdvanceReadingBlock(Length);
 		}
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)

@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Container/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
+#include "../../Math/Min.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
 #include "../../Memory/MemCpy.hpp"
 #endif
@@ -33,7 +37,9 @@ namespace Elysium::Core::Template::IO::Device
 
 		inline constexpr MemoryDevice(const Elysium::Core::Template::System::size Capacity) noexcept
 			: _Buffer(Capacity), _Position(0)
-		{ }
+		{ 
+			_Buffer.Clear();
+		}
 
 		constexpr MemoryDevice(const MemoryDevice& Source) = delete;
 
@@ -70,12 +76,27 @@ namespace Elysium::Core::Template::IO::Device
 			_Position = Position;
 		}
 	public:
-		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
+		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			Elysium::Core::Template::Memory::MemCpy(Buffer, &_Buffer[_Position], Count);
-			_Position += Count;
+			if (_Position >= _Buffer.GetLength())
+			{
+				return false;
+			}
 
-			return Count;
+			DataView.SetData(&_Buffer[_Position]);
+			DataView.SetLength(_Buffer.GetLength() - _Position);
+
+			return true;
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			if (_Position + Length > _Buffer.GetLength())
+			{	// @ToDo
+				throw 1;
+			}
+
+			_Position += Length;
 		}
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
@@ -86,8 +107,19 @@ namespace Elysium::Core::Template::IO::Device
 			}
 			
 			_Buffer.Reserve(_Position + Count);
-			Elysium::Core::Template::Memory::MemCpy(&_Buffer[_Position], Buffer, Count);
-			
+
+			Elysium::Core::Template::System::size LeftOver = Count;
+			if (_Position < _Buffer.GetLength())
+			{
+				Elysium::Core::Template::System::size Available = Elysium::Core::Template::Math::Min(Count, _Buffer.GetLength() - _Position);
+
+				Elysium::Core::Template::Memory::MemCpy(&_Buffer[_Position], Buffer, Available);
+
+				LeftOver -= Available;
+			}
+
+			_Buffer.PushBackRange(Buffer, LeftOver);
+
 			_Position += Count;
 		}
 	private:

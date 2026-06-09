@@ -12,8 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
+#include "../../Container/FixedSizeBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VIEW_SPAN
+#include "../../Container/View/Span.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_DEVICE_FILEDEVICE
 #include "../Device/FileDevice.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::IO::Source
@@ -25,8 +37,8 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		constexpr FileSource() noexcept = delete;
 
-		inline constexpr FileSource(DeviceType& Device) noexcept
-			: _Device(Device)
+		inline constexpr FileSource(DeviceType& Device, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
+			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _ReadPosition(0), _WritePosition(0), _Device(Device)
 		{ }
 
 		constexpr FileSource(const FileSource& Source) = delete;
@@ -57,13 +69,47 @@ namespace Elysium::Core::Template::IO::Source
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
 			_Device.SetPosition(Position);
+			_ReadPosition = 0;
+			_WritePosition = 0;
 		}
 	public:
-		inline const Elysium::Core::size Read(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
+		inline void Close()
 		{
-			return _Device.Read(Buffer, Count);
+			_Device.Close();
+		}
+	public:
+		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		{
+			if (_ReadPosition == _WritePosition)
+			{
+				_ReadPosition = 0;
+				_WritePosition = _Device.Read(&_Buffer[_ReadPosition], _Buffer.GetCapacity());
+
+				if (0 == _WritePosition)
+				{
+					return false;
+				}
+			}
+
+			DataView.SetData(&_Buffer[_ReadPosition]);
+			DataView.SetLength(_WritePosition - _ReadPosition);
+
+			return true;
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			if (_ReadPosition + Length > _Buffer.GetCapacity())
+			{	// @ToDo
+				throw 1;
+			}
+
+			_ReadPosition += Length;
 		}
 	private:
+		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
+		Elysium::Core::Template::System::size _ReadPosition;
+		Elysium::Core::Template::System::size _WritePosition;
 		DeviceType& _Device;
 	};
 }

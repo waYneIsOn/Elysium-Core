@@ -49,6 +49,11 @@ namespace Elysium::Core::Template::IO::Sink
 			_Device.SetPosition(Position);
 		}
 	public:
+		inline void Close()
+		{
+			_Device.Close();
+		}
+	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			_Device.Write(Buffer, Count);

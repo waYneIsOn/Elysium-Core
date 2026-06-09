@@ -8,7 +8,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/DeflateSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/FileSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/BufferedSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/DeflateSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/GZipSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"
@@ -27,16 +26,13 @@ namespace UnitTests::Core::Template::IO
 	TEST_CLASS(CompositionalStreamTests)
 	{
 		using MemoryStream = InOutStream<MemorySink, MemorySource, DeviceCoupled>;
-		using BufferedMemoryStream = InOutStream<BufferedSink<MemorySink>, BufferedSource<MemorySource>, DeviceCoupled>;
-
 		using FileStream = InOutStream<FileSink, FileSource, DeviceCoupled>;
-		using BufferedFileStream = InOutStream<BufferedSink<FileSink>, BufferedSource<FileSource>, DeviceCoupled>;
 
 		using DeflateStream = InOutStream<DeflateSink<MemorySink>, DeflateSource<FileSource>, DeviceCoupled>;
-		using BufferedDeflateStream = InOutStream<BufferedSink<DeflateSink<MemorySink>>, BufferedSource<DeflateSource<FileSource>>, DeviceCoupled>;
+		using BufferedDeflateStream = InOutStream<BufferedSink<DeflateSink<MemorySink>>, DeflateSource<FileSource>, DeviceCoupled>;
 
-		//using GZipStream = InOutStream<MemorySink, DeflateSource<GZipSource<FileSource>>>;
-		using GZipStream = InOutStream<MemorySink, GZipSource<FileSource>>;
+		using GZipStream = InOutStream<MemorySink, DeflateSource<GZipSource<FileSource>>>;
+		//using GZipStream = InOutStream<MemorySink, GZipSource<FileSource>>;
 	public:
 		TEST_METHOD(PolicyTest)
 		{
@@ -104,85 +100,50 @@ namespace UnitTests::Core::Template::IO
 				GZipSource GZipSource(Source);
 				DeflateSource DeflateSource(GZipSource);
 
-				GZipStream Stream(Sink, GZipSource);
+				GZipStream Stream(Sink, DeflateSource);
 
-				Elysium::Core::Template::System::byte Buffer[1024] = {};
-				Elysium::Core::Template::System::size BytesRead = Stream.Read(&Buffer[0], 1024);
-
-				/*
-				// @ToDo: all the reading currently works through source -> needs to be done through stream
-				Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader Header = GZipSource.ReadHeader();
-				GZipSource.ReadOptionalHeader(Header);
-
-				while (GZipSource.ReadBlock())
-				{
-
-				}
-
-				//Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter Footer = GZipSource.ReadFooter();
-				*/
-
-
-				/*
-				*/
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
+				const bool bla = Stream.ReadBlock(Span);
 
 				Assert::Fail();
 			}
 		}
 
 		TEST_METHOD(FileStreamTest)
-		{			
+		{	
+			// same file, same device
 			{
-				FileDevice WriteDevice(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileDevice Device(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileSink Sink(Device);
+				FileSource Source(Device);
+
+				FileStream Stream(Sink, Source);
+
+				WriteAndReadBack(Stream, false);
+			}
+
+			// same file, different devices
+			{
+				FileDevice WriteDevice(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Write, FileShare::ReadWrite);
 				FileSink Sink(WriteDevice);
 
-				FileDevice ReadDevice(u8"C:\\test\\bla.txt", FileMode::Open, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileDevice ReadDevice(u8"C:\\test\\bla.txt", FileMode::Open, FileAccess::Read, FileShare::ReadWrite);
 				FileSource Source(ReadDevice);
 
 				FileStream Stream(Sink, Source);
 
 				WriteAndReadBack(Stream, false);
 			}
-			
-			{
-				FileDevice WriteDevice(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
-				FileSink Sink(WriteDevice);
-				BufferedSink<FileSink> BufferedSink(Sink);
-
-				FileDevice ReadDevice(u8"C:\\test\\bla.txt", FileMode::Open, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
-				FileSource Source(ReadDevice);
-				BufferedSource<FileSource> BufferedSource(Source);
-
-				BufferedFileStream Stream(BufferedSink, BufferedSource);
-
-				WriteAndReadBack(Stream, true);
-			}
 		}
 
 		TEST_METHOD(MemoryStreamTest)
 		{
-			{
-				MemoryDevice Device(1024);
-				MemorySink Sink(Device);
-				MemorySource Source(Device);
-				MemoryStream Stream(Sink, Source);
+			MemoryDevice Device(1024);
+			MemorySink Sink(Device);
+			MemorySource Source(Device);
+			MemoryStream Stream(Sink, Source);
 
-				WriteAndReadBack(Stream, false);
-			}
-			
-			{
-				MemoryDevice Device(1024);
-
-				MemorySink Sink(Device);
-				BufferedSink<MemorySink> BufferedSink(Sink);
-
-				MemorySource Source(Device);
-				BufferedSource<MemorySource> BufferedSource(Source);
-
-				BufferedMemoryStream Stream(BufferedSink, BufferedSource);
-
-				WriteAndReadBack(Stream, true);
-			}
+			WriteAndReadBack(Stream, false);
 		}
 	private:
 		// @ToDo: create a concept for Streams to use here!
@@ -222,11 +183,19 @@ namespace UnitTests::Core::Template::IO
 				}
 
 				Stream.SetPosition(0);
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 				Elysium::Core::Template::System::size TotalBytesRead = 0;
-				while (TotalBytesRead < CombinedInputLength)
+				while (Stream.ReadBlock(Span))
 				{
-					Elysium::Core::Template::System::size BytesRead = Stream.Read(&Buffer[TotalBytesRead], CombinedInputLength - TotalBytesRead);
-					TotalBytesRead += BytesRead;
+					if (TotalBytesRead + Span.GetLength() > sizeof(Buffer))
+					{
+						Assert::Fail();
+					}
+
+					Elysium::Core::Template::Memory::MemCpy(&Buffer[TotalBytesRead], Span.GetData(), Span.GetLength());
+					TotalBytesRead += Span.GetLength();
+
+					Stream.AdvanceReadingBlock(Span.GetLength());
 				}
 
 				const char* Output = reinterpret_cast<const char*>(&Buffer[0]);

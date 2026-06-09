@@ -70,11 +70,17 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
-		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
+		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			const Elysium::Core::Template::System::size BytesRead = _InnerSource.Read(&Buffer[0], Count);
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> DeflateDataView{};
+			_InnerSource.ReadBlock(DeflateDataView);
 
-			return BytesRead;
+			return false;
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			_InnerSource.AdvanceReadingBlock(Length);
 		}
 	private:
 		InnerSource& _InnerSource;

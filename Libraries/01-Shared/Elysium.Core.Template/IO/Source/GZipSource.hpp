@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Compression/Format/GZip/GZipState.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
+#include "../../Math/Min.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -104,6 +108,55 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
+		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		{
+			while (true)
+			{
+				switch (_State)
+				{
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingHeader:
+				{
+					const Elysium::Core::Template::System::size BytesProcessed = ReadHeader();
+
+					_Buffer.Pop(BytesProcessed);
+					_Position -= BytesProcessed;
+
+					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock:
+				{
+					static constexpr const Elysium::Core::Template::System::size ReservedBytes = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
+
+
+
+
+
+
+					return true;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter:
+				{
+					ReadFooter();
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::Done:
+					return false;
+				default:
+					// @ToDo: throw specific exception
+					throw 1;
+				}
+			}
+
+			return false;
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			const bool sdfds = false;
+		}
+
 		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			Elysium::Core::Template::System::size TotalBytesWritten = 0;
@@ -126,6 +179,13 @@ namespace Elysium::Core::Template::IO::Source
 				{
 					static constexpr const Elysium::Core::Template::System::size ReservedBytes = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
 
+
+
+
+
+
+					return 0;
+					/*
 					Elysium::Core::Template::System::size BytesCopied = 0;
 
 					// "push back" bytes to deflate and do not populate this internal buffer again as to not copy everything all the time!
@@ -150,6 +210,7 @@ namespace Elysium::Core::Template::IO::Source
 					const Elysium::Core::Template::System::size BytesRead = _InnerSource.Read(&Buffer[BytesCopied], Count - BytesCopied);
 
 					return BytesCopied + BytesRead;
+					*/
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter:
@@ -243,30 +304,6 @@ namespace Elysium::Core::Template::IO::Source
 			return BytesProcessed;
 		}
 
-		inline void ReadBlockHeader()
-		{
-			if (_Buffer.GetIsEmpty())
-			{	// can start working with _InnerStream right away
-
-			}
-
-
-			// 1st byte:
-			//	- 1st bit BFINAL: final block == 1
-			//  - 2nd and 3rd bit BTYPE:
-			//		- 00 (0) uncompressed
-			//		- 01 (1) compressed fixed huffman codes
-			//		- 10 (2) compressed dynamic huffmand codes
-			//		- 11 (3) reserved (currently invalid afaik)
-			/*
-			RefillInternalBuffer(sizeof(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlock));
-			const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlock* CurrentBlock = 
-				reinterpret_cast<Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlock*>(&_Buffer[_Position]);
-
-			const bool IsFinalBlock = CurrentBlock->GetIsFinalBlock();
-			const Elysium::Core::Template::System::uint16_t CompressionMethod = CurrentBlock->GetCompressionMethod();
-			*/
-		}
 
 		inline void ReadBlock(Elysium::Core::byte* Buffer, const Elysium::Core::size Count)
 		{
@@ -351,12 +388,22 @@ namespace Elysium::Core::Template::IO::Source
 			}
 
 			Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> WriteableSpan = _Buffer.RequestWriteableSpan();
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 			Elysium::Core::Template::System::size TotalBytesRead = 0;
-			while (TotalBytesRead < Required)
+
+			while (_InnerSource.ReadBlock(Span))
 			{
-				Elysium::Core::Template::System::size BytesRead = _InnerSource.Read(WriteableSpan.GetKey(), WriteableSpan.GetValue());
-				TotalBytesRead += BytesRead;
+				const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(WriteableSpan.GetValue(), Span.GetLength());
+				Elysium::Core::Template::Memory::MemCpy(WriteableSpan.GetKey(), Span.GetData(), BytesToCopy);
+				_InnerSource.AdvanceReadingBlock(BytesToCopy);
+
+				TotalBytesRead += BytesToCopy;
+				if (TotalBytesRead > Required)
+				{
+					break;
+				}
 			}
+
 			_Buffer.CommitWritableSpan(TotalBytesRead);
 
 			return TotalBytesRead;
