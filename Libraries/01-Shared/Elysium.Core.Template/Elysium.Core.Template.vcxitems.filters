@@ -936,6 +936,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\SocketSource.hpp">
       <Filter>IO\Source</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\TimeoutPolicy.hpp">
+      <Filter>IO\Source\Policy</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\BlockingPolicy.hpp">
+      <Filter>IO\Source\Policy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

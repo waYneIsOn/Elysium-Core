@@ -64,7 +64,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\GZipSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\MemorySource.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\BlockingPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\NoPolicy.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\TimeoutPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\SocketSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Max.hpp" />
