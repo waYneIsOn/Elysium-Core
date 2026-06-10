@@ -12,12 +12,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_KEYVALUEPAIR
+#include "../../Container/KeyValuePair.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_RINGBUFFER
 #include "../../Container/RingBuffer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "../../Container/Vector.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_DEFLATE_DEFLATEDECODER
+#include "../Compression/Algorithm/Deflate/DeflateDecoder.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_GZIP_GZIPFOOTER
@@ -60,8 +68,8 @@ namespace Elysium::Core::Template::IO::Source
 		inline static constexpr const Elysium::Core::Template::System::size MinimumBufferSize = 1024;
 	public:
 		inline constexpr GZipSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = MinimumBufferSize) noexcept
-			: _State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingHeader),
-			_Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource)
+			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource),
+			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingHeader), _DecompressedDataBuffer(4096), _DeflateDecoder()
 		{ }
 
 		constexpr GZipSource(const GZipSource& Source) = delete;
@@ -126,49 +134,64 @@ namespace Elysium::Core::Template::IO::Source
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock:
 				{
+					// GZipSource can not know when the outer source is done with decompressing.
+					// Neither should the out source inform GZipSource that it's done.
+					// The way around this is to never "forward" the last 8 bytes (size of a GZipFooter) and use those at the appropriate time.
 					static constexpr const Elysium::Core::Template::System::size ReservedBytes = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
 
-					RefillInternalBuffer(_Buffer.GetLength());
+					while(true)
+					{
 
-					Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> ReadableSpan = 
-						_Buffer.RequestReadableSpan();
 
-					DataView.SetData(ReadableSpan.GetKey());
-					DataView.SetLength(ReadableSpan.GetValue() - ReservedBytes);
 
-					_Buffer.CommitReadableSpan(ReadableSpan.GetValue() - ReservedBytes);
+						// @ToDo: this will break at the end of a file or if device is a socket and there is no more data available
+						const Elysium::Core::Template::System::size AdditionalBytesRefilled = RefillInternalBuffer(_Buffer.GetLength());
 
 
 
 
+						assert(_Buffer.GetLength() > 0);
+
+						Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> SourceSpan =
+							_Buffer.RequestReadableSpan();
+						Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> TargetSpan =
+							_DecompressedDataBuffer.RequestWriteableSpan();
+
+						assert(SourceSpan.GetValue() != 0);
+						assert(TargetSpan.GetValue() != 0);
+
+						const Elysium::Core::Template::System::size DecompressedBytes = _DeflateDecoder.Decode(SourceSpan, TargetSpan);
+						if (DecompressedBytes > 0)
+						{
+
+
+
+
+
+							// @ToDo: this is not right! 
+							// _DeflateDecoder.Decode(...) might not have read all the available data!
+							// DecompressedBytes doesn't help us here either!
+							_Buffer.CommitReadableSpan(SourceSpan.GetValue());
+
+
+
+
+
+
+
+							DataView.SetData(TargetSpan.GetKey());
+							DataView.SetLength(DecompressedBytes);
+
+							if (Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done == _DeflateDecoder.GetState())
+							{
+								_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter;
+							}
+
+							return true;
+						}
+					}
 
 					return true;
-					/*
-					Elysium::Core::Template::System::size BytesCopied = 0;
-
-					// "push back" bytes to deflate and do not populate this internal buffer again as to not copy everything all the time!
-					if (!_Buffer.GetIsEmpty())
-					{
-						const Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> ReadableSpan =
-							_Buffer.RequestReadableSpan();
-
-						const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(ReadableSpan.GetValue(), Count);
-						Elysium::Core::Template::Memory::MemCpy(Buffer, ReadableSpan.GetKey(), BytesToCopy);
-
-						_Buffer.CommitReadableSpan(BytesToCopy);
-
-						BytesCopied += BytesToCopy;
-					}
-
-					if (BytesCopied == Count)
-					{
-						return BytesCopied;
-					}
-
-					const Elysium::Core::Template::System::size BytesRead = _InnerSource.Read(&Buffer[BytesCopied], Count - BytesCopied);
-
-					return BytesCopied + BytesRead;
-					*/
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter:
@@ -189,7 +212,7 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
 		{
-			throw 1;
+			_DecompressedDataBuffer.CommitWritableSpan(Length);
 		}
 	private:
 		inline const Elysium::Core::Template::System::size ReadHeader()
@@ -296,6 +319,8 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ReadNullTerminatedString()
 		{
+			//RefillInternalBuffer(???);
+
 			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Result;
 			Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size> ReadableSpan = _Buffer.RequestReadableSpan();
 
@@ -341,7 +366,7 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline const Elysium::Core::Template::System::size RefillInternalBuffer(const Elysium::Core::Template::System::size Required)
 		{
-			// Since this method is private, the following checks really only needs to be done in a debug-build.
+			// Since this method is private, the following checks really only are necessary in a debug-build.
 			assert(Required <= _Buffer.GetCapacity());
 			assert(_EndPosition + Required <= _Buffer.GetCapacity());
 
@@ -354,6 +379,7 @@ namespace Elysium::Core::Template::IO::Source
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 			Elysium::Core::Template::System::size TotalBytesRead = 0;
 
+			// @ToDo: this is going to break 100% on non-blocking sockets!
 			while (_InnerSource.ReadBlock(Span))
 			{
 				const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(WriteableSpan.GetValue(), Span.GetLength());
@@ -372,12 +398,15 @@ namespace Elysium::Core::Template::IO::Source
 			return TotalBytesRead;
 		}
 	private:
-		Elysium::Core::Template::IO::Compression::Format::GZip::GZipState _State;
-
 		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::System::size _Position;
 		Elysium::Core::Template::System::size _EndPosition;
 		InnerSource& _InnerSource;
+
+		Elysium::Core::Template::IO::Compression::Format::GZip::GZipState _State;
+
+		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _DecompressedDataBuffer;
+		Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateDecoder _DeflateDecoder;
 	};
 }
 #endif

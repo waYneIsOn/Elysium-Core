@@ -28,11 +28,9 @@ namespace UnitTests::Core::Template::IO
 		using MemoryStream = InOutStream<MemorySink, MemorySource, DeviceCoupled>;
 		using FileStream = InOutStream<FileSink, FileSource, DeviceCoupled>;
 
-		using DeflateStream = InOutStream<DeflateSink<MemorySink>, DeflateSource<FileSource>, DeviceCoupled>;
-		using BufferedDeflateStream = InOutStream<BufferedSink<DeflateSink<MemorySink>>, DeflateSource<FileSource>, DeviceCoupled>;
+		using GZipStream = InOutStream<MemorySink, GZipSource<FileSource>>;
 
-		using GZipStream = InOutStream<MemorySink, DeflateSource<GZipSource<FileSource>>>;
-		//using GZipStream = InOutStream<MemorySink, GZipSource<FileSource>>;
+		using DeflateStream = InOutStream<DeflateSink<MemorySink>, DeflateSource<FileSource>, DeviceCoupled>;
 	public:
 		TEST_METHOD(PolicyTest)
 		{
@@ -98,12 +96,12 @@ namespace UnitTests::Core::Template::IO
 				FileDevice ReadDevice(u8"Lorem Ipsum.gz", FileMode::Open, FileAccess::Read | FileAccess::Write);
 				FileSource Source(ReadDevice);
 				GZipSource GZipSource(Source);
-				DeflateSource DeflateSource(GZipSource);
 
-				GZipStream Stream(Sink, DeflateSource);
+				GZipStream Stream(Sink, GZipSource);
 
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 				const bool bla = Stream.ReadBlock(Span);
+				Stream.AdvanceReadingBlock(Span.GetLength());
 
 				Assert::Fail();
 			}

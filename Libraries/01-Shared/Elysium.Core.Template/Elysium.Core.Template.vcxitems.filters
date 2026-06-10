@@ -828,15 +828,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolTraits.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp">
-      <Filter>IO\Compression\Deflate</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp">
-      <Filter>IO\Compression\Deflate</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp">
-      <Filter>IO\Compression\Deflate</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp">
       <Filter>IO</Filter>
     </ClInclude>
@@ -897,9 +888,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\DeflateSink.hpp">
       <Filter>IO\Sink</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp">
-      <Filter>IO\Source</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77Token.hpp">
       <Filter>IO\Compression\LempelZiv</Filter>
     </ClInclude>
@@ -932,6 +920,21 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp">
       <Filter>IO\Compression\Format\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecoder.hpp">
+      <Filter>IO\Compression\Algorithm\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\ReadResult.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\NoPolicy.hpp">
+      <Filter>IO\Source\Policy</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\SocketSource.hpp">
+      <Filter>IO\Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1046,9 +1049,6 @@
     <Filter Include="IO\Compression\LempelZiv">
       <UniqueIdentifier>{a0d463d2-9843-4411-9c8a-8c3e0266aab1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IO\Compression\Deflate">
-      <UniqueIdentifier>{872e4d0e-f7b8-4b0f-9114-494499757d82}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IO\Source">
       <UniqueIdentifier>{aaa7de5d-b513-461d-9522-dc9e76d4dd9c}</UniqueIdentifier>
     </Filter>
@@ -1084,6 +1084,9 @@
     </Filter>
     <Filter Include="Container\View">
       <UniqueIdentifier>{11a167d4-344f-4818-9e54-a963797626d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Source\Policy">
+      <UniqueIdentifier>{7b2e4dca-7bd8-48a9-b21b-f1261fb3be38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

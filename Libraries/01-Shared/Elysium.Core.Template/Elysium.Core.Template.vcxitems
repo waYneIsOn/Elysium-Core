@@ -26,9 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateCompressor.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateDecompressor.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Deflate\DeflateUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp" />
@@ -54,6 +52,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\ReadResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\DeflateSink.hpp" />
@@ -65,6 +64,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\GZipSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\MemorySource.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\NoPolicy.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\SocketSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Max.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Min.hpp" />
