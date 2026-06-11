@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Container/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_READRESULT
+#include "../ReadResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_DEFLATE_DEFLATEDECODER
 #include "../Compression/Algorithm/Deflate/DeflateDecoder.hpp"
 #endif
@@ -116,7 +120,7 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
-		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
 			while (true)
 			{
@@ -187,11 +191,11 @@ namespace Elysium::Core::Template::IO::Source
 								_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter;
 							}
 
-							return true;
+							return Elysium::Core::Template::IO::ReadResult::HasData;
 						}
 					}
 
-					return true;
+					return Elysium::Core::Template::IO::ReadResult::HasData;
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter:
@@ -200,14 +204,14 @@ namespace Elysium::Core::Template::IO::Source
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::Done:
-					return false;
+					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 				default:
 					// @ToDo: throw specific exception
 					throw 1;
 				}
 			}
 
-			return false;
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
@@ -379,8 +383,51 @@ namespace Elysium::Core::Template::IO::Source
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 			Elysium::Core::Template::System::size TotalBytesRead = 0;
 
+			while (_Buffer.GetLength() < Required)
+			{
+				bool MadeProgress = false;
+				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(Span);
+
+				switch (Result)
+				{
+				case Elysium::Core::Template::IO::ReadResult::HasData:
+				{
+					if (0 == Span.GetLength())
+					{	// @ToDo: need to check this case, if it ever happens because that would mean the underlying source's or device's implementation is wrong
+						throw 1;
+					}
+
+					const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(WriteableSpan.GetValue(), Span.GetLength());
+					Elysium::Core::Template::Memory::MemCpy(WriteableSpan.GetKey(), Span.GetData(), BytesToCopy);
+					_InnerSource.AdvanceReadingBlock(BytesToCopy);
+					_Buffer.CommitWritableSpan(BytesToCopy);
+
+					TotalBytesRead += BytesToCopy;
+					MadeProgress = true;
+				}
+					break;
+				case Elysium::Core::Template::IO::ReadResult::Pending:
+					// @ToDo: this is going to happen on non-blocking sockets for sure -> need to handle this case
+					throw 1;
+
+					break;
+				case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+					break;
+				default:
+					// @ToDo
+					throw 1;
+				}
+
+				// prevent infinite loops
+				if (!MadeProgress)
+				{
+					break;
+				}
+			}
+
+			/*
 			// @ToDo: this is going to break 100% on non-blocking sockets!
-			while (_InnerSource.ReadBlock(Span))
+			while (_InnerSource.ReadBlock(Span) == Elysium::Core::Template::IO::ReadResult::HasData)
 			{
 				const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(WriteableSpan.GetValue(), Span.GetLength());
 				Elysium::Core::Template::Memory::MemCpy(WriteableSpan.GetKey(), Span.GetData(), BytesToCopy);
@@ -394,7 +441,7 @@ namespace Elysium::Core::Template::IO::Source
 					break;
 				}
 			}
-
+			*/
 			return TotalBytesRead;
 		}
 	private:

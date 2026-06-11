@@ -100,7 +100,7 @@ namespace UnitTests::Core::Template::IO
 				GZipStream Stream(Sink, GZipSource);
 
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
-				const bool bla = Stream.ReadBlock(Span);
+				const Elysium::Core::Template::IO::ReadResult ReadResult = Stream.ReadBlock(Span);
 				Stream.AdvanceReadingBlock(Span.GetLength());
 
 				Assert::Fail();
@@ -183,7 +183,7 @@ namespace UnitTests::Core::Template::IO
 				Stream.SetPosition(0);
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 				Elysium::Core::Template::System::size TotalBytesRead = 0;
-				while (Stream.ReadBlock(Span))
+				while (Stream.ReadBlock(Span) == Elysium::Core::Template::IO::ReadResult::HasData)
 				{
 					if (TotalBytesRead + Span.GetLength() > sizeof(Buffer))
 					{

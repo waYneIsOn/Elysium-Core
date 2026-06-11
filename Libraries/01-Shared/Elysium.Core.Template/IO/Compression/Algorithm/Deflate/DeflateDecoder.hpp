@@ -67,6 +67,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				{
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingHeader:
 				{
+					// @ToDo: need a BitReader of some sort. while the first block is byte aligned, afterwards it might not be!!!!
+
 					Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader* Header =
 						reinterpret_cast<Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader*>(Data);
 

@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Container/View/Span.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_READRESULT
+#include "ReadResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../System/Primitives.hpp"
 #endif
@@ -95,7 +99,7 @@ namespace Elysium::Core::Template::IO
 			}
 		}
 	public:
-		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
 			return _Source.ReadBlock(DataView);
 		}

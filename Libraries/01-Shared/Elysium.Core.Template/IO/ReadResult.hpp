@@ -33,9 +33,11 @@ namespace Elysium::Core::Template::IO
 	{
 		HasData = 0,
 
-		WouldBlock = 1,
+		Pending = 1,
 
-		EndOfStream = 2
+		EndOfStream = 2,
+
+		//Error = 3
 	};
 }
 #endif

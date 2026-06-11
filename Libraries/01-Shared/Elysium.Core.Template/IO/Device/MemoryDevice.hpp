@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Container/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_READRESULT
+#include "../ReadResult.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
 #include "../../Math/Min.hpp"
 #endif
@@ -80,17 +84,17 @@ namespace Elysium::Core::Template::IO::Device
 			_Position = Position;
 		}
 	public:
-		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
 			if (_Position >= _Buffer.GetLength())
 			{
-				return false;
+				return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 			}
 
 			DataView.SetData(&_Buffer[_Position]);
 			DataView.SetLength(_Buffer.GetLength() - _Position);
 
-			return true;
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)

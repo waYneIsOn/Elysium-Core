@@ -59,7 +59,7 @@ namespace Elysium::Core::Template::IO::Source
 			_Device.SetPosition(Position);
 		}
 	public:
-		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
 			return _Device.ReadBlock(DataView);
 		}
