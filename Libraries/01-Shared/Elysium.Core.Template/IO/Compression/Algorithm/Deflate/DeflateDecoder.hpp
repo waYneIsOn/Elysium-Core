@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Container/KeyValuePair.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_BITREADER
+#include "../../../BitReader.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKHEADER
 #include "../../Format/Deflate/DeflateBlockHeader.hpp"
 #endif
@@ -56,10 +60,13 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			return _State;
 		}
 	public:
-		const Elysium::Core::Template::System::size Decode(Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size>& SourceSpan,
-			Elysium::Core::Template::Container::KeyValuePair<Elysium::Core::Template::System::byte*, Elysium::Core::Template::System::size>& TargetSpan)
+		const Elysium::Core::Template::System::size Decode(Elysium::Core::Template::Container::View::MultiSpan<const Elysium::Core::Template::System::byte, 1024, 2>& SourceSpan,
+			Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2>& TargetSpan)
 		{
-			Elysium::Core::Template::System::byte* Data = SourceSpan.GetKey();
+			const Elysium::Core::Template::System::byte* SourceData = SourceSpan.GetFirst().GetData();
+			const Elysium::Core::Template::System::size SourceLength = SourceSpan.GetFirst().GetLength();
+
+			Elysium::Core::Template::IO::BitReader Reader(SourceData, SourceLength);
 
 			while (true)
 			{
@@ -69,8 +76,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				{
 					// @ToDo: need a BitReader of some sort. while the first block is byte aligned, afterwards it might not be!!!!
 
-					Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader* Header =
-						reinterpret_cast<Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader*>(Data);
+					const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader* Header =
+						reinterpret_cast<const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader*>(SourceData);
 
 					const bool IsFinalBlock = Header->GetIsFinalBlock();
 					const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType BlockType = Header->GetCompressionMethod();

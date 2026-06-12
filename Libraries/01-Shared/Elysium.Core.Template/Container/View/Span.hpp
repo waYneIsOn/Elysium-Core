@@ -28,18 +28,18 @@ namespace Elysium::Core::Template::Container::View
 		constexpr Span() = default;
 
 		inline constexpr Span(ConstPointer Data, const Elysium::Core::Template::System::size Length)
-			: _Data(Data), _Length(Length)
+			: _Data(const_cast<Pointer>(Data)), _Length(Length)
 		{ }
 
-		constexpr Span(const Span& Source) = delete;
+		constexpr Span(const Span& Source) = default;
 
-		constexpr Span(Span&& Right) noexcept = delete;
+		constexpr Span(Span&& Right) noexcept = default;
 
 		constexpr ~Span() = default;
 	public:
-		constexpr Span<T>& operator=(const Span& Source) = delete;
+		constexpr Span<T, Extent>& operator=(const Span& Source) = default;
 
-		constexpr Span<T>& operator=(Span&& Right) noexcept = delete;
+		constexpr Span<T, Extent>& operator=(Span&& Right) noexcept = default;
 	public:
 		inline Pointer GetData() noexcept
 		{
@@ -49,6 +49,11 @@ namespace Elysium::Core::Template::Container::View
 		inline const Elysium::Core::Template::System::size GetLength() const noexcept
 		{
 			return _Length;
+		}
+
+		inline const bool IsEmpty() const noexcept
+		{
+			return nullptr == _Data || 0 == _Length || _Data == _Data[_Length];
 		}
 	public:
 		inline void SetData(ConstPointer Data) noexcept

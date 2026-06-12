@@ -16,8 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Concepts/NonConstant.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_KEYVALUEPAIR
-#include "KeyValuePair.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VIEW_MULTISPAN
+#include "View/MultiSpan.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VIEW_MULTISPAN
+#include "../Container/View/MultiSpan.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
@@ -43,6 +47,7 @@ namespace Elysium::Core::Template::Container
 	{
 	public:
 		using Value = T;
+		using ConstValue = const T;
 
 		using Pointer = T*;
 		using ConstPointer = const T*;
@@ -104,6 +109,13 @@ namespace Elysium::Core::Template::Container
 		{
 			return _Length == _Capacity;
 		}
+
+
+
+
+
+
+		// @ToDo: remvoe these operators!!!!
 	public:
 		inline constexpr Reference operator[](const Elysium::Core::Template::System::size Index)
 		{
@@ -114,6 +126,11 @@ namespace Elysium::Core::Template::Container
 		{
 			return _Data[Index];
 		}
+
+
+
+
+
 	public:
 		inline void Push(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 		{
@@ -135,7 +152,7 @@ namespace Elysium::Core::Template::Container
 			_Length += Length;
 		}
 
-		inline void Pop(Pointer Buffer, const Elysium::Core::Template::System::size Length)
+		inline void Pop(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)
 		{
 			if (Length > _Length)
 			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
@@ -143,12 +160,12 @@ namespace Elysium::Core::Template::Container
 			}
 
 			Elysium::Core::Template::System::size FirstChunkLength = Elysium::Core::Template::Math::Min(Length, _Capacity - _Head);
-			Elysium::Core::Template::Memory::MemCpy(Buffer, &_Data[_Head], FirstChunkLength);
+			Elysium::Core::Template::Memory::MemCpy(TargetBuffer, &_Data[_Head], FirstChunkLength);
 
 			Elysium::Core::Template::System::size RemainingLength = Length - FirstChunkLength;
 			if (0 < RemainingLength)
 			{
-				Elysium::Core::Template::Memory::MemCpy(&Buffer[FirstChunkLength], &_Data[0], RemainingLength);
+				Elysium::Core::Template::Memory::MemCpy(&TargetBuffer[FirstChunkLength], &_Data[0], RemainingLength);
 			}
 
 			Pop(Length);
@@ -165,15 +182,15 @@ namespace Elysium::Core::Template::Container
 			_Length -= Length;
 		}
 	public:
-		inline KeyValuePair<Pointer, Elysium::Core::Template::System::size> RequestReadableSpan()
+		inline Elysium::Core::Template::Container::View::MultiSpan<ConstValue, 1024, 2> RequestReadableSpan()
 		{
 			if (GetIsEmpty())
 			{
-				return { nullptr, 0 };
+				return { nullptr, 0, nullptr, 0 };
 			}
 
 			const Elysium::Core::Template::System::size RemainingSpace = (_Head < _Tail) ? _Tail - _Head : _Capacity - _Head;
-			return { &_Data[_Head], RemainingSpace };
+			return { &_Data[_Head], RemainingSpace, nullptr, 0 };
 		}
 
 		inline void CommitReadableSpan(const Elysium::Core::Template::System::size Length)
@@ -186,16 +203,16 @@ namespace Elysium::Core::Template::Container
 			_Head = (_Head + Length) % _Capacity;
 			_Length -= Length;
 		}
-
-		inline KeyValuePair<Pointer, Elysium::Core::Template::System::size> RequestWriteableSpan()
+	public:
+		inline Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestWriteableSpan()
 		{
 			if (GetIsFull())
 			{
-				return { nullptr, 0 };
+				return { nullptr, 0, nullptr, 0 };
 			}
 
 			const Elysium::Core::Template::System::size RemainingSpace = (_Tail >= _Head) ? _Capacity - _Tail : _Head - _Tail;
-			return { &_Data[_Tail], RemainingSpace };
+			return { &_Data[_Tail], RemainingSpace, nullptr, 0 };
 		}
 
 		inline void CommitWritableSpan(const Elysium::Core::Template::System::size Length)

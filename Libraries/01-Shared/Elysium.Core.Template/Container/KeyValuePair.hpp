@@ -41,7 +41,7 @@ namespace Elysium::Core::Template::Container
 
 		KeyValuePair(KeyValuePair&& Right) noexcept;
 
-		~KeyValuePair();
+		~KeyValuePair() = default;
 	public:
 		KeyValuePair<TKey, TValue>& operator=(const KeyValuePair& Source);
 
@@ -73,10 +73,6 @@ namespace Elysium::Core::Template::Container
 	{
 		*this = Functional::Move(Right);
 	}
-
-	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
-	inline KeyValuePair<TKey, TValue>::~KeyValuePair()
-	{ }
 
 	template<Elysium::Core::Template::Concepts::Hashable TKey, class TValue>
 	inline KeyValuePair<TKey, TValue>& KeyValuePair<TKey, TValue>::operator=(const KeyValuePair& Source)

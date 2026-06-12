@@ -942,6 +942,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\BlockingPolicy.hpp">
       <Filter>IO\Source\Policy</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitReader.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp">
+      <Filter>Container\View</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
