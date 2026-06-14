@@ -35,9 +35,13 @@ namespace Elysium::Core::Template::IO::Compression::Format::GZip
 		Elysium::Core::Template::System::byte _ExtraFlags;	// compression level hint
 		Elysium::Core::Template::System::byte _OperatingSystem;
 
+		Elysium::Core::Template::System::uint16_t _ExtraLength;
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> _ExtraBuffer;
+
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> _NameBuffer;
+
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> _CommentBuffer;
+
 		Elysium::Core::Template::System::uint16_t _Crc;
 	public:
 		inline const bool ValidateIds() const

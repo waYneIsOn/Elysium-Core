@@ -81,6 +81,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddRightValueReference.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\AggregateException.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemChr.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentNullException.hpp" />

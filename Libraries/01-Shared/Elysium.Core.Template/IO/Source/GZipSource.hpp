@@ -48,6 +48,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Math/Min.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCHR
+#include "../../Memory/MemChr.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -64,8 +68,8 @@ namespace Elysium::Core::Template::IO::Source
 		using DeviceType = InnerSource::DeviceType;
 	public:
 		inline constexpr GZipSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = MinimumBufferSize) noexcept
-			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _Position(0), _EndPosition(0), _InnerSource(InnerSource),
-			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingHeader), _DecompressedDataBuffer(4096), _DeflateDecoder()
+			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _InnerSource(InnerSource),
+			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFixedHeader), _Header{}, _Footer{}, _DecompressedDataBuffer(4096), _DeflateDecoder()
 		{ }
 
 		constexpr GZipSource(const GZipSource& Source) = delete;
@@ -98,10 +102,8 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
 		{
-			// @ToDo: need to see how to implement this correctly as there is _Buffer
 			_InnerSource.SetPosition(Position);
-			_Position = 0;
-			_EndPosition = 0;
+			_Buffer.Clear();
 		}
 	public:
 		inline void Close()
@@ -112,85 +114,88 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
-		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
 		{
 			while (true)
 			{
 				switch (_State)
 				{
-				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingHeader:
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFixedHeader:
 				{
-					const Elysium::Core::Template::System::size BytesProcessed = ReadHeader();
-
-					_Buffer.Pop(BytesProcessed);
-					_Position -= BytesProcessed;
-
+					const Elysium::Core::Template::IO::ReadResult Result = ReadHeader();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
+					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderExtra;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderExtra:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadExtra();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
+					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderName;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderName:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadName();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
+					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadComment();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
+					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc;
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadCrc();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
 					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock:
 				{
-					// GZipSource can not know when the outer source is done with decompressing.
-					// Neither should the DeflateDecoder inform GZipSource that it's done.
-					// The way around this is to never "forward" the last 8 bytes (size of a GZipFooter) and use those at the appropriate time.
-					static constexpr const Elysium::Core::Template::System::size ReservedBytes = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
-
-					while(true)
+					const Elysium::Core::Template::IO::ReadResult Result = Decompress(TargetView);
+					switch (Result)
 					{
-						Elysium::Core::Template::System::size BytesRead = 0;
-
-
-						// @ToDo: this will break at the end of a file or if device is a socket and there is no more data available
-						RepopulateBuffer(_Buffer.GetLength(), BytesRead);
-
-
-
-
-						assert(_Buffer.GetLength() > 0);
-
-						Elysium::Core::Template::Container::View::MultiSpan<const Elysium::Core::Template::System::byte, 1024, 2> SourceSpan = _Buffer.RequestReadableSpan();
-						Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> TargetSpan = _DecompressedDataBuffer.RequestWriteableSpan();
-
-						assert(SourceSpan.GetFirst().GetLength() != 0);
-						assert(TargetSpan.GetFirst().GetLength() != 0);
-
-						const Elysium::Core::Template::System::size DecompressedBytes = _DeflateDecoder.Decode(SourceSpan, TargetSpan);
-						if (DecompressedBytes > 0)
-						{
-
-
-
-
-
-							// @ToDo: this is not right! 
-							// _DeflateDecoder.Decode(...) might not have read all the available data!
-							// DecompressedBytes doesn't help us here either!
-							_Buffer.CommitReadableSpan(SourceSpan.GetFirst().GetLength());
-
-
-
-
-
-
-
-							DataView.SetData(TargetSpan.GetFirst().GetData());
-							DataView.SetLength(DecompressedBytes);
-
-							if (Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done == _DeflateDecoder.GetState())
-							{
-								_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter;
-							}
-
-							return Elysium::Core::Template::IO::ReadResult::HasData;
-						}
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						return Result;
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						// @ToDo:
+						throw 1;
+					case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+						_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter;
+						return Result;
+					default:
+						// @ToDo:
+						throw 1;
 					}
-
-					return Elysium::Core::Template::IO::ReadResult::HasData;
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter:
 				{
-					ReadFooter();
+					const Elysium::Core::Template::IO::ReadResult Result = ReadFooter();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
 					_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::Done;
 				}
 					break;
@@ -210,18 +215,49 @@ namespace Elysium::Core::Template::IO::Source
 			_DecompressedDataBuffer.CommitWritableSpan(Length);
 		}
 	private:
-		inline const Elysium::Core::Template::System::size ReadHeader()
+		inline const Elysium::Core::Template::IO::ReadResult ReadHeader()
 		{
-			static constexpr const Elysium::Core::Template::System::size BytesToRead = Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader::Size;
-			Elysium::Core::Template::System::size BytesRead = 0;
-			const Elysium::Core::Template::IO::ReadResult InitialRepopulateBufferResult = RepopulateBuffer(BytesToRead, BytesRead);
-			if (_Buffer.GetLength() < BytesToRead)
+			static constexpr const Elysium::Core::Template::System::size HeaderSize = Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader::Size;
+
+			Elysium::Core::Template::System::size BytesPopulated = 0;
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(HeaderSize, BytesPopulated);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
-				// @ToDo: not enough data (handling here depends on the internal handling of RepopulateBuffer for ReadResult::Pending)
-				throw 1;
+				return BufferPopulationResult;
 			}
 
-			Elysium::Core::Template::Memory::MemCpy(&_Header, &_Buffer[_Position], BytesToRead);
+			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+			Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader* AddressOfHeader =
+				_Buffer.TryGetContiguous<Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader>(ReadableSpans);
+			if (nullptr != AddressOfHeader) ELYSIUM_CORE_PATH_LIKELY
+			{
+				// this wouldn't work due to the optional fields having none-sense memory values
+				//_Header = *AddressOfHeader;
+
+				// ergo simply do a memcpy here
+				Elysium::Core::Template::System::byte* TargetData = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Header);
+				Elysium::Core::Template::Memory::MemCpy(TargetData, AddressOfHeader, HeaderSize);
+			}
+			else
+			{
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
+				if (ReadableSpan0.GetIsEmpty())
+				{	// @ToDo: if this happens, I've found an error in my implementation!
+					throw 1;
+				}
+
+				const Elysium::Core::Template::System::size BytesAvailable0 = ReadableSpan0.GetLength();
+
+				Elysium::Core::Template::System::byte* Target = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Header);
+				Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, HeaderSize);
+				Elysium::Core::Template::Memory::MemCpy(Target, ReadableSpan0.GetData(), BytesToCopy0);
+
+				if (BytesAvailable0 < HeaderSize)
+				{
+					Elysium::Core::Template::Memory::MemCpy(&Target[BytesToCopy0], ReadableSpan1.GetData(), HeaderSize - BytesToCopy0);
+				}
+			}
 
 			if (!_Header.ValidateIds())
 			{	// @ToDo: magic number incorrect -> not a gzip file
@@ -233,192 +269,374 @@ namespace Elysium::Core::Template::IO::Source
 				throw 1;
 			}
 
-			Elysium::Core::Template::System::size BytesProcessed = BytesToRead;
-			_Position += BytesProcessed;
+			_Buffer.CommitReadableSpan(HeaderSize);
 
-			if (_Header.GetExtraExists())
-			{	// @ToDo: haven't encountered this case. need to make sure it's correct!
-				static constexpr const Elysium::Core::Template::System::size BytesToReadExtraLength = sizeof(Elysium::Core::Template::System::uint16_t);
-				Elysium::Core::Template::System::size BytesRead = 0;
-				const Elysium::Core::Template::IO::ReadResult ExtraLengthRepopulateBufferResult = RepopulateBuffer(BytesToReadExtraLength, BytesRead);
-				if (_Buffer.GetLength() < BytesToReadExtraLength)
-				{
-					// @ToDo: not enough data (handling here depends on the internal handling of RepopulateBuffer for ReadResult::Pending)
-					throw 1;
-				}
-
-				const Elysium::Core::Template::System::uint16_t ExtraLength = *reinterpret_cast<Elysium::Core::Template::System::uint16_t*>(&_Buffer[_Position]);
-				BytesProcessed += BytesToReadExtraLength;
-				_Position += BytesToReadExtraLength;
-
-				ReadBytes(ExtraLength, _Header._ExtraBuffer);
-
-				BytesProcessed += ExtraLength;
-				_Position += ExtraLength;
-			}
-
-			if (_Header.GetNameExists())
-			{
-				ReadNullTerminatedString(_Header._NameBuffer);
-
-				const Elysium::Core::Template::System::size DataLength = _Header._NameBuffer.GetLength();
-				BytesProcessed += DataLength;
-				_Position += DataLength;
-			}
-
-			if (_Header.GetCommentExists())
-			{	// @ToDo: haven't encountered this case. need to make sure it's correct!
-				ReadNullTerminatedString(_Header._CommentBuffer);
-
-				const Elysium::Core::Template::System::size DataLength = _Header._CommentBuffer.GetLength();
-				BytesProcessed += DataLength;
-				_Position += DataLength;
-			}
-
-			if (_Header.GetHeaderCrcExists())
-			{	// @ToDo: haven't encountered this case. need to make sure it's correct!
-				static constexpr const Elysium::Core::Template::System::size BytesToReadCrc = sizeof(Elysium::Core::Template::System::uint16_t);
-				Elysium::Core::Template::System::size BytesRead = 0;
-				const Elysium::Core::Template::IO::ReadResult CrcRepopulateBufferResult = RepopulateBuffer(BytesToReadCrc, BytesRead);
-				_Header._Crc = *reinterpret_cast<Elysium::Core::Template::System::uint16_t*>(&_Buffer[_Position]);
-
-				BytesProcessed += BytesToReadCrc;
-				_Position += BytesToReadCrc;
-			}
-
-			return BytesProcessed;
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
-		inline Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter ReadFooter()
+		inline const Elysium::Core::Template::IO::ReadResult ReadExtra()
 		{
-			static constexpr const Elysium::Core::Template::System::size BytesToRead = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
-
-			Elysium::Core::Template::System::size BytesRead = 0;
-			const Elysium::Core::Template::IO::ReadResult InitialRepopulateBufferResult = RepopulateBuffer(BytesToRead, BytesRead);
-			if (_Buffer.GetLength() < BytesToRead)
+			if (!_Header.GetExtraExists())
 			{
-				// @ToDo: not enough data (handling here depends on the internal handling of RepopulateBuffer for ReadResult::Pending)
-				throw 1;
+				return Elysium::Core::Template::IO::ReadResult::HasData;
 			}
 
-			return *reinterpret_cast<Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter*>(&_Buffer[_Position]);
-		}
-
-		inline void ReadBytes(const Elysium::Core::Template::System::size Length, Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& Buffer)
-		{
-			Elysium::Core::Template::System::size TotalBytesRead = _Buffer.GetLength();
-			while (TotalBytesRead < Length)
+			// @ToDo: haven't encountered this yet, need to ensure the implementation is correct!
+			if (0 == _Header._ExtraLength)
 			{
-				Elysium::Core::Template::System::size BytesRead = 0;
-				const Elysium::Core::Template::IO::ReadResult ExtraRepopulateBufferResult = RepopulateBuffer(Length, BytesRead);
-				TotalBytesRead += BytesRead;
-				if (_Buffer.GetLength() < Length)
+				static constexpr const Elysium::Core::Template::System::size ExtraLengthSize = sizeof(_Header._ExtraLength);
+
+				Elysium::Core::Template::System::size BytesPopulated = 0;
+				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(ExtraLengthSize, BytesPopulated);
+				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 				{
-					// @ToDo: not enough data (handling here depends on the internal handling of RepopulateBuffer for ReadResult::Pending)
-					throw 1;
+					return BufferPopulationResult;
 				}
 
-				Buffer.PushBackRange(&_Buffer[_Position], Elysium::Core::Template::Math::Min(BytesRead, Length));
-				_Position += BytesRead;
-			}
-		}
-
-		inline void ReadNullTerminatedString(Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& StringBuffer)
-		{
-			// @Exploit: gzip does not impose a limit on the length of a null-terminated string. I will!
-			// @ToDo: handle string-length > buffer-length
-
-			Elysium::Core::Template::System::size TotalBytesRead = 0;
-
-			while (true)
-			{
-				Elysium::Core::Template::System::size BytesRead = 0;
-				RepopulateBuffer(_Buffer.GetLength(), BytesRead);
-				TotalBytesRead += BytesRead;
-
-				Elysium::Core::Template::Container::View::MultiSpan<const Elysium::Core::Template::System::byte, 1024, 2> ReadableSpan = _Buffer.RequestReadableSpan();
-
-				const Elysium::Core::Template::System::byte* Data = &ReadableSpan.GetFirst().GetData()[_Position];
-
-				// @ToDo: don't use the byte by byte approach!!!!
-				for (Elysium::Core::Template::System::size i = 0; i < ReadableSpan.GetFirst().GetLength(); ++i)
+				const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+				Elysium::Core::Template::System::uint16_t* AddressOfExtraLength = _Buffer.TryGetContiguous<Elysium::Core::Template::System::uint16_t>(ReadableSpans);
+				if (nullptr != AddressOfExtraLength)
 				{
-					Elysium::Core::Template::System::byte CurrentByte = Data[i];
-					StringBuffer.PushBack(CurrentByte);
-
-					if (0x00 == CurrentByte)
-					{
-						return;
-					}
-				}
-
-				//_Buffer.CommitReadableSpan(ReadableSpan.GetValue());
-
-				/*
-				// @ToDo: stl remnant
-				const void* Found = std::memchr(ReadableSan.GetKey(), 0x00, ReadableSan.GetValue());
-
-				if (Found)
-				{
-					bool bla = false;
+					_Header._ExtraLength = *AddressOfExtraLength;
 				}
 				else
 				{
-					bool bla = false;
+					const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
+					const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
+					if (ReadableSpan0.GetIsEmpty())
+					{	// @ToDo: if this happens, I've found an error in my implementation!
+						throw 1;
+					}
+
+					const Elysium::Core::Template::System::size BytesAvailable0 = ReadableSpan0.GetLength();
+
+					Elysium::Core::Template::System::byte* Target = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Header._ExtraLength);
+					Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, ExtraLengthSize);
+					Elysium::Core::Template::Memory::MemCpy(Target, ReadableSpan0.GetData(), BytesToCopy0);
+
+					if (BytesAvailable0 < ExtraLengthSize)
+					{
+						Elysium::Core::Template::Memory::MemCpy(&Target[BytesToCopy0], ReadableSpan1.GetData(), ExtraLengthSize - BytesToCopy0);
+					}
 				}
 
-				if (0 == ReadableSan.GetValue())
-				{
+				_Buffer.CommitReadableSpan(ExtraLengthSize);
 
+				if (0 == _Header._ExtraLength)
+				{	// extra with no length? consider that data read ;)
+					// @ToDo: I guess this would actually be an error regarding the format? need to look it up and potentially throw a specific exception.
+					return Elysium::Core::Template::IO::ReadResult::HasData;
 				}
-				*/
 			}
 
+			const Elysium::Core::Template::IO::ReadResult ReadBytesResult = ReadBytes(_Header._ExtraLength - _Header._ExtraBuffer.GetLength(), _Header._ExtraBuffer);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == ReadBytesResult)
+			{
+				return ReadBytesResult;
+			}
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
-		inline const Elysium::Core::Template::IO::ReadResult RepopulateBuffer(const Elysium::Core::Template::System::size Desired, Elysium::Core::Template::System::size& BytesCopied)
+		inline const Elysium::Core::Template::IO::ReadResult ReadName()
+		{
+			if (!_Header.GetNameExists())
+			{
+				return Elysium::Core::Template::IO::ReadResult::HasData;
+			}
+
+			const Elysium::Core::Template::IO::ReadResult ReadNullTerminatedStringResult = ReadNullTerminatedString(_Header._NameBuffer);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == ReadNullTerminatedStringResult)
+			{
+				return ReadNullTerminatedStringResult;
+			}
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ReadComment()
+		{
+			if (!_Header.GetCommentExists())
+			{
+				return Elysium::Core::Template::IO::ReadResult::HasData;
+			}
+
+			// @ToDo: haven't encountered this yet, need to ensure the implementation is correct!
+			const Elysium::Core::Template::IO::ReadResult ReadNullTerminatedStringResult = ReadNullTerminatedString(_Header._CommentBuffer);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == ReadNullTerminatedStringResult)
+			{
+				return ReadNullTerminatedStringResult;
+			}
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ReadCrc()
+		{
+			if (!_Header.GetHeaderCrcExists())
+			{
+				return Elysium::Core::Template::IO::ReadResult::HasData;
+			}
+
+			// @ToDo: haven't encountered this yet, need to ensure the implementation is correct!
+			static constexpr const Elysium::Core::Template::System::size CrcSize = sizeof(_Header._Crc);
+
+			Elysium::Core::Template::System::size BytesPopulated = 0;
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(CrcSize, BytesPopulated);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			{
+				return BufferPopulationResult;
+			}
+
+			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+			Elysium::Core::Template::System::uint16_t* AddressOfCrc = _Buffer.TryGetContiguous<Elysium::Core::Template::System::uint16_t>(ReadableSpans);
+			if (nullptr != AddressOfCrc) ELYSIUM_CORE_PATH_LIKELY
+			{
+				_Header._Crc = *AddressOfCrc;
+			}
+			else
+			{
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
+				if (ReadableSpan0.GetIsEmpty())
+				{	// @ToDo: if this happens, I've found an error in my implementation!
+					throw 1;
+				}
+
+				const Elysium::Core::Template::System::size BytesAvailable0 = ReadableSpan0.GetLength();
+
+				Elysium::Core::Template::System::byte* Target = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Header._Crc);
+				Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, CrcSize);
+				Elysium::Core::Template::Memory::MemCpy(Target, ReadableSpan0.GetData(), BytesToCopy0);
+
+				if (BytesAvailable0 < CrcSize)
+				{
+					Elysium::Core::Template::Memory::MemCpy(&Target[BytesToCopy0], ReadableSpan1.GetData(), CrcSize - BytesToCopy0);
+				}
+			}
+
+			_Buffer.CommitReadableSpan(CrcSize);
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+	
+		inline const Elysium::Core::Template::IO::ReadResult Decompress(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
+		{
+			Elysium::Core::Template::System::size BytesPopulated = 0;
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(0, BytesPopulated);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			{
+				return BufferPopulationResult;
+			}
+
+			// GZipSource can not know when the outer source is done with decompressing.
+			// Neither should the DeflateDecoder inform GZipSource that it's done.
+			// The way around this is to never "forward" the last 8 bytes (size of a GZipFooter) and use those at the appropriate time.
+			// 
+			// @ToDo: make sure ReadableSpans does not include the last eight bytes!
+			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+			Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> TargetSpan = _DecompressedDataBuffer.RequestWriteableSpan();
+
+			const Elysium::Core::Template::IO::ReadResult DecompressionResult = _DeflateDecoder.Decode(ReadableSpans, TargetSpan);
+			switch (DecompressionResult)
+			{
+			case Elysium::Core::Template::IO::ReadResult::HasData:
+				[[__fallthrough__]]
+			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+
+
+				// @ToDo: populate for
+				//TargetView.SetData(nullptr);
+				//TargetView.SetLength(0);
+
+
+				return DecompressionResult;
+			case Elysium::Core::Template::IO::ReadResult::Pending:
+				// @ToDo: if this happens, the implementation of my DeflateDecoder is incorrect (or has changed)
+				throw 1;
+			default:
+				// @ToDo
+				throw 1;
+			}
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ReadFooter()
+		{
+			static constexpr const Elysium::Core::Template::System::size FooterSize = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
+
+			Elysium::Core::Template::System::size BytesPopulated = 0;
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize, BytesPopulated);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			{
+				return BufferPopulationResult;
+			}
+
+			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+			Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter* AddressOfFooter =
+				_Buffer.TryGetContiguous<Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter>(ReadableSpans);
+			if (nullptr != AddressOfFooter) ELYSIUM_CORE_PATH_LIKELY
+			{
+				_Footer = *AddressOfFooter;
+			}
+			else
+			{
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
+				if (ReadableSpan0.GetIsEmpty())
+				{	// @ToDo: if this happens, I've found an error in my implementation!
+					throw 1;
+				}
+
+				const Elysium::Core::Template::System::size BytesAvailable0 = ReadableSpan0.GetLength();
+
+				Elysium::Core::Template::System::byte* Target = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Footer);
+				Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, FooterSize);
+				Elysium::Core::Template::Memory::MemCpy(Target, ReadableSpan0.GetData(), BytesToCopy0);
+
+				if (BytesAvailable0 < FooterSize)
+				{
+					Elysium::Core::Template::Memory::MemCpy(&Target[BytesToCopy0], ReadableSpan1.GetData(), FooterSize - BytesToCopy0);
+				}
+			}
+
+			_Buffer.CommitReadableSpan(FooterSize);
+
+			return Elysium::Core::Template::IO::ReadResult::Pending;
+		}
+	private:
+		inline const Elysium::Core::Template::IO::ReadResult ReadBytes(const Elysium::Core::Template::System::size Length, 
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& TargetBuffer)
+		{
+			Elysium::Core::Template::System::size BytesPopulated = 0;
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(Length, BytesPopulated);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			{
+				return BufferPopulationResult;
+			}
+
+			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+			Elysium::Core::Template::System::byte* AddressOfData = _Buffer.TryGetContiguous<Elysium::Core::Template::System::byte>(ReadableSpans, Length);
+			if (nullptr != AddressOfData)
+			{
+				TargetBuffer.PushBackRange(AddressOfData, Length);
+				_Buffer.CommitReadableSpan(Length);
+			}
+			else
+			{
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
+				if (ReadableSpan0.GetIsEmpty())
+				{	// @ToDo: if this happens, I've found an error in my implementation!
+					throw 1;
+				}
+
+				const Elysium::Core::Template::System::size BytesAvailable0 = ReadableSpan0.GetLength();
+
+				Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, Length);
+				TargetBuffer.PushBackRange(ReadableSpan0.GetData(), BytesToCopy0);
+
+				const Elysium::Core::Template::System::size BytesAvailable1 = ReadableSpan1.GetLength();
+				Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(BytesAvailable1, Length);
+				if (BytesAvailable0 < Length)
+				{
+					TargetBuffer.PushBackRange(ReadableSpan1.GetData(), BytesToCopy1);
+				}
+
+				_Buffer.CommitReadableSpan(BytesToCopy0 + BytesToCopy1);
+			}
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ReadNullTerminatedString(Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& StringBuffer)
+		{
+			Elysium::Core::Template::System::size BytesPopulated = 0;
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(0, BytesPopulated);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			{
+				return BufferPopulationResult;
+			}
+
+			// there is no hot-path in this case, we simply have to "scan" through the spans
+			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
+			const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
+			const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
+
+			const Elysium::Core::Template::System::byte* Data0 = ReadableSpan0.GetData();
+			const Elysium::Core::Template::System::size Length0 = ReadableSpan0.GetLength();
+
+			const Elysium::Core::Template::System::byte* Found = 
+				reinterpret_cast<const Elysium::Core::Template::System::byte*>(Elysium::Core::Template::Memory::MemChr(Data0, 0x00, Length0));
+			if (nullptr != Found) ELYSIUM_CORE_PATH_LIKELY
+			{
+				const Elysium::Core::Template::System::size StringLength = Found - Data0;
+				StringBuffer.PushBackRange(Data0, StringLength);
+				_Buffer.CommitReadableSpan(StringLength + 1);	// musn't forget '\0'!
+
+				return Elysium::Core::Template::IO::ReadResult::HasData;
+			}
+			else
+			{	
+				StringBuffer.PushBackRange(Data0, Length0);
+
+				const Elysium::Core::Template::System::byte* Data1 = ReadableSpan1.GetData();
+				const Elysium::Core::Template::System::size Length1 = ReadableSpan1.GetLength();
+
+				throw 1;
+			}
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult EnsureAvailableData(const Elysium::Core::Template::System::size Desired, Elysium::Core::Template::System::size& BytesCopied)
 		{
 			// Since this method is private, the following checks really only are necessary in a debug-build.
 			assert(Desired <= _Buffer.GetCapacity());
-			assert(_EndPosition + Desired <= _Buffer.GetCapacity());
 
-			if (Desired <= _EndPosition - _Position || _Buffer.GetLength() >= Desired)
+			if (_Buffer.GetLength() >= Desired)
 			{	// there are enough bytes in the internal buffer already
 				return Elysium::Core::Template::IO::ReadResult::HasData;
 			}
 
 			Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> WriteableSpan = _Buffer.RequestWriteableSpan();
-			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
-			Elysium::Core::Template::System::size TotalBytesRead = 0;
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan0 = WriteableSpan.GetFirst();
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan1 = WriteableSpan.GetSecond();
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> SourceSpan{};
 
 			while (_Buffer.GetLength() < Desired)
 			{
 				bool MadeProgress = false;
-				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(Span);
+				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(SourceSpan);
 
 				switch (Result)
 				{
 				case Elysium::Core::Template::IO::ReadResult::HasData:
 				{
-					if (0 == Span.GetLength())
+					if (0 == SourceSpan.GetLength())
 					{	// @ToDo: need to check this case, if it ever happens because that would mean the underlying source's or device's implementation is wrong
 						throw 1;
 					}
 
-					const Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(WriteableSpan.GetFirst().GetLength(), Span.GetLength());
-					Elysium::Core::Template::Memory::MemCpy(WriteableSpan.GetFirst().GetData(), Span.GetData(), BytesToCopy);
-					_InnerSource.AdvanceReadingBlock(BytesToCopy);
-					_Buffer.CommitWritableSpan(BytesToCopy);
+					const Elysium::Core::Template::System::size BytesAvailable0 = WriteableSpan0.GetLength();
+					const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, SourceSpan.GetLength());
+					Elysium::Core::Template::Memory::MemCpy(WriteableSpan0.GetData(), SourceSpan.GetData(), BytesToCopy0);
+					BytesCopied += BytesToCopy0;
 
-					TotalBytesRead += BytesToCopy;
+					const Elysium::Core::Template::System::size BytesAvailable1 = WriteableSpan1.GetLength();
+					if (BytesToCopy0 < BytesAvailable0 && 0 < BytesAvailable1)
+					{
+						// @ToDo: populate 2nd span as well
+						throw 1;
+					}
+
+					_InnerSource.AdvanceReadingBlock(BytesToCopy0);
+					_Buffer.CommitWritableSpan(BytesToCopy0);
+
 					MadeProgress = true;
 				}
 					break;
 				case Elysium::Core::Template::IO::ReadResult::Pending:
-					// @ToDo: this is going to happen on non-blocking io (for instance sockets) for sure -> need to handle this case
-					// no data avilable -> don't just retry -> strategy?
-					throw 1;
-
+					return Result;
 					break;
 				case Elysium::Core::Template::IO::ReadResult::EndOfStream:
 					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
@@ -444,7 +662,7 @@ namespace Elysium::Core::Template::IO::Source
 		/// Fixed GZipFooter is 8 bytes in size.
 		/// 
 		/// To reduce the amount of state information that needs to be saved, the defined minimum buffer size guarantees GZipHeader and GZipFooter fit into the buffer.
-		/// Additionally a carefully selected value helps with performance when reading extra-data, null-terminated-strings or DeflateBlocks.
+		/// Additionally a carefully selected value is a good trade-off between memory-consumption and performance.
 		/// @ToDo: find a value that performs well
 		/// </summary>
 		inline static constexpr const Elysium::Core::Template::System::size MinimumBufferSize = 1024;
@@ -452,8 +670,6 @@ namespace Elysium::Core::Template::IO::Source
 		inline static constexpr const Elysium::Core::Template::System::size _NullTerminatedStringLengthThreshold = 4096;
 	private:
 		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _Buffer;
-		Elysium::Core::Template::System::size _Position;
-		Elysium::Core::Template::System::size _EndPosition;
 		InnerSource& _InnerSource;
 
 		Elysium::Core::Template::IO::Compression::Format::GZip::GZipState _State;

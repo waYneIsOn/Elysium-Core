@@ -60,11 +60,11 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			return _State;
 		}
 	public:
-		const Elysium::Core::Template::System::size Decode(Elysium::Core::Template::Container::View::MultiSpan<const Elysium::Core::Template::System::byte, 1024, 2>& SourceSpan,
+		inline const Elysium::Core::Template::IO::ReadResult Decode(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2>& SourceSpans,
 			Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2>& TargetSpan)
 		{
-			const Elysium::Core::Template::System::byte* SourceData = SourceSpan.GetFirst().GetData();
-			const Elysium::Core::Template::System::size SourceLength = SourceSpan.GetFirst().GetLength();
+			const Elysium::Core::Template::System::byte* SourceData = SourceSpans.GetFirst().GetData();
+			const Elysium::Core::Template::System::size SourceLength = SourceSpans.GetFirst().GetLength();
 
 			Elysium::Core::Template::IO::BitReader Reader(SourceData, SourceLength);
 
@@ -74,7 +74,11 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				{
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingHeader:
 				{
-					// @ToDo: need a BitReader of some sort. while the first block is byte aligned, afterwards it might not be!!!!
+					const Elysium::Core::Template::IO::ReadResult Result = ReadHeader();
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{	// @ToDo
+						throw 1;
+					}
 
 					const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader* Header =
 						reinterpret_cast<const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader*>(SourceData);
@@ -117,19 +121,27 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 
 					const bool fasdf = false;
+					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingInvalidReserved:
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done:
-					return 0;
+					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 				default:
 					// @ToDo
 					throw 1;
 				}
 			}
 
-			return 0;
+			return Elysium::Core::Template::IO::ReadResult::EndOfStream;
+		}
+	private:
+		inline const Elysium::Core::Template::IO::ReadResult ReadHeader()
+		{
+
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 	private:
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState _State;

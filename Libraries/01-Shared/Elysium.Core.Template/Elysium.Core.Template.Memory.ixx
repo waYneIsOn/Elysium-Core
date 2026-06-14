@@ -16,6 +16,10 @@ module;
 #include "Memory/MAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCHR
+#include "Memory/MemChr.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCMP
 #include "Memory/MemCmp.hpp"
 #endif
@@ -56,6 +60,7 @@ export
 	using Elysium::Core::Template::Memory::DefaultAllocator;
 	using Elysium::Core::Template::Memory::DefaultDeleter;
 	using Elysium::Core::Template::Memory::MAllocator;
+	using Elysium::Core::Template::Memory::MemChr;
 	using Elysium::Core::Template::Memory::MemCmp;
 	using Elysium::Core::Template::Memory::MemCpy;
 	using Elysium::Core::Template::Memory::MemoryOrder;

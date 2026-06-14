@@ -948,6 +948,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp">
       <Filter>Container\View</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemChr.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

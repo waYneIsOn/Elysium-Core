@@ -100,8 +100,34 @@ namespace UnitTests::Core::Template::IO
 				GZipStream Stream(Sink, GZipSource);
 
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
-				const Elysium::Core::Template::IO::ReadResult ReadResult = Stream.ReadBlock(Span);
-				Stream.AdvanceReadingBlock(Span.GetLength());
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Result{};
+
+				while (true)
+				{
+					bool MadeProgress = false;
+
+					const Elysium::Core::Template::IO::ReadResult ReadResult = Stream.ReadBlock(Span);
+					switch (ReadResult)
+					{
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						Result.PushBackRange(Span.GetData(), Span.GetLength());
+						Stream.AdvanceReadingBlock(Span.GetLength());
+						MadeProgress = true;
+						break;
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						// for now simply continue running the loop
+						break;
+					case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+						break;
+					}
+
+					if (!MadeProgress)
+					{
+						break;
+					}
+				}
+
+
 
 				Assert::Fail();
 			}

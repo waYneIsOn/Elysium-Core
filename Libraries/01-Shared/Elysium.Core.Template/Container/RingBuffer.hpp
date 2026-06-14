@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Memory/MemCpy.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
+#include "../System/Compiler.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../System/Primitives.hpp"
 #endif
@@ -132,6 +136,13 @@ namespace Elysium::Core::Template::Container
 
 
 	public:
+		inline void Clear()
+		{
+			_Length = 0;
+			_Head = 0;
+			_Tail = 0;
+		}
+
 		inline void Push(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 		{
 			if (Length > GetRemainingSpace())
@@ -182,20 +193,46 @@ namespace Elysium::Core::Template::Container
 			_Length -= Length;
 		}
 	public:
-		inline Elysium::Core::Template::Container::View::MultiSpan<ConstValue, 1024, 2> RequestReadableSpan()
+		inline const Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestReadableSpan() const noexcept
 		{
 			if (GetIsEmpty())
 			{
 				return { nullptr, 0, nullptr, 0 };
 			}
+			
+			if (_Head < _Tail)
+			{	// continuous memory can simply be held by the first span
+				return { &_Data[_Head], _Tail - _Head, nullptr, 0 };
+			}
 
-			const Elysium::Core::Template::System::size RemainingSpace = (_Head < _Tail) ? _Tail - _Head : _Capacity - _Head;
-			return { &_Data[_Head], RemainingSpace, nullptr, 0 };
+			return { &_Data[_Head], _Capacity - _Head, &_Data[0], _Tail };
+		}
+
+		template <class T>
+		inline T* TryGetContiguous(Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> Spans)
+		{
+			if (Spans.GetFirst().GetLength() >= sizeof(T)) ELYSIUM_CORE_PATH_LIKELY
+			{
+				return reinterpret_cast<T*>(Spans.GetFirst().GetData());
+			}
+
+			return nullptr;
+		}
+
+		template <class T>
+		inline T* TryGetContiguous(Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> Spans, const Elysium::Core::Template::System::size Length)
+		{
+			if (Spans.GetFirst().GetLength() >= sizeof(T) * Length) ELYSIUM_CORE_PATH_LIKELY
+			{
+				return reinterpret_cast<T*>(Spans.GetFirst().GetData());
+			}
+
+			return nullptr;
 		}
 
 		inline void CommitReadableSpan(const Elysium::Core::Template::System::size Length)
 		{
-			if (!GetIsFull() && Length > _Length)
+			if (Length > _Length)
 			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
 				throw 1;
 			}
@@ -204,20 +241,35 @@ namespace Elysium::Core::Template::Container
 			_Length -= Length;
 		}
 	public:
-		inline Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestWriteableSpan()
+		inline Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestWriteableSpan() const noexcept
 		{
 			if (GetIsFull())
 			{
 				return { nullptr, 0, nullptr, 0 };
 			}
 
-			const Elysium::Core::Template::System::size RemainingSpace = (_Tail >= _Head) ? _Capacity - _Tail : _Head - _Tail;
-			return { &_Data[_Tail], RemainingSpace, nullptr, 0 };
+			if (_Tail < _Head)
+			{	// continuous memory can simply be held by the first span
+				return { &_Data[_Tail], _Head - _Tail, nullptr, 0 };
+			}
+
+			const Elysium::Core::Template::System::size Length0 = _Capacity - _Tail; 
+			const Elysium::Core::Template::System::size Available = GetRemainingSpace();
+
+			if (Length0 >= Available)
+			{	// there is enough room from _Tail to _Data[_Capacity] to fit everything into a single span here as well
+				return { &_Data[_Tail], Available, nullptr, 0 };
+			}
+			else
+			{
+				const Elysium::Core::Template::System::size Length1 = Elysium::Core::Template::Math::Min(_Head, Available - Length0);
+				return { &_Data[_Tail], Length0, &_Data[0], Length1 };
+			}
 		}
 
 		inline void CommitWritableSpan(const Elysium::Core::Template::System::size Length)
 		{
-			if (!GetIsEmpty() && Length > _Length)
+			if (Length > (_Capacity - _Length))
 			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
 				throw 1;
 			}

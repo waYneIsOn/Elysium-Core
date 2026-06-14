@@ -46,14 +46,19 @@ namespace Elysium::Core::Template::Container::View
 			return _Data;
 		}
 
+		inline ConstPointer GetData() const noexcept
+		{
+			return _Data;
+		}
+
 		inline const Elysium::Core::Template::System::size GetLength() const noexcept
 		{
 			return _Length;
 		}
 
-		inline const bool IsEmpty() const noexcept
+		inline const bool GetIsEmpty() const noexcept
 		{
-			return nullptr == _Data || 0 == _Length || _Data == _Data[_Length];
+			return nullptr == _Data || 0 == _Length || _Data == &_Data[_Length];
 		}
 	public:
 		inline void SetData(ConstPointer Data) noexcept

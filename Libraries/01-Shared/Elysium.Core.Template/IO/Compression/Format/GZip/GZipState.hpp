@@ -31,13 +31,21 @@ namespace Elysium::Core::Template::IO::Compression::Format::GZip
 #error "undefined os"
 #endif
 	{
-		ReadingHeader = 0,
+		ReadingFixedHeader = 0,
 
-		DecodingBlock = 1,
+		ReadingOptionalHeaderExtra = 1,
 
-		ReadingFooter = 2,
+		ReadingOptionalHeaderName = 2,
 
-		Done = 3
+		ReadingOptionalHeaderComment = 3,
+
+		ReadingOptionalHeaderCrc = 4,
+
+		DecodingBlock = 5,
+
+		ReadingFooter = 6,
+
+		Done = 7
 	};
 }
 #endif

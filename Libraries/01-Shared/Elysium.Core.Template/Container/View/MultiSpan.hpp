@@ -73,22 +73,29 @@ namespace Elysium::Core::Template::Container::View
 
 		constexpr MultiSpan<T, Extents, 2>& operator=(MultiSpan&& Right) noexcept = default;
 	public:
-		/// <summary>
-		/// Returns a copy of the first span.
-		/// </summary>
-		/// <returns></returns>
-		inline Elysium::Core::Template::Container::View::Span<T, Extents> GetFirst()
+		inline Elysium::Core::Template::Container::View::Span<T, Extents> GetFirst() noexcept
 		{
 			return _Spans[0];
 		}
 
-		/// <summary>
-		/// Returns a copy of the second span.
-		/// </summary>
-		/// <returns></returns>
-		inline Elysium::Core::Template::Container::View::Span<T, Extents> GetSecond()
+		inline const Elysium::Core::Template::Container::View::Span<T, Extents> GetFirst() const noexcept
+		{
+			return _Spans[0];
+		}
+
+		inline Elysium::Core::Template::Container::View::Span<T, Extents> GetSecond() noexcept
 		{
 			return _Spans[1];
+		}
+
+		inline const Elysium::Core::Template::Container::View::Span<T, Extents> GetSecond() const noexcept
+		{
+			return _Spans[1];
+		}
+
+		inline const Elysium::Core::Template::System::size GetLength() const noexcept
+		{
+			return _Spans[0].GetLength() + _Spans[1].GetLength();
 		}
 	private:
 		Span _Spans[2];
