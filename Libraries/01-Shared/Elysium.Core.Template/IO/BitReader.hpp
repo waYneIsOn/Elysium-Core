@@ -12,9 +12,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_LITERALS
+#include "../System/Literals.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../System/Primitives.hpp"
 #endif
+
+#include <cassert>
 
 namespace Elysium::Core::Template::IO
 {
@@ -22,11 +28,7 @@ namespace Elysium::Core::Template::IO
 	class BitReader
 	{
 	public:
-		constexpr BitReader() noexcept = delete;
-
-		constexpr BitReader(const Elysium::Core::Template::System::byte* Start, const Elysium::Core::Template::System::size Length) noexcept
-			: _Start(Start), _End(&_Start[Length]), _Current(Start), _BitBuffer(), _BitCounter()
-		{ }
+		constexpr BitReader() noexcept = default;
 
 		constexpr BitReader(const BitReader& Source) = delete;
 
@@ -37,37 +39,83 @@ namespace Elysium::Core::Template::IO
 		constexpr BitReader& operator=(const BitReader& Source) = delete;
 
 		constexpr BitReader& operator=(BitReader&& Right) noexcept = delete;
-	private:
-		inline static constexpr const Elysium::Core::Template::System::uint8_t _SafeShiftThreshold = 56;
-	private:
-		inline void RepopulateBuffer()
+	public:
+		/// <summary>
+		/// Returns length in count of BITS!
+		/// </summary>
+		/// <returns></returns>
+		inline constexpr Elysium::Core::Template::System::uint8_t GetLength() const noexcept
 		{
-			while (_BitCounter <= _SafeShiftThreshold)
+			return _Count;
+		}
+
+		inline constexpr const bool GetIsFull() const noexcept
+		{
+			return _Count > SafeShiftThreshold;
+		}
+	public:
+		inline constexpr Elysium::Core::Template::System::uint64_t Peek(const Elysium::Core::Template::System::uint8_t Bits)
+		{
+			if constexpr (LeastSignificantBitFirst)
 			{
-				if (_End < _Current)
-				{	// @ToDo:
-					throw 1;
-				}
-
-				if constexpr (LeastSignificantBitFirst)
-				{
-					_BitBuffer |= static_cast<Elysium::Core::Template::System::uint64_t>(*_Current++) << _BitCounter;
-					_BitCounter += 8;
-				}
-				else
-				{
-
-				}
+				return static_cast<Elysium::Core::Template::System::uint64_t>(_Buffer & ((1_ui64 << Bits) - 1));
+			}
+			else
+			{
+				return static_cast<Elysium::Core::Template::System::uint64_t>(_Buffer >> (_Count - Bits)) & ((1_ui64 << Bits) - 1);
 			}
 		}
+
+		inline constexpr void Consume(const Elysium::Core::Template::System::uint8_t Bits)
+		{
+			if constexpr (LeastSignificantBitFirst)
+			{
+				_Buffer >>= Bits;
+				_Count -= Bits;
+			}
+			else
+			{
+				_Count -= Bits;
+				_Buffer &= ((1_ui64 << _Count) - 1);
+			}
+		}
+
+		inline constexpr Elysium::Core::Template::System::uint64_t Read(const Elysium::Core::Template::System::uint8_t Bits)
+		{
+			Elysium::Core::Template::System::uint64_t TemporaryValue = Peek(Bits);
+			Consume(Bits);
+
+			return TemporaryValue;
+		}
+
+		inline constexpr const bool HasBits(const Elysium::Core::Template::System::uint8_t Bits) noexcept
+		{
+			return _Count >= Bits;
+		}
+
+		inline void Push(const Elysium::Core::Template::System::byte Byte)
+		{
+			assert(_Count <= SafeShiftThreshold);
+
+			if constexpr (LeastSignificantBitFirst)
+			{
+				_Buffer |= static_cast<Elysium::Core::Template::System::uint64_t>(Byte) << _Count;
+				_Count += 8;
+			}
+			else
+			{
+				_Buffer >>= 8;
+				_Buffer |= static_cast<Elysium::Core::Template::System::uint64_t>(Byte & 0xFF) << SafeShiftThreshold;
+				_Count += 8;
+			}
+		}
+	public:
+		inline static constexpr const Elysium::Core::Template::System::uint8_t Capacity = sizeof(Elysium::Core::Template::System::uint64_t) * 8;
+
+		inline static constexpr const Elysium::Core::Template::System::uint8_t SafeShiftThreshold = Capacity - 8;
 	private:
-		const Elysium::Core::Template::System::byte* _Start;
-		const Elysium::Core::Template::System::byte* _End;
-
-		const Elysium::Core::Template::System::byte* _Current;
-
-		Elysium::Core::Template::System::uint64_t _BitBuffer;
-		Elysium::Core::Template::System::uint8_t _BitCounter;
+		Elysium::Core::Template::System::uint64_t _Buffer;
+		Elysium::Core::Template::System::uint8_t _Count;
 	};
 }
 #endif

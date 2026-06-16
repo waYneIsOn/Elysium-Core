@@ -20,14 +20,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../System/Primitives.hpp"
 #endif
 
+namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
+{
+	class DeflateDecoder;
+}
+
 namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 {
-	struct DeflateBlockHeader final
+	class DeflateBlockHeader final
 	{
+		friend class Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateDecoder;
 	public:
-		inline static constexpr const Elysium::Core::Template::System::byte Size = 1;
+		constexpr DeflateBlockHeader() noexcept = default;
+
+		inline constexpr DeflateBlockHeader(const Elysium::Core::Template::System::byte Data) noexcept
+			: _Data(Data)
+		{ }
+
+		constexpr DeflateBlockHeader(const DeflateBlockHeader& Source) = delete;
+
+		constexpr DeflateBlockHeader(DeflateBlockHeader&& Right) noexcept = delete;
+
+		~DeflateBlockHeader() = default;
 	public:
-		Elysium::Core::Template::System::byte _Data;
+		constexpr DeflateBlockHeader& operator=(const DeflateBlockHeader& Source) = delete;
+
+		constexpr DeflateBlockHeader& operator=(DeflateBlockHeader&& Right) noexcept = delete;
 	public:
 		inline const bool GetIsFinalBlock() const
 		{
@@ -38,6 +56,10 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		{
 			return static_cast<DeflateBlockType>((_Data >> 1) & 0x03);
 		}
+	public:
+		inline static constexpr const Elysium::Core::Template::System::byte Size = 1;
+	private:
+		Elysium::Core::Template::System::byte _Data;
 	};
 }
 #endif

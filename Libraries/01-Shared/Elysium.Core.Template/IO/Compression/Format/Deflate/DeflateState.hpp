@@ -31,8 +31,36 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 #error "undefined os"
 #endif
 	{
-		ReadingHeader = 0,
+		ReadingBlockHeader = 0,
 
+		// uncompressed
+
+
+		// fixed huffman
+
+
+		// dynamic huffman
+		ReadingDynamicHuffmanHeaderFields,
+
+		ReadingDynamicCodeLengthAlphabet,
+
+		// invalid
+
+		/*
+		ReadingStoredLengths,
+		CopyingStoredBytes,
+
+		ReadingDynamicHeader,
+		ReadingCodeLengthAlphabet,
+		ReadingLiteralLengthLengths,
+		ReadingDistanceLengths,
+
+		DecodingSymbol,
+		ReadingLengthExtra,
+		ReadingDistanceExtra,
+		CopyingMatch,
+		*/
+		/*
 		CopyingUncompressed = 1,
 
 		DecodingFixedHuffman = 2,
@@ -40,8 +68,8 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		DecodingDynamicHuffman = 3,
 
 		DecodingInvalidReserved = 4,
-
-		Done = 5
+		*/
+		Done
 	};
 }
 #endif

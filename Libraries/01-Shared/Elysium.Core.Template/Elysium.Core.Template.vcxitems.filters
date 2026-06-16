@@ -786,9 +786,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\FiFoQueue.hpp">
       <Filter>Container\Adopter</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp">
-      <Filter>Container\Sequence</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp">
       <Filter>Container\Sequence</Filter>
     </ClInclude>
@@ -950,6 +947,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemChr.hpp">
       <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp">
+      <Filter>Container</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp">
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\FixedSizeBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\Span.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
