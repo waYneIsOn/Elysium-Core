@@ -42,7 +42,9 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		// dynamic huffman
 		ReadingDynamicHuffmanHeaderFields,
 
-		ReadingDynamicCodeLengthAlphabet,
+		BuildingCodeLengthTable,
+
+		BuildingLiteralAndDistanceTables,
 
 		// invalid
 

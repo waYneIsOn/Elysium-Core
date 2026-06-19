@@ -36,6 +36,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipFooter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\CodeLengthTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\CodeLengthTableEntry.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp" />

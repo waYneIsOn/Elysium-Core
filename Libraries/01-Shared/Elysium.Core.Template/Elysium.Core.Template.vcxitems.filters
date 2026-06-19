@@ -954,6 +954,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp">
       <Filter>Container</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\CodeLengthTableEntry.hpp">
+      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\CodeLengthTable.hpp">
+      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp">
+      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp">
+      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1105,6 +1117,9 @@
     </Filter>
     <Filter Include="IO\Source\Policy">
       <UniqueIdentifier>{7b2e4dca-7bd8-48a9-b21b-f1261fb3be38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Format\HuffmanCoding">
+      <UniqueIdentifier>{45be8ecd-8668-48e9-aeb0-4ae2cacaeace}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
