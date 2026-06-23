@@ -326,8 +326,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					return Elysium::Core::Template::IO::ReadResult::Pending;
 				}
 
-				Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = _BitReader.Peek(7);
-				//Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = ReverseBits(_BitReader.Peek(7), 7);
+				//Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = _BitReader.Peek(7);
+				Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = ReverseBits(_BitReader.Peek(7), 7);
 
 				// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
 				if (CurrentSymbolIndex > _DynamicHuffmanHeader._CodeLengthTree.FastTableLength)
@@ -339,64 +339,12 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					_DynamicHuffmanHeader._CodeLengthTree[CurrentSymbolIndex];
 				Elysium::Core::Template::System::uint8_t CurrentSymbol = Entry._Symbol;
 				Elysium::Core::Template::System::uint8_t CurrentLength = Entry._Length;
-
-
-
-
-
-				// force bit-by-bit decoding for testing
-				//Elysium::Core::Template::System::uint8_t CurrentSymbol = 0;
-				//Elysium::Core::Template::System::uint8_t CurrentLength = 0;
-
-
-
-
-
-
 				if (0 == CurrentLength)
 				{	// 7 bit read, code-length tree/table is build with 7 bit in mind - this fallback should never happen!
 					throw 1;
-					/*
-					// fallback to bit-by-bit decoding
-					// @ToDo: haven't encountered this case yet. need to make sure it works!
-					Elysium::Core::Template::System::uint16_t Code = 0;
-					for (Elysium::Core::Template::System::uint8_t Length = 1; Length <= _DynamicHuffmanHeader._CodeLengthTree._MaximumCodeLength; ++Length)
-					{
-						//Code |= (_BitReader.Read(1) << (Length - 1)); // LSB-first
-
-						//uint16_t Mask = (1 << Length) - 1;
-						Code |= (_BitReader.Read(1) << (Length - 1));
-						//Code &= Mask;
-						
-						bool Found = false;
-						for (Elysium::Core::Template::System::uint8_t Symbol = 0; Symbol < 19; ++Symbol)
-						{
-							if (_DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol] == Length && _DynamicHuffmanHeader._CodeLengthTree._CanonicalCodes[Symbol] == Code)
-							//if (_DynamicHuffmanHeader._CodeLengths[Symbol] == Length && (_DynamicHuffmanHeader._CanonicalCodes[Symbol] & Mask) == Code)
-							{
-								CurrentSymbol = Symbol;
-								CurrentLength = Length;
-								Found = true;
-								break;
-							}
-						}
-
-						if (Found)
-						{
-							break;
-						}
-					}
-					
-					if (0 == CurrentLength)
-					{	// @ToDo: if even slow path can't find symbol and length, something is completey wrong
-						throw 1;
-					}
-					*/
 				}
-				else
-				{
-					_BitReader.Consume(Entry._Length);
-				}
+
+				_BitReader.Consume(Entry._Length);
 
 				if (15 >= CurrentSymbol)
 				{
@@ -421,6 +369,11 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					}
 
 					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(2) + 3;
+					if (Repeat > 6)
+					{	// @ToDo:
+						throw 1;
+					}
+
 					if (i + Repeat > LiteralLength + DistanceLength)
 					{	// @ToDo: overflow as a result of corrupted source data
 						throw 1;
@@ -444,6 +397,11 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				else if (17 == CurrentSymbol)
 				{
 					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(3) + 3;
+					if (Repeat > 10)
+					{	// @ToDo:
+						throw 1;
+					}
+
 					if (i + Repeat > LiteralLength + DistanceLength)
 					{	// @ToDo: overflow as a result of corrupted source data
 						throw 1;
@@ -467,6 +425,11 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				else if (18 == CurrentSymbol)
 				{
 					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(7) + 11;
+					if (Repeat > 138)
+					{	// @ToDo:
+						throw 1;
+					}
+
 					if (i + Repeat > LiteralLength + DistanceLength)
 					{	// @ToDo: overflow as a result of corrupted source data
 						throw 1;
@@ -514,9 +477,24 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					return Elysium::Core::Template::IO::ReadResult::Pending;
 				}
 
-				Elysium::Core::Template::System::uint32_t Index = _BitReader.Read(_DynamicHuffmanHeader._LiteralTree._FastTableBits);
-				const Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTableEntry<Elysium::Core::Template::System::uint16_t>& Entry =
-					_DynamicHuffmanHeader._LiteralTree[Index];
+				//Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = _BitReader.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits);
+				Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = ReverseBits(_BitReader.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits), _DynamicHuffmanHeader._LiteralTree._FastTableBits);
+
+				// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
+				if (CurrentSymbolIndex > (_DynamicHuffmanHeader._LiteralTree.FastTableLength + _DynamicHuffmanHeader._DistanceTree.FastTableLength))
+				{
+					throw 1;
+				}
+
+				Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTableEntry<Elysium::Core::Template::System::uint16_t>& Entry =
+					_DynamicHuffmanHeader._LiteralTree[CurrentSymbolIndex];
+				Elysium::Core::Template::System::uint8_t CurrentSymbol = Entry._Symbol;
+				Elysium::Core::Template::System::uint8_t CurrentLength = Entry._Length;
+				if (0 == CurrentLength)
+				{	// @ToDo: fallback!
+					throw 1;
+				}
+
 				if (nullptr == Entry._Subtable)
 				{
 					const char xxxxxx = Entry._Symbol;

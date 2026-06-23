@@ -110,6 +110,9 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		{
 			constexpr Elysium::Core::Template::System::uint8_t ValidLengths = MaximumCodeLength + 1;
 
+			// validate code lengths
+
+
 			// Build the "histogram of code lengths" ie. count number of bits for each possible code-length (1, 10, 100 etc.)
 			Elysium::Core::Template::System::uint16_t BitLengthCount[ValidLengths] = { 0 };
 			for (SymbolType Symbol = 0; Symbol < AlphabetLength; ++Symbol)
@@ -121,6 +124,27 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 				}
 			}
 
+			// Perform "Kraft inequality check"
+			Elysium::Core::Template::System::int64_t Left = 1;
+			for (Elysium::Core::Template::System::uint8_t Bits = 0; Bits < FastTableBits; ++Bits)
+			{
+				Left = (Left << 1) - BitLengthCount[Bits];
+			}
+
+			if (Left < 0)
+			{	// @ToDo: oversubscribed
+				throw 1;
+			}
+			/*
+			else if (Left == 0)
+			{	
+				// perfect
+			}
+			else if (Left > 0)
+			{
+				// incomplete tree -> afaik fine as well
+			}
+			*/
 			// Define "canonical code ranges" (specifically: calculate the FIRST ie. smallest canonical huffman code for each bit-length)
 			Elysium::Core::Template::System::uint16_t NextCode[ValidLengths] = { 0 };
 			Elysium::Core::Template::System::uint16_t Code = 0;
@@ -168,12 +192,12 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 							}
 
 							EntryType& Entry = _FastTable[Index];
-							
+
 							if (0 != Entry._Length && CodeLength != Entry._Length && Symbol != Entry._Symbol)
 							{	// @ToDo: overwriting! (this check might not be correct! some entries can be overwritten - I think lower > larger length? need to look it up!)
 								throw 1;
 							}
-							
+
 							Entry._Symbol = Symbol;
 							Entry._Length = CodeLength;
 							Entry._Subtable = nullptr;
@@ -182,7 +206,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 					}
 					else
 					{	//
-						throw 1;
+						//throw 1;
 					}
 				}
 			}
