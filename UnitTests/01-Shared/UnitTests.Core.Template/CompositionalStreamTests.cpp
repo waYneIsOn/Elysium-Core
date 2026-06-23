@@ -93,7 +93,7 @@ namespace UnitTests::Core::Template::IO
 				MemoryDevice WriteDevice(1024);
 				MemorySink Sink(WriteDevice);
 
-				FileDevice ReadDevice(u8"Lorem Ipsum.gz", FileMode::Open, FileAccess::Read | FileAccess::Write);
+				FileDevice ReadDevice(u8"Lorem Ipsum.gz", FileMode::Open, FileAccess::Read | FileAccess::Write, FileShare::Read);
 				FileSource Source(ReadDevice);
 				GZipSource GZipSource(Source);
 

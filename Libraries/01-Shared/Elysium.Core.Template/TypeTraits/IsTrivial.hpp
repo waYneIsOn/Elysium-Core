@@ -21,8 +21,7 @@ namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
     struct IsTrivial : IntegralConstant<bool, __is_trivial(T)>
-    {
-    };
+    { };
 
     template <class T>
     inline constexpr bool IsTrivialValue = __is_trivial(T);

@@ -28,6 +28,8 @@ namespace Elysium::Core::Template::IO
 	class BitReader
 	{
 	public:
+		using BufferType = Elysium::Core::Template::System::uint64_t;
+	public:
 		constexpr BitReader() noexcept = default;
 
 		constexpr BitReader(const BitReader& Source) = delete;
@@ -110,11 +112,11 @@ namespace Elysium::Core::Template::IO
 			}
 		}
 	public:
-		inline static constexpr const Elysium::Core::Template::System::uint8_t Capacity = sizeof(Elysium::Core::Template::System::uint64_t) * 8;
+		inline static constexpr const Elysium::Core::Template::System::uint8_t Capacity = sizeof(BufferType) * 8;
 
 		inline static constexpr const Elysium::Core::Template::System::uint8_t SafeShiftThreshold = Capacity - 8;
 	private:
-		Elysium::Core::Template::System::uint64_t _Buffer;
+		BufferType _Buffer;
 		Elysium::Core::Template::System::uint8_t _Count;
 	};
 }

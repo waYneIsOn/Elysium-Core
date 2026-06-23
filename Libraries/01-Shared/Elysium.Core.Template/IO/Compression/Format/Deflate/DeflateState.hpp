@@ -46,6 +46,8 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 
 		BuildingLiteralAndDistanceTables,
 
+		DecompressingDynamicHuffman,
+
 		// invalid
 
 		/*

@@ -28,22 +28,31 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 	public:
 		constexpr HuffmanTableEntry() = default;
 
-		constexpr HuffmanTableEntry(const HuffmanTableEntry& Source) = delete;
+		constexpr HuffmanTableEntry(const HuffmanTableEntry& Source) = default;
 
-		constexpr HuffmanTableEntry(HuffmanTableEntry&& Right) noexcept = delete;
+		constexpr HuffmanTableEntry(HuffmanTableEntry&& Right) noexcept = default;
 
 		constexpr ~HuffmanTableEntry() = default;
 	public:
-		constexpr HuffmanTableEntry<S>& operator=(const HuffmanTableEntry& Source) = delete;
+		constexpr HuffmanTableEntry<S>& operator=(const HuffmanTableEntry& Source) = default;
 
-		constexpr HuffmanTableEntry<S>& operator=(HuffmanTableEntry&& Right) noexcept = delete;
-	private:
-		S _Symbol{};
-		Elysium::Core::Template::System::uint8_t _Length{};
-		//bool _IsLeaf;	// not necessary, can just check "nullptr == _Subtable"
+		constexpr HuffmanTableEntry<S>& operator=(HuffmanTableEntry&& Right) noexcept = default;
+	public:
+		inline const bool GetIsLeaf()
+		{
+			return nullptr == _Subtable;
+		}
 
-		HuffmanTableEntry* _Subtable{};
-		Elysium::Core::Template::System::uint8_t _SubTableLength{};
+		inline const bool GetIsValid()
+		{
+			return _Length > 0 && (0 <= _Symbol && 19 > _Symbol);
+		}
+	public:
+		S _Symbol;
+		Elysium::Core::Template::System::uint8_t _Length;
+
+		HuffmanTableEntry* _Subtable;
+		Elysium::Core::Template::System::uint8_t _SubTableLength;
 	};
 }
 #endif

@@ -32,10 +32,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Format/Deflate/DeflateState.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_CODELENGTHTABLE
-#include "../../Format/HuffmanCoding/CodeLengthTable.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_HUFFMANTABLE
 #include "../../Format/HuffmanCoding/HuffmanTable.hpp"
 #endif
@@ -127,7 +123,15 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				}
 					break;
 
-
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = DecompresDynamicHuffman(SourceSpans, BytesFullyProcessed);
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
+				}
+					break;
 
 
 
@@ -187,40 +191,37 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		inline const Elysium::Core::Template::IO::ReadResult ReadDynamicHuffmanHeaderFields(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
-			// need 14 bit (HLIT = 5, HDIST = 5, HCLEN = 4), ergo 2 bytes
-			static constexpr const Elysium::Core::Template::System::size BitsRequired = 14;
-			static constexpr const Elysium::Core::Template::System::size BytesRequired = 2;
-
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(BitsRequired, SourceSpans, BytesLoadedIntoBitReader);
+			/*
+			* RFC 1951 describes:
+			* 5 Bits: HLIT, # of Literal/Length codes - 257 (257 - 286)
+			* 5 Bits: HDIST, # of Distance codes - 1        (1 - 32)
+			* 4 Bits: HCLEN, # of Code Length codes - 4     (4 - 19)
+			* 
+			* ergo need 14 bit
+			*/
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(14, SourceSpans, BytesLoadedIntoBitReader);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
 			}
 
-			/*
-			* RFC 1951 describes:
-			* 5 Bits: HLIT, # of Literal/Length codes - 257 (257 - 286)
-            * 5 Bits: HDIST, # of Distance codes - 1        (1 - 32)
-            * 4 Bits: HCLEN, # of Code Length codes - 4     (4 - 19)
-			*/
-			_DynamicHuffmanHeader.HLIT = _BitReader.Peek(5) + 257;
-			_DynamicHuffmanHeader.HDIST = _BitReader.Peek(5) + 1;
-			_DynamicHuffmanHeader.HCLEN = _BitReader.Peek(4) + 4;
-
-			if (_DynamicHuffmanHeader.HLIT < 257 || _DynamicHuffmanHeader.HLIT > 286)
-			{	// @ToDo: this violate rfc 1951
-				throw 1;
-			}
-			if (_DynamicHuffmanHeader.HDIST > 32)
-			{	// @ToDo: this violate rfc 1951
-				throw 1;
-			}
-			if (_DynamicHuffmanHeader.HCLEN < 4 || _DynamicHuffmanHeader.HCLEN > 19)
-			{	// @ToDo: this violate rfc 1951
+			_DynamicHuffmanHeader.HLIT = _BitReader.Read(5);
+			if (_DynamicHuffmanHeader.HLIT > 29)
+			{	// @ToDo: this violate rfc 1951 (some kind of OutOfRangeException?)
 				throw 1;
 			}
 
-			_BitReader.Consume(5 + 5 + 4);
+			_DynamicHuffmanHeader.HDIST = _BitReader.Read(5);
+			if (_DynamicHuffmanHeader.HDIST > 31)
+			{	// @ToDo: this violate rfc 1951 (some kind of OutOfRangeException?)
+				throw 1;
+			}
+
+			_DynamicHuffmanHeader.HCLEN = _BitReader.Read(4);
+			if (_DynamicHuffmanHeader.HCLEN > 15)
+			{	// @ToDo: this violate rfc 1951 (some kind of OutOfRangeException?)
+				throw 1;
+			}
 
 			_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingCodeLengthTable;
 
@@ -248,7 +249,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			};
 			static constexpr const Elysium::Core::Template::System::size BitsRequiredPerEntry = 3;
 
-			const Elysium::Core::Template::System::size AmountOfCodeLengths = _DynamicHuffmanHeader.HCLEN;
+			const Elysium::Core::Template::System::size AmountOfCodeLengths = _DynamicHuffmanHeader.HCLEN + 4;
 			const Elysium::Core::Template::System::size BitsRequiredInTotal = BitsRequiredPerEntry * AmountOfCodeLengths;
 			if (BitsRequiredInTotal > BitReader<true>::Capacity)
 			{	// @Todo: Code-length codes maximum is 19: 19 * 3 = 57 so an overflow should never happen!
@@ -262,164 +263,46 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				throw 1;
 			}
 
-			// 1.) Read code length alphabet
-			constexpr Elysium::Core::Template::System::uint8_t FastTableBits = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::FastTableBits;
-			bool AllValuesAreZero = true;
-			Elysium::Core::Template::System::uint8_t CodeLengths[19]{};
-			for (int i = 0; i < AmountOfCodeLengths; ++i)
+			// Read code length alphabet
+			constexpr Elysium::Core::Template::System::uint8_t MaximumCodeLength = _DynamicHuffmanHeader._CodeLengthTree._MaximumCodeLength;
+			Elysium::Core::Template::System::uint64_t KraftSum = 0;
+			Elysium::Core::Template::System::size NonZeroCodeLengthCount = 0;
+			for (Elysium::Core::Template::System::size i = 0; i < AmountOfCodeLengths; ++i)
 			{
 				Elysium::Core::Template::System::uint64_t CurrentValue = _BitReader.Read(3);
-			
+
 				// 3 bits -> maximum 0b111 = 7 BUT BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
-				if (CurrentValue > FastTableBits)
+				if (CurrentValue > MaximumCodeLength)
 				{	// @ToDo: this violate rfc 1951
 					throw 1;
 				}
 				
 				Elysium::Core::Template::System::uint8_t Symbol = FixedPermutations[i];
-				CodeLengths[Symbol] = static_cast<Elysium::Core::Template::System::uint8_t>(CurrentValue);
+				_DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol] = static_cast<Elysium::Core::Template::System::uint8_t>(CurrentValue);
 
-				if (CurrentValue > 0)
+				if (_DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol] > 0)
 				{
-					AllValuesAreZero = false;
+					KraftSum += (1_ui64 << (7 - _DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol]));
+					++NonZeroCodeLengthCount;
 				}
 			}
 
-			if (AllValuesAreZero)
-			{	// @ToDo:
-				throw 1;
-			}
-
-			// 2.) Count bit-lengths
-			// Code lengths are 3 bits in size, ergo have a range of 0 to 7 and therefore 8 different values.
-			Elysium::Core::Template::System::uint8_t BitLengthCount[8] = { 0 };
-			for (Elysium::Core::Template::System::uint8_t i = 0; i < 19; ++i)
-			{
-				if (CodeLengths[i] != 0)
-				{
-					BitLengthCount[CodeLengths[i]]++;
-				}
-			}
-
-			Elysium::Core::Template::System::uint64_t KraftSum = 0;
-			for (Elysium::Core::Template::System::uint8_t Length = 1; Length <= FastTableBits; ++Length)
-			{
-				KraftSum += BitLengthCount[Length] * (1 << (FastTableBits - Length));
-			}
-
-			if (KraftSum > Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::TableLength)
+			// KraftSum per RFC 1951 does not need to be exactly equal to the length of the table.
+			// If it is smaller, the code-length tree simply is imcomplete which is allowed for code-length tree but not for literal- or distance-tree.
+			// If it is larger, the code length alphabet is oversubscriped which is invalid!
+			if (KraftSum > (1 << _DynamicHuffmanHeader._CodeLengthTree._MaximumCodeLength))
 			{	// @ToDo: invalid kraft sum
 				throw 1;
 			}
 
-			// 3.) Define canonical code ranges
-			// Code range for each bit-length and therefore 8 as well.
-			// Index 0 "unused"
-			Elysium::Core::Template::System::uint16_t NextCode[8] = { 0 };
-			Elysium::Core::Template::System::uint16_t Code = 0;
-			for (Elysium::Core::Template::System::uint8_t Bits = 1; Bits <= 7; ++Bits)
-			{
-				Code = (Code + BitLengthCount[Bits - 1]) << 1;
-				NextCode[Bits] = Code;
+			if (0 == NonZeroCodeLengthCount)
+			{	// @ToDo: all values are zero
+				throw 1;
 			}
 
-			// 4.) Assign canonical Huffman codes to symbols using the precomputed NextCode ranges.
-			//	(In my "old" HuffmanDecoder the sorting happens like so "Elysium::Core::Template::Algorithms::Sorting::BubbleSort(SymbolCodeLengths.GetBegin(), SymbolCodeLengths.GetEnd());"
-			//  which basically is, what's being done here through the inner- and outer-loop.)
-			// 19 responds to HCLEN having a max of 19 entries.
-			Elysium::Core::Template::System::uint16_t Codes[19] = { 0 };
-			for (Elysium::Core::Template::System::uint8_t Length = 1; Length <= 7; ++Length)
-			{
-				for (Elysium::Core::Template::System::uint8_t Symbol = 0; Symbol < 19; ++Symbol)
-				{
-					Elysium::Core::Template::System::uint8_t CodeLength = CodeLengths[Symbol];
-					//if (CodeLength != 0)
-					if(CodeLengths[Symbol] == Length)
-					{
-						Elysium::Core::Template::System::uint16_t MSBFirstCode = NextCode[Length]++;
-						Elysium::Core::Template::System::uint16_t LSBFirstCode = ReverseBits(MSBFirstCode, Length);
+			// ...
+			_DynamicHuffmanHeader._CodeLengthTree.BuildTable();
 
-						Codes[Symbol] = LSBFirstCode;
-						//Codes[Symbol] = MSBFirstCode;	// step 5 needs MSB first in the implementation not fully populating code-lengths!
-					}
-				}
-			}
-
-			// 5.) build code-length huffman table
-			/*
-			// this version does not fully populate code-length table (depending on input)
-			for (Elysium::Core::Template::System::uint8_t Symbol = 0; Symbol < 19; ++Symbol)
-			{
-				Elysium::Core::Template::System::uint8_t CodeLength = CodeLengths[Symbol];
-				if (CodeLength == 0)
-				{
-					continue;
-				}
-
-				Elysium::Core::Template::System::uint16_t CurrentCode = Codes[Symbol];
-
-				Elysium::Core::Template::System::uint16_t Fill = 1 << (FastTableBits - CodeLength);
-				for (Elysium::Core::Template::System::uint16_t i = 0; i < Fill; ++i)
-				{
-					Elysium::Core::Template::System::uint16_t CurrentIndex = (CurrentCode << (FastTableBits - CodeLength)) | i;
-					Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTableEntry& Entry = _DynamicHuffmanHeader._CodeLengthTable._Entries[CurrentIndex];
-
-					if (Entry.GetIsValid())
-					{	// @ToDo: if the entry is valid here, I am overwriting something!
-						throw 1;
-					}
-
-					Entry = { Symbol, CodeLength };
-				}
-			}
-			*/
-			// this version fully populates code-length table - important in BuildLiteralAndDistanceTables(...) when always reading 7 bit!
-			for (Elysium::Core::Template::System::uint8_t i = 0; i < Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::TableLength; ++i)
-			{
-				Elysium::Core::Template::System::uint8_t Bits = i;
-				bool Found = false;
-
-				// try all possible code lengths
-				for (Elysium::Core::Template::System::uint8_t Length = 1; Length <= 7; ++Length)
-				{
-					Elysium::Core::Template::System::uint16_t Prefix = Bits >> (Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::FastTableBits - Length);
-
-					for (Elysium::Core::Template::System::uint8_t Symbol = 0; Symbol < 19; ++Symbol)
-					{
-						if (CodeLengths[Symbol] != Length)
-						{
-							continue;
-						}
-
-						if (Codes[Symbol] == Prefix)
-						{
-							_DynamicHuffmanHeader._CodeLengthTable[i] = { Symbol, Length };
-							Found = true;
-							break;
-						}
-					}
-
-					if (Found)
-					{
-						break;
-					}
-				}
-				
-				if (!Found)
-				{
-					_DynamicHuffmanHeader._CodeLengthTable[i] = { 0, 0 };
-				}
-			}
-			/*
-			// code-length huffman table actually can have "unused" entries - those aren't really invalid so the following check would be incorrect:
-			for (Elysium::Core::Template::System::uint8_t i = 0; i < Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::TableSize; ++i)
-			{
-				if (!_DynamicHuffmanHeader._CodeLengthTable._Entries[i].GetIsValid())
-				{	// @ToDo:
-					throw 1;
-				}
-			}
-			*/
 			_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingLiteralAndDistanceTables;
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
@@ -428,44 +311,109 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		inline const Elysium::Core::Template::IO::ReadResult BuildLiteralAndDistanceTables(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
-			constexpr Elysium::Core::Template::System::uint8_t FastTableBits = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::FastTableBits;
+			Elysium::Core::Template::System::uint8_t PreviousLength = _DynamicHuffmanHeader._CurrentLiteralAndDistanceTreePreviousLength;
 
-			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTableEntry PreviousEntry = _DynamicHuffmanHeader._CurrentLiteralAndDistanceTreePreviousEntry;
+			const Elysium::Core::Template::System::uint16_t LiteralLength = _DynamicHuffmanHeader.HLIT + 257;
+			const Elysium::Core::Template::System::uint16_t DistanceLength = _DynamicHuffmanHeader.HDIST + 1;
 
-			for (Elysium::Core::Template::System::uint16_t i = _DynamicHuffmanHeader._CurrentLiteralAndDistanceTreeIndex; i < _DynamicHuffmanHeader.HLIT + _DynamicHuffmanHeader.HDIST; ++i)
+			for (Elysium::Core::Template::System::uint16_t i = _DynamicHuffmanHeader._CurrentLiteralAndDistanceTreeIndex; i < LiteralLength + DistanceLength; ++i)
 			{
 				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(14, SourceSpans, BytesLoadedIntoBitReader);
 				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 				{
 					_DynamicHuffmanHeader._CurrentLiteralAndDistanceTreeIndex = i;
-					_DynamicHuffmanHeader._CurrentLiteralAndDistanceTreePreviousEntry = PreviousEntry;
+					_DynamicHuffmanHeader._CurrentLiteralAndDistanceTreePreviousLength = PreviousLength;
 					return Elysium::Core::Template::IO::ReadResult::Pending;
 				}
 
-				Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = _BitReader.Read(7);
+				Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = _BitReader.Peek(7);
+				//Elysium::Core::Template::System::uint64_t CurrentSymbolIndex = ReverseBits(_BitReader.Peek(7), 7);
 
 				// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
-				if (CurrentSymbolIndex > Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable::TableLength)
+				if (CurrentSymbolIndex > _DynamicHuffmanHeader._CodeLengthTree.FastTableLength)
 				{
 					throw 1;
 				}
-
-				Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTableEntry Entry = _DynamicHuffmanHeader._CodeLengthTable[CurrentSymbolIndex];
+				
+				Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTableEntry<Elysium::Core::Template::System::uint8_t>& Entry = 
+					_DynamicHuffmanHeader._CodeLengthTree[CurrentSymbolIndex];
 				Elysium::Core::Template::System::uint8_t CurrentSymbol = Entry._Symbol;
 				Elysium::Core::Template::System::uint8_t CurrentLength = Entry._Length;
 
-				if (CurrentSymbol <= 15)
-				{
-					if (i < _DynamicHuffmanHeader.HLIT)
+
+
+
+
+				// force bit-by-bit decoding for testing
+				//Elysium::Core::Template::System::uint8_t CurrentSymbol = 0;
+				//Elysium::Core::Template::System::uint8_t CurrentLength = 0;
+
+
+
+
+
+
+				if (0 == CurrentLength)
+				{	// 7 bit read, code-length tree/table is build with 7 bit in mind - this fallback should never happen!
+					throw 1;
+					/*
+					// fallback to bit-by-bit decoding
+					// @ToDo: haven't encountered this case yet. need to make sure it works!
+					Elysium::Core::Template::System::uint16_t Code = 0;
+					for (Elysium::Core::Template::System::uint8_t Length = 1; Length <= _DynamicHuffmanHeader._CodeLengthTree._MaximumCodeLength; ++Length)
 					{
-						_DynamicHuffmanHeader._LiteralLengths[i] = CurrentLength;
+						//Code |= (_BitReader.Read(1) << (Length - 1)); // LSB-first
+
+						//uint16_t Mask = (1 << Length) - 1;
+						Code |= (_BitReader.Read(1) << (Length - 1));
+						//Code &= Mask;
+						
+						bool Found = false;
+						for (Elysium::Core::Template::System::uint8_t Symbol = 0; Symbol < 19; ++Symbol)
+						{
+							if (_DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol] == Length && _DynamicHuffmanHeader._CodeLengthTree._CanonicalCodes[Symbol] == Code)
+							//if (_DynamicHuffmanHeader._CodeLengths[Symbol] == Length && (_DynamicHuffmanHeader._CanonicalCodes[Symbol] & Mask) == Code)
+							{
+								CurrentSymbol = Symbol;
+								CurrentLength = Length;
+								Found = true;
+								break;
+							}
+						}
+
+						if (Found)
+						{
+							break;
+						}
+					}
+					
+					if (0 == CurrentLength)
+					{	// @ToDo: if even slow path can't find symbol and length, something is completey wrong
+						throw 1;
+					}
+					*/
+				}
+				else
+				{
+					_BitReader.Consume(Entry._Length);
+				}
+
+				if (15 >= CurrentSymbol)
+				{
+					Elysium::Core::Template::System::uint8_t Length = CurrentSymbol;
+
+					if (i < LiteralLength)
+					{
+						_DynamicHuffmanHeader._LiteralTree._CodeLengths[i] = Length;
 					}
 					else
 					{
-						_DynamicHuffmanHeader._DistanceLengths[i - _DynamicHuffmanHeader.HLIT] = CurrentLength;
+						_DynamicHuffmanHeader._DistanceTree._CodeLengths[i - LiteralLength] = Length;
 					}
+
+					PreviousLength = Length;
 				}
-				else if (CurrentSymbol == 16)
+				else if (16 == CurrentSymbol)
 				{
 					if (0 == i)
 					{	// @ToDo: this is invalid!
@@ -473,115 +421,127 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					}
 
 					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(2) + 3;
-					if (i + Repeat > _DynamicHuffmanHeader.HLIT + _DynamicHuffmanHeader.HDIST)
+					if (i + Repeat > LiteralLength + DistanceLength)
 					{	// @ToDo: overflow as a result of corrupted source data
 						throw 1;
 					}
 
 					for (Elysium::Core::Template::System::uint16_t r = 0; r < Repeat; ++r)
 					{
-						if (i < _DynamicHuffmanHeader.HLIT)
+						if (i < LiteralLength)
 						{
-							_DynamicHuffmanHeader._LiteralLengths[i] = PreviousEntry._Length;
+							_DynamicHuffmanHeader._LiteralTree._CodeLengths[i] = PreviousLength;
 						}
 						else
 						{
-							_DynamicHuffmanHeader._DistanceLengths[i - _DynamicHuffmanHeader.HLIT] = PreviousEntry._Length;
+							_DynamicHuffmanHeader._DistanceTree._CodeLengths[i - LiteralLength] = PreviousLength;
 						}
+
 						++i;
 					}
+					--i;
 				}
-				else if (CurrentSymbol == 17)
+				else if (17 == CurrentSymbol)
 				{
 					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(3) + 3;
-					if (i + Repeat > _DynamicHuffmanHeader.HLIT + _DynamicHuffmanHeader.HDIST)
+					if (i + Repeat > LiteralLength + DistanceLength)
 					{	// @ToDo: overflow as a result of corrupted source data
 						throw 1;
 					}
 
 					for (Elysium::Core::Template::System::uint16_t r = 0; r < Repeat; ++r)
 					{
-						if (i < _DynamicHuffmanHeader.HLIT)
+						if (i < LiteralLength)
 						{
-							_DynamicHuffmanHeader._LiteralLengths[i] = 0;
+							_DynamicHuffmanHeader._LiteralTree._CodeLengths[i] = 0;
 						}
 						else
 						{
-							_DynamicHuffmanHeader._DistanceLengths[i - _DynamicHuffmanHeader.HLIT] = 0;
+							_DynamicHuffmanHeader._DistanceTree._CodeLengths[i - LiteralLength] = 0;
 						}
+
 						++i;
 					}
+					--i;
 				}
-				else if (CurrentSymbol == 18)
+				else if (18 == CurrentSymbol)
 				{
 					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(7) + 11;
-					if (i + Repeat > _DynamicHuffmanHeader.HLIT + _DynamicHuffmanHeader.HDIST)
+					if (i + Repeat > LiteralLength + DistanceLength)
 					{	// @ToDo: overflow as a result of corrupted source data
 						throw 1;
 					}
 
 					for (Elysium::Core::Template::System::uint16_t r = 0; r < Repeat; ++r)
 					{
-						if (i < _DynamicHuffmanHeader.HLIT)
+						if (i < LiteralLength)
 						{
-							_DynamicHuffmanHeader._LiteralLengths[i] = 0;
+							_DynamicHuffmanHeader._LiteralTree._CodeLengths[i] = 0;
 						}
 						else
 						{
-							_DynamicHuffmanHeader._DistanceLengths[i - _DynamicHuffmanHeader.HLIT] = 0;
+							_DynamicHuffmanHeader._DistanceTree._CodeLengths[i - LiteralLength] = 0;
 						}
+
 						++i;
 					}
+					--i;
 				}
 				else
 				{
 					// @ToDo:
 					throw 1;
 				}
-
-				PreviousEntry = Entry;
 			}
 
 			// ...
-			BuildCanonicalCodes(_DynamicHuffmanHeader._LiteralLengths, _DynamicHuffmanHeader.HLIT, &_DynamicHuffmanHeader._CanonicalLiteralCodes[0]);
-			BuildCanonicalCodes(_DynamicHuffmanHeader._DistanceLengths, _DynamicHuffmanHeader.HDIST, &_DynamicHuffmanHeader._CanonicalDistanceCodes[0]);
+			_DynamicHuffmanHeader._LiteralTree.BuildTable();
+			_DynamicHuffmanHeader._DistanceTree.BuildTable();
 
-			// ...
+			_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman;
 
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
 
+		inline const Elysium::Core::Template::IO::ReadResult DecompresDynamicHuffman(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
+			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
+		{
+			while (true)
+			{
+				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(_DynamicHuffmanHeader._LiteralTree._FastTableBits, SourceSpans, BytesLoadedIntoBitReader);
+				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+				{
+					return Elysium::Core::Template::IO::ReadResult::Pending;
+				}
+
+				Elysium::Core::Template::System::uint32_t Index = _BitReader.Read(_DynamicHuffmanHeader._LiteralTree._FastTableBits);
+				const Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTableEntry<Elysium::Core::Template::System::uint16_t>& Entry =
+					_DynamicHuffmanHeader._LiteralTree[Index];
+				if (nullptr == Entry._Subtable)
+				{
+					const char xxxxxx = Entry._Symbol;
+
+					if (Entry._Symbol < 256)
+					{
+						bool sdf = false;
+					}
+					else if (Entry._Symbol == 256)
+					{	// EOB
+						bool sdf = false;
+					}
+					else
+					{	// lz77?
+						bool sdf = false;
+					}
+				}
+			}
+
+			throw 1;
 
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 	private:
-		inline void BuildCanonicalCodes(const Elysium::Core::Template::System::uint8_t* Lengths, const Elysium::Core::Template::System::uint8_t Length,
-			Elysium::Core::Template::System::uint16_t* Codes)
-		{
-			Elysium::Core::Template::System::uint16_t BitLengthCount[16] = { 0 };
-			Elysium::Core::Template::System::uint16_t NextCode[16] = { 0 };
-
-			for (Elysium::Core::Template::System::uint16_t i = 0; i < Length; ++i)
-			{
-				BitLengthCount[Lengths[i]]++;
-			}
-
-			Elysium::Core::Template::System::uint16_t Code = 0;
-			for (Elysium::Core::Template::System::uint8_t Bits = 1; Bits <= 15; ++Bits)
-			{
-				Code = (Code + BitLengthCount[Bits - 1]) << 1;
-				NextCode[Bits] = Code;
-			}
-
-			for (Elysium::Core::Template::System::uint16_t i = 0; i < Length; ++i)
-			{
-				Elysium::Core::Template::System::uint8_t CurrentLength = Lengths[i];
-				if (CurrentLength != 0)
-				{
-					Codes[i] = NextCode[CurrentLength]++;
-				}
-			}
-		}
-
 		inline Elysium::Core::Template::System::uint16_t ReverseBits(Elysium::Core::Template::System::uint16_t Code, Elysium::Core::Template::System::uint16_t Length)
 		{
 			Elysium::Core::Template::System::uint16_t Result = 0;
@@ -627,7 +587,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				}
 				BytesLoadedIntoBitReader += BytesToCopy0;
 			}
-
 
 			if (!_BitReader.GetIsFull() && BytesLoadedIntoBitReader >= ReadableSpan0Length)
 			{
@@ -691,20 +650,14 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			Elysium::Core::Template::System::uint64_t HCLEN;
 
 			// code length tree
-			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTable _CodeLengthTable;
+			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7, 0> _CodeLengthTree;
 
 			// literal and distance trees as well as their current "reading" states
 			Elysium::Core::Template::System::uint16_t _CurrentLiteralAndDistanceTreeIndex = 0;
-			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::CodeLengthTableEntry _CurrentLiteralAndDistanceTreePreviousEntry = { 0, 0 };
+			Elysium::Core::Template::System::uint8_t _CurrentLiteralAndDistanceTreePreviousLength{ };
 
-			Elysium::Core::Template::System::uint8_t _LiteralLengths[286]{};
-			Elysium::Core::Template::System::uint8_t _DistanceLengths[32]{};
-
-			Elysium::Core::Template::System::uint16_t _CanonicalLiteralCodes[286]{};
-			Elysium::Core::Template::System::uint16_t _CanonicalDistanceCodes[32]{};
-
-			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::byte, 9, 2048> _LiteralTree;
-			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::byte, 5, 256> _DistanceTree;
+			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint16_t, 15, 288, 9, 2048> _LiteralTree;
+			Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 15, 32, 5, 256> _DistanceTree;
 
 			// ...
 
