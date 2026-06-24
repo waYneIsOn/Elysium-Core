@@ -45,7 +45,7 @@ namespace Elysium::Core::Template::Container
 		inline constexpr FixedSizeBuffer(const Elysium::Core::Template::System::size Capacity)
 			: _Allocator(), _Capacity(Capacity == 0 ? 1 : Capacity), _Data(_Allocator.Allocate(_Capacity))
 		{ }
-
+		
 		constexpr FixedSizeBuffer(const FixedSizeBuffer& Source) = delete;
 
 		constexpr FixedSizeBuffer(FixedSizeBuffer&& Right) noexcept = delete;

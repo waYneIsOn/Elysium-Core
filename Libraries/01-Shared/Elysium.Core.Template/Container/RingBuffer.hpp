@@ -51,7 +51,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="Allocator"></typeparam>
 	/// <typeparam name="T"></typeparam>
-	template <Elysium::Core::Template::Concepts::NonConstant T, class Allocator = Elysium::Core::Template::Memory::DefaultAllocator<T>>
+	template <Elysium::Core::Template::Concepts::NonConstant T, bool AllowOverflow = false, class Allocator = Elysium::Core::Template::Memory::DefaultAllocator<T>>
 	class RingBuffer
 	{
 	public:
@@ -78,11 +78,19 @@ namespace Elysium::Core::Template::Container
 			_Allocator.Deallocate(_Data, GetLength());
 		}
 	public:
-		constexpr RingBuffer<T, Allocator>& operator=(const RingBuffer& Source) = delete;
+		constexpr RingBuffer<T, AllowOverflow, Allocator>& operator=(const RingBuffer& Source) = delete;
 
-		constexpr RingBuffer<T, Allocator>& operator=(RingBuffer&& Right) noexcept = delete;
+		constexpr RingBuffer<T, AllowOverflow, Allocator>& operator=(RingBuffer&& Right) noexcept = delete;
 	public:
+		inline constexpr Reference operator[](const Elysium::Core::Template::System::size Index)
+		{
+			return _Data[Index];
+		}
 
+		inline constexpr ConstReference operator[](const Elysium::Core::Template::System::size Index) const
+		{
+			return _Data[Index];
+		}
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetCapacity() const noexcept
 		{
@@ -128,9 +136,12 @@ namespace Elysium::Core::Template::Container
 
 		inline void Push(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 		{
-			if (Length > GetRemainingSpace())
-			{	// @ToDo: throw specific exception (OverflowException?)
-				throw 1;
+			if constexpr (AllowOverflow)
+			{
+				if (Length > GetRemainingSpace())
+				{	// @ToDo: throw specific exception (OverflowException?)
+					throw 1;
+				}
 			}
 
 			Elysium::Core::Template::System::size FirstChunkLength = Elysium::Core::Template::Math::Min(Length, _Capacity - _Tail);
@@ -142,15 +153,18 @@ namespace Elysium::Core::Template::Container
 				Elysium::Core::Template::Memory::MemCpy(&_Data[0], &FirstItem[FirstChunkLength], RemainingLength);
 			}
 
-			_Tail = (_Tail + Length) % _Length;
+			_Tail = (_Tail + Length) % _Capacity;
 			_Length += Length;
 		}
 
-		inline void Pop(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)
+		inline void Read(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)
 		{
-			if (Length > _Length)
-			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
-				throw 1;
+			if constexpr (AllowOverflow)
+			{
+				if (Length > _Length)
+				{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
+					throw 1;
+				}
 			}
 
 			Elysium::Core::Template::System::size FirstChunkLength = Elysium::Core::Template::Math::Min(Length, _Capacity - _Head);
@@ -161,15 +175,22 @@ namespace Elysium::Core::Template::Container
 			{
 				Elysium::Core::Template::Memory::MemCpy(&TargetBuffer[FirstChunkLength], &_Data[0], RemainingLength);
 			}
+		}
 
+		inline void Pop(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)
+		{
+			Read(TargetBuffer, Length);
 			Pop(Length);
 		}
 
 		inline void Pop(const Elysium::Core::Template::System::size Length)
 		{
-			if (Length > _Length)
-			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
-				throw 1;
+			if constexpr (AllowOverflow)
+			{
+				if (Length > _Length)
+				{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
+					throw 1;
+				}
 			}
 
 			_Head = (_Head + Length) % _Length;

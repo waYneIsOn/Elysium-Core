@@ -46,14 +46,6 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		Elysium::Core::Template::System::uint8_t FastTableBits, Elysium::Core::Template::System::size ArenaPageLength>
 	class HuffmanTable
 	{
-	private:
-		inline static constexpr bool SubtablesRequired = MaximumCodeLength > FastTableBits;
-	public:
-		inline static constexpr Elysium::Core::Template::System::uint8_t _FastTableBits = FastTableBits;
-
-		inline static constexpr Elysium::Core::Template::System::uint8_t _MaximumCodeLength = MaximumCodeLength;
-
-		inline static constexpr Elysium::Core::Template::System::size FastTableLength = 1 << FastTableBits;
 	public:
 		/// <summary>
 		/// Afaik an alphabet size larger than 4.294.967.295 does not exist in deflate, audio codecs, image compression etc. so uint64_t won't be used.
@@ -70,6 +62,14 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		using EntryPointer = EntryType*;
 
 		using EntryReference = EntryType&;
+	private:
+		inline static constexpr bool SubtablesRequired = MaximumCodeLength > FastTableBits;
+	public:
+		inline static constexpr Elysium::Core::Template::System::uint8_t _FastTableBits = FastTableBits;
+
+		inline static constexpr Elysium::Core::Template::System::uint8_t _MaximumCodeLength = MaximumCodeLength;
+
+		inline static constexpr Elysium::Core::Template::System::size FastTableLength = 1 << FastTableBits;
 	public:
 		inline constexpr HuffmanTable()
 			: _CodeLengths{}, _CanonicalCodes{}, _FastTable {}, 
@@ -206,7 +206,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 					}
 					else
 					{	//
-						//throw 1;
+						throw 1;
 					}
 				}
 			}

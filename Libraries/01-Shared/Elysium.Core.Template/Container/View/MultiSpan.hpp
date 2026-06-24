@@ -29,7 +29,7 @@ namespace Elysium::Core::Template::Container::View
 		using Pointer = Span<T, Extents>::Pointer;
 		using ConstPointer = Span<T, Extents>::ConstPointer;
 	public:
-		constexpr MultiSpan() = delete;
+		constexpr MultiSpan() = default;
 
 		constexpr MultiSpan(const MultiSpan& Source) = default;
 
@@ -53,7 +53,7 @@ namespace Elysium::Core::Template::Container::View
 		using Pointer = Span::Pointer;
 		using ConstPointer = Span::ConstPointer;
 	public:
-		constexpr MultiSpan() = delete;
+		constexpr MultiSpan() = default;
 
 		inline constexpr MultiSpan(ConstPointer Data0, const Elysium::Core::Template::System::size Length0, ConstPointer Data1, const Elysium::Core::Template::System::size Length1)
 			: _Spans{ { Data0, Length0 }, { Data1, Length1 } }

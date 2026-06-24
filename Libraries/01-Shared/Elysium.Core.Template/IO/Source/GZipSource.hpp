@@ -69,7 +69,8 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline constexpr GZipSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = MinimumBufferSize) noexcept
 			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _InnerSource(InnerSource),
-			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFixedHeader), _Header{}, _Footer{}, _DecompressedDataBuffer(4096), _DeflateDecoder()
+			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFixedHeader), _Header{}, _Footer{}, _DecompressedOutputDataBuffer(4096), 
+			_DecompressedOutputDataSpan(&_DecompressedOutputDataBuffer[0], _DecompressedOutputDataBuffer.GetCapacity()), _DecompressedOutputDataBufferPosition{}, _DeflateDecoder()
 		{ }
 
 		constexpr GZipSource(const GZipSource& Source) = delete;
@@ -206,7 +207,12 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
 		{
-			_DecompressedDataBuffer.CommitWritableSpan(Length);
+			if (Length > _DecompressedOutputDataBufferPosition)
+			{	// @ToDo
+				throw 1;
+			}
+
+			_DecompressedOutputDataBufferPosition -= Length;
 		}
 	private:
 		inline const Elysium::Core::Template::IO::ReadResult ReadHeader()
@@ -430,8 +436,16 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			static constexpr const Elysium::Core::Template::System::size FooterSize = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
 
+			// early exit if there's still data in the output buffer
+			const Elysium::Core::Template::IO::ReadResult OutputResult = CopyOuputToUserView(TargetView);
+			if (Elysium::Core::Template::IO::ReadResult::HasData == OutputResult)
+			{
+				return OutputResult;
+			}
+
 			Elysium::Core::Template::System::size BytesPopulated = 0;
 			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(0, BytesPopulated);
+			//const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize + 1, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
@@ -441,10 +455,10 @@ namespace Elysium::Core::Template::IO::Source
 			// Neither should the DeflateDecoder inform GZipSource that it's done.
 			// The way around this is to never "forward" the last 8 bytes (size of a GZipFooter) and use those at the appropriate time.
 			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan(FooterSize);
-			Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> TargetSpan = _DecompressedDataBuffer.RequestWriteableSpan();
 
 			Elysium::Core::Template::System::size BytesFullyProcessedThisIteration = 0;
-			const Elysium::Core::Template::IO::ReadResult DecompressionResult = _DeflateDecoder.Decode(ReadableSpans, TargetSpan, BytesFullyProcessedThisIteration);
+			const Elysium::Core::Template::IO::ReadResult DecompressionResult = _DeflateDecoder.Decode(ReadableSpans, _DecompressedOutputDataSpan, _DecompressedOutputDataBufferPosition,
+				BytesFullyProcessedThisIteration);
 			switch (DecompressionResult)
 			{
 			case Elysium::Core::Template::IO::ReadResult::HasData:
@@ -452,20 +466,17 @@ namespace Elysium::Core::Template::IO::Source
 			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
 				[[__fallthrough__]]
 			case Elysium::Core::Template::IO::ReadResult::Pending:
+			{
 				_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
 
-
-
-
-				// @ToDo: populate for
-				//TargetView.SetData(TargetSpan.GetData());
-				//TargetView.SetLength(TargetSpan.GetLength();
-
-
-
-
+				const Elysium::Core::Template::IO::ReadResult OutputResult = CopyOuputToUserView(TargetView);
+				if (Elysium::Core::Template::IO::ReadResult::HasData != OutputResult)
+				{	// @ToDo
+					throw 1;
+				}
 
 				return DecompressionResult;
+			}
 			default:
 				// @ToDo
 				throw 1;
@@ -666,6 +677,19 @@ namespace Elysium::Core::Template::IO::Source
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
+
+		inline const Elysium::Core::Template::IO::ReadResult CopyOuputToUserView(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
+		{
+			if (0 < _DecompressedOutputDataBufferPosition)
+			{
+				TargetView.SetData(&_DecompressedOutputDataBuffer[0]);
+				TargetView.SetLength(_DecompressedOutputDataBufferPosition);
+
+				return Elysium::Core::Template::IO::ReadResult::HasData;
+			}
+			
+			return Elysium::Core::Template::IO::ReadResult::Pending;
+		}
 	public:
 		/// <summary>
 		/// Fixed GZipHeader is 10 bytes in size.
@@ -689,7 +713,11 @@ namespace Elysium::Core::Template::IO::Source
 		Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader _Header;
 		Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter _Footer;
 
-		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _DecompressedDataBuffer;
+		//Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _DecompressedOutputDataBuffer;
+		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _DecompressedOutputDataBuffer;
+		Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> _DecompressedOutputDataSpan;
+		Elysium::Core::Template::System::size _DecompressedOutputDataBufferPosition;
+
 		Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateDecoder _DeflateDecoder;
 	};
 }

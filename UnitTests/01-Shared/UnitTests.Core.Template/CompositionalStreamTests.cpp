@@ -123,7 +123,7 @@ namespace UnitTests::Core::Template::IO
 
 					if (!MadeProgress)
 					{
-						break;
+						//break;
 					}
 				}
 

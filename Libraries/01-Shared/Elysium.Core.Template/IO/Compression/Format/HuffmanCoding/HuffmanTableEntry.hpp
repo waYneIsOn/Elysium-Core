@@ -26,6 +26,11 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 	class HuffmanTableEntry
 	{
 	public:
+		/// <summary>
+		/// Even with a legit value of 255, the huffman-tree is insanely deep, defeating the purpose of huffman-coding.
+		/// </summary>
+		using LengthType = Elysium::Core::Template::System::uint8_t;
+	public:
 		constexpr HuffmanTableEntry() = default;
 
 		constexpr HuffmanTableEntry(const HuffmanTableEntry& Source) = default;
@@ -49,10 +54,10 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		}
 	public:
 		S _Symbol;
-		Elysium::Core::Template::System::uint8_t _Length;
+		LengthType _Length;
 
 		HuffmanTableEntry* _Subtable;
-		Elysium::Core::Template::System::uint8_t _SubTableLength;
+		LengthType _SubTableLength;
 	};
 }
 #endif
