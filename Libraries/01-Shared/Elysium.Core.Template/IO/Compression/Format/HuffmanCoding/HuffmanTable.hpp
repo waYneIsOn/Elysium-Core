@@ -142,7 +142,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 			}
 			else if (Left > 0)
 			{
-				// incomplete tree -> afaik fine as well
+				// incomplete tree -> afaik fine as well (as long as I fully populate tables)
 			}
 			*/
 			// Define "canonical code ranges" (specifically: calculate the FIRST ie. smallest canonical huffman code for each bit-length)
@@ -192,12 +192,12 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 							}
 
 							EntryType& Entry = _FastTable[Index];
-
+							/*
 							if (0 != Entry._Length && CodeLength != Entry._Length && Symbol != Entry._Symbol)
 							{	// @ToDo: overwriting! (this check might not be correct! some entries can be overwritten - I think lower > larger length? need to look it up!)
 								throw 1;
 							}
-
+							*/
 							Entry._Symbol = Symbol;
 							Entry._Length = CodeLength;
 							Entry._Subtable = nullptr;
@@ -229,13 +229,13 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 						{	// @ToDo:
 							throw 1;
 						}
-
 						EntryType& Entry = _FastTable[Index];
+						/*
 						if (0 != Entry._Length && CodeLength != Entry._Length && Symbol != Entry._Symbol)
 						{	// @ToDo: overwriting! (this check might not be correct! some entries can be overwritten - I think lower > larger length? need to look it up!)
 							throw 1;
 						}
-
+						*/
 						Entry._Symbol = Symbol;
 						Entry._Length = CodeLength;
 						Entry._Subtable = nullptr;

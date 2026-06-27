@@ -33,6 +33,10 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 	public:
 		constexpr HuffmanTableEntry() = default;
 
+		inline constexpr HuffmanTableEntry(S Symbol, LengthType Length)
+			: _Symbol(Symbol), _Length(Length)
+		{ }
+
 		constexpr HuffmanTableEntry(const HuffmanTableEntry& Source) = default;
 
 		constexpr HuffmanTableEntry(HuffmanTableEntry&& Right) noexcept = default;
@@ -42,6 +46,16 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		constexpr HuffmanTableEntry<S>& operator=(const HuffmanTableEntry& Source) = default;
 
 		constexpr HuffmanTableEntry<S>& operator=(HuffmanTableEntry&& Right) noexcept = default;
+	public:
+		inline constexpr const bool operator==(const HuffmanTableEntry& Other) const noexcept
+		{
+			return _Symbol == Other._Symbol && _Length == Other._Length;
+		}
+
+		inline constexpr const bool operator!=(const HuffmanTableEntry& Other) const noexcept
+		{
+			return _Symbol != Other._Symbol || _Length != Other._Length;
+		}
 	public:
 		inline const bool GetIsLeaf()
 		{

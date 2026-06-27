@@ -105,7 +105,6 @@ namespace UnitTests::Core::Template::IO
 				while (true)
 				{
 					bool MadeProgress = false;
-
 					const Elysium::Core::Template::IO::ReadResult ReadResult = Stream.ReadBlock(Span);
 					switch (ReadResult)
 					{
@@ -116,6 +115,7 @@ namespace UnitTests::Core::Template::IO
 						break;
 					case Elysium::Core::Template::IO::ReadResult::Pending:
 						// for now simply continue running the loop
+						MadeProgress = true;
 						break;
 					case Elysium::Core::Template::IO::ReadResult::EndOfStream:
 						break;
@@ -123,13 +123,15 @@ namespace UnitTests::Core::Template::IO
 
 					if (!MadeProgress)
 					{
-						//break;
+						break;
 					}
 				}
 
+				const Elysium::Core::Template::System::size FileLength = ReadDevice.GetLength();
+				const Elysium::Core::Template::System::size FilePosition = ReadDevice.GetPosition();
 
-
-				Assert::Fail();
+				Assert::AreEqual(FileLength, FilePosition);
+				Assert::AreEqual(10485760_ui64, Result.GetLength());
 			}
 		}
 

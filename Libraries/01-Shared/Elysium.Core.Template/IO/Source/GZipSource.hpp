@@ -117,6 +117,9 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
 		{
+			TargetView.SetData(nullptr);
+			TargetView.SetLength(0);
+
 			while (true)
 			{
 				switch (_State)
@@ -177,7 +180,7 @@ namespace Elysium::Core::Template::IO::Source
 						return Result;
 					case Elysium::Core::Template::IO::ReadResult::EndOfStream:
 						_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter;
-						return Result;
+						break;
 					default:
 						// @ToDo:
 						throw 1;
@@ -444,10 +447,19 @@ namespace Elysium::Core::Template::IO::Source
 			}
 
 			Elysium::Core::Template::System::size BytesPopulated = 0;
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(0, BytesPopulated);
-			//const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize + 1, BytesPopulated);
+			//const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize, BytesPopulated);
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize + 1, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
+				return BufferPopulationResult;
+			}
+			else if (Elysium::Core::Template::IO::ReadResult::EndOfStream == BufferPopulationResult)
+			{
+				if (_Buffer.GetLength() != FooterSize)
+				{	// @ToDo:
+					throw 1;
+				}
+
 				return BufferPopulationResult;
 			}
 
@@ -455,6 +467,7 @@ namespace Elysium::Core::Template::IO::Source
 			// Neither should the DeflateDecoder inform GZipSource that it's done.
 			// The way around this is to never "forward" the last 8 bytes (size of a GZipFooter) and use those at the appropriate time.
 			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan(FooterSize);
+			//const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
 
 			Elysium::Core::Template::System::size BytesFullyProcessedThisIteration = 0;
 			const Elysium::Core::Template::IO::ReadResult DecompressionResult = _DeflateDecoder.Decode(ReadableSpans, _DecompressedOutputDataSpan, _DecompressedOutputDataBufferPosition,
@@ -462,21 +475,23 @@ namespace Elysium::Core::Template::IO::Source
 			switch (DecompressionResult)
 			{
 			case Elysium::Core::Template::IO::ReadResult::HasData:
-				[[__fallthrough__]]
-			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
-				[[__fallthrough__]]
-			case Elysium::Core::Template::IO::ReadResult::Pending:
 			{
 				_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
-
 				const Elysium::Core::Template::IO::ReadResult OutputResult = CopyOuputToUserView(TargetView);
 				if (Elysium::Core::Template::IO::ReadResult::HasData != OutputResult)
-				{	// @ToDo
+				{	// @ToDo: implementation bug
 					throw 1;
 				}
-
-				return DecompressionResult;
 			}
+				return DecompressionResult;
+			case Elysium::Core::Template::IO::ReadResult::Pending:
+				_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+				return DecompressionResult;
+			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+			{
+				bool sdfsdfa = false;
+			}
+				return DecompressionResult;
 			default:
 				// @ToDo
 				throw 1;
@@ -524,7 +539,7 @@ namespace Elysium::Core::Template::IO::Source
 
 			_Buffer.CommitReadableSpan(FooterSize);
 
-			return Elysium::Core::Template::IO::ReadResult::Pending;
+			return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 		}
 	private:
 		inline const Elysium::Core::Template::IO::ReadResult ReadBytes(const Elysium::Core::Template::System::size Length, 
@@ -630,7 +645,6 @@ namespace Elysium::Core::Template::IO::Source
 			{
 				bool MadeProgress = false;
 				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(SourceSpan);
-
 				switch (Result)
 				{
 				case Elysium::Core::Template::IO::ReadResult::HasData:
@@ -660,9 +674,8 @@ namespace Elysium::Core::Template::IO::Source
 					break;
 				case Elysium::Core::Template::IO::ReadResult::Pending:
 					return Result;
-					break;
 				case Elysium::Core::Template::IO::ReadResult::EndOfStream:
-					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
+					return Result;
 				default:
 					// @ToDo: if this happens, I must have added another value to ReadResult
 					throw 1;

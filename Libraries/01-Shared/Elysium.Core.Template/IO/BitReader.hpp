@@ -58,6 +58,11 @@ namespace Elysium::Core::Template::IO
 	public:
 		inline constexpr Elysium::Core::Template::System::uint64_t Peek(const Elysium::Core::Template::System::uint8_t Bits)
 		{
+			if (0 == _Count)
+			{	// @ToDo:
+				throw 1;
+			}
+
 			if constexpr (LeastSignificantBitFirst)
 			{
 				return static_cast<Elysium::Core::Template::System::uint64_t>(_Buffer & ((1_ui64 << Bits) - 1));
