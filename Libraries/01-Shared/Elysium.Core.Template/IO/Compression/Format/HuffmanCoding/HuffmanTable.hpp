@@ -97,6 +97,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 					return Entry;
 				}
 
+				// @ToDo
 				//Entry._Subtable[x]
 				throw 1;
 			}
@@ -109,9 +110,6 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		inline void BuildTable()
 		{
 			constexpr Elysium::Core::Template::System::uint8_t ValidLengths = MaximumCodeLength + 1;
-
-			// validate code lengths
-
 
 			// Build the "histogram of code lengths" ie. count number of bits for each possible code-length (1, 10, 100 etc.)
 			Elysium::Core::Template::System::uint16_t BitLengthCount[ValidLengths] = { 0 };

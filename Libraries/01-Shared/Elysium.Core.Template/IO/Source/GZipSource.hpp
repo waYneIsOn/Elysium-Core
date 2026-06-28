@@ -182,7 +182,7 @@ namespace Elysium::Core::Template::IO::Source
 						_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFooter;
 						break;
 					default:
-						// @ToDo:
+						// @ToDo: throw specific exception
 						throw 1;
 					}
 				}
@@ -211,7 +211,7 @@ namespace Elysium::Core::Template::IO::Source
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
 		{
 			if (Length > _DecompressedOutputDataBufferPosition)
-			{	// @ToDo
+			{	// @ToDo: throw specific exception
 				throw 1;
 			}
 
@@ -726,7 +726,6 @@ namespace Elysium::Core::Template::IO::Source
 		Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader _Header;
 		Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter _Footer;
 
-		//Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _DecompressedOutputDataBuffer;
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _DecompressedOutputDataBuffer;
 		Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> _DecompressedOutputDataSpan;
 		Elysium::Core::Template::System::size _DecompressedOutputDataBufferPosition;

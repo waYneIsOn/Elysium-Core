@@ -148,7 +148,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					{
 						return Result;
 					}
-					
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
@@ -547,21 +546,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					_BitReader.Consume(_CurrentLiteralEntry._Length);
 				}
 
-
-
-
-
-
-
-				if (172 <= _DebugBlockCount)
-				{
-					bool sdfsdfd = false;
-				}
-
-
-
-
-
 				LiteralTreeSymbolType CurrentSymbol = _CurrentLiteralEntry._Symbol;
 				if (256 > CurrentSymbol)
 				{
@@ -586,21 +570,42 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					_CurrentLength = 0;
 					_CurrentDistance = 0;
 
-					return Elysium::Core::Template::IO::ReadResult::HasData;
+					return 0 == OutputBytesWritten ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 				}
 				else if(_InvalidLiteralEntry._Symbol > CurrentSymbol)
 				{	// LZ77
-					static constexpr Elysium::Core::Template::System::size RequiredBits = 5 // largest value in _LZ77LengthExtra
-						+ _DynamicHuffmanHeader._DistanceTree._FastTableBits // bits required for distance symbol
-						+ 13 // largest value in _LZ77DistanceExtra
-						;
-
 					if (0 == _CurrentLength && 0 == _CurrentDistance)
 					{
-						const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(RequiredBits, SourceSpans, BytesLoadedIntoBitReader);
+						const Elysium::Core::Template::System::size LengthIndex = CurrentSymbol - 257;
+						const Elysium::Core::Template::System::uint16_t LengthBase = _LZ77LengthBase[LengthIndex];
+						const Elysium::Core::Template::System::uint16_t LengthExtraBits = _LZ77LengthExtra[LengthIndex];
 
-						// @ToDo: "!_BlockHeader.GetIsFinalBlock()" is a bit "fragile"
-						if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult && !_BlockHeader.GetIsFinalBlock())
+						_CurrentLength = LengthBase;
+						if (0 < LengthExtraBits)
+						{
+							const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(LengthExtraBits, SourceSpans, BytesLoadedIntoBitReader);
+							if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+							{
+								if (0 < OutputBytesWritten)
+								{
+									CopyIntoHistoryBuffer(&TargetSpan.GetData()[TargetSpanReadPosition], OutputBytesWritten - TargetSpanReadPosition);
+
+									return Elysium::Core::Template::IO::ReadResult::HasData;
+								}
+
+								return Elysium::Core::Template::IO::ReadResult::Pending;
+							}
+
+							_CurrentLength += _BitReader.Read(LengthExtraBits);
+						}
+
+						if (3 > _CurrentLength || 258 < _CurrentLength)
+						{	// @ToDo: length "overflow" -> invalid
+							throw 1;
+						}
+
+						const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(_DynamicHuffmanHeader._DistanceTree._FastTableBits, SourceSpans, BytesLoadedIntoBitReader);
+						if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 						{
 							if (0 < OutputBytesWritten)
 							{
@@ -610,21 +615,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 							}
 
 							return Elysium::Core::Template::IO::ReadResult::Pending;
-						}
-
-						const Elysium::Core::Template::System::size LengthIndex = CurrentSymbol - 257;
-						const Elysium::Core::Template::System::uint16_t LengthBase = _LZ77LengthBase[LengthIndex];
-						const Elysium::Core::Template::System::uint16_t LengthExtraBits = _LZ77LengthExtra[LengthIndex];
-
-						_CurrentLength = LengthBase;
-						if (0 < LengthExtraBits)
-						{
-							_CurrentLength += _BitReader.Read(LengthExtraBits);
-						}
-
-						if (3 > _CurrentLength || 258 < _CurrentLength)
-						{	// @ToDo: length "overflow" -> invalid
-							throw 1;
 						}
 
 						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = ReverseBits(_BitReader.Peek(DistanceTreeType::_FastTableBits), DistanceTreeType::_FastTableBits);
@@ -639,6 +629,19 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 						_CurrentDistance = DistanceBase;
 						if (0 < DistanceExtraBits)
 						{
+							const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(DistanceExtraBits, SourceSpans, BytesLoadedIntoBitReader);
+							if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+							{
+								if (0 < OutputBytesWritten)
+								{
+									CopyIntoHistoryBuffer(&TargetSpan.GetData()[TargetSpanReadPosition], OutputBytesWritten - TargetSpanReadPosition);
+
+									return Elysium::Core::Template::IO::ReadResult::HasData;
+								}
+
+								return Elysium::Core::Template::IO::ReadResult::Pending;
+							}
+
 							_CurrentDistance += _BitReader.Read(DistanceExtraBits);
 						}
 
@@ -653,9 +656,10 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					// early exit -> keep states alive
 					if (TargetSpan.GetLength() <= OutputBytesWritten + _CurrentLength)
 					{
-						CopyIntoHistoryBuffer(&TargetSpan.GetData()[TargetSpanReadPosition], OutputBytesWritten - TargetSpanReadPosition);
+						const Elysium::Core::Template::System::size Length = OutputBytesWritten - TargetSpanReadPosition;
+						CopyIntoHistoryBuffer(&TargetSpan.GetData()[TargetSpanReadPosition], Length);
 
-						return Elysium::Core::Template::IO::ReadResult::HasData;
+						return 0 == Length ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 					}
 
 					// @ToDo: optimize byte-by-byte copy
