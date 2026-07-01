@@ -70,8 +70,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		using DistanceTreeEntryReference = DistanceTreeType::EntryReference;
 	public:
 		inline constexpr DeflateDecoder() noexcept
-			: _State{}, _BlockHeader{}, _BitReader{}, _DynamicHuffmanHeader{}, _CurrentLiteralEntry(_InvalidLiteralEntry), _CurrentLength{}, _CurrentDistance{}, _LZ77HistoryBuffer(32768),
-			_LZ77HistoryBufferReadPosition{}, _Distance{}, _Length{}
+			: _State{}, _BlockHeader{}, _BitReader{}, _UncompressedHuffmanHeader{}, _DynamicHuffmanHeader {}, _CurrentLiteralEntry(_InvalidLiteralEntry), _CurrentLength{}, 
+			_CurrentDistance{}, _LZ77HistoryBuffer(32768), _LZ77HistoryBufferReadPosition{}, _Distance{}, _Length{}
 		{ }
 
 		constexpr DeflateDecoder(const DeflateDecoder& Source) = delete;
@@ -93,17 +93,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetSpan, Elysium::Core::Template::System::size& OutputBytesWritten,
 			Elysium::Core::Template::System::size& BytesFullyProcessed)
 		{
-
-
-
-
-			// @ToDo: remove - this is just for debugging
-			Elysium::Core::Template::Memory::MemSet(TargetSpan.GetData(), 0x00, TargetSpan.GetLength());
-
-
-
-
-
 			while (true)
 			{
 				switch (_State)
@@ -117,9 +106,26 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					}
 				}
 					break;
-					/*
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Uncompressed:
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedHeaderFields:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadUncompressedHeaderFields(SourceSpans, BytesFullyProcessed);
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					{
+						return Result;
+					}
+				}
 					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedData:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadUncompressedData(SourceSpans, TargetSpan, OutputBytesWritten, BytesFullyProcessed);
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result ||
+						Elysium::Core::Template::IO::ReadResult::HasData == Result)
+					{
+						return Result;
+					}
+				}
+					break;
+					/*
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingFixedHuffman:
 					break;
 					*/
@@ -174,17 +180,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		{
 			static constexpr const Elysium::Core::Template::System::size HeaderSize = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader::Size;
 
-
-
-
-
-
-			++_DebugBlockCount;
-
-
-
-
-
 			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(3, SourceSpans, BytesLoadedIntoBitReader);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
@@ -197,17 +192,167 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			switch (BlockType)
 			{
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::Uncompressed:
-				throw 1;
+				OutputDebugString(L"uncompressed\r\n");
+				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedHeaderFields;
+				break;
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::FixedHuffman:
 				throw 1;
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::DynamicHuffman:
 				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingDynamicHuffmanHeaderFields;
 				break;
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::Invalid:
+				// @ToDo
 				throw 1;
 			default:
 				throw 1;
 			}
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ReadUncompressedHeaderFields(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
+			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
+		{
+			if (0 == _UncompressedHuffmanHeader._Length)
+			{
+				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(sizeof(Elysium::Core::Template::System::uint16_t) * 8, SourceSpans, 
+					BytesLoadedIntoBitReader);
+				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+				{
+					return BufferPopulationResult;
+				}
+
+				_BitReader.AlignToByteBoundary();
+				
+				Elysium::Core::Template::System::uint64_t LEN = _BitReader.Read(sizeof(Elysium::Core::Template::System::uint16_t) * 8);
+
+				_UncompressedHuffmanHeader._Length = static_cast<Elysium::Core::Template::System::uint16_t>(LEN);
+			}
+
+			// @ToDo: since NLEN is the complement of LEN, 0 would be wrong in the case of LEN being MAX uint16_t
+			if (0 == _UncompressedHuffmanHeader._ComplementaryLength)
+			{
+				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(sizeof(Elysium::Core::Template::System::uint16_t) * 8, SourceSpans, 
+					BytesLoadedIntoBitReader);
+				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+				{
+					return BufferPopulationResult;
+				}
+
+				Elysium::Core::Template::System::uint64_t NLEN = _BitReader.Read(sizeof(Elysium::Core::Template::System::uint16_t) * 8);
+
+				_UncompressedHuffmanHeader._ComplementaryLength = static_cast<Elysium::Core::Template::System::uint16_t>(NLEN);
+
+				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedData;
+			}
+
+			const Elysium::Core::Template::System::uint16_t CalculatedComplementaryLength = ~_UncompressedHuffmanHeader._Length;
+			if (CalculatedComplementaryLength != _UncompressedHuffmanHeader._ComplementaryLength)
+			{	// @ToDo:
+				throw 1;
+			}
+			
+			// Deflate allows for no data in an uncompressed block
+			_State = 0 == _UncompressedHuffmanHeader._Length ? Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader :
+				Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedData;
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
+		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ReadUncompressedData(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetSpan, Elysium::Core::Template::System::size& OutputBytesWritten,
+			Elysium::Core::Template::System::size& BytesConsumed)
+		{
+			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitReader.GetLength();
+			if(0 != AvailableBits % 8)
+			{	// not correctly aligned -> implementation bug
+				throw 1;
+			}
+
+			// Drain _BitReader first
+			if (0 < AvailableBits)
+			{
+				const Elysium::Core::Template::System::uint8_t AvailableBytes = AvailableBits / 8;
+				/*
+				// this check shouldn't be necessary at this point
+				if (BytesConsumed + AvailableBytes > TargetSpan.GetLength())
+				{
+					return 0 == BytesConsumed ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
+				}
+				*/
+				Elysium::Core::Template::System::uint16_t BytesToCopy = Elysium::Core::Template::Math::Min(static_cast<Elysium::Core::Template::System::uint16_t>(AvailableBytes),
+					static_cast<Elysium::Core::Template::System::uint16_t>(_UncompressedHuffmanHeader._Length - _UncompressedHuffmanHeader._TotalBytesCopied));
+
+				Elysium::Core::Template::System::byte* TargetData = TargetSpan.GetData();
+
+				Elysium::Core::Template::System::uint64_t Bytes = _BitReader.Read(BytesToCopy * 8);
+				Elysium::Core::Template::Memory::MemCpy(&TargetData[BytesConsumed], &Bytes, BytesToCopy);
+				OutputBytesWritten += BytesToCopy;
+				//BytesConsumed += BytesToCopy;	// these bytes already were in _BitReader!
+				_UncompressedHuffmanHeader._TotalBytesCopied += BytesToCopy;
+				/*
+				// ...
+				if (0 < BytesConsumed)
+				{
+					return Elysium::Core::Template::IO::ReadResult::HasData;
+				}
+				*/
+			}
+
+			// From now on copy directly from SourceSpans
+			const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = SourceSpans.GetFirst();
+			const Elysium::Core::Template::System::size ReadableSpan0Length = ReadableSpan0.GetLength();
+
+			const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = SourceSpans.GetSecond();
+
+			const Elysium::Core::Template::System::size Offset0 = BytesConsumed;
+			if (OutputBytesWritten <= ReadableSpan0Length - Elysium::Core::Template::Math::Min(ReadableSpan0Length, Offset0))
+			{
+				const Elysium::Core::Template::System::byte* Data0 = &ReadableSpan0.GetData()[Offset0];
+				const Elysium::Core::Template::System::size AvailableBytes0 = Elysium::Core::Template::Math::Min(
+					static_cast<Elysium::Core::Template::System::size>(_UncompressedHuffmanHeader._Length - _UncompressedHuffmanHeader._TotalBytesCopied),
+					ReadableSpan0Length - Offset0);
+				const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(AvailableBytes0, TargetSpan.GetLength());
+
+				Elysium::Core::Template::System::byte* TargetData = &TargetSpan.GetData()[OutputBytesWritten];
+				Elysium::Core::Template::Memory::MemCpy(TargetData, Data0, BytesToCopy0);
+				OutputBytesWritten += BytesToCopy0;
+				BytesConsumed += BytesToCopy0;
+				_UncompressedHuffmanHeader._TotalBytesCopied += BytesToCopy0;
+			}
+
+			if (OutputBytesWritten >= ReadableSpan0Length - Offset0)
+			{
+				const Elysium::Core::Template::System::size Offset1 = OutputBytesWritten - (ReadableSpan0Length - Offset0);
+				const Elysium::Core::Template::System::size ReadableSpan1Length = ReadableSpan1.GetLength();
+
+				if (Offset1 < ReadableSpan1Length)
+				{
+					const Elysium::Core::Template::System::byte* Data1 = &ReadableSpan1.GetData()[Offset1];
+					const Elysium::Core::Template::System::size AvailableBytes1 = Elysium::Core::Template::Math::Min(
+						static_cast<Elysium::Core::Template::System::size>(_UncompressedHuffmanHeader._Length - _UncompressedHuffmanHeader._TotalBytesCopied),
+						ReadableSpan1Length - Offset1);
+					const Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(AvailableBytes1, TargetSpan.GetLength());
+
+					Elysium::Core::Template::System::byte* TargetData = &TargetSpan.GetData()[OutputBytesWritten];
+					Elysium::Core::Template::Memory::MemCpy(TargetData, Data1, BytesToCopy1);
+					OutputBytesWritten += BytesToCopy1;
+					BytesConsumed += BytesToCopy1;
+					_UncompressedHuffmanHeader._TotalBytesCopied += BytesToCopy1;
+				}
+			}
+
+
+			if (_UncompressedHuffmanHeader._TotalBytesCopied == _UncompressedHuffmanHeader._Length)
+			{
+				_State = _BlockHeader.GetIsFinalBlock() ? Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done :
+					Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader;
+				_UncompressedHuffmanHeader._Length = 0;
+				_UncompressedHuffmanHeader._ComplementaryLength = 0;
+				_UncompressedHuffmanHeader._TotalBytesCopied = 0;
+			}
+
+			return 0 == OutputBytesWritten ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline const Elysium::Core::Template::IO::ReadResult ReadDynamicHuffmanHeaderFields(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
@@ -778,10 +923,10 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 	private:
 		struct UncompressedBlockInfo
 		{
-			Elysium::Core::Template::System::uint16_t LEN;
-			Elysium::Core::Template::System::uint16_t NLEN;
+			Elysium::Core::Template::System::uint16_t _Length;
+			Elysium::Core::Template::System::uint16_t _ComplementaryLength;
 
-			Elysium::Core::Template::System::uint16_t BytesCopied;
+			Elysium::Core::Template::System::uint16_t _TotalBytesCopied;
 		};
 
 		struct FixedHuffmanInfo
@@ -880,6 +1025,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 		Elysium::Core::Template::IO::BitReader<true> _BitReader;
 
+		UncompressedBlockInfo _UncompressedHuffmanHeader;
 		DynamicHuffmanInfo _DynamicHuffmanHeader;
 
 		LiteralTreeEntryType _CurrentLiteralEntry;
@@ -890,8 +1036,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		Elysium::Core::Template::System::size _LZ77HistoryBufferReadPosition;
 		Elysium::Core::Template::System::uint16_t _Distance;
 		Elysium::Core::Template::System::uint16_t _Length;
-
-		Elysium::Core::Template::System::size _DebugBlockCount = 0;
 	};
 }
 #endif

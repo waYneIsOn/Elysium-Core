@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASOPERATORGREATEROREQUAL
-#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASOPERATORGREATEROREQUAL
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASOPERATORLESSOREQUAL
+#define ELYSIUM_CORE_TEMPLATE_CONCEPTS_HASOPERATORLESSOREQUAL
 
 #ifdef _MSC_VER
 #pragma once
@@ -19,9 +19,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Concepts
 {
 	template<class T>
-	concept HasOperatorGreaterOrEqual = requires(const T& Left, const T& Right)
+	concept HasOperatorLessOrEqual = requires(const T & Left, const T & Right)
 	{
-		{ Left >= Right } -> SameAs<bool>;
+		{ Left <= Right } -> SameAs<bool>;
 	};
 }
 #endif

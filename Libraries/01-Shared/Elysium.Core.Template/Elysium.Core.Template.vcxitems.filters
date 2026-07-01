@@ -960,6 +960,27 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp">
       <Filter>IO\Compression\Format\HuffmanCoding</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateEncoder.hpp">
+      <Filter>IO\Compression\Algorithm\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\GZipSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitWriter.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Crc32.hpp">
+      <Filter>Security\Cryptography\Checksum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Adler32.hpp">
+      <Filter>Security\Cryptography\Checksum</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\CallTraits.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorLessOrEqual.hpp">
+      <Filter>Concepts</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1115,6 +1136,15 @@
     <Filter Include="IO\Compression\Format\HuffmanCoding">
       <UniqueIdentifier>{45be8ecd-8668-48e9-aeb0-4ae2cacaeace}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Security">
+      <UniqueIdentifier>{71da7ba4-c41a-447d-b0cc-e11389cf3511}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography">
+      <UniqueIdentifier>{393594a4-d1e5-4e0d-aa5b-9a82db50a530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\Checksum">
+      <UniqueIdentifier>{e2f37557-a1f6-43d0-8bea-431478e763cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Chrono.ixx" />
@@ -1143,5 +1173,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Concepts.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Algorithms.Sorting.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.IO.Compression.LempelZiv.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Security.Cryptography.Checksum.ixx" />
   </ItemGroup>
 </Project>

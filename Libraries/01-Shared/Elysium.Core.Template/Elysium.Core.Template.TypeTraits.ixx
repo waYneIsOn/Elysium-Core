@@ -1,5 +1,9 @@
 module;
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CALLTRAITS
+#include "TypeTraits/CallTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_CONDITIONAL
 #include "TypeTraits/Conditional.hpp"
 #endif
@@ -212,6 +216,7 @@ export module Elysium.Core.Template.TypeTraits;
 
 export
 {
+	using Elysium::Core::Template::TypeTraits::CallTraits;
 	using Elysium::Core::Template::TypeTraits::Conditional;
 	using Elysium::Core::Template::TypeTraits::ConditionalType;
 

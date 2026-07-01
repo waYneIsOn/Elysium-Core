@@ -25,7 +25,12 @@ namespace Elysium::Core::Template::IO::Compression::Format::GZip
 	struct GZipHeader final
 	{
 	public:
-		inline static constexpr const Elysium::Core::Template::System::byte Size = 10;
+		inline static constexpr Elysium::Core::Template::System::byte Size = 10;
+
+		inline static constexpr Elysium::Core::Template::System::byte MagicValue0 = 0x1F;
+		inline static constexpr Elysium::Core::Template::System::byte MagicValue1 = 0x8B;
+
+		inline static constexpr Elysium::Core::Template::System::byte CompressionMethodDeflate = 0x08;
 	public:
 		Elysium::Core::Template::System::byte _Id1;
 		Elysium::Core::Template::System::byte _Id2;
@@ -46,7 +51,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::GZip
 	public:
 		inline const bool ValidateIds() const
 		{
-			return 0x1F == _Id1 && 0x8B == _Id2;
+			return MagicValue0 == _Id1 && 0x8B == MagicValue1;
 		}
 
 		inline const bool ValidateCompressionMethod() const

@@ -87,6 +87,14 @@ namespace Elysium::Core::Template::IO
 			}
 		}
 
+		inline constexpr void AlignToByteBoundary()
+		{
+			const Elysium::Core::Template::System::uint8_t BitsToSkip = (_Count % 8);
+			Consume(BitsToSkip);
+
+			assert((_Buffer & ((1_ui64 << SafeShiftThreshold) - 1)) == _Buffer);
+		}
+
 		inline constexpr Elysium::Core::Template::System::uint64_t Read(const Elysium::Core::Template::System::uint8_t Bits)
 		{
 			Elysium::Core::Template::System::uint64_t TemporaryValue = Peek(Bits);
@@ -99,7 +107,7 @@ namespace Elysium::Core::Template::IO
 		{
 			return _Count >= Bits;
 		}
-
+		
 		inline void Push(const Elysium::Core::Template::System::byte Byte)
 		{
 			assert(_Count <= SafeShiftThreshold);

@@ -218,9 +218,10 @@ namespace Elysium::Core::Template::Container
 			{
 				return { nullptr, 0, nullptr, 0 };
 			}    
-			
-			const Elysium::Core::Template::System::size Readable = (_Tail >= _Head) ? (_Tail - _Head): (_Capacity - _Head + _Tail);
-			const Elysium::Core::Template::System::size Visible = Readable - ReduceByLastElements;
+
+			//const Elysium::Core::Template::System::size Readable = (_Tail >= _Head) ? (_Tail - _Head) : (_Capacity - _Head + _Tail);
+			//const Elysium::Core::Template::System::size Visible = Readable - ReduceByLastElements;
+			const Elysium::Core::Template::System::size Visible = _Length - ReduceByLastElements;
 
 			const Elysium::Core::Template::System::size SpanSize0 = (Visible < (_Capacity - _Head)) ? Visible : (_Capacity - _Head);
 			const Elysium::Core::Template::System::size SpanSize1 = Visible - SpanSize0;

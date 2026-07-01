@@ -34,7 +34,9 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		ReadingBlockHeader = 0,
 
 		// uncompressed
+		ReadingUncompressedHeaderFields,
 
+		ReadingUncompressedData,
 
 		// fixed huffman
 

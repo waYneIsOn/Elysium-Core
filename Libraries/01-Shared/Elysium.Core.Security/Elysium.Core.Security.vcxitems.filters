@@ -27,12 +27,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidCredentialException.cpp">
       <Filter>Authentication</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Adler32.cpp">
-      <Filter>Cryptography\Checksum</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Crc32.cpp">
-      <Filter>Cryptography\Checksum</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)CryptographicException.hpp">

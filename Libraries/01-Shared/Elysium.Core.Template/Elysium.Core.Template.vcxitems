@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorLessOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\FiFoQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
@@ -29,7 +30,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitReader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateEncoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp" />
@@ -62,6 +65,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\DeflateSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\FileSink.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\GZipSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\MemorySink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\NamedPipeSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\SocketSink.hpp" />
@@ -85,6 +89,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemChr.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Adler32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Crc32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentNullException.hpp" />
@@ -130,6 +136,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\CallTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorGreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp" />
@@ -358,6 +365,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Numeric.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Operators.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.RunTimeTypeInformation.ixx" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Security.Cryptography.Checksum.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.System.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Text.Unicode.ixx" />
