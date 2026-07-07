@@ -52,6 +52,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Memory/MemChr.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_CHECKSUM_CRC32
+#include "../../Security/Cryptography/Checksum/Crc32.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -70,7 +74,8 @@ namespace Elysium::Core::Template::IO::Source
 		inline constexpr GZipSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = MinimumBufferSize) noexcept
 			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _InnerSource(InnerSource),
 			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFixedHeader), _Header{}, _Footer{}, _DecompressedOutputDataBuffer(4096), 
-			_DecompressedOutputDataSpan(&_DecompressedOutputDataBuffer[0], _DecompressedOutputDataBuffer.GetCapacity()), _DecompressedOutputDataBufferPosition{}, _DeflateDecoder()
+			_DecompressedOutputDataSpan(&_DecompressedOutputDataBuffer[0], _DecompressedOutputDataBuffer.GetCapacity()), _DecompressedOutputDataBufferPosition{}, _DeflateDecoder(), 
+			_Crc32(0xFFFFFFFF), _UncompressedSize{}
 		{ }
 
 		constexpr GZipSource(const GZipSource& Source) = delete;
@@ -175,6 +180,15 @@ namespace Elysium::Core::Template::IO::Source
 					switch (Result)
 					{
 					case Elysium::Core::Template::IO::ReadResult::HasData:
+					{
+						const Elysium::Core::Template::System::byte* Data = TargetView.GetData();
+						const Elysium::Core::Template::System::size Length = TargetView.GetLength();
+						if (nullptr != Data && 0 != Length)
+						{
+							_Crc32 = Elysium::Core::Template::Security::Cryptography::Checksum::Crc32::CalculateBytewise(_Crc32, Data, Length);
+							_UncompressedSize += Length;
+						}
+					}
 						return Result;
 					case Elysium::Core::Template::IO::ReadResult::Pending:
 						return Result;
@@ -538,7 +552,18 @@ namespace Elysium::Core::Template::IO::Source
 			}
 
 			_Buffer.CommitReadableSpan(FooterSize);
+			
+			_Crc32 = ~_Crc32;
+			if (_Crc32 != _Footer._Crc32)
+			{	// @ToDo
+				throw 1;
+			}
 
+			if (_UncompressedSize != _Footer._UncompressedSize)
+			{	// @ToDo
+				throw 1;
+			}
+			
 			return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 		}
 	private:
@@ -731,6 +756,9 @@ namespace Elysium::Core::Template::IO::Source
 		Elysium::Core::Template::System::size _DecompressedOutputDataBufferPosition;
 
 		Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateDecoder _DeflateDecoder;
+
+		Elysium::Core::Template::System::uint32_t _Crc32;
+		Elysium::Core::Template::System::size _UncompressedSize;
 	};
 }
 #endif

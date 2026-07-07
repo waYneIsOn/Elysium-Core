@@ -28,6 +28,10 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		constexpr DeflateEncoder& operator=(const DeflateEncoder& Source) = delete;
 
 		constexpr DeflateEncoder& operator=(DeflateEncoder&& Right) noexcept = delete;
+	public:
+
+	private:
+
 	};
 }
 #endif

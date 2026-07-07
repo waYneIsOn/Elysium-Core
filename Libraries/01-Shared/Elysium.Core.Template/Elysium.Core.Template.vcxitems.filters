@@ -981,6 +981,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorLessOrEqual.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp">
+      <Filter>IO\Compression\Algorithm\Deflate</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

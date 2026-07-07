@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Compression/Format/GZip/GZipHeader.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_CHECKSUM_CRC32
+#include "../../Security/Cryptography/Checksum/Crc32.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "../../System/OperatingSystem.hpp"
 #endif
@@ -45,10 +49,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
 #include "../Compression/Format/Deflate/DeflateBlockType.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_CHECKSUM_CRC32
-#include "../../Security/Cryptography/Checksum/Crc32.hpp"
 #endif
 
 
