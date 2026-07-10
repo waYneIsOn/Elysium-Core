@@ -939,7 +939,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\BlockingPolicy.hpp">
       <Filter>IO\Source\Policy</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitReader.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitBuffer.hpp">
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp">
@@ -960,14 +960,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp">
       <Filter>IO\Compression\Format\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateEncoder.hpp">
-      <Filter>IO\Compression\Algorithm\Deflate</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\GZipSink.hpp">
       <Filter>IO\Sink</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitWriter.hpp">
-      <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Crc32.hpp">
       <Filter>Security\Cryptography\Checksum</Filter>
@@ -983,6 +977,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp">
       <Filter>IO\Compression\Algorithm\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp">
+      <Filter>IO\Compression\Algorithm\Deflate</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTableEntry.hpp">
+      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTable.hpp">
+      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

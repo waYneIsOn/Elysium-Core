@@ -34,7 +34,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		constexpr HuffmanTableEntry() = default;
 
 		inline constexpr HuffmanTableEntry(S Symbol, LengthType Length)
-			: _Symbol(Symbol), _Length(Length)
+			: _Symbol(Symbol), _Length(Length), _Subtable{}, _SubTableLength{}
 		{ }
 
 		constexpr HuffmanTableEntry(const HuffmanTableEntry& Source) = default;
@@ -47,22 +47,22 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 		constexpr HuffmanTableEntry<S>& operator=(HuffmanTableEntry&& Right) noexcept = default;
 	public:
-		inline constexpr const bool operator==(const HuffmanTableEntry& Other) const noexcept
+		inline constexpr bool operator==(const HuffmanTableEntry& Other) const noexcept
 		{
 			return _Symbol == Other._Symbol && _Length == Other._Length;
 		}
 
-		inline constexpr const bool operator!=(const HuffmanTableEntry& Other) const noexcept
+		inline constexpr bool operator!=(const HuffmanTableEntry& Other) const noexcept
 		{
 			return _Symbol != Other._Symbol || _Length != Other._Length;
 		}
 	public:
-		inline const bool GetIsLeaf()
+		inline constexpr bool GetIsLeaf()
 		{
 			return nullptr == _Subtable;
 		}
 
-		inline const bool GetIsValid()
+		inline constexpr bool GetIsValid()
 		{
 			return _Length > 0 && (0 <= _Symbol && 19 > _Symbol);
 		}

@@ -39,7 +39,12 @@ namespace Elysium::Core::Template::IO::Sink
 
 		constexpr FileSink& operator=(FileSink&& Right) noexcept = delete;
 	public:
-		inline constexpr const DeviceType& GetDevice() const
+		inline DeviceType& GetDevice()
+		{
+			return _Device;
+		}
+
+		inline constexpr DeviceType& GetDevice() const
 		{
 			return _Device;
 		}

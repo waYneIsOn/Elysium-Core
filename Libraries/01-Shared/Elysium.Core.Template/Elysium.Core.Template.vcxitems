@@ -29,11 +29,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitReader.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitWriter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateEncoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp" />
@@ -42,6 +41,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTableEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp" />

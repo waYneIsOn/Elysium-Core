@@ -16,8 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Container/SlidingWindow.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_BITREADER
-#include "../../../BitReader.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_BITBUFFER
+#include "../../../BitBuffer.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_DEFLATE_DEFLATEUTILITY
+#include "DeflateUtility.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKHEADER
@@ -52,26 +56,10 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 {
 	class DeflateDecoder final
 	{
-	private:
-		using CodeLengthTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7, 0>;
-		using LiteralTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint16_t, 15, 288, 9, 2048>;
-		using DistanceTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 15, 32, 5, 256>;
-
-		using CodeLengthTreeSymbolType = CodeLengthTreeType::SymbolType;
-		using LiteralTreeSymbolType = LiteralTreeType::SymbolType;
-		using DistanceTreeSymbolType = DistanceTreeType::SymbolType;
-
-		using CodeLengthTreeEntryType = CodeLengthTreeType::EntryType;
-		using LiteralTreeEntryType = LiteralTreeType::EntryType;
-		using DistanceTreeEntryType = DistanceTreeType::EntryType;
-
-		using CodeLengthTreeEntryReference = CodeLengthTreeType::EntryReference;
-		using LiteralTreeEntryReference = LiteralTreeType::EntryReference;
-		using DistanceTreeEntryReference = DistanceTreeType::EntryReference;
 	public:
 		inline constexpr DeflateDecoder() noexcept
-			: _State{}, _BlockHeader{}, _BitReader{}, _UncompressedHuffmanHeader{}, _DynamicHuffmanHeader {}, _CurrentLiteralEntry(_InvalidLiteralEntry), _CurrentLength{}, 
-			_CurrentDistance{}, _LZ77HistoryBuffer(32768), _LZ77HistoryBufferReadPosition{}, _Distance{}, _Length{}
+			: _State{}, _BlockHeader{}, _BitBuffer{}, _UncompressedHuffmanHeader{}, _DynamicHuffmanHeader {}, _CurrentLiteralEntry(_InvalidLiteralEntry), _CurrentLength{},
+			_CurrentDistance{}, _LZ77HistoryBuffer(DeflateUtility::LZ77HistoryBufferSize), _LZ77HistoryBufferReadPosition{}, _Distance{}, _Length{}
 		{ }
 
 		constexpr DeflateDecoder(const DeflateDecoder& Source) = delete;
@@ -125,10 +113,16 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					}
 				}
 					break;
-					/*
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingFixedHuffman:
-					break;
-					*/
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingStaticHuffman:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = DecompressStaticHuffman(SourceSpans, TargetSpan, OutputBytesWritten, BytesFullyProcessed);
+					if (Elysium::Core::Template::IO::ReadResult::Pending == Result ||
+						Elysium::Core::Template::IO::ReadResult::HasData == Result)
+					{
+						return Result;
+					}
+				}
+				break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingDynamicHuffmanHeaderFields:
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = ReadDynamicHuffmanHeaderFields(SourceSpans, BytesFullyProcessed);
@@ -158,7 +152,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
 				{
-					const Elysium::Core::Template::IO::ReadResult Result = DecompresDynamicHuffman(SourceSpans, TargetSpan, OutputBytesWritten, BytesFullyProcessed);
+					const Elysium::Core::Template::IO::ReadResult Result = DecompressDynamicHuffman(SourceSpans, TargetSpan, OutputBytesWritten, BytesFullyProcessed);
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result ||
 						Elysium::Core::Template::IO::ReadResult::HasData == Result)
 					{
@@ -186,7 +180,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				return BufferPopulationResult;
 			}
 
-			_BlockHeader._Data = static_cast<Elysium::Core::Template::System::byte>(_BitReader.Read(3));
+			_BlockHeader._Data = static_cast<Elysium::Core::Template::System::byte>(_BitBuffer.Read(3));
 
 			const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType BlockType = _BlockHeader.GetCompressionMethod();
 			switch (BlockType)
@@ -195,7 +189,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedHeaderFields;
 				break;
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::FixedHuffman:
-				throw 1;
+				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingStaticHuffman;
+				break;
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::DynamicHuffman:
 				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingDynamicHuffmanHeaderFields;
 				break;
@@ -221,9 +216,9 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					return BufferPopulationResult;
 				}
 
-				_BitReader.AlignToByteBoundary();
+				_BitBuffer.AlignToByteBoundary();
 				
-				Elysium::Core::Template::System::uint64_t LEN = _BitReader.Read(sizeof(Elysium::Core::Template::System::uint16_t) * 8);
+				Elysium::Core::Template::System::uint64_t LEN = _BitBuffer.Read(sizeof(Elysium::Core::Template::System::uint16_t) * 8);
 
 				_UncompressedHuffmanHeader._Length = static_cast<Elysium::Core::Template::System::uint16_t>(LEN);
 			}
@@ -238,7 +233,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					return BufferPopulationResult;
 				}
 
-				Elysium::Core::Template::System::uint64_t NLEN = _BitReader.Read(sizeof(Elysium::Core::Template::System::uint16_t) * 8);
+				Elysium::Core::Template::System::uint64_t NLEN = _BitBuffer.Read(sizeof(Elysium::Core::Template::System::uint16_t) * 8);
 
 				_UncompressedHuffmanHeader._ComplementaryLength = static_cast<Elysium::Core::Template::System::uint16_t>(NLEN);
 			}
@@ -260,7 +255,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetSpan, Elysium::Core::Template::System::size& OutputBytesWritten,
 			Elysium::Core::Template::System::size& BytesConsumed)
 		{
-			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitReader.GetLength();
+			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitBuffer.GetLength();
 			if(0 != AvailableBits % 8)
 			{	// not correctly aligned -> implementation bug
 				throw 1;
@@ -282,7 +277,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 				Elysium::Core::Template::System::byte* TargetData = TargetSpan.GetData();
 
-				Elysium::Core::Template::System::uint64_t Bytes = _BitReader.Read(BytesToCopy * 8);
+				Elysium::Core::Template::System::uint64_t Bytes = _BitBuffer.Read(BytesToCopy * 8);
 				//Elysium::Core::Template::Memory::MemCpy(&TargetData[BytesConsumed], &Bytes, BytesToCopy);
 				//Elysium::Core::Template::Memory::MemCpy(TargetData, &Bytes, BytesToCopy);
 				Elysium::Core::Template::Memory::MemCpy(&TargetData[OutputBytesWritten], &Bytes, BytesToCopy);
@@ -348,6 +343,17 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			return 0 == OutputBytesWritten ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
+		inline const Elysium::Core::Template::IO::ReadResult DecompressStaticHuffman(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetSpan, Elysium::Core::Template::System::size& OutputBytesWritten,
+			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
+		{
+
+			Elysium::Core::Template::System::uint16_t CanonicalCode =
+				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CanonicalCodes[0];
+
+			throw 1;
+		}
+
 		inline const Elysium::Core::Template::IO::ReadResult ReadDynamicHuffmanHeaderFields(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
@@ -365,20 +371,20 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				return BufferPopulationResult;
 			}
 
-			_DynamicHuffmanHeader.HLIT = _BitReader.Read(5);
-			if (_DynamicHuffmanHeader.HLIT > 29)
+			_DynamicHuffmanHeader.HLIT = _BitBuffer.Read(5);
+			if (_DynamicHuffmanHeader.HLIT > DeflateUtility::HLITMaximum)
 			{	// @ToDo: this violate rfc 1951 (some kind of OutOfRangeException?)
 				throw 1;
 			}
 
-			_DynamicHuffmanHeader.HDIST = _BitReader.Read(5);
-			if (_DynamicHuffmanHeader.HDIST > 31)
+			_DynamicHuffmanHeader.HDIST = _BitBuffer.Read(5);
+			if (_DynamicHuffmanHeader.HDIST > DeflateUtility::HDISTMaximum)
 			{	// @ToDo: this violate rfc 1951 (some kind of OutOfRangeException?)
 				throw 1;
 			}
 
-			_DynamicHuffmanHeader.HCLEN = _BitReader.Read(4);
-			if (_DynamicHuffmanHeader.HCLEN > 15)
+			_DynamicHuffmanHeader.HCLEN = _BitBuffer.Read(4);
+			if (_DynamicHuffmanHeader.HCLEN > DeflateUtility::HCLENMaximum)
 			{	// @ToDo: this violate rfc 1951 (some kind of OutOfRangeException?)
 				throw 1;
 			}
@@ -391,27 +397,9 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		inline const Elysium::Core::Template::IO::ReadResult BuildCodeLengthTable(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
-			// https://www.rfc-editor.org/info/rfc1951/#page-13
-			// 3.2.7 Compression with dynamic Huffman codes (BTYPE=10)
-			// (HCLEN + 4) x 3 bits: code lengths for the code length
-			// 	alphabet given just above, in the order : 16, 17, 18,
-			// 	0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15
-			static constexpr const Elysium::Core::Template::System::uint8_t FixedPermutations[19] =
-			{
-				// repeat instructions
-				16, 17, 18,
-
-				// low-ish lengths
-				0, 8, 7, 9, 6, 10, 5,
-
-				// remaining lengths
-				11, 4, 12, 3, 13, 2, 14, 1, 15
-			};
-			static constexpr const Elysium::Core::Template::System::size BitsRequiredPerEntry = 3;
-
-			const Elysium::Core::Template::System::size AmountOfCodeLengths = _DynamicHuffmanHeader.HCLEN + 4;
-			const Elysium::Core::Template::System::size BitsRequiredInTotal = BitsRequiredPerEntry * AmountOfCodeLengths;
-			if (BitsRequiredInTotal > BitReader<true>::Capacity)
+			const Elysium::Core::Template::System::size AmountOfCodeLengths = _DynamicHuffmanHeader.HCLEN + DeflateUtility::HCLENAddition;
+			const Elysium::Core::Template::System::size BitsRequiredInTotal = DeflateUtility::BitsRequiredPerCodeLengthEntry * AmountOfCodeLengths;
+			if (BitsRequiredInTotal > BitBuffer<true>::Capacity)
 			{	// @Todo: Code-length codes maximum is 19: 19 * 3 = 57 so an overflow should never happen!
 				// if this error occurres, something in the implementation is entirely incorrect!
 				throw 1;
@@ -429,7 +417,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			Elysium::Core::Template::System::size NonZeroCodeLengthCount = 0;
 			for (Elysium::Core::Template::System::size i = 0; i < AmountOfCodeLengths; ++i)
 			{
-				Elysium::Core::Template::System::uint64_t CurrentValue = _BitReader.Read(3);
+				Elysium::Core::Template::System::uint64_t CurrentValue = _BitBuffer.Read(3);
 
 				// 3 bits -> maximum 0b111 = 7 BUT BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
 				if (CurrentValue > MaximumCodeLength)
@@ -437,7 +425,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					throw 1;
 				}
 				
-				Elysium::Core::Template::System::uint8_t Symbol = FixedPermutations[i];
+				Elysium::Core::Template::System::uint8_t Symbol = DeflateUtility::FixedCodeLengthPermutations[i];
 				_DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol] = static_cast<Elysium::Core::Template::System::uint8_t>(CurrentValue);
 
 				if (_DynamicHuffmanHeader._CodeLengthTree._CodeLengths[Symbol] > 0)
@@ -473,8 +461,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		{
 			Elysium::Core::Template::System::uint8_t PreviousLength = _DynamicHuffmanHeader._CurrentLiteralAndDistanceTreePreviousLength;
 
-			const Elysium::Core::Template::System::uint16_t LiteralLength = _DynamicHuffmanHeader.HLIT + 257;
-			const Elysium::Core::Template::System::uint16_t DistanceLength = _DynamicHuffmanHeader.HDIST + 1;
+			const Elysium::Core::Template::System::uint16_t LiteralLength = _DynamicHuffmanHeader.HLIT + DeflateUtility::HLITAddition;
+			const Elysium::Core::Template::System::uint16_t DistanceLength = _DynamicHuffmanHeader.HDIST + DeflateUtility::HDISTAddition;
 
 			for (Elysium::Core::Template::System::uint16_t i = _DynamicHuffmanHeader._CurrentLiteralAndDistanceTreeIndex; i < LiteralLength + DistanceLength; ++i)
 			{
@@ -487,7 +475,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				}
 
 				//Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = _BitReader.Peek(7);
-				Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = ReverseBits(_BitReader.Peek(7), 7);
+				Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = ReverseBits(_BitBuffer.Peek(7), 7);
 
 				// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
 				if (CodeLengthSymbolIndex > _DynamicHuffmanHeader._CodeLengthTree.FastTableLength)
@@ -495,15 +483,15 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					throw 1;
 				}
 				
-				CodeLengthTreeEntryReference CodeLengthEntry = _DynamicHuffmanHeader._CodeLengthTree[CodeLengthSymbolIndex];
-				CodeLengthTreeSymbolType CurrentSymbol = CodeLengthEntry._Symbol;
+				DeflateUtility::CodeLengthTreeEntryReference CodeLengthEntry = _DynamicHuffmanHeader._CodeLengthTree[CodeLengthSymbolIndex];
+				DeflateUtility::CodeLengthTreeSymbolType CurrentSymbol = CodeLengthEntry._Symbol;
 				Elysium::Core::Template::System::uint8_t CurrentLength = CodeLengthEntry._Length;
 				if (0 == CurrentLength)
 				{	// 7 bit read, code-length tree/table is build with 7 bit in mind - this fallback should never happen!
 					throw 1;
 				}
 
-				_BitReader.Consume(CodeLengthEntry._Length);
+				_BitBuffer.Consume(CodeLengthEntry._Length);
 
 				if (15 >= CurrentSymbol)
 				{
@@ -525,7 +513,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 						throw 1;
 					}
 
-					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(2) + 3;
+					Elysium::Core::Template::System::uint64_t Repeat = _BitBuffer.Read(2) + 3;
 					if (6 < Repeat)
 					{	// @ToDo:
 						throw 1;
@@ -553,7 +541,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				}
 				else if (17 == CurrentSymbol)
 				{
-					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(3) + 3;
+					Elysium::Core::Template::System::uint64_t Repeat = _BitBuffer.Read(3) + 3;
 					if (10 < Repeat)
 					{	// @ToDo:
 						throw 1;
@@ -583,7 +571,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				}
 				else if (18 == CurrentSymbol)
 				{
-					Elysium::Core::Template::System::uint64_t Repeat = _BitReader.Read(7) + 11;
+					Elysium::Core::Template::System::uint64_t Repeat = _BitBuffer.Read(7) + 11;
 					if (138 < Repeat)
 					{	// @ToDo:
 						throw 1;
@@ -633,7 +621,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
-		inline const Elysium::Core::Template::IO::ReadResult DecompresDynamicHuffman(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
+		inline const Elysium::Core::Template::IO::ReadResult DecompressDynamicHuffman(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetSpan, Elysium::Core::Template::System::size& OutputBytesWritten,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
@@ -665,7 +653,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				if (_InvalidLiteralEntry == _CurrentLiteralEntry)
 				{
 					//Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitReader.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits);
-					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = ReverseBits(_BitReader.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits),
+					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = ReverseBits(_BitBuffer.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits),
 						_DynamicHuffmanHeader._LiteralTree._FastTableBits);
 
 					// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
@@ -681,10 +669,10 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 						throw 1;
 					}
 
-					_BitReader.Consume(_CurrentLiteralEntry._Length);
+					_BitBuffer.Consume(_CurrentLiteralEntry._Length);
 				}
 
-				LiteralTreeSymbolType CurrentSymbol = _CurrentLiteralEntry._Symbol;
+				DeflateUtility::LiteralTreeSymbolType CurrentSymbol = _CurrentLiteralEntry._Symbol;
 				if (256 > CurrentSymbol)
 				{
 					TargetSpan.GetData()[OutputBytesWritten++] = CurrentSymbol;
@@ -734,7 +722,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 								return Elysium::Core::Template::IO::ReadResult::Pending;
 							}
 
-							_CurrentLength += _BitReader.Read(LengthExtraBits);
+							_CurrentLength += _BitBuffer.Read(LengthExtraBits);
 						}
 
 						if (3 > _CurrentLength || 258 < _CurrentLength)
@@ -755,14 +743,15 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 							return Elysium::Core::Template::IO::ReadResult::Pending;
 						}
 
-						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = ReverseBits(_BitReader.Peek(DistanceTreeType::_FastTableBits), DistanceTreeType::_FastTableBits);
-						DistanceTreeEntryType CurrentDistanceEntry = _DynamicHuffmanHeader._DistanceTree[DistanceSymbolIndex];
+						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = ReverseBits(_BitBuffer.Peek(DeflateUtility::DistanceTreeType::_FastTableBits),
+							DeflateUtility::DistanceTreeType::_FastTableBits);
+						DeflateUtility::DistanceTreeEntryType CurrentDistanceEntry = _DynamicHuffmanHeader._DistanceTree[DistanceSymbolIndex];
 
 						const Elysium::Core::Template::System::size DistanceIndex = CurrentDistanceEntry._Symbol;
 						const Elysium::Core::Template::System::uint16_t DistanceBase = _LZ77DistanceBase[DistanceIndex];
 						const Elysium::Core::Template::System::uint16_t DistanceExtraBits = _LZ77DistanceExtra[DistanceIndex];
 
-						_BitReader.Consume(CurrentDistanceEntry._Length);
+						_BitBuffer.Consume(CurrentDistanceEntry._Length);
 
 						_CurrentDistance = DistanceBase;
 						if (0 < DistanceExtraBits)
@@ -780,7 +769,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 								return Elysium::Core::Template::IO::ReadResult::Pending;
 							}
 
-							_CurrentDistance += _BitReader.Read(DistanceExtraBits);
+							_CurrentDistance += _BitBuffer.Read(DistanceExtraBits);
 						}
 
 						if (1 > _CurrentDistance || 258 < _CurrentDistance)
@@ -841,7 +830,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
-			if (_BitReader.HasBits(Bits))
+			if (_BitBuffer.HasBits(Bits))
 			{
 				return Elysium::Core::Template::IO::ReadResult::HasData;
 			}
@@ -860,18 +849,18 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 				const Elysium::Core::Template::System::size Offset0 = BytesLoadedIntoBitReader;
 				const Elysium::Core::Template::System::byte* Data0 = &ReadableSpan0.GetData()[Offset0];
 				const Elysium::Core::Template::System::size Length0 = Elysium::Core::Template::Math::Min(8_ui64, ReadableSpan0Length - Offset0);
-				const Elysium::Core::Template::System::size AvailableBytes0 = (BitReader<true>::Capacity - _BitReader.GetLength()) / 8;
+				const Elysium::Core::Template::System::size AvailableBytes0 = (BitBuffer<true>::Capacity - _BitBuffer.GetLength()) / 8;
 				const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(Length0, AvailableBytes0);
 
 				// @ToDo: can I optimize a byte-by-byte push? (for instance: if there are 32 bit left, I could push one single 32 bit integer and possibly make it faster?)
 				for (Elysium::Core::Template::System::size i = 0; i < BytesToCopy0; ++i)
 				{
-					_BitReader.Push(Data0[i]);
+					_BitBuffer.Push(Data0[i]);
 				}
 				BytesLoadedIntoBitReader += BytesToCopy0;
 			}
 
-			if (!_BitReader.GetIsFull() && BytesLoadedIntoBitReader >= ReadableSpan0Length)
+			if (!_BitBuffer.GetIsFull() && BytesLoadedIntoBitReader >= ReadableSpan0Length)
 			{
 				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = SourceSpans.GetSecond();
 				const Elysium::Core::Template::System::size ReadableSpan1Length = ReadableSpan1.GetLength();
@@ -884,17 +873,17 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					const Elysium::Core::Template::System::size Length1 = Elysium::Core::Template::Math::Min(8_ui64, ReadableSpan1.GetLength() - Offset1);
 
 					// @ToDo: same possible optimization of byte-by-byte push
-					const Elysium::Core::Template::System::size AvailableBytes1 = (BitReader<true>::Capacity - _BitReader.GetLength()) / 8;
+					const Elysium::Core::Template::System::size AvailableBytes1 = (BitBuffer<true>::Capacity - _BitBuffer.GetLength()) / 8;
 					const Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(Length1, AvailableBytes1);
 					for (Elysium::Core::Template::System::size i = 0; i < BytesToCopy1; ++i)
 					{
-						_BitReader.Push(Data1[i]);
+						_BitBuffer.Push(Data1[i]);
 					}
 					BytesLoadedIntoBitReader += BytesToCopy1;
 				}
 			}
 
-			if (!_BitReader.HasBits(Bits))
+			if (!_BitBuffer.HasBits(Bits))
 			{
 				return Elysium::Core::Template::IO::ReadResult::Pending;
 			}
@@ -925,7 +914,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		struct FixedHuffmanInfo
 		{
 			/*
-			CodeLengthTreeType _CodeLengthTree;
 			LiteralTreeType _LiteralTree;
 			DistanceTreeType _DistanceTree;
 			*/
@@ -939,14 +927,14 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			Elysium::Core::Template::System::uint64_t HCLEN;
 
 			// code length tree
-			CodeLengthTreeType _CodeLengthTree;
+			DeflateUtility::CodeLengthTreeType _CodeLengthTree;
 
 			// literal and distance trees as well as their current "reading" states
 			Elysium::Core::Template::System::uint16_t _CurrentLiteralAndDistanceTreeIndex = 0;
 			Elysium::Core::Template::System::uint8_t _CurrentLiteralAndDistanceTreePreviousLength{ };
 
-			LiteralTreeType _LiteralTree;
-			DistanceTreeType _DistanceTree;
+			DeflateUtility::LiteralTreeType _LiteralTree;
+			DeflateUtility::DistanceTreeType _DistanceTree;
 		};
 		/*
 		union BlockInfo
@@ -958,7 +946,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		*/
 	private:
 		//inline static constexpr LiteralTreeEntryType _IllegalEntry = LiteralTreeEntryType(286, 0_ui8);	// is this a vs bug?
-		inline static LiteralTreeEntryType _InvalidLiteralEntry{ 286_ui16, 0_ui8 };
+		inline static DeflateUtility::LiteralTreeEntryType _InvalidLiteralEntry{ 286_ui16, 0_ui8 };
 
 		inline static constexpr Elysium::Core::Template::System::uint16_t _LZ77LengthBase[29] =
 		{
@@ -1016,12 +1004,12 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader _BlockHeader;
 
-		Elysium::Core::Template::IO::BitReader<true> _BitReader;
+		Elysium::Core::Template::IO::BitBuffer<true> _BitBuffer;
 
 		UncompressedBlockInfo _UncompressedHuffmanHeader;
 		DynamicHuffmanInfo _DynamicHuffmanHeader;
 
-		LiteralTreeEntryType _CurrentLiteralEntry;
+		DeflateUtility::LiteralTreeEntryType _CurrentLiteralEntry;
 		Elysium::Core::Template::System::uint16_t _CurrentLength;
 		Elysium::Core::Template::System::uint16_t _CurrentDistance;
 

@@ -68,13 +68,22 @@ namespace Elysium::Core::Template::Memory::Scoped
 	public:
 		constexpr Arena() = default;
 
-		constexpr Arena(const ArenaOptions& Options) noexcept;
+		inline constexpr Arena(const ArenaOptions& Options) noexcept
+			: _Options(Options), _CurrentPage(CreatePage(_Options._InitialPageSize))
+		{ }
 
 		constexpr Arena(const Arena&& Source) = delete;
 
 		constexpr Arena(Arena&& Right) = delete;
 
-		constexpr ~Arena() noexcept;
+		inline constexpr ~Arena() noexcept
+		{
+			ArenaPage* CurrentPage = _CurrentPage;
+			while (nullptr != CurrentPage)
+			{
+				CurrentPage = DestroyPage(CurrentPage);
+			}
+		}
 	public:
 		constexpr Arena& operator=(const Arena& Source) = delete;
 
@@ -158,19 +167,6 @@ namespace Elysium::Core::Template::Memory::Scoped
 		ArenaOptions _Options{};
 		ArenaPage* _CurrentPage{};
 	};
-
-	inline constexpr Arena::Arena(const ArenaOptions& Options) noexcept
-		: _Options(Options), _CurrentPage(CreatePage(_Options._InitialPageSize))
-	{ }
-
-	inline constexpr Arena::~Arena() noexcept
-	{
-		ArenaPage* CurrentPage = _CurrentPage;
-		while (nullptr != CurrentPage)
-		{
-			CurrentPage = DestroyPage(CurrentPage);
-		}
-	}
 
 	inline const Elysium::Core::Template::System::size Arena::GetNumberOfPages() const
 	{

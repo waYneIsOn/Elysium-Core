@@ -34,7 +34,7 @@ namespace UnitTests::Core::Template::IO
 		using InFileStream = InOutStream<MemorySink, FileSource>;
 
 		using GZipReadingStream = InOutStream<MemorySink, GZipSource<FileSource>>;
-		using GZipWritingStream = InOutStream<GZipSink<FileSink>, FileSource>;
+		using GZipWritingStream = InOutStream<GZipSink<DeflateSink<FileSink>>, FileSource>;
 
 		using InGZipStream = InOutStream<MemorySink, GZipSource<FileSource>>;
 
@@ -81,72 +81,15 @@ namespace UnitTests::Core::Template::IO
 			*/
 		}
 	public:
-		TEST_METHOD(GZipStreamTest)
+		TEST_METHOD(GZipStreamCompressAndDecompressTest)
 		{
-			// write and read uncompressed
-			{
-				{
-					Elysium::Core::Template::System::size PendingCount = 0;
+			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
+			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
+			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
+		}
 
-					FileDevice WriteDevice(u8"Lorem Ipsum - Uncompressed.gz", FileMode::OpenOrCreate, FileAccess::Write);
-					FileSink Sink(WriteDevice);
-					GZipSink CompressionSink(Sink);
-
-					FileDevice ReadDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
-					FileSource Source(ReadDevice);
-
-					GZipWritingStream Stream(CompressionSink, Source);
-
-					Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadSpan{};
-					while (true)
-					{
-						bool MadeProgress = false;
-						const Elysium::Core::Template::IO::ReadResult ReadResult = Stream.ReadBlock(ReadSpan);
-						switch (ReadResult)
-						{
-						case Elysium::Core::Template::IO::ReadResult::HasData:
-							Stream.AdvanceReadingBlock(ReadSpan.GetLength());
-
-							Stream.Write(ReadSpan.GetData(), ReadSpan.GetLength());
-
-							MadeProgress = true;
-							break;
-						case Elysium::Core::Template::IO::ReadResult::Pending:
-							++PendingCount;
-
-							// for now simply continue running the loop
-							MadeProgress = true;
-							break;
-						case Elysium::Core::Template::IO::ReadResult::EndOfStream:
-							break;
-						}
-
-						if (!MadeProgress)
-						{
-							break;
-						}
-					}
-					Stream.Flush();
-				}
-
-				{
-					MemoryDevice ExpectedDummyDevice(1024);
-					MemorySink ExpectedDummySink(ExpectedDummyDevice);
-					FileDevice ExpectedDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::Read);
-					FileSource ExpectedSource(ExpectedDevice);
-					InFileStream ExpectedInStream(ExpectedDummySink, ExpectedSource);
-
-					MemoryDevice ActualDummyDevice(1024);
-					MemorySink ActualDummySink(ActualDummyDevice);
-					FileDevice ActualDevice(u8"Lorem Ipsum - Uncompressed.gz", FileMode::Open, FileAccess::Read, FileShare::Read);
-					FileSource ActualSource(ActualDevice);
-					GZipSource ActualCompressionSource(ActualSource);
-					InGZipStream ActualInStream(ActualDummySink, ActualCompressionSource);
-
-					CompareData(ExpectedInStream, ActualInStream);
-				}
-			}
-			
+		TEST_METHOD(GZipStreamExternalFilesTest)
+		{
 			// read fully dynamic
 			{
 				MemoryDevice WriteDevice(1024);
@@ -231,25 +174,39 @@ namespace UnitTests::Core::Template::IO
 			WriteAndReadBack(Stream, false);
 		}
 	private:
-		template <class S, class T>
-		inline void CompareData(S& ExpectedInStream, T& ActualInStream)
+		inline void WriteAndReadGZip(const char8_t* SourceFile, const char8_t* TargetFile, 
+			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel)
 		{
-			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ExpectedData{};
 			{
-				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
+				Elysium::Core::Template::System::size PendingCount = 0;
 
+				FileDevice WriteDevice(TargetFile, FileMode::Create, FileAccess::Write);
+				FileSink Sink(WriteDevice);
+				DeflateSink DeflateSink(Sink, CompressionLevel);
+				GZipSink CompressionSink(DeflateSink);
+
+				FileDevice ReadDevice(SourceFile, FileMode::Open, FileAccess::Read, FileShare::Read);
+				FileSource Source(ReadDevice);
+
+				GZipWritingStream Stream(CompressionSink, Source);
+
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadSpan{};
 				while (true)
 				{
 					bool MadeProgress = false;
-					const Elysium::Core::Template::IO::ReadResult ReadResult = ExpectedInStream.ReadBlock(Span);
+					const Elysium::Core::Template::IO::ReadResult ReadResult = Stream.ReadBlock(ReadSpan);
 					switch (ReadResult)
 					{
 					case Elysium::Core::Template::IO::ReadResult::HasData:
-						ExpectedData.PushBackRange(Span.GetData(), Span.GetLength());
-						ExpectedInStream.AdvanceReadingBlock(Span.GetLength());
+						Stream.AdvanceReadingBlock(ReadSpan.GetLength());
+
+						Stream.Write(ReadSpan.GetData(), ReadSpan.GetLength());
+
 						MadeProgress = true;
 						break;
 					case Elysium::Core::Template::IO::ReadResult::Pending:
+						++PendingCount;
+
 						// for now simply continue running the loop
 						MadeProgress = true;
 						break;
@@ -262,48 +219,94 @@ namespace UnitTests::Core::Template::IO
 						break;
 					}
 				}
-				ExpectedData.PushBack(0x00);
+				Stream.Flush();
 			}
 
-
-			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ActualData{};
 			{
-				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
+				MemoryDevice ExpectedDummyDevice(1024);
+				MemorySink ExpectedDummySink(ExpectedDummyDevice);
+				FileDevice ExpectedDevice(SourceFile, FileMode::Open, FileAccess::Read, FileShare::Read);
+				FileSource ExpectedSource(ExpectedDevice);
+				InFileStream ExpectedInStream(ExpectedDummySink, ExpectedSource);
 
-				while (true)
+				MemoryDevice ActualDummyDevice(1024);
+				MemorySink ActualDummySink(ActualDummyDevice);
+				FileDevice ActualDevice(TargetFile, FileMode::Open, FileAccess::Read, FileShare::Read);
+				FileSource ActualSource(ActualDevice);
+				GZipSource ActualCompressionSource(ActualSource);
+				InGZipStream ActualInStream(ActualDummySink, ActualCompressionSource);
+
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ExpectedData{};
 				{
-					bool MadeProgress = false;
-					const Elysium::Core::Template::IO::ReadResult ReadResult = ActualInStream.ReadBlock(Span);
-					switch (ReadResult)
-					{
-					case Elysium::Core::Template::IO::ReadResult::HasData:
-						ActualData.PushBackRange(Span.GetData(), Span.GetLength());
-						ActualInStream.AdvanceReadingBlock(Span.GetLength());
+					Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
 
-						MadeProgress = true;
-						break;
-					case Elysium::Core::Template::IO::ReadResult::Pending:
-						// for now simply continue running the loop
-						MadeProgress = true;
-						break;
-					case Elysium::Core::Template::IO::ReadResult::EndOfStream:
-						break;
-					}
-
-					if (!MadeProgress)
+					while (true)
 					{
-						break;
+						bool MadeProgress = false;
+						const Elysium::Core::Template::IO::ReadResult ReadResult = ExpectedInStream.ReadBlock(Span);
+						switch (ReadResult)
+						{
+						case Elysium::Core::Template::IO::ReadResult::HasData:
+							ExpectedData.PushBackRange(Span.GetData(), Span.GetLength());
+							ExpectedInStream.AdvanceReadingBlock(Span.GetLength());
+							MadeProgress = true;
+							break;
+						case Elysium::Core::Template::IO::ReadResult::Pending:
+							// for now simply continue running the loop
+							MadeProgress = true;
+							break;
+						case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+							break;
+						}
+
+						if (!MadeProgress)
+						{
+							break;
+						}
 					}
+					ExpectedData.PushBack(0x00);
 				}
-				ActualData.PushBack(0x00);
+
+
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ActualData{};
+				{
+					Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> Span{};
+
+					while (true)
+					{
+						bool MadeProgress = false;
+						const Elysium::Core::Template::IO::ReadResult ReadResult = ActualInStream.ReadBlock(Span);
+						switch (ReadResult)
+						{
+						case Elysium::Core::Template::IO::ReadResult::HasData:
+							ActualData.PushBackRange(Span.GetData(), Span.GetLength());
+							ActualInStream.AdvanceReadingBlock(Span.GetLength());
+
+							MadeProgress = true;
+							break;
+						case Elysium::Core::Template::IO::ReadResult::Pending:
+							// for now simply continue running the loop
+							MadeProgress = true;
+							break;
+						case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+							break;
+						}
+
+						if (!MadeProgress)
+						{
+							break;
+						}
+					}
+					ActualData.PushBack(0x00);
+				}
+
+				Assert::AreEqual(ExpectedData.GetLength(), ActualData.GetLength());
+
+				const char* ExpectedText = reinterpret_cast<char*>(&ExpectedData[0]);
+				const char* ActualText = reinterpret_cast<char*>(&ActualData[0]);
+
+				Assert::AreEqual(ExpectedText, ActualText);
 			}
-
-			Assert::AreEqual(ExpectedData.GetLength(), ActualData.GetLength());
-
-			const char* ExpectedText = reinterpret_cast<char*>(&ExpectedData[0]);
-			const char* ActualText = reinterpret_cast<char*>(&ActualData[0]);
-
-			Assert::AreEqual(ExpectedText, ActualText);
 		}
 	private:
 		// @ToDo: create a concept for Streams to use here!

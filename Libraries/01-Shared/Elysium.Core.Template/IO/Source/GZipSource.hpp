@@ -502,9 +502,6 @@ namespace Elysium::Core::Template::IO::Source
 				_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
 				return DecompressionResult;
 			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
-			{
-				bool sdfsdfa = false;
-			}
 				return DecompressionResult;
 			default:
 				// @ToDo

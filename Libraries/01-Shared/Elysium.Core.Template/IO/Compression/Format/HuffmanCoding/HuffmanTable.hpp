@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "HuffmanTableEntry.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
+#include "../../../../Memory/MemCpy.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENA
 #include "../../../../Memory/Scoped/Arena.hpp"
 #endif
@@ -76,7 +80,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 			_SubtableArena(SubtablesRequired ? Elysium::Core::Template::Memory::Scoped::ArenaOptions(sizeof(EntryType) * ArenaPageLength, 1) : Elysium::Core::Template::Memory::Scoped::ArenaOptions(0, 0)),
 			_Subtables(SubtablesRequired ? _SubtableArena.Push<EntryType>(ArenaPageLength) : nullptr)
 		{ }
-
+		
 		constexpr HuffmanTable(const HuffmanTable& Source) = delete;
 
 		constexpr HuffmanTable(HuffmanTable&& Right) noexcept = delete;
@@ -87,7 +91,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 		constexpr HuffmanTable<S, MaximumCodeLength, AlphabetLength, FastTableBits, ArenaPageLength>& operator=(HuffmanTable&& Right) noexcept = delete;
 	public:
-		inline constexpr EntryReference operator[](const System::size Index) noexcept
+		inline constexpr EntryReference operator[](const Elysium::Core::Template::System::size Index) noexcept
 		{
 			if constexpr (SubtablesRequired)
 			{
@@ -107,7 +111,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 			}
 		}
 	public:
-		inline void BuildTable()
+		inline constexpr void BuildTable()
 		{
 			constexpr Elysium::Core::Template::System::uint8_t ValidLengths = MaximumCodeLength + 1;
 
@@ -189,7 +193,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 								throw 1;
 							}
 
-							EntryType& Entry = _FastTable[Index];
+							EntryReference Entry = _FastTable[Index];
 							/*
 							if (0 != Entry._Length && CodeLength != Entry._Length && Symbol != Entry._Symbol)
 							{	// @ToDo: overwriting! (this check might not be correct! some entries can be overwritten - I think lower > larger length? need to look it up!)
@@ -203,7 +207,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 						}
 					}
 					else
-					{	//
+					{	// @ToDo
 						throw 1;
 					}
 				}
@@ -227,7 +231,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 						{	// @ToDo:
 							throw 1;
 						}
-						EntryType& Entry = _FastTable[Index];
+						EntryReference Entry = _FastTable[Index];
 						/*
 						if (0 != Entry._Length && CodeLength != Entry._Length && Symbol != Entry._Symbol)
 						{	// @ToDo: overwriting! (this check might not be correct! some entries can be overwritten - I think lower > larger length? need to look it up!)
@@ -255,7 +259,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		inline Elysium::Core::Template::System::uint16_t ReverseBits(Elysium::Core::Template::System::uint16_t Code, Elysium::Core::Template::System::uint16_t Length)
 		{
 			Elysium::Core::Template::System::uint16_t Result = 0;
-			for (int i = 0; i < Length; i++)
+			for (Elysium::Core::Template::System::uint16_t i = 0; i < Length; i++)
 			{
 				Result = (Result << 1) | (Code & 1);
 				Code >>= 1;

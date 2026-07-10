@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_BITREADER
-#define ELYSIUM_CORE_TEMPLATE_IO_BITREADER
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_BITBUFFER
+#define ELYSIUM_CORE_TEMPLATE_IO_BITBUFFER
 
 #ifdef _MSC_VER
 #pragma once
@@ -24,26 +24,30 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO
 {
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="LeastSignificantBitFirst"></typeparam>
 	template <bool LeastSignificantBitFirst = true>
-	class BitReader
+	class BitBuffer
 	{
 	public:
 		using BufferType = Elysium::Core::Template::System::uint64_t;
 	public:
-		constexpr BitReader() noexcept = default;
+		constexpr BitBuffer() noexcept = default;
 
-		constexpr BitReader(const BitReader& Source) = delete;
+		constexpr BitBuffer(const BitBuffer& Source) = delete;
 
-		constexpr BitReader(BitReader&& Right) noexcept = delete;
+		constexpr BitBuffer(BitBuffer&& Right) noexcept = delete;
 
-		~BitReader() = default;
+		constexpr ~BitBuffer() = default;
 	public:
-		constexpr BitReader& operator=(const BitReader& Source) = delete;
+		constexpr BitBuffer<LeastSignificantBitFirst>& operator=(const BitBuffer& Source) = delete;
 
-		constexpr BitReader& operator=(BitReader&& Right) noexcept = delete;
+		constexpr BitBuffer<LeastSignificantBitFirst>& operator=(BitBuffer&& Right) noexcept = delete;
 	public:
 		/// <summary>
-		/// Returns length in count of BITS!
+		/// Returns length as numbers of BITS!
 		/// </summary>
 		/// <returns></returns>
 		inline constexpr Elysium::Core::Template::System::uint8_t GetLength() const noexcept
@@ -123,6 +127,33 @@ namespace Elysium::Core::Template::IO
 				_Buffer |= static_cast<Elysium::Core::Template::System::uint64_t>(Byte & 0xFF) << SafeShiftThreshold;
 				_Count += 8;
 			}
+		}
+
+		inline void Push(const BufferType Bits, const Elysium::Core::Template::System::uint8_t Length)
+		{
+			constexpr Elysium::Core::Template::System::uint8_t Width = sizeof(BufferType) * 8;
+
+			assert(_Count + Length <= SafeShiftThreshold);
+			assert(Length <= Width);
+
+			if (0 == Length)
+			{
+				return;
+			}
+
+			const BufferType Mask = (Length == Width) ? ~BufferType(0) : ((BufferType(1) << Length) - BufferType(1));
+			const BufferType Value = Bits & Mask;
+
+			if constexpr (LeastSignificantBitFirst)
+			{
+				_Buffer |= Value << _Count;
+			}
+			else
+			{
+				_Buffer |= Value << (Width - _Count - Length);
+			}
+
+			_Count += Length;
 		}
 	public:
 		inline static constexpr const Elysium::Core::Template::System::uint8_t Capacity = sizeof(BufferType) * 8;

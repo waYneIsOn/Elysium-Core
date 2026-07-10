@@ -20,8 +20,12 @@ namespace Elysium::Core::Template::Memory::Scoped
 	public:
 		constexpr ArenaOptions() noexcept = default;
 
-		constexpr ArenaOptions(Elysium::Core::Template::System::size InitialPageSize,
-			Elysium::Core::Template::System::size NumberOfPreallocatedPages, bool UseVirtualPaging = false, bool ClearMemory = false) noexcept;
+		inline constexpr ArenaOptions(Elysium::Core::Template::System::size InitialPageSize, Elysium::Core::Template::System::size NumberOfPreallocatedPages, bool UseVirtualPaging = false,
+			bool ClearMemory = false) noexcept
+			: _InitialPageSize(InitialPageSize == 0 ? DefaultCapacityPerPage : InitialPageSize),
+			_NumberOfPreallocatedPages(NumberOfPreallocatedPages == 0 ? DefaultNumberOfPreallocatedPages : NumberOfPreallocatedPages),
+			_UseVirtualPaging(UseVirtualPaging), _ClearMemory(ClearMemory)
+		{ }
 
 		constexpr ArenaOptions(const ArenaOptions& Source) noexcept = default;
 
@@ -42,12 +46,5 @@ namespace Elysium::Core::Template::Memory::Scoped
 		bool _UseVirtualPaging{};
 		bool _ClearMemory{};
 	};
-
-	inline constexpr ArenaOptions::ArenaOptions(Elysium::Core::Template::System::size InitialPageSize,
-		Elysium::Core::Template::System::size NumberOfPreallocatedPages, bool UseVirtualPaging, bool ClearMemory) noexcept
-		: _InitialPageSize(InitialPageSize == 0 ? DefaultCapacityPerPage : InitialPageSize),
-		_NumberOfPreallocatedPages(NumberOfPreallocatedPages == 0 ? DefaultNumberOfPreallocatedPages : NumberOfPreallocatedPages), 
-		_UseVirtualPaging(UseVirtualPaging), _ClearMemory(ClearMemory)
-	{ }
 }
 #endif

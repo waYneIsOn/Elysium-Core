@@ -39,7 +39,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		ReadingUncompressedData,
 
 		// fixed huffman
-
+		DecompressingStaticHuffman,
 
 		// dynamic huffman
 		ReadingDynamicHuffmanHeaderFields,
@@ -51,30 +51,8 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		DecompressingDynamicHuffman,
 
 		// invalid
+		// ...
 
-		/*
-		ReadingStoredLengths,
-		CopyingStoredBytes,
-
-		ReadingDynamicHeader,
-		ReadingCodeLengthAlphabet,
-		ReadingLiteralLengthLengths,
-		ReadingDistanceLengths,
-
-		DecodingSymbol,
-		ReadingLengthExtra,
-		ReadingDistanceExtra,
-		CopyingMatch,
-		*/
-		/*
-		CopyingUncompressed = 1,
-
-		DecodingFixedHuffman = 2,
-
-		DecodingDynamicHuffman = 3,
-
-		DecodingInvalidReserved = 4,
-		*/
 		Done
 	};
 }

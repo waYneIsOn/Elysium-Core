@@ -20,7 +20,7 @@ extern "C" void* __cdecl memcpy(void* Destination, const void* Source, size_t Si
 
 namespace Elysium::Core::Template::Memory
 {
-	inline void* MemCpy(void* Destination, const void* Source, Elysium::Core::Template::System::size Size)
+	inline constexpr void* MemCpy(void* Destination, const void* Source, Elysium::Core::Template::System::size Size)
 	{	// @ToDo: libc
 	    return memcpy(Destination, Source, Size);
         /*
