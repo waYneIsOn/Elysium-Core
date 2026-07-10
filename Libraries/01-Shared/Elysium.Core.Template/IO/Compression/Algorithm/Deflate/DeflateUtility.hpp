@@ -49,6 +49,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		using CodeLengthTreeEntryReference = CodeLengthTreeType::EntryReference;
 		using LiteralTreeEntryReference = LiteralTreeType::EntryReference;
 		using DistanceTreeEntryReference = DistanceTreeType::EntryReference;
+
+		using CodeLengthTreeConstEntryReference = CodeLengthTreeType::ConstEntryReference;
 	public:
 		// https://www.rfc-editor.org/info/rfc1951/#page-13
 		// 3.2.7 Compression with dynamic Huffman codes (BTYPE=10)

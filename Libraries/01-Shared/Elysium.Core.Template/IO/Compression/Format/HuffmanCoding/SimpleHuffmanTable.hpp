@@ -65,6 +65,8 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 	public:
 		inline static constexpr Elysium::Core::Template::System::uint8_t _MaximumCodeLength = MaximumCodeLength;
 
+		inline static constexpr Elysium::Core::Template::System::uint8_t _TableBits = TableBits;
+
 		inline static constexpr Elysium::Core::Template::System::size TableLength = 1 << TableBits;
 	public:
 		constexpr SimpleHuffmanTable() = delete;
@@ -81,8 +83,6 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 			
 			BuildCanonicalCodes();
 			BuildTable();
-
-			bool sdfsdf = false;
 		}
 
 		constexpr SimpleHuffmanTable(const SimpleHuffmanTable& Source) = delete;

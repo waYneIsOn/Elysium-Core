@@ -83,7 +83,7 @@ namespace UnitTests::Core::Template::IO
 	public:
 		TEST_METHOD(GZipStreamCompressAndDecompressTest)
 		{
-			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
+			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
 			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
 		}

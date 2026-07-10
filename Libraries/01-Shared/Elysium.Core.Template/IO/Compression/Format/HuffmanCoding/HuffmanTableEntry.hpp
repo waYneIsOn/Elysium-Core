@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Concepts/HuffmanCodeable.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_SIMPLEHUFFMANTABLEENTRY
+#include "SimpleHuffmanTableEntry.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../../../System/Primitives.hpp"
 #endif
@@ -53,6 +57,16 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		}
 
 		inline constexpr bool operator!=(const HuffmanTableEntry& Other) const noexcept
+		{
+			return _Symbol != Other._Symbol || _Length != Other._Length;
+		}
+	public:
+		inline constexpr bool operator==(const SimpleHuffmanTableEntry<S>& Other) const noexcept
+		{
+			return _Symbol == Other._Symbol && _Length == Other._Length;
+		}
+
+		inline constexpr bool operator!=(const SimpleHuffmanTableEntry<S>& Other) const noexcept
 		{
 			return _Symbol != Other._Symbol || _Length != Other._Length;
 		}

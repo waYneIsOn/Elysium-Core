@@ -47,7 +47,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 {
 	template <Elysium::Core::Template::Concepts::HuffmanCodeable S, Elysium::Core::Template::System::uint8_t MaximumCodeLength, Elysium::Core::Template::System::size AlphabetLength,
-		Elysium::Core::Template::System::uint8_t FastTableBits, Elysium::Core::Template::System::size ArenaPageLength>
+		Elysium::Core::Template::System::uint8_t TableBits, Elysium::Core::Template::System::size ArenaPageLength>
 	class HuffmanTable
 	{
 	public:
@@ -66,14 +66,16 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		using EntryPointer = EntryType*;
 
 		using EntryReference = EntryType&;
+
+		using ConstEntryReference = const EntryType&;
 	private:
-		inline static constexpr bool SubtablesRequired = MaximumCodeLength > FastTableBits;
+		inline static constexpr bool SubtablesRequired = MaximumCodeLength > TableBits;
 	public:
-		inline static constexpr Elysium::Core::Template::System::uint8_t _FastTableBits = FastTableBits;
+		inline static constexpr Elysium::Core::Template::System::uint8_t _TableBits = TableBits;
 
 		inline static constexpr Elysium::Core::Template::System::uint8_t _MaximumCodeLength = MaximumCodeLength;
 
-		inline static constexpr Elysium::Core::Template::System::size FastTableLength = 1 << FastTableBits;
+		inline static constexpr Elysium::Core::Template::System::size TableLength = 1 << TableBits;
 	public:
 		inline constexpr HuffmanTable()
 			: _CodeLengths{}, _CanonicalCodes{}, _FastTable {}, 
@@ -87,15 +89,15 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 		constexpr ~HuffmanTable() = default;
 	public:
-		constexpr HuffmanTable<S, MaximumCodeLength, AlphabetLength, FastTableBits, ArenaPageLength>& operator=(const HuffmanTable& Source) = delete;
+		constexpr HuffmanTable<S, MaximumCodeLength, AlphabetLength, TableBits, ArenaPageLength>& operator=(const HuffmanTable& Source) = delete;
 
-		constexpr HuffmanTable<S, MaximumCodeLength, AlphabetLength, FastTableBits, ArenaPageLength>& operator=(HuffmanTable&& Right) noexcept = delete;
+		constexpr HuffmanTable<S, MaximumCodeLength, AlphabetLength, TableBits, ArenaPageLength>& operator=(HuffmanTable&& Right) noexcept = delete;
 	public:
-		inline constexpr EntryReference operator[](const Elysium::Core::Template::System::size Index) noexcept
+		inline constexpr ConstEntryReference operator[](const Elysium::Core::Template::System::size Index) const noexcept
 		{
 			if constexpr (SubtablesRequired)
 			{
-				EntryReference Entry = _FastTable[Index];
+				ConstEntryReference Entry = _FastTable[Index];
 				if (nullptr == Entry._Subtable)
 				{
 					return Entry;
@@ -128,7 +130,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 			// Perform "Kraft inequality check"
 			Elysium::Core::Template::System::int64_t Left = 1;
-			for (Elysium::Core::Template::System::uint8_t Bits = 0; Bits < FastTableBits; ++Bits)
+			for (Elysium::Core::Template::System::uint8_t Bits = 0; Bits < TableBits; ++Bits)
 			{
 				Left = (Left << 1) - BitLengthCount[Bits];
 			}
@@ -182,13 +184,13 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 					Elysium::Core::Template::System::uint16_t CanonicalCode = _CanonicalCodes[Symbol];
 
-					if (CodeLength < FastTableBits)
+					if (CodeLength < TableBits)
 					{	// fast table
-						for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (FastTableBits - CodeLength)); ++i)
+						for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (TableBits - CodeLength)); ++i)
 						{
-							//Elysium::Core::Template::System::size Index = (CanonicalCode << (FastTableBits - CodeLength)) | i;
+							//Elysium::Core::Template::System::size Index = (CanonicalCode << (TableBits - CodeLength)) | i;
 							Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
-							if (Index > FastTableLength)
+							if (Index > TableLength)
 							{	// @ToDo:
 								throw 1;
 							}
@@ -224,11 +226,11 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 					Elysium::Core::Template::System::uint16_t CanonicalCode = _CanonicalCodes[Symbol];
 
-					for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (FastTableBits - CodeLength)); ++i)
+					for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (TableBits - CodeLength)); ++i)
 					{
-						//Elysium::Core::Template::System::size Index = (CanonicalCode << (FastTableBits - CodeLength)) | i;
+						//Elysium::Core::Template::System::size Index = (CanonicalCode << (TableBits - CodeLength)) | i;
 						Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
-						if (Index > FastTableLength)
+						if (Index > TableLength)
 						{	// @ToDo:
 							throw 1;
 						}
@@ -247,7 +249,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 				}
 				
 				// ensure table is fully populated
-				for (Elysium::Core::Template::System::uint8_t i = 0; i < FastTableLength; ++i)
+				for (Elysium::Core::Template::System::uint8_t i = 0; i < TableLength; ++i)
 				{
 					if (!_FastTable[i].GetIsValid())
 					{	// @ToDo:
@@ -272,7 +274,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		Elysium::Core::Template::System::uint8_t _CodeLengths[AlphabetLength];
 		Elysium::Core::Template::System::uint16_t _CanonicalCodes[AlphabetLength];
 
-		EntryType _FastTable[FastTableLength];
+		EntryType _FastTable[TableLength];
 		Elysium::Core::Template::Memory::Scoped::Arena _SubtableArena;
 		EntryPointer _Subtables;
 
