@@ -474,8 +474,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					return Elysium::Core::Template::IO::ReadResult::Pending;
 				}
 
-				//Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = _BitReader.Peek(7);
-				Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = ReverseBits(_BitBuffer.Peek(7), 7);
+				Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = _BitBuffer.Peek(7);
 
 				// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
 				if (CodeLengthSymbolIndex > _DynamicHuffmanHeader._CodeLengthTree.FastTableLength)
@@ -652,9 +651,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 				if (_InvalidLiteralEntry == _CurrentLiteralEntry)
 				{
-					//Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitReader.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits);
-					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = ReverseBits(_BitBuffer.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits),
-						_DynamicHuffmanHeader._LiteralTree._FastTableBits);
+					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitBuffer.Peek(_DynamicHuffmanHeader._LiteralTree._FastTableBits);
 
 					// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
 					if (LiteralSymbolIndex > (_DynamicHuffmanHeader._LiteralTree.FastTableLength + _DynamicHuffmanHeader._DistanceTree.FastTableLength))
@@ -743,8 +740,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 							return Elysium::Core::Template::IO::ReadResult::Pending;
 						}
 
-						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = ReverseBits(_BitBuffer.Peek(DeflateUtility::DistanceTreeType::_FastTableBits),
-							DeflateUtility::DistanceTreeType::_FastTableBits);
+						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = _BitBuffer.Peek(DeflateUtility::DistanceTreeType::_FastTableBits);
 						DeflateUtility::DistanceTreeEntryType CurrentDistanceEntry = _DynamicHuffmanHeader._DistanceTree[DistanceSymbolIndex];
 
 						const Elysium::Core::Template::System::size DistanceIndex = CurrentDistanceEntry._Symbol;
@@ -814,18 +810,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 	private:
-		inline Elysium::Core::Template::System::uint16_t ReverseBits(Elysium::Core::Template::System::uint16_t Code, Elysium::Core::Template::System::uint16_t Length)
-		{
-			Elysium::Core::Template::System::uint16_t Result = 0;
-			for (Elysium::Core::Template::System::uint16_t i = 0; i < Length; ++i)
-			{
-				Result = (Result << 1) | (Code & 1);
-				Code >>= 1;
-			}
-
-			return Result;
-		}
-
 		inline const Elysium::Core::Template::IO::ReadResult EnsureAvailableBit(const Elysium::Core::Template::System::size Bits,
 			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)

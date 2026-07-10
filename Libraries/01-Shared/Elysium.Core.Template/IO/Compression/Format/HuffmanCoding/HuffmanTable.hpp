@@ -162,12 +162,11 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 				Elysium::Core::Template::System::uint8_t CodeLength = _CodeLengths[Symbol];
 				if (0 != CodeLength)
 				{
-					_CanonicalCodes[Symbol] = NextCode[CodeLength]++;
-					/*
+					//_CanonicalCodes[Symbol] = NextCode[CodeLength]++;
+					
 					Elysium::Core::Template::System::uint16_t MSBFirstCode = NextCode[CodeLength]++;
 					Elysium::Core::Template::System::uint16_t ReversedCode = ReverseBits(MSBFirstCode, CodeLength);
 					_CanonicalCodes[Symbol] = ReversedCode;
-					*/
 				}
 			}
 			
@@ -187,7 +186,8 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 					{	// fast table
 						for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (FastTableBits - CodeLength)); ++i)
 						{
-							Elysium::Core::Template::System::size Index = (CanonicalCode << (FastTableBits - CodeLength)) | i;
+							//Elysium::Core::Template::System::size Index = (CanonicalCode << (FastTableBits - CodeLength)) | i;
+							Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
 							if (Index > FastTableLength)
 							{	// @ToDo:
 								throw 1;
@@ -226,7 +226,8 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 					for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (FastTableBits - CodeLength)); ++i)
 					{
-						Elysium::Core::Template::System::size Index = (CanonicalCode << (FastTableBits - CodeLength)) | i;
+						//Elysium::Core::Template::System::size Index = (CanonicalCode << (FastTableBits - CodeLength)) | i;
+						Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
 						if (Index > FastTableLength)
 						{	// @ToDo:
 							throw 1;
