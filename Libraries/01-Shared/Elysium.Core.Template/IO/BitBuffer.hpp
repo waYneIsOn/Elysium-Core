@@ -67,6 +67,11 @@ namespace Elysium::Core::Template::IO
 				throw 1;
 			}
 
+			if (Bits == sizeof(Elysium::Core::Template::System::uint64_t) * 8) ELYSIUM_CORE_PATH_UNLIKELY
+			{
+				return _Buffer;
+			}
+
 			if constexpr (LeastSignificantBitFirst)
 			{
 				return static_cast<Elysium::Core::Template::System::uint64_t>(_Buffer & ((1_ui64 << Bits) - 1));
@@ -79,15 +84,29 @@ namespace Elysium::Core::Template::IO
 
 		inline constexpr void Consume(const Elysium::Core::Template::System::uint8_t Bits)
 		{
+			_Count -= Bits;
+
 			if constexpr (LeastSignificantBitFirst)
 			{
-				_Buffer >>= Bits;
-				_Count -= Bits;
+				if (Bits == sizeof(Elysium::Core::Template::System::uint64_t) * 8) ELYSIUM_CORE_PATH_UNLIKELY
+				{
+					_Buffer = 0;
+				}
+				else
+				{
+					_Buffer >>= Bits;
+				}
 			}
 			else
 			{
-				_Count -= Bits;
-				_Buffer &= ((1_ui64 << _Count) - 1);
+				if (Bits == sizeof(Elysium::Core::Template::System::uint64_t) * 8) ELYSIUM_CORE_PATH_UNLIKELY
+				{
+					_Buffer = 0;
+				}
+				else
+				{
+					_Buffer &= ((1_ui64 << _Count) - 1);
+				}
 			}
 		}
 
@@ -133,7 +152,7 @@ namespace Elysium::Core::Template::IO
 		{
 			constexpr Elysium::Core::Template::System::uint8_t Width = sizeof(BufferType) * 8;
 
-			assert(_Count + Length <= SafeShiftThreshold);
+			assert(_Count + Length <= Capacity);
 			assert(Length <= Width);
 
 			if (0 == Length)
