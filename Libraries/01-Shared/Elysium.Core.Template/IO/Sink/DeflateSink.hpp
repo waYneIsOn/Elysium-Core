@@ -232,38 +232,31 @@ namespace Elysium::Core::Template::IO::Sink
 	private:
 		inline void WriteBits(const Elysium::Core::Template::System::uint64_t Bits, const Elysium::Core::Template::System::uint8_t Length)
 		{
-			if (_BitBuffer.GetIsFull())
+			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitBuffer.GetLength();
+			if (AvailableBits + Length > Elysium::Core::Template::IO::BitBuffer<>::Capacity)
 			{
-				throw 1;
+				const Elysium::Core::Template::System::uint8_t BitsToCopy = AvailableBits & ~7;
+				const Elysium::Core::Template::System::uint64_t Value = _BitBuffer.Read(BitsToCopy);
+
+				const Elysium::Core::Template::System::size BytesToCopy = BitsToCopy / 8;
+				_InnerSink.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(&Value), BytesToCopy);
 			}
 
 			_BitBuffer.Push(Bits, Length);
-
-			// @ToDo: don't do byte-by-byte!
-			while (_BitBuffer.HasBits(8))
-			{
-				Elysium::Core::Template::System::uint64_t Value = _BitBuffer.Read(8);
-				if (Value > 255)
-				{
-					throw 1;
-				}
-
-				Elysium::Core::Template::System::byte Data = static_cast<Elysium::Core::Template::System::byte>(Value);
-				_InnerSink.Write(&Data, 1);
-			}
 		}
 
 		inline void FlushFinalBits()
 		{
-			const Elysium::Core::Template::System::uint8_t RemainingBits = _BitBuffer.GetLength();
-			if (0 == RemainingBits)
+			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitBuffer.GetLength();
+			if (0 == AvailableBits)
 			{
 				return;
 			}
 
-			Elysium::Core::Template::System::uint64_t Value = _BitBuffer.Read(RemainingBits);
-			Elysium::Core::Template::System::byte Data = static_cast<Elysium::Core::Template::System::byte>(Value);
-			_InnerSink.Write(&Data, 1);
+			const Elysium::Core::Template::System::uint64_t Value = _BitBuffer.Read(AvailableBits);
+
+			const Elysium::Core::Template::System::size BytesToCopy = (AvailableBits + 7) / 8;
+			_InnerSink.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(&Value), BytesToCopy);
 		}
 	private:
 		InnerSink& _InnerSink;
