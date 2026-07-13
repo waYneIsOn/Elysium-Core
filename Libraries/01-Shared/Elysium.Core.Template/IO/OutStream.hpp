@@ -14,24 +14,25 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO
 {
-	// @ToDo: concept for sinks!
-	template<class Sink>
+	// @ToDo: concept for sources!
+	template<class Source>
 	class OutStream
 	{
 	public:
-		constexpr OutStream() noexcept = default;
+		using DeviceType = Source::DeviceType;
+	public:
+		constexpr OutStream() noexcept = delete;
 
-		inline constexpr OutStream(Sink& Sink) noexcept
-			: _Sink(Sink)
+		inline constexpr OutStream(Source& Source) noexcept
+			: _Source(Source)
 		{ }
 
 		constexpr OutStream(const OutStream& Source) = delete;
 
 		constexpr OutStream(OutStream&& Right) noexcept = delete;
 
-		inline ~OutStream()
+		~OutStream()
 		{
-			Flush();
 			Close();
 		}
 	public:
@@ -39,23 +40,30 @@ namespace Elysium::Core::Template::IO
 
 		constexpr OutStream& operator=(OutStream&& Right) noexcept = delete;
 	public:
+		inline void SetPosition(const Elysium::Core::Template::System::size Value)
+		{
+			_Source.SetPosition(Value);
+		}
+	public:
 		inline void Close()
 		{
-			if constexpr (requires { _Sink.Close(); })
+			if constexpr (requires { _Source.Close(); })
 			{
-				_Sink.Close();
+				_Source.Close();
 			}
 		}
 	public:
-		inline void Flush()
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			if constexpr (requires { _Sink.Flush(); })
-			{
-				_Sink.Flush();
-			}
+			return _Source.ReadBlock(DataView);
+		}
+
+		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
+		{
+			_Source.AdvanceReadingBlock(Length);
 		}
 	private:
-		Sink& _Sink;
+		Source& _Source;
 	};
 }
 #endif

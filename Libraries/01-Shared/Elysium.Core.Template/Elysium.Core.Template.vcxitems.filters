@@ -825,10 +825,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolTraits.hpp">
       <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp">
       <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\FileSink.hpp">

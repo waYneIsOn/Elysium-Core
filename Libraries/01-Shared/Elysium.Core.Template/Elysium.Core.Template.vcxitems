@@ -60,8 +60,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\ReadResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\SeekOrigin.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp" />

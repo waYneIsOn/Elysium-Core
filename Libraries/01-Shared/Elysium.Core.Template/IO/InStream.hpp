@@ -14,23 +14,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO
 {
-	// @ToDo: concept for sources!
-	template<class Source>
+	// @ToDo: concept for sinks!
+	template<class Sink>
 	class InStream
 	{
 	public:
-		constexpr InStream() noexcept = delete;
+		using DeviceType = Sink::DeviceType;
+	public:
+		constexpr InStream() noexcept = default;
 
-		inline constexpr InStream(Source& Source) noexcept
-			: _Source(_Source)
+		inline constexpr InStream(Sink& Sink) noexcept
+			: _Sink(Sink)
 		{ }
 
 		constexpr InStream(const InStream& Source) = delete;
 
 		constexpr InStream(InStream&& Right) noexcept = delete;
 
-		~InStream()
+		inline ~InStream()
 		{
+			Flush();
 			Close();
 		}
 	public:
@@ -38,15 +41,33 @@ namespace Elysium::Core::Template::IO
 
 		constexpr InStream& operator=(InStream&& Right) noexcept = delete;
 	public:
+		inline void SetPosition(const Elysium::Core::Template::System::size Value)
+		{
+			_Sink.SetPosition(Value);
+		}
+	public:
 		inline void Close()
 		{
-			if constexpr (requires { _Source.Close(); })
+			if constexpr (requires { _Sink.Close(); })
 			{
-				_Source.Close();
+				_Sink.Close();
+			}
+		}
+	public:
+		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
+		{
+			_Sink.Write(Buffer, Count);
+		}
+
+		inline void Flush()
+		{
+			if constexpr (requires { _Sink.Flush(); })
+			{
+				_Sink.Flush();
 			}
 		}
 	private:
-		Source& _Source;
+		Sink& _Sink;
 	};
 }
 #endif

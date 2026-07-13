@@ -34,7 +34,7 @@ namespace Elysium::Core::Template::IO::Source
 		using DeviceType = InnerSource::DeviceType;
 	public:
 		inline constexpr DeflateSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
-			: _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingHeader), _InnerSource(InnerSource)
+			: _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader), _InnerSource(InnerSource)
 		{ }
 
 		constexpr DeflateSource(const DeflateSource& Source) = delete;
@@ -78,14 +78,15 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
-		inline const bool ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
 			while (true)
 			{
 				switch (_State)
 				{
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingHeader:
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader:
 				{
+					/*
 					Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> DeflateDataView{};
 					_InnerSource.ReadBlock(DeflateDataView);
 
@@ -96,25 +97,18 @@ namespace Elysium::Core::Template::IO::Source
 					const Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType BlockType = Header->GetCompressionMethod();
 
 					return false;
+					*/
 				}
 					break;
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::CopyingUncompressed:
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingFixedHuffman:
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingDynamicHuffman:
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecodingInvalidReserved:
-					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done:
-					return 0;
+					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 				default:
 					// @ToDo
 					throw 1;
 				}
 			}
 			
-			return false;
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)

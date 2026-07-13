@@ -153,7 +153,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
 				{
-					//const Elysium::Core::Template::IO::ReadResult Result = DecompressDynamicHuffman(SourceSpans, TargetSpan, OutputBytesWritten, BytesFullyProcessed);
 					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans, TargetSpan, _DynamicHuffmanHeader._LiteralTree, _DynamicHuffmanHeader._DistanceTree,
 						OutputBytesWritten, BytesFullyProcessed);
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result ||

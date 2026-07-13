@@ -48,10 +48,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Memory/MemCpy.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
-#include "../../Numeric/NumericTraits.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -66,7 +62,8 @@ namespace Elysium::Core::Template::IO::Sink
 		using DeviceType = InnerSink::DeviceType;
 	public:
 		inline constexpr DeflateSink(InnerSink& InnerSink, const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel) noexcept
-			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel), _BlockBuffer(MaximumBlockLength), _BlockWritePosition{}, _BitBuffer()//, _LZ77HistoryBuffer(DeflateUtility::LZ77HistoryBufferSize)
+			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel), _BlockBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumBlockLength),
+			_BlockWritePosition{}, _BitBuffer()//, _LZ77HistoryBuffer(DeflateUtility::LZ77HistoryBufferSize)
 		{ }
 
 		constexpr DeflateSink(const DeflateSink& Source) = delete;
@@ -131,15 +128,12 @@ namespace Elysium::Core::Template::IO::Sink
 			{
 				WriteBufferedBlock(false);
 
-				_BlockWritePosition = Elysium::Core::Template::Math::Min(Count, MaximumBlockLength);
+				_BlockWritePosition = Elysium::Core::Template::Math::Min(Count, Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumBlockLength);
 				Elysium::Core::Template::Memory::MemCpy(&_BlockBuffer[0], Buffer, _BlockWritePosition);
 				Buffer += _BlockWritePosition;
 				Count -= _BlockWritePosition;
-			} while (MaximumBlockLength < Count);
+			} while (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumBlockLength < Count);
 		}
-	private:
-		inline static constexpr Elysium::Core::Template::System::size MaximumBlockLength =
-			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum;
 	private:
 		inline void WriteBufferedBlock(const bool IsFinalBlock, const bool ForceWrite = false)
 		{
