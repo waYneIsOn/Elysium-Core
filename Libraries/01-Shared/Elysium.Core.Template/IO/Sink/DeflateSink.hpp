@@ -62,8 +62,8 @@ namespace Elysium::Core::Template::IO::Sink
 		using DeviceType = InnerSink::DeviceType;
 	public:
 		inline constexpr DeflateSink(InnerSink& InnerSink, const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel) noexcept
-			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel), _BlockBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumBlockLength),
-			_BlockWritePosition{}, _BitBuffer()//, _LZ77HistoryBuffer(DeflateUtility::LZ77HistoryBufferSize)
+			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel),
+			_BlockBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength), _BlockWritePosition{}, _BitBuffer()//, _LZ77HistoryBuffer(DeflateUtility::LZ77HistoryBufferSize)
 		{ }
 
 		constexpr DeflateSink(const DeflateSink& Source) = delete;
@@ -72,8 +72,7 @@ namespace Elysium::Core::Template::IO::Sink
 
 		inline ~DeflateSink()
 		{
-			Flush();
-			Close();
+			Finish();
 		}
 	public:
 		constexpr DeflateSink& operator=(const DeflateSink& Source) = delete;
@@ -105,39 +104,55 @@ namespace Elysium::Core::Template::IO::Sink
 			_InnerSink.SetPosition(Position);
 		}
 	public:
-		inline void Close()
+		inline void Write(const Elysium::Core::Template::System::byte* Buffer, Elysium::Core::Template::System::size Count)
 		{
-			if constexpr (requires { _InnerSink.Close(); })
+			//constexpr Elysium::Core::Template::System::size Limit = 32 * 1024;
+			//constexpr Elysium::Core::Template::System::size Limit = 4 * 1024;
+			constexpr Elysium::Core::Template::System::size Limit = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength;
+
+			while (Count > 0)
 			{
-				_InnerSink.Close();
+				assert(_BlockWritePosition <= Limit);
+				Elysium::Core::Template::System::size BytesToCopy = Elysium::Core::Template::Math::Min(Count, Limit - _BlockWritePosition);
+				assert(BytesToCopy > 0);
+				assert(BytesToCopy <= Count);
+				assert(BytesToCopy <= Limit - _BlockWritePosition);
+
+				Elysium::Core::Template::Memory::MemCpy(&_BlockBuffer[_BlockWritePosition], Buffer, BytesToCopy);
+				Buffer += BytesToCopy;
+				Count -= BytesToCopy;
+
+				_BlockWritePosition += BytesToCopy;
+
+				if (_BlockWritePosition == Limit)
+				{
+					WriteBufferedBlock(false);
+				}
+			}
+		}
+
+		inline void Finish()
+		{
+			WriteBufferedBlock(true);
+			Flush();
+
+			if constexpr (requires { _InnerSink.Finish(); })
+			{
+				_InnerSink.Finish();
 			}
 		}
 
 		inline void Flush()
 		{
-			WriteBufferedBlock(true);
 			if constexpr (requires { _InnerSink.Flush(); })
 			{
 				_InnerSink.Flush();
 			}
 		}
-
-		inline void Write(const Elysium::Core::Template::System::byte* Buffer, Elysium::Core::Template::System::size Count)
-		{
-			do
-			{
-				WriteBufferedBlock(false);
-
-				_BlockWritePosition = Elysium::Core::Template::Math::Min(Count, Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumBlockLength);
-				Elysium::Core::Template::Memory::MemCpy(&_BlockBuffer[0], Buffer, _BlockWritePosition);
-				Buffer += _BlockWritePosition;
-				Count -= _BlockWritePosition;
-			} while (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumBlockLength < Count);
-		}
 	private:
-		inline void WriteBufferedBlock(const bool IsFinalBlock, const bool ForceWrite = false)
+		inline void WriteBufferedBlock(const bool IsFinalBlock)
 		{
-			if (0 == _BlockWritePosition)
+			if ((0 == _BlockWritePosition && !IsFinalBlock) || _HasWrittenFinalBlock)
 			{
 				return;
 			}
@@ -159,6 +174,11 @@ namespace Elysium::Core::Template::IO::Sink
 			default:
 				// @ToDo
 				throw 1;
+			}
+
+			if (IsFinalBlock)
+			{
+				_HasWrittenFinalBlock = true;
 			}
 		}
 
@@ -262,6 +282,8 @@ namespace Elysium::Core::Template::IO::Sink
 
 		Elysium::Core::Template::IO::BitBuffer<> _BitBuffer;
 		//Elysium::Core::Template::Container::SlidingWindow<Elysium::Core::Template::System::byte> _LZ77HistoryBuffer;
+
+		bool _HasWrittenFinalBlock = false;
 	};
 }
 #endif

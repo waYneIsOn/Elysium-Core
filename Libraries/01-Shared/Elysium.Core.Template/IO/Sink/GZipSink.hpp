@@ -34,7 +34,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::Sink
 {
-	// @ToDo: concept for sinks!
+	// @ToDo: concept for "finishable sinks"!
+	// @ToDo: GZip atm only allows deflate-compression so I could even specifically limit to DeflateSink here!
 	template <class InnerSink>
 	class GZipSink
 	{
@@ -51,7 +52,7 @@ namespace Elysium::Core::Template::IO::Sink
 
 		inline ~GZipSink()
 		{
-			Close();
+			Finish();
 		}
 	public:
 		constexpr GZipSink& operator=(const GZipSink& Source) = delete;
@@ -76,18 +77,6 @@ namespace Elysium::Core::Template::IO::Sink
 			}
 		}
 	public:
-		void Close()
-		{
-			Flush();
-			WriteFooter();
-			Flush();
-
-			if constexpr (requires { _InnerSink.Close(); })
-			{
-				_InnerSink.Close();
-			}
-		}
-	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			if (nullptr == Buffer || 0 == Count)
@@ -100,6 +89,23 @@ namespace Elysium::Core::Template::IO::Sink
 			_Crc32 = Elysium::Core::Template::Security::Cryptography::Checksum::Crc32::CalculateBytewise(_Crc32, Buffer, Count);
 			_InnerSink.Write(Buffer, Count);
 			_UncompressedSize += Count;
+		}
+
+		inline void Finish()
+		{
+			// GZipSink requires _InnerSink to finish before it can write it's footer.
+			// So in this case I enforce a compile-time error if _InnerSink doesn't have a Finish()-method!
+			// @ToDo: enforce this by having a FinishableSink-concept!
+			_InnerSink.Finish();
+			/*
+			if constexpr (requires { _InnerSink.Finish(); })
+			{
+				_InnerSink.Finish();
+			}
+			*/
+
+			WriteFooter();
+			Flush();
 		}
 
 		inline void Flush()

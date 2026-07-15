@@ -47,7 +47,7 @@ namespace Elysium::Core::Template::IO::Sink
 
 		inline ~BufferedSink()
 		{
-			Close();
+			Flush();
 		}
 	public:
 		constexpr BufferedSink& operator=(const BufferedSink& Source) = delete;
@@ -75,15 +75,6 @@ namespace Elysium::Core::Template::IO::Sink
 			_Position = Position;
 		}
 	public:
-		inline void Close()
-		{
-			Flush();
-			if constexpr (requires { _InnerSink.Close(); })
-			{
-				_InnerSink.Close();
-			}
-		}
-
 		inline void Flush()
 		{
 			_InnerSink.Write(&_Buffer[0], _Position);

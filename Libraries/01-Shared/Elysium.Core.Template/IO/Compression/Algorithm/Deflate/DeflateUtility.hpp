@@ -38,7 +38,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 	class DeflateUtility
 	{
 	public:
-		inline static constexpr Elysium::Core::Template::System::size MaximumBlockLength =
+		inline static constexpr Elysium::Core::Template::System::size MaximumUncompressedBlockLength =
 			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum;
 	public:
 		using CodeLengthTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7, 0>;

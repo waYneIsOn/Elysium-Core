@@ -34,7 +34,7 @@ namespace UnitTests::Core::Template::IO
 		using OutFileStream = OutStream<FileSource>;
 
 		using GZipReadingStream = OutStream<GZipSource<FileSource>>;
-		//using GZipWritingStream = InStream<GZipSource<FileSource>>;
+		//using GZipWritingStream = InStream<GZipSink<DeflateSink<<FileSource>>>;
 
 		using GZipCompressionFromFileStream = InOutStream<GZipSink<DeflateSink<FileSink>>, FileSource>;
 
