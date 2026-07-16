@@ -90,9 +90,8 @@ namespace Elysium::Core::Template::IO::Device
 
 		constexpr FileDevice(FileDevice&& Right) noexcept = delete;
 
-		inline ~FileDevice()
+		inline constexpr ~FileDevice()
 		{
-			Flush();
 			Close();
 		}
 	public:
@@ -164,7 +163,7 @@ namespace Elysium::Core::Template::IO::Device
 
 			return _Position;
 		}
-
+	public:
 		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
 			if (nullptr == Buffer || 0 == Count)

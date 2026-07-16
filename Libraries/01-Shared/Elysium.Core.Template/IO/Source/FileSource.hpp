@@ -38,6 +38,8 @@ namespace Elysium::Core::Template::IO::Source
 	{
 	public:
 		using DeviceType = Elysium::Core::Template::IO::Device::FileDevice;
+
+		using MostInnerSourceType = FileSource;
 	public:
 		constexpr FileSource() noexcept = delete;
 
@@ -55,7 +57,17 @@ namespace Elysium::Core::Template::IO::Source
 
 		constexpr FileSource& operator=(FileSource&& Right) noexcept = delete;
 	public:
-		inline constexpr const DeviceType& GetDevice() const
+		inline MostInnerSourceType& GetMostInnerSource()
+		{
+			return *this;
+		}
+
+		inline DeviceType& GetDevice()
+		{
+			return _Device;
+		}
+
+		inline constexpr DeviceType& GetDevice() const
 		{
 			return _Device;
 		}

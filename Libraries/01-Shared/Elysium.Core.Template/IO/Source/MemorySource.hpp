@@ -39,6 +39,16 @@ namespace Elysium::Core::Template::IO::Source
 
 		constexpr MemorySource& operator=(MemorySource&& Right) noexcept = delete;
 	public:
+		inline DeviceType& GetDevice()
+		{
+			return _Device;
+		}
+
+		inline constexpr DeviceType& GetDevice() const
+		{
+			return _Device;
+		}
+	public:
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const
 		{
 			return _Device.GetLength();
@@ -47,11 +57,6 @@ namespace Elysium::Core::Template::IO::Source
 		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
 		{
 			return _Device.GetPosition();
-		}
-
-		inline constexpr const DeviceType& GetDevice() const
-		{
-			return _Device;
 		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)

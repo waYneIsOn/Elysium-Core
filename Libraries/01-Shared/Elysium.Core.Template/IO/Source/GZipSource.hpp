@@ -70,9 +70,11 @@ namespace Elysium::Core::Template::IO::Source
 	{
 	public:
 		using DeviceType = InnerSource::DeviceType;
+
+		using MostInnerSourceType = InnerSource::MostInnerSourceType;
 	public:
 		inline constexpr GZipSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = MinimumBufferSize) noexcept
-			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _InnerSource(InnerSource),
+			: _Buffer(MinimumBufferSize > BufferSize ? MinimumBufferSize : BufferSize), _InnerSource(InnerSource), _MostInnerSource(_InnerSource.GetMostInnerSource()),
 			_State(Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingFixedHeader), _Header{}, _Footer{}, _DecompressedOutputDataBuffer(4096), 
 			_DecompressedOutputDataSpan(&_DecompressedOutputDataBuffer[0], _DecompressedOutputDataBuffer.GetCapacity()), _DecompressedOutputDataBufferPosition{}, _DeflateDecoder(), 
 			_Crc32(0xFFFFFFFF), _UncompressedSize{}
@@ -82,28 +84,35 @@ namespace Elysium::Core::Template::IO::Source
 
 		constexpr GZipSource(GZipSource&& Right) noexcept = delete;
 
-		inline ~GZipSource()
-		{
-			Close();
-		}
+		constexpr ~GZipSource() = default;
 	public:
 		constexpr GZipSource& operator=(const GZipSource& Source) = delete;
 
 		constexpr GZipSource& operator=(GZipSource&& Right) noexcept = delete;
 	public:
-		inline constexpr const Elysium::Core::Template::System::size GetLength() const
+		inline MostInnerSourceType& GetMostInnerSource()
+		{
+			return _InnerSource.GetMostInnerSource();
+		}
+
+		inline DeviceType& GetDevice()
+		{
+			return _InnerSource._Device;
+		}
+
+		inline constexpr DeviceType& GetDevice() const
+		{
+			return _InnerSource._Device;
+		}
+	public:
+		inline constexpr Elysium::Core::Template::System::size GetLength() const
 		{
 			return _InnerSource.GetLength();
 		}
 
-		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
+		inline constexpr Elysium::Core::Template::System::uint64_t GetPosition() const
 		{
 			return _InnerSource.GetPosition();
-		}
-
-		inline constexpr const DeviceType& GetDevice() const
-		{
-			return _InnerSource.GetDevice();
 		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
@@ -112,14 +121,6 @@ namespace Elysium::Core::Template::IO::Source
 			_Buffer.Clear();
 		}
 	public:
-		inline void Close()
-		{
-			if constexpr (requires { _InnerSource.Close(); })
-			{
-				_InnerSource.Close();
-			}
-		}
-
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
 		{
 			TargetView.SetData(nullptr);
@@ -176,6 +177,11 @@ namespace Elysium::Core::Template::IO::Source
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock:
 				{
+					if (_Buffer.GetLength() > 0)
+					{
+						//throw 1;
+					}
+
 					const Elysium::Core::Template::IO::ReadResult Result = Decompress(TargetView);
 					switch (Result)
 					{
@@ -236,18 +242,20 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			static constexpr const Elysium::Core::Template::System::size HeaderSize = Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader::Size;
 
-			Elysium::Core::Template::System::size BytesPopulated = 0;
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(HeaderSize, BytesPopulated);
-			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> SourceSpan{};
+			const Elysium::Core::Template::IO::ReadResult Result = _MostInnerSource.ReadBlock(SourceSpan);
+			switch (Result)
 			{
-				return BufferPopulationResult;
-			}
+			case Elysium::Core::Template::IO::ReadResult::HasData:
+			{
+				if (SourceSpan.GetLength() < HeaderSize)
+				{
+					return Elysium::Core::Template::IO::ReadResult::Pending;
+				}
 
-			const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> ReadableSpans = _Buffer.RequestReadableSpan();
-			Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader* AddressOfHeader =
-				_Buffer.TryGetContiguous<Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader>(ReadableSpans);
-			if (nullptr != AddressOfHeader) ELYSIUM_CORE_PATH_LIKELY
-			{
+				Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader* AddressOfHeader = 
+					reinterpret_cast<Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader*>(&SourceSpan.GetData()[0]);
+
 				// this wouldn't work due to the optional fields having none-sense memory values
 				//_Header = *AddressOfHeader;
 
@@ -255,25 +263,12 @@ namespace Elysium::Core::Template::IO::Source
 				Elysium::Core::Template::System::byte* TargetData = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Header);
 				Elysium::Core::Template::Memory::MemCpy(TargetData, AddressOfHeader, HeaderSize);
 			}
-			else
-			{
-				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = ReadableSpans.GetFirst();
-				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = ReadableSpans.GetSecond();
-				if (ReadableSpan0.GetIsEmpty())
-				{	// @ToDo: if this happens, I've found an error in my implementation!
-					throw 1;
-				}
-
-				const Elysium::Core::Template::System::size BytesAvailable0 = ReadableSpan0.GetLength();
-
-				Elysium::Core::Template::System::byte* Target = reinterpret_cast<Elysium::Core::Template::System::byte*>(&_Header);
-				Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, HeaderSize);
-				Elysium::Core::Template::Memory::MemCpy(Target, ReadableSpan0.GetData(), BytesToCopy0);
-
-				if (BytesAvailable0 < HeaderSize)
-				{
-					Elysium::Core::Template::Memory::MemCpy(&Target[BytesToCopy0], ReadableSpan1.GetData(), HeaderSize - BytesToCopy0);
-				}
+				break;
+			case Elysium::Core::Template::IO::ReadResult::Pending:
+				return Result;
+			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
+				// @ToDo
+				throw 1;
 			}
 
 			if (!_Header.ValidateIds())
@@ -286,27 +281,42 @@ namespace Elysium::Core::Template::IO::Source
 				throw 1;
 			}
 
-			_Buffer.CommitReadableSpan(HeaderSize);
-			_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderExtra;
+			//_Buffer.CommitReadableSpan(HeaderSize);
+			_MostInnerSource.AdvanceReadingBlock(HeaderSize);
+
+			if (_Header.GetExtraExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderExtra;
+			}
+			else if (_Header.GetNameExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderName;
+			}
+			else if (_Header.GetCommentExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment;
+			}
+			else if (_Header.GetHeaderCrcExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc;
+			}
+			else
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
+			}
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline const Elysium::Core::Template::IO::ReadResult ReadExtra()
 		{
-			if (!_Header.GetExtraExists())
-			{
-				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderName;
-				return Elysium::Core::Template::IO::ReadResult::HasData;
-			}
-
 			// @ToDo: haven't encountered this yet, need to ensure the implementation is correct!
 			if (0 == _Header._ExtraLength)
 			{
 				static constexpr const Elysium::Core::Template::System::size ExtraLengthSize = sizeof(_Header._ExtraLength);
 
 				Elysium::Core::Template::System::size BytesPopulated = 0;
-				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(ExtraLengthSize, BytesPopulated);
+				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(_MostInnerSource, ExtraLengthSize, BytesPopulated);
 				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 				{
 					return BufferPopulationResult;
@@ -354,38 +364,52 @@ namespace Elysium::Core::Template::IO::Source
 				return ReadBytesResult;
 			}
 
-			_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderName;
+			if (_Header.GetNameExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderName;
+			}
+			else if (_Header.GetCommentExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment;
+			}
+			else if (_Header.GetHeaderCrcExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc;
+			}
+			else
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
+			}
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline const Elysium::Core::Template::IO::ReadResult ReadName()
 		{
-			if (!_Header.GetNameExists())
-			{
-				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment;
-				return Elysium::Core::Template::IO::ReadResult::HasData;
-			}
-
 			const Elysium::Core::Template::IO::ReadResult ReadNullTerminatedStringResult = ReadNullTerminatedString(_Header._NameBuffer);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == ReadNullTerminatedStringResult)
 			{
 				return ReadNullTerminatedStringResult;
 			}
 
-			_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment;
+			if (_Header.GetCommentExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderComment;
+			}
+			else if (_Header.GetHeaderCrcExists())
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc;
+			}
+			else
+			{
+				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
+			}
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline const Elysium::Core::Template::IO::ReadResult ReadComment()
 		{
-			if (!_Header.GetCommentExists())
-			{
-				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc;
-				return Elysium::Core::Template::IO::ReadResult::HasData;
-			}
-
 			// @ToDo: haven't encountered this yet, need to ensure the implementation is correct!
 			const Elysium::Core::Template::IO::ReadResult ReadNullTerminatedStringResult = ReadNullTerminatedString(_Header._CommentBuffer);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == ReadNullTerminatedStringResult)
@@ -393,24 +417,19 @@ namespace Elysium::Core::Template::IO::Source
 				return ReadNullTerminatedStringResult;
 			}
 
-			_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc;
+			_State = _Header.GetHeaderCrcExists() ? Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::ReadingOptionalHeaderCrc :
+				Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline const Elysium::Core::Template::IO::ReadResult ReadCrc()
 		{
-			if (!_Header.GetHeaderCrcExists())
-			{
-				_State = Elysium::Core::Template::IO::Compression::Format::GZip::GZipState::DecodingBlock;
-				return Elysium::Core::Template::IO::ReadResult::HasData;
-			}
-
 			// @ToDo: haven't encountered this yet, need to ensure the implementation is correct!
 			static constexpr const Elysium::Core::Template::System::size CrcSize = sizeof(_Header._Crc);
 
 			Elysium::Core::Template::System::size BytesPopulated = 0;
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(CrcSize, BytesPopulated);
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(_MostInnerSource, CrcSize, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
@@ -462,7 +481,7 @@ namespace Elysium::Core::Template::IO::Source
 
 			Elysium::Core::Template::System::size BytesPopulated = 0;
 			//const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize, BytesPopulated);
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize + 1, BytesPopulated);
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(_InnerSource, FooterSize + 1, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
@@ -509,12 +528,17 @@ namespace Elysium::Core::Template::IO::Source
 			}
 		}
 
+		inline const Elysium::Core::Template::IO::ReadResult ForwardToInnerSource(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
+		{
+			throw 1;
+		}
+
 		inline const Elysium::Core::Template::IO::ReadResult ReadFooter()
 		{
 			static constexpr const Elysium::Core::Template::System::size FooterSize = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
 
 			Elysium::Core::Template::System::size BytesPopulated = 0;
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(FooterSize, BytesPopulated);
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(_MostInnerSource, FooterSize, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
@@ -568,7 +592,7 @@ namespace Elysium::Core::Template::IO::Source
 			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& TargetBuffer)
 		{
 			Elysium::Core::Template::System::size BytesPopulated = 0;
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(Length, BytesPopulated);
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(_MostInnerSource, Length, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
@@ -611,7 +635,7 @@ namespace Elysium::Core::Template::IO::Source
 		inline const Elysium::Core::Template::IO::ReadResult ReadNullTerminatedString(Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& StringBuffer)
 		{
 			Elysium::Core::Template::System::size BytesPopulated = 0;
-			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(0, BytesPopulated);
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(_MostInnerSource, 1, BytesPopulated);
 			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 			{
 				return BufferPopulationResult;
@@ -648,7 +672,8 @@ namespace Elysium::Core::Template::IO::Source
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
-		inline const Elysium::Core::Template::IO::ReadResult EnsureAvailableData(const Elysium::Core::Template::System::size Desired, Elysium::Core::Template::System::size& BytesCopied)
+		template <class Source>
+		inline const Elysium::Core::Template::IO::ReadResult EnsureAvailableData(Source& InnerSource, const Elysium::Core::Template::System::size Desired, Elysium::Core::Template::System::size& BytesCopied)
 		{
 			// Since this method is private, the following checks really only are necessary in a debug-build.
 			assert(Desired <= _Buffer.GetCapacity());
@@ -666,7 +691,7 @@ namespace Elysium::Core::Template::IO::Source
 			while (_Buffer.GetLength() < Desired)
 			{
 				bool MadeProgress = false;
-				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(SourceSpan);
+				Elysium::Core::Template::IO::ReadResult Result = InnerSource.ReadBlock(SourceSpan);
 				switch (Result)
 				{
 				case Elysium::Core::Template::IO::ReadResult::HasData:
@@ -688,7 +713,7 @@ namespace Elysium::Core::Template::IO::Source
 						throw 1;
 					}
 
-					_InnerSource.AdvanceReadingBlock(BytesToCopy0);
+					InnerSource.AdvanceReadingBlock(BytesToCopy0);
 					_Buffer.CommitWritableSpan(BytesToCopy0);
 
 					MadeProgress = true;
@@ -742,6 +767,7 @@ namespace Elysium::Core::Template::IO::Source
 	private:
 		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		InnerSource& _InnerSource;
+		MostInnerSourceType& _MostInnerSource;
 
 		Elysium::Core::Template::IO::Compression::Format::GZip::GZipState _State;
 

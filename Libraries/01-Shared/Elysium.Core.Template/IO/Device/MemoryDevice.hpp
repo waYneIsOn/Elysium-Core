@@ -53,7 +53,7 @@ namespace Elysium::Core::Template::IO::Device
 
 		constexpr MemoryDevice(MemoryDevice&& Right) noexcept = delete;
 
-		~MemoryDevice() = default;
+		constexpr ~MemoryDevice() = default;
 	public:
 		constexpr MemoryDevice& operator=(const MemoryDevice& Source) = delete;
 

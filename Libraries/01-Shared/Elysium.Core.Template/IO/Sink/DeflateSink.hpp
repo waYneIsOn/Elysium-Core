@@ -211,6 +211,13 @@ namespace Elysium::Core::Template::IO::Sink
 			
 			WriteBits(DeflateHeader, 3);
 
+
+
+			//LZ77FindMatch();
+
+
+
+
 			for (Elysium::Core::Template::System::size i = 0; i < _BlockWritePosition; ++i)
 			{
 				Elysium::Core::Template::System::byte Symbol = _BlockBuffer[i];
@@ -242,6 +249,11 @@ namespace Elysium::Core::Template::IO::Sink
 		inline void WriteBlock(const bool IsFinalBlock)
 		{
 			throw 1;
+		}
+	private:
+		inline void LZ77FindMatch()
+		{
+
 		}
 	private:
 		inline void WriteBits(const Elysium::Core::Template::System::uint64_t Bits, const Elysium::Core::Template::System::uint8_t Length)

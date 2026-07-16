@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Compression/Format/Deflate/DeflateBlockHeader.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
+#include "../Compression/Format/Deflate/DeflateBlockType.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATESTATE
 #include "../Compression/Format/Deflate/DeflateState.hpp"
 #endif
@@ -32,6 +36,8 @@ namespace Elysium::Core::Template::IO::Source
 	{
 	public:
 		using DeviceType = InnerSource::DeviceType;
+
+		using MostInnerSourceType = InnerSource::MostInnerSourceType;
 	public:
 		inline constexpr DeflateSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
 			: _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader), _InnerSource(InnerSource)
@@ -41,28 +47,35 @@ namespace Elysium::Core::Template::IO::Source
 
 		constexpr DeflateSource(DeflateSource&& Right) noexcept = delete;
 
-		inline ~DeflateSource()
-		{
-			Close();
-		}
+		constexpr ~DeflateSource() = default;
 	public:
 		constexpr DeflateSource& operator=(const DeflateSource& Source) = delete;
 
 		constexpr DeflateSource& operator=(DeflateSource&& Right) noexcept = delete;
 	public:
-		inline constexpr const Elysium::Core::Template::System::size GetLength() const
+		inline MostInnerSourceType& GetMostInnerSource()
+		{
+			return _InnerSource.GetMostInnerSource();
+		}
+
+		inline DeviceType& GetDevice()
+		{
+			return _InnerSource._Device;
+		}
+
+		inline constexpr DeviceType& GetDevice() const
+		{
+			return _InnerSource._Device;
+		}
+	public:
+		inline constexpr Elysium::Core::Template::System::size GetLength() const
 		{
 			return _InnerSource.GetLength();
 		}
 
-		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
+		inline constexpr Elysium::Core::Template::System::uint64_t GetPosition() const
 		{
 			return _InnerSource.GetPosition();
-		}
-
-		inline constexpr const DeviceType& GetDevice() const
-		{
-			return _InnerSource.GetDevice();
 		}
 	public:
 		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
@@ -70,15 +83,7 @@ namespace Elysium::Core::Template::IO::Source
 			_InnerSource.SetPosition(Position);
 		}
 	public:
-		inline void Close()
-		{
-			if constexpr (requires { _InnerSource.Close(); })
-			{
-				_InnerSource.Close();
-			}
-		}
-
-		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
 		{
 			while (true)
 			{
@@ -115,6 +120,8 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			_InnerSource.AdvanceReadingBlock(Length);
 		}
+	private:
+
 	private:
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState _State;
 
