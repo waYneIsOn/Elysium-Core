@@ -20,16 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../System/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
-{
-	class DeflateDecoder;
-}
-
 namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 {
 	class DeflateBlockHeader final
 	{
-		friend class Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateDecoder;
 	public:
 		constexpr DeflateBlockHeader() noexcept = default;
 
@@ -58,7 +52,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		}
 	public:
 		inline static constexpr const Elysium::Core::Template::System::byte Size = 1;
-	private:
+	public:
 		Elysium::Core::Template::System::byte _Data;
 	};
 }

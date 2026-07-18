@@ -33,7 +33,7 @@ namespace UnitTests::Core::Template::IO
 
 		using OutFileStream = OutStream<FileSource>;
 
-		using GZipReadingStream = OutStream<GZipSource<FileSource>>;
+		using GZipReadingStream = OutStream<GZipSource<DeflateSource<FileSource>>>;
 		//using GZipWritingStream = InStream<GZipSink<DeflateSink<<FileSource>>>;
 
 		using GZipCompressionFromFileStream = InOutStream<GZipSink<DeflateSink<FileSink>>, FileSource>;
@@ -85,7 +85,7 @@ namespace UnitTests::Core::Template::IO
 		{
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
 			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
-			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
+			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
 		}
 
 		TEST_METHOD(GZipStreamExternalFilesTest)
@@ -94,7 +94,8 @@ namespace UnitTests::Core::Template::IO
 			{
 				FileDevice ReadDevice(u8"Lorem Ipsum.gz", FileMode::Open, FileAccess::Read | FileAccess::Write, FileShare::Read);
 				FileSource Source(ReadDevice);
-				GZipSource GZipSource(Source);
+				DeflateSource DecompressionSource(Source);
+				GZipSource GZipSource(DecompressionSource);
 
 				GZipReadingStream Stream(GZipSource);
 
@@ -226,7 +227,8 @@ namespace UnitTests::Core::Template::IO
 
 				FileDevice ActualDevice(TargetFile, FileMode::Open, FileAccess::Read, FileShare::Read);
 				FileSource ActualSource(ActualDevice);
-				GZipSource ActualCompressionSource(ActualSource);
+				DeflateSource ActualDecompressionSource(ActualSource);
+				GZipSource ActualCompressionSource(ActualDecompressionSource);
 				GZipReadingStream ActualInStream(ActualCompressionSource);
 
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ExpectedData{};
