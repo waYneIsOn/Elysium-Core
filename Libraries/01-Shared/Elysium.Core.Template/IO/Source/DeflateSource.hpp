@@ -80,12 +80,12 @@ namespace Elysium::Core::Template::IO::Source
 
 		inline DeviceType& GetDevice()
 		{
-			return _InnerSource._Device;
+			return _InnerSource.GetDevice();
 		}
 
 		inline constexpr DeviceType& GetDevice() const
 		{
-			return _InnerSource._Device;
+			return _InnerSource.GetDevice();
 		}
 	public:
 		inline constexpr Elysium::Core::Template::System::size GetLength() const
@@ -106,8 +106,6 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& TargetView)
 		{
-			static constexpr const Elysium::Core::Template::System::size FooterSize = Elysium::Core::Template::IO::Compression::Format::GZip::GZipFooter::Size;
-
 			// early exit if there's still data in the output buffer
 			const Elysium::Core::Template::IO::ReadResult CopyEarlyOutputResult = CopyOuputToUserView(TargetView);
 			if (Elysium::Core::Template::IO::ReadResult::HasData == CopyEarlyOutputResult)
@@ -115,18 +113,17 @@ namespace Elysium::Core::Template::IO::Source
 				return CopyEarlyOutputResult;
 			}
 
-			Elysium::Core::Template::System::size BytesCopied = 0;
 			Elysium::Core::Template::System::size OutputBytesWritten = 0;
 			Elysium::Core::Template::System::size BytesFullyProcessedThisIteration = 0;
 
+			const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(0);
+			if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
+			{
+				return BufferPopulationResult;
+			}
+
 			while (true)
 			{
-				const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableData(1, BytesCopied);
-				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
-				{
-					return BufferPopulationResult;
-				}
-
 				const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans = _Buffer.RequestReadableSpan();
 
 				switch (_State)
@@ -134,18 +131,30 @@ namespace Elysium::Core::Template::IO::Source
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader:
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = ReadBlockHeader(SourceSpans, BytesFullyProcessedThisIteration);
-					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					switch (Result)
 					{
+					case Elysium::Core::Template::IO::ReadResult::Pending:
 						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						break;
+					default:
+						// @ToDo
+						throw 1;
 					}
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedHeaderFields:
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = ReadUncompressedHeaderFields(SourceSpans, BytesFullyProcessedThisIteration);
-					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
+					switch (Result)
 					{
+					case Elysium::Core::Template::IO::ReadResult::Pending:
 						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						break;
+					default:
+						// @ToDo
+						throw 1;
 					}
 				}
 					break;
@@ -173,12 +182,14 @@ namespace Elysium::Core::Template::IO::Source
 				}
 					break;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingStaticHuffman:
+					throw 1;
+					/*
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans,
 						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree,
 						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticDistanceTree, OutputBytesWritten, BytesFullyProcessedThisIteration);
-
-
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					BytesFullyProcessedThisIteration = 0;
 					if (Elysium::Core::Template::IO::ReadResult::HasData == Result)
 					{
 						_DecompressedOutputDataBufferPosition = OutputBytesWritten;
@@ -192,37 +203,57 @@ namespace Elysium::Core::Template::IO::Source
 					return Result;
 				}
 					break;
+					*/
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingDynamicHuffmanHeaderFields:
+					throw 1;
+					/*
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = ReadDynamicHuffmanHeaderFields(SourceSpans, BytesFullyProcessedThisIteration);
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					BytesFullyProcessedThisIteration = 0;
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
 					{
 						return Result;
 					}
 				}
 					break;
+					*/
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingCodeLengthTable:
+					throw 1;
+					/*
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = BuildCodeLengthTable(SourceSpans, BytesFullyProcessedThisIteration);
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					BytesFullyProcessedThisIteration = 0;
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
 					{
 						return Result;
 					}
 				}
 					break;
+					*/
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingLiteralAndDistanceTables:
+					throw 1;
+					/*
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = BuildLiteralAndDistanceTables(SourceSpans, BytesFullyProcessedThisIteration);
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					BytesFullyProcessedThisIteration = 0;
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
 					{
 						return Result;
 					}
 				}
 					break;
+					*/
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
+					throw 1;
+					/*
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans, _DynamicHuffmanHeader._LiteralTree, _DynamicHuffmanHeader._DistanceTree, 
 						OutputBytesWritten, BytesFullyProcessedThisIteration);
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					BytesFullyProcessedThisIteration = 0;
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
 					{
 
@@ -235,56 +266,36 @@ namespace Elysium::Core::Template::IO::Source
 					}
 				}
 					break;
+					*/
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done:
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ForwardingData;
+					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ForwardingData:
 				{
-
-
-
-
-
-					const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = SourceSpans.GetFirst();
-					const Elysium::Core::Template::System::size ReadableSpan0Length = ReadableSpan0.GetLength();
-
-					if (BytesFullyProcessedThisIteration < ReadableSpan0Length)
+					const Elysium::Core::Template::IO::ReadResult Result = ForwardData(SourceSpans, OutputBytesWritten, BytesFullyProcessedThisIteration);
+					switch (Result)
 					{
-						const Elysium::Core::Template::System::byte* Data0 = ReadableSpan0.GetData();
-						const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(ReadableSpan0Length, _DecompressedOutputDataSpan.GetLength());
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+					{
+						_DecompressedOutputDataBufferPosition = OutputBytesWritten;
 
-						Elysium::Core::Template::System::byte* TargetData = &_DecompressedOutputDataSpan.GetData()[OutputBytesWritten];
-						Elysium::Core::Template::Memory::MemCpy(TargetData, Data0, BytesToCopy0);
-						OutputBytesWritten += BytesToCopy0;
-						BytesFullyProcessedThisIteration += BytesToCopy0;
-						_UncompressedHuffmanHeader._TotalBytesCopied += BytesToCopy0;
+						const Elysium::Core::Template::IO::ReadResult CopyOutputResult = CopyOuputToUserView(TargetView);
+						if (Elysium::Core::Template::IO::ReadResult::HasData != CopyOutputResult)
+						{	// @ToDo
+							throw 1;
+						}
+
+						_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+
+						return Result;
 					}
-
-					if (BytesFullyProcessedThisIteration == ReadableSpan0Length)
-					{	// @ToDo: haven't encountered this case yet
-						const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = SourceSpans.GetSecond();
-						const Elysium::Core::Template::System::size ReadableSpan1Length = ReadableSpan1.GetLength();
-
-						const Elysium::Core::Template::System::byte* Data1 = ReadableSpan1.GetData();
-						const Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(ReadableSpan1Length, _DecompressedOutputDataSpan.GetLength());
-
-						Elysium::Core::Template::System::byte* TargetData = &_DecompressedOutputDataSpan.GetData()[OutputBytesWritten];
-						Elysium::Core::Template::Memory::MemCpy(TargetData, Data1, BytesToCopy1);
-						OutputBytesWritten += BytesToCopy1;
-						BytesFullyProcessedThisIteration += BytesToCopy1;
-						_UncompressedHuffmanHeader._TotalBytesCopied += BytesToCopy1;
-					}
-
-
-
-
-
-
-					_DecompressedOutputDataBufferPosition = OutputBytesWritten;
-					const Elysium::Core::Template::IO::ReadResult CopyOutputResult = CopyOuputToUserView(TargetView);
-					if (Elysium::Core::Template::IO::ReadResult::HasData != CopyOutputResult)
-					{	// @ToDo
+					default:
+						// @ToDo
 						throw 1;
 					}
-					
-					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 				}
 				default:
 					// @ToDo
@@ -315,6 +326,10 @@ namespace Elysium::Core::Template::IO::Source
 			{
 				return BufferPopulationResult;
 			}
+
+#ifdef _DEBUG
+			++_BlockCount;
+#endif
 
 			_BlockHeader._Data = static_cast<Elysium::Core::Template::System::byte>(_BitBuffer.Read(3));
 
@@ -381,8 +396,9 @@ namespace Elysium::Core::Template::IO::Source
 			}
 
 			// Deflate allows for no data in an uncompressed block
-			_State = 0 == _UncompressedHuffmanHeader._Length ? Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader :
-				Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedData;
+			_State = 0 != _UncompressedHuffmanHeader._Length ? Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedData :
+				_BlockHeader.GetIsFinalBlock() ? Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done :
+				Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader;
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
@@ -920,24 +936,85 @@ namespace Elysium::Core::Template::IO::Source
 
 			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
+
+		inline const Elysium::Core::Template::IO::ReadResult ForwardData(const Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> SourceSpans,
+			Elysium::Core::Template::System::size& OutputBytesWritten, Elysium::Core::Template::System::size& BytesConsumed)
+		{
+			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitBuffer.GetLength();
+			if (0 != AvailableBits % 8)
+			{	// not correctly aligned -> implementation bug
+				throw 1;
+			}
+
+			// Drain _BitReader first
+			if (0 < AvailableBits)
+			{
+				const Elysium::Core::Template::System::uint8_t AvailableBytes = AvailableBits / 8;
+				Elysium::Core::Template::System::uint16_t BytesToCopy = static_cast<Elysium::Core::Template::System::uint16_t>(AvailableBytes);
+
+				Elysium::Core::Template::System::byte* TargetData = _DecompressedOutputDataSpan.GetData();
+
+				Elysium::Core::Template::System::uint64_t Bytes = _BitBuffer.Read(BytesToCopy * 8);
+				Elysium::Core::Template::Memory::MemCpy(&TargetData[OutputBytesWritten], &Bytes, BytesToCopy);
+				OutputBytesWritten += BytesToCopy;
+				//BytesConsumed += BytesToCopy;	// these bytes already were in _BitReader!
+			}
+
+			// From now on copy directly from SourceSpans
+			const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan0 = SourceSpans.GetFirst();
+			const Elysium::Core::Template::System::size ReadableSpan0Length = ReadableSpan0.GetLength();
+
+			const Elysium::Core::Template::System::size Offset0 = BytesConsumed;
+			if (BytesConsumed < ReadableSpan0Length)
+			{
+				const Elysium::Core::Template::System::byte* Data0 = &ReadableSpan0.GetData()[Offset0];
+				const Elysium::Core::Template::System::size AvailableBytes0 = ReadableSpan0Length - Offset0;
+				const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(AvailableBytes0, _DecompressedOutputDataSpan.GetLength());
+
+				Elysium::Core::Template::System::byte* TargetData = &_DecompressedOutputDataSpan.GetData()[OutputBytesWritten];
+				Elysium::Core::Template::Memory::MemCpy(TargetData, Data0, BytesToCopy0);
+				OutputBytesWritten += BytesToCopy0;
+				BytesConsumed += BytesToCopy0;
+			}
+
+			if (BytesConsumed == ReadableSpan0Length)
+			{
+				const Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadableSpan1 = SourceSpans.GetSecond();
+				const Elysium::Core::Template::System::size ReadableSpan1Length = ReadableSpan1.GetLength();
+
+				const Elysium::Core::Template::System::byte* Data1 = ReadableSpan1.GetData();
+				const Elysium::Core::Template::System::size AvailableBytes1 = ReadableSpan1Length;
+				const Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(AvailableBytes1, _DecompressedOutputDataSpan.GetLength());
+
+				Elysium::Core::Template::System::byte* TargetData = &_DecompressedOutputDataSpan.GetData()[OutputBytesWritten];
+				Elysium::Core::Template::Memory::MemCpy(TargetData, Data1, BytesToCopy1);
+				OutputBytesWritten += BytesToCopy1;
+				BytesConsumed += BytesToCopy1;
+			}
+
+			return 0 == OutputBytesWritten ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
+		}
 	private:
-		inline const Elysium::Core::Template::IO::ReadResult EnsureAvailableData(const Elysium::Core::Template::System::size Desired, Elysium::Core::Template::System::size& BytesCopied)
+		inline const Elysium::Core::Template::IO::ReadResult EnsureAvailableData(const Elysium::Core::Template::System::size Desired)
 		{
 			// Since this method is private, the following checks really only are necessary in a debug-build.
 			assert(Desired <= _Buffer.GetCapacity());
 
-			if (_Buffer.GetLength() >= Desired)
+			if (0 < Desired && Desired < _Buffer.GetLength())
 			{	// there are enough bytes in the internal buffer already
 				return Elysium::Core::Template::IO::ReadResult::HasData;
 			}
 
-			Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> WriteableSpan = _Buffer.RequestWriteableSpan();
-			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan0 = WriteableSpan.GetFirst();
-			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan1 = WriteableSpan.GetSecond();
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> SourceSpan{};
 
-			while (_Buffer.GetLength() < Desired)
+			while (_Buffer.GetLength() < Desired || (0 == Desired && !_Buffer.GetIsFull()))
 			{
+				Elysium::Core::Template::System::size BytesCopied = 0;
+
+				Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> WriteableSpan = _Buffer.RequestWriteableSpan();
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan0 = WriteableSpan.GetFirst();
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan1 = WriteableSpan.GetSecond();
+
 				bool MadeProgress = false;
 				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(SourceSpan);
 				switch (Result)
@@ -949,20 +1026,24 @@ namespace Elysium::Core::Template::IO::Source
 						throw 1;
 					}
 
-					const Elysium::Core::Template::System::size BytesAvailable0 = WriteableSpan0.GetLength();
-					const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable0, SourceSpan.GetLength());
+					const Elysium::Core::Template::System::size BytesAvailable = SourceSpan.GetLength();
+
+					const Elysium::Core::Template::System::size SlotsAvailable0 = WriteableSpan0.GetLength();
+					const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(BytesAvailable, SlotsAvailable0);
 					Elysium::Core::Template::Memory::MemCpy(WriteableSpan0.GetData(), SourceSpan.GetData(), BytesToCopy0);
 					BytesCopied += BytesToCopy0;
 
-					const Elysium::Core::Template::System::size BytesAvailable1 = WriteableSpan1.GetLength();
-					if (BytesToCopy0 < BytesAvailable0 && 0 < BytesAvailable1)
+					const Elysium::Core::Template::System::size SlotsAvailable1 = WriteableSpan1.GetLength();
+					const Elysium::Core::Template::System::size BytesStillAvailable = BytesAvailable - BytesToCopy0;
+					if (0 < SlotsAvailable1 && 0 < BytesStillAvailable)
 					{
-						// @ToDo: populate 2nd span as well
-						throw 1;
+						const Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(BytesStillAvailable, SlotsAvailable1);
+						Elysium::Core::Template::Memory::MemCpy(WriteableSpan1.GetData(), &SourceSpan.GetData()[BytesToCopy0], BytesToCopy1);
+						BytesCopied += BytesToCopy1;
 					}
 
-					_InnerSource.AdvanceReadingBlock(BytesToCopy0);
-					_Buffer.CommitWritableSpan(BytesToCopy0);
+					_InnerSource.AdvanceReadingBlock(BytesCopied);
+					_Buffer.CommitWritableSpan(BytesCopied);
 
 					MadeProgress = true;
 				}
@@ -1195,6 +1276,10 @@ namespace Elysium::Core::Template::IO::Source
 		Elysium::Core::Template::System::size _DecompressedOutputDataBufferPosition;
 
 		InnerSource& _InnerSource;
+
+#ifdef _DEBUG
+		Elysium::Core::Template::System::size _BlockCount = 0;
+#endif
 	};
 }
 #endif

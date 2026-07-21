@@ -212,23 +212,6 @@ namespace Elysium::Core::Template::Container
 			return { &_Data[_Head], _Capacity - _Head, &_Data[0], _Tail };
 		}
 
-		inline const Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestReadableSpan(const Elysium::Core::Template::System::size ReduceByLastElements) const noexcept
-		{
-			if (GetLength() < ReduceByLastElements)
-			{
-				return { nullptr, 0, nullptr, 0 };
-			}    
-
-			//const Elysium::Core::Template::System::size Readable = (_Tail >= _Head) ? (_Tail - _Head) : (_Capacity - _Head + _Tail);
-			//const Elysium::Core::Template::System::size Visible = Readable - ReduceByLastElements;
-			const Elysium::Core::Template::System::size Visible = _Length - ReduceByLastElements;
-
-			const Elysium::Core::Template::System::size SpanSize0 = (Visible < (_Capacity - _Head)) ? Visible : (_Capacity - _Head);
-			const Elysium::Core::Template::System::size SpanSize1 = Visible - SpanSize0;
-
-			return { &_Data[_Head], SpanSize0, SpanSize1 ? &_Data[0] : nullptr, SpanSize1 };
-		}
-
 		template <class T>
 		inline T* TryGetContiguous(Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> Spans)
 		{

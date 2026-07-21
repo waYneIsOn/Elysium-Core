@@ -53,7 +53,9 @@ namespace Elysium::Core::Template::IO::Compression::Format::Deflate
 		// invalid
 		// ...
 
-		Done
+		Done,
+
+		ForwardingData
 	};
 }
 #endif

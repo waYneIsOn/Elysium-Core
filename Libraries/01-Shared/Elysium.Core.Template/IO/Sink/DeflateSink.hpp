@@ -15,11 +15,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
 #include "../../Container/FixedSizeBuffer.hpp"
 #endif
-/*
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_SLIDINGWINDOW
-#include "../../Container/SlidingWindow.hpp"
-#endif
-*/
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_BITBUFFER
 #include "../BitBuffer.hpp"
 #endif
@@ -108,6 +104,7 @@ namespace Elysium::Core::Template::IO::Sink
 		{
 			//constexpr Elysium::Core::Template::System::size Limit = 32 * 1024;
 			//constexpr Elysium::Core::Template::System::size Limit = 4 * 1024;
+			//constexpr Elysium::Core::Template::System::size Limit = 123;
 			constexpr Elysium::Core::Template::System::size Limit = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength;
 
 			while (Count > 0)
@@ -293,7 +290,6 @@ namespace Elysium::Core::Template::IO::Sink
 		Elysium::Core::Template::System::size _BlockWritePosition;
 
 		Elysium::Core::Template::IO::BitBuffer<> _BitBuffer;
-		//Elysium::Core::Template::Container::SlidingWindow<Elysium::Core::Template::System::byte> _LZ77HistoryBuffer;
 
 		bool _HasWrittenFinalBlock = false;
 	};
