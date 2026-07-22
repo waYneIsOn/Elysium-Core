@@ -918,9 +918,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp">
       <Filter>IO\Compression\Format\Deflate</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateDecoder.hpp">
-      <Filter>IO\Compression\Algorithm\Deflate</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp">
       <Filter>IO\Source</Filter>
     </ClInclude>
@@ -1126,12 +1123,6 @@
     </Filter>
     <Filter Include="IO\Compression\Algorithm\Deflate">
       <UniqueIdentifier>{c446e383-e127-446c-94b7-7e7dbc6da4c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO\Compression\Algorithm\HuffmanCoding">
-      <UniqueIdentifier>{365f940a-6dba-40de-ba38-4ec7ac9d08d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO\Compression\Algorithm\LempelZiv">
-      <UniqueIdentifier>{f98b1db6-3a18-4886-9979-f8e6feec8cee}</UniqueIdentifier>
     </Filter>
     <Filter Include="Container\View">
       <UniqueIdentifier>{11a167d4-344f-4818-9e54-a963797626d0}</UniqueIdentifier>

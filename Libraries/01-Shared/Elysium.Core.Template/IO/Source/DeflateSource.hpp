@@ -57,7 +57,8 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline constexpr DeflateSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
 			: _Buffer(BufferSize), _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader),
-			_BlockHeader{}, _BitBuffer{}, _UncompressedHuffmanHeader{}, _DynamicHuffmanHeader{}, _CurrentLiteralEntry(_InvalidLiteralEntry), _CurrentLength{}, _CurrentDistance{},
+			_BlockHeader{}, _BitBuffer{}, _UncompressedHuffmanHeader{}, _DynamicHuffmanHeader{},
+			_CurrentLiteralEntry(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry), _CurrentLength{}, _CurrentDistance{},
 			_LZ77HistoryBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77HistoryBufferSize), _LZ77HistoryBufferReadPosition{}, _Distance{}, _Length{},
 			_DecompressedOutputDataBuffer(4096), _DecompressedOutputDataSpan(&_DecompressedOutputDataBuffer[0], _DecompressedOutputDataBuffer.GetCapacity()),
 			_DecompressedOutputDataBufferPosition{}, _InnerSource(InnerSource)
@@ -161,8 +162,133 @@ namespace Elysium::Core::Template::IO::Source
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedData:
 				{
 					const Elysium::Core::Template::IO::ReadResult Result = ReadUncompressedData(SourceSpans, OutputBytesWritten, BytesFullyProcessedThisIteration);
+					switch (Result)
+					{
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+					{
+						_DecompressedOutputDataBufferPosition = OutputBytesWritten;
+
+						const Elysium::Core::Template::IO::ReadResult CopyOutputResult = CopyOuputToUserView(TargetView);
+						if (Elysium::Core::Template::IO::ReadResult::HasData != CopyOutputResult)
+						{	// @ToDo
+							throw 1;
+						}
+
+						_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+
+						return Result;
+					}
+					default:
+						// @ToDo
+						throw 1;
+					}
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingStaticHuffman:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans,
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree,
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticDistanceTree, OutputBytesWritten, BytesFullyProcessedThisIteration);
+					
+					switch (Result)
+					{
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+					{
+						_DecompressedOutputDataBufferPosition = OutputBytesWritten;
+
+						const Elysium::Core::Template::IO::ReadResult CopyOutputResult = CopyOuputToUserView(TargetView);
+						if (Elysium::Core::Template::IO::ReadResult::HasData != CopyOutputResult)
+						{	// @ToDo
+							throw 1;
+						}
+					}
+						break;
+					default:
+						break;
+					}
+
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+
+					return Result;
+				}
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingDynamicHuffmanHeaderFields:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = ReadDynamicHuffmanHeaderFields(SourceSpans, BytesFullyProcessedThisIteration);
+					switch (Result)
+					{
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						break;
+					default:
+						// @ToDo
+						throw 1;
+					}
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingCodeLengthTable:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = BuildCodeLengthTable(SourceSpans, BytesFullyProcessedThisIteration);
+					switch (Result)
+					{
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						break;
+					default:
+						// @ToDo
+						throw 1;
+					}
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingLiteralAndDistanceTables:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = BuildLiteralAndDistanceTables(SourceSpans, BytesFullyProcessedThisIteration);
+					switch (Result)
+					{
+					case Elysium::Core::Template::IO::ReadResult::Pending:
+						return Result;
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+						break;
+					default:
+						// @ToDo
+						throw 1;
+					}
+				}
+					break;
+				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
+				{
+					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans, _DynamicHuffmanHeader._LiteralTree, _DynamicHuffmanHeader._DistanceTree, 
+						OutputBytesWritten, BytesFullyProcessedThisIteration);
+					switch (Result)
+					{
+					case Elysium::Core::Template::IO::ReadResult::HasData:
+					{
+						_DecompressedOutputDataBufferPosition = OutputBytesWritten;
+
+						const Elysium::Core::Template::IO::ReadResult CopyOutputResult = CopyOuputToUserView(TargetView);
+						if (Elysium::Core::Template::IO::ReadResult::HasData != CopyOutputResult)
+						{	// @ToDo
+							throw 1;
+						}
+					}
+						break;
+					default:
+						break;
+					}
+
+					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+
+					return Result;
+
+					/*
+					//_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
 					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
 					{
+
+						 
 						return Result;
 					}
 					else if (Elysium::Core::Template::IO::ReadResult::HasData == Result)
@@ -179,96 +305,20 @@ namespace Elysium::Core::Template::IO::Source
 
 						return Result;
 					}
-				}
-					break;
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingStaticHuffman:
-					throw 1;
-					/*
-				{
-					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans,
-						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree,
-						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticDistanceTree, OutputBytesWritten, BytesFullyProcessedThisIteration);
-					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
-					BytesFullyProcessedThisIteration = 0;
-					if (Elysium::Core::Template::IO::ReadResult::HasData == Result)
-					{
-						_DecompressedOutputDataBufferPosition = OutputBytesWritten;
-						const Elysium::Core::Template::IO::ReadResult CopyOutputResult = CopyOuputToUserView(TargetView);
-						if (Elysium::Core::Template::IO::ReadResult::HasData != CopyOutputResult)
-						{	// @ToDo
-							throw 1;
-						}
-					}
-
-					return Result;
-				}
-					break;
 					*/
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingDynamicHuffmanHeaderFields:
-					throw 1;
-					/*
-				{
-					const Elysium::Core::Template::IO::ReadResult Result = ReadDynamicHuffmanHeaderFields(SourceSpans, BytesFullyProcessedThisIteration);
-					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
-					BytesFullyProcessedThisIteration = 0;
-					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
-					{
-						return Result;
-					}
-				}
-					break;
-					*/
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingCodeLengthTable:
-					throw 1;
-					/*
-				{
-					const Elysium::Core::Template::IO::ReadResult Result = BuildCodeLengthTable(SourceSpans, BytesFullyProcessedThisIteration);
-					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
-					BytesFullyProcessedThisIteration = 0;
-					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
-					{
-						return Result;
-					}
-				}
-					break;
-					*/
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingLiteralAndDistanceTables:
-					throw 1;
-					/*
-				{
-					const Elysium::Core::Template::IO::ReadResult Result = BuildLiteralAndDistanceTables(SourceSpans, BytesFullyProcessedThisIteration);
-					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
-					BytesFullyProcessedThisIteration = 0;
-					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
-					{
-						return Result;
-					}
-				}
-					break;
-					*/
-				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman:
-					throw 1;
-					/*
-				{
-					const Elysium::Core::Template::IO::ReadResult Result = Decompress(SourceSpans, _DynamicHuffmanHeader._LiteralTree, _DynamicHuffmanHeader._DistanceTree, 
-						OutputBytesWritten, BytesFullyProcessedThisIteration);
-					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
-					BytesFullyProcessedThisIteration = 0;
-					if (Elysium::Core::Template::IO::ReadResult::Pending == Result)
-					{
 
 
-						return Result;
-					}
-					else if (Elysium::Core::Template::IO::ReadResult::HasData == Result)
-					{
-						return Result;
-					}
+
+
+
+
+
+
 				}
 					break;
-					*/
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done:
 					_Buffer.CommitReadableSpan(BytesFullyProcessedThisIteration);
+					_BitBuffer.AlignToByteBoundary();
 					_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ForwardingData;
 					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 				case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ForwardingData:
@@ -780,7 +830,7 @@ namespace Elysium::Core::Template::IO::Source
 					return Elysium::Core::Template::IO::ReadResult::Pending;
 				}
 
-				if (_InvalidLiteralEntry == _CurrentLiteralEntry)
+				if (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry == _CurrentLiteralEntry)
 				{
 					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitBuffer.Peek(LiteralHuffmanTree._TableBits);
 
@@ -806,7 +856,7 @@ namespace Elysium::Core::Template::IO::Source
 				{
 					_DecompressedOutputDataSpan.GetData()[OutputBytesWritten++] = CurrentSymbol;
 
-					_CurrentLiteralEntry = _InvalidLiteralEntry;
+					_CurrentLiteralEntry = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry;
 					_CurrentLength = 0;
 					_CurrentDistance = 0;
 				}
@@ -815,19 +865,19 @@ namespace Elysium::Core::Template::IO::Source
 					_State = _BlockHeader.GetIsFinalBlock() ? Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::Done :
 						Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader;
 
-					_CurrentLiteralEntry = _InvalidLiteralEntry;
+					_CurrentLiteralEntry = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry;
 					_CurrentLength = 0;
 					_CurrentDistance = 0;
 
 					return 0 == OutputBytesWritten ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 				}
-				else if (_InvalidLiteralEntry._Symbol > CurrentSymbol)
+				else if (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry._Symbol > CurrentSymbol)
 				{	// LZ77
 					if (0 == _CurrentLength && 0 == _CurrentDistance)
 					{
 						const Elysium::Core::Template::System::size LengthIndex = CurrentSymbol - 257;
-						const Elysium::Core::Template::System::uint16_t LengthBase = _LZ77LengthBase[LengthIndex];
-						const Elysium::Core::Template::System::uint16_t LengthExtraBits = _LZ77LengthExtra[LengthIndex];
+						const Elysium::Core::Template::System::uint16_t LengthBase = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77LengthBase[LengthIndex];
+						const Elysium::Core::Template::System::uint16_t LengthExtraBits = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77LengthExtra[LengthIndex];
 
 						_CurrentLength = LengthBase;
 						if (0 < LengthExtraBits)
@@ -871,8 +921,8 @@ namespace Elysium::Core::Template::IO::Source
 						typename DistanceHuffmanTreeType::EntryType CurrentDistanceEntry = DistanceHuffmanTree[DistanceSymbolIndex];
 
 						const Elysium::Core::Template::System::size DistanceIndex = CurrentDistanceEntry._Symbol;
-						const Elysium::Core::Template::System::uint16_t DistanceBase = _LZ77DistanceBase[DistanceIndex];
-						const Elysium::Core::Template::System::uint16_t DistanceExtraBits = _LZ77DistanceExtra[DistanceIndex];
+						const Elysium::Core::Template::System::uint16_t DistanceBase = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceBase[DistanceIndex];
+						const Elysium::Core::Template::System::uint16_t DistanceExtraBits = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceExtra[DistanceIndex];
 
 						_BitBuffer.Consume(CurrentDistanceEntry._Length);
 
@@ -906,10 +956,7 @@ namespace Elysium::Core::Template::IO::Source
 					// early exit -> keep states alive
 					if (_DecompressedOutputDataSpan.GetLength() <= OutputBytesWritten + _CurrentLength)
 					{
-						const Elysium::Core::Template::System::size Length = OutputBytesWritten - TargetSpanReadPosition;
-						CopyIntoHistoryBuffer(&_DecompressedOutputDataSpan.GetData()[TargetSpanReadPosition], Length);
-
-						return 0 == Length ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
+						return 0 == _DecompressedOutputDataSpan.GetLength() ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 					}
 
 					// @ToDo: optimize byte-by-byte copy
@@ -924,7 +971,7 @@ namespace Elysium::Core::Template::IO::Source
 						++TargetSpanReadPosition;
 					}
 
-					_CurrentLiteralEntry = _InvalidLiteralEntry;
+					_CurrentLiteralEntry = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry;
 					_CurrentLength = 0;
 					_CurrentDistance = 0;
 				}
@@ -1198,60 +1245,6 @@ namespace Elysium::Core::Template::IO::Source
 			DynamicHuffmanInfo Dynamic;
 		};
 		*/
-	private:
-		inline static constexpr Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTreeEntryType _InvalidLiteralEntry{ 286_ui16, 0_ui8 };
-
-		inline static constexpr Elysium::Core::Template::System::uint16_t _LZ77LengthBase[29] =
-		{
-			3, 4, 5, 6, 7, 8, 9, 10,
-			11, 13, 15, 17,
-			19, 23, 27, 31,
-			35, 43, 51, 59,
-			67, 83, 99, 115,
-			131, 163, 195, 227,
-			258
-		};
-
-		inline static constexpr Elysium::Core::Template::System::uint16_t _LZ77LengthExtra[29] =
-		{
-			0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 1, 1,
-			2, 2, 2, 2,
-			3, 3, 3, 3,
-			4, 4, 4, 4,
-			5, 5, 5, 5,
-			0
-		};
-
-		inline static constexpr Elysium::Core::Template::System::uint16_t _LZ77DistanceBase[30] =
-		{
-			1,     2,     3,     4,
-			5,     7,     9,     13,
-			17,    25,    33,    49,
-			65,    97,    129,   193,
-			257,   385,   513,   769,
-			1025,  1537,  2049,  3073,
-			4097,  6145,  8193,  12289,
-			16385, 24577
-		};
-
-		inline static constexpr Elysium::Core::Template::System::uint16_t _LZ77DistanceExtra[30] =
-		{
-			0, 0, 0, 0,
-			1, 1,
-			2, 2,
-			3, 3,
-			4, 4,
-			5, 5,
-			6, 6,
-			7, 7,
-			8, 8,
-			9, 9,
-			10, 10,
-			11, 11,
-			12, 12,
-			13, 13
-		};
 	private:
 		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState _State;
