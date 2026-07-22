@@ -60,9 +60,9 @@ namespace Elysium::Core::CommandLine
 
 		//inline static constexpr const Elysium::Core::Version _Version = Elysium::Core::Version(0, 1);	// @ToDo: read from Elysium::Core::Reflection::Assembly -> AssemblyName
 	private:
-		Elysium::Core::Template::Memory::Scoped::Arena _CommandArena;
-		Elysium::Core::Template::Memory::Scoped::Arena _ArgumentArena;
-		Elysium::Core::Template::Memory::Scoped::Arena _OptionArena;
+		Elysium::Core::Template::Memory::Scoped::Arena<sizeof(Command) * 16, 1, false, false> _CommandArena;
+		Elysium::Core::Template::Memory::Scoped::Arena<sizeof(Argument<void>) * 16, 1, false, false> _ArgumentArena;
+		Elysium::Core::Template::Memory::Scoped::Arena<sizeof(Option<void>) * 16, 1, false, false> _OptionArena;
 	};
 }
 #endif

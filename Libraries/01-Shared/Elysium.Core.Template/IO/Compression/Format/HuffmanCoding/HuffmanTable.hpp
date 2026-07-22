@@ -77,11 +77,14 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 		inline static constexpr Elysium::Core::Template::System::size TableLength = 1 << TableBits;
 	public:
+		/*
 		inline constexpr HuffmanTable()
 			: _CodeLengths{}, _CanonicalCodes{}, _FastTable {}, 
-			_SubtableArena(SubtablesRequired ? Elysium::Core::Template::Memory::Scoped::ArenaOptions(sizeof(EntryType) * ArenaPageLength, 1) : Elysium::Core::Template::Memory::Scoped::ArenaOptions(0, 0)),
+			_SubtableArena(),
 			_Subtables(SubtablesRequired ? _SubtableArena.Push<EntryType>(ArenaPageLength) : nullptr)
 		{ }
+		*/
+		constexpr HuffmanTable() = default;
 		
 		constexpr HuffmanTable(const HuffmanTable& Source) = delete;
 
@@ -275,7 +278,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		Elysium::Core::Template::System::uint16_t _CanonicalCodes[AlphabetLength];
 
 		EntryType _FastTable[TableLength];
-		Elysium::Core::Template::Memory::Scoped::Arena _SubtableArena;
+		Elysium::Core::Template::Memory::Scoped::Arena<sizeof(EntryType)* ArenaPageLength, 1, false, false> _SubtableArena;
 		EntryPointer _Subtables;
 
 		//Elysium::Core::Template::System::uint8_t _MaxRemainingBitsPerSubtable[1 << FastTableBits];

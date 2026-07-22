@@ -23,7 +23,7 @@ void Elysium::Core::CommandLine::Command::AddAlias(const char8_t* Alias)
 
 Elysium::Core::CommandLine::Command& Elysium::Core::CommandLine::Command::AddSubCommand(const char8_t* Name, const char8_t* Description) noexcept
 {
-	void* AllocatedMemory = _RootCommand._CommandArena.Push(sizeof(Command));
+	void* AllocatedMemory = _RootCommand._CommandArena.Push(sizeof(Command), alignof(Command));
 	Command* SubCommand = ::new (AllocatedMemory) Command(_RootCommand, Name, Description);
 
 	_SubCommands.Set(SubCommand->GetName(), SubCommand);

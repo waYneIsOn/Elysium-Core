@@ -24,6 +24,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 {
 	class ArenaPage
 	{
+		template <Elysium::Core::Template::System::size, Elysium::Core::Template::System::size, bool, bool>
 		friend class Arena;
 	private:
 		ArenaPage() noexcept = default;

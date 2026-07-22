@@ -77,9 +77,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 		{
 			// "large" arena
 			{
-				constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions LargeOptions =
-					Elysium::Core::Template::Memory::Scoped::ArenaOptions(1024, 1, false, false);
-				Elysium::Core::Template::Memory::Scoped::Arena LargeArena = Elysium::Core::Template::Memory::Scoped::Arena(LargeOptions);
+				Elysium::Core::Template::Memory::Scoped::Arena<1024, 1, false, false> LargeArena;
 
 				// ...
 				void* AllocatedMemory1 = LargeArena.Push(3, 4);
@@ -139,9 +137,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 
 			// small arena
 			{
-				constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions SmallOptions =
-					Elysium::Core::Template::Memory::Scoped::ArenaOptions(1, 1, false, false);
-				Elysium::Core::Template::Memory::Scoped::Arena SmallArena = Elysium::Core::Template::Memory::Scoped::Arena(SmallOptions);
+				Elysium::Core::Template::Memory::Scoped::Arena<1, 1, false, false> SmallArena;
 				Assert::AreEqual(1_ui64, SmallArena.GetNumberOfPages());
 				Assert::AreEqual(1_ui64, SmallArena.GetCapacity());
 				Assert::AreEqual(0_ui64, SmallArena.GetSize());
@@ -197,12 +193,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 
 		TEST_METHOD(ComplexTypeOnly)
 		{
-			auto siiiii = sizeof(NonTrivialClass);
-			auto aliiiiii = sizeof(NonTrivialClass);
-
-			constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions Options = Elysium::Core::Template::Memory::Scoped::ArenaOptions(
-				sizeof(NonTrivialClass) * 2, 1, false, false);
-			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
+			Elysium::Core::Template::Memory::Scoped::Arena<sizeof(NonTrivialClass) * 2, 1, false, false> ArenaAllocator;
 			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
 			Assert::AreEqual(2_ui64, ArenaAllocator.GetCapacity());
 			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());
@@ -242,9 +233,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 		{
 			constexpr const Elysium::Core::Template::System::size TotalNumberOfElements = 20;
 
-			constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions Options = Elysium::Core::Template::Memory::Scoped::ArenaOptions(
-				sizeof(Elysium::Core::Template::System::int32_t) * TotalNumberOfElements, 1, false, false);
-			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
+			Elysium::Core::Template::Memory::Scoped::Arena<sizeof(Elysium::Core::Template::System::int32_t) * TotalNumberOfElements, 1, false, false> ArenaAllocator;
 			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
 			Assert::AreEqual(80_ui64, ArenaAllocator.GetCapacity());
 			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());
@@ -338,9 +327,7 @@ namespace UnitTests::Core::Template::Memory::Scoped
 		{
 			constexpr const Elysium::Core::Template::System::size TotalNumberOfElements = 20;
 
-			constexpr Elysium::Core::Template::Memory::Scoped::ArenaOptions Options = Elysium::Core::Template::Memory::Scoped::ArenaOptions(
-				sizeof(TrivialStruct) * TotalNumberOfElements, 1, false, false);
-			Elysium::Core::Template::Memory::Scoped::Arena ArenaAllocator = Elysium::Core::Template::Memory::Scoped::Arena(Options);
+			Elysium::Core::Template::Memory::Scoped::Arena<sizeof(TrivialStruct)* TotalNumberOfElements, 1, false, false> ArenaAllocator;
 			Assert::AreEqual(1_ui64, ArenaAllocator.GetNumberOfPages());
 			Assert::AreEqual(160_ui64, ArenaAllocator.GetCapacity());
 			Assert::AreEqual(0_ui64, ArenaAllocator.GetSize());

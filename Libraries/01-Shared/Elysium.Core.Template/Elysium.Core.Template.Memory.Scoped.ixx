@@ -26,10 +26,6 @@ module;
 #include "Memory/Scoped/Arena.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENAOPTIONS
-#include "Memory/Scoped/ArenaOptions.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_SCOPED_ARENAPAGE
 #include "Memory/Scoped/ArenaPage.hpp"
 #endif
@@ -39,6 +35,5 @@ export module Elysium.Core.Template.Memory.Scoped;
 export
 {
 	using Elysium::Core::Template::Memory::Scoped::Arena;
-	using Elysium::Core::Template::Memory::Scoped::ArenaOptions;
 	using Elysium::Core::Template::Memory::Scoped::ArenaPage;
 }

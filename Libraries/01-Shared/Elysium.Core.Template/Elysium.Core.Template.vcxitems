@@ -42,13 +42,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTableEntry.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanDecoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanFrequencyTable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolCodeLengthPair.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolTraits.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Decoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Encoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77Token.hpp" />
@@ -126,7 +119,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemCmp.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\Arena.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaPage.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp" />
@@ -196,8 +188,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Hashable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasMethod.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts/HuffmanCodeable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanNode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanTree.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IndexOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Integral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Interlocked.hpp" />

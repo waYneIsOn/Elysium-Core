@@ -154,9 +154,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaPage.hpp">
       <Filter>Memory\Scoped</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Scoped\ArenaOptions.hpp">
-      <Filter>Memory\Scoped</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FlagEnumeration.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
@@ -207,12 +204,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Primitives.hpp">
       <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanNode.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanTree.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp">
       <Filter>System</Filter>
@@ -789,20 +780,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp">
       <Filter>Container\Sequence</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanEncoder.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanDecoder.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanFrequencyTable.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp">
       <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanCode.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp">
       <Filter>Container\Adopter</Filter>
@@ -815,15 +794,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp">
       <Filter>Concepts</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanUtility.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolCodeLengthPair.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\HuffmanCoding\_HuffmanSymbolTraits.hpp">
-      <Filter>IO\Compression\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp">
       <Filter>IO</Filter>
@@ -1060,9 +1030,6 @@
     </Filter>
     <Filter Include="IO\Compression">
       <UniqueIdentifier>{00795f94-4385-4654-ba27-1f1c85ac9a4a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO\Compression\HuffmanCoding">
-      <UniqueIdentifier>{86d55853-a77f-449d-ac44-5ce169202147}</UniqueIdentifier>
     </Filter>
     <Filter Include="RunTimeTypeInformation">
       <UniqueIdentifier>{56e47322-ae2c-430f-b257-87272da0f320}</UniqueIdentifier>
