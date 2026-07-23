@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "Primitives.hpp"
+#endif
+
 // Originally taken from: https://stackoverflow.com/questions/152016/detecting-cpu-architecture-compile-time
 // Author: https://stackoverflow.com/users/14804593/freakanon
 #if defined __x86_64__ || defined _M_X64
@@ -82,6 +86,8 @@ namespace Elysium::Core::Template::System
 	public:
 #if defined ELYSIUM_CORE_ARCHITECTURE_x86_64
         inline static constexpr const char8_t* Name = u8"x86_64";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_x86_32
         inline static constexpr const char8_t* Name = u8"x86_32";
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM2

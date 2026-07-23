@@ -55,7 +55,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		/// Afaik an alphabet size larger than 4.294.967.295 does not exist in deflate, audio codecs, image compression etc. so uint64_t won't be used.
 		/// @ToDo: If my "assumption" is wrong, add the type!
 		/// </summary>
-		using SymbolType = Elysium::Core::Template::TypeTraits::ConditionalType<(AlphabetLength <= 256), Elysium::Core::Template::System::uint8_t,
+		using SymbolType = Elysium::Core::Template::TypeTraits::ConditionalType<AlphabetLength <= 256, Elysium::Core::Template::System::uint8_t,
 			Elysium::Core::Template::TypeTraits::ConditionalType<(AlphabetLength <= 65536), Elysium::Core::Template::System::uint16_t,
 			Elysium::Core::Template::System::uint32_t>>;
 
@@ -77,14 +77,11 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 
 		inline static constexpr Elysium::Core::Template::System::size TableLength = 1 << TableBits;
 	public:
-		/*
-		inline constexpr HuffmanTable()
+		inline HuffmanTable()
 			: _CodeLengths{}, _CanonicalCodes{}, _FastTable {}, 
 			_SubtableArena(),
 			_Subtables(SubtablesRequired ? _SubtableArena.Push<EntryType>(ArenaPageLength) : nullptr)
 		{ }
-		*/
-		constexpr HuffmanTable() = default;
 		
 		constexpr HuffmanTable(const HuffmanTable& Source) = delete;
 

@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_BITBUFFER
+#include "../../Container/BitBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
 #include "../../Container/FixedSizeBuffer.hpp"
 #endif
@@ -67,7 +71,11 @@ namespace Elysium::Core::Template::IO::Source
 
 		constexpr DeflateSource(DeflateSource&& Right) noexcept = delete;
 
-		constexpr ~DeflateSource() = default;
+		//constexpr ~DeflateSource() = default;
+		inline constexpr ~DeflateSource()
+		{
+			_BlockInfo.~BlockInfo();
+		}
 	public:
 		constexpr DeflateSource& operator=(const DeflateSource& Source) = delete;
 
@@ -1104,7 +1112,7 @@ namespace Elysium::Core::Template::IO::Source
 				const Elysium::Core::Template::System::size Offset0 = BytesLoadedIntoBitReader;
 				const Elysium::Core::Template::System::byte* Data0 = &ReadableSpan0.GetData()[Offset0];
 				const Elysium::Core::Template::System::size Length0 = Elysium::Core::Template::Math::Min(8_ui64, ReadableSpan0Length - Offset0);
-				const Elysium::Core::Template::System::size AvailableBytes0 = (BitBuffer<true>::Capacity - _BitBuffer.GetLength()) / 8;
+				const Elysium::Core::Template::System::size AvailableBytes0 = (_BitBuffer.Capacity - _BitBuffer.GetLength()) / 8;
 				const Elysium::Core::Template::System::size BytesToCopy0 = Elysium::Core::Template::Math::Min(Length0, AvailableBytes0);
 
 				// @ToDo: can I optimize a byte-by-byte push? (for instance: if there are 32 bit left, I could push one single 32 bit integer and possibly make it faster?)
@@ -1128,7 +1136,7 @@ namespace Elysium::Core::Template::IO::Source
 					const Elysium::Core::Template::System::size Length1 = Elysium::Core::Template::Math::Min(8_ui64, ReadableSpan1.GetLength() - Offset1);
 
 					// @ToDo: same possible optimization of byte-by-byte push
-					const Elysium::Core::Template::System::size AvailableBytes1 = (BitBuffer<true>::Capacity - _BitBuffer.GetLength()) / 8;
+					const Elysium::Core::Template::System::size AvailableBytes1 = (_BitBuffer.Capacity - _BitBuffer.GetLength()) / 8;
 					const Elysium::Core::Template::System::size BytesToCopy1 = Elysium::Core::Template::Math::Min(Length1, AvailableBytes1);
 					for (Elysium::Core::Template::System::size i = 0; i < BytesToCopy1; ++i)
 					{
@@ -1200,7 +1208,11 @@ namespace Elysium::Core::Template::IO::Source
 		union BlockInfo
 		{
 			// required due to HuffmanTable owning an Arena which is not default-destructible!
-			~BlockInfo() {}
+			~BlockInfo() 
+			{
+				// @ToDo: call destructor of _Dynamic (if "active") or it's arena won't release memory causing a memory leak!!!
+				bool fsdfdf = false;
+			}
 
 			UncompressedBlockInfo _Stored;
 			DynamicHuffmanInfo _Dynamic;
@@ -1210,11 +1222,10 @@ namespace Elysium::Core::Template::IO::Source
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState _State;
 
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader _BlockHeader;
-		Elysium::Core::Template::IO::BitBuffer<true> _BitBuffer;
+		Elysium::Core::Template::Container::BitBuffer<> _BitBuffer;
 
-		//UncompressedBlockInfo _UncompressedHuffmanHeader;
-		//DynamicHuffmanInfo _DynamicHuffmanHeader;
 		BlockInfo _BlockInfo;
+		//std::variant<UncompressedBlockInfo, DynamicHuffmanInfo> _BlockInfo;
 
 		Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTreeEntryType _CurrentLiteralEntry;
 		Elysium::Core::Template::System::uint16_t _CurrentLength;

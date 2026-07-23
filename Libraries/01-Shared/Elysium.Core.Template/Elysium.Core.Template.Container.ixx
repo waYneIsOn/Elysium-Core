@@ -4,6 +4,10 @@ module;
 #include "Container/Array.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_BITBUFFER
+#include "Container/BitBuffer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
 #include "Container/Delegate.hpp"
 #endif
@@ -85,6 +89,7 @@ export module Elysium.Core.Template.Container;
 export
 {
 	using Elysium::Core::Template::Container::Array;
+	using Elysium::Core::Template::Container::BitBuffer;
 	using Elysium::Core::Template::Container::Delegate;
 	using Elysium::Core::Template::Container::DoubleEndedQueue;
 	using Elysium::Core::Template::Container::FiFoQueue;

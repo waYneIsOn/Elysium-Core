@@ -12,12 +12,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
-#include "../../Container/FixedSizeBuffer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_BITBUFFER
+#include "../../Container/BitBuffer.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_BITBUFFER
-#include "../BitBuffer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
+#include "../../Container/FixedSizeBuffer.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_DEFLATE_DEFLATECOMPRESSIONLEVEL
@@ -256,7 +256,7 @@ namespace Elysium::Core::Template::IO::Sink
 		inline void WriteBits(const Elysium::Core::Template::System::uint64_t Bits, const Elysium::Core::Template::System::uint8_t Length)
 		{
 			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitBuffer.GetLength();
-			if (AvailableBits + Length > Elysium::Core::Template::IO::BitBuffer<>::Capacity)
+			if (AvailableBits + Length > _BitBuffer.Capacity)
 			{
 				const Elysium::Core::Template::System::uint8_t BitsToCopy = AvailableBits & ~7;
 				const Elysium::Core::Template::System::uint64_t Value = _BitBuffer.Read(BitsToCopy);
@@ -289,7 +289,7 @@ namespace Elysium::Core::Template::IO::Sink
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _BlockBuffer;
 		Elysium::Core::Template::System::size _BlockWritePosition;
 
-		Elysium::Core::Template::IO::BitBuffer<> _BitBuffer;
+		Elysium::Core::Template::Container::BitBuffer<> _BitBuffer;
 
 		bool _HasWrittenFinalBlock = false;
 	};

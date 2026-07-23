@@ -68,7 +68,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 	class Arena
 	{
 	public:
-		inline constexpr Arena()
+		inline Arena()
 			: _CurrentPage(CreatePage(InitialPageSize))
 		{ }
 		
@@ -76,7 +76,7 @@ namespace Elysium::Core::Template::Memory::Scoped
 
 		constexpr Arena(Arena&& Right) = delete;
 
-		inline constexpr ~Arena() noexcept
+		inline ~Arena() noexcept
 		{
 			ArenaPage* CurrentPage = _CurrentPage;
 			while (nullptr != CurrentPage)

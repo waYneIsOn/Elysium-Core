@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorLessOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\FiFoQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\Stack.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\BitBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\FixedSizeBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp" />
@@ -29,7 +30,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\BitBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp" />
