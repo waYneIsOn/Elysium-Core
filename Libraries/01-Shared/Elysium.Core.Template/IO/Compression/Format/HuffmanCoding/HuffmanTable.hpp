@@ -78,9 +78,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 		inline static constexpr Elysium::Core::Template::System::size TableLength = 1 << TableBits;
 	public:
 		inline HuffmanTable()
-			: _CodeLengths{}, _CanonicalCodes{}, _FastTable {}, 
-			_SubtableArena(),
-			_Subtables(SubtablesRequired ? _SubtableArena.Push<EntryType>(ArenaPageLength) : nullptr)
+			: _CodeLengths{}, _CanonicalCodes{}, _FastTable {}, _SubtableArena(), _Subtables(SubtablesRequired ? _SubtableArena.Push<EntryType>(ArenaPageLength) : nullptr)
 		{ }
 		
 		constexpr HuffmanTable(const HuffmanTable& Source) = delete;
@@ -113,7 +111,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 			}
 		}
 	public:
-		inline constexpr void BuildTable()
+		inline constexpr void BuildCanonicalCodes()
 		{
 			constexpr Elysium::Core::Template::System::uint8_t ValidLengths = MaximumCodeLength + 1;
 
@@ -141,7 +139,7 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 			}
 			/*
 			else if (Left == 0)
-			{	
+			{
 				// perfect
 			}
 			else if (Left > 0)
@@ -164,14 +162,15 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 				Elysium::Core::Template::System::uint8_t CodeLength = _CodeLengths[Symbol];
 				if (0 != CodeLength)
 				{
-					//_CanonicalCodes[Symbol] = NextCode[CodeLength]++;
-					
 					Elysium::Core::Template::System::uint16_t MSBFirstCode = NextCode[CodeLength]++;
 					Elysium::Core::Template::System::uint16_t ReversedCode = ReverseBits(MSBFirstCode, CodeLength);
 					_CanonicalCodes[Symbol] = ReversedCode;
 				}
 			}
-			
+		}
+
+		inline constexpr void BuildTable()
+		{
 			if constexpr (SubtablesRequired)
 			{
 				for (SymbolType Symbol = 0; Symbol < AlphabetLength; ++Symbol)
@@ -188,7 +187,6 @@ namespace Elysium::Core::Template::IO::Compression::Format::HuffmanCoding
 					{	// fast table
 						for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (TableBits - CodeLength)); ++i)
 						{
-							//Elysium::Core::Template::System::size Index = (CanonicalCode << (TableBits - CodeLength)) | i;
 							Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
 							if (Index > TableLength)
 							{	// @ToDo:

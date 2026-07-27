@@ -41,7 +41,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		inline static constexpr Elysium::Core::Template::System::size MaximumUncompressedBlockLength =
 			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum;
 	public:
-		using CodeLengthTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7, 0>;
+		using CodeLengthTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::SimpleHuffmanTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7>;
 		using LiteralTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint16_t, 15, 288, 9, 2048>;
 		using DistanceTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 15, 32, 5, 256>;
 
@@ -188,6 +188,47 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			11, 11,
 			12, 12,
 			13, 13
+		};
+	public:
+		inline static constexpr Elysium::Core::Template::System::uint8_t LZ77LengthToSymbol[259] =
+		{
+			0, 0, 0,	// these three would be invalid!!!
+
+			0, 1, 2, 3, 4, 5, 6, 7,
+
+			8,  8,
+			9,  9,
+			10, 10,
+			11, 11,
+
+			12, 12, 12, 12,
+			13, 13, 13, 13,
+			14, 14, 14, 14,
+			15, 15, 15, 15,
+
+			16, 16, 16, 16, 16, 16, 16, 16,
+			17, 17, 17, 17, 17, 17, 17, 17,
+			18, 18, 18, 18, 18, 18, 18, 18,
+			19, 19, 19, 19, 19, 19, 19, 19,
+
+			20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+			21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+			22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22, 22,
+			23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23,
+
+			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+			24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+
+			25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+			25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25,
+
+			26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
+			26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26, 26,
+
+			27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27,
+			27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27, 27,
+
+			28
 		};
 	};
 }

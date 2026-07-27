@@ -22,6 +22,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\BitBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\DoubleEndedQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\FixedSizeBuffer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Pair.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\RingBuffer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp" />
@@ -32,6 +33,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanFrequencyTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Token.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Utility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateBlockType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\Deflate\DeflateState.hpp" />
@@ -42,9 +46,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTableEntry.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Decoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Encoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77Token.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileAccess.hpp" />

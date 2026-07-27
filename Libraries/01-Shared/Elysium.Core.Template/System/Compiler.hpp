@@ -35,9 +35,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 #if defined ELYSIUM_CORE_COMPILER_MSVC
 	#define ELYSIUM_CORE_PATH_LIKELY   [[likely]]
 	#define ELYSIUM_CORE_PATH_UNLIKELY [[unlikely]]
+
+	#define ELYSIUM_CORE_COMPILER_RESTRICT __restrict
 #elif defined ELYSIUM_CORE_COMPILER_CLANG
 	#define ELYSIUM_CORE_PATH_LIKELY   [[__likely__]]
 	#define ELYSIUM_CORE_PATH_UNLIKELY [[__unlikely__]]
+
+	#define ELYSIUM_CORE_COMPILER_RESTRICT __restrict__
 #else
 	#error "Unhandled compiler"
 #endif

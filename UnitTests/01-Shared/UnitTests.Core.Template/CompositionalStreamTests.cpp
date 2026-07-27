@@ -34,7 +34,7 @@ namespace UnitTests::Core::Template::IO
 		using OutFileStream = OutStream<FileSource>;
 
 		using GZipReadingStream = OutStream<GZipSource<DeflateSource<FileSource>>>;
-		//using GZipWritingStream = InStream<GZipSink<DeflateSink<<FileSource>>>;
+		using GZipWritingStream = InStream<GZipSink<DeflateSink<FileSink>>>;
 
 		using GZipCompressionFromFileStream = InOutStream<GZipSink<DeflateSink<FileSink>>, FileSource>;
 
@@ -83,10 +83,43 @@ namespace UnitTests::Core::Template::IO
 	public:
 		TEST_METHOD(GZipStreamCompressAndDecompressTest)
 		{
+			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
+			/*
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
 			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
+			*/
 		}
+
+
+
+
+
+
+		TEST_METHOD(Tmp)
+		{
+			//constexpr const char* Input = "AAAA";
+			constexpr const char* Input = "ABCABC";
+			const Elysium::Core::Template::System::size InputLength = strlen(Input);
+
+			const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel =
+				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly;
+
+			FileDevice WriteDevice(u8"Lorem ipsum - xxxxxx.gz", FileMode::Create, FileAccess::Write);
+			FileSink Sink(WriteDevice);
+			DeflateSink DeflateSink(Sink, CompressionLevel);
+			GZipSink CompressionSink(DeflateSink);
+			GZipWritingStream In(CompressionSink);
+
+			In.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(Input), InputLength);
+
+			bool sdf = false;
+		}
+
+
+
+
+
 
 		TEST_METHOD(GZipStreamExternalFilesTest)
 		{

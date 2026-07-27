@@ -598,6 +598,7 @@ namespace Elysium::Core::Template::IO::Source
 			}
 
 			// ...
+			_DynamicHuffmanBlockInfo._CodeLengthTree.BuildCanonicalCodes();
 			_DynamicHuffmanBlockInfo._CodeLengthTree.BuildTable();
 
 			_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::BuildingLiteralAndDistanceTables;
@@ -764,7 +765,10 @@ namespace Elysium::Core::Template::IO::Source
 			_DynamicHuffmanBlockInfo._CurrentLiteralAndDistanceTreePreviousLength = 0;
 			_DynamicHuffmanBlockInfo._CurrentLiteralAndDistanceTreeIndex = 0;
 
+			_DynamicHuffmanBlockInfo._LiteralTree.BuildCanonicalCodes();
 			_DynamicHuffmanBlockInfo._LiteralTree.BuildTable();
+
+			_DynamicHuffmanBlockInfo._DistanceTree.BuildCanonicalCodes();
 			_DynamicHuffmanBlockInfo._DistanceTree.BuildTable();
 
 			_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::DecompressingDynamicHuffman;
@@ -917,7 +921,7 @@ namespace Elysium::Core::Template::IO::Source
 							_CurrentDistance += _BitBuffer.Read(DistanceExtraBits);
 						}
 
-						if (1 > _CurrentDistance || 258 < _CurrentDistance)
+						if (1 > _CurrentDistance || 32768 < _CurrentDistance)
 						{	// @ToDo: distance "overflow" -> invalid
 							throw 1;
 						}

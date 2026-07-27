@@ -32,8 +32,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../IO/Compression/Algorithm/Deflate/DeflateUtility.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_HUFFMANCODING_HUFFMANFREQUENCYTABLE
+#include "../../IO/Compression/Algorithm/HuffmanCoding/HuffmanFrequencyTable.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77TOKEN
+#include "../../IO/Compression/Algorithm/LempelZiv/LZ77Token.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77UTILITY
+#include "../../IO/Compression/Algorithm/LempelZiv/LZ77Utility.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
 #include "../../IO/Compression/Format/Deflate/DeflateBlockType.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_HUFFMANTABLE
+#include "../../IO/Compression/Format/HuffmanCoding/HuffmanTable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
@@ -56,6 +72,10 @@ namespace Elysium::Core::Template::IO::Sink
 	{
 	public:
 		using DeviceType = InnerSink::DeviceType;
+	private:
+		using SymbolType = Elysium::Core::Template::System::byte;
+
+		using LZ77TokenType = Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType>::TokenType;
 	public:
 		inline constexpr DeflateSink(InnerSink& InnerSink, const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel) noexcept
 			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel),
@@ -208,23 +228,66 @@ namespace Elysium::Core::Template::IO::Sink
 			
 			WriteBits(DeflateHeader, 3);
 
+			// @ToDo: sliding windows in deflate afaik can "persist" over multiple blocks.
+			// If that is in fact the case, the LZ77Utility instance obviously can be a member of DeflateSink and doesn't need to be "recreated" every block.
+			// It would certainly improve compression rate.
+			Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType> LZ77Utility;
+			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
 
-
-			//LZ77FindMatch();
-
-
-
-
-			for (Elysium::Core::Template::System::size i = 0; i < _BlockWritePosition; ++i)
+			for (Elysium::Core::Template::System::size i = 0; i < Tokens.GetLength(); ++i)
 			{
-				Elysium::Core::Template::System::byte Symbol = _BlockBuffer[i];
-				Elysium::Core::Template::System::uint16_t CanonicalCode =
-					Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CanonicalCodes[Symbol];
-				Elysium::Core::Template::System::uint8_t Length =
-					Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CodeLengths[Symbol];
+				const LZ77TokenType& CurrentToken = Tokens[i];
+				if (0 < CurrentToken._Length)
+				{
+					const Elysium::Core::Template::System::uint8_t LengthIndex = 
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77LengthToSymbol[CurrentToken._Length];
 
-				WriteBits(CanonicalCode, Length);
+					const Elysium::Core::Template::System::uint16_t LengthSymbol = 257 + LengthIndex;
+					const Elysium::Core::Template::System::uint16_t LengthCanonicalCode =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CanonicalCodes[LengthSymbol];
+					const Elysium::Core::Template::System::uint8_t LengthLength =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CodeLengths[LengthSymbol];
+
+					WriteBits(LengthCanonicalCode, LengthLength);
+
+					const Elysium::Core::Template::System::uint16_t LengthBase =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77LengthBase[LengthIndex];
+					const Elysium::Core::Template::System::uint16_t LengthExtra =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77LengthExtra[LengthIndex];
+
+					WriteBits(CurrentToken._Length - LengthBase, LengthExtra);
+
+					// @ToDo: optimize the linear lookup (a table like "LZ77LengthToSymbol" would allocate 32kb of static data!)
+					Elysium::Core::Template::System::uint8_t DistanceIndex = 0;
+					while (DistanceIndex < 29 && CurrentToken._Distance >= Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceBase[DistanceIndex + 1])
+					{
+						++DistanceIndex;
+					}
+					const Elysium::Core::Template::System::uint16_t DistanceCanonicalCode =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticDistanceTree._CanonicalCodes[DistanceIndex];
+					const Elysium::Core::Template::System::uint8_t DistanceLength =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticDistanceTree._CodeLengths[DistanceIndex];
+
+					WriteBits(DistanceCanonicalCode, DistanceLength);
+
+					const Elysium::Core::Template::System::uint16_t DistanceBase =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceBase[DistanceIndex];
+					const Elysium::Core::Template::System::uint16_t DistanceExtra =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceExtra[DistanceIndex];
+
+					WriteBits(CurrentToken._Distance - DistanceBase, DistanceExtra);
+				}
+				else
+				{
+					const Elysium::Core::Template::System::uint16_t CanonicalCode = 
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CanonicalCodes[CurrentToken._Literal];
+					const Elysium::Core::Template::System::uint8_t Length =
+						Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CodeLengths[CurrentToken._Literal];
+					
+					WriteBits(CanonicalCode, Length);
+				}
 			}
+
 			WriteBits(EOBCanonicalCode, EOBLength);
 			
 			if (IsFinalBlock)
@@ -237,9 +300,48 @@ namespace Elysium::Core::Template::IO::Sink
 
 		inline void WriteDynamicBlock(const bool IsFinalBlock)
 		{
-			static constexpr Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType Type =
-				Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::DynamicHuffman;
+			// 1.) produce LZ77 tokens
+			Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType> LZ77Utility;
+			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
 
+			// 2.) count frequencies (of literals AND distances)
+			Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanFrequencyTable<SymbolType, Elysium::Core::Template::System::size, 256> LiteralFrequencies{};
+			Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanFrequencyTable<SymbolType, Elysium::Core::Template::System::size, 32> DistanceFrequencies{};
+			for (Elysium::Core::Template::System::size i = 0; i < Tokens.GetLength(); ++i)
+			{
+				const LZ77TokenType& CurrentToken = Tokens[i];
+				if (0 == CurrentToken._Length)
+				{
+					LiteralFrequencies.Increment(CurrentToken._Literal);
+				}
+				else
+				{
+					DistanceFrequencies.Increment(CurrentToken._Distance);
+				}
+			}
+			
+			// 3.) build literal- and distance-tables
+			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LiteralTreeType LiteralTree{};
+			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::DistanceTreeType DistanceTree{};
+
+			//LiteralTree._CodeLengths = 
+
+			// 4.) convert tables into canonical code lengths
+
+			// 5.) compress code lengths using run-length encoding
+
+			// 6.) build code-length lengths table
+			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::CodeLengthTreeType CodeLengthTree{};
+
+			// 7.) write block header and all three table descriptors
+			Elysium::Core::Template::System::byte DeflateHeader = 0x00;
+			DeflateHeader |= IsFinalBlock;
+			DeflateHeader |= static_cast<Elysium::Core::Template::System::byte>(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::DynamicHuffman) << 1;
+
+			WriteBits(DeflateHeader, 3);
+
+			// 8.) encode lz77-tokens using the first two tables
+			
 			throw 1;
 		}
 
@@ -248,13 +350,13 @@ namespace Elysium::Core::Template::IO::Sink
 			throw 1;
 		}
 	private:
-		inline void LZ77FindMatch()
-		{
-
-		}
-	private:
 		inline void WriteBits(const Elysium::Core::Template::System::uint64_t Bits, const Elysium::Core::Template::System::uint8_t Length)
 		{
+			if (0 == Length)
+			{	// can happen with length and distance lengths!
+				return;
+			}
+
 			const Elysium::Core::Template::System::uint8_t AvailableBits = _BitBuffer.GetLength();
 			if (AvailableBits + Length > _BitBuffer.Capacity)
 			{

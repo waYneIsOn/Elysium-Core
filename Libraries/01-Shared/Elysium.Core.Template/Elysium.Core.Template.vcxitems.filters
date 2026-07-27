@@ -855,15 +855,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\DeflateSink.hpp">
       <Filter>IO\Sink</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\LZ77Token.hpp">
-      <Filter>IO\Compression\LempelZiv</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Encoder.hpp">
-      <Filter>IO\Compression\LempelZiv</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\LempelZiv\_LZ77Decoder.hpp">
-      <Filter>IO\Compression\LempelZiv</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\GZipSource.hpp">
       <Filter>IO\Source</Filter>
     </ClInclude>
@@ -953,6 +944,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\BitBuffer.hpp">
       <Filter>Container\Sequence</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanFrequencyTable.hpp">
+      <Filter>IO\Compression\Algorithm\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Token.hpp">
+      <Filter>IO\Compression\Algorithm\LempelZiv</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Utility.hpp">
+      <Filter>IO\Compression\Algorithm\LempelZiv</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\Pair.hpp">
+      <Filter>Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1061,9 +1064,6 @@
     <Filter Include="Exceptions\IO">
       <UniqueIdentifier>{e78a6b2b-3aab-4af4-82d1-02c97d26d0d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="IO\Compression\LempelZiv">
-      <UniqueIdentifier>{a0d463d2-9843-4411-9c8a-8c3e0266aab1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="IO\Source">
       <UniqueIdentifier>{aaa7de5d-b513-461d-9522-dc9e76d4dd9c}</UniqueIdentifier>
     </Filter>
@@ -1108,6 +1108,12 @@
     </Filter>
     <Filter Include="Security\Cryptography\Checksum">
       <UniqueIdentifier>{e2f37557-a1f6-43d0-8bea-431478e763cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Algorithm\HuffmanCoding">
+      <UniqueIdentifier>{f4b6636b-9c12-4bd6-aa52-14c52903be79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\Compression\Algorithm\LempelZiv">
+      <UniqueIdentifier>{fa28c0e0-7486-468f-9fc8-4518f0f1e5b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
