@@ -957,6 +957,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Pair.hpp">
       <Filter>Container</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\Sort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\IntrospectiveSort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\HeapSort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\InsertionSort.hpp">
+      <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

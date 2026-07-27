@@ -13,7 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
-#include "RemoveConstVolatile.hpp"
+#include "../Functional/RemoveConstVolatile.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_INTEGRALCONSTANT
+#include "IntegralConstant.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISANYOF
@@ -23,8 +27,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::TypeTraits
 {
     template <class T>
-    inline constexpr bool IsSignedIntegerValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, char, short, int,
-        long, long long>;
+    inline constexpr bool IsSignedIntegerValue = IsAnyOfValue<Functional::RemoveConstVolatileType<T>, char, short, int, long, long long>;
 
     template <class T>
     struct IsSignedInteger : IntegralConstant<bool, IsSignedIntegerValue<T>>

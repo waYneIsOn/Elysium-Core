@@ -13,26 +13,32 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_SIGNEDINTEGER
-#include "SignedInteger.hpp"
+#include "../Concepts/SignedInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
-#include "NumericTraits.hpp"
+#include "../Numeric/NumericTraits.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 namespace Elysium::Core::Template::Math
 {
+	template<class T>
+	inline constexpr double Floor(const T Value) noexcept
+	{
+		return static_cast<double>(Value);
+	}
+
 	template<Concepts::SignedInteger SI>
-	constexpr double Floor(const SI Value) noexcept
+	inline constexpr double Floor(const SI Value) noexcept
 	{
 		return static_cast<double>(Value);
 	}
 	
-	constexpr float Floor(const float Value) noexcept
+	inline constexpr float Floor(const float Value) noexcept
 	{
 		if (Value >= Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Maximum ||
 			Value <= Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int32_t>::Minimum ||
@@ -51,7 +57,7 @@ namespace Elysium::Core::Template::Math
 		}
 	}
 
-	constexpr double Floor(const double Value) noexcept
+	inline constexpr double Floor(const double Value) noexcept
 	{
 		if (Value >= Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Maximum ||
 			Value <= Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::int64_t>::Minimum ||

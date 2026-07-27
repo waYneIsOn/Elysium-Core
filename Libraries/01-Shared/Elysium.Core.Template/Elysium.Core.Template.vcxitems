@@ -15,6 +15,10 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\HeapSort.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\InsertionSort.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\IntrospectiveSort.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\Sort.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorLessOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Adopter\FiFoQueue.hpp" />

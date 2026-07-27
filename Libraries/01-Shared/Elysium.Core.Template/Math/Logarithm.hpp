@@ -13,11 +13,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_FLOATINGPOINT
-#include "FloatingPoint.hpp"
+#include "../Concepts/FloatingPoint.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_INTEGER
-#include "Integer.hpp"
+#include "../Concepts/Integer.hpp"
 #endif
 
 #ifndef _CMATH_
@@ -28,37 +28,37 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Math
 {
 	template<Concepts::FloatingPoint FP>
-	constexpr FP Logarithm(const FP Value) noexcept
+	inline constexpr FP Logarithm(const FP Value) noexcept
 	{
 		return std::log(Value);
 	}
 
 	template<Concepts::Integer I>
-	constexpr double Logarithm(const I Value) noexcept
+	inline constexpr double Logarithm(const I Value) noexcept
 	{
 		return std::log(Value);
 	}
 
 	template<Concepts::FloatingPoint FP>
-	constexpr FP Logarithm2(const FP Value) noexcept
+	inline constexpr FP Logarithm2(const FP Value) noexcept
 	{
 		return std::log2(Value);
 	}
 
 	template<Concepts::Integer I>
-	constexpr double Logarithm2(const I Value) noexcept
+	inline constexpr double Logarithm2(const I Value) noexcept
 	{
 		return std::log2(Value);
 	}
 
 	template<Concepts::FloatingPoint FP>
-	constexpr FP Logarithm10(const FP Value) noexcept
+	inline constexpr FP Logarithm10(const FP Value) noexcept
 	{
 		return std::log10(Value);
 	}
 
 	template<Concepts::Integer I>
-	constexpr double Logarithm10(const I Value) noexcept
+	inline constexpr double Logarithm10(const I Value) noexcept
 	{
 		return std::log10(Value);
 	}
