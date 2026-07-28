@@ -4,6 +4,8 @@
 #include "../../../Libraries/01-Shared/Elysium.Core/Byte.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BlockSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/BubbleSort.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/HeapSort.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/InsertionSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/QuickSort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Algorithms/Sorting/Sort.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Tuple.hpp"
@@ -102,6 +104,35 @@ namespace UnitTests::Core::Template::Algorithms
 			Assert::AreEqual(5, UnsortedData[2].GetAt<1>());
 		}
 
+
+		TEST_METHOD(HeapSortBytes)
+		{
+			byte UnsortedData[4];
+
+			// test function with signature "const T First, const Elysium::Core::size Count"
+			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
+			HeapSort(&UnsortedData[0], 4);
+
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[0]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[3]);
+		}
+
+		TEST_METHOD(InsertionSortBytes)
+		{
+			byte UnsortedData[4];
+
+			// test function with signature "const T First, const Elysium::Core::size Count"
+			std::memcpy(&UnsortedData[0], &_UnsortedBytes[0], 4);
+			InsertionSort(&UnsortedData[0], 4);
+
+			Assert::AreEqual(static_cast<byte>(3), UnsortedData[0]);
+			Assert::AreEqual(static_cast<byte>(2), UnsortedData[1]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[2]);
+			Assert::AreEqual(static_cast<byte>(1), UnsortedData[3]);
+		}
+		
 		TEST_METHOD(QuickSortBytes)
 		{
 			byte UnsortedData[4];

@@ -24,6 +24,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Functional/RemovePointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_SWAP
+#include "../../Functional/Swap.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_OPERATORS_GREATER
 #include "../../Operators/Greater.hpp"
 #endif
@@ -35,9 +39,49 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Elysium::Core::Template::Concepts::Pointer T, class Compare>
+	inline constexpr void HeapSortHeapify(const T First, const Elysium::Core::Template::System::size Count, const Elysium::Core::Template::System::size RootIndex, const Compare Comparer)
+	{
+		const Elysium::Core::Template::System::size LeftIndex = 2 * RootIndex + 1;
+		const Elysium::Core::Template::System::size RightIndex = 2 * RootIndex + 2;
+
+		Elysium::Core::Template::System::size LargestIndex = RootIndex;
+
+		if (LeftIndex < Count && Comparer(First[LargestIndex], First[LeftIndex]))
+		{
+			LargestIndex = LeftIndex;
+		}
+
+		if (RightIndex < Count && Comparer(First[LargestIndex], First[RightIndex]))
+		{
+			LargestIndex = RightIndex;
+		}
+
+		if (LargestIndex != RootIndex)
+		{
+			Elysium::Core::Template::Functional::Swap(First[LargestIndex], First[RootIndex]);
+			HeapSortHeapify(First, Count, LargestIndex, Comparer);
+		}
+	}
+
+	template <Elysium::Core::Template::Concepts::Pointer T, class Compare>
 	inline constexpr void HeapSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer)
 	{
-		throw 1;
+		if (Count < 2)
+		{
+			return;
+		}
+
+		for (Elysium::Core::Template::System::size i = Count / 2; i-- > 0;)
+		{
+			HeapSortHeapify(First, Count, i, Comparer);
+		}
+
+		for (Elysium::Core::Template::System::size i = Count; i-- > 1;)
+		{
+			Functional::Swap(First[0], First[i]);
+
+			HeapSortHeapify(First, i, 0, Comparer);
+		}
 	}
 
 	template <Elysium::Core::Template::Concepts::Pointer T>

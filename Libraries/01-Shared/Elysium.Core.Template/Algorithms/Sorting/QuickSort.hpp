@@ -43,8 +43,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 
 		for (Elysium::Core::Template::System::size i = Low; i < High; ++i)
 		{
-			//if (!Comparer.operator()(First[i], *Pivot))
-			if (Comparer.operator()(*Pivot, First[i]))
+			if (Comparer(*Pivot, First[i]))
 			{
 				Functional::Swap(First[PivotIndex], First[i]);
 				++PivotIndex;

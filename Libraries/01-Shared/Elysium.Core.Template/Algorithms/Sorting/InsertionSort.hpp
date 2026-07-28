@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Concepts/Pointer.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
+#include "../../Functional/Move.hhp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
 #include "../../Functional/RemovePointer.hpp"
 #endif
@@ -37,7 +41,19 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 	template <Elysium::Core::Template::Concepts::Pointer T, class Compare>
 	inline constexpr void InsertionSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer)
 	{
-		throw 1;
+		for (Elysium::Core::Template::System::size i = 1; i < Count; ++i)
+		{
+			Functional::RemovePointerType<T> Temporary = Elysium::Core::Template::Functional::Move(First[i]);
+
+			Elysium::Core::Template::System::size j = i;
+			while (j > 0 && Comparer(Temporary, First[j - 1]))
+			{
+				First[j] = Elysium::Core::Template::Functional::Move(First[j - 1]);
+				--j;
+			}
+
+			First[j] = Elysium::Core::Template::Functional::Move(Temporary);
+		}
 	}
 
 	template <Elysium::Core::Template::Concepts::Pointer T>

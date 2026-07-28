@@ -51,7 +51,7 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		{
 			for (Elysium::Core::Template::System::size j = 0; j < ReducedCount; ++j)
 			{
-				if (Comparer.operator()(First[j], First[j + 1]))
+				if (Comparer(First[j], First[j + 1]))
 				{
 					Functional::Swap(First[j], First[j + 1]);
 				}

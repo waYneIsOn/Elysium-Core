@@ -39,7 +39,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Elysium::Core::Template::Concepts::Pointer T, class Compare>
-	inline constexpr void IntrospectiveSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer, const Elysium::Core::Template::System::size MaxDepth,
+	inline constexpr void IntrospectiveSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer, Elysium::Core::Template::System::size DepthLimit,
 		const Elysium::Core::Template::System::size Threshold = 16)
 	{
 		if (1 > Count)
@@ -51,16 +51,17 @@ namespace Elysium::Core::Template::Algorithms::Sorting
 		{
 			InsertionSort(First, Count, Comparer);
 		}
-		else if (0 == MaxDepth)
+		else if (0 == DepthLimit)
 		{
 			HeapSort(First, Count, Comparer);
 		}
 		else
 		{
 			const Elysium::Core::Template::System::size PartitioningIndex = QuickSortPartition<T, Compare>(First, 0, Count - 1, Comparer);
+			--DepthLimit;
 
-			IntrospectiveSort(First, PartitioningIndex, Comparer, MaxDepth - 1, Threshold);
-			IntrospectiveSort(&First[PartitioningIndex + 1], Count - PartitioningIndex - 1, Comparer, MaxDepth - 1, Threshold);
+			IntrospectiveSort(First, PartitioningIndex, Comparer, DepthLimit, Threshold);
+			IntrospectiveSort(&First[PartitioningIndex + 1], Count - PartitioningIndex - 1, Comparer, DepthLimit, Threshold);
 		}
 	}
 

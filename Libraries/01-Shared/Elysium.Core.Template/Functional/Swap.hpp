@@ -16,17 +16,33 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Concepts/MoveAssignableAndConstructible.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONCEPTS_POINTER
+#include "../Concepts/Pointer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Functional/Move.hpp"
+#include "Move.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVERPOINTER
+#include "RemovePointer.hpp"
 #endif
 
 namespace Elysium::Core::Template::Functional
 {
 	template <Concepts::MoveAssignableAndConstructible T>
-	constexpr void Swap(T& Left, T& Right) noexcept
+	inline constexpr void Swap(T& Left, T& Right) noexcept
 	{
 		T TemporaryValue = Functional::Move(Left);
 		Left = Functional::Move(Right);
+		Right = Functional::Move(TemporaryValue);
+	}
+	
+	template <Concepts::Pointer T>
+	inline constexpr void Swap(T Left, T Right) noexcept
+	{
+		RemovePointerType<T> TemporaryValue = Functional::Move(*Left);
+		Left = Functional::Move(*Right);
 		Right = Functional::Move(TemporaryValue);
 	}
 }
