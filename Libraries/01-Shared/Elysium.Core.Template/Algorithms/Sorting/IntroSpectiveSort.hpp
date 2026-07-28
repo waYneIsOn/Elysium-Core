@@ -39,29 +39,43 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::Template::Algorithms::Sorting
 {
 	template <Elysium::Core::Template::Concepts::Pointer T, class Compare>
-	inline constexpr void IntrospectiveSort(const T First, const Elysium::Core::Template::System::size Count, const Compare Comparer, Elysium::Core::Template::System::size DepthLimit,
+	inline constexpr void IntrospectiveSort(T First, Elysium::Core::Template::System::size Count, const Compare Comparer, Elysium::Core::Template::System::size DepthLimit,
 		const Elysium::Core::Template::System::size Threshold = 16)
 	{
-		if (1 > Count)
+		while (Count > Threshold)
 		{
-			return;
-		}
+			if (0 == DepthLimit)
+			{
+				HeapSort(First, Count, Comparer);
+				return;
+			}
 
-		if (Threshold >= Count)
-		{
-			InsertionSort(First, Count, Comparer);
-		}
-		else if (0 == DepthLimit)
-		{
-			HeapSort(First, Count, Comparer);
-		}
-		else
-		{
-			const Elysium::Core::Template::System::size PartitioningIndex = QuickSortPartition<T, Compare>(First, 0, Count - 1, Comparer);
 			--DepthLimit;
 
-			IntrospectiveSort(First, PartitioningIndex, Comparer, DepthLimit, Threshold);
-			IntrospectiveSort(&First[PartitioningIndex + 1], Count - PartitioningIndex - 1, Comparer, DepthLimit, Threshold);
+			const Elysium::Core::Template::System::size PartitioningIndex = QuickSortPartition<T, Compare>(First, 0, Count - 1, Comparer);
+			const Elysium::Core::Template::System::size RightCount = Count - PartitioningIndex - 1;
+
+			// only recurse into the smaller partition
+			if (PartitioningIndex < RightCount)
+			{
+				IntrospectiveSort(First, PartitioningIndex, Comparer, DepthLimit, Threshold);
+
+				// continue with the right partition
+				First += PartitioningIndex + 1;
+				Count = RightCount;
+			}
+			else
+			{
+				IntrospectiveSort(&First[PartitioningIndex + 1], RightCount, Comparer, DepthLimit, Threshold);
+
+				// continue with left partition
+				Count = PartitioningIndex;
+			}
+		}
+
+		if (1 < Count)
+		{
+			InsertionSort(First, Count, Comparer);
 		}
 	}
 
