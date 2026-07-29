@@ -12,12 +12,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_HUFFMANTABLE
-#include "../../Format/HuffmanCoding/HuffmanTable.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_SIMPLEHUFFMANTABLE
-#include "../../Format/HuffmanCoding/SimpleHuffmanTable.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_HUFFMANCODING_HUFFMANDECODINGTABLE
+#include "../HuffmanCoding/HuffmanDecodingTable.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
@@ -41,9 +37,9 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 		inline static constexpr Elysium::Core::Template::System::size MaximumUncompressedBlockLength =
 			Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::uint16_t>::Maximum;
 	public:
-		using CodeLengthTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::SimpleHuffmanTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7>;
-		using LiteralTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint16_t, 15, 288, 9, 2048>;
-		using DistanceTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::HuffmanTable<Elysium::Core::Template::System::uint8_t, 15, 32, 5, 256>;
+		using CodeLengthTreeType = Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanDecodingTable<Elysium::Core::Template::System::uint8_t, 7, 19, 7>;
+		using LiteralTreeType = Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanDecodingTable<Elysium::Core::Template::System::uint16_t, 15, 288, 9>;
+		using DistanceTreeType = Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanDecodingTable<Elysium::Core::Template::System::uint8_t, 15, 32, 5>;
 
 		using CodeLengthTreeSymbolType = CodeLengthTreeType::SymbolType;
 		using LiteralTreeSymbolType = LiteralTreeType::SymbolType;
@@ -94,10 +90,10 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 		inline static constexpr Elysium::Core::Template::System::uint8_t StaticDistanceMaximumLength = 5;
 
-		using StaticLiteralTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::SimpleHuffmanTable<Elysium::Core::Template::System::uint16_t, StaticLiteralMaximumLength,
-			288, StaticLiteralMaximumLength>;
-		using StaticDistanceTreeType = Elysium::Core::Template::IO::Compression::Format::HuffmanCoding::SimpleHuffmanTable<Elysium::Core::Template::System::uint8_t, StaticDistanceMaximumLength,
-			32, StaticDistanceMaximumLength>;
+		using StaticLiteralTreeType = Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanDecodingTable<Elysium::Core::Template::System::uint16_t,
+			StaticLiteralMaximumLength, 288, StaticLiteralMaximumLength>;
+		using StaticDistanceTreeType = Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanDecodingTable<Elysium::Core::Template::System::uint8_t, 
+			StaticDistanceMaximumLength, 32, StaticDistanceMaximumLength>;
 
 		using StaticLiteralTreeSymbolType = StaticLiteralTreeType::SymbolType;
 		using StaticDistanceTreeSymbolType = StaticDistanceTreeType::SymbolType;
@@ -134,7 +130,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
 		});
 
-		inline static constexpr StaticLiteralTreeEntryType InvalidLiteralEntry{ 286_ui16, 0_ui8 };
+		inline static constexpr StaticLiteralTreeEntryType InvalidLiteralEntry{ 0_ui8, 0_ui8, 286_ui16 };
 	public:
 		inline static constexpr Elysium::Core::Template::System::size LZ77HistoryBufferSize = 32768;
 

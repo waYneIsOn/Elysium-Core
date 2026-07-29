@@ -37,6 +37,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTable.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTableEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanFrequencyTable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Token.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Utility.hpp" />
@@ -46,10 +48,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipFooter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTableEntry.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileAccess.hpp" />

@@ -909,12 +909,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp">
       <Filter>Container</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTableEntry.hpp">
-      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\HuffmanTable.hpp">
-      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\GZipSink.hpp">
       <Filter>IO\Sink</Filter>
     </ClInclude>
@@ -935,12 +929,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp">
       <Filter>IO\Compression\Algorithm\Deflate</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTableEntry.hpp">
-      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\HuffmanCoding\SimpleHuffmanTable.hpp">
-      <Filter>IO\Compression\Format\HuffmanCoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\BitBuffer.hpp">
       <Filter>Container\Sequence</Filter>
@@ -968,6 +956,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms\Sorting\InsertionSort.hpp">
       <Filter>Algorithms\Sorting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTableEntry.hpp">
+      <Filter>IO\Compression\Algorithm\HuffmanCoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTable.hpp">
+      <Filter>IO\Compression\Algorithm\HuffmanCoding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1108,9 +1102,6 @@
     </Filter>
     <Filter Include="IO\Source\Policy">
       <UniqueIdentifier>{7b2e4dca-7bd8-48a9-b21b-f1261fb3be38}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO\Compression\Format\HuffmanCoding">
-      <UniqueIdentifier>{45be8ecd-8668-48e9-aeb0-4ae2cacaeace}</UniqueIdentifier>
     </Filter>
     <Filter Include="Security">
       <UniqueIdentifier>{71da7ba4-c41a-447d-b0cc-e11389cf3511}</UniqueIdentifier>

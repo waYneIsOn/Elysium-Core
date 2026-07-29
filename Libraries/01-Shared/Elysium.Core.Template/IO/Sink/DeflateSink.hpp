@@ -44,12 +44,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../IO/Compression/Algorithm/LempelZiv/LZ77Utility.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
-#include "../../IO/Compression/Format/Deflate/DeflateBlockType.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_ALGORITHMS_SORTING_SORT
+#include "../../Algorithms/Sorting/Sort.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_HUFFMANCODING_HUFFMANTABLE
-#include "../../IO/Compression/Format/HuffmanCoding/HuffmanTable.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_FORMAT_DEFLATE_DEFLATEBLOCKTYPE
+#include "../../IO/Compression/Format/Deflate/DeflateBlockType.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MATH_MIN
@@ -79,7 +79,7 @@ namespace Elysium::Core::Template::IO::Sink
 	public:
 		inline constexpr DeflateSink(InnerSink& InnerSink, const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel) noexcept
 			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel),
-			_BlockBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength), _BlockWritePosition{}, _BitBuffer()//, _LZ77HistoryBuffer(DeflateUtility::LZ77HistoryBufferSize)
+			_BlockBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength), _BlockWritePosition{}, _LZ77Utility{}, _BitBuffer()
 		{ }
 
 		constexpr DeflateSink(const DeflateSink& Source) = delete;
@@ -167,6 +167,22 @@ namespace Elysium::Core::Template::IO::Sink
 			}
 		}
 	private:
+		struct Comparison
+		{
+			inline constexpr bool operator()(const Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>& Left,
+				const Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>& Right) const
+			{
+				if (Left.GetSecond() == Right.GetSecond())
+				{
+					bool Result0 = Left.GetFirst() > Right.GetFirst();
+					return Left.GetFirst() > Right.GetFirst();
+				}
+
+				bool Result1 = Left.GetSecond() > Right.GetSecond();
+				return Left.GetSecond() > Right.GetSecond();
+			}
+		};
+	private:
 		inline void WriteBufferedBlock(const bool IsFinalBlock)
 		{
 			if ((0 == _BlockWritePosition && !IsFinalBlock) || _HasWrittenFinalBlock)
@@ -227,12 +243,8 @@ namespace Elysium::Core::Template::IO::Sink
 			DeflateHeader |= static_cast<Elysium::Core::Template::System::byte>(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::FixedHuffman) << 1;
 			
 			WriteBits(DeflateHeader, 3);
-
-			// @ToDo: sliding windows in deflate afaik can "persist" over multiple blocks.
-			// If that is in fact the case, the LZ77Utility instance obviously can be a member of DeflateSink and doesn't need to be "recreated" every block.
-			// It would certainly improve compression rate.
-			Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType> LZ77Utility;
-			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
+			
+			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = _LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
 
 			for (Elysium::Core::Template::System::size i = 0; i < Tokens.GetLength(); ++i)
 			{
@@ -300,11 +312,8 @@ namespace Elysium::Core::Template::IO::Sink
 
 		inline void WriteDynamicBlock(const bool IsFinalBlock)
 		{
-			// 1.) produce LZ77 tokens
-			Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType> LZ77Utility;
-			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
+			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = _LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
 
-			// 2.) count frequencies (of literals AND distances)
 			Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanFrequencyTable<SymbolType, Elysium::Core::Template::System::size, 256> LiteralFrequencies{};
 			Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding::HuffmanFrequencyTable<SymbolType, Elysium::Core::Template::System::size, 32> DistanceFrequencies{};
 			for (Elysium::Core::Template::System::size i = 0; i < Tokens.GetLength(); ++i)
@@ -319,14 +328,125 @@ namespace Elysium::Core::Template::IO::Sink
 					DistanceFrequencies.Increment(CurrentToken._Distance);
 				}
 			}
-			
-			// 3.) build literal- and distance-tables
-			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LiteralTreeType LiteralTree{};
-			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::DistanceTreeType DistanceTree{};
 
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>> LiteralSymbolFrequencies(
+				LiteralFrequencies.GetAlphabetLength() / 2);
+			LiteralSymbolFrequencies.Clear();
+			for (Elysium::Core::Template::System::size i = 0; i < LiteralFrequencies.GetAlphabetLength(); ++i)
+			{
+				const Elysium::Core::Template::System::size Frequency = LiteralFrequencies[i];
+				if (0 < Frequency)
+				{
+					LiteralSymbolFrequencies.PushBack({ static_cast<SymbolType>(i), Frequency });
+				}
+			}
+
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>> DistanceSymbolFrequencies(
+				DistanceFrequencies.GetAlphabetLength() / 2);
+			DistanceSymbolFrequencies.Clear();
+			for (Elysium::Core::Template::System::size i = 0; i < DistanceFrequencies.GetAlphabetLength(); ++i)
+			{
+				const Elysium::Core::Template::System::size Frequency = DistanceFrequencies[i];
+				if (0 < Frequency)
+				{
+					DistanceSymbolFrequencies.PushBack({ static_cast<SymbolType>(i), Frequency });
+				}
+			}
+
+			Comparison Comparer = Comparison();
+			//Elysium::Core::Template::Algorithms::Sorting::Sort(&LiteralSymbolFrequencies[0], LiteralSymbolFrequencies.GetLength(), Comparer);
+			//Elysium::Core::Template::Algorithms::Sorting::Sort(&DistanceSymbolFrequencies[0], DistanceSymbolFrequencies.GetLength(), Comparer);
+			Elysium::Core::Template::Algorithms::Sorting::QuickSort(&LiteralSymbolFrequencies[0], LiteralSymbolFrequencies.GetLength(), Comparer);
+			Elysium::Core::Template::Algorithms::Sorting::QuickSort(&DistanceSymbolFrequencies[0], DistanceSymbolFrequencies.GetLength(), Comparer);
+			
+
+
+
+
+			{
+
+				Elysium::Core::Template::System::size Largest0 = 0;
+				Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>* Previous0{};
+				for (Elysium::Core::Template::System::size i = 0; i < LiteralSymbolFrequencies.GetLength(); ++i)
+				{
+					Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>* Current = &LiteralSymbolFrequencies[i];
+
+					if (nullptr != Previous0)
+					{
+						if (Current->GetSecond() > Largest0)
+						{
+							Largest0 = Current->GetSecond();
+						}
+
+						if (Current->GetSecond() < Previous0->GetSecond())
+						{
+							throw 1;
+						}
+						else if (Current->GetSecond() == Previous0->GetSecond())
+						{
+							if (Current->GetFirst() < Previous0->GetFirst())
+							{
+								throw 1;
+							}
+						}
+					}
+
+					Previous0 = Current;
+				}
+
+				Elysium::Core::Template::System::size Largest = 0;
+				Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>* Previous{};
+				for (Elysium::Core::Template::System::size i = 0; i < DistanceSymbolFrequencies.GetLength(); ++i)
+				{
+					Elysium::Core::Template::Container::Pair<SymbolType, Elysium::Core::Template::System::size>* Current = &DistanceSymbolFrequencies[i];
+
+					if (nullptr != Previous)
+					{
+						if (Current->GetSecond() > Largest)
+						{
+							Largest = Current->GetSecond();
+						}
+
+						if (Current->GetSecond() < Previous->GetSecond())
+						{
+							throw 1;
+						}
+						else if (Current->GetSecond() == Previous->GetSecond())
+						{
+							if (Current->GetFirst() < Previous->GetFirst())
+							{
+								throw 1;
+							}
+						}
+					}
+
+					Previous = Current;
+				}
+
+				bool sdf = false;
+			}
+			
+
+
+
+
+
+
+
+
+			// 3.) build literal- and distance-tables
+
+
+
+			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LiteralTreeType LiteralTree{};
 			//LiteralTree._CodeLengths = 
 
+			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::DistanceTreeType DistanceTree{};
+			//DistanceTree._CodeLengths = 
+
 			// 4.) convert tables into canonical code lengths
+			LiteralTree.BuildCanonicalCodes();
+			DistanceTree.BuildCanonicalCodes();
 
 			// 5.) compress code lengths using run-length encoding
 
@@ -392,6 +512,8 @@ namespace Elysium::Core::Template::IO::Sink
 		Elysium::Core::Template::System::size _BlockWritePosition;
 
 		Elysium::Core::Template::Container::BitBuffer<> _BitBuffer;
+
+		Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType> _LZ77Utility;
 
 		bool _HasWrittenFinalBlock = false;
 	};

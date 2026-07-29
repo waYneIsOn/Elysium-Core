@@ -629,14 +629,14 @@ namespace Elysium::Core::Template::IO::Source
 				Elysium::Core::Template::System::uint64_t CodeLengthSymbolIndex = _BitBuffer.Peek(7);
 
 				// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
-				if (CodeLengthSymbolIndex > _DynamicHuffmanBlockInfo._CodeLengthTree.TableLength)
+				if (CodeLengthSymbolIndex > _DynamicHuffmanBlockInfo._CodeLengthTree.FastTableLength)
 				{
 					throw 1;
 				}
 
 				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::CodeLengthTreeConstEntryReference CodeLengthEntry = 
 					_DynamicHuffmanBlockInfo._CodeLengthTree[CodeLengthSymbolIndex];
-				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::CodeLengthTreeSymbolType CurrentSymbol = CodeLengthEntry._Symbol;
+				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::CodeLengthTreeSymbolType CurrentSymbol = CodeLengthEntry.GetSymbol();
 				Elysium::Core::Template::System::uint8_t CurrentLength = CodeLengthEntry._Length;
 				if (0 == CurrentLength)
 				{	// 7 bit read, code-length tree/table is build with 7 bit in mind - this fallback should never happen!
@@ -811,13 +811,13 @@ namespace Elysium::Core::Template::IO::Source
 					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitBuffer.Peek(LiteralHuffmanTree._TableBits);
 
 					// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
-					if (LiteralSymbolIndex > (LiteralHuffmanTree.TableLength + DistanceHuffmanTree.TableLength))
+					if (LiteralSymbolIndex > (LiteralHuffmanTree.FastTableLength + DistanceHuffmanTree.FastTableLength))
 					{
 						throw 1;
 					}
 
 					typename LiteralHuffmanTreeType::ConstEntryReference Entry = LiteralHuffmanTree[LiteralSymbolIndex];
-					_CurrentLiteralEntry = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTreeEntryType(Entry._Symbol, Entry._Length);
+					_CurrentLiteralEntry = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTreeEntryType(0, Entry._Length, Entry.GetSymbol());
 					Elysium::Core::Template::System::uint16_t CurrentLength = _CurrentLiteralEntry._Length;
 					if (0 == CurrentLength)
 					{	// @ToDo
@@ -827,7 +827,7 @@ namespace Elysium::Core::Template::IO::Source
 					_BitBuffer.Consume(_CurrentLiteralEntry._Length);
 				}
 
-				typename Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LiteralTreeSymbolType CurrentSymbol = _CurrentLiteralEntry._Symbol;
+				typename Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LiteralTreeSymbolType CurrentSymbol = _CurrentLiteralEntry.GetSymbol();
 				if (256 > CurrentSymbol)
 				{
 					_DecompressedOutputDataSpan.GetData()[OutputBytesWritten++] = CurrentSymbol;
@@ -847,7 +847,7 @@ namespace Elysium::Core::Template::IO::Source
 
 					return 0 == OutputBytesWritten ? Elysium::Core::Template::IO::ReadResult::Pending : Elysium::Core::Template::IO::ReadResult::HasData;
 				}
-				else if (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry._Symbol > CurrentSymbol)
+				else if (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry.GetSymbol() > CurrentSymbol)
 				{	// LZ77
 					if (0 == _CurrentLength && 0 == _CurrentDistance)
 					{
@@ -896,7 +896,7 @@ namespace Elysium::Core::Template::IO::Source
 							_BitBuffer.Peek(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::DistanceTreeType::_TableBits);
 						typename DistanceHuffmanTreeType::EntryType CurrentDistanceEntry = DistanceHuffmanTree[DistanceSymbolIndex];
 
-						const Elysium::Core::Template::System::size DistanceIndex = CurrentDistanceEntry._Symbol;
+						const Elysium::Core::Template::System::size DistanceIndex = CurrentDistanceEntry.GetSymbol();
 						const Elysium::Core::Template::System::uint16_t DistanceBase = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceBase[DistanceIndex];
 						const Elysium::Core::Template::System::uint16_t DistanceExtraBits = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceExtra[DistanceIndex];
 

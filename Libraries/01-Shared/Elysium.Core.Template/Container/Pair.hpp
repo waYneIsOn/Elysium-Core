@@ -43,7 +43,7 @@ namespace Elysium::Core::Template::Container
 		using FirstReturnType = FirstParameterType;
 		using SecondReturnType = SecondParameterType;
 	public:
-		constexpr Pair() = delete;
+		inline constexpr Pair() = default;
 
 		inline constexpr Pair(FirstParameterType First, SecondParameterType Second)
 			: _First(First), _Second(Second)
