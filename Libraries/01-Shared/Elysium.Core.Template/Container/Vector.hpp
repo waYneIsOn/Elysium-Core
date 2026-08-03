@@ -419,10 +419,13 @@ namespace Elysium::Core::Template::Container
 			if (Length < _Length)
 			{
 				_Length = Length;
+				return;
 			}
-			else if (Length >= _Length)
+
+			if (Length >= _Length)
 			{
 				Reserve(Length);
+				_Length = Length;
 			}
 		}
 
@@ -1280,10 +1283,13 @@ namespace Elysium::Core::Template::Container
 			if (Length < _Length)
 			{
 				_Length = Length;
+				return;
 			}
-			else if (Length >= _Length)
+
+			if (Length >= _Length)
 			{
 				Reserve(Length);
+				_Length = Length;
 			}
 		}
 
