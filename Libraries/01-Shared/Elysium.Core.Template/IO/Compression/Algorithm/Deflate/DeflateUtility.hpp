@@ -233,6 +233,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 
 		inline static constexpr Elysium::Core::Template::System::uint8_t LZ77DistanceToSymbol[32769] =
 		{	
+			0, // unused
 			0, 1, 2, 3, 4, 4, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 8, 8, 8, 8, 9, 9, 9, 9, 9, 9, 9, 9,
 			10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
 			12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12,
@@ -1262,6 +1263,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 	private:
 		inline static bool OutputDistanceToSymbolTable()
 		{
+			Elysium::Core::Template::System::size Count = 1;
+			OutputDebugStringA("0, // unused\r\n");
 			for (Elysium::Core::Template::System::uint8_t Symbol = 0; Symbol < 30; ++Symbol)
 			{
 				Elysium::Core::Template::System::uint16_t Begin = LZ77DistanceBase[Symbol];
@@ -1275,11 +1278,14 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 					{
 						OutputDebugStringA("\r\n");
 					}
+					++Count;
 				}
 			}
 
-			bool sdfdsf = false;
-			return sdfdsf;
+			OutputDebugStringA("\r\n#");
+			OutputDebugStringA(&Elysium::Core::Template::Text::Convert<char>::ToString(Count)[0]);
+
+			return true;
 		}
 
 		inline static  bool _kjsdf = OutputDistanceToSymbolTable();
