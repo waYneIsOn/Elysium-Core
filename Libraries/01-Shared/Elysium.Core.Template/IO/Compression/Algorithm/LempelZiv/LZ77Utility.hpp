@@ -16,8 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../../Container/Pair.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../../../../Container/Vector.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_SLIDINGWINDOW
+#include "../../../../Container/SlidingWindow.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REMOVECONSTVOLATILE
@@ -73,8 +73,18 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 
 				TokenType CurrentToken{};
 
-				//if (MatchLength >= MinMatch)	// allows overlaps (rest of my implementation doesn't!!!!!)
-				if (MatchLength >= MinMatch && MatchDistance >= MatchLength)	// prevents overlaps
+
+
+
+
+
+				CurrentToken._Literal = Data[i];
+				Result.PushBack(CurrentToken);
+
+
+
+				/*
+				if (MatchLength >= MinMatch)	// allows overlaps
 				{
 					CurrentToken._Length = MatchLength;
 					CurrentToken._Distance = MatchDistance;
@@ -89,10 +99,9 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 					CurrentToken._Literal = Data[i];
 					Result.PushBack(CurrentToken);
 
-					_SlidingWindow.PushBack(CurrentToken._Literal);
+					_SlidingWindow.PushBackRange(&CurrentToken._Literal, 1);
 				}
-
-				TrimSlidingWindow();
+				*/
 			}
 
 			return Result;
@@ -101,13 +110,15 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 		inline const Elysium::Core::Template::Container::Pair<Elysium::Core::Template::System::size, Elysium::Core::Template::System::size> FindMatch(const T* Data, 
 			const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Position)
 		{
+			const Elysium::Core::Template::System::size WindowLength = _SlidingWindow.GetLength();
+
 			Elysium::Core::Template::System::size BestLength = 0;
 			Elysium::Core::Template::System::size BestDistance = 0;
 
-			for (Elysium::Core::Template::System::size i = 0; i < _SlidingWindow.GetLength(); ++i)
+			for (Elysium::Core::Template::System::size i = 0; i < WindowLength; ++i)
 			{
 				Elysium::Core::Template::System::size Count = 0;
-				while (Count < MaxMatch && Position + Count < Length && i + Count < _SlidingWindow.GetLength() && _SlidingWindow[i + Count] == Data[Position + Count])
+				while (Count < MaxMatch && Position + Count < Length && i + Count < WindowLength && _SlidingWindow[i + Count] == Data[Position + Count])
 				{
 					++Count;
 				}
@@ -115,24 +126,14 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 				if (Count > BestLength)
 				{
 					BestLength = Count;
-					BestDistance = _SlidingWindow.GetLength() - i;
+					BestDistance = WindowLength - i;
 				}
 			}
 
 			return { BestLength, BestDistance };
 		}
-
-		inline void TrimSlidingWindow()
-		{
-			Elysium::Core::Template::System::size SlidingWindowLength = _SlidingWindow.GetLength();
-			if (SlidingWindowLength > MaxWindow)
-			{
-				Elysium::Core::Template::System::size Excess = SlidingWindowLength - MaxWindow;
-				_SlidingWindow.Erase(_SlidingWindow.GetBegin(), _SlidingWindow.GetBegin() + Excess);
-			}
-		}
 	private:
-		Elysium::Core::Template::Container::Vector<SymbolType> _SlidingWindow{};
+		Elysium::Core::Template::Container::SlidingWindow<SymbolType> _SlidingWindow = Elysium::Core::Template::Container::SlidingWindow<SymbolType>(MaxWindow);
 	};
 }
 #endif

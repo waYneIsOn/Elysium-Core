@@ -134,7 +134,7 @@ namespace Elysium::Core::Template::Container
 			_Tail = 0;
 		}
 
-		inline void Push(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
+		inline void PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 		{
 			if constexpr (AllowOverflow)
 			{
@@ -155,6 +155,10 @@ namespace Elysium::Core::Template::Container
 
 			_Tail = (_Tail + Length) % _Capacity;
 			_Length += Length;
+			if (_Length > _Capacity)
+			{
+				_Length = _Capacity;
+			}
 		}
 
 		inline void Read(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)

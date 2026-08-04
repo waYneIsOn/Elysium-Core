@@ -38,7 +38,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 	class HuffmanFrequencyTable
 	{
 	public:
-		using ContainerType = Elysium::Core::Template::TypeTraits::ConditionalType<AlphabetLength <= 256, F[AlphabetLength], Elysium::Core::Template::Container::Vector<F>>;
+		//using ContainerType = Elysium::Core::Template::TypeTraits::ConditionalType<AlphabetLength <= 2048, F[AlphabetLength], Elysium::Core::Template::Container::Vector<F>>;
+		using ContainerType = F[AlphabetLength];
 	public:
 		constexpr HuffmanFrequencyTable() = default;
 
@@ -52,7 +53,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 
 		constexpr HuffmanFrequencyTable& operator=(HuffmanFrequencyTable&& Right) noexcept = delete;
 	public:
-		inline constexpr Elysium::Core::Template::System::size operator[](const Elysium::Core::Template::System::byte Symbol) const
+		inline constexpr Elysium::Core::Template::System::size operator[](const S Symbol) const
 		{
 			return _Frequencies[Symbol];
 		}
@@ -62,12 +63,12 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 			return AlphabetLength;
 		}
 
-		inline constexpr Elysium::Core::Template::System::size GetFrequency(const Elysium::Core::Template::System::byte Symbol)
+		inline constexpr Elysium::Core::Template::System::size GetFrequency(const S Symbol)
 		{
 			return _Frequencies[Symbol];
 		}
 	public:
-		inline constexpr void Increment(const Elysium::Core::Template::System::byte Symbol)
+		inline constexpr void Increment(const S Symbol)
 		{
 			++_Frequencies[Symbol];
 		}

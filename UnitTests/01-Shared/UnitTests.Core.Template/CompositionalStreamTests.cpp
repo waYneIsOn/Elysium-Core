@@ -83,12 +83,9 @@ namespace UnitTests::Core::Template::IO
 	public:
 		TEST_METHOD(GZipStreamCompressAndDecompressTest)
 		{
-			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
-			/*
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
-			//WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
+			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
-			*/
 		}
 
 
@@ -208,6 +205,7 @@ namespace UnitTests::Core::Template::IO
 		inline void WriteAndReadGZip(const char8_t* SourceFile, const char8_t* TargetFile, 
 			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel)
 		{
+			// compress source file
 			{
 				Elysium::Core::Template::System::size PendingCount = 0;
 
@@ -253,6 +251,7 @@ namespace UnitTests::Core::Template::IO
 				Stream.Flush();
 			}
 
+			// compare with original
 			{
 				FileDevice ExpectedDevice(SourceFile, FileMode::Open, FileAccess::Read, FileShare::Read);
 				FileSource ExpectedSource(ExpectedDevice);
@@ -294,7 +293,6 @@ namespace UnitTests::Core::Template::IO
 					}
 					ExpectedData.PushBack(0x00);
 				}
-
 
 				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ActualData{};
 				{

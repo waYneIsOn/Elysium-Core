@@ -43,7 +43,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 			Elysium::Core::Template::TypeTraits::ConditionalType<(AlphabetLength <= 65536), Elysium::Core::Template::System::uint16_t,
 			Elysium::Core::Template::System::uint32_t>>;
 
-		using EntryType = HuffmanDecodingTableEntry<S>;
+		using EntryType = HuffmanDecodingTableEntry<SymbolType>;
 
 		using EntryReference = EntryType&;
 
@@ -89,24 +89,25 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 	public:
 		inline constexpr ConstEntryReference operator[](const Elysium::Core::Template::System::size Index) const noexcept
 		{
-			if constexpr (SubtablesRequired)
+			static constexpr const Elysium::Core::Template::System::size RootMask = (1_ui64 << TableBits) - 1_ui64;
+
+			if constexpr (UseDynamicStorage)
 			{
-				ConstEntryReference Entry = _Table[Index];
-				return Entry;
-				/*
-				if (nullptr == Entry._Subtable)
+				ConstEntryReference Entry = _Table[Index & RootMask];
+				if (0 == Entry._Operation)
 				{
 					return Entry;
 				}
 
-				// @ToDo
-				//Entry._Subtable[x]
-				throw 1;
-				*/
+				const Elysium::Core::Template::System::uint8_t SubtableBits = Entry._Operation;
+				const SymbolType SubtableOffset = Entry._Value;
+				const Elysium::Core::Template::System::size SubtableIndex = (Index >> TableBits) & ((1_ui64 << Entry._Operation) - 1_ui64);
+
+				return _Table[SubtableOffset + SubtableIndex];
 			}
 			else
 			{
-				return _Table[Index];
+				return _Table[Index & RootMask];
 			}
 		}
 	public:
@@ -127,14 +128,14 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 
 			// Perform "Kraft inequality check"
 			Elysium::Core::Template::System::int64_t Left = 1;
-			for (Elysium::Core::Template::System::uint8_t Bits = 0; Bits < TableBits; ++Bits)
+			for (Elysium::Core::Template::System::uint8_t Bits = 1; Bits <= TableBits; ++Bits)
 			{
 				Left = (Left << 1) - BitLengthCount[Bits];
 			}
 
 			if (Left < 0)
 			{	// @ToDo: oversubscribed
-				//throw 1;
+				throw 1;
 			}
 			/*
 			else if (Left == 0)
@@ -146,6 +147,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 				// incomplete tree -> afaik fine as well (as long as I fully populate tables)
 			}
 			*/
+
 			// Define "canonical code ranges" (specifically: calculate the FIRST ie. smallest canonical huffman code for each bit-length)
 			Elysium::Core::Template::System::uint16_t NextCode[ValidLengths] = { 0 };
 			Elysium::Core::Template::System::uint16_t Code = 0;
@@ -172,37 +174,117 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 		{
 			if constexpr (UseDynamicStorage)
 			{
-				_Table.Resize(FastTableLength);
-
+				// All of the following calculations are done to receive symbols grouped by length so the subtable-creation can be done in one linear pass.
+				// @ToDo: re-calculating BitLengthCount here isn't a huge deal (especially looking at the gains of being able to create subtables in o(n))
+				// but it certainly isn't optimal!
+				constexpr Elysium::Core::Template::System::uint8_t ValidLengths = MaximumCodeLength + 1;
+				Elysium::Core::Template::System::uint16_t BitLengthCount[ValidLengths] = { 0 };
 				for (SymbolType Symbol = 0; Symbol < AlphabetLength; ++Symbol)
 				{
 					Elysium::Core::Template::System::uint8_t CodeLength = _CodeLengths[Symbol];
-					if (0 == CodeLength)
+					if (CodeLength != 0)
 					{
-						continue;
+						BitLengthCount[CodeLength]++;
+					}
+				}
+
+				// Calculate starting index/offset for all groups of code-lengths
+				// ie. where do code-lengths of length 1 start? where do code-lengths of length 2 start? etc. pp.
+				Elysium::Core::Template::System::uint16_t Offsets[MaximumCodeLength + 1];
+				Offsets[1] = 0;
+				for (Elysium::Core::Template::System::uint8_t Bits = 1; Bits < MaximumCodeLength; ++Bits)
+				{
+					Offsets[Bits + 1] = Offsets[Bits] + BitLengthCount[Bits];
+				}
+
+				// Calculate symbols grouped by length
+				Elysium::Core::Template::System::size SymbolsAdded = 0;
+				SymbolType SymbolsInCanonicalOrder[AlphabetLength];
+				for (SymbolType Symbol = 0; Symbol < AlphabetLength; ++Symbol)
+				{
+					Elysium::Core::Template::System::uint8_t Length = _CodeLengths[Symbol];
+
+					if (Length != 0)
+					{
+						SymbolsInCanonicalOrder[Offsets[Length]++] = Symbol;
+						++SymbolsAdded;
+					}
+				}
+
+				// FULLY populate fast table
+				_Table.Resize(FastTableLength);
+				Elysium::Core::Template::System::size i = 0;
+				while(i < SymbolsAdded)
+				{
+					SymbolType Symbol = SymbolsInCanonicalOrder[i];
+					Elysium::Core::Template::System::uint8_t CodeLength = _CodeLengths[Symbol];
+					if (CodeLength > TableBits)
+					{
+						break;
 					}
 
 					Elysium::Core::Template::System::uint16_t CanonicalCode = _CanonicalCodes[Symbol];
+					FillFastTableEntries(Symbol, CodeLength, CanonicalCode);
+					++i;
+				}
 
+				// FULLY populate subtables
+				while (i < SymbolsAdded)
+				{
+					Elysium::Core::Template::System::size GroupStartIndex = i;
+
+					SymbolType Symbol = SymbolsInCanonicalOrder[i];
+					Elysium::Core::Template::System::uint8_t CodeLength = _CodeLengths[Symbol];
+					Elysium::Core::Template::System::uint16_t CanonicalCode = _CanonicalCodes[Symbol];
 					if (CodeLength <= TableBits)
-					{	// fast table
-						for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (TableBits - CodeLength)); ++i)
-						{
-							Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
-							if (Index > FastTableLength)
-							{	// @ToDo:
-								throw 1;
-							}
-							
-							EntryReference Entry = _Table[Index];
-							Entry._Operation = 0;
-							Entry._Value = Symbol;
-							Entry._Length = CodeLength;
-						}
-					}
-					else
-					{	// @ToDo
+					{	// @ToDo: this is a paranoia check! it should never happen because the previous loop stops at the first long code (ie. too large for fasttable)
 						throw 1;
+					}
+
+					Elysium::Core::Template::System::uint16_t Prefix = CanonicalCode & ((1_ui16 << TableBits) - 1_ui16);
+
+					Elysium::Core::Template::System::uint8_t SubtableBits = 0;
+					while (i < SymbolsAdded)
+					{
+						SymbolType CurrentSymbol = SymbolsInCanonicalOrder[i];
+						Elysium::Core::Template::System::uint8_t CurrentCodeLength = _CodeLengths[CurrentSymbol];
+						Elysium::Core::Template::System::uint16_t CurrentCanonicalCode = _CanonicalCodes[CurrentSymbol];
+						if (CurrentCodeLength <= TableBits)
+						{	// @ToDo: this is a paranoia check! it should never happen because the previous loop stops at the first long code (ie. too large for fasttable)
+							throw 1;
+						}
+
+						Elysium::Core::Template::System::uint16_t CurrentPrefix = CurrentCanonicalCode & ((1_ui16 << TableBits) - 1_ui16);
+						if (CurrentPrefix != Prefix)
+						{
+							break;
+						}
+
+						Elysium::Core::Template::System::uint8_t RemainingBits = CurrentCodeLength - TableBits;
+						if (RemainingBits > SubtableBits)
+						{
+							SubtableBits = RemainingBits;
+						}
+
+						++i;
+					}
+
+					Elysium::Core::Template::System::size GroupEndIndex = i;
+
+					// Allocate subtable
+					Elysium::Core::Template::System::size SubtableOffset = _Table.GetLength();
+					_Table.Resize(SubtableOffset + (1_ui64 << SubtableBits));
+
+					// Link root table entry to subtable
+					_Table[Prefix]._Operation = SubtableBits;
+					_Table[Prefix]._Length = TableBits;
+					_Table[Prefix]._Value = SubtableOffset;
+
+					// Fill subtable entries
+					for (Elysium::Core::Template::System::size GroupIndex = GroupStartIndex; GroupIndex < GroupEndIndex; ++GroupIndex)
+					{
+						SymbolType GroupSymbol = SymbolsInCanonicalOrder[GroupIndex];
+						FillSubTableEntries(GroupSymbol, _CodeLengths[GroupSymbol], _CanonicalCodes[GroupSymbol], SubtableOffset, SubtableBits);
 					}
 				}
 			}
@@ -217,31 +299,22 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 					}
 
 					Elysium::Core::Template::System::uint16_t CanonicalCode = _CanonicalCodes[Symbol];
-					
-					for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (TableBits - CodeLength)); ++i)
-					{
-						Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
-						if (Index >= FastTableLength)
-						{	// @ToDo:
-							throw 1;
-						}
 
-						EntryReference Entry = _Table[Index];
-						Entry._Operation = 0;
-						Entry._Value = Symbol;
-						Entry._Length = CodeLength;
-					}
+					FillFastTableEntries(Symbol, CodeLength, CanonicalCode);
 				}
-				/*
+				
 				// ensure table is fully populated
 				for (Elysium::Core::Template::System::size i = 0; i < FastTableLength; ++i)
 				{
+					EntryReference Entry = _Table[i];
+					/*
 					if (!_Table[i].GetIsValid())
 					{	// @ToDo:
 						throw 1;
 					}
+					*/
 				}
-				*/
+				
 			}
 		}
 	private:
@@ -256,10 +329,46 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 
 			return Result;
 		}
+
+		inline constexpr void FillFastTableEntries(const SymbolType Symbol, const Elysium::Core::Template::System::uint8_t CodeLength, 
+			const Elysium::Core::Template::System::uint16_t CanonicalCode)
+		{
+			for (Elysium::Core::Template::System::uint32_t i = 0; i < (1 << (TableBits - CodeLength)); ++i)
+			{
+				Elysium::Core::Template::System::size Index = CanonicalCode | (i << CodeLength);
+				if (Index > FastTableLength)
+				{	// @ToDo:
+					throw 1;
+				}
+
+				EntryReference Entry = _Table[Index];
+				Entry._Operation = 0;
+				Entry._Value = Symbol;
+				Entry._Length = CodeLength;
+			}
+		}
+
+		inline constexpr void FillSubTableEntries(const SymbolType Symbol, const Elysium::Core::Template::System::uint8_t CodeLength,
+			const Elysium::Core::Template::System::uint16_t CanonicalCode, Elysium::Core::Template::System::size SubtableOffset, Elysium::Core::Template::System::uint8_t SubtableBits)
+		{
+			Elysium::Core::Template::System::uint8_t RemainingBits = CodeLength - TableBits;
+			Elysium::Core::Template::System::uint16_t SubtableCode = CanonicalCode >> TableBits;
+			Elysium::Core::Template::System::uint16_t EntryCount = 1_ui16 << (SubtableBits - RemainingBits);
+			Elysium::Core::Template::System::uint16_t StartIndex = SubtableCode << (SubtableBits - RemainingBits);
+
+			for (Elysium::Core::Template::System::uint16_t i = 0; i < EntryCount; ++i)
+			{
+				EntryReference Entry = _Table[SubtableOffset + StartIndex + i];
+				Entry._Operation = 0;
+				Entry._Value = Symbol;
+				Entry._Length = CodeLength;
+			}
+		}
 	public:
 		Elysium::Core::Template::System::uint8_t _CodeLengths[AlphabetLength];
 		Elysium::Core::Template::System::uint16_t _CanonicalCodes[AlphabetLength];
 
+		//Elysium::Core::Template::System:: _Work[AlphabetLength];
 		ContainerType _Table;
 	};
 }

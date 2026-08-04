@@ -110,16 +110,10 @@ namespace Elysium::Core::Template::Container
 			_Buffer.Clear();
 		}
 
-		inline void Push(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
-		{ 
-			_Buffer.Push(FirstItem, Length);
-		}
-		/*
-		inline void Read(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)
+		inline void PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
 		{
-			_Buffer.Read(TargetBuffer, Length);
+			_Buffer.PushBackRange(FirstItem, Length);
 		}
-		*/
 	public:
 		inline const Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestReadableSpan() const
 		{

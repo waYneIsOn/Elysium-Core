@@ -48,6 +48,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../System/Primitives.hpp"
 #endif
 
+
+
+
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
+#include "../../Text/Convert.hpp"
+#endif
+
+
+
+
+
+
 namespace Elysium::Core::Template::IO::Source
 {
 	// @ToDo: concept for sources!
@@ -562,7 +574,6 @@ namespace Elysium::Core::Template::IO::Source
 
 			// Read code length alphabet
 			constexpr Elysium::Core::Template::System::uint8_t MaximumCodeLength = _DynamicHuffmanBlockInfo._CodeLengthTree._MaximumCodeLength;
-			Elysium::Core::Template::System::uint64_t KraftSum = 0;
 			Elysium::Core::Template::System::size NonZeroCodeLengthCount = 0;
 			for (Elysium::Core::Template::System::size i = 0; i < AmountOfCodeLengths; ++i)
 			{
@@ -579,17 +590,8 @@ namespace Elysium::Core::Template::IO::Source
 
 				if (_DynamicHuffmanBlockInfo._CodeLengthTree._CodeLengths[Symbol] > 0)
 				{
-					KraftSum += (1_ui64 << (7 - _DynamicHuffmanBlockInfo._CodeLengthTree._CodeLengths[Symbol]));
 					++NonZeroCodeLengthCount;
 				}
-			}
-
-			// KraftSum per RFC 1951 does not need to be exactly equal to the length of the table.
-			// If it is smaller, the code-length tree simply is imcomplete which is allowed for code-length tree but not for literal- or distance-tree.
-			// If it is larger, the code length alphabet is oversubscriped which is invalid!
-			if (KraftSum > (1 << _DynamicHuffmanBlockInfo._CodeLengthTree._MaximumCodeLength))
-			{	// @ToDo: invalid kraft sum
-				throw 1;
 			}
 
 			if (0 == NonZeroCodeLengthCount)
@@ -756,8 +758,7 @@ namespace Elysium::Core::Template::IO::Source
 					PreviousLength = 0;
 				}
 				else
-				{
-					// @ToDo:
+				{	// @ToDo: invalid!
 					throw 1;
 				}
 			}
@@ -783,6 +784,19 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			Elysium::Core::Template::System::size TargetSpanReadPosition = 0;
 
+ 			if (0 == SourceSpans.GetLength())
+			{
+				throw 1;
+			}
+
+			//if (_BlockCount == 161)
+			//if (_BlockCount == 160)
+			if (_BlockCount == 159)
+			//if (_BlockCount > 0)
+			{
+				bool sdf = false;
+			}
+
 			while (true)
 			{
 				if (OutputBytesWritten == _DecompressedOutputDataSpan.GetLength())
@@ -792,7 +806,7 @@ namespace Elysium::Core::Template::IO::Source
 					return Elysium::Core::Template::IO::ReadResult::HasData;
 				}
 
-				const Elysium::Core::Template::IO::ReadResult BufferPopulationSymbolResult = EnsureAvailableBit(LiteralHuffmanTree._TableBits, SourceSpans,
+				const Elysium::Core::Template::IO::ReadResult BufferPopulationSymbolResult = EnsureAvailableBit(LiteralHuffmanTree._MaximumCodeLength, SourceSpans,
 					BytesLoadedIntoBitReader);
 				if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationSymbolResult)
 				{
@@ -808,14 +822,14 @@ namespace Elysium::Core::Template::IO::Source
 
 				if (Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry == _CurrentLiteralEntry)
 				{
-					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitBuffer.Peek(LiteralHuffmanTree._TableBits);
-
+					Elysium::Core::Template::System::uint64_t LiteralSymbolIndex = _BitBuffer.Peek(LiteralHuffmanTree._MaximumCodeLength);
+					/*
 					// BitReader returns a 64bit integer so if the implementation is not correct, this might still result in a bug!!!
 					if (LiteralSymbolIndex > (LiteralHuffmanTree.FastTableLength + DistanceHuffmanTree.FastTableLength))
 					{
 						throw 1;
 					}
-
+					*/
 					typename LiteralHuffmanTreeType::ConstEntryReference Entry = LiteralHuffmanTree[LiteralSymbolIndex];
 					_CurrentLiteralEntry = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTreeEntryType(0, Entry._Length, Entry.GetSymbol());
 					Elysium::Core::Template::System::uint16_t CurrentLength = _CurrentLiteralEntry._Length;
@@ -879,7 +893,7 @@ namespace Elysium::Core::Template::IO::Source
 							throw 1;
 						}
 
-						const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(DistanceHuffmanTree._TableBits, SourceSpans, BytesLoadedIntoBitReader);
+						const Elysium::Core::Template::IO::ReadResult BufferPopulationResult = EnsureAvailableBit(DistanceHuffmanTree._MaximumCodeLength, SourceSpans, BytesLoadedIntoBitReader);
 						if (Elysium::Core::Template::IO::ReadResult::Pending == BufferPopulationResult)
 						{
 							if (0 < OutputBytesWritten)
@@ -892,13 +906,12 @@ namespace Elysium::Core::Template::IO::Source
 							return Elysium::Core::Template::IO::ReadResult::Pending;
 						}
 
-						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = 
-							_BitBuffer.Peek(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::DistanceTreeType::_TableBits);
+						Elysium::Core::Template::System::uint64_t DistanceSymbolIndex = _BitBuffer.Peek(DistanceHuffmanTree._MaximumCodeLength);
 						typename DistanceHuffmanTreeType::EntryType CurrentDistanceEntry = DistanceHuffmanTree[DistanceSymbolIndex];
 
 						const Elysium::Core::Template::System::size DistanceIndex = CurrentDistanceEntry.GetSymbol();
 						const Elysium::Core::Template::System::uint16_t DistanceBase = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceBase[DistanceIndex];
-						const Elysium::Core::Template::System::uint16_t DistanceExtraBits = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceExtra[DistanceIndex];
+						const Elysium::Core::Template::System::uint8_t DistanceExtraBits = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77DistanceExtra[DistanceIndex];
 
 						_BitBuffer.Consume(CurrentDistanceEntry._Length);
 
@@ -942,7 +955,7 @@ namespace Elysium::Core::Template::IO::Source
 					{
 						CopiedSymbol = _LZ77HistoryBuffer[(Start + i) % _LZ77HistoryBuffer.GetCapacity()];
 
-						_LZ77HistoryBuffer.Push(&CopiedSymbol, 1);
+						_LZ77HistoryBuffer.PushBackRange(&CopiedSymbol, 1);
 						_DecompressedOutputDataSpan.GetData()[OutputBytesWritten++] = CopiedSymbol;
 						++TargetSpanReadPosition;
 					}
@@ -1162,7 +1175,7 @@ namespace Elysium::Core::Template::IO::Source
 				return 0;
 			}
 
-			_LZ77HistoryBuffer.Push(Data, Length);
+			_LZ77HistoryBuffer.PushBackRange(Data, Length);
 
 			return Length;
 		}
