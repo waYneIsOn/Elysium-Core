@@ -30,6 +30,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Container
 {
+	/*
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::RingBuffer<Elysium::Core::uint8_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::RingBuffer<Elysium::Core::uint16_t>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::RingBuffer<Elysium::Core::uint32_t>;
@@ -53,5 +54,6 @@ namespace Elysium::Core::Container
 	using RingBufferOfInt64_t = Elysium::Core::Template::Container::RingBuffer<Elysium::Core::int64_t>;
 
 	using RingBufferOfSize = Elysium::Core::Template::Container::RingBuffer<Elysium::Core::size>;
+	*/
 }
 #endif

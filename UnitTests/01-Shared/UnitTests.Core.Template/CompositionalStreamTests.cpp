@@ -84,8 +84,8 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(GZipStreamCompressAndDecompressTest)
 		{
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
-			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
 			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
+			WriteAndReadGZip(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
 		}
 
 
@@ -96,9 +96,22 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(Tmp)
 		{
 			//constexpr const char* Input = "AAAA";
-			constexpr const char* Input = "ABCABC";
+			//constexpr const char* Input = "ABCABC";
+			//constexpr const char* Input = "ABCABCABCABC";
+			//constexpr const char* Input = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+			constexpr const char* Input = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 			const Elysium::Core::Template::System::size InputLength = strlen(Input);
-
+			const Elysium::Core::Template::System::byte* Data = reinterpret_cast<const Elysium::Core::Template::System::byte*>(Input);
+			/*
+			Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility LZ77;
+			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Token<Elysium::Core::Template::System::byte>> Tokens = 
+				LZ77.Encode(Data, InputLength);
+			for (Elysium::Core::Template::System::size i = 0; i < Tokens.GetLength(); ++i)
+			{
+				const Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Token<Elysium::Core::Template::System::byte>& CurrentToken = Tokens[i];
+				bool sdfsdfsdfsd = false;
+			}
+			*/
 			const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel =
 				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly;
 
@@ -108,8 +121,8 @@ namespace UnitTests::Core::Template::IO
 			GZipSink CompressionSink(DeflateSink);
 			GZipWritingStream In(CompressionSink);
 
-			In.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(Input), InputLength);
-
+			In.Write(Data, InputLength);
+			
 			bool sdf = false;
 		}
 
@@ -250,7 +263,7 @@ namespace UnitTests::Core::Template::IO
 				}
 				Stream.Flush();
 			}
-
+			
 			// compare with original
 			{
 				FileDevice ExpectedDevice(SourceFile, FileMode::Open, FileAccess::Read, FileShare::Read);

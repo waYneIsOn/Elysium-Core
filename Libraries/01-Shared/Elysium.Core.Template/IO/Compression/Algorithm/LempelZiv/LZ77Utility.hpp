@@ -34,7 +34,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 {
-	template <class T, Elysium::Core::Template::System::size MaxWindow = 32768, Elysium::Core::Template::System::uint8_t MinMatch = 3, Elysium::Core::Template::System::size MaxMatch = 258>
+	template <class T = Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size MaxWindow = 32768, Elysium::Core::Template::System::uint8_t MinMatch = 3, 
+		Elysium::Core::Template::System::size MaxMatch = 258>
 	class LZ77Utility
 	{
 	public:
@@ -54,15 +55,16 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 
 		constexpr LZ77Utility& operator=(LZ77Utility&& Right) noexcept = delete;
 	public:
-		inline Elysium::Core::Template::Container::Vector<TokenType> Decode(const T* Data, const Elysium::Core::Template::System::size Length)
+		inline Elysium::Core::Template::Container::Vector<TokenType> Encode(const SymbolType* Data, const Elysium::Core::Template::System::size Length)
 		{
 			Elysium::Core::Template::Container::Vector<TokenType> Result;
 
+			TokenType CurrentToken{};
 			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
 			{
 				const Elysium::Core::Template::Container::Pair<Elysium::Core::Template::System::size, Elysium::Core::Template::System::size> Match = FindMatch(Data, Length, i);
-				const Elysium::Core::Template::System::size& MatchLength = Match.GetFirst();
-				const Elysium::Core::Template::System::size& MatchDistance = Match.GetSecond();
+				const Elysium::Core::Template::System::size MatchLength = Match.GetFirst();
+				const Elysium::Core::Template::System::size MatchDistance = Match.GetSecond();
 
 				if (MatchLength >= MinMatch)
 				{
@@ -71,26 +73,13 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 					assert(MatchLength <= MaxMatch);
 				}
 
-				TokenType CurrentToken{};
-
-
-
-
-
-
-				CurrentToken._Literal = Data[i];
-				Result.PushBack(CurrentToken);
-
-
-
-				/*
-				if (MatchLength >= MinMatch)	// allows overlaps
+				if (MatchLength >= MinMatch)
 				{
 					CurrentToken._Length = MatchLength;
 					CurrentToken._Distance = MatchDistance;
 					Result.PushBack(CurrentToken);
 
-					_SlidingWindow.PushBackRange(&Data[i], MatchLength);
+					_SlidingWindow.CopyFromHistory(MatchDistance, MatchLength);
 
 					i += MatchLength - 1;
 				}
@@ -99,13 +88,18 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 					CurrentToken._Literal = Data[i];
 					Result.PushBack(CurrentToken);
 
-					_SlidingWindow.PushBackRange(&CurrentToken._Literal, 1);
+					_SlidingWindow.PushBack(CurrentToken._Literal);
 				}
-				*/
 			}
 
 			return Result;
 		}
+		/*
+		inline void Decode(const Elysium::Core::Template::Container::Vector<TokenType>& Tokens)
+		{
+
+		}
+		*/
 	private:
 		inline const Elysium::Core::Template::Container::Pair<Elysium::Core::Template::System::size, Elysium::Core::Template::System::size> FindMatch(const T* Data, 
 			const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Position)
@@ -118,12 +112,29 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 			for (Elysium::Core::Template::System::size i = 0; i < WindowLength; ++i)
 			{
 				Elysium::Core::Template::System::size Count = 0;
-				while (Count < MaxMatch && Position + Count < Length && i + Count < WindowLength && _SlidingWindow[i + Count] == Data[Position + Count])
+				while (Count < MaxMatch && Position + Count < Length)
 				{
+					const Elysium::Core::Template::System::size SourceOffset = i + Count;
+
+					SymbolType Source;
+					if (SourceOffset < WindowLength)
+					{
+						Source = _SlidingWindow[SourceOffset];
+					}
+					else
+					{
+						Source = Data[Position + Count - (WindowLength - i)];
+					}
+
+					if (Source != Data[Position + Count])
+					{
+						break;
+					}
+
 					++Count;
 				}
-
-				if (Count > BestLength)
+				
+				if (Count > BestLength || (Count == BestLength && Count >= MinMatch && (BestDistance == 0 || WindowLength - i < BestDistance)))
 				{
 					BestLength = Count;
 					BestDistance = WindowLength - i;
@@ -132,8 +143,36 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 
 			return { BestLength, BestDistance };
 		}
-	private:
-		Elysium::Core::Template::Container::SlidingWindow<SymbolType> _SlidingWindow = Elysium::Core::Template::Container::SlidingWindow<SymbolType>(MaxWindow);
+		/*
+		inline void PushBackMatch(const Elysium::Core::Template::System::size Distance, const Elysium::Core::Template::System::size Length)
+		{
+			assert(Distance > 0);
+			assert(Distance <= _SlidingWindow.GetLength());
+
+			const Elysium::Core::Template::System::size SlidingWindowCapacity = _SlidingWindow.GetCapacity();
+
+			Elysium::Core::Template::System::size SourceIndex;
+			if constexpr (_SlidingWindow.CanUseFastModulo)
+			{
+				SourceIndex = (_SlidingWindow.GetTail() - Distance) & (SlidingWindowCapacity - 1);
+			}
+			else
+			{
+				SourceIndex = (_SlidingWindow.GetTail() - Distance) % SlidingWindowCapacity;
+			}
+
+			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
+			{
+				const SymbolType Symbol = _SlidingWindow[SourceIndex];
+
+				_SlidingWindow.PushBack(Symbol);
+
+				SourceIndex = (++SourceIndex) & (SlidingWindowCapacity - 1);
+			}
+		}
+		*/
+	public:
+		Elysium::Core::Template::Container::SlidingWindow<SymbolType> _SlidingWindow{};
 	};
 }
 #endif

@@ -36,6 +36,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Memory/MemCpy.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_NUMERIC_NUMERICTRAITS
+#include "../Numeric/NumericTraits.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILER
 #include "../System/Compiler.hpp"
 #endif
@@ -44,6 +48,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../System/Primitives.hpp"
 #endif
 
+#include <cassert>
+
 namespace Elysium::Core::Template::Container
 {
 	/// <summary>
@@ -51,7 +57,7 @@ namespace Elysium::Core::Template::Container
 	/// </summary>
 	/// <typeparam name="Allocator"></typeparam>
 	/// <typeparam name="T"></typeparam>
-	template <Elysium::Core::Template::Concepts::NonConstant T, bool AllowOverflow = false, class Allocator = Elysium::Core::Template::Memory::DefaultAllocator<T>>
+	template <Elysium::Core::Template::Concepts::NonConstant T, Elysium::Core::Template::System::size Capacity, class Allocator = Elysium::Core::Template::Memory::DefaultAllocator<T>>
 	class RingBuffer
 	{
 	public:
@@ -65,8 +71,10 @@ namespace Elysium::Core::Template::Container
 		using ConstReference = const T&;
 		using RValueReference = T&&;
 	public:
-		inline constexpr RingBuffer(const Elysium::Core::Template::System::size Capacity) noexcept
-			: _Allocator(), _Capacity(0 == Capacity ? 1 : Capacity), _Length(0), _Data(_Allocator.Allocate(_Capacity)), _Head(0), _Tail(0)
+		inline static constexpr const bool CanUseFastModulo = Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::size>::IsPowerOfTwo(Capacity);
+	public:
+		inline constexpr RingBuffer() noexcept
+			: _Allocator(), _Length(0), _Data(_Allocator.Allocate(Capacity)), _Head(0), _Tail(0)
 		{ }
 
 		constexpr RingBuffer(const RingBuffer& Source) = delete;
@@ -78,23 +86,25 @@ namespace Elysium::Core::Template::Container
 			_Allocator.Deallocate(_Data, GetLength());
 		}
 	public:
-		constexpr RingBuffer<T, AllowOverflow, Allocator>& operator=(const RingBuffer& Source) = delete;
+		constexpr RingBuffer<T, Capacity, Allocator>& operator=(const RingBuffer& Source) = delete;
 
-		constexpr RingBuffer<T, AllowOverflow, Allocator>& operator=(RingBuffer&& Right) noexcept = delete;
+		constexpr RingBuffer<T, Capacity, Allocator>& operator=(RingBuffer&& Right) noexcept = delete;
 	public:
 		inline constexpr Reference operator[](const Elysium::Core::Template::System::size Index)
 		{
-			return _Data[Index];
+			//return _Data[Index];
+			return _Data[CanUseFastModulo ? (_Head + Index) & (Capacity - 1) : (_Head + Index) % Capacity];
 		}
 
 		inline constexpr ConstReference operator[](const Elysium::Core::Template::System::size Index) const
 		{
-			return _Data[Index];
+			//return _Data[Index];
+			return _Data[CanUseFastModulo ? (_Head + Index) & (Capacity - 1) : (_Head + Index) % Capacity];
 		}
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetCapacity() const noexcept
 		{
-			return _Capacity;
+			return Capacity;
 		}
 
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const noexcept
@@ -114,7 +124,7 @@ namespace Elysium::Core::Template::Container
 
 		inline constexpr const Elysium::Core::Template::System::size GetRemainingSpace() const noexcept
 		{
-			return _Capacity - _Length;
+			return Capacity - _Length;
 		}
 
 		inline constexpr const bool GetIsEmpty() const noexcept
@@ -124,7 +134,7 @@ namespace Elysium::Core::Template::Container
 
 		inline constexpr const bool GetIsFull() const noexcept
 		{
-			return _Length == _Capacity;
+			return _Length == Capacity;
 		}
 	public:
 		inline void Clear()
@@ -133,45 +143,15 @@ namespace Elysium::Core::Template::Container
 			_Head = 0;
 			_Tail = 0;
 		}
-
-		inline void PushBackRange(ConstPointer FirstItem, const Elysium::Core::Template::System::size Length)
-		{
-			if constexpr (AllowOverflow)
-			{
-				if (Length > GetRemainingSpace())
-				{	// @ToDo: throw specific exception (OverflowException?)
-					throw 1;
-				}
-			}
-
-			Elysium::Core::Template::System::size FirstChunkLength = Elysium::Core::Template::Math::Min(Length, _Capacity - _Tail);
-			Elysium::Core::Template::Memory::MemCpy(&_Data[_Tail], FirstItem, FirstChunkLength);
-
-			Elysium::Core::Template::System::size RemainingLength = Length - FirstChunkLength;
-			if (0 < RemainingLength)
-			{
-				Elysium::Core::Template::Memory::MemCpy(&_Data[0], &FirstItem[FirstChunkLength], RemainingLength);
-			}
-
-			_Tail = (_Tail + Length) % _Capacity;
-			_Length += Length;
-			if (_Length > _Capacity)
-			{
-				_Length = _Capacity;
-			}
-		}
-
+		/*
 		inline void Read(Pointer TargetBuffer, const Elysium::Core::Template::System::size Length)
 		{
-			if constexpr (AllowOverflow)
-			{
-				if (Length > _Length)
-				{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
-					throw 1;
-				}
+			if (Length > _Length)
+			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
+				throw 1;
 			}
 
-			Elysium::Core::Template::System::size FirstChunkLength = Elysium::Core::Template::Math::Min(Length, _Capacity - _Head);
+			Elysium::Core::Template::System::size FirstChunkLength = Elysium::Core::Template::Math::Min(Length, Capacity - _Head);
 			Elysium::Core::Template::Memory::MemCpy(TargetBuffer, &_Data[_Head], FirstChunkLength);
 
 			Elysium::Core::Template::System::size RemainingLength = Length - FirstChunkLength;
@@ -189,17 +169,15 @@ namespace Elysium::Core::Template::Container
 
 		inline void Pop(const Elysium::Core::Template::System::size Length)
 		{
-			if constexpr (AllowOverflow)
-			{
-				if (Length > _Length)
-				{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
-					throw 1;
-				}
+			if (Length > _Length)
+			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
+				throw 1;
 			}
 
 			_Head = (_Head + Length) % _Length;
 			_Length -= Length;
 		}
+		*/
 	public:
 		inline const Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> RequestReadableSpan() const noexcept
 		{
@@ -213,31 +191,9 @@ namespace Elysium::Core::Template::Container
 				return { &_Data[_Head], _Tail - _Head, nullptr, 0 };
 			}
 
-			return { &_Data[_Head], _Capacity - _Head, &_Data[0], _Tail };
+			return { &_Data[_Head], Capacity - _Head, &_Data[0], _Tail };
 		}
-
-		template <class T>
-		inline T* TryGetContiguous(Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> Spans)
-		{
-			if (Spans.GetFirst().GetLength() >= sizeof(T)) ELYSIUM_CORE_PATH_LIKELY
-			{
-				return reinterpret_cast<T*>(Spans.GetFirst().GetData());
-			}
-
-			return nullptr;
-		}
-
-		template <class T>
-		inline T* TryGetContiguous(Elysium::Core::Template::Container::View::MultiSpan<Value, 1024, 2> Spans, const Elysium::Core::Template::System::size Length)
-		{
-			if (Spans.GetFirst().GetLength() >= sizeof(T) * Length) ELYSIUM_CORE_PATH_LIKELY
-			{
-				return reinterpret_cast<T*>(Spans.GetFirst().GetData());
-			}
-
-			return nullptr;
-		}
-
+		
 		inline void CommitReadableSpan(const Elysium::Core::Template::System::size Length)
 		{
 			if (Length > _Length)
@@ -245,7 +201,14 @@ namespace Elysium::Core::Template::Container
 				throw 1;
 			}
 
-			_Head = (_Head + Length) % _Capacity;
+			if constexpr (CanUseFastModulo)
+			{
+				_Head = (_Head + Length) & (Capacity - 1);
+			}
+			else
+			{
+				_Head = (_Head + Length) % Capacity;
+			}
 			_Length -= Length;
 		}
 	public:
@@ -261,7 +224,7 @@ namespace Elysium::Core::Template::Container
 				return { &_Data[_Tail], _Head - _Tail, nullptr, 0 };
 			}
 
-			const Elysium::Core::Template::System::size Length0 = _Capacity - _Tail; 
+			const Elysium::Core::Template::System::size Length0 = Capacity - _Tail; 
 			const Elysium::Core::Template::System::size Available = GetRemainingSpace();
 
 			if (Length0 >= Available)
@@ -277,17 +240,91 @@ namespace Elysium::Core::Template::Container
 
 		inline void CommitWritableSpan(const Elysium::Core::Template::System::size Length)
 		{
-			if (Length > (_Capacity - _Length))
-			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
+			if (Length > Capacity - _Length)
+			{	// @ToDo: throw specific exception (OverflowException?)
 				throw 1;
 			}
 
-			_Tail = (_Tail + Length) % _Capacity;
+			if constexpr (CanUseFastModulo)
+			{
+				_Tail = (_Tail + Length) & (Capacity - 1);
+			}
+			else
+			{
+				_Tail = (_Tail + Length) % Capacity;
+			}
 			_Length += Length;
+		}
+	public:
+		inline void CopyFromHistory(const Elysium::Core::Template::System::size Distance, const Elysium::Core::Template::System::size Length)
+		{
+			assert(Distance > 0);
+			assert(Distance <= _Length);
+			assert(Length > 0);
+
+			constexpr const Elysium::Core::Template::System::size Mask = Capacity - 1;
+			
+			if (Distance >= Length)
+			{	// no overlap of source- and destination-ranges 
+				const Elysium::Core::Template::System::size SourceIndex = CanUseFastModulo ? (_Tail - Distance) & Mask : (_Tail - Distance) % Capacity;
+				const Elysium::Core::Template::System::size TargetIndex = _Tail;
+
+				const bool SourceFits = SourceIndex + Length <= Capacity;
+				const bool TargetFits = TargetIndex + Length <= Capacity;
+
+				if (SourceFits && TargetFits)
+				{
+					Elysium::Core::Template::Memory::MemCpy(&_Data[TargetIndex], &_Data[SourceIndex], Length * sizeof(Value));
+
+					_Tail = CanUseFastModulo ? (_Tail + Length) & Mask : (_Tail + Length) % Capacity;
+					_Length += Length;
+
+					if (_Length > Capacity)
+					{
+						const Elysium::Core::Template::System::size Overflow = _Length - Capacity;
+
+						_Length = Capacity;
+						_Head = CanUseFastModulo ? (_Head + Overflow) & Mask : (_Head + Overflow) % Capacity;
+					}
+
+					return;
+				}
+			}
+			
+			// overlap or ...
+			Elysium::Core::Template::System::size SourceIndex = CanUseFastModulo ? (_Tail - Distance) & Mask : (_Tail - Distance) % Capacity;
+			Elysium::Core::Template::System::size TargetIndex = _Tail;
+			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
+			{
+				const Value Symbol = _Data[SourceIndex];
+
+				_Data[TargetIndex] = 'x';
+				_Data[TargetIndex] = Symbol;
+
+				if constexpr (CanUseFastModulo)
+				{
+					SourceIndex = (++SourceIndex) & Mask;
+					TargetIndex = (++TargetIndex) & Mask;
+				}
+				else
+				{
+					SourceIndex = (++SourceIndex) % Capacity;
+					TargetIndex = (++TargetIndex) % Capacity;
+				}
+			}
+
+			_Tail = CanUseFastModulo ? (_Tail + Length) & Mask : (_Tail + Length) % Capacity;
+			_Length += Length;
+			if (_Length > Capacity)
+			{
+				const Elysium::Core::Template::System::size Overflow = _Length - Capacity;
+
+				_Length = Capacity;
+				_Head = CanUseFastModulo ? (_Head + Overflow) & Mask : (_Head + Overflow) % Capacity;
+			}
 		}
 	private:
 		Allocator _Allocator;
-		Elysium::Core::Template::System::size _Capacity;
 		Elysium::Core::Template::System::size _Length;
 		Pointer _Data;
 

@@ -98,6 +98,17 @@ namespace Elysium::Core::Template::Numeric
 			static_cast<_NumericTraitsBase<T>::ConstValue>(((1_ui64 << (_NumericTraitsBase<T>::ByteLength * 8 - 1)) + 1) * -1) : 
 			-1;
 	public:
+		inline static constexpr const bool IsPowerOfTwo(T Value) noexcept
+		{
+			return Value && !(Value & (Value - 1));
+		}
+		/*
+		template <T Base>
+		inline static constexpr const bool IsPowerOf(T Value) noexcept
+		{
+			return false;
+		}
+		*/
 		/// <summary>
 		/// 
 		/// </summary>

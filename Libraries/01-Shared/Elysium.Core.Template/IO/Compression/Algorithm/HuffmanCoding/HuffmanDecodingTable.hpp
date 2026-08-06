@@ -368,7 +368,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::HuffmanCoding
 		Elysium::Core::Template::System::uint8_t _CodeLengths[AlphabetLength];
 		Elysium::Core::Template::System::uint16_t _CanonicalCodes[AlphabetLength];
 
-		//Elysium::Core::Template::System:: _Work[AlphabetLength];
 		ContainerType _Table;
 	};
 }

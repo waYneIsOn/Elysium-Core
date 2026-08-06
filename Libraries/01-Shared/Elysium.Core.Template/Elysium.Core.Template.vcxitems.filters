@@ -963,6 +963,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTable.hpp">
       <Filter>IO\Compression\Algorithm\HuffmanCoding</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemMove.hpp">
+      <Filter>Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

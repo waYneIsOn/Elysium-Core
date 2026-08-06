@@ -71,11 +71,11 @@ namespace Elysium::Core::Template::IO::Source
 
 		using MostInnerSourceType = InnerSource::MostInnerSourceType;
 	public:
-		inline constexpr DeflateSource(InnerSource& InnerSource, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
-			: _Buffer(BufferSize), _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader),
+		inline constexpr DeflateSource(InnerSource& InnerSource) noexcept
+			: _Buffer{}, _State(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingBlockHeader),
 			_BlockHeader{}, _BitBuffer{}, _StoredHuffmanBlockInfo{}, _DynamicHuffmanBlockInfo{},
 			_CurrentLiteralEntry(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::InvalidLiteralEntry), _CurrentLength{}, _CurrentDistance{},
-			_LZ77HistoryBuffer(Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::LZ77HistoryBufferSize), _LZ77HistoryBufferReadPosition{}, _Distance{},
+			_LZ77HistoryBuffer{}, _LZ77HistoryBufferReadPosition{}, _Distance{},
 			_Length{}, _DecompressedOutputDataBuffer(4096), _DecompressedOutputDataSpan(&_DecompressedOutputDataBuffer[0], _DecompressedOutputDataBuffer.GetCapacity()),
 			_DecompressedOutputDataBufferPosition{}, _InnerSource(InnerSource)
 		{ }
@@ -785,16 +785,8 @@ namespace Elysium::Core::Template::IO::Source
 			Elysium::Core::Template::System::size TargetSpanReadPosition = 0;
 
  			if (0 == SourceSpans.GetLength())
-			{
+			{	// @ToDo
 				throw 1;
-			}
-
-			//if (_BlockCount == 161)
-			//if (_BlockCount == 160)
-			if (_BlockCount == 159)
-			//if (_BlockCount > 0)
-			{
-				bool sdf = false;
 			}
 
 			while (true)
@@ -953,9 +945,10 @@ namespace Elysium::Core::Template::IO::Source
 					Elysium::Core::Template::System::size Start = _LZ77HistoryBuffer.GetTail() - _CurrentDistance;
 					for (Elysium::Core::Template::System::uint16_t i = 0; i < _CurrentLength; ++i)
 					{
-						CopiedSymbol = _LZ77HistoryBuffer[(Start + i) % _LZ77HistoryBuffer.GetCapacity()];
+						//CopiedSymbol = _LZ77HistoryBuffer[(Start + i) % _LZ77HistoryBuffer.GetCapacity()];
+						CopiedSymbol = _LZ77HistoryBuffer[Start + i];
 
-						_LZ77HistoryBuffer.PushBackRange(&CopiedSymbol, 1);
+						_LZ77HistoryBuffer.PushBack(CopiedSymbol);
 						_DecompressedOutputDataSpan.GetData()[OutputBytesWritten++] = CopiedSymbol;
 						++TargetSpanReadPosition;
 					}
@@ -1047,9 +1040,9 @@ namespace Elysium::Core::Template::IO::Source
 			{
 				Elysium::Core::Template::System::size BytesCopied = 0;
 
-				Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> WriteableSpan = _Buffer.RequestWriteableSpan();
-				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan0 = WriteableSpan.GetFirst();
-				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan1 = WriteableSpan.GetSecond();
+				Elysium::Core::Template::Container::View::MultiSpan<Elysium::Core::Template::System::byte, 1024, 2> WriteableSpans = _Buffer.RequestWriteableSpan();
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan0 = WriteableSpans.GetFirst();
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> WriteableSpan1 = WriteableSpans.GetSecond();
 
 				bool MadeProgress = false;
 				Elysium::Core::Template::IO::ReadResult Result = _InnerSource.ReadBlock(SourceSpan);
@@ -1219,7 +1212,7 @@ namespace Elysium::Core::Template::IO::Source
 			Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::DistanceTreeType _DistanceTree;
 		};
 	private:
-		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte> _Buffer;
+		Elysium::Core::Template::Container::RingBuffer<Elysium::Core::Template::System::byte, 4096> _Buffer;
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState _State;
 
 		Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockHeader _BlockHeader;

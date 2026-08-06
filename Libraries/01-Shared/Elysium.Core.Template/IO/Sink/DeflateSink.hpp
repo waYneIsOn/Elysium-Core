@@ -134,10 +134,12 @@ namespace Elysium::Core::Template::IO::Sink
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, Elysium::Core::Template::System::size Count)
 		{
-			constexpr Elysium::Core::Template::System::size Limit = 32 * 1024;
+			//constexpr Elysium::Core::Template::System::size Limit = 32 * 1024;
+			constexpr Elysium::Core::Template::System::size Limit = 32 * 1024 - 2;
 			//constexpr Elysium::Core::Template::System::size Limit = 4 * 1024;
 			//constexpr Elysium::Core::Template::System::size Limit = 123;
 			//constexpr Elysium::Core::Template::System::size Limit = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength;
+			//constexpr Elysium::Core::Template::System::size Limit = Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::MaximumUncompressedBlockLength - 10;
 
 			while (Count > 0)
 			{
@@ -258,14 +260,14 @@ namespace Elysium::Core::Template::IO::Sink
 			static constexpr Elysium::Core::Template::System::uint8_t EOBLength =
 				Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateUtility::StaticLiteralTree._CodeLengths[256];
 
+			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = _LZ77Utility.Encode(&_BlockBuffer[0], _BlockWritePosition);
+
 			Elysium::Core::Template::System::byte DeflateHeader = 0x00;
 			DeflateHeader |= IsFinalBlock;
 			DeflateHeader |= static_cast<Elysium::Core::Template::System::byte>(Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::FixedHuffman) << 1;
 			
 			WriteBits(DeflateHeader, 3);
 			
-			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = _LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
-
 			for (Elysium::Core::Template::System::size i = 0; i < Tokens.GetLength(); ++i)
 			{
 				const LZ77TokenType& CurrentToken = Tokens[i];
@@ -328,7 +330,7 @@ namespace Elysium::Core::Template::IO::Sink
 
 		inline void WriteDynamicBlock(const bool IsFinalBlock)
 		{
-			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = _LZ77Utility.Decode(&_BlockBuffer[0], _BlockWritePosition);
+			Elysium::Core::Template::Container::Vector<LZ77TokenType> Tokens = _LZ77Utility.Encode(&_BlockBuffer[0], _BlockWritePosition);
 
 			// ...
 			bool HasIncrementedDistances = false;

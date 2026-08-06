@@ -86,6 +86,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\AddVolatile.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\AggregateException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemChr.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemMove.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Adler32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Checksum\Crc32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
