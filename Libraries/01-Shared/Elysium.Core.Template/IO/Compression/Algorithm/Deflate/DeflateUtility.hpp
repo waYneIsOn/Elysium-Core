@@ -130,6 +130,8 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::Deflate
 			5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5
 		});
 
+		//inline static constexpr StaticLiteralTreeEntryType EndOfBlockEntry{ 0_ui8, 0_ui8, 256_ui16 };
+
 		inline static constexpr StaticLiteralTreeEntryType InvalidLiteralEntry{ 0_ui8, 0_ui8, 286_ui16 };
 	public:
 		inline static constexpr Elysium::Core::Template::System::size LZ77HistoryBufferSize = 32768;

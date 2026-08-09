@@ -174,7 +174,7 @@ namespace UnitTests::Core::Template::IO
 				const Elysium::Core::Template::System::size FilePosition = ReadDevice.GetPosition();
 
 				Assert::AreEqual(FileLength, FilePosition);
-				Assert::AreEqual(10485760_ui64, Result.GetLength());
+				Assert::AreEqual(10669720_ui64, Result.GetLength());
 			}
 		}
 

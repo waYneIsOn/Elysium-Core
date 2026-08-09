@@ -85,17 +85,22 @@ namespace Elysium::Core::Template::Container
 			return _Buffer.GetLength();
 		}
 
+		inline constexpr const Elysium::Core::Template::System::size GetHead() const noexcept
+		{
+			return _Buffer.GetHead();
+		}
+
 		inline constexpr const Elysium::Core::Template::System::size GetTail() const noexcept
 		{
 			return _Buffer.GetTail();
 		}
 
-		inline constexpr const bool GetIsEmpty() const noexcept(_Buffer.GetIsEmpty())
+		inline constexpr const bool GetIsEmpty() const //noexcept(_Buffer.GetIsEmpty())
 		{
 			return _Buffer.GetIsEmpty();
 		}
 
-		inline constexpr const bool GetIsFull() const noexcept(_Buffer.GetIsFull())
+		inline constexpr const bool GetIsFull() const //noexcept(_Buffer.GetIsFull())
 		{
 			return _Buffer.GetIsFull();
 		}

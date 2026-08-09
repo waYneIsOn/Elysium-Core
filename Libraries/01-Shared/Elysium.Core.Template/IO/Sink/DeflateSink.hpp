@@ -64,18 +64,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../System/Primitives.hpp"
 #endif
 
-
-
-
-#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_CONVERT
-#include "../../Text/Convert.hpp"
-#endif
-
-
-
-
-
-
 namespace Elysium::Core::Template::IO::Sink
 {
 	// @ToDo: concept for sinks!

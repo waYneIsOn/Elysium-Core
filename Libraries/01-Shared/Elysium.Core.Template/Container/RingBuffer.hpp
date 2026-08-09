@@ -72,6 +72,8 @@ namespace Elysium::Core::Template::Container
 		using RValueReference = T&&;
 	public:
 		inline static constexpr const bool CanUseFastModulo = Elysium::Core::Template::Numeric::NumericTraits<Elysium::Core::Template::System::size>::IsPowerOfTwo(Capacity);
+
+		inline static constexpr const Elysium::Core::Template::System::size Mask = (Capacity - 1);
 	public:
 		inline constexpr RingBuffer() noexcept
 			: _Allocator(), _Length(0), _Data(_Allocator.Allocate(Capacity)), _Head(0), _Tail(0)
@@ -92,14 +94,14 @@ namespace Elysium::Core::Template::Container
 	public:
 		inline constexpr Reference operator[](const Elysium::Core::Template::System::size Index)
 		{
-			//return _Data[Index];
-			return _Data[CanUseFastModulo ? (_Head + Index) & (Capacity - 1) : (_Head + Index) % Capacity];
+			const Elysium::Core::Template::System::size WrappedIndex = CanUseFastModulo ? (_Head + Index) & Mask : (_Head + Index) % Capacity;
+			return _Data[WrappedIndex];
 		}
 
 		inline constexpr ConstReference operator[](const Elysium::Core::Template::System::size Index) const
 		{
-			//return _Data[Index];
-			return _Data[CanUseFastModulo ? (_Head + Index) & (Capacity - 1) : (_Head + Index) % Capacity];
+			const Elysium::Core::Template::System::size WrappedIndex = CanUseFastModulo ? (_Head + Index) & Mask : (_Head + Index) % Capacity;
+			return _Data[WrappedIndex];
 		}
 	public:
 		inline constexpr const Elysium::Core::Template::System::size GetCapacity() const noexcept
@@ -196,19 +198,17 @@ namespace Elysium::Core::Template::Container
 		
 		inline void CommitReadableSpan(const Elysium::Core::Template::System::size Length)
 		{
+			if (0 == Length)
+			{
+				return;
+			}
+
 			if (Length > _Length)
 			{	// @ToDo: throw specific exception (OverflowException? actual underflow but w/e)
 				throw 1;
 			}
 
-			if constexpr (CanUseFastModulo)
-			{
-				_Head = (_Head + Length) & (Capacity - 1);
-			}
-			else
-			{
-				_Head = (_Head + Length) % Capacity;
-			}
+			_Head = CanUseFastModulo ? (_Head + Length) & Mask : (_Head + Length) % Capacity;
 			_Length -= Length;
 		}
 	public:
@@ -240,20 +240,25 @@ namespace Elysium::Core::Template::Container
 
 		inline void CommitWritableSpan(const Elysium::Core::Template::System::size Length)
 		{
+			if (0 == Length)
+			{
+				return;
+			}
+
 			if (Length > Capacity - _Length)
 			{	// @ToDo: throw specific exception (OverflowException?)
 				throw 1;
 			}
 
-			if constexpr (CanUseFastModulo)
-			{
-				_Tail = (_Tail + Length) & (Capacity - 1);
-			}
-			else
-			{
-				_Tail = (_Tail + Length) % Capacity;
-			}
+			_Tail = CanUseFastModulo ? (_Tail + Length) & Mask : (_Tail + Length) % Capacity;
 			_Length += Length;
+			if (_Length > Capacity)
+			{
+				const Elysium::Core::Template::System::size Overflow = _Length - Capacity;
+
+				_Length = Capacity;
+				_Head = CanUseFastModulo ? (_Head + Overflow) & Mask : (_Head + Overflow) % Capacity;
+			}
 		}
 	public:
 		inline void CopyFromHistory(const Elysium::Core::Template::System::size Distance, const Elysium::Core::Template::System::size Length)
@@ -261,8 +266,6 @@ namespace Elysium::Core::Template::Container
 			assert(Distance > 0);
 			assert(Distance <= _Length);
 			assert(Length > 0);
-
-			constexpr const Elysium::Core::Template::System::size Mask = Capacity - 1;
 			
 			if (Distance >= Length)
 			{	// no overlap of source- and destination-ranges 
@@ -298,7 +301,6 @@ namespace Elysium::Core::Template::Container
 			{
 				const Value Symbol = _Data[SourceIndex];
 
-				_Data[TargetIndex] = 'x';
 				_Data[TargetIndex] = Symbol;
 
 				if constexpr (CanUseFastModulo)

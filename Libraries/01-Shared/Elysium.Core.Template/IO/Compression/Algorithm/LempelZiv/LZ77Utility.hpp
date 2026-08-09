@@ -94,12 +94,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 
 			return Result;
 		}
-		/*
-		inline void Decode(const Elysium::Core::Template::Container::Vector<TokenType>& Tokens)
-		{
-
-		}
-		*/
 	private:
 		inline const Elysium::Core::Template::Container::Pair<Elysium::Core::Template::System::size, Elysium::Core::Template::System::size> FindMatch(const T* Data, 
 			const Elysium::Core::Template::System::size Length, const Elysium::Core::Template::System::size Position)

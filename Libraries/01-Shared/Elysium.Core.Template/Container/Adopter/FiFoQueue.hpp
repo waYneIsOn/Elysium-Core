@@ -43,7 +43,7 @@ namespace Elysium::Core::Template::Container
 	public:
 		constexpr FiFoQueue() = default;
 
-		constexpr FiFoQueue(const InitializerList<T>& InitializerList) noexcept
+		inline constexpr FiFoQueue(const InitializerList<T>& InitializerList) noexcept
 			: _Container(InitializerList)
 		{ }
 
