@@ -939,7 +939,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Token.hpp">
       <Filter>IO\Compression\Algorithm\LempelZiv</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Utility.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Encoder.hpp">
       <Filter>IO\Compression\Algorithm\LempelZiv</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Pair.hpp">

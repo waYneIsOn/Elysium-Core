@@ -24,10 +24,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Security/Cryptography/Checksum/Crc32.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../../System/OperatingSystem.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
 #endif
@@ -43,7 +39,7 @@ namespace Elysium::Core::Template::IO::Sink
 		using DeviceType = InnerSink::DeviceType;
 	public:
 		inline constexpr GZipSink(InnerSink& InnerSink) noexcept
-			: _InnerSink(InnerSink), _Crc32(0xFFFFFFFF), _UncompressedSize{}, _HasWrittenHeader{}, _HasWrittenFooter{}
+			: _InnerSink(InnerSink), _Crc32(0xFFFFFFFF), _UncompressedSize{}, _Header{}, _HasWrittenHeader {}, _HasWrittenFooter{}
 		{ }
 
 		constexpr GZipSink(const GZipSink& Source) = delete;
@@ -75,6 +71,26 @@ namespace Elysium::Core::Template::IO::Sink
 			{
 				_InnerSink.SetPosition();
 			}
+		}
+	public:
+		inline void SetExtra(const Elysium::Core::Template::System::byte* Data, const Elysium::Core::Template::System::size Length)
+		{
+			_Header.SetExtra(Data, Length);
+		}
+
+		inline void SetComment(const Elysium::Core::Template::Text::String<char8_t>& Comment)
+		{
+			_Header.SetComment(Comment);
+		}
+
+		inline void SetName(const Elysium::Core::Template::Text::String<char8_t>& Name)
+		{
+			_Header.SetName(Name);
+		}
+
+		inline void SetCrc(const Elysium::Core::Template::System::uint16_t Crc)
+		{
+			_Header.SetCrc(Crc);
 		}
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
@@ -123,30 +139,34 @@ namespace Elysium::Core::Template::IO::Sink
 				return;
 			}
 
-			constexpr Elysium::Core::Template::System::byte Flags = 0;
-			constexpr Elysium::Core::Template::System::uint32_t ModificationTime = 0;
-			constexpr Elysium::Core::Template::System::byte ExtraFlags = 0;
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-			constexpr Elysium::Core::Template::System::byte OperatingSystem = 0;
-#endif
-
 			DeviceType& Device = _InnerSink.GetDevice();
 
 			Device.Write(&Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader::MagicValue0, 1);
 			Device.Write(&Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader::MagicValue1, 1);
 			Device.Write(&Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader::CompressionMethodDeflate, 1);
-			Device.Write(&Flags, 1);
-			Device.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(&ModificationTime), sizeof(Elysium::Core::Template::System::uint32_t));
-			Device.Write(&ExtraFlags, 1);
-			Device.Write(&OperatingSystem, 1);
-			/*
-			// @ToDo
-			if (Flags)
+			Device.Write(&_Header._Flags, 1);
+			Device.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(&_Header._ModificationTime), sizeof(Elysium::Core::Template::System::uint32_t));
+			Device.Write(&_Header._ExtraFlags, 1);
+			Device.Write(&_Header._OperatingSystem, 1);
+
+			if (_Header.GetExtraExists())
 			{
-				constexpr Elysium::Core::Template::System::uint16_t ExtraLength = 0;
-				Device.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(&ExtraLength), sizeof(Elysium::Core::Template::System::uint16_t));
+				Device.Write(&_Header._ExtraBuffer[0], _Header._ExtraLength);
 			}
-			*/
+			if (_Header.GetNameExists())
+			{
+				Device.Write(&_Header._NameBuffer[0], _Header._NameBuffer.GetLength());
+			}
+			if (_Header.GetCommentExists())
+			{
+				Device.Write(&_Header._CommentBuffer[0], _Header._CommentBuffer.GetLength());
+			}
+			if (_Header.GetHeaderCrcExists())
+			{
+				constexpr const Elysium::Core::Template::System::size CrcSize = sizeof(_Header._Crc);
+				Device.Write(reinterpret_cast<const Elysium::Core::Template::System::byte*>(&_Header._Crc), CrcSize);
+			}
+			
 			_HasWrittenHeader = true;
 		}
 
@@ -169,6 +189,8 @@ namespace Elysium::Core::Template::IO::Sink
 		InnerSink& _InnerSink;
 		Elysium::Core::Template::System::uint32_t _Crc32;
 		Elysium::Core::Template::System::uint32_t _UncompressedSize;
+
+		Elysium::Core::Template::IO::Compression::Format::GZip::GZipHeader _Header;
 
 		bool _HasWrittenHeader;
 		bool _HasWrittenFooter;

@@ -36,12 +36,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../IO/Compression/Algorithm/HuffmanCoding/HuffmanFrequencyTable.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77TOKEN
-#include "../../IO/Compression/Algorithm/LempelZiv/LZ77Token.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77ENCODER
+#include "../../IO/Compression/Algorithm/LempelZiv/LZ77Encoder.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77UTILITY
-#include "../../IO/Compression/Algorithm/LempelZiv/LZ77Utility.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77TOKEN
+#include "../../IO/Compression/Algorithm/LempelZiv/LZ77Token.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_ALGORITHMS_SORTING_SORT
@@ -75,7 +75,7 @@ namespace Elysium::Core::Template::IO::Sink
 	private:
 		using SymbolType = Elysium::Core::Template::System::byte;
 
-		using LZ77TokenType = Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType>::TokenType;
+		using LZ77TokenType = Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Encoder<SymbolType>::TokenType;
 	public:
 		inline constexpr DeflateSink(InnerSink& InnerSink, const Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel) noexcept
 			: _InnerSink(InnerSink), _CompressionLevel(CompressionLevel),
@@ -860,7 +860,7 @@ namespace Elysium::Core::Template::IO::Sink
 
 		Elysium::Core::Template::Container::BitBuffer<> _BitBuffer;
 
-		Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Utility<SymbolType> _LZ77Utility;
+		Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Encoder<SymbolType> _LZ77Utility;
 
 		bool _HasWrittenFinalBlock = false;
 

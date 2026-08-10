@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77UTILITY
-#define ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77UTILITY
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77ENCODER
+#define ELYSIUM_CORE_TEMPLATE_IO_COMPRESSION_ALGORITHM_LEMPELZIV_LZ77ENCODER
 
 #ifdef _MSC_VER
 #pragma once
@@ -36,24 +36,24 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 {
 	template <class T = Elysium::Core::Template::System::byte, Elysium::Core::Template::System::size MaxWindow = 32768, Elysium::Core::Template::System::uint8_t MinMatch = 3, 
 		Elysium::Core::Template::System::size MaxMatch = 258>
-	class LZ77Utility
+	class LZ77Encoder
 	{
 	public:
 		using SymbolType = Elysium::Core::Template::Functional::RemoveConstVolatileType<T>;
 
 		using TokenType = Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv::LZ77Token<SymbolType>;
 	public:
-		constexpr LZ77Utility() = default;
+		constexpr LZ77Encoder() = default;
 
-		constexpr LZ77Utility(const LZ77Utility& Source) = delete;
+		constexpr LZ77Encoder(const LZ77Encoder& Source) = delete;
 
-		constexpr LZ77Utility(LZ77Utility&& Right) noexcept = delete;
+		constexpr LZ77Encoder(LZ77Encoder&& Right) noexcept = delete;
 
-		constexpr ~LZ77Utility() = default;
+		constexpr ~LZ77Encoder() = default;
 	public:
-		constexpr LZ77Utility& operator=(const LZ77Utility& Source) = delete;
+		constexpr LZ77Encoder& operator=(const LZ77Encoder& Source) = delete;
 
-		constexpr LZ77Utility& operator=(LZ77Utility&& Right) noexcept = delete;
+		constexpr LZ77Encoder& operator=(LZ77Encoder&& Right) noexcept = delete;
 	public:
 		inline Elysium::Core::Template::Container::Vector<TokenType> Encode(const SymbolType* Data, const Elysium::Core::Template::System::size Length)
 		{
@@ -137,34 +137,6 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 
 			return { BestLength, BestDistance };
 		}
-		/*
-		inline void PushBackMatch(const Elysium::Core::Template::System::size Distance, const Elysium::Core::Template::System::size Length)
-		{
-			assert(Distance > 0);
-			assert(Distance <= _SlidingWindow.GetLength());
-
-			const Elysium::Core::Template::System::size SlidingWindowCapacity = _SlidingWindow.GetCapacity();
-
-			Elysium::Core::Template::System::size SourceIndex;
-			if constexpr (_SlidingWindow.CanUseFastModulo)
-			{
-				SourceIndex = (_SlidingWindow.GetTail() - Distance) & (SlidingWindowCapacity - 1);
-			}
-			else
-			{
-				SourceIndex = (_SlidingWindow.GetTail() - Distance) % SlidingWindowCapacity;
-			}
-
-			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
-			{
-				const SymbolType Symbol = _SlidingWindow[SourceIndex];
-
-				_SlidingWindow.PushBack(Symbol);
-
-				SourceIndex = (++SourceIndex) & (SlidingWindowCapacity - 1);
-			}
-		}
-		*/
 	public:
 		Elysium::Core::Template::Container::SlidingWindow<SymbolType> _SlidingWindow{};
 	};
