@@ -984,6 +984,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\KnownCompressionAlgorithm.hpp">
       <Filter>IO\Compression</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp">
+      <Filter>System\Hardware</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1138,6 +1141,9 @@
     </Filter>
     <Filter Include="IO\Compression\Algorithm\LempelZiv">
       <UniqueIdentifier>{fa28c0e0-7486-468f-9fc8-4518f0f1e5b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="System\Hardware">
+      <UniqueIdentifier>{cdaed551-f3d5-419c-ab5a-e6e214d77111}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

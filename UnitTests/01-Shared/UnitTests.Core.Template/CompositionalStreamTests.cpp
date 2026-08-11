@@ -72,7 +72,7 @@ namespace UnitTests::Core::Template::IO
 		{	
 			// same file, same device
 			{
-				FileDevice Device(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+				FileDevice Device(u8"UnitTests.Core.Template.IO.FileStreamTest.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
 				FileSink Sink(Device);
 				FileSource Source(Device);
 
@@ -83,16 +83,39 @@ namespace UnitTests::Core::Template::IO
 
 			// same file, different devices
 			{
-				FileDevice WriteDevice(u8"C:\\test\\bla.txt", FileMode::Create, FileAccess::Write, FileShare::ReadWrite);
+				FileDevice WriteDevice(u8"UnitTests.Core.Template.IO.FileStreamTest.txt", FileMode::Create, FileAccess::Write, FileShare::ReadWrite);
 				FileSink Sink(WriteDevice);
 
-				FileDevice ReadDevice(u8"C:\\test\\bla.txt", FileMode::Open, FileAccess::Read, FileShare::ReadWrite);
+				FileDevice ReadDevice(u8"UnitTests.Core.Template.IO.FileStreamTest.txt", FileMode::Open, FileAccess::Read, FileShare::ReadWrite);
 				FileSource Source(ReadDevice);
 
 				FileStream Stream(Sink, Source);
 
 				WriteAndReadBack(Stream, false);
 			}
+		}
+
+		TEST_METHOD(IOCPFileStreamTest)
+		{
+			FileDevice Device(u8"UnitTests.Core.Template.IO.IOCPFileStreamTest.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
+			FileSink Sink(Device);
+			FileSource Source(Device);
+
+			FileStream Stream(Sink, Source);
+
+
+
+
+			constexpr const char* TempInput = "this is a text longer than what eventually is in the stream";
+			constexpr const Elysium::Core::Template::System::size TempInputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(TempInput);
+
+			Device.BeginWrite(reinterpret_cast<const Elysium::Core::Template::System::byte*>(TempInput), TempInputLength);
+
+
+
+
+
+			Assert::Fail();
 		}
 
 		TEST_METHOD(MemoryStreamTest)

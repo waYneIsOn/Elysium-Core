@@ -35,18 +35,45 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr CallOnce() noexcept = default;
 
-		CallOnce(const CallOnce& Source) = delete;
+		constexpr CallOnce(const CallOnce& Source) = delete;
 
-		CallOnce(CallOnce&& Right) noexcept = delete;
+		constexpr CallOnce(CallOnce&& Right) noexcept = delete;
 
-		~CallOnce() noexcept = default;
+		constexpr ~CallOnce() noexcept = default;
 	public:
-		CallOnce& operator=(const CallOnce& Source) = delete;
+		constexpr CallOnce& operator=(const CallOnce& Source) = delete;
 
-		CallOnce& operator=(CallOnce&& Right) noexcept = delete;
+		constexpr CallOnce& operator=(CallOnce&& Right) noexcept = delete;
 	public:
 		template <class Callable, class... Args>
-		constexpr void operator()(Callable&& Function, Args&&... Parameters);
+		inline constexpr void operator()(Callable&& Function, Args&&... Parameters)
+		{
+			// @ToDo: STL uses noexcept.
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+			Elysium::Core::Template::System::int32_t Pending;
+			if (!InitOnceBeginInitialize(&_NativeObject, 0, &Pending, nullptr))
+			{
+				abort();
+			}
+
+			if (0 != Pending)
+			{
+				// @ToDo: STL uses RAII object _Init_once_completer. need to have a look whether this is better! 
+				try
+				{
+					Function(Parameters...);	// @ToDo: STL uses std::invoke - really need to have a look at it
+					InitOnceComplete(&_NativeObject, 0, nullptr);
+				}
+				catch (...)
+				{
+					InitOnceComplete(&_NativeObject, 0x00000004UL /*INIT_ONCE_INIT_FAILED*/, nullptr);
+					throw;
+				}
+			}
+#else
+#error "unsupported os"
+#endif
+		}
 	private:
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		INIT_ONCE _NativeObject = INIT_ONCE_STATIC_INIT;
@@ -56,35 +83,5 @@ namespace Elysium::Core::Template::Threading
 #error "unsupported os"
 #endif
 	};
-
-	template<class Callable, class ...Args>
-	inline constexpr void CallOnce::operator()(Callable&& Function, Args && ...Parameters)
-	{
-		// @ToDo: STL uses noexcept.
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-		Elysium::Core::Template::System::int32_t Pending;
-		if (!InitOnceBeginInitialize(&_NativeObject, 0, &Pending, nullptr))
-		{
-			abort();
-		}
-
-		if (0 != Pending)
-		{
-			// @ToDo: STL uses RAII object _Init_once_completer. need to have a look whether this is better! 
-			try
-			{
-				Function(Parameters...);	// @ToDo: STL uses std::invoke - really need to have a look at it
-				InitOnceComplete(&_NativeObject, 0, nullptr);
-			}
-			catch (...)
-			{
-				InitOnceComplete(&_NativeObject, 0x00000004UL /*INIT_ONCE_INIT_FAILED*/, nullptr);
-				throw;
-			}
-		}
-#else
-#error "unsupported os"
-#endif
-	}
 }
 #endif

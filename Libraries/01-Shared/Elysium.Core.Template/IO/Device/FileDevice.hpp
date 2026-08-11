@@ -56,6 +56,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Text/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREADPOOL
+#include "../../Threading/ThreadPool.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
 #include "../../Text/Unicode/Utf16.hpp"
@@ -65,6 +69,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #endif
+
+#ifndef _APISETHANDLE_
+#include <handleapi.h>
+#endif
+/*
+#ifndef _APISETFILE_
+#include <fileapi.h>
+#endif
+*/
 #elif defined ELYSIUM_CORE_OS_ANDROID
 
 #else
@@ -82,7 +95,8 @@ namespace Elysium::Core::Template::IO::Device
 			const Elysium::Core::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None)
 			: _FQFN(GetFQFN(Path)), _Position(0)
 #if defined ELYSIUM_CORE_OS_WINDOWS
-			, _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options))
+			, _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options)),
+			_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, &IOCompletionPortCallback, this, &Elysium::Core::Template::Threading::ThreadPool::GetIOPool()._Environment))
 #endif
 		{ }
 
@@ -92,6 +106,13 @@ namespace Elysium::Core::Template::IO::Device
 
 		inline constexpr ~FileDevice()
 		{
+#if defined ELYSIUM_CORE_OS_WINDOWS
+			if (_CompletionPortHandle != nullptr)
+			{
+				CloseThreadpoolIo(_CompletionPortHandle);
+				_CompletionPortHandle = nullptr;
+			}
+#endif
 			Close();
 		}
 	public:
@@ -224,6 +245,11 @@ namespace Elysium::Core::Template::IO::Device
 			}
 #endif
 		}
+	public:
+		inline void BeginWrite(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
+		{
+			bool sdf = false;
+		}
 	private:
 		inline Elysium::Core::Template::Text::String<char8_t> GetFQFN(const char8_t* Path)
 		{
@@ -252,6 +278,11 @@ namespace Elysium::Core::Template::IO::Device
 
 			return NativeFileHandle;
 		}
+
+		inline static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
+		{
+			bool sdf = false;
+		}
 #endif
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _FQFN;
@@ -259,6 +290,7 @@ namespace Elysium::Core::Template::IO::Device
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		HANDLE _FileHandle;
+		PTP_IO _CompletionPortHandle;
 #endif
 	};
 }

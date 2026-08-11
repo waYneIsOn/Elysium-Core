@@ -101,6 +101,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArgumentOutOfRangeException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Array.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
