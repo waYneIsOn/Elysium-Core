@@ -6,12 +6,12 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/FileDevice.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/DeflateSink.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/GZipSink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/ZLibSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/FileSink.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/DeflateSource.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/GZipSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/ZLibSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 
 using namespace Elysium::Core::Template::IO;
@@ -22,25 +22,25 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template::IO
 {
-	TEST_CLASS(GZipStreamTests)
-	{
+	TEST_CLASS(ZLibStreamTests)
+	{;
 		using OutFileStream = OutStream<FileSource>;
 
-		using GZipReadingStream = OutStream<GZipSource<DeflateSource<FileSource>>>;
-		using GZipWritingStream = InStream<GZipSink<DeflateSink<FileSink>>>;
+		using ZLibWritingStream = InStream<ZLibSink<DeflateSink<FileSink>>>;
+		using ZLibReadingStream = OutStream<ZLibSource<DeflateSource<FileSource>>>;
 
-		using GZipCompressionFromFileStream = InOutStream<GZipSink<DeflateSink<FileSink>>, FileSource>;
+		using ZLibCompressionFromFileStream = InOutStream<ZLibSink<DeflateSink<FileSink>>, FileSource>;
 	public:
 		TEST_METHOD(CompressAndDecompressTest)
 		{
-			Compress(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
-			Compress(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
-			Compress(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.gz", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
+			Compress(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - Uncompressed.zlib", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::Stored);
+			Compress(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - StaticOnly.zlib", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::StaticOnly);
+			Compress(u8"Lorem Ipsum.txt", u8"Lorem Ipsum - DynamicOnly.zlib", Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel::DynamicOnly);
 		}
 
 		TEST_METHOD(ExternalFilesTest)
 		{
-			Compare(u8"Lorem Ipsum.txt", u8"Lorem Ipsum.gz");
+			Compare(u8"Lorem Ipsum.txt", u8"Lorem Ipsum.zlib");
 		}
 	private:
 		inline void Compress(const char8_t* SourceFile, const char8_t* TargetFile, Elysium::Core::Template::IO::Compression::Algorithm::Deflate::DeflateCompressionLevel CompressionLevel)
@@ -51,13 +51,12 @@ namespace UnitTests::Core::Template::IO
 				FileDevice WriteDevice(TargetFile, FileMode::Create, FileAccess::Write);
 				FileSink Sink(WriteDevice);
 				DeflateSink DeflateSink(Sink, CompressionLevel);
-				GZipSink CompressionSink(DeflateSink);
-				CompressionSink.SetName(u8"Lorem Ipsum - xyz.txt");
+				ZLibSink CompressionSink(DeflateSink);
 
 				FileDevice ReadDevice(SourceFile, FileMode::Open, FileAccess::Read, FileShare::Read);
 				FileSource Source(ReadDevice);
 
-				GZipCompressionFromFileStream Stream(CompressionSink, Source);
+				ZLibCompressionFromFileStream Stream(CompressionSink, Source);
 
 				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> ReadSpan{};
 				while (true)
@@ -134,8 +133,8 @@ namespace UnitTests::Core::Template::IO
 			FileDevice ActualDevice(CompressedFile, FileMode::Open, FileAccess::Read, FileShare::Read);
 			FileSource ActualSource(ActualDevice);
 			DeflateSource ActualDecompressionSource(ActualSource);
-			GZipSource ActualCompressionSource(ActualDecompressionSource);
-			GZipReadingStream ActualInStream(ActualCompressionSource);
+			ZLibSource ActualCompressionSource(ActualDecompressionSource);
+			ZLibReadingStream ActualOutStream(ActualCompressionSource);
 
 			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> ActualData{};
 			{
@@ -144,12 +143,12 @@ namespace UnitTests::Core::Template::IO
 				while (true)
 				{
 					bool MadeProgress = false;
-					const Elysium::Core::Template::IO::ReadResult ReadResult = ActualInStream.ReadBlock(Span);
+					const Elysium::Core::Template::IO::ReadResult ReadResult = ActualOutStream.ReadBlock(Span);
 					switch (ReadResult)
 					{
 					case Elysium::Core::Template::IO::ReadResult::HasData:
 						ActualData.PushBackRange(Span.GetData(), Span.GetLength());
-						ActualInStream.AdvanceReadingBlock(Span.GetLength());
+						ActualOutStream.AdvanceReadingBlock(Span.GetLength());
 
 						MadeProgress = true;
 						break;

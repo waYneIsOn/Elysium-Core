@@ -388,29 +388,30 @@ namespace Elysium::Core::Template::IO::Source
 				}
 
 				_Footer = *AddressOfFooter;
-				_InnerSource.AdvanceReadingBlock(FooterSize);
 				
 				_Crc32 = ~_Crc32;
 				if (_Crc32 != _Footer._Crc32)
 				{	// @ToDo
-					throw 1;
+					throw;
 				}
 
 				if (_UncompressedSize != _Footer._UncompressedSize)
 				{	// @ToDo
-					throw 1;
+					throw;
 				}
+
+				_InnerSource.AdvanceReadingBlock(FooterSize);
 				
 				return Elysium::Core::Template::IO::ReadResult::EndOfStream;
 			}
 			case Elysium::Core::Template::IO::ReadResult::EndOfStream:
 			{	// @ToDo
-				throw 1;
+				throw;
 			}
 			case Elysium::Core::Template::IO::ReadResult::Pending:
 				return Result;
 			default:
-				throw 1;
+				throw;
 			}
 		}
 	private:

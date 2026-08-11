@@ -969,6 +969,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\LempelZiv\LZ77Decoder.hpp">
       <Filter>IO\Compression\Algorithm\LempelZiv</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\ZLibSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\ZLibSource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\ZLib\ZLibHeader.hpp">
+      <Filter>IO\Compression\Format\ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\ZLib\ZLibState.hpp">
+      <Filter>IO\Compression\Format\ZLib</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\KnownCompressionAlgorithm.hpp">
+      <Filter>IO\Compression</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

@@ -49,6 +49,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipFooter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\GZip\GZipState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\ZLib\ZLibHeader.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\ZLib\ZLibState.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\KnownCompressionAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileAccess.hpp" />
@@ -67,6 +70,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\MemorySink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\NamedPipeSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\SocketSink.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\ZLibSink.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\DeflateSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\GZipSource.hpp" />
@@ -75,6 +79,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\NoPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\Policy\TimeoutPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\SocketSource.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\ZLibSource.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Absolute.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Max.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Min.hpp" />
