@@ -363,6 +363,8 @@ namespace Elysium::Core::Template::IO::Source
 			switch (BlockType)
 			{
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::Uncompressed:
+				_StoredHuffmanBlockInfo._Length = 0;
+				_StoredHuffmanBlockInfo._ComplementaryLength = 0;
 				_State = Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateState::ReadingUncompressedHeaderFields;
 				break;
 			case Elysium::Core::Template::IO::Compression::Format::Deflate::DeflateBlockType::FixedHuffman:
@@ -775,11 +777,6 @@ namespace Elysium::Core::Template::IO::Source
 			Elysium::Core::Template::System::size& BytesLoadedIntoBitReader)
 		{
 			Elysium::Core::Template::System::size TargetSpanReadPosition = 0;
-
- 			if (0 == SourceSpans.GetLength())
-			{	// @ToDo
-				throw 1;
-			}
 
 			// gather tokens
 			while (_CurrentLiteralEntry.GetSymbol() != 256)

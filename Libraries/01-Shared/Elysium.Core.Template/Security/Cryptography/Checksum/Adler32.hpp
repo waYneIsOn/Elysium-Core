@@ -51,8 +51,23 @@ namespace Elysium::Core::Template::Security::Cryptography::Checksum
 
 			return (B << 16) | A;
 		}
+
+		inline static const Elysium::Core::Template::System::uint32_t CalculateBytewise(Elysium::Core::Template::System::uint32_t Checksum, const Elysium::Core::Template::System::byte* Data,
+			const Elysium::Core::Template::System::size Length) noexcept
+		{
+			Elysium::Core::Template::System::uint32_t A = Checksum & 0xFFFF;
+			Elysium::Core::Template::System::uint32_t B = Checksum >> 16;
+
+			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)
+			{
+				A = (A + Data[i]) % _Modulo;
+				B = (B + A) % _Modulo;
+			}
+
+			return (B << 16) | A;
+		}
 	private:
-		static const Elysium::Core::Template::System::uint32_t _Modulo = 65521;
+		static constexpr const Elysium::Core::Template::System::uint32_t _Modulo = 65521;
 	};
 }
 #endif
