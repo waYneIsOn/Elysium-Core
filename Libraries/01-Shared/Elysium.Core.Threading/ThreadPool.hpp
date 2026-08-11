@@ -16,16 +16,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_ENVIRONMENT
-#include "../Elysium.Core/Environment.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
-#include "OSThreadPool.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREADPOOL
+#include "../Elysium.Core.Template/Threading/ThreadPool.hpp"
 #endif
 
 namespace Elysium::Core::IO
@@ -46,44 +38,8 @@ namespace Elysium::Core::Threading::Tasks
 
 namespace Elysium::Core::Threading
 {
-	class ELYSIUM_CORE_API ThreadPool final
-	{
-		friend class Elysium::Core::IO::FileStream;
-		friend class Elysium::Core::IO::FileSystemWatcher;
-		friend class Elysium::Core::Net::Sockets::Socket;
-		friend class Elysium::Core::Threading::Tasks::Task;
-	public:
-		ThreadPool() = delete;
+	class ELYSIUM_CORE_API  Elysium::Core::Template::Threading::ThreadPool;
 
-		ThreadPool(const ThreadPool& Source) = delete;
-
-		ThreadPool(ThreadPool&& Right) noexcept = delete;
-
-		~ThreadPool() = delete;
-	public:
-		ThreadPool& operator=(const ThreadPool& Source) = delete;
-
-		ThreadPool& operator=(ThreadPool&& Right) noexcept = delete;
-	public:
-		/*
-		static const Elysium::Core::uint64_t GetCompletedWorkItemCount();
-		static const Elysium::Core::uint64_t GetPendingWorkItemCount();
-		static const Elysium::Core::uint32_t GetThreadCount();
-		*/
-		static void GetAvailableThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
-
-		static void GetMaxThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
-
-		static void GetMinThreads(Elysium::Core::uint32_t& WorkerThreads, Elysium::Core::uint32_t& CompletionPortThreads);
-	public:
-		static const bool SetMaxThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
-
-		static const bool SetMinThreads(const Elysium::Core::uint32_t WorkerThreads, const Elysium::Core::uint32_t CompletionPortThreads);
-	private:
-#pragma warning (disable: 4251)	// Internal::OSThreadPool won't be used outside ThreadPool
-		inline static Internal::OSThreadPool _WorkerPool = Internal::OSThreadPool(Elysium::Core::Environment::ProcessorCount(), Elysium::Core::Environment::ProcessorCount() * 128 - 1);
-		inline static Internal::OSThreadPool _IOPool = Internal::OSThreadPool(Elysium::Core::Environment::ProcessorCount(), 1000);
-#pragma warning (default: 4251)
-	};
+	using ThreadPool = Elysium::Core::Template::Threading::ThreadPool;
 }
 #endif

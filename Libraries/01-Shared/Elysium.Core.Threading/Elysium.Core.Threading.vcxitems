@@ -20,7 +20,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interlocked.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OSThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ManualResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Mutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OperationCanceledException.hpp" />
@@ -40,11 +39,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Threading.ixx" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OSThreadPool.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OperationCanceledException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
   </ItemGroup>
 </Project>

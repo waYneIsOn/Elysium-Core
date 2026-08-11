@@ -38,12 +38,43 @@ namespace Elysium::Core::Template::IO::Device
 	class FileDevice;
 }
 
+
+
+
+// @ToDo: remove asap
+namespace Elysium::Core::IO
+{
+	class FileStream;
+	class FileSystemWatcher;
+}
+
+// @ToDo: remove asap
+namespace Elysium::Core::Net::Sockets
+{
+	class Socket;
+}
+
+// @ToDo: remove asap
+namespace Elysium::Core::Threading::Tasks
+{
+	class Task;
+}
+
+
+
+
 namespace Elysium::Core::Template::Threading
 {
 	class ThreadPool final
 	{
 	private:
 		friend class Elysium::Core::Template::IO::Device::FileDevice;
+	private:
+		// @ToDo: remove asap
+		friend class Elysium::Core::IO::FileStream;
+		friend class Elysium::Core::IO::FileSystemWatcher;
+		friend class Elysium::Core::Net::Sockets::Socket;
+		friend class Elysium::Core::Threading::Tasks::Task;
 	public:
 		constexpr ThreadPool() = delete;
 
@@ -95,6 +126,12 @@ namespace Elysium::Core::Template::Threading
 		{
 		private:
 			friend class Elysium::Core::Template::IO::Device::FileDevice;
+		private:
+			// @ToDo: remove asap
+			friend class Elysium::Core::IO::FileStream;
+			friend class Elysium::Core::IO::FileSystemWatcher;
+			friend class Elysium::Core::Net::Sockets::Socket;
+			friend class Elysium::Core::Threading::Tasks::Task;
 		public:
 			inline InternalThreadPool(const Elysium::Core::Template::System::uint32_t Maximum, const Elysium::Core::Template::System::uint32_t Minimum)
 #if defined ELYSIUM_CORE_OS_WINDOWS

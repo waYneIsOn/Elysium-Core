@@ -42,9 +42,6 @@
     <ClCompile Include="DecimalTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="ThreadPoolTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="dllmain.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

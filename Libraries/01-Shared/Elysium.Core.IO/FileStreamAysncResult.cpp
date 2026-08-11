@@ -12,10 +12,6 @@
 #include "../Elysium.Core.Threading/ThreadPool.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_THREADING_INTERNAL_OSTHREADPOOL
-#include "../Elysium.Core.Threading/OSThreadPool.hpp"
-#endif
-
 Elysium::Core::IO::FileStreamAsyncResult::FileStreamAsyncResult(FileStream& Stream, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState, const Elysium::Core::size Position)
 	: Elysium::Core::Internal::AsyncResult(Callback, AsyncState, Position, nullptr),
 	_Stream(Stream), _BytesTransferred(0)

@@ -2,7 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Thread.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)ThreadPool.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Task.cpp">
       <Filter>Tasks</Filter>
     </ClCompile>
@@ -10,9 +9,6 @@
       <Filter>Tasks</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SemaphoreFullException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OSThreadPool.cpp">
-      <Filter>Internal</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Threading.ixx" />
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +38,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ThreadPriority.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OSThreadPool.hpp">
-      <Filter>Internal</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SharedMutex.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tasks\AtomicOfTaskStatus.hpp">
@@ -54,9 +47,6 @@
   <ItemGroup>
     <Filter Include="Tasks">
       <UniqueIdentifier>{bad83907-379c-4371-a4d3-d4725bd2c230}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Internal">
-      <UniqueIdentifier>{bfcc74d7-ec95-4393-b1af-a07ca69f8349}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

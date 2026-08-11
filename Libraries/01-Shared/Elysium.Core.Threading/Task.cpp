@@ -16,7 +16,7 @@ Elysium::Core::Threading::Tasks::Task::Task(const Elysium::Core::Container::Acti
 	: Elysium::Core::IAsyncResult(),
 	_Action(Action), _Id(Interlocked::Increment(&_TaskIdCounter)), _CreationOptions(TaskCreationOptions::None),
 	_WaitEvent(AutoResetEvent(false)), _Status(TaskStatus::Created), _Exception(nullptr),
-	_Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::_WorkerPool._Environment))
+	_Handle(ELYSIUM_TASK_CREATE((ELYSIUM_TASK_CALLBACK_HANDLE)&Callback, this, &ThreadPool::GetIOPool()._Environment))
 { }
 
 Elysium::Core::Threading::Tasks::Task::~Task()

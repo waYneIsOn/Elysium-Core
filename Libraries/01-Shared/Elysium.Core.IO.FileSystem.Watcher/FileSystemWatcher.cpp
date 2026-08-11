@@ -49,7 +49,7 @@ Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, con
 	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), 
 	_AddressOfLatestAsyncResult(nullptr), _InternalBufferSize(InternalBufferSize),
 	_DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
-	_CompletionPort(CreateThreadpoolIo(_DirectoryHandle, IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::_IOPool._Environment))
+	_CompletionPort(CreateThreadpoolIo(_DirectoryHandle, IOCompletionPortCallback, this, &Elysium::Core::Threading::ThreadPool::GetIOPool()._Environment))
 { }
 
 Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()

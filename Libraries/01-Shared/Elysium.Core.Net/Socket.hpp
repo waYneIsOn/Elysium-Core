@@ -112,16 +112,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "undefined os"
 #endif
 
-namespace Elysium::Core::Threading
-{
-	class ThreadPool;
-}
-
 namespace Elysium::Core::Net::Sockets
 {
 	class ELYSIUM_CORE_NET_API Socket final
 	{
-		friend class Elysium::Core::Threading::ThreadPool;
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		Socket(SOCKET WinSocketHandle);
