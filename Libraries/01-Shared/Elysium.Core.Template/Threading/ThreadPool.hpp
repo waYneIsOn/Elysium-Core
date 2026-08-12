@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_REFLECTION_ASSEMBLY
+#include "../Reflection/Assembly.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_HARDWARE_CENTRALPROCESSINGUNIT
 #include "../System/Hardware/CentralProcessingUnit.hpp"
 #endif
@@ -139,14 +143,9 @@ namespace Elysium::Core::Template::Threading
 			{
 				InitializeThreadpoolEnvironment(&_Environment);
 				SetThreadpoolCallbackPool(&_Environment, _Handle);
-				/*
-				// ToDo: use Assembly::GetExecutingAssembly()
-				const wchar_t* ExecutingModuleName = L"Elysium.Core.dll";
-				HMODULE ExecutingModuleHandle = nullptr;
-				bool Result = GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCTSTR)ExecutingModuleName, &ExecutingModuleHandle);
-
-				SetThreadpoolCallbackLibrary(&_Environment, ExecutingModuleHandle);
-				*/
+				
+				Elysium::Core::Template::Reflection::Assembly CallingAssembly = Elysium::Core::Template::Reflection::Assembly::GetCallingAssembly();
+				SetThreadpoolCallbackLibrary(&_Environment, CallingAssembly._AssemblyHandle);
 				SetThreadpoolCallbackCleanupGroup(&_Environment, _CleanupGroup, nullptr);
 				
 				const bool SetMaxThreadsResult = SetMaxThreads(Maximum);

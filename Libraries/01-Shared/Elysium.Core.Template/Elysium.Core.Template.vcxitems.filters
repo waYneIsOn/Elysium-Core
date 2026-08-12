@@ -987,6 +987,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp">
       <Filter>System\Hardware</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Reflection\Assembly.hpp">
+      <Filter>Reflection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1144,6 +1147,9 @@
     </Filter>
     <Filter Include="System\Hardware">
       <UniqueIdentifier>{cdaed551-f3d5-419c-ab5a-e6e214d77111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Reflection">
+      <UniqueIdentifier>{c34f39a4-ac5e-402c-8059-a16f7187c3b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
