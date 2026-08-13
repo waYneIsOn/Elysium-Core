@@ -5,22 +5,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETOPTIONNAME
-#define ELYSIUM_CORE_NET_SOCKETS_SOCKETOPTIONNAME
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETOPTIONNAME
+#define ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETOPTIONNAME
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
 #endif
 
-namespace Elysium::Core::Net::Sockets
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
+#endif
+
+namespace Elysium::Core::Template::Net::Sockets
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class SocketOptionName : Elysium::Core::int32_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class SocketOptionName
+		: Elysium::Core::Template::System::uint32_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class SocketOptionName
 #else
 #error "undefined os"
@@ -118,8 +123,8 @@ namespace Elysium::Core::Net::Sockets
 
 		UpdateConnectContext = 28688,
 
-		MaxConnections = Elysium::Core::Int32::GetMaxValue()
+		// @ToDo
+		//MaxConnections = Elysium::Core::Int32::GetMaxValue()
 	};
 }
-
 #endif

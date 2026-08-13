@@ -10,33 +10,20 @@
     <Filter Include="NetworkInformation">
       <UniqueIdentifier>{7d5f5b51-9af7-441e-a87e-c2f60c02528a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sockets\Internal">
-      <UniqueIdentifier>{1b9ed3ed-a100-4a7f-b39c-6a889d9ea722}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SocketAddress.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)FormatConverter.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)EndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp">
-      <Filter>Sockets</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SocketException.cpp">
       <Filter>Sockets</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp">
       <Filter>Sockets</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)IPEndPoint.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)IPAddress.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DnsEndPoint.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)AuthenticatedStream.cpp">
       <Filter>Security</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.cpp">
       <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Dns.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkInterface.cpp">
       <Filter>NetworkInformation</Filter>
     </ClCompile>
@@ -55,26 +42,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.cpp">
       <Filter>Security</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)WinSocket.cpp">
-      <Filter>Sockets\Internal</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)AddressFamily.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ProtocolType.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketError.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketType.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)FormatConverter.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)EndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
@@ -88,14 +58,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketShutdown.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticatedStream.hpp">
       <Filter>Security</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)AuthenticationLevel.hpp">
-      <Filter>Sockets</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsCipherSuite.hpp">
       <Filter>Security</Filter>
@@ -122,18 +86,6 @@
       <Filter>Security</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Dns.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionLevel.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketOptionName.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IOControlCode.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketFlags.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterface.hpp">
       <Filter>NetworkInformation</Filter>
     </ClInclude>
@@ -151,12 +103,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkInterfaceComponent.hpp">
       <Filter>NetworkInformation</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IPProtectionLevel.hpp">
-      <Filter>Sockets</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelectMode.hpp">
-      <Filter>Sockets</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.hpp">
       <Filter>Sockets</Filter>
@@ -178,9 +124,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MessageAuthenticationCodeAlgorithm.hpp">
       <Filter>Security</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)WinSocket.hpp">
-      <Filter>Sockets\Internal</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,15 +1,11 @@
 #include "NetworkInterface.hpp"
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
-#include "AddressFamily.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_ADDRESSFAMILY
+#include "../Elysium.Core.Template/Net/Sockets/AddressFamily.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_GETADAPTERSADDRESSESFLAGS
 #include "GetAdaptersAddressesFlags.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_FORMATCONVERTER
-#include "FormatConverter.hpp"
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
@@ -113,12 +109,12 @@ Elysium::Core::Net::NetworkInformation::NetworkInterface& Elysium::Core::Net::Ne
 const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInformation::NetworkInterface> Elysium::Core::Net::NetworkInformation::NetworkInterface::GetAllNetworkInterfaces()
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	Sockets::AddressFamily Family = Sockets::AddressFamily::Unspecified;
+	Elysium::Core::Template::Net::Sockets::AddressFamily Family = Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified;
 	GetAdaptersAddressesFlags Flags = GetAdaptersAddressesFlags::IncludeGateways | GetAdaptersAddressesFlags::IncludeWins;
 
 	unsigned long BufferSize = 0;
 	unsigned long Result;
-	if ((Result = GetAdaptersAddresses(FormatConverter::Convert(Family), FormatConverter::Convert(Flags), nullptr, nullptr, &BufferSize)) != ERROR_BUFFER_OVERFLOW)
+	if ((Result = GetAdaptersAddresses(static_cast<Elysium::Core::Template::System::int32_t>(Family), static_cast<Elysium::Core::Template::System::int32_t>(Flags), nullptr, nullptr, &BufferSize)) != ERROR_BUFFER_OVERFLOW)
 	{
 		throw NetworkInformationException(WSAGetLastError());
 	}
@@ -127,7 +123,7 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInfo
 	do
 	{
 		AdapterAddresses = (PIP_ADAPTER_ADDRESSES)malloc(BufferSize);
-		Result = GetAdaptersAddresses(FormatConverter::Convert(Family), FormatConverter::Convert(Flags), nullptr, AdapterAddresses, &BufferSize);
+		Result = GetAdaptersAddresses(static_cast<Elysium::Core::Template::System::int32_t>(Family), static_cast<Elysium::Core::Template::System::int32_t>(Flags), nullptr, AdapterAddresses, &BufferSize);
 
 		if (Result == ERROR_BUFFER_OVERFLOW)
 		{

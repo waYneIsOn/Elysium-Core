@@ -5,22 +5,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_SOCKETS_PROTOCOLTYPE
-#define ELYSIUM_CORE_NET_SOCKETS_PROTOCOLTYPE
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_PROTOCOLTYPE
+#define ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_PROTOCOLTYPE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
 #endif
 
-namespace Elysium::Core::Net::Sockets
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
+#endif
+
+namespace Elysium::Core::Template::Net::Sockets
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class ProtocolType : Elysium::Core::uint16_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class ProtocolType
+		: Elysium::Core::Template::System::uint16_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class ProtocolType
 #else
 #error "undefined os"

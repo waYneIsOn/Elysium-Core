@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Device/FileDevice.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO::Sink
 {
 	class FileSink

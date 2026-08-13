@@ -112,6 +112,11 @@ namespace Elysium::Core::Template::Text
 		StringView<C, Traits> Substringview(const System::size StartIndex, const System::size Length) const;
 
 		StringView<C, Traits>::CorrespondingString ToString() const;
+	public:
+		inline explicit operator const StringView<C, Traits>::CorrespondingString() const noexcept
+		{
+			return { _Data, _Length };
+		}
 	private:
 		ConstCharacterPointer _Data;
 		System::size _Length;

@@ -990,6 +990,69 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Reflection\Assembly.hpp">
       <Filter>Reflection</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\TlsSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SocketDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\AddressFamily.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketType.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\ProtocolType.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPAddress.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\SocketAddress.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPEndPoint.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\DnsEndPoint.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Dns.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\Socket.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketOptionLevel.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketOptionName.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SocketException.hpp">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketError.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\AuthenticationLevel.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\IOControlCode.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\IPProtectionLevel.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SelectMode.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketFlags.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketShutdown.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1150,6 +1213,18 @@
     </Filter>
     <Filter Include="Reflection">
       <UniqueIdentifier>{c34f39a4-ac5e-402c-8059-a16f7187c3b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net">
+      <UniqueIdentifier>{222fdc8f-d77f-4353-9054-0d24cc35da7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Sockets">
+      <UniqueIdentifier>{5f30915c-35b7-4d2b-8c3c-430797a1ea9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\NetworkInformation">
+      <UniqueIdentifier>{ef699a13-d926-4551-bf80-ae423a59a795}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Net\Security">
+      <UniqueIdentifier>{ea9c79c6-9fa0-48af-86e8-f46068063114}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

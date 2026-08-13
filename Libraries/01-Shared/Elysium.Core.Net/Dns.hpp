@@ -16,33 +16,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
-#include "../Elysium.Core.Template/Container/Vector.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_IPADDRESS
-#include "IPAddress.hpp"
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_DNS
+#include "../Elysium.Core.Template/Net/Dns.hpp"
 #endif
 
 namespace Elysium::Core::Net
 {
-	class ELYSIUM_CORE_NET_API Dns final
-	{
-	public:
-		Dns() = delete;
-		
-		static const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::IPAddress> GetHostAddresses(const Elysium::Core::Utf8String& HostNameOrAddress);
-		/*
-		static const IPHostEntry GetHostEntry(const IPAddress& Address);
-		static const IPHostEntry GetHostEntry(const Elysium::Core::Utf8String& Address);
-		*/
-		static const Elysium::Core::Utf8String GetHostName();
-	private:
-		~Dns() { }
-	};
+	class ELYSIUM_CORE_NET_API Elysium::Core::Template::Net::Dns;
+
+	using Dns = Elysium::Core::Template::Net::Dns;
 }
 #endif

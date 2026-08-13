@@ -16,6 +16,17 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKET
+#include "../Elysium.Core.Template/Net/Sockets/Socket.hpp"
+#endif
+
+
+
+
+
+
+
+
 #ifndef ELYSIUM_CORE_INTEGER
 #include "../Elysium.Core/Integer.hpp"
 #endif
@@ -36,48 +47,52 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/VectorOfByte.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
-#include "AddressFamily.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_ADDRESSFAMILY
+#include "../Elysium.Core.Template/Net/Sockets/AddressFamily.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETTYPE
-#include "SocketType.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETTYPE
+#include "../Elysium.Core.Template/Net/Sockets/SocketType.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_PROTOCOLTYPE
-#include "ProtocolType.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_PROTOCOLTYPE
+#include "../Elysium.Core.Template/Net/Sockets/ProtocolType.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_ENDPOINT
-#include "EndPoint.hpp"
+#ifndef ELYSIUM_CORE_NET_DNSENDPOINT
+#include "DnsEndPoint.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETSHUTDOWN
-#include "SocketShutdown.hpp"
+#ifndef ELYSIUM_CORE_NET_IPENDPOINT
+#include "IPEndPoint.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETOPTIONLEVEL
-#include "SocketOptionLevel.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETSHUTDOWN
+#include "../Elysium.Core.Template/Net/Sockets/SocketShutdown.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETOPTIONNAME
-#include "SocketOptionName.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETOPTIONLEVEL
+#include "../Elysium.Core.Template/Net/Sockets/SocketOptionLevel.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_IOCONTROLCODE
-#include "IOControlCode.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETOPTIONNAME
+#include "../Elysium.Core.Template/Net/Sockets/SocketOptionName.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETFLAGS
-#include "SocketFlags.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_IOCONTROLCODE
+#include "../Elysium.Core.Template/Net/Sockets/IOControlCode.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_IPPROTECTIONLEVEL
-#include "IPProtectionLevel.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETFLAGS
+#include "../Elysium.Core.Template/Net/Sockets/SocketFlags.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SELECTMODE
-#include "SelectMode.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_IPPROTECTIONLEVEL
+#include "../Elysium.Core.Template/Net/Sockets/IPProtectionLevel.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SELECTMODE
+#include "../Elysium.Core.Template/Net/Sockets/SelectMode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SOCKETS_ACCEPTASYNCRESULT
@@ -88,8 +103,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SendReceiveAsyncResult.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_SOCKETERROR
-#include "SocketError.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETS_SOCKETERROR
+#include "../Elysium.Core.Template/Net/Sockets/SocketError.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
@@ -105,15 +120,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef ELYSIUM_CORE_NET_SOCKETS_INTERNAL_WINSOCKET
-#include "WinSocket.hpp"
+#ifndef _WINSOCK2API_
+#include <WinSock2.h>
 #endif
+
+#ifndef _MSWSOCK_
+#include <MSWSock.h>
+#endif
+
+#pragma comment(lib, "ws2_32.lib")
 #else
 #error "undefined os"
 #endif
 
 namespace Elysium::Core::Net::Sockets
 {
+	/*
+	class ELYSIUM_CORE_NET_API Elysium::Core::Template::Exceptions::Net::Sockets::Socket;
+
+	using Socket = Elysium::Core::Template::Exceptions::Net::Sockets::Socket;
+	*/
+
+
 	class ELYSIUM_CORE_NET_API Socket final
 	{
 	private:
@@ -121,7 +149,7 @@ namespace Elysium::Core::Net::Sockets
 		Socket(SOCKET WinSocketHandle);
 #endif
 	public:
-		Socket(AddressFamily AddressFamily, SocketType SocketType, ProtocolType ProtocolType);
+		Socket(Elysium::Core::Template::Net::Sockets::AddressFamily AddressFamily, Elysium::Core::Template::Net::Sockets::SocketType SocketType, Elysium::Core::Template::Net::Sockets::ProtocolType ProtocolType);
 
 		Socket(const Socket& Source) = delete;
 
@@ -133,13 +161,13 @@ namespace Elysium::Core::Net::Sockets
 
 		Socket& operator=(Socket&& Right) noexcept;
 	public:
-		const AddressFamily GetAddressFamily() const;
+		const Elysium::Core::Template::Net::Sockets::AddressFamily GetAddressFamily() const;
 
-		const SocketType GetSocketType() const;
+		const Elysium::Core::Template::Net::Sockets::SocketType GetSocketType() const;
 
-		const ProtocolType GetProtocolType() const;
+		const Elysium::Core::Template::Net::Sockets::ProtocolType GetProtocolType() const;
 
-		const Elysium::Core::Container::VectorOfByte GetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
+		const Elysium::Core::Container::VectorOfByte GetSocketOption(const Elysium::Core::Template::Net::Sockets::SocketOptionLevel OptionLevel, const Elysium::Core::Template::Net::Sockets::SocketOptionName OptionName, const Elysium::Core::int32_t OptionLength);
 
 		const Elysium::Core::int32_t GetAvailable() const;
 
@@ -154,12 +182,12 @@ namespace Elysium::Core::Net::Sockets
 		const Elysium::Core::int32_t GetReceiveBufferSize() const;
 
 		const Elysium::Core::int32_t GetSendBufferSize() const;
+	public:
+		void SetSocketOption(const Elysium::Core::Template::Net::Sockets::SocketOptionLevel OptionLevel, const Elysium::Core::Template::Net::Sockets::SocketOptionName OptionName, const bool OptionValue);
 
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const bool OptionValue);
+		void SetSocketOption(const Elysium::Core::Template::Net::Sockets::SocketOptionLevel OptionLevel, const Elysium::Core::Template::Net::Sockets::SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
 
-		void SetSocketOption(const SocketOptionLevel OptionLevel, const SocketOptionName OptionName, const Elysium::Core::int32_t OptionValue);
-
-		void SetIPProtectionLevel(const IPProtectionLevel Level);
+		void SetIPProtectionLevel(const Elysium::Core::Template::Net::Sockets::IPProtectionLevel Level);
 
 		void SetReceiveTimeout(const Elysium::Core::int32_t Timeout);
 
@@ -175,27 +203,60 @@ namespace Elysium::Core::Net::Sockets
 
 		static void Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, Elysium::Core::Template::Container::Vector<Socket*>* CheckError, const Elysium::Core::TimeSpan Duration);
 	public:
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const Elysium::Core::Template::Net::Sockets::IOControlCode ControlCode, const Elysium::Core::uint32_t OptionInValue, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength);
 		
-		const Elysium::Core::int32_t IOControl(const IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength);
+		const Elysium::Core::int32_t IOControl(const Elysium::Core::Template::Net::Sockets::IOControlCode ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength);
 		
 		const Elysium::Core::int32_t IOControl(const Elysium::Core::int32_t ControlCode, const Elysium::Core::byte * OptionInValue, const Elysium::Core::size OptionInValueLength, Elysium::Core::byte * OptionOutValue, const Elysium::Core::size OptionOutValueLength);
 
-		const bool Poll(const Elysium::Core::int32_t MicroSeconds, const SelectMode Mode);
+		const bool Poll(const Elysium::Core::int32_t MicroSeconds, const Elysium::Core::Template::Net::Sockets::SelectMode Mode);
 		
-		const bool Poll(const Elysium::Core::TimeSpan Duration, const SelectMode Mode);
+		const bool Poll(const Elysium::Core::TimeSpan Duration, const Elysium::Core::Template::Net::Sockets::SelectMode Mode);
 
 		void Connect(const Utf8String& Host, const Elysium::Core::uint16_t Port);
 
-		void Connect(const Elysium::Core::Net::EndPoint& RemoteEndPoint);
+		template <class T>
+		inline void Connect(const T& RemoteEndPoint)
+		{
+			/*
+			if (GetIsConnected())
+			{
+				return;
+			}
+			*/
+			/*
+			const SocketAddress Address = RemoteEndPoint.Serialize();
+			Elysium::Core::int32_t Result;
+			if ((Result = connect(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize())) == SOCKET_ERROR)
+			{
+				//Close();
+				throw SocketException();
+			}
 
-		void Shutdown(const SocketShutdown Value);
+			_IsConnected = true;
+			*/
+			throw;
+		}
+
+		void Shutdown(const Elysium::Core::Template::Net::Sockets::SocketShutdown Value);
 
 		void Disconnect(const bool ReuseSocket);
 
 		void Close();
 
-		void Bind(const Elysium::Core::Net::EndPoint& LocalEndPoint);
+		template <class T>
+		inline void Bind(const T& LocalEndPoint)
+		{
+			/*
+			const SocketAddress Address = LocalEndPoint.Serialize();
+			Elysium::Core::int32_t Result = bind(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize());
+			if (Result == SOCKET_ERROR)
+			{
+				throw SocketException();
+			}
+			*/
+			throw;
+		}
 
 		void Listen(const Elysium::Core::int32_t Backlog);
 
@@ -203,26 +264,54 @@ namespace Elysium::Core::Net::Sockets
 
 		const Elysium::Core::size Receive(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count);
 
-		const Elysium::Core::size ReceiveFrom(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, EndPoint& RemoteEndpoint);
+		//const Elysium::Core::size ReceiveFrom(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, EndPoint& RemoteEndpoint);
 
-		const Elysium::Core::size ReceiveFrom(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint);
+		//const Elysium::Core::size ReceiveFrom(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, EndPoint& RemoteEndpoint);
 
 		const Elysium::Core::size Send(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count);
 
-		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const EndPoint& RemoteEndpoint);
+		//const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const EndPoint& RemoteEndpoint);
 
-		const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
+		//const Elysium::Core::size SendTo(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count, const SocketFlags SocketFlags, const EndPoint& RemoteEndpoint);
 	public:
 		Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginAccept(
 			const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State);
 
 		const Socket EndAccept(const Elysium::Core::IAsyncResult* AsyncResult);
 
-		Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginConnect(
-			const Elysium::Core::Net::EndPoint& RemoteEndPoint, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
-			const void* State);
+		template <class T>
+		inline Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginConnect(
+			const T& RemoteEndPoint, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
+			const void* State)
+		{	// @ToDo
+			/*
+			// ConnectEx requires the socket to be bound!
+			Elysium::Core::Net::IPEndPoint LocalEndPoint = Elysium::Core::Net::IPEndPoint(Elysium::Core::Net::IPAddress::Any(), 0);
+			Bind(LocalEndPoint);
 
-		void EndConnect(const Elysium::Core::IAsyncResult* AsyncResult, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
+			SendReceiveAsyncResult* AsyncResult = new SendReceiveAsyncResult(*this, Callback, State);
+			AsyncResult->_WSABuffer.len = 0;
+			AsyncResult->_WSABuffer.buf = nullptr;
+
+			StartThreadpoolIo(_CompletionPortHandle);
+			const SocketAddress Address = RemoteEndPoint.Serialize();
+			bool Result = ConnectEx(_WinSocketHandle, (const sockaddr*)&Address, Address.GetSize(), nullptr, 0, nullptr, (LPOVERLAPPED)&AsyncResult->_WrappedOverlap);
+			if (!Result)
+			{
+				if (WSAGetLastError() != static_cast<Elysium::Core::int32_t>(SocketError::IOPending))
+				{
+					CancelThreadpoolIo(_CompletionPortHandle);
+					delete AsyncResult;
+					throw SocketException();
+				}
+			}
+
+			return Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult>(AsyncResult);
+			*/
+			throw;
+		}
+
+		void EndConnect(const Elysium::Core::IAsyncResult* AsyncResult, Elysium::Core::Template::Net::Sockets::SocketError& ErrorCode);
 
 		Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginDisconnect(const bool ReuseSocket,
 			const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State);
@@ -232,16 +321,16 @@ namespace Elysium::Core::Net::Sockets
 		// ToDo: BeginReceiveFrom and BeginSendTo
 		
 		Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginReceive(const Elysium::Core::byte* Buffer,
-			const Elysium::Core::size Size, SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
+			const Elysium::Core::size Size, Elysium::Core::Template::Net::Sockets::SocketFlags Flags, const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback,
 			const void* State);
 
-		const Elysium::Core::size EndReceive(const Elysium::Core::IAsyncResult* AsyncResult, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
+		const Elysium::Core::size EndReceive(const Elysium::Core::IAsyncResult* AsyncResult, Elysium::Core::Template::Net::Sockets::SocketError& ErrorCode);
 
 		Elysium::Core::Template::Memory::UniquePointer<Elysium::Core::IAsyncResult> BeginSend(const Elysium::Core::byte* Buffer,
-			const Elysium::Core::size Size, SocketFlags Flags, 
+			const Elysium::Core::size Size, Elysium::Core::Template::Net::Sockets::SocketFlags Flags,
 			const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* State);
 
-		const Elysium::Core::size EndSend(const Elysium::Core::IAsyncResult* AsyncResult, Elysium::Core::Net::Sockets::SocketError& ErrorCode);
+		const Elysium::Core::size EndSend(const Elysium::Core::IAsyncResult* AsyncResult, Elysium::Core::Template::Net::Sockets::SocketError& ErrorCode);
 	private:
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		SOCKET _WinSocketHandle;

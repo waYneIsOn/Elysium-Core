@@ -8,7 +8,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/DeflateSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/GZipSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/FileSink.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/DeflateSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/GZipSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"

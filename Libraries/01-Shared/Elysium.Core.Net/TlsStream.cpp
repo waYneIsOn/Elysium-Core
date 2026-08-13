@@ -4,6 +4,10 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_IO_IOEXCEPTION
+#include "../Elysium.Core.IO/IOException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_AUTHENTICATIONEXCEPTION
 #include "../Elysium.Core.Security/AuthenticationException.hpp"
 #endif
@@ -24,86 +28,175 @@
 #include "../Elysium.Core.Text/Encoding.hpp"
 #endif
 
-#ifndef _NTDEF_
-//#include <ntdef.h>
-#endif
-
-#ifndef __SCHANNEL_H__
-//#define SCHANNEL_USE_BLACKLISTS
-#include <schannel.h>
-#endif
-
 Elysium::Core::Net::Security::TlsStream::TlsStream(IO::Stream& InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions& AuthenticationOptions)
 	: Elysium::Core::Net::Security::AuthenticatedStream(InnerStream, LeaveInnerStreamOpen),
 	_AuthenticationOptions(AuthenticationOptions),
 	_ExtraBuffer(), _InBuffer(16384), _OutBuffer(16384), _TargetHost(), _TlsProtocols(Elysium::Core::Security::Authentication::TlsProtocols::Latest),
 	_CredentialHandle(), _Context(), _Sizes()
 { }
+
 Elysium::Core::Net::Security::TlsStream::~TlsStream()
 {
-	DeleteSecurityContext(&_Context);
-	FreeCredentialHandle(&_CredentialHandle);
-}
-
-const bool Elysium::Core::Net::Security::TlsStream::GetCanRead() const
-{
-	return _InnerStream.GetCanRead();
-}
-
-const bool Elysium::Core::Net::Security::TlsStream::GetCanSeek() const
-{
-	return _InnerStream.GetCanSeek();
-}
-
-const bool Elysium::Core::Net::Security::TlsStream::GetCanTimeout() const
-{
-	return _InnerStream.GetCanTimeout();
-}
-
-const bool Elysium::Core::Net::Security::TlsStream::GetCanWrite() const
-{
-	return _InnerStream.GetCanWrite();
-}
-
-const Elysium::Core::size Elysium::Core::Net::Security::TlsStream::GetLength()  const
-{
-	return _InnerStream.GetLength();
+	Close();
 }
 
 const bool Elysium::Core::Net::Security::TlsStream::GetIsAuthenticated() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::TlsStream::GetIsEncrypted() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::TlsStream::GetIsMutuallyAuthenticated() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::TlsStream::GetIsServer() const
 {
 	return false;
 }
+
 const bool Elysium::Core::Net::Security::TlsStream::GetIsSigned() const
 {
 	return false;
 }
 
-void Elysium::Core::Net::Security::TlsStream::SetLength(const Elysium::Core::size Value)
-{
-	_InnerStream.SetLength(Value);
-}
-
-void Elysium::Core::Net::Security::TlsStream::SetPosition(const Elysium::Core::uint64_t Position)
-{
-	_InnerStream.SetPosition(Position);
-}
-
 void Elysium::Core::Net::Security::TlsStream::Close()
 {
-	_InnerStream.Close();
+	/*
+	* 
+	* THIS IS THE CLIENT SHUTDOWN MESSAGE
+	* 
+	// inform schannel about sending tls close notification
+	DWORD Shutdown = SCHANNEL_SHUTDOWN;
+
+	SecBuffer SecureBuffers[4];
+	SecureBuffers[0].BufferType = SECBUFFER_TOKEN;
+	SecureBuffers[0].pvBuffer = &Shutdown;
+	SecureBuffers[0].cbBuffer = sizeof(DWORD);
+
+	SecBufferDesc SecureBuffersDescriptor;
+	SecureBuffersDescriptor.ulVersion = SECBUFFER_VERSION;
+	SecureBuffersDescriptor.cBuffers = 1;
+	SecureBuffersDescriptor.pBuffers = SecureBuffers;
+
+	SECURITY_STATUS Status = ApplyControlToken(&_Context, &SecureBuffersDescriptor);
+	if (SEC_E_OK != Status)
+	{	// @ToDo: throw specific exception
+		throw Elysium::Core::Security::Authentication::AuthenticationException();
+	}
+
+	// create tls close notification record
+	SecureBuffers[0].BufferType = SECBUFFER_TOKEN;
+	SecureBuffers[0].pvBuffer = &Shutdown;
+	SecureBuffers[0].cbBuffer = sizeof(DWORD);
+
+	ULONG ContextAttributes = 0;
+	Status = InitializeSecurityContextW(&_CredentialHandle, &_Context, nullptr, 
+		ISC_REQ_SEQUENCE_DETECT | ISC_REQ_STREAM | ISC_REQ_ALLOCATE_MEMORY, 0, SECURITY_NETWORK_DREP, nullptr, 0,
+		&_Context, &SecureBuffersDescriptor, &ContextAttributes, nullptr);
+	//if (FAILED(Status))
+	if (SEC_E_OK != Status && SEC_I_CONTEXT_EXPIRED != Status)
+	{	// @ToDo: throw specific exception
+		throw Elysium::Core::Security::Authentication::AuthenticationException();
+	}
+	
+	// send encoded close notification message
+	if (SecureBuffers[0].cbBuffer && SecureBuffers[0].pvBuffer)
+	{
+		Write(static_cast<Elysium::Core::byte*>(SecureBuffers[0].pvBuffer), SecureBuffers[0].cbBuffer);
+		FreeContextBuffer(SecureBuffers[0].pvBuffer);
+		SecureBuffers[0].pvBuffer = nullptr;
+	}
+
+	// receive close notification response
+	{
+		Elysium::Core::Template::System::size BytesInBuffer = 0;
+
+		SecureBuffers[0].BufferType = SECBUFFER_TOKEN;
+		SecureBuffers[0].cbBuffer = BytesInBuffer;
+		SecureBuffers[0].pvBuffer = &_InBuffer[0];
+
+		SecureBuffers[1].BufferType = SECBUFFER_EMPTY;
+		SecureBuffers[1].cbBuffer = 0;
+		SecureBuffers[1].pvBuffer = nullptr;
+
+		SecureBuffersDescriptor.ulVersion = SECBUFFER_VERSION;
+		SecureBuffersDescriptor.cBuffers = 2;
+		SecureBuffersDescriptor.pBuffers = SecureBuffers;
+
+		Status = SEC_I_CONTINUE_NEEDED;
+		while (Status != SEC_E_OK)
+		{
+			BytesInBuffer += _InnerStream.Read(&_InBuffer[BytesInBuffer], _InBuffer.GetLength() - BytesInBuffer);
+			Status = DecryptMessage(&_Context, &SecureBuffersDescriptor, 0, nullptr);
+			switch (Status)
+			{
+			case SEC_E_INCOMPLETE_MESSAGE:
+				// reset values
+				SecureBuffers[0].BufferType = SECBUFFER_DATA;
+				SecureBuffers[0].cbBuffer = BytesInBuffer;	// crucial detail as DecryptMessage(...) manipulates this value!
+				SecureBuffers[1].BufferType = SECBUFFER_EMPTY;
+				continue;
+			case SEC_E_BUFFER_TOO_SMALL:
+				throw 1;
+			case SEC_E_CRYPTO_SYSTEM_INVALID:
+				throw 1;
+			case SEC_E_INVALID_HANDLE:
+				throw 1;
+			case SEC_E_MESSAGE_ALTERED:
+				throw 1;
+			case SEC_E_OUT_OF_SEQUENCE:
+				throw 1;
+			case SEC_E_QOP_NOT_SUPPORTED:
+				throw 1;
+			case SEC_I_RENEGOTIATE:
+				//ClientHandshakeLoop(false);
+				//return Read(Buffer, Count);
+				throw 1;
+			case SEC_E_OK:
+				break;
+			case SEC_E_INVALID_TOKEN:
+				// message cannot be decrypted - might be corrupted
+				//throw Elysium::Core::IO::IOException();
+
+				// server sent something unexcepted (alert or partial record?)
+				// for a shutdown it should be safe to be done here
+				Status = SEC_E_OK;
+
+				// need to make sure to drain any remaining bytes from the server though
+				while (true)
+				{
+					Elysium::Core::Template::System::size BytesRead = _InnerStream.Read(&_InBuffer[0], _InBuffer.GetLength());
+					if (0 == BytesRead)
+					{
+						break;
+					}
+				}
+
+				break;
+			default:
+				throw Elysium::Core::Security::Authentication::AuthenticationException();
+			}
+		}
+	}
+	*/
+	//if (INVALID_HANDLE_VALUE != _Context)
+	{
+		DeleteSecurityContext(&_Context);
+	}
+
+	//if (INVALID_HANDLE_VALUE != _CredentialHandle)
+	{
+		FreeCredentialHandle(&_CredentialHandle);
+	}
+
+	Elysium::Core::Net::Security::AuthenticatedStream::Close();
+	//_InnerStream.Close();
 }
 
 void Elysium::Core::Net::Security::TlsStream::Flush()
@@ -145,20 +238,42 @@ const Elysium::Core::size Elysium::Core::Net::Security::TlsStream::Read(Elysium:
 
 	// read until we can decrypt the message
 	SECURITY_STATUS Result = SEC_E_INCOMPLETE_MESSAGE;
+	Elysium::Core::Template::System::size BytesInBuffer = 0;
 	while (Result != SEC_E_OK)
 	{
-		SecureBuffers[0].cbBuffer += _InnerStream.Read(&_InBuffer[0], _InBuffer.GetLength());
-		Result = DecryptMessage(&_Context, &SecureBuffersDescriptor, 0, NULL);
+		BytesInBuffer += _InnerStream.Read(&_InBuffer[BytesInBuffer], _InBuffer.GetLength() - BytesInBuffer);
+		Result = DecryptMessage(&_Context, &SecureBuffersDescriptor, 0, nullptr);
 		switch (Result)
 		{
 		case SEC_E_INCOMPLETE_MESSAGE:
-			// ToDo: more data to read
+			// reset values
+			SecureBuffers[0].BufferType = SECBUFFER_DATA;
+			SecureBuffers[0].cbBuffer = BytesInBuffer;	// crucial detail as DecryptMessage(...) manipulates this value!
+			SecureBuffers[1].BufferType = SECBUFFER_EMPTY;
+			continue;
+		case SEC_E_BUFFER_TOO_SMALL:
+			throw 1;
+		case SEC_E_CRYPTO_SYSTEM_INVALID:
+			throw 1;
+		case SEC_E_INVALID_HANDLE:
+			throw 1;
+		case SEC_E_MESSAGE_ALTERED:
+			throw 1;
+		case SEC_E_OUT_OF_SEQUENCE:
+			throw 1;
+		case SEC_E_QOP_NOT_SUPPORTED:
 			throw 1;
 		case SEC_I_RENEGOTIATE:
+			/*
 			ClientHandshakeLoop(false);
-			break;
+			return Read(Buffer, Count);
+			*/
+			throw 1;
 		case SEC_E_OK:
 			break;
+		case SEC_E_INVALID_TOKEN:
+			// message cannot be decrypted - might be corrupted
+			throw Elysium::Core::IO::IOException();
 		default:
 			throw Elysium::Core::Security::Authentication::AuthenticationException();
 		}
@@ -265,22 +380,39 @@ void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium
 	_TargetHost = TargetHost;
 	_TlsProtocols = EnabledTlsProtocols;
 
+	_CredentialHandle = CredHandle();
+	_Context = SecHandle();
+	_Sizes = SecPkgContext_StreamSizes();
+
 	PerformClientHandshake();
 	GetServersCertificate();
 }
 
-void Elysium::Core::Net::Security::TlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::TlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
-
-}
-
-void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
-{
-	// Setup SChannel Credentials
+	_TargetHost = u8"127.0.0.1";
+	_TlsProtocols = EnabledTlsProtocols;
+	
+	SECURITY_STATUS Status = {};
+	TimeStamp Lifetime = {};
+	
+	// ...
 	SCHANNEL_CRED SChannelCredentials = SCHANNEL_CRED();
-	//ZeroMemory(&SChannelCredentials, sizeof(SChannelCredentials));
 	SChannelCredentials.dwVersion = SCHANNEL_CRED_VERSION;
-	SChannelCredentials.dwFlags = SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION;
+	SChannelCredentials.cCreds = 1;
+	SChannelCredentials.paCred = const_cast<PCCERT_CONTEXT*>(&ServerCertificate._CertificateContext);
+	//SChannelCredentials.dwFlags = SCH_USE_STRONG_CRYPTO | SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION | SCH_CRED_REVOCATION_CHECK_CHAIN;
+	SChannelCredentials.dwFlags = SCH_USE_STRONG_CRYPTO | SCH_CRED_NO_DEFAULT_CREDS;
+	if (!CheckCertficateRevocation)
+	{
+		SChannelCredentials.dwFlags &= ~(SCH_CRED_REVOCATION_CHECK_CHAIN);
+	}
+
+	if (ClientCertificateRequired)
+	{
+		SChannelCredentials.dwFlags |= SCH_CRED_AUTO_CRED_VALIDATION;
+	}
+
 	switch (_TlsProtocols)
 	{
 	case Elysium::Core::Security::Authentication::TlsProtocols::Tls10:
@@ -298,29 +430,290 @@ void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
 	default:
 		throw Elysium::Core::NotImplementedException(u8"Unhandled TlsProtocols.");
 	}
-	/*
-	SCH_CREDENTIALS SChannelCredentials = SCH_CREDENTIALS();
-	SChannelCredentials.dwVersion = SCH_CREDENTIALS_VERSION;
-	//SChannelCredentials.dwCredFormat =
-	//SChannelCredentials.cCreds = 
-	SChannelCredentials.paCred = nullptr;
-	//SChannelCredentials.hRootStore = 
-	//SChannelCredentials.cMappers = 
-	SChannelCredentials.aphMappers = nullptr;
-	SChannelCredentials.dwSessionLifespan = 0;
-	//SChannelCredentials.dwFlags = 
-	//SChannelCredentials.cTlsParameters = 
-	SChannelCredentials.pTlsParameters = nullptr;
-	*/
-	// Get Client Credentials handle
-	SECURITY_STATUS Status;
-	TimeStamp Lifetime;
 
-	Status = AcquireCredentialsHandle(nullptr, (LPWSTR)UNISP_NAME_W, SECPKG_CRED_OUTBOUND, nullptr, &SChannelCredentials, nullptr, nullptr, 
-		&_CredentialHandle, &Lifetime);
-	if (Status != SEC_E_OK)
+	Status = AcquireCredentialsHandleW(nullptr, const_cast<LPWSTR>(UNISP_NAME_W), SECPKG_CRED_INBOUND, nullptr, &SChannelCredentials,
+		nullptr, nullptr, &_CredentialHandle, &Lifetime);
+	switch (Status)
 	{
+	case SEC_E_ALGORITHM_MISMATCH:
+		// This status is not documented by microsoft!
+		// maybe (?): tls 1.3
+		// maybe (?): client and server cannot communicate because they do not possess a common algorithm
+		// @ToDo: just forcefully close the tcp-connection?
 		throw Elysium::Core::Security::Authentication::AuthenticationException();
+	case SEC_E_NO_CREDENTIALS:
+		// schannel is not able to use the provided certificate
+		// @ToDo
+		throw 1;
+	case SEC_E_INSUFFICIENT_MEMORY:
+		// @ToDo (scenario not encountered)
+		throw 1;
+	case SEC_E_INTERNAL_ERROR:
+		// @ToDo (scenario not encountered)
+		throw 1;
+	case SEC_E_NOT_OWNER:
+		// @ToDo (scenario not encountered)
+		throw 1;
+	case SEC_E_SECPKG_NOT_FOUND:
+		// @ToDo (scenario not encountered)
+		throw 1;
+	case SEC_E_OK:
+		break;
+	default:
+		// @ToDo: unhandled Status
+		throw 1;
+	}
+
+	// handshake
+	Elysium::Core::size TotalBytesRead = 0;
+
+	SecBuffer InBuffers[2];
+	InBuffers[0].BufferType = SECBUFFER_TOKEN;
+	InBuffers[0].pvBuffer = &_InBuffer[0];
+	InBuffers[0].cbBuffer = TotalBytesRead;
+
+	InBuffers[1].BufferType = SECBUFFER_EMPTY;
+	InBuffers[1].pvBuffer = nullptr;
+	InBuffers[1].cbBuffer = 0;
+
+	SecBufferDesc InBufferDescriptor;
+	InBufferDescriptor.ulVersion = SECBUFFER_VERSION;
+	InBufferDescriptor.pBuffers = &InBuffers[0];
+	InBufferDescriptor.cBuffers = 2;
+
+	SecBuffer OutBuffers[1];
+	OutBuffers[0].BufferType = SECBUFFER_TOKEN;
+	OutBuffers[0].pvBuffer = nullptr;
+	OutBuffers[0].cbBuffer = 0;
+	//OutBuffers[0].pvBuffer = &_OutBuffer[0];
+	//OutBuffers[0].cbBuffer = _OutBuffer.GetLength();
+
+	SecBufferDesc OutBufferDescriptor;
+	OutBufferDescriptor.ulVersion = SECBUFFER_VERSION;
+	OutBufferDescriptor.cBuffers = 1;
+	OutBufferDescriptor.pBuffers = &OutBuffers[0];
+
+	DWORD ContextAttributes = 0;
+
+	bool FirstCall = true;
+	Status = SEC_I_CONTINUE_NEEDED;
+	//while (Status == SEC_I_CONTINUE_NEEDED || Status == SEC_E_INCOMPLETE_MESSAGE)
+	while (SEC_E_OK != Status)
+	{
+		Status = AcceptSecurityContext(&_CredentialHandle,
+			FirstCall  ? nullptr : &_Context,
+			&InBufferDescriptor,
+			ASC_REQ_ALLOCATE_MEMORY | ASC_REQ_CONFIDENTIALITY | ASC_REQ_STREAM,
+			SECURITY_NATIVE_DREP,
+			&_Context,
+			&OutBufferDescriptor,
+			&ContextAttributes,
+			&Lifetime
+		);
+		/*
+		// send any output token
+		if (nullptr != OutBuffers[0].pvBuffer && 0 < OutBuffers[0].cbBuffer)
+		{
+			_InnerStream.Write(
+				static_cast<Elysium::Core::byte*>(OutBufferDescriptor.pBuffers[0].pvBuffer),
+				OutBufferDescriptor.pBuffers[0].cbBuffer
+			);
+
+			FreeContextBuffer(OutBufferDescriptor.pBuffers[0].pvBuffer);
+			OutBufferDescriptor.pBuffers[0].pvBuffer = nullptr;
+			OutBufferDescriptor.pBuffers[0].cbBuffer = 0;
+
+			bool sdfsdf = false;
+		}
+
+		// Handle leftover bytes in input
+		if (InBuffers[1].BufferType == SECBUFFER_EXTRA && InBuffers[1].cbBuffer > 0)
+		{
+			memmove(&_InBuffer[0], &_InBuffer[TotalBytesRead - InBuffers[1].cbBuffer], InBuffers[1].cbBuffer);
+			TotalBytesRead = InBuffers[1].cbBuffer;
+		}
+		else
+		{
+			TotalBytesRead = 0;
+		}
+		*/
+		switch (Status)
+		{
+		case SEC_E_INCOMPLETE_MESSAGE:
+			// more data required -> read more
+		{
+			//if (TotalBytesRead == 0 || Status == SEC_E_INCOMPLETE_MESSAGE)
+			{
+				const Elysium::Core::size BytesRead = _InnerStream.Read(&_InBuffer[TotalBytesRead], _InBuffer.GetLength() - TotalBytesRead);
+				if (BytesRead == 0)
+				{
+					throw Elysium::Core::Security::Authentication::AuthenticationException();
+				}
+				TotalBytesRead += BytesRead;
+			}
+
+			InBuffers[0].BufferType = SECBUFFER_TOKEN;
+			InBuffers[0].cbBuffer = TotalBytesRead;	// crucial detail as DecryptMessage(...) manipulates this value!
+			InBuffers[1].BufferType = SECBUFFER_EMPTY;
+
+			bool bla = false;
+		}
+			continue;
+		case SEC_E_INSUFFICIENT_MEMORY:
+			// send response to client
+		{
+			bool bla = false;
+		}
+		break;
+		case SEC_E_INTERNAL_ERROR:
+			// send response to client
+		{
+			bool bla = false;
+		}
+		break;
+		case SEC_E_INVALID_HANDLE:
+		{
+			bool bla = false;
+		}
+		break;
+		case SEC_I_CONTINUE_NEEDED:
+			// send response to client
+		{
+			bool bla = false;
+		}
+		FirstCall = false;
+			break;
+		case SEC_E_BUFFER_TOO_SMALL:
+		{
+			bool bla = false;
+		}
+		break;
+		case SEC_E_INVALID_TOKEN:
+		{
+			bool bla = false;
+		}
+		break;
+		case SEC_E_NO_CREDENTIALS:
+		{
+			bool bla = false;
+		}
+		break;
+		case SEC_E_OK:
+			// handshake complete
+		{
+			bool bla = false;
+		}
+		FirstCall = false;
+			break;
+		default:
+			// @ToDo
+			//throw 1;
+		{
+			bool bla = false;
+		}
+			break;
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// ...
+	Status = QueryContextAttributesW(&_Context, SECPKG_ATTR_STREAM_SIZES, &_Sizes);
+	switch (Status)
+	{
+	case SEC_E_INCOMPLETE_MESSAGE:
+		// @ToDo
+		throw 1;
+		break;
+	case SEC_I_CONTINUE_NEEDED:
+		// @ToDo
+		throw 1;
+		break;
+	case SEC_E_OK:
+		break;
+	default:
+		// @ToDo
+		throw 1;
+		break;
+	}
+	/*
+	// Optional: handle leftover application data in _InBuffer here
+	for (int i = 0; i < InBufferDescriptor.cBuffers; ++i)
+	{
+		if (InBuffers[i].BufferType == SECBUFFER_EXTRA && InBuffers[i].cbBuffer > 0)
+		{
+			// Remaining bytes are likely HTTP GET or TLS application data
+		}
+	}
+	*/
+}
+
+void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
+{
+	SECURITY_STATUS Status = {};
+	TimeStamp Lifetime = {};
+
+	// aquire credentials handle
+	if (Elysium::Core::Security::Authentication::TlsProtocols::Tls13 == (_TlsProtocols & Elysium::Core::Security::Authentication::TlsProtocols::Tls13))
+	{
+		SCH_CREDENTIALS SChannelCredentials = SCH_CREDENTIALS();
+		SChannelCredentials.dwVersion = SCHANNEL_CRED_VERSION;
+		SChannelCredentials.dwFlags = SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION | SCH_USE_STRONG_CRYPTO;
+
+		// client certificates
+		SChannelCredentials.cCreds = 0;
+		SChannelCredentials.paCred = nullptr;
+
+		// ...
+		Status = AcquireCredentialsHandleW(nullptr, (LPWSTR)UNISP_NAME_W, SECPKG_CRED_OUTBOUND, nullptr, &SChannelCredentials, nullptr, nullptr,
+			&_CredentialHandle, &Lifetime);
+		if (Status != SEC_E_OK)
+		{
+			throw Elysium::Core::Security::Authentication::AuthenticationException();
+		}
+	}
+	else
+	{
+		SCHANNEL_CRED SChannelCredentials = SCHANNEL_CRED();
+		//ZeroMemory(&SChannelCredentials, sizeof(SChannelCredentials));
+		SChannelCredentials.dwVersion = SCHANNEL_CRED_VERSION;
+		SChannelCredentials.dwFlags = SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION;
+		switch (_TlsProtocols)
+		{
+		case Elysium::Core::Security::Authentication::TlsProtocols::Tls10:
+			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_0;
+			break;
+		case Elysium::Core::Security::Authentication::TlsProtocols::Tls11:
+			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_1;
+			break;
+		case Elysium::Core::Security::Authentication::TlsProtocols::Tls12:
+			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_2;
+			break;
+		case Elysium::Core::Security::Authentication::TlsProtocols::Tls13:
+			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_3;
+			break;
+		default:
+			throw Elysium::Core::NotImplementedException(u8"Unhandled TlsProtocols.");
+		}
+
+		// ...
+		Status = AcquireCredentialsHandleW(nullptr, (LPWSTR)UNISP_NAME_W, SECPKG_CRED_OUTBOUND, nullptr, &SChannelCredentials, nullptr, nullptr,
+			&_CredentialHandle, &Lifetime);
+		if (Status != SEC_E_OK)
+		{
+			throw Elysium::Core::Security::Authentication::AuthenticationException();
+		}
 	}
 
 	// ...
@@ -342,7 +735,7 @@ void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
 
 	ULONG ContextAttributes;
 
-	Status = InitializeSecurityContext(&_CredentialHandle, nullptr, (wchar_t*)&TargetHostUTF16LE[0], RequiredContext, 0, SECURITY_NATIVE_DREP, nullptr,
+	Status = InitializeSecurityContextW(&_CredentialHandle, nullptr, (wchar_t*)&TargetHostUTF16LE[0], RequiredContext, 0, SECURITY_NATIVE_DREP, nullptr,
 		0, &_Context, &SecureBufferDescriptor, &ContextAttributes, &Lifetime);
 	if (FAILED(Status))
 	{

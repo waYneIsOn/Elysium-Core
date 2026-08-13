@@ -28,7 +28,7 @@ namespace UnitTests::Core::Net::Sockets
 	public:
 		TEST_METHOD(ConnectUsingHost)
 		{
-			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			Socket ClientSocket = Socket(Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetwork, Elysium::Core::Template::Net::Sockets::SocketType::Stream, Elysium::Core::Template::Net::Sockets::ProtocolType::Tcp);
 			ClientSocket.SetBlocking(false);
 
 			try
@@ -38,13 +38,13 @@ namespace UnitTests::Core::Net::Sockets
 			}
 			catch (const SocketException& ex)
 			{
-				SocketError InitialError = ex.GetSocketError();
-				if (InitialError != SocketError::WouldBlock)
+				Elysium::Core::Template::Net::Sockets::SocketError InitialError = ex.GetSocketErrorCode();
+				if (InitialError != Elysium::Core::Template::Net::Sockets::SocketError::WouldBlock)
 				{
 					Assert::Fail();
 				}
 
-				SocketError Error = SocketError::IsConnected;
+				Elysium::Core::Template::Net::Sockets::SocketError Error = Elysium::Core::Template::Net::Sockets::SocketError::IsConnected;
 				do
 				{
 					try
@@ -54,22 +54,23 @@ namespace UnitTests::Core::Net::Sockets
 					}
 					catch (const SocketException& ex)
 					{
-						Error = ex.GetSocketError();
-						if (Error == SocketError::NotConnected)
+						Error = ex.GetSocketErrorCode();
+						if (Error == Elysium::Core::Template::Net::Sockets::SocketError::NotConnected)
 						{
 							Assert::Fail();
 						}
 					}
-				} while (Error != SocketError::IsConnected);
+				} while (Error != Elysium::Core::Template::Net::Sockets::SocketError::IsConnected);
 			}
 
-			ClientSocket.Shutdown(SocketShutdown::Both);
+			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
 
 		TEST_METHOD(ReceiveNothing)
 		{
-			Socket ClientSocket = Socket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			Socket ClientSocket = Socket(Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetwork, Elysium::Core::Template::Net::Sockets::SocketType::Stream,
+				Elysium::Core::Template::Net::Sockets::ProtocolType::Tcp);
 			ClientSocket.Connect(Elysium::Core::Utf8String(u8"www.tutorialspoint.com"), 80);
 
 			ClientSocket.SetBlocking(false);
@@ -85,7 +86,7 @@ namespace UnitTests::Core::Net::Sockets
 			catch(const SocketException& ex)
 			{ }
 
-			ClientSocket.Shutdown(SocketShutdown::Both);
+			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
 	};

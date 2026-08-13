@@ -39,25 +39,31 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE
 #include "../Elysium.Core/VectorOfByte.hpp"
 #endif
-
-
-
+/*
+#ifndef _WINDOWS_
+#include <Windows.h>
+#endif
+*/
+#ifndef _WINTERNL_
+#include <winternl.h>
+#endif
 
 #define SECURITY_WIN32
 #include <security.h>
-
+/*
 #ifndef __SSPI_H__
 #include <sspi.h>
 #endif
-
-
-
-
-
+*/
+#ifndef __SCHANNEL_H__
+#define SCHANNEL_USE_BLACKLISTS
+#include <schannel.h>
+#endif
 
 namespace Elysium::Core::Net::Security
 {
-	class ELYSIUM_CORE_NET_API TlsStream final : public AuthenticatedStream
+	class ELYSIUM_CORE_NET_API TlsStream final 
+		: public AuthenticatedStream
 	{
 	public:
 		TlsStream(IO::Stream & InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions & AuthenticationOptions);
@@ -72,16 +78,6 @@ namespace Elysium::Core::Net::Security
 
 		TlsStream& operator=(TlsStream&& Right) noexcept = delete;
 	public:
-		virtual const bool GetCanRead() const override;
-
-		virtual const bool GetCanSeek() const override;
-
-		virtual const bool GetCanTimeout() const override;
-
-		virtual const bool GetCanWrite() const override;
-
-		virtual const Elysium::Core::size GetLength() const override;
-
 		virtual const bool GetIsAuthenticated() const override;
 
 		virtual const bool GetIsEncrypted() const override;
@@ -91,10 +87,6 @@ namespace Elysium::Core::Net::Security
 		virtual const bool GetIsServer() const override;
 
 		virtual const bool GetIsSigned() const override;
-	public:
-		virtual void SetLength(const Elysium::Core::size Value) override;
-
-		virtual void SetPosition(const Elysium::Core::uint64_t Position) override;
 	public:
 		virtual void Close() override;
 
@@ -107,10 +99,15 @@ namespace Elysium::Core::Net::Security
 		virtual Elysium::Core::byte ReadByte() override;
 
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
-
-		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
+	public:
+		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost,
+			const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, 
+			const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = 
+				Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
 		
-		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
+		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate,
+			const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols,
+			const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 
@@ -121,16 +118,18 @@ namespace Elysium::Core::Net::Security
 		Elysium::Core::Utf8String _TargetHost;
 		Elysium::Core::Security::Authentication::TlsProtocols _TlsProtocols;
 		CredHandle _CredentialHandle;
-		_SecHandle _Context;
+		SecHandle _Context;
 		SecPkgContext_StreamSizes _Sizes;
-
+	private:
 		void PerformClientHandshake();
-		void ClientHandshakeLoop(const bool Read);
-		void GetServersCertificate();
-		void GetStreamEncryptionProperties();
 
-		//void CreateCredentials();
-		//void GetNewClientCredentials();
+		void ClientHandshakeLoop(const bool Read);
+
+		void GetServersCertificate();
+
+		void GetStreamEncryptionProperties();
+	private:
+		//void AquireCredentialHandle();
 	};
 }
 #endif

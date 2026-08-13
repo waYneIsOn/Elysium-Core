@@ -42,6 +42,10 @@ namespace Elysium::Core::Template::IO::Device
 	class FileDevice;
 }
 
+namespace Elysium::Core::Template::Net::Sockets
+{
+	class Socket;
+}
 
 
 
@@ -73,6 +77,7 @@ namespace Elysium::Core::Template::Threading
 	{
 	private:
 		friend class Elysium::Core::Template::IO::Device::FileDevice;
+		friend class Elysium::Core::Template::Net::Sockets::Socket;
 	private:
 		// @ToDo: remove asap
 		friend class Elysium::Core::IO::FileStream;
@@ -130,6 +135,7 @@ namespace Elysium::Core::Template::Threading
 		{
 		private:
 			friend class Elysium::Core::Template::IO::Device::FileDevice;
+			friend class Elysium::Core::Template::Net::Sockets::Socket;
 		private:
 			// @ToDo: remove asap
 			friend class Elysium::Core::IO::FileStream;

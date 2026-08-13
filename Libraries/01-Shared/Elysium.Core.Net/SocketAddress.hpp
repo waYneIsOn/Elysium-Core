@@ -12,58 +12,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SOCKETS_ADDRESSFAMILY
-#include "AddressFamily.hpp"
+#ifndef ELYSIUM_CORE_NET_API
+#include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_IPADDRESS
-#include "IPAddress.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SOCKETADDRESS
+#include "../Elysium.Core.Template/Net/SocketAddress.hpp"
 #endif
 
 namespace Elysium::Core::Net
 {
-	class SocketAddress final
-	{
-		friend class DnsEndPoint;
-		friend class IPEndPoint;
-	private:
-		SocketAddress(const IPAddress& Address);
+	class ELYSIUM_CORE_NET_API Elysium::Core::Template::Net::SocketAddress;
 
-		SocketAddress(const IPAddress& Address, const Elysium::Core::uint16_t Port);
-	public:
-		SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily, const Elysium::Core::uint8_t Size);
-
-		SocketAddress(const Elysium::Core::Net::Sockets::AddressFamily AddressFamily);
-
-		SocketAddress(const SocketAddress& Source) = delete;
-
-		SocketAddress(SocketAddress&& Right) noexcept = delete;
-
-		~SocketAddress();
-	public:
-		SocketAddress& operator=(const SocketAddress& Source) = delete;
-
-		SocketAddress& operator=(SocketAddress&& Right) noexcept = delete;
-	public:
-		const Elysium::Core::Net::Sockets::AddressFamily GetFamily() const;
-
-		const Elysium::Core::byte& operator[](Elysium::Core::size Index) const;
-
-		const Elysium::Core::uint8_t GetSize() const;
-	private:
-		static const Elysium::Core::uint8_t IPv6AddressSize = 28;	// 2 byte address family, 26 byte rest (???)
-		static const Elysium::Core::uint8_t IPv4AddressSize = 16;	// 2 byte address family, 14 byte rest (2 byte port? 12 byte ip?)
-
-		static const Elysium::Core::uint8_t WriteableOffset = 2;	// first two bytes contain address family
-		static const Elysium::Core::uint8_t MaxSize = 32;
-	private:
-		// DO NOT CHANGE THE ORDER OF FIELDS!
-		char _Data[MaxSize];
-		const Elysium::Core::uint8_t _Size;
-	};
+	using SocketAddress = Elysium::Core::Template::Net::SocketAddress;
 }
 #endif
