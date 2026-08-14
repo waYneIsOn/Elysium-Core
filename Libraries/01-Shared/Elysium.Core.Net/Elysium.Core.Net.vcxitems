@@ -36,7 +36,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsContentType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsAlertLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsHandshakeMessageType.hpp" />

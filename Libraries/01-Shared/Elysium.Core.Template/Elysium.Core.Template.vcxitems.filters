@@ -1008,9 +1008,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPAddress.hpp">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Net\SocketAddress.hpp">
-      <Filter>Net</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPEndPoint.hpp">
       <Filter>Net</Filter>
     </ClInclude>

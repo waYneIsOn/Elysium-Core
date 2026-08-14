@@ -44,7 +44,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SocketAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Socket.hpp">
       <Filter>Sockets</Filter>
     </ClInclude>

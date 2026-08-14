@@ -55,7 +55,8 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		constexpr SocketDevice() noexcept = delete;
 	
-		inline constexpr SocketDevice(const Elysium::Core::Template::Net::Sockets::Socket& Socket)
+		inline constexpr SocketDevice(Elysium::Core::Template::Net::Sockets::Socket& Socket)
+			: _Socket(Socket)
 		{ }
 
 		constexpr SocketDevice(const SocketDevice& Source) = delete;
@@ -81,27 +82,6 @@ namespace Elysium::Core::Template::IO::Device
 			return false;
 		}
 	public:
-		inline constexpr const Elysium::Core::Template::System::size GetLength() const
-		{
-			return 0;
-		}
-
-		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
-		{
-			return 0;
-		}
-	public:
-		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
-		{
-
-		}
-	public:
-		inline void Connect(const Elysium::Core::Template::Text::StringView<char8_t> Host, const Elysium::Core::Template::System::uint16_t Port)
-		{
-
-			bool sdfds = false;
-		}
-
 		inline void Close()
 		{
 
@@ -122,7 +102,7 @@ namespace Elysium::Core::Template::IO::Device
 
 		}
 	private:
-		//Elysium::Core::Template::Net::Sockets::Socket& _Socket;
+		Elysium::Core::Template::Net::Sockets::Socket& _Socket;
 	};
 }
 #endif

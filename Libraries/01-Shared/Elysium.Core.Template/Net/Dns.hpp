@@ -94,12 +94,13 @@ namespace Elysium::Core::Template::Net
 			Elysium::Core::Template::Text::String<wchar_t> NameOrAddress = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&HostNameOrAdddress[0], HostNameOrAdddress.GetLength());
 
 			ADDRINFOW Hints{};
-			Hints.ai_family = AF_UNSPEC;   // IPv4 + IPv6
+			Hints.ai_family = AF_UNSPEC;
 			Hints.ai_socktype = SOCK_STREAM;
 
+			// @ToDo: use extended
+			//ADDRINFOEXW* AddressInfosEx = nullptr;
+			//INT QueryResult = GetAddrInfoExW(&NameOrAddress[0], nullptr, ..., ..., &Hints, &AddressInfosEx, ..., ..., ..., ...);
 			ADDRINFOW* AddressInfos = nullptr;
-
-			//INT QueryResult = GetAddrInfoExW()
 			INT QueryResult = GetAddrInfoW(&NameOrAddress[0], nullptr, &Hints, &AddressInfos);
 			if (0 != QueryResult)
 			{
@@ -114,55 +115,84 @@ namespace Elysium::Core::Template::Net
 				++ResultLength;
 			}
 
-
 			Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::IPAddress> Result(ResultLength);
 			ResultLength = 0;
 			for (ADDRINFOW* AddressInfo = AddressInfos; AddressInfo != nullptr; AddressInfo = AddressInfo->ai_next)
 			{
-				// @ToDo: use actual address types (sockaddr_in, sockaddr_in6 etc.)
-				Elysium::Core::Template::System::uint32_t Address = *reinterpret_cast<Elysium::Core::Template::System::uint32_t*>(&AddressInfo->ai_addr->sa_data[2]);
-
 				switch (AddressInfo->ai_family)
 				{
 				case AF_UNSPEC:
 				{
-					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified, Address };
+					// @ToDo: inspect to select corresponding struct
+					throw;
 				}
 					break;
 				case AF_INET:
 				{
-					sockaddr_in* address = reinterpret_cast<sockaddr_in*>(AddressInfo->ai_addr);
-					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetwork, Address };
+					const sockaddr_in* Address = reinterpret_cast<sockaddr_in*>(AddressInfo->ai_addr);
+					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetwork,
+						reinterpret_cast<const Elysium::Core::Template::System::byte*>(&Address->sin_addr), sizeof(Address->sin_addr) };
+				}
+					break;
+				case AF_UNIX:
+				{
+					// @ToDo
+					//const SOCKADDR_UN* Address = reinterpret_cast<SOCKADDR_UN*>(AddressInfo->ai_addr);
+					throw;
+				}
+					break;
+				case AF_IPX:
+				{
+					// @ToDo
+					//const SOCKADDR_IPX* Address = reinterpret_cast<SOCKADDR_IPX*>(AddressInfo->ai_addr);
+					throw;
 				}
 					break;
 				case AF_NETBIOS:
 				{
-					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::NetBios, Address };
+					// @ToDo
+					//const SOCKADDR_NB* Address = reinterpret_cast<SOCKADDR_NB*>(AddressInfo->ai_addr);
+					throw;
+				}
+					break;
+				case AF_ATM:
+				{
+					// @ToDo
+					//const sockaddr_atm* Address = reinterpret_cast<sockaddr_atm*>(AddressInfo->ai_addr);
+					throw;
 				}
 					break;
 				case AF_INET6:
 				{
-					sockaddr_in6* address = reinterpret_cast<sockaddr_in6*>(AddressInfo->ai_addr);
-					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetworkV6, Address };
+					const sockaddr_in6* Address = reinterpret_cast<sockaddr_in6*>(AddressInfo->ai_addr);
+					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetworkV6, 
+						reinterpret_cast<const Elysium::Core::Template::System::byte*>(&Address->sin6_addr), sizeof(Address->sin6_addr) };
 				}
 					break;
 				case AF_IRDA:
 				{
-					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::AtmIrda, Address };
+					// @ToDo
+					//const SOCKADDR_IRDA* Address = reinterpret_cast<SOCKADDR_IRDA*>(AddressInfo->ai_addr);
+					throw;
 				}
 					break;
 				case AF_BTH:
 				{
 					// @ToDo
+					//const SOCKADDR_BTH* Address = reinterpret_cast<SOCKADDR_BTH*>(AddressInfo->ai_addr);
 					throw;
-					/*
-					Result[ResultLength++] = { Elysium::Core::Template::Net::Sockets::AddressFamily::Bluetooth, Address };
+				}
 					break;
-					*/
+				case AF_HYPERV:
+				{
+					// @ToDo
+					//const SOCKADDR_HV* Address = reinterpret_cast<SOCKADDR_HV*>(AddressInfo->ai_addr);
+					throw;
 				}
 					break;
 				default:
-					// seems like there are new values! https://learn.microsoft.com/en-us/windows/win32/api/ws2def/ns-ws2def-addrinfow
+					// unknown, historical or provider-specific family
+					// seems like there are new families that are get returned! https://learn.microsoft.com/en-us/windows/win32/api/ws2def/ns-ws2def-addrinfow
 					throw;
 				}
 			}

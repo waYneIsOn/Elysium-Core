@@ -15,6 +15,8 @@ using namespace Elysium::Core::Template::IO::Source;
 using namespace Elysium::Core::Template::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+#include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
+
 namespace UnitTests::Core::Template::IO
 {
 	TEST_CLASS(NetworkStreamTests)
@@ -27,16 +29,18 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(bla)
 		{
 			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
+			
+
+			
+
+
 			SocketDevice Device(ClientSocket);
 			SocketSink DeviceSink(Device);
 			BufferedSink OuterSink(DeviceSink);
 
 			NetworkWritingStream Stream(OuterSink);
 			
-
-
-
-			Device.Connect(u8"www.tutorialspoint.com", 80);
 
 			//Device.Shutdown(SocketShutdown::Both);
 			//Device.Disconnect(false);

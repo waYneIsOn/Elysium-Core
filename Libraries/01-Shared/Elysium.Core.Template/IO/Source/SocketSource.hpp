@@ -64,16 +64,6 @@ namespace Elysium::Core::Template::IO::Source
 			return _Device;
 		}
 	public:
-		inline constexpr const Elysium::Core::Template::System::size GetLength() const
-		{
-			return _Device.GetLength();
-		}
-
-		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
-		{
-			return _Device.GetPosition();
-		}
-	public:
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
 			throw;

@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
+#include "../Container/Vector.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
 #include "../Memory/MemCpy.hpp"
 #endif
@@ -41,26 +45,22 @@ namespace Elysium::Core::Template::Net
 	class IPAddress
 	{
 	public:
-		/*
-		inline constexpr IPAddress(const Elysium::Core::Template::Net::Sockets::AddressFamily Family, const Elysium::Core::Template::System::byte Address[16]) noexcept
-			:  _Address{}, _Family(Family)
+		inline constexpr IPAddress(const Elysium::Core::Template::Net::Sockets::AddressFamily Family, const Elysium::Core::Template::System::byte* AddressBytes,
+			const Elysium::Core::Template::System::size AddressLength) noexcept
+			: _Family(Family), _Address(AddressLength)
 		{
-			Elysium::Core::Template::Memory::MemCpy(&_Address, Address, 8);
-		}
-		*/
-		inline constexpr IPAddress(const Elysium::Core::Template::Net::Sockets::AddressFamily Family = Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified,
-			const Elysium::Core::Template::System::uint32_t Address = 0) noexcept
-			: _Address{}, _Family(Family)
-		{
-			const Elysium::Core::Template::System::byte* AddressBytes = reinterpret_cast<const Elysium::Core::Template::System::byte*>(&Address);
-
 			// @ToDo: use MemCpy as soon as it's constexpr
-			//Elysium::Core::Template::Memory::MemCpy(&_Address, AddressBytes, sizeof(Address));
-			for (Elysium::Core::Template::System::uint8_t i = 0; i < sizeof(Address); ++i)
+			//Elysium::Core::Template::Memory::MemCpy(&_Address[0], Address, 8);
+			for (Elysium::Core::Template::System::uint8_t i = 0; i < AddressLength; ++i)
 			{
 				_Address[i] = AddressBytes[i];
 			}
 		}
+		
+		inline constexpr IPAddress(const Elysium::Core::Template::Net::Sockets::AddressFamily Family = Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified,
+			const Elysium::Core::Template::System::uint32_t Address = 0) noexcept
+			: IPAddress(Family, reinterpret_cast<const Elysium::Core::Template::System::byte*>(&Address), sizeof(Address))
+		{ }
 
 		constexpr IPAddress(const IPAddress& Source) = default;
 
@@ -72,7 +72,12 @@ namespace Elysium::Core::Template::Net
 
 		constexpr IPAddress& operator=(IPAddress&& Right) noexcept = default;
 	public:
-		inline constexpr const Sockets::AddressFamily GetAddressFamily() const noexcept
+		inline constexpr const Elysium::Core::Template::System::byte* GetAddress() const noexcept
+		{
+			return &_Address[0];
+		}
+
+		inline constexpr const Elysium::Core::Template::Net::Sockets::AddressFamily GetAddressFamily() const noexcept
 		{
 			return _Family;
 		}
@@ -146,8 +151,8 @@ namespace Elysium::Core::Template::Net
 			return IPAddress(Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified, (IpPart1 << 24) + (IpPart2 << 16) + (IpPart3 << 8) + IpPart4);
 		}
 	private:
-		Elysium::Core::Template::System::byte _Address[16];
 		Elysium::Core::Template::Net::Sockets::AddressFamily _Family;
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> _Address;
 	};
 }
 #endif

@@ -100,7 +100,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\DnsEndPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPEndPoint.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Net\SocketAddress.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\AddressFamily.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\AuthenticationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\IOControlCode.hpp" />

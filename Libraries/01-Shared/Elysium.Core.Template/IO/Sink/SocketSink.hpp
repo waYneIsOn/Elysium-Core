@@ -53,11 +53,6 @@ namespace Elysium::Core::Template::IO::Sink
 			return _Device;
 		}
 	public:
-		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
-		{
-			_Device.SetPosition(Position);
-		}
-	public:
 		inline void Close()
 		{
 			_Device.Close();
