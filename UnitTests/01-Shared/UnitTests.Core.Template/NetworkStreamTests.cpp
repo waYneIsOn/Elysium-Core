@@ -22,28 +22,56 @@ namespace UnitTests::Core::Template::IO
 	TEST_CLASS(NetworkStreamTests)
 	{
 		using NetworkReadingStream = OutStream<SocketSource>;
-		using NetworkWritingStream = InStream<BufferedSink<SocketSink>>;
+		using NetworkWritingStream = InStream<SocketSink>;
 
-		using NetworkStream = InOutStream<BufferedSink<SocketSink>, SocketSource, DeviceCoupled>;
+		using NetworkStream = InOutStream<SocketSink, SocketSource, DeviceCoupled>;
 	public:
-		TEST_METHOD(bla)
+		TEST_METHOD(FtpClientReadWelcomeMessage)
+		{
+			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(u8"demo.wftpserver.com", 21);
+
+			SocketDevice Device(ClientSocket);
+			SocketSource Source(Device);
+			NetworkReadingStream InStream(Source);
+
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> View{};
+			const Elysium::Core::Template::IO::ReadResult Result0 = InStream.ReadBlock(View);
+
+			Elysium::Core::Template::Text::String<char> Response(reinterpret_cast<char*>(View.GetData()), View.GetLength());
+			Logger::WriteMessage(&Response[0]);
+			Logger::WriteMessage("\r\n");
+
+			InStream.AdvanceReadingBlock(4);
+			const Elysium::Core::Template::IO::ReadResult Result1 = InStream.ReadBlock(View);
+
+			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
+		}
+
+		TEST_METHOD(HttpClientSendAndReceive)
 		{
 			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
 			ClientSocket.Connect(u8"www.tutorialspoint.com", 80);
-			
-
-			
-
 
 			SocketDevice Device(ClientSocket);
-			SocketSink DeviceSink(Device);
-			BufferedSink OuterSink(DeviceSink);
+			SocketSink Sink(Device);
+			SocketSource Source(Device);
 
-			NetworkWritingStream Stream(OuterSink);
-			
+			NetworkStream Stream(Sink, Source);
 
-			//Device.Shutdown(SocketShutdown::Both);
-			//Device.Disconnect(false);
+			Elysium::Core::Template::Text::String<char8_t> HttpRequest = u8"GET / HTTP/1.1\r\nHost: www.tutorialspoint.com\r\nConnection: keep-alive\r\n\r\n";
+			Stream.Write(reinterpret_cast<Elysium::Core::Template::System::byte*>(&HttpRequest[0]), HttpRequest.GetLength());
+
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> View{};
+			const Elysium::Core::Template::IO::ReadResult Result = Stream.ReadBlock(View);
+
+			Elysium::Core::Template::Text::String<char> Response(reinterpret_cast<char*>(View.GetData()), View.GetLength());
+			Logger::WriteMessage(&Response[0]);
+			Logger::WriteMessage("\r\n");
+
+			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
 		}
 	};
 }

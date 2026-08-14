@@ -35,8 +35,8 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		constexpr SocketSource() noexcept = delete;
 
-		inline constexpr SocketSource(DeviceType& Device) noexcept
-			: _Device(Device)
+		inline constexpr SocketSource(DeviceType& Device, const Elysium::Core::Template::System::size BufferSize = 4096) noexcept
+			: _Buffer(0 == BufferSize ? 4096 : BufferSize), _ReadPosition(0), _WritePosition(0), _Device(Device)
 		{ }
 
 		constexpr SocketSource(const SocketSource& Source) = delete;
@@ -66,14 +66,36 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			throw;
+			if (_ReadPosition == _WritePosition)
+			{
+				_ReadPosition = 0;
+				_WritePosition = _Device.Read(&_Buffer[_ReadPosition], _Buffer.GetCapacity());
+
+				if (0 == _WritePosition)
+				{
+					return Elysium::Core::Template::IO::ReadResult::EndOfStream;
+				}
+			}
+
+			DataView.SetData(&_Buffer[_ReadPosition]);
+			DataView.SetLength(_WritePosition - _ReadPosition);
+
+			return Elysium::Core::Template::IO::ReadResult::HasData;
 		}
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
 		{
-			throw;
+			if (_ReadPosition + Length > _Buffer.GetCapacity())
+			{	// @ToDo
+				throw;
+			}
+
+			_ReadPosition += Length;
 		}
 	private:
+		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
+		Elysium::Core::Template::System::size _ReadPosition;
+		Elysium::Core::Template::System::size _WritePosition;
 		DeviceType& _Device;
 	};
 }

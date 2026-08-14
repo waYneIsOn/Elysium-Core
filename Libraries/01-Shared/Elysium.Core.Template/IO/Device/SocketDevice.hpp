@@ -89,12 +89,12 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			return 0;
+			return _Socket.Receive(Buffer, Count);
 		}
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-
+			Elysium::Core::Template::System::size BytesWritten = _Socket.Send(Buffer, Count);
 		}
 
 		inline void Flush()

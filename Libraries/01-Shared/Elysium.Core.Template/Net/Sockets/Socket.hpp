@@ -415,17 +415,20 @@ namespace Elysium::Core::Template::Net::Sockets
 	public:
 		inline const Elysium::Core::Template::System::size Receive(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			WSABUF WSABuffer{};
-			WSABuffer.len = Count;
-			WSABuffer.buf = (char*)Buffer;
+			WSABUF WSABuffer
+			{
+				.len = static_cast<unsigned long>(Count),
+				.buf = reinterpret_cast<char*>(const_cast<Elysium::Core::Template::System::byte*>(Buffer))
+			};
 
 			DWORD BytesReceived = 0;
-			Elysium::Core::Template::Net::Sockets::SocketFlags Flags = Elysium::Core::Template::Net::Sockets::SocketFlags::None;
+			DWORD Flags = 0;
 
-			const int Result = WSARecv(_SocketHandle, &WSABuffer, 1, &BytesReceived, reinterpret_cast<LPDWORD>(&Flags), nullptr, nullptr);
+			const int Result = WSARecv(_SocketHandle, &WSABuffer, 1, &BytesReceived, &Flags, nullptr, nullptr);
 			if (SOCKET_ERROR == Result)
 			{
-				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException();
+				int ErrorCode = WSAGetLastError();
+				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException(ErrorCode);
 			}
 
 			return BytesReceived;
@@ -452,7 +455,8 @@ namespace Elysium::Core::Template::Net::Sockets
 			const int BytesSent = send(_SocketHandle, reinterpret_cast<const char*>(&Buffer[0]), static_cast<const int>(Count), 0);
 			if (SOCKET_ERROR == BytesSent)
 			{
-				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException();
+				int ErrorCode = WSAGetLastError();
+				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException(ErrorCode);
 			}
 
 			return BytesSent;
@@ -519,6 +523,7 @@ namespace Elysium::Core::Template::Net::Sockets
 				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException();
 			}
 			_SocketHandle = INVALID_SOCKET;
+			_IsClosed = true;
 		}	
 	public:
 		inline static void Select(Elysium::Core::Template::Container::Vector<Socket*>* CheckRead, Elysium::Core::Template::Container::Vector<Socket*>* CheckWrite, 

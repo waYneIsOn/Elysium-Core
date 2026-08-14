@@ -117,7 +117,7 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			if (_ReadPosition + Length > _Buffer.GetCapacity())
 			{	// @ToDo
-				throw 1;
+				throw;
 			}
 
 			_ReadPosition += Length;
