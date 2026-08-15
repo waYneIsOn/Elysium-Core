@@ -16,20 +16,24 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_INTEGER
+#include "../Elysium.Core/Integer.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_NETWORKINTERFACETYPE
-#include "NetworkInterfaceType.hpp"
+#include "../Elysium.Core.Template/Net/NetworkInformation/NetworkInterfaceType.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_OPERATIONALSTATUS
-#include "OperationalStatus.hpp"
+#include "../Elysium.Core.Template/Net/NetworkInformation/OperationalStatus.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_NETWORKINTERFACECOMPONENT
-#include "NetworkInterfaceComponent.hpp"
+#include "../Elysium.Core.Template/Net/NetworkInformation/NetworkInterfaceComponent.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
@@ -67,9 +71,9 @@ namespace Elysium::Core::Net::NetworkInformation
 
 		const Elysium::Core::Utf8String& GetDescription() const;
 
-		const NetworkInterfaceType& GetNetworkInterfaceType() const;
+		const Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType& GetNetworkInterfaceType() const;
 
-		const OperationalStatus& GetOperationalStatus() const;
+		const Elysium::Core::Template::Net::NetworkInformation::OperationalStatus& GetOperationalStatus() const;
 
 		const Elysium::Core::int64_t GetSpeed() const;
 
@@ -78,8 +82,8 @@ namespace Elysium::Core::Net::NetworkInformation
 		Elysium::Core::Utf8String _Id;
 		Elysium::Core::Utf8String _Name;
 		Elysium::Core::Utf8String _Description;
-		NetworkInterfaceType _Type;
-		OperationalStatus _Status;
+		Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType _Type;
+		Elysium::Core::Template::Net::NetworkInformation::OperationalStatus _Status;
 		Elysium::Core::int64_t _Speed;
 		Elysium::Core::int32_t _LoopbackInterfaceIndex;
 		Elysium::Core::int32_t _IPv6LoopbackInterfaceIndex;

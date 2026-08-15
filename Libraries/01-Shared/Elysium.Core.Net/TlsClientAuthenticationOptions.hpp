@@ -25,11 +25,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSPOLICYERRORS
-#include "TlsPolicyErrors.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsPolicyErrors.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
-#include "TlsCipherSuite.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsCipherSuite.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_DELEGATE
@@ -45,10 +45,10 @@ namespace Elysium::Core::Net::Security
 	class ELYSIUM_CORE_NET_API TlsClientAuthenticationOptions final
 	{
 	public:
-		TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Elysium::Core::Template::Container::Vector<TlsCipherSuite>& AllowedCipherSuites);
+		TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& AllowedCipherSuites);
 
-		TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Elysium::Core::Template::Container::Vector<TlsCipherSuite>& AllowedCipherSuites,
-			Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>& UserCertificateValidationCallback,
+		TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& AllowedCipherSuites,
+			Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Template::Net::Security::TlsPolicyErrors>& UserCertificateValidationCallback,
 			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&>& UserCertificateSelectionCallback);
 		
 		TlsClientAuthenticationOptions(const TlsClientAuthenticationOptions& Source);
@@ -61,20 +61,20 @@ namespace Elysium::Core::Net::Security
 
 		TlsClientAuthenticationOptions& operator=(TlsClientAuthenticationOptions&& Right) noexcept = delete;
 	public:
-		const Elysium::Core::Template::Container::Vector<TlsCipherSuite>& GetAllowedCipherSuites() const;
+		const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& GetAllowedCipherSuites() const;
 
-		const Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors>& GetUserCertificateValidationCallback() const;
+		const Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Template::Net::Security::TlsPolicyErrors>& GetUserCertificateValidationCallback() const;
 		
 		const Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&>& GetUserCertificateSelectionCallback() const;
 	private:
 		bool _AllowRenegotiation;
-		Elysium::Core::Template::Container::Vector<TlsCipherSuite> _AllowedCipherSuites;
-		Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Net::Security::TlsPolicyErrors> _UserCertificateValidationCallback;
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite> _AllowedCipherSuites;
+		Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Template::Net::Security::TlsPolicyErrors> _UserCertificateValidationCallback;
 		Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&> _UserCertificateSelectionCallback;
 		// _ClientCertificates;
 		// _EnabledTlsProtocols;
 	private:
-		static const bool ValidateServerCertificate(const void* Sender, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& Certificate, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain& Chain, const TlsPolicyErrors PolicyErrors);
+		static const bool ValidateServerCertificate(const void* Sender, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& Certificate, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain& Chain, const Elysium::Core::Template::Net::Security::TlsPolicyErrors PolicyErrors);
 		
 		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Elysium::Core::Container::VectorOfUtf8String& AcceptableIssuers);
 	};

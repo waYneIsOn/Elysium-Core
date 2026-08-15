@@ -804,9 +804,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\FileSink.hpp">
       <Filter>IO\Sink</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\BufferedSink.hpp">
-      <Filter>IO\Sink</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\SocketSink.hpp">
       <Filter>IO\Sink</Filter>
     </ClInclude>
@@ -1049,6 +1046,48 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketShutdown.hpp">
       <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsPolicyErrors.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsHandshakeMessageType.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsExtensionType.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsContentType.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsCipherSuite.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsAlertLevel.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsAlertDescription.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\MessageAuthenticationCodeAlgorithm.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\KeyExchangeAlgorithm.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\BulkEncryptionAlgorithm.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\NetworkInformation\GetAdaptersAddressesFlags.hpp">
+      <Filter>Net\NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\NetworkInformation\NetworkInterfaceComponent.hpp">
+      <Filter>Net\NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\NetworkInformation\NetworkInterfaceType.hpp">
+      <Filter>Net\NetworkInformation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\NetworkInformation\OperationalStatus.hpp">
+      <Filter>Net\NetworkInformation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -23,8 +23,8 @@ namespace UnitTests::Core::Net::NetworkInformation
 				const Elysium::Core::Utf8String& Id = NetworkInterface.GetId();
 				const Elysium::Core::Utf8String& Name = NetworkInterface.GetName();
 				const Elysium::Core::Utf8String& Description = NetworkInterface.GetDescription();
-				const NetworkInterfaceType& Type = NetworkInterface.GetNetworkInterfaceType();
-				const OperationalStatus& Status = NetworkInterface.GetOperationalStatus();
+				const Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType& Type = NetworkInterface.GetNetworkInterfaceType();
+				const Elysium::Core::Template::Net::NetworkInformation::OperationalStatus& Status = NetworkInterface.GetOperationalStatus();
 				const Elysium::Core::int64_t Speed = NetworkInterface.GetSpeed();
 			}
 		}

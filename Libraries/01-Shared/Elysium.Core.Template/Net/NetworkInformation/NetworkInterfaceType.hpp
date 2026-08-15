@@ -5,22 +5,27 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_NETWORKINTERFACETYPE
-#define ELYSIUM_CORE_NET_NETWORKINFORMATION_NETWORKINTERFACETYPE
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_NETWORKINFORMATION_NETWORKINTERFACECOMPONENT
+#define ELYSIUM_CORE_TEMPLATE_NET_NETWORKINFORMATION_NETWORKINTERFACECOMPONENT
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
 #endif
 
-namespace Elysium::Core::Net::NetworkInformation
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
+#endif
+
+namespace Elysium::Core::Template::Net::NetworkInformation
 {
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class NetworkInterfaceType : Elysium::Core::uint8_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class NetworkInterfaceType
+		: Elysium::Core::Template::System::uint8_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class NetworkInterfaceType
 #else
 #error "undefined os"
@@ -84,3 +89,4 @@ namespace Elysium::Core::Net::NetworkInformation
 	};
 }
 #endif
+#pragma once

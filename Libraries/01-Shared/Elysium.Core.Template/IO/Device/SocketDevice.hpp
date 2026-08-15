@@ -63,10 +63,7 @@ namespace Elysium::Core::Template::IO::Device
 
 		constexpr SocketDevice(SocketDevice&& Right) noexcept = delete;
 
-		inline constexpr ~SocketDevice()
-		{
-			Close();
-		}
+		constexpr ~SocketDevice() = default;
 	public:
 		constexpr SocketDevice& operator=(const SocketDevice& Source) = delete;
 
@@ -74,17 +71,14 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline constexpr const bool operator==(const SocketDevice& Other) const noexcept
 		{
+			//return Other._Socket == _Socket;
 			return false;
 		}
 
 		inline constexpr const bool operator!=(const SocketDevice& Other) const noexcept
 		{
+			//return Other._Socket != _Socket;
 			return false;
-		}
-	public:
-		inline void Close()
-		{
-
 		}
 	public:
 		inline const Elysium::Core::Template::System::size Read(Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
@@ -94,12 +88,11 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			Elysium::Core::Template::System::size BytesWritten = _Socket.Send(Buffer, Count);
-		}
-
-		inline void Flush()
-		{
-
+			Elysium::Core::Template::System::size TotalBytesWritten = 0;
+			while (TotalBytesWritten < Count)
+			{
+				TotalBytesWritten += _Socket.Send(&Buffer[TotalBytesWritten], Count - TotalBytesWritten);
+			}
 		}
 	private:
 		Elysium::Core::Template::Net::Sockets::Socket& _Socket;

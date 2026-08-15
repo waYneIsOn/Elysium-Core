@@ -37,7 +37,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
-#include "TlsCipherSuite.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsCipherSuite.hpp"
 #endif
 
 namespace Elysium::Core::Net::Security
@@ -102,7 +102,7 @@ namespace Elysium::Core::Net::Security
 		Elysium::Core::Container::VectorOfByte _LocalRandom;
 		Elysium::Core::Container::VectorOfByte _SessionId;
 		Elysium::Core::Container::VectorOfByte _RemoteRandom;
-		TlsCipherSuite _ServerSelectedCipherSuite;
+		Elysium::Core::Template::Net::Security::TlsCipherSuite _ServerSelectedCipherSuite;
 		uint8_t _ServerSelectedCompressionMethod;
 	private:
 		void WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols);

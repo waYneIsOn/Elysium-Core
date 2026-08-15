@@ -931,7 +931,7 @@ void Elysium::Core::Net::Security::TlsStream::GetServersCertificate()
 	if (!Verified)
 	{
 		// ToDo: TlsPolicyErrors
-		if (!_AuthenticationOptions.GetUserCertificateValidationCallback()(this, Certificate, Chain, TlsPolicyErrors::None))
+		if (!_AuthenticationOptions.GetUserCertificateValidationCallback()(this, Certificate, Chain, Elysium::Core::Template::Net::Security::TlsPolicyErrors::None))
 		{
 			throw Elysium::Core::Security::Authentication::AuthenticationException();
 		}

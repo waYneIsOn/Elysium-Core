@@ -5,7 +5,7 @@
 #endif
 
 #ifndef ELYSIUM_CORE_NET_NETWORKINFORMATION_GETADAPTERSADDRESSESFLAGS
-#include "GetAdaptersAddressesFlags.hpp"
+#include "../Elysium.Core.Template/Net/NetworkInformation/GetAdaptersAddressesFlags.hpp"
 #endif
 
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
@@ -31,13 +31,15 @@
 #endif
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface()
-	: _Id(), _Name(), _Description(), _Type(NetworkInterfaceType::Unknown), _Status(OperationalStatus::Unknown), _Speed(),
-	_LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), _SupportsMulticast()
+	: _Id(), _Name(), _Description(), _Type(Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType::Unknown), 
+	_Status(Elysium::Core::Template::Net::NetworkInformation::OperationalStatus::Unknown), _Speed(), _LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), 
+	_SupportsMulticast()
 { }
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(const char8_t* Id)
-	: _Id(Id), _Name(), _Description(), _Type(NetworkInterfaceType::Unknown), _Status(OperationalStatus::Unknown), _Speed(),
-	_LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), _SupportsMulticast()
+	: _Id(Id), _Name(), _Description(), _Type(Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType::Unknown), 
+	_Status(Elysium::Core::Template::Net::NetworkInformation::OperationalStatus::Unknown), _Speed(), _LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), 
+	_SupportsMulticast()
 { }
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(const NetworkInterface & Source)
@@ -48,8 +50,9 @@ Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(const
 { }
 
 Elysium::Core::Net::NetworkInformation::NetworkInterface::NetworkInterface(NetworkInterface&& Right) noexcept
-	: _Id(), _Name(), _Description(), _Type(NetworkInterfaceType::Unknown), _Status(OperationalStatus::Unknown), _Speed(), 
-	_LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(), _SupportsMulticast()
+	: _Id(), _Name(), _Description(), _Type(Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType::Unknown),
+	_Status(Elysium::Core::Template::Net::NetworkInformation::OperationalStatus::Unknown), _Speed(), _LoopbackInterfaceIndex(), _IPv6LoopbackInterfaceIndex(), _IsReceiveOnly(),
+	_SupportsMulticast()
 {
 	*this = Elysium::Core::Template::Functional::Move(Right);
 }
@@ -94,8 +97,8 @@ Elysium::Core::Net::NetworkInformation::NetworkInterface& Elysium::Core::Net::Ne
 		Right._Id = u8"";
 		Right._Name = u8"";
 		Right._Description = u8"";
-		Right._Type = NetworkInterfaceType::Unknown;
-		Right._Status = OperationalStatus::Unknown;
+		Right._Type = Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType::Unknown;
+		Right._Status = Elysium::Core::Template::Net::NetworkInformation::OperationalStatus::Unknown;
 		Right._Speed = 0;
 		Right._LoopbackInterfaceIndex = 0;
 		Right._IPv6LoopbackInterfaceIndex = 0;
@@ -110,7 +113,8 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInfo
 {
 #if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
 	Elysium::Core::Template::Net::Sockets::AddressFamily Family = Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified;
-	GetAdaptersAddressesFlags Flags = GetAdaptersAddressesFlags::IncludeGateways | GetAdaptersAddressesFlags::IncludeWins;
+	Elysium::Core::Template::Net::NetworkInformation::GetAdaptersAddressesFlags Flags = Elysium::Core::Template::Net::NetworkInformation::GetAdaptersAddressesFlags::IncludeGateways | 
+		Elysium::Core::Template::Net::NetworkInformation::GetAdaptersAddressesFlags::IncludeWins;
 
 	unsigned long BufferSize = 0;
 	unsigned long Result;
@@ -156,8 +160,8 @@ const Elysium::Core::Template::Container::Vector<Elysium::Core::Net::NetworkInfo
 		{
 			// ToDo: wchar_t -> char8_t
 			//NetworkInterfaces[NumberOfNetworkInterfaces]._Id = CurrentAdapterAddress->AdapterName;
-			NetworkInterfaces[NumberOfNetworkInterfaces]._Type = static_cast<NetworkInterfaceType>(CurrentAdapterAddress->IfType);
-			NetworkInterfaces[NumberOfNetworkInterfaces]._Status = static_cast<OperationalStatus>(CurrentAdapterAddress->OperStatus);
+			NetworkInterfaces[NumberOfNetworkInterfaces]._Type = static_cast<Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType>(CurrentAdapterAddress->IfType);
+			NetworkInterfaces[NumberOfNetworkInterfaces]._Status = static_cast<Elysium::Core::Template::Net::NetworkInformation::OperationalStatus>(CurrentAdapterAddress->OperStatus);
 			NetworkInterfaces[NumberOfNetworkInterfaces]._Speed = CurrentAdapterAddress->ReceiveLinkSpeed;
 			NetworkInterfaces[NumberOfNetworkInterfaces]._IsReceiveOnly = CurrentAdapterAddress->ReceiveOnly == 1;
 			NetworkInterfaces[NumberOfNetworkInterfaces]._SupportsMulticast = CurrentAdapterAddress->NoMulticast != 1;
@@ -249,12 +253,12 @@ const Elysium::Core::Utf8String & Elysium::Core::Net::NetworkInformation::Networ
 	return _Description;
 }
 
-const Elysium::Core::Net::NetworkInformation::NetworkInterfaceType & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetNetworkInterfaceType() const
+const Elysium::Core::Template::Net::NetworkInformation::NetworkInterfaceType & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetNetworkInterfaceType() const
 {
 	return _Type;
 }
 
-const Elysium::Core::Net::NetworkInformation::OperationalStatus & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetOperationalStatus() const
+const Elysium::Core::Template::Net::NetworkInformation::OperationalStatus & Elysium::Core::Net::NetworkInformation::NetworkInterface::GetOperationalStatus() const
 {
 	return _Status;
 }

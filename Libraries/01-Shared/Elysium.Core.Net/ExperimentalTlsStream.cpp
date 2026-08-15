@@ -5,19 +5,19 @@
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCONTENTTYPE
-#include "TlsContentType.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsContentType.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSHANDSHAKEMESSAGETYPE
-#include "TlsHandshakeMessageType.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsHandshakeMessageType.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSALERTLEVEL
-#include "TlsAlertLevel.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsAlertLevel.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSALERTDESCRIPTION
-#include "TlsAlertDescription.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsAlertDescription.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_RANDOMNUMBERGENERATOR
@@ -143,7 +143,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsServer(c
 void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols)
 {
 	// pre-calculate message size
-	const Elysium::Core::Template::Container::Vector<TlsCipherSuite>& CipherSuites = _AuthenticationOptions.GetAllowedCipherSuites();
+	const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& CipherSuites = _AuthenticationOptions.GetAllowedCipherSuites();
 	const Elysium::Core::size NumberOfCipherSuites = CipherSuites.GetLength();
 	
 	uint16_t HandshakeSize = 0;
@@ -169,7 +169,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 		*/
 	}
 
-	_InnerStream.WriteByte(static_cast<byte>(TlsContentType::Handshake));
+	_InnerStream.WriteByte(static_cast<byte>(Elysium::Core::Template::Net::Security::TlsContentType::Handshake));
 	_InnerStream.Write(&ProtocolVersion[0], ProtocolVersion.GetLength());
 	_InnerStream.Write(&UpcomingLength[0], UpcomingLength.GetLength());
 
@@ -192,7 +192,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 		*/
 	}
 
-	_InnerStream.WriteByte(static_cast<byte>(TlsHandshakeMessageType::ClientHello));
+	_InnerStream.WriteByte(static_cast<byte>(Elysium::Core::Template::Net::Security::TlsHandshakeMessageType::ClientHello));
 	_InnerStream.Write(&HandshakeLength[1], HandshakeLength.GetLength() - 1);	// handshake message length
 	_InnerStream.Write(&ClientVersion[0], ClientVersion.GetLength());	// client version
 	_InnerStream.Write(&_LocalRandom[0], _LocalRandom.GetLength());	// client random
@@ -233,7 +233,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
-	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
+	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
 	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
@@ -246,17 +246,17 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
-	if (ContentType == TlsContentType::Alert)
+	if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Alert)
 	{
-		const TlsAlertLevel Level = static_cast<const TlsAlertLevel>(ContentBuffer[0]);
-		const TlsAlertDescription Decription = static_cast<const TlsAlertDescription>(ContentBuffer[1]);
+		const Elysium::Core::Template::Net::Security::TlsAlertLevel Level = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertLevel>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsAlertDescription Decription = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertDescription>(ContentBuffer[1]);
 
 		// ToDo: throw specific AuthenticationException
 		throw 1;
 	}
-	else if(ContentType == TlsContentType::Handshake)
+	else if(ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Handshake)
 	{
-		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsHandshakeMessageType HandshakeMessageType = static_cast<Elysium::Core::Template::Net::Security::TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&ContentBuffer[4]));
 		Elysium::Core::Template::Memory::MemCpy(&_RemoteRandom[0], &ContentBuffer[6], 32);
@@ -267,7 +267,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 			throw 1;
 		}
 		Elysium::Core::Template::Memory::MemCpy(&_SessionId[0], &ContentBuffer[39], SessionIdLength);
-		_ServerSelectedCipherSuite = static_cast<const TlsCipherSuite>(BitConverter::ToUInt16(&ContentBuffer[71]));
+		_ServerSelectedCipherSuite = static_cast<const Elysium::Core::Template::Net::Security::TlsCipherSuite>(BitConverter::ToUInt16(&ContentBuffer[71]));
 		_ServerSelectedCompressionMethod = ContentBuffer[72];
 		// ToDo: extensions
 	}
@@ -289,7 +289,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
-	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
+	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
 	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
@@ -302,17 +302,17 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
-	if (ContentType == TlsContentType::Alert)
+	if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Alert)
 	{
-		const TlsAlertLevel Level = static_cast<const TlsAlertLevel>(ContentBuffer[0]);
-		const TlsAlertDescription Decription = static_cast<const TlsAlertDescription>(ContentBuffer[1]);
+		const Elysium::Core::Template::Net::Security::TlsAlertLevel Level = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertLevel>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsAlertDescription Decription = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertDescription>(ContentBuffer[1]);
 
 		// ToDo: throw specific AuthenticationException
 		throw 1;
 	}
-	else if (ContentType == TlsContentType::Handshake)
+	else if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Handshake)
 	{
-		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsHandshakeMessageType HandshakeMessageType = static_cast<Elysium::Core::Template::Net::Security::TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 		const uint32_t CertificatesLength = BitConverter::ToUInt24(&ContentBuffer[4]);
 
@@ -371,7 +371,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
-	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
+	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
 	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
@@ -384,17 +384,17 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
-	if (ContentType == TlsContentType::Alert)
+	if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Alert)
 	{
-		const TlsAlertLevel Level = static_cast<const TlsAlertLevel>(ContentBuffer[0]);
-		const TlsAlertDescription Decription = static_cast<const TlsAlertDescription>(ContentBuffer[1]);
+		const Elysium::Core::Template::Net::Security::TlsAlertLevel Level = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertLevel>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsAlertDescription Decription = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertDescription>(ContentBuffer[1]);
 
 		// ToDo: throw specific AuthenticationException
 		throw 1;
 	}
-	else if (ContentType == TlsContentType::Handshake)
+	else if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Handshake)
 	{
-		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsHandshakeMessageType HandshakeMessageType = static_cast<Elysium::Core::Template::Net::Security::TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 		const byte CurveInfoType = ContentBuffer[4];
 		// Curve types:
@@ -448,7 +448,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < RecordBufferLength);
 
-	const TlsContentType ContentType = static_cast<const TlsContentType>(RecordBuffer[0]);
+	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
 	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
@@ -461,17 +461,17 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 		TotalBytesRead += BytesRead;
 	} while (TotalBytesRead < ContentLength);
 
-	if (ContentType == TlsContentType::Alert)
+	if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Alert)
 	{
-		const TlsAlertLevel Level = static_cast<const TlsAlertLevel>(ContentBuffer[0]);
-		const TlsAlertDescription Decription = static_cast<const TlsAlertDescription>(ContentBuffer[1]);
+		const Elysium::Core::Template::Net::Security::TlsAlertLevel Level = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertLevel>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsAlertDescription Decription = static_cast<const Elysium::Core::Template::Net::Security::TlsAlertDescription>(ContentBuffer[1]);
 
 		// ToDo: throw specific AuthenticationException
 		throw 1;
 	}
-	else if (ContentType == TlsContentType::Handshake)
+	else if (ContentType == Elysium::Core::Template::Net::Security::TlsContentType::Handshake)
 	{
-		const TlsHandshakeMessageType HandshakeMessageType = static_cast<TlsHandshakeMessageType>(ContentBuffer[0]);
+		const Elysium::Core::Template::Net::Security::TlsHandshakeMessageType HandshakeMessageType = static_cast<Elysium::Core::Template::Net::Security::TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 
 		throw 1;

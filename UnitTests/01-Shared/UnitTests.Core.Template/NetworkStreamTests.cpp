@@ -1,10 +1,11 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/BufferedSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/SocketSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/SocketSource.hpp"
 
@@ -15,7 +16,6 @@ using namespace Elysium::Core::Template::IO::Source;
 using namespace Elysium::Core::Template::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
 
 namespace UnitTests::Core::Template::IO
 {
@@ -25,6 +25,8 @@ namespace UnitTests::Core::Template::IO
 		using NetworkWritingStream = InStream<SocketSink>;
 
 		using NetworkStream = InOutStream<SocketSink, SocketSource, DeviceCoupled>;
+
+		//using TlsStream = 
 	public:
 		TEST_METHOD(FtpClientReadWelcomeMessage)
 		{
@@ -62,6 +64,7 @@ namespace UnitTests::Core::Template::IO
 
 			Elysium::Core::Template::Text::String<char8_t> HttpRequest = u8"GET / HTTP/1.1\r\nHost: www.tutorialspoint.com\r\nConnection: keep-alive\r\n\r\n";
 			Stream.Write(reinterpret_cast<Elysium::Core::Template::System::byte*>(&HttpRequest[0]), HttpRequest.GetLength());
+			Stream.Flush();
 
 			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> View{};
 			const Elysium::Core::Template::IO::ReadResult Result = Stream.ReadBlock(View);
@@ -72,6 +75,11 @@ namespace UnitTests::Core::Template::IO
 
 			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
+		}
+
+		TEST_METHOD(HttpsClientSendAndReceive)
+		{
+			Assert::Fail();
 		}
 	};
 }

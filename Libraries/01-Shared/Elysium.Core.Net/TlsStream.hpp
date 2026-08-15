@@ -33,7 +33,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
-#include "TlsCipherSuite.hpp"
+#include "../Elysium.Core.Template/Net/Security/TlsCipherSuite.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_CONTAINER_VECTOROFBYTE

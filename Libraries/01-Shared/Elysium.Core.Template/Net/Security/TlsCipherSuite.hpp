@@ -5,46 +5,51 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
-#define ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SECURITY_TLSCIPHERSUITE
+#define ELYSIUM_CORE_TEMPLATE_NET_SECURITY_TLSCIPHERSUITE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_NET_SECURITY_BULKENCRYPTIONALGORITHM
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SECURITY_BULKENCRYPTIONALGORITHM
 #include "BulkEncryptionAlgorithm.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SECURITY_KEYEXCHANGEALGORITHM
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SECURITY_KEYEXCHANGEALGORITHM
 #include "KeyExchangeAlgorithm.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SECURITY_MESSAGEAUTHENTICATIONCODEALGORITHM
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SECURITY_MESSAGEAUTHENTICATIONCODEALGORITHM
 #include "MessageAuthenticationCodeAlgorithm.hpp"
 #endif
 
-namespace Elysium::Core::Net::Security
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
+#endif
+
+namespace Elysium::Core::Template::Net::Security
 {
 	/// <summary>
 	/// ...
 	/// 
 	/// https://www.iana.org/assignments/tls-parameters/tls-parameters.xhtml#tls-parameters-4
 	/// </summary>
-#if defined(_WIN32) || defined(_WIN64) || defined(_WINDOWS)
-	enum class TlsCipherSuite : Elysium::Core::uint16_t
-#elif defined(__ANDROID__)
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	enum class TlsCipherSuite
+		: Elysium::Core::Template::System::uint16_t
+#elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class TlsCipherSuite
 #else
 #error "undefined os"
 #endif
 	{
-		TLS_NULL_WITH_NULL_NULL = (Elysium::Core::uint8_t)KeyExchangeAlgorithm::Null |
-			(Elysium::Core::uint8_t)BulkEncryptionAlgorithm::Null | (Elysium::Core::uint8_t)MessageAuthenticationCodeAlgorithm::Null,
+		TLS_NULL_WITH_NULL_NULL = (Elysium::Core::Template::System::uint8_t)KeyExchangeAlgorithm::Null |
+		(Elysium::Core::Template::System::uint8_t)BulkEncryptionAlgorithm::Null | (Elysium::Core::Template::System::uint8_t)MessageAuthenticationCodeAlgorithm::Null,
 
 		TLS_RSA_WITH_NULL_MD5 = 1,
 		TLS_RSA_WITH_NULL_SHA = 2,
@@ -140,7 +145,7 @@ namespace Elysium::Core::Net::Security
 		TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA = 49162,
 
 		TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA = 49170,
-		TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA  = 49171,
+		TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA = 49171,
 		TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA = 49172,
 
 		TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 = 49195,
@@ -152,6 +157,4 @@ namespace Elysium::Core::Net::Security
 	};
 }
 #endif
-
-
-
+#pragma once
