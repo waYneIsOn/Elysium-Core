@@ -127,7 +127,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::Write(const Elysium::C
 	_InnerStream.Write(Buffer, Count);
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection * ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection * ClientCertificates, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	WriteClientHello(EnabledTlsProtocols);
 	ReadServerHello();
@@ -136,11 +136,11 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(c
 	ReadServerHelloDone();
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection & ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection & ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols)
 {
 	// pre-calculate message size
 	const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& CipherSuites = _AuthenticationOptions.GetAllowedCipherSuites();
@@ -158,7 +158,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 	// ToDo: FOR EACH extension: MessageSize += x;
 
 	// record layer
-	Elysium::Core::Container::VectorOfByte ProtocolVersion = BitConverter::GetBytes(static_cast<uint16_t>(Elysium::Core::Security::Authentication::TlsProtocols::Tls10));
+	Elysium::Core::Container::VectorOfByte ProtocolVersion = BitConverter::GetBytes(static_cast<uint16_t>(Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls10));
 	Elysium::Core::Container::VectorOfByte UpcomingLength = BitConverter::GetBytes(static_cast<uint16_t>(HandshakeSize + 4));	// additional 1 byte handshake type, 3 bytes length of data to follow
 	if (BitConverter::GetIsLittleEndian())
 	{
@@ -234,7 +234,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const Elysium::Core::Template::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Template::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
@@ -258,7 +258,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHello()
 	{
 		const Elysium::Core::Template::Net::Security::TlsHandshakeMessageType HandshakeMessageType = static_cast<Elysium::Core::Template::Net::Security::TlsHandshakeMessageType>(ContentBuffer[0]);
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
-		const Elysium::Core::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&ContentBuffer[4]));
+		const Elysium::Core::Template::Security::Authentication::TlsProtocols ServerVersion = static_cast<const Elysium::Core::Template::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&ContentBuffer[4]));
 		Elysium::Core::Template::Memory::MemCpy(&_RemoteRandom[0], &ContentBuffer[6], 32);
 
 		const uint8_t SessionIdLength = ContentBuffer[38];
@@ -290,7 +290,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const Elysium::Core::Template::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Template::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
@@ -372,7 +372,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerKeyExchange(
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const Elysium::Core::Template::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Template::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content
@@ -449,7 +449,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerHelloDone()
 	} while (TotalBytesRead < RecordBufferLength);
 
 	const Elysium::Core::Template::Net::Security::TlsContentType ContentType = static_cast<const Elysium::Core::Template::Net::Security::TlsContentType>(RecordBuffer[0]);
-	const Elysium::Core::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
+	const Elysium::Core::Template::Security::Authentication::TlsProtocols ProtocolVersion = static_cast<const Elysium::Core::Template::Security::Authentication::TlsProtocols>(BitConverter::ToUInt16(&RecordBuffer[1]));
 	const uint16_t ContentLength = BitConverter::ToUInt16(&RecordBuffer[3]);
 
 	// read tls content

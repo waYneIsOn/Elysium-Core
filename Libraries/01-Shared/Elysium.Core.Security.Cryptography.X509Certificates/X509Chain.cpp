@@ -1,9 +1,5 @@
 #include "X509Chain.hpp"
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
-#include "System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
 #include "CryptographicException.hpp"
 #endif
@@ -32,8 +28,8 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 		throw CryptographicException(u8"The certificate is unreadable.");
 	}
 
-	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINECONFIG CertificateChainEngineConfig = ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINECONFIG();
-	CertificateChainEngineConfig.cbSize = sizeof(ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINECONFIG);
+	CERT_CHAIN_ENGINE_CONFIG CertificateChainEngineConfig{};
+	CertificateChainEngineConfig.cbSize = sizeof(CERT_CHAIN_ENGINE_CONFIG);
 	CertificateChainEngineConfig.hRestrictedRoot = nullptr;
 	CertificateChainEngineConfig.hRestrictedTrust = nullptr;
 	CertificateChainEngineConfig.hRestrictedOther = nullptr;
@@ -44,7 +40,7 @@ const bool Elysium::Core::Security::Cryptography::X509Certificates::X509Chain::B
 	CertificateChainEngineConfig.MaximumCachedCertificates = 0;
 	CertificateChainEngineConfig.CycleDetectionModulus = 0;
 
-	ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECHAINENGINEHANDLE CertificateChainEngine;
+	HCERTCHAINENGINE CertificateChainEngine;
 	if (!CertCreateCertificateChainEngine(&CertificateChainEngineConfig, &CertificateChainEngine))
 	{
 		throw CryptographicException(u8"Certificate chain engine creation failed.");

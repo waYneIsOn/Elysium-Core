@@ -8,19 +8,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OpenFlags.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StoreLocation.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)StoreName.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509ChainPolicy.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509ContentType.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509KeyStorageFlags.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationFlag.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509RevocationMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509VerificationFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)VectorOfX509Certificate.hpp">
       <Filter>Container</Filter>
     </ClInclude>

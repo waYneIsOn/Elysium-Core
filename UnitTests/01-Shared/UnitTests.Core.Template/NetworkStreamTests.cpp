@@ -7,7 +7,9 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/SocketSink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/TlsSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/SocketSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/TlsSource.hpp"
 
 using namespace Elysium::Core::Template::IO;
 using namespace Elysium::Core::Template::IO::Device;
@@ -15,7 +17,6 @@ using namespace Elysium::Core::Template::IO::Sink;
 using namespace Elysium::Core::Template::IO::Source;
 using namespace Elysium::Core::Template::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
 
 namespace UnitTests::Core::Template::IO
 {
@@ -26,7 +27,7 @@ namespace UnitTests::Core::Template::IO
 
 		using NetworkStream = InOutStream<SocketSink, SocketSource, DeviceCoupled>;
 
-		//using TlsStream = 
+		using TlsNetworkStream = InOutStream<TlsSink<SocketSink>, TlsSource<SocketSource>, DeviceCoupled>;
 	public:
 		TEST_METHOD(FtpClientReadWelcomeMessage)
 		{
@@ -79,7 +80,30 @@ namespace UnitTests::Core::Template::IO
 
 		TEST_METHOD(HttpsClientSendAndReceive)
 		{
-			Assert::Fail();
+			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(u8"www.tutorialspoint.com", 443);
+
+			SocketDevice Device(ClientSocket);
+			SocketSink Sink(Device);
+			TlsSink EncryptedSink(Sink);
+			SocketSource Source(Device);
+			TlsSource EncryptedSource(Source);
+
+			TlsNetworkStream Stream(EncryptedSink, EncryptedSource);
+
+			Elysium::Core::Template::Text::String<char8_t> HttpRequest = u8"GET / HTTP/1.1\r\nHost: www.tutorialspoint.com\r\nConnection: keep-alive\r\n\r\n";
+			Stream.Write(reinterpret_cast<Elysium::Core::Template::System::byte*>(&HttpRequest[0]), HttpRequest.GetLength());
+			Stream.Flush();
+
+			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> View{};
+			const Elysium::Core::Template::IO::ReadResult Result = Stream.ReadBlock(View);
+
+			Elysium::Core::Template::Text::String<char> Response(reinterpret_cast<char*>(View.GetData()), View.GetLength());
+			Logger::WriteMessage(&Response[0]);
+			Logger::WriteMessage("\r\n");
+
+			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
+			ClientSocket.Disconnect(false);
 		}
 	};
 }

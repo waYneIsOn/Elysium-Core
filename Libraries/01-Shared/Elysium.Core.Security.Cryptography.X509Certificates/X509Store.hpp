@@ -17,23 +17,19 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORELOCATION
-#include "StoreLocation.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/StoreLocation.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORENAME
-#include "StoreName.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/StoreName.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_OPENFLAGS
-#include "OpenFlags.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/OpenFlags.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATECOLLECTION
 #include "X509CertificateCollection.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
-#include "System.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
@@ -41,7 +37,7 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 	class ELYSIUM_CORE_SECURITY_API X509Store final
 	{
 	public:
-		X509Store(const StoreName StoreName, const StoreLocation StoreLocation);
+		X509Store(const Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName StoreName, const Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation StoreLocation);
 
 		X509Store(const X509Store& Source) = delete;
 
@@ -57,13 +53,13 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const X509CertificateCollection& GetCertificates() const;
 	public:
-		void Open(const OpenFlags OpenFlags);
+		void Open(const Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags OpenFlags);
 	private:
 		X509CertificateCollection _CertificateCollection = { };
-		const StoreName _StoreName;
-		const StoreLocation _StoreLocation;
+		const Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName _StoreName;
+		const Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation _StoreLocation;
 
-		ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATESTOREPOINTER _NativeCertificateStore = nullptr;
+		HCERTSTORE _NativeCertificateStore = nullptr;
 	};
 }
 #endif

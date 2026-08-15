@@ -31,7 +31,7 @@
 Elysium::Core::Net::Security::TlsStream::TlsStream(IO::Stream& InnerStream, const bool LeaveInnerStreamOpen, const TlsClientAuthenticationOptions& AuthenticationOptions)
 	: Elysium::Core::Net::Security::AuthenticatedStream(InnerStream, LeaveInnerStreamOpen),
 	_AuthenticationOptions(AuthenticationOptions),
-	_ExtraBuffer(), _InBuffer(16384), _OutBuffer(16384), _TargetHost(), _TlsProtocols(Elysium::Core::Security::Authentication::TlsProtocols::Latest),
+	_ExtraBuffer(), _InBuffer(16384), _OutBuffer(16384), _TargetHost(), _TlsProtocols(Elysium::Core::Template::Security::Authentication::TlsProtocols::Latest),
 	_CredentialHandle(), _Context(), _Sizes()
 { }
 
@@ -375,7 +375,7 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 	Elysium::Core::Template::Memory::MemSet(&_OutBuffer[0], 0, _OutBuffer.GetLength());
 }
 
-void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	_TargetHost = TargetHost;
 	_TlsProtocols = EnabledTlsProtocols;
@@ -388,7 +388,7 @@ void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium
 	GetServersCertificate();
 }
 
-void Elysium::Core::Net::Security::TlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::TlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	_TargetHost = u8"127.0.0.1";
 	_TlsProtocols = EnabledTlsProtocols;
@@ -415,16 +415,16 @@ void Elysium::Core::Net::Security::TlsStream::AuthenticateAsServer(const Elysium
 
 	switch (_TlsProtocols)
 	{
-	case Elysium::Core::Security::Authentication::TlsProtocols::Tls10:
+	case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls10:
 		SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_0;
 		break;
-	case Elysium::Core::Security::Authentication::TlsProtocols::Tls11:
+	case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls11:
 		SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_1;
 		break;
-	case Elysium::Core::Security::Authentication::TlsProtocols::Tls12:
+	case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12:
 		SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_2;
 		break;
-	case Elysium::Core::Security::Authentication::TlsProtocols::Tls13:
+	case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls13:
 		SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_3;
 		break;
 	default:
@@ -665,7 +665,7 @@ void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
 	TimeStamp Lifetime = {};
 
 	// aquire credentials handle
-	if (Elysium::Core::Security::Authentication::TlsProtocols::Tls13 == (_TlsProtocols & Elysium::Core::Security::Authentication::TlsProtocols::Tls13))
+	if (Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls13 == (_TlsProtocols & Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls13))
 	{
 		SCH_CREDENTIALS SChannelCredentials = SCH_CREDENTIALS();
 		SChannelCredentials.dwVersion = SCHANNEL_CRED_VERSION;
@@ -691,16 +691,16 @@ void Elysium::Core::Net::Security::TlsStream::PerformClientHandshake()
 		SChannelCredentials.dwFlags = SCH_CRED_NO_DEFAULT_CREDS | SCH_CRED_MANUAL_CRED_VALIDATION;
 		switch (_TlsProtocols)
 		{
-		case Elysium::Core::Security::Authentication::TlsProtocols::Tls10:
+		case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls10:
 			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_0;
 			break;
-		case Elysium::Core::Security::Authentication::TlsProtocols::Tls11:
+		case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls11:
 			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_1;
 			break;
-		case Elysium::Core::Security::Authentication::TlsProtocols::Tls12:
+		case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12:
 			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_2;
 			break;
-		case Elysium::Core::Security::Authentication::TlsProtocols::Tls13:
+		case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls13:
 			SChannelCredentials.grbitEnabledProtocols = SP_PROT_TLS1_3;
 			break;
 		default:
@@ -924,8 +924,8 @@ void Elysium::Core::Net::Security::TlsStream::GetServersCertificate()
 	// validate certificate
 	Elysium::Core::Security::Cryptography::X509Certificates::X509Chain Chain = Elysium::Core::Security::Cryptography::X509Certificates::X509Chain();
 	Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy& ChainPolicy = Chain.GetChainPolicy();
-	ChainPolicy.SetRevocationMode(Elysium::Core::Security::Cryptography::X509Certificates::X509RevocationMode::Online);
-	ChainPolicy.SetRevocationFlag(Elysium::Core::Security::Cryptography::X509Certificates::X509RevocationFlag::ExcludeRoot);
+	ChainPolicy.SetRevocationMode(Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode::Online);
+	ChainPolicy.SetRevocationFlag(Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag::ExcludeRoot);
 
 	const bool Verified = Chain.Build(Certificate);
 	if (!Verified)

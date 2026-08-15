@@ -212,7 +212,7 @@ namespace UnitTests::Core::Net::Security
 			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 
 			TlsStream ClientTlsStream = TlsStream(ClientStream, false, ClientAuthenticationOptions);
-			ClientTlsStream.AuthenticateAsServer(ServerCertificate, false, TlsProtocols::Tls12, true);
+			ClientTlsStream.AuthenticateAsServer(ServerCertificate, false, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12, true);
 			
 			Elysium::Core::Container::VectorOfByte Buffer = Elysium::Core::Container::VectorOfByte(32000);
 			ClientTlsStream.Read(&Buffer[0], Buffer.GetLength());
@@ -246,7 +246,7 @@ namespace UnitTests::Core::Net::Security
 				// open and close tls connection
 				{
 					TlsStream Stream = TlsStream(InnerStream, false, ClientAuthenticationOptions);
-					Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
+					Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12);
 				}
 
 				// has the server closed the connection?
@@ -255,7 +255,7 @@ namespace UnitTests::Core::Net::Security
 				// open and close tls connection AGAIN (multiplexing)
 				{
 					TlsStream Stream = TlsStream(InnerStream, false, ClientAuthenticationOptions);
-					Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
+					Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12);
 				}
 			}
 			catch (const Elysium::Core::Security::Authentication::AuthenticationException& ex)
@@ -331,10 +331,10 @@ namespace UnitTests::Core::Net::Security
 			TlsStream Stream = TlsStream(InnerStream, false, ClientAuthenticationOptions);
 			try
 			{
-				//Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls10);
-				//Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls11);
-				Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls12);
-				//Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, TlsProtocols::Tls13);
+				//Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls10);
+				//Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls11);
+				Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12);
+				//Stream.AuthenticateAsClient(Elysium::Core::Utf8String(u8"3.232.168.170"), nullptr, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls13);
 				
 				for(Elysium::Core::Template::System::size i = 0; i < 2; ++i)
 				{

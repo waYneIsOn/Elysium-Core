@@ -5,25 +5,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_CIPHERALGORITHMTYPE
-#define ELYSIUM_CORE_SECURITY_AUTHENTICATION_CIPHERALGORITHMTYPE
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_AUTHENTICATION_CIPHERALGORITHMTYPE
+#define ELYSIUM_CORE_TEMPLATE_SECURITY_AUTHENTICATION_CIPHERALGORITHMTYPE
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEM
-#include "../Elysium.Core/System.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
 #endif
 
-namespace Elysium::Core::Security::Authentication
+namespace Elysium::Core::Template::Security::Authentication
 {
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class CipherAlgorithmType : Elysium::Core::uint16_t
+	enum class CipherAlgorithmType 
+		: Elysium::Core::Template::System::uint16_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class CipherAlgorithmType
 #else

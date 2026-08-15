@@ -35,10 +35,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)LBERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OERDecoder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Oid.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OidCollection.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OidNode.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OidRepository.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PERDecoder.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)XERDecoder.cpp" />
   </ItemGroup>
@@ -69,9 +65,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidGroup.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidNode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OidRepository.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp" />
   </ItemGroup>

@@ -20,20 +20,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SYSTEMEXCEPTION
-#include "../Elysium.Core/SystemException.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
+#include "../Elysium.Core.Template/Exceptions/Security/Cryptography/CryptographicException.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_SECURITY_API CryptographicException : public SystemException
-	{
-	public:
-		CryptographicException();
+	class ELYSIUM_CORE_SECURITY_API Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException;
 
-		CryptographicException(const char8_t* Message);
-
-		virtual ~CryptographicException();
-	};
+	using CryptographicException = Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException;
 }
 #endif

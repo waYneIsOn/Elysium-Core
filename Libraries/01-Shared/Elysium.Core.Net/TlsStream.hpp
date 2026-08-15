@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security.Cryptography.X509Certificates/X509CertificateCollection.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_TLSPROTOCOLS
-#include "../Elysium.Core.Security/TlsProtocols.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_AUTHENTICATION_TLSPROTOCOL
+#include "../Elysium.Core.Template/Security/Authentication/TlsProtocols.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
@@ -102,11 +102,11 @@ namespace Elysium::Core::Net::Security
 	public:
 		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost,
 			const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, 
-			const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = 
-				Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
+			const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols =
+				Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
 		
 		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate,
-			const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols,
+			const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols,
 			const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
@@ -116,7 +116,7 @@ namespace Elysium::Core::Net::Security
 		Elysium::Core::Container::VectorOfByte _OutBuffer;
 
 		Elysium::Core::Utf8String _TargetHost;
-		Elysium::Core::Security::Authentication::TlsProtocols _TlsProtocols;
+		Elysium::Core::Template::Security::Authentication::TlsProtocols _TlsProtocols;
 		CredHandle _CredentialHandle;
 		SecHandle _Context;
 		SecPkgContext_StreamSizes _Sizes;

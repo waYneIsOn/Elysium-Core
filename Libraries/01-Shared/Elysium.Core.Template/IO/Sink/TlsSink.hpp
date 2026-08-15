@@ -12,8 +12,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO::Sink
 {
+#if defined ELYSIUM_CORE_USEEXPERIMENTALIMPLEMENTATION_TLS
+
+#elif defined ELYSIUM_CORE_OS_WINDOWS
 	// @ToDo: concept for sinks!
 	template <class InnerSink>
 	class TlsSink
@@ -23,7 +30,7 @@ namespace Elysium::Core::Template::IO::Sink
 	public:
 		constexpr TlsSink(InnerSink& InnerSink)
 			: _InnerSink(InnerSink)
-		{ }
+		{}
 
 		constexpr TlsSink(const TlsSink& Source) = delete;
 
@@ -53,29 +60,35 @@ namespace Elysium::Core::Template::IO::Sink
 			return _InnerSink.GetDevice();
 		}
 	public:
-		inline void SetPosition(const Elysium::Core::Template::System::uint64_t Position)
+		/*
+		inline void AuthenticateAsClient(const Elysium::Core::Template::Text::StringView<char8_t> TargetHost,
+			const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr,
+			const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12,
+			const bool CheckCertficateRevocation = true)
 		{
-			_InnerSink.SetPosition(Position);
-			//_Position = Position;
+
 		}
+
+		inline void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate,
+			const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols,
+			const bool CheckCertficateRevocation)
+		{
+
+		}
+		*/
 	public:
-		inline void Flush()
-		{
-			//_InnerSink.Write(&_Buffer[0], _Position);
-			if constexpr (requires { _InnerSink.Flush(); })
-			{
-				_InnerSink.Flush();
-			}
-
-			//_Position = 0;
-		}
-
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			
+			throw;
+		}
+
+		inline void Flush()
+		{
+			throw;
 		}
 	private:
 		InnerSink& _InnerSink;
 	};
+#endif
 }
 #endif

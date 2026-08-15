@@ -33,15 +33,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509REVOCATIONFLAG
-#include "X509RevocationFlag.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509RevocationFlag.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509REVOCATIONMODE
-#include "X509RevocationMode.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509RevocationMode.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509VERIFICATIONFLAGS
-#include "X509VerificationFlags.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509VerificationFlags.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
@@ -67,29 +67,29 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const X509CertificateCollection& GetExtraStore() const;
 
-		const X509RevocationFlag GetRevocationFlag() const;
+		const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag GetRevocationFlag() const;
 
-		const X509RevocationMode GetRevocationMode() const;
+		const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode GetRevocationMode() const;
 
 		const TimeSpan GetUrlRetrievalTimeout() const;
 
-		const X509VerificationFlags GetVerificationFlags() const;
+		const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags GetVerificationFlags() const;
 
 		const DateTime GetVerificationTime() const;
 	public:
-		void SetRevocationFlag(const X509RevocationFlag Value);
+		void SetRevocationFlag(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag Value);
 
-		void SetRevocationMode(const X509RevocationMode Value);
+		void SetRevocationMode(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode Value);
 	public:
 		void Reset();
 	private:
 		OidCollection _ApplicationPolicy = OidCollection();
 		OidCollection _CertificatePolicy = OidCollection();
 		X509CertificateCollection _ExtraStore = X509CertificateCollection();
-		X509RevocationFlag _RevocationFlag = X509RevocationFlag::EntireChain;
-		X509RevocationMode _RevocationMode = X509RevocationMode::Offline;
+		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag _RevocationFlag = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag::EntireChain;
+		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode _RevocationMode = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode::Offline;
 		TimeSpan _UrlRetrievalTimeout = TimeSpan(0);
-		X509VerificationFlags _VerificationFlags = X509VerificationFlags::AllFlags;
+		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags _VerificationFlags = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags::AllFlags;
 		DateTime _VerificationTime = DateTime(0);
 	};
 }

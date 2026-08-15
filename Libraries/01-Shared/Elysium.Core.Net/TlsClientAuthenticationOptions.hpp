@@ -24,11 +24,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SECURITY_TLSPOLICYERRORS
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SECURITY_TLSPOLICYERRORS
 #include "../Elysium.Core.Template/Net/Security/TlsPolicyErrors.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
+#ifndef ELYSIUM_CORE_TEMPLATE_NET_SECURITY_TLSCIPHERSUITE
 #include "../Elysium.Core.Template/Net/Security/TlsCipherSuite.hpp"
 #endif
 

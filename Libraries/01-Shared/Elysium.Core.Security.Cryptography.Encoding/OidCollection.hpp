@@ -16,26 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OID
-#include "Oid.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OIDCOLLECTION
+#include "../Elysium.Core.Template/Security/Cryptography/Encoding/OidCollection.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography
 {
-	class ELYSIUM_CORE_SECURITY_API OidCollection final
-	{
-	public:
-		OidCollection();
-		OidCollection(const OidCollection& Source) = delete;
-		OidCollection(OidCollection&& Right) noexcept = delete;
-		~OidCollection();
+	class ELYSIUM_CORE_SECURITY_API Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection;
 
-		OidCollection& operator=(const OidCollection& Source) = delete;
-		OidCollection& operator=(OidCollection&& Right) noexcept = delete;
-	private:
-		Elysium::Core::size _Capacity;
-		Elysium::Core::size _Count;
-		Oid* _Data;
-	};
+	using OidCollection = Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection;
 }
 #endif

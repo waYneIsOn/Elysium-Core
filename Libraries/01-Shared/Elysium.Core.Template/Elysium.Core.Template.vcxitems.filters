@@ -1089,6 +1089,69 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\NetworkInformation\OperationalStatus.hpp">
       <Filter>Net\NetworkInformation</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\TlsSource.hpp">
+      <Filter>IO\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\OpenFlags.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\StoreLocation.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\StoreName.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ContentType.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509KeyStorageFlags.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509RevocationFlag.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509RevocationMode.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509VerificationFlags.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\CompilerSettings.hpp">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.hpp">
+      <Filter>Security\Cryptography\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\OidGroup.hpp">
+      <Filter>Security\Cryptography\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Cryptography\CryptographicException.hpp">
+      <Filter>Exceptions\Security\Cryptography</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Principal\TokenImpersonationLevel.hpp">
+      <Filter>Security\Principal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Authentication\CipherAlgorithmType.hpp">
+      <Filter>Security\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Authentication\ExchangeAlgorithmType.hpp">
+      <Filter>Security\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Authentication\HashAlgorithmType.hpp">
+      <Filter>Security\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Authentication\TlsProtocols.hpp">
+      <Filter>Security\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Authentication\AuthenticationException.hpp">
+      <Filter>Exceptions\Security\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Authentication\InvalidCredentialException.hpp">
+      <Filter>Exceptions\Security\Authentication</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\OidCollection.hpp">
+      <Filter>Security\Cryptography\Encoding</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1261,6 +1324,36 @@
     </Filter>
     <Filter Include="Net\Security">
       <UniqueIdentifier>{ea9c79c6-9fa0-48af-86e8-f46068063114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\X509Certificates">
+      <UniqueIdentifier>{87751080-c072-4f09-90e0-dcd77c27612b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\Algorithms">
+      <UniqueIdentifier>{efe474f7-3682-4fd7-a3f1-7811d0210f66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\Encoding">
+      <UniqueIdentifier>{dd7fd97d-32af-4be0-a8c6-af08ac711263}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions\Security">
+      <UniqueIdentifier>{b4eb0ba4-d0b7-43b2-ba70-a3418c3f26db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions\Security\Cryptography">
+      <UniqueIdentifier>{103c1a0b-fba9-4261-8112-e9696ba3bc34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Principal">
+      <UniqueIdentifier>{0ee052bb-fc29-4697-b1fa-10ffa2190f5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\Sasl">
+      <UniqueIdentifier>{b116ec95-7f38-43b0-a238-9b684049a669}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Authentication">
+      <UniqueIdentifier>{d599500e-7592-432e-abc3-10051daad489}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions\Security\Authentication">
+      <UniqueIdentifier>{dfc76a20-5092-417d-ac7d-29d9f97a2f8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\Encoding\Asn1">
+      <UniqueIdentifier>{27cd7643-644c-42bf-a682-2f0f9423ec33}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

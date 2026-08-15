@@ -26,10 +26,10 @@ namespace UnitTests::Core::Security::Cryptography
 	public:
 		TEST_METHOD(OpenStoreRootCurrentUser)
 		{
-			X509Store RootCurrentUserStore = X509Store(StoreName::Root, StoreLocation::CurrentUser);
+			X509Store RootCurrentUserStore = X509Store(Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root, Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser);
 			Assert::AreEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetCount());
 
-			RootCurrentUserStore.Open(OpenFlags::ReadOnly);
+			RootCurrentUserStore.Open(Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags::ReadOnly);
 			Assert::AreNotEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetCount());
 
 			for (Elysium::Core::size i = 0; i < RootCurrentUserStore.GetCertificates().GetCount(); i++)
@@ -40,8 +40,8 @@ namespace UnitTests::Core::Security::Cryptography
 
 		TEST_METHOD(BuildCertificateChain)
 		{
-			X509Store RootCurrentUserStore = X509Store(StoreName::Root, StoreLocation::CurrentUser);
-			RootCurrentUserStore.Open(OpenFlags::ReadOnly);
+			X509Store RootCurrentUserStore = X509Store(Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root, Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser);
+			RootCurrentUserStore.Open(Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags::ReadOnly);
 
 			X509Chain Chain = X509Chain();
 			bool Result = Chain.Build(RootCurrentUserStore.GetCertificates()[0]);
@@ -206,20 +206,20 @@ namespace UnitTests::Core::Security::Cryptography
 			Elysium::Core::int32_t Count = 0;
 
 			DERDecoder Decoder = DERDecoder();
-			for (Elysium::Core::uint32_t StoreNameInt = (Elysium::Core::uint32_t)StoreName::AddressBook; StoreNameInt <= (Elysium::Core::uint32_t)StoreName::TrustedPublisher; StoreNameInt++)
+			for (Elysium::Core::uint32_t StoreNameInt = (Elysium::Core::uint32_t)Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::AddressBook; StoreNameInt <= (Elysium::Core::uint32_t)Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::TrustedPublisher; StoreNameInt++)
 			{
 				Logger::WriteMessage("-- StoreName: ");
 				Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(StoreNameInt)[0]);
 				Logger::WriteMessage(" --\r\n");
 
-				for (Elysium::Core::uint8_t StoreLocationInt = (Elysium::Core::uint8_t)StoreLocation::CurrentUser; StoreLocationInt != (Elysium::Core::uint8_t)StoreLocation::LocalMachine; StoreLocationInt++)
+				for (Elysium::Core::uint8_t StoreLocationInt = (Elysium::Core::uint8_t)Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser; StoreLocationInt != (Elysium::Core::uint8_t)Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::LocalMachine; StoreLocationInt++)
 				{
 					Logger::WriteMessage("-- StoreLocation: ");
 					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(StoreLocationInt)[0]);
 					Logger::WriteMessage(" --\r\n");
 
-					X509Store CurrentStore = X509Store(static_cast<StoreName>(StoreNameInt), static_cast<StoreLocation>(StoreLocationInt));
-					CurrentStore.Open(OpenFlags::ReadOnly);
+					X509Store CurrentStore = X509Store(static_cast<Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName>(StoreNameInt), static_cast<Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation>(StoreLocationInt));
+					CurrentStore.Open(Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags::ReadOnly);
 
 					const Elysium::Core::size CertificateCount = CurrentStore.GetCertificates().GetCount();
 

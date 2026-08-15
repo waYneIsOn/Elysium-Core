@@ -59,13 +59,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #else
 #error "unsupported os regarding fallbacks"
 #endif
-/*
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_ACTIVATOR
-#include "../Elysium.Core.Template/Activator.hpp"
-#endif
-
-#define ELYSIUM_CORE_DEFAULT_FRIEND_CLASSES friend class Elysium::Core::Template::Memory::Activator;
-*/
 
 namespace Elysium::Core::Template::System
 {

@@ -8,7 +8,7 @@
 #include "../Elysium.Core/NotImplementedException.hpp"
 #endif
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Store::X509Store(const StoreName StoreName, const StoreLocation StoreLocation)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Store::X509Store(const Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName StoreName, const Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation StoreLocation)
 	: _StoreName(StoreName), _StoreLocation(StoreLocation)
 { }
 
@@ -31,7 +31,7 @@ const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCo
 	return _CertificateCollection;
 }
 
-void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(const OpenFlags OpenFlags)
+void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(const Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags OpenFlags)
 {
 	if (_NativeCertificateStore != nullptr)
 	{
@@ -41,10 +41,10 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 	int StoreLocation = 0;
 	switch (_StoreLocation)
 	{
-	case StoreLocation::CurrentUser:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser:
 		StoreLocation = CERT_SYSTEM_STORE_CURRENT_USER;
 		break;
-	case StoreLocation::LocalMachine:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::LocalMachine:
 		StoreLocation = CERT_SYSTEM_STORE_LOCAL_MACHINE;
 		break;
 	default:
@@ -54,28 +54,28 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 	const wchar_t* StoreName;
 	switch (_StoreName)
 	{
-	case StoreName::AddressBook:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::AddressBook:
 		StoreName = L"ADDRESSBOOK";
 		break;
-	case StoreName::AuthRoot:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::AuthRoot:
 		StoreName = L"AUTHROOT";
 		break;
-	case StoreName::CertificateAuthority:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::CertificateAuthority:
 		StoreName = L"CERTIFICATEAUTHORITY";
 		break;
-	case StoreName::Disallowed:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Disallowed:
 		StoreName = L"DISALLOWED";
 		break;
-	case StoreName::My:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::My:
 		StoreName = L"MY";
 		break;
-	case StoreName::Root:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root:
 		StoreName = L"ROOT";
 		break;
-	case StoreName::TrustedPeople:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::TrustedPeople:
 		StoreName = L"TRUSTEDPEOPLE";
 		break;
-	case StoreName::TrustedPublisher:
+	case Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::TrustedPublisher:
 		StoreName = L"TRUSTEDPUBLISHER";
 		break;
 	default:
@@ -89,7 +89,7 @@ void Elysium::Core::Security::Cryptography::X509Certificates::X509Store::Open(co
 	}
 	else
 	{
-		ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CERTIFICATECONTEXTPOINTER CertificateContextPointer = nullptr;
+		PCCERT_CONTEXT CertificateContextPointer = nullptr;
 		while (CertificateContextPointer = CertEnumCertificatesInStore(_NativeCertificateStore, CertificateContextPointer))
 		{
 			_CertificateCollection.Add(X509Certificate(CertificateContextPointer));

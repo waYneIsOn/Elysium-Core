@@ -24,16 +24,28 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_SYSTEM
-#include "../Elysium.Core.Security/System.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CONTENTTYPE
-#include "X509ContentType.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509ContentType.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509KEYSTORAGEFLAGS
-#include "X509KeyStorageFlags.hpp"
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509KeyStorageFlags.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef __WINCRYPT_H__
+	#ifndef _WINDOWS_
+	#define _WINSOCKAPI_ // don't include winsock
+	#include <windows.h>
+	#endif
+
+	#include <wincrypt.h>
+	#pragma comment(lib, "Crypt32.Lib")
+	#endif
 #endif
 
 namespace Elysium::Core::Net::Security
@@ -73,15 +85,18 @@ namespace Elysium::Core::Security::Cryptography::X509Certificates
 
 		const Elysium::Core::Container::VectorOfByte GetRawCertData() const;
 	public:
-		Elysium::Core::Container::VectorOfByte Export(const X509ContentType ContentType, const char8_t* Password);
+		Elysium::Core::Container::VectorOfByte Export(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType ContentType, const char8_t* Password);
 
 		// @ToDo: export directly to stream
 	public:
-		static X509Certificate LoadFromBlob(const Elysium::Core::Container::VectorOfByte& RawData, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromBlob(const Elysium::Core::Container::VectorOfByte& RawData, const Elysium::Core::Utf8String& Password = u8"", 
+			const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All);
 		
-		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromBlob(const byte* RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password = u8"", 
+			const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All);
 		
-		static X509Certificate LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password = u8"", const X509KeyStorageFlags Flags = X509KeyStorageFlags::All);
+		static X509Certificate LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password = u8"", 
+			const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All);
 #if defined ELYSIUM_CORE_OS_WINDOWS
 	private:
 		HCRYPTPROV_OR_NCRYPT_KEY_HANDLE CopyPrivateKeyHandle(const X509Certificate& Source);

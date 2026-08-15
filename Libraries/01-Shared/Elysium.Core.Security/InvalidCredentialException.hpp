@@ -12,24 +12,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_API
+#include "API.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SECURITY_AUTHENTICATION_INVALIDCREDENTIALEXCEPTION
+#include "../Elysium.Core.Template/Exceptions/Security/Authentication/InvalidCredentialException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_AUTHENTICATIONEXCEPTION
-#include "AuthenticationException.hpp"
-#endif
-
 namespace Elysium::Core::Security::Authentication
 {
-	class ELYSIUM_CORE_SECURITY_API InvalidCredentialException : public AuthenticationException
-	{
-	public:
-		InvalidCredentialException();
+	class ELYSIUM_CORE_SECURITY_API Elysium::Core::Template::Exceptions::Security::Authentication::InvalidCredentialException;
 
-		InvalidCredentialException(const char8_t* Message);
-
-		virtual ~InvalidCredentialException();
-	};
+	using InvalidCredentialException = Elysium::Core::Template::Exceptions::Security::Authentication::InvalidCredentialException;
 }
 #endif

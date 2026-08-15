@@ -185,9 +185,11 @@ const Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptograp
 	}
 }
 
-Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::Export(const X509ContentType ContentType, const char8_t* Password)
+Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::Export(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType ContentType, const char8_t* Password)
 {
-	if (ContentType != X509ContentType::Cert && ContentType != X509ContentType::SerializedCert && ContentType != X509ContentType::Pkcs12)
+	if (ContentType != Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType::Cert && 
+		ContentType != Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType::SerializedCert && 
+		ContentType != Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType::Pkcs12)
 	{	// @ToDo: message
 		throw CryptographicException();
 	}
@@ -195,12 +197,12 @@ Elysium::Core::Container::VectorOfByte Elysium::Core::Security::Cryptography::X5
 	throw 1;
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Elysium::Core::Container::VectorOfByte& RawData, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const Elysium::Core::Container::VectorOfByte& RawData, const Elysium::Core::Utf8String& Password, const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags)
 {
 	return LoadFromBlob(&RawData[0], static_cast<const int32_t>(RawData.GetLength()), Password, Flags);
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(const byte * RawData, const uint32_t DataLength, const Elysium::Core::Utf8String& Password, const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags)
 {
 	PCCERT_CONTEXT CertificateContext = nullptr;
 	HCRYPTPROV_OR_NCRYPT_KEY_HANDLE PrivateKeyHandle = 0;
@@ -251,7 +253,7 @@ Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium
 	return X509Certificate(CertificateContext, PrivateKeyHandle, FreeKey == TRUE ? true : false, KeySpecifications);
 }
 
-Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password, const X509KeyStorageFlags Flags)
+Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromFile(const char8_t* FileName, const Elysium::Core::Utf8String& Password, const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags)
 {
 	IO::FileStream SourceStream = IO::FileStream(FileName, IO::FileMode::Open, IO::FileAccess::Read);
 	Elysium::Core::Container::VectorOfByte RawData = Elysium::Core::Container::VectorOfByte(SourceStream.GetLength());

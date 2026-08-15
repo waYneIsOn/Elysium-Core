@@ -32,8 +32,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Security.Cryptography.X509Certificates/X509CertificateCollection.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_AUTHENTICATION_TLSPROTOCOLS
-#include "../Elysium.Core.Security/TlsProtocols.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_AUTHENTICATION_TLSPROTOCOL
+#include "../Elysium.Core.Template/Security/Authentication/TlsProtocols.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCIPHERSUITE
@@ -93,9 +93,9 @@ namespace Elysium::Core::Net::Security
 
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 
-		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
+		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
 		
-		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
+		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 
@@ -105,7 +105,7 @@ namespace Elysium::Core::Net::Security
 		Elysium::Core::Template::Net::Security::TlsCipherSuite _ServerSelectedCipherSuite;
 		uint8_t _ServerSelectedCompressionMethod;
 	private:
-		void WriteClientHello(const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols);
+		void WriteClientHello(const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols);
 
 		void ReadServerHello();
 

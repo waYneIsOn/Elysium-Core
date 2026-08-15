@@ -5,29 +5,29 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORELOCATION
-#define ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORELOCATION
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORELOCATION
+#define ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_STORELOCATION
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
+#include "../../../System/OperatingSystem.hpp"
 #endif
 
-namespace Elysium::Core::Security::Cryptography::X509Certificates
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../../System/Primitives.hpp"
+#endif
+
+namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 {
 	/// <summary>
 	/// Specifies the location of the X.509 certificate store.
 	/// </summary>
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class StoreLocation 
-		: Elysium::Core::uint8_t
+	enum class StoreLocation
+		: Elysium::Core::Template::System::uint8_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class StoreLocation
 #else

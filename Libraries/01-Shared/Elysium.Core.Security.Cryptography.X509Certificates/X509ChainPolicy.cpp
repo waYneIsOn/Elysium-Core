@@ -21,12 +21,12 @@ const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCo
 	return _ExtraStore;
 }
 
-const Elysium::Core::Security::Cryptography::X509Certificates::X509RevocationFlag Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::GetRevocationFlag() const
+const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::GetRevocationFlag() const
 {
 	return _RevocationFlag;
 }
 
-const Elysium::Core::Security::Cryptography::X509Certificates::X509RevocationMode Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::GetRevocationMode() const
+const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::GetRevocationMode() const
 {
 	return _RevocationMode;
 }
@@ -36,7 +36,7 @@ const Elysium::Core::TimeSpan Elysium::Core::Security::Cryptography::X509Certifi
 	return _UrlRetrievalTimeout;
 }
 
-const Elysium::Core::Security::Cryptography::X509Certificates::X509VerificationFlags Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::GetVerificationFlags() const
+const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::GetVerificationFlags() const
 {
 	return _VerificationFlags;
 }
@@ -46,12 +46,12 @@ const Elysium::Core::DateTime Elysium::Core::Security::Cryptography::X509Certifi
 	return _VerificationTime;
 }
 
-void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::SetRevocationFlag(const X509RevocationFlag Value)
+void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::SetRevocationFlag(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag Value)
 {
 	_RevocationFlag = Value;
 }
 
-void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::SetRevocationMode(const X509RevocationMode Value)
+void Elysium::Core::Security::Cryptography::X509Certificates::X509ChainPolicy::SetRevocationMode(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode Value)
 {
 	_RevocationMode = Value;
 }
