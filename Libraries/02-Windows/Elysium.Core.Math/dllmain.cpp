@@ -2,6 +2,10 @@
 #include <Windows.h>
 #endif
 
+#ifndef ELYSIUM_CORE_MATH_NUMERICS_BIGINTEGER
+#include "../../01-Shared/Elysium.Core.Math/BigInteger.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
 #include "../Elysium.Core.Reflection/AppDomain.hpp"
 #endif

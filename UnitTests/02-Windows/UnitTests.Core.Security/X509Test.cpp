@@ -8,7 +8,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Security/CryptographicException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/DERDecoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/BERDecoder.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 ;
@@ -251,7 +251,7 @@ namespace UnitTests::Core::Security::Cryptography
 		}
 
 	private:
-		void ReadCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadCertificate(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			Certificate  ::=  SEQUENCE  {
@@ -277,7 +277,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		const Oid ReadTbsCertificate(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		const Oid ReadTbsCertificate(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			TBSCertificate  ::=  SEQUENCE  {
@@ -317,7 +317,7 @@ namespace UnitTests::Core::Security::Cryptography
 			return SignatureOid;
 		}
 
-		void ReadVersion(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadVersion(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			Version  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
@@ -345,7 +345,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSerialNumber(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSerialNumber(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{	/* https://www.rfc-editor.org/rfc/rfc5280#section-4.1.2.2 - Serial Number
 			* CertificateSerialNumber  ::=  INTEGER
 			* 
@@ -367,7 +367,7 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage("\r\n");
 		}
 
-		const Oid ReadSignature(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		const Oid ReadSignature(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			AlgorithmIdentifier  ::=  SEQUENCE  {
@@ -500,7 +500,7 @@ namespace UnitTests::Core::Security::Cryptography
 			return ObjectIdentifierValue;
 		}
 
-		void ReadSignatureAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSignatureAttributeTypeAndValue(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
@@ -529,7 +529,7 @@ namespace UnitTests::Core::Security::Cryptography
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::PrintableString)
 			{
-				Asn1Utf8String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String PrintableString = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = PrintableString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -542,7 +542,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadIssuer(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadIssuer(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			Name ::= CHOICE { -- only one possibility for now --
@@ -634,7 +634,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadIssuerAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadIssuerAttributeTypeAndValue(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			...
@@ -662,7 +662,7 @@ namespace UnitTests::Core::Security::Cryptography
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::PrintableString)
 			{
-				Asn1Utf8String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String PrintableString = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = PrintableString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -670,7 +670,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::IA5String)
 			{
-				Asn1Utf8String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String IA5String = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = IA5String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -678,7 +678,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTF8String)
 			{
-				Asn1Utf8String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String Utf8String = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = Utf8String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -686,7 +686,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::TeletexString)
 			{
-				Asn1Utf8String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String TeletexString = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = TeletexString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -699,7 +699,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadValidity(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadValidity(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			Validity ::= SEQUENCE {
@@ -762,7 +762,7 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage(" UTC\r\n");
 		}
 
-		void ReadSubject(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSubject(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			Name ::= CHOICE { -- only one possibility for now --
@@ -832,7 +832,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSubjectAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSubjectAttributeTypeAndValue(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			...
@@ -870,7 +870,7 @@ namespace UnitTests::Core::Security::Cryptography
 			ReadHeader(Decoder, InputStream, Identifier, Length);
 			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::PrintableString)
 			{
-				Asn1Utf8String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String PrintableString = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = PrintableString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -878,7 +878,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::IA5String)
 			{
-				Asn1Utf8String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String IA5String = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = IA5String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -886,7 +886,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTF8String)
 			{
-				Asn1Utf8String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String Utf8String = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = Utf8String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -894,7 +894,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::TeletexString)
 			{
-				Asn1Utf8String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
+				Asn1Utf8String TeletexString = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 				const Elysium::Core::Utf8String DataString = TeletexString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
@@ -907,7 +907,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSubjectPublicKeyInfo(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
+		void ReadSubjectPublicKeyInfo(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
 		{
 			/*
 			SubjectPublicKeyInfo  ::=  SEQUENCE  {
@@ -1175,7 +1175,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadIssuerUniqueID(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadIssuerUniqueID(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			issuerUniqueID  [1]  IMPLICIT UniqueIdentifier OPTIONAL,
@@ -1203,7 +1203,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSubjectUniqueID(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadSubjectUniqueID(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			subjectUniqueID [2]  IMPLICIT UniqueIdentifier OPTIONAL,
@@ -1231,7 +1231,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadExtensions(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadExtensions(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			/*
 			extensions      [3]  EXPLICIT Extensions OPTIONAL
@@ -1278,7 +1278,7 @@ namespace UnitTests::Core::Security::Cryptography
 					ReadHeader(Decoder, InputStream, Identifier, Length);
 					if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 					{
-						Asn1Utf8String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
+						Asn1Utf8String BitString = Decoder.DecodeUtf8String(Identifier, Length, InputStream);
 						const Elysium::Core::Utf8String DataString = BitString.GetValue();
 
 						Logger::WriteMessage((char*)&DataString[0]);
@@ -1306,7 +1306,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSignatureAlgorithm(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
+		void ReadSignatureAlgorithm(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
 		{
 			/*
 			* https://www.rfc-editor.org/rfc/rfc5280#section-5.1.1.2
@@ -1433,7 +1433,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadSignatureValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
+		void ReadSignatureValue(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length, const Oid& SignatureOid)
 		{	/*
 			* https://www.rfc-editor.org/rfc/rfc5280#section-5.1.1.3
 			*
@@ -1528,7 +1528,7 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 		}
 
-		void ReadHeader(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
+		void ReadHeader(DERDecoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			Identifier = Decoder.DecodeIdentifier(InputStream);
 			Length = Decoder.DecodeLength(InputStream);

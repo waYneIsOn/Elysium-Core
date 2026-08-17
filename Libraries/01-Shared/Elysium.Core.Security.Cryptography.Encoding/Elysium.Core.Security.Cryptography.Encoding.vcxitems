@@ -15,10 +15,6 @@
     <ProjectCapability Include="SourceItemsFromImports" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1\DERDecoder.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1\DEREncoder.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1ByteArray.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Identifier.hpp" />
@@ -30,10 +26,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Tag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1DateTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Enumerated.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\DERDecoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\DEREncoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\IAsn1Decoder.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\IAsn1Encoder.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\BERDecoder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
   </ItemGroup>

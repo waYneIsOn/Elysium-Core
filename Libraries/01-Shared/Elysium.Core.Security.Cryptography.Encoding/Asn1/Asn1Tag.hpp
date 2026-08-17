@@ -41,7 +41,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_ASN1TAG
-#include "../Elysium.Core.Template/Security/Cryptography/Encoding/Asn1/Asn1Tag.hpp"
+#include "../../Elysium.Core.Template/Security/Cryptography/Encoding/Asn1/Asn1Tag.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::Encoding::Asn1

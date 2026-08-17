@@ -13,7 +13,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security//TlsPolicyErrors.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security/AuthenticationException.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/DEREncoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/BERDecoder.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Unicode/Utf16.hpp"

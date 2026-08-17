@@ -24,6 +24,11 @@ Elysium::Core::Reflection::Assembly(Elysium::Core::Reflection::AssemblyName(u8"E
 inline static const Elysium::Core::Reflection::Module ModuleCoreData =
 Elysium::Core::Reflection::Module(ReflectedAssembly, u8"Elysium::Core::Security");
 */
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_BERDECODER
+#include "../../01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/BERDecoder.hpp"
+#endif
+
 BOOL APIENTRY DllMain( HMODULE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved

@@ -29,9 +29,9 @@ namespace Elysium::Core::Template::Security::Cryptography::Encoding::Asn1
 	public:
 		constexpr Asn1Tag() = delete;
 
-		inline constexpr Asn1Tag(const Asn1Identifier& Identifier, const Asn1Object& Content, const bool IsExplicitlyNamed)
+		inline constexpr Asn1Tag(Asn1Identifier& Identifier, Asn1Object& Content, const bool IsExplicitlyNamed)
 			: _Identifier(Identifier), _Content(Content), _IsExplicitlyTagged(IsExplicitlyNamed)
-		{}
+		{ }
 
 		constexpr Asn1Tag(const Asn1Tag& Source) = delete;
 

@@ -10,9 +10,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)MathHelper.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp">
-      <Filter>Numerics</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp">
       <Filter>Geometry</Filter>
     </ClCompile>

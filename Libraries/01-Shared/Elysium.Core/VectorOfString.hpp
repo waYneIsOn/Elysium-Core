@@ -30,6 +30,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Container
 {
+	/*
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<char>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<char8_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<char16_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<char32_t>;
+	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<wchar_t>;
+	*/
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::String>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::Utf8String>;
 	template class ELYSIUM_CORE_API Elysium::Core::Template::Container::Vector<Elysium::Core::Utf16String>;

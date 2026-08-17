@@ -22,6 +22,10 @@
 #include "../Elysium.Core/VectorOfString.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_CONTAINER_VIEW_SPANOFBYTES
+#include "../../01-Shared/Elysium.Core/Container/View/SpanOfBytes.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DIAGNOSTICS_INTERNAL_WINSYMBOLS
 #include "../Elysium.Core.Diagnostics/WinSymbols.hpp"
 #endif

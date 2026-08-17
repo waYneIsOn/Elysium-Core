@@ -16,6 +16,9 @@
     <Filter Include="Container">
       <UniqueIdentifier>{bfbea7f9-b7d1-410c-b7a4-1c3816bba533}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Container\View">
+      <UniqueIdentifier>{687528cf-d558-408e-a8e9-7b9431a99d74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\ObserverPointerOfTPIO.hpp">
       <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\SpanOfBytes.hpp">
+      <Filter>Container\View</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

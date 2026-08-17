@@ -6,14 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1\DERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1\DEREncoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Enumerated.hpp">
@@ -49,16 +41,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Utf8String.hpp">
       <Filter>Asn1</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\DERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\DEREncoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\IAsn1Decoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\IAsn1Encoder.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\BERDecoder.hpp">
       <Filter>Asn1</Filter>
     </ClInclude>
   </ItemGroup>

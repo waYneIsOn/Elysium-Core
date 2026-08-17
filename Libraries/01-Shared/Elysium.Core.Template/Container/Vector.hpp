@@ -125,7 +125,7 @@ namespace Elysium::Core::Template::Container
 		/// <summary>
 		/// Creates a new instance.
 		/// </summary>
-		constexpr Vector() noexcept;
+		constexpr Vector() noexcept = default;
 
 		/// <summary>
 		/// 
@@ -449,14 +449,6 @@ namespace Elysium::Core::Template::Container
 		System::size _Length;
 		Pointer _Data;
 	};
-
-	template<class T, class Allocator>
-		requires Elysium::Core::Template::Concepts::Allocatable<T>
-	inline constexpr Vector<T, Allocator>::Vector() noexcept
-		: _Allocator(), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
-	{
-		InPlaceConstruct();
-	}
 
 	template<class T, class Allocator>
 		requires Elysium::Core::Template::Concepts::Allocatable<T>
@@ -939,11 +931,13 @@ namespace Elysium::Core::Template::Container
 		using ReverseIterator = Iterator::BackwardIterator<Vector<T, Allocator>>;
 		using ConstReverseIterator = Iterator::ConstBackwardIterator<Vector<T, Allocator>>;
 	public:
-		constexpr Vector() noexcept
+		constexpr Vector() noexcept = default;
+		/*
 			: _Allocator(), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
 		{
 			Elysium::Core::Template::Memory::MemSet(_Data, 0, _Capacity * sizeof(T));
 		}
+		*/
 
 		constexpr Vector(const System::size Capacity)
 			: _Allocator(), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))
@@ -998,7 +992,10 @@ namespace Elysium::Core::Template::Container
 				}
 
 				_Length = Source._Length;
-				Elysium::Core::Template::Memory::MemCpy(_Data, Source._Data, _Capacity * sizeof(T));
+				if (nullptr != Source._Data)
+				{
+					Elysium::Core::Template::Memory::MemCpy(_Data, Source._Data, _Capacity * sizeof(T));
+				}
 			}
 			return *this;
 		}

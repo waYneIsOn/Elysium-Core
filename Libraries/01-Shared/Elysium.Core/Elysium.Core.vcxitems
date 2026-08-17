@@ -24,6 +24,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BitConverter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Boolean.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\SpanOfBytes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfByte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfCharacter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DefaultAllocatorOfInteger.hpp" />

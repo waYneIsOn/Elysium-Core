@@ -40,7 +40,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Vector4.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BigInteger.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MathHelper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Point.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Rectangle.cpp" />
