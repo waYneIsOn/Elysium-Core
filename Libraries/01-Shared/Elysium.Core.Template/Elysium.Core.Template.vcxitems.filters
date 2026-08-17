@@ -1152,6 +1152,90 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\OidCollection.hpp">
       <Filter>Security\Cryptography\Encoding</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\BERDecoder.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\JERDecoder.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\XERDecoder.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1TagClass.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1UniversalTag.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Identifier.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Length.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Boolean.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1ByteArray.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Null.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1ObjectIdentifier.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Tag.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Utf8String.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DateTime.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DateTimeKind.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DatePart.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DateTimeUtility.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimeSpan.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1DateTime.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Math\Numerics\BigInteger.hpp">
+      <Filter>Math\Numerics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Integer.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\PERDecoder.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\OERDecoder.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Validation\BERValidator.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1\Validation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Validation\CERValidator.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1\Validation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Validation\DERValidator.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1\Validation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Validation\LBERValidator.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1\Validation</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Enumerated.hpp">
+      <Filter>Security\Cryptography\Encoding\Asn1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1354,6 +1438,12 @@
     </Filter>
     <Filter Include="Security\Cryptography\Encoding\Asn1">
       <UniqueIdentifier>{27cd7643-644c-42bf-a682-2f0f9423ec33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math\Numerics">
+      <UniqueIdentifier>{bea42398-7de2-4cbc-9c61-771d642b8df9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Security\Cryptography\Encoding\Asn1\Validation">
+      <UniqueIdentifier>{dd74bd7e-07c9-48f1-b1eb-a314ea050a7c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #include "Thread.hpp"
 
-#ifndef ELYSIUM_CORE_DATETIMEUTILITY
-#include "../Elysium.Core/DateTimeUtility.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_CHRONO_DATETIMEUTILITY
+#include "../Elysium.Core.Template/Chrono/DateTimeUtility.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_INVALIDOPERATIONEXCEPTION
@@ -91,7 +91,7 @@ const Elysium::Core::uint32_t Elysium::Core::Threading::Thread::GetThreadId() co
 
 void Elysium::Core::Threading::Thread::Sleep(const TimeSpan& Timeout)
 {
-	ELYSIUM_THREAD_SLEEP(static_cast<unsigned long>(Timeout.GetTicks() / DateTimeUtility::TicksPerMillisecond), false);
+	ELYSIUM_THREAD_SLEEP(static_cast<unsigned long>(Timeout.GetTicks() / Elysium::Core::Template::Chrono::DateTimeUtility::TicksPerMillisecond), false);
 }
 
 void Elysium::Core::Threading::Thread::Start()

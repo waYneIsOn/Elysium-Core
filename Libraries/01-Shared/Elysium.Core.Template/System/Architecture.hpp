@@ -90,42 +90,80 @@ namespace Elysium::Core::Template::System
         inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_x86_32
         inline static constexpr const char8_t* Name = u8"x86_32";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM2
         inline static constexpr const char8_t* Name = u8"ARM2";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM3
         inline static constexpr const char8_t* Name = u8"ARM3";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM4T
         inline static constexpr const char8_t* Name = u8"ARM4T";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM5
         inline static constexpr const char8_t* Name = u8"ARM5"
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM6T2
         inline static constexpr const char8_t* Name = u8"ARM6T2";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM6
         inline static constexpr const char8_t* Name = u8"ARM6";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM7
         inline static constexpr const char8_t* Name = u8"ARM7";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM7A
         inline static constexpr const char8_t* Name = u8"ARM7A";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM7R
         inline static constexpr const char8_t* Name = u8"ARM7R";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM7M
         inline static constexpr const char8_t* Name = u8"ARM7M";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM7S
         inline static constexpr const char8_t* Name = u8"ARM7S";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_ARM64
         inline static constexpr const char8_t* Name = u8"ARM64";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_MIPS
         inline static constexpr const char8_t* Name = u8"MIPS";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_SUPERH
         inline static constexpr const char8_t* Name = u8"SUPERH";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_POWERPC
         inline static constexpr const char8_t* Name = u8"POWERPC";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_POWERPC64
         inline static constexpr const char8_t* Name = u8"POWERPC64";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_SPARC
         inline static constexpr const char8_t* Name = u8"SPARC";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #elif defined ELYSIUM_CORE_ARCHITECTURE_M68K
         inline static constexpr const char8_t* Name = u8"M68K";
+
+        inline static constexpr const Elysium::Core::Template::System::uint8_t BitsPerByte = 8;
 #else
     #error "Unhandled architecture"
 #endif

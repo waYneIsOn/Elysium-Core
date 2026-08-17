@@ -8,7 +8,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Security/CryptographicException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Store.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/DERDecoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/DERDecoder.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Oid.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 ;
@@ -237,7 +237,8 @@ namespace UnitTests::Core::Security::Cryptography
 						Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(Count)[0]);
 						Logger::WriteMessage(":\r\n");
 
-						Asn1Identifier Identifier = Asn1Identifier(Asn1TagClass::Universal, false, Asn1UniversalTag::EndOfContent, 0);
+						Asn1Identifier Identifier = Asn1Identifier(Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1TagClass::Universal, false,
+							Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::EndOfContent, 0);
 						Asn1Length Length = Asn1Length(0, 0);
 						ReadCertificate(Decoder, InputStream, Identifier, Length);
 
@@ -259,7 +260,7 @@ namespace UnitTests::Core::Security::Cryptography
 				signatureValue       BIT STRING  }
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: CertificateSequence\r\n");
 				throw InvalidDataException(u8"CertificateSequence");
@@ -296,7 +297,7 @@ namespace UnitTests::Core::Security::Cryptography
 				}
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: TbsCertificateSequence\r\n");
 				throw InvalidDataException(u8"TbsCertificateSequence");
@@ -323,17 +324,18 @@ namespace UnitTests::Core::Security::Cryptography
 			*/
 			const Elysium::Core::size PositionBeforeHeader = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::Integer)
+			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Integer)
 			{	// version NOT explicitly defined ergo the next field would be a certificate's serial number
 				Logger::WriteMessage("Version: V1\r\n");
 				InputStream.SetPosition(PositionBeforeHeader);
 			}
-			else if (Identifier.GetTagClass() == Asn1TagClass::Context && Identifier.GetIsConstructed())
+			else if (Identifier.GetTagClass() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1TagClass::Context && Identifier.GetIsConstructed())
 			{	// version explicitly defined
 				Asn1Integer Version = Decoder.DecodeInteger(Identifier, Length, InputStream);
 
 				Logger::WriteMessage("Version: V");
-				Logger::WriteMessage((char*)&Version.GetValue().ToString()[0]);
+				Logger::WriteMessage("ToDo: BigInteger to String");
+				//Logger::WriteMessage((char*)&Version.GetValue().ToString()[0]);
 				Logger::WriteMessage("\r\n");
 			}
 			else
@@ -350,7 +352,7 @@ namespace UnitTests::Core::Security::Cryptography
 			* 
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Integer)
 			{
 				Logger::WriteMessage("Error: CertificateSerialNumber\r\n");
 				throw InvalidDataException(u8"CertificateSerialNumber");
@@ -373,7 +375,7 @@ namespace UnitTests::Core::Security::Cryptography
 				parameters              ANY DEFINED BY algorithm OPTIONAL  }
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: SignatureSequence\r\n");
 				throw InvalidDataException(u8"SignatureSequence");
@@ -381,14 +383,14 @@ namespace UnitTests::Core::Security::Cryptography
 
 			Logger::WriteMessage("Signature:\r\n");
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: OID\r\n");
 				throw InvalidDataException(u8"OID");
 			}
 			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
 			const Oid ObjectIdentifierValue = ObjectIdentifier.GetValue();
-			const Utf8String ObjectIdentifierValueValue = ObjectIdentifierValue.GetValue();
+			const Utf8String ObjectIdentifierValueValue = ObjectIdentifierValue.GetValue().ToString();
 
 			Logger::WriteMessage("\t");
 			Logger::WriteMessage((char*)&ObjectIdentifierValue.GetValue()[0]);
@@ -416,7 +418,7 @@ namespace UnitTests::Core::Security::Cryptography
 				* the ASN.1 type NULL.
 				*/
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Null)
+				if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Null)
 				{
 					Logger::WriteMessage("Error: SignatureParameters - rfc3279: ...the parameters component of that type SHALL be the ASN.1 type NULL.\r\n");
 					throw InvalidDataException(u8"SignatureParameters");
@@ -453,21 +455,21 @@ namespace UnitTests::Core::Security::Cryptography
 			else
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Null)
+				if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Null)
 				{
 					Logger::WriteMessage("\t\tnull\r\n");
 				}
-				else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+				else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 				{
 					const Elysium::Core::size CurrentPositionParameters = InputStream.GetPosition();
 					const Elysium::Core::size ParametersLength = Length.GetLength();
 					while (InputStream.GetPosition() < CurrentPositionParameters + ParametersLength)
 					{
 						ReadHeader(Decoder, InputStream, Identifier, Length);
-						if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
+						if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Set)
 						{
 							ReadHeader(Decoder, InputStream, Identifier, Length);
-							if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+							if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 							{
 								Logger::WriteMessage("Error: SignatureParametersSetSequence\r\n");
 								throw InvalidDataException(u8"SignatureParametersSetSequence");
@@ -501,7 +503,7 @@ namespace UnitTests::Core::Security::Cryptography
 		void ReadSignatureAttributeTypeAndValue(IAsn1Decoder& Decoder, Stream& InputStream, Asn1Identifier& Identifier, Asn1Length& Length)
 		{
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: SignatureArgumentType\r\n");
 				throw InvalidDataException(u8"SignatureArgumentType");
@@ -525,11 +527,10 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
+			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::PrintableString)
 			{
-				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = PrintableString.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = PrintableString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
@@ -562,7 +563,7 @@ namespace UnitTests::Core::Security::Cryptography
 			*/
 			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: IssuerSequence\r\n");
 				throw InvalidDataException(u8"IssuerSequence");
@@ -574,10 +575,10 @@ namespace UnitTests::Core::Security::Cryptography
 			while (InputStream.GetPosition() < CurrentPositionIssuer + IssuerLength)
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
+				if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Set)
 				{
 					ReadHeader(Decoder, InputStream, Identifier, Length);
-					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+					if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 					{
 						const Elysium::Core::size CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
 						const Elysium::Core::size AttributeTypeAndValueLength = Length.GetLength();
@@ -598,7 +599,7 @@ namespace UnitTests::Core::Security::Cryptography
 						throw InvalidDataException(u8"IssuerSequenceSetSequence");
 					}
 				}
-				else if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+				else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 				{
 					const Elysium::Core::size CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
 					const Elysium::Core::size AttributeTypeAndValueLength = Length.GetLength();
@@ -613,7 +614,7 @@ namespace UnitTests::Core::Security::Cryptography
 						throw InvalidDataException(u8"IssuerSequenceSequenceLength");
 					}
 				}
-				else if(Identifier.GetUniversalTag() == Asn1UniversalTag::UTCTime)
+				else if(Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTCTime)
 				{	// no issuer > we've already landed on validity > reset position and return
 					InputStream.SetPosition(InitialPosition);
 					Logger::WriteMessage("\tnone\r\n");
@@ -645,7 +646,7 @@ namespace UnitTests::Core::Security::Cryptography
 			...
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: IssuerArgumentType\r\n");
 				throw InvalidDataException(u8"IssuerArgumentType");
@@ -659,38 +660,34 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage(": ");
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
+			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::PrintableString)
 			{
-				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = PrintableString.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = PrintableString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::IA5String)
+			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::IA5String)
 			{
-				Asn1String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = IA5String.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = IA5String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::UTF8String)
+			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTF8String)
 			{
-				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = Utf8String.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = Utf8String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::TeletexString)
+			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::TeletexString)
 			{
-				Asn1String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = TeletexString.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = TeletexString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
@@ -710,7 +707,7 @@ namespace UnitTests::Core::Security::Cryptography
 				notAfter       Time }
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: ValiditySequence\r\n");
 				throw InvalidDataException(u8"ValiditySequence");
@@ -718,8 +715,8 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage("Validity:\r\n");
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime &&
-				Identifier.GetUniversalTag() != Asn1UniversalTag::GeneralizedTime)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTCTime &&
+				Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::GeneralizedTime)
 			{
 				Logger::WriteMessage("Error: ValidityNotBefore\r\n");
 				throw InvalidDataException(u8"ValidityNotBefore");
@@ -742,8 +739,8 @@ namespace UnitTests::Core::Security::Cryptography
 			Logger::WriteMessage(" UTC\r\n");
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::UTCTime &&
-				Identifier.GetUniversalTag() != Asn1UniversalTag::GeneralizedTime)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTCTime &&
+				Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::GeneralizedTime)
 			{
 				Logger::WriteMessage("Error: ValidityNotAfter\r\n");
 				throw InvalidDataException(u8"ValidityNotAfter");
@@ -785,7 +782,7 @@ namespace UnitTests::Core::Security::Cryptography
 			AttributeValue ::= ANY -- DEFINED BY AttributeType
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: SubjectSequence\r\n");
 				throw InvalidDataException(u8"SubjectSequence");
@@ -797,10 +794,10 @@ namespace UnitTests::Core::Security::Cryptography
 			while (InputStream.GetPosition() < CurrentPositionSubject + SubjectLength)
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Set)
+				if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Set)
 				{
 					ReadHeader(Decoder, InputStream, Identifier, Length);
-					if (Identifier.GetUniversalTag() == Asn1UniversalTag::Sequence)
+					if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 					{
 						const Elysium::Core::size CurrentPositionAttributeTypeAndValue = InputStream.GetPosition();
 						const Elysium::Core::size AttributeTypeAndValueLength = Length.GetLength();
@@ -849,7 +846,7 @@ namespace UnitTests::Core::Security::Cryptography
 			AttributeValue ::= ANY -- DEFINED BY AttributeType
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: SubjectArgumentType\r\n");
 				throw InvalidDataException(u8"SubjectArgumentType");
@@ -871,38 +868,34 @@ namespace UnitTests::Core::Security::Cryptography
 			}
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::PrintableString)
+			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::PrintableString)
 			{
-				Asn1String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = PrintableString.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String PrintableString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = PrintableString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::IA5String)
+			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::IA5String)
 			{
-				Asn1String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = IA5String.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String IA5String = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = IA5String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::UTF8String)
+			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::UTF8String)
 			{
-				Asn1String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = Utf8String.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String Utf8String = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = Utf8String.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
 			}
-			else if (Identifier.GetUniversalTag() == Asn1UniversalTag::TeletexString)
+			else if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::TeletexString)
 			{
-				Asn1String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
-				const Elysium::Core::Container::VectorOfByte& Data = TeletexString.GetData();
-				const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+				Asn1Utf8String TeletexString = Decoder.DecodeString(Identifier, Length, InputStream);
+				const Elysium::Core::Utf8String DataString = TeletexString.GetValue();
 
 				Logger::WriteMessage((char*)&DataString[0]);
 				Logger::WriteMessage("\r\n");
@@ -926,7 +919,7 @@ namespace UnitTests::Core::Security::Cryptography
 				parameters              ANY DEFINED BY algorithm OPTIONAL  }
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequence\r\n");
 				throw InvalidDataException(u8"SubjectPublicKeyInfoSequence");
@@ -936,7 +929,7 @@ namespace UnitTests::Core::Security::Cryptography
 			const Elysium::Core::size SubjectPublicKeyInfoLength = Length.GetLength();
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: SubjectPublicKeyInfoSequenceSequence\r\n");
 				throw InvalidDataException(u8"SubjectPublicKeyInfoSequenceSequence");
@@ -944,7 +937,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 			Logger::WriteMessage("SubjectPublicKeyInfoAlgorithmIdentifier:\r\n");
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: OID\r\n");
 				throw InvalidDataException(u8"OID");
@@ -952,7 +945,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
 			const Oid ObjectIdentifierOid = ObjectIdentifier.GetValue();
-			const Utf8String ObjectIdentifierOidValue = ObjectIdentifierOid.GetValue();
+			const Utf8String ObjectIdentifierOidValue = ObjectIdentifierOid.GetValue().ToString();
 
 			Logger::WriteMessage("\t");
 			Logger::WriteMessage((char*)&ObjectIdentifierOidValue[0]);
@@ -975,14 +968,14 @@ namespace UnitTests::Core::Security::Cryptography
 				* have ASN.1 type NULL for this algorithm identifier.
 				*/
 				Asn1Identifier RSAIdentifier = Decoder.DecodeIdentifier(InputStream);
-				if (RSAIdentifier.GetUniversalTag() != Asn1UniversalTag::Null)
+				if (RSAIdentifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Null)
 				{
 					Logger::WriteMessage("Error: RSAIdentifier\r\n");
 					throw InvalidDataException(u8"RSAIdentifier");
 				}
 
 				Asn1Identifier AlgorithmIdentifierSequenceEnd = Decoder.DecodeIdentifier(InputStream);
-				if (AlgorithmIdentifierSequenceEnd.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
+				if (AlgorithmIdentifierSequenceEnd.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::EndOfContent)
 				{
 					Logger::WriteMessage("Error: AlgorithmIdentifierEnd\r\n");
 					throw InvalidDataException(u8"AlgorithmIdentifierEnd");
@@ -995,28 +988,28 @@ namespace UnitTests::Core::Security::Cryptography
 				*		publicExponent     INTEGER  }  -- e/
 				*/
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+				if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 				{
 					Logger::WriteMessage("Error: RSA Public Key - Data\r\n");
 					throw InvalidDataException(u8"RSA Public Key - Data");
 				}
 
 				Asn1Identifier UnusedBitsIdentifier = Decoder.DecodeIdentifier(InputStream);
-				if (UnusedBitsIdentifier.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
+				if (UnusedBitsIdentifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::EndOfContent)
 				{
 					Logger::WriteMessage("Error: RSA Public Key - Unused Bitsr\n");
 					throw InvalidDataException(u8"RSA Public Key - Unused Bits");
 				}
 
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+				if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 				{
 					Logger::WriteMessage("Error: RSA Public Key - Sequence\r\n");
 					throw InvalidDataException(u8"RSA Public Key - Sequence");
 				}
 
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
+				if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Integer)
 				{
 					Logger::WriteMessage("Error: RSA Public Key - Modulus\r\n");
 					throw InvalidDataException(u8"RSA Public Key - Modulus");
@@ -1024,7 +1017,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Asn1Integer Modulus = Decoder.DecodeInteger(Identifier, Length, InputStream);
 
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::Integer)
+				if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Integer)
 				{
 					Logger::WriteMessage("Error: RSA Public Key - Public Exponent\r\n");
 					throw InvalidDataException(u8"RSA Public Key - Public Exponent");
@@ -1095,7 +1088,7 @@ namespace UnitTests::Core::Security::Cryptography
 				Asn1Identifier EcpkParametersIdentifier = Decoder.DecodeIdentifier(InputStream);
 				switch (EcpkParametersIdentifier.GetUniversalTag())
 				{
-					case Asn1UniversalTag::ObjectIdentifier:	// namedCurve
+					case Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier:	// namedCurve
 					{	/*
 						* When parameters are
 						* specified by reference, the parameters field SHALL contain the
@@ -1112,7 +1105,7 @@ namespace UnitTests::Core::Security::Cryptography
 						Logger::WriteMessage("\r\n");
 
 						ReadHeader(Decoder, InputStream, Identifier, Length);
-						if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+						if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 						{
 							Logger::WriteMessage("Error: ECDSA Public Key (named curve) - Data\r\n");
 							throw InvalidDataException(u8"ECDSA Public Key (named curve) - Data");
@@ -1126,7 +1119,7 @@ namespace UnitTests::Core::Security::Cryptography
 						Logger::WriteMessage(" bits\r\n");
 					}
 						break;
-					case Asn1UniversalTag::Null:	// implicitlyCA
+					case Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Null:	// implicitlyCA
 					{	/*
 						* When the parameters are inherited, the parameters field SHALL contain
 						* implictlyCA, which is the ASN.1 value NULL.
@@ -1192,7 +1185,7 @@ namespace UnitTests::Core::Security::Cryptography
 			*/
 			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
+			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 			{
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
 				const Elysium::Core::Container::VectorOfByte& BitStringData = BitString.GetData();
@@ -1220,7 +1213,7 @@ namespace UnitTests::Core::Security::Cryptography
 			*/
 			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
+			if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 			{
 				Asn1ByteArray BitString = Decoder.DecodeByteArray(Identifier, Length, InputStream);
 				const Elysium::Core::Container::VectorOfByte& BitStringData = BitString.GetData();
@@ -1257,7 +1250,7 @@ namespace UnitTests::Core::Security::Cryptography
 			*/
 			const Elysium::Core::size InitialPosition = InputStream.GetPosition();
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: Extensions\r\n");
 				throw InvalidDataException(u8"Extensions");
@@ -1269,7 +1262,7 @@ namespace UnitTests::Core::Security::Cryptography
 			while (InputStream.GetPosition() < CurrentPositionExtension + ExtensionLength)
 			{
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+				if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 				{
 					Logger::WriteMessage("Error: ExtensionOid\r\n");
 					throw InvalidDataException(u8"ExtensionOid");
@@ -1278,16 +1271,15 @@ namespace UnitTests::Core::Security::Cryptography
 
 				const Elysium::Core::size CurrentPositionBooleanExtension = InputStream.GetPosition();
 				ReadHeader(Decoder, InputStream, Identifier, Length);
-				if (Identifier.GetUniversalTag() == Asn1UniversalTag::Boolean)
+				if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Boolean)
 				{
 					Asn1Boolean Boolean = Decoder.DecodeBoolean(Identifier, Length, InputStream);
 
 					ReadHeader(Decoder, InputStream, Identifier, Length);
-					if (Identifier.GetUniversalTag() == Asn1UniversalTag::BitString)
+					if (Identifier.GetUniversalTag() == Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 					{
-						Asn1String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
-						const Elysium::Core::Container::VectorOfByte& Data = BitString.GetData();
-						const Elysium::Core::Utf8String DataString = Elysium::Core::Text::Encoding::UTF8().GetString(&Data[0], Data.GetLength());
+						Asn1Utf8String BitString = Decoder.DecodeString(Identifier, Length, InputStream);
+						const Elysium::Core::Utf8String DataString = BitString.GetValue();
 
 						Logger::WriteMessage((char*)&DataString[0]);
 						Logger::WriteMessage("\r\n");
@@ -1327,7 +1319,7 @@ namespace UnitTests::Core::Security::Cryptography
 			* 	parameters              ANY DEFINED BY algorithm OPTIONAL  }
 			*/
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::Sequence)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Sequence)
 			{
 				Logger::WriteMessage("Error: SignatureAlgorithmSequence\r\n");
 				throw InvalidDataException(u8"SignatureAlgorithmSequence");
@@ -1337,7 +1329,7 @@ namespace UnitTests::Core::Security::Cryptography
 			const Elysium::Core::size SignatureAlgorithmLength = Length.GetLength();
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::ObjectIdentifier)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::ObjectIdentifier)
 			{
 				Logger::WriteMessage("Error: SignatureAlgorithmSequenceObjectIdentifier\r\n");
 				throw InvalidDataException(u8"SignatureAlgorithmSequenceObjectIdentifier");
@@ -1345,7 +1337,7 @@ namespace UnitTests::Core::Security::Cryptography
 
 			Asn1ObjectIdentifier ObjectIdentifier = Decoder.DecodeObjectIdentifier(Identifier, Length, InputStream);
 			const Oid ObjectIdentifierOid = ObjectIdentifier.GetValue();
-			const Utf8String ObjectIdentifierOidValue = ObjectIdentifierOid.GetValue();
+			const Utf8String ObjectIdentifierOidValue = ObjectIdentifierOid.GetValue().ToString();
 
 			Logger::WriteMessage("SignatureAlgorithm:\r\n");
 			Logger::WriteMessage("\t");
@@ -1369,14 +1361,14 @@ namespace UnitTests::Core::Security::Cryptography
 				* have ASN.1 type NULL for this algorithm identifier.
 				*/
 				Asn1Identifier RSAIdentifier = Decoder.DecodeIdentifier(InputStream);
-				if (RSAIdentifier.GetUniversalTag() != Asn1UniversalTag::Null)
+				if (RSAIdentifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::Null)
 				{
 					Logger::WriteMessage("Error: RSAIdentifier\r\n");
 					throw InvalidDataException(u8"RSAIdentifier");
 				}
 
 				Asn1Identifier AlgorithmIdentifierSequenceEnd = Decoder.DecodeIdentifier(InputStream);
-				if (AlgorithmIdentifierSequenceEnd.GetUniversalTag() != Asn1UniversalTag::EndOfContent)
+				if (AlgorithmIdentifierSequenceEnd.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::EndOfContent)
 				{
 					Logger::WriteMessage("Error: AlgorithmIdentifierEnd\r\n");
 					throw InvalidDataException(u8"AlgorithmIdentifierEnd");
@@ -1450,10 +1442,10 @@ namespace UnitTests::Core::Security::Cryptography
 		    * field.  The details of this process are specified for each of the
 		    * supported algorithms in [RFC3279], [RFC4055], and [RFC4491].
 			*/
-			const Utf8String SignatureOidValue = SignatureOid.GetValue();
+			const Utf8String SignatureOidValue = SignatureOid.GetValue().ToString();
 
 			ReadHeader(Decoder, InputStream, Identifier, Length);
-			if (Identifier.GetUniversalTag() != Asn1UniversalTag::BitString)
+			if (Identifier.GetUniversalTag() != Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Asn1UniversalTag::BitString)
 			{
 				Logger::WriteMessage("Error: SignatureValue\r\n");
 				throw InvalidDataException(u8"SignatureValue");

@@ -1,7 +1,7 @@
 #include "VisemeReachedEventArgs.hpp"
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "../Elysium.Core.Template/Move.hpp"
+#include "../Elysium.Core.Template/Functional/Move.hpp"
 #endif
 
 Elysium::Core::Speech::Synthesis::VisemeReachedEventArgs::VisemeReachedEventArgs(Elysium::Core::Utf8String&& Prompt, const Elysium::Core::uint64_t AudioPositionTicks, const Elysium::Core::uint64_t DurationMilliseconds, const SynthesizerEmphasis Emphasis, const Elysium::Core::uint16_t Viseme, const Elysium::Core::uint16_t NextViseme)

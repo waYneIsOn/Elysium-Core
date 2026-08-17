@@ -1,5 +1,9 @@
 #include "SqlNativeDataReader.hpp"
 
+#ifndef ELYSIUM_CORE_DATETIME
+#include "../Elysium.Core/DateTime.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_DATA_SQLNATIVECLIENT_OLEDB_SQLNATIVEEXCEPTION
 #include "SqlNativeException.hpp"
 #endif

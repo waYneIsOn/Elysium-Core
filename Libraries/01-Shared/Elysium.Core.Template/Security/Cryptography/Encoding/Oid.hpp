@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SECURITY_CRYPTOGRAPHY_CRYPTOGRAPHICEXCEPTION
+#include "../../../Exceptions/Security/Cryptography/CryptographicException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
 #include "../../../Functional/Move.hpp"
 #endif
@@ -48,6 +52,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Security::Cryptography::Encoding
 {
+#if defined ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_OID
+	class Oid
+	{ };
+#elif defined ELYSIUM_CORE_OS_WINDOWS
 	class Oid
 	{
 	public:
@@ -89,12 +97,12 @@ namespace Elysium::Core::Template::Security::Cryptography::Encoding
 			return *this;
 		}
 	public:
-		inline constexpr const Elysium::Core::Template::Text::String<char8_t>& GetValue() const
+		inline constexpr const Elysium::Core::Template::Text::StringView<char8_t> GetValue() const
 		{
 			return _Value;
 		}
 
-		inline constexpr const Elysium::Core::Template::Text::String<char8_t>& GetFriendlyName() const
+		inline constexpr const Elysium::Core::Template::Text::StringView<char8_t> GetFriendlyName() const
 		{
 			return _FriendlyName;
 		}
@@ -102,47 +110,35 @@ namespace Elysium::Core::Template::Security::Cryptography::Encoding
 		inline static constexpr Oid FromFriendlyName(const Elysium::Core::Template::Text::StringView<char8_t> FriendlyName, 
 			const Elysium::Core::Template::Security::Cryptography::Encoding::OidGroup Group)
 		{
-#ifdef ELYSIUM_CORE_OS_WINDOWS
+			// @ToDo: input isn't safe
 			Elysium::Core::Template::Text::String<wchar_t> Name = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&FriendlyName[0], FriendlyName.GetLength());
 
-			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&Name[0]), (Elysium::Core::Template::System::uint32_t)Group);
+			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&Name[0]), static_cast<DWORD>(Group));
 			if (nullptr == NativeOid)
 			{
-				throw;
-				//throw CryptographicException(u8"The OID was not found.");
+				throw Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException(u8"The OID was not found.");
 			}
 
-			// no need to use encoding here since char "fits" into char8_t
+			// no need to use encoding here since ASCII is a subset of UTF-8
 			return Oid(reinterpret_cast<const char8_t*>(NativeOid->pszOID), reinterpret_cast<const char8_t*>(NativeOid->pwszName));
-#endif
 		}
 
 		inline static constexpr Oid FromOidValue(const Elysium::Core::Template::Text::StringView<char8_t> OidValue, 
 			const Elysium::Core::Template::Security::Cryptography::Encoding::OidGroup Group)
 		{
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>((char8_t*)&OidValue[0]), (Elysium::Core::Template::System::uint32_t)Group);
+			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>((char8_t*)&OidValue[0]), static_cast<DWORD>(Group));
 			if (nullptr == NativeOid)
 			{
-				throw;
-				//throw CryptographicException(u8"The friendly name for the OID value was not found.");
+				throw Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException(u8"The friendly name for the OID value was not found.");
 			}
 
-			// no need to use encoding here since char "fits" into char8_t
+			// no need to use encoding here since ASCII is a subset of UTF-8
 			return Oid(reinterpret_cast<const char8_t*>(NativeOid->pszOID), reinterpret_cast<const char8_t*>(NativeOid->pwszName));
-			/*
-			return Oid(
-				Elysium::Core::Template::Functional::Move(Text::Encoding::ASCII().GetString((const Elysium::Core::Template::System::byte*)NativeOid->pszOID,
-					Elysium::Core::Template::Text::CharacterTraits<char>::GetSize(NativeOid->pszOID))),
-				Elysium::Core::Template::Functional::Move(Text::Encoding::UTF16LE().GetString((const Elysium::Core::Template::System::byte*)NativeOid->pwszName,
-					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetSize(NativeOid->pwszName)))
-			);
-			*/
-#endif
 		}
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _Value;
 		Elysium::Core::Template::Text::String<char8_t> _FriendlyName;
 	};
+#endif
 }
 #endif

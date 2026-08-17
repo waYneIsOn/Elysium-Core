@@ -77,7 +77,7 @@ namespace UnitTests::Core::Template::IO
 			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
-
+		
 		TEST_METHOD(HttpsClientSendAndReceive)
 		{
 			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
@@ -104,6 +104,26 @@ namespace UnitTests::Core::Template::IO
 
 			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
+		}
+		
+		TEST_METHOD(LdapClientSendAndReceive)
+		{
+			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+			ClientSocket.Connect(u8"ldap.forumsys.com", 389);
+
+			SocketDevice Device(ClientSocket);
+			SocketSink Sink(Device);
+			TlsSink EncryptedSink(Sink);
+			SocketSource Source(Device);
+
+			NetworkStream Stream(Sink, Source);
+
+			// cn=read-only-admin,dc=example,dc=com Bind Password: password
+		}
+
+		TEST_METHOD(LdapsClientSendAndReceive)
+		{
+			Assert::Fail();
 		}
 	};
 }

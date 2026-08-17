@@ -86,20 +86,8 @@ module;
 #include "Exception.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_DATEPART
-#include "DatePart.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DATETIMEKIND
-#include "DateTimeKind.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_DATETIMEOFFSET
 #include "DateTimeOffset.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_DATETIMEUTILITY
-#include "DateTimeUtility.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_DECIMAL
@@ -239,10 +227,7 @@ export
 	using Elysium::Core::DivideByZeroException;
 	using Elysium::Core::Environment;
 	using Elysium::Core::Exception;
-	using Elysium::Core::DatePart;
-	using Elysium::Core::DateTimeKind;
 	using Elysium::Core::DateTimeOffset;
-	using Elysium::Core::DateTimeUtility;
 	using Elysium::Core::Decimal;
 	using Elysium::Core::Enum;
 	using Elysium::Core::Event;

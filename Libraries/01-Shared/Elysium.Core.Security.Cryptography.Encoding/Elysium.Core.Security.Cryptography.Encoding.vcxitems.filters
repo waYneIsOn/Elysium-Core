@@ -6,152 +6,59 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Boolean.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1\DERDecoder.cpp">
       <Filter>Asn1</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Identifier.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Integer.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Length.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Null.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Numeric.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Object.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1String.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1Tag.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)BERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)DERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)DEREncoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)EXERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)JERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)LBERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)OERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)XERDecoder.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1DateTime.cpp">
-      <Filter>Asn1</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1ByteArray.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)Asn1\DEREncoder.cpp">
       <Filter>Asn1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Boolean.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Identifier.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Integer.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Length.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Null.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Numeric.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Object.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ObjectIdentifier.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1String.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1Tag.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1TagClass.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1UniversalTag.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)BERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DEREncoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)EXERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Decoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IAsn1Encoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)JERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)LBERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)OERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)XERDecoder.hpp">
-      <Filter>Asn1</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Oid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OidCollection.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1DateTime.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Enumerated.hpp">
       <Filter>Asn1</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1ByteArray.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Boolean.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1ByteArray.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1DateTime.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Identifier.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Integer.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Length.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Null.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1ObjectIdentifier.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Tag.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\Asn1Utf8String.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\DERDecoder.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\DEREncoder.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\IAsn1Decoder.hpp">
+      <Filter>Asn1</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Asn1\IAsn1Encoder.hpp">
       <Filter>Asn1</Filter>
     </ClInclude>
   </ItemGroup>

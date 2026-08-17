@@ -33,6 +33,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
+#ifndef _WINDOWS_
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#endif
+
+#ifndef _MINWINDEF_
+#include <minwindef.h>
+#endif
+
 /*
     #ifndef _SYSINFOAPI_H_
     #include <sysinfoapi.h>

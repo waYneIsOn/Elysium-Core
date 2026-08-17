@@ -18,7 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Guid.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Byte.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exception.hpp" />
@@ -27,8 +26,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TimeSpan.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeUtility.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DatePart.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DateTimeOffset.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidCastException.hpp" />

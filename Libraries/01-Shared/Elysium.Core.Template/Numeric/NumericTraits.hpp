@@ -191,12 +191,19 @@ namespace Elysium::Core::Template::Numeric
 	template <>
 	class NumericTraits<System::uint8_t>
 		: public _NumericTraitsBaseInteger<System::uint8_t>
-	{ };
+	{
+	public:
+		using SignedType = Elysium::Core::Template::System::int8_t;
+		using UnsignedType = Elysium::Core::Template::System::uint8_t;
+	};
 
 	template <>
 	class NumericTraits<System::uint16_t>
 		: public _NumericTraitsBaseInteger<System::uint16_t>
 	{
+	public:
+		using SignedType = Elysium::Core::Template::System::int16_t;
+		using UnsignedType = Elysium::Core::Template::System::uint16_t;
 	public:
 		static constexpr const System::uint8_t GetHigh(ConstValue Value) noexcept;
 
@@ -228,6 +235,9 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBaseInteger<System::uint32_t>
 	{
 	public:
+		using SignedType = Elysium::Core::Template::System::int32_t;
+		using UnsignedType = Elysium::Core::Template::System::uint32_t;
+	public:
 		static constexpr const System::uint16_t GetHigh(ConstValue Value) noexcept;
 
 		static constexpr const System::uint16_t GetLow(ConstValue Value) noexcept;
@@ -256,6 +266,9 @@ namespace Elysium::Core::Template::Numeric
 		: public _NumericTraitsBaseInteger<System::uint64_t>
 	{
 	public:
+		using SignedType = Elysium::Core::Template::System::int64_t;
+		using UnsignedType = Elysium::Core::Template::System::uint64_t;
+	public:
 		static constexpr const System::uint32_t GetHigh(ConstValue Value) noexcept;
 
 		static constexpr const System::uint32_t GetLow(ConstValue Value) noexcept;
@@ -282,12 +295,19 @@ namespace Elysium::Core::Template::Numeric
 	template <>
 	class NumericTraits<System::int8_t>
 		: public _NumericTraitsBaseInteger<System::int8_t>
-	{ };
+	{
+	public:
+		using SignedType = Elysium::Core::Template::System::int8_t;
+		using UnsignedType = Elysium::Core::Template::System::uint8_t;
+	};
 
 	template <>
 	class NumericTraits<System::int16_t>
 		: public _NumericTraitsBaseInteger<System::int16_t>
 	{
+	public:
+		using SignedType = Elysium::Core::Template::System::int16_t;
+		using UnsignedType = Elysium::Core::Template::System::uint16_t;
 	/*
 	public:
 		static constexpr const System::uint8_t GetHigh(ConstValue Value);
@@ -300,6 +320,9 @@ namespace Elysium::Core::Template::Numeric
 	class NumericTraits<System::int32_t>
 		: public _NumericTraitsBaseInteger<System::int32_t>
 	{
+	public:
+		using SignedType = Elysium::Core::Template::System::int32_t;
+		using UnsignedType = Elysium::Core::Template::System::uint32_t;
 		/*
 		public:
 			static constexpr const System::uint16_t GetHigh(ConstValue Value);
@@ -312,6 +335,9 @@ namespace Elysium::Core::Template::Numeric
 	class NumericTraits<System::int64_t>
 		: public _NumericTraitsBaseInteger<System::int64_t>
 	{
+	public:
+		using SignedType = Elysium::Core::Template::System::int64_t;
+		using UnsignedType = Elysium::Core::Template::System::uint64_t;
 		/*
 		public:
 			static constexpr const System::int32_t GetHigh(ConstValue Value);

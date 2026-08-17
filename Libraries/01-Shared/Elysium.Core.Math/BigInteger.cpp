@@ -1,5 +1,5 @@
 #include "BigInteger.hpp"
-
+/*
 #ifndef ELYSIUM_CORE_MATH_MATHHELPER
 #include "MathHelper.hpp"
 #endif
@@ -658,3 +658,4 @@ const Elysium::Core::Math::Numerics::BigInteger& Elysium::Core::Math::Numerics::
 	static const Elysium::Core::Math::Numerics::BigInteger Value = Elysium::Core::Math::Numerics::BigInteger(0);
 	return Value;
 }
+*/

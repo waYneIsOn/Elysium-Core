@@ -20,12 +20,8 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_BYTE
-#include "../Elysium.Core/Byte.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_INTEGER
-#include "../Elysium.Core/Integer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_MATH_NUMERICS_BIGINTEGER
+#include "../Elysium.Core.Template/Math/Numerics/BigInteger.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_STRING
@@ -38,6 +34,16 @@ Copyright (c) Microsoft Corporation. All rights reserved.
 
 namespace Elysium::Core::Math::Numerics
 {
+	template class ELYSIUM_CORE_MATH_API Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int8_t>;
+	template class ELYSIUM_CORE_MATH_API Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int16_t>;
+	template class ELYSIUM_CORE_MATH_API Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int32_t>;
+	template class ELYSIUM_CORE_MATH_API Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int64_t>;
+
+	using BigInteger8 = Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int8_t>;
+	using BigInteger16 = Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int16_t>;
+	using BigInteger32 = Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int32_t>;
+	using BigInteger64 = Elysium::Core::Template::Math::Numerics::BigInteger<Elysium::Core::Template::System::int64_t>;
+	/*
 	class ELYSIUM_CORE_MATH_API BigInteger final
 	{
 	public:
@@ -101,5 +107,6 @@ namespace Elysium::Core::Math::Numerics
 		Elysium::Core::int32_t _Sign;
 		Elysium::Core::Container::VectorOfUInt32_t _Bits;
 	};
+	*/
 }
 #endif
