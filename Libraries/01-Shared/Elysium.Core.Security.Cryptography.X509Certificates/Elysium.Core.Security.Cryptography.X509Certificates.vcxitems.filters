@@ -1,15 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509Certificate.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509CertificateCollection.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509Chain.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509ChainPolicy.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)X509Store.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Certificate.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)X509CertificateCollection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Chain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509ChainPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)X509Store.hpp" />

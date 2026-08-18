@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core/DateTime.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
@@ -26,13 +27,14 @@ namespace UnitTests::Core::Security::Cryptography
 	public:
 		TEST_METHOD(OpenStoreRootCurrentUser)
 		{
-			X509Store RootCurrentUserStore = X509Store(Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root, Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser);
-			Assert::AreEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetCount());
+			X509Store RootCurrentUserStore = X509Store(Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root,
+				Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser);
+			Assert::AreEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetLength());
 
 			RootCurrentUserStore.Open(Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags::ReadOnly);
-			Assert::AreNotEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetCount());
+			Assert::AreNotEqual(static_cast<Elysium::Core::size>(0), RootCurrentUserStore.GetCertificates().GetLength());
 
-			for (Elysium::Core::size i = 0; i < RootCurrentUserStore.GetCertificates().GetCount(); i++)
+			for (Elysium::Core::size i = 0; i < RootCurrentUserStore.GetCertificates().GetLength(); i++)
 			{
 				const X509Certificate& Certificate = RootCurrentUserStore.GetCertificates()[i];
 			}
@@ -40,10 +42,11 @@ namespace UnitTests::Core::Security::Cryptography
 
 		TEST_METHOD(BuildCertificateChain)
 		{
-			X509Store RootCurrentUserStore = X509Store(Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root, Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser);
+			X509Store RootCurrentUserStore = X509Store(Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName::Root, 
+				Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation::CurrentUser);
 			RootCurrentUserStore.Open(Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags::ReadOnly);
 
-			X509Chain Chain = X509Chain();
+			X509Chain Chain{};
 			bool Result = Chain.Build(RootCurrentUserStore.GetCertificates()[0]);
 
 			Assert::IsTrue(Result);
@@ -221,7 +224,7 @@ namespace UnitTests::Core::Security::Cryptography
 					X509Store CurrentStore = X509Store(static_cast<Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreName>(StoreNameInt), static_cast<Elysium::Core::Template::Security::Cryptography::X509Certificates::StoreLocation>(StoreLocationInt));
 					CurrentStore.Open(Elysium::Core::Template::Security::Cryptography::X509Certificates::OpenFlags::ReadOnly);
 
-					const Elysium::Core::size CertificateCount = CurrentStore.GetCertificates().GetCount();
+					const Elysium::Core::size CertificateCount = CurrentStore.GetCertificates().GetLength();
 
 					Logger::WriteMessage("-- Number of certificates: ");
 					Logger::WriteMessage((char*)&Elysium::Core::Template::Text::Convert<char8_t>::ToString(CertificateCount)[0]);

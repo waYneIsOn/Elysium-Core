@@ -28,10 +28,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATECOLLECTION
-#include "../Elysium.Core.Security.Cryptography.X509Certificates/X509CertificateCollection.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_AUTHENTICATION_TLSPROTOCOL
 #include "../Elysium.Core.Template/Security/Authentication/TlsProtocols.hpp"
 #endif
@@ -93,9 +89,9 @@ namespace Elysium::Core::Net::Security
 
 		virtual void Write(const Elysium::Core::byte* Buffer, const Elysium::Core::size Count) override;
 
-		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
+		void AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>* ClientCertificates = nullptr, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12, const bool CheckCertficateRevocation = true);
 		
-		void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
+		void AuthenticateAsServer(const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation);
 	private:
 		const TlsClientAuthenticationOptions _AuthenticationOptions;
 

@@ -3,12 +3,12 @@
 Elysium::Core::Net::Security::TlsClientAuthenticationOptions::TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& AllowedCipherSuites)
 	: _AllowRenegotiation(AllowRenegotiation), _AllowedCipherSuites(AllowedCipherSuites), 
 	_UserCertificateValidationCallback(Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Template::Net::Security::TlsPolicyErrors>::Bind<&Elysium::Core::Net::Security::TlsClientAuthenticationOptions::ValidateServerCertificate>()),
-	_UserCertificateSelectionCallback(Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&>::Bind<&Elysium::Core::Net::Security::TlsClientAuthenticationOptions::SelectLocalCertificate>())
+	_UserCertificateSelectionCallback(Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&>::Bind<&Elysium::Core::Net::Security::TlsClientAuthenticationOptions::SelectLocalCertificate>())
 { }
 
 Elysium::Core::Net::Security::TlsClientAuthenticationOptions::TlsClientAuthenticationOptions(const bool AllowRenegotiation, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite>& AllowedCipherSuites,
 	Elysium::Core::Template::Container::Delegate<const bool, const void*, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&, const Elysium::Core::Template::Net::Security::TlsPolicyErrors> & UserCertificateValidationCallback,
-	Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&> & UserCertificateSelectionCallback)
+	Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&> & UserCertificateSelectionCallback)
 	: _AllowRenegotiation(AllowRenegotiation), _AllowedCipherSuites(AllowedCipherSuites), _UserCertificateValidationCallback(UserCertificateValidationCallback), _UserCertificateSelectionCallback(UserCertificateSelectionCallback)
 { }
 
@@ -39,7 +39,7 @@ const Elysium::Core::Template::Container::Delegate<const bool, const void*, cons
 	return _UserCertificateValidationCallback;
 }
 
-const Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&> & Elysium::Core::Net::Security::TlsClientAuthenticationOptions::GetUserCertificateSelectionCallback() const
+const Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const Elysium::Core::Container::VectorOfUtf8String&> & Elysium::Core::Net::Security::TlsClientAuthenticationOptions::GetUserCertificateSelectionCallback() const
 {
 	return _UserCertificateSelectionCallback;
 }
@@ -49,7 +49,7 @@ const bool Elysium::Core::Net::Security::TlsClientAuthenticationOptions::Validat
 	return false;
 }
 
-const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysium::Core::Net::Security::TlsClientAuthenticationOptions::SelectLocalCertificate(const void * Sender, const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection & LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & RemoteCertificate, const Elysium::Core::Container::VectorOfUtf8String& AcceptableIssuers)
+const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & Elysium::Core::Net::Security::TlsClientAuthenticationOptions::SelectLocalCertificate(const void * Sender, const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate & RemoteCertificate, const Elysium::Core::Container::VectorOfUtf8String& AcceptableIssuers)
 {
 	return LocalCertificates[0];
 }

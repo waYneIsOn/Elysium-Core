@@ -16,6 +16,10 @@
 #include "../Elysium.Core.Security.Cryptography.X509Certificates/X509Chain.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAINPOLICY
+#include "../Elysium.Core.Security.Cryptography.X509Certificates/X509ChainPolicy.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
 #include "../Elysium.Core.Template/MemCpy.hpp"
 #endif
@@ -375,7 +379,7 @@ void Elysium::Core::Net::Security::TlsStream::Write(const Elysium::Core::byte* B
 	Elysium::Core::Template::Memory::MemSet(&_OutBuffer[0], 0, _OutBuffer.GetLength());
 }
 
-void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::TlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>* ClientCertificates, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	_TargetHost = TargetHost;
 	_TlsProtocols = EnabledTlsProtocols;

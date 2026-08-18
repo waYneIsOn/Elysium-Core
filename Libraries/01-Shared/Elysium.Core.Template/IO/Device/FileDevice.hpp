@@ -92,7 +92,7 @@ namespace Elysium::Core::Template::IO::Device
 		constexpr FileDevice() noexcept = delete;
 
 		inline constexpr FileDevice(const char8_t* Path, const FileMode Mode, const FileAccess Access = FileAccess::Read | FileAccess::Write, const FileShare Share = FileShare::None,
-			const Elysium::Core::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None)
+			const Elysium::Core::Template::System::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None)
 			: _FQFN(GetFQFN(Path)), _Position(0)
 #if defined ELYSIUM_CORE_OS_WINDOWS
 			, _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options)),
@@ -135,7 +135,7 @@ namespace Elysium::Core::Template::IO::Device
 		inline constexpr const Elysium::Core::Template::System::size GetLength() const
 		{
 			LARGE_INTEGER Size;
-			if (!GetFileSizeEx(_FileHandle, &Size))
+			if (FALSE == GetFileSizeEx(_FileHandle, &Size))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();
 			}
@@ -160,7 +160,7 @@ namespace Elysium::Core::Template::IO::Device
 				return;
 			}
 
-			if (!CloseHandle(_FileHandle))
+			if (FALSE == CloseHandle(_FileHandle))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();
 			}
@@ -175,7 +175,7 @@ namespace Elysium::Core::Template::IO::Device
 
 			LARGE_INTEGER NewPosition;
 
-			if (!SetFilePointerEx(_FileHandle, InternalPosition, &NewPosition, static_cast<unsigned long>(Origin)))
+			if (FALSE == SetFilePointerEx(_FileHandle, InternalPosition, &NewPosition, static_cast<unsigned long>(Origin)))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();
 			}
@@ -194,8 +194,8 @@ namespace Elysium::Core::Template::IO::Device
 				//throw ArgumentNullException(u8"Buffer");
 			}
 
-			Elysium::Core::uint32_t BytesRead = 0;
-			if (!ReadFile(_FileHandle, Buffer, static_cast<DWORD>(Count), (unsigned long*)&BytesRead, nullptr))
+			Elysium::Core::Template::System::uint32_t BytesRead = 0;
+			if (FALSE == ReadFile(_FileHandle, Buffer, static_cast<DWORD>(Count), (unsigned long*)&BytesRead, nullptr))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();
 			}
@@ -211,11 +211,11 @@ namespace Elysium::Core::Template::IO::Device
 				return;
 			}
 			
-			Elysium::Core::uint32_t TotalBytesWritten = 0;
-			Elysium::Core::uint32_t BytesWritten = 0;
+			Elysium::Core::Template::System::uint32_t TotalBytesWritten = 0;
+			Elysium::Core::Template::System::uint32_t BytesWritten = 0;
 			do
 			{
-				if (!WriteFile(_FileHandle, &Buffer[TotalBytesWritten], static_cast<unsigned long>(Count - TotalBytesWritten), (unsigned long*)&BytesWritten, nullptr))
+				if (FALSE == WriteFile(_FileHandle, &Buffer[TotalBytesWritten], static_cast<unsigned long>(Count - TotalBytesWritten), (unsigned long*)&BytesWritten, nullptr))
 				{
 					throw Elysium::Core::Template::Exceptions::IO::IOException();
 				}
@@ -239,7 +239,7 @@ namespace Elysium::Core::Template::IO::Device
 				return;
 			}
 
-			if (!FlushFileBuffers(_FileHandle))
+			if (FALSE == FlushFileBuffers(_FileHandle))
 			{
 				throw Elysium::Core::Template::Exceptions::IO::IOException();
 			}
@@ -265,9 +265,10 @@ namespace Elysium::Core::Template::IO::Device
 		{
 			Elysium::Core::Template::Text::String<wchar_t> WindowsFQPN = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&FQFN[0], FQFN.GetLength());
 
-			HANDLE NativeFileHandle = CreateFile(&WindowsFQPN[0], static_cast<Elysium::Core::uint32_t>(Access), static_cast<Elysium::Core::uint32_t>(Share),
+			HANDLE NativeFileHandle = CreateFile(&WindowsFQPN[0], static_cast<Elysium::Core::Template::System::uint32_t>(Access),
+				static_cast<Elysium::Core::Template::System::uint32_t>(Share),
 				nullptr, // default security
-				static_cast<Elysium::Core::uint32_t>(Mode), static_cast<Elysium::Core::int32_t>(Options), nullptr);
+				static_cast<Elysium::Core::Template::System::uint32_t>(Mode), static_cast<Elysium::Core::Template::System::int32_t>(Options), nullptr);
 			//CreateFile2()
 
 			if (INVALID_HANDLE_VALUE == NativeFileHandle)

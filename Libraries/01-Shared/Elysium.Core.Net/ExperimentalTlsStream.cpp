@@ -4,6 +4,10 @@
 #include "../Elysium.Core/BitConverter.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CONTAINER_VECTOROFX509CERTIFICATE
+#include "../Elysium.Core.Security.Cryptography.X509Certificates/VectorOfX509Certificate.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_NET_SECURITY_TLSCONTENTTYPE
 #include "../Elysium.Core.Template/Net/Security/TlsContentType.hpp"
 #endif
@@ -127,7 +131,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::Write(const Elysium::C
 	_InnerStream.Write(Buffer, Count);
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection * ClientCertificates, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(const Elysium::Core::Utf8String & TargetHost, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>* ClientCertificates, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 	WriteClientHello(EnabledTlsProtocols);
 	ReadServerHello();
@@ -136,7 +140,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsClient(c
 	ReadServerHelloDone();
 }
 
-void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection & ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
+void Elysium::Core::Net::Security::ExperimentalTlsStream::AuthenticateAsServer(const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>& ClientCertificates, const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const bool CheckCertficateRevocation)
 {
 }
 
@@ -316,12 +320,12 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::ReadServerCertificates
 		const uint32_t ResponseLength = BitConverter::ToUInt24(&ContentBuffer[1]);
 		const uint32_t CertificatesLength = BitConverter::ToUInt24(&ContentBuffer[4]);
 
-		Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection ServerCertificates = Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection();
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate> ServerCertificates(0);
 		Elysium::Core::size CertificateBytesRead = 0;
 		do
 		{
 			const uint32_t CertificateLength = BitConverter::ToUInt24(&ContentBuffer[CertificateBytesRead + 7]);
-			ServerCertificates.Add(Elysium::Core::Template::Functional::Move(Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(&ContentBuffer[CertificateBytesRead + 10], CertificateLength)));
+			ServerCertificates.PushBack(Elysium::Core::Template::Functional::Move(Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate::LoadFromBlob(&ContentBuffer[CertificateBytesRead + 10], CertificateLength)));
 			CertificateBytesRead += CertificateLength + 3;
 		} while (CertificateBytesRead < CertificatesLength);
 

@@ -1,6 +1,10 @@
 #ifndef _WINDOWS_
 #include <Windows.h>
 #endif
+
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CONTAINER_VECTOROFX509CERTIFICATE
+#include "../../01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/VectorOfX509Certificate.hpp"
+#endif
 /*
 #ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
 #include "../Elysium.Core.Reflection/AppDomain.hpp"

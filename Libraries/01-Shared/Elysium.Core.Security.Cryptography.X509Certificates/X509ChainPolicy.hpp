@@ -12,85 +12,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_DATETIME
-#include "../Elysium.Core/DateTime.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TIMESPAN
-#include "../Elysium.Core/TimeSpan.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SECURITY_API
 #include "../Elysium.Core.Security/API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_OIDCOLLECTION
-#include "../Elysium.Core.Security.Cryptography.Encoding/OidCollection.hpp"
+#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_CONTAINER_VECTOROFX509CERTIFICATE
+#include "VectorOfX509Certificate.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATECOLLECTION
-#include "X509CertificateCollection.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509REVOCATIONFLAG
-#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509RevocationFlag.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509REVOCATIONMODE
-#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509RevocationMode.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509VERIFICATIONFLAGS
-#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509VerificationFlags.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAINPOLICY
+#include "../Elysium.Core.Template/Security/Cryptography/X509Certificates/X509ChainPolicy.hpp"
 #endif
 
 namespace Elysium::Core::Security::Cryptography::X509Certificates
 {
-	class ELYSIUM_CORE_SECURITY_API X509ChainPolicy final
-	{
-	public:
-		X509ChainPolicy();
+	class ELYSIUM_CORE_SECURITY_API Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ChainPolicy;
 
-		X509ChainPolicy(const X509ChainPolicy& Source) = delete;
-
-		X509ChainPolicy(X509ChainPolicy&& Right) noexcept = delete;
-
-		~X509ChainPolicy();
-	public:
-		X509ChainPolicy& operator=(const X509ChainPolicy& Source) = delete;
-
-		X509ChainPolicy& operator=(X509ChainPolicy&& Right) noexcept = delete;
-	public:
-		const OidCollection& GetApplicationPolicy() const;
-
-		const OidCollection& GetCertificatePolicy() const;
-
-		const X509CertificateCollection& GetExtraStore() const;
-
-		const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag GetRevocationFlag() const;
-
-		const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode GetRevocationMode() const;
-
-		const TimeSpan GetUrlRetrievalTimeout() const;
-
-		const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags GetVerificationFlags() const;
-
-		const DateTime GetVerificationTime() const;
-	public:
-		void SetRevocationFlag(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag Value);
-
-		void SetRevocationMode(const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode Value);
-	public:
-		void Reset();
-	private:
-		OidCollection _ApplicationPolicy = OidCollection();
-		OidCollection _CertificatePolicy = OidCollection();
-		X509CertificateCollection _ExtraStore = X509CertificateCollection();
-		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag _RevocationFlag = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag::EntireChain;
-		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode _RevocationMode = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationMode::Offline;
-		TimeSpan _UrlRetrievalTimeout = TimeSpan(0);
-		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags _VerificationFlags = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509VerificationFlags::AllFlags;
-		DateTime _VerificationTime = DateTime(0);
-	};
+	using X509ChainPolicy = Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ChainPolicy;
 }
 #endif

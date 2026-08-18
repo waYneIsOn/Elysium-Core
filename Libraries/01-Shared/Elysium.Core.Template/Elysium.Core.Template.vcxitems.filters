@@ -1236,6 +1236,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Enumerated.hpp">
       <Filter>Security\Cryptography\Encoding\Asn1</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ChainPolicy.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

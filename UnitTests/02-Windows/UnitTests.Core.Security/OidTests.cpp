@@ -14,6 +14,8 @@ namespace UnitTests::Core::Security::Cryptography
 		TEST_METHOD(StaticConstruction)
 		{
 			Oid OidFromFriendlyName = Oid::FromFriendlyName(u8"sha1", Elysium::Core::Template::Security::Cryptography::Encoding::OidGroup::All);
+			//Elysium::Core::StringView
+
 			AssertExtended::AreEqual(u8"sha1", &OidFromFriendlyName.GetFriendlyName()[0]);
 			AssertExtended::AreEqual(u8"1.3.14.3.2.26", &OidFromFriendlyName.GetValue()[0]);
 			

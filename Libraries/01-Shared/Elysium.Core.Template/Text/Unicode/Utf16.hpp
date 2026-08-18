@@ -538,14 +538,14 @@ namespace Elysium::Core::Template::Text::Unicode
 	{
 		const System::size RequiredLength = GetRequiredLengthForSafeWideString<char8_t>(Data, Length);
 
-		Elysium::Core::Template::Text::String<wchar_t> Result = Elysium::Core::Template::Text::String<wchar_t>(RequiredLength);
-		System::size TargetIndex = 0;
+		Elysium::Core::Template::Text::String<wchar_t> Result(RequiredLength);
+		Elysium::Core::Template::System::size TargetIndex = 0;
 		char32_t CodePoint;	// afaik I cannot get rid of the codepoint
-		System::byte* CodePointBytes;
+		Elysium::Core::Template::System::byte* CodePointBytes;
 		for (System::size i = 0; i < Length; ++i)
 		{
-			const wchar_t& CurrentTargetChar = Result[TargetIndex];
-			const char8_t& CurrentChar = Data[i];
+			//const wchar_t& CurrentTargetChar = Result[TargetIndex];
+			//const char8_t& CurrentChar = Data[i];
 
 			switch (Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetByteCount(Data[i]))
 			{

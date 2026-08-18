@@ -111,29 +111,35 @@ namespace Elysium::Core::Template::Security::Cryptography::Encoding
 			const Elysium::Core::Template::Security::Cryptography::Encoding::OidGroup Group)
 		{
 			// @ToDo: input isn't safe
-			Elysium::Core::Template::Text::String<wchar_t> Name = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&FriendlyName[0], FriendlyName.GetLength());
+			Elysium::Core::Template::Text::String<wchar_t> NativeName = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&FriendlyName[0], FriendlyName.GetLength());
 
-			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&Name[0]), static_cast<DWORD>(Group));
+			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_NAME_KEY, static_cast<void*>(&NativeName[0]), static_cast<DWORD>(Group));
 			if (nullptr == NativeOid)
 			{
 				throw Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException(u8"The OID was not found.");
 			}
 
-			// no need to use encoding here since ASCII is a subset of UTF-8
-			return Oid(reinterpret_cast<const char8_t*>(NativeOid->pszOID), reinterpret_cast<const char8_t*>(NativeOid->pwszName));
+			const Elysium::Core::Template::Text::String<char8_t> Name = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(NativeOid->pwszName, 
+				Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeOid->pwszName));
+
+			// no need to use encoding for "(NativeOid->pszOID)" since ASCII is a subset of UTF-8
+			return Oid(reinterpret_cast<const char8_t*>(NativeOid->pszOID), &Name[0]);
 		}
 
 		inline static constexpr Oid FromOidValue(const Elysium::Core::Template::Text::StringView<char8_t> OidValue, 
 			const Elysium::Core::Template::Security::Cryptography::Encoding::OidGroup Group)
 		{
-			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>((char8_t*)&OidValue[0]), static_cast<DWORD>(Group));
+			const PCCRYPT_OID_INFO NativeOid = CryptFindOIDInfo(CRYPT_OID_INFO_OID_KEY, static_cast<void*>(const_cast<char8_t*>(&OidValue[0])), static_cast<DWORD>(Group));
 			if (nullptr == NativeOid)
 			{
 				throw Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException(u8"The friendly name for the OID value was not found.");
 			}
 
-			// no need to use encoding here since ASCII is a subset of UTF-8
-			return Oid(reinterpret_cast<const char8_t*>(NativeOid->pszOID), reinterpret_cast<const char8_t*>(NativeOid->pwszName));
+			const Elysium::Core::Template::Text::String<char8_t> Name = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(NativeOid->pwszName,
+				Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(NativeOid->pwszName));
+
+			// no need to use encoding for "(NativeOid->pszOID)" since ASCII is a subset of UTF-8
+			return Oid(reinterpret_cast<const char8_t*>(NativeOid->pszOID), Name);
 		}
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _Value;

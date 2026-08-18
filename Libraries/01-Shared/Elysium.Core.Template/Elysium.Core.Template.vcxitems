@@ -171,10 +171,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\OpenFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\StoreLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\StoreName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ChainPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ContentType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509KeyStorageFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509RevocationFlag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509RevocationMode.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509VerificationFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Principal\TokenImpersonationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
