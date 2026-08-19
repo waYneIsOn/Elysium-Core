@@ -32,6 +32,7 @@ namespace Elysium::Core::Template::Security::Authentication
 #endif
 	{
 		None = 0,
+
 		Tls10 = 769,	// 0x03 0x01
 		Tls11 = 770,	// 0x03 0x02
 		Tls12 = 771,	// 0x03 0x03

@@ -18,18 +18,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::Sink
 {
-#if defined ELYSIUM_CORE_USEEXPERIMENTALIMPLEMENTATION_TLS
-
-#elif defined ELYSIUM_CORE_OS_WINDOWS
 	// @ToDo: concept for sinks!
-	template <class InnerSink>
+	template <class InnerSink, class TlsSession>
 	class TlsSink
 	{
 	public:
 		using DeviceType = InnerSink::DeviceType;
 	public:
-		constexpr TlsSink(InnerSink& InnerSink)
-			: _InnerSink(InnerSink)
+		constexpr TlsSink(InnerSink& InnerSinkX, TlsSession& Session)
+			: _InnerSink(InnerSinkX), _Session(Session)
 		{}
 
 		constexpr TlsSink(const TlsSink& Source) = delete;
@@ -59,36 +56,24 @@ namespace Elysium::Core::Template::IO::Sink
 		{
 			return _InnerSink.GetDevice();
 		}
-	public:
-		/*
-		inline void AuthenticateAsClient(const Elysium::Core::Template::Text::StringView<char8_t> TargetHost,
-			const Elysium::Core::Security::Cryptography::X509Certificates::X509CertificateCollection* ClientCertificates = nullptr,
-			const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Security::Authentication::TlsProtocols::Tls12,
-			const bool CheckCertficateRevocation = true)
+		
+		inline constexpr const TlsSession& GetSession() const
 		{
-
+			return _Session;
 		}
-
-		inline void AuthenticateAsServer(const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& ServerCertificate,
-			const bool ClientCertificateRequired, const Elysium::Core::Security::Authentication::TlsProtocols EnabledTlsProtocols,
-			const bool CheckCertficateRevocation)
-		{
-
-		}
-		*/
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-			throw;
+
 		}
 
 		inline void Flush()
 		{
-			throw;
+
 		}
 	private:
 		InnerSink& _InnerSink;
+		TlsSession& _Session;
 	};
-#endif
 }
 #endif

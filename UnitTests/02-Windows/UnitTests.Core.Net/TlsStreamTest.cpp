@@ -11,7 +11,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/SocketException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security//TlsPolicyErrors.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security/TlsPolicyErrors.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security/AuthenticationException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/BERDecoder.hpp"
 

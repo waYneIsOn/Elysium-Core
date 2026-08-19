@@ -256,7 +256,7 @@ namespace Elysium::Core::Template::IO::Source
 #endif
 				if (_Adler32 != Adler32)
 				{	// @ToDo
-					throw;
+					throw 1;
 				}
 
 				_InnerSource.AdvanceReadingBlock(sizeof(Adler32));

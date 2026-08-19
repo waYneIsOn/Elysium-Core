@@ -30,11 +30,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::Source
 {
-#if defined ELYSIUM_CORE_USEEXPERIMENTALIMPLEMENTATION_TLS
-
-#elif defined ELYSIUM_CORE_OS_WINDOWS
 	// @ToDo: concept for sources!
-	template <class InnerSource>
+	template <class InnerSource, class TlsSession>
 	class TlsSource
 	{
 	public:
@@ -44,9 +41,9 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		constexpr TlsSource() noexcept = delete;
 
-		inline constexpr TlsSource(InnerSource& InnerSource) noexcept
-			: _InnerSource(InnerSource)
-		{}
+		inline constexpr TlsSource(InnerSource& InnerSourceX, TlsSession& Session) noexcept
+			: _InnerSource(InnerSourceX), _Session(Session)
+		{ }
 
 		constexpr TlsSource(const TlsSource& Source) = delete;
 
@@ -72,6 +69,11 @@ namespace Elysium::Core::Template::IO::Source
 		{
 			return _InnerSource.GetDevice();
 		}
+		
+		inline constexpr const TlsSession& GetSession() const
+		{
+			return _Session;
+		}
 	public:
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
@@ -84,7 +86,7 @@ namespace Elysium::Core::Template::IO::Source
 		}
 	private:
 		InnerSource& _InnerSource;
+		TlsSession& _Session;
 	};
-#endif
 }
 #endif

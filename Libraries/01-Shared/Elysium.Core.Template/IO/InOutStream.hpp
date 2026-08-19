@@ -26,18 +26,82 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO
 {
-	struct DeviceIndependent
+	/// <summary>
+	/// No relationship required whatsoever between sink and source.
+	/// </summary>
+	struct Independent
 	{
-		inline static constexpr bool RequireShared = false;
+		template<class Sink, class Source>
+		static constexpr void Validate(Sink& SinkX, Source& SourceX)
+		{ }
 	};
 
+	/// <summary>
+	/// Both sink and source are required to operate on the same underlying device.
+	/// </summary>
 	struct DeviceCoupled
 	{
-		inline static constexpr bool RequireShared = true;
+		template<class Sink, class Source>
+		static constexpr void Validate(Sink& SinkX, Source& SourceX)
+		{
+			const Sink::DeviceType& SinkDevice = SinkX.GetDevice();
+			const Source::DeviceType& SourceDevice = SourceX.GetDevice();
+			if (&SinkDevice != &SourceDevice)
+			{	// @ToDo: throw specific exception (Elysium::Core::Template::Security::Policy::PolicyException???)
+				throw 1;
+			}
+		}
 	};
 
+	/// <summary>
+	/// Both sink and source are required to operate on the same underlying device resource/handle.
+	/// </summary>
+	struct DeviceResourceShared
+	{
+		template<class Sink, class Source>
+		static constexpr void Validate(Sink& SinkX, Source& SourceX)
+		{
+			const Sink::DeviceType& SinkDevice = SinkX.GetDevice();
+			const Source::DeviceType& SourceDevice = SourceX.GetDevice();
+			if (SinkDevice != SourceDevice)
+			{	// @ToDo: throw specific exception (Elysium::Core::Template::Security::Policy::PolicyException???)
+				throw 1;
+			}
+		}
+	};
+
+	/// <summary>
+	/// 
+	/// </summary>
+	struct TlsCoupled
+	{
+		template<class Sink, class Source>
+		static constexpr void Validate(Sink& SinkX, Source& SourceX)
+		{
+			if (SinkX.GetSession() != SourceX.GetSession())
+			{	// @ToDo: throw specific exception (Elysium::Core::Template::Security::Policy::PolicyException???)
+				throw 1;
+			}
+		}
+	};
+
+	/// <summary>
+	/// 
+	/// </summary>
+	struct QuicCoupled
+	{
+		template<class Sink, class Source>
+		static constexpr void Validate(Sink& SinkX, Source& SourceX)
+		{
+			if (SinkX.GetConnection() != SourceX.GetConnection() || SinkX.GetStreamId() != SourceX.GetStreamId())
+			{	// @ToDo: throw specific exception (Elysium::Core::Template::Security::Policy::PolicyException???)
+				throw 1;
+			}
+		}
+	};
+	
 	// @ToDo: concept for sinks, sources and policies!
-	template<class Sink, class Source, class Policy = DeviceIndependent>
+	template<class Sink, class Source, class Policy = Independent>
 	class InOutStream
 	{
 	public:
@@ -46,15 +110,7 @@ namespace Elysium::Core::Template::IO
 		inline constexpr InOutStream(Sink& Sink, Source& Source)
 			: _Sink(Sink), _Source(Source)
 		{
-			if constexpr (Policy::RequireShared)
-			{
-				const Sink::DeviceType& SinkDevice = _Sink.GetDevice();
-				const Source::DeviceType& SourceDevice = _Source.GetDevice();
-				if (SinkDevice != SourceDevice)
-				{	// @ToDo: throw specific exception (Elysium::Core::Template::Security::Policy::PolicyException???)
-					throw 1;
-				}
-			}
+			Policy::Validate(Sink, Source);
 		}
 
 		constexpr InOutStream(const InOutStream& Source) = delete;

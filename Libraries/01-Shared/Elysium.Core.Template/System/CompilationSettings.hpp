@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILERSETTINGS
-#define ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILERSETTINGS
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILATIONSETTINGS
+#define ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILATIONSETTINGS
 
 #ifdef _MSC_VER
 #pragma once

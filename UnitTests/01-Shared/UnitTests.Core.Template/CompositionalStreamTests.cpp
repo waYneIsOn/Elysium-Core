@@ -1,29 +1,38 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security/TlsSession.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/FileDevice.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/MemoryDevice.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/FileSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/MemorySink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/SocketSink.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Sink/TlsSink.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/FileSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/MemorySource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/SocketSource.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/TlsSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
 
+using namespace Elysium::Core::Template::Net::Security;
 using namespace Elysium::Core::Template::IO;
 using namespace Elysium::Core::Template::IO::Device;
 using namespace Elysium::Core::Template::IO::Sink;
 using namespace Elysium::Core::Template::IO::Source;
+using namespace Elysium::Core::Template::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Template::IO
 {
 	TEST_CLASS(CompositionalStreamTests)
 	{
-		using MemoryStream = InOutStream<MemorySink, MemorySource, DeviceCoupled>;
-		using FileStream = InOutStream<FileSink, FileSource, DeviceCoupled>;
+		using MemoryStream = InOutStream<MemorySink, MemorySource, DeviceResourceShared>;
+		using FileStream = InOutStream<FileSink, FileSource, DeviceResourceShared>;
+
+		using TlsStream = InOutStream<TlsSink<SocketSink, TlsSession<SocketSink, SocketSource>>, TlsSource<SocketSource, TlsSession<SocketSink, SocketSource>>, TlsCoupled>;
 
 		using OutFileStream = OutStream<FileSource>;
 	public:
@@ -58,10 +67,32 @@ namespace UnitTests::Core::Template::IO
 			}
 			catch (...)
 			{ }
+			
+			try
+			{
+				Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
+
+				SocketDevice Device(ClientSocket);
+				SocketSink Sink(Device);
+				SocketSource Source(Device);
+
+				TlsSession<SocketSink, SocketSource> SinkSession(Sink, Source);
+				TlsSession<SocketSink, SocketSource> SourceSession(Sink, Source);
+				
+				TlsSink EncryptedSink(Sink, SinkSession);
+				TlsSource EncryptedSource(Source, SourceSession);
+
+				TlsStream Stream(EncryptedSink, EncryptedSource);
+
+				Assert::Fail();
+			}
+			catch(...)
+			{ }
 			/*
 			try
 			{
-				Assert::Fail();
+				QuicSink Sink;
+				QuicSource Source;
 			}
 			catch(...)
 			{ }

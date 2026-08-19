@@ -987,9 +987,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Reflection\Assembly.hpp">
       <Filter>Reflection</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\TlsSink.hpp">
-      <Filter>IO\Sink</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SocketDevice.hpp">
       <Filter>IO\Device</Filter>
     </ClInclude>
@@ -1089,9 +1086,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\NetworkInformation\OperationalStatus.hpp">
       <Filter>Net\NetworkInformation</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\TlsSource.hpp">
-      <Filter>IO\Source</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\OpenFlags.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
@@ -1116,7 +1110,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509VerificationFlags.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\CompilerSettings.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\CompilationSettings.hpp">
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.hpp">
@@ -1247,6 +1241,15 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsSession.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Sink\TlsSink.hpp">
+      <Filter>IO\Sink</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\TlsSource.hpp">
+      <Filter>IO\Source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

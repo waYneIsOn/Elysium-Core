@@ -889,7 +889,7 @@ namespace Elysium::Core::Template::Container
 			throw Exceptions::OutOfMemoryException();
 		}
 
-		constexpr const Elysium::Core::Template::System::size GrowthFactor = 2;	// ToDo: check whether a growth factor of 1.5 (double!) would be better
+		static constexpr const Elysium::Core::Template::System::size GrowthFactor = 2;	// ToDo: check whether a growth factor of 1.5 (double!) would be better
 		Elysium::Core::Template::System::size NewCapacity = _Capacity == 0 ? 1 : _Capacity * GrowthFactor;
 		while (NewCapacity < DesiredCapacity)
 		{
@@ -932,12 +932,6 @@ namespace Elysium::Core::Template::Container
 		using ConstReverseIterator = Iterator::ConstBackwardIterator<Vector<T, Allocator>>;
 	public:
 		constexpr Vector() noexcept = default;
-		/*
-			: _Allocator(), _Capacity(1), _Length(0), _Data(_Allocator.Allocate(_Capacity))
-		{
-			Elysium::Core::Template::Memory::MemSet(_Data, 0, _Capacity * sizeof(T));
-		}
-		*/
 
 		constexpr Vector(const System::size Capacity)
 			: _Allocator(), _Capacity(Capacity == 0 ? 1 : Capacity), _Length(_Capacity), _Data(_Allocator.Allocate(_Capacity))

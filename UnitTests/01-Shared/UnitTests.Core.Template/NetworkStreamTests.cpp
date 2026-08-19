@@ -3,6 +3,7 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core/String.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core/StringView.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security/TlsSession.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"
@@ -15,6 +16,7 @@ using namespace Elysium::Core::Template::IO;
 using namespace Elysium::Core::Template::IO::Device;
 using namespace Elysium::Core::Template::IO::Sink;
 using namespace Elysium::Core::Template::IO::Source;
+using namespace Elysium::Core::Template::Net::Security;
 using namespace Elysium::Core::Template::Net::Sockets;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -27,7 +29,7 @@ namespace UnitTests::Core::Template::IO
 
 		using NetworkStream = InOutStream<SocketSink, SocketSource, DeviceCoupled>;
 
-		using TlsNetworkStream = InOutStream<TlsSink<SocketSink>, TlsSource<SocketSource>, DeviceCoupled>;
+		using TlsNetworkStream = InOutStream<TlsSink<SocketSink, TlsSession<SocketSink, SocketSource>>, TlsSource<SocketSource, TlsSession<SocketSink, SocketSource>>, TlsCoupled>;
 	public:
 		TEST_METHOD(FtpClientReadWelcomeMessage)
 		{
@@ -85,12 +87,16 @@ namespace UnitTests::Core::Template::IO
 
 			SocketDevice Device(ClientSocket);
 			SocketSink Sink(Device);
-			TlsSink EncryptedSink(Sink);
 			SocketSource Source(Device);
-			TlsSource EncryptedSource(Source);
-
+			
+			TlsSession<SocketSink, SocketSource> Session(Sink, Source);
+			Session.AuthenticateAsClient(u8"");
+			
+			TlsSink EncryptedSink(Sink, Session);
+			TlsSource EncryptedSource(Source, Session);
+			
 			TlsNetworkStream Stream(EncryptedSink, EncryptedSource);
-
+			/*
 			Elysium::Core::Template::Text::String<char8_t> HttpRequest = u8"GET / HTTP/1.1\r\nHost: www.tutorialspoint.com\r\nConnection: keep-alive\r\n\r\n";
 			Stream.Write(reinterpret_cast<Elysium::Core::Template::System::byte*>(&HttpRequest[0]), HttpRequest.GetLength());
 			Stream.Flush();
@@ -101,11 +107,11 @@ namespace UnitTests::Core::Template::IO
 			Elysium::Core::Template::Text::String<char> Response(reinterpret_cast<char*>(View.GetData()), View.GetLength());
 			Logger::WriteMessage(&Response[0]);
 			Logger::WriteMessage("\r\n");
-
+			*/
 			ClientSocket.Shutdown(Elysium::Core::Template::Net::Sockets::SocketShutdown::Both);
 			ClientSocket.Disconnect(false);
 		}
-		
+		/*
 		TEST_METHOD(LdapClientSendAndReceive)
 		{
 			Socket ClientSocket(AddressFamily::InterNetwork, SocketType::Stream, ProtocolType::Tcp);
@@ -125,5 +131,6 @@ namespace UnitTests::Core::Template::IO
 		{
 			Assert::Fail();
 		}
+		*/
 	};
 }

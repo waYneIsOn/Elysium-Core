@@ -57,7 +57,7 @@ namespace Elysium::Core::Template::IO::Compression::Algorithm::LempelZiv
 	public:
 		inline Elysium::Core::Template::Container::Vector<TokenType> Encode(const SymbolType* Data, const Elysium::Core::Template::System::size Length)
 		{
-			Elysium::Core::Template::Container::Vector<TokenType> Result;
+			Elysium::Core::Template::Container::Vector<TokenType> Result{};
 
 			TokenType CurrentToken{};
 			for (Elysium::Core::Template::System::size i = 0; i < Length; ++i)

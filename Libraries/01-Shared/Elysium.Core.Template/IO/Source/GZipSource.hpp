@@ -392,7 +392,7 @@ namespace Elysium::Core::Template::IO::Source
 				_Crc32 = ~_Crc32;
 				if (_Crc32 != _Footer._Crc32)
 				{	// @ToDo
-					throw;
+					throw 1;
 				}
 
 				if (_UncompressedSize != _Footer._UncompressedSize)

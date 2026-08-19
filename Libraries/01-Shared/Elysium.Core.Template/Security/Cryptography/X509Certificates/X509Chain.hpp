@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "X509ChainPolicy.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILERSETTINGS
-#include "../../../System/CompilerSettings.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILATIONSETTINGS
+#include "../../../System/CompilationSettings.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
