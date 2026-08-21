@@ -10,10 +10,10 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/Socket.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/SocketException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Net/NetworkStream.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Net/TlsStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security/TlsPolicyErrors.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security/AuthenticationException.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.Encoding/Asn1/BERDecoder.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Security.Cryptography.X509Certificates/X509Certificate.hpp"
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Unicode/Utf16.hpp"
@@ -32,6 +32,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTests::Core::Net::Security
 {
+	/*
 	TEST_CLASS(TlsStreamTests)
 	{
 	public:
@@ -204,12 +205,12 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Template::Net::Security::TlsPolicyErrors>::Bind<&TlsStreamTests::ValidateServerCertificate>();
 
 			Elysium::Core::Template::Container::Delegate UserCertificateSelectionCallback =
-				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
+				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8StringView,
 				const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Container::VectorOfUtf8String&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
 
-			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
+			TlsClientAuthenticationOptions ClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 
 			TlsStream ClientTlsStream = TlsStream(ClientStream, false, ClientAuthenticationOptions);
 			ClientTlsStream.AuthenticateAsServer(ServerCertificate, false, Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12, true);
@@ -234,12 +235,12 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Template::Net::Security::TlsPolicyErrors>::Bind<&TlsStreamTests::ValidateServerCertificate>();
 
 			Elysium::Core::Template::Container::Delegate UserCertificateSelectionCallback =
-				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
+				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8StringView,
 				const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Container::VectorOfUtf8String&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
 
-			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
+			TlsClientAuthenticationOptions ClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 			
 			try
 			{
@@ -317,16 +318,16 @@ namespace UnitTests::Core::Net::Security
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Chain&,
 				const Elysium::Core::Template::Net::Security::TlsPolicyErrors>::Bind<&TlsStreamTests::ValidateServerCertificate>();
 
-			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
+			Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8StringView,
 				const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Container::VectorOfUtf8String&> UserCertificateSelectionCallback =
-				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8String&,
+				Elysium::Core::Template::Container::Delegate<const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&, const void*, const Elysium::Core::Utf8StringView,
 				const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>&,
 				const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate&,
 				const Elysium::Core::Container::VectorOfUtf8String&>::Bind<&TlsStreamTests::SelectLocalCertificate>();
 
-			TlsClientAuthenticationOptions ClientAuthenticationOptions = TlsClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
+			TlsClientAuthenticationOptions ClientAuthenticationOptions(true, _CipherSuites, UserCertificateValidationCallback, UserCertificateSelectionCallback);
 			
 			TlsStream Stream = TlsStream(InnerStream, false, ClientAuthenticationOptions);
 			try
@@ -384,57 +385,6 @@ namespace UnitTests::Core::Net::Security
 				Assert::Fail();
 			}
 		}
-	private:
-		static const bool ValidateServerCertificate(const void* Sender, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& Certificate, const X509Chain& Chain, const Elysium::Core::Template::Net::Security::TlsPolicyErrors PolicyErrors)
-		{
-			if (PolicyErrors == Elysium::Core::Template::Net::Security::TlsPolicyErrors::None)
-			{
-				return true;
-			}
-
-			if (static_cast<Elysium::Core::uint32_t>(PolicyErrors & Elysium::Core::Template::Net::Security::TlsPolicyErrors::RemoteCertificateChainErrors) != 0)
-			{
-				// ToDo: iterate certificate Chain.ChainStatus
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		static const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& SelectLocalCertificate(const void* Sender, const Elysium::Core::Utf8String& TargetHost, const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>& LocalCertificates, const Elysium::Core::Security::Cryptography::X509Certificates::X509Certificate& RemoteCertificate, const Elysium::Core::Container::VectorOfUtf8String& AcceptableIssuers)
-		{
-			// https://docs.microsoft.com/en-us/dotnet/api/system.net.security.localcertificateselectioncallback?view=netcore-3.1
-			if (LocalCertificates.GetLength() > 0 && AcceptableIssuers.GetLength() > 0)
-			{
-
-			}
-
-			return LocalCertificates[0];
-		}
-		private:
-			inline static const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Net::Security::TlsCipherSuite> _CipherSuites = {
-				/*
-				TlsCipherSuite::TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,
-				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,
-				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
-				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
-				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
-				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
-				TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-				TlsCipherSuite::TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,
-				TlsCipherSuite::TLS_RSA_WITH_AES_128_GCM_SHA256,
-				TlsCipherSuite::TLS_RSA_WITH_AES_256_GCM_SHA384,
-				TlsCipherSuite::TLS_RSA_WITH_AES_128_CBC_SHA,
-				TlsCipherSuite::TLS_RSA_WITH_AES_256_CBC_SHA,
-				TlsCipherSuite::TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,
-				TlsCipherSuite::TLS_RSA_WITH_3DES_EDE_CBC_SHA,
-				*/
-				Elysium::Core::Template::Net::Security::TlsCipherSuite::TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-			};
 	};
+	*/
 }

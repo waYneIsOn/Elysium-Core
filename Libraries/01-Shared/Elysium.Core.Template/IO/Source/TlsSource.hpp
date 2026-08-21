@@ -41,8 +41,8 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		constexpr TlsSource() noexcept = delete;
 
-		inline constexpr TlsSource(InnerSource& InnerSourceX, TlsSession& Session) noexcept
-			: _InnerSource(InnerSourceX), _Session(Session)
+		inline constexpr TlsSource(InnerSource& Source, TlsSession& Session) noexcept
+			: _InnerSource(Source), _Session(Session)
 		{ }
 
 		constexpr TlsSource(const TlsSource& Source) = delete;
@@ -57,7 +57,7 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline MostInnerSourceType& GetMostInnerSource()
 		{
-			return *this;
+			return _InnerSource.GetMostInnerSource();
 		}
 
 		inline DeviceType& GetDevice()
@@ -77,12 +77,12 @@ namespace Elysium::Core::Template::IO::Source
 	public:
 		inline const Elysium::Core::Template::IO::ReadResult ReadBlock(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
 		{
-			throw;
+			return _Session.ReadBlock(DataView);
 		}
 
 		inline void AdvanceReadingBlock(const Elysium::Core::Template::System::size Length)
 		{
-			throw;
+			return _Session.AdvanceReadingBlock(Length);
 		}
 	private:
 		InnerSource& _InnerSource;

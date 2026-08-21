@@ -20,6 +20,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "Move.hpp"
 #endif
 
+// @ToDo: remove asap (-> templated threads)
 namespace Elysium::Core::Threading
 {
 	class Thread;
@@ -239,136 +240,90 @@ namespace Elysium::Core::Template::Container
 		return (_Instance->*_Method)(Parameters...);
 	}
 	*/
-	
+
 	template <class ReturnType, class ...Args>
 	class Delegate
 	{
+	public:
 		friend class Elysium::Core::Threading::Thread;
 		friend class Elysium::Core::Template::Container::Vector<Delegate<ReturnType, Args...>>;
 	private:
+		using WrappedMethodType = ReturnType(*)(void*, Args...);
+	private:
 		constexpr Delegate() noexcept = default;
 	public:
-		Delegate(const Delegate& Source);
+		inline constexpr Delegate(const Delegate& Source)
+			: _Target(Source._Target), _Method(Source._Method)
+		{ }
 
-		Delegate(Delegate&& Right) noexcept;
+		inline constexpr Delegate(Delegate&& Right) noexcept
+			: _Target{}, _Method{}
+		{
+			*this = Elysium::Core::Template::Functional::Move(Right);
+		}
 
 		constexpr ~Delegate() noexcept = default;
 	public:
-		Delegate& operator=(const Delegate& Source);
+		inline constexpr Delegate& operator=(const Delegate& Source) = default;
 
-		Delegate& operator=(Delegate&& Right) noexcept;
-	public:
-		const bool operator==(const Delegate& Other);
-
-		const bool operator!=(const Delegate& Other);
-
-		ReturnType operator()(Args... Parameters) const;
+		inline constexpr Delegate& operator=(Delegate&& Right) noexcept = default;
 	public:
 		template <ReturnType(*ActualMethod)(Args...)>
-		static Delegate Bind();
+		inline explicit operator Delegate<ReturnType, Args...>() const
+		{
+			throw;
+		}
+	public:
+		inline constexpr const bool operator==(const Delegate& Other)
+		{
+			return _Target == Other._Target && _Method == Other._Method;
+		}
+
+		inline constexpr const bool operator!=(const Delegate& Other)
+		{
+			return _Target != Other._Target || _Method != Other._Method;
+		}
+	public:
+		inline ReturnType operator()(Args... Parameters) const
+		{
+			return (*_Method)(_Target, Parameters...);
+		}
+	public:
+		template <ReturnType(*ActualMethod)(Args...)>
+		inline static constexpr Delegate Bind()
+		{
+			Delegate<ReturnType, Args...> Instance{};
+			Instance._Target = nullptr;
+			Instance._Method = &WrappedMethod<ActualMethod>;
+
+			return Instance;
+		}
 
 		template <class T, ReturnType(T::* ActualMethod)(Args...)>
-		static Delegate Bind(T& Target);
-	private:
-		void* _Target;
-		ReturnType(*_Method)(void* NonSpecificInstance, Args...);
+		inline static constexpr Delegate Bind(T& Target)
+		{
+			Delegate<ReturnType, Args...> Instance{};
+			Instance._Target = &Target;
+			Instance._Method = &WrappedMethod<T, ActualMethod>;
+
+			return Instance;
+		}
 	private:
 		template<ReturnType(*ActualMethod)(Args...)>
-		static ReturnType WrappedMethod(void* NullPointer, Args... Parameters);
+		inline static ReturnType WrappedMethod(void* NullPointer, Args... Parameters)
+		{
+			return (*ActualMethod)(Parameters...);
+		}
 
 		template<class T, ReturnType(T::* ActualMethod)(Args...)>
-		static ReturnType WrappedMethod(void* NonSpecificInstance, Args... Parameters);
+		inline static ReturnType WrappedMethod(void* NonSpecificInstance, Args... Parameters)
+		{
+			T* SpecificInstance = static_cast<T*>(NonSpecificInstance);
+			return (SpecificInstance->*ActualMethod)(Parameters...);
+		}
+	private:
+		void* _Target;
+		WrappedMethodType _Method;
 	};
-
-	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>::Delegate(const Delegate& Source)
-		: _Target(Source._Target), _Method(Source._Method)
-	{ }
-
-	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>::Delegate(Delegate&& Right) noexcept
-		: _Target(nullptr), _Method(nullptr)
-	{
-		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
-	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>& Delegate<ReturnType, Args...>::operator=(const Delegate& Source)
-	{
-		if (this != &Source)
-		{
-			_Target = Source._Target;
-			_Method = Source._Method;
-		}
-		return *this;
-	}
-
-	template<class ReturnType, class ...Args>
-	inline Delegate<ReturnType, Args...>& Delegate<ReturnType, Args...>::operator=(Delegate&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-			_Target = Elysium::Core::Template::Functional::Move(Right._Target);
-			_Method = Elysium::Core::Template::Functional::Move(Right._Method);
-
-			Right._Target = nullptr;
-			Right._Method = nullptr;
-		}
-		return *this;
-	}
-
-	template<class ReturnType, class ...Args>
-	inline const bool Delegate<ReturnType, Args...>::operator==(const Delegate& Other)
-	{
-		return _Target == Other._Target && _Method == Other._Method;
-	}
-
-	template<class ReturnType, class ...Args>
-	inline const bool Delegate<ReturnType, Args...>::operator!=(const Delegate& Other)
-	{
-		return _Target != Other._Target || _Method != Other._Method;
-	}
-
-	template<class ReturnType, class ...Args>
-	inline ReturnType Delegate<ReturnType, Args...>::operator()(Args ...Parameters) const
-	{
-		return (*_Method)(_Target, Parameters...);
-	}
-
-	template<class ReturnType, class ...Args>
-	template<ReturnType(*ActualMethod)(Args...)>
-	inline Delegate<ReturnType, Args...> Delegate<ReturnType, Args...>::Bind()
-	{
-		Delegate<ReturnType, Args...> Instance;
-		Instance._Target = nullptr;
-		Instance._Method = &WrappedMethod<ActualMethod>;
-
-		return Instance;
-	}
-
-	template<class ReturnType, class ...Args>
-	template<class T, ReturnType(T::* ActualMethod)(Args...)>
-	inline Delegate<ReturnType, Args...> Delegate<ReturnType, Args...>::Bind(T& Target)
-	{
-		Delegate<ReturnType, Args...> Instance;
-		Instance._Target = &Target;
-		Instance._Method = &WrappedMethod<T, ActualMethod>;
-
-		return Instance;
-	}
-
-	template<class ReturnType, class ...Args>
-	template<ReturnType(*ActualMethod)(Args...)>
-	inline ReturnType Delegate<ReturnType, Args...>::WrappedMethod(void* NullPointer, Args... Parameters)
-	{
-		return (*ActualMethod)(Parameters...);
-	}
-
-	template<class ReturnType, class ...Args>
-	template<class T, ReturnType(T::* ActualMethod)(Args...)>
-	inline ReturnType Delegate<ReturnType, Args...>::WrappedMethod(void* NonSpecificInstance, Args... Parameters)
-	{
-		T* SpecificInstance = static_cast<T*>(NonSpecificInstance);
-		return (SpecificInstance->*ActualMethod)(Parameters...);
-	}
 }
 #endif

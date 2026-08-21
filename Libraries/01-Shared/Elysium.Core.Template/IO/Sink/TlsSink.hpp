@@ -25,9 +25,11 @@ namespace Elysium::Core::Template::IO::Sink
 	public:
 		using DeviceType = InnerSink::DeviceType;
 	public:
-		constexpr TlsSink(InnerSink& InnerSinkX, TlsSession& Session)
-			: _InnerSink(InnerSinkX), _Session(Session)
-		{}
+		constexpr TlsSink() noexcept = delete;
+
+		constexpr TlsSink(InnerSink& Sink, TlsSession& Session)
+			: _InnerSink(Sink), _Session(Session)
+		{ }
 
 		constexpr TlsSink(const TlsSink& Source) = delete;
 
@@ -42,16 +44,6 @@ namespace Elysium::Core::Template::IO::Sink
 
 		constexpr TlsSink& operator=(TlsSink&& Right) noexcept = delete;
 	public:
-		inline constexpr const Elysium::Core::Template::System::size GetLength() const
-		{
-			return _InnerSink.GetLength();
-		}
-
-		inline constexpr const Elysium::Core::Template::System::uint64_t GetPosition() const
-		{
-			return _InnerSink.GetPosition();
-		}
-
 		inline constexpr const DeviceType& GetDevice() const
 		{
 			return _InnerSink.GetDevice();
@@ -64,12 +56,12 @@ namespace Elysium::Core::Template::IO::Sink
 	public:
 		inline void Write(const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Count)
 		{
-
+			_Session.Write(Buffer, Count);
 		}
 
 		inline void Flush()
 		{
-
+			_Session.Flush();
 		}
 	private:
 		InnerSink& _InnerSink;

@@ -119,6 +119,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsAlertDescription.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsAlertLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsCipherSuite.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsClientAuthenticationOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsContentType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsExtensionType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsHandshakeMessageType.hpp" />

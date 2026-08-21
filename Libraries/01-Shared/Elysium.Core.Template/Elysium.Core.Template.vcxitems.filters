@@ -1251,6 +1251,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\TlsSource.hpp">
       <Filter>IO\Source</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsClientAuthenticationOptions.hpp">
+      <Filter>Net\Security</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

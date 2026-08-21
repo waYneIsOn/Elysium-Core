@@ -63,7 +63,10 @@ namespace Elysium::Core::Template::Threading
 
 		Thread(Thread&& Right) noexcept = delete;
 
-		~Thread() noexcept;
+		inline ~Thread() noexcept
+		{
+			Join();
+		}
 	public:
 		Thread& operator=(const Thread& Source) = delete;
 
@@ -75,7 +78,10 @@ namespace Elysium::Core::Template::Threading
 	public:
 		//static void Sleep(const TimeSpan& Timeout);
 
-		static void Yield() noexcept;
+		inline static void Yield() noexcept
+		{
+			_Thrd_yield();
+		}
 	public:
 		/*
 		template <class F, class... Args>
@@ -94,7 +100,17 @@ namespace Elysium::Core::Template::Threading
 		template <Elysium::Core::Template::Concepts::Lambda L, class... Args>
 		void Start(Elysium::Core::Template::Container::Function<L>&& ThreadStart, Args... Parameters);
 	public:
-		void Join();
+		inline void Join()
+		{
+#ifdef ELYSIUM_CORE_OS_WINDOWS
+			if (nullptr != _ThreadHandle)
+			{
+				//terminate();
+				bool SignalReceived = WaitForSingleObject(_ThreadHandle, INFINITE) == WAIT_OBJECT_0;
+				_ThreadHandle = nullptr;
+			}
+#endif
+		}
 	private:
 #ifdef ELYSIUM_CORE_OS_WINDOWS
 		template <class FunctionType, class... Args>
@@ -126,16 +142,6 @@ namespace Elysium::Core::Template::Threading
 		HANDLE _ThreadHandle;
 #endif
 	};
-
-	inline Thread::~Thread() noexcept
-	{
-		Join();
-	}
-
-	inline void Elysium::Core::Template::Threading::Thread::Yield() noexcept
-	{
-		_Thrd_yield();
-	}
 
 	template <class... Args>
 	inline void Elysium::Core::Template::Threading::Thread::Start(Elysium::Core::Template::Container::Function<void(*)(Args...)>&& ThreadStart, Args... Parameters)
@@ -233,18 +239,6 @@ namespace Elysium::Core::Template::Threading
 		_ThreadHandle = CreateThread(nullptr, 0,
 			&StartInternally<Elysium::Core::Template::Container::Function<L>, Args...>,
 			PackedParameters, 0, &_ThreadId);
-#endif
-	}
-
-	inline void Elysium::Core::Template::Threading::Thread::Join()
-	{
-#ifdef ELYSIUM_CORE_OS_WINDOWS
-		if (nullptr != _ThreadHandle)
-		{
-			//terminate();
-			bool SignalReceived = WaitForSingleObject(_ThreadHandle, INFINITE) == WAIT_OBJECT_0;
-			_ThreadHandle = nullptr;
-		}
 #endif
 	}
 

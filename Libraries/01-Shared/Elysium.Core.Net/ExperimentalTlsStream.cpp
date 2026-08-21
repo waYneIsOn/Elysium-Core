@@ -162,7 +162,7 @@ void Elysium::Core::Net::Security::ExperimentalTlsStream::WriteClientHello(const
 	// ToDo: FOR EACH extension: MessageSize += x;
 
 	// record layer
-	Elysium::Core::Container::VectorOfByte ProtocolVersion = BitConverter::GetBytes(static_cast<uint16_t>(Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls10));
+	Elysium::Core::Container::VectorOfByte ProtocolVersion = BitConverter::GetBytes(static_cast<uint16_t>(Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12));
 	Elysium::Core::Container::VectorOfByte UpcomingLength = BitConverter::GetBytes(static_cast<uint16_t>(HandshakeSize + 4));	// additional 1 byte handshake type, 3 bytes length of data to follow
 	if (BitConverter::GetIsLittleEndian())
 	{

@@ -247,7 +247,7 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 			if (CertSerializeCertificateStoreElement(_CertificateContext, 0, nullptr, &ByteLength))
 			{
 				// serialize the certificate context's encoded certificate and its properties.
-				Elysium::Core::Container::VectorOfByte RawData = Elysium::Core::Container::VectorOfByte(ByteLength);
+				Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> RawData(ByteLength);
 				if (CertSerializeCertificateStoreElement(_CertificateContext, 0, &RawData[0], &ByteLength))
 				{
 					// I don't care for the encoded certificate but only it's properties here
@@ -282,14 +282,14 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 		}
 	public:
 		inline static constexpr X509Certificate LoadFromBlob(const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& RawData,
-			const Elysium::Core::Utf8String& Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags = 
+			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags = 
 			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
 		{
 			return LoadFromBlob(&RawData[0], RawData.GetLength(), Password, Flags);
 		}
 
 		inline static constexpr X509Certificate LoadFromBlob(const Elysium::Core::Template::System::byte* RawData, const Elysium::Core::Template::System::size DataLength,
-			const Elysium::Core::Utf8String& Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
+			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
 			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
 		{
 			PCCERT_CONTEXT CertificateContext = nullptr;
@@ -342,7 +342,7 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 		}
 
 		inline static constexpr X509Certificate LoadFromFile(const char8_t* FileName,
-			const Elysium::Core::Utf8String& Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
+			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
 			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
 		{
 			Elysium::Core::Template::IO::Device::FileDevice Source(FileName, Elysium::Core::Template::IO::FileMode::Open, Elysium::Core::Template::IO::FileAccess::Read);

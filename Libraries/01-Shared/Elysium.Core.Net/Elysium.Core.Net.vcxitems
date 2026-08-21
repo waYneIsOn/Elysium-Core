@@ -30,7 +30,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)TlsStream.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)AcceptAsyncResult.cpp" />
@@ -40,8 +39,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SendReceiveAsyncResult.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Socket.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TlsClientAuthenticationOptions.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExperimentalTlsStream.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)TlsStream.cpp" />
   </ItemGroup>
 </Project>
