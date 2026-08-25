@@ -106,7 +106,7 @@ namespace Elysium::Core::Template::Net
 			{
 				// @ToDo: GetLastError() appears to be the wrong method here.
 				// I should probably use gai_strerror() or gai_strerrorW() - need to check!
-				throw;
+				throw 1;
 			}
 
 			Elysium::Core::Template::System::size ResultLength = 0;
@@ -124,7 +124,7 @@ namespace Elysium::Core::Template::Net
 				case AF_UNSPEC:
 				{
 					// @ToDo: inspect to select corresponding struct
-					throw;
+					throw 1;
 				}
 					break;
 				case AF_INET:
@@ -145,21 +145,21 @@ namespace Elysium::Core::Template::Net
 				{
 					// @ToDo
 					//const SOCKADDR_IPX* Address = reinterpret_cast<SOCKADDR_IPX*>(AddressInfo->ai_addr);
-					throw;
+					throw 1;
 				}
 					break;
 				case AF_NETBIOS:
 				{
 					// @ToDo
 					//const SOCKADDR_NB* Address = reinterpret_cast<SOCKADDR_NB*>(AddressInfo->ai_addr);
-					throw;
+					throw 1;
 				}
 					break;
 				case AF_ATM:
 				{
 					// @ToDo
 					//const sockaddr_atm* Address = reinterpret_cast<sockaddr_atm*>(AddressInfo->ai_addr);
-					throw;
+					throw 1;
 				}
 					break;
 				case AF_INET6:
@@ -180,14 +180,14 @@ namespace Elysium::Core::Template::Net
 				{
 					// @ToDo
 					//const SOCKADDR_BTH* Address = reinterpret_cast<SOCKADDR_BTH*>(AddressInfo->ai_addr);
-					throw;
+					throw 1;
 				}
 					break;
 				case AF_HYPERV:
 				{
 					// @ToDo
 					//const SOCKADDR_HV* Address = reinterpret_cast<SOCKADDR_HV*>(AddressInfo->ai_addr);
-					throw;
+					throw 1;
 				}
 					break;
 				default:

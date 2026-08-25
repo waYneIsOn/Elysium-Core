@@ -16,6 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Container/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_NOTIMPLEMENTEDEXCEPTION
+#include "../../../Exceptions/NotImplementedException.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_SYSTEMEXCEPTION
+#include "../../../Exceptions/SystemException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_OPENFLAGS
 #include "OpenFlags.hpp"
 #endif
@@ -30,6 +38,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATE
 #include "X509Certificate.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_COMPILATIONSETTINGS
+#include "../../../System/CompilationSettings.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
@@ -103,9 +115,7 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 				StoreLocation = CERT_SYSTEM_STORE_LOCAL_MACHINE;
 				break;
 			default:
-				// @ToDo
-				throw;
-				//throw NotImplementedException(u8"Unhandled StoreLocation");
+				throw Elysium::Core::Template::Exceptions::NotImplementedException(u8"Unhandled StoreLocation");
 			}
 
 			const wchar_t* StoreName;
@@ -136,22 +146,35 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 				StoreName = L"TRUSTEDPUBLISHER";
 				break;
 			default:
-				// @ToDo
-				throw;
-				//throw NotImplementedException(u8"Unhandled StoreName");
+				throw Elysium::Core::Template::Exceptions::NotImplementedException(u8"Unhandled StoreName");
 			}
 
 			if ((_NativeCertificateStore = CertOpenStore(CERT_STORE_PROV_SYSTEM, X509_ASN_ENCODING | PKCS_7_ASN_ENCODING, NULL, StoreLocation, &StoreName[0])) == nullptr)
 			{
-				// ToDo: throw specific exception
-				throw GetLastError();
+				throw Elysium::Core::Template::Exceptions::SystemException();
 			}
 			else
 			{
 				PCCERT_CONTEXT CertificateContextPointer = nullptr;
 				while (CertificateContextPointer = CertEnumCertificatesInStore(_NativeCertificateStore, CertificateContextPointer))
 				{
+#if defined ELYSIUM_CORE_USE_CUSTOM_IMPLEMENTATION_X509CERTIFICATE
+					DWORD ByteLength = 0;
+					if (FALSE == CertSerializeCertificateStoreElement(CertificateContextPointer, 0, nullptr, &ByteLength))
+					{
+						throw Elysium::Core::Template::Exceptions::SystemException();
+					}
+
+					Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> RawData(ByteLength);
+					if (FALSE == CertSerializeCertificateStoreElement(CertificateContextPointer, 0, &RawData[0], &ByteLength))
+					{
+						throw Elysium::Core::Template::Exceptions::SystemException();
+					}
+
+					_CertificateCollection.PushBack(X509Certificate(Elysium::Core::Template::Functional::Move(RawData)));
+#else
 					_CertificateCollection.PushBack(X509Certificate(CertificateContextPointer));
+#endif
 				}
 				CertFreeCertificateContext(CertificateContextPointer);
 			}
@@ -163,6 +186,8 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate> _CertificateCollection;
 		HCERTSTORE _NativeCertificateStore;
 	};
+#else
+
 #endif
 }
 #endif

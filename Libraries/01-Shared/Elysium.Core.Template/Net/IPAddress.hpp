@@ -16,6 +16,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Container/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_REVERSE
+#include "../Functional/Reverse.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_MEMCPY
 #include "../Memory/MemCpy.hpp"
 #endif
@@ -148,7 +152,8 @@ namespace Elysium::Core::Template::Net
 			const Elysium::Core::Template::System::uint8_t IpPart4 = 
 				Elysium::Core::Template::Text::Convert<char8_t>::ToUInt8(&Value[StartIndexIpPart], EndIndexIpPart - StartIndexIpPart, 10);
 
-			return IPAddress(Elysium::Core::Template::Net::Sockets::AddressFamily::Unspecified, (IpPart1 << 24) + (IpPart2 << 16) + (IpPart3 << 8) + IpPart4);
+			// Reverse host order into network order right away.
+			return IPAddress(Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetwork, (IpPart4 << 24) + (IpPart3 << 16) + (IpPart2 << 8) + IpPart1);
 		}
 	private:
 		Elysium::Core::Template::Net::Sockets::AddressFamily _Family;

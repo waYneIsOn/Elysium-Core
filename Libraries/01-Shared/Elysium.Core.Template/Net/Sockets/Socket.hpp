@@ -484,7 +484,8 @@ namespace Elysium::Core::Template::Net::Sockets
 			const int Result = shutdown(_SocketHandle, static_cast<int>(Value));
 			if (SOCKET_ERROR == Result)
 			{
-				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException();
+				int ErrorCode = WSAGetLastError();
+				throw Elysium::Core::Template::Exceptions::Net::Sockets::SocketException(ErrorCode);
 			}
 		}
 

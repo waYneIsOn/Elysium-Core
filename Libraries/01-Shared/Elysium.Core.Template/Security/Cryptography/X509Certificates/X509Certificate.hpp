@@ -64,48 +64,124 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Text/Unicode/Utf16.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef _WINDOWS_
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#if defined ELYSIUM_CORE_USE_CUSTOM_IMPLEMENTATION_X509CERTIFICATE
+	#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_BERDECODER
+	#include "../Encoding/Asn1/BERDecoder.hpp"
+	#endif
+
+	#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_ASN1_VALIDATION_DERVALIDATOR
+	#include "../Encoding/Asn1/Validation/DERValidator.hpp"
+	#endif
+#elif defined ELYSIUM_CORE_OS_WINDOWS
+	#ifndef _WINDOWS_
+	#define WIN32_LEAN_AND_MEAN
+	#include <windows.h>
+	#endif
+
+	#ifndef __NCRYPT_H__
+	#include <ncrypt.h>
+	#endif
+
+	#ifndef __WINCRYPT_H__
+	#include <wincrypt.h>
+	#endif
+
+	#pragma comment(lib, "Advapi32.lib")
+	#pragma comment(lib, "Crypt32.Lib")
+	#pragma comment(lib, "Ncrypt.Lib")
 #endif
 
-#ifndef __NCRYPT_H__
-#include <ncrypt.h>
-#endif
-
-#ifndef __WINCRYPT_H__
-#include <wincrypt.h>
-#endif
-
-#pragma comment(lib, "Advapi32.lib")
-#pragma comment(lib, "Crypt32.Lib")
-#pragma comment(lib, "Ncrypt.Lib")
-#endif
-
-
-
-// @ToDo: remove asap
-namespace Elysium::Core::Net::Security
+namespace Elysium::Core::Template::Net::Security
 {
-	class TlsStream;
+	template <class InnerSink, class InnerSource>
+	class TlsSession;
 }
-
 
 namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 {
-#if defined ELYSIUM_CORE_USEEXPERIMENTALIMPLEMENTATION_X509CERTIFICATE
-	/*
+#if defined ELYSIUM_CORE_USE_CUSTOM_IMPLEMENTATION_X509CERTIFICATE
 	class X509Certificate
 	{
 	public:
+		friend class X509Chain;
+		friend class X509Store;
+		friend class Elysium::Core::Template::Container::Vector<X509Certificate>;
 
-	public:
-
+		template <class InnerSink, class InnerSource>
+		friend class Elysium::Core::Template::Net::Security::TlsSession;
 	private:
+		constexpr X509Certificate() = default;
 
+		inline constexpr X509Certificate(Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>&& RawData)
+			: _RawData(Elysium::Core::Template::Functional::Move(RawData))
+		{ }
+	public:
+		constexpr X509Certificate(const X509Certificate& Source) = default;
+
+		constexpr X509Certificate(X509Certificate&& Right) noexcept = default;
+
+		constexpr ~X509Certificate() = default;
+	public:
+		constexpr X509Certificate& operator=(const X509Certificate& Source) = default;
+
+		constexpr X509Certificate& operator=(X509Certificate&& Right) noexcept = default;
+	public:
+		inline constexpr const bool operator==(const X509Certificate& Other) const
+		{
+			if (this == &Other)
+			{
+				return true;
+			}
+
+			throw;
+		}
+	public:
+		inline constexpr const Elysium::Core::Template::Text::String<char8_t> GetIssuer() const
+		{
+			throw 1;
+		}
+
+		inline constexpr const Elysium::Core::Template::Text::String<char8_t> GetSubject() const
+		{
+			throw 1;
+		}
+
+		inline constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> GetRawCertData() const
+		{
+			throw 1;
+		}
+	public:
+		inline Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> Export(
+			const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType ContentType, const Elysium::Core::Template::Text::StringView<char8_t>* Password)
+		{
+			if (ContentType != Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType::Cert &&
+				ContentType != Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType::SerializedCert &&
+				ContentType != Elysium::Core::Template::Security::Cryptography::X509Certificates::X509ContentType::Pkcs12)
+			{	// @ToDo: message
+				throw Elysium::Core::Template::Exceptions::Security::Cryptography::CryptographicException(u8"");
+			}
+
+			// @ToDo
+			throw 1;
+		}
+	public:
+		inline static constexpr X509Certificate LoadFromBlob(const Elysium::Core::Template::System::byte* RawData, const Elysium::Core::Template::System::size DataLength,
+			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
+			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
+		{
+			throw 1;
+		}
+
+		inline static constexpr X509Certificate LoadFromFile(const char8_t* FileName,
+			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
+			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
+		{
+			throw 1;
+		}
+	private:
+		Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::BERDecoder<Elysium::Core::Template::Security::Cryptography::Encoding::Asn1::Validation::DERValidator> _DERDecoder{};
+		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte> _RawData{};
 	};
-	*/
 #elif defined ELYSIUM_CORE_OS_WINDOWS
 	class X509Certificate
 	{
@@ -113,7 +189,8 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 		friend class X509Chain;
 		friend class Elysium::Core::Template::Container::Vector<X509Certificate>;
 
-		friend class Elysium::Core::Net::Security::TlsStream;
+		template <class InnerSink, class InnerSource>
+		friend class Elysium::Core::Template::Net::Security::TlsSession;
 	private:
 		inline constexpr X509Certificate()
 			: _CertificateContext{}, _OwnsPrivateKeyHandle{}, _PrivateKeyHandle{}, _KeySpecifications(-1)
@@ -281,13 +358,6 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 			throw;
 		}
 	public:
-		inline static constexpr X509Certificate LoadFromBlob(const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::System::byte>& RawData,
-			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags = 
-			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
-		{
-			return LoadFromBlob(&RawData[0], RawData.GetLength(), Password, Flags);
-		}
-
 		inline static constexpr X509Certificate LoadFromBlob(const Elysium::Core::Template::System::byte* RawData, const Elysium::Core::Template::System::size DataLength,
 			const Elysium::Core::Template::Text::StringView<char8_t> Password = u8"", const Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags Flags =
 			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509KeyStorageFlags::All)
@@ -380,7 +450,7 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 				throw Exception;
 			}
 
-			return LoadFromBlob(Buffer, Password, Flags);
+			return LoadFromBlob(&Buffer[0], Buffer.GetLength(), Password, Flags);
 		}
 	private:
 		inline HCRYPTPROV_OR_NCRYPT_KEY_HANDLE CopyPrivateKeyHandle(const X509Certificate& Source)
@@ -441,6 +511,8 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 		HCRYPTPROV_OR_NCRYPT_KEY_HANDLE _PrivateKeyHandle;
 		DWORD _KeySpecifications;
 	};
+#else
+
 #endif
 }
 #endif

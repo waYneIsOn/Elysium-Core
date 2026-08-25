@@ -152,7 +152,7 @@ namespace UnitTests::Core::Security::Cryptography
 				0x74, 0xc6, 0x5c, 0x35, 0x8c, 0x70, 0x1f, 0xf9,		0xb2, 0xb7, 0x92, 0x27, 0x20, 0xc7, 0x94, 0xd5,
 				0x67, 0x14, 0x30 });
 
-			X509Certificate Certificate = X509Certificate::LoadFromBlob(RawDataArray);
+			X509Certificate Certificate = X509Certificate::LoadFromBlob(&RawDataArray[0], RawDataArray.GetLength());
 			AssertExtended::AreEqual(u8"C=US, S=UT, L=Salt Lake City, O=The USERTRUST Network, OU=http://www.usertrust.com, CN=UTN-USERFirst-Hardware", &Certificate.GetIssuer()[0]);
 			AssertExtended::AreEqual(u8"C=US, PostalCode=38477, S=Florida, L=English, STREET=Sea Village 10, O=Google Ltd., OU=Tech Dept., OU=Hosted by GTI Group Corporation, OU=PlatinumSSL, CN=login.yahoo.com", &Certificate.GetSubject()[0]);
 		}

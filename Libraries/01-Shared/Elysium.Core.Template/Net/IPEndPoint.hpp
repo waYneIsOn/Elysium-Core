@@ -80,6 +80,8 @@ namespace Elysium::Core::Template::Net
 #if defined ELYSIUM_CORE_OS_WINDOWS
 		inline sockaddr_storage Serialize(socklen_t& Length) const
 		{
+			const Elysium::Core::Template::System::byte* AddressBytes = _Address.GetAddress();
+
 			sockaddr_storage Result{};
 			switch (_Address.GetAddressFamily())
 			{
@@ -88,25 +90,25 @@ namespace Elysium::Core::Template::Net
 				sockaddr_in* NativeAddress = reinterpret_cast<sockaddr_in*>(&Result);
 				NativeAddress->sin_family = AF_INET;
 				NativeAddress->sin_port = htons(_Port);
-				Elysium::Core::Template::Memory::MemCpy(&NativeAddress->sin_addr, _Address.GetAddress(), sizeof(NativeAddress->sin_addr));
+				Elysium::Core::Template::Memory::MemCpy(&NativeAddress->sin_addr, AddressBytes, sizeof(NativeAddress->sin_addr));
 
 				Length = sizeof(sockaddr_in);
 			}
-			break;
+				break;
 			case Elysium::Core::Template::Net::Sockets::AddressFamily::InterNetworkV6:
 			{
 				sockaddr_in6* NativeAddress = reinterpret_cast<sockaddr_in6*>(&Result);
 				NativeAddress->sin6_family = AF_INET6;
 				NativeAddress->sin6_port = htons(_Port);
-				Elysium::Core::Template::Memory::MemCpy(&NativeAddress->sin6_addr, _Address.GetAddress(), sizeof(NativeAddress->sin6_addr));
+				Elysium::Core::Template::Memory::MemCpy(&NativeAddress->sin6_addr, AddressBytes, sizeof(NativeAddress->sin6_addr));
 				//NativeAddress->sin6_scope_id = scope_id_;
 
 				Length = sizeof(sockaddr_in6);
 			}
-			break;
+				break;
 			default:
 				// @ToDo
-				throw;
+				throw 1;
 			}
 
 			return Result;

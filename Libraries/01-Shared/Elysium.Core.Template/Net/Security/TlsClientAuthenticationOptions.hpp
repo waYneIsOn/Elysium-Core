@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Security/Cryptography/X509Certificates/X509Certificate.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CHAIN
+#include "../../Security/Cryptography/X509Certificates/X509Chain.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "../../System/OperatingSystem.hpp"
 #endif
