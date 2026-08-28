@@ -1254,6 +1254,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsClientAuthenticationOptions.hpp">
       <Filter>Net\Security</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\NamedPipeDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\AnonymousPipeDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SharedMemoryDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.Windows.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResultDetailsBytesTransferred.hpp">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

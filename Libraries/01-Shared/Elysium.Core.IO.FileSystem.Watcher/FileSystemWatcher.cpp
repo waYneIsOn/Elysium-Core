@@ -247,7 +247,7 @@ const bool Elysium::Core::IO::FileSystemWatcher::IsInterested(const char8_t* Rel
 
 void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult)
 {
-	IAsyncResult* RawAsyncResult = AsyncResult.GetUnderlyingPointer();
+	IAsyncResult* RawAsyncResult = static_cast<IAsyncResult*>(AsyncResult);
 	if (RawAsyncResult == nullptr)
 	{	// This should probably only happen if EndInit() has been called.
 		return;

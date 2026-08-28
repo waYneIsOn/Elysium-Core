@@ -37,10 +37,12 @@ namespace Elysium::Core::Template::Memory
 	{
 	public:
 		using Pointer = Elysium::Core::Template::Functional::RemoveReferenceType<T>*;
+
+		using ConstPointer = const Pointer;
 	public:
 		constexpr ObserverPointer() noexcept = default;
 		
-		constexpr ObserverPointer(Pointer Data) noexcept
+		inline constexpr ObserverPointer(Pointer Data) noexcept
 			: _Data(Data)
 		{ }
 
@@ -54,14 +56,20 @@ namespace Elysium::Core::Template::Memory
 
 		constexpr ObserverPointer<T>& operator=(ObserverPointer&& Right) noexcept = default;
 	public:
-		//constexpr ObserverPointer<T>::Pointer operator->() const noexcept;
-	public:
-		constexpr ObserverPointer<T>::Pointer GetUnderlyingPointer() const noexcept
+		inline ObserverPointer<T>::Pointer operator->() noexcept
 		{
 			return _Data;
 		}
 
-		//constexpr ObserverPointer<T>::Pointer Release() noexcept;
+		inline constexpr ObserverPointer<T>::ConstPointer operator->() const noexcept
+		{
+			return _Data;
+		}
+	public:
+		inline explicit operator ObserverPointer<T>::Pointer()
+		{
+			return _Data;
+		}
 	private:
 		Pointer _Data;
 	};

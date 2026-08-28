@@ -3,6 +3,7 @@
 
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security/TlsSession.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/FileDevice.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Device/MemoryDevice.hpp"
@@ -30,6 +31,8 @@ namespace UnitTests::Core::Template::IO
 	TEST_CLASS(CompositionalStreamTests)
 	{
 		using MemoryStream = InOutStream<MemorySink, MemorySource, DeviceResourceShared>;
+
+		using InFileStream = InStream<FileSource>;
 		using FileStream = InOutStream<FileSink, FileSource, DeviceResourceShared>;
 
 		using TlsStream = InOutStream<TlsSink<SocketSink, TlsSession<SocketSink, SocketSource>>, TlsSource<SocketSource, TlsSession<SocketSink, SocketSource>>, TlsCoupled>;
@@ -126,26 +129,25 @@ namespace UnitTests::Core::Template::IO
 			}
 		}
 
-		TEST_METHOD(IOCPFileStreamTest)
+		TEST_METHOD(FileDeviceIOCPTests)
 		{
-			FileDevice Device(u8"UnitTests.Core.Template.IO.IOCPFileStreamTest.txt", FileMode::Create, FileAccess::Read | FileAccess::Write, FileShare::ReadWrite);
-			FileSink Sink(Device);
-			FileSource Source(Device);
+			FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read);
+			_ReadDevice = &SourceDevice;
 
-			FileStream Stream(Sink, Source);
+			FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write);
+			_WriteDevice = &TargetDevice;
 
+			const Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncReadResult = 
+				SourceDevice.BeginRead(&_Buffer[0], _BufferLength,
+					Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite>>::Bind<CompositionalStreamTests, &CompositionalStreamTests::FileDevice_OnRead>(*this), 
+					nullptr);
+			_WaitForDeviceFullFileCopy.WaitOne();
 
+			Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
+		}
 
-
-			constexpr const char* TempInput = "this is a text longer than what eventually is in the stream";
-			constexpr const Elysium::Core::Template::System::size TempInputLength = Elysium::Core::Template::Text::CharacterTraits<char>::GetLength(TempInput);
-
-			Device.BeginWrite(reinterpret_cast<const Elysium::Core::Template::System::byte*>(TempInput), TempInputLength);
-
-
-
-
-
+		TEST_METHOD(FileStreamIOCPTests)
+		{
 			Assert::Fail();
 		}
 
@@ -161,7 +163,6 @@ namespace UnitTests::Core::Template::IO
 	private:
 		// @ToDo: create a concept for Streams to use here!
 		// inline void WriteAndReadBack(Elysium::Core::Template::Concepts::Streamable auto& Stream)
-
 		template <class S>
 		inline void WriteAndReadBack(S& Stream, const bool FlushRequired)
 		{
@@ -218,5 +219,59 @@ namespace UnitTests::Core::Template::IO
 				Assert::AreEqual(&CombinedInput[0], &Output[0]);
 			}
 		}
+	private:
+		inline void FileDevice_OnRead(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncResult)
+		{
+			Elysium::Core::Template::IO::Device::FileDevice::AsyncResultDetailsReadWrite& Details = AsyncResult->GetDetails();
+			Elysium::Core::Template::IO::Device::FileDevice& Device = Details.GetDevice();
+			Device.EndRead(AsyncResult);
+
+			const Elysium::Core::Template::System::size BytesRead = Details.GetBytesTransferred();
+			if (0 == BytesRead)
+			{
+				_WaitForDeviceFullFileCopy.Set();
+				return;
+			}
+
+			Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncWriteResult =
+				_WriteDevice->BeginWrite(&_Buffer[0], BytesRead,
+					Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite>>::Bind<CompositionalStreamTests, &CompositionalStreamTests::FileDevice_OnWrite>(*this),
+					nullptr);
+			//AsyncWriteResult->GetAsyncWaitHandle().WaitOne();
+		}
+
+		inline void FileDevice_OnWrite(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncResult)
+		{
+			Elysium::Core::Template::IO::Device::FileDevice::AsyncResultDetailsReadWrite& Details = AsyncResult->GetDetails();
+			Elysium::Core::Template::IO::Device::FileDevice& Device = Details.GetDevice();
+			Device.EndWrite(AsyncResult);
+
+			const Elysium::Core::Template::System::size BytesWritten = Details.GetBytesTransferred();
+
+			Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncReadResult =
+				_ReadDevice->BeginRead(&_Buffer[0], _BufferLength,
+					Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite>>::Bind<CompositionalStreamTests, &CompositionalStreamTests::FileDevice_OnRead>(*this), 
+					nullptr);
+			//AsyncReadResult->GetAsyncWaitHandle().WaitOne();
+		}
+	private:
+		inline void FileSource_OnRead(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncResult)
+		{
+			bool sdf = false;
+		}
+
+		inline void FileSink_OnWrite(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncResult)
+		{
+			bool sdf = false;
+		}
+	private:
+		Elysium::Core::Template::IO::Device::FileDevice* _ReadDevice = nullptr;
+		Elysium::Core::Template::IO::Device::FileDevice* _WriteDevice = nullptr;
+
+		inline static constexpr const Elysium::Core::Template::System::size _BufferLength = 4096;
+		const Elysium::Core::Template::System::byte _Buffer[_BufferLength]{};
+		Elysium::Core::Template::Threading::ManualResetEvent _WaitForDeviceFullFileCopy{};
+	private:
+		Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> _Span{};
 	};
 }

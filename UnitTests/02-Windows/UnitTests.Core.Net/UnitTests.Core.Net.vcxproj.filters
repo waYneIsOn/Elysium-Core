@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TlsStreamTest.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="NetworkInterfaceTest.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>

@@ -44,6 +44,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Cryptography\CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.Windows.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResultDetailsBytesTransferred.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTable.hpp" />
@@ -61,8 +64,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\ZLib\ZLibHeader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Format\ZLib\ZLibState.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\KnownCompressionAlgorithm.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\AnonymousPipeDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\NamedPipeDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SharedMemoryDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SocketDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileMode.hpp" />

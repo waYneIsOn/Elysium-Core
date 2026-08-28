@@ -126,6 +126,12 @@ namespace Elysium::Core::Template::Net::Security
 			const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12,
 			const bool CheckCertficateRevocation = true)
 		{
+			WriteClientHello(EnabledTlsProtocols);
+			ReadServerHello();
+			ReadServerCertificates();
+			ReadServerKeyExchange();
+			ReadServerHelloDone();
+
 			throw 1;
 		}
 		
@@ -156,6 +162,34 @@ namespace Elysium::Core::Template::Net::Security
 			throw 1;
 		}
 	private:
+		inline void WriteClientHello(const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols)
+		{	
+			// https://tls12.xargs.org/
+			// https://tls13.xargs.org/
+			// https://github.com/waYneIsOn/Elysium-Core/blob/4c62241b489e093f5786d2d320e0470a58a118d1/Libraries/01-Shared/Elysium.Core.Net/ExperimentalTlsStream.cpp#L143
+
+		}
+
+		inline void ReadServerHello()
+		{
+
+		}
+
+		inline void ReadServerCertificates()
+		{
+
+		}
+
+		inline void ReadServerKeyExchange()
+		{
+
+		}
+
+		inline void ReadServerHelloDone()
+		{
+
+		}
+	private:
 		InnerSink& _InnerSink;
 		InnerSource& _InnerSource;
 	};
@@ -173,7 +207,6 @@ namespace Elysium::Core::Template::Net::Security
 	public:
 		inline constexpr TlsSession(InnerSink& Sink, InnerSource& Source)
 			: _InnerSink(Sink), _InnerSource(Source),
-			_TargetHost{}, _TlsProtocols{},
 			_CredentialHandle{}, _CredentialHandleValid(false), _ContextHandle{}, _StreamSizes{},
 			_InBuffer(16384), _OutBuffer(16384), _UncompressedOutBuffer(2048)
 		{
@@ -202,12 +235,11 @@ namespace Elysium::Core::Template::Net::Security
 			const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols = Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12,
 			const bool CheckCertficateRevocation = true)
 		{
-			// @ToDo: validate input! (_TargetHost)
-			_TargetHost = static_cast<Elysium::Core::Template::Text::String<char8_t>>(TargetHost);
-			_TlsProtocols = EnabledTlsProtocols;
+			// @ToDo: validate input! (TargetHost)
+			Elysium::Core::Template::Text::String<wchar_t> TargetHostUTF16LE = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&TargetHost[0], TargetHost.GetLength());
 
-			AcquireClientCredentials();
-			PerformClientHandshake(nullptr);
+			AcquireClientCredentials(EnabledTlsProtocols);
+			PerformClientHandshake(TargetHostUTF16LE, nullptr);
 			QueryStreamSizes();
 			ValidateServerCertificate();
 		}
@@ -216,9 +248,7 @@ namespace Elysium::Core::Template::Net::Security
 			const bool ClientCertificateRequired, const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols,
 			const bool CheckCertficateRevocation)
 		{
-			_TlsProtocols = EnabledTlsProtocols;
-
-			AcquireServerCredentials(&ServerCertificate._CertificateContext);
+			AcquireServerCredentials(EnabledTlsProtocols, &ServerCertificate._CertificateContext);
 			PerformServerHandshake(nullptr);
 			QueryStreamSizes();
 		}
@@ -391,10 +421,10 @@ namespace Elysium::Core::Template::Net::Security
 			}
 		}
 	private:
-		inline void AcquireClientCredentials()
+		inline void AcquireClientCredentials(const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols)
 		{
 			TLS_PARAMETERS TlsParameters{};
-			switch (_TlsProtocols)
+			switch (EnabledTlsProtocols)
 			{
 			case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12:
 				TlsParameters.grbitDisabledProtocols = SP_PROT_TLS1_0_CLIENT | SP_PROT_TLS1_1_CLIENT;
@@ -428,10 +458,8 @@ namespace Elysium::Core::Template::Net::Security
 			_CredentialHandleValid = true;
 		}
 
-		inline void PerformClientHandshake(SecBuffer* RenegotiationBuffer)
+		inline void PerformClientHandshake(Elysium::Core::Template::Text::String<wchar_t>& TargetHost, SecBuffer* RenegotiationBuffer)
 		{
-			Elysium::Core::Template::Text::String<wchar_t> TargetHostUTF16LE = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(&_TargetHost[0], _TargetHost.GetLength());
-
 			// create schannel security context
 			SecBuffer OutputBuffers[2]{};
 			SecBufferDesc OutputBufferDescriptor{};
@@ -485,7 +513,7 @@ namespace Elysium::Core::Template::Net::Security
 					InputBuffers[1].cbBuffer = 0;
 				}
 
-				Status = InitializeSecurityContextW(&_CredentialHandle, !ContextEstablished && nullptr == RenegotiationBuffer ? nullptr : &_ContextHandle, &TargetHostUTF16LE[0],
+				Status = InitializeSecurityContextW(&_CredentialHandle, !ContextEstablished && nullptr == RenegotiationBuffer ? nullptr : &_ContextHandle, &TargetHost[0],
 					RequiredContext, 0, SECURITY_NATIVE_DREP, !ContextEstablished ? nullptr : &InputBuffersDesc, !ContextEstablished ? 0 : InputBuffersDesc.cBuffers, &_ContextHandle,
 					&OutputBufferDescriptor, &ContextAttributes, &Lifetime);
 				ContextEstablished = 0 != _ContextHandle.dwUpper || 0 != _ContextHandle.dwLower;
@@ -596,10 +624,10 @@ namespace Elysium::Core::Template::Net::Security
 			CertFreeCertificateContext(ServerCertificate);
 		}
 	private:
-		inline void AcquireServerCredentials(const PCCERT_CONTEXT* NativeServerCertificate)
+		inline void AcquireServerCredentials(const Elysium::Core::Template::Security::Authentication::TlsProtocols EnabledTlsProtocols, const PCCERT_CONTEXT* NativeServerCertificate)
 		{
 			TLS_PARAMETERS TlsParameters{};
-			switch (_TlsProtocols)
+			switch (EnabledTlsProtocols)
 			{
 			case Elysium::Core::Template::Security::Authentication::TlsProtocols::Tls12:
 				TlsParameters.grbitDisabledProtocols = SP_PROT_TLS1_0_SERVER | SP_PROT_TLS1_1_SERVER;
@@ -750,7 +778,6 @@ namespace Elysium::Core::Template::Net::Security
 			}
 		}
 	private:
-
 		inline void SendOutputToken(SecBufferDesc& OutputBufferDescriptor)
 		{
 			for (unsigned long i = 0; i < OutputBufferDescriptor.cBuffers; ++i)
@@ -849,9 +876,6 @@ namespace Elysium::Core::Template::Net::Security
 	private:
 		InnerSink& _InnerSink;
 		InnerSource& _InnerSource;
-
-		Elysium::Core::Template::Text::String<char8_t> _TargetHost;
-		Elysium::Core::Template::Security::Authentication::TlsProtocols _TlsProtocols;
 
 		CredHandle _CredentialHandle;
 		bool _CredentialHandleValid;

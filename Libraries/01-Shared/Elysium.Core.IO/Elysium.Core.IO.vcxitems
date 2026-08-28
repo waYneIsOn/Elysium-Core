@@ -17,8 +17,6 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)BinaryReader.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionLevel.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)CompressionMode.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Directory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EndOfStreamException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)File.hpp" />
@@ -29,7 +27,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)HandleInheritability.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IOException.hpp" />
@@ -54,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)BinaryReader.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Directory.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.IO.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)EndOfStreamException.cpp" />
@@ -62,7 +58,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FileNotFoundException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStreamAysncResult.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IOException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />

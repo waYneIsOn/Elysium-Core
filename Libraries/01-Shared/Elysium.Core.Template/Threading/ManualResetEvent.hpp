@@ -37,7 +37,9 @@ namespace Elysium::Core::Template::Threading
 		: public EventWaitHandle
 	{
 	public:
-		constexpr ManualResetEvent(const bool InitialState);
+		inline constexpr ManualResetEvent(const bool InitialState = false)
+			: EventWaitHandle(false, InitialState, nullptr)
+		{ }
 
 		constexpr ManualResetEvent(const ManualResetEvent& Source) = delete;
 
@@ -49,9 +51,5 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr ManualResetEvent& operator=(ManualResetEvent&& Right) noexcept = delete;
 	};
-
-	inline constexpr Elysium::Core::Template::Threading::ManualResetEvent::ManualResetEvent(const bool InitialState)
-		: EventWaitHandle(false, InitialState, nullptr)
-	{ }
 }
 #endif

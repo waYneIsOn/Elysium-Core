@@ -4,13 +4,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)FileStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MemoryStream.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Stream.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)GZipStream.cpp">
-      <Filter>Compression</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)InvalidDataException.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)DeflateStream.cpp">
-      <Filter>Compression</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TextWriter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)StreamWriter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TextReader.cpp" />
@@ -45,16 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CompressionLevel.hpp">
       <Filter>Compression</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CompressionMode.hpp">
-      <Filter>Compression</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GZipStream.hpp">
-      <Filter>Compression</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)InvalidDataException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)DeflateStream.hpp">
-      <Filter>Compression</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TextWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StreamWriter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TextReader.hpp" />
@@ -100,9 +85,6 @@
     </Filter>
     <Filter Include="Compression\Zip">
       <UniqueIdentifier>{6c00c19e-6c25-4d11-9049-9b429213f359}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Internal">
-      <UniqueIdentifier>{bfabb72e-0a80-4a0f-8abb-3a379735c003}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

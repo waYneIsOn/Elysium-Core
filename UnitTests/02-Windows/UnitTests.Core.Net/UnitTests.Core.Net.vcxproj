@@ -176,7 +176,6 @@
     <ClCompile Include="NetworkInterfaceTest.cpp" />
     <ClCompile Include="BlockingSocketTest.cpp" />
     <ClCompile Include="NonBlockingSocketTest.cpp" />
-    <ClCompile Include="TlsStreamTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\02-Windows\Elysium.Core.Net\Elysium.Core.Net.vcxproj">
