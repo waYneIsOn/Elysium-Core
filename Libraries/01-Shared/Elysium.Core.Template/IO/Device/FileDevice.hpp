@@ -289,12 +289,14 @@ namespace Elysium::Core::Template::IO::Device
 
 					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
 				}
+
+				AsyncResult->_HasCompletedSynchronously = true;
 			}
 
 			return AsyncResult;
 		}
 	
-		inline void EndWrite(Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> AsyncResult)
+		inline Elysium::Core::Template::System::size EndWrite(Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> AsyncResult)
 		{
 			Elysium::Core::Template::Threading::ManualResetEvent& WaitHandle = AsyncResult->_OperationDoneEvent;
 
@@ -309,6 +311,8 @@ namespace Elysium::Core::Template::IO::Device
 			FileDevice._Position += Details._BytesTransferred;
 
 			WaitHandle.Set();
+
+			return Details._BytesTransferred;
 		}
 	public:
 		inline const Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> BeginRead(const Elysium::Core::Template::System::byte* Buffer,
@@ -336,12 +340,14 @@ namespace Elysium::Core::Template::IO::Device
 
 					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
 				}
+
+				AsyncResult->_HasCompletedSynchronously = true;
 			}
 
 			return AsyncResult;
 		}
 
-		inline void EndRead(Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> AsyncResult)
+		inline Elysium::Core::Template::System::size EndRead(Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> AsyncResult)
 		{
 			Elysium::Core::Template::Threading::ManualResetEvent& WaitHandle = AsyncResult->_OperationDoneEvent;
 
@@ -356,6 +362,8 @@ namespace Elysium::Core::Template::IO::Device
 			FileDevice._Position += Details._BytesTransferred;
 
 			WaitHandle.Set();
+
+			return Details._BytesTransferred;
 		}
 	private:
 		inline Elysium::Core::Template::Text::String<char8_t> GetFQFN(const char8_t* Path)
@@ -418,14 +426,21 @@ namespace Elysium::Core::Template::IO::Device
 			{	// @ToDo
 				// cannot simply "invoke" CallError! if the exception was thrown inside it's handler, this will result in an infinite loop!
 				// just log the error somehow?
-				// maybe use something like std::exception_prt?
-				bool bla = false;
+				// maybe use something like std::exception_ptr with std::current_exception? (callback caused the issue, "no one" can catch it though!)
+				// std::terminate?
+
+				// ...
+				AsyncFileStreamResult->_OperationDoneEvent.Set();
+				delete AsyncFileStreamResult;
+
+				// There is no higher-level catch in the executing thread-pool thread so this would probably result in a process termination
+				// (depending on how win32 handles uncaught exceptions in this scenario).
+				// That isn't inherently undesireable or bad design but I really need to think about this!
+				throw;
 			}
 
 			// ...
 			AsyncFileStreamResult->_OperationDoneEvent.Set();
-
-			// ...
 			delete AsyncFileStreamResult;
 		}
 	private:

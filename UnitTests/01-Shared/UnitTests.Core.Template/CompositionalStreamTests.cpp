@@ -224,9 +224,8 @@ namespace UnitTests::Core::Template::IO
 		{
 			Elysium::Core::Template::IO::Device::FileDevice::AsyncResultDetailsReadWrite& Details = AsyncResult->GetDetails();
 			Elysium::Core::Template::IO::Device::FileDevice& Device = Details.GetDevice();
-			Device.EndRead(AsyncResult);
+			const Elysium::Core::Template::System::size BytesRead = Device.EndRead(AsyncResult);
 
-			const Elysium::Core::Template::System::size BytesRead = Details.GetBytesTransferred();
 			if (0 == BytesRead)
 			{
 				_WaitForDeviceFullFileCopy.Set();
@@ -244,9 +243,7 @@ namespace UnitTests::Core::Template::IO
 		{
 			Elysium::Core::Template::IO::Device::FileDevice::AsyncResultDetailsReadWrite& Details = AsyncResult->GetDetails();
 			Elysium::Core::Template::IO::Device::FileDevice& Device = Details.GetDevice();
-			Device.EndWrite(AsyncResult);
-
-			const Elysium::Core::Template::System::size BytesWritten = Details.GetBytesTransferred();
+			const Elysium::Core::Template::System::size BytesWritten = Device.EndWrite(AsyncResult);
 
 			Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncReadResult =
 				_ReadDevice->BeginRead(&_Buffer[0], _BufferLength,

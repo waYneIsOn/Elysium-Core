@@ -60,7 +60,7 @@ namespace Elysium::Core::Template::IO
 
 		inline constexpr AsyncResult(const Elysium::Core::Template::System::size Position, 
 			const Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<AsyncResult<AsyncResultDetails>>>& Callback, AsyncResultDetails Details)
-			: _Overlapped{}, _ErrorCode{}, _OperationDoneEvent{}, _Callback(Callback), _Details(Details)
+			: _Overlapped{}, _HasCompletedSynchronously{}, _ErrorCode{}, _OperationDoneEvent{}, _Callback(Callback), _Details(Details)
 		{
 			_Overlapped.Offset = static_cast<DWORD>(Position);
 			_Overlapped.OffsetHigh = static_cast<DWORD>(Position >> 32);
@@ -76,6 +76,11 @@ namespace Elysium::Core::Template::IO
 
 		constexpr AsyncResult& operator=(AsyncResult&& Right) noexcept = delete;
 	public:
+		inline const bool GetHasCompletedSynchronously() const noexcept
+		{
+			return _HasCompletedSynchronously;
+		}
+
 		inline const Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept
 		{
 			return _ErrorCode;
@@ -100,6 +105,7 @@ namespace Elysium::Core::Template::IO
 		OVERLAPPED _Overlapped;
 		//void* _AsyncResult;
 
+		bool _HasCompletedSynchronously;
 		DWORD _ErrorCode;
 		Elysium::Core::Template::Threading::ManualResetEvent _OperationDoneEvent;
 		Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<AsyncResult<AsyncResultDetails>>> _Callback;
