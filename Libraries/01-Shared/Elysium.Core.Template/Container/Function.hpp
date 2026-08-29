@@ -80,7 +80,16 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
-		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept;
+		constexpr Function() = delete;
+
+		inline constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept
+			: _FunctionOrStaticMethod(FunctionOrStaticMethod)
+		{
+			/*
+			assert(_FunctionOrStaticMethod == nullptr,
+				"Elysium::Core::Template::Container::Function<ReturnType, ...Args>: FunctionOrStaticMethod is nullptr");
+			*/
+		}
 
 		constexpr Function(const Function& Source) noexcept = default;
 
@@ -96,26 +105,13 @@ namespace Elysium::Core::Template::Container
 
 		constexpr const bool operator!=(const Function& Other) noexcept = delete;
 	public:
-		ReturnType operator()(Args... Parameters) const;
+		inline ReturnType operator()(Args... Parameters) const
+		{
+			return _FunctionOrStaticMethod(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+		}
 	private:
 		ReturnType (*_FunctionOrStaticMethod)(Args...);
 	};
-
-	template<class ReturnType, class ...Args>
-	inline constexpr Function<ReturnType(*)(Args...)>::Function(ReturnType(*FunctionOrStaticMethod)(Args...)) noexcept
-		: _FunctionOrStaticMethod(FunctionOrStaticMethod)
-	{
-		/*
-		assert(_FunctionOrStaticMethod == nullptr, 
-			"Elysium::Core::Template::Container::Function<ReturnType, ...Args>: FunctionOrStaticMethod is nullptr");
-		*/
-	}
-		
-	template<class ReturnType, class ...Args>
-	inline ReturnType Function<ReturnType(*)(Args...)>::operator()(Args ...Parameters) const
-	{
-		return _FunctionOrStaticMethod(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
-	}
 
 	/// <summary>
 	/// Typesafe container for a function or static-method declared as noexcept.
@@ -134,7 +130,16 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
-		constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...) noexcept) noexcept;
+		constexpr Function() = delete;
+
+		inline constexpr Function(ReturnType(*FunctionOrStaticMethod)(Args...) noexcept) noexcept
+			: _FunctionOrStaticMethod(FunctionOrStaticMethod)
+		{
+			/*
+			assert(_FunctionOrStaticMethod == nullptr,
+				"Elysium::Core::Template::Container::Function<ReturnType, ...Args>: FunctionOrStaticMethod is nullptr");
+			*/
+		}
 
 		constexpr Function(const Function& Source) noexcept = default;
 
@@ -150,26 +155,13 @@ namespace Elysium::Core::Template::Container
 
 		constexpr const bool operator!=(const Function& Other) noexcept = delete;
 	public:
-		ReturnType operator()(Args... Parameters) const noexcept;
+		inline ReturnType operator()(Args... Parameters) const noexcept
+		{
+			return _FunctionOrStaticMethod(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
+		}
 	private:
 		ReturnType(*_FunctionOrStaticMethod)(Args...) noexcept;
 	};
-
-	template<class ReturnType, class ...Args>
-	inline constexpr Function<ReturnType(*)(Args...)noexcept>::Function(ReturnType(*FunctionOrStaticMethod)(Args...) noexcept) noexcept
-		: _FunctionOrStaticMethod(FunctionOrStaticMethod)
-	{
-		/*
-		assert(_FunctionOrStaticMethod == nullptr,
-			"Elysium::Core::Template::Container::Function<ReturnType, ...Args>: FunctionOrStaticMethod is nullptr");
-		*/
-	}
-
-	template<class ReturnType, class ...Args>
-	inline ReturnType Function<ReturnType(*)(Args...)noexcept>::operator()(Args ...Parameters) const noexcept
-	{
-		return _FunctionOrStaticMethod(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
-	}
 
 	/// <summary>
 	/// Typesafe container specialization for a member-function.
@@ -190,6 +182,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...)) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -242,6 +236,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...)&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -294,6 +290,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...)&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -346,6 +344,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -398,6 +398,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...)& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -450,6 +452,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...)&& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -502,6 +506,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -554,6 +560,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -606,6 +614,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -658,6 +668,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -710,6 +722,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -762,6 +776,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const&& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -814,6 +830,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -866,6 +884,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -918,6 +938,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -970,6 +992,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1022,6 +1046,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1074,6 +1100,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) volatile&& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1126,6 +1154,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1178,6 +1208,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1230,6 +1262,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = false;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile&&) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1282,6 +1316,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1334,6 +1370,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = false;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1386,6 +1424,8 @@ namespace Elysium::Core::Template::Container
 		inline static constexpr const bool IsRValue = true;
 		inline static constexpr const bool IsNoThrowInvocable = true;
 	public:
+		constexpr Function() = delete;
+
 		constexpr Function(ReturnType(Type::* Method)(Args...) const volatile&& noexcept) noexcept;
 
 		constexpr Function(const Function& Source) noexcept = default;
@@ -1435,11 +1475,13 @@ namespace Elysium::Core::Template::Container
 		//using ReturnType = decltype(L);
 		//using Args... = const char*;
 	public:
-		constexpr Function(const L& LambdaExpression) noexcept
+		constexpr Function() = delete;
+
+		inline constexpr Function(const L& LambdaExpression) noexcept
 			: _LambdaExpression(LambdaExpression)
 		{ }
 
-		constexpr Function(L&& LambdaExpression) noexcept
+		inline constexpr Function(L&& LambdaExpression) noexcept
 			: _LambdaExpression(Elysium::Core::Template::Functional::Forward<L>(LambdaExpression))
 		{ }
 
@@ -1458,7 +1500,7 @@ namespace Elysium::Core::Template::Container
 		constexpr const bool operator!=(const Function& Other) noexcept = delete;
 	public:
 		template <class... Args>
-		decltype(auto) operator()(Args&&... Parameters)
+		inline decltype(auto) operator()(Args&&... Parameters)
 		{
 			return _LambdaExpression(Elysium::Core::Template::Functional::Forward<Args>(Parameters)...);
 		}

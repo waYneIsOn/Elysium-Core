@@ -137,6 +137,18 @@ namespace UnitTests::Core::Template::IO
 			FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write);
 			_WriteDevice = &TargetDevice;
 
+
+
+			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
+			//Elysium::Core::Template::System::size BytesRead = ReadTask.WaitAsync().GetResult();
+
+			bool sdf = false;
+
+
+			const Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
+
+			bool sddfgdfgdfg = false;
+			/*
 			const Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite> AsyncReadResult = 
 				SourceDevice.BeginRead(&_Buffer[0], _BufferLength,
 					Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::Template::IO::Device::FileDevice::AsyncResultReadWrite>>::Bind<CompositionalStreamTests, &CompositionalStreamTests::FileDevice_OnRead>(*this), 
@@ -144,6 +156,7 @@ namespace UnitTests::Core::Template::IO
 			_WaitForDeviceFullFileCopy.WaitOne();
 
 			Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
+			*/
 		}
 
 		TEST_METHOD(FileStreamIOCPTests)

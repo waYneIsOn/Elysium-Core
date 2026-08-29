@@ -36,6 +36,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\Span.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendAlways.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendNever.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
@@ -232,6 +236,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />

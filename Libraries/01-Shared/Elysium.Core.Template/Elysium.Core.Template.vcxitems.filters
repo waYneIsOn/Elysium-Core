@@ -1272,6 +1272,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResultDetailsBytesTransferred.hpp">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.hpp">
+      <Filter>Threading\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp">
+      <Filter>Coroutines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp">
+      <Filter>Coroutines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendNever.hpp">
+      <Filter>Coroutines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendAlways.hpp">
+      <Filter>Coroutines</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.Windows.hpp">
+      <Filter>Threading\Tasks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1480,6 +1498,9 @@
     </Filter>
     <Filter Include="Security\Cryptography\Encoding\Asn1\Validation">
       <UniqueIdentifier>{dd74bd7e-07c9-48f1-b1eb-a314ea050a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coroutines">
+      <UniqueIdentifier>{a32b2510-dbdf-40ab-a74d-613a4bb25ee2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

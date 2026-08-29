@@ -80,6 +80,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Threading/ThreadPool.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASK
+#include "../../Threading/Tasks/Task.hpp"
+#endif
+
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF16
 #include "../../Text/Unicode/Utf16.hpp"
@@ -264,6 +268,45 @@ namespace Elysium::Core::Template::IO::Device
 			}
 		}
 	public:
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteAsync()
+		{
+			throw 1;
+		}
+
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadAsync(const Elysium::Core::Template::System::byte* Buffer, 
+			const Elysium::Core::Template::System::size Length)
+		{
+			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType& Promise =
+				co_await Elysium::Core::Template::Threading::Tasks::GetPromise<Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType>{};
+			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
+			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
+			
+			StartThreadpoolIo(_CompletionPortHandle);
+			const BOOL Result = ReadFile(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), nullptr, &Promise._Overlapped);
+			//const BOOL Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+			if (FALSE == Result)
+			{
+				const DWORD ErrorCode = GetLastError();
+				if (ERROR_IO_PENDING != ErrorCode)
+				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
+					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
+					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
+					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
+					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
+					CancelThreadpoolIo(_CompletionPortHandle);
+
+					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
+				}
+
+				Promise._HasCompletedSynchronously = true;
+				
+				// coroutine needs to wait for IOCP
+				co_await Elysium::Core::Template::Threading::Tasks::SuspendIo{};
+			}
+
+			co_return Promise._Result;
+		}
+	public:
 		inline const Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> BeginWrite(
 			const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Length, 
 			const Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite>> Callback,
@@ -396,9 +439,21 @@ namespace Elysium::Core::Template::IO::Device
 		inline static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 		{
 			// ...
-			Elysium::Core::Template::IO::Device::FileDevice* Device = reinterpret_cast<Elysium::Core::Template::IO::Device::FileDevice*>(Context);
+			Elysium::Core::Template::IO::Device::FileDevice* Device = static_cast<Elysium::Core::Template::IO::Device::FileDevice*>(Context);
 			
-			AsyncResultReadWrite* AsyncFileStreamResult = reinterpret_cast<AsyncResultReadWrite*>(Overlapped);
+			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType* Promise =
+				static_cast<Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType*>(Overlapped);
+			Promise->_ErrorCode = IoResult;
+			Promise->_Result = NumberOfBytesTransferred;
+			Promise->_Handle.resume();
+
+			bool sdfd = false;
+			/*
+			AsyncResultReadWrite* AsyncFileStreamResult = static_cast<AsyncResultReadWrite*>(Overlapped);
+			if (nullptr == AsyncFileStreamResult)
+			{
+				bool sdfdsf = false;
+			}
 			AsyncFileStreamResult->_ErrorCode = IoResult;
 			AsyncFileStreamResult->_Details._BytesTransferred = NumberOfBytesTransferred;
 
@@ -442,6 +497,7 @@ namespace Elysium::Core::Template::IO::Device
 			// ...
 			AsyncFileStreamResult->_OperationDoneEvent.Set();
 			delete AsyncFileStreamResult;
+			*/
 		}
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _FQFN;
