@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_TUPLE
+#include "Tuple.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_VECTOR
 #include "Vector.hpp"
 #endif
@@ -249,18 +253,22 @@ namespace Elysium::Core::Template::Container
 		friend class Elysium::Core::Template::Container::Vector<Delegate<ReturnType, Args...>>;
 	private:
 		using WrappedMethodType = ReturnType(*)(void*, Args...);
-	private:
-		constexpr Delegate() noexcept = default;
 	public:
-		inline constexpr Delegate(const Delegate& Source)
+		constexpr Delegate() noexcept = default;
+	
+		inline constexpr Delegate(const Delegate& Source) = default;
+		/*
 			: _Target(Source._Target), _Method(Source._Method)
 		{ }
+		*/
 
-		inline constexpr Delegate(Delegate&& Right) noexcept
+		inline constexpr Delegate(Delegate&& Right) noexcept = default;
+		/*
 			: _Target{}, _Method{}
 		{
 			*this = Elysium::Core::Template::Functional::Move(Right);
 		}
+		*/
 
 		constexpr ~Delegate() noexcept = default;
 	public:
@@ -287,6 +295,11 @@ namespace Elysium::Core::Template::Container
 		inline ReturnType operator()(Args... Parameters) const
 		{
 			return (*_Method)(_Target, Parameters...);
+		}
+
+		inline ReturnType operator()(const Elysium::Core::Template::Container::Tuple<Args...>& Parameters) const
+		{
+			return Parameters.Unpack(*this);
 		}
 	public:
 		template <ReturnType(*ActualMethod)(Args...)>

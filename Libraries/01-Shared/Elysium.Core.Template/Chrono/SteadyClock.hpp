@@ -126,19 +126,19 @@ namespace Elysium::Core::Template::Chrono
         { 
             static_assert(Period::Denominator % TenMHz == 0, "Elysium::Core::Template::Chrono::SteadyClock::Now(): should never fail.");
             constexpr long long Multiplier = Period::Denominator / TenMHz;
-            return TimePoint(Duration(PerformanceCounter * Multiplier));
+            return SteadyClock::TimePoint(SteadyClock::Duration(PerformanceCounter * Multiplier));
         }
         else if (PerformanceFrequency == TwentyFourMHz) ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM
         {
             const long long Whole = (PerformanceCounter / TwentyFourMHz) * Period::Denominator;
             const long long Part = (PerformanceCounter % TwentyFourMHz) * Period::Denominator / TwentyFourMHz;
-            return TimePoint(Duration(Whole + Part));
+            return SteadyClock::TimePoint(SteadyClock::Duration(Whole + Part));
         }
         else
         {
             const long long Whole = (PerformanceCounter / PerformanceFrequency) * Period::Denominator;
             const long long Part = (PerformanceCounter % PerformanceFrequency) * Period::Denominator / PerformanceFrequency;
-            return TimePoint(Duration(Whole + Part));
+            return SteadyClock::TimePoint(SteadyClock::Duration(Whole + Part));
         }
 #undef ELYSIUM_CORE_ARCHITECTURE_LIKELY_ARM
 #undef ELYSIUM_CORE_ARCHITECTURE_LIKELY_X86

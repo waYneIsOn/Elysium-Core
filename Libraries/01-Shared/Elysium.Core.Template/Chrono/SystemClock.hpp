@@ -114,7 +114,7 @@ namespace Elysium::Core::Template::Chrono
 #else
 #error "unsupported os"
 #endif
-        return TimePoint(Duration(UnixTicks));
+        return SystemClock::TimePoint(SystemClock::Duration(UnixTicks));
     }
 }
 #endif

@@ -42,28 +42,43 @@ namespace Elysium::Core::Template::Chrono
 		using RepresentationType = Representation;
 		using PeriodType = Period;
 	public:
-		constexpr Duration() = delete;
+		constexpr Duration() = default;
 
-		constexpr Duration(const Representation Value) noexcept;
+		inline constexpr Duration(const Representation Value) noexcept
+			: _Value(Value)
+		{ }
 
-		constexpr Duration(const Duration& Source) noexcept;
+		constexpr Duration(const Duration& Source) noexcept = default;
 
-		constexpr Duration(Duration&& Right) noexcept;
+		constexpr Duration(Duration&& Right) noexcept = default;
 
-		constexpr ~Duration() noexcept;
+		constexpr ~Duration() noexcept = default;
 	public:
-		constexpr Duration& operator=(const Duration& Source);
+		constexpr Duration& operator=(const Duration& Source) = default;
 
-		constexpr Duration& operator=(Duration&& Right) noexcept;
+		constexpr Duration& operator=(Duration&& Right) noexcept = default;
 	public:
-		constexpr const Representation GetCount() const noexcept;
+		inline constexpr const bool operator<=(const Duration Other)
+		{
+			return _Value <= Other._Value;
+		}
+	public:
+		inline constexpr const bool operator<=(const RepresentationType Value)
+		{
+			return _Value <= Value;
+		}
+	public:
+		inline constexpr const Representation GetCount() const noexcept
+		{
+			return _Value;
+		}
 	private:
 		Representation _Value;
     };
 
 	using NanoSeconds = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Nano>;
 	using MicroSeconds = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Micro>;
-	using MilliSeconds = Duration < Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Milli>;
+	using MilliSeconds = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Milli>;
 	using Seconds = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Ratio<1>>;
 	using Minutes = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Ratio<60>>;
 	using Hours = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Ratio<3600>>;
@@ -79,51 +94,5 @@ namespace Elysium::Core::Template::Chrono
 	/// Uses an average and equals 365.2425 days (the average length of a Gregorian year).
 	/// </summary>
 	using Years = Duration<Elysium::Core::Template::System::intMax_t, Elysium::Core::Template::Numeric::Ratio<31556952>>;
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr Duration<Representation, Period>::Duration(const Representation Value) noexcept
-		: _Value(Value)
-	{ }
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr Duration<Representation, Period>::Duration(const Duration & Source) noexcept
-		: _Value(Source._Value)
-	{ }
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr Duration<Representation, Period>::Duration(Duration && Right) noexcept
-	{
-		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr Duration<Representation, Period>::~Duration() noexcept
-	{ }
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr Duration<Representation, Period>& Duration<Representation, Period>::operator=(const Duration & Source)
-	{
-		if (this != &Source)
-		{
-			_Value = Source._Value;
-		}
-		return *this;
-	}
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr Duration<Representation, Period>& Duration<Representation, Period>::operator=(Duration&& Right) noexcept
-	{
-		if (this != &Right)
-		{
-			_Value = Elysium::Core::Template::Functional::Move(Right._Value);
-		}
-		return *this;
-	}
-
-	template<Elysium::Core::Template::Concepts::Arithmetic Representation, class Period>
-	inline constexpr const Representation Duration<Representation, Period>::GetCount() const noexcept
-	{
-		return _Value;
-	}
 }
 #endif
