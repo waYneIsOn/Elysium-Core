@@ -36,10 +36,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\SlidingWindow.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\MultiSpan.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\Span.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\DelegateAwaiter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\GetCurrentPromiseAwaiter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendAlways.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\DelayFor.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendNever.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendAlways.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendNever.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
@@ -48,9 +51,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Cryptography\CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.Windows.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResultDetailsBytesTransferred.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTable.hpp" />

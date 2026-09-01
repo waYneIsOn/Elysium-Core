@@ -40,9 +40,6 @@ namespace Elysium::Core::Template::IO::Source
 		using DeviceType = Elysium::Core::Template::IO::Device::FileDevice;
 
 		using MostInnerSourceType = FileSource;
-
-		using AsyncResultDetailsReadWrite = DeviceType::AsyncResultDetailsReadWrite;
-		using AsyncResultReadWrite = DeviceType::AsyncResultReadWrite;
 	public:
 		constexpr FileSource() noexcept = delete;
 
@@ -126,18 +123,7 @@ namespace Elysium::Core::Template::IO::Source
 			_ReadPosition += Length;
 		}
 	public:
-		inline const Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> BeginReadBlock(
-			Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView,
-			const Elysium::Core::Template::Container::Delegate<void, Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite>> Callback,
-			const void* State)
-		{
-			return _Device.BeginRead(&_Buffer[0], _Buffer.GetCapacity(), Callback, State);
-		}
 
-		inline void EndRead(Elysium::Core::Template::Memory::ObserverPointer<AsyncResultReadWrite> AsyncResult)
-		{
-			bool sdfds = false;
-		}
 	private:
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::System::size _ReadPosition;

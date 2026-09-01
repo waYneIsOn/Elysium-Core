@@ -111,11 +111,11 @@ namespace Elysium::Core::Template::Coroutines
 			return _Result;
 		}
 	public:
-		inline explicit operator Promise& () noexcept
+		inline Promise& ToPromise() const noexcept
 		{
 			return *static_cast<Promise*>(__builtin_coro_promise(_Handle, 0, false));
 		}
-
+	public:
 		inline constexpr explicit operator bool() const noexcept
 		{
 			return _Handle != nullptr;

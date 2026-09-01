@@ -1263,15 +1263,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SharedMemoryDevice.hpp">
       <Filter>IO\Device</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResult.Windows.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\AsyncResultDetailsBytesTransferred.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.hpp">
       <Filter>Threading\Tasks</Filter>
     </ClInclude>
@@ -1281,14 +1272,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp">
       <Filter>Coroutines</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendNever.hpp">
-      <Filter>Coroutines</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\SuspendAlways.hpp">
-      <Filter>Coroutines</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.Windows.hpp">
       <Filter>Threading\Tasks</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendAlways.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendNever.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\DelayFor.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\DelegateAwaiter.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\GetCurrentPromiseAwaiter.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1501,6 +1501,9 @@
     </Filter>
     <Filter Include="Coroutines">
       <UniqueIdentifier>{a32b2510-dbdf-40ab-a74d-613a4bb25ee2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coroutines\Awaiter">
+      <UniqueIdentifier>{85352565-7f69-4109-a15c-836e36a336ae}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

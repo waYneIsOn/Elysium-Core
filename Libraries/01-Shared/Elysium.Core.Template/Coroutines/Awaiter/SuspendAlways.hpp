@@ -5,19 +5,22 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_SUSPENDALWAYS
-#define ELYSIUM_CORE_TEMPLATE_COROUTINES_SUSPENDALWAYS
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_SUSPENDALWAYS
+#define ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_SUSPENDALWAYS
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_COROUTINEHANDLE
-#include "CoroutineHandle.hpp"
+#include "../CoroutineHandle.hpp"
 #endif
 
-namespace Elysium::Core::Template::Coroutines
+namespace Elysium::Core::Template::Coroutines::Awaiter
 {
+	/// <summary>
+	/// An Awaiter (ie. a suspension object) which always suspends and should be used for generators, schedulers etc.
+	/// </summary>
 	class SuspendAlways
 	{
 	public:
@@ -38,7 +41,7 @@ namespace Elysium::Core::Template::Coroutines
 			return false;
 		}
 
-		inline constexpr void await_suspend(CoroutineHandle<>) const noexcept
+		inline constexpr void await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<>) const noexcept
 		{ }
 
 		inline constexpr void await_resume() const noexcept

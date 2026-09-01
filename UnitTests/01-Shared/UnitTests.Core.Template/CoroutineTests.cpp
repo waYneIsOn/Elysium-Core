@@ -1,6 +1,6 @@
 #include "CppUnitTest.h"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/SuspendAlways.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/SuspendNever.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/SuspendAlways.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/SuspendNever.hpp"
 
 
 #include <coroutine>
@@ -20,12 +20,12 @@ namespace UnitTests::Core::Template::Coroutines
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::SuspendNever initial_suspend()
+            Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
             {
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::SuspendNever final_suspend() noexcept
+            Elysium::Core::Template::Coroutines::Awaiter::SuspendNever final_suspend() noexcept
             {
                 return {};
             }
@@ -40,7 +40,7 @@ namespace UnitTests::Core::Template::Coroutines
         inline static AsyncTestClass DoSomething()
         {
             Logger::WriteMessage("Before\r\n");
-            co_await Elysium::Core::Template::Coroutines::SuspendAlways{};
+            co_await Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways{};
             Logger::WriteMessage("After\r\n");
         }
     };

@@ -16,12 +16,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Coroutines/CoroutineHandle.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_SUSPENDALWAYS
-#include "../../Coroutines/SuspendAlways.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_SUSPENDALWAYS
+#include "../../Coroutines/Awaiter/SuspendAlways.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_SUSPENDNEVER
-#include "../../Coroutines/SuspendNever.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_SUSPENDNEVER
+#include "../../Coroutines/Awaiter/SuspendNever.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
@@ -30,6 +30,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
 #include "../../System/Primitives.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MANUALRESETEVENT
+#include "../../Threading/ManualResetEvent.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
@@ -48,54 +52,6 @@ namespace Elysium::Core::Template::IO::Device
 
 namespace Elysium::Core::Template::Threading::Tasks
 {
-
-
-
-    template<class Promise>
-    struct GetPromise
-    {
-        Promise* _Promise{};
-
-        bool await_ready() const noexcept
-        {
-            return false;
-        }
-
-        bool await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<Promise> Handle) noexcept
-        {
-            _Promise = &static_cast<Promise&>(Handle);
-
-            // immediately continue the coroutine
-            return false;
-        }
-
-        Promise& await_resume() const noexcept
-        {
-            return *_Promise;
-        }
-    };
-
-    struct SuspendIo
-    {
-        bool await_ready() const noexcept
-        {
-            return false;
-        }
-
-        void await_suspend(Elysium::Core::Template::Coroutines::CoroutineHandle<>)
-        {
-            // nothing to do here, IOCP callback will resume the coroutine.
-        }
-
-        void await_resume() const noexcept
-        { }
-    };
-
-
-
-
-
-
     template <class Result>
     class Task
     {
@@ -108,27 +64,34 @@ namespace Elysium::Core::Template::Threading::Tasks
             friend class Task<Result>;
             friend class Elysium::Core::Template::IO::Device::FileDevice;
         public:
-            Task get_return_object()
+            Task<Result> get_return_object()
             {
                 _Handle = Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(*this);
                 return Task<Result>(_Handle);
             }
 
-            Elysium::Core::Template::Coroutines::SuspendNever initial_suspend()
+            Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
             {
                 return {};
             }
 
-            Elysium::Core::Template::Coroutines::SuspendAlways final_suspend() noexcept
+            Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways final_suspend() noexcept
             {
+                _OperationDoneEvent.Set();
                 return {};
             }
-
+            /*
+            void return_void()
+            { }
+            */
             void return_value(Result Value)
             {
                 _Result = Value;
             }
-
+            /*
+            void yield_value(Result Value)
+            { }
+            */
             void unhandled_exception()
             {
                 //_Exception = std::current_exception();
@@ -140,8 +103,9 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             bool _HasCompletedSynchronously{};
             DWORD _ErrorCode{};
-
             Result _Result{};
+
+            Elysium::Core::Template::Threading::ManualResetEvent _OperationDoneEvent{};
         };
     public:
         using PromiseType = promise_type;
@@ -150,7 +114,7 @@ namespace Elysium::Core::Template::Threading::Tasks
         constexpr Task() noexcept = delete;
     private:
         inline explicit constexpr Task(CoroutineFrame Handle) noexcept
-            : _Handle(Handle)
+            : _Handle(Handle), _Promise(&_Handle.ToPromise())
         { }
     public:
         constexpr Task(const Task& Source) noexcept = delete;
@@ -166,14 +130,28 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         constexpr Task& operator=(Task&& Right) noexcept = delete;
     public:
+        //TaskAwaiter operator co_await();
+    public:
         inline Result GetResult()
         {
-            return static_cast<PromiseType>(_Handle)._Result;
-            //return _Handle.ToPromise()._Result;
+            return _Handle.ToPromise()._Result;
+        }
+    public:
+        inline void Wait()
+        {
+            _Promise->_OperationDoneEvent.WaitOne();
         }
     private:
         CoroutineFrame _Handle{};
+
+        // temporary?
+        PromiseType* _Promise{};
     };
+    /*
+    template <>
+    class Task<void>
+    { };
+    */
 }
 #endif
 #endif
