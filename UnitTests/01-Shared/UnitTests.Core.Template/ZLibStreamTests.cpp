@@ -1,6 +1,8 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
+
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/OutStream.hpp"

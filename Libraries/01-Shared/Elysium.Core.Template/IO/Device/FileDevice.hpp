@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Container/Vector.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_DELEGATEAWAITER
+#include "../../Coroutines/Awaiter/DelegateAwaiter.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_GETCURRENTPROMISEAWAITER
 #include "../../Coroutines/Awaiter/GetCurrentPromiseAwaiter.hpp"
 #endif
@@ -72,6 +76,18 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Text/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_ATOMIC
+#include "../../Threading/Atomic.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MANUALRESETEVENT
+#include "../../Threading/ManualResetEvent.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_MUTEX
+#include "../../Threading/Mutex.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_THREADPOOL
 #include "../../Threading/ThreadPool.hpp"
 #endif
@@ -116,7 +132,8 @@ namespace Elysium::Core::Template::IO::Device
 			const Elysium::Core::Template::System::uint32_t BufferSize = 4096, const FileOptions Options = FileOptions::None)
 			: _FQFN(GetFQFN(Path)), _Position(0)
 			, _FileHandle(CreateNativeFileHandle(_FQFN, Mode, Access, Share, Options | FileOptions::Asynchronous)),
-			_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, &IOCompletionPortCallback, this, &Elysium::Core::Template::Threading::ThreadPool::GetIOPool()._Environment))
+			_CompletionPortHandle(CreateThreadpoolIo(_FileHandle, &IOCompletionPortCallback, this, &Elysium::Core::Template::Threading::ThreadPool::GetIOPool()._Environment)),
+			_IocpIsClosingMutex{}, _IsClosing {}, _InFlightIos{}, _AllIoOperationsCompleted(true)
 		{ }
 
 		constexpr FileDevice(const FileDevice& Source) = delete;
@@ -125,12 +142,6 @@ namespace Elysium::Core::Template::IO::Device
 
 		inline constexpr ~FileDevice()
 		{
-			if (_CompletionPortHandle != nullptr)
-			{
-				CloseThreadpoolIo(_CompletionPortHandle);
-				_CompletionPortHandle = nullptr;
-			}
-
 			Close();
 		}
 	public:
@@ -173,9 +184,28 @@ namespace Elysium::Core::Template::IO::Device
 	public:
 		inline void Close()
 		{
+			_IocpIsClosingMutex.Lock();
+
 			if (INVALID_HANDLE_VALUE == _FileHandle)
 			{
+				_IocpIsClosingMutex.Unlock();
 				return;
+			}
+
+			_IsClosing = true;
+			_IocpIsClosingMutex.Unlock();
+
+			// request cancellation of all outstanding IOCP operations and wait for them to finish
+			CancelIoEx(_FileHandle, nullptr);
+			_AllIoOperationsCompleted.WaitOne();
+
+			if (_CompletionPortHandle != nullptr)
+			{
+				// wait for CALLBACKS that are queued/running
+				WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
+				
+				CloseThreadpoolIo(_CompletionPortHandle);
+				_CompletionPortHandle = nullptr;
 			}
 
 			if (FALSE == CloseHandle(_FileHandle))
@@ -264,17 +294,31 @@ namespace Elysium::Core::Template::IO::Device
 		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteAsync(const Elysium::Core::Template::System::byte* Buffer, 
 			const Elysium::Core::Template::System::size Length)
 		{
+			_IocpIsClosingMutex.Lock();
+			if (_IsClosing)
+			{	
+				_IocpIsClosingMutex.Unlock();
+
+				// @ToDo: throw specific exception
+				throw 1;
+			}
+
 			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType& Promise =
 				co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType>{};
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 
+			++_InFlightIos;
+			_AllIoOperationsCompleted.Reset();
 			StartThreadpoolIo(_CompletionPortHandle);
-			const BOOL Result = WriteFile(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), nullptr, &Promise._Overlapped);
+			DWORD SynchronousByteCount = 0;
+			const BOOL Result = WriteFile(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), &SynchronousByteCount, &Promise._Overlapped);
 			//const BOOL Result = WriteFileEx(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+
+			const DWORD ErrorCode = GetLastError();
+			_IocpIsClosingMutex.Unlock();
 			if (FALSE == Result)
 			{
-				const DWORD ErrorCode = GetLastError();
 				if (ERROR_IO_PENDING != ErrorCode)
 				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
 					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
@@ -283,34 +327,57 @@ namespace Elysium::Core::Template::IO::Device
 					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
 					CancelThreadpoolIo(_CompletionPortHandle);
 
+					if (0 == --_InFlightIos)
+					{
+						_AllIoOperationsCompleted.Set();
+					}
 					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
 				}
 
 				// current coroutine needs to suspend and wait for IOCP
 				co_await Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways{};
+
+				co_return Promise._Result;
 			}
 			else
 			{
 				Promise._HasCompletedSynchronously = true;
+				if (0 == --_InFlightIos)
+				{
+					_AllIoOperationsCompleted.Set();
+				}
+				co_return SynchronousByteCount;
 			}
-
-			co_return Promise._Result;
 		}
 
 		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadAsync(const Elysium::Core::Template::System::byte* Buffer, 
 			const Elysium::Core::Template::System::size Length)
 		{
+			_IocpIsClosingMutex.Lock();
+			if (_IsClosing)
+			{
+				_IocpIsClosingMutex.Unlock();
+				
+				// @ToDo: throw specific exception
+				throw 1;
+			}
+
 			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType& Promise =
 				co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType>{};
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
 			
+			++_InFlightIos;
+			_AllIoOperationsCompleted.Reset();
 			StartThreadpoolIo(_CompletionPortHandle);
-			const BOOL Result = ReadFile(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), nullptr, &Promise._Overlapped);
+			DWORD SynchronousByteCount = 0;
+			const BOOL Result = ReadFile(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), &SynchronousByteCount, &Promise._Overlapped);
 			//const BOOL Result = ReadFileEx(_FileHandle, (void*)&Buffer[0], static_cast<DWORD>(Length), &AsyncResult->_Overlapped, (LPOVERLAPPED_COMPLETION_ROUTINE)nullptr);
+
+			const DWORD ErrorCode = GetLastError();
+			_IocpIsClosingMutex.Unlock();
 			if (FALSE == Result)
 			{
-				const DWORD ErrorCode = GetLastError();
 				if (ERROR_IO_PENDING != ErrorCode)
 				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
 					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
@@ -319,18 +386,27 @@ namespace Elysium::Core::Template::IO::Device
 					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
 					CancelThreadpoolIo(_CompletionPortHandle);
 
+					if (0 == --_InFlightIos)
+					{
+						_AllIoOperationsCompleted.Set();
+					}
 					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
 				}
 
 				// current coroutine needs to suspend and wait for IOCP
 				co_await Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways{};
+
+				co_return Promise._Result;
 			}
 			else
 			{
 				Promise._HasCompletedSynchronously = true;
+				if (0 == --_InFlightIos)
+				{
+					_AllIoOperationsCompleted.Set();
+				}
+				co_return SynchronousByteCount;
 			}
-
-			co_return Promise._Result;
 		}
 	private:
 		inline Elysium::Core::Template::Text::String<char8_t> GetFQFN(const char8_t* Path)
@@ -360,6 +436,18 @@ namespace Elysium::Core::Template::IO::Device
 			return NativeFileHandle;
 		}
 	private:
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteAsyncInternally(OVERLAPPED Overlapped,
+			const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Length)
+		{
+			throw 1;
+		}
+
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadAsyncInternally(OVERLAPPED Overlapped, 
+			const Elysium::Core::Template::System::byte* Buffer, const Elysium::Core::Template::System::size Length)
+		{
+			throw 1;
+		}
+	private:
 		inline static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 		{
 			// ...
@@ -367,12 +455,18 @@ namespace Elysium::Core::Template::IO::Device
 			
 			Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType* Promise =
 				static_cast<Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size>::PromiseType*>(Overlapped);
+			
+			Device->_Position += NumberOfBytesTransferred;
 			Promise->_ErrorCode = IoResult;
 			Promise->_Result = NumberOfBytesTransferred;
 
-			Device->_Position += NumberOfBytesTransferred;
-
 			Promise->_Handle.resume();
+
+			if (0 == --Device->_InFlightIos)
+			{
+				Device->_AllIoOperationsCompleted.Set();
+			}
+
 			/*
 			// ...
 			switch (IoResult)
@@ -396,6 +490,10 @@ namespace Elysium::Core::Template::IO::Device
 
 		HANDLE _FileHandle;
 		PTP_IO _CompletionPortHandle;
+		Elysium::Core::Template::Threading::Mutex _IocpIsClosingMutex;	// prevents submitting while already closing
+		Elysium::Core::Template::Threading::Atomic<bool> _IsClosing;	// 
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::size> _InFlightIos;
+		Elysium::Core::Template::Threading::ManualResetEvent _AllIoOperationsCompleted;	// lets Close() wait until _InFlightIos is 0
 	};
 #endif
 }

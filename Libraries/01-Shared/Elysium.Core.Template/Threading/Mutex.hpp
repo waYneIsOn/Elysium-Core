@@ -35,6 +35,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::Threading
 {
+#if defined ELYSIUM_CORE_OS_WINDOWS
 	/// <summary>
 	/// A synchronization primitive that can also be used for interprocess synchronization.
 	/// </summary>
@@ -42,32 +43,56 @@ namespace Elysium::Core::Template::Threading
 		: public WaitHandle
 	{
 	public:
-		constexpr Mutex(const bool InitiallyOwned = false, const char8_t* Name = nullptr);
+		inline constexpr Mutex(const bool InitiallyOwned = false, const char8_t* Name = nullptr)
+			: WaitHandle(CreateMutexW(nullptr, InitiallyOwned == true ? TRUE : FALSE, nullptr))
+		{ }
 
 		constexpr Mutex(const Mutex& Source) = delete;
 
 		constexpr Mutex(Mutex&& Right) noexcept = delete;
 
-		constexpr virtual ~Mutex() override;
+		inline constexpr virtual ~Mutex() override
+		{
+			// @ToDo: Parent destructor will call Close(). Do I need to release here beforehand though? need to write specific test!
+		}
 	public:
 		constexpr Mutex& operator=(const Mutex& Source) = delete;
 
 		constexpr Mutex& operator=(Mutex&& Right) noexcept = delete;
 	public:
-		void Lock();
+		inline void Lock()
+		{
+			DWORD WaitResult = WaitForSingleObject(_Handle, INFINITE);
+
+			if (WAIT_OBJECT_0 == WaitResult)
+			{
+				bool bla = false;
+			}
+			else if (WAIT_ABANDONED == WaitResult)
+			{
+				bool blub = false;
+			}
+		}
 
 		//bool TryLock();
 
-		void Unlock();
-	private:
+		inline void Unlock()
+		{
+			BOOL WasReleased = ReleaseMutex(_Handle);
 
+			if (0 != WasReleased)
+			{	// success
+				bool bla = false;
+			}
+			else
+			{
+				DWORD LastError = GetLastError();
+				bool blub = false;
+			}
+		}
 	};
-
-#if defined ELYSIUM_CORE_OS_WINDOWS
-	inline constexpr Elysium::Core::Template::Threading::Mutex::Mutex(const bool InitiallyOwned, const char8_t* Name)
-		: WaitHandle(CreateMutexW(nullptr, InitiallyOwned == true ? TRUE : FALSE, nullptr))
-	{ }
 #elif defined ELYSIUM_CORE_OS_LINUX
+	/*
 	inline Elysium::Core::Template::Threading::Mutex::Mutex(const bool InitiallyOwned, const char8_t* Name)
 		: WaitHandle(PTHREAD_MUTEX_INITIALIZER)
 	{ 
@@ -76,65 +101,12 @@ namespace Elysium::Core::Template::Threading
 			pthread_mutex_lock(&_Handle);
 		}
 	}
-#else
-#error "unsupported os"
-#endif
 
-	inline constexpr Elysium::Core::Template::Threading::Mutex::~Mutex()
-	{
-		// @ToDo: Parent destructor will call Close(). Do I need to release here beforehand though? need to write specific test!
-	}
-
-#if defined ELYSIUM_CORE_OS_WINDOWS
-	inline void Elysium::Core::Template::Threading::Mutex::Lock()
-	{
-		DWORD WaitResult = WaitForSingleObject(_Handle, INFINITE);
-		
-		if (WAIT_OBJECT_0 == WaitResult)
-		{
-			bool bla = false;
-		}
-		else if (WAIT_ABANDONED == WaitResult)
-		{
-			bool blub = false;
-		}
-	}
-	/*
-	inline bool Elysium::Core::Template::Threading::Mutex::TryLock()
-	{
-		DWORD WaitResult = WaitForSingleObject(_Handle, INFINITE);
-
-		if (WAIT_OBJECT_0 == WaitResult)
-		{
-			bool bla = false;
-		}
-		else if (WAIT_ABANDONED == WaitResult)
-		{
-			bool blub = false;
-		}
-	}
-	*/
-	inline void Elysium::Core::Template::Threading::Mutex::Unlock()
-	{
-		BOOL WasReleased = ReleaseMutex(_Handle);
-
-		if (0 != WasReleased)
-		{	// success
-			bool bla = false;
-		}
-		else
-		{
-			DWORD LastError = GetLastError();
-			bool blub = false;
-		}
-	}
-#elif defined ELYSIUM_CORE_OS_LINUX
 	inline void Elysium::Core::Template::Threading::Mutex::Release()
 	{
 		int WasReleased = pthread_mutex_unlock(&_Handle);
 	}
-#else
-#error "unsupported os"
+	*/
 #endif
 }
 #endif

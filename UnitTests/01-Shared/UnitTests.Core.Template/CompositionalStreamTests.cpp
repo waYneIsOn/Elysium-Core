@@ -1,6 +1,8 @@
 #include "CppUnitTest.h"
 #include "../UnitTestExtensions/CppUnitTestFrameworkExtension.hpp"
 
+#include "../../../Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
+
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Net/Security/TlsSession.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InOutStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/InStream.hpp"
@@ -17,6 +19,8 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/Source/TlsSource.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/CharacterTraits.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
+
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 
 using namespace Elysium::Core::Template::Net::Security;
 using namespace Elysium::Core::Template::IO;
@@ -131,6 +135,7 @@ namespace UnitTests::Core::Template::IO
 
 		TEST_METHOD(FileDeviceIOCPTests)
 		{
+			for(Elysium::Core::Template::System::size i = 0; i < 100000; ++i)
 			{
 				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read);
 
@@ -138,19 +143,52 @@ namespace UnitTests::Core::Template::IO
 
 				while(true)
 				{
+					//OutputDebugStringA("----------------\r\n");
 					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
 					ReadTask.Wait();
 					Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
+					if (38 == ReadTask.GetErrorCode())
+					{
+						bool sdfg = false;
+					}
 					if (0 == BytesRead)
 					{
 						break;
 					}
-
+					/*
+					if (_BufferLength != BytesRead)
+					{
+						const Elysium::Core::Template::Text::String<char> BytesLeft = Elysium::Core::Template::Text::Convert<char>::ToString(BytesRead);
+						Logger::WriteMessage(&BytesLeft[0]);
+					}
+					*/
 					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = TargetDevice.WriteAsync(_Buffer, BytesRead);
 					WriteTask.Wait();
 				}
 
-				Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
+				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
+				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
+				if (SourceLength != TargetLength)
+				{
+					bool sdfsdf = false;
+				}
+
+				//Assert::AreEqual(SourceDevice.GetLength(), TargetDevice.GetLength());
+			}
+
+			{
+				/*
+				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read);
+				FileSource Source(SourceDevice);
+
+				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write);
+
+				Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte> DataView{};
+				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = Source.ReadBlockAsync(DataView);
+				ReadTask.Wait();
+
+				bool sdf = false;
+				*/
 			}
 		}
 

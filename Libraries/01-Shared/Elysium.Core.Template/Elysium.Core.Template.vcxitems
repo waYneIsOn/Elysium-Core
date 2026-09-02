@@ -238,6 +238,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.Windows.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\TaskStatus.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />

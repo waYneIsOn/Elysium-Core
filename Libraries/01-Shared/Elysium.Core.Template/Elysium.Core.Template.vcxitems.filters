@@ -1290,6 +1290,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\GetCurrentPromiseAwaiter.hpp">
       <Filter>Coroutines\Awaiter</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\TaskStatus.hpp">
+      <Filter>Threading\Tasks</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

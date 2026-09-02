@@ -49,7 +49,7 @@ namespace Elysium::Core::Template::Coroutines
 	public:
 		inline constexpr explicit operator bool() const noexcept
 		{
-			return _Handle != nullptr;
+			return nullptr != _Handle;
 		}
 
 		inline void operator()() const
@@ -118,7 +118,7 @@ namespace Elysium::Core::Template::Coroutines
 	public:
 		inline constexpr explicit operator bool() const noexcept
 		{
-			return _Handle != nullptr;
+			return nullptr != _Handle;
 		}
 	public:
 		inline void operator()() const

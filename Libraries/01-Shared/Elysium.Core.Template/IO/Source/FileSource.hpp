@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../System/Primitives.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_TASKS_TASK
+#include "../../Threading/Tasks/Task.hpp"
+#endif
+
 namespace Elysium::Core::Template::IO::Source
 {
 	class FileSource
@@ -123,7 +127,13 @@ namespace Elysium::Core::Template::IO::Source
 			_ReadPosition += Length;
 		}
 	public:
-
+		/*
+		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadBlockAsync(Elysium::Core::Template::Container::View::Span<Elysium::Core::Template::System::byte>& DataView)
+		{
+			co_return co_await _Device.ReadAsync(&_Buffer[0], _Buffer.GetCapacity());
+			//co_return _Device.ReadAsync(&_Buffer[0], _Buffer.GetCapacity()).Wait().GetResult();
+		}
+		*/
 	private:
 		Elysium::Core::Template::Container::FixedSizeBuffer<Elysium::Core::Template::System::byte> _Buffer;
 		Elysium::Core::Template::System::size _ReadPosition;
