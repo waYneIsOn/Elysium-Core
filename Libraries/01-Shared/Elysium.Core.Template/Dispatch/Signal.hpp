@@ -5,20 +5,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_EVENT
-#define ELYSIUM_CORE_EVENT
+#ifndef ELYSIUM_CORE_TEMPLATE_DISPATCH_SIGNAL
+#define ELYSIUM_CORE_TEMPLATE_DISPATCH_SIGNAL
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_DISPATCH_EVENT
-#include "../Elysium.Core.Template/Dispatch/Event.hpp"
+#include "Event.hpp"
 #endif
 
-namespace Elysium::Core
+namespace Elysium::Core::Template::Dispatch
 {
 	template <class ReturnType, class ...Args>
-	using Event = Elysium::Core::Template::Dispatch::Event<false, true, false, ReturnType, Args...>;
+	using Signal = Elysium::Core::Template::Dispatch::Event<false, false, ReturnType, Args...>;
 }
 #endif

@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EVENT
-#include "../Elysium.Core/Event.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
 #endif
@@ -52,16 +48,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "SpeechRecognizedEventArgs.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DISPATCH_EVENT
+#include "../Elysium.Core.Template/Dispatch/Event.hpp"
+#endif
+
 namespace Elysium::Core::Speech::Recognition
 {
 	class SpeechRecognitionEngine;
 
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>;
 }
 #endif

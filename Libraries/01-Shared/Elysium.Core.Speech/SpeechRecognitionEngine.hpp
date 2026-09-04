@@ -12,6 +12,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_EVENT
+#include "../Elysium.Core/Event.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TIMESPAN
 #include "../Elysium.Core/TimeSpan.hpp"
 #endif
@@ -79,27 +83,27 @@ namespace Elysium::Core::Speech::Recognition
 
 		SpeechRecognitionEngine& operator=(SpeechRecognitionEngine&& Right) noexcept = delete;
 	public:
-		Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&> AudioLevelUpdated;
 		
-		Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&> AudioSignalProblemOccurred;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&> AudioSignalProblemOccurred;
 		
-		Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&> AudioStateChanged;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&> AudioStateChanged;
 		
-		//Event<void, const SpeechRecognitionEngine&, const EmulateRecognizeCompletedEventArgs&> EmulateRecognizeCompleted;
+		//Elysium::Core::Event<void, const SpeechRecognitionEngine&, const EmulateRecognizeCompletedEventArgs&> EmulateRecognizeCompleted;
 		
-		Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&> LoadGrammarCompleted;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&> LoadGrammarCompleted;
 		
-		//Event<void, const SpeechRecognitionEngine&, const RecognizeCompletedEventArgs&> RecognizeCompleted;
+		//Elysium::Core::Event<void, const SpeechRecognitionEngine&, const RecognizeCompletedEventArgs&> RecognizeCompleted;
 		
-		//Event<void, const SpeechRecognitionEngine&, const RecognizerUpdateReachedEventArgs&> RecognizerUpdateReachedEventArgs;
+		//Elysium::Core::Event<void, const SpeechRecognitionEngine&, const RecognizerUpdateReachedEventArgs&> RecognizerUpdateReachedEventArgs;
 		
-		Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&> SpeechDetected;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&> SpeechDetected;
 		
-		Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&> SpeechHypothesized;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&> SpeechHypothesized;
 		
-		//Event<void, const SpeechRecognitionEngine&, const SpeechRecognitionRejectedEventArgs&> SpeechRecognitionRejected;
+		//Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechRecognitionRejectedEventArgs&> SpeechRecognitionRejected;
 
-		Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&> SpeechRecognized;
+		Elysium::Core::Event<void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&> SpeechRecognized;
 	public:
 		void LoadGrammar(Grammar& Grammar);
 

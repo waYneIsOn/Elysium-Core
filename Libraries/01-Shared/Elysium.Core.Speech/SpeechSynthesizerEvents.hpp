@@ -12,10 +12,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EVENT
-#include "../Elysium.Core/Event.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_SPEECH_API
 #include "API.hpp"
 #endif
@@ -52,17 +48,21 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "VoiceChangeEventArgs.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_DISPATCH_EVENT
+#include "../Elysium.Core.Template/Dispatch/Event.hpp"
+#endif
+
 namespace Elysium::Core::Speech::Synthesis
 {
 	class SpeechSynthesizer;
 
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const SpeakProgressEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const SpeakStartedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const StateChangedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const VisemeReachedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Event<void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const BookmarkReachedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const PhonemeReachedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const SpeakCompletedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const SpeakProgressEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const SpeakStartedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const StateChangedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const VisemeReachedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechSynthesizer&, const VoiceChangeEventArgs&>;
 }
 #endif

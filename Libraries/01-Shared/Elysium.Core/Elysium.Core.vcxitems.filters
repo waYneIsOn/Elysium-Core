@@ -65,7 +65,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IAsyncResult.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Object.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Console.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)EventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IFormatProvider.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Interface.hpp" />
@@ -116,6 +115,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\View\SpanOfBytes.hpp">
       <Filter>Container\View</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Event.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
