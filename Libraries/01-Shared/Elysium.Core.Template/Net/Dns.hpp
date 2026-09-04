@@ -52,7 +52,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #error "unsupported os"
 #endif
 
-
 namespace Elysium::Core::Template::Net
 {
 	class Dns

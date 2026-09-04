@@ -45,7 +45,7 @@ Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher()
 	_InternalBufferSize(_SafeInformationBufferSize), _DirectoryHandle(INVALID_HANDLE_VALUE), _CompletionPort(nullptr)
 { }
 
-Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const NotifyFilters NotifyFilters, const bool IncludeSubdirectories, const Elysium::Core::Template::System::size InternalBufferSize)
+Elysium::Core::IO::FileSystemWatcher::FileSystemWatcher(const char8_t* Path, const char8_t* Filter, const Elysium::Core::Template::IO::FileSystem::NotifyFilters NotifyFilters, const bool IncludeSubdirectories, const Elysium::Core::Template::System::size InternalBufferSize)
 	: _Path(Path), _Filter(Filter), _NotifyFilters(NotifyFilters), _IncludeSubdirectories(IncludeSubdirectories), 
 	_AddressOfLatestAsyncResult(nullptr), _InternalBufferSize(InternalBufferSize),
 	_DirectoryHandle(CreateNativeDirectoryHandle(&_Path[0], _Path.GetLength())),
@@ -86,7 +86,7 @@ Elysium::Core::IO::FileSystemWatcher::~FileSystemWatcher()
 #endif
 }
 
-const Elysium::Core::IO::NotifyFilters Elysium::Core::IO::FileSystemWatcher::GetNotifyFilters() const
+const Elysium::Core::Template::IO::FileSystem::NotifyFilters Elysium::Core::IO::FileSystemWatcher::GetNotifyFilters() const
 {
 	return _NotifyFilters;
 }
@@ -359,21 +359,21 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 		case FILE_ACTION_ADDED:
 			if (IsInterested(&FileName[0], true))
 			{
-				OnCreated(*this, FileSystemEventArgs(WatcherChangeTypes::Created, Elysium::Core::Template::Functional::Move(FullPath),
+				OnCreated(*this, FileSystemEventArgs(Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes::Created, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName)));
 			}
 			break;
 		case FILE_ACTION_REMOVED:
 			if (IsInterested(&FileName[0], true))
 			{
-				OnDeleted(*this, FileSystemEventArgs(WatcherChangeTypes::Deleted, Elysium::Core::Template::Functional::Move(FullPath),
+				OnDeleted(*this, FileSystemEventArgs(Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes::Deleted, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName)));
 			}
 			break;
 		case FILE_ACTION_MODIFIED:
 			if (IsInterested(&FileName[0], true))
 			{
-				OnChanged(*this, FileSystemEventArgs(WatcherChangeTypes::Changed, Elysium::Core::Template::Functional::Move(FullPath),
+				OnChanged(*this, FileSystemEventArgs(Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes::Changed, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName)));
 			}
 			break;
@@ -386,7 +386,7 @@ void Elysium::Core::IO::FileSystemWatcher::Process(Elysium::Core::Template::Memo
 			{
 				Utf8String OldFileName = Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<char8_t>(OldName,
 					Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(OldName));
-				OnRenamed(*this, RenamedEventArgs(WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
+				OnRenamed(*this, RenamedEventArgs(Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes::Renamed, Elysium::Core::Template::Functional::Move(FullPath),
 					Elysium::Core::Template::Functional::Move(FileName), Elysium::Core::Template::Functional::Move(OldFileName)));
 			}
 		}

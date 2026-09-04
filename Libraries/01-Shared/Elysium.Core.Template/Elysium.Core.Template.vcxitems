@@ -43,6 +43,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendNever.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Connection.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Event.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\MessageQueue.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Signal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
@@ -70,6 +74,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\KnownCompressionAlgorithm.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\AnonymousPipeDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\MemoryDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\NamedPipeDevice.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\SharedMemoryDevice.hpp" />
@@ -78,6 +83,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileOptions.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileShare.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Directory.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Directory.Windows.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemWatcher.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemWatcher.Windows.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\NotifyFilters.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Path.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\WatcherChangeTypes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InStream.hpp" />
@@ -291,7 +303,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Exception.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Factorial.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Find.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FloatingPoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Floor.hpp" />

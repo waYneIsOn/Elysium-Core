@@ -28,8 +28,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_WATCHERCHANGETYPES
-#include "WatcherChangeTypes.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_WATCHERCHANGETYPES
+#include "../Elysium.Core.Template/IO/FileSystem/WatcherChangeTypes.hpp"
 #endif
 
 namespace Elysium::Core::IO
@@ -41,7 +41,7 @@ namespace Elysium::Core::IO
 	{
 		friend class FileSystemWatcher;
 	protected:
-		FileSystemEventArgs(const WatcherChangeTypes ChangeType, Elysium::Core::Utf8String&& FullPath, Elysium::Core::Utf8String&& Name);
+		FileSystemEventArgs(const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType, Elysium::Core::Utf8String&& FullPath, Elysium::Core::Utf8String&& Name);
 	public:
 		FileSystemEventArgs(const FileSystemEventArgs& Source) = delete;
 
@@ -53,13 +53,13 @@ namespace Elysium::Core::IO
 
 		FileSystemEventArgs& operator=(FileSystemEventArgs&& Right) noexcept = delete;
 	public:
-		const WatcherChangeTypes GetChangeType() const;
+		const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes GetChangeType() const;
 
 		const Utf8String& GetFullPath() const;
 
 		const Utf8String& GetName() const;
 	private:
-		WatcherChangeTypes _ChangeType;
+		Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes _ChangeType;
 		Utf8String _FullPath;
 		Utf8String _Name;
 	};

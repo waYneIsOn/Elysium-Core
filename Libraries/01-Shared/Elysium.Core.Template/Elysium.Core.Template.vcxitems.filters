@@ -238,9 +238,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Truncate.hpp">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem.hpp">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Sorting/BlockSort.hpp">
       <Filter>Algorithms\Sorting</Filter>
     </ClInclude>
@@ -828,7 +825,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Source\FileSource.hpp">
       <Filter>IO\Source</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.Windows.hpp">
       <Filter>IO\Device</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileMode.hpp">
@@ -1293,6 +1290,42 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\TaskStatus.hpp">
       <Filter>Threading\Tasks</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\NotifyFilters.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Directory.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Directory.Windows.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\WatcherChangeTypes.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Path.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemWatcher.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemWatcher.Windows.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\Device\FileDevice.hpp">
+      <Filter>IO\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Connection.hpp">
+      <Filter>Dispatch</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Event.hpp">
+      <Filter>Dispatch</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Signal.hpp">
+      <Filter>Dispatch</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\MessageQueue.hpp">
+      <Filter>Dispatch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
@@ -1507,6 +1540,12 @@
     </Filter>
     <Filter Include="Coroutines\Awaiter">
       <UniqueIdentifier>{85352565-7f69-4109-a15c-836e36a336ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO\FileSystem">
+      <UniqueIdentifier>{172c0c5b-2795-438c-9979-c6116e6e046e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispatch">
+      <UniqueIdentifier>{ae47994c-1b78-464e-a724-b30ee4ddc995}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

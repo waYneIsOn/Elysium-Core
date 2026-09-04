@@ -5,29 +5,26 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_IO_NOTIFYFILTERS
-#define ELYSIUM_CORE_IO_NOTIFYFILTERS
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_NOTIFYFILTERS
+#define ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_NOTIFYFILTERS
 
 #ifdef _MSC_VER
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_PRIMITIVES
-#include "../Elysium.Core/Primitives.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
+#include "../../System/OperatingSystem.hpp"
 #endif
 
-namespace Elysium::Core::IO
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../../System/Primitives.hpp"
+#endif
+
+namespace Elysium::Core::Template::IO::FileSystem
 {
-	/// <summary>
-	/// 
-	/// </summary>
 #if defined ELYSIUM_CORE_OS_WINDOWS
-	enum class NotifyFilters 
-		: Elysium::Core::uint16_t
+	enum class NotifyFilters
+		: Elysium::Core::Template::System::uint16_t
 #elif defined ELYSIUM_CORE_OS_ANDROID
 	enum class NotifyFilters
 #else
@@ -75,14 +72,15 @@ namespace Elysium::Core::IO
 		Security = 0x100,
 	};
 
+
 	inline constexpr NotifyFilters operator|(const NotifyFilters Left, const NotifyFilters Right)
 	{
-		return static_cast<NotifyFilters>(static_cast<uint16_t>(Left) | static_cast<uint16_t>(Right));
+		return static_cast<NotifyFilters>(static_cast<Elysium::Core::Template::System::uint16_t>(Left) | static_cast<Elysium::Core::Template::System::uint16_t>(Right));
 	}
 
 	inline constexpr NotifyFilters operator&(const NotifyFilters Left, const NotifyFilters Right)
 	{
-		return static_cast<NotifyFilters>(static_cast<uint16_t>(Left) & static_cast<uint16_t>(Right));
+		return static_cast<NotifyFilters>(static_cast<Elysium::Core::Template::System::uint16_t>(Left) & static_cast<Elysium::Core::Template::System::uint16_t>(Right));
 	}
 }
 #endif

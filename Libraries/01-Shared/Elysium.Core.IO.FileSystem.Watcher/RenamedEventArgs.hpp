@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_WATCHERCHANGETYPES
-#include "WatcherChangeTypes.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_WATCHERCHANGETYPES
+#include "../Elysium.Core.Template/IO/FileSystem/WatcherChangeTypes.hpp"
 #endif
 
 namespace Elysium::Core::IO
@@ -37,7 +37,7 @@ namespace Elysium::Core::IO
 	{
 		friend class FileSystemWatcher;
 	protected:
-		RenamedEventArgs(const WatcherChangeTypes ChangeType, Utf8String&& FullPath, Utf8String&& Name, Utf8String&& OldName);
+		RenamedEventArgs(const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType, Utf8String&& FullPath, Utf8String&& Name, Utf8String&& OldName);
 	public:
 		RenamedEventArgs(const RenamedEventArgs& Source) = delete;
 

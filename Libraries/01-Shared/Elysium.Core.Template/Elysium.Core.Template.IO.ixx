@@ -29,10 +29,6 @@ module;
 #include "IO/FileShare.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM
-#include "IO/FileSystem.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_IO_INOUTSTREAM
 #include "IO/InOutStream.hpp"
 #endif
@@ -57,7 +53,6 @@ export
 	using Elysium::Core::Template::IO::FileMode;
 	using Elysium::Core::Template::IO::FileOptions;
 	using Elysium::Core::Template::IO::FileShare;
-	using Elysium::Core::Template::IO::FileSystem;
 	using Elysium::Core::Template::IO::InOutStream;
 	using Elysium::Core::Template::IO::InStream;
 	using Elysium::Core::Template::IO::OutStream;

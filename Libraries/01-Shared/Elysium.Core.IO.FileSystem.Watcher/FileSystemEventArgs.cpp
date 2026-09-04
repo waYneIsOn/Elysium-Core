@@ -4,7 +4,7 @@
 #include "../Elysium.Core.Template/Move.hpp"
 #endif
 
-Elysium::Core::IO::FileSystemEventArgs::FileSystemEventArgs(const WatcherChangeTypes ChangeType, Elysium::Core::Utf8String&& FullPath, Elysium::Core::Utf8String&& Name)
+Elysium::Core::IO::FileSystemEventArgs::FileSystemEventArgs(const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType, Elysium::Core::Utf8String&& FullPath, Elysium::Core::Utf8String&& Name)
 	: Elysium::Core::EventArgs(),
 	_ChangeType(ChangeType), _FullPath(Elysium::Core::Template::Functional::Move(FullPath)), 
 	_Name(Elysium::Core::Template::Functional::Move(Name))
@@ -13,7 +13,7 @@ Elysium::Core::IO::FileSystemEventArgs::FileSystemEventArgs(const WatcherChangeT
 Elysium::Core::IO::FileSystemEventArgs::~FileSystemEventArgs()
 { }
 
-const Elysium::Core::IO::WatcherChangeTypes Elysium::Core::IO::FileSystemEventArgs::GetChangeType() const
+const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes Elysium::Core::IO::FileSystemEventArgs::GetChangeType() const
 {
 	return _ChangeType;
 }

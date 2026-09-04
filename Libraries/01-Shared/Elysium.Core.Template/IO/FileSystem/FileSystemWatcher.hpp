@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_DEVICE_FILEDEVICE
-#define ELYSIUM_CORE_TEMPLATE_IO_DEVICE_FILEDEVICE
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_FILESYSTEMWATCHER
+#define ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_FILESYSTEMWATCHER
 
 #ifdef _MSC_VER
 #pragma once
@@ -17,8 +17,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_DEVICE_FILEDEVICE_WINDOWS
-#include "FileDevice.Windows.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_FILESYSTEMWATCHER_WINDOWS
+#include "FileSystemWatcher.Windows.hpp"
 #endif
 #endif
 

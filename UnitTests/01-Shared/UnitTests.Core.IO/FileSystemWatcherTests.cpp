@@ -10,7 +10,7 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcherAsyncResult.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Delegate.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/FileSystem.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/FileSystem/Directory.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/RunTimeTypeInformation/Enumeration.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/ManualResetEvent.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Thread.hpp"
@@ -108,8 +108,8 @@ namespace UnitTests::Core::IO
 			File::Delete(_FilePath1);
 			File::Delete(_OtherFilePath0);
 
-			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-			Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+			Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath0);
+			Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath1);
 
 			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
 			DirectoryWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
@@ -157,8 +157,8 @@ namespace UnitTests::Core::IO
 				File::Delete(_FilePath1);
 				File::Delete(_OtherFilePath0);
 
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath0);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath1);
 
 				FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"*.txt");
 				FileWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
@@ -204,8 +204,8 @@ namespace UnitTests::Core::IO
 				File::Delete(_FilePath1);
 				File::Delete(_OtherFilePath0);
 
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath0);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath1);
 
 				FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"*.log");
 				FileWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
@@ -251,8 +251,8 @@ namespace UnitTests::Core::IO
 				File::Delete(_FilePath1);
 				File::Delete(_OtherFilePath0);
 
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath0);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath1);
 
 				FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"file.*");
 				FileWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
@@ -269,8 +269,8 @@ namespace UnitTests::Core::IO
 				File::Delete(_FilePath1);
 				File::Delete(_OtherFilePath0);
 
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath0);
-				Elysium::Core::Template::IO::FileSystem::RemoveFolder(_DirectoryPath1);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath0);
+				Elysium::Core::Template::IO::FileSystem::Directory::Remove(_DirectoryPath1);
 
 				FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, _OtherFilePath0);
 				FileWatcher.OnChanged += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnChanged>(*this);
@@ -385,7 +385,7 @@ namespace UnitTests::Core::IO
 				File::Delete(&FileName[0]);
 			}
 
-			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::CreateFolder(_ErrorDirectory);
+			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::Directory::Create(_ErrorDirectory);
 			Assert::IsTrue(CreateFolderResult);
 
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
@@ -523,7 +523,7 @@ namespace UnitTests::Core::IO
 
 		void CreateFolderAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
-			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::CreateFolder(FQPN);
+			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::Directory::Create(FQPN);
 			const bool WaitResult = Event.WaitOne(1000);
 			if (ShouldTrigger && !WaitResult)
 			{
@@ -538,7 +538,7 @@ namespace UnitTests::Core::IO
 
 		void RenameFolderAndWait(const char8_t* FQPNInitial, const char8_t* FQPNChanged, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
-			bool RenameFolderResult1 = Elysium::Core::Template::IO::FileSystem::RenameFolder(FQPNInitial, FQPNChanged);
+			bool RenameFolderResult1 = Elysium::Core::Template::IO::FileSystem::Directory::Rename(FQPNInitial, FQPNChanged);
 			const bool WaitResult0 = Event.WaitOne(1000);
 			if (ShouldTrigger && !WaitResult0)
 			{
@@ -550,7 +550,7 @@ namespace UnitTests::Core::IO
 			}
 			Event.Reset();
 
-			bool RenameFolderResult2 = Elysium::Core::Template::IO::FileSystem::RenameFolder(FQPNChanged, FQPNInitial);
+			bool RenameFolderResult2 = Elysium::Core::Template::IO::FileSystem::Directory::Rename(FQPNChanged, FQPNInitial);
 			const bool WaitResult1 = Event.WaitOne(1000);
 			if (ShouldTrigger && !WaitResult1)
 			{
@@ -565,7 +565,7 @@ namespace UnitTests::Core::IO
 
 		void DeleteFolderAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
-			bool RemoveFolderResult = Elysium::Core::Template::IO::FileSystem::RemoveFolder(FQPN);
+			bool RemoveFolderResult = Elysium::Core::Template::IO::FileSystem::Directory::Remove(FQPN);
 			const bool WaitResult = _DeletedResetEvent.WaitOne(1000);
 			if (ShouldTrigger && !WaitResult)
 			{
@@ -582,7 +582,7 @@ namespace UnitTests::Core::IO
 		{
 			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnCreated\r\n");
 
-			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+			const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
 			ThreadsafeLogger::WriteMessage("\tFullPath: ");
@@ -607,7 +607,7 @@ namespace UnitTests::Core::IO
 		{
 			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnChanged\r\n");
 
-			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+			const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 			//const Utf8String ChangeTypeName = Enumeration<WatcherChangeTypes>::GetNamedValue<ChangeType>();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
@@ -627,7 +627,7 @@ namespace UnitTests::Core::IO
 		{
 			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnDeleted\r\n");
 
-			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+			const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
 			ThreadsafeLogger::WriteMessage("\tFullPath: ");
@@ -652,7 +652,7 @@ namespace UnitTests::Core::IO
 		{
 			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnRenamed\r\n");
 
-			const WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
+			const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType = EventArgs.GetChangeType();
 
 			const Utf8String FullPath = EventArgs.GetFullPath();
 			ThreadsafeLogger::WriteMessage("\tFullPath: ");

@@ -40,12 +40,12 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_NOTIFYFILTERS
-#include "NotifyFilters.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_IO_RENAMEDEVENTARGS
 #include "RenamedEventArgs.hpp"
+#endif
+
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_NOTIFYFILTERS
+#include "../Elysium.Core.Template/IO/FileSystem/NotifyFilters.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
@@ -86,7 +86,7 @@ namespace Elysium::Core::IO
 	private:
 		FileSystemWatcher();
 	public:
-		FileSystemWatcher(const char8_t* Path, const char8_t* Filter = u8"*.*", const NotifyFilters NotifyFilters = DefaultNotifyFilters, 
+		FileSystemWatcher(const char8_t* Path, const char8_t* Filter = u8"*.*", const Elysium::Core::Template::IO::FileSystem::NotifyFilters NotifyFilters = DefaultNotifyFilters,
 			const bool IncludeSubdirectories = false, const Elysium::Core::Template::System::size InternalBufferSize = _SafeInformationBufferSize);
 
 		FileSystemWatcher(const FileSystemWatcher& Source) = delete;
@@ -99,7 +99,7 @@ namespace Elysium::Core::IO
 
 		FileSystemWatcher& operator=(FileSystemWatcher&& Right) noexcept = delete;
 	public:
-		const NotifyFilters GetNotifyFilters() const;
+		const Elysium::Core::Template::IO::FileSystem::NotifyFilters GetNotifyFilters() const;
 
 		const bool GetIncludeSubdirectories() const;
 
@@ -111,15 +111,15 @@ namespace Elysium::Core::IO
 
 		void EndInit();
 	public:
-		Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnChanged;
+		Elysium::Core::Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnChanged;
 
-		Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnCreated;
+		Elysium::Core::Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnCreated;
 
-		Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnDeleted;
+		Elysium::Core::Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnDeleted;
 
-		Event<void, const FileSystemWatcher&, const ErrorEventArgs&> OnError;
+		Elysium::Core::Event<void, const FileSystemWatcher&, const ErrorEventArgs&> OnError;
 
-		Event<void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed;
+		Elysium::Core::Event<void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed;
 	private:
 		const bool IsInterested(const char8_t* RelativePath, const bool CaseInsensitive);
 
@@ -130,7 +130,8 @@ namespace Elysium::Core::IO
 		/// <summary>
 		/// 
 		/// </summary>
-		inline static constexpr const NotifyFilters DefaultNotifyFilters = NotifyFilters::LastWrite | NotifyFilters::FileName | NotifyFilters::DirectoryName;
+		inline static constexpr const Elysium::Core::Template::IO::FileSystem::NotifyFilters DefaultNotifyFilters = Elysium::Core::Template::IO::FileSystem::NotifyFilters::LastWrite | 
+			Elysium::Core::Template::IO::FileSystem::NotifyFilters::FileName | Elysium::Core::Template::IO::FileSystem::NotifyFilters::DirectoryName;
 		
 		/// <summary>
 		/// 4kb is the default memory page size on windows (x86 and x64).
@@ -151,7 +152,7 @@ namespace Elysium::Core::IO
 		/// </summary>
 		inline static constexpr const Elysium::Core::size _MaximumInformationBufferSize = 262144;
 	private:
-		NotifyFilters _NotifyFilters;
+		Elysium::Core::Template::IO::FileSystem::NotifyFilters _NotifyFilters;
 		bool _IncludeSubdirectories;
 		Utf8String _Path;
 		Utf8String _Filter;
