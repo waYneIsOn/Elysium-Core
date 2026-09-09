@@ -1320,11 +1320,17 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Event.hpp">
       <Filter>Dispatch</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Signal.hpp">
-      <Filter>Dispatch</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\MessageQueue.hpp">
       <Filter>Dispatch</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemEventArgs.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\ErrorEventArgs.hpp">
+      <Filter>IO\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\RenamedEventArgs.hpp">
+      <Filter>IO\FileSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

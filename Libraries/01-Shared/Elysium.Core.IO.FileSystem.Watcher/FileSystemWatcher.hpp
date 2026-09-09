@@ -12,169 +12,38 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#ifndef ELYSIUM_CORE_EVENT
-#include "../Elysium.Core/Event.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IASYNCRESULT
-#include "../Elysium.Core/IAsyncResult.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_STRING
 #include "../Elysium.Core/String.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_ERROREVENTARGS
-#include "ErrorEventArgs.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_FILESYSTEMEVENTARGS
-#include "FileSystemEventArgs.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_IO_FILESYSTEMWATCHERASYNCRESULT
-#include "FileSystemWatcherAsyncResult.hpp"
+#ifndef ELYSIUM_CORE_STRINGVIEW
+#include "../Elysium.Core/StringView.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API
 #include "API.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_IO_RENAMEDEVENTARGS
-#include "RenamedEventArgs.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_NOTIFYFILTERS
-#include "../Elysium.Core.Template/IO/FileSystem/NotifyFilters.hpp"
-#endif
-
-#ifndef ELYSIUM_CORE_TEMPLATE_MEMORY_UNIQUEPOINTER
-#include "../Elysium.Core.Template/Memory/UniquePointer.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_IO_FILESYSTEM_FILESYSTEMWATCHER
+#include "../Elysium.Core.Template/IO/FileSystem/FileSystemWatcher.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_THREADING_ATOMIC
 #include "../Elysium.Core.Threading/Atomic.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef _WINDOWS_
-#define _WINSOCKAPI_ // don't include winsock
-#include <Windows.h>
+#ifndef ELYSIUM_CORE_THREADING_MANUALRESETEVENT
+#include "../Elysium.Core.Threading/ManualResetEvent.hpp"
 #endif
 
-#ifndef _APISETFILE_
-#include <fileapi.h>
-#endif
-#else
-#error "undefined os"
+#ifndef ELYSIUM_CORE_THREADING_MUTEX
+#include "../Elysium.Core.Threading/Mutex.hpp"
 #endif
 
 namespace Elysium::Core::IO
 {
-	class FileSystemWatcher;
-	/*
-	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>;
-	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>;
-	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>;
-	*-/
-	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Event<void, const FileSystemWatcher&, const FileSystemEventArgs&>;
-	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Event<void, const FileSystemWatcher&, const ErrorEventArgs&>;
-	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER Event<void, const FileSystemWatcher&, const RenamedEventArgs&>;
-	*/
-	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER FileSystemWatcher
-	{
-	private:
-		FileSystemWatcher();
-	public:
-		FileSystemWatcher(const char8_t* Path, const char8_t* Filter = u8"*.*", const Elysium::Core::Template::IO::FileSystem::NotifyFilters NotifyFilters = DefaultNotifyFilters,
-			const bool IncludeSubdirectories = false, const Elysium::Core::Template::System::size InternalBufferSize = _SafeInformationBufferSize);
+	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API Elysium::Core::Template::IO::FileSystem::FileSystemWatcher;
 
-		FileSystemWatcher(const FileSystemWatcher& Source) = delete;
-
-		FileSystemWatcher(FileSystemWatcher&& Right) noexcept = delete;
-
-		~FileSystemWatcher();
-	public:
-		FileSystemWatcher& operator=(const FileSystemWatcher& Source) = delete;
-
-		FileSystemWatcher& operator=(FileSystemWatcher&& Right) noexcept = delete;
-	public:
-		const Elysium::Core::Template::IO::FileSystem::NotifyFilters GetNotifyFilters() const;
-
-		const bool GetIncludeSubdirectories() const;
-
-		const Utf8String& GetPath() const;
-
-		const Utf8String& GetFilter() const;
-	public:
-		void BeginInit();
-
-		void EndInit();
-	public:
-		Elysium::Core::Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnChanged;
-
-		Elysium::Core::Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnCreated;
-
-		Elysium::Core::Event<void, const FileSystemWatcher&, const FileSystemEventArgs&> OnDeleted;
-
-		Elysium::Core::Event<void, const FileSystemWatcher&, const ErrorEventArgs&> OnError;
-
-		Elysium::Core::Event<void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed;
-	private:
-		const bool IsInterested(const char8_t* RelativePath, const bool CaseInsensitive);
-
-		void Process(Elysium::Core::Template::Memory::ObserverPointer<Elysium::Core::IAsyncResult> AsyncResult);
-
-		static void CleanUp(FileSystemWatcherAsyncResult* RawAsyncFileWatcherResult, const bool WasSuccessful);
-	public:
-		/// <summary>
-		/// 
-		/// </summary>
-		inline static constexpr const Elysium::Core::Template::IO::FileSystem::NotifyFilters DefaultNotifyFilters = Elysium::Core::Template::IO::FileSystem::NotifyFilters::LastWrite | 
-			Elysium::Core::Template::IO::FileSystem::NotifyFilters::FileName | Elysium::Core::Template::IO::FileSystem::NotifyFilters::DirectoryName;
-		
-		/// <summary>
-		/// 4kb is the default memory page size on windows (x86 and x64).
-		/// This should be used with a low event volume where the use of minimal memory suffices.
-		/// </summary>
-		inline static constexpr const Elysium::Core::size _MinimumInformationBufferSize = 4096;
-
-		/// <summary>
-		/// 64kb appears to be the safe upper bound for compatibility across all filesystems on windows.
-		/// This appears to be the sweet spot in regards to safety, compatibility and efficiency.
-		/// (Chromium, VS Code etc. appear to be using this value - with overflow detection/resilience logic.)
-		/// </summary>
-		inline static constexpr const Elysium::Core::size _SafeInformationBufferSize = 65536;
-
-		/// <summary>
-		/// 128-256kb works but might be risky in some filesystems.
-		/// This can be used for high frequency event volume.
-		/// </summary>
-		inline static constexpr const Elysium::Core::size _MaximumInformationBufferSize = 262144;
-	private:
-		Elysium::Core::Template::IO::FileSystem::NotifyFilters _NotifyFilters;
-		bool _IncludeSubdirectories;
-		Utf8String _Path;
-		Utf8String _Filter;
-		Elysium::Core::Template::System::size _InternalBufferSize;
-
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint8_t> _InFlightIos = 0;
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::uint8_t> _RunningCallbacks = 0;
-		Elysium::Core::Template::Threading::Atomic<bool> _IsEnding = false;
-
-		Elysium::Core::Template::Threading::Atomic<FileSystemWatcherAsyncResult*> _AddressOfLatestAsyncResult;
-
-#if defined ELYSIUM_CORE_OS_WINDOWS
-		HANDLE _DirectoryHandle;
-		PTP_IO _CompletionPort;
-	private:
-		HANDLE CreateNativeDirectoryHandle(const char8_t* Path, const size_t PathLength);
-
-		static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult,
-			ULONG_PTR NumberOfBytesTransferred, PTP_IO Io);
-#else
-#error "undefined os"
-#endif
-	};
+	using FileSystemWatcher = Elysium::Core::Template::IO::FileSystem::FileSystemWatcher;
 }
 #endif

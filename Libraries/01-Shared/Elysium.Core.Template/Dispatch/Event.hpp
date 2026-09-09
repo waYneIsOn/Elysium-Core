@@ -50,7 +50,7 @@ namespace Elysium::Core::Template::Dispatch
 			return *this;
 		}
 
-		inline constexpr ReturnType operator()(Args... EventArgs)
+		inline constexpr ReturnType operator()(Args... EventArgs) const
 		{
 			for (Elysium::Core::Template::System::size i = 0; i < _HandlerList.GetLength(); ++i)
 			{

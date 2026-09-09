@@ -49,7 +49,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core::IO
 {
 	class FileStream;
-	class FileSystemWatcher;
 }
 
 namespace Elysium::Core::Net::Sockets
@@ -63,7 +62,6 @@ namespace Elysium::Core::Internal
 		: public IAsyncResult
 	{
 		friend class IO::FileStream;
-		friend class IO::FileSystemWatcher;
 		friend class Net::Sockets::Socket;
 	protected:
 		AsyncResult(const Elysium::Core::Container::DelegateOfVoidAtomicIASyncResultReference& Callback, const void* AsyncState,

@@ -193,7 +193,13 @@ namespace Elysium::Core::Template::Text
 		{
 			return true;
 		}
-		return _Data == Other._Data && _Length == Other._Length;
+		/*
+		if (_Length != Other._Length)
+		{
+			return false;
+		}
+		*/
+		return Traits::Compare(_Data, Other._Data, Other._Length) == 0;
 	}
 
 	template<Concepts::Character C, class Traits>

@@ -20,22 +20,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Elysium.Core.Template/Threading/ThreadPool.hpp"
 #endif
 
-namespace Elysium::Core::IO
-{
-	class FileStream;
-	class FileSystemWatcher;
-}
-
-namespace Elysium::Core::Net::Sockets
-{
-	class Socket;
-}
-
-namespace Elysium::Core::Threading::Tasks
-{
-	class Task;
-}
-
 namespace Elysium::Core::Threading
 {
 	class ELYSIUM_CORE_API  Elysium::Core::Template::Threading::ThreadPool;

@@ -12,14 +12,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../Elysium.Core.Template/System.hpp"
+#include "../Elysium.Core.Template/System/OperatingSystem.hpp"
 #endif
 
 #if defined ELYSIUM_CORE_OS_WINDOWS
 #ifdef ELYSIUMCOREIOFILESYSTEMWATCHER_EXPORTS
-#define ELYSIUM_CORE_IO_FILESYSTEM_WATCHER __declspec(dllexport)
+#define ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API __declspec(dllexport)
 #else
-#define ELYSIUM_CORE_IO_FILESYSTEM_WATCHER __declspec(dllimport)
+#define ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API __declspec(dllimport)
 #endif
 #elif defined ELYSIUM_CORE_OS_LINUX
 #define ELYSIUM_CORE_IO_FILESYSTEM_WATCHER

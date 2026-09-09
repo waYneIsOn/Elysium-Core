@@ -199,7 +199,7 @@ namespace Elysium::Core::Template::IO::Device
 			CancelIoEx(_FileHandle, nullptr);
 			_AllIoOperationsCompleted.WaitOne();
 
-			if (_CompletionPortHandle != nullptr)
+			if (nullptr != _CompletionPortHandle)
 			{
 				// wait for CALLBACKS that are queued/running
 				WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);

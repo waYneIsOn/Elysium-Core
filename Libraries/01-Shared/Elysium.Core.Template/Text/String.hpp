@@ -555,8 +555,7 @@ namespace Elysium::Core::Template::Text
 		}
 		else
 		{
-			return Traits::Compare(reinterpret_cast<ConstCharacterPointer>(&_InternalString._Stack._Data[0]), Other, 
-				_InternalString._Stack.GetSize()) != 0;
+			return Traits::Compare(reinterpret_cast<ConstCharacterPointer>(&_InternalString._Stack._Data[0]), Other,  _InternalString._Stack.GetSize()) != 0;
 		}
 	}
 

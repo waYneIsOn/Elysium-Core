@@ -21,13 +21,13 @@ namespace Elysium::Core
 	class ELYSIUM_CORE_API EventArgs
 	{
 	public:
-		EventArgs();
+		constexpr EventArgs() = default;
 
 		EventArgs(const EventArgs& Source) = delete;
 
 		EventArgs(EventArgs&& Right) noexcept = delete;
 
-		virtual ~EventArgs();
+		virtual ~EventArgs() = default;
 	public:
 		EventArgs& operator=(const EventArgs& Source) = delete;
 

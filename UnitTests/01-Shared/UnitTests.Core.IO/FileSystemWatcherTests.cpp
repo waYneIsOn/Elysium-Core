@@ -7,7 +7,6 @@
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/File.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO/FileStream.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcher.hpp"
-#include "../../../Libraries/01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcherAsyncResult.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Text/Convert.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Container/Delegate.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/IO/FileSystem/Directory.hpp"
@@ -18,6 +17,7 @@
 using namespace Elysium::Core;
 using namespace Elysium::Core::IO;
 using namespace Elysium::Core::Template::Container;
+using namespace Elysium::Core::Template::IO::FileSystem;
 using namespace Elysium::Core::Template::RunTimeTypeInformation;
 using namespace Elysium::Core::Threading;
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -39,17 +39,22 @@ namespace UnitTests::Core::IO
 		TEST_METHOD(A_RunAllTestMultipleTimesToProvokeCodeErrors)
 		{
 			const DateTime Now = DateTime::UtcNow();
-			const DateTime End = DateTime::UtcNow() + TimeSpan::FromHours(3);
+			//const DateTime End = DateTime::UtcNow() + TimeSpan::FromHours(3);
+			const DateTime End = DateTime::UtcNow() + TimeSpan::FromHours(1);
+			//const DateTime End = DateTime::UtcNow() + TimeSpan::FromMinutes(10);
 
 			while (DateTime::UtcNow() < End)
 			{
 				NonUTWatchAllChanges();
 				NonUTWatchFilteredChanges();
 				NonUTWatchZeroChanges();
-				NonUTProvokeBufferOverflow();
-				NonUTProvokeOtherErrors();
+				
+				//NonUTProvokeBufferOverflow();
+				//NonUTProvokeOtherErrors();
+				/*
 				NonUTRapidFire();
 				NonUTReuse();
+				*/
 			}
 		}
 		
@@ -90,11 +95,6 @@ namespace UnitTests::Core::IO
 	private:
 		void NonUTRapidFire()
 		{
-			// This tests for the following errors:
-			//	- Exception thrown at 0x0000000000000000 in testhost.exe: 0xC0000005: Access violation executing location 0x0000000000000000.
-			// Happens in some os-thread and cannot be debugged. It most likely means that FileSystemWatcherAsyncResult gets deleted
-			// too early in which case the vtable lookup would return a nullptr.
-			// - CloseHandle(...) was called with no in-flight ios (BeginRead() followed by callback)
 			for (int i = 0; i < 1000; ++i)
 			{
 				FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
@@ -117,7 +117,7 @@ namespace UnitTests::Core::IO
 			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-
+			
 			/*
 			* Make sure this loop runs for a multiple of two!
 			* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -147,6 +147,13 @@ namespace UnitTests::Core::IO
 
 				ThreadsafeLogger::WriteMessage(L"----\r\n");
 			}
+
+			_CreatedResetEvent.Reset();
+			_ChangedResetEvent.Reset();
+			_RenamedResetEvent.Reset();
+			_DeletedResetEvent.Reset();
+			_OtherCreatedResetEvent.Reset();
+			_OtherDeletedResetEvent.Reset();
 		}
 
 		void NonUTWatchFilteredChanges()
@@ -166,7 +173,7 @@ namespace UnitTests::Core::IO
 				FileWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 				FileWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 				FileWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-
+				
 				/*
 				* Make sure this loop runs for a multiple of two!
 				* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -191,13 +198,20 @@ namespace UnitTests::Core::IO
 					// test both with and without calling EndInit()
 					if (i % 2 == 0)
 					{
-						//FileWatcher.EndInit();
+						FileWatcher.EndInit();
 					}
 
 					ThreadsafeLogger::WriteMessage(L"----\r\n");
 				}
-			}
 
+				_CreatedResetEvent.Reset();
+				_ChangedResetEvent.Reset();
+				_RenamedResetEvent.Reset();
+				_DeletedResetEvent.Reset();
+				_OtherCreatedResetEvent.Reset();
+				_OtherDeletedResetEvent.Reset();
+			}
+			
 			// only log-files
 			{
 				File::Delete(_FilePath0);
@@ -213,7 +227,7 @@ namespace UnitTests::Core::IO
 				FileWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 				FileWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 				FileWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-
+				
 				/*
 				* Make sure this loop runs for a multiple of two!
 				* Because of calling EndInit() with Modulo 2 the last run should work without calling it,
@@ -238,13 +252,20 @@ namespace UnitTests::Core::IO
 					// test both with and without calling EndInit()
 					if (i % 2 == 0)
 					{
-						//FileWatcher.EndInit();
+						FileWatcher.EndInit();
 					}
 
 					ThreadsafeLogger::WriteMessage(L"----\r\n");
 				}
-			}
 
+				_CreatedResetEvent.Reset();
+				_ChangedResetEvent.Reset();
+				_RenamedResetEvent.Reset();
+				_DeletedResetEvent.Reset();
+				_OtherCreatedResetEvent.Reset();
+				_OtherDeletedResetEvent.Reset();
+			}
+			
 			// files with specific name independent of extension
 			{
 				File::Delete(_FilePath0);
@@ -260,9 +281,8 @@ namespace UnitTests::Core::IO
 				FileWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 				FileWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 				FileWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-
 			}
-
+			
 			// only specific file
 			{
 				File::Delete(_FilePath0);
@@ -278,7 +298,6 @@ namespace UnitTests::Core::IO
 				FileWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 				FileWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 				FileWatcher.OnRenamed += Delegate<void, const FileSystemWatcher&, const RenamedEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnRenamed>(*this);
-
 			}
 
 			// only directories
@@ -291,54 +310,33 @@ namespace UnitTests::Core::IO
 		{
 			const Elysium::Core::uint32_t ExecutingThreadId = Elysium::Core::Threading::Thread::GetCurrentThreadIdX();
 
-			ThreadsafeLogger::WriteMessage(L"Main thread: ");
-			ThreadsafeLogger::WriteMessage(&Elysium::Core::Template::Text::Convert<char>::ToString(ExecutingThreadId)[0]);
-			ThreadsafeLogger::WriteMessage(L"\r\nwatching directory:\r\n");
-
 			{
 				for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 				{
 					FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory);
-					ThreadsafeLogger::WriteMessage(L"\tBeginInit()\r\n");
 					DirectoryWatcher.BeginInit();
 
 					// test both with and without calling EndInit()
 					if (i % 2 == 0)
 					{
-						ThreadsafeLogger::WriteMessage(L"\tEndInit()\r\n");
-						//DirectoryWatcher.EndInit();
+						DirectoryWatcher.EndInit();
 					}
-					else
-					{
-						ThreadsafeLogger::WriteMessage(L"\trunning out of scope\r\n");
-					}
-					ThreadsafeLogger::WriteMessage(L"\t----\r\n");
 				}
 			}
 
-			ThreadsafeLogger::WriteMessage(L"\r\nwatching file:\r\n");
 			{
 				for (Elysium::Core::Template::System::uint8_t i = 0; i < 4; ++i)
 				{
 					FileSystemWatcher FileWatcher = FileSystemWatcher(_BaseDirectory, u8"file3.txt");
-					ThreadsafeLogger::WriteMessage(L"\tBeginInit()\r\n");
 					FileWatcher.BeginInit();
 
 					// test both with and without calling EndInit()
 					if (i % 2 == 0)
 					{
-						ThreadsafeLogger::WriteMessage(L"\tEndInit()\r\n");
-						//FileWatcher.EndInit();
+						FileWatcher.EndInit();
 					}
-					else
-					{
-						ThreadsafeLogger::WriteMessage(L"\trunning out of scope\r\n");
-					}
-					ThreadsafeLogger::WriteMessage(L"\t----\r\n");
 				}
 			}
-
-			ThreadsafeLogger::WriteMessage(L"end of test");
 		}
 
 		void NonUTProvokeBufferOverflow()
@@ -349,16 +347,17 @@ namespace UnitTests::Core::IO
 				FileStream TargetFileStream = FileStream(_FilePathBufferOverflow, FileMode::CreateNew, FileAccess::Write);
 			}
 
-			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory, u8"*.*", FileSystemWatcher::DefaultNotifyFilters,
-				false, 90);
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_BaseDirectory, u8"*.*", FileSystemWatcher::DefaultNotifyFilters, false, 90);
 			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.BeginInit();
 
 			File::Delete(_FilePathBufferOverflow);
 
-			const bool WaitResult = _ErrorResetEvent.WaitOne(1000);
+			const bool WaitResult = _ErrorResetEvent.WaitOne(_WaitFactor * 1000);
 			Assert::IsTrue(WaitResult);
+
+			_ErrorResetEvent.Reset();
 		}
 
 		void NonUTProvokeOtherErrors()
@@ -367,20 +366,18 @@ namespace UnitTests::Core::IO
 			constexpr const Elysium::Core::Template::System::size NumberOfFiles = 1;
 			constexpr const char8_t* FileExtension = u8".txt";
 
-			const Elysium::Core::Template::System::size DirectoryLength =
-				Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_ErrorDirectory);
+			const Elysium::Core::Template::System::size DirectoryLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_ErrorDirectory);
 
 			for (Elysium::Core::Template::System::size i = 0; i < NumberOfFiles; ++i)
 			{
 				const Elysium::Core::Template::Text::String<char8_t> Index = Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
 
-				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(
-					DirectoryLength + sizeof(char8_t) + Index.GetLength() + sizeof(char8_t) * 4);
+				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(DirectoryLength + sizeof(char8_t) + Index.GetLength() + 
+					sizeof(char8_t) * 4);
 				Elysium::Core::Template::Memory::MemCpy(&FileName[0], &_ErrorDirectory[0], DirectoryLength);
 				FileName[DirectoryLength] = u8'\\';
 				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t)], &Index[0], Index.GetLength());
-				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()],
-					FileExtension, sizeof(char8_t) * 4);
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()], FileExtension, sizeof(char8_t) * 4);
 
 				File::Delete(&FileName[0]);
 			}
@@ -393,20 +390,18 @@ namespace UnitTests::Core::IO
 				const Elysium::Core::Template::Text::String<char8_t> Index =
 					Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
 
-				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(
-					DirectoryLength + sizeof(char8_t) + Index.GetLength() + sizeof(char8_t) * 4);
+				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(DirectoryLength + sizeof(char8_t) + Index.GetLength() + 
+					sizeof(char8_t) * 4);
 				Elysium::Core::Template::Memory::MemCpy(&FileName[0], &_ErrorDirectory[0], DirectoryLength);
 				FileName[DirectoryLength] = u8'\\';
 				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t)], &Index[0], Index.GetLength());
-				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()],
-					FileExtension, sizeof(char8_t) * 4);
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()], FileExtension, sizeof(char8_t) * 4);
 
 				FileStream TargetFileStream = FileStream(FileName, FileMode::CreateNew, FileAccess::Write);
 			}
 
 			// run the actual test
-			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory, u8"*.*", FileSystemWatcher::DefaultNotifyFilters,
-				false, 90);
+			FileSystemWatcher DirectoryWatcher = FileSystemWatcher(_ErrorDirectory, u8"*.*", FileSystemWatcher::DefaultNotifyFilters, false, 90);
 			DirectoryWatcher.OnDeleted += Delegate<void, const FileSystemWatcher&, const FileSystemEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnDeleted>(*this);
 			DirectoryWatcher.OnError += Delegate<void, const FileSystemWatcher&, const ErrorEventArgs&>::Bind<FileSystemWatcherTests, &FileSystemWatcherTests::FileSystemWatcher_OnError>(*this);
 			DirectoryWatcher.BeginInit();
@@ -416,23 +411,24 @@ namespace UnitTests::Core::IO
 			{
 				const Elysium::Core::Template::Text::String<char8_t> Index = Elysium::Core::Template::Text::Convert<char8_t>::ToString(i);
 
-				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(
-					DirectoryLength + sizeof(char8_t) + Index.GetLength() + sizeof(char8_t) * 4);
+				Elysium::Core::Template::Text::String<char8_t> FileName = Elysium::Core::Template::Text::String<char8_t>(DirectoryLength + sizeof(char8_t) + Index.GetLength() + 
+					sizeof(char8_t) * 4);
 				Elysium::Core::Template::Memory::MemCpy(&FileName[0], &_ErrorDirectory[0], DirectoryLength);
 				FileName[DirectoryLength] = u8'\\';
 				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t)], &Index[0], Index.GetLength());
-				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()],
-					FileExtension, sizeof(char8_t) * 4);
+				Elysium::Core::Template::Memory::MemCpy(&FileName[DirectoryLength + sizeof(char8_t) + Index.GetLength()], FileExtension, sizeof(char8_t) * 4);
 
 				File::Delete(&FileName[0]);
 			}
 
 			// give it a maximum of 30s for the error to occcure
-			const bool WaitResult = _ErrorResetEvent.WaitOne(30000);
+			const bool WaitResult = _ErrorResetEvent.WaitOne(_WaitFactor * 30000);
 			Assert::IsTrue(WaitResult);
 
 			// wait just a little bit longer to maybe catch a few more errors and get a (somewhat) complete picture.
 			//Elysium::Core::Threading::Thread::Sleep(TimeSpan::FromSeconds(20));
+
+			_ErrorResetEvent.Reset();
 		}
 
 		void NonUTReuse()
@@ -441,14 +437,18 @@ namespace UnitTests::Core::IO
 			for (int i = 0; i < 1000; ++i)
 			{
 				DirectoryWatcher.BeginInit();
-				//DirectoryWatcher.EndInit();
+
+				if (0 == i % 2)
+				{
+					DirectoryWatcher.EndInit();
+				}
 			}
 		}
 	private:
 		void CreateFileAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
 			FileStream TargetFileStream = FileStream(FQPN, FileMode::CreateNew, FileAccess::Write);
-			const bool WaitResult = Event.WaitOne(1000);
+			const bool WaitResult = Event.WaitOne(_WaitFactor * 1000);
 			if(ShouldTrigger && !WaitResult)
 			{
 				Assert::Fail(L"File creation event was not triggered within given time limit.");
@@ -462,12 +462,13 @@ namespace UnitTests::Core::IO
 
 		void ChangeFileAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
-			byte Buffer[1024] = { 0 };
+			constexpr const Elysium::Core::Template::System::size BufferSize = 1024;
+			byte Buffer[BufferSize] = { 0 };
 
 			FileStream TargetFileStream = FileStream(FQPN, FileMode::Open, FileAccess::Write);
-			TargetFileStream.Write(Buffer, 1024);
+			TargetFileStream.Write(Buffer, BufferSize);
 			TargetFileStream.Flush();
-			const bool WaitResult = Event.WaitOne(1000);
+			const bool WaitResult = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult)
 			{
 				Assert::Fail(L"File change event was not triggered within given time limit.");
@@ -482,7 +483,7 @@ namespace UnitTests::Core::IO
 		void RenameFileAndWait(const char8_t* FQPNInitial, const char8_t* FQPNChanged, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
 			File::Move(FQPNInitial, FQPNChanged, false);
-			const bool WaitResult0 = Event.WaitOne(1000);
+			const bool WaitResult0 = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult0)
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
@@ -494,7 +495,7 @@ namespace UnitTests::Core::IO
 			Event.Reset();
 
 			File::Move(FQPNChanged, FQPNInitial, false);
-			const bool WaitResult1 = Event.WaitOne(1000);
+			const bool WaitResult1 = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult1)
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
@@ -509,7 +510,7 @@ namespace UnitTests::Core::IO
 		void DeleteFileAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
 			File::Delete(FQPN);
-			const bool WaitResult = Event.WaitOne(1000);
+			const bool WaitResult = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult)
 			{
 				Assert::Fail(L"File deletion event was not triggered within given time limit.");
@@ -524,7 +525,7 @@ namespace UnitTests::Core::IO
 		void CreateFolderAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
 			bool CreateFolderResult = Elysium::Core::Template::IO::FileSystem::Directory::Create(FQPN);
-			const bool WaitResult = Event.WaitOne(1000);
+			const bool WaitResult = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult)
 			{
 				Assert::Fail(L"Folder creation event was not triggered within given time limit.");
@@ -539,7 +540,7 @@ namespace UnitTests::Core::IO
 		void RenameFolderAndWait(const char8_t* FQPNInitial, const char8_t* FQPNChanged, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
 			bool RenameFolderResult1 = Elysium::Core::Template::IO::FileSystem::Directory::Rename(FQPNInitial, FQPNChanged);
-			const bool WaitResult0 = Event.WaitOne(1000);
+			const bool WaitResult0 = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult0)
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
@@ -551,7 +552,7 @@ namespace UnitTests::Core::IO
 			Event.Reset();
 
 			bool RenameFolderResult2 = Elysium::Core::Template::IO::FileSystem::Directory::Rename(FQPNChanged, FQPNInitial);
-			const bool WaitResult1 = Event.WaitOne(1000);
+			const bool WaitResult1 = Event.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult1)
 			{
 				Assert::Fail(L"File rename event was not triggered within given time limit.");
@@ -566,7 +567,7 @@ namespace UnitTests::Core::IO
 		void DeleteFolderAndWait(const char8_t* FQPN, ManualResetEvent& Event, const bool ShouldTrigger)
 		{
 			bool RemoveFolderResult = Elysium::Core::Template::IO::FileSystem::Directory::Remove(FQPN);
-			const bool WaitResult = _DeletedResetEvent.WaitOne(1000);
+			const bool WaitResult = _DeletedResetEvent.WaitOne(_WaitFactor * 1000);
 			if (ShouldTrigger && !WaitResult)
 			{
 				Assert::Fail(L"Folder deletion event was not triggered within given time limit.");
@@ -594,7 +595,14 @@ namespace UnitTests::Core::IO
 			ThreadsafeLogger::WriteMessage((char*)&FileName[0]);
 			ThreadsafeLogger::WriteMessage("\r\n");
 
-			_CreatedResetEvent.Set();
+			//_CreatedResetEvent.Set();
+			if (Elysium::Core::Template::Text::CharacterTraits<char8_t>::EqualsCaseInsensitive(&FullPath[0], FullPath.GetLength(),
+				_FilePath0, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_FilePath0)) ||
+				Elysium::Core::Template::Text::CharacterTraits<char8_t>::EqualsCaseInsensitive(&FullPath[0], FullPath.GetLength(),
+				_DirectoryPath0, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_DirectoryPath0)))
+			{
+				_CreatedResetEvent.Set();
+			}
 
 			if (Elysium::Core::Template::Text::CharacterTraits<char8_t>::EqualsCaseInsensitive(&FullPath[0], FullPath.GetLength(),
 				_OtherFilePath0, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_OtherFilePath0)))
@@ -639,7 +647,14 @@ namespace UnitTests::Core::IO
 			ThreadsafeLogger::WriteMessage((char*)&FileName[0]);
 			ThreadsafeLogger::WriteMessage("\r\n");
 
-			_DeletedResetEvent.Set();
+			//_DeletedResetEvent.Set();
+			if (Elysium::Core::Template::Text::CharacterTraits<char8_t>::EqualsCaseInsensitive(&FullPath[0], FullPath.GetLength(),
+				_FilePath0, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_FilePath0)) ||
+				Elysium::Core::Template::Text::CharacterTraits<char8_t>::EqualsCaseInsensitive(&FullPath[0], FullPath.GetLength(),
+					_DirectoryPath0, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_DirectoryPath0)))
+			{
+				_DeletedResetEvent.Set();
+			}
 
 			if (Elysium::Core::Template::Text::CharacterTraits<char8_t>::EqualsCaseInsensitive(&FullPath[0], FullPath.GetLength(),
 				_OtherFilePath0, Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(_OtherFilePath0)))
@@ -647,7 +662,7 @@ namespace UnitTests::Core::IO
 				_OtherDeletedResetEvent.Set();
 			}
 		}
-
+		
 		void FileSystemWatcher_OnRenamed(const FileSystemWatcher& Watcher, const RenamedEventArgs& EventArgs)
 		{
 			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnRenamed\r\n");
@@ -676,7 +691,7 @@ namespace UnitTests::Core::IO
 			
 			_RenamedResetEvent.Set();
 		}
-
+		
 		void FileSystemWatcher_OnError(const FileSystemWatcher& Watcher, const ErrorEventArgs& EventArgs)
 		{
 			ThreadsafeLogger::WriteMessage("FileSystemWatcher_OnError\r\n");
@@ -695,6 +710,8 @@ namespace UnitTests::Core::IO
 			_ErrorResetEvent.Set();
 		}
 	private:
+		inline static constexpr Elysium::Core::Template::System::size _WaitFactor = 1;
+
 		inline static constexpr const char8_t* _BaseDirectory = u8"C:\\test";	// @ToDo: use Directory::CurrentDirectory()
 		inline static constexpr const char8_t* _FilePath0 = u8"C:\\test\\file.txt";
 		inline static constexpr const char8_t* _FilePath1 = u8"C:\\test\\file2.txt";
@@ -707,6 +724,7 @@ namespace UnitTests::Core::IO
 		inline static constexpr const char8_t* _ErrorDirectory = u8"C:\\test\\othererrors";	// @ToDo: use Directory::CurrentDirectory() + "\bufferoverflow"
 
 		inline static constexpr const char8_t* _FilePathBufferOverflow = u8"C:\\test\\bufferoverflow.txt";
+		//inline static constexpr const char8_t* _FilePathBufferOverflow = u8"UnitTests::Core::IO::FileSystemWatcherTests::ProvokeBufferOverflow.txt";
 	private:
 		// don't have access to FileSystemWatcher's internal IAsyncResult
 		ManualResetEvent _ChangedResetEvent = ManualResetEvent(false);

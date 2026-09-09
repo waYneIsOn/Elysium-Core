@@ -88,7 +88,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Runtime.InteropServices.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.Runtime.ixx" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Environment.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)EventArgs.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ExternalException.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Guid.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Elysium.Core.ixx" />

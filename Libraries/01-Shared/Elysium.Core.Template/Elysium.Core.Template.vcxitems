@@ -46,7 +46,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Connection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\MessageQueue.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Signal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\IO\IOException.hpp" />
@@ -85,10 +84,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileShare.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Directory.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Directory.Windows.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\ErrorEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemWatcher.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemWatcher.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\NotifyFilters.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\Path.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\FileSystemEventArgs.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\RenamedEventArgs.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\WatcherChangeTypes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\InOutStream.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\OutStream.hpp" />

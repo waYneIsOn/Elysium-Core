@@ -56,12 +56,12 @@ namespace Elysium::Core::Speech::Recognition
 {
 	class SpeechRecognitionEngine;
 
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>;
-	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, false, void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const AudioLevelUpdatedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const AudioSignalProblemOccurredEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const AudioStateChangedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const LoadGrammarCompletedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const SpeechDetectedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const SpeechHypothesizedEventArgs&>;
+	template class ELYSIUM_CORE_SPEECH_API Elysium::Core::Template::Dispatch::Event<false, true, true, void, const SpeechRecognitionEngine&, const SpeechRecognizedEventArgs&>;
 }
 #endif

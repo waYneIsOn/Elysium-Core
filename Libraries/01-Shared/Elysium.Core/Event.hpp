@@ -19,6 +19,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 namespace Elysium::Core
 {
 	template <class ReturnType, class ...Args>
-	using Event = Elysium::Core::Template::Dispatch::Event<false, true, false, ReturnType, Args...>;
+	using Event = Elysium::Core::Template::Dispatch::Event<false, true, true, ReturnType, Args...>;
 }
 #endif
