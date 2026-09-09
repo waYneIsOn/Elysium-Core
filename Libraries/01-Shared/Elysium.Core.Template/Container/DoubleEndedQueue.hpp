@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../Memory/DefaultAllocator.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISMOVEASSIGNABLE
+#include "../TypeTraits/IsMoveAssignable.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISTRIVIALLYCOPYABLE
 #include "../TypeTraits/IsTriviallyCopyable.hpp"
 #endif
@@ -46,10 +50,10 @@ namespace Elysium::Core::Template::Container
 		using Value = T;
 
 		using Pointer = T*;
-		using ConstPointer = T* const;
+		using ConstPointer = const T*;
 
 		using Reference = T&;
-		using ConstReference = T& const;
+		using ConstReference = const T&;
 
 		using RValueReference = T&&;
 	public:

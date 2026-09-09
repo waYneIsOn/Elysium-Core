@@ -37,24 +37,19 @@ namespace Elysium::Core::Template::Threading
 		: public EventWaitHandle
 	{
 	public:
-		AutoResetEvent(const bool InitialState);
+		inline constexpr AutoResetEvent(const bool InitialState = false)
+			: EventWaitHandle(true, InitialState, nullptr)
+		{ }
 
 		AutoResetEvent(const AutoResetEvent& Source) = delete;
 
 		AutoResetEvent(AutoResetEvent&& Right) noexcept = delete;
 
-		virtual ~AutoResetEvent();
+		virtual ~AutoResetEvent() = default;
 	public:
 		AutoResetEvent& operator=(const AutoResetEvent& Source) = delete;
 
 		AutoResetEvent& operator=(AutoResetEvent&& Right) noexcept = delete;
 	};
-
-	inline Elysium::Core::Template::Threading::AutoResetEvent::AutoResetEvent(const bool InitialState)
-		: EventWaitHandle(true, InitialState, nullptr)
-	{ }
-
-	inline Elysium::Core::Template::Threading::AutoResetEvent::~AutoResetEvent()
-	{ }
 }
 #endif

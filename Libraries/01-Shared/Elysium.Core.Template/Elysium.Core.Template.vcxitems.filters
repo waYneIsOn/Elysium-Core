@@ -1332,6 +1332,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\FileSystem\RenamedEventArgs.hpp">
       <Filter>IO\FileSystem</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Message.hpp">
+      <Filter>Dispatch</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

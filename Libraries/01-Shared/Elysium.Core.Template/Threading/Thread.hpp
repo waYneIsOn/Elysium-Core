@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../System/OperatingSystem.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
+#include "../System/Primitives.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_UTILITY_INDEXSEQUENCE
 #include "../Utility/IndexSequence.hpp"
 #endif
@@ -72,7 +76,11 @@ namespace Elysium::Core::Template::Threading
 
 		Thread& operator=(Thread&& Right) noexcept = delete;
 	public:
-		//static const Elysium::Core::uint32_t GetCurrentThreadId();
+		inline static const Elysium::Core::Template::System::uint32_t RetrieveCurrentThreadId()
+		{
+			DWORD CurrentThreadId = GetCurrentThreadId();
+			return CurrentThreadId;
+		}
 	public:
 		//const Elysium::Core::uint32_t GetThreadId() const;
 	public:

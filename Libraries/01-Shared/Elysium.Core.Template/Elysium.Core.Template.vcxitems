@@ -45,6 +45,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Connection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Event.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Message.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\MessageQueue.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Container.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />

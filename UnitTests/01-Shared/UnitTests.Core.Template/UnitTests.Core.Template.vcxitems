@@ -31,6 +31,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CompositionalStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GZipStreamTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)IntegerSequenceTests.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MessageQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)NumericTraitsTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PriorityQueueTests.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ReflectionTests.cpp" />
