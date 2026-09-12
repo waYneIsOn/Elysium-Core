@@ -21,6 +21,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Text/String.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRINGVIEW
+#include "../../Text/StringView.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_UNICODE_UTF8
 #include "../../Text/Unicode/Utf8.hpp"
 #endif
@@ -58,21 +62,21 @@ namespace Elysium::Core::Template::IO::FileSystem
 
 		constexpr Directory& operator=(Directory&& Right) noexcept = delete;
 	public:
-		inline static bool Create(const char8_t* Path)
+
+		inline static bool Create(const Elysium::Core::Template::Text::StringView<char8_t> Path)
 		{
-			if (Path == nullptr)
+			const Elysium::Core::Template::System::size PathLength = Path.GetLength();
+			if (0 == PathLength)
 			{
 				return false;
 			}
 
-			const Elysium::Core::Template::System::size PathLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Path);
-			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(Path, PathLength))
+			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(&Path[0], PathLength))
 			{
 				return false;
 			}
 
-			Elysium::Core::Template::Text::String<wchar_t> WindowsPath =
-				Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(Path, PathLength);
+			Elysium::Core::Template::Text::String<wchar_t> WindowsPath = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&Path[0], PathLength);
 
 			BOOL Result = CreateDirectoryW(&WindowsPath[0], nullptr);
 			if (Result == FALSE)
@@ -85,29 +89,27 @@ namespace Elysium::Core::Template::IO::FileSystem
 			return true;
 		}
 
-		inline static bool Rename(const char8_t* OldPath, const char8_t* NewPath)
+		inline static bool Rename(const Elysium::Core::Template::Text::StringView<char8_t> OldPath, const Elysium::Core::Template::Text::StringView<char8_t> NewPath)
 		{
-			if (OldPath == nullptr || NewPath == nullptr)
+			const Elysium::Core::Template::System::size OldPathLength = OldPath.GetLength();
+			const Elysium::Core::Template::System::size NewPathLength = NewPath.GetLength();
+			if (0  == OldPathLength || 0 == NewPathLength)
 			{
 				return false;
 			}
 
-			const Elysium::Core::Template::System::size OldPathLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(OldPath);
-			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(OldPath, OldPathLength))
+			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(&OldPath[0], OldPathLength))
 			{
 				return false;
 			}
 
-			const Elysium::Core::Template::System::size NewPathLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(NewPath);
-			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(NewPath, NewPathLength))
+			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(&NewPath[0], NewPathLength))
 			{
 				return false;
 			}
 
-			Elysium::Core::Template::Text::String<wchar_t> OldWindowsPath =
-				Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(OldPath, OldPathLength);
-			Elysium::Core::Template::Text::String<wchar_t> NewWindowsPath =
-				Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(NewPath, NewPathLength);
+			Elysium::Core::Template::Text::String<wchar_t> OldWindowsPath = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&OldPath[0], OldPathLength);
+			Elysium::Core::Template::Text::String<wchar_t> NewWindowsPath = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&NewPath[0], NewPathLength);
 
 			BOOL Result = MoveFileExW(&OldWindowsPath[0], &NewWindowsPath[0], MOVEFILE_COPY_ALLOWED | MOVEFILE_WRITE_THROUGH);
 			if (Result == FALSE)
@@ -120,21 +122,20 @@ namespace Elysium::Core::Template::IO::FileSystem
 			return true;
 		}
 
-		inline static bool Remove(const char8_t* Path)
+		inline static bool Remove(const Elysium::Core::Template::Text::StringView<char8_t> Path)
 		{
-			if (Path == nullptr)
+			const Elysium::Core::Template::System::size PathLength = Path.GetLength();
+			if (0 == PathLength)
 			{
 				return false;
 			}
 
-			const Elysium::Core::Template::System::size PathLength = Elysium::Core::Template::Text::CharacterTraits<char8_t>::GetLength(Path);
-			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(Path, PathLength))
+			if (!Elysium::Core::Template::Text::Unicode::Utf8::IsValid(&Path[0], PathLength))
 			{
 				return false;
 			}
 
-			Elysium::Core::Template::Text::String<wchar_t> WindowsPath =
-				Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(Path, PathLength);
+			Elysium::Core::Template::Text::String<wchar_t> WindowsPath = Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString<char8_t>(&Path[0], PathLength);
 
 			// will only delete if empty
 			BOOL Result = RemoveDirectoryW(&WindowsPath[0]);

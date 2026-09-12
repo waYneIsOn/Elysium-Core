@@ -42,8 +42,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO
 {
-	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API Elysium::Core::Template::IO::FileSystem::FileSystemWatcher;
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API Elysium::Core::Template::IO::FileSystem::FileSystemWatcher<>;
 
-	using FileSystemWatcher = Elysium::Core::Template::IO::FileSystem::FileSystemWatcher;
+	using FileSystemWatcher = Elysium::Core::Template::IO::FileSystem::FileSystemWatcher<>;
 }
 #endif

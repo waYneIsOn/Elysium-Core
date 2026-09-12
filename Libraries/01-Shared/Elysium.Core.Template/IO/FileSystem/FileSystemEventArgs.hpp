@@ -38,11 +38,13 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::FileSystem
 {
+	template <class = void>
 	class FileSystemWatcher;
-	
+
+	template <class = void>
 	class FileSystemEventArgs
 	{
-		friend class FileSystemWatcher;
+		friend class FileSystemWatcher<>;
 	public:
 		constexpr FileSystemEventArgs() = delete;
 	protected:

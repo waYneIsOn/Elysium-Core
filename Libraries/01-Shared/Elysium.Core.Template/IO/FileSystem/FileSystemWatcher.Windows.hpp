@@ -87,6 +87,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::FileSystem
 {
+	template <class = void>
 	class FileSystemWatcher
 	{
 	public:
@@ -204,36 +205,9 @@ namespace Elysium::Core::Template::IO::FileSystem
 				return;
 			}
 			
-			_IsRunning = true;
-			++_InFlightIos;
-			_AllIoOperationsCompleted.Reset();
-			_CurrentIoContext.Reset();
-			StartThreadpoolIo(_CompletionPortHandle);
-			DWORD SynchronousByteCount = 0;
-			const BOOL Result = ReadDirectoryChangesExW(_DirectoryHandle, &_CurrentIoContext._InformationBuffer[0],
-				static_cast<DWORD>(_CurrentIoContext._InformationBuffer.GetCapacity()), _IncludeSubdirectories,
-				static_cast<DWORD>(_NotifyFilters), &SynchronousByteCount, (LPOVERLAPPED)&_CurrentIoContext._Overlapped, nullptr,
-				READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation);
+			BeginInitInLockedState();
 
-			const DWORD ErrorCode = GetLastError();
 			_IocpIsRunningOrDestructingMutex.Unlock();
-			if (FALSE == Result)
-			{
-				if (ERROR_IO_PENDING != ErrorCode)
-				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
-					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
-					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
-					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
-					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
-					CancelThreadpoolIo(_CompletionPortHandle);
-
-					if (0 == --_InFlightIos)
-					{
-						_AllIoOperationsCompleted.Set();
-					}
-					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
-				}
-			}
 		}
 
 		inline void EndInit()
@@ -245,17 +219,31 @@ namespace Elysium::Core::Template::IO::FileSystem
 				return;
 			}
 
-			// request cancellation of all outstanding IOCP operations and wait for them to finish
-			CancelIoEx(_DirectoryHandle, nullptr);
-			_AllIoOperationsCompleted.WaitOne();
+			_IsRunning = false;
 
-			if (nullptr != _CompletionPortHandle)
+			// request cancellation of all outstanding IOCP operations and wait for them to finish
+			BOOL CancelationResult = CancelIoEx(_DirectoryHandle, nullptr);
+
+			const DWORD ErrorCode = GetLastError();
+			_IocpIsRunningOrDestructingMutex.Unlock();
+			if (FALSE == CancelationResult && ERROR_NOT_FOUND != ErrorCode)
 			{
-				// wait for CALLBACKS that are queued/running
-				WaitForThreadpoolIoCallbacks(_CompletionPortHandle, TRUE);
+				throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
 			}
 
-			_IsRunning = false;
+			bool WaitResult = _AllIoOperationsCompleted.WaitOne();
+			if (!WaitResult)
+			{
+				bool sdf = false;
+			}
+
+			if (_InFlightIos != 0 && nullptr != _CompletionPortHandle)
+			{
+				// wait for CALLBACKS that are queued/running
+				WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
+				bool sdfsdf = false;
+			}
+
 			_IocpIsRunningOrDestructingMutex.Unlock();
 		}
 	private:
@@ -520,12 +508,71 @@ namespace Elysium::Core::Template::IO::FileSystem
 
 			return DirectoryHandle;
 		}
+
+		inline void BeginInitInLockedState()
+		{
+			_IsRunning = true;
+			++_InFlightIos;
+			_AllIoOperationsCompleted.Reset();
+			_CurrentIoContext.Reset();
+			StartThreadpoolIo(_CompletionPortHandle);
+			DWORD SynchronousByteCount = 0;
+			const BOOL Result = ReadDirectoryChangesExW(_DirectoryHandle, &_CurrentIoContext._InformationBuffer[0],
+				static_cast<DWORD>(_CurrentIoContext._InformationBuffer.GetCapacity()), _IncludeSubdirectories,
+				static_cast<DWORD>(_NotifyFilters), &SynchronousByteCount, (LPOVERLAPPED)&_CurrentIoContext._Overlapped, nullptr,
+				READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation);
+
+			const DWORD ErrorCode = GetLastError();
+			if (FALSE == Result)
+			{
+				if (ERROR_IO_PENDING != ErrorCode)
+				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
+					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
+					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
+					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
+					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
+					CancelThreadpoolIo(_CompletionPortHandle);
+
+					_IsRunning = false;
+					if (0 == --_InFlightIos)
+					{
+						_AllIoOperationsCompleted.Set();
+					}
+					_IocpIsRunningOrDestructingMutex.Unlock();
+					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
+				}
+			}
+			else
+			{
+				bool sdfsdf = false;
+			}
+		}
 	private:
 		inline static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 		{
 			FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
 			IoContext* CurrentIoContext = reinterpret_cast<IoContext*>(Overlapped);
 
+			if (NO_ERROR == IoResult)
+			{
+				Watcher->ProcessInformationBuffer(*CurrentIoContext, IoResult, NumberOfBytesTransferred);
+			}
+
+
+			Watcher->_IocpIsRunningOrDestructingMutex.Lock();
+
+			if (Watcher->_IsRunning && !Watcher->_IsDestructing)
+			{
+				Watcher->BeginInitInLockedState();
+			}
+
+			Watcher->_IocpIsRunningOrDestructingMutex.Unlock();
+
+			if (0 == --Watcher->_InFlightIos)
+			{
+				Watcher->_AllIoOperationsCompleted.Set();
+			}
+			/*
 			switch (IoResult)
 			{
 			case NO_ERROR:	// 0
@@ -537,6 +584,10 @@ namespace Elysium::Core::Template::IO::FileSystem
 				{
 					Watcher->_AllIoOperationsCompleted.Set();
 				}
+
+				Watcher->_IocpIsRunningOrDestructingMutex.Lock();
+				Watcher->_IsRunning = false;
+				Watcher->_IocpIsRunningOrDestructingMutex.Unlock();
 			}
 				return;
 			default:
@@ -554,17 +605,18 @@ namespace Elysium::Core::Template::IO::FileSystem
 			Watcher->_IocpIsRunningOrDestructingMutex.Unlock();
 
 			Watcher->BeginInit();
+			*/
 		}
 	public:
-		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs&> OnChanged{};
+		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs<>&> OnChanged{};
 
-		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs&> OnCreated{};
+		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs<>&> OnCreated{};
 
-		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs&> OnDeleted{};
+		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs<>&> OnDeleted{};
 		
-		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const ErrorEventArgs&> OnError{};
+		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const ErrorEventArgs<>&> OnError{};
 
-		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const RenamedEventArgs&> OnRenamed{};
+		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const RenamedEventArgs<>&> OnRenamed{};
 	private:
 		Elysium::Core::Template::Text::String<char8_t> _Path;
 		Elysium::Core::Template::Text::String<char8_t> _Filter;
@@ -577,12 +629,12 @@ namespace Elysium::Core::Template::IO::FileSystem
 		HANDLE _DirectoryHandle;
 		PTP_IO _CompletionPortHandle;
 
-		Elysium::Core::Template::Threading::Atomic<bool> _IsRunning{};
-		Elysium::Core::Template::Threading::Atomic<bool> _IsDestructing{};
+		Elysium::Core::Template::Threading::Atomic<bool> _IsRunning{};		// temporarily "closed"
+		Elysium::Core::Template::Threading::Atomic<bool> _IsDestructing{};	// permanently "closed"
 		Elysium::Core::Template::Threading::Mutex _IocpIsRunningOrDestructingMutex{};	// prevents submitting while already running or destructing
 
-		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::size> _InFlightIos{};
-		Elysium::Core::Template::Threading::ManualResetEvent _AllIoOperationsCompleted = Elysium::Core::Template::Threading::ManualResetEvent(true);	// lets Close() wait until _InFlightIos is 0
+		Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::System::size> _InFlightIos{};	// counts in flight ios (in this case only 0 or 1) so I don't wait if there's nothing in flight
+		Elysium::Core::Template::Threading::ManualResetEvent _AllIoOperationsCompleted = Elysium::Core::Template::Threading::ManualResetEvent(true);	// lets EndInit() wait until _InFlightIos is 0
 	};
 }
 #endif

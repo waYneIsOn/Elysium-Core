@@ -18,18 +18,20 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::Template::IO::FileSystem
 {
+	template <class = void>
 	class FileSystemWatcher;
 
+	template <class = void>
 	class RenamedEventArgs
-		: public FileSystemEventArgs
+		: public FileSystemEventArgs<>
 	{
-		friend class FileSystemWatcher;
+		friend class FileSystemWatcher<>;
 	public:
 		constexpr RenamedEventArgs() = delete;
 	protected:
 		inline constexpr RenamedEventArgs(const Elysium::Core::Template::IO::FileSystem::WatcherChangeTypes ChangeType, Elysium::Core::Template::Text::String<char8_t>&& FullPath,
 			Elysium::Core::Template::Text::String<char8_t>&& Name, Elysium::Core::Template::Text::String<char8_t>&& OldName)
-			: Elysium::Core::Template::IO::FileSystem::FileSystemEventArgs(ChangeType, Elysium::Core::Template::Functional::Move(FullPath), Elysium::Core::Template::Functional::Move(Name)),
+			: Elysium::Core::Template::IO::FileSystem::FileSystemEventArgs<>(ChangeType, Elysium::Core::Template::Functional::Move(FullPath), Elysium::Core::Template::Functional::Move(Name)),
 			_OldName(Elysium::Core::Template::Functional::Move(OldName))
 		{ }
 	public:

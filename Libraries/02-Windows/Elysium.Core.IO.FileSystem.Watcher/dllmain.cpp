@@ -2,32 +2,23 @@
 #include <Windows.h>
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_APPDOMAIN
-#include "../Elysium.Core.Reflection/AppDomain.hpp"
+#ifndef ELYSIUM_CORE_IO_ERROREVENTARGS
+#include "../../01-Shared/Elysium.Core.IO.FileSystem.Watcher/ErrorEventArgs.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_ASSEMBLY
-#include "../Elysium.Core.Reflection/Assembly.hpp"
+#ifndef ELYSIUM_CORE_IO_FILESYSTEMEVENTARGS
+#include "../../01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemEventArgs.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_MODULE
-#include "../Elysium.Core.Reflection/Module.hpp"
+#ifndef ELYSIUM_CORE_IO_FILESYSTEMWATCHER
+#include "../../01-Shared/Elysium.Core.IO.FileSystem.Watcher/FileSystemWatcher.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_REFLECTION_TYPE
-#include "../Elysium.Core.Reflection/Type.hpp"
+#ifndef ELYSIUM_CORE_IO_RENAMEDEVENTARGS
+#include "../../01-Shared/Elysium.Core.IO.FileSystem.Watcher/RenamedEventArgs.hpp"
 #endif
-/*
-inline static const Elysium::Core::Reflection::Assembly ReflectedAssembly =
-Elysium::Core::Reflection::Assembly(Elysium::Core::Reflection::AssemblyName(u8"Elysium.Core.IO.FileSystem.Watcher", Elysium::Core::Version(0, 1)));
 
-inline static const Elysium::Core::Reflection::Module ModuleCoreData =
-Elysium::Core::Reflection::Module(ReflectedAssembly, u8"Elysium::Core::IO::FileSystem::Watcher");
-*/
-BOOL APIENTRY DllMain(HMODULE hModule,
-	DWORD  ul_reason_for_call,
-	LPVOID lpReserved
-)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
 	switch (ul_reason_for_call)
 	{

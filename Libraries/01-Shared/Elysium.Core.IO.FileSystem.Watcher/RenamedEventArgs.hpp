@@ -22,8 +22,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 namespace Elysium::Core::IO
 {
-	class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API Elysium::Core::Template::IO::FileSystem::RenamedEventArgs;
+	template class ELYSIUM_CORE_IO_FILESYSTEM_WATCHER_API Elysium::Core::Template::IO::FileSystem::RenamedEventArgs<>;
 
-	using RenamedEventArgs = Elysium::Core::Template::IO::FileSystem::RenamedEventArgs;
+	using RenamedEventArgs = Elysium::Core::Template::IO::FileSystem::RenamedEventArgs<>;
 }
 #endif

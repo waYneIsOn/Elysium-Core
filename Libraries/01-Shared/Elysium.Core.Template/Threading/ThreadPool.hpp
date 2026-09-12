@@ -44,6 +44,7 @@ namespace Elysium::Core::Template::IO::Device
 
 namespace Elysium::Core::Template::IO::FileSystem
 {
+	template <class = void>
 	class FileSystemWatcher;
 }
 
@@ -81,7 +82,7 @@ namespace Elysium::Core::Template::Threading
 	{
 	private:
 		friend class Elysium::Core::Template::IO::Device::FileDevice;
-		friend class Elysium::Core::Template::IO::FileSystem::FileSystemWatcher;
+		friend class Elysium::Core::Template::IO::FileSystem::FileSystemWatcher<>;
 		friend class Elysium::Core::Template::Net::Sockets::Socket;
 	private:
 		// @ToDo: remove asap
@@ -139,7 +140,7 @@ namespace Elysium::Core::Template::Threading
 		{
 		private:
 			friend class Elysium::Core::Template::IO::Device::FileDevice;
-			friend class Elysium::Core::Template::IO::FileSystem::FileSystemWatcher;
+			friend class Elysium::Core::Template::IO::FileSystem::FileSystemWatcher<>;
 			friend class Elysium::Core::Template::Net::Sockets::Socket;
 		private:
 			// @ToDo: remove asap

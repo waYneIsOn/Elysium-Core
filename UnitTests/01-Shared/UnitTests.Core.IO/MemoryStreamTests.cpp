@@ -14,7 +14,7 @@ namespace UnitTests::Core::IO
 	public:
 		TEST_METHOD(Constructors)
 		{
-			MemoryStream MS1 = MemoryStream();
+			MemoryStream MS1{};
 		}
 
 		TEST_METHOD(WriteReadCopyTo)
