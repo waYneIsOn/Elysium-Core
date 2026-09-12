@@ -32,7 +32,9 @@ namespace Elysium::Core::Template::Threading
 	public:
 		constexpr _AtomicEnum() noexcept = default;
 
-		constexpr _AtomicEnum(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept;
+		inline constexpr _AtomicEnum(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept
+			: _AtomicBase<T, sizeof(T)>(Value)
+		{ }
 
 		constexpr _AtomicEnum(const _AtomicEnum& Source) = delete;
 
@@ -40,10 +42,5 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr ~_AtomicEnum() = default;
 	};
-
-	template<class T>
-	inline constexpr _AtomicEnum<T>::_AtomicEnum(Elysium::Core::Template::TypeTraits::ConditionalType<Elysium::Core::Template::TypeTraits::IsReferenceValue<T>, T, const T> Value) noexcept 
-		: _AtomicBase<T, sizeof(T)>(Value)
-	{ }
 }
 #endif

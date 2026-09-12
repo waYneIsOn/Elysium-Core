@@ -359,10 +359,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicBase.hpp">
@@ -1375,6 +1375,12 @@
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
   </ItemGroup>

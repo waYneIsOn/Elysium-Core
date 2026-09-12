@@ -270,6 +270,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\CallTraits.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorCall.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorGreaterOrEqual.hpp" />
@@ -281,9 +283,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsNoThrowInvocable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTrivial.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsTriviallyCopyable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicBase.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\AtomicUsable.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Ceiling.hpp" />
