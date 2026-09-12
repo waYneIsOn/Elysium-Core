@@ -13,7 +13,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 extern "C" int __cdecl memcmp(void const* Buffer1, void const* Buffer2, size_t Size);

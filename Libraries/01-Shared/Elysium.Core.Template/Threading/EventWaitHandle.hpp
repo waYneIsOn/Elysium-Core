@@ -37,11 +37,11 @@ namespace Elysium::Core::Template::Threading
 	{
 	public:
 		constexpr EventWaitHandle() = delete;
-
-		inline constexpr EventWaitHandle(const bool AutomaticallyReset, const bool InitialState, const char8_t* Name)
-			: WaitHandle(CreateEventW(nullptr, AutomaticallyReset, InitialState, nullptr))
+	protected:
+		inline constexpr EventWaitHandle(const bool ManualReset, const bool InitialState, const char8_t* Name)
+			: WaitHandle(CreateEventW(nullptr, ManualReset, InitialState, nullptr))
 		{ }
-
+	public:
 		constexpr EventWaitHandle(const EventWaitHandle& Source) = delete;
 
 		constexpr EventWaitHandle(EventWaitHandle&& Right) noexcept = delete;
@@ -58,7 +58,8 @@ namespace Elysium::Core::Template::Threading
 		/// <returns></returns>
 		inline const bool Set()
 		{
-			return SetEvent(_Handle) == TRUE;
+			BOOL Result = SetEvent(_Handle);
+			return TRUE == Result;
 		}
 
 		/// <summary>
@@ -67,7 +68,8 @@ namespace Elysium::Core::Template::Threading
 		/// <returns></returns>
 		inline const bool Reset()
 		{
-			return ResetEvent(_Handle) == TRUE;
+			BOOL Result = ResetEvent(_Handle);
+			return TRUE == Result;
 		}
 	};
 }

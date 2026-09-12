@@ -93,10 +93,22 @@ namespace Elysium::Core::Template::Chrono
 			return _Ticks < Other._Ticks;
 		}
 
+		inline constexpr bool operator>(const DateTime& Other) const noexcept
+		{
+			// @ToDo: this assumes _Kind to be the same on both instances
+			return _Ticks > Other._Ticks;
+		}
+
 		inline constexpr bool operator<=(const DateTime& Other) const noexcept
 		{
 			// @ToDo: this assumes _Kind to be the same on both instances
 			return _Ticks <= Other._Ticks;
+		}
+
+		inline constexpr bool operator>=(const DateTime& Other) const noexcept
+		{
+			// @ToDo: this assumes _Kind to be the same on both instances
+			return _Ticks >= Other._Ticks;
 		}
 	public:
 		inline static constexpr DateTime MaxValue() noexcept

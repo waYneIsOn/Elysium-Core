@@ -38,7 +38,7 @@ namespace Elysium::Core::Template::Threading
 	{
 	public:
 		inline constexpr AutoResetEvent(const bool InitialState = false)
-			: EventWaitHandle(true, InitialState, nullptr)
+			: EventWaitHandle(false, InitialState, nullptr)
 		{ }
 
 		AutoResetEvent(const AutoResetEvent& Source) = delete;
