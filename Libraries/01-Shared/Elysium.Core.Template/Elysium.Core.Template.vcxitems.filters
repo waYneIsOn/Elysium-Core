@@ -76,7 +76,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsAggregate.hpp">
       <Filter>TypeTraits</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp">
@@ -181,10 +181,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\MemberFunctionPointer.hpp">
@@ -338,7 +338,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Iterator/UnorderedMapForwardIterator.hpp">
       <Filter>Iterator</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.Windows.hpp">
@@ -347,10 +347,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.Windows.hpp">
@@ -368,7 +368,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicBase.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\Activator.hpp">
@@ -647,10 +647,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Constant.hpp">
       <Filter>Concepts</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Interlocked.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Interlocked.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\SharedMutex.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\SharedMutex.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\EnumerationOrIntegral.hpp">
@@ -1348,6 +1348,33 @@
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.Linux.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\SharedMutex.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Interlocked.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
   </ItemGroup>

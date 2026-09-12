@@ -115,7 +115,6 @@ export
 	using Elysium::Core::Template::Threading::CallOnce;
 	using Elysium::Core::Template::Threading::CriticalSection;
 	using Elysium::Core::Template::Threading::EventWaitHandle;
-	using Elysium::Core::Template::Threading::Fiber;
 	using Elysium::Core::Template::Threading::ManualResetEvent;
 	using Elysium::Core::Template::Threading::Interlocked;
 	using Elysium::Core::Template::Threading::Mutex;

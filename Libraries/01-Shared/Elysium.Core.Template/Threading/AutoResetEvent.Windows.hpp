@@ -16,11 +16,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../System/OperatingSystem.hpp"
 #endif
 
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE
 #include "EventWaitHandle.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _WINDOWS_
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
