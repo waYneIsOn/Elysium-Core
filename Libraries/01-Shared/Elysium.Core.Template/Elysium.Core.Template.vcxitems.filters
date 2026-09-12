@@ -341,10 +341,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.hpp">
@@ -353,7 +353,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp">
@@ -1334,6 +1334,21 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Message.hpp">
       <Filter>Dispatch</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsWaitHandle.hpp">
+      <Filter>TypeTraits</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.Linux.hpp">
+      <Filter>Threading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

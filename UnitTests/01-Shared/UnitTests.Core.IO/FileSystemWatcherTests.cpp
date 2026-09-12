@@ -51,13 +51,13 @@ namespace UnitTests::Core::IO
 			const DateTime End = DateTime::UtcNow() + TimeSpan::FromHours(3);
 
 			Elysium::Core::Template::System::size i = 0;
-			OutputDebugStringA("--- entering loop ---\r\n");
 			while (DateTime::UtcNow() < End)
 			{
+				/*
 				const Elysium::Core::Template::Text::String<char> Iteration = Elysium::Core::Template::Text::Convert<char>::ToString(i++);
 				OutputDebugStringA(&Iteration[0]);
 				OutputDebugStringA("\r\n");
-				
+				*/
 				NonUTWatchAllChanges();
 				NonUTWatchFilteredChanges();
 				NonUTWatchZeroChanges();
@@ -65,13 +65,7 @@ namespace UnitTests::Core::IO
 				NonUTProvokeOtherErrors();
 				NonUTRapidFire();
 				NonUTReuse();
-				
-				if (DateTime::UtcNow() >= End) 
-				{
-					bool sdfsdf = false;
-				}
 			}
-			OutputDebugStringA("--- left loop ---\r\n");
 		}
 		
 		TEST_METHOD(WatchAllChanges)

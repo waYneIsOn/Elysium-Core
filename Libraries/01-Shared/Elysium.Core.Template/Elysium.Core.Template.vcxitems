@@ -248,9 +248,13 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf32.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.Linux.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\Task.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Tasks\TaskStatus.hpp" />
@@ -272,7 +276,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicBase.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\AtomicUsable.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Ceiling.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Character.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\CharacterTraits.hpp" />
@@ -333,12 +337,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\DeferredIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Linq\WhereDeferredIterator.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Logarithm.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ManualResetEvent.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemCpy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemoryOrder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\MemSet.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\MidpointRounding.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Mutex.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators/NotEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\NotSupportedException.hpp" />
@@ -358,6 +362,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Round.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\IsWaitHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\Select.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Semaphore.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\SequenceContainer.hpp" />

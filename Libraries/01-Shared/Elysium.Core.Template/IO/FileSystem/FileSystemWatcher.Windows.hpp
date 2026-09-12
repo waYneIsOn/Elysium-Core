@@ -558,54 +558,17 @@ namespace Elysium::Core::Template::IO::FileSystem
 				Watcher->ProcessInformationBuffer(*CurrentIoContext, IoResult, NumberOfBytesTransferred);
 			}
 
-
 			Watcher->_IocpIsRunningOrDestructingMutex.Lock();
-
 			if (Watcher->_IsRunning && !Watcher->_IsDestructing)
 			{
 				Watcher->BeginInitInLockedState();
 			}
-
 			Watcher->_IocpIsRunningOrDestructingMutex.Unlock();
 
 			if (0 == --Watcher->_InFlightIos)
 			{
 				Watcher->_AllIoOperationsCompleted.Set();
 			}
-			/*
-			switch (IoResult)
-			{
-			case NO_ERROR:	// 0
-				// "default" result - nothing to do here
-				break;
-			case ERROR_OPERATION_ABORTED:	// 995
-			{	// EndInit(...) has been called (either through public method or destructor)
-				if (0 == --Watcher->_InFlightIos)
-				{
-					Watcher->_AllIoOperationsCompleted.Set();
-				}
-
-				Watcher->_IocpIsRunningOrDestructingMutex.Lock();
-				Watcher->_IsRunning = false;
-				Watcher->_IocpIsRunningOrDestructingMutex.Unlock();
-			}
-				return;
-			default:
-				break;
-			}
-
-			Watcher->ProcessInformationBuffer(*CurrentIoContext, IoResult, NumberOfBytesTransferred);
-			if (0 == --Watcher->_InFlightIos)
-			{
-				Watcher->_AllIoOperationsCompleted.Set();
-			}
-
-			Watcher->_IocpIsRunningOrDestructingMutex.Lock();
-			Watcher->_IsRunning = false;
-			Watcher->_IocpIsRunningOrDestructingMutex.Unlock();
-
-			Watcher->BeginInit();
-			*/
 		}
 	public:
 		Elysium::Core::Template::Dispatch::Event<false, true, true, void, const FileSystemWatcher&, const FileSystemEventArgs<>&> OnChanged{};
