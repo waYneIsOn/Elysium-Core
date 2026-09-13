@@ -213,13 +213,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Custom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Windows.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.Custom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ChainPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ContentType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509KeyStorageFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509RevocationFlag.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509RevocationMode.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509VerificationFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Principal\TokenImpersonationLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Architecture.hpp" />
@@ -229,6 +232,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\ArithmeticException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\Array.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)System\CompilationSettings.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp" />

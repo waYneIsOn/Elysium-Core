@@ -978,7 +978,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\KnownCompressionAlgorithm.hpp">
       <Filter>IO\Compression</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.Windows.hpp">
       <Filter>System\Hardware</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Reflection\Assembly.hpp">
@@ -1230,10 +1230,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ChainPolicy.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.Windows.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.Windows.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Security\TlsSession.hpp">
@@ -1424,6 +1424,18 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Custom.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.Custom.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Store.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp">
+      <Filter>System\Hardware</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
