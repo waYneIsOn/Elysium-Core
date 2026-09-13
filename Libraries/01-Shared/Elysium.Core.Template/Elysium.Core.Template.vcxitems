@@ -210,7 +210,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\OpenFlags.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\StoreLocation.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\StoreName.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Custom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Chain.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ChainPolicy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ContentType.hpp" />

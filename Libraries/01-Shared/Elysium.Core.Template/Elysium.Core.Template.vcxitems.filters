@@ -1224,7 +1224,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\Asn1Enumerated.hpp">
       <Filter>Security\Cryptography\Encoding\Asn1</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Windows.hpp">
       <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509ChainPolicy.hpp">
@@ -1418,6 +1418,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.Fallback.hpp">
       <Filter>Security\Cryptography\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\X509Certificates\X509Certificate.Custom.hpp">
+      <Filter>Security\Cryptography\X509Certificates</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

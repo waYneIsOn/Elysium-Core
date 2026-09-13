@@ -21,7 +21,9 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #if defined ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_OID
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID_FALLBACK
 #include "Oid.Fallback.hpp"
+#endif
 #elif defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID_WINDOWS
 #include "Oid.Windows.hpp"
