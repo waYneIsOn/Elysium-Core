@@ -29,13 +29,15 @@ namespace Elysium::Core::Template::Chrono
 	public:
 		constexpr TimePoint() = delete;
 
-		constexpr TimePoint(const ClockDuration& Duration);
+		inline constexpr TimePoint(const ClockDuration& Duration)
+			: _Duration(Duration)
+		{ }
 
 		constexpr TimePoint(const TimePoint& Source) = delete;
 
 		constexpr TimePoint(TimePoint&& Right) noexcept = delete;
 
-		constexpr ~TimePoint();
+		constexpr ~TimePoint() = default;
 	public:
 		constexpr TimePoint& operator=(const TimePoint& Source) = delete;
 
@@ -45,24 +47,12 @@ namespace Elysium::Core::Template::Chrono
 		/// 
 		/// </summary>
 		/// <returns></returns>
-		constexpr const ClockDuration& GetTimeSinceEpoch() const;
+		inline constexpr const ClockDuration& GetTimeSinceEpoch() const
+		{
+			return _Duration;
+		}
     private:
 		ClockDuration _Duration;
     };
-
-	template<class Clock, class ClockDuration>
-	inline constexpr TimePoint<Clock, ClockDuration>::TimePoint(const ClockDuration& Duration)
-		: _Duration(Duration)
-	{ }
-
-	template<class Clock, class ClockDuration>
-	inline constexpr TimePoint<Clock, ClockDuration>::~TimePoint()
-	{ }
-
-	template<class Clock, class ClockDuration>
-	inline constexpr const ClockDuration& TimePoint<Clock, ClockDuration>::GetTimeSinceEpoch() const
-	{
-		return _Duration;
-	}
 }
 #endif

@@ -13,15 +13,15 @@ Copyright (c) waYne (CAM). All rights reserved.
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_FUNCTIONAL_MOVE
-#include "Move.hpp"
+#include "../Functional/Move.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "Primitives.hpp"
+#include "../System/Primitives.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
-#include "String.hpp"
+#include "../Text/String.hpp"
 #endif
 
 namespace Elysium::Core::Template::Diagnostics
@@ -31,103 +31,79 @@ namespace Elysium::Core::Template::Diagnostics
 		friend class StackTrace;
 		friend class Elysium::Core::Template::Container::Vector<StackFrame>;
 	private:
-		StackFrame();
+		constexpr StackFrame() = default;
 
-		StackFrame(void* Address, const char8_t* FileName, const System::uint32_t LineNumber, const System::uint32_t ColumnNumber);
+		inline constexpr StackFrame(void* Address, const char8_t* FileName, const Elysium::Core::Template::System::uint32_t LineNumber, 
+			const Elysium::Core::Template::System::uint32_t ColumnNumber)
+			: _Address(Address), _FileName(FileName), _LineNumber(LineNumber), _ColumnNumber(ColumnNumber)
+		{ }
 	public:
-		StackFrame(const StackFrame& Source);
+		inline constexpr StackFrame(const StackFrame& Source)
+			: _Address(Source._Address), _FileName(Source._FileName), _LineNumber(Source._LineNumber), _ColumnNumber(Source._ColumnNumber)
+		{ }
 
-		StackFrame(StackFrame&& Right) noexcept;
+		inline constexpr StackFrame(StackFrame&& Right) noexcept
+			: _Address(nullptr), _FileName(), _LineNumber(0), _ColumnNumber(0)
+		{
+			*this = Elysium::Core::Template::Functional::Move(Right);
+		}
 
-		~StackFrame() noexcept;
+		constexpr ~StackFrame() noexcept = default;
 	public:
-		StackFrame& operator=(const StackFrame& Source);
+		inline constexpr StackFrame& operator=(const StackFrame& Source)
+		{
+			if (this != &Source)
+			{
+				_Address = Source._Address;
+				_FileName = Source._FileName;
+				_LineNumber = Source._LineNumber;
+				_ColumnNumber = Source._ColumnNumber;
+			}
 
-		StackFrame& operator=(StackFrame&& Right) noexcept;
+			return *this;
+		}
+
+		inline constexpr StackFrame& operator=(StackFrame&& Right) noexcept
+		{
+			if (this != &Right)
+			{
+				_Address = Elysium::Core::Template::Functional::Move(Right._Address);
+				_FileName = Elysium::Core::Template::Functional::Move(Right._FileName);
+				_LineNumber = Elysium::Core::Template::Functional::Move(Right._LineNumber);
+				_ColumnNumber = Elysium::Core::Template::Functional::Move(Right._ColumnNumber);
+
+				Right._Address = nullptr;
+				Right._LineNumber = 0;
+				Right._ColumnNumber = 0;
+			}
+
+			return *this;
+		}
 	public:
-		bool operator==(const StackFrame& Other) const;
+		inline bool operator==(const StackFrame& Other) const
+		{
+			return _Address == Other._Address;
+		}
 	public:
-		const Text::String<char8_t>& GetFileName() const;
+		inline const Elysium::Core::Template::Text::String<char8_t>& GetFileName() const
+		{
+			return _FileName;
+		}
 
-		const System::uint32_t GetLineNumber() const;
+		inline const Elysium::Core::Template::System::uint32_t GetLineNumber() const
+		{
+			return _LineNumber;
+		}
 
-		const System::uint32_t GetColumnNumber() const;
+		inline const Elysium::Core::Template::System::uint32_t GetColumnNumber() const
+		{
+			return _ColumnNumber;
+		}
 	private:
 		void* _Address;
-		Text::String<char8_t> _FileName;
-		System::uint32_t _LineNumber;
-		System::uint32_t _ColumnNumber;
+		Elysium::Core::Template::Text::String<char8_t> _FileName;
+		Elysium::Core::Template::System::uint32_t _LineNumber;
+		Elysium::Core::Template::System::uint32_t _ColumnNumber;
 	};
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame::StackFrame()
-		: _Address(), _FileName(), _LineNumber(), _ColumnNumber()
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame::StackFrame(void* Address, const char8_t* FileName, const System::uint32_t LineNumber, const System::uint32_t ColumnNumber)
-		: _Address(Address), _FileName(FileName), _LineNumber(LineNumber), _ColumnNumber(ColumnNumber)
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame::StackFrame(const StackFrame & Source)
-		: _Address(Source._Address), _FileName(Source._FileName), _LineNumber(Source._LineNumber), _ColumnNumber(Source._ColumnNumber)
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame::StackFrame(StackFrame && Right) noexcept
-		: _Address(nullptr), _FileName(), _LineNumber(0), _ColumnNumber(0)
-	{
-		*this = Elysium::Core::Template::Functional::Move(Right);
-	}
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame::~StackFrame()
-	{ }
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame& Elysium::Core::Template::Diagnostics::StackFrame::operator=(const StackFrame & Source)
-	{
-		if (this != &Source)
-		{
-			_Address = Source._Address;
-			_FileName = Source._FileName;
-			_LineNumber = Source._LineNumber;
-			_ColumnNumber = Source._ColumnNumber;
-		}
-
-		return *this;
-	}
-
-	inline Elysium::Core::Template::Diagnostics::StackFrame& Elysium::Core::Template::Diagnostics::StackFrame::operator=(StackFrame && Right) noexcept
-	{
-		if (this != &Right)
-		{
-			_Address = Elysium::Core::Template::Functional::Move(Right._Address);
-			_FileName = Elysium::Core::Template::Functional::Move(Right._FileName);
-			_LineNumber = Elysium::Core::Template::Functional::Move(Right._LineNumber);
-			_ColumnNumber = Elysium::Core::Template::Functional::Move(Right._ColumnNumber);
-
-			Right._Address = nullptr;
-			Right._LineNumber = 0;
-			Right._ColumnNumber = 0;
-		}
-
-		return *this;
-	}
-
-	inline bool Elysium::Core::Template::Diagnostics::StackFrame::operator==(const StackFrame& Other) const
-	{
-		return _Address == Other._Address;
-	}
-
-	inline const Text::String<char8_t>& Elysium::Core::Template::Diagnostics::StackFrame::GetFileName() const
-	{
-		return _FileName;
-	}
-
-	inline const System::uint32_t Elysium::Core::Template::Diagnostics::StackFrame::GetLineNumber() const
-	{
-		return _LineNumber;
-	}
-
-	inline const System::uint32_t Elysium::Core::Template::Diagnostics::StackFrame::GetColumnNumber() const
-	{
-		return _ColumnNumber;
-	}
 }
 #endif

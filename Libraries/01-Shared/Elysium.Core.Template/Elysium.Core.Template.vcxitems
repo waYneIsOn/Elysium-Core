@@ -23,6 +23,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DateTime.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DateTimeKind.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\DateTimeUtility.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimeSpan.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorGreaterOrEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\HasOperatorLessOrEqual.hpp" />
@@ -43,6 +45,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendNever.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\Process.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\StackTrace.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Connection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Event.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Dispatch\Message.hpp" />
@@ -55,6 +59,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Cryptography\CryptographicException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SocketException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Functional\BitCast.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\CultureInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\NumberFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\RegionInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateCompressionLevel.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\Deflate\DeflateUtility.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)IO\Compression\Algorithm\HuffmanCoding\HuffmanDecodingTable.hpp" />
@@ -218,7 +225,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System\CompilationSettings.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Atomic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\CompositeType.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\DerivedFrom.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\FlagEnumeration.hpp" />
@@ -301,7 +308,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Convert.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Algorithms/Copy.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.Windows.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\CultureInfo.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureTypes.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Decimal.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\DefaultAllocator.hpp" />
@@ -357,19 +364,19 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators/NotEqual.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\NotImplementedException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\NotSupportedException.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/NumberFormatInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\NumberFormatInfo.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\Arithmetic.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\OutOfMemoryException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\OverflowException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Power.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Container\PriorityQueue.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/Process.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\Process.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessAccess.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessModule.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessStartInfo.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessWindowStyle.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/RegionInfo.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\RegionInfo.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Round.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\Enumeration.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RunTimeTypeInformation\SourceLocation.hpp" />
@@ -380,7 +387,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\SharedMutex.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\SignedInteger.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackFrame.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackTrace.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\StackTrace.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\SystemException.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Math\Truncate.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TypeTraits\HasOperatorBitwiseAnd.hpp" />
@@ -445,7 +452,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\String.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\StringBuilder.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\StringView.hpp" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimePoint.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Memory\UniquePointer.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Concepts\UnsignedInteger.hpp" />

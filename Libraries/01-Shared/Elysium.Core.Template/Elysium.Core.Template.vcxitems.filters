@@ -79,7 +79,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Thread.Windows.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.Windows.hpp">
       <Filter>Chrono</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\HighResolutionClock.hpp">
@@ -88,7 +88,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\Duration.hpp">
       <Filter>Chrono</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.Windows.hpp">
       <Filter>Chrono</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\TimePoint.hpp">
@@ -259,7 +259,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Common/EnableIf.hpp">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/Process.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\Process.Windows.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/ProcessAccess.hpp">
@@ -280,23 +280,23 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackFrame.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics/StackTrace.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\StackTrace.Windows.hpp">
       <Filter>Diagnostics</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Elysium.Core.Template.Globalization.ixx" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/DigitShapes.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureInfo.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\CultureInfo.Windows.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/CultureTypes.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/NumberFormatInfo.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\NumberFormatInfo.Windows.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization/RegionInfo.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\RegionInfo.Windows.hpp">
       <Filter>Globalization</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Operators/Equal.hpp">
@@ -1382,6 +1382,27 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp">
       <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\StackTrace.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\Process.hpp">
+      <Filter>Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SteadyClock.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Chrono\SystemClock.hpp">
+      <Filter>Chrono</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\CultureInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\RegionInfo.hpp">
+      <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\NumberFormatInfo.hpp">
+      <Filter>Globalization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
