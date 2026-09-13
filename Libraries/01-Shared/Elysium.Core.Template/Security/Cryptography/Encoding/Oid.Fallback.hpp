@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID
-#define ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID_FALLBACK
+#define ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID_FALLBACK
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,16 +16,14 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../System/CompilationSettings.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../../../System/OperatingSystem.hpp"
-#endif
-
 #if defined ELYSIUM_CORE_OS_REQUIRES_FALLBACK_ON_OID
-#include "Oid.Fallback.hpp"
-#elif defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OID_WINDOWS
-#include "Oid.Windows.hpp"
-#endif
-#endif
 
+namespace Elysium::Core::Template::Security::Cryptography::Encoding
+{
+	class Oid
+	{
+
+	};
+}
+#endif
 #endif

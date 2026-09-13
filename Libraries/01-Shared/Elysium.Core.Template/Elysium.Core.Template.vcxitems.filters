@@ -999,16 +999,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPAddress.hpp">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPEndPoint.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPEndPoint.Windows.hpp">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Net\DnsEndPoint.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\DnsEndPoint.Windows.hpp">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Dns.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Dns.Windows.hpp">
       <Filter>Net</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\Socket.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\Socket.Windows.hpp">
       <Filter>Net\Sockets</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\SocketOptionLevel.hpp">
@@ -1110,7 +1110,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System\CompilationSettings.hpp">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.hpp">
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.Windows.hpp">
       <Filter>Security\Cryptography\Encoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\OidGroup.hpp">
@@ -1139,9 +1139,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Exceptions\Security\Authentication\InvalidCredentialException.hpp">
       <Filter>Exceptions\Security\Authentication</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\OidCollection.hpp">
-      <Filter>Security\Cryptography\Encoding</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Asn1\BERDecoder.hpp">
       <Filter>Security\Cryptography\Encoding\Asn1</Filter>
@@ -1403,6 +1400,24 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Globalization\NumberFormatInfo.hpp">
       <Filter>Globalization</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Dns.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\DnsEndPoint.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\IPEndPoint.hpp">
+      <Filter>Net</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Net\Sockets\Socket.hpp">
+      <Filter>Net\Sockets</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.hpp">
+      <Filter>Security\Cryptography\Encoding</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Security\Cryptography\Encoding\Oid.Fallback.hpp">
+      <Filter>Security\Cryptography\Encoding</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

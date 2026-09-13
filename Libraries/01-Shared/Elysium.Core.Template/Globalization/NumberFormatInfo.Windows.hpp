@@ -134,19 +134,99 @@ namespace Elysium::Core::Template::Globalization
 			return _IsReadOnly;
 		}
 	public:
-		const Elysium::Core::Template::System::uint32_t GetCurrencyDecimalDigits() const;
+		inline const Elysium::Core::Template::System::uint32_t GetCurrencyDecimalDigits() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const Elysium::Core::Template::System::uint32_t GetCurrencyNegativePattern() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_INEGCURR | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const Elysium::Core::Template::System::uint32_t GetCurrencyPositivePattern() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRENCY | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const Elysium::Core::Template::System::uint32_t GetNumberDecimalDigits() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_INEGNUMBER | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const Elysium::Core::Template::System::uint32_t GetPercentDecimalDigits() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const Elysium::Core::Template::System::uint32_t GetPercentNegativePattern() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_INEGATIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const Elysium::Core::Template::System::uint32_t GetPercentPositivePattern() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_IPOSITIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return Result;
+		}
+
+		inline const DigitShapes GetDigitSubstitution() const
+		{
+			Elysium::Core::Template::System::uint32_t Result = -1;
+			if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITSUBSTITUTION | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+
+			return static_cast<DigitShapes>(Result);
+		}
 
 		const CorrespondingString GetCurrencyDecimalSeparator() const;
 
 		const CorrespondingString GetCurrencyGroupSeparator() const;
 
-		const Elysium::Core::Template::System::uint32_t GetCurrencyNegativePattern() const;
-
-		const Elysium::Core::Template::System::uint32_t GetCurrencyPositivePattern() const;
-
 		const CorrespondingString GetCurrencySymbol() const;
-
-		const DigitShapes GetDigitSubstitution() const;
 
 		const CorrespondingString GetNaNSymbol() const;
 
@@ -154,21 +234,13 @@ namespace Elysium::Core::Template::Globalization
 
 		const CorrespondingString GetNegativeSign() const;
 
-		const Elysium::Core::Template::System::uint32_t GetNumberDecimalDigits() const;
-
 		const CorrespondingString GetNumberDecimalSeparator() const;
 
 		const CorrespondingString GetNumberGroupSeparator() const;
 
-		const Elysium::Core::Template::System::uint32_t GetPercentDecimalDigits() const;
-
 		const CorrespondingString GetPercentDecimalSeparator() const;
 
 		const CorrespondingString GetPercentGroupSeparator() const;
-
-		const Elysium::Core::Template::System::uint32_t GetPercentNegativePattern() const;
-
-		const Elysium::Core::Template::System::uint32_t GetPercentPositivePattern() const;
 
 		const CorrespondingString GetPercentSymbol() const;
 
@@ -178,19 +250,123 @@ namespace Elysium::Core::Template::Globalization
 
 		const CorrespondingString GetPositiveSign() const;
 	public:
-		void SetCurrencyDecimalDigits(const Elysium::Core::Template::System::uint32_t Value);
+		inline void SetCurrencyDecimalDigits(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRDIGITS, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetCurrencyNegativePattern(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_INEGCURR, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetCurrencyPositivePattern(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRENCY, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetNumberDecimalDigits(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_INEGNUMBER, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetPercentDecimalDigits(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITS, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetPercentNegativePattern(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_INEGATIVEPERCENT, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetPercentPositivePattern(const Elysium::Core::Template::System::uint32_t Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
+			if (SetLocaleInfoA(_LocaleId, LOCALE_IPOSITIVEPERCENT, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
+
+		inline void SetDigitSubstitution(const DigitShapes Value)
+		{
+			if (_IsReadOnly)
+			{
+				throw Elysium::Core::Template::Exceptions::InvalidOperationException();
+			}
+
+			Elysium::Core::Template::Text::String<char> StringValue = ToString(static_cast<Elysium::Core::Template::System::uint32_t>(Value));
+			if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITSUBSTITUTION, &StringValue[0]) == 0)
+			{
+				throw Elysium::Core::Template::Exceptions::SystemException();
+			}
+		}
 
 		void SetCurrencyDecimalSeparator(const ConstCharacterPointer Value);
 
 		void SetCurrencyGroupSeparator(const ConstCharacterPointer Value);
 
-		void SetCurrencyNegativePattern(const Elysium::Core::Template::System::uint32_t Value);
-
-		void SetCurrencyPositivePattern(const Elysium::Core::Template::System::uint32_t Value);
-
 		void SetCurrencySymbol(const ConstCharacterPointer Value);
-
-		void SetDigitSubstitution(const DigitShapes Value);
 
 		void SetNaNSymbol(const ConstCharacterPointer Value);
 
@@ -198,21 +374,13 @@ namespace Elysium::Core::Template::Globalization
 
 		void SetNegativeSign(const ConstCharacterPointer Value);
 
-		void SetNumberDecimalDigits(const Elysium::Core::Template::System::uint32_t Value);
-
 		void SetNumberDecimalSeparator(const ConstCharacterPointer Value);
 
 		void SetNumberGroupSeparator(const ConstCharacterPointer Value);
 
-		void SetPercentDecimalDigits(const Elysium::Core::Template::System::uint32_t Value);
-
 		void SetPercentDecimalSeparator(const ConstCharacterPointer Value);
 
 		void SetPercentGroupSeparator(const ConstCharacterPointer Value);
-
-		void SetPercentNegativePattern(const Elysium::Core::Template::System::uint32_t Value);
-
-		void SetPercentPositivePattern(const Elysium::Core::Template::System::uint32_t Value);
 
 		void SetPercentSymbol(const ConstCharacterPointer Value);
 
@@ -227,18 +395,6 @@ namespace Elysium::Core::Template::Globalization
 		Elysium::Core::Template::System::uint32_t _LocaleId;
 		bool _IsReadOnly;
 	};
-
-	template<Concepts::Character C>
-	inline const System::uint32_t Elysium::Core::Template::Globalization::NumberFormatInfo<C>::GetCurrencyDecimalDigits() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Exceptions::SystemException();
-		}
-
-		return Result;
-	}
 
 	template<>
 	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencyDecimalSeparator() const
@@ -322,30 +478,6 @@ namespace Elysium::Core::Template::Globalization
 		return Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
 	}
 
-	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetCurrencyNegativePattern() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGCURR | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return Result;
-	}
-
-	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetCurrencyPositivePattern() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_ICURRENCY | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return Result;
-	}
-
 	template<>
 	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetCurrencySymbol() const
 	{
@@ -385,18 +517,6 @@ namespace Elysium::Core::Template::Globalization
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
 		return Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
-	}
-
-	template<Concepts::Character C>
-	inline const DigitShapes NumberFormatInfo<C>::GetDigitSubstitution() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITSUBSTITUTION | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return static_cast<DigitShapes>(Result);
 	}
 
 	template<>
@@ -522,18 +642,6 @@ namespace Elysium::Core::Template::Globalization
 		return Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
 	}
 
-	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetNumberDecimalDigits() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGNUMBER | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return Result;
-	}
-
 	template<>
 	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetNumberDecimalSeparator() const
 	{
@@ -616,18 +724,6 @@ namespace Elysium::Core::Template::Globalization
 		return Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
 	}
 
-	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetPercentDecimalDigits() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_IDIGITS | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return Result;
-	}
-
 	template<>
 	inline const Elysium::Core::Template::Globalization::NumberFormatInfo<char>::CorrespondingString NumberFormatInfo<char>::GetPercentDecimalSeparator() const
 	{
@@ -708,30 +804,6 @@ namespace Elysium::Core::Template::Globalization
 
 		// in most cases the string will fit onto the stack which is why I get the actual length here
 		return Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
-	}
-
-	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetPercentNegativePattern() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_INEGATIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return Result;
-	}
-
-	template<Concepts::Character C>
-	inline const System::uint32_t NumberFormatInfo<C>::GetPercentPositivePattern() const
-	{
-		Elysium::Core::Template::System::uint32_t Result = -1;
-		if (GetLocaleInfoW(_LocaleId, LOCALE_IPOSITIVEPERCENT | LOCALE_RETURN_NUMBER, (LPWSTR)&Result, sizeof(Result)) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-
-		return Result;
 	}
 
 	template<>
@@ -898,21 +970,6 @@ namespace Elysium::Core::Template::Globalization
 		return Elysium::Core::Template::Text::Unicode::Utf16::FromSafeWideString<C>(&Buffer[0], Elysium::Core::Template::Text::CharacterTraits<wchar_t>::GetLength(&Buffer[0]));
 	}
 
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyDecimalDigits(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRDIGITS, &StringValue[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
 	template<>
 	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetCurrencyDecimalSeparator(const ConstCharacterPointer Value)
 	{
@@ -1001,36 +1058,6 @@ namespace Elysium::Core::Template::Globalization
 		}
 	}
 
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyNegativePattern(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGCURR, &StringValue[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetCurrencyPositivePattern(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_ICURRENCY, &StringValue[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
 	template<>
 	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetCurrencySymbol(const ConstCharacterPointer Value)
 	{
@@ -1070,21 +1097,6 @@ namespace Elysium::Core::Template::Globalization
 		Elysium::Core::Template::Text::String<wchar_t> WideString = 
 			Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(Value, Elysium::Core::Template::Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_SCURRENCY, &WideString[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetDigitSubstitution(const DigitShapes Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(static_cast<Elysium::Core::Template::System::uint32_t>(Value));
-		if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITSUBSTITUTION, &StringValue[0]) == 0)
 		{
 			throw Elysium::Core::Template::Exceptions::SystemException();
 		}
@@ -1222,21 +1234,6 @@ namespace Elysium::Core::Template::Globalization
 		}
 	}
 
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetNumberDecimalDigits(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGNUMBER, &StringValue[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
 	template<>
 	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetNumberDecimalSeparator(const ConstCharacterPointer Value)
 	{
@@ -1325,21 +1322,6 @@ namespace Elysium::Core::Template::Globalization
 		}
 	}
 
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentDecimalDigits(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_IDIGITS, &StringValue[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
 	template<>
 	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<char>::SetPercentDecimalSeparator(const ConstCharacterPointer Value)
 	{
@@ -1423,36 +1405,6 @@ namespace Elysium::Core::Template::Globalization
 		Elysium::Core::Template::Text::String<wchar_t> WideString =
 			Elysium::Core::Template::Text::Unicode::Utf16::SafeToWideString(Value, Elysium::Core::Template::Text::CharacterTraits<C>::GetLength(Value));
 		if (SetLocaleInfoW(_LocaleId, LOCALE_STHOUSAND, &WideString[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentNegativePattern(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_INEGATIVEPERCENT, &StringValue[0]) == 0)
-		{
-			throw Elysium::Core::Template::Exceptions::SystemException();
-		}
-	}
-
-	template<Concepts::Character C>
-	inline void Elysium::Core::Template::Globalization::NumberFormatInfo<C>::SetPercentPositivePattern(const System::uint32_t Value)
-	{
-		if (_IsReadOnly)
-		{
-			throw Elysium::Core::Template::Exceptions::InvalidOperationException();
-		}
-
-		Elysium::Core::Template::Text::String<char> StringValue = ToString(Value);
-		if (SetLocaleInfoA(_LocaleId, LOCALE_IPOSITIVEPERCENT, &StringValue[0]) == 0)
 		{
 			throw Elysium::Core::Template::Exceptions::SystemException();
 		}

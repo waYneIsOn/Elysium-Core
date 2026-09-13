@@ -24,8 +24,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../../Chrono/TimeSpan.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_ENCODING_OIDCOLLECTION
-#include "../Encoding/OidCollection.hpp"
+#ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509CERTIFICATE
+#include "X509Certificate.hpp"
 #endif
 
 #ifndef ELYSIUM_CORE_TEMPLATE_SECURITY_CRYPTOGRAPHY_X509CERTIFICATES_X509REVOCATIONFLAG
@@ -57,6 +57,7 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 
 		constexpr X509ChainPolicy& operator=(X509ChainPolicy&& Right) noexcept = delete;
 	public:
+		/*
 		inline constexpr const Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection& GetApplicationPolicy() const
 		{
 			return _ApplicationPolicy;
@@ -66,7 +67,7 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 		{
 			return _CertificatePolicy;
 		}
-
+		*/
 		inline constexpr const Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate>& GetExtraStore() const
 		{
 			return _ExtraStore;
@@ -112,8 +113,8 @@ namespace Elysium::Core::Template::Security::Cryptography::X509Certificates
 			throw;
 		}
 	private:
-		Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection _ApplicationPolicy;
-		Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection _CertificatePolicy;
+		//Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection _ApplicationPolicy;
+		//Elysium::Core::Template::Security::Cryptography::Encoding::OidCollection _CertificatePolicy;
 		Elysium::Core::Template::Container::Vector<Elysium::Core::Template::Security::Cryptography::X509Certificates::X509Certificate> _ExtraStore;
 		Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag _RevocationFlag = 
 			Elysium::Core::Template::Security::Cryptography::X509Certificates::X509RevocationFlag::EntireChain;
