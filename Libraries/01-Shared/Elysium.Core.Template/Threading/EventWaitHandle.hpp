@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE_WINDOWS
 #include "EventWaitHandle.Windows.hpp"
 #endif
+#elif defined (ELYSIUM_CORE_OS_LINUX) || defined (ELYSIUM_CORE_OS_ANDROID)
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE_LINUX
+#include "EventWaitHandle.Linux.hpp"
+#endif
 #endif
 
 #endif

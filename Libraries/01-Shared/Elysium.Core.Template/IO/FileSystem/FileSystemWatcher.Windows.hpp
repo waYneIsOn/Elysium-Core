@@ -12,6 +12,11 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
+#include "../../System/OperatingSystem.hpp"
+#endif
+
+#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef ELYSIUM_CORE_TEMPLATE_CONTAINER_FIXEDSIZEBUFFER
 #include "../../Container/FixedSizeBuffer.hpp"
 #endif
@@ -44,10 +49,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../System/Primitives.hpp"
 #endif
 
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
-#include "../../System/OperatingSystem.hpp"
-#endif
-
 #ifndef ELYSIUM_CORE_TEMPLATE_TEXT_STRING
 #include "../../Text/String.hpp"
 #endif
@@ -76,7 +77,6 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Text/Unicode/Utf16.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
 #ifndef _APISETFILE_
 #include <fileapi.h>
 #endif
@@ -233,7 +233,7 @@ namespace Elysium::Core::Template::IO::FileSystem
 
 			bool WaitResult = _AllIoOperationsCompleted.WaitOne();
 			if (!WaitResult)
-			{
+			{	// @ToDo ???
 				bool sdf = false;
 			}
 
@@ -241,12 +241,50 @@ namespace Elysium::Core::Template::IO::FileSystem
 			{
 				// wait for CALLBACKS that are queued/running
 				WaitForThreadpoolIoCallbacks(_CompletionPortHandle, FALSE);
-				bool sdfsdf = false;
 			}
 
-			_IocpIsRunningOrDestructingMutex.Unlock();
+			_AllIoOperationsCompleted.Reset();
 		}
 	private:
+		inline void BeginInitInLockedState()
+		{
+			_IsRunning = true;
+			++_InFlightIos;
+			_AllIoOperationsCompleted.Reset();
+			_CurrentIoContext.Reset();
+			StartThreadpoolIo(_CompletionPortHandle);
+			DWORD SynchronousByteCount = 0;
+			const BOOL Result = ReadDirectoryChangesExW(_DirectoryHandle, &_CurrentIoContext._InformationBuffer[0],
+				static_cast<DWORD>(_CurrentIoContext._InformationBuffer.GetCapacity()), _IncludeSubdirectories,
+				static_cast<DWORD>(_NotifyFilters), &SynchronousByteCount, (LPOVERLAPPED)&_CurrentIoContext._Overlapped, nullptr,
+				READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation);
+
+			const DWORD ErrorCode = GetLastError();
+			if (FALSE == Result)
+			{
+				if (ERROR_IO_PENDING != ErrorCode)
+				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
+					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
+					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
+					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
+					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
+					CancelThreadpoolIo(_CompletionPortHandle);
+
+					_IsRunning = false;
+					if (0 == --_InFlightIos)
+					{
+						_AllIoOperationsCompleted.Set();
+					}
+					_IocpIsRunningOrDestructingMutex.Unlock();
+					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
+				}
+			}
+			else
+			{
+				bool sdfsdf = false;
+			}
+		}
+
 		inline void ProcessInformationBuffer(const IoContext& IoContext, ULONG IoResult = NO_ERROR, ULONG_PTR NumberOfBytesTransferred = 0) const noexcept
 		{
 			if (NO_ERROR != IoResult)
@@ -508,50 +546,14 @@ namespace Elysium::Core::Template::IO::FileSystem
 
 			return DirectoryHandle;
 		}
-
-		inline void BeginInitInLockedState()
-		{
-			_IsRunning = true;
-			++_InFlightIos;
-			_AllIoOperationsCompleted.Reset();
-			_CurrentIoContext.Reset();
-			StartThreadpoolIo(_CompletionPortHandle);
-			DWORD SynchronousByteCount = 0;
-			const BOOL Result = ReadDirectoryChangesExW(_DirectoryHandle, &_CurrentIoContext._InformationBuffer[0],
-				static_cast<DWORD>(_CurrentIoContext._InformationBuffer.GetCapacity()), _IncludeSubdirectories,
-				static_cast<DWORD>(_NotifyFilters), &SynchronousByteCount, (LPOVERLAPPED)&_CurrentIoContext._Overlapped, nullptr,
-				READ_DIRECTORY_NOTIFY_INFORMATION_CLASS::ReadDirectoryNotifyExtendedInformation);
-
-			const DWORD ErrorCode = GetLastError();
-			if (FALSE == Result)
-			{
-				if (ERROR_IO_PENDING != ErrorCode)
-				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
-					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
-					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
-					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
-					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
-					CancelThreadpoolIo(_CompletionPortHandle);
-
-					_IsRunning = false;
-					if (0 == --_InFlightIos)
-					{
-						_AllIoOperationsCompleted.Set();
-					}
-					_IocpIsRunningOrDestructingMutex.Unlock();
-					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
-				}
-			}
-			else
-			{
-				bool sdfsdf = false;
-			}
-		}
 	private:
 		inline static void IOCompletionPortCallback(PTP_CALLBACK_INSTANCE Instance, void* Context, void* Overlapped, ULONG IoResult, ULONG_PTR NumberOfBytesTransferred, PTP_IO Io)
 		{
 			FileSystemWatcher* Watcher = reinterpret_cast<FileSystemWatcher*>(Context);
-			IoContext* CurrentIoContext = reinterpret_cast<IoContext*>(Overlapped);
+			//IoContext* CurrentIoContext = reinterpret_cast<IoContext*>(Overlapped);
+
+			OVERLAPPED* ActualOverlapped = static_cast<OVERLAPPED*>(Overlapped);
+			IoContext* CurrentIoContext = CONTAINING_RECORD(ActualOverlapped, IoContext, _Overlapped);
 
 			if (NO_ERROR == IoResult)
 			{

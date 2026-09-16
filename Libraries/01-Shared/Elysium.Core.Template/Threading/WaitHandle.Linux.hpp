@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE_WINDOWS
-#define ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE_WINDOWS
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE_LINUX
+#define ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE_LINUX
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,15 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../System/OperatingSystem.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_PRIMITIVES
-#include "../System/Primitives.hpp"
-#endif
-
-#ifndef _WINDOWS_
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#endif
+#if defined ELYSIUM_CORE_OS_LINUX || defined ELYSIUM_CORE_OS_ANDROID
 
 namespace Elysium::Core::Template::Threading
 {
@@ -35,10 +27,6 @@ namespace Elysium::Core::Template::Threading
 	{
 	public:
 		constexpr WaitHandle() = delete;
-	protected:
-		inline constexpr WaitHandle(HANDLE Handle)
-			: _Handle(Handle)
-		{ }
 	public:
 		constexpr WaitHandle(const WaitHandle& Source) = delete;
 
@@ -58,11 +46,7 @@ namespace Elysium::Core::Template::Threading
 		/// </summary>
 		inline virtual constexpr void Close()
 		{
-			if (INVALID_HANDLE_VALUE != _Handle)
-			{
-				CloseHandle(_Handle);
-				_Handle = INVALID_HANDLE_VALUE;
-			}
+			throw 1;
 		}
 
 		/// <summary>
@@ -71,9 +55,7 @@ namespace Elysium::Core::Template::Threading
 		/// </summary>
 		inline virtual const bool WaitOne(const Elysium::Core::Template::System::uint32_t MillisecondsTimeout = 0xFFFFFFFF, const bool ExitContext = false) const
 		{
-			// @ToDo: ExitContext
-
-			return WaitForSingleObject(_Handle, MillisecondsTimeout) == WAIT_OBJECT_0;
+			throw 1;
 		}
 	public:
 		//static const bool SignalAndWait(WaitHandle& ToSignal, WaitHandle& ToWaitOn);
@@ -83,8 +65,6 @@ namespace Elysium::Core::Template::Threading
 		//static const System::size WaitAny(WaitHandle[] WaitHandles, const System::uint32_t MillisecondsTimeout, const bool ExitContext);
 	public:
 		inline static constexpr const Elysium::Core::Template::System::uint32_t WaitTimeout = 258;
-	protected:
-		HANDLE _Handle;
 	};
 }
 #endif

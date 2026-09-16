@@ -20,6 +20,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #ifndef ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE_WINDOWS
 #include "WaitHandle.Windows.hpp"
 #endif
+#elif defined (ELYSIUM_CORE_OS_LINUX) || defined (ELYSIUM_CORE_OS_ANDROID)
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE_LINUX
+#include "WaitHandle.Linux.hpp"
+#endif
 #endif
 
 #endif

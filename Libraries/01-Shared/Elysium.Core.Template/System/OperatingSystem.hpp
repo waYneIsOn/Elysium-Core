@@ -12,23 +12,63 @@ Copyright (c) waYne (CAM). All rights reserved.
 #pragma once
 #endif
 
-#if defined _WIN32 || defined _WIN64 || defined __WIN32__ || defined __TOS_WIN__ || defined __WINDOWS__ || defined __CYGWIN__
+#if defined (_GAMING_XBOX)
+	// needs to be ahead of ELYSIUM_CORE_OS_WINDOWS as "_WIN32" and potentially others are also defined in windows!
+	#define ELYSIUM_CORE_OS_XBOX
+
+	#if defined (_GAMING_XBOX_XBOXONE)
+	#define ELYSIUM_CORE_OS_XBOX_ONE
+	#elif defined (_GAMING_XBOX_SCARLETT)
+	#define ELYSIUM_CORE_OS_XBOX_SERIES
+	#endif
+#elif defined (_WIN32) || defined (_WIN64) || defined (__WIN32__) || defined (__TOS_WIN__) || defined (__WINDOWS__) || defined (__CYGWIN__)
 	#define ELYSIUM_CORE_OS_WINDOWS
-#elif defined linux || defined __linux || defined __linux__  || defined __gnu_linux__
-	#define ELYSIUM_CORE_OS_LINUX
-#elif defined __ANDROID__ || defined __ANDROID_API__
+#elif defined (__ANDROID__ )|| defined (__ANDROID_API__)
+	// needs to be ahead of ELYSIUM_CORE_OS_LINUX as "linux" is also defined in android!
 	#define ELYSIUM_CORE_OS_ANDROID
-#elif defined _MAC || defined macintosh || defined Macintosh || (defined __APPLE__ && defined __MACH__)
-	#define ELYSIUM_CORE_OS_MAC
-#elif defined __PS3
+#elif defined(linux) || defined (__linux) || defined (__linux__)  || defined (__gnu_linux__)
+	#define ELYSIUM_CORE_OS_LINUX
+	
+	// SteamOS, ChromeOS etc. fall in this case
+#elif defined (__APPLE__) && defined (__MACH__)
+	#define ELYSIUM_CORE_OS_APPLE
+
+	#include <TargetConditionals.h>
+
+	#if TARGET_OS_MACCATALYST
+		#define ELYSIUM_CORE_OS_APPLE_MACCATALYST
+	#elif TARGET_OS_OSX
+		#define ELYSIUM_CORE_OS_APPLE_MACOS
+	#elif TARGET_OS_IOS
+		#define ELYSIUM_CORE_OS_APPLE_IOS
+	#elif TARGET_OS_TV
+		#define ELYSIUM_CORE_OS_APPLE_TV
+	#elif TARGET_OS_WATCH
+		#define ELYSIUM_CORE_OS_APPLE_WATCH
+	#elif TARGET_OS_VISION
+		#define ELYSIUM_CORE_OS_APPLE_VISION
+	#else
+		#error "unsupported apple os"
+	#endif
+#elif defined (__PS3)
+	#define ELYSIUM_CORE_OS_PLAYSTATION
 	#define ELYSIUM_CORE_OS_PS3
+#elif defined (__ORBIS__)
+	#define ELYSIUM_CORE_OS_PLAYSTATION
+	#define ELYSIUM_CORE_OS_PS4
+#elif defined (__PROSPERO__)
+	#define ELYSIUM_CORE_OS_PLAYSTATION
+	#define ELYSIUM_CORE_OS_PS5
+#elif defined (__SWITCH__)
+	#define ELYSIUM_CORE_OS_NINTENDO
+	#define ELYSIUM_CORE_OS_NINTENDO_SWITCH
 #else
 	#error "unsupported os"
 #endif
 
-#if defined _WIN64 || defined __aarch64__ || defined _M_ARM64 || defined __x86_64__ || defined _M_X64 
+#if defined (_WIN64) || defined (__aarch64__) || defined (_M_ARM64) || defined (__x86_64__) || defined (_M_X64 )
 	#define ELYSIUM_CORE_BITNESS 64
-#elif defined _WIN32 || defined __WIN32__ || defined __arm__ || defined __i386__ || defined _M_IX86 
+#elif defined (_WIN32) || defined (__WIN32__) ||defined  (__arm__) || defined (__i386__) || defined (_M_IX86)
 	#define ELYSIUM_CORE_BITNESS 32
 #else
 	#error "unsupported os regarding bitness"

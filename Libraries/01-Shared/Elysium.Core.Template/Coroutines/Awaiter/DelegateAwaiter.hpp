@@ -28,6 +28,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../CoroutineHandle.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_TYPETRAITS_ISSAME
+#include "../../TypeTraits/IsSame.hpp"
+#endif
+
 namespace Elysium::Core::Template::Coroutines::Awaiter
 {
 	/// <summary>
@@ -71,7 +75,15 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		{
 			_Promise = &Handle.ToPromise();
 
-			auto Result = _Delegate(_Arguments);
+			if constexpr (Elysium::Core::Template::TypeTraits::IsSameValue<void, ReturnType>)
+			{
+				_Delegate(_Arguments);
+			}
+			else
+			{
+				auto Result = _Delegate(_Arguments);
+				bool sdf = false;
+			}
 			
 			// coroutine needs to remain suspended
 			return true;
@@ -82,8 +94,13 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		/// </summary>
 		inline constexpr ReturnType await_resume() const noexcept
 		{
-			return 0;
-			//return _Promise->_Result;
+			bool sdf = false;
+
+			if constexpr (!Elysium::Core::Template::TypeTraits::IsSameValue<void, ReturnType>)
+			{
+				//return _Promise->_Result;
+				return 0;
+			}
 		}
 	private:
 		Elysium::Core::Template::Container::Delegate<ReturnType, Args...> _Delegate;

@@ -82,6 +82,11 @@ namespace Elysium::Core::Template::Threading
 	public:
 		//static void Sleep(const TimeSpan& Timeout);
 
+		inline static void Sleep(const Elysium::Core::Template::System::size TimeoutMilliseconds)
+		{
+			DWORD Result = SleepEx(static_cast<DWORD>(TimeoutMilliseconds), false);
+		}
+
 		inline static void Yield() noexcept
 		{
 			_Thrd_yield();

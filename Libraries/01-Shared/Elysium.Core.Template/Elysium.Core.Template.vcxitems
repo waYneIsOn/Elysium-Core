@@ -267,10 +267,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Format.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Text\Unicode\Utf32.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.Linux.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CallOnce.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\CriticalSection.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.Linux.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Fiber.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\GreenThread.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\Interlocked.hpp" />
@@ -287,6 +289,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\ThreadPool.Windows.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.Linux.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicEnum.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicIntegral.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\_AtomicPointer.hpp" />

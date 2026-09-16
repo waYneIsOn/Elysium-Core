@@ -5,8 +5,8 @@ Copyright (c) waYne (CAM). All rights reserved.
 
 ===========================================================================
 */
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE_WINDOWS
-#define ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE_WINDOWS
+#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE_LINUX
+#define ELYSIUM_CORE_TEMPLATE_THREADING_EVENTWAITHANDLE_LINUX
 
 #ifdef _MSC_VER
 #pragma once
@@ -16,15 +16,7 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../System/OperatingSystem.hpp"
 #endif
 
-#if defined ELYSIUM_CORE_OS_WINDOWS
-#ifndef ELYSIUM_CORE_TEMPLATE_THREADING_WAITHANDLE
-#include "WaitHandle.hpp"
-#endif
-
-#ifndef _WINDOWS_
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
-#endif
+#if defined (ELYSIUM_CORE_OS_LINUX) || defined (ELYSIUM_CORE_OS_ANDROID)
 
 namespace Elysium::Core::Template::Threading
 {
@@ -38,7 +30,7 @@ namespace Elysium::Core::Template::Threading
 		constexpr EventWaitHandle() = delete;
 	protected:
 		inline constexpr EventWaitHandle(const bool ManualReset, const bool InitialState, const char8_t* Name)
-			: WaitHandle(CreateEventW(nullptr, ManualReset, InitialState, nullptr))
+			//: WaitHandle(CreateEventW(nullptr, ManualReset, InitialState, nullptr))
 		{ }
 	public:
 		constexpr EventWaitHandle(const EventWaitHandle& Source) = delete;
@@ -57,8 +49,7 @@ namespace Elysium::Core::Template::Threading
 		/// <returns></returns>
 		inline const bool Set()
 		{
-			BOOL Result = SetEvent(_Handle);
-			return TRUE == Result;
+			throw 1;
 		}
 
 		/// <summary>
@@ -67,8 +58,7 @@ namespace Elysium::Core::Template::Threading
 		/// <returns></returns>
 		inline const bool Reset()
 		{
-			BOOL Result = ResetEvent(_Handle);
-			return TRUE == Result;
+			throw 1;
 		}
 	};
 }

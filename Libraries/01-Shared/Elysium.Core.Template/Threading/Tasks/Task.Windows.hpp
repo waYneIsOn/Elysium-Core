@@ -85,12 +85,15 @@ namespace Elysium::Core::Template::Threading::Tasks
 
             Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways final_suspend() noexcept
             {
-                //OutputDebugStringA("FINAL SUSPEND\r\n");
-
                 _Status = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
-                _CoroutineCompletionEvent.Set();
-
-                return { };
+                /*
+                const bool SetResult = _CoroutineCompletionEvent.Set();
+                if (!SetResult)
+                {
+                    bool sdfsdf = false;
+                }
+                */
+                return {};
             }
             /*
             void return_void()
@@ -135,7 +138,6 @@ namespace Elysium::Core::Template::Threading::Tasks
             //Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};
 
             Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Threading::Tasks::TaskStatus> _Status{};
-
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
             DWORD _ErrorCode{};
             Result _Result{};
@@ -158,9 +160,8 @@ namespace Elysium::Core::Template::Threading::Tasks
 
         inline ~Task() noexcept
         {
-            //Wait();
-
-            //_CoroutineFrameHandle.destroy();
+            Wait();
+            _CoroutineFrameHandle.destroy();
         }
     public:
         constexpr Task& operator=(const Task& Source) noexcept = delete;
@@ -172,7 +173,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise->_Status;
         }
 
-        inline Elysium::Core::Template::System::uint16_t GetErrorCode()
+        inline Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept
         {
             return _Promise->_ErrorCode;
         }
@@ -184,21 +185,128 @@ namespace Elysium::Core::Template::Threading::Tasks
     public:
         inline Task<Result>& Wait()
         {
-            _Promise->_CoroutineCompletionEvent.WaitOne();
-            //_Promise->_IoCallbackDoneEvent.WaitOne();
+            const bool WaitResult = _Promise->_CoroutineCompletionEvent.WaitOne();
+            if (!WaitResult)
+            {
+                bool sdf = false;
+            }
+
             return *this;
         }
     private:
         CoroutineFrame _CoroutineFrameHandle{};
-
-        // temporary?
         PromiseType* _Promise{};
     };
-    /*
+    
     template <>
     class Task<void>
-    { };
-    */
+    {
+    public:
+        friend class Elysium::Core::Template::IO::Device::FileDevice;
+    public:
+        struct promise_type
+        {
+        public:
+            friend class Task;
+            friend class Elysium::Core::Template::IO::Device::FileDevice;
+        public:
+            Task get_return_object()
+            {
+                _Handle = Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(*this);
+                return Task(_Handle);
+            }
+
+            Elysium::Core::Template::Coroutines::Awaiter::SuspendNever initial_suspend()
+            {
+                return {};
+            }
+
+            Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways final_suspend() noexcept
+            {
+                _Status = Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion;
+                return {};
+            }
+            
+            void return_void()
+            { }
+           
+            void unhandled_exception()
+            {
+                std::exception_ptr Exception = std::current_exception();
+
+                try
+                {
+                    std::rethrow_exception(Exception);
+                }
+                catch (const Elysium::Core::Template::Exceptions::IO::IOException& Ex)
+                {
+                    bool sdf = false;
+                }
+                catch (const Elysium::Core::Template::Exceptions::Exception& Ex)
+                {
+                    bool sdf = false;
+                }
+
+                bool sdfsdf = false;
+            }
+        private:
+            OVERLAPPED _Overlapped{};
+            Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type> _Handle{};
+
+            Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Threading::Tasks::TaskStatus> _Status{};
+            Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
+            DWORD _ErrorCode{};
+
+            Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
+        };
+    public:
+        using PromiseType = promise_type;
+        using CoroutineFrame = Elysium::Core::Template::Coroutines::CoroutineHandle<PromiseType>;
+    public:
+        constexpr Task() noexcept = delete;
+    private:
+        inline explicit constexpr Task(CoroutineFrame CoroutineFrameHandle) noexcept
+            : _CoroutineFrameHandle(CoroutineFrameHandle), _Promise(&_CoroutineFrameHandle.ToPromise())
+        {}
+    public:
+        constexpr Task(const Task& Source) noexcept = delete;
+
+        constexpr Task(Task&& Right) noexcept = delete;
+
+        inline ~Task() noexcept
+        {
+            Wait();
+            _CoroutineFrameHandle.destroy();
+        }
+    public:
+        constexpr Task& operator=(const Task& Source) noexcept = delete;
+
+        constexpr Task& operator=(Task&& Right) noexcept = delete;
+    public:
+        inline constexpr const bool GetIsCompleted() const noexcept
+        {
+            return Elysium::Core::Template::Threading::Tasks::TaskStatus::RanToCompletion == _Promise->_Status;
+        }
+
+        inline Elysium::Core::Template::System::uint16_t GetErrorCode() const noexcept
+        {
+            return _Promise->_ErrorCode;
+        }
+    public:
+        inline Task& Wait()
+        {
+            const bool WaitResult = _Promise->_CoroutineCompletionEvent.WaitOne();
+            if (!WaitResult)
+            {
+                bool sdf = false;
+            }
+
+            return *this;
+        }
+    private:
+        CoroutineFrame _CoroutineFrameHandle{};
+        PromiseType* _Promise{};
+    };
 }
 #endif
 #endif

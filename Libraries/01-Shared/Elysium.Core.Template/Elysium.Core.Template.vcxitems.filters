@@ -1437,6 +1437,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)System\Hardware\CentralProcessingUnit.hpp">
       <Filter>System\Hardware</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\AutoResetEvent.Linux.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\WaitHandle.Linux.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.Linux.hpp">
+      <Filter>Threading</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">
