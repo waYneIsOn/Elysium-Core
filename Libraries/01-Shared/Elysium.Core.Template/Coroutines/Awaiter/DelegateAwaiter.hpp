@@ -64,7 +64,7 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 		/// <returns></returns>
 		inline constexpr bool await_ready() const noexcept
 		{
-			return false;
+			return _HasCalledDelegate;
 		}
 
 		/// <summary>
@@ -78,15 +78,19 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 			if constexpr (Elysium::Core::Template::TypeTraits::IsSameValue<void, ReturnType>)
 			{
 				_Delegate(_Arguments);
+				_HasCalledDelegate = true;
 			}
 			else
 			{
 				auto Result = _Delegate(_Arguments);
+				_HasCalledDelegate = true;
+
+				// @ToDo
 				bool sdf = false;
 			}
-			
-			// coroutine needs to remain suspended
-			return true;
+
+			// coroutine can resume right away
+			return false;
 		}
 
 		/// <summary>
@@ -106,6 +110,8 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 	private:
 		Elysium::Core::Template::Container::Delegate<ReturnType, Args...> _Delegate;
 		Elysium::Core::Template::Container::Tuple<Args...> _Arguments;
+
+		bool _HasCalledDelegate{};
 
 		Promise* _Promise{};
 	};
