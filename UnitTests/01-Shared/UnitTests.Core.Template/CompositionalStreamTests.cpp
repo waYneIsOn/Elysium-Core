@@ -136,6 +136,7 @@ namespace UnitTests::Core::Template::IO
 		TEST_METHOD(FileDeviceIOCPTests)
 		{
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1;
+			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 4;
 			constexpr const Elysium::Core::Template::System::size NumberOfRuns = 100;
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 1000;
 			//constexpr const Elysium::Core::Template::System::size NumberOfRuns = 10000;
@@ -145,12 +146,13 @@ namespace UnitTests::Core::Template::IO
 				FileDevice SourceDevice(u8"Lorem Ipsum.txt", FileMode::Open, FileAccess::Read, FileShare::None, 4096, FileOptions::Asynchronous);
 
 				FileDevice TargetDevice(u8"UnitTests.Core.Template.IO.FileDeviceIOCPTests.txt", FileMode::Create, FileAccess::Write, FileShare::None, 4096, FileOptions::Asynchronous);
-
+				
+				// test with a singular coroutine frame
 				while(true)
 				{
 					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
 					ReadTask.Wait();
-					Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
+					const Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
 					if (0 == BytesRead)
 					{
 						break;
@@ -159,6 +161,18 @@ namespace UnitTests::Core::Template::IO
 					Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = TargetDevice.WriteAsync(_Buffer, BytesRead);
 					WriteTask.Wait();
 				}
+				
+				/*
+				// test using "chained" coroutines
+				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> CopyTask = CopyFileAsync(SourceDevice, TargetDevice);
+				CopyTask.Wait();
+				const Elysium::Core::Template::System::size BytesCopied = CopyTask.GetResult();
+				*/
+
+
+
+
+
 
 				const Elysium::Core::Template::System::size SourceLength = SourceDevice.GetLength();
 				const Elysium::Core::Template::System::size TargetLength = TargetDevice.GetLength();
@@ -260,23 +274,27 @@ namespace UnitTests::Core::Template::IO
 			}
 		}
 	private:
-		/*
-		Elysium::Core::Template::Threading::Tasks::Task<void> CopyFileAsync(FileDevice& SourceDevice, FileDevice& TargetDevice)
+		Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> CopyFileAsync(FileDevice& SourceDevice, FileDevice& TargetDevice)
 		{
+			Elysium::Core::Template::System::size BytesCopied{};
 			while (true)
 			{
 				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadTask = SourceDevice.ReadAsync(_Buffer, _BufferLength);
-				Elysium::Core::Template::System::size BytesRead = co_await ReadTask.GetResult();
+				co_await ReadTask;
+				const Elysium::Core::Template::System::size BytesRead = ReadTask.GetResult();
 				if (0 == BytesRead)
 				{
 					break;
 				}
-
+				
 				Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> WriteTask = TargetDevice.WriteAsync(_Buffer, BytesRead);
 				co_await WriteTask;
+
+				BytesCopied += WriteTask.GetResult();
 			}
+
+			co_return BytesCopied;
 		}
-		*/
 	private:
 		inline static constexpr const Elysium::Core::Template::System::size _BufferLength = 4096;
 		//inline static constexpr const Elysium::Core::Template::System::size _BufferLength = 4096 * 10000;

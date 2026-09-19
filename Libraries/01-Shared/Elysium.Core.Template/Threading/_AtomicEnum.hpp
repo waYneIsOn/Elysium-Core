@@ -41,6 +41,10 @@ namespace Elysium::Core::Template::Threading
 		constexpr _AtomicEnum(_AtomicEnum&& Right) noexcept = delete;
 
 		constexpr ~_AtomicEnum() = default;
+	public:
+		constexpr _AtomicEnum& operator=(const _AtomicEnum& Source) = delete;
+
+		constexpr _AtomicEnum& operator=(_AtomicEnum&& Right) noexcept = delete;
 	};
 }
 #endif

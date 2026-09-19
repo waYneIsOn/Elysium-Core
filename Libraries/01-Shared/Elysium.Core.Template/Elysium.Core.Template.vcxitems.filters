@@ -1446,6 +1446,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Threading\EventWaitHandle.Linux.hpp">
       <Filter>Threading</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskAwaiter.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskFinalAwaiter.hpp">
+      <Filter>Coroutines\Awaiter</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="TypeTraits">

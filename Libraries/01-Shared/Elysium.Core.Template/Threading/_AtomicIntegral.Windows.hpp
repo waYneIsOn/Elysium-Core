@@ -56,6 +56,10 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr ~_AtomicIntegral() = default;
 	public:
+		constexpr _AtomicIntegral& operator=(const _AtomicIntegral& Source) = delete;
+
+		constexpr _AtomicIntegral& operator=(_AtomicIntegral&& Right) noexcept = delete;
+	public:
 		inline T operator++() noexcept
 		{
 			return static_cast<T>(_InterlockedExchangeAdd8(&reinterpret_cast<volatile Elysium::Core::Template::System::int8_t&>(this->_Value), 1));
@@ -99,6 +103,10 @@ namespace Elysium::Core::Template::Threading
 		constexpr _AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
 		constexpr ~_AtomicIntegral() = default;
+	public:
+		constexpr _AtomicIntegral& operator=(const _AtomicIntegral& Source) = delete;
+
+		constexpr _AtomicIntegral& operator=(_AtomicIntegral&& Right) noexcept = delete;
 	public:
 		inline T operator++() noexcept
 		{
@@ -144,6 +152,10 @@ namespace Elysium::Core::Template::Threading
 
 		constexpr ~_AtomicIntegral() = default;
 	public:
+		constexpr _AtomicIntegral& operator=(const _AtomicIntegral& Source) = delete;
+
+		constexpr _AtomicIntegral& operator=(_AtomicIntegral&& Right) noexcept = delete;
+	public:
 		inline T operator++() noexcept
 		{
 			return static_cast<T>(_InterlockedIncrement(&reinterpret_cast<volatile long&>(this->_Value)));
@@ -187,6 +199,10 @@ namespace Elysium::Core::Template::Threading
 		constexpr _AtomicIntegral(_AtomicIntegral&& Right) noexcept = delete;
 
 		constexpr ~_AtomicIntegral() = default;
+	public:
+		constexpr _AtomicIntegral& operator=(const _AtomicIntegral& Source) = delete;
+
+		constexpr _AtomicIntegral& operator=(_AtomicIntegral&& Right) noexcept = delete;
 	public:
 		inline T operator++() noexcept
 		{

@@ -33,6 +33,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Coroutines/Awaiter/GetCurrentPromiseAwaiter.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_COROUTINES_AWAITER_GETCURRENTPROMISEAWAITER
+#include "../../Coroutines/Awaiter/GetCurrentPromiseAwaiter.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_IOEXCEPTION
 #include "../../Exceptions/IO/IOException.hpp"
 #endif
@@ -324,64 +328,11 @@ namespace Elysium::Core::Template::IO::Device
 			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
+			Promise._ManagedExternally = true;
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartWriteAsync>(*this), Promise, Buffer, Length);
 
 			co_return Promise._Result;
-			/*
-			_IocpIsClosingMutex.Lock();
-			if (_IsClosing)
-			{	
-				_IocpIsClosingMutex.Unlock();
-
-				// @ToDo: throw specific exception
-				throw 1;
-			}
-
-			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
-			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
-			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
-
-			++_InFlightIos;
-			_AllIoOperationsCompleted.Reset();
-			StartThreadpoolIo(_CompletionPortHandle);
-			DWORD SynchronousByteCount = 0;
-			const BOOL Result = WriteFile(_FileHandle, reinterpret_cast<const void*>(&Buffer[0]), static_cast<DWORD>(Length), &SynchronousByteCount, &Promise._Overlapped);
-
-			const DWORD ErrorCode = GetLastError();
-			_IocpIsClosingMutex.Unlock();
-			if (FALSE == Result)
-			{
-				if (ERROR_IO_PENDING != ErrorCode)
-				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
-					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
-					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
-					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
-					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
-					CancelThreadpoolIo(_CompletionPortHandle);
-
-					if (0 == --_InFlightIos)
-					{
-						_AllIoOperationsCompleted.Set();
-					}
-					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
-				}
-
-				// current coroutine needs to suspend and wait for IOCP
-				co_await Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways{};
-
-				co_return Promise._Result;
-			}
-			else
-			{
-				Promise._HasCompletedSynchronously = true;
-				if (0 == --_InFlightIos)
-				{
-					_AllIoOperationsCompleted.Set();
-				}
-				co_return SynchronousByteCount;
-			}
-			*/
 		}
 
 		inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::size> ReadAsync(const Elysium::Core::Template::System::byte* Buffer,
@@ -405,73 +356,11 @@ namespace Elysium::Core::Template::IO::Device
 			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
 			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
 			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
+			Promise._ManagedExternally = true;
 
 			co_await DelegateAwaiterType(DelegateType::Bind<FileDevice, &FileDevice::StartReadAsync>(*this), Promise, Buffer, Length);
 
 			co_return Promise._Result;
-			/*
-			_IocpIsClosingMutex.Lock();
-			if (_IsClosing)
-			{
-				_IocpIsClosingMutex.Unlock();
-
-				// @ToDo: throw specific exception
-				throw 1;
-			}
-
-			AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
-			Promise._Overlapped.Offset = static_cast<DWORD>(_Position);
-			Promise._Overlapped.OffsetHigh = static_cast<DWORD>(_Position >> 32);
-
-			const void* Data = reinterpret_cast<const void*>(&Buffer[0]);
-
-			++_InFlightIos;
-			_AllIoOperationsCompleted.Reset();
-			StartThreadpoolIo(_CompletionPortHandle);
-			DWORD SynchronousByteCount = 0;
-			const BOOL Result = ReadFile(_FileHandle, const_cast<void*>(Data), static_cast<DWORD>(Length), &SynchronousByteCount, &Promise._Overlapped);
-
-			const DWORD ErrorCode = GetLastError();
-			_IocpIsClosingMutex.Unlock();
-			if (FALSE == Result)
-			{
-				if (ERROR_IO_PENDING != ErrorCode)
-				{	// https://learn.microsoft.com/en-us/windows/win32/api/threadpoolapiset/nf-threadpoolapiset-cancelthreadpoolio
-					// To prevent memory leaks, you must call the CancelThreadpoolIo function for either of the following scenarios:
-					// - An overlapped (asynchronous) I/O operation fails (that is, the asynchronous I/O function call returns failure with an error code other than ERROR_IO_PENDING).
-					// - "...notification mode FILE_SKIP_COMPLETION_PORT_ON_SUCCESS..." isn't the case here as I do not call
-					// SetFileCompletionNotificationModes(...) with FILE_SKIP_COMPLETION_PORT_ON_SUCCESS anywhere in this class.
-					CancelThreadpoolIo(_CompletionPortHandle);
-
-					if (0 == --_InFlightIos)
-					{
-						_AllIoOperationsCompleted.Set();
-					}
-					throw Elysium::Core::Template::Exceptions::IO::IOException(ErrorCode);
-				}
-
-				// current coroutine needs to suspend and wait for IOCP
-				co_await Elysium::Core::Template::Coroutines::Awaiter::SuspendAlways{};
-
-				co_return Promise._Result;
-			}
-			else
-			{
-				Promise._HasCompletedSynchronously = true;
-				if (0 == --_InFlightIos)
-				{
-					_AllIoOperationsCompleted.Set();
-				}
-
-				const bool SetResult = Promise._CoroutineCompletionEvent.Set();
-				if (!SetResult)
-				{
-					bool sdfsdf = false;
-				}
-
-				co_return SynchronousByteCount;
-			}
-			*/
 		}
 	private:
 		inline Elysium::Core::Template::Text::String<char8_t> GetFQFN(const char8_t* Path)

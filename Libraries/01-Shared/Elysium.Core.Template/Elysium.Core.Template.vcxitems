@@ -43,6 +43,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendAlways.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\DelayFor.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\SuspendNever.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskAwaiter.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\Awaiter\TaskFinalAwaiter.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Coroutines\CoroutineHandle.MSVC.hpp" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Diagnostics\Process.hpp" />

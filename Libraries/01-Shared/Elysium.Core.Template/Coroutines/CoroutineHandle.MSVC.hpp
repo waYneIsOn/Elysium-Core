@@ -47,6 +47,11 @@ namespace Elysium::Core::Template::Coroutines
 
 		constexpr CoroutineHandle& operator=(CoroutineHandle&& Right) noexcept = default;
 	public:
+		operator std::coroutine_handle<>() const noexcept
+		{
+			return std::coroutine_handle<>::from_address(_Handle);
+		}
+	public:
 		inline constexpr explicit operator bool() const noexcept
 		{
 			return nullptr != _Handle;
@@ -99,6 +104,11 @@ namespace Elysium::Core::Template::Coroutines
 		constexpr CoroutineHandle& operator=(const CoroutineHandle& Source) noexcept = default;
 
 		constexpr CoroutineHandle& operator=(CoroutineHandle&& Right) noexcept = default;
+	public:
+		operator std::coroutine_handle<>() const noexcept
+		{
+			return std::coroutine_handle<>::from_address(_Handle);
+		}
 	public:
 		inline static CoroutineHandle FromPromise(Promise& Value) noexcept 
 		{
