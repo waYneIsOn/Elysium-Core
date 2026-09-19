@@ -144,7 +144,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
             DWORD _ErrorCode{};
             Result _Result{};
-
+        public:
             bool _ManagedExternally{};
             Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};    // continuation/who awaits this frame?
@@ -280,7 +280,7 @@ namespace Elysium::Core::Template::Threading::Tasks
             Elysium::Core::Template::Threading::Atomic<Elysium::Core::Template::Threading::Tasks::TaskStatus> _Status{};
             Elysium::Core::Template::Threading::Atomic<bool> _HasCompletedSynchronously{};
             DWORD _ErrorCode{};
-
+        public:
             bool _ManagedExternally{};
             Elysium::Core::Template::Threading::ManualResetEvent _CoroutineCompletionEvent{};
             Elysium::Core::Template::Coroutines::CoroutineHandle<> _OuterCoroutineHandle{};    // continuation/who awaits this frame?

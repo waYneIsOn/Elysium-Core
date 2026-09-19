@@ -1,5 +1,7 @@
 #include "CppUnitTest.h"
 #include "../../../Libraries/01-Shared/Elysium.Core.Threading/Atomic.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/DelegateAwaiter.hpp"
+#include "../../../Libraries/01-Shared/Elysium.Core.Template/Coroutines/Awaiter/GetCurrentPromiseAwaiter.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/Threading/Tasks/Task.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Literals.hpp"
 #include "../../../Libraries/01-Shared/Elysium.Core.Template/System/Primitives.hpp"
@@ -10,6 +12,32 @@ namespace UnitTests::Core::Template::Threading::Tasks
 {
     TEST_CLASS(TaskTests)
     {
+    public:
+        TEST_METHOD(SinglularDelegateTaskTest)
+        {
+            Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformMostInternalTaskThroughDelegate();
+            Task.Wait();
+            Assert::AreEqual(1_ui8, Task.GetResult());
+        }
+    private:
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformMostInternalTaskThroughDelegate()
+        {
+            using AsyncPromiseType = Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType;
+
+            AsyncPromiseType& Promise = co_await Elysium::Core::Template::Coroutines::Awaiter::GetCurrentPromiseAwaiter<AsyncPromiseType>{};
+            //Promise._ManagedExternally = true;
+
+            using DelegateType = Elysium::Core::Template::Container::Delegate<void, AsyncPromiseType&>;
+            using DelegateAwaiterType = Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter<AsyncPromiseType, void, AsyncPromiseType&>;
+            co_await DelegateAwaiterType(DelegateType::Bind<TaskTests, &TaskTests::Start>(*this), Promise);
+
+            co_return 1;
+        }
+
+        inline void Start(Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType& Promise)
+        {
+            bool sdf = false;
+        }
     public:
         TEST_METHOD(SinglularTaskTest)
         {
@@ -40,12 +68,12 @@ namespace UnitTests::Core::Template::Threading::Tasks
             Assert::AreEqual(24_ui8, Task2.GetResult());
         }
     private:
-        Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformMostInternalTask()
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformMostInternalTask()
         {
             co_return 1;
         }
 
-        Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformOuterRecursiveTask(Elysium::Core::Template::System::uint8_t Iterations)
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformOuterRecursiveTask(Elysium::Core::Template::System::uint8_t Iterations)
         {
             if (Iterations > 1)
             {
@@ -63,7 +91,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
             }
         }
 
-        Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformOuterLoopedTask(Elysium::Core::Template::System::uint8_t Iterations)
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformOuterLoopedTask(Elysium::Core::Template::System::uint8_t Iterations)
         {
             Elysium::Core::Template::System::uint8_t Result{};
 
