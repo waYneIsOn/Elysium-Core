@@ -32,6 +32,10 @@ Copyright (c) waYne (CAM). All rights reserved.
 #include "../../Coroutines/Awaiter/TaskFinalAwaiter.hpp"
 #endif
 
+#ifndef ELYSIUM_CORE_TEMPLATE_EXCEPTIONS_IO_IOEXCEPTION
+#include "../../Exceptions/IO/IOException.hpp"
+#endif
+
 #ifndef ELYSIUM_CORE_TEMPLATE_SYSTEM_OPERATINGSYSTEM
 #include "../../System/OperatingSystem.hpp"
 #endif
