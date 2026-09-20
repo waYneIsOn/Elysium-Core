@@ -19,6 +19,28 @@ namespace UnitTests::Core::Template::Threading::Tasks
             Task.Wait();
             Assert::AreEqual(1_ui8, Task.GetResult());
         }
+
+        TEST_METHOD(DelegateChainedLoopedTaskTest)
+        {
+            Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task1 = PerformOuterLoopedTaskThroughDelegate(3_ui8);
+            Task1.Wait();
+            Assert::AreEqual(3_ui8, Task1.GetResult());
+
+            Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task2 = PerformOuterLoopedTaskThroughDelegate(24_ui8);
+            Task2.Wait();
+            Assert::AreEqual(24_ui8, Task2.GetResult());
+        }
+
+        TEST_METHOD(DelegateChainedRecursiveTaskTest)
+        {
+            Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task1 = PerformOuterRecursiveTaskThroughDelegate(3_ui8);
+            Task1.Wait();
+            Assert::AreEqual(3_ui8, Task1.GetResult());
+
+            Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task2 = PerformOuterRecursiveTaskThroughDelegate(24_ui8);
+            Task2.Wait();
+            Assert::AreEqual(24_ui8, Task2.GetResult());
+        }
     private:
         inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformMostInternalTaskThroughDelegate()
         {
@@ -32,6 +54,41 @@ namespace UnitTests::Core::Template::Threading::Tasks
             co_await DelegateAwaiterType(DelegateType::Bind<TaskTests, &TaskTests::Start>(*this), Promise);
 
             co_return 1;
+        }
+
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformOuterRecursiveTaskThroughDelegate(
+            Elysium::Core::Template::System::uint8_t Iterations)
+        {
+            if (Iterations > 1)
+            {
+                Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformOuterRecursiveTaskThroughDelegate(--Iterations);
+                co_await Task;
+
+                co_return Task.GetResult() + 1;
+            }
+            else
+            {
+                Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformMostInternalTaskThroughDelegate();
+                co_await Task;
+
+                co_return Task.GetResult();
+            }
+        }
+
+        inline Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> PerformOuterLoopedTaskThroughDelegate(
+            Elysium::Core::Template::System::uint8_t Iterations)
+        {
+            Elysium::Core::Template::System::uint8_t Result{};
+
+            for (Elysium::Core::Template::System::uint8_t i = 0; i < Iterations; ++i)
+            {
+                Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformMostInternalTaskThroughDelegate();
+                co_await Task;
+
+                Result += Task.GetResult();
+            }
+
+            co_return Result;
         }
 
         inline void Start(Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType& Promise)
