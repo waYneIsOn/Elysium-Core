@@ -86,6 +86,11 @@ namespace Elysium::Core::Template::Threading::Tasks
             friend class Elysium::Core::Template::IO::Device::FileDevice;
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<Result>;
         public:
+            inline constexpr const bool GetIsManageExternally() const noexcept
+            {
+                return _ManagedExternally;
+            }
+        public:
             Task<Result> get_return_object()
             {
                 _Handle = Elysium::Core::Template::Coroutines::CoroutineHandle<promise_type>::FromPromise(*this);
@@ -226,7 +231,13 @@ namespace Elysium::Core::Template::Threading::Tasks
         public:
             friend class Task;
             friend class Elysium::Core::Template::IO::Device::FileDevice;
+            //friend class Elysium::Core::Template::Coroutines::Awaiter::DelegateAwaiter<promise_type, void>;
             friend class Elysium::Core::Template::Coroutines::Awaiter::TaskAwaiter<void>;
+        public:
+            inline constexpr const bool GetIsManageExternally() const noexcept
+            {
+                return _ManagedExternally;
+            }
         public:
             Task get_return_object()
             {

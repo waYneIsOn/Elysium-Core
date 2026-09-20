@@ -13,7 +13,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
     TEST_CLASS(TaskTests)
     {
     public:
-        TEST_METHOD(SinglularDelegateTaskTest)
+        TEST_METHOD(DelegateSinglularTaskTest)
         {
             Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t> Task = PerformMostInternalTaskThroughDelegate();
             Task.Wait();
@@ -36,6 +36,7 @@ namespace UnitTests::Core::Template::Threading::Tasks
 
         inline void Start(Elysium::Core::Template::Threading::Tasks::Task<Elysium::Core::Template::System::uint8_t>::PromiseType& Promise)
         {
+            //Promise._Result = 1;
             bool sdf = false;
         }
     public:

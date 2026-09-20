@@ -88,9 +88,17 @@ namespace Elysium::Core::Template::Coroutines::Awaiter
 				// @ToDo
 				bool sdf = false;
 			}
-
+			/*
 			// coroutine can resume right away
 			return false;
+			*/
+			/*
+			// coroutine needs to remain suspended
+			return true;
+			*/
+			
+			// coroutine can resume right away (if managed internally) or needs to remain suspended (if managed externally).
+			return _Promise->GetIsManageExternally();
 		}
 
 		/// <summary>
